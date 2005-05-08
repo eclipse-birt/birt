@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -340,7 +339,7 @@ public class UIUtil
 				if ( dialog.open( ) == Window.CANCEL )
 				{//Cancel the action
 					return false;
-				}				
+				}
 			}
 			return true;
 		}
@@ -375,8 +374,11 @@ public class UIUtil
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
 				.getActiveEditor( );
-		if ( !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
+		if ( reportEditor == null
+				|| !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
+		{
 			return null;
+		}
 		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
 	}
 
@@ -388,8 +390,7 @@ public class UIUtil
 	public static GridLayout createGridLayoutWithoutMargin( )
 	{
 		GridLayout layout = new GridLayout( );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
+		layout.marginHeight = layout.marginWidth = 0;
 		return layout;
 	}
 
@@ -409,8 +410,7 @@ public class UIUtil
 			boolean makeColumnsEqualWidth )
 	{
 		GridLayout layout = new GridLayout( numsColumn, makeColumnsEqualWidth );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
+		layout.marginHeight = layout.marginWidth = 0;
 		return layout;
 	}
 
@@ -423,7 +423,7 @@ public class UIUtil
 	 */
 	public static String convertToGUIString( String string )
 	{
-		if ( StringUtil.isBlank( string ) )
+		if ( string == null )
 		{
 			string = ""; //$NON-NLS-1$
 		}
@@ -435,14 +435,25 @@ public class UIUtil
 	 * 
 	 * @param string
 	 *            the string to convert
+	 * @param trim
+	 *            specify if the string needs to be trimmed
 	 * @return Returns the string, or null for an empty string
 	 */
-	public static String convertToModelString( String string )
+	public static String convertToModelString( String string, boolean trim )
 	{
-		if ( StringUtil.isBlank( string ) )
+		if ( string == null )
+		{
+			return null;
+		}
+		if ( trim )
+		{
+			string = string.trim( );
+		}
+		if ( string.length( ) == 0 )
 		{
 			string = null; //$NON-NLS-1$
 		}
 		return string;
 	}
+
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -30,7 +31,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -49,6 +53,12 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * The dialog used to import values from data sets
+ * <dt><b>Styles: (Defined in DesingChoicesConstants) </b></dt>
+ * <dd>PARAM_TYPE_STRING</dd>
+ * <dd>PARAM_TYPE_FLOAT</dd>
+ * <dd>PARAM_TYPE_DECIMAL</dd>
+ * <dd>PARAM_TYPE_DATETIME</dd>
+ * <dd>PARAM_TYPE_BOOLEAN</dd>
  */
 
 public class ImportValueDialog extends BaseDialog
@@ -71,12 +81,18 @@ public class ImportValueDialog extends BaseDialog
 	private DataSetItemModel[] columns;
 	private int selectedColumnIndex;
 
+	private String style;
+
 	/**
 	 * Constructs a new instance of the dialog
 	 */
-	public ImportValueDialog( )
+	public ImportValueDialog( String style )
 	{
 		super( DLG_TITLE );
+		Assert.isTrue( DesignEngine.getMetaDataDictionary( )
+				.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE )
+				.contains( style ) );
+		this.style = style;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -321,23 +337,56 @@ public class ImportValueDialog extends BaseDialog
 		columns = DataSetManager.getCurrentInstance( )
 				.getColumns( currentDataSetName, false );
 		columnChooser.removeAll( );
+		selectedColumnIndex = -1;
 		if ( columns.length == 0 )
 		{
-			columnChooser.setEnabled( false );
 			columnChooser.setItems( new String[0] );
-			selectedColumnIndex = -1;
 		}
 		else
 		{
-			columnChooser.setEnabled( true );
+			ArrayList columnList = new ArrayList( );
 			for ( int i = 0; i < columns.length; i++ )
 			{
-				columnChooser.add( columns[i].getDataSetColumnName( ) );
+				if ( matchType( columns[i] ) )
+				{
+					columnChooser.add( columns[i].getDataSetColumnName( ) );
+					columnList.add( columns[i] );
+					selectedColumnIndex = 0;
+				}
 			}
-			columnChooser.select( 0 );
-			selectedColumnIndex = 0;
+
 		}
+		columnChooser.select( selectedColumnIndex );
+		columnChooser.setEnabled( selectedColumnIndex == 0 );
 		refreshValues( );
+	}
+
+	private boolean matchType( DataSetItemModel model )
+	{
+		if ( model.getDataType( ) == DataType.UNKNOWN_TYPE )
+		{
+			return false;
+		}
+		if ( style.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		{
+			return true;
+		}
+		switch ( model.getDataType( ) )
+		{
+			case DataType.BOOLEAN_TYPE :
+				return style.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
+			case DataType.INTEGER_TYPE :
+				return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+						|| style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+			case DataType.DATE_TYPE :
+				return style.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME );
+			case DataType.DECIMAL_TYPE :
+				return style.equals( DesignChoiceConstants.PARAM_TYPE_DECIMAL )
+						|| style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+			case DataType.DOUBLE_TYPE :
+				return style.equals( DesignChoiceConstants.PARAM_TYPE_FLOAT );
+		}
+		return false;
 	}
 
 	private void refreshValues( )
@@ -350,8 +399,21 @@ public class ImportValueDialog extends BaseDialog
 				BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
 						.getPreparedQuery( getDataSetHandle( ) )
 						.getReportQueryDefn( );
-
-				ScriptExpression expression = new ScriptExpression( DEUtil.getExpression( columns[columnChooser.getSelectionIndex( )] ) );
+				String queryExpr = null;
+				for ( int i = 0; i < columns.length; i++ )
+				{
+					if ( columns[i].getName( )
+							.equals( columnChooser.getText( ) ) )
+					{
+						queryExpr = DEUtil.getExpression( columns[i] );
+						break;
+					}
+				}
+				if ( queryExpr == null )
+				{
+					return;
+				}
+				ScriptExpression expression = new ScriptExpression( queryExpr );
 
 				query.addExpression( expression, BaseTransform.ON_EACH_ROW );
 

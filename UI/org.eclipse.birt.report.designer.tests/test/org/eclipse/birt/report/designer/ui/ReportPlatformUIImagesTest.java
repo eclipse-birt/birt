@@ -142,7 +142,9 @@ public class ReportPlatformUIImagesTest extends TestCase
 
 				IReportGraphicConstants.ICON_MISSING_IMG,
 				IReportGraphicConstants.ICON_PREVIEW_PARAMETERS,
-				IReportGraphicConstants.ICON_PREVIEW_REFRESH
+				IReportGraphicConstants.ICON_PREVIEW_REFRESH,
+				
+				IReportGraphicConstants.ICON_DEFAULT,
 		};
 		for ( int i = 0; i < iconName.length; i++ )
 		{

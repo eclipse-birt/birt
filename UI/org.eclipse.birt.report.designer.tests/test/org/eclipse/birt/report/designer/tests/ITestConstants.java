@@ -18,22 +18,23 @@ package org.eclipse.birt.report.designer.tests;
 public interface ITestConstants
 {
 
-	String TEST_PLUGIN = "org.eclipse.birt.report.designer.tests";
+	String TEST_PLUGIN = "org.eclipse.birt.report.designer.tests"; //$NON-NLS-1$
 
-	String PERSPECTIVE_ID = "org.eclipse.birt.report.designer.ui.ReportPerspective";
-	String EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.ReportEditor";
-	String OUTLINE_ID = "org.eclipse.ui.views.ContentOutline";
-	String PALETTE_ID = "org.eclipse.gef.ui.palette_view";
-	String ATTRIBUTES_VIEW_ID = "org.eclipse.birt.report.designer.ui.attributes.AttributeView";
-	String DATA_EXPLORER_ID = "org.eclipse.birt.report.designer.ui.views.data.DataView";
+	String PERSPECTIVE_ID = "org.eclipse.birt.report.designer.ui.ReportPerspective"; //$NON-NLS-1$
+	String EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.ReportEditor"; //$NON-NLS-1$
+	String OUTLINE_ID = "org.eclipse.ui.views.ContentOutline"; //$NON-NLS-1$
+	String PALETTE_ID = "org.eclipse.gef.ui.palette_view"; //$NON-NLS-1$
+	String ATTRIBUTES_VIEW_ID = "org.eclipse.birt.report.designer.ui.attributes.AttributeView"; //$NON-NLS-1$
+	String DATA_EXPLORER_ID = "org.eclipse.birt.report.designer.ui.views.data.DataView"; //$NON-NLS-1$
 
-	String PERSPECTIVE_NAME = "Report Design";
-	String EDITOR_NAME = "Report Editor";
-	String ATTRIBUTES_VIEW_NAME = "Property Edit View";
-	String DATA_EXPLORER_NAME = "Data Explorer";
-	String PLUGIN_PROVIDER = "Eclipse.org";
+	String PERSPECTIVE_NAME = "Report Design"; //$NON-NLS-1$
+	String EDITOR_NAME = "Report Editor"; //$NON-NLS-1$
+	String ATTRIBUTES_VIEW_NAME = "Property Edit View"; //$NON-NLS-1$
+	String DATA_EXPLORER_NAME = "Data Explorer"; //$NON-NLS-1$
+	String PLUGIN_PROVIDER = "Eclipse.org"; //$NON-NLS-1$
 
+	String TEST_PROJECT_NAME = "Test"; //$NON-NLS-1$
 	String TEST_DESIGN_FILE = "test.rptdesign"; //$NON-NLS-1$
-	
+
 	String TEST_EXTENSION_NAME = "TestingBall"; //$NON-NLS-1$
 }

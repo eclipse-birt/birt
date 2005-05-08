@@ -113,7 +113,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SOURCE,
 				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCRIPT_DATA_SET,
 				ICONS_PATH + "data_set.gif" ); //$NON-NLS-1$
 
@@ -198,13 +198,13 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUP_FOOTER,
 				ICONS_PATH + "group_footer.gif" ); //$NON-NLS-1$
-		
+
 		// layout icons
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_NORMAL, ICONS_PATH
 				+ "normal_page.gif" ); //$NON-NLS-1$
 
-		declareImage( IReportGraphicConstants.ICON_LAYOUT_MASTERPAGE, ICONS_PATH
-				+ "master_page.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_LAYOUT_MASTERPAGE,
+				ICONS_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_RULER, ICONS_PATH
 				+ "show_rulers.gif" ); //$NON-NLS-1$
@@ -343,11 +343,15 @@ public class ReportPlatformUIImages
 				ICONS_PATH + "parameters.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ "refresh.gif" ); //$NON-NLS-1$
-		
+
 		//Auto Text Icon
 		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH
 				+ "autotext.gif" ); //$NON-NLS-1$
-		
+
+		//Parameter dialog icon
+		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
+				+ "default.gif" ); //$NON-NLS-1$
+
 	}
 
 	/**

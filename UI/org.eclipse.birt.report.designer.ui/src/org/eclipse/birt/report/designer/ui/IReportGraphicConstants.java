@@ -48,7 +48,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_ODA_DATA_SET = ReportDesignConstants.ODA_DATA_SET;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE = ReportDesignConstants.ODA_DATA_SOURCE;
-	
+
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SET = ReportDesignConstants.SCRIPT_DATA_SET;
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE = ReportDesignConstants.SCRIPT_DATA_SOURCE;
@@ -225,4 +225,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters";//$NON-NLS-1$	
 
 	public final static String ICON_PREVIEW_REFRESH = "Refresh";//$NON-NLS-1$
+
+	//Parameter dialog icon
+	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
 }

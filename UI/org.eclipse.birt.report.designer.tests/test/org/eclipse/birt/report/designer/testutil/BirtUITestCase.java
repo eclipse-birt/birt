@@ -75,7 +75,7 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 	{
 		if ( tEditor == null )
 		{
-			IProject p = FileUtil.createProject( "Test" ); //$NON-NLS-1$			
+			IProject p = FileUtil.createProject( TEST_PROJECT_NAME );
 
 			IFile f = FileUtil.createFile( TEST_DESIGN_FILE, p );
 			tEditor = tPage.openEditor( new FileEditorInput( f ), EDITOR_ID );
@@ -104,7 +104,7 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 			tPage.closeEditor( tEditor, false );
 			tEditor = null;
 		}
-	}		
+	}
 
 	/**
 	 * Gets the ViewPart with the specified id
@@ -127,4 +127,3 @@ public class BirtUITestCase extends TestCase implements ITestConstants
 		return null;
 	}
 }
-

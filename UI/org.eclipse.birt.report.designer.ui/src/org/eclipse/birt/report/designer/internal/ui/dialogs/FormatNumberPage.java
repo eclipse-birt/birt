@@ -19,14 +19,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -71,7 +67,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_DECIMAL_PLACES = Messages.getString( "FormatNumberPage.label.decimal.places" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.custom.settings" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatNumberPage.label.example.formats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString("FormatNumberPage.label.style.custome.settings.label");  //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatNumberPage.label.style.custome.settings.label" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatNumberPage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.custom.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_NUMBER = Messages.getString( "FormatNumberPage.label.preview.number" ); //$NON-NLS-1$
@@ -82,7 +78,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
 
-	private String patternStr = null;
+	private String pattern = null;
 	private String category = null;
 	private String oldCategory = null;
 	private String oldPattern = null;
@@ -216,6 +212,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		infoComp.setLayout( new StackLayout( ) );
 		createCategoryPanes( infoComp );
+
+		setInput( null, null );
+		setPreviewText( DEFAULT_PREVIEW_TEXT );
 	}
 
 	/**
@@ -278,7 +277,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	protected String[][] initChoiceArray( )
 	{
 		if ( choiceArray == null )
-		{			 
+		{
 			IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( NumberFormatValue.FORMAT_VALUE_STRUCT,
 					NumberFormatValue.CATEGORY_MEMBER );
 			IChoice[] choices = set.getChoices( );
@@ -372,9 +371,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 */
 	private String getDisplayName4Category( String category )
 	{
-		return ChoiceSetFactory.getStructDisplayName(
-				NumberFormatValue.FORMAT_VALUE_STRUCT,
-				NumberFormatValue.CATEGORY_MEMBER, category );
+		return ChoiceSetFactory.getStructDisplayName( NumberFormatValue.FORMAT_VALUE_STRUCT,
+				NumberFormatValue.CATEGORY_MEMBER,
+				category );
 	}
 
 	private String getPatternForCategory( String category )
@@ -444,54 +443,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		hasLoaded = false;
 
-		if ( categoryStr == null )
-		{
-			typeChoicer.select( 0 );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-			FormatCurrencyNumPattern pattern = ( (FormatCurrencyNumPattern) categoryPatternMaps.get( categoryStr ) );
-			pattern.setPattern( patternStr );
-			refreshCurrencySetting( pattern );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-			FormatFixedNumPattern pattern = ( (FormatFixedNumPattern) categoryPatternMaps.get( categoryStr ) );
-			pattern.setPattern( patternStr );
-			refreshFixedSetting( pattern );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-			FormatPercentNumPattern pattern = ( (FormatPercentNumPattern) categoryPatternMaps.get( categoryStr ) );
-			pattern.setPattern( patternStr );
-			refreshPercentSetting( pattern );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-			FormatScientificNumPattern pattern = ( (FormatScientificNumPattern) categoryPatternMaps.get( categoryStr ) );
-			pattern.setPattern( patternStr );
-			refreshScientificSetting( pattern );
-		}
-		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-			FormatCustomNumPattern pattern = ( (FormatCustomNumPattern) categoryPatternMaps.get( categoryStr ) );
-			pattern.setPattern( patternStr );
-			refreshCustomSetting( pattern );
-		}
-		else
-		{
-			// default for illegal input category.
-			typeChoicer.select( 0 );
-		}
+		initiateFormatPage( categoryStr, patternStr );
 
 		// re layout sub page.
 		reLayoutSubPages( );
@@ -506,12 +458,75 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return;
 	}
 
+	/**
+	 * @param categoryStr
+	 * @param patternStr2
+	 */
+	private void initiateFormatPage( String categoryStr, String patternStr )
+	{
+		if ( categoryStr == null )
+		{
+			typeChoicer.select( 0 );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			FormatCurrencyNumPattern fmtPattern = ( (FormatCurrencyNumPattern) categoryPatternMaps.get( categoryStr ) );
+			fmtPattern.setPattern( patternStr );
+			refreshCurrencySetting( fmtPattern );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			FormatFixedNumPattern fmtPattern = ( (FormatFixedNumPattern) categoryPatternMaps.get( categoryStr ) );
+			fmtPattern.setPattern( patternStr );
+			refreshFixedSetting( fmtPattern );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			FormatPercentNumPattern fmtPattern = ( (FormatPercentNumPattern) categoryPatternMaps.get( categoryStr ) );
+			fmtPattern.setPattern( patternStr );
+			refreshPercentSetting( fmtPattern );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			FormatScientificNumPattern fmtPattern = ( (FormatScientificNumPattern) categoryPatternMaps.get( categoryStr ) );
+			fmtPattern.setPattern( patternStr );
+			refreshScientificSetting( fmtPattern );
+		}
+		else if ( categoryStr.equalsIgnoreCase( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+			FormatCustomNumPattern fmtPattern = ( (FormatCustomNumPattern) categoryPatternMaps.get( categoryStr ) );
+			fmtPattern.setPattern( patternStr );
+			refreshCustomSetting( fmtPattern );
+		}
+		else
+		{
+			// default for illegal input category.
+			typeChoicer.select( 0 );
+		}
+		return;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
 	 */
 	public void setPreviewText( String text )
+	{
+		previewTextBox.setText( text == null ? DEFAULT_PREVIEW_TEXT : text );
+		return;
+	}
+
+	private void setDefaultPreviewText( String text )
 	{
 		if ( text == null
 				|| StringUtil.isBlank( text )
@@ -523,7 +538,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		{
 			previewText = text;
 		}
-		updatePreview( );
 		return;
 	}
 
@@ -542,7 +556,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 */
 	public String getPattern( )
 	{
-		return patternStr;
+		return pattern;
 	}
 
 	/**
@@ -558,7 +572,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 */
 	public String getFormatString( )
 	{
-		if ( category == null && patternStr == null )
+		if ( category == null && pattern == null )
 		{
 			return null;
 		}
@@ -566,17 +580,17 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		{
 			category = ""; //$NON-NLS-1$
 		}
-		if ( patternStr == null )
+		if ( pattern == null )
 		{
-			patternStr = ""; //$NON-NLS-1$
+			pattern = ""; //$NON-NLS-1$
 		}
 		// special case: when pattern equals category, omits(eliminatess) the
 		// pattern, only returns the category.-----> for parameter dialog use.
-		if ( category.equals( patternStr ) )
+		if ( category.equals( pattern ) )
 		{
 			return category;
 		}
-		return category + ":" + patternStr; //$NON-NLS-1$
+		return category + ":" + pattern; //$NON-NLS-1$
 	}
 
 	/**
@@ -635,17 +649,17 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private FormatNumberPattern getFmtPattern4Category( String category )
 	{
-		FormatNumberPattern pattern = null;
+		FormatNumberPattern fmtPattern = null;
 		if ( categoryPatternMaps != null )
 		{
-			pattern = (FormatNumberPattern) categoryPatternMaps.get( category );
+			fmtPattern = (FormatNumberPattern) categoryPatternMaps.get( category );
 		}
-		if ( pattern == null )
+		if ( fmtPattern == null )
 		{// avoid null when categoryPatternMas is not initialized or the
 			// key(category) is not contained in the map.
-			pattern = new FormatNumberPattern( );
+			fmtPattern = new FormatNumberPattern( );
 		}
-		return pattern;
+		return fmtPattern;
 	}
 
 	/**
@@ -658,7 +672,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		if ( hasLoaded )
 		{// avoid setting pattern from controls when the typechoicer is selected
 			// before loading.
-			setPatternFromControls( );
+			setFmtPatternFromControls( );
 		}
 
 		String category = getCategory4DisplayName( typeChoicer.getText( ) );
@@ -673,9 +687,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	/**
 	 * Does preview action.
 	 * 
-	 * @param patternString
+	 * @param patternStr
 	 */
-	private void doPreview( String patternString )
+	private void doPreview( String patternStr )
 	{
 		String fmtStr = ""; //$NON-NLS-1$
 
@@ -684,31 +698,31 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 		if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
 		{
-			fmtStr = new NumberFormatter( patternString ).format( num );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) )
 		{
-			fmtStr = new NumberFormatter( patternString ).format( num );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			cPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) )
 		{
-			fmtStr = new NumberFormatter( patternString ).format( num );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			fPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
 		{
-			fmtStr = new NumberFormatter( patternString ).format( num );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			pPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) )
 		{
-			fmtStr = new NumberFormatter( patternString ).format( num );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			sPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
@@ -716,11 +730,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		{
 			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new NumberFormatter( patternString ).format( num );
+				fmtStr = new NumberFormatter( patternStr ).format( num );
 			}
 			else if ( DEUtil.isValidNumber( previewTextBox.getText( ) ) )
 			{
-				fmtStr = new NumberFormatter( patternString ).format( Double.parseDouble( previewTextBox.getText( ) ) );
+				fmtStr = new NumberFormatter( patternStr ).format( Double.parseDouble( previewTextBox.getText( ) ) );
 			}
 			else
 			{
@@ -744,12 +758,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	/**
 	 * Sets the pattern string for this preference.
 	 * 
-	 * @param patternStr
+	 * @param pattern
 	 *            The patternStr to set.
 	 */
-	private void setPattern( String patternStr )
+	private void setPattern( String pattern )
 	{
-		this.patternStr = patternStr; //$NON-NLS-1$
+		this.pattern = pattern; //$NON-NLS-1$
 	}
 
 	/**
@@ -826,7 +840,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				: pattern.getPattern( ) );
 	}
 
-	private void setPatternFromControls( )
+	private void setFmtPatternFromControls( )
 	{
 		if ( categoryPatternMaps == null )
 		{
@@ -878,6 +892,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
 			pattern.setPattern( formatCode.getText( ) );
 		}
+		return;
 	}
 
 	/**
@@ -1234,22 +1249,21 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_NUMBER );
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewTextBox.setText( DEFAULT_PREVIEW_TEXT ); //$NON-NLS-1$
 			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			previewTextBox.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
 				{
+					setDefaultPreviewText( previewTextBox.getText( ) );
 					if ( hasLoaded )
 					{
-						setPreviewText( previewTextBox.getText( ) );
+						updatePreview( );
 					}
 				}
 			} );
 
 			new Label( group, SWT.NONE ).setText( LABEL_COSTOM_PREVIEW_LABEL );
 			cusPreviewLabel = new Label( group, SWT.NONE );
-			cusPreviewLabel.setText( "" ); //$NON-NLS-1$
 			cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 		return customPage;
