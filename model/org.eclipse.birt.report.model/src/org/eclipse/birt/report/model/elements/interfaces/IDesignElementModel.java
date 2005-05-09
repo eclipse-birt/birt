@@ -8,10 +8,7 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * @author Yu Li
- * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ *The interface for Design element for the constants.
  */
 public interface IDesignElementModel
 {
