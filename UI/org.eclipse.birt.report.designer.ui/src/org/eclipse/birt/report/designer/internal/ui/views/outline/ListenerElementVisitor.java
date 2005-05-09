@@ -13,7 +13,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.validators.IValidationListener;
 
 /**
  * Applies visitor to the report element and the children element
@@ -75,6 +77,27 @@ public class ListenerElementVisitor extends DesignVisitor
 		{
 			visitContents( obj.getSlot( i ) );
 		}
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)
+	 */
+	protected void visitReportDesign( ReportDesignHandle obj )
+	{
+		if(listener instanceof IValidationListener)
+		{
+			IValidationListener vl = (IValidationListener)listener;
+			if ( install )
+			{
+				obj.addValidationListener( vl );
+			}
+			else
+			{
+				obj.removeValidationListener( vl );
+			}
+		}
+		super.visitReportDesign( obj );
 	}
 
 	/**
