@@ -82,8 +82,9 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 				case IScalarParameterDefn.TYPE_FLOAT:
 					this.value = DataTypeUtil.toDouble(value);
 					break;
+				case IScalarParameterDefn.TYPE_STRING:
 				default:
-					this.value = value;
+					this.value = DataTypeUtil.toString(value);
 					break;
 			}
 		} 

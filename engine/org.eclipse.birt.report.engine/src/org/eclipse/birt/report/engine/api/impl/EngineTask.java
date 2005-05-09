@@ -224,6 +224,11 @@ public abstract class EngineTask implements IEngineTask
 					case IScalarParameterDefn.TYPE_FLOAT :
 						value = DataTypeUtil.toDouble(value);
 						break;
+					case IScalarParameterDefn.TYPE_STRING:
+						value = DataTypeUtil.toString(value);
+						break;
+					default:
+						break;
 				}
 	
 			}
