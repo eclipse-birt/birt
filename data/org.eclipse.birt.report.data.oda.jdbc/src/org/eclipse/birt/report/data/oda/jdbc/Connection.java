@@ -23,6 +23,7 @@ import org.eclipse.birt.data.oda.IDataSetMetaData;
 import org.eclipse.birt.data.oda.IStatement;
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.logging.Level;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * Connection implements IConnection interface of ODA. It is a wrapper of JDBC
@@ -60,7 +61,7 @@ public class Connection implements IConnection
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.CONN_CANNOT_CLOSE, e );
 		}
 		jdbcConn = null;
 	}
@@ -84,7 +85,7 @@ public class Connection implements IConnection
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.CONN_COMMIT_ERROR, e );
 		}
 	}
 
@@ -129,7 +130,7 @@ public class Connection implements IConnection
 			}
 			catch ( SQLException e )
 			{
-				throw new JDBCException( e );
+				throw new JDBCException( ResourceConstants.CONN_CANNOT_GET_METADATA, e );
 			}
 		}
 		return new ConnectionMetaData( (IConnection) this, dbMetadata );
@@ -159,7 +160,7 @@ public class Connection implements IConnection
 			}
 			catch ( SQLException e )
 			{
-				throw new JDBCException( e );
+				throw new JDBCException( ResourceConstants.CONN_CANNOT_GET_METADATA, e );
 			}
 		}
 		return new DataSourceMetaData( (IConnection) this, dbMetadata );
@@ -225,7 +226,7 @@ public class Connection implements IConnection
 			JDBCConnectionFactory.log( Level.INFO_LEVEL, "Use data source" );
 			
 			//TODO connect by DataSource
-			UnsupportedOperationException e = new UnsupportedOperationException("oda-jdbc: connect by data source");
+			UnsupportedOperationException e = new UnsupportedOperationException( "Oda-jdbc:connect by data source" );
 			logger.logp( java.util.logging.Level.FINE,
 					Connection.class.getName( ),
 					"open",
@@ -288,7 +289,7 @@ public class Connection implements IConnection
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e );
 		}
 		catch ( ClassNotFoundException e )
 		{
@@ -316,7 +317,7 @@ public class Connection implements IConnection
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.CONN_ROLLBACK_ERROR, e );
 		}
 	}
 

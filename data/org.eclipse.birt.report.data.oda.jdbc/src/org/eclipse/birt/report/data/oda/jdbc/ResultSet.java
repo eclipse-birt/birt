@@ -22,6 +22,7 @@ import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.util.logging.Level;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
@@ -99,7 +100,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_METADATA_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -124,7 +126,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_CLOSE,
+					e );
 		}
 
 	}
@@ -147,7 +150,7 @@ public class ResultSet implements IResultSet
 			maxRows = Integer.MAX_VALUE;
 		//if the max is positive, reset it,
 		// otherwise, ignore this operation and keep the
-		// previous value.
+		// previous value
 
 	}
 
@@ -177,7 +180,7 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException(ResourceConstants.RESULTSET_CURSOR_DOWN_ERROR , e );
 		}
 	}
 
@@ -213,7 +216,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
+					e );
 		}
 	}
 
@@ -234,7 +238,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
+					e );
 		}
 	}
 
@@ -255,7 +260,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+					e );
 		}
 	}
 
@@ -276,7 +282,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+					e );
 		}
 	}
 
@@ -297,7 +304,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
+					e );
 		}
 	}
 
@@ -318,7 +326,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
+					e );
 		}
 	}
 
@@ -339,7 +348,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
+					e );
 		}
 	}
 
@@ -360,7 +370,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
+					e );
 		}
 	}
 
@@ -382,7 +393,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
+					e );
 		}
 	}
 
@@ -403,7 +415,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
+					e );
 		}
 	}
 
@@ -424,7 +437,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
+					e );
 		}
 	}
 
@@ -445,7 +459,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
+					e );
 		}
 	}
 
@@ -466,7 +481,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
+					e );
 		}
 	}
 
@@ -487,7 +503,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
+					e );
 		}
 	}
 
@@ -512,7 +529,7 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_DETERMINE_NULL, e );
 		}
 	}
 
@@ -537,7 +554,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_FIND_COLUMN,
+					e );
 		}
 	}
 }

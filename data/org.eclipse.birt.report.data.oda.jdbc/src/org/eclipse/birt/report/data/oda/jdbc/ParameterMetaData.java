@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IParameterMetaData;
 import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
@@ -80,7 +81,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_COUNT_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -109,7 +111,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_MODE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -132,7 +135,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -158,7 +162,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_NAME_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -181,7 +186,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_PRECISION_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -204,7 +210,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_SCALE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -231,7 +238,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PARAMETER_NULLABILITY_CANNOT_DETERMINE,
+					e );
 		}
 
 	}

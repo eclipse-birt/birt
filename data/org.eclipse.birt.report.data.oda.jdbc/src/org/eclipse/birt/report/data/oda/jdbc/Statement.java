@@ -27,6 +27,8 @@ import org.eclipse.birt.data.oda.IStatement;
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.SortSpec;
 import org.eclipse.birt.data.oda.util.logging.Level;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+
 
 /**
  * 
@@ -122,7 +124,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.STATEMENT_CANNOT_PREPARE,
+					e );
 		}
 	}
 
@@ -133,8 +136,7 @@ public class Statement implements IStatement
 	public void setProperty( String name, String value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException(
-				"setProperty is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "SetProprety operation is not supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setProperty",
@@ -149,7 +151,7 @@ public class Statement implements IStatement
 	public void setPropertyInfo( Properties info ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "setPropertyInfo is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "SetPropretyInfo is not supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setPropertyInfo",
@@ -178,7 +180,7 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_CANNOT_CLOSE , e );
 		}
 	}
 
@@ -233,10 +235,14 @@ public class Statement implements IStatement
 			/* redirect the call to JDBC preparedStatement.getMetaData() */
 			resultmd = preStat.getMetaData( );
 		}
-		catch ( SQLException e )
+		catch (NullPointerException e )
 		{
+		  resultmd=null;
 		}
-
+		catch(SQLException e)
+		{
+			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_METADATA_CANNOT_GET , e );
+		}
 		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
 		{
@@ -269,7 +275,13 @@ public class Statement implements IStatement
 		{
 			if (!maxRowsUpToDate)
 			{
-				preStat.setMaxRows( maxrows );
+				try {
+					preStat.setMaxRows( maxrows );
+				}catch ( SQLException e1)
+				{
+					//assume this exception is caused by the drivers that do
+					//not support "setMaxRows" method
+				}
 				maxRowsUpToDate = true;
 			}
 			/* redirect the call to JDBC preparedStatement.executeQuery() */
@@ -277,7 +289,7 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_RETURN , e );
 		}
 	}
 
@@ -305,7 +317,7 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
 		}
 
 	}
@@ -316,7 +328,7 @@ public class Statement implements IStatement
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setInt",
@@ -340,7 +352,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -356,7 +369,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setDouble",
@@ -380,7 +393,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -396,7 +410,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setBigDecimal",
@@ -426,7 +440,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -442,7 +457,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setString",
@@ -467,7 +482,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -482,7 +498,7 @@ public class Statement implements IStatement
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setDate",
@@ -506,7 +522,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -521,7 +538,7 @@ public class Statement implements IStatement
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setTime",
@@ -545,7 +562,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -561,7 +579,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setTimestamp",
@@ -590,7 +608,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE,
+					e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -604,7 +623,7 @@ public class Statement implements IStatement
 	public int findInParameter( String parameterName ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"findInParameter",
@@ -648,7 +667,8 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_PARAMETER_TYPE_CANNOT_GET,
+					e );
 		}
 	}
 
@@ -667,7 +687,7 @@ public class Statement implements IStatement
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET , e );
 		}
 	}
 
@@ -677,7 +697,7 @@ public class Statement implements IStatement
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "SetSortSpec is not supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setSortSpec",
@@ -692,7 +712,7 @@ public class Statement implements IStatement
 	public SortSpec getSortSpec( ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
+		UnsupportedOperationException e = new UnsupportedOperationException( "SetSortSpec is not supported" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"getSortSpec",
@@ -711,7 +731,7 @@ public class Statement implements IStatement
 		}
 		catch( SQLException ex )
 		{
-			throw new JDBCException( ex );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CLEAR_PARAMETER_ERROR , ex );
 		}
 	}
 	

@@ -16,12 +16,13 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IResultSetMetaData;
 import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
  * This class implements the org.eclipse.birt.data.oda.IResultSetMetaData
  * interface.
- * 
+ *  
  */
 public class ResultSetMetaData implements IResultSetMetaData
 {
@@ -29,7 +30,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	/** the JDBC ResultSetMetaData object */
 	private java.sql.ResultSetMetaData rsMetadata;
 
-	private static Logger logger = Logger.getLogger( ResultSetMetaData.class.getName( ) );	
+	private static Logger logger = Logger.getLogger( ResultSetMetaData.class.getName( ) );
 
 	/**
 	 * assertNotNull(Object o)
@@ -42,8 +43,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	{
 		if ( o == null )
 		{
-			throw new DriverException(
-					DriverException.ERRMSG_NO_RESULTSETMETADATA,
+			throw new DriverException( DriverException.ERRMSG_NO_RESULTSETMETADATA,
 					DriverException.ERROR_NO_RESULTSETMETADATA );
 
 		}
@@ -55,7 +55,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 * JDBC's ResultSetMetaData to construct it.
 	 *  
 	 */
-	public ResultSetMetaData( java.sql.ResultSetMetaData rsMeta ) throws OdaException
+	public ResultSetMetaData( java.sql.ResultSetMetaData rsMeta )
+			throws OdaException
 	{
 		/* record down the JDBC ResultSetMetaData object */
 		this.rsMetadata = rsMeta;
@@ -79,7 +80,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_COUNT_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -101,7 +103,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_NAME_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -123,7 +126,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_LABEL_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -145,7 +149,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_TYPE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -170,7 +175,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_TYPE_NAME_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -195,7 +201,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.COLUMN_DISPLAY_SIZE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -217,7 +224,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_METADATA_PRECISION_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -239,7 +247,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_MEATADATA_SCALE_CANNOT_GET,
+					e );
 		}
 
 	}
@@ -261,7 +270,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.RESULTSET_NULLABILITY_CANNOT_DETERMINE,
+					e );
 		}
 
 	}

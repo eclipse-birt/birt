@@ -19,6 +19,7 @@ import org.eclipse.birt.data.oda.IConnection;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * DataSourceMetaData implements the ODA interface IDataSetMetaData.
@@ -96,7 +97,8 @@ public class DataSourceMetaData implements IDataSetMetaData
 	    }
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.DATABASE_MAJOR_VERSION_CANNOT_GET,
+					e );
 		}
 	}
 
@@ -112,12 +114,13 @@ public class DataSourceMetaData implements IDataSetMetaData
 				"getDataSourceMinorVersion",
 				"DataSourceMetaData.getDataSourceMinorVersion( )" );
 	    try
-	    {
-	        return dbMetadata.getDatabaseMajorVersion();
-	    }
+		{
+			return dbMetadata.getDatabaseMinorVersion( );
+		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.DATABASE_MINOR_VERSION_CANNOT_GET,
+					e );
 		}
 	}
 
@@ -138,7 +141,8 @@ public class DataSourceMetaData implements IDataSetMetaData
 	    }
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.DATABASE_PRODUCT_NAME_CANNOT_GET,
+					e );
 		}
 	}
 
@@ -159,7 +163,8 @@ public class DataSourceMetaData implements IDataSetMetaData
 	    }
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.DATABASE_PRODUCT_VERSION_CANNOT_GET,
+					e );
 		}
 	}
 
@@ -192,7 +197,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e );
+			throw new JDBCException( ResourceConstants.SQLSTATE_TYPE_CANNOT_GET, e );
 		}
 	}
 
