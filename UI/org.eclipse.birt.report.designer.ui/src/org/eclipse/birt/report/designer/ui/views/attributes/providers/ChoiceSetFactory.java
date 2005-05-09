@@ -18,9 +18,12 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
@@ -28,12 +31,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
@@ -95,35 +94,35 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_FILTER_OPERATOR;
 		}
-		else if ( Style.VERTICAL_ALIGN_PROP.equals( property ) )
+		else if ( StyleHandle.VERTICAL_ALIGN_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_VERTICAL_ALIGN;
 		}
-		else if ( Style.TEXT_ALIGN_PROP.equals( property ) )
+		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_ALIGN;
 		}
-		else if ( MasterPage.ORIENTATION_PROP.equals( property ) )
+		else if ( MasterPageHandle.ORIENTATION_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_ORIENTATION;
 		}
-		else if ( MasterPage.TYPE_PROP.equals( property ) )
+		else if ( MasterPageHandle.TYPE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( GroupElement.INTERVAL_PROP.equals( property ) )
+		else if ( GroupElementHandle.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}
-		else if ( Style.PAGE_BREAK_BEFORE_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
 		}
-		else if ( Style.PAGE_BREAK_AFTER_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
 		}
-		else if ( Style.PAGE_BREAK_INSIDE_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
 		}
@@ -147,7 +146,7 @@ public class ChoiceSetFactory
 		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
-		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE
+		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
 				&& propertyDefn.getChoices( ) != null )
 		{
 			return propertyDefn.getChoices( );
@@ -171,7 +170,7 @@ public class ChoiceSetFactory
 		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
-		if ( propertyDefn.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
 		{
 			return propertyDefn.getAllowedChoices( );
 		}
@@ -434,35 +433,35 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_FILTER_OPERATOR;
 		}
-		else if ( Style.VERTICAL_ALIGN_PROP.equals( property ) )
+		else if ( StyleHandle.VERTICAL_ALIGN_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_VERTICAL_ALIGN;
 		}
-		else if ( Style.TEXT_ALIGN_PROP.equals( property ) )
+		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_ALIGN;
 		}
-		else if ( MasterPage.ORIENTATION_PROP.equals( property ) )
+		else if ( MasterPageHandle.ORIENTATION_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_ORIENTATION;
 		}
-		else if ( MasterPage.TYPE_PROP.equals( property ) )
+		else if ( MasterPageHandle.TYPE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( GroupElement.INTERVAL_PROP.equals( property ) )
+		else if ( GroupElementHandle.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}
-		else if ( Style.PAGE_BREAK_BEFORE_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
 		}
-		else if ( Style.PAGE_BREAK_AFTER_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
 		}
-		else if ( Style.PAGE_BREAK_INSIDE_PROP.equals( property ) )
+		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
 		}
@@ -501,9 +500,10 @@ public class ChoiceSetFactory
 	public static String[] getDataSets( )
 	{
 		ArrayList list = new ArrayList( );
-		ReportDesign design = SessionHandleAdapter.getInstance( )
-				.getReportDesign( );
-		ReportDesignHandle handle = (ReportDesignHandle) design.getHandle( design );
+		
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		
 		SlotHandle dataSets = handle.getDataSets( );
 		if ( dataSets != null )
 		{
@@ -525,9 +525,8 @@ public class ChoiceSetFactory
 	public static String[] getMasterPages( )
 	{
 		ArrayList list = new ArrayList( );
-		ReportDesign design = SessionHandleAdapter.getInstance( )
-				.getReportDesign( );
-		ReportDesignHandle handle = (ReportDesignHandle) design.getHandle( design );
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+		.getReportDesignHandle( );
 		SlotHandle pages = handle.getMasterPages( );
 		if ( pages != null )
 		{
@@ -550,9 +549,8 @@ public class ChoiceSetFactory
 	{
 		ArrayList list = new ArrayList( );
 		list.add( CHOICE_NONE );
-		ReportDesign design = SessionHandleAdapter.getInstance( )
-				.getReportDesign( );
-		ReportDesignHandle handle = (ReportDesignHandle) design.getHandle( design );
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
+		.getReportDesignHandle( );
 		SlotHandle styles = handle.getStyles( );
 		if ( styles != null )
 		{

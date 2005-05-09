@@ -181,8 +181,7 @@ public abstract class AbstractDataSetWizard extends Wizard
 	public CommandStack getActivityStack( )
 	{
 		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+				.getCommandStack();
 	}
 
 	/**

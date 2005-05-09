@@ -38,10 +38,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
-import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.util.Assert;
 
@@ -70,9 +67,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	private static final String TRANS_LABEL_DELETE_COLUMNS = Messages.getString( "TableHandleAdapter.transLabel.deleteColumns" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_INSERT_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.insertColumn" ); //$NON-NLS-1$
 	private static final String TRANS_LABEL_DELETE_GROUP = Messages.getString( "TableHandleAdapter.transLable.deleteGroup" ); //$NON-NLS-1$
-	public static final int HEADER = TableItem.HEADER_SLOT;
-	public static final int DETAIL = TableItem.DETAIL_SLOT;
-	public static final int FOOTER = TableItem.FOOTER_SLOT;
+	public static final int HEADER = TableHandle.HEADER_SLOT;
+	public static final int DETAIL = TableHandle.DETAIL_SLOT;
+	public static final int FOOTER = TableHandle.FOOTER_SLOT;
 
 	public static final String TABLE_HEADER = "H"; //$NON-NLS-1$
 	public static final String TABLE_FOOTER = "F"; //$NON-NLS-1$
@@ -604,7 +601,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public int getMinHeight( int rowNumber )
 	{
-		// TODO Auto-generated method stub
+		// TODO: The value may need to dynamic calculated or user definable
 		return RowHandleAdapter.DEFAULT_MINHEIGHT;
 	}
 
@@ -617,7 +614,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public int getMinWidth( int columnNumber )
 	{
 
-		// TODO Auto-generated method stub
+		// TODO: The value may need to dynamic calculated or user definable
 		return ColumnHandleAdapter.DEFAULT_MINWIDTH;
 	}
 
@@ -775,7 +772,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			CellHandle parentCell = (CellHandle) rowList.get( i );
 			CellHandle cell = getCellHandleCopy( parentCell );
-			copy.getSlot( TableRow.CONTENT_SLOT ).add( cell );
+			copy.getSlot( RowHandle.CONTENT_SLOT ).add( cell );
 		}
 
 		SlotHandle parentHandle = row.getContainerSlotHandle( );
@@ -885,13 +882,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		int copyRowSize = copyChildren.size( );
 		for ( int i = 0; i < copyRowSize; i++ )
 		{
-			//			RowHandle row = (RowHandle) getRow( i + 1 );
-			//			row.getSlot( TableRow.CONTENT_SLOT )
-			//					.add( (CellHandle) ( copyChildren.get( i ) ),
-			//							realColumnNumber - 1 );
 			RowHandle row = (RowHandle) getRow( i + 1 );
 			int number = getReallyRowNumber( row, realColumnNumber );
-			row.getSlot( TableRow.CONTENT_SLOT )
+			row.getSlot( RowHandle.CONTENT_SLOT )
 					.add( (CellHandle) ( copyChildren.get( i ) ), number - 1 );
 
 		}
@@ -1227,7 +1220,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			SlotHandle slotHandle = row.getCells( );
 			slotHandle.move( (DesignElementHandle) shiftInfo.cell,
 					nextRow,
-					TableRow.CONTENT_SLOT,
+					RowHandle.CONTENT_SLOT,
 					shiftInfo.index );
 		}
 
@@ -1432,7 +1425,6 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public void splitCell( Object model ) throws ContentException,
 			NameException, SemanticException
 	{
-		// TODO Auto-generated method stub
 		transStar( TRANS_LABEL_SPLIT_CELLS );
 		assert model instanceof CellHandle;
 
@@ -1451,7 +1443,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			for ( int i = 1; i < colSpan; i++ )
 			{
 				rowHandle.addElement( getCellHandleCopy( cellHandle ),
-						TableRow.CONTENT_SLOT,
+						RowHandle.CONTENT_SLOT,
 						i + index );
 			}
 		}
@@ -1464,7 +1456,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				for ( int j = 0; j < colSpan; j++ )
 				{
 					rowHandle.addElement( getCellHandleCopy( cellHandle ),
-							TableRow.CONTENT_SLOT,
+							RowHandle.CONTENT_SLOT,
 							j + index );
 				}
 			}
@@ -1519,7 +1511,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			PropertyHandle handle = (PropertyHandle) iter.next( );
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( )
-					&& ( !( Cell.COL_SPAN_PROP.equals( key ) || Cell.ROW_SPAN_PROP.equals( key ) ) ) )
+					&& ( !( CellHandle.COL_SPAN_PROP.equals( key ) || CellHandle.ROW_SPAN_PROP.equals( key ) ) ) )
 			{
 				//cell.setProperty( key, cellHandle.getProperty( key ) );
 				cellHandle.copyPropertyTo( key, cell );
@@ -1586,7 +1578,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		for ( int i = 0; i < count; i++ )
 		{
 			CellHandle cell = handle.getElementFactory( ).newCell( );
-			handle.addElement( cell, TableRow.CONTENT_SLOT );
+			handle.addElement( cell, RowHandle.CONTENT_SLOT );
 		}
 	}
 

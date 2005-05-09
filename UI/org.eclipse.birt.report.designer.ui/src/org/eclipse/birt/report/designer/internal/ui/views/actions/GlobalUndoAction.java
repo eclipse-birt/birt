@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
@@ -24,7 +24,7 @@ public class GlobalUndoAction extends GlobalStackAction
 
 	private static String UNDO_LABEL = Messages.getString( "label.undo" );
 
-	protected GlobalUndoAction( ActivityStack stack )
+	protected GlobalUndoAction( CommandStack stack )
 	{
 		super( GlobalActionFactory.UNDO, stack );
 	}

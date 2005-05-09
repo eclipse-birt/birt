@@ -169,8 +169,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 	public CommandStack getActivityStack( )
 	{
 		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+				.getCommandStack();
 	}
 
 	/*

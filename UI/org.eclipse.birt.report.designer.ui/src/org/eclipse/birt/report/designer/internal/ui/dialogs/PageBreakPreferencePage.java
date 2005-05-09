@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.layout.GridData;
 
 /**
@@ -53,11 +52,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		GridData gdata;
 
-		EditableComboFieldEditor widows = new EditableComboFieldEditor( Style.WIDOWS_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.WIDOWS_PROP )
+		EditableComboFieldEditor widows = new EditableComboFieldEditor( StyleHandle.WIDOWS_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.WIDOWS_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				getChoiceArray( Style.WIDOWS_PROP ),
+				getChoiceArray( StyleHandle.WIDOWS_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
 		gdata.widthHint = 96;
@@ -66,11 +65,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( widows );
 
-		EditableComboFieldEditor orphans = new EditableComboFieldEditor( Style.ORPHANS_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.ORPHANS_PROP )
+		EditableComboFieldEditor orphans = new EditableComboFieldEditor( StyleHandle.ORPHANS_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.ORPHANS_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				getChoiceArray( Style.ORPHANS_PROP ),
+				getChoiceArray( StyleHandle.ORPHANS_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
 		gdata.widthHint = 96;
@@ -81,11 +80,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( new SeparatorFieldEditor( getFieldEditorParent( ), false ) );
 
-		ComboBoxFieldEditor before = new ComboBoxFieldEditor( Style.PAGE_BREAK_BEFORE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_BEFORE_PROP )
+		ComboBoxFieldEditor before = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_BEFORE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_BEFORE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				getChoiceArray( Style.PAGE_BREAK_BEFORE_PROP ),
+				getChoiceArray( StyleHandle.PAGE_BREAK_BEFORE_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
 		gdata.widthHint = 100;
@@ -94,11 +93,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( before );
 
-		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( Style.PAGE_BREAK_INSIDE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_INSIDE_PROP )
+		ComboBoxFieldEditor inside = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_INSIDE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_INSIDE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				getChoiceArray( Style.PAGE_BREAK_INSIDE_PROP ),
+				getChoiceArray( StyleHandle.PAGE_BREAK_INSIDE_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
 		gdata.widthHint = 100;
@@ -107,11 +106,11 @@ public class PageBreakPreferencePage extends BaseStylePreferencePage
 
 		addField( inside );
 
-		ComboBoxFieldEditor after = new ComboBoxFieldEditor( Style.PAGE_BREAK_AFTER_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.PAGE_BREAK_AFTER_PROP )
+		ComboBoxFieldEditor after = new ComboBoxFieldEditor( StyleHandle.PAGE_BREAK_AFTER_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.PAGE_BREAK_AFTER_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				getChoiceArray( Style.PAGE_BREAK_AFTER_PROP ),
+				getChoiceArray( StyleHandle.PAGE_BREAK_AFTER_PROP ),
 				getFieldEditorParent( ) );
 		gdata = new GridData( );
 		gdata.widthHint = 100;

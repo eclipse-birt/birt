@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -32,7 +33,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.ListingElement;
 
 /**
  * Sort data processor
@@ -85,7 +85,7 @@ public class SortingModelProvider
 		if ( !( obj instanceof DesignElementHandle ) )
 			return EMPTY;
 		DesignElementHandle element = (DesignElementHandle) obj;
-		PropertyHandle propertyHandle = element.getPropertyHandle( ListingElement.SORT_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.SORT_PROP );
 		Iterator iterator = propertyHandle.iterator( );
 		if ( iterator == null )
 			return EMPTY;
@@ -253,7 +253,7 @@ public class SortingModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( ListingElement.SORT_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.SORT_PROP );
 		propertyHandle.moveItem( oldPos, newPos );
 
 		return true;
@@ -273,7 +273,7 @@ public class SortingModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( ListingElement.SORT_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.SORT_PROP );
 		if ( propertyHandle.getAt( pos ) != null )
 			propertyHandle.removeItem( pos );
 		return true;
@@ -296,7 +296,7 @@ public class SortingModelProvider
 			SortKey sortkey = StructureFactory.createSortKey( );
 			sortkey.setKey( "Key" );//$NON-NLS-1$
 			DesignElementHandle handle = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingElement.SORT_PROP );
+			PropertyHandle propertyHandle = handle.getPropertyHandle( ListingHandle.SORT_PROP );
 			propertyHandle.addItem( sortkey );
 		}
 		return true;

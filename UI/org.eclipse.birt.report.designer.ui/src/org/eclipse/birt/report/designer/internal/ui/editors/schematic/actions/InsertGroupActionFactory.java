@@ -26,13 +26,11 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -163,11 +161,11 @@ abstract class InsertPositionGroupAction extends Action
 				if ( getRowHandle( ) != null )
 				{
 					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != GroupElement.FOOTER_SLOT;
+							.getSlotID( ) != GroupElementHandle.FOOTER_SLOT;
 				}
 				else if ( getListBandProxy( ) != null )
 				{
-					return getListBandProxy( ).getSlotId( ) != GroupElement.FOOTER_SLOT;
+					return getListBandProxy( ).getSlotId( ) != GroupElementHandle.FOOTER_SLOT;
 				}
 			}
 			else
@@ -175,11 +173,11 @@ abstract class InsertPositionGroupAction extends Action
 				if ( getRowHandle( ) != null )
 				{
 					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != TableItem.FOOTER_SLOT;
+							.getSlotID( ) != TableHandle.FOOTER_SLOT;
 				}
 				else if ( getListBandProxy( ) != null )
 				{
-					return getListBandProxy( ).getSlotId( ) != ListItem.FOOTER_SLOT;
+					return getListBandProxy( ).getSlotId( ) != ListHandle.FOOTER_SLOT;
 				}
 			}
 		}
@@ -293,9 +291,7 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack();
 	}
 
 	/**

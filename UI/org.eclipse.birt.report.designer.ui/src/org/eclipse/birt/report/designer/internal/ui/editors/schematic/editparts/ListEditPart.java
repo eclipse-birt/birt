@@ -31,10 +31,10 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -116,13 +116,13 @@ public class ListEditPart extends ReportElementEditPart
 				{
 					refreshVisuals( );
 				}
-				if ( event.getPropertyName( ).equals( Style.PADDING_TOP_PROP )
+				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_BOTTOM_PROP )
+								.equals( StyleHandle.PADDING_BOTTOM_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_LEFT_PROP )
+								.equals( StyleHandle.PADDING_LEFT_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_RIGHT_PROP ) )
+								.equals( StyleHandle.PADDING_RIGHT_PROP ) )
 				{
 					getFigure( ).getParent( ).revalidate( );
 				}

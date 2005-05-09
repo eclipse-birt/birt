@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -60,9 +59,7 @@ public class SetConstraintCommand extends Command
 
 	public void execute( )
 	{
-		ReportDesign design = SessionHandleAdapter.getInstance( )
-				.getReportDesign( );
-		CommandStack stack = design.handle( ).getCommandStack( );
+		CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
 		//start trans
 		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT ); //$NON-NLS-1$
 

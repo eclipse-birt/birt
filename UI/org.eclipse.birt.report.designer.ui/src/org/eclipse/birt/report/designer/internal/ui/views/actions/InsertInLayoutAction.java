@@ -106,7 +106,7 @@ public class InsertInLayoutAction extends AbstractViewAction
 	public void run( )
 	{
 		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getActivityStack( );
+				.getCommandStack();
 		stack.startTrans( DISPLAY_TEXT );
 		try
 		{

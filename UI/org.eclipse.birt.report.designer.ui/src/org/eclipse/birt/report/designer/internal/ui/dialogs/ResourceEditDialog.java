@@ -20,8 +20,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;

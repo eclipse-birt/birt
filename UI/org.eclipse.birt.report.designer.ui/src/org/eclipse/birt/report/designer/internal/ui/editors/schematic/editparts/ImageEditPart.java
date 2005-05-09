@@ -21,9 +21,9 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -202,8 +202,8 @@ public class ImageEditPart extends ReportElementEditPart
 				.getDisplay( )
 				.getActiveShell( ) );
 		dialog.setInput( getModel( ) );
-		ActivityStack stack = SessionHandleAdapter.getInstance( )
-				.getActivityStack( );
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack();
 		stack.startTrans( IMG_TRANS_MSG );
 		if ( dialog.open( ) == Window.OK )
 		{
@@ -212,6 +212,19 @@ public class ImageEditPart extends ReportElementEditPart
 		else
 		{
 			stack.rollback( );
+		}
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#markDirty(boolean, boolean)
+	 */
+	public void markDirty( boolean bool, boolean notifyParent )
+	{
+		super.markDirty( bool, notifyParent );
+		if (bool)
+		{
+			refreshVisuals();
 		}
 	}
 }

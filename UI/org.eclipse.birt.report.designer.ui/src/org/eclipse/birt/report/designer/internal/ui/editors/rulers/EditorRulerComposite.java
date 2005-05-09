@@ -24,8 +24,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DefaultRangeModel;
@@ -125,38 +123,38 @@ public class EditorRulerComposite extends Composite
 				{
 
 					PropertyEvent event = (PropertyEvent) ev;
-					if ( ReportDesign.UNITS_PROP.equals( event.getPropertyName( ) ) )
+					if ( ReportDesignHandle.UNITS_PROP.equals( event.getPropertyName( ) ) )
 					{
 						setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
 					}
-					else if ( MasterPage.LEFT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.LEFT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
 						setMargin( TOP_LEFT );
 					}
-					else if ( MasterPage.RIGHT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.RIGHT_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
 						setMargin( TOP_RIGHT );
 					}
-					else if ( MasterPage.TOP_MARGIN_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.TOP_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
 						setMargin( LEFT_TOP );
 					}
-					else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.BOTTOM_MARGIN_PROP.equals( event.getPropertyName( ) ) )
 					{
 						setMargin( LEFT_BOTTOM );
 					}
-					else if ( MasterPage.TYPE_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.TYPE_PROP.equals( event.getPropertyName( ) ) )
 					{
 						layout( true );
 						resetAllGuide( );
 					}
-					else if ( MasterPage.WIDTH_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.WIDTH_PROP.equals( event.getPropertyName( ) ) )
 					{
 						layout( true );
 						setMargin( TOP_LEFT );
 						setMargin( TOP_RIGHT );
 					}
-					else if ( MasterPage.HEIGHT_PROP.equals( event.getPropertyName( ) ) )
+					else if ( MasterPageHandle.HEIGHT_PROP.equals( event.getPropertyName( ) ) )
 					{
 						layout( true );
 						setMargin( LEFT_TOP );

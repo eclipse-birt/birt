@@ -81,8 +81,7 @@ public class ApplyStyleAction extends DynamicItemAction
 	 */
 	public void run( )
 	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getActivityStack( );
+		CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack();
 		stack.startTrans( STACK_MSG_APPLY_STYLE );
 
 		try

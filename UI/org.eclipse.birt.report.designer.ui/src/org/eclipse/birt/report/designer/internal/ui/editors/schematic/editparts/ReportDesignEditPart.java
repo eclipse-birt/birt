@@ -32,8 +32,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -326,7 +326,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 		//getFigure( ).setBounds( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( masterPageHandle ) );
-		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( Style.BACKGROUND_COLOR_PROP ) );
+		reportDesignMarginBorder.setBackgroundColor( masterPageHandle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		int color = getBackgroundColor( masterPageHandle );

@@ -33,8 +33,6 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -118,24 +116,24 @@ public class TableCellEditPart extends ReportElementEditPart
 					refreshVisuals( );
 					getFigure( ).invalidateTree( );
 				}
-				if ( Cell.COL_SPAN_PROP.equals( event.getPropertyName( ) )
-						|| Cell.ROW_SPAN_PROP.equals( event.getPropertyName( ) ) )
+				if ( CellHandle.COL_SPAN_PROP.equals( event.getPropertyName( ) )
+						|| CellHandle.ROW_SPAN_PROP.equals( event.getPropertyName( ) ) )
 				{
 					( (TableEditPart) getParent( ) ).refreshChildren( );
 					( (TableEditPart) getParent( ) ).reLayout( );
 				}
 
-				if ( event.getPropertyName( ).equals( Style.PADDING_TOP_PROP )
-						|| event.getPropertyName( )
-								.equals( Style.PADDING_BOTTOM_PROP )
-						|| event.getPropertyName( )
-								.equals( Style.PADDING_LEFT_PROP )
-						|| event.getPropertyName( )
-								.equals( Style.PADDING_RIGHT_PROP )
-						|| event.getPropertyName( )
-								.equals( Style.TEXT_ALIGN_PROP )
-						|| event.getPropertyName( )
-								.equals( Style.VERTICAL_ALIGN_PROP ) )
+				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_BOTTOM_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_LEFT_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.PADDING_RIGHT_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.TEXT_ALIGN_PROP )
+						|| event.getPropertyName( ).equals(
+								StyleHandle.VERTICAL_ALIGN_PROP ) )
 				{
 					getFigure( ).getParent( ).revalidate( );
 				}
@@ -189,7 +187,8 @@ public class TableCellEditPart extends ReportElementEditPart
 
 		if ( getFigure( ).getBorder( ) instanceof CellBorder )
 		{
-			cborder.setBorderInsets( ( (CellBorder) getFigure( ).getBorder( ) ).getBorderInsets( ) );
+			cborder.setBorderInsets( ( (CellBorder) getFigure( ).getBorder( ) )
+					.getBorderInsets( ) );
 		}
 		refreshBorder( getCellAdapter( ).getHandle( ), cborder );
 
@@ -202,7 +201,8 @@ public class TableCellEditPart extends ReportElementEditPart
 		String hAlign = style.getTextAlign( );
 		String vAlign = style.getVerticalAlign( );
 
-		ReportFlowLayout rflayout = (ReportFlowLayout) getFigure( ).getLayoutManager( );
+		ReportFlowLayout rflayout = (ReportFlowLayout) getFigure( )
+				.getLayoutManager( );
 
 		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( hAlign ) )
 		{
@@ -244,7 +244,8 @@ public class TableCellEditPart extends ReportElementEditPart
 	{
 		if ( getModelChildren( ).size( ) == 0 )
 		{
-			TableHandleAdapter tha = ( (TableEditPart) getParent( ) ).getTableAdapter( );
+			TableHandleAdapter tha = ( (TableEditPart) getParent( ) )
+					.getTableAdapter( );
 			//
 			//			int col = ( tha.getColumnCount( ) + 1 ) / 2;
 			//			if ( col < 1 )
@@ -257,7 +258,8 @@ public class TableCellEditPart extends ReportElementEditPart
 				RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
 						.getRowHandleAdapter( tha.getRow( getRowNumber( ) ) );
 
-				( (CellFigure) getFigure( ) ).setBlankString( rha.getTypeString( ) );
+				( (CellFigure) getFigure( ) ).setBlankString( rha
+						.getTypeString( ) );
 			}
 			else
 			{
@@ -410,20 +412,19 @@ public class TableCellEditPart extends ReportElementEditPart
 
 	public void showTargetFeedback( Request request )
 	{
-		if ( this.getSelected( ) == 0
-				&& isActive( )
+		if ( this.getSelected( ) == 0 && isActive( )
 				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
 
 			if ( isFigureLeft( request ) )
 			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getLeftCellCursor( ) );
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getLeftCellCursor( ) );
 			}
 			else
 			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getRightCellCursor( ) );
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getRightCellCursor( ) );
 			}
 		}
 		super.showTargetFeedback( request );

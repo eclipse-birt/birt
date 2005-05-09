@@ -31,9 +31,11 @@ import org.eclipse.ui.IWorkbenchPart;
 public class AddGroupAction extends SelectionAction
 {
 
-	private static final String STACK_MSG_ADD_GROUP = Messages.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_ADD_GROUP = Messages
+			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
 
-	private static final String ACTION_MSG_ADD_GROUP = Messages.getString( "AddGroupAction.actionMsg.addGroup" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_ADD_GROUP = Messages
+			.getString( "AddGroupAction.actionMsg.addGroup" ); //$NON-NLS-1$
 
 	public static final String ID = "AddGroupAction"; //$NON-NLS-1$
 
@@ -154,8 +156,6 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 }

@@ -71,7 +71,7 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 		if ( expressionBuilder.open( ) == Window.OK )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getActivityStack( );
+					.getCommandStack( );
 			stack.startTrans( STACK_MSG_INSERT_ELEMENT );
 
 			try

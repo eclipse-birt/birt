@@ -22,9 +22,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
@@ -137,9 +136,9 @@ public class AreaEditPart extends ReportElementEditPart
 		MasterPageHandle mphandle = ( (MasterPageHandle) ( (MasterPageEditPart) getParent( ) )
 				.getModel( ) );
 
-		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
+		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
-			if ( mphandle.getPropertyHandle( MasterPage.HEADER_HEIGHT_PROP )
+			if ( mphandle.getPropertyHandle( MasterPageHandle.HEADER_HEIGHT_PROP )
 					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
@@ -149,7 +148,7 @@ public class AreaEditPart extends ReportElementEditPart
 		}
 		else
 		{
-			if ( mphandle.getPropertyHandle( MasterPage.FOOTER_HEIGHT_PROP )
+			if ( mphandle.getPropertyHandle( MasterPageHandle.FOOTER_HEIGHT_PROP )
 					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );
@@ -158,7 +157,7 @@ public class AreaEditPart extends ReportElementEditPart
 			}
 		}
 
-		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPage.PAGE_HEADER_SLOT )
+		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
 			rect.setLocation( 0, 0 );
 		}

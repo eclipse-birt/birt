@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -41,7 +41,7 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		super( model );
 		setTitle( Messages
 				.getString( "FormatDateTimePreferencePage.formatDateTime.title" ) ); //$NON-NLS-1$
-		setPreferenceName( Style.DATE_TIME_FORMAT_PROP );
+		setPreferenceName( StyleHandle.DATE_TIME_FORMAT_PROP );
 	}
 
 	/*

@@ -9,7 +9,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.LabelHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
@@ -27,19 +26,15 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.accessibility.AccessibleControlEvent;
-import org.eclipse.swt.accessibility.AccessibleEvent;
 
 /**
  * Provides support for label edit parts.
@@ -77,27 +72,6 @@ public class LabelEditPart extends ReportElementEditPart
 	}
 
 	private DirectEditManager manager;
-
-	protected AccessibleEditPart createAccessible( )
-	{
-		return new AccessibleGraphicalEditPart( ) {
-
-			public void getValue( AccessibleControlEvent e )
-			{
-				//TODO: need to create LabelHandleAdapter
-				e.result = ( (Label) getModel( ) ).getStringProperty( SessionHandleAdapter.getInstance( )
-						.getReportDesign( ),
-						Label.TEXT_ID_PROP );
-			}
-
-			public void getName( AccessibleEvent e )
-			{
-				e.result = ( (Label) getModel( ) ).getStringProperty( SessionHandleAdapter.getInstance( )
-						.getReportDesign( ),
-						Label.TEXT_ID_PROP );
-			}
-		};
-	}
 
 	protected void createEditPolicies( )
 	{

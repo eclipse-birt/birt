@@ -73,9 +73,7 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	 */
 	protected CommandStack getCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack();
 	}
 
 	/**

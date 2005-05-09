@@ -15,11 +15,11 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.TableGroupHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -144,7 +144,7 @@ public abstract class IncludeTableGroupAction extends Action
 		 */
 		protected int getGroupSlotId( )
 		{
-			return GroupElement.HEADER_SLOT;
+			return GroupElementHandle.HEADER_SLOT;
 		}
 	}
 
@@ -171,7 +171,7 @@ public abstract class IncludeTableGroupAction extends Action
 		 */
 		protected int getGroupSlotId( )
 		{
-			return GroupElement.FOOTER_SLOT;
+			return GroupElementHandle.FOOTER_SLOT;
 		}
 	}
 }

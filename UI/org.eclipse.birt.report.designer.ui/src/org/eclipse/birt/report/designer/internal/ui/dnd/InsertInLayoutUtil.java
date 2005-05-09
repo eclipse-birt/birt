@@ -38,8 +38,6 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -100,7 +98,7 @@ public class InsertInLayoutUtil
 			}
 			else
 			{
-				if ( cell.getContainer( ).getContainerSlotHandle( ).getSlotID( ) == TableItem.DETAIL_SLOT )
+				if ( cell.getContainer( ).getContainerSlotHandle( ).getSlotID( ) == TableHandle.DETAIL_SLOT )
 				{
 					canInsert = true;
 				}
@@ -153,7 +151,7 @@ public class InsertInLayoutUtil
 		{
 			Assert.isTrue( object instanceof DesignElementHandle );
 			newTarget.addElement( (DesignElementHandle) object,
-					Cell.CONTENT_SLOT );
+					CellHandle.CONTENT_SLOT );
 		}
 	}
 

@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -43,7 +43,7 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage
 		super( model );
 		setTitle( Messages
 				.getString( "FormatNumberPreferencePage.formatNumber.title" ) ); //$NON-NLS-1$
-		setPreferenceName( Style.NUMBER_FORMAT_PROP );
+		setPreferenceName( StyleHandle.NUMBER_FORMAT_PROP );
 	}
 
 	/**

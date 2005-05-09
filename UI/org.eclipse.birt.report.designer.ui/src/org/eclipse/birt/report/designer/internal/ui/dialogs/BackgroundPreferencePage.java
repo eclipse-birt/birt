@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.layout.GridData;
 
 /**
@@ -88,56 +87,56 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage
 
 		super.createFieldEditors( );
 
-		color = new ColorFieldEditor( Style.BACKGROUND_COLOR_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_COLOR_PROP )
+		color = new ColorFieldEditor( StyleHandle.BACKGROUND_COLOR_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 
-		bgImage = new BgImageFieldEditor( Style.BACKGROUND_IMAGE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_IMAGE_PROP )
+		bgImage = new BgImageFieldEditor( StyleHandle.BACKGROUND_IMAGE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_IMAGE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 
-		repeat = new ComboBoxFieldEditor( Style.BACKGROUND_REPEAT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_REPEAT_PROP )
+		repeat = new ComboBoxFieldEditor( StyleHandle.BACKGROUND_REPEAT_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_REPEAT_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_REPEAT_PROP ) ),
+						StyleHandle.BACKGROUND_REPEAT_PROP ) ),
 				getFieldEditorParent( ) );
 
-		attachMent = new ComboBoxFieldEditor( Style.BACKGROUND_ATTACHMENT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_ATTACHMENT_PROP )
+		attachMent = new ComboBoxFieldEditor( StyleHandle.BACKGROUND_ATTACHMENT_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_ATTACHMENT_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_ATTACHMENT_PROP ) ),
+						StyleHandle.BACKGROUND_ATTACHMENT_PROP ) ),
 				getFieldEditorParent( ) );
 
-		horizonPos = new ComboBoxMeasureFieldEditor( Style.BACKGROUND_POSITION_X_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_X_PROP )
+		horizonPos = new ComboBoxMeasureFieldEditor( StyleHandle.BACKGROUND_POSITION_X_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_POSITION_X_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_POSITION_X_PROP ) ),
+						StyleHandle.BACKGROUND_POSITION_X_PROP ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_POSITION_X_PROP ) ),
+						StyleHandle.BACKGROUND_POSITION_X_PROP ) ),
 				getFieldEditorParent( ) );
-		horizonPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_X_PROP )
+		horizonPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_POSITION_X_PROP )
 				.getDefaultUnit( ) );
 
-		verticalPos = new ComboBoxMeasureFieldEditor( Style.BACKGROUND_POSITION_Y_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_Y_PROP )
+		verticalPos = new ComboBoxMeasureFieldEditor( StyleHandle.BACKGROUND_POSITION_Y_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_POSITION_Y_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_POSITION_Y_PROP ) ),
+						StyleHandle.BACKGROUND_POSITION_Y_PROP ) ),
 				getChoiceArray( ChoiceSetFactory.getDimensionChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-						Style.BACKGROUND_POSITION_Y_PROP ) ),
+						StyleHandle.BACKGROUND_POSITION_Y_PROP ) ),
 				getFieldEditorParent( ) );
-		verticalPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.BACKGROUND_POSITION_Y_PROP )
+		verticalPos.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.BACKGROUND_POSITION_Y_PROP )
 				.getDefaultUnit( ) );
 
 		addField( color );

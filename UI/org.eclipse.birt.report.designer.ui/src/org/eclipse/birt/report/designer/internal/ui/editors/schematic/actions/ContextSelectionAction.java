@@ -353,9 +353,7 @@ public class ContextSelectionAction extends SelectionAction
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack();
 	}
 
 }

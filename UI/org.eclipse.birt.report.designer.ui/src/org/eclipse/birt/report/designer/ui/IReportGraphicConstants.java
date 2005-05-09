@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.Style;
+
 
 /**
  * This class defines constants for looking up resources that are available only
@@ -185,13 +186,13 @@ public interface IReportGraphicConstants
 	//attribute icon constants
 	public final static String DIS = "DIS";//$NON-NLS-1$	
 
-	public final static String ICON_ATTRIBUTE_FONT_WIDTH = Style.FONT_WEIGHT_PROP;
+	public final static String ICON_ATTRIBUTE_FONT_WIDTH = StyleHandle.FONT_WEIGHT_PROP;
 
-	public final static String ICON_ATTRIBUTE_FONT_STYLE = Style.FONT_STYLE_PROP;
+	public final static String ICON_ATTRIBUTE_FONT_STYLE = StyleHandle.FONT_STYLE_PROP;
 
-	public final static String ICON_ATTRIBUTE_TEXT_UNDERLINE = Style.TEXT_UNDERLINE_PROP;
+	public final static String ICON_ATTRIBUTE_TEXT_UNDERLINE = StyleHandle.TEXT_UNDERLINE_PROP;
 
-	public final static String ICON_ATTRIBUTE_TEXT_LINE_THROUGH = Style.TEXT_LINE_THROUGH_PROP;
+	public final static String ICON_ATTRIBUTE_TEXT_LINE_THROUGH = StyleHandle.TEXT_LINE_THROUGH_PROP;
 
 	public final static String ICON_ATTRIBUTE_BORDER_NONE = "BORDER_NONE";//$NON-NLS-1$
 
@@ -213,13 +214,13 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ATTRIBUTE_TEXT_ALIGN_RIGHT = DesignChoiceConstants.TEXT_ALIGN_RIGHT;
 
-	public final static String ICON_ATTRIBUTE_TOP_MARGIN = MasterPage.TOP_MARGIN_PROP;
+	public final static String ICON_ATTRIBUTE_TOP_MARGIN = MasterPageHandle.TOP_MARGIN_PROP;
 
-	public final static String ICON_ATTRIBUTE_BOTTOM_MARGIN = MasterPage.BOTTOM_MARGIN_PROP;
+	public final static String ICON_ATTRIBUTE_BOTTOM_MARGIN = MasterPageHandle.BOTTOM_MARGIN_PROP;
 
-	public final static String ICON_ATTRIBUTE_LEFT_MARGIN = MasterPage.LEFT_MARGIN_PROP;
+	public final static String ICON_ATTRIBUTE_LEFT_MARGIN = MasterPageHandle.LEFT_MARGIN_PROP;
 
-	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPage.RIGHT_MARGIN_PROP;
+	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPageHandle.RIGHT_MARGIN_PROP;
 
 	//Preview editer icons
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters";//$NON-NLS-1$	

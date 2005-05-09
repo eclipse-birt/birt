@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -28,8 +29,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.ListingElement;
+
 
 /**
  * Group data processor
@@ -109,7 +109,7 @@ public class GroupModelProvider
 
 		GroupHandle handle = (GroupHandle) element;
 
-		if ( key.equals( GroupElement.GROUP_NAME_PROP ) )
+		if ( key.equals( GroupElementHandle.GROUP_NAME_PROP ) )
 		{
 			if ( handle.getName( ) == null )
 				return ""; //$NON-NLS-1$
@@ -200,7 +200,7 @@ public class GroupModelProvider
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
 
-		SlotHandle slotHandle = element.getSlot( ListingElement.GROUP_SLOT );
+		SlotHandle slotHandle = element.getSlot( ListingHandle.GROUP_SLOT );
 		DesignElementHandle group = slotHandle.get( oldPos );
 		slotHandle.shift( group, newPos );
 
@@ -220,7 +220,7 @@ public class GroupModelProvider
 	public boolean deleteItem( Object item, int pos ) throws SemanticException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		element.getSlot( ListingElement.GROUP_SLOT ).drop( pos );
+		element.getSlot( ListingHandle.GROUP_SLOT ).drop( pos );
 
 		return true;
 	}
@@ -244,7 +244,7 @@ public class GroupModelProvider
 		DesignElementHandle element = (DesignElementHandle) item;
 		if ( newGroup instanceof GroupHandle )
 		{
-			element.getSlot( ListingElement.GROUP_SLOT )
+			element.getSlot( ListingHandle.GROUP_SLOT )
 					.add( (GroupHandle) newGroup, pos );
 			return true;
 		}
@@ -271,7 +271,7 @@ public class GroupModelProvider
 		if ( event instanceof PropertyEvent )
 		{
 			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( GroupElement.KEY_EXPR_PROP.equals( propertyName ) )
+			if ( GroupElementHandle.KEY_EXPR_PROP.equals( propertyName ) )
 				return true;
 		}
 		return false;

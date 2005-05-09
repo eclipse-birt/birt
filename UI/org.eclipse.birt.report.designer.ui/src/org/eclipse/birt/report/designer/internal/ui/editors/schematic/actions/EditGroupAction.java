@@ -96,8 +96,6 @@ public class EditGroupAction extends DynamicItemAction
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.getActivityStack( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack();
 	}
 }

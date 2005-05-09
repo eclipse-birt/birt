@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -123,53 +122,53 @@ public class FontPreferencePage extends BaseStylePreferencePage
 	{
 		super.createFieldEditors( );
 
-		name = new EditableComboFieldEditor( Style.FONT_FAMILY_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_FAMILY_PROP )
+		name = new EditableComboFieldEditor( StyleHandle.FONT_FAMILY_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_FAMILY_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFontChoiceArray( ),
 				getFieldEditorParent( ) );
 
-		color = new ColorFieldEditor( Style.COLOR_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.COLOR_PROP )
+		color = new ColorFieldEditor( StyleHandle.COLOR_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.COLOR_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 
-		size = new ComboBoxMeasureFieldEditor( Style.FONT_SIZE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
+		size = new ComboBoxMeasureFieldEditor( StyleHandle.FONT_SIZE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_SIZE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_SIZE ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_UNITS ),
 				getFieldEditorParent( ) );
-		size.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_SIZE_PROP )
+		size.setDefaultUnit( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_SIZE_PROP )
 				.getDefaultUnit( ) );
 
-		style = new ComboBoxFieldEditor( Style.FONT_STYLE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_STYLE_PROP )
+		style = new ComboBoxFieldEditor( StyleHandle.FONT_STYLE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_STYLE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_STYLE ),
 				getFieldEditorParent( ) );
 
-		weight = new ComboBoxFieldEditor( Style.FONT_WEIGHT_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.FONT_WEIGHT_PROP )
+		weight = new ComboBoxFieldEditor( StyleHandle.FONT_WEIGHT_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.FONT_WEIGHT_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getChoiceArray( DesignChoiceConstants.CHOICE_FONT_WEIGHT ),
 				getFieldEditorParent( ) );
 
-		docoration = new DecorationFieldEditor( Style.TEXT_UNDERLINE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_UNDERLINE_PROP )
+		docoration = new DecorationFieldEditor( StyleHandle.TEXT_UNDERLINE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.TEXT_UNDERLINE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				Style.TEXT_OVERLINE_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_OVERLINE_PROP )
+				StyleHandle.TEXT_OVERLINE_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.TEXT_OVERLINE_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
-				Style.TEXT_LINE_THROUGH_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.TEXT_LINE_THROUGH_PROP )
+				StyleHandle.TEXT_LINE_THROUGH_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.TEXT_LINE_THROUGH_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				Messages.getString( "FontPreferencePage.label.fontDecoration" ), //$NON-NLS-1$

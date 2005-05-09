@@ -16,10 +16,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.actions.ChangeRulerUnitAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
@@ -49,7 +49,7 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 
 		choiceSet = ChoiceSetFactory.getElementChoiceSet(
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT,
-				ReportDesign.UNITS_PROP );
+				ReportDesignHandle.UNITS_PROP );
 		
 //		displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		

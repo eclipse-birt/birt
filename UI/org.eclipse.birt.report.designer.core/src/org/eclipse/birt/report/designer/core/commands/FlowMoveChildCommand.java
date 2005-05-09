@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -97,10 +96,7 @@ public class FlowMoveChildCommand extends Command
 
 			DesignElementHandle handle = (DesignElementHandle) child;
 
-			ReportDesign design = SessionHandleAdapter.getInstance( )
-					.getReportDesign( );
-
-			CommandStack stack = design.handle( ).getCommandStack( );
+			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
 
 			stack.startTrans( TRANS_LABEL_MOVE_ELEMENT );
 

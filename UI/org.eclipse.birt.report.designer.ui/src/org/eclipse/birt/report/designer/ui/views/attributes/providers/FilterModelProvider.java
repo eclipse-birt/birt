@@ -21,10 +21,12 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -32,8 +34,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.TableItem;
+
 
 /**
  * Filter data processor
@@ -86,7 +87,7 @@ public class FilterModelProvider
 		if ( !( obj instanceof DesignElementHandle ) )
 			return EMPTY;
 		DesignElementHandle element = (DesignElementHandle) obj;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableItem.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
 		Iterator iterator = propertyHandle.iterator( );
 		if ( iterator == null )
 			return EMPTY;
@@ -254,7 +255,7 @@ public class FilterModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableItem.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
 		propertyHandle.moveItem( oldPos, newPos );
 
 		return true;
@@ -273,7 +274,7 @@ public class FilterModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableItem.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
 		if ( propertyHandle.getAt( pos ) != null )
 		{
 			propertyHandle.removeItem( pos );
@@ -298,7 +299,7 @@ public class FilterModelProvider
 		filterCond.setExpr("Expression");//$NON-NLS-1$
 		DesignElementHandle handle = (DesignElementHandle) item;
 		PropertyHandle propertyHandle = handle
-				.getPropertyHandle( ListingElement.FILTER_PROP );
+				.getPropertyHandle( ListingHandle.FILTER_PROP );
 		propertyHandle.addItem( filterCond );
 		return true;
 	}

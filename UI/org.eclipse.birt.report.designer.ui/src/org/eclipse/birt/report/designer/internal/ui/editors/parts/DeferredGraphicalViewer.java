@@ -49,6 +49,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -284,20 +285,30 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	protected void fireSelectionChanged( )
 	{	
-		ReportRequest request = new ReportRequest();
-		List list = new ArrayList();
-		if(getSelection() instanceof IStructuredSelection)
-		{
-			list = ((IStructuredSelection)getSelection()).toList();
-		}
-		request.setSelectionObject(list);
-		request.setType(ReportRequest.SELECTION);
 		
-		request.setRequestConvert(new EditorReportRequestConvert());
-		SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
-		SessionHandleAdapter.getInstance().getMediator().pushState();
-		super.fireSelectionChanged( );
-		SessionHandleAdapter.getInstance().getMediator().popState();
+		
+		
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+			public void run( )
+			{
+				ReportRequest request = new ReportRequest();
+				List list = new ArrayList();
+				if(getSelection() instanceof IStructuredSelection)
+				{
+					list = ((IStructuredSelection)getSelection()).toList();
+				}
+				request.setSelectionObject(list);
+				request.setType(ReportRequest.SELECTION);
+				
+				request.setRequestConvert(new EditorReportRequestConvert());
+				SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
+				SessionHandleAdapter.getInstance().getMediator().pushState();
+				DeferredGraphicalViewer.super.fireSelectionChanged( );
+				SessionHandleAdapter.getInstance().getMediator().popState();
+			}
+			
+		});
+		
 	}
 	
 	

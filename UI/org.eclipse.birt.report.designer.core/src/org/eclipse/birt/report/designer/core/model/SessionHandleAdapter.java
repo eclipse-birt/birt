@@ -26,11 +26,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Adapter class to adpat model handle. This adapter provides convenience
@@ -155,21 +153,6 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * Gets the report design instance for opening design file
-	 * 
-	 * @return wrapped report design
-	 */
-
-	public ReportDesign getReportDesign( )
-	{
-		if ( designHandleAdapter != null )
-		{
-			return designHandleAdapter.getReportDesignHandle( ).getDesign( );
-		}
-		return null;
-	}
-
-	/**
 	 * @return wrapped report design handle.
 	 */
 	public ReportDesignHandle getReportDesignHandle( )
@@ -193,25 +176,13 @@ public class SessionHandleAdapter
 		designHandleAdapter.setReportDesignHandle( handle );
 	}
 
-	/**
-	 * @return activity stack of current session.
-	 */
-	public ActivityStack getActivityStack( )
-	{
-		if ( getReportDesign( ) != null )
-		{
-			return getReportDesign( ).getActivityStack( );
-		}
-
-		return null;
-	}
 
 	/**
 	 * @return Command stack of current session.
 	 */
 	public CommandStack getCommandStack( )
 	{
-		if ( getReportDesign( ) != null )
+		if ( getReportDesignHandle( ) != null )
 		{
 			return getReportDesignHandle( ).getCommandStack( );
 		}

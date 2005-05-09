@@ -20,10 +20,10 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -199,19 +199,19 @@ public abstract class DesignElementHandleAdapter
 			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
 		}
 
-		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_TOP_PROP );
+		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_TOP_PROP );
 		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_BOTTOM_PROP );
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_BOTTOM_PROP );
 		double py = DEUtil.convertToPixel( dimensionValue, fontSize );
 
 		retValue.top = (int) px;
 		retValue.bottom = (int) py;
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_LEFT_PROP );
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_LEFT_PROP );
 		px = DEUtil.convertToPixel( dimensionValue, fontSize );
 
-		dimensionValue = (DimensionValue) getHandle( ).getProperty( Style.PADDING_RIGHT_PROP );
+		dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_RIGHT_PROP );
 		py = DEUtil.convertToPixel( dimensionValue, fontSize );
 
 		retValue.left = (int) px;
@@ -253,14 +253,14 @@ public abstract class DesignElementHandleAdapter
 		}
 
 		double px = 0;
-		Object prop = getHandle( ).getProperty( Style.MARGIN_TOP_PROP );
+		Object prop = getHandle( ).getProperty( StyleHandle.MARGIN_TOP_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
 			px = DEUtil.convertToPixel( prop, fontSize );
 		}
 
 		double py = 0;
-		prop = getHandle( ).getProperty( Style.MARGIN_BOTTOM_PROP );
+		prop = getHandle( ).getProperty( StyleHandle.MARGIN_BOTTOM_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
 			py = DEUtil.convertToPixel( prop, fontSize );
@@ -270,13 +270,13 @@ public abstract class DesignElementHandleAdapter
 		retValue.bottom = (int) py;
 
 		px = py = 0;
-		prop = getHandle( ).getProperty( Style.MARGIN_LEFT_PROP );
+		prop = getHandle( ).getProperty( StyleHandle.MARGIN_LEFT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
 			px = DEUtil.convertToPixel( prop, fontSize );
 		}
 
-		prop = getHandle( ).getProperty( Style.MARGIN_RIGHT_PROP );
+		prop = getHandle( ).getProperty( StyleHandle.MARGIN_RIGHT_PROP );
 		if ( !DesignChoiceConstants.MARGIN_AUTO.equals( prop ) )
 		{
 			py = DEUtil.convertToPixel( prop, fontSize );
@@ -297,7 +297,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public int getForegroundColor( DesignElementHandle handle )
 	{
-		Object obj = handle.getProperty( Style.COLOR_PROP );
+		Object obj = handle.getProperty( StyleHandle.COLOR_PROP );
 
 		if ( obj == null )
 		{
@@ -321,7 +321,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public int getBackgroundColor( DesignElementHandle handle )
 	{
-		Object obj = handle.getProperty( Style.BACKGROUND_COLOR_PROP );
+		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
 
 		if ( obj == null )
 		{
@@ -345,7 +345,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public String getBackgroundImage( DesignElementHandle handle )
 	{
-		return handle.getStringProperty( Style.BACKGROUND_IMAGE_PROP );
+		return handle.getStringProperty( StyleHandle.BACKGROUND_IMAGE_PROP );
 	}
 
 	/**
@@ -360,8 +360,8 @@ public abstract class DesignElementHandleAdapter
 		int x = 0;
 		int y = 0;
 
-		Object px = handle.getProperty( Style.BACKGROUND_POSITION_X_PROP );
-		Object py = handle.getProperty( Style.BACKGROUND_POSITION_Y_PROP );
+		Object px = handle.getProperty( StyleHandle.BACKGROUND_POSITION_X_PROP );
+		Object py = handle.getProperty( StyleHandle.BACKGROUND_POSITION_Y_PROP );
 
 		//left, center, right, top, bottom
 		if ( px instanceof String && py instanceof String )
@@ -410,7 +410,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public int getBackgroundRepeat( DesignElementHandle handle )
 	{
-		return getRepeat( handle.getStringProperty( Style.BACKGROUND_REPEAT_PROP ) );
+		return getRepeat( handle.getStringProperty( StyleHandle.BACKGROUND_REPEAT_PROP ) );
 	}
 
 	private int getPosition( String position )

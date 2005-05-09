@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -111,9 +112,10 @@ public class DeleteCommand extends Command
 	{
 		try
 		{
+			List images = new ArrayList();
+			images.add(embeddedImage);
 			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.dropImage( embeddedImage.getName( ) );
+					.getReportDesignHandle( ).dropImage(images );
 		}
 		catch ( SemanticException e )
 		{

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.Style;
+
 
 /**
  * Provides general preference page.
@@ -55,15 +55,15 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 		addField( new SeparatorFieldEditor( getFieldEditorParent( ) ) );
 
-		BooleanFieldEditor shrink = new BooleanFieldEditor( Style.CAN_SHRINK_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.CAN_SHRINK_PROP )
+		BooleanFieldEditor shrink = new BooleanFieldEditor( StyleHandle.CAN_SHRINK_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.CAN_SHRINK_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );
 		addField( shrink );
 
-		BooleanFieldEditor blank = new BooleanFieldEditor( Style.SHOW_IF_BLANK_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( Style.SHOW_IF_BLANK_PROP )
+		BooleanFieldEditor blank = new BooleanFieldEditor( StyleHandle.SHOW_IF_BLANK_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.SHOW_IF_BLANK_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );

@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -163,7 +162,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public void setColumnSpan( int colSpan ) throws SemanticException
 	{
-		this.getCellHandle( ).setProperty( Cell.COL_SPAN_PROP,
+		this.getCellHandle( ).setProperty( CellHandle.COL_SPAN_PROP,
 				new Integer( colSpan ) );
 	}
 
@@ -176,7 +175,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public void setRowSpan( int rowSpan ) throws SemanticException
 	{
-		this.getCellHandle( ).setProperty( Cell.ROW_SPAN_PROP,
+		this.getCellHandle( ).setProperty( CellHandle.ROW_SPAN_PROP,
 				new Integer( rowSpan ) );
 
 	}

@@ -21,16 +21,15 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
-import org.eclipse.birt.report.model.elements.ListItem;
-import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -44,11 +43,11 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 
 	List children = new ArrayList( );
 
-	public static final int HEADER = ListItem.HEADER_SLOT;
+	public static final int HEADER = ListHandle.HEADER_SLOT;
 
-	public static final int DETAIL = ListItem.DETAIL_SLOT;
+	public static final int DETAIL = ListHandle.DETAIL_SLOT;
 
-	public static final int FOOTER = ListItem.FOOTER_SLOT;
+	public static final int FOOTER = ListHandle.FOOTER_SLOT;
 
 	/**
 	 * @param handle
@@ -68,7 +67,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	public List getChildren( )
 	{
 		ListHandle handle = getListHandle( );
-		SlotHandle slotHandle = handle.getSlot( ListingElement.HEADER_SLOT );
+		SlotHandle slotHandle = handle.getSlot( ListingHandle.HEADER_SLOT );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_HEADER ) );
 
@@ -79,12 +78,12 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		{
 			number++;
 			ListGroupHandle listGroup = (ListGroupHandle) it.next( );
-			SlotHandle groupHeaders = listGroup.getSlot( GroupElement.HEADER_SLOT );
+			SlotHandle groupHeaders = listGroup.getSlot( GroupElementHandle.HEADER_SLOT );
 			addChild( new ListBandProxy( groupHeaders,
 					ListBandProxy.LIST_GROUP_HEADER + number ) );
 		}
 
-		slotHandle = handle.getSlot( ListingElement.DETAIL_SLOT );
+		slotHandle = handle.getSlot( ListingHandle.DETAIL_SLOT );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_DETAIL ) );
 
@@ -93,13 +92,13 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		{
 
 			ListGroupHandle listGroup = (ListGroupHandle) it.previous( );
-			SlotHandle groupFooters = listGroup.getSlot( GroupElement.FOOTER_SLOT );
+			SlotHandle groupFooters = listGroup.getSlot( GroupElementHandle.FOOTER_SLOT );
 			addChild( new ListBandProxy( groupFooters,
 					ListBandProxy.LIST_GROUP_FOOTER + number ) );
 			number--;
 		}
 
-		slotHandle = handle.getSlot( ListingElement.FOOTER_SLOT );
+		slotHandle = handle.getSlot( ListingHandle.FOOTER_SLOT );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_FOOTER ) );
 		Comparator com = new Comparator( ) {

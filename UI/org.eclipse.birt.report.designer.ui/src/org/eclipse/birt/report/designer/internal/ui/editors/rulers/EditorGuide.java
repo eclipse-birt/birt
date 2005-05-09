@@ -17,7 +17,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
@@ -170,19 +170,19 @@ public class EditorGuide
 	{
 		if (getDirection() == LEFT && !isHorizontal())
 		{
-			return MasterPage.LEFT_MARGIN_PROP;
+			return MasterPageHandle.LEFT_MARGIN_PROP;
 		}
 		else if (getDirection() == RIGHT && !isHorizontal())
 		{
-			return MasterPage.RIGHT_MARGIN_PROP;
+			return MasterPageHandle.RIGHT_MARGIN_PROP;
 		}
 		else if (getDirection() == LEFT && isHorizontal())
 		{
-			return MasterPage.TOP_MARGIN_PROP;
+			return MasterPageHandle.TOP_MARGIN_PROP;
 		}
 		else if (getDirection() == RIGHT && isHorizontal())
 		{
-			return MasterPage.BOTTOM_MARGIN_PROP;
+			return MasterPageHandle.BOTTOM_MARGIN_PROP;
 		}
 		return null;
 	}

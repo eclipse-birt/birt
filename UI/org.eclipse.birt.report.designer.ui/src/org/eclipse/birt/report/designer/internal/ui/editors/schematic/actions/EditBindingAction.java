@@ -64,9 +64,7 @@ public class EditBindingAction extends InsertRowAction
 		TableEditPart editPart = getTableEditPart( );
 		if ( editPart != null )
 		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getReportDesign( )
-					.getActivityStack( );
+			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack();
 			ReportItemHandle handle = (ReportItemHandle) editPart.getModel( );
 			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
 			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )

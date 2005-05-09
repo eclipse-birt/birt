@@ -17,8 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.MoveGuideCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -165,15 +165,15 @@ public class EditorRulerProvider extends RulerProvider
 	{
 		EditorGuide guide = (EditorGuide) obj;
 		String propertyName = guide.getPropertyName( );
-		if ( MasterPage.RIGHT_MARGIN_PROP.equals( propertyName ) )
+		if ( MasterPageHandle.RIGHT_MARGIN_PROP.equals( propertyName ) )
 		{
 			pDelta = getLayoutSize( ).right() - ( guide.getPosition( ) + pDelta );
 		}
-		else if ( MasterPage.BOTTOM_MARGIN_PROP.equals( propertyName ) )
+		else if ( MasterPageHandle.BOTTOM_MARGIN_PROP.equals( propertyName ) )
 		{
 			pDelta = getLayoutSize( ).bottom() - ( guide.getPosition( ) + pDelta );
 		}
-		else if ( MasterPage.LEFT_MARGIN_PROP.equals( propertyName ))
+		else if ( MasterPageHandle.LEFT_MARGIN_PROP.equals( propertyName ))
 		{
 			pDelta = guide.getPosition( ) + pDelta - getLeftSpace().x;
 		}

@@ -43,7 +43,9 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -52,8 +54,6 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -268,19 +268,19 @@ public class TableEditPart extends ReportElementEditPart implements
 				{
 					refreshVisuals( );
 				}
-				if ( event.getPropertyName( ).equals( Style.PADDING_TOP_PROP )
+				if ( event.getPropertyName( ).equals( StyleHandle.PADDING_TOP_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_BOTTOM_PROP )
+								.equals( StyleHandle.PADDING_BOTTOM_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_LEFT_PROP )
+								.equals( StyleHandle.PADDING_LEFT_PROP )
 						|| event.getPropertyName( )
-								.equals( Style.PADDING_RIGHT_PROP ) )
+								.equals( StyleHandle.PADDING_RIGHT_PROP ) )
 				{
 					invalidParent( );
 				}
-				if ( event.getPropertyName( ).equals( ReportItem.WIDTH_PROP )
+				if ( event.getPropertyName( ).equals( ReportItemHandle.WIDTH_PROP )
 						|| event.getPropertyName( )
-								.equals( ReportItem.HEIGHT_PROP ) )
+								.equals( ReportItemHandle.HEIGHT_PROP ) )
 				{
 					invalidParent( );
 				}

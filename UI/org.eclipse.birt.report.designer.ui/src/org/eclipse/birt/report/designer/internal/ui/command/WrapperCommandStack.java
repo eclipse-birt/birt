@@ -34,8 +34,6 @@ public class WrapperCommandStack extends CommandStack
 	public WrapperCommandStack( )
 	{
 		this( SessionHandleAdapter.getInstance( )
-				.getReportDesign( )
-				.handle( )
 				.getCommandStack( ) );
 	}
 

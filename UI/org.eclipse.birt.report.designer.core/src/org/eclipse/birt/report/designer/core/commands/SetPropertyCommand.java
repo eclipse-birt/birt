@@ -18,7 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -54,7 +54,7 @@ public class SetPropertyCommand extends Command
 
 			for ( Iterator it = elementProperties.iterator( ); it.hasNext( ); )
 			{
-				String key = ( (SystemPropertyDefn) it.next( ) ).getName( );
+				String key = ( (IElementPropertyDefn) it.next( ) ).getName( );
 				Object value = null;
 				if ( ( value = extendsData.get( DEUtil.getGUIPropertyKey( key ) ) ) != null )
 				{
@@ -64,7 +64,6 @@ public class SetPropertyCommand extends Command
 		}
 		catch ( SemanticException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 	}

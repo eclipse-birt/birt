@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -24,9 +24,9 @@ import org.eclipse.jface.action.Action;
 public abstract class GlobalStackAction extends Action implements UpdateAction
 {
 
-	protected ActivityStack stack;
+	protected CommandStack stack;
 
-	protected GlobalStackAction( String id, ActivityStack stack )
+	protected GlobalStackAction( String id, CommandStack stack )
 	{
 		setId( id );
 		this.stack = stack;
@@ -53,7 +53,7 @@ public abstract class GlobalStackAction extends Action implements UpdateAction
 		setText( getDisplayLabel( ) );
 	}
 
-	public ActivityStack getStack( )
+	public CommandStack getStack( )
 	{
 		return stack;
 	}

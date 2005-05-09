@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -66,7 +66,7 @@ public class GlobalActionFactory
 		return null;
 	}
 
-	public static IAction createStackAction( String id, ActivityStack stack )
+	public static IAction createStackAction( String id, CommandStack stack )
 	{
 		Assert.isNotNull( id );
 		Assert.isNotNull( stack );
@@ -86,9 +86,9 @@ public class GlobalActionFactory
 
 		private GlobalUndoAction undoAction = null;
 		private GlobalRedoAction redoAction = null;
-		private ActivityStack stack;
+		private CommandStack stack;
 
-		public GlobalStackActionEntry( ActivityStack stack )
+		public GlobalStackActionEntry( CommandStack stack )
 		{
 			this.stack = stack;
 		}

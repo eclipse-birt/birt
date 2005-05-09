@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -112,7 +111,7 @@ public class PasteCommand extends Command
 	 * @param afterHandle
 	 *            the handle next to the source
 	 */
-	public PasteCommand( DesignElement cloneElement, Object newContainer,
+	public PasteCommand( IDesignElement cloneElement, Object newContainer,
 			DesignElementHandle afterHandle )
 	{
 		this.cloneElement = cloneElement;
@@ -133,7 +132,7 @@ public class PasteCommand extends Command
 	 * @param position
 	 *            the position will be added
 	 */
-	public PasteCommand( DesignElement cloneElement, Object newContainer,
+	public PasteCommand( IDesignElement cloneElement, Object newContainer,
 			int position )
 	{
 		this.cloneElement = cloneElement;
@@ -273,7 +272,7 @@ public class PasteCommand extends Command
 		if ( childHandle == null )
 		{
 			childHandle = cloneElement.getHandle( SessionHandleAdapter.getInstance( )
-					.getReportDesign( ) );
+					.getReportDesignHandle( ).getDesign() );
 		}
 		return DEUtil.handleValidateTargetCanContain( newContainer, childHandle )
 				&& DEUtil.handleValidateTargetCanContainMore( newContainer, 1 );
