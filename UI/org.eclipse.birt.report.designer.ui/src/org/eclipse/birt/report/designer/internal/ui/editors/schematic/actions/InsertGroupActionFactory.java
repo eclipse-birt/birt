@@ -26,11 +26,11 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -161,11 +161,11 @@ abstract class InsertPositionGroupAction extends Action
 				if ( getRowHandle( ) != null )
 				{
 					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != GroupElementHandle.FOOTER_SLOT;
+							.getSlotID( ) != IGroupElementModel.FOOTER_SLOT;
 				}
 				else if ( getListBandProxy( ) != null )
 				{
-					return getListBandProxy( ).getSlotId( ) != GroupElementHandle.FOOTER_SLOT;
+					return getListBandProxy( ).getSlotId( ) != IGroupElementModel.FOOTER_SLOT;
 				}
 			}
 			else

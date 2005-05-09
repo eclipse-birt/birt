@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -29,6 +28,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 
 /**
@@ -109,7 +109,7 @@ public class GroupModelProvider
 
 		GroupHandle handle = (GroupHandle) element;
 
-		if ( key.equals( GroupElementHandle.GROUP_NAME_PROP ) )
+		if ( key.equals( IGroupElementModel.GROUP_NAME_PROP ) )
 		{
 			if ( handle.getName( ) == null )
 				return ""; //$NON-NLS-1$
@@ -169,7 +169,7 @@ public class GroupModelProvider
 	 */
 	private String[] getDataSetColumns( ReportItemHandle handle )
 	{
-		DataSetHandle dataSet = (DataSetHandle) handle.getDataSet( );
+		DataSetHandle dataSet = handle.getDataSet( );
 		if ( dataSet == null )
 			return EMPTY;
 		Iterator iterator = dataSet.resultSetIterator( );
@@ -271,7 +271,7 @@ public class GroupModelProvider
 		if ( event instanceof PropertyEvent )
 		{
 			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( GroupElementHandle.KEY_EXPR_PROP.equals( propertyName ) )
+			if ( IGroupElementModel.KEY_EXPR_PROP.equals( propertyName ) )
 				return true;
 		}
 		return false;

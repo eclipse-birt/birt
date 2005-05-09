@@ -21,10 +21,8 @@ import java.util.ListIterator;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -67,7 +65,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	public List getChildren( )
 	{
 		ListHandle handle = getListHandle( );
-		SlotHandle slotHandle = handle.getSlot( ListingHandle.HEADER_SLOT );
+		SlotHandle slotHandle = handle.getHeader( );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_HEADER ) );
 
@@ -78,12 +76,12 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		{
 			number++;
 			ListGroupHandle listGroup = (ListGroupHandle) it.next( );
-			SlotHandle groupHeaders = listGroup.getSlot( GroupElementHandle.HEADER_SLOT );
+			SlotHandle groupHeaders = listGroup.getHeader( );
 			addChild( new ListBandProxy( groupHeaders,
 					ListBandProxy.LIST_GROUP_HEADER + number ) );
 		}
 
-		slotHandle = handle.getSlot( ListingHandle.DETAIL_SLOT );
+		slotHandle = handle.getDetail( );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_DETAIL ) );
 
@@ -92,13 +90,13 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		{
 
 			ListGroupHandle listGroup = (ListGroupHandle) it.previous( );
-			SlotHandle groupFooters = listGroup.getSlot( GroupElementHandle.FOOTER_SLOT );
+			SlotHandle groupFooters = listGroup.getFooter( );
 			addChild( new ListBandProxy( groupFooters,
 					ListBandProxy.LIST_GROUP_FOOTER + number ) );
 			number--;
 		}
 
-		slotHandle = handle.getSlot( ListingHandle.FOOTER_SLOT );
+		slotHandle = handle.getFooter( );
 
 		addChild( new ListBandProxy( slotHandle, ListBandProxy.LIST_FOOTER ) );
 		Comparator com = new Comparator( ) {
@@ -169,10 +167,12 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Inserts a group into list.
+	 * 
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	public ListGroupHandle insertGroup( ) throws ContentException, NameException
+	public ListGroupHandle insertGroup( ) throws ContentException,
+			NameException
 	{
 
 		transStar( TRANS_LABEL_INSERT_GROUP );
@@ -188,6 +188,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Provides remove band function.
+	 * 
 	 * @param model
 	 */
 	public void remove( Object model )
@@ -203,12 +204,13 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Provides remove group function.
+	 * 
 	 * @param group
 	 * @throws SemanticException
 	 */
 	public void removeGroup( Object group ) throws SemanticException
 	{
-		Assert.isLegal(group instanceof ListBandProxy );
+		Assert.isLegal( group instanceof ListBandProxy );
 		( (ListBandProxy) group ).getElemtHandle( ).drop( );
 	}
 
@@ -216,7 +218,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	 * Gets the Children with index
 	 * 
 	 * @return children on given position.
-	 */	
+	 */
 	public Object getChild( int id )
 	{
 		int index = children.indexOf( new ListBandProxy( getListHandle( ).getSlot( id ) ) );

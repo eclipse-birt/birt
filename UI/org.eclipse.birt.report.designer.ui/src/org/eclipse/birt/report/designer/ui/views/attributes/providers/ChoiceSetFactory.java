@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -32,6 +31,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 
 /**
@@ -110,7 +110,7 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( GroupElementHandle.INTERVAL_PROP.equals( property ) )
+		else if ( IGroupElementModel.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}
@@ -449,7 +449,7 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( GroupElementHandle.INTERVAL_PROP.equals( property ) )
+		else if ( IGroupElementModel.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}
