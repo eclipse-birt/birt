@@ -66,8 +66,8 @@ public class Statement implements IStatement
 	{
 		if ( o == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_STATEMENT,
-					DriverException.ERROR_NO_STATEMENT );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_STATEMENT,
+					ResourceConstants.ERROR_NO_STATEMENT );
 
 		}
 	}
@@ -90,8 +90,8 @@ public class Statement implements IStatement
 		}
 		else
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
-					DriverException.ERROR_NO_CONNECTION );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_CONNECTION,
+					ResourceConstants.ERROR_NO_CONNECTION );
 		}
 	}
 

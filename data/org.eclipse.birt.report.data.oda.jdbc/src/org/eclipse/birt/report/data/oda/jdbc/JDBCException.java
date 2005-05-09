@@ -17,12 +17,13 @@ import java.sql.SQLException;
 
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.data.oda.util.logging.Level;
 
 /**
  * JDBCException is thrown when a JDBC call results in a java.sql.SQLException
  * being thrown. Error code and SQLState are copied from the SQLException, and
  * the caught SQLException is set as the initCause of the new exception.
- * 
+ *  
  */
 public class JDBCException extends OdaException
 {
@@ -38,16 +39,37 @@ public class JDBCException extends OdaException
 
 	/**
 	 * 
+	 * @param message
+	 * @param vendorCode
+	 */
+	public JDBCException( String errorCode, int vendorCode )
+	{
+		super( errorCode, null, vendorCode );
+		this.errorCode = errorCode;
+		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCException.class.getName( ),
+				"JDBCException",
+				errorCode );
+	}
+
+	/**
+	 * 
 	 * @param errorCode
 	 * @param cause
 	 */
 	public JDBCException( String errorCode, SQLException cause )
 	{
-		super( "A JDBC Exception occured: "
-				+ cause.getLocalizedMessage( ), cause
-				.getSQLState( ), ERROR_JDBC );
+		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
+				cause.getSQLState( ),
+				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
+		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCException.class.getName( ),
+				"JDBCException",
+				errorCode );
 	}
 
 	/**
@@ -58,14 +80,19 @@ public class JDBCException extends OdaException
 	 */
 	public JDBCException( String errorCode, SQLException cause, Object argv )
 	{
-		super( "A JDBC Exception occured: "
-				+ cause.getLocalizedMessage( ), cause
-				.getSQLState( ), ERROR_JDBC );
+		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
+				cause.getSQLState( ),
+				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
 		this.argv = new Object[]{
 			argv
 		};
+		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCException.class.getName( ),
+				"JDBCException",
+				errorCode );
 	}
 
 	/**
@@ -76,12 +103,17 @@ public class JDBCException extends OdaException
 	 */
 	public JDBCException( String errorCode, SQLException cause, Object argv[] )
 	{
-		super( "A JDBC Exception occured: "
-				+ cause.getLocalizedMessage( ), cause
-				.getSQLState( ), ERROR_JDBC );
+		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
+				cause.getSQLState( ),
+				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
 		this.argv = argv;
+		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
+		logger.logp( java.util.logging.Level.FINE,
+				JDBCException.class.getName( ),
+				"JDBCException",
+				errorCode );
 	}
 
 	/*

@@ -17,7 +17,31 @@ package org.eclipse.birt.report.data.oda.i18n;
 
 public class ResourceConstants
 {
+	/** Base error code for JDBCException error codes. */
+	private final static int ERROR_BASE = 110;
 
+	/** Error: Connection not opened. */
+	public final static int ERROR_NO_CONNECTION = ERROR_BASE + 1;
+
+	/** Error: missing properties in Connection.open(Properties). */
+	public final static int ERROR_MISSING_PROPERTIES = ERROR_BASE + 2;
+
+	/** Error: Exception Caught */
+	public final static int ERROR_EXCEPTION = ERROR_BASE + 3;
+
+	/** Error: ParameterMetaData is null. */
+	public final static int ERROR_NO_PARAMETERMETADATA = ERROR_BASE + 4;
+
+	/** Error: ResultSet is null. */
+	public final static int ERROR_NO_RESULTSET = ERROR_BASE + 5;
+
+	/** Error: ResultSetMetaData is null. */
+	public final static int ERROR_NO_RESULTSETMETADATA = ERROR_BASE + 6;
+
+	/** Error: Statement is null. */
+	public final static int ERROR_NO_STATEMENT = ERROR_BASE + 7;
+
+	/** start constant string */
 	public final static String CONN_CANNOT_CLOSE = "odajdbc.CannotCloseConn";
 	public final static String CONN_COMMIT_ERROR = "odajdbc.ConnCommitError";
 	public final static String CONN_CANNOT_GET_METADATA = "odajdbc.CannotGetConnMetaData";
@@ -80,5 +104,13 @@ public class ResourceConstants
 	public final static String PREPARESTATEMENT_PARAMETER_TYPE_CANNOT_GET = "odajdbc.PrepareStatement.CannotGetParameterType";
 	public final static String PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET = "odajdbc.CannotGetParameterMetadata";
 	public final static String PREPARESTATEMENT_CLEAR_PARAMETER_ERROR = "odajdbc.ClearParametersError";
+
+	// used in assert errror
+	public final static String DRIVER_NO_CONNECTION = "odajdbc.driver.ConnNotOpen";
+	public final static String DRIVER_MISSING_PROPERTIES = "odajdbc.driver.DriverMissingProperties";
+	public final static String DRIVER_NO_PARAMETERMETADATA = "odajdbc.driver.ParameterMetadataCannotNull";
+	public final static String DRIVER_NO_RESULTSET = "odajdbc.driver.ResultSetCannotNull";
+	public final static String DRIVER_NO_RESULTSETMETADATA = "odajdbc.driver.ResultSetMetadataCannotNull";
+	public final static String DRIVER_NO_STATEMENT = "odajdbc.driver.StatementCannotNull";
 
 }

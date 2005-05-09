@@ -239,9 +239,9 @@ public class Connection implements IConnection
 			String url = connProperties.getProperty( Constants.ODAURL );
 			if ( url == null || url.length() == 0 )
 			{
-				throw new DriverException(
-						"Missing property: \""+Constants.ODAURL+"\" or \""+Constants.ODADataSource+"\".",
-						DriverException.ERROR_MISSING_PROPERTIES );
+				throw new JDBCException(
+						ResourceConstants.DRIVER_MISSING_PROPERTIES,
+						ResourceConstants.ERROR_MISSING_PROPERTIES );
 			}
 			connectByUrl( url, connProperties );
 		}
@@ -324,14 +324,14 @@ public class Connection implements IConnection
 	/**
 	 * Assert the connection is opened.
 	 * 
-	 * @throws DriverException
+	 * @throws JDBCException
 	 */
-	private void assertOpened( ) throws DriverException
+	private void assertOpened( ) throws OdaException
 	{
 		if ( jdbcConn == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
-					DriverException.ERROR_NO_CONNECTION );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_CONNECTION,
+					ResourceConstants.ERROR_NO_CONNECTION );
 		}
 	}
 	

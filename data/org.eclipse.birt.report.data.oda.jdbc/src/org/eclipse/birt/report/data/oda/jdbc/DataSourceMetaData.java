@@ -181,8 +181,8 @@ public class DataSourceMetaData implements IDataSetMetaData
 				"DataSourceMetaData.getSQLStateType( )" );
 		if ( dbMetadata == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_CONNECTION,
-					DriverException.ERROR_NO_CONNECTION );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_CONNECTION,
+					ResourceConstants.ERROR_NO_CONNECTION );
 		}
 		try
 		{

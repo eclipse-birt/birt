@@ -54,8 +54,8 @@ public class ResultSet implements IResultSet
 	{
 		if ( o == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_RESULTSET,
-					DriverException.ERROR_NO_RESULTSET );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_RESULTSET,
+					ResourceConstants.ERROR_NO_RESULTSET );
 
 		}
 	}

@@ -43,8 +43,8 @@ public class ParameterMetaData implements IParameterMetaData
 	{
 		if ( o == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_PARAMETERMETADATA,
-					DriverException.ERROR_NO_PARAMETERMETADATA );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_PARAMETERMETADATA,
+					ResourceConstants.ERROR_NO_PARAMETERMETADATA );
 
 		}
 	}

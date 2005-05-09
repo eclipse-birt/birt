@@ -43,8 +43,8 @@ public class ResultSetMetaData implements IResultSetMetaData
 	{
 		if ( o == null )
 		{
-			throw new DriverException( DriverException.ERRMSG_NO_RESULTSETMETADATA,
-					DriverException.ERROR_NO_RESULTSETMETADATA );
+			throw new JDBCException( ResourceConstants.DRIVER_NO_RESULTSETMETADATA,
+					ResourceConstants.ERROR_NO_RESULTSETMETADATA );
 
 		}
 	}
