@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Point;
@@ -283,6 +285,13 @@ public class TableOptionDialog extends BaseDialog
 					}
 				}
 			} );
+			text.addFocusListener( new FocusAdapter( ) {
+
+				public void focusGained( FocusEvent e )
+				{
+					text.selectAll( );
+				}
+			} );
 
 			up = new Button( this, style | SWT.ARROW | SWT.UP );
 			down = new Button( this, style | SWT.ARROW | SWT.DOWN );
@@ -383,7 +392,6 @@ public class TableOptionDialog extends BaseDialog
 			if ( text != null )
 			{
 				text.setFocus( );
-				text.selectAll( );
 			}
 		}
 
