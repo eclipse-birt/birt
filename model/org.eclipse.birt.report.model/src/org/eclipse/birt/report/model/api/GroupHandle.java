@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 /**
  * Represents both list and table groups in the design. Groups provide a way of
@@ -32,6 +33,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 
 public abstract class GroupHandle extends ReportElementHandle
+		implements
+			IGroupElementModel
 {
 
 	/**
@@ -143,8 +146,8 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		try
 		{
-            // trim the name, have the same behavior as Name property. 
-            
+			// trim the name, have the same behavior as Name property.
+
 			setProperty( GroupElement.GROUP_NAME_PROP, StringUtil
 					.trimString( theName ) );
 		}
@@ -365,7 +368,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
-	 *  
+	 * 
 	 */
 
 	public void setSortDirection( String direction ) throws SemanticException
@@ -377,7 +380,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group header slot is empty.
 	 * 
 	 * @return true is the header slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasHeader( )
@@ -389,7 +392,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group footer slot is empty.
 	 * 
 	 * @return true is the footer slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasFooter( )

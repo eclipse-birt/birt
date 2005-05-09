@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -69,7 +70,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * @see org.eclipse.birt.report.model.core.DesignElement
  */
 
-public abstract class DesignElementHandle
+public abstract class DesignElementHandle implements IDesignElementModel
 {
 
 	/**

@@ -21,6 +21,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.core.IRootElementModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -128,7 +129,7 @@ import org.eclipse.birt.report.model.writer.DesignWriter;
 
 public class ReportDesignHandle extends DesignElementHandle
 		implements
-			IReportDesignModel
+			IReportDesignModel, IRootElementModel
 {
 
 	/**
@@ -350,7 +351,7 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	public SlotHandle getStyles( )
 	{
-		return getSlot( ReportDesign.STYLE_SLOT );
+		return getSlot( IRootElementModel.STYLE_SLOT );
 	}
 
 	/**

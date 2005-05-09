@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * same. (User-defined properties may differ.)
  */
 
-public class GroupElementHandle implements IGroupElementModel
+public class GroupElementHandle
 {
 
 	/**

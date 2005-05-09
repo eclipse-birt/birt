@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.report.model.metadata.ColorPropertyType;
+import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 
 /**
  * Utility class to do color parsing or converting work. A color is a either a
@@ -51,23 +51,23 @@ public class ColorUtil
 	 * the colors. This should match the color list in ColorPropertyType.
 	 */
 
-	static final String[][] colors = {{ColorPropertyType.MAROON, "#800000"}, //$NON-NLS-1$  
-			{ColorPropertyType.RED, "#FF0000"}, //$NON-NLS-1$  
-			{ColorPropertyType.ORANGE, "#ffA500"}, //$NON-NLS-1$ 
-			{ColorPropertyType.YELLOW, "#FFFF00"}, //$NON-NLS-1$ 
-			{ColorPropertyType.OLIVE, "#808000"}, //$NON-NLS-1$  
-			{ColorPropertyType.PURPLE, "#800080"}, //$NON-NLS-1$  
-			{ColorPropertyType.FUCHSIA, "#FF00FF"}, //$NON-NLS-1$ 
-			{ColorPropertyType.WHITE, "#FFFFFF"}, //$NON-NLS-1$ 
-			{ColorPropertyType.LIME, "#00FF00"}, //$NON-NLS-1$  
-			{ColorPropertyType.GREEN, "#008000"}, //$NON-NLS-1$ 
-			{ColorPropertyType.NAVY, "#000080"}, //$NON-NLS-1$ 
-			{ColorPropertyType.BLUE, "#0000FF"}, //$NON-NLS-1$ 
-			{ColorPropertyType.AQUA, "#00FFFF"}, //$NON-NLS-1$  
-			{ColorPropertyType.TEAL, "#008080"}, //$NON-NLS-1$  
-			{ColorPropertyType.BLACK, "#000000"}, //$NON-NLS-1$  
-			{ColorPropertyType.SILVER, "#C0C0C0"}, //$NON-NLS-1$  
-			{ColorPropertyType.GRAY, "#808080"} //$NON-NLS-1$              
+	static final String[][] colors = {{IColorConstants.MAROON, "#800000"}, //$NON-NLS-1$  
+			{IColorConstants.RED, "#FF0000"}, //$NON-NLS-1$  
+			{IColorConstants.ORANGE, "#ffA500"}, //$NON-NLS-1$ 
+			{IColorConstants.YELLOW, "#FFFF00"}, //$NON-NLS-1$ 
+			{IColorConstants.OLIVE, "#808000"}, //$NON-NLS-1$  
+			{IColorConstants.PURPLE, "#800080"}, //$NON-NLS-1$  
+			{IColorConstants.FUCHSIA, "#FF00FF"}, //$NON-NLS-1$ 
+			{IColorConstants.WHITE, "#FFFFFF"}, //$NON-NLS-1$ 
+			{IColorConstants.LIME, "#00FF00"}, //$NON-NLS-1$  
+			{IColorConstants.GREEN, "#008000"}, //$NON-NLS-1$ 
+			{IColorConstants.NAVY, "#000080"}, //$NON-NLS-1$ 
+			{IColorConstants.BLUE, "#0000FF"}, //$NON-NLS-1$ 
+			{IColorConstants.AQUA, "#00FFFF"}, //$NON-NLS-1$  
+			{IColorConstants.TEAL, "#008080"}, //$NON-NLS-1$  
+			{IColorConstants.BLACK, "#000000"}, //$NON-NLS-1$  
+			{IColorConstants.SILVER, "#C0C0C0"}, //$NON-NLS-1$  
+			{IColorConstants.GRAY, "#808080"} //$NON-NLS-1$              
 	};
 
 	static

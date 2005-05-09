@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -143,7 +144,7 @@ public class ContentEvent extends NotificationEvent
 	 * @return the content element causing this event.
 	 */
 	
-	public DesignElement getContent( )
+	public IDesignElement getContent( )
 	{
 		return content;
 	}
