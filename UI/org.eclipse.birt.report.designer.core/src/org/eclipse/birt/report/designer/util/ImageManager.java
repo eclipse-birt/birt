@@ -40,8 +40,8 @@ public class ImageManager
 	private static final String EMBEDDED_SUFFIX = ".Embedded."; //$NON-NLS-1$
 
 	private static final ImageManager instance = new ImageManager( );
-	
-	private List invalidUrlList = new ArrayList();
+
+	private List invalidUrlList = new ArrayList( );
 
 	private ImageManager( )
 	{
@@ -56,8 +56,6 @@ public class ImageManager
 	{
 		return instance;
 	}
-	
-	
 
 	/**
 	 * Gets the image by the given URI
@@ -68,11 +66,11 @@ public class ImageManager
 	 * @return Returns the image,or null if the url is invalid or the file
 	 *         format is unsupported.
 	 */
-	public Image getImage( String uri,  boolean refresh )
+	public Image getImage( String uri, boolean refresh )
 	{
 		Image image;
 		URL url = null;
-		
+
 		try
 		{
 			url = generateURL( uri );
@@ -80,39 +78,39 @@ public class ImageManager
 			{
 				return null;
 			}
-			if (!refresh && invalidUrlList.contains(url.toString()))
+			if ( !refresh && invalidUrlList.contains( url.toString( ) ) )
 			{
 				return null;
 			}
 			image = loadImage( url );
-			if (image == null)
+			if ( image == null )
 			{
-				if (!invalidUrlList.contains(url.toString()))
+				if ( !invalidUrlList.contains( url.toString( ) ) )
 				{
-					invalidUrlList.add(url.toString());
+					invalidUrlList.add( url.toString( ) );
 				}
 			}
 			else
 			{
-				invalidUrlList.remove(url.toString());
+				invalidUrlList.remove( url.toString( ) );
 			}
 		}
 		catch ( Exception e )
 		{
-			if (url != null && !invalidUrlList.contains(url.toString()))
+			if ( url != null && !invalidUrlList.contains( url.toString( ) ) )
 			{
-				invalidUrlList.add(url.toString());
+				invalidUrlList.add( url.toString( ) );
 			}
 			return null;
 		}
 		return image;
 	}
-	
 
 	public Image getImage( String uri )
 	{
-		return getImage(uri, false);
+		return getImage( uri, false );
 	}
+
 	/**
 	 * Gets the embedded image
 	 * 
@@ -159,10 +157,10 @@ public class ImageManager
 		{
 			throw new FileNotFoundException( uri );
 		}
-		return loadImage(url);
+		return loadImage( url );
 	}
 
-	private Image  loadImage( URL url ) throws IOException
+	private Image loadImage( URL url ) throws IOException
 	{
 		String key = url.toString( );
 		Image image = getImageRegistry( ).get( key );
@@ -193,6 +191,7 @@ public class ImageManager
 		}
 		return image;
 	}
+
 	private ImageRegistry getImageRegistry( )
 	{
 		return CorePlugin.getDefault( ).getImageRegistry( );
@@ -200,27 +199,34 @@ public class ImageManager
 
 	private URL generateURL( String uri ) throws MalformedURLException
 	{
-		String path = URIUtil.getLocalPath( uri );
-		if ( path != null )
+		try
+		{			 
+			return new URL( uri );
+		}
+		catch ( MalformedURLException e )
 		{
-			String fullPath = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.getFileLocator( )
-					.findFile( SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ),
-							path );
-			if ( fullPath == null )
+			String path = URIUtil.getLocalPath( uri );
+			if ( path != null )
 			{
+				String fullPath = SessionHandleAdapter.getInstance( )
+						.getSessionHandle( )
+						.getFileLocator( )
+						.findFile( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ),
+								path );
+				if ( fullPath == null )
+				{
+					return null;
+				}
+				File file = new File( fullPath );
+				if ( file.exists( ) )
+				{
+					return file.toURL( );
+				}
 				return null;
 			}
-			File file = new File( fullPath );
-			if ( file.exists( ) )
-			{
-				return file.toURL( );
-			}
-			return null;
+			return URI.create( uri ).toURL( );
 		}
-		return URI.create( uri ).toURL( );
 	}
 
 }
