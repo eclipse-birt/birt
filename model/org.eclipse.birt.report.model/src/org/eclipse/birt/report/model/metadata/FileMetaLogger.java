@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 /**
  * Default meta logger class for model's own use. Logs the exceptions into a
  * file.
- *  
  */
 
 class FileMetaLogger implements IMetaLogger
@@ -47,23 +46,23 @@ class FileMetaLogger implements IMetaLogger
 	protected final static String DEFAULT_ENCODING = "UTF-8"; //$NON-NLS-1$
 
 	/**
-	 * Date format to be used when formatting error messages.
-	 */
-
-	protected final static String DATE_FORMAT = "yyyy-MM-dd hh:mm:ss"; //$NON-NLS-1$
-
-	/**
 	 * The writer that does the actual writing to disk.
 	 */
 
 	protected Writer writer = null;
 
 	/**
+	 * The name of the log file.
+	 */
+
+	private String fileName = null;
+
+	/**
 	 * Date formatter to be used when formatting error messages.
 	 */
 
 	protected final static SimpleDateFormat df = new SimpleDateFormat(
-			DATE_FORMAT ); //$NON-NLS-1$
+			"yyyy-MM-dd hh:mm:ss" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor to initialize the meta logger using the default log file.
@@ -71,14 +70,7 @@ class FileMetaLogger implements IMetaLogger
 
 	public FileMetaLogger( )
 	{
-		try
-		{
-			this.writer = createWriter( DEFAULT_LOG_FILE );
-		}
-		catch ( IOException e )
-		{
-			// ignore.
-		}
+		this( DEFAULT_LOG_FILE );
 	}
 
 	/**
@@ -90,14 +82,7 @@ class FileMetaLogger implements IMetaLogger
 
 	public FileMetaLogger( String fileName )
 	{
-		try
-		{
-			this.writer = createWriter( fileName );
-		}
-		catch ( IOException e )
-		{
-			this.writer = null;
-		}
+		this.fileName = fileName;
 	}
 
 	/*
@@ -233,17 +218,12 @@ class FileMetaLogger implements IMetaLogger
 	protected OutputStreamWriter createWriter( String fileName )
 			throws IOException
 	{
-		File logFile = new File( fileName );
-
-		if ( !logFile.exists( ) )
-			logFile.createNewFile( );
-
 		OutputStreamWriter retWriter = null;
 
 		try
 		{
-			retWriter = new OutputStreamWriter( new FileOutputStream( logFile,
-					true ), DEFAULT_ENCODING );
+			retWriter = new OutputStreamWriter( new FileOutputStream( new File( fileName ),
+					false ), DEFAULT_ENCODING );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -270,8 +250,18 @@ class FileMetaLogger implements IMetaLogger
 
 	protected boolean canLog( )
 	{
-		if ( writer == null )
-			return false;
+		if ( fileName != null && writer == null )
+		{
+			try
+			{
+				writer = createWriter( fileName );
+			}
+			catch ( IOException e )
+			{
+				fileName = null;
+				return false;
+			}
+		}
 
 		return true;
 	}
