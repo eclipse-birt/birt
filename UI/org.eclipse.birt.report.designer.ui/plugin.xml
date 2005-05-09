@@ -158,12 +158,12 @@
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
-            name="Preview"
+            name="%preference.preview"
             id="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"/>
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences.PreviewPreferencePage"
-            name="Preview Server"
+            name="%preference.preview.server"
             id="org.eclipse.birt.report.designer.ui.preferences.PreviewServerPreferencePage"/>
       <page
             class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
