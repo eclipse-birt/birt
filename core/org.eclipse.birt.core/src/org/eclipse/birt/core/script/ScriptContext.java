@@ -24,7 +24,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/08 06:58:29 $
  */
 public class ScriptContext
 {
@@ -74,7 +74,7 @@ public class ScriptContext
 			this.context = null;
 			if ( logger.isLoggable( Level.WARNING ) )
 			{
-				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				logger.log( Level.WARNING, ex.getMessage( ) );
 			}
 		}
 	}
@@ -120,14 +120,14 @@ public class ScriptContext
 		{
 			if ( logger.isLoggable( Level.WARNING ) )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				logger.log( Level.WARNING, e.getMessage( ) );
 			}
 		}
 		catch ( JavaScriptException e )
 		{
 			if ( logger.isLoggable( Level.WARNING ) )
 			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+				logger.log( Level.WARNING, e.getMessage( ) );
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public class ScriptContext
 		{
 			if (logger.isLoggable(Level.WARNING))
 			{
-				logger.log(Level.WARNING, ex.getMessage(), ex);
+				logger.log(Level.WARNING, ex.getMessage());
 			}
 			return null;
 		}
