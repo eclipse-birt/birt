@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -96,7 +97,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			assert candidateQuery != null;
 			
 			List resultHints = dataSet.getResultSetHints( );
-			
+			List computedColumns = dataSet.getComputedColumns();
 			List columnsList = new ArrayList( );
 			Iterator it = resultHints.iterator( );
 			for ( int j = 0; it.hasNext( ); j++ )
@@ -113,6 +114,19 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 						true );
 				columnsList.add( columnMetaData );
 			}
+			it = computedColumns.iterator();
+			for ( int j = resultHints.size(); it.hasNext( ); j++ )
+			{
+			    IComputedColumn compColumn = (IComputedColumn)it.next();
+			    ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
+						compColumn.getName(),
+						compColumn.getName(),
+						DataType.getClass( DataType.UNKNOWN_TYPE ),
+						null /* nativeTypeName */, 
+						true );
+			    columnsList.add( columnMetaData );
+			}
+			
 			resultClass = new ResultClass( columnsList );
 		}
 		
