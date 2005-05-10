@@ -241,10 +241,11 @@ public class ScriptEvalUtil
 			result = cx.evaluateString(scope, scriptText, source, lineNo, null);
 			// It seems Rhino 1.6 has changed its way to process incorrect expression.
 			// When there is an error, exception will not be thrown, but rather an Undefined
-			// instance will be returned.
+			// instance will be returned. Here its return value is changed to null.
 			if ( result instanceof Undefined )
 			{
-				throw new Exception( scriptText + " is not valid expression." );
+				//throw new Exception( scriptText + " is not valid expression." );
+				return null;
 			}
 		}
 		catch ( Exception e)

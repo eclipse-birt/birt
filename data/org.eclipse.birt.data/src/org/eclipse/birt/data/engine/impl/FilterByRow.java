@@ -20,6 +20,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -67,6 +68,17 @@ class FilterByRow implements IResultObjectEvent
 				IBaseExpression expr = filter.getExpression( );
 	
 				Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, "Filter", 0 );
+				if ( result == null )
+				{
+					Object info = null;
+					if ( expr instanceof IScriptExpression )
+						info = ( (IScriptExpression) expr ).getText( );
+					else
+						info = expr;
+					throw new DataException( ResourceConstants.INVALID_EXPRESSION_IN_FILTER,
+							info );
+				}
+				
 				try
 				{
 					// filter in

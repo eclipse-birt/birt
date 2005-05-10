@@ -82,6 +82,8 @@ public class ResourceConstants
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "EXPRESSION_CANNOT_BE_NULL_OR_BLANK";	
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "EXPR_INVALID_COMPUTED_COLUMN";
+	// invalid expression
+	public final static String INVALID_EXPRESSION_IN_FILTER = "INVALID_EXPRESSION_IN_FILTER";
 	
 	// wrapper error
 	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
