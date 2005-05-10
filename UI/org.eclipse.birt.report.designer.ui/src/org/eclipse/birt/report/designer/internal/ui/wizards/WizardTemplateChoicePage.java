@@ -76,7 +76,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				String picturePath, String cheatSheetId )
 		{
 			this.name = name;
-			this.descript = description;
+			this.description = description;
 			this.reportPath = reportPath;
 			this.picturePath = picturePath;
 			this.cheatSheetId = cheatSheetId;
@@ -84,7 +84,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public String name;
 
-		public String descript;
+		public String description;
 
 		public String reportPath;
 
@@ -103,7 +103,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			new Template( TITLE_FIRST_REPORT,
 					DESCRIPTION_FIRST_REPORT,
 					"/templates/blank_report.rptdesign", //$NON-NLS-1$
-					"/templates/blank_report.gif", //$NON-NLS-1$
+					"/templates/first_report.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ), //$NON-NLS-1$
 			new Template( TITLE_SIMPLE_LISTING,
 					DESCRIPTION_SIMPLE_LISTING,
@@ -291,7 +291,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			//change description/image
 			selectedIndex = templateList.getSelectionIndex( );
-			description.setText( templates[selectedIndex].descript );
+			description.setText( templates[selectedIndex].description );
 
 			String key = templates[selectedIndex].picturePath;
 			Object img = imageMap.get( key );
@@ -307,7 +307,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewCanvas.loadImage( ( (Image) img ) );
 			previewCanvas.showOriginal( );
 
-			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) ); //$NON-NLS-1$
+			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) );
 		}
 	};
 

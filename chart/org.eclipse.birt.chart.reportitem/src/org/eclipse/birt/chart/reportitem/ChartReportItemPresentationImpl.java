@@ -18,9 +18,6 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.exception.GenerationException;
-import org.eclipse.birt.chart.exception.PluginException;
-import org.eclipse.birt.chart.exception.RenderingException;
 import org.eclipse.birt.chart.exception.UnexpectedInputException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -228,17 +225,7 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
 
             // POPULATE THE CHART MODEL WITH THE RESULTSET
             qh.generateRuntimeSeries(cm, rsw);
-        }
-        catch (Exception gex )
-        {
-            DefaultLoggerImpl.instance().log(gex);
-            DefaultLoggerImpl.instance()
-                .log(ILogger.ERROR, "ChartReportItemGenerationImpl: onRowSets(...) - exception");
-            throw new BirtException("process", gex);
-        }
-
-        try
-        {
+       
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
                 "ChartReportItemPresentationImpl: onRowSets(...) - building chart");
             // SETUP A TEMP FILE FOR STREAMING
@@ -255,45 +242,22 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
 
             // FETCH A HANDLE TO THE DEVICE RENDERER
             IDeviceRenderer idr = null;
-            try
-            {
-                idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
-            }
-            catch (PluginException pex )
-            {
-                DefaultLoggerImpl.instance().log(pex);
-                throw new BirtException(sExtension.toUpperCase(Locale.US) + " device retrieval", pex);
-            }
-
+            idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
+           
             // BUILD THE CHART
             final Bounds bo = cm.getBlock().getBounds();
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
             final Generator gr = Generator.instance();
             GeneratedChartState gcs = null;
-            try
-            {
-                gcs = gr.build(idr.getDisplayServer(), cm, null, bo, rtc);
-            }
-            catch (GenerationException gex )
-            {
-                DefaultLoggerImpl.instance().log(gex);
-                throw new BirtException("chart build", gex);
-            }
-
+            gcs = gr.build(idr.getDisplayServer(), cm, null, bo, rtc);
+           
             // WRITE TO THE IMAGE FILE
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
                 "ChartReportItemPresentationImpl: onRowSets(...) - rendering chart");
             idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, fChartImage.getPath());
-            try
-            {
-                gr.render(idr, gcs);
-            }
-            catch (RenderingException rex )
-            {
-                DefaultLoggerImpl.instance().log(rex);
-                throw new BirtException("chart render", rex);
-            }
-
+          
+            gr.render(idr, gcs);
+          
             // RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
             try
             {
@@ -301,16 +265,22 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
             }
             catch (IOException ioex )
             {
-                DefaultLoggerImpl.instance().log(ioex);
                 throw new BirtException("input stream creation", ioex);
             }
         }
-        catch (Exception ex )
+        catch (BirtException ex )
         {
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
                 "ChartReportItemPresentationImpl: onRowSets(...) - failed");
             DefaultLoggerImpl.instance().log(ex);
-            return null;
+            throw ex;
+        }
+        catch( RuntimeException ex )
+        {
+            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+            "ChartReportItemPresentationImpl: onRowSets(...) - failed");
+            DefaultLoggerImpl.instance().log(ex);
+            throw new BirtException("Unexpected error", ex );
         }
 
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: onRowSets(...) - end");
@@ -351,7 +321,8 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         // CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
         try
         {
-            fis.close();
+            if ( fis != null )
+                fis.close();
         }
         catch (IOException ioex )
         {

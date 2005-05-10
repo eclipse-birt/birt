@@ -176,7 +176,7 @@
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="/templates/my_first_report.xml"
+            contentFile="$nl$/templates/my_first_report.xml"
             name="%cheatsheet.firstreport"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.firstreport"/>
       <category
@@ -184,32 +184,32 @@
             id="org.eclipse.birt.report.designer.ui.cheatsheetcategory"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="/templates/simple_listing.xml"
+            contentFile="$nl$/templates/simple_listing.xml"
             name="%cheatsheet.simplelisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.simplelisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="templates/grouped_listing.xml"
+            contentFile="$nl$/templates/grouped_listing.xml"
             name="%cheatsheet.groupedlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.groupedlisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="templates/dual_column_listing.xml"
+            contentFile="$nl$/templates/dual_column_listing.xml"
             name="%cheatsheet.dualcolumnlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnlisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="templates/chart_listing.xml"
+            contentFile="$nl$/templates/chart_listing.xml"
             name="%cheatsheet.chartlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="templates/dual_chart_listing.xml"
+            contentFile="$nl$/templates/dual_chart_listing.xml"
             name="%cheatsheet.dualchartlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="templates/sidebyside_chart_listing.xml"
+            contentFile="$nl$/templates/sidebyside_chart_listing.xml"
             name="%cheatsheet.sidebysidechartlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting"/>
        

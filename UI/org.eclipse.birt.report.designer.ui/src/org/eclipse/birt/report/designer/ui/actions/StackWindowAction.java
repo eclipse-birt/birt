@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
@@ -104,7 +103,7 @@ public abstract class StackWindowAction
 		{
 			designHandle = getDesignHandle( );
 
-			stack.setActivityStack( (ActivityStack) getDesignHandle( ).getCommandStack( ) );
+			stack.setActivityStack( getDesignHandle( ).getCommandStack( ) );
 			stack.addCommandStackListener( getCommandStackListener( ) );
 		}
 	}
@@ -117,7 +116,7 @@ public abstract class StackWindowAction
 			designHandle = getDesignHandle( );
 
 			stack.removeCommandStackListener( getCommandStackListener( ) );
-			stack.setActivityStack( (ActivityStack) getDesignHandle( ).getCommandStack( ) );
+			stack.setActivityStack( getDesignHandle( ).getCommandStack( ) );
 			stack.addCommandStackListener( getCommandStackListener( ) );
 		}
 	}

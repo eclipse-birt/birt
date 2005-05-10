@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.command;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
+
 
 /**
  * @author David Michonneau
@@ -26,10 +26,10 @@ import org.eclipse.gef.commands.CommandStackListener;
  * ActivityStack here since the Design handles take care of that when executed.
  * Commands are executed as transactions.
  */
-public class WrapperCommandStack extends CommandStack
+public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 {
 
-	private ActivityStack ar;
+	private CommandStack ar;
 
 	public WrapperCommandStack( )
 	{
@@ -40,7 +40,7 @@ public class WrapperCommandStack extends CommandStack
 	public WrapperCommandStack(
 			org.eclipse.birt.report.model.api.CommandStack ar )
 	{
-		this.ar = (ActivityStack) ar;
+		this.ar = (CommandStack) ar;
 	}
 
 	public boolean canUndo( )
@@ -82,7 +82,7 @@ public class WrapperCommandStack extends CommandStack
 
 	public void execute( Command command )
 	{
-		ar.startTrans( );
+		ar.startTrans( command.getLabel() );
 		command.execute( );
 		ar.commit( );
 
@@ -127,7 +127,7 @@ public class WrapperCommandStack extends CommandStack
 		assert false;
 	}
 
-	public void setActivityStack( ActivityStack ar )
+	public void setActivityStack( CommandStack ar )
 	{
 		this.ar = ar;
 	}
