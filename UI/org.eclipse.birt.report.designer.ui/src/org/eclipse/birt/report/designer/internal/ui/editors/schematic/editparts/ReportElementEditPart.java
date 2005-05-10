@@ -75,7 +75,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	private static final int DELAY_TIME = 1600;
 	private DesignElementHandleAdapter peer;
 	private AbstractGuideHandle guideHandle = null;
-	//private  static boolean canDeleteGuide = true;
+
+	//private static boolean canDeleteGuide = true;
 
 	/**
 	 * Constructor
@@ -102,12 +103,12 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 		return null;
 	}
-	
-	protected AbstractGuideHandle getGuideHandle()
+
+	protected AbstractGuideHandle getGuideHandle( )
 	{
-		if (guideHandle == null)
+		if ( guideHandle == null )
 		{
-			guideHandle = createGuideHandle();
+			guideHandle = createGuideHandle( );
 		}
 		return guideHandle;
 	}
@@ -116,31 +117,31 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 * Adds the guide handle to the handle layer.
 	 *  
 	 */
-	public  void addGuideFeedBack( )
+	public void addGuideFeedBack( )
 	{
 		if ( guideHandle == null )
 		{
 			guideHandle = createGuideHandle( );
 		}
 
-		if ( guideHandle != null && guideHandle != findHandle() )
+		if ( guideHandle != null && guideHandle != findHandle( ) )
 		{
 			clearGuideHandle( );
 			getHandleLayer( ).add( guideHandle );
-			guideHandle.invalidate();
-			guideHandle.setCanDeleteGuide(true);
+			guideHandle.invalidate( );
+			guideHandle.setCanDeleteGuide( true );
 		}
-		else if (guideHandle != null && guideHandle == findHandle())
+		else if ( guideHandle != null && guideHandle == findHandle( ) )
 		{
-			guideHandle.setCanDeleteGuide(false);
+			guideHandle.setCanDeleteGuide( false );
 		}
-		else if(guideHandle != null)
+		else if ( guideHandle != null )
 		{
-			guideHandle.setCanDeleteGuide(true);
+			guideHandle.setCanDeleteGuide( true );
 		}
 	}
 
-	private AbstractGuideHandle findHandle()
+	private AbstractGuideHandle findHandle( )
 	{
 		IFigure layer = getHandleLayer( );
 		List list = layer.getChildren( );
@@ -151,12 +152,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			Object obj = list.get( i );
 			if ( obj instanceof AbstractGuideHandle )
 			{
-				return (AbstractGuideHandle)obj;
+				return (AbstractGuideHandle) obj;
 			}
 		}
 
 		return null;
 	}
+
 	private void clearGuideHandle( )
 	{
 		IFigure layer = getHandleLayer( );
@@ -184,7 +186,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	/**
 	 * Removes the guide handle.
 	 */
-	protected  void removeGuideFeedBack( )
+	protected void removeGuideFeedBack( )
 	{
 		if ( guideHandle != null
 				&& guideHandle.getParent( ) == getHandleLayer( ) )
@@ -199,15 +201,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public void delayRemoveGuideFeedBack( )
 	{
-		if (guideHandle != null)
+		if ( guideHandle != null )
 		{
-			guideHandle.setCanDeleteGuide(true);
+			guideHandle.setCanDeleteGuide( true );
 		}
 		Display.getCurrent( ).timerExec( DELAY_TIME, new Runnable( ) {
 
 			public void run( )
 			{
-				if (guideHandle != null && guideHandle.isCanDeleteGuide() )
+				if ( guideHandle != null && guideHandle.isCanDeleteGuide( ) )
 				{
 					removeGuideFeedBack( );
 				}
@@ -441,7 +443,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		Object size = handle.getPrivateStyle( ).getFontSize( ).getValue( );
 		if ( size instanceof DimensionValue )
 		{
-			fontSize = (int) ( (DimensionValue) size ).getMeasure( );
+			fontSize = DEUtil.getFontSize( ( (DimensionValue) size ).toString( ) );
 		}
 		else
 		{
@@ -741,43 +743,40 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	}
 
 	protected void updateBaseBorder( DesignElementHandle handle,
-            BaseBorder border )
-    {
-        border.bottomColor = handle.getPropertyHandle(
-                StyleHandle.BORDER_BOTTOM_COLOR_PROP ).getStringValue();
-        border.bottomStyle = handle.getPropertyHandle(
-                StyleHandle.BORDER_BOTTOM_STYLE_PROP ).getStringValue();
-        border.bottomWidth = handle.getPropertyHandle(
-                StyleHandle.BORDER_BOTTOM_WIDTH_PROP ).getStringValue();
-
-        border.topColor = handle
-                .getPropertyHandle( StyleHandle.BORDER_TOP_COLOR_PROP )
-                .getStringValue();
-        border.topStyle = handle
-                .getPropertyHandle( StyleHandle.BORDER_TOP_STYLE_PROP )
-                .getStringValue();
-        border.topWidth = handle
-                .getPropertyHandle( StyleHandle.BORDER_TOP_WIDTH_PROP )
-                .getStringValue();
-
-        border.leftColor = handle.getPropertyHandle(
-                StyleHandle.BORDER_LEFT_COLOR_PROP ).getStringValue();
-        border.leftStyle = handle.getPropertyHandle(
-                StyleHandle.BORDER_LEFT_STYLE_PROP ).getStringValue();
-        border.leftWidth = handle.getPropertyHandle(
-                StyleHandle.BORDER_LEFT_WIDTH_PROP ).getStringValue();
-
-        border.rightColor = handle.getPropertyHandle(
-                StyleHandle.BORDER_RIGHT_COLOR_PROP ).getStringValue();
-        border.rightStyle = handle.getPropertyHandle(
-                StyleHandle.BORDER_RIGHT_STYLE_PROP ).getStringValue();
-        border.rightWidth = handle.getPropertyHandle(
-                StyleHandle.BORDER_RIGHT_WIDTH_PROP ).getStringValue();
-    }
-	protected void refreshBorder( DesignElementHandle handle,
-            BaseBorder border )
+			BaseBorder border )
 	{
-	    updateBaseBorder( handle, border );
+		border.bottomColor = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
+				.getStringValue( );
+		border.bottomStyle = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
+				.getStringValue( );
+		border.bottomWidth = handle.getPropertyHandle( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
+				.getStringValue( );
+
+		border.topColor = handle.getPropertyHandle( StyleHandle.BORDER_TOP_COLOR_PROP )
+				.getStringValue( );
+		border.topStyle = handle.getPropertyHandle( StyleHandle.BORDER_TOP_STYLE_PROP )
+				.getStringValue( );
+		border.topWidth = handle.getPropertyHandle( StyleHandle.BORDER_TOP_WIDTH_PROP )
+				.getStringValue( );
+
+		border.leftColor = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_COLOR_PROP )
+				.getStringValue( );
+		border.leftStyle = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_STYLE_PROP )
+				.getStringValue( );
+		border.leftWidth = handle.getPropertyHandle( StyleHandle.BORDER_LEFT_WIDTH_PROP )
+				.getStringValue( );
+
+		border.rightColor = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_COLOR_PROP )
+				.getStringValue( );
+		border.rightStyle = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_STYLE_PROP )
+				.getStringValue( );
+		border.rightWidth = handle.getPropertyHandle( StyleHandle.BORDER_RIGHT_WIDTH_PROP )
+				.getStringValue( );
+	}
+
+	protected void refreshBorder( DesignElementHandle handle, BaseBorder border )
+	{
+		updateBaseBorder( handle, border );
 
 		getFigure( ).setBorder( border );
 

@@ -772,6 +772,48 @@ public class DEUtil
 	}
 
 	/**
+	 * Returns the integer font size for string value.
+	 * 
+	 * @param fontSize
+	 * @return
+	 */
+	public static int getFontSize( String fontSize )
+	{
+		if ( DesignChoiceConstants.FONT_SIZE_LARGER.equals( fontSize ) )
+		{
+			fontSize = DesignChoiceConstants.FONT_SIZE_LARGE;
+		}
+		else if ( DesignChoiceConstants.FONT_SIZE_SMALLER.equals( fontSize ) )
+		{
+			fontSize = DesignChoiceConstants.FONT_SIZE_SMALL;
+		}
+		else if ( fontSize == null )
+		{
+			fontSize = DesignChoiceConstants.FONT_SIZE_MEDIUM;
+		}
+
+		String rt = (String) DesignerConstants.fontMap.get( fontSize );
+
+		if ( rt != null )
+		{
+			return Integer.parseInt( rt );
+		}
+
+		String[] sp = DEUtil.splitString( fontSize );
+
+		if ( sp[0] != null && DEUtil.isValidNumber( sp[0] ) )
+		{
+			DimensionValue dim = DimensionUtil.convertTo( Double.parseDouble( sp[0] ),
+					sp[1],
+					DesignChoiceConstants.UNITS_PT );
+
+			return (int) dim.getMeasure( );
+		}
+
+		return 10;//as medium size.
+	}
+
+	/**
 	 * Get the handle's font size. if the font size is relative, calculate the
 	 * actual size according to its parent.
 	 * 
