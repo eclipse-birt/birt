@@ -30,6 +30,7 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 
 
 /**
@@ -238,6 +239,13 @@ public class ScriptEvalUtil
 		try
 		{
 			result = cx.evaluateString(scope, scriptText, source, lineNo, null);
+			// It seems Rhino 1.6 has changed its way to process incorrect expression.
+			// When there is an error, exception will not be thrown, but rather an Undefined
+			// instance will be returned.
+			if ( result instanceof Undefined )
+			{
+				throw new Exception( scriptText + " is not valid expression." );
+			}
 		}
 		catch ( Exception e)
 		{
