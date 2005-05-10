@@ -379,7 +379,7 @@ abstract class PreparedQuery
 		protected 	JSRowObject		rowObject;
 		protected 	JSRows			rowsObject;
 		protected	Scriptable		scope;
-		private 	IQueryResults outerResults;
+		protected 	IQueryResults outerResults;
 		private 	boolean 		isPrepared = false;
 		private 	boolean			isExecuted = false;
 		/**
