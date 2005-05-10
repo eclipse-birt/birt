@@ -11,12 +11,13 @@
 
 package org.eclipse.birt.core.format;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/08 06:58:29 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -197,6 +198,9 @@ public class StringFormatter
 	 */
 	public String format( String str )
 	{
+		if ( formatPattern.equals( "Unformatted" ) ) //$NON-NLS-1$
+			return str;
+
 		int len = str.length( );
 		int col = natt + nand;
 		int ext = 0;
