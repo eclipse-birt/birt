@@ -63,8 +63,16 @@ class CellContextInfo implements Cloneable
 	String drop = DesignChoiceConstants.DROP_TYPE_NONE;
 
 	/**
+	 * Constructs a <code>CellContextInfo</code>.
 	 * 
 	 * @param cell
+	 *            the cell element
+	 * @param rowSpan
+	 *            the row span of the cell
+	 * @param colSpan
+	 *            the column span of the cell
+	 * @param drop
+	 *            the drop property of the cell.
 	 */
 
 	CellContextInfo( Cell cell, int rowSpan, int colSpan, String drop )

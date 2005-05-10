@@ -487,4 +487,16 @@ public class DesignSession
 	{
 		this.fontSizeProvider = fontSizeProvider;
 	}
+
+	/**
+	 * Returns the locale of the current session.
+	 *  
+	 * @return the locale of the current session
+	 */
+	
+	public Locale getLocale( )
+	{
+		return locale;
+	}
+	
 }

@@ -345,4 +345,15 @@ public class SessionHandle
 	{
 		return session.getFileLocator( );
 	}
+
+	/**
+	 * Returns the locale of the current session.
+	 *  
+	 * @return the locale of the current session
+	 */
+	
+	public Locale getLocale( )
+	{
+		return session.getLocale( );
+	}
 }
