@@ -427,7 +427,7 @@ public class ModelDteApiAdapter
     {
         // no expression to define a computed column        
         if ( modelCmptdColumn.getExpression() == null ) {
-        	throw new EngineException( MessageConstants.EXPRESSION_IS_NULL_OF_CC,
+        	throw new EngineException( MessageConstants.MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION,
 					modelCmptdColumn.getColumnName( ) );
         }
         

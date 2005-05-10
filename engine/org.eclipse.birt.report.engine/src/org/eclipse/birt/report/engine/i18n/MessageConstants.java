@@ -26,8 +26,6 @@ public class MessageConstants
 	public static final String  DESIGN_FILE_NOT_FOUND_EXCEPTION = "Error.DesignFileNotFound"; 				//$NON-NLS-1$
 	public static final String  INVALID_DESIGN_FILE_EXCEPTION = "Error.InvalidDesignFile";  				//$NON-NLS-1$
 	public static final String  CANNOT_CREATE_EMITTER_EXCEPTION = "Error.CannotCreateExtensionInstance";  	//$NON-NLS-1$
-	
-	// used in ModelDteApiAdapter
-	public static final String EXPRESSION_IS_NULL_OF_CC = "Error.ExpressionIsNullOfCC";	//$NON-NLS-1$
+	public static final String  MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION = "Error.MissingComputedColumnExpression";	//$NON-NLS-1$
 }
 
