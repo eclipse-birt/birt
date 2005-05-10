@@ -178,7 +178,10 @@ public class ImportValueDialog extends BaseDialog
 		gd.horizontalSpan = 2;
 		new Label( selectionArea, SWT.NONE ).setLayoutData( gd ); //Dummy
 
-		valueList = new List( selectionArea, SWT.MULTI | SWT.BORDER );
+		valueList = new List( selectionArea, SWT.MULTI
+				| SWT.BORDER
+				| SWT.V_SCROLL
+				| SWT.H_SCROLL );
 		setListLayoutData( valueList );
 		valueList.addSelectionListener( new SelectionListener( ) {
 
@@ -251,7 +254,10 @@ public class ImportValueDialog extends BaseDialog
 
 		} );
 
-		selectedList = new List( selectionArea, SWT.MULTI | SWT.BORDER );
+		selectedList = new List( selectionArea, SWT.MULTI
+				| SWT.BORDER
+				| SWT.V_SCROLL
+				| SWT.H_SCROLL );
 		setListLayoutData( selectedList );
 		selectedList.addSelectionListener( new SelectionListener( ) {
 

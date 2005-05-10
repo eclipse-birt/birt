@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -250,14 +251,29 @@ public class UIUtil
 	 */
 	public static Shell getDefaultShell( )
 	{
+		Shell shell = null;
 		try
 		{
-			return PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
+			shell = PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( );
+			if ( shell == null )
+			{
+				shell = Display.getCurrent( ).getActiveShell( );
+			}
+			if ( shell == null )
+			{
+				shell = PlatformUI.getWorkbench( )
+						.getActiveWorkbenchWindow( )
+						.getShell( );
+			}
 		}
 		catch ( Exception e )
 		{
+		}
+		if ( shell == null )
+		{
 			return new Shell( );
 		}
+		return shell;
 	}
 
 	/**
