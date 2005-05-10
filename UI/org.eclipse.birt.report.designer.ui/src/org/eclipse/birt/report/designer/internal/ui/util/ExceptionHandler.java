@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -63,15 +62,13 @@ public class ExceptionHandler
 
 	private static List ExpectedExceptionList;
 
-	private static boolean isNeedLog;
+	private static boolean isNeedLog = true;
 
 	static
 	{
 		ExpectedExceptionList = new ArrayList( );
 		ExpectedExceptionList.add( SemanticException.class );
 		ExpectedExceptionList.add( IOException.class );
-		ExpectedExceptionList.add( DataException.class );
-		ExpectedExceptionList.add( BirtException.class );
 	}
 
 	/**
@@ -224,10 +221,10 @@ public class ExceptionHandler
 		{
 			if ( ( (Class) itor.next( ) ).isInstance( e ) )
 			{
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	private static ErrorStatus createErrorStatus( List list )
@@ -260,9 +257,7 @@ public class ExceptionHandler
 	 */
 	public static void openMessageBox( String title, String message, int style )
 	{
-		MessageBox box = new MessageBox( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), style );
+		MessageBox box = new MessageBox( UIUtil.getDefaultShell( ), style );
 		box.setText( title );
 		box.setMessage( message );
 		box.open( );
