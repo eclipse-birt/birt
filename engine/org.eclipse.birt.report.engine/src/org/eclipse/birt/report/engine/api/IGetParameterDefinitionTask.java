@@ -35,6 +35,14 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	public abstract Collection getParameterDefns(boolean includeParameterGroups);
 	
 	/**
+	 * get parameter definition by name
+	 * @param name the parameter name
+	 * @return the definition
+	 */
+	public abstract IParameterDefnBase getParameterDefn(String name);
+	
+	
+	/**
 	 * evaluates the default value expressions for defined parameters. this function may cause the runtime environment 
 	 * to be set up, and default parameter expressions being evaluated. If getDefaultValue is called on a IScalarParameterDefn 
 	 * right after getParameterDefns without calling this function, the default value is null.

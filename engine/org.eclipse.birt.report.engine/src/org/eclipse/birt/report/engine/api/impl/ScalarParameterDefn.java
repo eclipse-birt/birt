@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -296,23 +297,55 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	{	
 		if (selectionListType == IScalarParameterDefn.SELECTION_LIST_STATIC)
 		{
-			// For now, supports static list only
+			boolean sortDisplayValue = true;
 			for (int i = 0; i < selectionList.size(); i++)
-				((ParameterSelectionChoice)selectionList.get(i)).setLocale(locale);
+			{
+				ParameterSelectionChoice choice = (ParameterSelectionChoice)selectionList.get(i);
+				choice.setLocale(locale);
+				if(sortDisplayValue && choice.getLabel()==null)
+				{
+					sortDisplayValue = false;
+				}
+				
+			}
+			//sort
+			if(!fixedOrder)
+			{
+				Collections.sort(selectionList, new SelectionChoiceCompartor(sortDisplayValue));
+			}
+			// For now, supports static list only
+			
 		}
 	}
 		
 	protected class SelectionChoiceCompartor implements Comparator
 	{
+		protected boolean sortDisplayValue;
+		public SelectionChoiceCompartor(boolean sortDisplayValue)
+		{
+			this.sortDisplayValue = sortDisplayValue;
+		}
 		public int compare(Object o1, Object o2)
 		{
 			if ((o1 instanceof ParameterSelectionChoice)
 					&& (o2 instanceof ParameterSelectionChoice))
 			{
-				Object value1 = ((ParameterSelectionChoice) o1)
-						.getValue();
-				Object value2 = ((ParameterSelectionChoice) o2)
-						.getValue();
+				Object value1;
+				Object value2;
+				if(sortDisplayValue)
+				{
+					value1 = ((ParameterSelectionChoice) o1)
+					.getLabel();
+					value2 = ((ParameterSelectionChoice) o2)
+					.getLabel();
+				}
+				else
+				{
+					value1 = ((ParameterSelectionChoice) o1)
+							.getValue();
+					value2 = ((ParameterSelectionChoice) o2)
+							.getValue();
+				}
 				if (value1 != null && value2 != null)
 				{
 					return ((Comparable) value1)

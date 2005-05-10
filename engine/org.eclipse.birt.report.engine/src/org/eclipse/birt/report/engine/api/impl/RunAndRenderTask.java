@@ -114,7 +114,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				
 		//register default parameters
 		if( runValues != null)
-			executionContext.registerBean("params", runValues); //$NON-NLS-1$
+			executionContext.getParams().putAll(runValues); //$NON-NLS-1$
 		
 		//setup runtime configurations
 		//user defined configs are overload using system properties.

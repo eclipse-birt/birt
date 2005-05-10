@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	protected String 		helpText;
 	protected String 		helpTextKey;
 	protected String 		name;
+	
+	protected Map customProperties = new HashMap();
+	
+	protected String 		typeName;
 	
 	protected ReportDesign 	reportDesign;
 	protected Locale 		locale = null;
@@ -153,11 +158,33 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	 */
 	public String getUserPropertyValue(String name)
 	{
+		if(customProperties.containsKey(name))
+		{
+			return (String)customProperties.get(name);
+		}
 		return null;
 	}
 	
 	public Object clone() throws CloneNotSupportedException
 	{
 		return super.clone();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IParameterDefnBase#getTypeName()
+	 */
+	public String getTypeName()
+	{
+		return typeName;
+	}
+	
+	public void setTypeName(String typeName)
+	{
+		this.typeName = typeName;
+	}
+	
+	public void addUserProperty(String name, String value)
+	{
+		customProperties.put(name, value);
 	}
 }

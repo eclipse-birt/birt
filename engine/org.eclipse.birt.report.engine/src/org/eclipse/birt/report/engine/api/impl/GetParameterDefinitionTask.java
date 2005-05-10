@@ -149,5 +149,64 @@ public class GetParameterDefinitionTask extends EngineTask implements IGetParame
 			return defaultValues.get(param.getName());
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getParameterDefn(java.lang.String)
+	 */
+	public IParameterDefnBase getParameterDefn(String name)
+	{
+		IParameterDefnBase ret = null;
+		if(name==null)
+		{
+			return ret;
+		}
+		
+		Collection original = ((ReportRunnable)runnable).getParameterDefns(false);
+		Iterator iter = original.iterator();
+		
+		
+		while (iter.hasNext())
+		{
+			ParameterDefnBase pBase = (ParameterDefnBase) iter.next();
+			if(name.equals(pBase.getName()))
+			{
+				try
+				{
+					ret = (IParameterDefnBase)pBase.clone();
+					break;
+				}
+				catch (CloneNotSupportedException e)	// This is a Java exception
+				{
+					log.log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		}
+		
+		if(ret!=null)
+		{
+				
+			if (ret instanceof ScalarParameterDefn) 
+			{
+				((ScalarParameterDefn)ret).setReportDesign(runnable.getDesignHandle().getDesign());
+				((ScalarParameterDefn)ret).setLocale(locale);
+				((ScalarParameterDefn)ret).evaluateSelectionList();
+			}
+			else if (ret instanceof ParameterGroupDefn)
+			{
+				Iterator iter2 = ((ParameterGroupDefn) ret).getContents().iterator();
+				while (iter2.hasNext())
+				{
+					IParameterDefnBase p = (IParameterDefnBase) iter2.next();
+					if (p instanceof ScalarParameterDefn) 
+					{
+						((ScalarParameterDefn)p).setReportDesign(runnable.getDesignHandle().getDesign());
+						((ScalarParameterDefn)p).setLocale(locale);	
+						((ScalarParameterDefn)p).evaluateSelectionList();
+					}
+				}
+			}
+		}
+		return ret;
+	}
 }
 
