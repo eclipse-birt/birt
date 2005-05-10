@@ -22,9 +22,9 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  */
 public class HTMLServerImageHandler implements IHTMLImageHandler
 {
-	static int number = 0;
+	private static int number = 0;
 	
-	static HashMap map = new HashMap();
+	private static HashMap map = new HashMap();
 
 	protected Logger log = Logger.getLogger(HTMLServerImageHandler.class
 			.getName());
