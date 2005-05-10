@@ -136,7 +136,8 @@ public class Statement implements IStatement
 	public void setProperty( String name, String value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "SetProprety operation is not supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException(
+				"setProperty is not supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setProperty",
@@ -151,7 +152,7 @@ public class Statement implements IStatement
 	public void setPropertyInfo( Properties info ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "SetPropretyInfo is not supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "setPropertyInfo is not supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setPropertyInfo",
@@ -328,7 +329,7 @@ public class Statement implements IStatement
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setInt",
@@ -369,7 +370,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setDouble",
@@ -410,7 +411,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setBigDecimal",
@@ -457,7 +458,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setString",
@@ -498,7 +499,7 @@ public class Statement implements IStatement
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setDate",
@@ -538,7 +539,7 @@ public class Statement implements IStatement
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setTime",
@@ -579,7 +580,7 @@ public class Statement implements IStatement
 			throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setTimestamp",
@@ -623,7 +624,7 @@ public class Statement implements IStatement
 	public int findInParameter( String parameterName ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named paremeter supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"findInParameter",
@@ -697,7 +698,7 @@ public class Statement implements IStatement
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "SetSortSpec is not supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setSortSpec",
@@ -712,7 +713,7 @@ public class Statement implements IStatement
 	public SortSpec getSortSpec( ) throws OdaException
 	{
 		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "SetSortSpec is not supported" );
+		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"getSortSpec",
