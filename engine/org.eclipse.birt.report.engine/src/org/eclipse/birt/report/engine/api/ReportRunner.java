@@ -37,13 +37,13 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.1 $ $Date: 2005/05/10 00:07:13 $
  */
 public class ReportRunner
 {
-
 	//	The static logger
 	static protected Logger logger = Logger.getLogger( ReportRunner.class.getName() );
+
 	//	Handle commandline arguments
 	protected ReportRunnerCommandlineHandler commandlineHandler;
 	protected String locale = "en"; // Application running locale //$NON-NLS-1$
@@ -64,6 +64,10 @@ public class ReportRunner
 	 */
 	protected String pageList = ""; //$NON-NLS-1$
 
+	/**
+	 * Constructor of ReportRunner
+	 * @param args - application arguments
+	 */
 	ReportRunner( String[] args )
 	{
 		this.args = args;
@@ -76,9 +80,7 @@ public class ReportRunner
 
 	/**
 	 * Main function.
-	 * 
-	 * @param args
-	 *            application argumetns.
+	 * @param args - application argumetns.
 	 */
 	public static void main( String[] args )
 	{
@@ -86,7 +88,7 @@ public class ReportRunner
 	}
 
 	/**
-	 * execute the report design. read the input design, create report instance.
+	 * Check if the arguments are valid. If yes, continue to execuate the report. If no, simply return.
 	 */
 	protected void execute( )
 	{
@@ -102,6 +104,66 @@ public class ReportRunner
 
 		// Generate the output content
 		executeReport(  );
+	}
+
+	/**
+	 * Execute the report design which includes: <br>
+	 * 1. Read the input design and create the task. <br>
+	 * 2. Set report render options (including format, locale, output file name etc). <br>
+	 * 3. Run the task.
+	 */
+	protected void executeReport()
+	{
+		try {
+			IReportRunnable design = engine.openReportDesign( designName );
+			IRunAndRenderTask task = engine.createRunAndRenderTask( design );
+			
+			// set report render options
+			IRenderOption options;
+			if(format.equalsIgnoreCase("pdf")){
+				options = new FORenderOption();   
+
+			}
+			else if(format.equalsIgnoreCase("fo")){
+				options = new FORenderOption();
+			}
+			else{
+				options = new HTMLRenderOption();
+			}			
+			
+			if(format.equalsIgnoreCase("html") ){
+				HTMLRenderContext renderContext = new HTMLRenderContext();
+				renderContext.setImageDirectory("image"); //$NON-NLS-1$
+				task.setContext(renderContext);
+			}
+			
+			if(locale != null) 
+			{
+				Locale loc = getLocale( locale );
+				options.setLocale(loc);
+				task.setLocale(loc);
+			}
+			
+			if(targetFile == null)
+			{
+                // target file is same as design file
+				targetFile = new String(designName.substring(0, designName.indexOf('.'))
+							+"."+((format == null) ? "html" : format));
+			}
+			options.setOutputFileName(targetFile);
+			
+			options.setOutputFormat((format == null) ? "html" : format);
+			
+			if(htmlType == "ReportletNoCSS" )
+				((HTMLRenderOption )options).setEmbeddable(true);
+			
+			task.setRenderOption(options);
+			
+			task.run();
+		} catch (org.eclipse.birt.report.engine.api.EngineException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*protected void executeReport( String targetFile, String format )
@@ -223,7 +285,7 @@ public class ReportRunner
 	}*/
 	
 	/**
-	 * print out the command line.
+	 * print out the command line usage.
 	 *  
 	 */
 	protected void printUsage( )
@@ -241,7 +303,8 @@ public class ReportRunner
 	}
 
 	/**
-	 * @param locale locale name string
+	 * Private function to convert a locale name string to a locale object 
+	 * @param locale - locale name string
 	 * @return A locale object
 	 */
 	private Locale getLocale( String locale )
@@ -261,15 +324,13 @@ public class ReportRunner
 
 	protected class ReportRunnerCommandlineHandler
 	{
-
 		/**
 		 * parse the arguments.
 		 * 
 		 * -html html-file-name -pdf pdf-file-name -fo fo-file-name -l
 		 * locale-name -p page-number design-file-name
 		 * 
-		 * @param args
-		 *            arguments
+		 * @param args - arguments
 		 */
 		protected void parseOptions( )
 		{
@@ -406,64 +467,6 @@ public class ReportRunner
 		else if ( !targetFile.toLowerCase().endsWith( fileExt ) ) 
 		{
 			targetFile = targetFile + File.separatorChar + designFileName + fileExt;
-		}
-	}
-	protected void executeReport()
-	{
-		try {
-			IReportRunnable design = engine.openReportDesign( designName );
-			
-			
-			IRunAndRenderTask task = engine.createRunAndRenderTask( design );
-			
-			
-			// set report render options
-			IRenderOption options;
-			if(format.equalsIgnoreCase("pdf")){
-				options = new FORenderOption();   
-
-			}
-			else if(format.equalsIgnoreCase("fo")){
-				options = new FORenderOption();
-			}
-			else{
-				options = new HTMLRenderOption();
-			}
-			
-			
-			if(format.equalsIgnoreCase("html") ){
-				HTMLRenderContext renderContext = new HTMLRenderContext();
-				renderContext.setImageDirectory("image"); //$NON-NLS-1$
-				task.setContext(renderContext);
-			}
-			
-			
-			if(locale != null) 
-			{
-				Locale loc = getLocale( locale );
-				options.setLocale(loc);
-				task.setLocale(loc);
-			}
-			
-			if(targetFile == null)
-			{
-                // target file is same as design file
-				targetFile = new String(designName.substring(0, designName.indexOf('.'))
-							+"."+((format == null) ? "html" : format));
-			}
-			options.setOutputFileName(targetFile);
-			
-			options.setOutputFormat((format == null) ? "html" : format);
-			
-			if(htmlType == "ReportletNoCSS" )
-				((HTMLRenderOption )options).setEmbeddable(true);
-			
-			task.setRenderOption(options);
-			
-			task.run();
-		} catch (org.eclipse.birt.report.engine.api.EngineException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }
