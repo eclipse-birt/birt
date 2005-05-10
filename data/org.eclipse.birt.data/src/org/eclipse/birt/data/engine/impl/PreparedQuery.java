@@ -119,7 +119,13 @@ abstract class PreparedQuery
 				if ( i == 0 )
 					groupDefn = queryDefn;
 				else
-					groupDefn = (IGroupDefinition) groups.get( i - 1);
+				{
+					groupDefn = (IGroupDefinition) groups.get( i - 1 );
+					// Filter on group is not supported now, throw exception
+					// TODO support filter on group in the future
+					if ( groupDefn.getFilters( ).size( ) > 0 )
+						throw new DataException( ResourceConstants.UNSUPPORTED_FILTER_ON_GROUP );
+				}
 				prepareGroup( groupDefn, i, cx );
 			}			
 			

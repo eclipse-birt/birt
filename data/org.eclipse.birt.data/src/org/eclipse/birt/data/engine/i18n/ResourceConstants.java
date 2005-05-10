@@ -73,6 +73,7 @@ public class ResourceConstants
 	public final static String TYPE_NOT_SUPPORTED = "TYPE_NOT_SUPPORTED";
 	public final static String INVALID_FIELD_NAME = "INVALID_FIELD_NAME";
 	public final static String NOT_SUPPORTED_TYPE = "NOT_SUPPORTED_TYPE";
+	public final static String UNSUPPORTED_FILTER_ON_GROUP="UNSUPPORTED_FILTER_ON_GROUP";
 	
 	public final static String ILLEGAL_PARAMETER_FUN = "ILLEGAL_PARAMETER_FUN";
 	public final static String RESET_RATE = "RESET_RATE";
