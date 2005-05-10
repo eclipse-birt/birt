@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-
 /**
  * IFormatPage for format number, string, dateTime
  */
@@ -89,4 +88,12 @@ public interface IFormatPage
 	 * @return True if the page is dirty.
 	 */
 	public boolean isDirty( );
+
+	/**
+	 * Adds format change listener to the format page.
+	 * 
+	 * @param listener
+	 *            The format change listener to be added.
+	 */
+	public void addFormatChangeListener( IFormatChangeListener listener );
 }

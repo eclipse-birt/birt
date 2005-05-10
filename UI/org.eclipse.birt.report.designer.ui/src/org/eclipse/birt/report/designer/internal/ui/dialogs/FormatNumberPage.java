@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -23,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -66,8 +69,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_SCIENTIFIC_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.scientific.settings" ); //$NON-NLS-1$
 	private static final String LABEL_DECIMAL_PLACES = Messages.getString( "FormatNumberPage.label.decimal.places" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.custom.settings" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTINGS = Messages.getString( "FormatNumberPage.label.example.formats" ); //$NON-NLS-1$
-	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatNumberPage.label.style.custome.settings.label" ); //$NON-NLS-1$
+	private static final String LABEL_CUSTOM_SETTINGS_LABEL = Messages.getString( "FormatNumberPage.label.custom.settings.lable" ); //$NON-NLS-1$
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatNumberPage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_CUSTOM_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.custom.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_NUMBER = Messages.getString( "FormatNumberPage.label.preview.number" ); //$NON-NLS-1$
@@ -76,7 +78,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatNumberPage.label.table.column.format.result" ); //$NON-NLS-1$
 	private static final String LABEL_GENERAL_PREVIEW_GROUP = Messages.getString( "FormatNumberPage.label.general.preview.group" ); //$NON-NLS-1$
 
-	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	public static final String TEXT_CURRENCY_SYMBOL_NONE = Messages.getString( "FormatNumberPage.currency.symbol.none" ); //$NON-NLS-1$
+	public static final String SYMBOL_POSITION_AFTER = Messages.getString( "FormatNumberPage.symblePos.after" ); //$NON-NLS-1$
+	public static final String SYMBOL_POSITION_BEFORE = Messages.getString( "FormatNumberPage.symblePos.before" ); //$NON-NLS-1$
 
 	private String pattern = null;
 	private String category = null;
@@ -90,18 +94,21 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static String[] formatTypes = null;
 
 	private static final int FORMAT_TYPE_INDEX = 0;
+	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
+
+	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
 
 	private static String[] symbols = {
 			// "none", "£¤","$", "?", "¡ê"
 			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
-	public static final String SYMBOL_POSITION_AFTER = Messages.getString( "FormatNumberPage.symblePos.after" ); //$NON-NLS-1$
-	public static final String SYMBOL_POSITION_BEFORE = Messages.getString( "FormatNumberPage.symblePos.before" ); //$NON-NLS-1$
-
 	private Combo typeChoicer;
 
 	private Composite infoComp;
+	private Composite formatCodeComp;
+
 	private Composite generalPage;
 	private Composite currencyPage;
 	private Composite fixedPage;
@@ -109,8 +116,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private Composite scientificPage;
 	private Composite customPage;
 
+	private Composite generalFormatCodePage;
+	private Composite customFormatCodePage;
+
 	private Text previewTextBox;
-	private Text formatCode;
+	private Text formatCodeBox;
 
 	private Label gPreviewLabel, cPreviewLabel, fPreviewLabel, pPreviewLabel,
 			sPreviewLabel, cusPreviewLabel;
@@ -119,14 +129,20 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
 
 	private Button cUseSep, fUseSep, fUseZero, pUseSep, pUseZero;
-
 	private List cNegNumChoice, fNegNumChoice, pNegNumChoice;
+	private Table table;
 
 	private boolean hasLoaded = false;
-
-	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
+	private boolean isDirty = false;
 
 	private String previewText = null;
+
+	/**
+	 * Listener, or <code>null</code> if none
+	 */
+	private java.util.List listeners = new ArrayList( );
+
+	private int pageAlignment;
 
 	private SelectionListener mySelectionListener = new SelectionAdapter( ) {
 
@@ -146,24 +162,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			}
 		}
 	};
-	private boolean isDirty = false;
-
-	/**
-	 * Constructs a page for formatting numbers.
-	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
-	 * @param pageAlignment
-	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
-	 */
-	public FormatNumberPage( Composite parent, int style, int pageAlignment )
-	{
-		super( parent, style );
-		createContent( );
-	}
 
 	/**
 	 * Constructs a page for formatting numbers, default aligns the page
@@ -180,23 +178,54 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	}
 
 	/**
+	 * Constructs a page for formatting numbers.
+	 * 
+	 * @param parent
+	 *            The container
+	 * @param style
+	 *            The style of the page
+	 * @param pageAlignment
+	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 */
+	public FormatNumberPage( Composite parent, int style, int pageAlignment )
+	{
+		super( parent, style );
+		this.pageAlignment = pageAlignment;
+
+		createContents( pageAlignment );
+	}
+
+	/**
 	 * Creates the contents of the page.
 	 *  
 	 */
-	protected void createContent( )
+
+	protected void createContents( int pageAlignment )
 	{
-		setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		initChoiceArray( );
 		getFormatTypes( );
 
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			createContentsHorizontally( );
+		}
+		else
+		{
+			createContentsVirtically( );
+		}
+	}
+
+	protected void createContentsVirtically( )
+	{
+		setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+
 		Composite topContainer = new Composite( this, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		topContainer.setLayoutData( data );
+		topContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		topContainer.setLayout( new GridLayout( 2, false ) );
 		new Label( topContainer, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_PAGE );
 		typeChoicer = new Combo( topContainer, SWT.READ_ONLY );
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		typeChoicer.setLayoutData( data );
+		typeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		typeChoicer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -211,24 +240,62 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		infoComp = new Composite( this, SWT.NONE );
 		infoComp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		infoComp.setLayout( new StackLayout( ) );
-		createCategoryPanes( infoComp );
+
+		createCategoryPages( infoComp );
+
+		createCategoryPatterns( );
 
 		setInput( null, null );
 		setPreviewText( DEFAULT_PREVIEW_TEXT );
 	}
 
-	/**
-	 * Re layouts sub pages according to the selected format type.
-	 */
-	protected void reLayoutSubPages( )
+	protected void createContentsHorizontally( )
 	{
-		String category = getCategory4DisplayName( typeChoicer.getText( ) );
+		setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
-		Control control = (Control) categoryPageMaps.get( category );
+		// create format type choicer
+		Composite container = new Composite( this, SWT.NONE );
+		GridData data = new GridData( );
+		data.widthHint = DEFAULT_CATEGORY_CONTAINER_WIDTH;
+		container.setLayoutData( data );
+		container.setLayout( new GridLayout( 1, false ) );
 
-		( (StackLayout) infoComp.getLayout( ) ).topControl = control;
+		new Label( container, SWT.NONE ).setText( LABEL_FORMAT_NUMBER_PAGE );
+		typeChoicer = new Combo( container, SWT.READ_ONLY );
+		typeChoicer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		typeChoicer.addSelectionListener( new SelectionAdapter( ) {
 
-		infoComp.layout( );
+			public void widgetSelected( SelectionEvent e )
+			{
+				reLayoutSubPages( );
+
+				updatePreview( );
+			}
+		} );
+		typeChoicer.setItems( getFormatTypes( ) );
+
+		// create the right part setting pane
+		infoComp = new Composite( this, SWT.NONE );
+		data = new GridData( GridData.FILL_BOTH );
+		data.verticalSpan = 2;
+		infoComp.setLayoutData( data );
+		infoComp.setLayout( new StackLayout( ) );
+
+		createCategoryPages( infoComp );
+
+		// create left bottom part format code pane
+		formatCodeComp = new Composite( this, SWT.NONE );
+		data = new GridData( GridData.FILL_VERTICAL );
+		data.widthHint = DEFAULT_CATEGORY_CONTAINER_WIDTH;
+		formatCodeComp.setLayoutData( data );
+		formatCodeComp.setLayout( new StackLayout( ) );
+
+		createFormatCodePages( formatCodeComp );
+
+		createCategoryPatterns( );
+
+		setInput( null, null );
+		setPreviewText( DEFAULT_PREVIEW_TEXT );
 	}
 
 	/**
@@ -238,7 +305,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * @param parent
 	 *            Parent contains these info panes.
 	 */
-	private void createCategoryPanes( Composite parent )
+
+	private void createCategoryPages( Composite parent )
 	{
 		categoryPageMaps = new HashMap( );
 
@@ -254,19 +322,33 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				getScientificPage( parent ) );
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM,
 				getCustomPage( parent ) );
+	}
 
+	private void createFormatCodePages( Composite parent )
+	{
+		getHorizonGeneralFormatCodePage( parent );
+		getHorizonCustomFormatCodePage( parent );
+	}
+
+	private void createCategoryPatterns( )
+	{
 		categoryPatternMaps = new HashMap( );
 
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
 				new FormatNumberPattern( ) );
+
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY,
 				new FormatCurrencyNumPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY ) );
+
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED,
 				new FormatFixedNumPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED ) );
+
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT,
 				new FormatPercentNumPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) );
+
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC,
 				new FormatScientificNumPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) );
+
 		categoryPatternMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM,
 				new FormatCustomNumPattern( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) );
 	}
@@ -274,7 +356,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	/**
 	 * Returns the choiceArray of this choice element from model.
 	 */
-	protected String[][] initChoiceArray( )
+
+	private String[][] initChoiceArray( )
 	{
 		if ( choiceArray == null )
 		{
@@ -309,6 +392,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	/**
 	 * Gets the format types for display names.
 	 */
+
 	private String[] getFormatTypes( )
 	{
 		if ( initChoiceArray( ) != null )
@@ -329,9 +413,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	/**
 	 * Gets the index of given category.
 	 */
+
 	private int getIndexOfCategory( String name )
 	{
-		int index = 0;
 		if ( initChoiceArray( ) != null )
 		{
 			for ( int i = 0; i < choiceArray.length; i++ )
@@ -342,12 +426,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				}
 			}
 		}
-		return index;
+		return 0;
 	}
 
 	/**
 	 * Gets the corresponding category for given display name.
 	 */
+
 	private String getCategory4DisplayName( String displayName )
 	{
 		if ( initChoiceArray( ) != null )
@@ -369,6 +454,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * @param category
 	 * @return
 	 */
+
 	private String getDisplayName4Category( String category )
 	{
 		return ChoiceSetFactory.getStructDisplayName( NumberFormatValue.FORMAT_VALUE_STRUCT,
@@ -402,6 +488,69 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return pattern;
 	}
 
+	private FormatNumberPattern getFmtPattern4Category( String category )
+	{
+		FormatNumberPattern fmtPattern = null;
+		if ( categoryPatternMaps != null )
+		{
+			fmtPattern = (FormatNumberPattern) categoryPatternMaps.get( category );
+		}
+		if ( fmtPattern == null )
+		{
+			fmtPattern = new FormatNumberPattern( );
+		}
+		return fmtPattern;
+	}
+
+	private Control getFmtPage4Category( String category )
+	{
+		Control page = null;
+		if ( categoryPageMaps != null )
+		{
+			page = (Control) categoryPageMaps.get( category );
+		}
+		if ( page == null )
+		{
+			page = getGeneralPage( infoComp );
+		}
+		return page;
+	}
+
+	private void fireFormatChanged( String newCategory, String newPattern )
+	{
+		if ( listeners.isEmpty( ) )
+		{
+			return;
+		}
+		FormatChangeEvent event = new FormatChangeEvent( this,
+				Style.NUMBER_FORMAT_PROP,
+				newCategory,
+				newPattern );
+		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )
+		{
+			Object listener = iter.next( );
+			if ( listener instanceof IFormatChangeListener )
+			{
+				( (IFormatChangeListener) listener ).formatChange( event );
+			}
+		}
+	}
+
+	/**
+	 * Adds format change listener to the litener list of this format page.
+	 * 
+	 * @param listener
+	 *            The Format change listener to add.
+	 */
+
+	public void addFormatChangeListener( IFormatChangeListener listener )
+	{
+		if ( !listeners.contains( listener ) )
+		{
+			listeners.add( listener );
+		}
+	}
+
 	/**
 	 * Sets input of the page.
 	 * 
@@ -409,6 +558,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            The input format string.
 	 * @author Liu sanyong: -----> for parameter dialog use.
 	 */
+
 	public void setInput( String formatString )
 	{
 		if ( formatString == null )
@@ -424,13 +574,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			return;
 		}
 		else if ( pos == -1 )
-		{// only contains category, copy the category to pattern.-----> for
-			// parameter dialog use.
+		{
 			setInput( fmtStr, fmtStr );
 			return;
 		}
 		String category = fmtStr.substring( 0, pos );
 		String patternStr = fmtStr.substring( pos + 1 );
+
 		setInput( category, patternStr );
 		return;
 	}
@@ -443,6 +593,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * @param patternStr
 	 *            The pattern of the format string.
 	 */
+
 	public void setInput( String categoryStr, String patternStr )
 	{
 		hasLoaded = false;
@@ -462,64 +613,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return;
 	}
 
-	private void initiatePageLayout( String categoryStr, String patternStr )
-	{
-		if ( categoryStr == null )
-		{
-			typeChoicer.select( 0 );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER.equals( categoryStr ) )
-		{
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( categoryStr ) )
-		{
-			FormatCurrencyNumPattern fmtPattern = ( (FormatCurrencyNumPattern) categoryPatternMaps.get( categoryStr ) );
-			fmtPattern.setPattern( patternStr );
-			refreshCurrencySetting( fmtPattern );
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( categoryStr ) )
-		{
-			FormatFixedNumPattern fmtPattern = ( (FormatFixedNumPattern) categoryPatternMaps.get( categoryStr ) );
-			fmtPattern.setPattern( patternStr );
-			refreshFixedSetting( fmtPattern );
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT.equals( categoryStr ) )
-		{
-			FormatPercentNumPattern fmtPattern = ( (FormatPercentNumPattern) categoryPatternMaps.get( categoryStr ) );
-			fmtPattern.setPattern( patternStr );
-			refreshPercentSetting( fmtPattern );
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC.equals( categoryStr ) )
-		{
-			FormatScientificNumPattern fmtPattern = ( (FormatScientificNumPattern) categoryPatternMaps.get( categoryStr ) );
-			fmtPattern.setPattern( patternStr );
-			refreshScientificSetting( fmtPattern );
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( categoryStr ) )
-		{
-			FormatCustomNumPattern fmtPattern = ( (FormatCustomNumPattern) categoryPatternMaps.get( categoryStr ) );
-			fmtPattern.setPattern( patternStr );
-			refreshCustomSetting( fmtPattern );
-			typeChoicer.select( getIndexOfCategory( categoryStr ) );
-		}
-		else
-		{
-			// default for illegal input category.
-			typeChoicer.select( 0 );
-		}
-		return;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
 	 */
+
 	public void setPreviewText( String preText )
 	{
 		if ( preText == null )
@@ -533,50 +632,28 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		return;
 	}
 
-	private void setDefaultPreviewText( String defText )
-	{
-		if ( defText == null
-				|| StringUtil.isBlank( defText )
-				|| !DEUtil.isValidNumber( defText ) )
-		{
-			previewText = null;
-		}
-		else
-		{
-			previewText = defText;
-		}
-		return;
-	}
-
-	/**
-	 * Gets the previewText.
-	 * 
-	 * @return Returns the previewText.
-	 */
-	private String getPreviewText( )
-	{
-		return previewText;
-	}
-
-	/**
-	 * Returns the patternStr from the page.
-	 */
-	public String getPattern( )
-	{
-		return pattern;
-	}
-
 	/**
 	 * Returns the category resulted from the page.
 	 */
+
 	public String getCategory( )
 	{
 		return category;
 	}
 
 	/**
+	 * Returns the patternStr from the page.
+	 */
+
+	public String getPattern( )
+	{
+		return pattern;
+	}
+
+	/**
 	 * Returns the formatString from the page.
 	 */
+
 	public String getFormatString( )
 	{
 		if ( category == null && pattern == null )
@@ -591,8 +668,6 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		{
 			pattern = ""; //$NON-NLS-1$
 		}
-		// special case: when pattern equals category, omits(eliminatess) the
-		// pattern, only returns the category.-----> for parameter dialog use.
 		if ( category.equals( pattern ) )
 		{
 			return category;
@@ -605,6 +680,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * 
 	 * @return true if the format string is modified.
 	 */
+
 	public boolean isFormatModified( )
 	{
 		String c = getCategory( );
@@ -639,39 +715,73 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * 
 	 * @return Returns the isDirty.
 	 */
+
 	public boolean isDirty( )
 	{
 		return isDirty;
 	}
 
-	/**
-	 * Marks the dirty marker of the page.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param dirty
+	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+
+	public void setEnabled( boolean enabled )
+	{
+		super.setEnabled( enabled );
+		setControlsEnabled( enabled );
+	}
+
+	private String getPreviewText( )
+	{
+		return previewText;
+	}
+
+	private void setPattern( String pattern )
+	{
+		this.pattern = pattern; //$NON-NLS-1$
+	}
+
+	private void setCategory( String category )
+	{
+		this.category = category; //$NON-NLS-1$
+	}
+
+	private void setDefaultPreviewText( String defText )
+	{
+		if ( defText == null
+				|| StringUtil.isBlank( defText )
+				|| !DEUtil.isValidNumber( defText ) )
+		{
+			previewText = null;
+		}
+		else
+		{
+			previewText = defText;
+		}
+		return;
+	}
+
 	private void markDirty( boolean dirty )
 	{
 		isDirty = dirty;
 	}
 
-	private FormatNumberPattern getFmtPattern4Category( String category )
+	private String validatedFmtStr( String fmtStr )
 	{
-		FormatNumberPattern fmtPattern = null;
-		if ( categoryPatternMaps != null )
+		String text = fmtStr;
+		if ( text == null )
 		{
-			fmtPattern = (FormatNumberPattern) categoryPatternMaps.get( category );
+			text = PREVIEW_TEXT_INVALID_FORMAT_CODE;
 		}
-		if ( fmtPattern == null )
-		{// avoid null when categoryPatternMas is not initialized or the
-			// key(category) is not contained in the map.
-			fmtPattern = new FormatNumberPattern( );
-		}
-		return fmtPattern;
+		return text;
 	}
 
 	/**
 	 * Updates the format Pattern String, and Preview.
 	 */
+
 	private void updatePreview( )
 	{
 		markDirty( hasLoaded );
@@ -688,7 +798,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		setCategory( fmtPattern.getCategory( ) );
 		setPattern( fmtPattern.getPattern( ) );
 
-		doPreview( fmtPattern.getPattern( ) );
+		doPreview( fmtPattern.getCategory( ), fmtPattern.getPattern( ) );
+
+		if ( hasLoaded )
+		{
+			fireFormatChanged( fmtPattern.getCategory( ),
+					fmtPattern.getPattern( ) );
+		}
 	}
 
 	/**
@@ -696,7 +812,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * 
 	 * @param patternStr
 	 */
-	private void doPreview( String patternStr )
+
+	private void doPreview( String category, String patternStr )
 	{
 		String fmtStr;
 
@@ -710,7 +827,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			num = Double.parseDouble( getPreviewText( ) );
 		}
 
-		if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
+		if ( category == null )
+		{
+			fmtStr = getPreviewText( );
+			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			return;
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER ) )
 		{
 			fmtStr = new NumberFormatter( patternStr ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
@@ -759,50 +882,96 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
-	private String validatedFmtStr( String fmtStr )
+	private void initiatePageLayout( String categoryStr, String patternStr )
 	{
-		String text = fmtStr;
-		if ( text == null )
+		if ( categoryStr == null )
 		{
-			text = PREVIEW_TEXT_INVALID_FORMAT_CODE;
+			typeChoicer.select( 0 );
+			return;
 		}
-		return text;
+
+		FormatNumberPattern fmtPattern = getFmtPattern4Category( categoryStr );
+		fmtPattern.setPattern( patternStr );
+
+		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER.equals( categoryStr ) )
+		{
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( categoryStr ) )
+		{
+			refreshCurrencySetting( (FormatCurrencyNumPattern) fmtPattern );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( categoryStr ) )
+		{
+			refreshFixedSetting( (FormatFixedNumPattern) fmtPattern );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT.equals( categoryStr ) )
+		{
+			refreshPercentSetting( (FormatPercentNumPattern) fmtPattern );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC.equals( categoryStr ) )
+		{
+			refreshScientificSetting( (FormatScientificNumPattern) fmtPattern );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( categoryStr ) )
+		{
+			refreshCustomSetting( (FormatCustomNumPattern) fmtPattern );
+			typeChoicer.select( getIndexOfCategory( categoryStr ) );
+		}
+		else
+		{
+			// default for illegal input category.
+			typeChoicer.select( 0 );
+		}
+		return;
 	}
 
 	/**
-	 * Sets the pattern string for this preference.
-	 * 
-	 * @param pattern
-	 *            The patternStr to set.
+	 * Re layouts sub pages according to the selected format type.
 	 */
-	private void setPattern( String pattern )
-	{
-		this.pattern = pattern; //$NON-NLS-1$
-	}
 
-	/**
-	 * @param category
-	 *            The category to set.
-	 */
-	private void setCategory( String category )
+	private void reLayoutSubPages( )
 	{
-		this.category = category; //$NON-NLS-1$
-	}
+		String category = getCategory4DisplayName( typeChoicer.getText( ) );
 
-	private void refreshCurrencySetting( FormatCurrencyNumPattern pattern )
-	{
-		cPlacesChoice.setText( String.valueOf( pattern.getDecPlaces( ) ) );
-		cUseSep.setSelection( pattern.getUseSep( ) );
-		if ( pattern.getSymbol( ) != "" ) //$NON-NLS-1$
+		Control control = getFmtPage4Category( category );
+
+		( (StackLayout) infoComp.getLayout( ) ).topControl = control;
+
+		infoComp.layout( );
+
+		if ( formatCodeComp != null )
 		{
-			cSymbolChoice.setText( pattern.getSymbol( ) );
+			if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
+			{
+				( (StackLayout) formatCodeComp.getLayout( ) ).topControl = getHorizonCustomFormatCodePage( formatCodeComp );
+			}
+			else
+			{
+				( (StackLayout) formatCodeComp.getLayout( ) ).topControl = getHorizonGeneralFormatCodePage( formatCodeComp );
+			}
+			formatCodeComp.layout( );
 		}
-		if ( pattern.getSymPos( ) != "" ) //$NON-NLS-1$
+	}
+
+	private void refreshCurrencySetting( FormatCurrencyNumPattern fmtPattern )
+	{
+		cPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		cUseSep.setSelection( fmtPattern.getUseSep( ) );
+		if ( !StringUtil.isBlank( fmtPattern.getSymbol( ) ) ) //$NON-NLS-1$
 		{
-			cSymPosChoice.setText( pattern.getSymPos( ) );
+			cSymbolChoice.setText( fmtPattern.getSymbol( ) );
+		}
+		if ( !StringUtil.isBlank( fmtPattern.getSymPos( ) ) ) //$NON-NLS-1$
+		{
+			cSymPosChoice.setText( fmtPattern.getSymPos( ) );
 			cSymPosChoice.setEnabled( true );
 		}
-		if ( pattern.getUseBracket( ) )
+		if ( fmtPattern.getUseBracket( ) )
 		{
 			cNegNumChoice.select( 1 );
 		}
@@ -812,12 +981,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
-	private void refreshFixedSetting( FormatFixedNumPattern pattern )
+	private void refreshFixedSetting( FormatFixedNumPattern fmtPattern )
 	{
-		fPlacesChoice.setText( String.valueOf( pattern.getDecPlaces( ) ) );
-		fUseSep.setSelection( pattern.getUseSep( ) );
-		fUseZero.setSelection( pattern.getUseZero( ) );
-		if ( pattern.getUseBracket( ) )
+		fPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		fUseSep.setSelection( fmtPattern.getUseSep( ) );
+		fUseZero.setSelection( fmtPattern.getUseZero( ) );
+		if ( fmtPattern.getUseBracket( ) )
 		{
 			fNegNumChoice.select( 1 );
 		}
@@ -827,13 +996,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
-	private void refreshPercentSetting( FormatPercentNumPattern pattern )
+	private void refreshPercentSetting( FormatPercentNumPattern fmtPattern )
 	{
-		pPlacesChoice.setText( String.valueOf( pattern.getDecPlaces( ) ) );
-		pUseSep.setSelection( pattern.getUseSep( ) );
-		pUseZero.setSelection( pattern.getUseZero( ) );
-		pSymPosChoice.setText( pattern.getSymPos( ) );
-		if ( pattern.getUseBracket( ) )
+		pPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
+		pUseSep.setSelection( fmtPattern.getUseSep( ) );
+		pUseZero.setSelection( fmtPattern.getUseZero( ) );
+		pSymPosChoice.setText( fmtPattern.getSymPos( ) );
+		if ( fmtPattern.getUseBracket( ) )
 		{
 			pNegNumChoice.select( 1 );
 		}
@@ -843,15 +1012,15 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
-	private void refreshScientificSetting( FormatScientificNumPattern pattern )
+	private void refreshScientificSetting( FormatScientificNumPattern fmtPattern )
 	{
-		sPlacesChoice.setText( String.valueOf( pattern.getDecPlaces( ) ) );
+		sPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 	}
 
-	private void refreshCustomSetting( FormatCustomNumPattern pattern )
+	private void refreshCustomSetting( FormatCustomNumPattern fmtPattern )
 	{
-		formatCode.setText( pattern.getPattern( ) == null ? "" //$NON-NLS-1$
-				: pattern.getPattern( ) );
+		formatCodeBox.setText( fmtPattern.getPattern( ) == null ? "" //$NON-NLS-1$
+				: fmtPattern.getPattern( ) );
 	}
 
 	private void setFmtPatternFromControls( )
@@ -904,7 +1073,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
 			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
-			pattern.setPattern( formatCode.getText( ) );
+			pattern.setPattern( formatCodeBox.getText( ) );
 		}
 		return;
 	}
@@ -916,14 +1085,17 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The general page.
 	 */
+
 	private Composite getGeneralPage( Composite parent )
 	{
 		if ( generalPage == null )
 		{
 			generalPage = new Composite( parent, SWT.NULL );
-			generalPage.setLayout( new GridLayout( 1, false ) );
+			GridLayout layout = new GridLayout( 1, false );
+			layout.marginHeight = 0;
+			generalPage.setLayout( layout );
 
-			gPreviewLabel = createPreviewText( generalPage );
+			gPreviewLabel = createGeneralPreviewPart4Page( generalPage );
 		}
 		return generalPage;
 	}
@@ -935,89 +1107,16 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The current page.
 	 */
+
 	private Composite getCurrencyPage( Composite parent )
 	{
 		if ( currencyPage == null )
 		{
 			currencyPage = new Composite( parent, SWT.NULL );
-			currencyPage.setLayout( new GridLayout( 1, false ) );
+			currencyPage.setLayout( createGridLayout4Page( ) );
 
-			Group cSetting = new Group( currencyPage, SWT.NONE );
-			cSetting.setText( LABEL_CURRENCY_SETTINGS_GROUP );
-			cSetting.setLayoutData( createGridData4Group( ) );
-			cSetting.setLayout( new GridLayout( 2, false ) );
-
-			new Label( cSetting, SWT.NONE ).setText( LABEL_DECIMAL_PLACES );
-			cPlacesChoice = new Combo( cSetting, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.V_SCROLL );
-			cPlacesChoice.setItems( new String[]{
-					"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
-			} );
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			data.heightHint = 20;
-			cPlacesChoice.setLayoutData( data );
-			cPlacesChoice.addSelectionListener( mySelectionListener );
-			cPlacesChoice.addModifyListener( myModifyListener );
-			cPlacesChoice.select( 2 );
-
-			cUseSep = new Button( cSetting, SWT.CHECK );
-			cUseSep.setText( LABEL_USE_1000S_SEPARATOR );
-			data = new GridData( );
-			data.horizontalSpan = 2;
-			cUseSep.setLayoutData( data );
-			cUseSep.addSelectionListener( mySelectionListener );
-
-			new Label( cSetting, SWT.NONE ).setText( LABEL_CURRENCY_SYMBOL );
-			cSymbolChoice = new Combo( cSetting, SWT.DROP_DOWN | SWT.READ_ONLY );
-			cSymbolChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
-			cSymbolChoice.setItems( symbols );
-			cSymbolChoice.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					if ( cSymbolChoice.getSelectionIndex( ) == 0 )
-					{
-						cSymPosChoice.deselectAll( );
-						cSymPosChoice.setEnabled( false );
-					}
-					else
-					{
-						if ( !cSymPosChoice.isEnabled( ) )
-						{
-							cSymPosChoice.setEnabled( true );
-							cSymPosChoice.select( 1 );
-						}
-					}
-					updatePreview( );
-				}
-			} );
-			cSymbolChoice.select( 0 );
-
-			new Label( cSetting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
-			cSymPosChoice = new Combo( cSetting, SWT.DROP_DOWN | SWT.READ_ONLY );
-			cSymPosChoice.setItems( new String[]{
-					SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
-			} );
-			cSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			cSymPosChoice.addSelectionListener( mySelectionListener );
-			cSymPosChoice.setEnabled( false );
-
-			Label label = new Label( cSetting, SWT.NONE );
-			label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-			label.setText( LABEL_NEGATIVE_NUMBERS );
-
-			cNegNumChoice = new List( cSetting, SWT.SINGLE
-					| SWT.BORDER
-					| SWT.V_SCROLL );
-			cNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-			cNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
-			data = new GridData( GridData.FILL_HORIZONTAL );
-			cNegNumChoice.setLayoutData( data );
-			cNegNumChoice.addSelectionListener( mySelectionListener );
-			cNegNumChoice.select( 0 );
-
-			cPreviewLabel = createPreviewText( currencyPage );
+			createCurrencySettingPart( currencyPage );
+			cPreviewLabel = createGeneralPreviewPart4Page( currencyPage );
 		}
 		return currencyPage;
 	}
@@ -1029,70 +1128,19 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The fixed page.
 	 */
+
 	private Composite getFixedPage( Composite parent )
 	{
 		if ( fixedPage == null )
 		{
 			fixedPage = new Composite( parent, SWT.NULL );
-			fixedPage.setLayout( new GridLayout( 1, false ) );
+			fixedPage.setLayout( createGridLayout4Page( ) );
 
-			Group setting = new Group( fixedPage, SWT.NONE );
-			setting.setText( LABEL_FIXED_SETTINGS_GROUP );
-			GridLayout layout = new GridLayout( 2, false );
-			setting.setLayout( layout );
-			setting.setLayoutData( createGridData4Group( ) );
-
-			Label label = new Label( setting, SWT.NONE );
-			label.setText( LABEL_DECIMAL_PLACES );
-			fPlacesChoice = new Combo( setting, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.V_SCROLL );
-			fPlacesChoice.setItems( new String[]{
-					"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
-			} );
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			fPlacesChoice.setLayoutData( data );
-			fPlacesChoice.addSelectionListener( mySelectionListener );
-			fPlacesChoice.addModifyListener( myModifyListener );
-			fPlacesChoice.select( 2 );
-
-			fUseSep = new Button( setting, SWT.CHECK );
-			fUseSep.setText( LABEL_USE_1000S_SEPARATOR );
-			GridData gData = new GridData( );
-			gData.horizontalSpan = 2;
-			fUseSep.setLayoutData( gData );
-			fUseSep.addSelectionListener( mySelectionListener );
-
-			fUseZero = new Button( setting, SWT.CHECK );
-			fUseZero.setText( LABEL_USE_LEADING_ZERO );
-			gData = new GridData( );
-			gData.horizontalSpan = 2;
-			fUseZero.setLayoutData( gData );
-			fUseZero.addSelectionListener( mySelectionListener );
-
-			label = new Label( setting, SWT.NONE );
-			label.setText( LABEL_NEGATIVE_NUMBERS );
-			label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-			fNegNumChoice = new List( setting, SWT.SINGLE
-					| SWT.BORDER
-					| SWT.V_SCROLL );
-			fNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-			fNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
-			gData = new GridData( GridData.FILL_HORIZONTAL );
-			fNegNumChoice.setLayoutData( gData );
-			fNegNumChoice.addSelectionListener( mySelectionListener );
-			fNegNumChoice.select( 0 );
-
-			fPreviewLabel = createPreviewText( fixedPage );
+			createFixedSettingPart( fixedPage );
+			fPreviewLabel = createGeneralPreviewPart4Page( fixedPage );
 
 		}
 		return fixedPage;
-	}
-
-	private GridData createGridData4Group( )
-	{
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		return data;
 	}
 
 	/**
@@ -1102,71 +1150,16 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The percent page.
 	 */
+
 	private Composite getPercentPage( Composite parent )
 	{
 		if ( percentPage == null )
 		{
 			percentPage = new Composite( parent, SWT.NULL );
-			percentPage.setLayout( new GridLayout( 1, false ) );
+			percentPage.setLayout( createGridLayout4Page( ) );
 
-			Group setting = new Group( percentPage, SWT.NONE );
-			setting.setText( LABEL_PERCENT_SETTINGS_GROUP );
-			setting.setLayoutData( createGridData4Group( ) );
-			setting.setLayout( new GridLayout( 2, false ) );
-
-			Label label = new Label( setting, SWT.NONE );
-			label.setText( LABEL_DECIMAL_PLACES );
-			pPlacesChoice = new Combo( setting, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.V_SCROLL );
-			pPlacesChoice.setItems( new String[]{
-					"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
-			} );
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			data.heightHint = 20;
-			pPlacesChoice.setLayoutData( data );
-			pPlacesChoice.addSelectionListener( mySelectionListener );
-			pPlacesChoice.addModifyListener( myModifyListener );
-			pPlacesChoice.select( 2 );
-
-			pUseSep = new Button( setting, SWT.CHECK );
-			pUseSep.setText( LABEL_USE_1000S_SEPARATOR );
-			GridData gData = new GridData( );
-			gData.horizontalSpan = 2;
-			pUseSep.setLayoutData( gData );
-			pUseSep.addSelectionListener( mySelectionListener );
-
-			pUseZero = new Button( setting, SWT.CHECK );
-			pUseZero.setText( LABEL_USE_LEADING_ZERO );
-			gData = new GridData( );
-			gData.horizontalSpan = 2;
-			pUseZero.setLayoutData( gData );
-			pUseZero.addSelectionListener( mySelectionListener );
-
-			label = new Label( setting, SWT.NONE );
-			label.setText( LABEL_SYMBOL_POSITION );
-			pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
-			pSymPosChoice.setItems( new String[]{
-					SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
-			} );
-			pSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			pSymPosChoice.addSelectionListener( mySelectionListener );
-			pSymPosChoice.select( 0 );
-
-			label = new Label( setting, SWT.NONE );
-			label.setText( LABEL_NEGATIVE_NUMBERS );
-			label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-			pNegNumChoice = new List( setting, SWT.SINGLE
-					| SWT.BORDER
-					| SWT.V_SCROLL );
-			pNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
-			pNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
-			gData = new GridData( GridData.FILL_HORIZONTAL );
-			pNegNumChoice.setLayoutData( gData );
-			pNegNumChoice.addSelectionListener( mySelectionListener );
-			pNegNumChoice.select( 0 );
-
-			pPreviewLabel = createPreviewText( percentPage );
+			createPercentSettingPart( percentPage );
+			pPreviewLabel = createGeneralPreviewPart4Page( percentPage );
 
 		}
 		return percentPage;
@@ -1179,34 +1172,16 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The scientific page.
 	 */
+
 	private Composite getScientificPage( Composite parent )
 	{
 		if ( scientificPage == null )
 		{
 			scientificPage = new Composite( parent, SWT.NULL );
-			scientificPage.setLayout( new GridLayout( 1, false ) );
+			scientificPage.setLayout( createGridLayout4Page( ) );
 
-			Group group = new Group( scientificPage, SWT.NONE );
-			group.setText( LABEL_SCIENTIFIC_SETTINGS_GROUP );
-			group.setLayoutData( createGridData4Group( ) );
-			group.setLayout( new GridLayout( 2, false ) );
-
-			Label label = new Label( group, SWT.NONE );
-			label.setText( LABEL_DECIMAL_PLACES );
-			sPlacesChoice = new Combo( group, SWT.BORDER
-					| SWT.SINGLE
-					| SWT.V_SCROLL );
-			sPlacesChoice.setItems( new String[]{
-					"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
-			} );
-			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			sPlacesChoice.setLayoutData( data );
-			sPlacesChoice.addSelectionListener( mySelectionListener );
-			sPlacesChoice.addModifyListener( myModifyListener );
-			sPlacesChoice.select( 2 );
-
-			sPreviewLabel = createPreviewText( scientificPage );
-
+			createScientificSettingPart( scientificPage );
+			sPreviewLabel = createGeneralPreviewPart4Page( scientificPage );
 		}
 		return scientificPage;
 	}
@@ -1218,69 +1193,376 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 *            Parent contains this page.
 	 * @return The custom page.
 	 */
+
 	private Composite getCustomPage( Composite parent )
 	{
 		if ( customPage == null )
 		{
 			customPage = new Composite( parent, SWT.NULL );
-			customPage.setLayout( new GridLayout( 1, false ) );
+			customPage.setLayout( createGridLayout4Page( ) );
 
-			Group group = new Group( customPage, SWT.NONE );
-			group.setText( LABEL_CUSTOM_SETTINGS_GROUP );
+			createCustomSettingsPart( customPage );
+
+			if ( pageAlignment == PAGE_ALIGN_VIRTICAL )
+			{
+				Composite container = new Composite( customPage, SWT.NONE );
+				container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				container.setLayout( new GridLayout( 2, false ) );
+
+				new Label( container, SWT.NULL ).setText( LABEL_FORMAT_CODE );
+				formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
+				formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				formatCodeBox.addModifyListener( myModifyListener );
+			}
+
+			createCustomPreviewPart4Page( customPage );
+		}
+		return customPage;
+	}
+
+	private Composite getHorizonGeneralFormatCodePage( Composite parent )
+	{
+		if ( generalFormatCodePage == null )
+		{
+			generalFormatCodePage = new Composite( parent, SWT.NULL );
+			GridLayout layout = new GridLayout( 1, false );
+			layout.marginHeight = 1;
+			generalFormatCodePage.setLayout( layout );
+
+			Label l = new Label( generalFormatCodePage, SWT.SEPARATOR
+					| SWT.HORIZONTAL );
 			GridData data = new GridData( GridData.FILL_HORIZONTAL );
-			group.setLayoutData( data );
-			group.setLayout( new GridLayout( 2, false ) );
-
-			Label label = new Label( group, SWT.NONE );
-			label.setText( LABEL_CUSTOM_SETTINGS );
-			data = new GridData( );
 			data.horizontalSpan = 2;
-			label.setLayoutData( data );
+			l.setLayoutData( data );
+		}
+		return generalFormatCodePage;
+	}
 
-			label = new Label( group, SWT.NONE );
-			label.setText( LABEL_CUSTOM_SETTINGS_LABEL );
-			data = new GridData( );
+	private Composite getHorizonCustomFormatCodePage( Composite parent )
+	{
+		if ( customFormatCodePage == null )
+		{
+			customFormatCodePage = new Composite( parent, SWT.NONE );
+			GridLayout layout = new GridLayout( 1, false );
+			layout.marginHeight = 1;
+			customFormatCodePage.setLayout( layout );
+
+			Label l = new Label( customFormatCodePage, SWT.SEPARATOR
+					| SWT.HORIZONTAL );
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
 			data.horizontalSpan = 2;
-			label.setLayoutData( data );
+			l.setLayoutData( data );
 
-			createTable( group );
-
-			Composite container = new Composite( customPage, SWT.NONE );
-			data = new GridData( GridData.FILL_HORIZONTAL );
-			container.setLayoutData( data );
+			Composite container = new Composite( customFormatCodePage, SWT.NONE );
+			container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			container.setLayout( new GridLayout( 2, false ) );
 
 			new Label( container, SWT.NULL ).setText( LABEL_FORMAT_CODE );
-			formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
-			formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			formatCode.addModifyListener( myModifyListener );
+			formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
+			formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			formatCodeBox.addModifyListener( myModifyListener );
+		}
+		return customFormatCodePage;
+	}
 
-			group = new Group( customPage, SWT.NONE );
-			group.setText( LABEL_CUSTOM_PREVIEW_GROUP );
-			data = new GridData( GridData.FILL_HORIZONTAL );
-			group.setLayoutData( data );
-			group.setLayout( new GridLayout( 2, false ) );
+	private void createCurrencySettingPart( Composite parent )
+	{
+		Group setting = new Group( parent, SWT.NONE );
+		setting.setText( LABEL_CURRENCY_SETTINGS_GROUP );
+		setting.setLayoutData( createGridData4Part( ) );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 1;
+		setting.setLayout( layout );
 
-			new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_NUMBER );
-			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-			previewTextBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			previewTextBox.addModifyListener( new ModifyListener( ) {
+		new Label( setting, SWT.NONE ).setText( LABEL_DECIMAL_PLACES );
+		cPlacesChoice = new Combo( setting, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
+		cPlacesChoice.setItems( new String[]{
+				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
+		} );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data.heightHint = 20;
+		cPlacesChoice.setLayoutData( data );
+		cPlacesChoice.addSelectionListener( mySelectionListener );
+		cPlacesChoice.addModifyListener( myModifyListener );
+		cPlacesChoice.select( 2 );
 
-				public void modifyText( ModifyEvent e )
+		cUseSep = new Button( setting, SWT.CHECK );
+		cUseSep.setText( LABEL_USE_1000S_SEPARATOR );
+		data = new GridData( );
+		data.horizontalSpan = 2;
+		cUseSep.setLayoutData( data );
+		cUseSep.addSelectionListener( mySelectionListener );
+
+		new Label( setting, SWT.NONE ).setText( LABEL_CURRENCY_SYMBOL );
+		cSymbolChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cSymbolChoice.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		cSymbolChoice.setItems( symbols );
+		cSymbolChoice.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( cSymbolChoice.getSelectionIndex( ) == 0 )
 				{
-					setDefaultPreviewText( previewTextBox.getText( ) );
-					if ( hasLoaded )
+					cSymPosChoice.deselectAll( );
+					cSymPosChoice.setEnabled( false );
+				}
+				else
+				{
+					if ( !cSymPosChoice.isEnabled( ) )
 					{
-						updatePreview( );
+						cSymPosChoice.setEnabled( true );
+						cSymPosChoice.select( 1 );
 					}
 				}
-			} );
+				updatePreview( );
+			}
+		} );
+		cSymbolChoice.select( 0 );
 
-			new Label( group, SWT.NONE ).setText( LABEL_COSTOM_PREVIEW_LABEL );
-			cusPreviewLabel = new Label( group, SWT.NONE );
-			cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
+		cSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cSymPosChoice.setItems( new String[]{
+				SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+		} );
+		cSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cSymPosChoice.addSelectionListener( mySelectionListener );
+		cSymPosChoice.setEnabled( false );
+
+		Label label = new Label( setting, SWT.NONE );
+		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		label.setText( LABEL_NEGATIVE_NUMBERS );
+
+		cNegNumChoice = new List( setting, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.V_SCROLL );
+		cNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
+		cNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		data = new GridData( GridData.FILL_BOTH );
+		cNegNumChoice.setLayoutData( data );
+		cNegNumChoice.addSelectionListener( mySelectionListener );
+		cNegNumChoice.select( 0 );
+	}
+
+	private void createFixedSettingPart( Composite parent )
+	{
+		Group setting = new Group( parent, SWT.NONE );
+		setting.setText( LABEL_FIXED_SETTINGS_GROUP );
+		setting.setLayoutData( createGridData4Part( ) );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 1;
+		setting.setLayout( layout );
+
+		Label label = new Label( setting, SWT.NONE );
+		label.setText( LABEL_DECIMAL_PLACES );
+		fPlacesChoice = new Combo( setting, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
+		fPlacesChoice.setItems( new String[]{
+				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
+		} );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data.heightHint = 20;
+		fPlacesChoice.setLayoutData( data );
+		fPlacesChoice.addSelectionListener( mySelectionListener );
+		fPlacesChoice.addModifyListener( myModifyListener );
+		fPlacesChoice.select( 2 );
+
+		fUseSep = new Button( setting, SWT.CHECK );
+		fUseSep.setText( LABEL_USE_1000S_SEPARATOR );
+		GridData gData = new GridData( );
+		gData.horizontalSpan = 2;
+		fUseSep.setLayoutData( gData );
+		fUseSep.addSelectionListener( mySelectionListener );
+
+		fUseZero = new Button( setting, SWT.CHECK );
+		fUseZero.setText( LABEL_USE_LEADING_ZERO );
+		gData = new GridData( );
+		gData.horizontalSpan = 2;
+		fUseZero.setLayoutData( gData );
+		fUseZero.addSelectionListener( mySelectionListener );
+
+		label = new Label( setting, SWT.NONE );
+		label.setText( LABEL_NEGATIVE_NUMBERS );
+		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		fNegNumChoice = new List( setting, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.V_SCROLL );
+		fNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
+		fNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		gData = new GridData( GridData.FILL_BOTH );
+		fNegNumChoice.setLayoutData( gData );
+		fNegNumChoice.addSelectionListener( mySelectionListener );
+		fNegNumChoice.select( 0 );
+	}
+
+	private void createPercentSettingPart( Composite percent )
+	{
+		Group setting = new Group( percent, SWT.NONE );
+		setting.setText( LABEL_PERCENT_SETTINGS_GROUP );
+		setting.setLayoutData( createGridData4Part( ) );
+		GridLayout layout = new GridLayout( 2, false );
+		layout.marginHeight = 0;
+		layout.verticalSpacing = 1;
+		setting.setLayout( layout );
+
+		new Label( setting, SWT.NONE ).setText( LABEL_DECIMAL_PLACES );
+		pPlacesChoice = new Combo( setting, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
+		pPlacesChoice.setItems( new String[]{
+				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
+		} );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		pPlacesChoice.setLayoutData( data );
+		pPlacesChoice.addSelectionListener( mySelectionListener );
+		pPlacesChoice.addModifyListener( myModifyListener );
+		pPlacesChoice.select( 2 );
+
+		pUseSep = new Button( setting, SWT.CHECK );
+		pUseSep.setText( LABEL_USE_1000S_SEPARATOR );
+		GridData gData = new GridData( );
+		gData.horizontalSpan = 2;
+		pUseSep.setLayoutData( gData );
+		pUseSep.addSelectionListener( mySelectionListener );
+
+		pUseZero = new Button( setting, SWT.CHECK );
+		pUseZero.setText( LABEL_USE_LEADING_ZERO );
+		gData = new GridData( );
+		gData.horizontalSpan = 2;
+		pUseZero.setLayoutData( gData );
+		pUseZero.addSelectionListener( mySelectionListener );
+
+		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
+		pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
+		pSymPosChoice.setItems( new String[]{
+				SYMBOL_POSITION_AFTER, SYMBOL_POSITION_BEFORE
+		} );
+		pSymPosChoice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		pSymPosChoice.addSelectionListener( mySelectionListener );
+		pSymPosChoice.select( 0 );
+
+		Label label = new Label( setting, SWT.NONE );
+		label.setText( LABEL_NEGATIVE_NUMBERS );
+		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
+		pNegNumChoice = new List( setting, SWT.SINGLE
+				| SWT.BORDER
+				| SWT.V_SCROLL );
+		pNegNumChoice.add( "-1234.56" ); //$NON-NLS-1$
+		pNegNumChoice.add( "(1234.56)" ); //$NON-NLS-1$
+		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		pNegNumChoice.addSelectionListener( mySelectionListener );
+		pNegNumChoice.select( 0 );
+	}
+
+	private void createScientificSettingPart( Composite percent )
+	{
+		Group group = new Group( percent, SWT.NONE );
+		group.setText( LABEL_SCIENTIFIC_SETTINGS_GROUP );
+		group.setLayoutData( createGridData4Part( ) );
+		group.setLayout( new GridLayout( 2, false ) );
+
+		Label label = new Label( group, SWT.NONE );
+		label.setText( LABEL_DECIMAL_PLACES );
+		sPlacesChoice = new Combo( group, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
+		sPlacesChoice.setItems( new String[]{
+				"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$
+		} );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data.widthHint = 60;
+		sPlacesChoice.setLayoutData( data );
+		sPlacesChoice.addSelectionListener( mySelectionListener );
+		sPlacesChoice.addModifyListener( myModifyListener );
+		sPlacesChoice.select( 2 );
+	}
+
+	private void createCustomSettingsPart( Composite parent )
+	{
+		Group group = new Group( parent, SWT.NONE );
+		group.setText( LABEL_CUSTOM_SETTINGS_GROUP );
+		group.setLayoutData( createGridData4Part( ) );
+		group.setLayout( new GridLayout( 1, false ) );
+
+		Label label = new Label( group, SWT.NONE );
+		label.setText( LABEL_CUSTOM_SETTINGS_LABEL );
+		label.setLayoutData( new GridData( ) );
+
+		createTable( group );
+	}
+
+	private void createCustomPreviewPart4Page( Composite parent )
+	{
+		Group group = new Group( parent, SWT.NONE );
+		group.setText( LABEL_CUSTOM_PREVIEW_GROUP );
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			group.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			group.setLayout( new GridLayout( 1, false ) );
 		}
-		return customPage;
+		else
+		{
+			group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			group.setLayout( new GridLayout( 2, false ) );
+		}
+
+		new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_NUMBER );
+
+		previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
+		previewTextBox.setText( DEFAULT_PREVIEW_TEXT ); //$NON-NLS-1$
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			data.horizontalIndent = 10;
+		}
+		previewTextBox.setLayoutData( data );
+		previewTextBox.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				setDefaultPreviewText( previewTextBox.getText( ) );
+				if ( hasLoaded )
+				{
+					updatePreview( );
+				}
+			}
+		} );
+
+		Label label = new Label( group, SWT.NONE );
+		label.setText( LABEL_COSTOM_PREVIEW_LABEL );
+		label.setLayoutData( new GridData( ) );
+
+		cusPreviewLabel = new Label( group, SWT.CENTER
+				| SWT.HORIZONTAL
+				| SWT.VIRTUAL );
+		cusPreviewLabel.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+	}
+
+	private Label createGeneralPreviewPart4Page( Composite parent )
+	{
+		Group group = new Group( parent, SWT.NONE );
+		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
+		GridData data;
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			data = new GridData( GridData.FILL_BOTH );
+		}
+		else
+		{
+			data = new GridData( GridData.FILL_HORIZONTAL );
+		}
+		group.setLayoutData( data );
+		group.setLayout( new GridLayout( 1, false ) );
+
+		Label previewText = new Label( group, SWT.CENTER
+				| SWT.HORIZONTAL
+				| SWT.VERTICAL );
+		previewText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		return previewText;
 	}
 
 	/**
@@ -1289,36 +1571,16 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	 * @param parent
 	 *            Parent contains the table.
 	 */
+
 	private void createTable( Composite group )
 	{
-		Table table = new Table( group, SWT.FULL_SELECTION
+		table = new Table( group, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
 				| SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		data.horizontalSpan = 2;
-		table.setLayoutData( data );
+		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
-
-		table.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
-
-				String category = ChoiceSetFactory.getStructPropValue( NumberFormatValue.FORMAT_VALUE_STRUCT,
-						NumberFormatValue.CATEGORY_MEMBER,
-						displayName );
-
-				String pattern = getPatternForCategory( category );
-
-				formatCode.setText( pattern );
-
-				updatePreview( );
-			}
-		} );
-		table.select( 0 );
 
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );
 		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
@@ -1346,23 +1608,88 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				getDisplayName4Category( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ),
 				new NumberFormatter( getPatternForCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC ) ).format( DEFAULT_PREVIEW_NUMBER )
 		} );
+
+		table.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
+
+				String category = ChoiceSetFactory.getStructPropValue( NumberFormatValue.FORMAT_VALUE_STRUCT,
+						NumberFormatValue.CATEGORY_MEMBER,
+						displayName );
+
+				String pattern = getPatternForCategory( category );
+
+				formatCodeBox.setText( pattern );
+
+				updatePreview( );
+			}
+		} );
 	}
 
-	/**
-	 * Creates preview part for page.
-	 */
-	private Label createPreviewText( Composite parent )
+	private GridLayout createGridLayout4Page( )
 	{
-		Group group = new Group( parent, SWT.NONE );
-		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
-		group.setLayoutData( createGridData4Group( ) );
-		group.setLayout( new GridLayout( 1, false ) );
+		GridLayout layout;
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			layout = new GridLayout( 2, false );
+			layout.marginHeight = 0;
+		}
+		else
+		{
+			layout = new GridLayout( 1, false );
+			layout.marginHeight = 0;
+		}
+		return layout;
+	}
 
-		Label previewText = new Label( group, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL );
-		previewText.setLayoutData( data );
+	private GridData createGridData4Part( )
+	{
+		GridData data;
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			data = new GridData( GridData.FILL_VERTICAL );
+		}
+		else
+		{
+			data = new GridData( GridData.FILL_HORIZONTAL );
+		}
+		return data;
+	}
 
-		return previewText;
+	private void setControlsEnabled( boolean b )
+	{
+		typeChoicer.setEnabled( b );
+
+		cPlacesChoice.setEnabled( b );
+		cUseSep.setEnabled( b );
+		cSymbolChoice.setEnabled( b );
+		cSymPosChoice.setEnabled( b );
+		if ( b )
+		{
+			if ( cSymbolChoice.getSelectionIndex( ) == 0 )
+			{
+				cSymPosChoice.setEnabled( false );
+			}
+		}
+		cNegNumChoice.setEnabled( b );
+
+		fPlacesChoice.setEnabled( b );
+		fUseSep.setEnabled( b );
+		fUseZero.setEnabled( b );
+		fNegNumChoice.setEnabled( b );
+
+		pPlacesChoice.setEnabled( b );
+		pUseSep.setEnabled( b );
+		pUseZero.setEnabled( b );
+		pSymPosChoice.setEnabled( b );
+		pNegNumChoice.setEnabled( b );
+
+		sPlacesChoice.setEnabled( b );
+
+		formatCodeBox.setEnabled( b );
+		previewTextBox.setEnabled( b );
+		table.setEnabled( b );
 	}
 }
