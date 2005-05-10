@@ -47,6 +47,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -197,7 +198,7 @@ public class ModelDteApiAdapter
         dest.setAfterCloseScript( source.getAfterClose() );
     }
         
-    IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet )
+    IOdaDataSetDesign newExtendedDataSet( OdaDataSetHandle modelDataSet ) throws EngineException
     {
         OdaDataSetDesign dteDataSet = new OdaDataSetDesign( modelDataSet.getName() );
             
@@ -247,7 +248,7 @@ public class ModelDteApiAdapter
         return dteDataSet;
     }
     
-    IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet )
+    IScriptDataSetDesign newScriptDataSet( ScriptDataSetHandle modelDataSet ) throws EngineException
     {
         ScriptDataSetDesign dteDataSet = new ScriptDataSetDesign( modelDataSet.getName() );
                 
@@ -264,7 +265,7 @@ public class ModelDteApiAdapter
     }
     
     void adaptBaseDataSet( DataSetHandle modelDataSet,
-            				BaseDataSetDesign dteDataSet )
+            				BaseDataSetDesign dteDataSet ) throws EngineException
     {
         dteDataSet.setDataSource( modelDataSet.getDataSourceName() );
         dteDataSet.setBeforeOpenScript( modelDataSet.getBeforeOpen() );
@@ -393,7 +394,7 @@ public class ModelDteApiAdapter
         dteParam.setType( toDteDataType( modelParam.getDataType() ) );
         dteParam.setInputMode( modelParam.isInput() );
         dteParam.setOutputMode( modelParam.isOutput() );
-        dteParam.setNullable( modelParam.isNullable() );
+        dteParam.setNullable( modelParam.allowNull() );
         dteParam.setInputOptional( modelParam.isOptional() );
         dteParam.setDefaultInputValue( modelParam.getDefaultValue() );
         
@@ -420,12 +421,15 @@ public class ModelDteApiAdapter
     
     /** Creates a new DtE API Computed Column from a model computed column.
      * Could return null if no expression is defined.
+     * @throws EngineException
      */
-    IComputedColumn newComputedColumn( ComputedColumnHandle modelCmptdColumn )
+    IComputedColumn newComputedColumn( ComputedColumnHandle modelCmptdColumn ) throws EngineException
     {
         // no expression to define a computed column        
-        if ( modelCmptdColumn.getExpression() == null )
-            return null;	
+        if ( modelCmptdColumn.getExpression() == null ) {
+        	throw new EngineException( MessageConstants.EXPRESSION_IS_NULL_OF_CC,
+					modelCmptdColumn.getColumnName( ) );
+        }
         
         return new ComputedColumn( modelCmptdColumn.getColumnName(), 
                 					modelCmptdColumn.getExpression() );
