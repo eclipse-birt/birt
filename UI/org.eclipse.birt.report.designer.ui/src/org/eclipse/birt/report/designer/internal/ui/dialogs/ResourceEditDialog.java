@@ -20,8 +20,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.birt.core.i18n.ThreadResources;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -79,8 +80,9 @@ public class ResourceEditDialog extends BaseDialog
 	/**
 	 * PropertyLabelProvider
 	 */
-	static class PropertyLabelProvider extends LabelProvider implements
-			ITableLabelProvider
+	static class PropertyLabelProvider extends LabelProvider
+			implements
+				ITableLabelProvider
 	{
 
 		/*
@@ -170,7 +172,8 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			else
 			{
-				IBaseLabelProvider prov = ( (ContentViewer) viewer ).getLabelProvider( );
+				IBaseLabelProvider prov = ( (ContentViewer) viewer )
+						.getLabelProvider( );
 				if ( prov instanceof ITableLabelProvider )
 				{
 					ITableLabelProvider lprov = (ITableLabelProvider) prov;
@@ -238,11 +241,8 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		super( parentShell, title );
 
-		setShellStyle( SWT.CLOSE
-				| SWT.TITLE
-				| SWT.BORDER
-				| SWT.APPLICATION_MODAL
-				| SWT.RESIZE );
+		setShellStyle( SWT.CLOSE | SWT.TITLE | SWT.BORDER
+				| SWT.APPLICATION_MODAL | SWT.RESIZE );
 
 	}
 
@@ -292,16 +292,11 @@ public class ResourceEditDialog extends BaseDialog
 			return;
 		}
 
-		Locale lc = ThreadResources.getLocale( );
+		Locale lc = SessionHandleAdapter.getInstance( ).getSessionHandle( )
+				.getLocale( );
 
-		String fullBaseName = folderName
-				+ File.separator
-				+ baseName
-				+ "_"
-				+ lc.getLanguage( )
-				+ "_"
-				+ lc.getCountry( )
-				+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String fullBaseName = folderName + File.separator + baseName + "_"
+				+ lc.getLanguage( ) + "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		File f = new File( fullBaseName );
 		if ( f.exists( ) && f.isFile( ) )
@@ -324,12 +319,8 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		}
 
-		fullBaseName = folderName
-				+ File.separator
-				+ baseName
-				+ "_"
-				+ lc.getLanguage( )
-				+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
+		fullBaseName = folderName + File.separator + baseName + "_"
+				+ lc.getLanguage( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		f = new File( fullBaseName );
 		if ( f.exists( ) && f.isFile( ) )
@@ -375,12 +366,8 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		}
 
-		propFileName = baseName
-				+ "_"
-				+ lc.getLanguage( )
-				+ "_"
-				+ lc.getCountry( )
-				+ ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		propFileName = baseName + "_" + lc.getLanguage( ) + "_"
+				+ lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
@@ -420,10 +407,13 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		loadMessage( );
 
-		final Composite innerParent = (Composite) super.createDialogArea( parent );
+		final Composite innerParent = (Composite) super
+				.createDialogArea( parent );
 
 		nameLabel = new Label( innerParent, SWT.NONE );
-		nameLabel.setText( Messages.getString( "ResourceEditDialog.message.ResourceFile" ) + propFileName ); //$NON-NLS-1$
+		nameLabel
+				.setText( Messages
+						.getString( "ResourceEditDialog.message.ResourceFile" ) + propFileName ); //$NON-NLS-1$
 		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		final Table table = new Table( innerParent, SWT.BORDER
@@ -567,8 +557,10 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		if ( viewer.getTable( ).getSelectionCount( ) > 0 )
 		{
-			keyText.setText( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
-			valueText.setText( viewer.getTable( ).getSelection( )[0].getText( 1 ) );
+			keyText
+					.setText( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+			valueText.setText( viewer.getTable( ).getSelection( )[0]
+					.getText( 1 ) );
 		}
 
 		updateButtonState( );
