@@ -46,6 +46,7 @@ public class TableOptionDialog extends BaseDialog
 	private static final String MSG_INSERT_GRID = Messages.getString( "TableOptionDialog.title.InsertGrid" ); //$NON-NLS-1$
 	private static final String MSG_INSERT_TABLE = Messages.getString( "TableOptionDialog.title.InsertTable" ); //$NON-NLS-1$
 
+	private static final int DEFAULT_TABLE_ROW_COUNT = 1;
 	private static final int DEFAULT_ROW_COUNT = 3;
 	private static final int DEFAULT_COLUMN_COUNT = 3;
 
@@ -116,7 +117,8 @@ public class TableOptionDialog extends BaseDialog
 		}
 		if ( rowCount <= 0 )
 		{
-			rowCount = DEFAULT_ROW_COUNT;
+			rowCount = insertTable ? DEFAULT_TABLE_ROW_COUNT
+					: DEFAULT_ROW_COUNT;
 		}
 
 	}
@@ -208,7 +210,8 @@ public class TableOptionDialog extends BaseDialog
 		}
 		catch ( NumberFormatException e )
 		{
-			rowCount = DEFAULT_ROW_COUNT;
+			rowCount = insertTable ? DEFAULT_TABLE_ROW_COUNT
+					: DEFAULT_ROW_COUNT;
 		}
 
 		try
@@ -226,7 +229,8 @@ public class TableOptionDialog extends BaseDialog
 		}
 		if ( rowCount <= 0 )
 		{
-			rowCount = DEFAULT_ROW_COUNT;
+			rowCount = insertTable ? DEFAULT_TABLE_ROW_COUNT
+					: DEFAULT_ROW_COUNT;
 		}
 
 		setResult( new int[]{
