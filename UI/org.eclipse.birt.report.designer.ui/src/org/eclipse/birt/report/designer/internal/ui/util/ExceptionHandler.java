@@ -221,10 +221,10 @@ public class ExceptionHandler
 		{
 			if ( ( (Class) itor.next( ) ).isInstance( e ) )
 			{
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	private static ErrorStatus createErrorStatus( List list )
