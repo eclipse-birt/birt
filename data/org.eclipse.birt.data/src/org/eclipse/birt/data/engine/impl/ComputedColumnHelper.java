@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -96,12 +97,23 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			// and assign it the computed value
 			for ( int i = 0; i < columnExprArray.length; i++ )
 			{
-				Object value = ScriptEvalUtil.evaluateJSExpr( cx,
-						scope,
-						columnExprArray[i],
-						"ComputedColumn",
-						0 );
-				resultObject.setCustomFieldValue( columnIndexArray[i], value );
+				if ( columnExprArray[i] != null
+						&& columnExprArray[i].trim( ).length( ) >0 )
+				{
+					Object value = ScriptEvalUtil.evaluateJSExpr( cx,
+							scope,
+							columnExprArray[i],
+							"ComputedColumn",
+							0 );
+					resultObject.setCustomFieldValue( columnIndexArray[i],
+							value );
+				}
+				else
+				{
+					throw new DataException( ResourceConstants.EXPR_INVALID_COMPUTED_COLUMN,
+							resultObject.getResultClass( )
+									.getFieldName( columnIndexArray[i] ) );
+				}
 			}
 		}
 		finally

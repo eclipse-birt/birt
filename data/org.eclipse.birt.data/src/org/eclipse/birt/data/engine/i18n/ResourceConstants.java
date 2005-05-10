@@ -31,6 +31,7 @@ public class ResourceConstants
 
 	public final static String CONDITIONAL_EXPR_NOT_SUPP = "CONDITIONAL_EXPR_NOT_SUPP";
 	public final static String MISSING_DRIVERNAME = "MISSING_DRIVERNAME";
+	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "STARTING_GROUP_VALUE_CANNOT_BE_NULL";
 	
 	public final static String RESULT_CLOSED = "RESULT_CLOSED";
 	public final static String RESULT_ENDED = "RESULT_ENDED";
@@ -64,7 +65,6 @@ public class ResourceConstants
 	
 	public final static String INVALID_TYPE = "INVALID_TYPE";
 	public final static String UNSUPPORTED_DATA_TYPE = "UNSUPPORTED_DATA_TYPE";
-	public final static String UNSUPPORTTED_OPERATOR = "UNSUPPORTTED_OPERATOR";
 	
 	public final static String ILLEGAL_PARAMETER = "ILLEGAL_PARAMETER";
 	public final static String ILLEGAL_DATA = "ILLEGAL_DATA";
@@ -76,8 +76,14 @@ public class ResourceConstants
 	
 	public final static String ILLEGAL_PARAMETER_FUN = "ILLEGAL_PARAMETER_FUN";
 	public final static String RESET_RATE = "RESET_RATE";
+	public final static String UNSUPPORTTED_OPERATOR = "UNSUPPORTTED_OPERATOR";
+	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
+	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "EXPRESSION_CANNOT_BE_NULL_OR_BLANK";	
+	// computed column value
+	public final static String EXPR_INVALID_COMPUTED_COLUMN= "EXPR_INVALID_COMPUTED_COLUMN";
 	
 	// wrapper error
+	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
 	public final static String INVALID_TYPE_IN_EXPR = "INVALID_TYPE_IN_EXPR";
 	public final static String AGGREGATION_ERROR = "AGGREGATION_ERROR";
 	public final static String TRANSFORM_ERROR = "TRANSFORM_ERROR";
@@ -86,21 +92,17 @@ public class ResourceConstants
 	public final static String DS_OPEN_ERROR = "DS_OPEN_ERROR";
 	public final static String DS_COLUMN_HINTS_ERROR = "DS_COLUMN_HINTS_ERROR";
 	public final static String DS_PARAMETER_ERROR = "DS_PARAMETER_ERROR";
-	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";	
-	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
-	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";
+	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";
 	
+	// other error
+	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
+	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";	
 	public final static String QUERY_FAILURE = "QUERY_FAILURE";
-	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "STARTING_GROUP_VALUE_CANNOT_BE_NULL";
+	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL";
 	public final static String INVALID_EXPR = "INVALID_EXPR";
 	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
-	
-	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
-	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
-	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL";
-	
-	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "EXPRESSION_CANNOT_BE_NULL_OR_BLANK";
+		
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
