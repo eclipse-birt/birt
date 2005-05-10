@@ -23,6 +23,12 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  */
 public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 {
+	private static final String SCALAR = "scalar"; 	//$NON-NLS-1$
+	private static final String FILTER = "filter"; 	//$NON-NLS-1$
+	private static final String LIST = "list"; 		//$NON-NLS-1$
+	private static final String TABLE = "table"; 	//$NON-NLS-1$
+	private static final String GROUP = "group"; 	//$NON-NLS-1$
+	
 	protected int 			parameterType;
 	protected String 		displayName;
 	protected String 		displayNameKey;
@@ -68,6 +74,25 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	public void setParameterType(int parameterType)
 	{
 		this.parameterType = parameterType;
+		switch (parameterType)
+		{
+			case IParameterDefnBase.FILTER_PARAMETER:
+				this.typeName = FILTER;
+				break;
+			case IParameterDefnBase.LIST_PARAMETER:
+				this.typeName = LIST;
+				break;				
+			case IParameterDefnBase.TABLE_PARAMETER:
+				this.typeName = TABLE;
+				break;
+			case IParameterDefnBase.PARAMETER_GROUP:
+				this.typeName = GROUP;
+				break;
+			case IParameterDefnBase.SCALAR_PARAMETER:
+			default:
+				this.typeName = SCALAR;
+				break;
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -176,11 +201,6 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	public String getTypeName()
 	{
 		return typeName;
-	}
-	
-	public void setTypeName(String typeName)
-	{
-		this.typeName = typeName;
 	}
 	
 	public void addUserProperty(String name, String value)

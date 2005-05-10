@@ -27,12 +27,7 @@ public interface IParameterDefnBase
 	public static final int LIST_PARAMETER = 2;
 	public static final int TABLE_PARAMETER = 3;
 	public static final int PARAMETER_GROUP = 4;
-	
-	public static final String SCALAR_PARAMETER_NAME = "scalarParameter"; //$NON-NLS-1$
-	public static final String FILTER_PARAMETER_NAME = "filterParameter"; //$NON-NLS-1$
-	public static final String LIST_PARAMETER_NAME = "listParameter"; //$NON-NLS-1$
-	public static final String TABLE_PARAMETER_NAME = "tableParameter"; //$NON-NLS-1$
-	public static final String PARAMETER_GROUP_NAME = "parameterGroup"; //$NON-NLS-1$
+
 	/**
 	 * @return the parameter type, i.e., scalar, filter, list, table or
 	 *         parameter group

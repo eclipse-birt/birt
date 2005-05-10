@@ -295,6 +295,7 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	 */
 	public void evaluateSelectionList()
 	{	
+		// For now, supports static list only
 		if (selectionListType == IScalarParameterDefn.SELECTION_LIST_STATIC)
 		{
 			boolean sortDisplayValue = true;
@@ -302,29 +303,28 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 			{
 				ParameterSelectionChoice choice = (ParameterSelectionChoice)selectionList.get(i);
 				choice.setLocale(locale);
-				if(sortDisplayValue && choice.getLabel()==null)
+				if( choice.getLabel() == null )
 				{
 					sortDisplayValue = false;
+					break;
 				}
-				
 			}
+			
 			//sort
 			if(!fixedOrder)
-			{
 				Collections.sort(selectionList, new SelectionChoiceCompartor(sortDisplayValue));
-			}
-			// For now, supports static list only
-			
 		}
 	}
 		
 	protected class SelectionChoiceCompartor implements Comparator
 	{
 		protected boolean sortDisplayValue;
+		
 		public SelectionChoiceCompartor(boolean sortDisplayValue)
 		{
 			this.sortDisplayValue = sortDisplayValue;
 		}
+		
 		public int compare(Object o1, Object o2)
 		{
 			if ((o1 instanceof ParameterSelectionChoice)
@@ -334,26 +334,18 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 				Object value2;
 				if(sortDisplayValue)
 				{
-					value1 = ((ParameterSelectionChoice) o1)
-					.getLabel();
-					value2 = ((ParameterSelectionChoice) o2)
-					.getLabel();
+					value1 = ((ParameterSelectionChoice) o1).getLabel();
+					value2 = ((ParameterSelectionChoice) o2).getLabel();
 				}
 				else
 				{
-					value1 = ((ParameterSelectionChoice) o1)
-							.getValue();
-					value2 = ((ParameterSelectionChoice) o2)
-							.getValue();
+					value1 = ((ParameterSelectionChoice) o1).getValue();
+					value2 = ((ParameterSelectionChoice) o2).getValue();
 				}
 				if (value1 != null && value2 != null)
-				{
-					return ((Comparable) value1)
-							.compareTo(value2);
-				}
+					return ((Comparable) value1).compareTo(value2);
 			}
 			return -1;
 		}
-
 	}
 }
