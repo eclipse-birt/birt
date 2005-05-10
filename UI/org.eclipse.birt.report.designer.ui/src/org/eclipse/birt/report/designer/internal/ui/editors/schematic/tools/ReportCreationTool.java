@@ -41,6 +41,8 @@ public class ReportCreationTool extends CreationTool
 	private static final String MODEL_CREATE_ELEMENT_TRANS = Messages.getString( "ReportCreationTool.ModelTrans.CreateElement" ); //$NON-NLS-1$
 
 	private AbstractToolHandleExtends preHandle;
+	
+	private boolean isCreating = false;
 
 	/**
 	 * Constructor
@@ -62,6 +64,7 @@ public class ReportCreationTool extends CreationTool
 	 */
 	protected void performCreation( int button )
 	{
+		isCreating = true;
 		SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( )
@@ -97,7 +100,7 @@ public class ReportCreationTool extends CreationTool
 				.getCommandStack( )
 				.commit( );
 		selectAddedObject( );
-
+		isCreating = false;
 	}
 
 	/**
@@ -274,6 +277,10 @@ public class ReportCreationTool extends CreationTool
 	 */
 	protected boolean handleMove( )
 	{
+		if (isCreating)
+		{
+			return true;
+		}
 		boolean validateTrue = false;
 		updateTargetUnderMouse( );
 		if ( getTargetEditPart( ) != null )
