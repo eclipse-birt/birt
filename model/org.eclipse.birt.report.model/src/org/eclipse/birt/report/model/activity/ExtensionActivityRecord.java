@@ -53,6 +53,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	{
 		assert extCommand != null;
 		extRecord = extCommand;
+		setLabel( extCommand.getLabel( ) );
 	}
 
 	/*

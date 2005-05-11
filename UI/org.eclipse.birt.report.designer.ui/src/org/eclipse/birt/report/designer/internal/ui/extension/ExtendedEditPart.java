@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -119,16 +123,44 @@ public class ExtendedEditPart extends ReportElementEditPart
 		IReportItemBuilderUI builder = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) )
 				.getReportItemBuilderUI( );
-		if ( builder != null
-				&& builder.open( getExtendedItemHandle( ) ) == Window.OK )
+		
+			
+		if ( builder != null )
 		{
-			refreshVisuals( );
+		    // Start a transaction before opening builder
+		    
+		    CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
+			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", new Object[] { getExtendedItemHandle( ).getExtensionName( ) } ); //$NON-NLS-1$
+		   
+            stack.startTrans( transName );
+            int result = Window.CANCEL;
+            try
+            {
+                result = builder.open( getExtendedItemHandle() );
+            }
+            catch ( RuntimeException e )
+            {
+                ExceptionHandler.handle( e );
+                stack.rollback();
+                return;
+            }
+
+            if ( result == Window.OK )
+            {
+                stack.commit();
+                refreshVisuals();
+            }
+            else
+            {
+                stack.rollback();
+            }
+           
 		}
 	}
 
 	/**
-	 * perform edit directly when the request is the corresponding type.
-	 */
+     * perform edit directly when the request is the corresponding type.
+     */
 	public void performRequest( Request request )
 	{
 		if ( request.getType( ) == RequestConstants.REQ_OPEN )

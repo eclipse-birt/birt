@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.IActivityRecord;
+import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
@@ -126,8 +126,9 @@ public final class ChartReportItemImpl extends ReportItem
         {
             return;
         }
-        IActivityRecord command = new ChartElementCommandImpl();
-        this.reporthandle.getCommandStack().execute(command);
+        IElementCommand command = new ChartElementCommandImpl();
+        // TODO Cast to be removed when CommandStack has the execute(IElementCommand) method
+        ((ActivityStack)this.reporthandle.getCommandStack()).execute(command);
     }
 
     /**

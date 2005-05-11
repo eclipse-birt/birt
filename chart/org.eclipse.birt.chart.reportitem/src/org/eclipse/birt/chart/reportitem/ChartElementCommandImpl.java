@@ -10,15 +10,14 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
-import org.eclipse.birt.report.model.activity.ActivityRecord;
-import org.eclipse.birt.report.model.api.activity.IActivityRecord;
-import org.eclipse.birt.report.model.api.extension.ElementCommand;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 /**
  * @author Actuate Corporation
  *  
  */
-public class ChartElementCommandImpl extends ActivityRecord
+public class ChartElementCommandImpl implements IElementCommand
 {
 
     /**
@@ -82,15 +81,15 @@ public class ChartElementCommandImpl extends ActivityRecord
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
-     */
-    public void sendNotifcations(boolean transactionStarted)
-    {
-        // TODO Auto-generated method stub
 
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getLabel()
+     */
+    public String getLabel( )
+    {
+        return Messages.getString( "ChartElementCommandImpl.editChart" ) ; 
+		   
     }
 
 }
