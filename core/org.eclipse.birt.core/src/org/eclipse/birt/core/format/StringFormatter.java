@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.core.format;
 
+import java.text.ParseException;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/29 07:54:12 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -276,6 +277,123 @@ public class StringFormatter
 		}
 
 		return ret.toString( );
+	}
+	
+	/**
+	 * Parses the input string into a formatted date type.
+	 * 
+	 * @param str
+	 *            the input string to parse
+	 * @return the string
+	 * @throws ParseException
+	 *             if the specified string cannot be parsed according to specified pattern.
+	 */
+	public String parser(String str) throws ParseException
+	{
+		if(formatPattern==null || "".equals(formatPattern)  //$NON-NLS-1$
+				|| formatPattern.indexOf(">")>-1 || formatPattern.indexOf("<")>-1) //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			return str;
+		}
+		StringBuffer orig = new StringBuffer( str );
+		StringBuffer fstr = new StringBuffer( "" ); //$NON-NLS-1$ 
+		StringBuffer ret = new StringBuffer( "" ); //$NON-NLS-1$
+
+		for(int i=0; i<formatPattern.length(); i++)
+		{
+			if(formatPattern.charAt(i)!='!' 
+				&& formatPattern.charAt(i)!='>'
+				&& formatPattern.charAt(i)!='<')
+			{
+				fstr.append(formatPattern.charAt(i));
+			}
+		}
+		char fc = ' ';
+		int lenPattern = fstr.length();
+		int lenFormatStr = orig.length();
+		if(lenPattern>lenFormatStr)
+		{
+			if(dir)
+			{
+				
+				for(int k=lenFormatStr; k<lenPattern; k++)
+				{
+					if(fstr.charAt(k)!='&')
+					{
+						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
+								k);
+					}
+					orig.append(" "); //$NON-NLS-1$
+				}
+			}
+			else
+			{
+				for(int k=0; k<lenPattern-lenFormatStr; k++)
+				{
+					if(fstr.charAt(lenPattern-lenFormatStr-k-1)!='&')
+					{
+						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
+								0);
+					}
+					orig.insert(0, " "); //$NON-NLS-1$
+				}
+			}
+		}
+		else if(lenPattern<lenFormatStr)
+		{
+			if(dir)
+			{
+				//fstr.append(orig.subSequence(lenPattern, lenFormatStr));
+				for(int k=lenPattern; k<lenFormatStr; k++)
+				{
+					fstr.append('&');
+				}
+				
+			}
+			else
+			{
+				//fstr.insert(0, orig.substring(0, lenFormatStr-lenPattern));
+				for(int k=lenPattern; k<lenFormatStr; k++)
+				{
+					fstr.insert(0,'&');
+				}
+			}
+		}
+		int index = 0;
+		int count = lenPattern>lenFormatStr ? lenPattern : lenFormatStr;
+		for(int i=0; i<count; i++)
+		{
+			fc = fstr.charAt( i );
+			switch ( fc )
+			{
+				case ( '@' ) :
+					if(orig.charAt(index)!=' ')
+					{
+						ret.append(orig.charAt(index));
+					}
+					index++;
+					
+					break;
+				case ( '&' ) :
+					ret.append(orig.charAt(index));
+				index++;
+					break;
+
+				case ( '<' ) :
+				case ( '>' ) :
+					return str;
+				
+				default :
+					if(orig.charAt(index)!=fstr.charAt(i))
+					{
+						throw new ParseException("Unparseable string: \"" + orig.toString() + "\"",
+								index);
+					}
+					index++;
+					break;
+			}
+		}
+		return ret.toString();
 	}
 
 }

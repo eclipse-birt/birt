@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -102,6 +103,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -128,7 +130,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/05/10 08:00:58 $
+ * @version $Revision: 1.29 $ $Date: 2005/05/10 21:58:30 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -425,10 +427,17 @@ class EngineIRVisitor extends DesignVisitor
 		paramGroup.setDisplayName( handle.getDisplayName( ) );
 		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
 		paramGroup.setHelpText( handle.getHelpText( ) );
-		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
-
-		
+		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );		
 		SlotHandle parameters = handle.getParameters( );
+		
+		//set custom properties
+		List properties = handle.getUserProperties();
+		for(int i=0; i<properties.size(); i++)
+		{
+			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
+			paramGroup.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+		}
+		
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
 		{
@@ -446,6 +455,14 @@ class EngineIRVisitor extends DesignVisitor
 		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
 		scalarParameter.setParameterType(IParameterDefnBase.SCALAR_PARAMETER);
 		scalarParameter.setName(handle.getName());
+		
+		//set custom properties
+		List properties = handle.getUserProperties();
+		for(int i=0; i<properties.size(); i++)
+		{
+			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
+			scalarParameter.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+		}
 		String align = handle.getAlignment();
 		if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals(align))
 			scalarParameter.setAlignment( IScalarParameterDefn.CENTER );

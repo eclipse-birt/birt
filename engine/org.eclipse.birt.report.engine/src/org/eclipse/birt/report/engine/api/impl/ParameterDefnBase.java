@@ -185,7 +185,11 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	{
 		if(customProperties.containsKey(name))
 		{
-			return (String)customProperties.get(name);
+			Object value = customProperties.get(name);
+			if(value!=null)
+			{
+				return value.toString();
+			}
 		}
 		return null;
 	}
@@ -203,7 +207,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 		return typeName;
 	}
 	
-	public void addUserProperty(String name, String value)
+	public void addUserProperty(String name, Object value)
 	{
 		customProperties.put(name, value);
 	}
