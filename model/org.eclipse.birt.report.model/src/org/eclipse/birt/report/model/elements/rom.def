@@ -589,12 +589,12 @@
     <Method name="getDay" displayNameID="Class.Date.getDay" toolTipID="Class.Date.getDay.toolTip" returnType="number" />
     <Method name="getFullYear" displayNameID="Class.Date.getFullYear" toolTipID="Class.Date.getFullYear.toolTip" returnType="number" />
     <Method name="getHours" displayNameID="Class.Date.getHours" toolTipID="Class.Date.getHours.toolTip" returnType="number" />
-    <Method name="getMilliSeconds" displayNameID="Class.Date.getMilliSeconds" toolTipID="Class.Date.getMilliSeconds.toolTip" returnType="number" />
+    <Method name="getMilliseconds" displayNameID="Class.Date.getMilliSeconds" toolTipID="Class.Date.getMilliSeconds.toolTip" returnType="number" />
     <Method name="getMinutes" displayNameID="Class.Date.getMinutes" toolTipID="Class.Date.getMinutes.toolTip" returnType="number" />
     <Method name="getMonth" displayNameID="Class.Date.getMonth" toolTipID="Class.Date.getMonth.toolTip" returnType="number" />
     <Method name="getSeconds" displayNameID="Class.Date.getSeconds" toolTipID="Class.Date.getSeconds.toolTip" returnType="number" />
     <Method name="getTime" displayNameID="Class.Date.getTime" toolTipID="Class.Date.getTime.toolTip" returnType="number" />
-    <Method name="getTimeZoneOffset" displayNameID="Class.Date.getTimeZoneOffset" toolTipID="Class.Date.getTimeZoneOffset.toolTip" returnType="number" />
+    <Method name="getTimezoneOffset" displayNameID="Class.Date.getTimeZoneOffset" toolTipID="Class.Date.getTimeZoneOffset.toolTip" returnType="number" />
     <Method name="getUTCDate" displayNameID="Class.Date.getUTCDate" toolTipID="Class.Date.getUTCDate.toolTip" returnType="number" />
     <Method name="getUTCDay" displayNameID="Class.Date.getUTCDay" toolTipID="Class.Date.getUTCDay.toolTip" returnType="number" />
     <Method name="getUTCFullYear" displayNameID="Class.Date.getUTCFullYear" toolTipID="Class.Date.getUTCFullYear.toolTip" returnType="number" />
