@@ -2,9 +2,9 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.report.data.oda.jdbc.ui"
-   name="Jdbc Plug-in"
+   name="BIRT ODA-JDBC Data Source UI"
    version="1.0.0"
-   provider-name=""
+   provider-name="Eclipse.org"
    class="org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin">
 
    <runtime>

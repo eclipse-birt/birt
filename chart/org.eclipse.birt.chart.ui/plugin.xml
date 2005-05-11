@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.chart.ui"
-   name="Chart Library UI Plug-in"
+   name="BIRT Chart UI"
    version="0.0.1"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIPluginClass">
