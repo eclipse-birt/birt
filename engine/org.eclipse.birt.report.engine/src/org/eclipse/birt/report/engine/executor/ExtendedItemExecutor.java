@@ -319,6 +319,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		IBaseQueryDefinition[] queries = extItem.getQueries( );
 		if ( queries != null )
 		{
+			context.newScope( );
 			rowSets = new IRowSet[queries.length];
 			for ( int i = 0; i < rowSets.length; i++ )
 			{
@@ -340,6 +341,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					rowSets[i].close( );
 				}
 			}
+			context.exitScope( );
 		}
 	}
 }

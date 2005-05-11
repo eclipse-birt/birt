@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  *
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:46 $
  */
 public class RowSet implements IRowSet
 {
@@ -33,6 +33,29 @@ public class RowSet implements IRowSet
 	{
 		closed = false;
 		this.rset = rset;
+		metaData = new IRowMetaData( ) {
+
+			public int getColumnCount( )
+			{
+				return 0;
+			}
+
+			public String getColumnName( int index ) throws BirtException
+			{
+				return null;
+			}
+
+			public int getColumnType( int index ) throws BirtException
+			{
+				return -1;
+			}
+
+			public String getColumnExpression( int index ) throws BirtException
+			{
+				return null;
+			}
+		};
+
 		try
 		{
 			if ( rset != null && rset.getQr( ) != null )
@@ -60,12 +83,20 @@ public class RowSet implements IRowSet
 	
 	public boolean next()
 	{
-		return rset.next();
+		if ( rset != null )
+		{
+			return rset.next( );
+		}
+		return false;
 	}
 	
 	public Object evaluate(IBaseExpression expr)
 	{
-		return rset.evaluate(expr);
+		if ( rset != null )
+		{
+			return rset.evaluate( expr );
+		}
+		return null;
 	}
 	
 	public Object getValue(int columnIndex)

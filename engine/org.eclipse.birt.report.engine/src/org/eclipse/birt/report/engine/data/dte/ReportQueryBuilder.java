@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -92,7 +93,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.24 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.25 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ReportQueryBuilder
 {
@@ -308,6 +309,7 @@ public class ReportQueryBuilder
 					.createQueryItem( tagName );
 			IBaseQueryDefinition[] queries = null;
 			IBaseQueryDefinition parentQuery = getParentQuery( );
+			IBaseTransform parentTrans = getTransform( );
 			if ( itemQuery != null )
 			{
 				try
@@ -327,9 +329,20 @@ public class ReportQueryBuilder
 					for ( int i = 0; i < queries.length; i++ )
 					{
 						//only a regular query need add to list
-						if (queries[i] != null && queries[i] instanceof IQueryDefinition)
+						if (queries[i] != null )
 						{
-							this.queries.add( queries[i] );
+							if (queries[i] instanceof IQueryDefinition)
+							{
+								this.queries.add( queries[i] );
+							}
+							else if (queries[i] instanceof ISubqueryDefinition)
+							{
+								//TODO: chart engine make a mistake here
+								if (parentTrans != null)
+								{
+									parentTrans.getSubqueries().add(queries[i]);
+								}
+							}
 						}
 					}
 					if (queries.length > 0)

@@ -42,7 +42,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/08 06:59:45 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -233,6 +233,12 @@ public class DteDataEngine implements IDataEngine
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
+			//Extension Item may used to create the query stack, so we must do
+			//error handling.
+			if (rsStack.isEmpty())
+			{
+				return null;
+			}
 			assert ( rsStack.getLast( ) instanceof DteResultSet );
 
 			try
