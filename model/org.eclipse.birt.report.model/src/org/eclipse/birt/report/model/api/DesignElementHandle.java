@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -39,7 +40,6 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -522,7 +522,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 * 
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -546,7 +546,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 * 
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -900,6 +900,19 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns a list of user properties defined in this element and somewhere
+	 * up the inheritance chain. Each object in the list is instance of
+	 * <code>UserPropertyDefn<code>.
+	 * 
+	 * @return The list of user property definitions
+	 */
+
+	public List getUserProperties( )
+	{
+		return getElement( ).getUserProperties( );
 	}
 
 	/**

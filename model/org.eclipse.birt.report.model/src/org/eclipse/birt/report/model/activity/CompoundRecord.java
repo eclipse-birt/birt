@@ -71,7 +71,7 @@ public class CompoundRecord extends ActivityRecord
 	 * the compound record must be in the Done state.
 	 * 
 	 * @see ActivityRecord#execute()
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord)
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
 	 */
 
 	public void execute( )
@@ -186,11 +186,11 @@ public class CompoundRecord extends ActivityRecord
 	 * Appends a record to the compound record. The record must have been
 	 * executed already. The application should not call this method directly.
 	 * Instead, the record should be executed via the usual call to
-	 * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord) ActivityStack.execute( )}.
+	 * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord) ActivityStack.execute( )}.
 	 * 
 	 * @param record
 	 *            the record to be added.
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(ActivityRecord)
+	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
 	 */
 
 	public void append( ActivityRecord record )
