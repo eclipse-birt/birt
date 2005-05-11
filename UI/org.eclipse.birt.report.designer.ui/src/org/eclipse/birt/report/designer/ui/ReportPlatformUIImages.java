@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * This class provides the UI images for JRP platform.
@@ -59,9 +60,8 @@ public class ReportPlatformUIImages
 		URL url = null;
 		try
 		{
-			url = new URL( ReportPlugin.getDefault( )
-					.getBundle( )
-					.getEntry( "/" ), //$NON-NLS-1$
+			url = new URL( ReportPlugin.getDefault( ).getBundle( ).getEntry(
+					"/" ), //$NON-NLS-1$
 					path );
 		}
 		catch ( MalformedURLException e )
@@ -80,6 +80,18 @@ public class ReportPlatformUIImages
 	{
 
 		// common icons
+		declareImage( ISharedImages.IMG_OBJS_ERROR_TSK, ICONS_PATH
+				+ "error_tsk.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_OBJ_FOLDER, ICONS_PATH + "fldr_obj.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_COPY, ICONS_PATH + "copy_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_CUT, ICONS_PATH + "cut_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_UNDO, ICONS_PATH + "undo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_REDO, ICONS_PATH + "redo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_PASTE, ICONS_PATH
+				+ "paste_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH
+				+ "delete_edit.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
 				+ "new_report.gif" ); //$NON-NLS-1$
 
@@ -312,7 +324,8 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER
 				+ IReportGraphicConstants.DIS, ICONS_PATH
 				+ "center_align_disabled.gif" ); //$NON-NLS-1$
-		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY,
+		declareImage(
+				IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY,
 				ICONS_PATH + "justified_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY
 				+ IReportGraphicConstants.DIS, ICONS_PATH
@@ -428,8 +441,8 @@ public class ReportPlatformUIImages
 		Image image = null;
 		if ( model instanceof ExtendedItemHandle )
 		{
-			image = getImage( getIconSymbolName( ( (ExtendedItemHandle) model ).getExtensionName( ),
-					IExtensionConstants.OUTLINE_ICON ) );
+			image = getImage( getIconSymbolName( ( (ExtendedItemHandle) model )
+					.getExtensionName( ), IExtensionConstants.OUTLINE_ICON ) );
 			if ( image == null )
 			{
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );
@@ -438,8 +451,7 @@ public class ReportPlatformUIImages
 		else if ( model instanceof DesignElementHandle )
 		{//the icon name for elements is just the same as the element name
 			image = getImage( ( (DesignElementHandle) model ).getElement( )
-					.getDefn( )
-					.getName( ) );
+					.getDefn( ).getName( ) );
 		}
 		return image;
 	}
@@ -458,7 +470,8 @@ public class ReportPlatformUIImages
 		ImageDescriptor imageDescriptor = null;
 		if ( model instanceof ExtendedItemHandle )
 		{
-			imageDescriptor = getImageDescriptor( getIconSymbolName( ( (ExtendedItemHandle) model ).getExtensionName( ),
+			imageDescriptor = getImageDescriptor( getIconSymbolName(
+					( (ExtendedItemHandle) model ).getExtensionName( ),
 					IExtensionConstants.OUTLINE_ICON ) );
 			if ( imageDescriptor == null )
 			{
@@ -467,9 +480,8 @@ public class ReportPlatformUIImages
 		}
 		else if ( model instanceof DesignElementHandle )
 		{//the icon name for elements is just the same as the element name
-			imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
-					.getDefn( )
-					.getName( ) );
+			imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model )
+					.getElement( ).getDefn( ).getName( ) );
 		}
 		return imageDescriptor;
 	}
