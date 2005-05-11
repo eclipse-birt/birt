@@ -25,10 +25,6 @@ public class InsertEmbeddedImageAction extends AbstractElementAction
 
 	public final static String ID = "org.eclipse.birt.report.designer.ui.views.action.InsertEmbeddedImageAction";//$NON-NLS-1$	
 
-	private String position;
-
-	private String type = null;
-
 	/**
 	 * Create a new insert action with given selection and text at specified
 	 * position
