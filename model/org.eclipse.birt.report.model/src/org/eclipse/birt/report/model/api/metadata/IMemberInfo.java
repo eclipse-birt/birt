@@ -26,4 +26,12 @@ public interface IMemberInfo extends ILocalizableInfo
 
 	public String getDataType( );
 	
+	/**
+	 * Returns whether this member is static.
+	 * 
+	 * @return <code>true</code> if this member is true.
+	 */
+	
+	public boolean isStatic( );
+	
 }

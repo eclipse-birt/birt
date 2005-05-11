@@ -26,6 +26,12 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 */
 
 	private String dataType;
+	
+	/**
+	 * Whether this memeber is static.
+	 */
+	
+	private boolean isStatic;
 
 	/**
 	 * Returns the script data type of this member.
@@ -48,5 +54,28 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	void setDataType( String type )
 	{
 		this.dataType = type;
+	}
+
+	/**
+	 * Sets whether this member is static.
+	 * 
+	 * @param isStatic the flag set
+	 */
+	
+	void setStatic( boolean isStatic )
+	{
+		this.isStatic = isStatic;
+	}
+
+	
+	/**
+	 * Returns whether this member is static.
+	 * 
+	 * @return <code>true</code> if this member is true.
+	 */
+	
+	public boolean isStatic( )
+	{
+		return isStatic;
 	}
 }

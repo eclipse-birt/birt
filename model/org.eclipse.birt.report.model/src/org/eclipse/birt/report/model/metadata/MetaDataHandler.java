@@ -1657,6 +1657,8 @@ class MetaDataHandler extends XMLParserHandler
 				memberDefn.setDisplayNameKey( displayNameID );
 				memberDefn.setToolTipKey( toolTipID );
 				memberDefn.setDataType( dataType );
+				memberDefn.setStatic( getBooleanAttrib( attrs,
+						IS_STATIC_ATTRIB, false ) );
 
 				try
 				{
