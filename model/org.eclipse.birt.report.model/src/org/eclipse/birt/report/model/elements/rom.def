@@ -476,35 +476,35 @@
     <Method name="decodeURIComponent" displayNameID="Class.Global.decodeURIComponent" toolTipID="Class.Global.decodeURIComponent.toolTip" returnType="String" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.decodeURIComponent.s" />
     </Method>
-    <Method name="encodeURI" displayNameID="Class.Global.encodeURI" toolTipID="Class.Global.encodeURI.toolTip" returnType="String">
+    <Method name="encodeURI" displayNameID="Class.Global.encodeURI" toolTipID="Class.Global.encodeURI.toolTip" returnType="String" isStatic="true" >
       <Argument name="uri" type="String" tagID="Class.Global.encodeURI.uri" />
     </Method>
-    <Method name="encodeURIComponent" displayNameID="Class.Global.encodeURIComponent" toolTipID="Class.Global.encodeURIComponent.toolTip" returnType="String">
+    <Method name="encodeURIComponent" displayNameID="Class.Global.encodeURIComponent" toolTipID="Class.Global.encodeURIComponent.toolTip" returnType="String" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.encodeURIComponent.s" />
     </Method>
-    <Method name="escape" displayNameID="Class.Global.escape" toolTipID="Class.Global.escape.toolTip" returnType="String">
+    <Method name="escape" displayNameID="Class.Global.escape" toolTipID="Class.Global.escape.toolTip" returnType="String" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.escape.s" />
     </Method>
-    <Method name="eval" displayNameID="Class.Global.eval" toolTipID="Class.Global.eval.toolTip" returnType="Object">
+    <Method name="eval" displayNameID="Class.Global.eval" toolTipID="Class.Global.eval.toolTip" returnType="Object" isStatic="true" >
       <Argument name="code" type="String" tagID="Class.Global.eval.code" />
     </Method>
-    <Method name="isNaN" displayNameID="Class.Global.isNaN" toolTipID="Class.Global.isNaN.toolTip" returnType="boolean">
+    <Method name="isNaN" displayNameID="Class.Global.isNaN" toolTipID="Class.Global.isNaN.toolTip" returnType="boolean" isStatic="true" >
       <Argument name="x" type="Object" tagID="Class.Global.isNaN.x" />
     </Method>
-    <Method name="isFinite" displayNameID="Class.Global.isFinite" toolTipID="Class.Global.isFinite.toolTip" returnType="boolean">
+    <Method name="isFinite" displayNameID="Class.Global.isFinite" toolTipID="Class.Global.isFinite.toolTip" returnType="boolean" isStatic="true" >
       <Argument name="n" type="number" tagID="Class.Global.isFinite.n" />
     </Method>
-    <Method name="parseFloat" displayNameID="Class.Global.parseFloat" toolTipID="Class.Global.parseFloat.toolTip" returnType="number">
+    <Method name="parseFloat" displayNameID="Class.Global.parseFloat" toolTipID="Class.Global.parseFloat.toolTip" returnType="number" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.parseFloat.s" />
     </Method>
-    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number">
+    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
       <Argument name="radix" type="number" tagID="Class.Global.parseInt.radix" />
     </Method>
-    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number">
+    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
     </Method>
-    <Method name="unescape" displayNameID="Class.Global.unescape" toolTipID="Class.Global.unescape.toolTip" returnType="String">
+    <Method name="unescape" displayNameID="Class.Global.unescape" toolTipID="Class.Global.unescape.toolTip" returnType="String" isStatic="true" >
       <Argument name="s" type="String" tagID="Class.Global.unescape.s" />
     </Method>
   </Class>
