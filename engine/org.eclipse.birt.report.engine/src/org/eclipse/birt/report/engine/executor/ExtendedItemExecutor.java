@@ -173,8 +173,11 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					catch ( BirtException ex )
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
-						context.addErrorMsg( "Fails to handle ExtendedItem "
-								+ item.getName( ) + ":"
+						String elementName = handle.getName( );
+						
+						context.addErrorMsg( " Failed to render "
+								+ handle.getExtensionName( )
+								+ ( elementName != null ? " " + elementName : "" ) +  ": " //$NON-NLS-1$
 								+ ex.getLocalizedMessage( ) );
 
 					}
