@@ -15,13 +15,13 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.internal.GEFMessages;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
@@ -233,7 +233,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command undoCmd = getCommandStack( ).getUndoCommand( );
-			action.setToolTipText( MessageFormat.format( GEFMessages.UndoAction_Tooltip,
+			action.setToolTipText( MessageFormat.format( Messages.getString("UndoAction_Tooltip"),
 					new Object[]{
 						getLabelForCommand( undoCmd )
 					} )
@@ -272,7 +272,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command redoCmd = getCommandStack( ).getRedoCommand( );
-			action.setToolTipText( MessageFormat.format( GEFMessages.RedoAction_Tooltip,
+			action.setToolTipText( MessageFormat.format( Messages.getString("RedoAction_Tooltip"),
 					new Object[]{
 						getLabelForCommand( redoCmd )
 					} )
