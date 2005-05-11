@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -174,6 +174,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			return null;
 		}
 
+		StyleDesign style = null;
 		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
 		{
 			HighlightRuleDesign rule = highlight.getRule( i ) ;
@@ -183,11 +184,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
-					return rule.getStyle( );
+					if (style == null)
+					{
+						style = new StyleDesign();
+					}
+					style = style.mergeWithInlineStyle(rule.getStyle());
 				}
 			}
 		}
-		return null;
+		return style;
 	}
 
 	/**
