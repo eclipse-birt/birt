@@ -29,7 +29,10 @@ public class DataEditPart extends LabelEditPart
 {
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
-	private static final String FIGURE_EXPRESSION_TEXT = Messages.getString( "DataEditPart.Figure.Expression" ); //$NON-NLS-1$
+
+	private static final int TRUNCATE_LENGTH = 18;
+
+	private static final String ELLIPSIS = "..."; //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -97,18 +100,18 @@ public class DataEditPart extends LabelEditPart
 		}
 		else
 		{
-			text = FIGURE_EXPRESSION_TEXT;
+			if ( text.length( ) > TRUNCATE_LENGTH )
+			{
+				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
+			}
 		}
 		return text;
 	}
 
 	protected boolean hasText( )
 	{
-		if ( ( (DataItemHandle) getModel( ) ).getValueExpr( ) == null )
-		{
-			return false;
-		}
+		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
 
-		return true;
+		return ( text != null && text.length( ) > 0 );
 	}
 }
