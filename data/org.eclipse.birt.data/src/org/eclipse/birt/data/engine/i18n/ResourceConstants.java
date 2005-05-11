@@ -25,6 +25,7 @@ public class ResourceConstants
 	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
 	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
 	public final static String INVALID_AGGR_PARAMETER  = "data.engine.WrongNumAggrArgs";
+	public final static String INVALID_AGGR_GROUP_EXPRESSION ="data.engine.InvalidAggrGroupExpression";
 
 	public final static String DUPLICATE_PROPERTY_NAME = "data.engine.DupPropertyName";
 	public final static String SUBQUERY_NOT_FOUND = "data.engine.NoSubQueryName";
