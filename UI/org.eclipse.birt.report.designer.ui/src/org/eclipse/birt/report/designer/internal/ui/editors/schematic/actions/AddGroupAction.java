@@ -105,13 +105,23 @@ public class AddGroupAction extends SelectionAction
 		{
 			Object obj = getSelectedObjects( ).get( i );
 
+			TableEditPart currentEditPart = null;
 			if ( obj instanceof TableEditPart )
 			{
-				part = (TableEditPart) obj;
+				currentEditPart = (TableEditPart) obj;
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one table
+			if ( currentEditPart != null && part != currentEditPart )
+			{
+				return null;
 			}
 		}
 		//Only table permitted
@@ -137,13 +147,23 @@ public class AddGroupAction extends SelectionAction
 		{
 			Object obj = getSelectedObjects( ).get( i );
 
+			ListEditPart currentEditPart = null;
 			if ( obj instanceof ListEditPart )
 			{
-				part = (ListEditPart) obj;
+				currentEditPart = (ListEditPart) obj;
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one list
+			if ( currentEditPart != null && part != currentEditPart )
+			{
+				return null;
 			}
 		}
 		return part;

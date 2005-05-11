@@ -205,15 +205,23 @@ abstract class InsertPositionGroupAction extends Action
 				currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
+			TableEditPart currentEditPart = null;
 			if ( obj instanceof TableEditPart )
 			{
-				part = (TableEditPart) obj;
-				break;
+				currentEditPart = (TableEditPart) obj;
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-				break;
+				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one table
+			if ( currentEditPart != null && part != currentEditPart )
+			{
+				return null;
 			}
 		}
 		//Only table permitted
@@ -243,15 +251,23 @@ abstract class InsertPositionGroupAction extends Action
 				currentModel = ( (ReportElementEditPart) obj ).getModel( );
 			}
 
+			ListEditPart currentEditPart = null;
 			if ( obj instanceof ListEditPart )
 			{
-				part = (ListEditPart) obj;
-				break;
+				currentEditPart = (ListEditPart) obj;
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-				break;
+				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one list
+			if ( currentEditPart != null && part != currentEditPart )
+			{
+				return null;
 			}
 		}
 		return part;
