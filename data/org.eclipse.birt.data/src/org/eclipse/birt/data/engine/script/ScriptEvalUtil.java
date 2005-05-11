@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
@@ -64,35 +65,27 @@ public class ScriptEvalUtil
 		switch ( operator )
 		{
 			case IConditionalExpression.OP_EQ :
-				validateExpression( resultObject, resultOp1 );
-				result = compare( resultObject, resultOp1 ) == 0;
+			    result = compare( resultObject, resultOp1 ) == 0;
 				break;
 			case IConditionalExpression.OP_NE :
-				validateExpression( resultObject, resultOp1 );
-				result = compare( resultObject, resultOp1 ) != 0;
+			    result = compare( resultObject, resultOp1 ) != 0;
 				break;
 			case IConditionalExpression.OP_LT :
-				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) < 0;
 				break;
 			case IConditionalExpression.OP_LE :
-				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) <= 0;
 				break;
 			case IConditionalExpression.OP_GE :
-				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) >= 0;
 				break;
 			case IConditionalExpression.OP_GT :
-				validateExpression( resultObject, resultOp1 );
 				result = compare( resultObject, resultOp1 ) > 0;
 				break;
 			case IConditionalExpression.OP_BETWEEN :
-				validateExpression( resultObject, resultOp1, resultOp2 );
 				result = between( resultObject, resultOp1, resultOp2 );
 				break;
 			case IConditionalExpression.OP_NOT_BETWEEN :
-				validateExpression( resultObject, resultOp1, resultOp2 );
 				result = !( between( resultObject, resultOp1, resultOp2 ) );
 				break;
 			case IConditionalExpression.OP_NULL :
@@ -102,15 +95,12 @@ public class ScriptEvalUtil
 				result = resultObject != null;
 				break;
 			case IConditionalExpression.OP_TRUE :
-				validateExpression( resultObject );
 				result = isTrue( resultObject );
 				break;
 			case IConditionalExpression.OP_FALSE :
-				validateExpression( resultObject );
 				result = !isTrue( resultObject );
 				break;
 			case IConditionalExpression.OP_LIKE :
-				validateExpression( resultObject, resultOp1 );
 				result = like( resultObject, resultOp1 );
 				break;
 			case IConditionalExpression.OP_TOP_N :
@@ -141,33 +131,7 @@ public class ScriptEvalUtil
 		return new Boolean( result );
 	}
 
-	private static void validateExpression( Object ob1 ) throws DataException
-	{
-		if ( ob1 == null )
-		{
-			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
-		}
-	}
 
-	private static void validateExpression( Object ob1, Object ob2 )
-			throws DataException
-	{
-		if ( ob1 == null || ob2 == null )
-		{
-			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
-		}
-	}
-
-
-	private static void validateExpression( Object ob1, Object ob2, Object ob3 )
-			throws DataException
-	{
-		if ( ob1 == null || ob2 == null || ob3 == null )
-		{
-			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
-		}
-	}
-	
 	private static boolean isSameType( Object resultExpr, Object resultOp1 )
 	{
 		return resultExpr.getClass( ).equals( resultOp1.getClass( ) );
@@ -185,7 +149,8 @@ public class ScriptEvalUtil
 	
 	private static boolean isTrue( Object obj ) throws DataException
 	{
-		assert obj != null;
+		if ( obj == null )
+		    return false;
 		try
 		{
 			return DataTypeUtil.toBoolean( obj ).equals( Boolean.TRUE );
@@ -198,8 +163,17 @@ public class ScriptEvalUtil
 	
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
-		assert obj1 != null && obj2 != null;
-		
+	    if (obj1 == null || obj2 == null) 
+	    {
+            // all non-null values are greater than null value
+	        if (obj1 == null && obj2 != null)
+                return -1;
+            else if (obj1 != null && obj2 == null)
+                return 1;
+            else
+                return 0;
+        }
+	    
 		try
 		{
 			if ( isSameType( obj1, obj2 ) )
@@ -347,8 +321,8 @@ public class ScriptEvalUtil
 		{
 			ConditionalExpression ConditionalExpr = (ConditionalExpression) expr;
 			Object expression = evalExpr( ConditionalExpr.getExpression( ), cx, scope, source, lineNo );
-			Object Op1 = evalExpr( ConditionalExpr.getOperand1( ), cx, scope, source, lineNo );
-			Object Op2 = evalExpr( ConditionalExpr.getOperand2( ), cx, scope, source, lineNo );
+			Object Op1 = evalExpr( constructValidScriptExpression ( ConditionalExpr.getOperand1() ), cx, scope, source, lineNo );
+			Object Op2 = evalExpr( constructValidScriptExpression ( ConditionalExpr.getOperand2() ), cx, scope, source, lineNo );
 			if ( logger.isLoggable( Level.FINER ) )
 				logger.exiting( ScriptEvalUtil.class.getName( ),
 						"evalExpr",
@@ -424,18 +398,26 @@ public class ScriptEvalUtil
 
 	private static boolean like( Object obj1, Object pattern ) throws DataException
 	{
-		boolean b = false;
+		if (obj1 == null || pattern == null) 
+		{
+		    if( obj1 == null && pattern == null)
+			    return true;
+			else
+			    return false;
+        }
+		
+		boolean result = false;
 		try
 		{
 			Pattern p = Pattern.compile( pattern.toString( ) );
 			Matcher m = p.matcher( obj1.toString( ) );
-			b = m.matches( );
+			result = m.matches( );
 		}
 		catch ( RuntimeException e )
 		{
 			throw new DataException( ResourceConstants.MATCH_ERROR, e );
 		}
-		return b;
+		return result;
 	}
 	
 	private static boolean between( Object resultObject, Object resultOp1,
@@ -455,4 +437,10 @@ public class ScriptEvalUtil
 		return compare( resultObject, min ) >= 0
 				&& compare( resultObject, max ) <= 0;
 	}
+	
+	private static IScriptExpression constructValidScriptExpression ( IScriptExpression ise)
+	{
+	    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
+	}
+	
 }
