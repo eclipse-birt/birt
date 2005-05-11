@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/08 06:59:45 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -67,7 +67,17 @@ public class LabelItemExecutor extends StyledItemExecutor
 		if ( bookmarkStr != null )
 			textObj.setBookmarkValue( bookmarkStr );
 
-		textObj.setValue( getMapVal( textObj.getValue( ), item ).toString( ) );
+		Object value = textObj.getValue( );
+		value = getMapVal( value, item );
+		if( value == null )
+		{
+			textObj.setValue( "" ); //$NON-NLS-1$
+		}
+		else
+		{
+			textObj.setValue( value.toString( ) );
+		}
+		
 		textEmitter.start( textObj );
 		textEmitter.end( );
 	}
