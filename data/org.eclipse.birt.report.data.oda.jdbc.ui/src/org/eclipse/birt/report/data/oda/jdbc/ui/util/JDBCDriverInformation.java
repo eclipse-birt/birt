@@ -25,7 +25,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/11 02:51:08 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/21 23:45:00 $
  */
 public final class JDBCDriverInformation
 {
@@ -34,11 +34,12 @@ public final class JDBCDriverInformation
     private int majorVersion = 0;
     private int minorVersion = 0;
     private String urlFormat = null;
+    private boolean displayVersion = true;
 
     /**
      * 
      */
-    private JDBCDriverInformation()
+    public JDBCDriverInformation()
     {
         super();
     }
@@ -73,7 +74,7 @@ public final class JDBCDriverInformation
     /**
      * @param driverClassName The driverClassName to set.
      */
-    protected void setDriverClassName(String driverClassName)
+    public void setDriverClassName(String driverClassName)
     {
         this.driverClassName = driverClassName;
     }
@@ -109,11 +110,14 @@ public final class JDBCDriverInformation
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(driverClassName);
-        buffer.append(" (");
-        buffer.append(majorVersion);
-        buffer.append(".");
-        buffer.append(minorVersion);
-        buffer.append(")");
+        if ( displayVersion )
+        {
+	        buffer.append(" (");
+	        buffer.append(majorVersion);
+	        buffer.append(".");
+	        buffer.append(minorVersion);
+	        buffer.append(")");
+        }
         return buffer.toString();
     }
 
@@ -131,4 +135,16 @@ public final class JDBCDriverInformation
     {
         this.urlFormat = urlFormat;
     }
+	/**
+	 * @return Returns the displayVersion.
+	 */
+	public boolean isDisplayVersion() {
+		return displayVersion;
+	}
+	/**
+	 * @param displayVersion The displayVersion to set.
+	 */
+	public void setDisplayVersion(boolean displayVersion) {
+		this.displayVersion = displayVersion;
+	}
 }
