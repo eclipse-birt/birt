@@ -46,8 +46,8 @@ public class InsertGroupActionFactory
 					Messages.getString( "InsertPositionGroupAction.Label.Above" ) ), //$NON-NLS-1$
 			new InsertBelowGroupAction( null,
 					Messages.getString( "InsertPositionGroupAction.Label.Below" ) ), //$NON-NLS-1$
-			new InsertIntoGroupAction( null,
-					Messages.getString( "InsertPositionGroupAction.Label.Into" ) ) //$NON-NLS-1$
+//			new InsertIntoGroupAction( null,
+//					Messages.getString( "InsertPositionGroupAction.Label.Into" ) ) //$NON-NLS-1$
 	};
 
 	/**
