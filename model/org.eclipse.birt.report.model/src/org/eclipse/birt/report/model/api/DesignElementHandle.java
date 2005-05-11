@@ -905,7 +905,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Returns a list of user properties defined in this element and somewhere
 	 * up the inheritance chain. Each object in the list is instance of
-	 * <code>UserPropertyDefn<code>.
+	 * <code>UserPropertyDefn</code>.
 	 * 
 	 * @return The list of user property definitions
 	 */
