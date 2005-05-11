@@ -24,7 +24,6 @@ import java.util.logging.Level;
 public class EngineConfig {
 
 	public static final String CONFIG_VAR_ENGINE_HOME = "BIRT_HOME";		//$NON-NLS-1$
-	protected static final String STATUS_HANDLER= "status";					//$NON-NLS-1$
 	protected static final String LOG_DESTINATION= "logDest";				//$NON-NLS-1$			
 	protected static final String LOG_LEVEL= "logLevel";					//$NON-NLS-1$
 	
@@ -43,6 +42,11 @@ public class EngineConfig {
 	 */
 	protected HashMap emitterConfigs = new HashMap();
 	
+	protected IStatusHandler statusHandler = new IStatusHandler() {
+		public void initialize(){}
+		public void showStatus(String s) { System.out.println(s); }
+		public void finish() {};
+	};
 
 	/**
 	 * 
@@ -149,9 +153,13 @@ public class EngineConfig {
 	 */
 	public void setStatusHandler(IStatusHandler handler)
 	{
-		emitterConfigs.put(STATUS_HANDLER, handler);
+		statusHandler = handler;
 	}
-
+	
+	public IStatusHandler getStatusHandler()
+	{
+		return statusHandler;
+	}
     /**
      * set log configuration, i.e., log file name prefix and log level
      * 
