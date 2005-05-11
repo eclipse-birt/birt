@@ -22,13 +22,16 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportSelectionSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportDesigner;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PaletteToolEntryEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.NonGEFSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
@@ -72,6 +75,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -93,11 +98,12 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.8 $ $Date: 2005/04/20 02:08:12 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/11 01:58:40 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
-			EditorSelectionProvider, IColleague
+			EditorSelectionProvider,
+			IColleague
 {
 
 	private PaletteViewerProvider provider;
@@ -131,8 +137,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		//createActions( );
 		updateActions( stackActionIDs );
 		// add selection change listener
-		getSite( ).getWorkbenchWindow( )
-				.getSelectionService( )
+		getSite( ).getWorkbenchWindow( ).getSelectionService( )
 				.addSelectionListener( getSelectionListener( ) );
 	}
 
@@ -141,7 +146,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 */
 	public WrapperCommandStack getWrapperCommandStack( )
 	{
-		return (WrapperCommandStack) getMultiPageEditor( ).getAdapter( CommandStack.class );
+		return (WrapperCommandStack) getMultiPageEditor( ).getAdapter(
+				CommandStack.class );
 
 	}
 
@@ -174,7 +180,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	{
 		return new PaletteViewerProvider( getEditDomain( ) ) {
 
-			protected void configurePaletteViewer( PaletteViewer viewer )
+			protected void configurePaletteViewer( final PaletteViewer viewer )
 			{
 				//super.configurePaletteViewer( viewer );
 
@@ -182,73 +188,138 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 				 * Hack to remove the Change Icon Size menu item and relative
 				 * dialog components.
 				 */
-				viewer.setContextMenu( new PaletteContextMenuProvider( viewer ) {
+				viewer
+						.setContextMenu( new PaletteContextMenuProvider( viewer ) {
 
-					public void buildContextMenu( IMenuManager menu )
+							public void buildContextMenu( IMenuManager menu )
+							{
+								GEFActionConstants
+										.addStandardActionGroups( menu );
+
+								List lst = getPaletteViewer( )
+										.getSelectedEditParts( );
+
+								if ( lst.size( ) == 0 )
+								{
+									return;
+								}
+
+								menu
+										.appendToGroup(
+												GEFActionConstants.GROUP_VIEW,
+												new LayoutAction(
+														getPaletteViewer( )
+																.getPaletteViewerPreferences( ) ) );
+								if ( getPaletteViewer( ).getCustomizer( ) != null )
+								{
+									menu.appendToGroup(
+											GEFActionConstants.GROUP_REST,
+											new CustomizeAction(
+													getPaletteViewer( ) ) );
+								}
+
+								final PaletteViewer paletteViewer = getPaletteViewer( );
+
+								menu.appendToGroup(
+										GEFActionConstants.GROUP_REST,
+										new SettingsAction( paletteViewer ) {
+
+											public void run( )
+											{
+												final PaletteViewerPreferences prefs = paletteViewer
+														.getPaletteViewerPreferences( );
+
+												Dialog settings = new PaletteSettingsDialog(
+														paletteViewer
+																.getControl( )
+																.getShell( ),
+														prefs ) {
+
+													protected Control createLayoutSettings(
+															Composite parent )
+													{
+														Composite composite = new Composite(
+																parent,
+																SWT.NONE );
+														composite
+																.setFont( parent
+																		.getFont( ) );
+														GridLayout layout = new GridLayout(
+																1, false );
+														composite
+																.setLayout( layout );
+
+														Control layoutOptions = createLayoutOptions( composite );
+														GridData data = new GridData(
+																GridData.VERTICAL_ALIGN_BEGINNING );
+														layoutOptions
+																.setLayoutData( data );
+
+														handleLayoutSettingChanged( prefs
+																.getLayoutSetting( ) );
+
+														return composite;
+													}
+
+													protected void handleLayoutSettingChanged(
+															int newSetting )
+													{
+														prefs
+																.setLayoutSetting( newSetting );
+													}
+												};
+
+												settings.open( );
+											}
+										} );
+							}
+						} );
+
+				viewer
+						.addDragSourceListener( new TemplateTransferDragSourceListener(
+								viewer ) );
+
+				viewer.getControl( ).addMouseListener( new MouseListener( ) {
+
+					public void mouseDoubleClick( MouseEvent e )
 					{
-						GEFActionConstants.addStandardActionGroups( menu );
-
-						List lst = getPaletteViewer( ).getSelectedEditParts( );
-
-						if ( lst.size( ) == 0 )
+						EditPart editPart = (EditPart) viewer
+								.findObjectAt( new Point( e.x, e.y ) );
+						ReportCombinedTemplateCreationEntry entry = null;
+						if ( editPart != null
+								&& editPart.getModel( ) instanceof ReportCombinedTemplateCreationEntry )
 						{
+							entry = (ReportCombinedTemplateCreationEntry) editPart
+									.getModel( );
+						}
+						if ( entry == null )
 							return;
-						}
+						ReportCreationTool tool = (ReportCreationTool) entry
+								.createTool( );
 
-						menu.appendToGroup( GEFActionConstants.GROUP_VIEW,
-								new LayoutAction( getPaletteViewer( ).getPaletteViewerPreferences( ) ) );
-						if ( getPaletteViewer( ).getCustomizer( ) != null )
-						{
-							menu.appendToGroup( GEFActionConstants.GROUP_REST,
-									new CustomizeAction( getPaletteViewer( ) ) );
-						}
+						final EditDomain domain = UIUtil
+								.getLayoutEditPartViewer( ).getEditDomain( );
+						tool.setEditDomain( domain );
+						tool.setViewer( UIUtil.getLayoutEditPartViewer( ) );
+						tool.performCreation( UIUtil.getCurrentEditPart( ) );
 
-						final PaletteViewer paletteViewer = getPaletteViewer( );
+						Display.getCurrent( ).asyncExec( new Runnable( ) {
 
-						menu.appendToGroup( GEFActionConstants.GROUP_REST,
-								new SettingsAction( paletteViewer ) {
+							public void run( )
+							{
+								domain.loadDefaultTool( );
+							}
+						} );
+					}
 
-									public void run( )
-									{
-										final PaletteViewerPreferences prefs = paletteViewer.getPaletteViewerPreferences( );
+					public void mouseDown( MouseEvent e )
+					{
+					}
 
-										Dialog settings = new PaletteSettingsDialog( paletteViewer.getControl( )
-												.getShell( ),
-												prefs ) {
-
-											protected Control createLayoutSettings(
-													Composite parent )
-											{
-												Composite composite = new Composite( parent,
-														SWT.NONE );
-												composite.setFont( parent.getFont( ) );
-												GridLayout layout = new GridLayout( 1,
-														false );
-												composite.setLayout( layout );
-
-												Control layoutOptions = createLayoutOptions( composite );
-												GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-												layoutOptions.setLayoutData( data );
-
-												handleLayoutSettingChanged( prefs.getLayoutSetting( ) );
-
-												return composite;
-											}
-
-											protected void handleLayoutSettingChanged(
-													int newSetting )
-											{
-												prefs.setLayoutSetting( newSetting );
-											}
-										};
-
-										settings.open( );
-									}
-								} );
+					public void mouseUp( MouseEvent e )
+					{
 					}
 				} );
-
-				viewer.addDragSourceListener( new TemplateTransferDragSourceListener( viewer ) );
 			}
 
 			/*
@@ -261,24 +332,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 				PaletteViewer pViewer = new PaletteViewer( );
 
 				//Replace with new factory
-				pViewer.setEditPartFactory( new PaletteEditPartFactory( ) {
-
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see org.eclipse.gef.ui.palette.PaletteEditPartFactory#createEntryEditPart(org.eclipse.gef.EditPart,
-					 *      java.lang.Object)
-					 */
-					protected EditPart createEntryEditPart(
-							EditPart parentEditPart, Object model )
-					{
-						if ( model instanceof ReportCombinedTemplateCreationEntry )
-						{
-							return new PaletteToolEntryEditPart( (ReportCombinedTemplateCreationEntry) model );
-						}
-						return super.createEntryEditPart( parentEditPart, model );
-					}
-				} );
+				pViewer.setEditPartFactory( new PaletteEditPartFactory( ) );
 				pViewer.createControl( parent );
 				configurePaletteViewer( pViewer );
 				hookPaletteViewer( pViewer );
@@ -333,10 +387,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	{
 		bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
 
-		splitter = new FlyoutPaletteComposite( bPane,
-				SWT.NONE,
-				getSite( ).getPage( ),
-				getPaletteViewerProvider( ),
+		splitter = new FlyoutPaletteComposite( bPane, SWT.NONE, getSite( )
+				.getPage( ), getPaletteViewerProvider( ),
 				getPalettePreferences( ) );
 		super.createPartControl( splitter );
 
@@ -359,14 +411,13 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	public void dispose( )
 	{
 
-
 		//remove the mediator listener
-		SessionHandleAdapter.getInstance( ).getMediator( ).removeColleague(this);
-		
+		SessionHandleAdapter.getInstance( ).getMediator( ).removeColleague(
+				this );
+
 		// remove selection listener
-		
-		getSite( ).getWorkbenchWindow( )
-				.getSelectionService( )
+
+		getSite( ).getWorkbenchWindow( ).getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
 		// dispose the ActionRegistry (will dispose all actions)
 		getActionRegistry( ).dispose( );
@@ -394,17 +445,23 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 		if ( type == DataViewPage.class )
 		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( (ReportDesignHandle) ( (MultiEditorProvider) getMultiPageEditor( ) ).getModel( ) );
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage(
+					(ReportDesignHandle) ( (MultiEditorProvider) getMultiPageEditor( ) )
+							.getModel( ) );
 			if ( this instanceof ReportDesigner )
 			{
-				( (ReportSelectionSynchronizer) ( (ReportDesigner) this ).getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer) page.getAdapter( NonGEFSynchronizer.class ) );
+				( (ReportSelectionSynchronizer) ( (ReportDesigner) this )
+						.getSelectionSynchronizer( ) )
+						.add( (NonGEFSynchronizer) page
+								.getAdapter( NonGEFSynchronizer.class ) );
 			}
 			return page;
 		}
 
 		if ( type == ZoomManager.class )
 		{
-			return getGraphicalViewer( ).getProperty( ZoomManager.class.toString( ) );
+			return getGraphicalViewer( ).getProperty(
+					ZoomManager.class.toString( ) );
 		}
 		return super.getAdapter( type );
 	}
@@ -484,9 +541,9 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		initializeGraphicalViewer( );
 		//addAction ( new ToggleRulerVisibilityAction(
 		// this.getGraphicalViewer() ));
-		
+
 		//suport the mediator
-		SessionHandleAdapter.getInstance().getMediator().addColleague(this);
+		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 	}
 
 	/**
@@ -495,7 +552,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	public SelectionSynchronizer getSelectionSynchronizer( )
 	{
 		if ( synchronizer == null )
-			synchronizer = new ReportSelectionSynchronizer( getGraphicalViewer( ) );
+			synchronizer = new ReportSelectionSynchronizer(
+					getGraphicalViewer( ) );
 		return synchronizer;
 	}
 
@@ -504,10 +562,12 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 */
 	public void editActivate( )
 	{
-		SelectionChangedEvent event = new SelectionChangedEvent( (ReportSelectionSynchronizer) getSelectionSynchronizer( ),
+		SelectionChangedEvent event = new SelectionChangedEvent(
+				(ReportSelectionSynchronizer) getSelectionSynchronizer( ),
 				new StructuredSelection( this.getGraphicalViewer( )
 						.getSelectedEditParts( ) ) );
-		( (ReportSelectionSynchronizer) getSelectionSynchronizer( ) ).selectionChanged( event );
+		( (ReportSelectionSynchronizer) getSelectionSynchronizer( ) )
+				.selectionChanged( event );
 
 	}
 
@@ -677,21 +737,22 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		updateActions( stackActionIDs );
 
 	}
-	
 
 	//add supoet the report media, may be use a helpler
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest(ReportRequest request)
+	public void performRequest( ReportRequest request )
 	{
-		if (ReportRequest.SELECTION.equals(request.getType()))
+		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange(request);
+			handleSelectionChange( request );
 		}
-		else if (ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			handleCreateElement(request);
+			handleCreateElement( request );
 		}
 	}
 
@@ -700,36 +761,36 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 */
 	protected void handleCreateElement( ReportRequest request )
 	{
-		final GraphicalViewer viewer = getGraphicalViewer();
-		if (!viewer.getControl().isVisible())
+		final GraphicalViewer viewer = getGraphicalViewer( );
+		if ( !viewer.getControl( ).isVisible( ) )
 		{
 			return;
 		}
-		
-		final List list = request.getSelectionModelList();
-		if (list.size() != 1)
+
+		final List list = request.getSelectionModelList( );
+		if ( list.size( ) != 1 )
 		{
 			return;
 		}
-		Object part = viewer.getEditPartRegistry().get(list.get(0));
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
 			{
-				
-				Object part = viewer.getEditPartRegistry().get(list.get(0));
-				if (part instanceof EditPart)
-				{			
-					Request directEditRequest = new Request(RequestConstants.REQ_OPEN);
-					if (((EditPart)part).understandsRequest(directEditRequest))
+
+				Object part = viewer.getEditPartRegistry( ).get( list.get( 0 ) );
+				if ( part instanceof EditPart )
+				{
+					Request directEditRequest = new Request(
+							RequestConstants.REQ_OPEN );
+					if ( ( (EditPart) part )
+							.understandsRequest( directEditRequest ) )
 					{
-						( (EditPart) part ).performRequest(directEditRequest);
+						( (EditPart) part ).performRequest( directEditRequest );
 					}
 				}
 			}
-		});
-				
-		
+		} );
+
 	}
 
 	/**
@@ -737,7 +798,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 */
 	protected void handleSelectionChange( ReportRequest request )
 	{
-		
-	}	
-	
+
+	}
+
 }
