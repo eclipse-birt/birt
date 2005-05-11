@@ -37,7 +37,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.internal.ui.palette.editparts.DrawerEditPart;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.CopyTemplateAction;
 import org.eclipse.gef.ui.actions.DeleteAction;
@@ -59,7 +58,6 @@ import org.eclipse.gef.ui.palette.PaletteEditPartFactory;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.palette.PinDrawerAction;
 import org.eclipse.gef.ui.palette.SettingsAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.customize.PaletteSettingsDialog;
@@ -95,7 +93,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.7 $ $Date: 2005/03/17 06:56:36 $
+ * @version $Revision: 1.8 $ $Date: 2005/04/20 02:08:12 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -197,13 +195,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 							return;
 						}
 
-						Object selectedPart = lst.get( 0 );
-						if ( selectedPart instanceof DrawerEditPart
-								&& ( (DrawerEditPart) selectedPart ).canBePinned( ) )
-						{
-							menu.appendToGroup( GEFActionConstants.MB_ADDITIONS,
-									new PinDrawerAction( (DrawerEditPart) selectedPart ) );
-						}
 						menu.appendToGroup( GEFActionConstants.GROUP_VIEW,
 								new LayoutAction( getPaletteViewer( ).getPaletteViewerPreferences( ) ) );
 						if ( getPaletteViewer( ).getCustomizer( ) != null )

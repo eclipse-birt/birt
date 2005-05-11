@@ -60,7 +60,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.WorkbenchImages;
 
 /**
  * Default node provider. This class is the base class for other providers
@@ -228,7 +227,7 @@ public class DefaultNodeProvider implements INodeProvider
 		if(model instanceof DesignElementHandle &&
 				((DesignElementHandle)model).getValidationErrors().size()>0)
 		{
-			return WorkbenchImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
 		if ( iconName != null )
 		{//if the getIconName is defined

@@ -28,13 +28,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
-import org.eclipse.gef.internal.ui.rulers.GuideEditPart;
-import org.eclipse.gef.internal.ui.rulers.GuideFigure;
-import org.eclipse.gef.internal.ui.rulers.GuidePlaceHolder;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 
 /**
- * The class is used for the EditorGuideEditPart EditPolicy.PRIMARY_DRAG_ROLE policy 
+ * The class is used for the EditorGuideEditPart EditPolicy.PRIMARY_DRAG_ROLE
+ * policy
  *  
  */
 public class EditorDragGuidePolicy extends GraphicalEditPolicy
@@ -42,9 +40,12 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 
 	private List attachedEditParts = null;
 	private IFigure dummyGuideFigure, dummyLineFigure;
+
 	//private boolean dragInProgress = false;
 
-	/**Creates the Line Figure, when drag the margin guide.
+	/**
+	 * Creates the Line Figure, when drag the margin guide.
+	 * 
 	 * @return
 	 */
 	protected IFigure createDummyLineFigure( )
@@ -80,21 +81,22 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		};
 	}
 
-	/**Creates the Guide Figure, when drag the margin guide.
+	/**
+	 * Creates the Guide Figure, when drag the margin guide.
+	 * 
 	 * @return
 	 */
-	protected GuideFigure createDummyGuideFigure( )
+	protected EditorGuideFigure createDummyGuideFigure( )
 	{
-		return new GuidePlaceHolder( getGuideEditPart( ).isHorizontal( ) );
+		return new EditorGuidePlaceHolder( getGuideEditPart( ).isHorizontal( ) );
 	}
 
 	/*
-	 *  If you undo guide creation while dragging that guide,
-	 * it was leaving behind drag feedback. This was because by the time
-	 * eraseSourceFeedback() was being called, the guide edit part had been
-	 * deactivated (and hence eraseSourceFeedback is never called on this
-	 * policy). So we make sure that this policy cleans up when it is
-	 * deactivated.
+	 * If you undo guide creation while dragging that guide, it was leaving
+	 * behind drag feedback. This was because by the time eraseSourceFeedback()
+	 * was being called, the guide edit part had been deactivated (and hence
+	 * eraseSourceFeedback is never called on this policy). So we make sure that
+	 * this policy cleans up when it is deactivated.
 	 */
 	public void deactivate( )
 	{
@@ -102,7 +104,10 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		super.deactivate( );
 	}
 
-	/**When drag the margin guide, the attache editparts move with the guide. Now do nothing
+	/**
+	 * When drag the margin guide, the attache editparts move with the guide.
+	 * Now do nothing
+	 * 
 	 * @param request
 	 */
 	private void eraseAttachedPartsFeedback( Request request )
@@ -121,8 +126,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		}
 	}
 
-	/* Erases the draw source feedback
-	 *  (non-Javadoc)
+	/*
+	 * Erases the draw source feedback (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
 	 */
 	public void eraseSourceFeedback( Request request )
@@ -149,8 +155,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		return attachedEditParts;
 	}
 
-	/* Gets the commande with specific request
-	 *  (non-Javadoc)
+	/*
+	 * Gets the commande with specific request (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#getCommand(org.eclipse.gef.Request)
 	 */
 	public Command getCommand( Request request )
@@ -191,7 +198,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		return cmd;
 	}
 
-	/**Creates the Guide Figure, when drag the margin guide.
+	/**
+	 * Creates the Guide Figure, when drag the margin guide.
+	 * 
 	 * @return
 	 */
 	protected IFigure getDummyGuideFigure( )
@@ -203,7 +212,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		return dummyGuideFigure;
 	}
 
-	/**Gets the line figure when drag the margin guide 
+	/**
+	 * Gets the line figure when drag the margin guide
+	 * 
 	 * @return
 	 */
 	protected IFigure getDummyLineFigure( )
@@ -215,15 +226,19 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		return dummyLineFigure;
 	}
 
-	/**Gets the GuideEditPart
+	/**
+	 * Gets the GuideEditPart
+	 * 
 	 * @return
 	 */
-	protected GuideEditPart getGuideEditPart( )
+	protected EditorGuideEditPart getGuideEditPart( )
 	{
-		return (GuideEditPart) getHost( );
+		return (EditorGuideEditPart) getHost( );
 	}
 
-	/**Now return false
+	/**
+	 * Now return false
+	 * 
 	 * @param req
 	 * @return if the darg is delete the margin guide
 	 */
@@ -232,7 +247,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		return false;
 	}
 
-	/**Now return true
+	/**
+	 * Now return true
+	 * 
 	 * @param zoomedPosition
 	 * @return return true if the drag is valid.
 	 */
@@ -269,7 +286,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 			( (EditPart) i.next( ) ).showSourceFeedback( req );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
 	 */
 	public void showSourceFeedback( Request request )
@@ -363,7 +382,7 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 
 	private int getCurrentPositionZoomed( ChangeBoundsRequest request )
 	{
-		
+
 		int newPosition;
 		if ( getGuideEditPart( ).isHorizontal( ) )
 		{
@@ -379,7 +398,9 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 		//return 1;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.EditPolicy#understandsRequest(org.eclipse.gef.Request)
 	 */
 	public boolean understandsRequest( Request req )

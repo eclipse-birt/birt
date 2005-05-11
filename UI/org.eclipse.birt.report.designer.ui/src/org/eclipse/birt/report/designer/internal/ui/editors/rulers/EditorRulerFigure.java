@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.ImageUtilities;
@@ -20,8 +21,10 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.internal.ui.rulers.RulerFigure;
-import org.eclipse.gef.internal.ui.rulers.RulerLayout;
+import org.eclipse.draw2d.geometry.Transposer;
+import org.eclipse.gef.editparts.ZoomListener;
+import org.eclipse.gef.editparts.ZoomManager;
+
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -32,7 +35,7 @@ import org.eclipse.swt.widgets.Display;
  * add comment here
  *  
  */
-public class EditorRulerFigure extends RulerFigure
+public class EditorRulerFigure extends Figure
 {
 
 	private Rectangle leftSpace = new Rectangle( );
@@ -73,6 +76,8 @@ public class EditorRulerFigure extends RulerFigure
 
 	private boolean drawFocus = false;
 
+	protected Transposer transposer = new Transposer( );
+	protected ZoomManager zoomManager;
 	/*
 	 * This is an artificial border. When asked for the preferred size, the
 	 * figure adds this width to its preferred width. The border is painted in
@@ -83,6 +88,15 @@ public class EditorRulerFigure extends RulerFigure
 	private boolean horizontal;
 	private int unit, interval, divisions;
 	private double dpu1 = -1.0;
+
+	private ZoomListener zoomListener = new ZoomListener( )
+	{
+
+		public void zoomChanged( double newZoomValue )
+		{
+			handleZoomChanged( );
+		}
+	};
 
 	//	private ZoomListener zoomListener = new ZoomListener( )
 	//	{
@@ -95,15 +109,17 @@ public class EditorRulerFigure extends RulerFigure
 
 	public EditorRulerFigure( boolean isHorizontal, int measurementUnit )
 	{
-		super( isHorizontal, measurementUnit );
 		setHorizontal( isHorizontal );
 		setUnit( measurementUnit );
 		setBackgroundColor( ColorConstants.listBackground );
 		setForegroundColor( ColorConstants.listForeground );
 		setOpaque( true );
-		setLayoutManager( new RulerLayout( ) );
+		setLayoutManager( new EditorRulerLayout( ) );
 	}
 
+	/**
+	 * @return
+	 */
 	protected double getDPU( )
 	{
 		if ( dpu1 <= 0 )
@@ -148,34 +164,48 @@ public class EditorRulerFigure extends RulerFigure
 		return 1.0;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean getDrawFocus( )
 	{
 		return drawFocus;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
+	 */
 	public Dimension getPreferredSize( int wHint, int hHint )
 	{
 		Dimension prefSize = new Dimension( );
 		if ( isHorizontal( ) )
 		{
-			prefSize.height = ( textMargin * 2 )
-					+ BORDER_WIDTH
+			prefSize.height = ( textMargin * 2 ) + BORDER_WIDTH
 					+ FigureUtilities.getFontMetrics( getFont( ) ).getAscent( );
 		}
 		else
 		{
-			prefSize.width = ( textMargin * 2 )
-					+ BORDER_WIDTH
+			prefSize.width = ( textMargin * 2 ) + BORDER_WIDTH
 					+ FigureUtilities.getFontMetrics( getFont( ) ).getAscent( );
 		}
 		return prefSize;
 	}
 
+	/**
+	 * Gets the unit.
+	 * 
+	 * @return
+	 */
 	public int getUnit( )
 	{
 		return unit;
 	}
 
+	/**
+	 *  
+	 */
 	protected void handleZoomChanged( )
 	{
 		dpu1 = -1.0;
@@ -194,14 +224,13 @@ public class EditorRulerFigure extends RulerFigure
 		dpu1 = -1.0;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isHorizontal( )
 	{
 		return horizontal;
 	}
-
-	/*
-	 * @TODO:Pratik re-comment this algorithm and the setInterval method
-	 */
 
 	/*
 	 * (non-Javadoc)
@@ -368,8 +397,7 @@ public class EditorRulerFigure extends RulerFigure
 		 * dotsPerDivision = number of pixels between each mark = number of
 		 * pixels in a division
 		 */
-		double dotsPerDivision = dotsPerUnit
-				* unitsPerMajorMark
+		double dotsPerDivision = dotsPerUnit * unitsPerMajorMark
 				/ divsPerMajorMark;
 		/*
 		 * startMark is the division/mark from which we are going to start
@@ -418,10 +446,8 @@ public class EditorRulerFigure extends RulerFigure
 					{
 						numSize.width--;
 					}
-					Point textLocation = new Point( y
-							- ( numSize.width / 2 )
-							+ leftMargin, clippedBounds.x
-							+ textMargin
+					Point textLocation = new Point( y - ( numSize.width / 2 )
+							+ leftMargin, clippedBounds.x + textMargin
 							- leading );
 					forbiddenZone.setLocation( textLocation );
 					forbiddenZone.setSize( numSize );
@@ -436,20 +462,21 @@ public class EditorRulerFigure extends RulerFigure
 				}
 				else
 				{
-					Image numImage = ImageUtilities.createRotatedImageOfString( num,
-							getFont( ),
-							getForegroundColor( ),
+					Image numImage = ImageUtilities.createRotatedImageOfString(
+							num, getFont( ), getForegroundColor( ),
 							getBackgroundColor( ) );
 					Point textLocation = new Point( clippedBounds.x
 							+ textMargin, y
-							- ( numImage.getBounds( ).height / 2 )
-							+ leftMargin );
+							- ( numImage.getBounds( ).height / 2 ) + leftMargin );
 
 					forbiddenZone.setLocation( textLocation );
 					forbiddenZone.setSize( numImage.getBounds( ).width,
 							numImage.getBounds( ).height );
-					forbiddenZone.expand( 1,
-							1 + ( numImage.getBounds( ).height % 2 == 0 ? 1 : 0 ) );
+					forbiddenZone
+							.expand( 1,
+									1 + ( numImage.getBounds( ).height % 2 == 0
+											? 1
+											: 0 ) );
 					graphics.fillRectangle( forbiddenZone );
 					graphics.drawImage( numImage, textLocation );
 					numImage.dispose( );
@@ -459,11 +486,13 @@ public class EditorRulerFigure extends RulerFigure
 			{
 				// this is a medium mark, so its length should be longer than
 				// the small marks
-				Point start = transposer.t( new Point( ( clippedBounds.getRight( ).x - mediumMarkWidth ) / 2,
-						y + leftMargin ) );
-				Point end = transposer.t( new Point( ( ( clippedBounds.getRight( ).x - mediumMarkWidth ) / 2 )
-						+ mediumMarkWidth,
-						y + leftMargin ) );
+				Point start = transposer
+						.t( new Point(
+								( clippedBounds.getRight( ).x - mediumMarkWidth ) / 2,
+								y + leftMargin ) );
+				Point end = transposer.t( new Point( ( ( clippedBounds
+						.getRight( ).x - mediumMarkWidth ) / 2 )
+						+ mediumMarkWidth, y + leftMargin ) );
 				if ( !forbiddenZone.contains( start ) )
 				{
 					graphics.drawLine( start, end );
@@ -472,11 +501,13 @@ public class EditorRulerFigure extends RulerFigure
 			else
 			{
 				// small mark
-				Point start = transposer.t( new Point( ( clippedBounds.getRight( ).x - smallMarkWidth ) / 2,
-						y + leftMargin ) );
-				Point end = transposer.t( new Point( ( ( clippedBounds.getRight( ).x - smallMarkWidth ) / 2 )
-						+ smallMarkWidth,
-						y + leftMargin ) );
+				Point start = transposer
+						.t( new Point(
+								( clippedBounds.getRight( ).x - smallMarkWidth ) / 2,
+								y + leftMargin ) );
+				Point end = transposer.t( new Point( ( ( clippedBounds
+						.getRight( ).x - smallMarkWidth ) / 2 )
+						+ smallMarkWidth, y + leftMargin ) );
 				if ( !forbiddenZone.contains( start ) )
 				{
 					graphics.drawLine( start, end );
@@ -487,35 +518,20 @@ public class EditorRulerFigure extends RulerFigure
 		clippedBounds.expand( BORDER_WIDTH, 0 );
 		graphics.setForegroundColor( ColorConstants.buttonDarker );
 		graphics.drawLine( transposer.t( clippedBounds.getTopRight( )
-				.translate( -1, -1 ) ),
-				transposer.t( clippedBounds.getBottomRight( )
-						.translate( -1, -1 ) ) );
-		Color c = Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+				.translate( -1, -1 ) ), transposer.t( clippedBounds
+				.getBottomRight( ).translate( -1, -1 ) ) );
+		Color c = Display.getCurrent( ).getSystemColor(
+				SWT.COLOR_WIDGET_BACKGROUND );
 		graphics.setBackgroundColor( ReportColorConstants.greyFillColor );
 		graphics.setBackgroundColor( c );
-		Rectangle rect = new Rectangle( 0,
-				0,
-				clippedBounds.height,
+		Rectangle rect = new Rectangle( 0, 0, clippedBounds.height,
 				leftMargin - 2 );
 		rect = transposer.t( rect );
 		graphics.fillRectangle( rect );
 
-		graphics.fillRectangle( getEndRect( graphics.getClip( Rectangle.SINGLETON ) ) );
+		graphics.fillRectangle( getEndRect( graphics
+				.getClip( Rectangle.SINGLETON ) ) );
 	}
-
-	//	private boolean checkPosition(Point p)
-	//	{
-	//		Rectangle leftRect = getScaleLeftSpace();
-	//		if (isHorizontal())
-	//		{
-	//			return p.x <= leftRect.right();
-	//		}
-	//		else
-	//		{
-	//			return p.y <= leftRect.bottom();
-	//		}
-	//	}
 
 	private Rectangle getEndRect( Rectangle clip )
 	{
@@ -551,6 +567,9 @@ public class EditorRulerFigure extends RulerFigure
 		return retValue;
 	}
 
+	/**
+	 * @param drawFocus
+	 */
 	public void setDrawFocus( boolean drawFocus )
 	{
 		if ( this.drawFocus != drawFocus )
@@ -560,6 +579,9 @@ public class EditorRulerFigure extends RulerFigure
 		}
 	}
 
+	/**
+	 * @param isHorizontal
+	 */
 	public void setHorizontal( boolean isHorizontal )
 	{
 		horizontal = isHorizontal;
@@ -660,6 +682,9 @@ public class EditorRulerFigure extends RulerFigure
 		}
 	}
 
+	/**
+	 * @param newUnit
+	 */
 	public void setUnit( int newUnit )
 	{
 		if ( unit != newUnit )
@@ -694,15 +719,26 @@ public class EditorRulerFigure extends RulerFigure
 	{
 		PrecisionRectangle rect = new PrecisionRectangle( getLeftSpace( ) );
 		rect.performScale( zoomManager.getZoom( ) );
-		//		if (rect.x < ReportDesignLayout.MINLEFTSPACE)
-		//		{
-		//			rect.x = ReportDesignLayout.MINLEFTSPACE;
-		//		}
-		//		if (rect.y < ReportDesignLayout.MINTOPSPACE)
-		//		{
-		//			rect.y = ReportDesignLayout.MINTOPSPACE;
-		//		}
 		return rect;
+	}
+
+	/**
+	 * @param manager
+	 */
+	public void setZoomManager( ZoomManager manager )
+	{
+		if ( zoomManager != manager )
+		{
+			if ( zoomManager != null )
+			{
+				zoomManager.removeZoomListener( zoomListener );
+			}
+			zoomManager = manager;
+			if ( zoomManager != null )
+			{
+				zoomManager.addZoomListener( zoomListener );
+			}
+		}
 	}
 
 }

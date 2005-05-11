@@ -54,7 +54,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.internal.WorkbenchImages;
 
 /**
  * Deals with tree part of expression builder. Adds some mouse and DND support
@@ -65,7 +64,7 @@ public class ExpressionTreeSupport
 {
 
 	//Tree item icon images
-	private static final Image IMAGE_FOLDER = WorkbenchImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
+	private static final Image IMAGE_FOLDER = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
 
 	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
 

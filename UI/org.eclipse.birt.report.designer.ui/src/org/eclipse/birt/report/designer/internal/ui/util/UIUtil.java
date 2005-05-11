@@ -32,14 +32,23 @@ import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.ColumnLayout;
+import org.eclipse.ui.forms.widgets.ILayoutExtension;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -219,18 +228,17 @@ public class UIUtil
 
 		if ( selection instanceof IAdaptable )
 		{
-			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
+			IResource resource = (IResource) ( (IAdaptable) selection )
+					.getAdapter( IResource.class );
 
-			if ( resource != null
-					&& resource.getProject( ) != null
+			if ( resource != null && resource.getProject( ) != null
 					&& resource.getProject( ).isAccessible( ) )
 			{
 				return resource.getProject( );
 			}
 		}
 
-		IProject[] pjs = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
+		IProject[] pjs = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProjects( );
 
 		for ( int i = 0; i < pjs.length; i++ )
@@ -373,7 +381,8 @@ public class UIUtil
 		EditPartViewer viewer = getLayoutEditPartViewer( );
 		if ( viewer == null )
 			return null;
-		IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
+		IStructuredSelection targets = (IStructuredSelection) viewer
+				.getSelection( );
 		if ( targets.isEmpty( ) )
 			return null;
 		return (EditPart) targets.getFirstElement( );
@@ -387,15 +396,14 @@ public class UIUtil
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
 		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( )
-				.getActiveEditor( );
+				.getActiveWorkbenchWindow( ).getActivePage( ).getActiveEditor( );
 		if ( reportEditor == null
 				|| !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 		{
 			return null;
 		}
-		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
+		return ( (GraphicalEditorWithFlyoutPalette) reportEditor
+				.getActiveEditor( ) ).getGraphicalViewer( );
 	}
 
 	/**
@@ -470,6 +478,59 @@ public class UIUtil
 			string = null; //$NON-NLS-1$
 		}
 		return string;
+	}
+
+	/**
+	 * @param wHint
+	 * @param c
+	 * @return
+	 */
+	public static int getWidthHint( int wHint, Control c )
+	{
+		boolean wrap = isWrapControl( c );
+		return wrap ? wHint : SWT.DEFAULT;
+	}
+
+	/**
+	 * @param hHint
+	 * @param c
+	 * @return
+	 */
+	public static int getHeightHint( int hHint, Control c )
+	{
+		if ( c instanceof Composite )
+		{
+			Layout layout = ( (Composite) c ).getLayout( );
+			if ( layout instanceof ColumnLayout )
+				return hHint;
+		}
+		return SWT.DEFAULT;
+	}
+
+	/**
+	 * @param scomp
+	 */
+	public static void updatePageIncrement( ScrolledComposite scomp )
+	{
+		ScrollBar vbar = scomp.getVerticalBar( );
+		if ( vbar != null )
+		{
+			Rectangle clientArea = scomp.getClientArea( );
+			int increment = clientArea.height - 5;
+			vbar.setPageIncrement( increment );
+		}
+	}
+
+	static boolean isWrapControl( Control c )
+	{
+		if ( c instanceof Composite )
+		{
+			return ( (Composite) c ).getLayout( ) instanceof ILayoutExtension;
+		}
+		else
+		{
+			return ( c.getStyle( ) & SWT.WRAP ) != 0;
+		}
 	}
 
 }
