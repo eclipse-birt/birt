@@ -228,17 +228,18 @@ public class UIUtil
 
 		if ( selection instanceof IAdaptable )
 		{
-			IResource resource = (IResource) ( (IAdaptable) selection )
-					.getAdapter( IResource.class );
+			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
 
-			if ( resource != null && resource.getProject( ) != null
+			if ( resource != null
+					&& resource.getProject( ) != null
 					&& resource.getProject( ).isAccessible( ) )
 			{
 				return resource.getProject( );
 			}
 		}
 
-		IProject[] pjs = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject[] pjs = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProjects( );
 
 		for ( int i = 0; i < pjs.length; i++ )
@@ -381,8 +382,7 @@ public class UIUtil
 		EditPartViewer viewer = getLayoutEditPartViewer( );
 		if ( viewer == null )
 			return null;
-		IStructuredSelection targets = (IStructuredSelection) viewer
-				.getSelection( );
+		IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
 		if ( targets.isEmpty( ) )
 			return null;
 		return (EditPart) targets.getFirstElement( );
@@ -396,14 +396,15 @@ public class UIUtil
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
 		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( ).getActivePage( ).getActiveEditor( );
+				.getActiveWorkbenchWindow( )
+				.getActivePage( )
+				.getActiveEditor( );
 		if ( reportEditor == null
 				|| !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 		{
 			return null;
 		}
-		return ( (GraphicalEditorWithFlyoutPalette) reportEditor
-				.getActiveEditor( ) ).getGraphicalViewer( );
+		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
 	}
 
 	/**
@@ -481,6 +482,8 @@ public class UIUtil
 	}
 
 	/**
+	 * Returns the width hint for the given control.
+	 * 
 	 * @param wHint
 	 * @param c
 	 * @return
@@ -492,6 +495,8 @@ public class UIUtil
 	}
 
 	/**
+	 * Returns the height hint for the given control.
+	 * 
 	 * @param hHint
 	 * @param c
 	 * @return
@@ -508,6 +513,8 @@ public class UIUtil
 	}
 
 	/**
+	 * Updates the page scroll increment for given composite.
+	 * 
 	 * @param scomp
 	 */
 	public static void updatePageIncrement( ScrolledComposite scomp )
@@ -521,7 +528,7 @@ public class UIUtil
 		}
 	}
 
-	static boolean isWrapControl( Control c )
+	private static boolean isWrapControl( Control c )
 	{
 		if ( c instanceof Composite )
 		{
