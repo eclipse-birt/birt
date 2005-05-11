@@ -12,8 +12,9 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -39,9 +40,8 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	public FormatDateTimePreferencePage( Object model )
 	{
 		super( model );
-		setTitle( Messages
-				.getString( "FormatDateTimePreferencePage.formatDateTime.title" ) ); //$NON-NLS-1$
-		setPreferenceName( StyleHandle.DATE_TIME_FORMAT_PROP );
+		setTitle( Messages.getString( "FormatDateTimePreferencePage.formatDateTime.title" ) ); //$NON-NLS-1$
+		setPreferenceName( DateTimeFormatValue.FORMAT_VALUE_STRUCT );
 	}
 
 	/*
@@ -80,12 +80,23 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		super.createFieldEditors( );
 		final Composite parent = getFieldEditorParent( );
 		formatPage = new FormatDateTimePage( parent, SWT.NULL );
-		( (Composite) formatPage ).setLayoutData( new GridData(
-				GridData.FILL_HORIZONTAL ) );
-		formatPage.setInput( ( (StylePreferenceStore) getPreferenceStore( ) )
-				.getDateTimeFormatCategory( ),
-				( (StylePreferenceStore) getPreferenceStore( ) )
-						.getDateTimeFormat( ) );
+		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		initiateFormatPage( );
+	}
+
+	private void initiateFormatPage( )
+	{
+		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormatCategory( );
+		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( );
+
+		if ( category == null && pattern == null )
+		{
+			String[] formatValue = ChoiceSetFactory.getDefaultFormatValue( DateTimeFormatValue.FORMAT_VALUE_STRUCT );
+			category = formatValue[0];
+			pattern = formatValue[1];
+		}
+		formatPage.setInput( category, pattern );
+		return;
 	}
 
 	/*
@@ -115,17 +126,16 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 	 */
 	protected boolean doStore( )
 	{
-		if ( formatPage == null || !formatPage.isFormatModified( )
+		if ( formatPage == null
+				|| !formatPage.isFormatModified( )
 				|| !formatPage.isDirty( ) )
 		{
 			return true;
 		}
 		try
 		{
-			( (StylePreferenceStore) getPreferenceStore( ) )
-					.setDateTimeFormatCategory( formatPage.getCategory( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) )
-					.setDateTimeFormat( formatPage.getPattern( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) ).setDateTimeFormatCategory( formatPage.getCategory( ) );
+			( (StylePreferenceStore) getPreferenceStore( ) ).setDateTimeFormat( formatPage.getPattern( ) );
 			return true;
 		}
 		catch ( SemanticException e )

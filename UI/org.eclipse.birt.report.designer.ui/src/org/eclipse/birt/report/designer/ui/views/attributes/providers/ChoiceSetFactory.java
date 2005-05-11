@@ -25,12 +25,14 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 
@@ -139,7 +141,7 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	
+
 	public static IChoiceSet getElementChoiceSet( String elementName,
 			String property )
 	{
@@ -256,8 +258,8 @@ public class ChoiceSetFactory
 	}
 
 	/**
-	 * Gets structure property 's display name given element name, property name and the
-	 * property's value.
+	 * Gets structure property 's display name given element name, property name
+	 * and the property's value.
 	 * 
 	 * @param structName
 	 *            The structure name.
@@ -267,14 +269,14 @@ public class ChoiceSetFactory
 	 *            The property 's value.
 	 * @return The given property 's display name
 	 */
-	
+
 	public static String getStructDisplayName( String structName,
 			String memberName, String value )
 	{
 		IChoiceSet set = getStructChoiceSet( structName, memberName );
 		return getDisplayNameFromChoiceSet( value, set );
 	}
-	
+
 	/**
 	 * Gets property value given element name, property name and its the
 	 * property's display name.
@@ -293,9 +295,10 @@ public class ChoiceSetFactory
 		IChoiceSet set = getElementChoiceSet( elementName, property );
 		return getValueFromChoiceSet( displayName, set );
 	}
+
 	/**
-	 * Gets structure property value given element name, property name and its the
-	 * property's display name.
+	 * Gets structure property value given element name, property name and its
+	 * the property's display name.
 	 * 
 	 * @param structName
 	 *            The design element name.
@@ -305,8 +308,8 @@ public class ChoiceSetFactory
 	 *            The property 's display name.
 	 * @return The given property 's value
 	 */
-	public static String getStructPropValue( String structName, String memberName,
-			String displayName )
+	public static String getStructPropValue( String structName,
+			String memberName, String displayName )
 	{
 		IChoiceSet set = getStructChoiceSet( structName, memberName );
 		return getValueFromChoiceSet( displayName, set );
@@ -500,10 +503,10 @@ public class ChoiceSetFactory
 	public static String[] getDataSets( )
 	{
 		ArrayList list = new ArrayList( );
-		
+
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
-		
+
 		SlotHandle dataSets = handle.getDataSets( );
 		if ( dataSets != null )
 		{
@@ -526,7 +529,7 @@ public class ChoiceSetFactory
 	{
 		ArrayList list = new ArrayList( );
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-		.getReportDesignHandle( );
+				.getReportDesignHandle( );
 		SlotHandle pages = handle.getMasterPages( );
 		if ( pages != null )
 		{
@@ -550,7 +553,7 @@ public class ChoiceSetFactory
 		ArrayList list = new ArrayList( );
 		list.add( CHOICE_NONE );
 		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-		.getReportDesignHandle( );
+				.getReportDesignHandle( );
 		SlotHandle styles = handle.getStyles( );
 		if ( styles != null )
 		{
@@ -562,5 +565,25 @@ public class ChoiceSetFactory
 			}
 		}
 		return (String[]) list.toArray( new String[0] );
+	}
+
+	/**
+	 * Gets the default format value given the struct name of format property .
+	 * 
+	 * @param structName
+	 *            The struct name of the format property.
+	 * @return formatValue = new String[2]. The default format value, String[0]:
+	 *         default category; String[1]: default pattern.
+	 */
+	public static String[] getDefaultFormatValue( String structName )
+	{
+		String[] formatValue = new String[2];
+		IStructureDefn def = DesignEngine.getMetaDataDictionary( )
+				.getStructure( structName );
+		formatValue[0] = (String) def.getMember( FormatValue.CATEGORY_MEMBER )
+				.getDefault( );
+		formatValue[1] = (String) def.getMember( FormatValue.PATTERN_MEMBER )
+				.getDefault( );
+		return formatValue;
 	}
 }
