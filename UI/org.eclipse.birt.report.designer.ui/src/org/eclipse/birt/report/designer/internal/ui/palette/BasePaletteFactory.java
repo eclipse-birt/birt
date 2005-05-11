@@ -53,10 +53,10 @@ import org.eclipse.jface.window.Window;
  */
 public class BasePaletteFactory
 {
-    private static final String POINTER_SELECT_LABEL = Messages.getString("BasePaletteFactory.categoryName.PointerSelect");//$NON-NLS-1$
-    private static final String RECTANGEL_SELECT_LABEL = Messages.getString("BasePaletteFactory.categoryName.RectangleSelect");//$NON-NLS-1$
-    private static final String TOOL_TIP_POINTER_SELECT = Messages.getString("BasePaletteFactory.toolTip.PointerSelect");//$NON-NLS-1$
-    private static final String TOOL_TIP_RECTANGLE_SELECT = Messages.getString("BasePaletteFactory.toolTip.RectangleSelect");//$NON-NLS-1$
+  private static final String POINTER_SELECT_LABEL = Messages.getString( "BasePaletteFactory.categoryName.PointerSelect" );//$NON-NLS-1$
+	private static final String RECTANGEL_SELECT_LABEL = Messages.getString( "BasePaletteFactory.categoryName.RectangleSelect" );//$NON-NLS-1$
+	private static final String TOOL_TIP_POINTER_SELECT = Messages.getString( "BasePaletteFactory.toolTip.PointerSelect" );//$NON-NLS-1$
+	private static final String TOOL_TIP_RECTANGLE_SELECT = Messages.getString( "BasePaletteFactory.toolTip.RectangleSelect" );//$NON-NLS-1$
 	private static final String PALETTE_GROUP_TEXT = Messages.getString( "BasePaletteFactory.Group.Items" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_PAGE_X_OF_Y = Messages.getString( "BasePaletteFactory.AutoTextLabel.PageXofY" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_LAST_PRINTED = Messages.getString( "BasePaletteFactory.AutoTextLabel.LastPrinted" ); //$NON-NLS-1$
@@ -64,7 +64,8 @@ public class BasePaletteFactory
 	private static final String AUTOTEXT_LABEL_CREATE_BY = Messages.getString( "BasePaletteFactory.AutoTextLabel.CreatedBy" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_CREATE_ON = Messages.getString( "BasePaletteFactory.AutoTextLabel.CreatedOn" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_PAGE = Messages.getString( "BasePaletteFactory.AutoTextLabel.Page" ); //$NON-NLS-1$
-
+	private static final String AUTOTEXT_TEXT_CONFIDENTIAL = Messages.getString("BasePaletteFactory.AutoText.Confidential"); //$NON-NLS-1$
+	
 	protected static PaletteRoot createPalette( )
 	{
 		PaletteRoot root = new PaletteRoot( );
@@ -418,7 +419,7 @@ public class BasePaletteFactory
 
 			if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( type ) )
 			{
-				grid = factory.newGridItem( null, 3, 1 );
+				grid = factory.newGridItem( null, 2, 1 );
 				try
 				{
 					List cellList = ( (RowHandle) grid.getRows( ).get( 0 ) ).getCells( )
@@ -434,15 +435,16 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					textHandle = factory.newTextItem( null );
-					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-					( (CellHandle) cellList.get( 1 ) ).getContent( )
-							.add( textHandle );
+//					Remove unsupported function					
+//					textHandle = factory.newTextItem( null );
+//					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
+//					( (CellHandle) cellList.get( 1 ) ).getContent( )
+//							.add( textHandle );
 
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
 					textHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
-					( (CellHandle) cellList.get( 2 ) ).getContent( )
+					( (CellHandle) cellList.get( 1 ) ).getContent( )
 							.add( textHandle );
 				}
 				catch ( SemanticException e )
@@ -452,23 +454,23 @@ public class BasePaletteFactory
 			}
 			else if ( IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equals( type ) )
 			{
-				grid = factory.newGridItem( null, 2, 1 );
+				grid = factory.newGridItem( null, 1, 1 );
 				try
 				{
 					List cellList = ( (RowHandle) grid.getRows( ).get( 0 ) ).getCells( )
 							.getContents( );
 
 					TextItemHandle textHandle = factory.newTextItem( null );
-					textHandle.setContent( AUTOTEXT_LABEL_CREATE_ON
-							+ "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
+					textHandle.setContent( AUTOTEXT_TEXT_CONFIDENTIAL ); 
 					textHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					textHandle = factory.newTextItem( null );
-					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-					( (CellHandle) cellList.get( 1 ) ).getContent( )
-							.add( textHandle );
+//					Remove unsupported function					
+//					textHandle = factory.newTextItem( null );
+//					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
+//					( (CellHandle) cellList.get( 1 ) ).getContent( )
+//							.add( textHandle );
 				}
 				catch ( SemanticException e )
 				{

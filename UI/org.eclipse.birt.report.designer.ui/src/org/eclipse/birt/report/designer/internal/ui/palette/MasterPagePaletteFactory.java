@@ -36,7 +36,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 
 	private static final String AUTOTEXT_TOOLTIP_AUTHOR_PAGE_DATE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.AuthorPageDate" ); //$NON-NLS-1$
 
-	private static final String AUTOTEXT_TOOLTIP_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.PageXofY" ); //$NON-NLS-1$
+//	private static final String AUTOTEXT_TOOLTIP_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.PageXofY" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_TOOLTIP_LAST_PRINTED = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.LastPrinted" ); //$NON-NLS-1$
 
@@ -48,11 +48,11 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 
 	private static final String AUTOTEXT_TOOLTIP_DATE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.Date" ); //$NON-NLS-1$
 
-	private static final String AUTOTEXT_TOOLTIP_PAGE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.Page" ); //$NON-NLS-1$
+//	private static final String AUTOTEXT_TOOLTIP_PAGE = Messages.getString( "MasterPagePaletteFactory.AutotextTooltip.Page" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_LABEL = Messages.getString( "MasterPagePaletteFactory.Autotext.Label" ); //$NON-NLS-1$
 
-	private static final String AUTOTEXT_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.Autotext.PageXofY" ); //$NON-NLS-1$
+//	private static final String AUTOTEXT_PAGE_X_OF_Y = Messages.getString( "MasterPagePaletteFactory.Autotext.PageXofY" ); //$NON-NLS-1$
 
 	private static final String AUTOTEXT_LAST_PRINTED = Messages.getString( "MasterPagePaletteFactory.Autotext.LastPrinted" ); //$NON-NLS-1$
 
@@ -68,7 +68,7 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 
 	private static final String AUTOTEXT_AUTHOR_PAGE_DATE = Messages.getString( "MasterPagePaletteFactory.Autotext.Author_Page_Date" ); //$NON-NLS-1$
 
-	private static final String AUTOTEXT_PAGE = Messages.getString( "MasterPagePaletteFactory.Autotext.Page" ); //$NON-NLS-1$
+//	private static final String AUTOTEXT_PAGE = Messages.getString( "MasterPagePaletteFactory.Autotext.Page" ); //$NON-NLS-1$
 
 	/**
 	 * Creates the palette and returns the palette
@@ -104,10 +104,13 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 				null );
 		List entries = new ArrayList( );
 
-		CombinedTemplateCreationEntry combined = createAutoText( AUTOTEXT_PAGE,
-				AUTOTEXT_TOOLTIP_PAGE,
-				IReportElementConstants.AUTOTEXT_PAGE );
-		entries.add( combined );
+		CombinedTemplateCreationEntry combined = null;
+
+//		Remove unsupported function		
+//		combined = createAutoText( AUTOTEXT_PAGE,
+//				AUTOTEXT_TOOLTIP_PAGE,
+//				IReportElementConstants.AUTOTEXT_PAGE );
+//		entries.add( combined );
 
 		combined = createAutoText( AUTOTEXT_AUTHOR_PAGE_DATE,
 				AUTOTEXT_TOOLTIP_AUTHOR_PAGE_DATE,
@@ -144,10 +147,11 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 				IReportElementConstants.AUTOTEXT_LASTPRINTED );
 		entries.add( combined );
 
-		combined = createAutoText( AUTOTEXT_PAGE_X_OF_Y,
-				AUTOTEXT_TOOLTIP_PAGE_X_OF_Y,
-				IReportElementConstants.AUTOTEXT_PAGEXOFY );
-		entries.add( combined );
+//	Remove unsupported function			
+//		combined = createAutoText( AUTOTEXT_PAGE_X_OF_Y,
+//				AUTOTEXT_TOOLTIP_PAGE_X_OF_Y,
+//				IReportElementConstants.AUTOTEXT_PAGEXOFY );
+//		entries.add( combined );
 
 		category.addAll( entries );
 		return category;
