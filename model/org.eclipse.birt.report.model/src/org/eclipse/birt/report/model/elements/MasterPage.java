@@ -31,9 +31,10 @@ import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
  * 
  */
 
-public abstract class MasterPage extends StyledElement implements IMasterPageModel
+public abstract class MasterPage extends StyledElement
+		implements
+			IMasterPageModel
 {
-
 
 	/**
 	 * Default constructor.
@@ -127,11 +128,15 @@ public abstract class MasterPage extends StyledElement implements IMasterPageMod
 		// Convert to application units.
 		try
 		{
-			size.y = DimensionUtil.convertTo( height, design.getSession( ).getUnits( ),
-					design.getSession( ).getUnits( ) ).getMeasure( );
-			size.x = DimensionUtil.convertTo( width, design.getSession( ).getUnits( ),
-					design.getSession( ).getUnits( ) ).getMeasure( );
+			String sessionUnit = design.getSession( ).getUnits( );
+			
+			if ( height != null )
+				size.y = DimensionUtil.convertTo( height, sessionUnit,
+						sessionUnit ).getMeasure( );
 
+			if ( width != null )
+				size.x = DimensionUtil.convertTo( width, sessionUnit,
+						sessionUnit ).getMeasure( );
 		}
 		catch ( PropertyValueException e )
 		{
