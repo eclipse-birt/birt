@@ -222,4 +222,17 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean isPropertyReadOnly( String propName );
+	
+	/**
+	 * Determines if the given element type is a kind of this type. It is if
+	 * either the given type is the same as this one, or if the given type
+	 * derives from this type.
+	 * 
+	 * @param type
+	 *            The element type to check.
+	 * @return True if it is a kind of this element, false otherwise.
+	 */
+
+	public boolean isKindOf( IElementDefn type );
+	
 }

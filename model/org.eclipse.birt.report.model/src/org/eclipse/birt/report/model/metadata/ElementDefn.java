@@ -1239,6 +1239,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	{
 		if ( type == this )
 			return true;
+		
+		if ( type == null )
+			return false;
+		
 		ElementDefn obj = ( (ElementDefn) type ).parent;
 		while ( obj != null )
 		{
