@@ -13,7 +13,11 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.core.util.BirtTimer;
+import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -47,10 +51,12 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ReportExecutor
 {
+	protected static Logger logger = Logger.getLogger( ReportExecutor.class.getName( ) );
+	
 	// the report execution context
 	private ExecutionContext context;
 
@@ -81,6 +87,9 @@ public class ReportExecutor
 	 */
 	public void execute( Report report, HashMap paramValues )
 	{
+		BirtTimer timer = new BirtTimer();
+		timer.start();
+		
 		IReportContent reportContent = ContentFactory.createReportContent( report, null );
 		context.pushContentObject( reportContent );
 		context.setReport( report );
@@ -100,7 +109,7 @@ public class ReportExecutor
 			String fileName = (String) iter.next( );
 			context.loadScript( fileName );
 		}
-
+		
 		// DE needs to support getInitialize() method
 		// context.execute(report.getInitialize());
 
@@ -112,12 +121,19 @@ public class ReportExecutor
 		// Set up report parameters
 		setParameters( paramValues );
 
+		timer.stop();
+		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare to run report");	// $NON-NLS-1$
+		
 		// Prepare necessary data for this report
+		timer.restart();
 		context.getDataEngine( ).prepare( report );
-
+		timer.stop();
+		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare report queries");	// $NON-NLS-1$
+		
 		// Report documents are not supported for now
 		// context.execute(report.getBeforeOpenDoc());
 
+		timer.restart();
 		emitter.startReport( reportContent );
 
 		// report documents are not supported for now
@@ -195,6 +211,10 @@ public class ReportExecutor
 		context.popContentObject( );
 		context.execute( report.getAfterFactory( ) );
 		context.getDataEngine( ).shutdown( );
+		
+		timer.stop();
+		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Running and rendering report");	// $NON-NLS-1$
+
 	}
 
 	/**

@@ -13,8 +13,11 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.InputStream;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 
 /**
  * A report engine provides an entry point for reporting functionalities. It is
@@ -31,6 +34,8 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
  */
 
 public class ReportEngine {
+
+	protected static Logger logger = Logger.getLogger( ReportEngine.class.getName( ) );
 
 	/**
 	 * engine configuration object
@@ -53,9 +58,15 @@ public class ReportEngine {
 	 */
 	public ReportEngine(EngineConfig config)
 	{	
+		BirtTimer timer = new BirtTimer();
+		timer.start();
+		
 		this.config = config;	
 		this.helper = new ReportEngineHelper(this);
 		setupLogging();
+		
+		timer.stop();
+		timer.logTimeTaken(logger, Level.INFO, "Engine startup");	// $NON-NLS-1$
 	}
 	
 	/**

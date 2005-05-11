@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -34,11 +36,12 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/08 06:59:45 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
-
+	protected static Logger logger = Logger.getLogger( TableItemExecutor.class.getName( ) );
+	
 	/**
 	 * the table design
 	 */
@@ -98,17 +101,22 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
+		BirtTimer timer = new BirtTimer();
+		timer.start();
+		
 		super.execute( item, emitter );
 		ITableEmitter tableEmitter = emitter.getTableEmitter( );
 		if ( tableEmitter == null )
 		{
+			timer.stop();
+			timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Render table");	// $NON-NLS-1$
 			return;
 		}
 
 		this.emitter = emitter;
 
 		table = (TableItemDesign) item;
-		logger.log( Level.FINE,"start table item" ); //$NON-NLS-1$
+		logger.log( Level.FINE, "start table item" ); //$NON-NLS-1$
 		//execute the on start script
 		context.execute( table.getOnStart( ) );
 		TableContent tableObj = (TableContent)ContentFactory.createTableContent( table, context.getContentObject( ) );
@@ -170,6 +178,8 @@ public class TableItemExecutor extends ListingElementExecutor
 			logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
 			context.popContentObject( );
 		}
+		timer.stop();
+		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Render table");	// $NON-NLS-1$
 	}
 
 	/**

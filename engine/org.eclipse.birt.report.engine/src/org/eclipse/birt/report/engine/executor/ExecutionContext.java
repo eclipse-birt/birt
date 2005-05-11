@@ -51,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.16 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -111,11 +111,16 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/** Stores the error message during running the report */
 	protected List errMsgLst = new ArrayList( );
 	
+	
+	private String taskIDString;
+	
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
-	public ExecutionContext( )
+	public ExecutionContext( int taskID )
 	{
+		taskIDString = "Task" + new Integer(taskID).toString();	// $NON-NLS-1$
+		
 		parser = new TextParser( );
 
 		locale = Locale.getDefault( );
@@ -129,6 +134,16 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
 	}
 
+	/**
+	 * returns taskID as string. The value can be used for logging.
+	 * 
+	 * @return taskID as string
+	 */
+	public String getTaskIDString()
+	{
+		return taskIDString;
+	}
+	
 	/**
 	 * @return whether the report item can define its own master page
 	 */

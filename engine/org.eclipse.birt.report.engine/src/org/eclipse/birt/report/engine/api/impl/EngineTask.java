@@ -79,7 +79,9 @@ public abstract class EngineTask implements IEngineTask
 	{	
 		this.runnable = runnable;
 		this.engine = engine;
-		executionContext = new ExecutionContext();
+		taskID = id++;
+		
+		executionContext = new ExecutionContext( taskID );
 		EngineConfig config = engine.getConfig();
 		if(config!=null)
 		{
@@ -88,7 +90,6 @@ public abstract class EngineTask implements IEngineTask
 		}
 		executionContext.setRunnable(runnable);
 		executionContext.registerBeans(runnable.getTestConfig());
-		taskID = id++;
 	}
 	
 	/**

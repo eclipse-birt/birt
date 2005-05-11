@@ -194,7 +194,7 @@ public class ExtensionManager
 		}
 		catch(FrameworkException ex)
 		{
-			if (logger.getLevel().intValue() >= Level.WARNING.intValue())
+			if (logger.isLoggable( Level.WARNING ))
 			{
 				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	// $NON-NLS-1$ 
 						new String[] {config.getAttribute("class"), property} );	// $NON-NLS-1$
