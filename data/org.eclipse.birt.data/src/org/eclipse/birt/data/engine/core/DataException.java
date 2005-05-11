@@ -25,13 +25,10 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 
 public class DataException extends BirtException
 {
-	private String errorCode;
 	private Object argv[];
 
 	/** static ResourceHandle */
 	private static DataResourceHandle resourceHandle = new DataResourceHandle( Locale.getDefault( ) );
-	
-	private static String ERROR_CODE_PREFIX = "DATA_EXCEPTION_";
 	
 	/*
 	 * @see BirtException(errorCode)
@@ -39,7 +36,6 @@ public class DataException extends BirtException
 	public DataException( String errorCode )
 	{
 		super( errorCode, resourceHandle.getResourceBundle( ) );
-		this.errorCode = errorCode;
 	}
 	
 	/**
@@ -50,7 +46,6 @@ public class DataException extends BirtException
 	public DataException( String errorCode, Object argv )
 	{
 		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
-		this.errorCode = errorCode;
 		this.argv = new Object[]{
 			argv
 		};
@@ -64,7 +59,6 @@ public class DataException extends BirtException
 	public DataException( String errorCode, Object argv[] )
 	{
 		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
-		this.errorCode = errorCode;
 		this.argv = argv;
 	}
     
@@ -74,13 +68,11 @@ public class DataException extends BirtException
     public DataException( String errorCode, Throwable cause )
     {
     	super( errorCode, resourceHandle.getResourceBundle( ), cause );
-    	this.errorCode = errorCode;
     }
     
     public DataException( String errorCode, Throwable cause, Object argv )
     {
     	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause);
-    	this.errorCode = errorCode;
 		this.argv = new Object[]{
 				argv
 			};
@@ -89,19 +81,9 @@ public class DataException extends BirtException
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
     	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause );
-    	this.errorCode = errorCode;
     	this.argv = argv;
     }
     
-    /**
-     * @return errrorCode
-     */
-    public String getErrorCode( )
-    {
-    	return ERROR_CODE_PREFIX + errorCode;
-    }
-    
-
     /*
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
@@ -117,11 +99,11 @@ public class DataException extends BirtException
 	{
 		if ( argv == null )
 		{
-			return resourceHandle.getMessage( errorCode );
+			return resourceHandle.getMessage( getErrorCode() );
 		}
 		else
 		{
-			return resourceHandle.getMessage( errorCode, argv );
+			return resourceHandle.getMessage( getErrorCode(), argv );
 		}
 	}
 	

@@ -298,7 +298,8 @@ abstract class PreparedQuery
 		PreparedSubquery subquery = (PreparedSubquery) subQueryMap.get( subQueryName );
 		if ( subquery == null )
 		{
-			DataException e = new DataException( ResourceConstants.SUBQUERY_NOT_FOUND );
+			DataException e = new DataException( ResourceConstants.SUBQUERY_NOT_FOUND,
+					subQueryName );
 			logger.logp( Level.FINE,
 					PreparedQuery.class.getName( ),
 					"execSubquery",

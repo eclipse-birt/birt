@@ -268,7 +268,8 @@ public class DataEngineImpl extends DataEngine
 
 		if ( !dSourceClass.isInstance( dsource.getDesign( ) ) )
 		{
-			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
+					dsource.getName() );
 			logger.logp( Level.WARNING,
 					DataEngineImpl.class.getName( ),
 					"defineDataSet",

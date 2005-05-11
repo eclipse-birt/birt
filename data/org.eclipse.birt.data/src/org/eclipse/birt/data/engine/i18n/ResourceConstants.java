@@ -17,95 +17,81 @@ package org.eclipse.birt.data.engine.i18n;
 
 public class ResourceConstants
 {
-	public final static String UNDEFINED_DATA_SOURCE = "UNDEFINED_DATA_SOURCE";
-	public final static String UNDEFINED_DATA_SET = "UNDEFINED_DATA_SET";
-	public final static String UNSUPPORTED_DATASOURCE_TYPE = "UNSUPPORTED_DATASOURCE_TYPE";
-	public final static String UNSUPPORTED_DATASET_TYPE = "UNSUPPORTED_DATASET_TYPE";
+	public final static String UNDEFINED_DATA_SOURCE = "data.engine.UndefinedDataSource";
+	public final static String UNDEFINED_DATA_SET = "data.engine.UndefinedDataSet";
+	public final static String UNSUPPORTED_DATASOURCE_TYPE = "data.engine.UnsupportedDataSourceType";
+	public final static String UNSUPPORTED_DATASET_TYPE = "data.engine.UnsupportedDataSetType";
 
-	public final static String NOT_END_GROUP  = "NOT_END_GROUP";
-	public final static String INVALID_GROUP_LEVEL  = "INVALID_GROUP_LEVEL";
-	public final static String INVALID_AGGR_PARAMETER  = "INVALID_AGGR_PARAMETER ";
+	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
+	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
+	public final static String INVALID_AGGR_PARAMETER  = "data.engine.WrongNumAggrArgs";
 
-	public final static String DUPLICATE_PROPERTY_NAME = "DUPLICATE_PROPERTY_NAME";
-	public final static String SUBQUERY_NOT_FOUND = "SUBQUERY_NOT_FOUND";
+	public final static String DUPLICATE_PROPERTY_NAME = "data.engine.DupPropertyName";
+	public final static String SUBQUERY_NOT_FOUND = "data.engine.NoSubQueryName";
 
-	public final static String CONDITIONAL_EXPR_NOT_SUPP = "CONDITIONAL_EXPR_NOT_SUPP";
-	public final static String MISSING_DRIVERNAME = "MISSING_DRIVERNAME";
-	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "STARTING_GROUP_VALUE_CANNOT_BE_NULL";
+	public final static String MISSING_DRIVERNAME = "data.engine.DataSourceMissingDriver";
+	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "data.engine.NullGroupStart";
 	
-	public final static String RESULT_CLOSED = "RESULT_CLOSED";
-	public final static String RESULT_ENDED = "RESULT_ENDED";
-	public final static String INVALID_JS_EXPR = "INVALID_JS_EXPR";
-	public final static String INVALID_TOTAL_NAME = "INVALID_TOTAL_NAME";
-	public final static String INVALID_CALL_AGGR = "INVALID_CALL_AGGR";
-	public final static String INVALID_EXPR_HANDLE = "INVALID_EXPR_HANDLE";	
+	public final static String RESULT_CLOSED = "data.engine.ResultClosed";
+	public final static String NO_CURRENT_ROW = "data.engine.NoCurrentRow";
+	public final static String INVALID_JS_EXPR = "data.engine.InvalidJSExpr";
+	public final static String INVALID_TOTAL_NAME = "data.engine.InvalidTotalFuncName";
+	public final static String INVALID_CALL_AGGR = "data.engine.NoAggrFunc";
+	public final static String INVALID_EXPR_HANDLE = "data.engine.InvalidExprHandle";	
 	
-	public final static String NO_CURRENT_ROW = "NO_CURRENT_ROW";
-	public final static String IT_NOT_STARTED = "IT_NOT_STARTED";
-	public final static String INVALID_KEY_COLUMN = "INVALID_KEY_COLUMN";
-	public final static String INVALID_GROUP_LEVEL_1 = "INVALID_GROUP_LEVEL_1";
-	public final static String INVALID_GROUP_KEY_COLUMN = "INVALID_GROUP_KEY_COLUMN";
-	public final static String INVALID_CLOSESCRIPT = "INVALID_CLOSESCRIPT";
-	public final static String INVALID_CUSTOM_FIELD_INDEX = "INVALID_CUSTOM_FIELD_INDEX";
+	public final static String INVALID_KEY_COLUMN = "data.engine.InvalidSortKeyColumn";
+	public final static String INVALID_GROUP_LEVEL = "data.engine.InvalidGroupLevel";
+	public final static String INVALID_GROUP_KEY_COLUMN = "data.engine.InvalidGroupKeyName";
+	public final static String INVALID_CLOSESCRIPT = "data.engine.BadCloseScript";
+	public final static String INVALID_CUSTOM_FIELD_INDEX = "data.engine.InvalidCustomFieldIdx";
 	
-	public final static String INVALID_OPENSCRIPT = "INVALID_OPENSCRIPT";
-	public final static String DS_HAS_OPENED = "DS_HAS_OPENED";
-	public final static String DS_NOT_OPEN = "DS_NOT_OPEN";
-	public final static String CUSTOM_FIELD_EMPTY = "CUSTOM_FIELD_EMPTY";
-	public final static String CUSTOM_FIELD_DUPLICATED = "CUSTOM_FIELD_DUPLICATED";
-	public final static String NO_RESULT_SET = "NO_RESULT_SET";
-	public final static String METADATA_NOT_AVAILABLE = "METADATA_NOT_AVAILABLE";
-	public final static String QUERY_HAS_PREPARED = "QUERY_HAS_PREPARED";
-	public final static String QUERY_HAS_NOT_PREPARED = "QUERY_HAS_NOT_PREPARED";
-	public final static String TYPE_NOT_SUPPORT = "TYPE_NOT_SUPPORT";
-	public final static String INAVLID_FIELD_NAME = "INAVLID_FIELD_NAME";
-	public final static String DUPLICATE_COLUMN_NAME = "DUPLICATE_COLUMN_NAME";
-	public final static String DUPLICATE_ALIAS_NAME = "DUPLICATE_ALIAS_NAME";
-	public final static String INVALID_FIELD_INDEX = "INVALID_FIELD_INDEX";
+	public final static String INVALID_OPENSCRIPT = "data.engine.BadOpenScript";
+	public final static String DS_HAS_OPENED = "data.engine.DataSourceIsOpen";
+	public final static String DS_NOT_OPEN = "data.engine.DataSourceNotOpen";
+	public final static String CUSTOM_FIELD_EMPTY = "data.engine.EmptyCustomFieldName";
+	public final static String DUP_CUSTOM_FIELD_NAME = "data.engine.DupCustomFieldName";
+	public final static String NO_RESULT_SET = "data.engine.NoResultSet";
+	public final static String METADATA_NOT_AVAILABLE = "data.engine.NoResultMetadata";
+	public final static String QUERY_HAS_PREPARED = "data.engine.QueryAlreadyPrepared";
+	public final static String QUERY_HAS_NOT_PREPARED = "data.engine.QueryNotPrepared";
+	public final static String INAVLID_FIELD_NAME = "data.engine.InvalidFieldName";
+	public final static String DUPLICATE_COLUMN_NAME = "data.engine.DupColumnName";
+	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
+	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
 	
-	public final static String INVALID_TYPE = "INVALID_TYPE";
-	public final static String UNSUPPORTED_DATA_TYPE = "UNSUPPORTED_DATA_TYPE";
+	public final static String MATCH_ERROR = "data.engine.MatchError";
+	public final static String UNSUPPORTED_DATA_TYPE = "data.engine.BadOperandType";
 	
-	public final static String ILLEGAL_PARAMETER = "ILLEGAL_PARAMETER";
-	public final static String ILLEGAL_DATA = "ILLEGAL_DATA";
-	public final static String NO_SOLUTION_FOUND = "NO_SOLUTION_FOUND";
-	public final static String INVALID_FETCH_SCIRPT = "INVALID_FETCH_SCIRPT";
-	public final static String TYPE_NOT_SUPPORTED = "TYPE_NOT_SUPPORTED";
-	public final static String INVALID_FIELD_NAME = "INVALID_FIELD_NAME";
-	public final static String NOT_SUPPORTED_TYPE = "NOT_SUPPORTED_TYPE";
-	public final static String UNSUPPORTED_FILTER_ON_GROUP="UNSUPPORTED_FILTER_ON_GROUP";
+	public final static String BAD_PARAM_COUNT = "data.engine.BadParameterCount";
+	public final static String BAD_PARAM_TYPE = "data.engine.BadParameterType";
+	public final static String NO_SOLUTION_FOUND = "data.engine.NoIrrSolution";
+	public final static String INVALID_FETCH_SCIRPT = "data.engine.BadFetchScript";
+	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
+	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
+	public final static String BAD_GROUP_KEY_TYPE = "data.engine.BadGroupKeyType";
+	public final static String UNSUPPORTED_FILTER_ON_GROUP="data.engine.NoSupportFilterOnGroup";
 	
-	public final static String ILLEGAL_PARAMETER_FUN = "ILLEGAL_PARAMETER_FUN";
-	public final static String RESET_RATE = "RESET_RATE";
-	public final static String UNSUPPORTTED_OPERATOR = "UNSUPPORTTED_OPERATOR";
-	public final static String NOT_SUPPORTED_NOW = "NOT_SUPPORTED_NOW";
-	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "EXPRESSION_CANNOT_BE_NULL_OR_BLANK";	
+	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";
+	public final static String RESET_RATE = "data.engine.ResetRateGuess";
+	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
+	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
 	// computed column value
-	public final static String EXPR_INVALID_COMPUTED_COLUMN= "EXPR_INVALID_COMPUTED_COLUMN";
+	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// invalid expression
-	public final static String INVALID_EXPRESSION_IN_FILTER = "INVALID_EXPRESSION_IN_FILTER";
+	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	
 	// wrapper error
-	public final static String DATATYPEUTIL_ERROR = "DATATYPEUTIL_ERROR";
-	public final static String INVALID_TYPE_IN_EXPR = "INVALID_TYPE_IN_EXPR";
-	public final static String AGGREGATION_ERROR = "AGGREGATION_ERROR";
-	public final static String TRANSFORM_ERROR = "TRANSFORM_ERROR";
-	
-	public final static String FETCH_DATA_ERROR = "FETCH_DATA_ERROR";
-	public final static String DS_OPEN_ERROR = "DS_OPEN_ERROR";
-	public final static String DS_COLUMN_HINTS_ERROR = "DS_COLUMN_HINTS_ERROR";
-	public final static String DS_PARAMETER_ERROR = "DS_PARAMETER_ERROR";
-	public final static String DS_COMPUTED_COLUMN_ERROR = "DS_COMPUTED_COLUMN_ERROR";
+	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
+	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
 	
 	// other error
-	public final static String SCRIPT_EVAL_ERROR = "SCRIPT_EVAL_ERROR";
-	public final static String PREPARED_QUERY_CLOSED = "PREPARED_QUERY_CLOSED";	
-	public final static String QUERY_FAILURE = "QUERY_FAILURE";
-	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL";
-	public final static String INVALID_EXPR = "INVALID_EXPR";
-	public final static String INVALID_GROUP_EXPR = "INVALID_GROUP_EXPR";
-	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "PARAMETER_METADATA_NOT_SUPPORTED";
-		
+	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";
+	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	
+	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "data.engine.NullDefaultInParamValue";
+	public final static String INVALID_GROUP_EXPR = "data.engine.BadGroupKeyExpr";
+	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "data.engine.NoParamMetaForDataSource";
+	public final static String UNEXPECTED_ERROR="data.engine.UnexpectedError";
+	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

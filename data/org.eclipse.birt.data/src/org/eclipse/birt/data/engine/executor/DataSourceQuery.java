@@ -260,7 +260,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 				CustomField cf = (CustomField) cfIt.next();
 				if ( cf.name.equals( fieldName ) )
 				{
-					throw new DataException( ResourceConstants.CUSTOM_FIELD_DUPLICATED );
+					throw new DataException( ResourceConstants.DUP_CUSTOM_FIELD_NAME, fieldName );
 				}
 			}
         }

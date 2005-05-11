@@ -253,7 +253,7 @@ class ResultIterator implements IResultIterator
 	    // Must advance to first row before calling getValue
 	    if ( beforeFirstRow )
 	    {
-	    	DataException e = new DataException( ResourceConstants.RESULT_ENDED );
+	    	DataException e = new DataException( ResourceConstants.NO_CURRENT_ROW );
 			logger.logp( Level.FINE,
 					ResultIterator.class.getName( ),
 					"getValue",

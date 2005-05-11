@@ -115,17 +115,24 @@ public class ScriptEvalUtil
 				break;
 			case IConditionalExpression.OP_TOP_N :
 			//TODO
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "TopN" );
 			case IConditionalExpression.OP_BOTTOM_N :
 			//TODO
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "BottomN" );
 			case IConditionalExpression.OP_TOP_PERCENT :
-			//TODO
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "TopNPercent" );
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
-			//TODO
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "BottomNPercent" );
 			case IConditionalExpression.OP_ANY :
-			//TODO
+				throw new DataException(
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
 			default :
 				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_OPERATOR );
+						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, new Integer(operator) );
 		}
 		
 		logger.exiting( ScriptEvalUtil.class.getName( ),
@@ -138,7 +145,7 @@ public class ScriptEvalUtil
 	{
 		if ( ob1 == null )
 		{
-			throw new DataException( ResourceConstants.INVALID_EXPR );
+			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
 		}
 	}
 
@@ -147,7 +154,7 @@ public class ScriptEvalUtil
 	{
 		if ( ob1 == null || ob2 == null )
 		{
-			throw new DataException( ResourceConstants.INVALID_EXPR );
+			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
 		}
 	}
 
@@ -157,7 +164,7 @@ public class ScriptEvalUtil
 	{
 		if ( ob1 == null || ob2 == null || ob3 == null )
 		{
-			throw new DataException( ResourceConstants.INVALID_EXPR );
+			throw new DataException( ResourceConstants.INVALID_JS_EXPR, "null" );
 		}
 	}
 	
@@ -426,7 +433,7 @@ public class ScriptEvalUtil
 		}
 		catch ( RuntimeException e )
 		{
-			throw new DataException( ResourceConstants.INVALID_TYPE, e );
+			throw new DataException( ResourceConstants.MATCH_ERROR, e );
 		}
 		return b;
 	}

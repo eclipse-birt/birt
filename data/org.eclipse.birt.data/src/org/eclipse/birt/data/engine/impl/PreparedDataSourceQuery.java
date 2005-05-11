@@ -71,7 +71,8 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		}
 		else
 		{
-			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			DataException e = new DataException( ResourceConstants.UNSUPPORTED_DATASET_TYPE,
+					dset.getName() );
 			logger.logp( Level.FINE,
 					PreparedDataSourceQuery.class.getName( ),
 					"newInstance",

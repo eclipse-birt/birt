@@ -178,7 +178,8 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 		}
 		else
 		{
-			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE );
+			throw new DataException( ResourceConstants.UNSUPPORTED_DATASOURCE_TYPE,
+					dataSource.getName() );
 		}
 	}
 	
