@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.help.internal.appserver.AppserverPlugin;
 import org.eclipse.help.internal.appserver.IWebappServer;
 import org.eclipse.help.internal.appserver.PluginClassLoaderWrapper;
 import org.osgi.framework.Bundle;
@@ -41,7 +40,6 @@ public class WebappAccessor
 	 */
 	private WebappAccessor( )
 	{
-		// Do nothing
 	}
 
 	/**
@@ -142,10 +140,11 @@ public class WebappAccessor
 
 		if ( bundle == null )
 		{
-			throw new CoreException(new Status(IStatus.ERROR,
-					AppserverPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
-							.getFormattedResourceString("viewer.appserver.cannotfindplugin", //$NON-NLS-1$
-									new Object[] { pluginId } ), null));
+			throw new CoreException( new Status( IStatus.ERROR,
+					ViewerPlugin.PLUGIN_ID,
+					IStatus.OK,
+					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotfindplugin", //$NON-NLS-1$
+					new Object[] { pluginId } ), null ) );
 		}
 
 		// Note: we just look for one webapp directory.
@@ -154,25 +153,26 @@ public class WebappAccessor
 
 		if ( webappURL == null )
 		{
-			throw new CoreException(new Status(IStatus.ERROR,
-					AppserverPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
-							.getFormattedResourceString("viewer.appserver.cannotfindpath", //$NON-NLS-1$
-									new Object[] { pluginId, path.toOSString() } ), null));
+			throw new CoreException( new Status( IStatus.ERROR,
+					ViewerPlugin.PLUGIN_ID,
+					IStatus.OK,
+					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotfindpath", //$NON-NLS-1$
+					new Object[] { pluginId, path.toOSString( ) } ), null ) );
 		}
 
 		try
 		{
-			String webappLocation = Platform.asLocalURL( Platform.resolve( webappURL ) )
-					.getFile( );
+			String webappLocation = Platform.asLocalURL( Platform.resolve( webappURL ) ).getFile( );
 			webappLocation += "birt/"; //$NON-NLS-1$
 			return new Path( webappLocation );
 		}
 		catch ( IOException ioe )
 		{
-			throw new CoreException(new Status(IStatus.ERROR,
-					AppserverPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
-							.getFormattedResourceString("viewer.appserver.cannotresolvepath", //$NON-NLS-1$
-									new Object[] { pluginId, path.toOSString() } ), ioe));
+			throw new CoreException( new Status( IStatus.ERROR,
+					ViewerPlugin.PLUGIN_ID,
+					IStatus.OK,
+					ViewerPlugin.getFormattedResourceString("viewer.appserver.cannotresolvepath", //$NON-NLS-1$
+					new Object[] { pluginId, path.toOSString( ) } ), ioe ) );
 		}
 	}
 

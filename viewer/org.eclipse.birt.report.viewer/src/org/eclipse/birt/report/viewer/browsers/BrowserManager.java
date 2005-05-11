@@ -21,66 +21,72 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.help.browser.IBrowser;
 import org.eclipse.help.browser.IBrowserFactory;
-import org.eclipse.help.internal.base.BaseHelpSystem;
-import org.eclipse.help.internal.base.HelpBasePlugin;
-import org.eclipse.help.internal.base.HelpBaseResources;
 import org.eclipse.osgi.service.environment.Constants;
 
 /**
- * Singlton class manage registered browsers.
+ * Singlton class manages registered browsers.
  * <p>
  */
 public class BrowserManager
 {
 	/**
-	 * Preference key for always using external browser
+	 * Preference key for always using external browser.
 	 */
 	public static final String ALWAYS_EXTERNAL_BROWSER_KEY = "always_external_browser"; //$NON-NLS-1$
 
 	/**
-	 * Preference key for default browser
+	 * Preference key for default browser.
 	 */
 	public static final String DEFAULT_BROWSER_ID_KEY = "default_browser"; //$NON-NLS-1$
 
 	/**
-	 * Customer browser id
+	 * Customer browser id.
 	 */
 	public static final String BROWSER_ID_CUSTOM = ViewerPlugin.PLUGIN_ID + ".custombrowser"; //$NON-NLS-1$
 
 	/**
-	 * Embedded browser id
+	 * Embedded browser id.
 	 */
 	public static final String BROWSER_ID_EMBEDDED = ViewerPlugin.PLUGIN_ID + ".embeddedbrowser"; //$NON-NLS-1$
 
 	/**
-	 * System browser id
+	 * System browser id.
 	 */
 	public static final String BROWSER_ID_SYSTEM = ViewerPlugin.PLUGIN_ID + ".systembrowser"; //$NON-NLS-1$
 
 	/**
-	 * Mozilla browser id
+	 * Browser manager instance.
 	 */
-	public static final String BROWSER_ID_MOZILLA = HelpBasePlugin.PLUGIN_ID + ".mozilla"; //$NON-NLS-1$
-
-	/**
-	 * Netscape browser id
-	 */
-	public static final String BROWSER_ID_NETSCAPE = HelpBasePlugin.PLUGIN_ID + ".netscape"; //$NON-NLS-1$
-
-	/**
-	 * Default MacOS browser id
-	 */
-	public static final String BROWSER_ID_MAC_SYSTEM = HelpBasePlugin.PLUGIN_ID + ".defaultBrowserMacOSX"; //$NON-NLS-1$
-
 	private static BrowserManager instance;
 
-	private BrowserDescriptor currentBrowserDesc;
-	private BrowserDescriptor defaultBrowserDesc;
-	private BrowserDescriptor[] browsersDescriptors;
-	private BrowserDescriptor internalBrowserDesc;
-
+	/**
+	 * List of Browser extensions.
+	 */
 	private Collection browsers = new ArrayList( );
 
+	/**
+	 * List of browser descriptions.
+	 */
+	private BrowserDescriptor[] browsersDescriptors;
+
+	/**
+	 * Description of current browser.
+	 */
+	private BrowserDescriptor currentBrowserDesc;
+	
+	/**
+	 * Description of default browser.
+	 */
+	private BrowserDescriptor defaultBrowserDesc;
+	
+	/**
+	 * Description of internal browser.
+	 */
+	private BrowserDescriptor internalBrowserDesc;
+
+	/**
+	 * Flag of whether should always use external browsers.
+	 */
 	private boolean alwaysUseExternal = false;
 
 	/**
@@ -105,7 +111,6 @@ public class BrowserManager
 	 */
 	private BrowserManager( )
 	{
-		// Do nothing
 	}
 
 	/**
@@ -126,10 +131,12 @@ public class BrowserManager
 			setDefaultBrowserID( defBrowserID );
 		}
 
-		// 2. set default browser to embedded ????
-		//		if (defaultBrowserDesc == null) {
-		//			setDefaultBrowserID(BROWSER_ID_EMBEDDED);
-		//		}
+		// 2. set default browser to embedded
+		if ( defaultBrowserDesc == null )
+		{
+			setDefaultBrowserID( BROWSER_ID_EMBEDDED );
+		}
+
 		// 3. set default browser to help implementation of system specific
 		// browser
 		String os = Platform.getOS( );
@@ -140,25 +147,6 @@ public class BrowserManager
 			{
 				// Win32 uses system browser
 				setDefaultBrowserID( BROWSER_ID_SYSTEM );
-			}
-			else if ( Constants.OS_AIX.equalsIgnoreCase( os )
-					|| Constants.OS_HPUX.equalsIgnoreCase( os )
-					|| Constants.OS_LINUX.equalsIgnoreCase( os )
-					|| Constants.OS_SOLARIS.equalsIgnoreCase( os ) )
-			{
-				// Unix uses mozilla
-				setDefaultBrowserID( BROWSER_ID_MOZILLA );
-
-				if ( defaultBrowserDesc == null )
-				{
-					// Or netscape
-					setDefaultBrowserID( BROWSER_ID_NETSCAPE );
-				}
-			}
-			else if ( Constants.OS_MACOSX.equalsIgnoreCase( os ) )
-			{
-				// Mac
-				setDefaultBrowserID( BROWSER_ID_MAC_SYSTEM );
 			}
 		}
 
@@ -178,66 +166,6 @@ public class BrowserManager
 		if ( defaultBrowserDesc == null )
 		{
 			setDefaultBrowserID( BROWSER_ID_CUSTOM );
-		}
-
-		// 6. use null browser
-		if ( defaultBrowserDesc == null )
-		{
-			// If no browsers at all, use the Null Browser Adapter
-			defaultBrowserDesc = new BrowserDescriptor( "", "Null Browser", //$NON-NLS-1$ //$NON-NLS-2$
-					new IBrowserFactory( ) {
-
-						public boolean isAvailable( )
-						{
-							return true;
-						}
-
-						public IBrowser createBrowser( )
-						{
-							return new IBrowser( ) {
-
-								public void close( )
-								{
-									// Do nothing
-								}
-
-								public void displayURL( String url )
-								{
-									String msg = HelpBaseResources.getString( "no_browsers", url ); //$NON-NLS-1$
-
-									HelpBasePlugin.logError( msg, null );
-
-									BaseHelpSystem.getDefaultErrorUtil( )
-											.displayError( msg );
-								}
-
-								public boolean isCloseSupported( )
-								{
-									return false;
-								}
-
-								public boolean isSetLocationSupported( )
-								{
-									return false;
-								}
-
-								public boolean isSetSizeSupported( )
-								{
-									return false;
-								}
-
-								public void setLocation( int width, int height )
-								{
-									// Do nothing
-								}
-
-								public void setSize( int x, int y )
-								{
-									// Do nothing
-								}
-							};
-						}
-					} );
 		}
 
 		// initialize current browser

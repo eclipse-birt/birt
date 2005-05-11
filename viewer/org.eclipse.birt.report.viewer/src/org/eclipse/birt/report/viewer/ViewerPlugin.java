@@ -109,6 +109,13 @@ public class ViewerPlugin extends Plugin
 		}
 	}
 
+	/**
+	 * Get formatted string.
+	 * 
+	 * @param key
+	 * @param arguments
+	 * @return formatte resource string
+	 */
 	public static String getFormattedResourceString( String key, Object[] arguments )
 	{
 		return MessageFormat.format( getResourceString( key ), arguments );
