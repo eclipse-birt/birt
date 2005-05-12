@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -47,7 +46,6 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -169,11 +167,9 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 		}
 		design.translations = (TranslationTable) translations.clone( );
 		design.fileName = null;
-		if ( MetaDataDictionary.getInstance( ).useID( ) )
-		{
-			design.idMap = new HashMap( );
-			generateIdMap( design, design );
-		}
+		
+		NameSpace.rebuildNamespace(design);
+
 		return design;
 	}
 

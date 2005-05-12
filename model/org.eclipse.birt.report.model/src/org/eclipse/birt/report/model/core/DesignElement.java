@@ -3108,6 +3108,7 @@ public abstract class DesignElement
 		element.extendsRef = null;
 		element.cachedDefn = null;
 		element.handle = null;
+		element.id = 0;
 
 		// System Properties
 

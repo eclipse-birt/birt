@@ -19,14 +19,17 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
  * items.
- *  
+ * 
  */
 
 public class SlotHandle extends ElementDetailHandle
@@ -144,7 +147,7 @@ public class SlotHandle extends ElementDetailHandle
 	 * yet added to the design.
 	 * 
 	 * @param content
-	 *            the newly created element
+	 *            the newly created element handle
 	 * @return a list containing all errors for the pasted element
 	 * @throws ContentException
 	 *             if the element is not allowed in the slot
@@ -166,6 +169,26 @@ public class SlotHandle extends ElementDetailHandle
 	 * 
 	 * @param content
 	 *            the newly created element
+	 * @return a list containing all errors for the pasted element
+	 * @throws ContentException
+	 *             if the element is not allowed in the slot
+	 * @throws NameException
+	 *             if the element has a duplicate or illegal name
+	 */
+	public List paste( IDesignElement content ) throws ContentException,
+			NameException
+	{
+		add( content.getHandle( getDesign( ) ) );
+
+		return checkPostPasteErrors( (DesignElement) content );
+	}
+
+	/**
+	 * Pastes a report item to the slot. The item must be newly created and not
+	 * yet added to the design.
+	 * 
+	 * @param content
+	 *            the newly created element handle
 	 * @param newPos
 	 *            the position index at which the content to be inserted.
 	 * @return a list containing all errors for the pasted element
@@ -184,6 +207,63 @@ public class SlotHandle extends ElementDetailHandle
 	}
 
 	/**
+	 * Pastes a report item to the slot. The item must be newly created and not
+	 * yet added to the design.
+	 * 
+	 * @param content
+	 *            the newly created element
+	 * @param newPos
+	 *            the position index at which the content to be inserted.
+	 * @return a list containing all errors for the pasted element
+	 * @throws ContentException
+	 *             if the element is not allowed in the slot
+	 * @throws NameException
+	 *             if the element has a duplicate or illegal name
+	 */
+
+	public List paste( IDesignElement content, int newPos )
+			throws ContentException, NameException
+	{
+		add( content.getHandle( getDesign( ) ), newPos );
+
+		return checkPostPasteErrors( (DesignElement) content );
+
+	}
+
+	/**
+	 * Reset the element Id for the pasted element and its sub elements.
+	 * 
+	 * @param element
+	 *            the element new added in the design.
+	 */
+
+	private void resetId( DesignElement element )
+	{
+		if ( element == null )
+			return;
+
+		ReportDesign design = this.getDesign( );
+		IElementDefn defn = element.getDefn( );
+		int id = design.getNextID( );
+		element.setID( id );
+		design.addElementID( element );
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = element.getSlot( i );
+
+			if ( slot == null )
+				continue;
+
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			{
+				DesignElement innerElement = slot.getContent( pos );
+				resetId( innerElement );
+			}
+		}
+	}
+
+	/**
 	 * Checks the element after the paste action.
 	 * 
 	 * @param content
@@ -198,7 +278,7 @@ public class SlotHandle extends ElementDetailHandle
 		List exceptionList = content.validateWithContents( getDesign( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
-		return errorDetailList; 
+		return errorDetailList;
 	}
 
 	/**
@@ -394,7 +474,7 @@ public class SlotHandle extends ElementDetailHandle
 
 	public int findPosn( DesignElementHandle content )
 	{
-		return getSlot( ).findPosn( content.getElement() );
+		return getSlot( ).findPosn( content.getElement( ) );
 	}
 
 	/**

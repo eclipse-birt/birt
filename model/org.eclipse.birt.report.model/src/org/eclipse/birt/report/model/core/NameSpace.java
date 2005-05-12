@@ -14,6 +14,10 @@ package org.eclipse.birt.report.model.core;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+
 /**
  * A name space organizes a set of named elements. The name space allows quick
  * lookup of elements by name, and ensures that each element has a unique name.
@@ -24,14 +28,14 @@ import java.util.Iterator;
  * Names are case sensitive.
  * <p>
  * A name space is meant to be used in conjunction with a command. Most of the
- * operations here represent inconsistent states in the model that can obtain only
- * in while a command is executing. For example, to insert an element in the
- * name space, the element's name must have already been set. This precondition
- * represents an inconsistent model state: an element has a name but does not
- * appear in the proper name space. Similarly, all error checking must be done
- * before calling these methods as part of checking the preconditions for a
- * command. Once a command starts, it must not fail because the model does not
- * provide means to roll back a partially complete command.
+ * operations here represent inconsistent states in the model that can obtain
+ * only in while a command is executing. For example, to insert an element in
+ * the name space, the element's name must have already been set. This
+ * precondition represents an inconsistent model state: an element has a name
+ * but does not appear in the proper name space. Similarly, all error checking
+ * must be done before calling these methods as part of checking the
+ * preconditions for a command. Once a command starts, it must not fail because
+ * the model does not provide means to roll back a partially complete command.
  */
 
 public final class NameSpace implements Cloneable
@@ -158,25 +162,36 @@ public final class NameSpace implements Cloneable
 	{
 		return names.size( );
 	}
-
-	/**
-	 * Makes a clone of this namespace.
-	 * 
-	 * @return Object the cloned namespace.
-	 * 
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
+	
+	public Object clone() throws CloneNotSupportedException{
+		
 		NameSpace ns = (NameSpace) super.clone( );
 		ns.names = new HashMap( );
-		Iterator it = names.keySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			Object key = it.next( );
-			ns.names.put( key, names.get( key ) );
-		}
+
 		return ns;
+	}
+
+	/**
+	 * Makes a clone of this name space for the new cloned design.
+	 * 
+	 * @param design
+	 *            the new cloned report design
+	 * @see java.lang.Object#clone()
+	 */
+	public static void rebuildNamespace( ReportDesign design ) throws CloneNotSupportedException
+	{
+	
+		for ( int i = 0; i < IReportDesignModel.SLOT_COUNT; i++ )
+		{
+			ContainerSlot slot = design.getSlot( i );
+			for ( int j = 0; j < slot.getCount( ); j++ )
+			{
+				DesignElement element = slot.getContent( j );
+				ElementDefn elementDefn = (ElementDefn)element.getDefn( );
+				int namespaceId = elementDefn.getNameSpaceID();
+
+				design.getNameSpace( namespaceId ).names.put( element.name, element );	
+			}
+		}
 	}
 }
