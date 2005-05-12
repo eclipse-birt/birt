@@ -15,8 +15,8 @@ import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNo
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.core.IStructure;
 import org.eclipse.gef.commands.Command;
 
 /**
