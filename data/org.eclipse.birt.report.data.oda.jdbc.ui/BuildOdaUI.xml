@@ -182,6 +182,7 @@
 			<fileset dir=".">
 	 			<include name="${jar.name}"/>
  				<include name="plugin.*"/>
+ 				<include name="plugin*.properties"/>
 			</fileset>
 		</copy>
 	</target>
