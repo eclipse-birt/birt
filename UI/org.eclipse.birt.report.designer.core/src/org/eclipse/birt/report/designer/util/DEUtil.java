@@ -760,13 +760,20 @@ public class DEUtil
 		}
 		if ( model instanceof DataSetItemModel )
 		{
+			String colName = ( (DataSetItemModel) model ).getAlias( );
+
+			if ( colName == null || colName.trim( ).length( ) == 0 )
+			{
+				colName = ( (DataSetItemModel) model ).getName( );
+			}
+			
 			return /*
 				    * Roll back because engine hasn't support full path yet
 				    * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
 				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
 				    * ).getName( ) + "\"]." +
 				    */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\"" + DEUtil.escape( ( (DataSetItemModel) model ).getName( ) ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+					+ "[\"" + DEUtil.escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return null;
 	}

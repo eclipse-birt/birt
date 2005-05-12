@@ -16,7 +16,8 @@ import java.sql.Types;
  */
 public class DataSetItemModel
 {
-    private transient String dataSetColumnName = null;
+
+	private transient String dataSetColumnName = null;
 
 	private transient String name = null;
 
@@ -25,15 +26,14 @@ public class DataSetItemModel
 	private transient String dataTypeName = null;
 
 	private transient int dataType = Types.VARCHAR;
-    
-    private transient int position = -1;
-    
-    private transient String alias = null;
-    
-    private transient String helpText = null;
-    
-    private transient boolean isComputedColumn = false;
-    
+
+	private transient int position = -1;
+
+	private transient String alias = null;
+
+	private transient String helpText = null;
+
+	private transient boolean isComputedColumn = false;
 
 	/**
 	 * @return the dataType.
@@ -72,39 +72,46 @@ public class DataSetItemModel
 	private transient String displayName = null;
 
 	/**
-     * This method returns the display name and if the display name is null it returns the name
-     * 
+	 * This method returns the display name and if the display name is null it
+	 * returns the name
+	 * 
 	 * @return Returns the displayName.
 	 */
 	public String getDisplayName( )
 	{
-		if ( displayName == null || displayName.trim( ).length( ) == 0 )
+		if ( displayName != null && displayName.trim( ).length( ) > 0 )
 		{
-			return getName();
+			return displayName;
 		}
+
+		if ( alias != null && alias.trim( ).length( ) > 0 )
+		{
+			return alias;
+		}
+		
+		return getName( );
+	}
+
+	/**
+	 * This method just returns the display name. It doesn't do any null checks
+	 * 
+	 * @return the display name
+	 */
+	public String getRealDisplayName( )
+	{
 		return displayName;
 	}
-    
-    /** 
-     * This method just returns the display name. It doesn't do any null checks
-     * 
-     * @return the display name
-     */
-    public String getRealDisplayName()
-    {
-        return displayName;
-    }
-    
-    /**
-     * This is equivalent to setDisplayName.
-     * It is just added for conveninence in case of java bean introspection.
-     * 
-     * @param displayName
-     */
-    public void setRealDisplayName(String displayName)
-    {
-        setDisplayName(displayName);
-    }
+
+	/**
+	 * This is equivalent to setDisplayName. It is just added for conveninence
+	 * in case of java bean introspection.
+	 * 
+	 * @param displayName
+	 */
+	public void setRealDisplayName( String displayName )
+	{
+		setDisplayName( displayName );
+	}
 
 	/**
 	 * @param displayName
@@ -120,10 +127,10 @@ public class DataSetItemModel
 	 */
 	public String getName( )
 	{
-        if(name == null || name.trim().length() == 0)
-        {
-            return getDataSetColumnName();
-        }
+		if ( name == null || name.trim( ).length( ) == 0 )
+		{
+			return getDataSetColumnName( );
+		}
 		return name;
 	}
 
@@ -152,74 +159,89 @@ public class DataSetItemModel
 	{
 		this.parent = parent;
 	}
-    /**
-     * @return Returns the position.
-     */
-    public int getPosition()
-    {
-        return position;
-    }
-    /**
-     * @param position The position to set.
-     */
-    public void setPosition(int position)
-    {
-        this.position = position;
-    }
-    /**
-     * @return Returns the alias.
-     */
-    public String getAlias()
-    {
-        return alias;
-    }
-    /**
-     * @param alias The alias to set.
-     */
-    public void setAlias(String alias)
-    {
-        this.alias = alias;
-    }
-    /**
-     * @return Returns the helpText.
-     */
-    public String getHelpText()
-    {
-        return helpText;
-    }
-    /**
-     * @param helpText The helpText to set.
-     */
-    public void setHelpText(String helpText)
-    {
-        this.helpText = helpText;
-    }
-    /**
-     * @return Returns the dataSetColumnName.
-     */
-    public String getDataSetColumnName()
-    {
-        return dataSetColumnName;
-    }
-    /**
-     * @param dataSetColumnName The dataSetColumnName to set.
-     */
-    public void setDataSetColumnName(String dataSetColumnName)
-    {
-        this.dataSetColumnName = dataSetColumnName;
-    }
-    /**
-     * @return Returns the isComputedColumn.
-     */
-    public boolean isComputedColumn()
-    {
-        return isComputedColumn;
-    }
-    /**
-     * @param isComputedColumn The isComputedColumn to set.
-     */
-    public void setComputedColumn(boolean isComputedColumn)
-    {
-        this.isComputedColumn = isComputedColumn;
-    }
+
+	/**
+	 * @return Returns the position.
+	 */
+	public int getPosition( )
+	{
+		return position;
+	}
+
+	/**
+	 * @param position
+	 *            The position to set.
+	 */
+	public void setPosition( int position )
+	{
+		this.position = position;
+	}
+
+	/**
+	 * @return Returns the alias.
+	 */
+	public String getAlias( )
+	{
+		return alias;
+	}
+
+	/**
+	 * @param alias
+	 *            The alias to set.
+	 */
+	public void setAlias( String alias )
+	{
+		this.alias = alias;
+	}
+
+	/**
+	 * @return Returns the helpText.
+	 */
+	public String getHelpText( )
+	{
+		return helpText;
+	}
+
+	/**
+	 * @param helpText
+	 *            The helpText to set.
+	 */
+	public void setHelpText( String helpText )
+	{
+		this.helpText = helpText;
+	}
+
+	/**
+	 * @return Returns the dataSetColumnName.
+	 */
+	public String getDataSetColumnName( )
+	{
+		return dataSetColumnName;
+	}
+
+	/**
+	 * @param dataSetColumnName
+	 *            The dataSetColumnName to set.
+	 */
+	public void setDataSetColumnName( String dataSetColumnName )
+	{
+		this.dataSetColumnName = dataSetColumnName;
+	}
+
+	/**
+	 * @return Returns the isComputedColumn.
+	 */
+	public boolean isComputedColumn( )
+	{
+		return isComputedColumn;
+	}
+
+	/**
+	 * @param isComputedColumn
+	 *            The isComputedColumn to set.
+	 */
+	public void setComputedColumn( boolean isComputedColumn )
+	{
+		this.isComputedColumn = isComputedColumn;
+	}
 }
