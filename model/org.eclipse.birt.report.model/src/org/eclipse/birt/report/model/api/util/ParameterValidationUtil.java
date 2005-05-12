@@ -297,11 +297,18 @@ public class ParameterValidationUtil
 					return value;
 				else
 				{
-					// TODO: there must be a parse( ) in StringFormatter in core
-					// Then if the format is other choices or specified format
-					// pattern
-					// we can call the parse() to do the validation
-					return value;
+					StringFormatter formatter = new StringFormatter( locale );
+					formatter.applyPattern( format );
+					try
+					{
+						return formatter.parser( value );
+					}
+					catch ( ParseException e )
+					{
+						throw new ValidationValueException( value,
+								PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+								DesignChoiceConstants.PARAM_TYPE_STRING );
+					}
 				}
 			}
 			else
@@ -399,6 +406,9 @@ public class ParameterValidationUtil
 			String value, Locale locale ) throws ValidationValueException
 	{
 		assert !StringUtil.isBlank( format );
+		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED
+				.equalsIgnoreCase( format ) )
+			return doVidateDateTime( value, locale );
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
@@ -440,6 +450,9 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| DesignChoiceConstants.PARAM_TYPE_DECIMAL
 						.equalsIgnoreCase( dataType );
+		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED
+				.equalsIgnoreCase( format ) )
+			return doValidateNumber( dataType, value, locale );
 		assert !StringUtil.isBlank( format );
 		if ( StringUtil.isBlank( value ) )
 			return null;

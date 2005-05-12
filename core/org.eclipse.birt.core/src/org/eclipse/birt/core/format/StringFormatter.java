@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/04/29 07:54:12 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/11 06:45:21 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting
@@ -136,6 +136,21 @@ public class StringFormatter
 					dir = true;
 					break;
 			}
+		}
+		if ( "Zip Code + 4".equalsIgnoreCase( format ) )
+		{
+			applyPattern( "@@@@@-@@@@" );
+			return;
+		}
+		if ( "Phone Number".equalsIgnoreCase( format ) )
+		{
+			applyPattern( "(@@@)@@@-@@@@" );
+			return;
+		}
+		if ( "Social Security Number".equalsIgnoreCase( format ) )
+		{
+			applyPattern( "@@@-@@-@@@@" );
+			return;
 		}
 		formatPattern = format;
 	}
@@ -280,7 +295,7 @@ public class StringFormatter
 	}
 	
 	/**
-	 * Parses the input string into a formatted date type.
+	 * Parses the input string into a unformatted string type.
 	 * 
 	 * @param str
 	 *            the input string to parse
