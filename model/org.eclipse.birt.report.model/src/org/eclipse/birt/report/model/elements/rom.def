@@ -1353,21 +1353,15 @@
 		<SemanticValidator name="ValueRequiredValidator" class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator"/>
   </Validators>
   <Structure name="NumberFormatValue" displayNameID="Structure.NumberFormatValue">
-    <Member name="category" displayNameID="Structure.NumberFormatValue.category" type="choice" detailType="numberFormat" isIntrinsic="true" >
-        <Default>General Number</Default>
-    </Member>
+    <Member name="category" displayNameID="Structure.NumberFormatValue.category" type="choice" detailType="numberFormat" isIntrinsic="true" />
     <Member name="pattern" displayNameID="Structure.NumberFormatValue.pattern" type="string" isIntrinsic="true" />		
   </Structure>  
   <Structure name="StringFormatValue" displayNameID="Structure.StringFormatValue">
-    <Member name="category" displayNameID="Structure.StringFormatValue.category" type="choice"  detailType="stringFormat" isIntrinsic="true" >
-        <Default>Unformatted</Default>
-    </Member>
+    <Member name="category" displayNameID="Structure.StringFormatValue.category" type="choice"  detailType="stringFormat" isIntrinsic="true" />
     <Member name="pattern" displayNameID="Structure.StringFormatValue.pattern" type="string" isIntrinsic="true" />		
   </Structure>  
   <Structure name="DateTimeFormatValue" displayNameID="Structure.DateTimeFormatValue">
-    <Member name="category" displayNameID="Structure.DateTimeFormatValue.category" type="choice" detailType="dateTimeFormat" isIntrinsic="true" >
-        <Default>General Date</Default>
-    </Member>
+    <Member name="category" displayNameID="Structure.DateTimeFormatValue.category" type="choice" detailType="dateTimeFormat" isIntrinsic="true" />
     <Member name="pattern" displayNameID="Structure.DateTimeFormatValue.pattern" type="string" isIntrinsic="true" />		
   </Structure>     
   <Structure name="MapRule" displayNameID="Structure.MapRule">
