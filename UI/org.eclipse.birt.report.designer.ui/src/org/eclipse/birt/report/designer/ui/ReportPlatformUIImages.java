@@ -263,20 +263,23 @@ public class ReportPlatformUIImages
 
 		//**********************************************************
 		//expression icons
-		declareImage( IReportGraphicConstants.ICON_EXPRESSION_FUNCTION,
-				ICONS_PATH + "function.gif" ); //$NON-NLS-1$
-
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_DATA_TABLE,
 				ICONS_PATH + "data_table.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_DATA_COLUMN, ICONS_PATH
 				+ "data_column.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
 				ICONS_PATH + "operator.gif" ); //$NON-NLS-1$
-
-		declareImage( IReportGraphicConstants.ICON_DEFINED_EXPRESSION,
-				ICONS_PATH + "expression.gif" ); //$NON-NLS-1$
-		declareImage( IReportGraphicConstants.ICON_EXPRESSION_CONSTANT,
-				ICONS_PATH + "constant.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL,
+				ICONS_PATH + "global.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD,
+				ICONS_PATH + "method.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD,
+				ICONS_PATH + "static_method.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER,
+				ICONS_PATH + "property.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER,
+				ICONS_PATH + "static_property.gif" ); //$NON-NLS-1$
 
 		//data wizards
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASOURCE,

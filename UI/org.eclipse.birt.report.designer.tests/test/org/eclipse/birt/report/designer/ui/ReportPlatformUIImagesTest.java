@@ -109,11 +109,13 @@ public class ReportPlatformUIImagesTest extends TestCase
 				//IReportGraphicConstants.ICON_AUTOTEXT_CONFIDENTIAL_PAGE,
 
 				//expression builder icons
-				IReportGraphicConstants.ICON_EXPRESSION_FUNCTION,
 				IReportGraphicConstants.ICON_EXPRESSION_DATA_TABLE,
 				IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
-				IReportGraphicConstants.ICON_DEFINED_EXPRESSION,
-				IReportGraphicConstants.ICON_EXPRESSION_CONSTANT,
+				IReportGraphicConstants.ICON_EXPRESSION_GLOBAL,
+				IReportGraphicConstants.ICON_EXPRESSION_METHOD,
+				IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD,
+				IReportGraphicConstants.ICON_EXPRESSION_MEMBER,
+				IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER,
 
 				//data wizards
 				IReportGraphicConstants.ICON_WIZARD_DATASOURCE,

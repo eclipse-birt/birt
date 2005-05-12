@@ -68,11 +68,17 @@ public class ExpressionTreeSupport
 
 	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
 
-	private static final Image IMAGE_FUNCTION = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_FUNCTION );
-
-	private static final Image IMAGE_EXPRESSION = getIconImage( IReportGraphicConstants.ICON_DEFINED_EXPRESSION );
-
 	private static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	
+	private static final Image IMAGE_GOLBAL = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL );
+
+	private static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
+
+	private static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
+
+	private static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
+
+	private static final Image IMAGE_STATIC_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
 
 	/** Arithmetic operators and their descriptions */
 	private static final String[][] OPERATORS_ASSIGNMENT = new String[][]{
@@ -608,37 +614,52 @@ public class ExpressionTreeSupport
 				continue;
 			}
 			TreeItem subItem = createSubFolderItem( topItem,
-					classInfo.getDisplayName( ) );
+					classInfo.getDisplayName( ) );			
+			Image globalImage = null;
+			if ( isGlobal( classInfo.getName( ) ) )
+			{
+				globalImage = IMAGE_GOLBAL;
+			}
 			for ( Iterator iterator = classInfo.getMethods( ).iterator( ); iterator.hasNext( ); )
 			{
 				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
-				if ( methodInfo.isStatic( ) )
+				Image image = globalImage;
+				if ( image == null )
 				{
-					createSubTreeItem( subItem,
-							getMethodDisplayName( classInfo.getName( ),
-									methodInfo ),
-							IMAGE_FUNCTION,
-							getTextData( classInfo.getName( ), methodInfo ),
-							methodInfo.getToolTip( ),
-							true );
+					if ( methodInfo.isStatic( ) )
+					{
+						image = IMAGE_STATIC_METHOD;
+					}
+					else
+					{
+						image = IMAGE_METHOD;
+					}
 				}
-				else
-				{
-					createSubTreeItem( subItem,
-							getMethodDisplayName( classInfo.getName( ),
-									methodInfo ),
-							null,
-							getTextData( classInfo.getName( ), methodInfo ),
-							methodInfo.getToolTip( ),
-							true );
-				}
+				createSubTreeItem( subItem,
+						getMethodDisplayName( classInfo.getName( ), methodInfo ),
+						image,
+						getTextData( classInfo.getName( ), methodInfo ),
+						methodInfo.getToolTip( ),
+						true );
 			}
 			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
 			{
 				IMemberInfo memberInfo = (IMemberInfo) iterator.next( );
+				Image image = globalImage;
+				if ( image == null )
+				{
+					if ( memberInfo.isStatic( ) )
+					{
+						image = IMAGE_STATIC_MEMBER;
+					}
+					else
+					{
+						image = IMAGE_MEMBER;
+					}
+				}
 				createSubTreeItem( subItem,
 						memberInfo.getDisplayName( ),
-						IMAGE_EXPRESSION,
+						image,
 						getTextData( classInfo.getName( ), memberInfo ),
 						memberInfo.getToolTip( ),
 						true );
@@ -648,6 +669,7 @@ public class ExpressionTreeSupport
 
 	private boolean isGlobal( String name )
 	{
+		//TODO global validation is hard coded
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
 	}
 
@@ -687,8 +709,7 @@ public class ExpressionTreeSupport
 	private String getTextData( String className, ILocalizableInfo info )
 	{
 		StringBuffer textData = new StringBuffer( );
-		if ( !isGlobal( className )
-				&& ( isStaticMethod( info ) || info instanceof IMemberInfo ) )
+		if ( !isGlobal( className ) && isStatic( info ) )
 		{
 			textData.append( className + "." );//$NON-NLS-1$
 		}
@@ -723,13 +744,11 @@ public class ExpressionTreeSupport
 		return textData.toString( );
 	}
 
-	/**
-	 * @param info
-	 * @return
-	 */
-	private boolean isStaticMethod( ILocalizableInfo info )
+	private boolean isStatic( ILocalizableInfo info )
 	{
-		return ( info instanceof IMethodInfo )
-				&& ( (IMethodInfo) info ).isStatic( );
+		return info instanceof IMethodInfo
+				&& ( (IMethodInfo) info ).isStatic( )
+				|| info instanceof IMemberInfo
+				&& ( (IMemberInfo) info ).isStatic( );
 	}
 }

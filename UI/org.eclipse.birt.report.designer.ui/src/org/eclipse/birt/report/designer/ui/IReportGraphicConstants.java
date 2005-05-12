@@ -166,15 +166,19 @@ public interface IReportGraphicConstants
 	public final static String ICON_AUTOTEXT_CONFIDENTIAL_PAGE = "ConfidentalPage";//$NON-NLS-1$
 
 	//expression builder icons
-	public final static String ICON_EXPRESSION_FUNCTION = "Function";//$NON-NLS-1$	
-
 	public final static String ICON_EXPRESSION_DATA_TABLE = "DataTable";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_OPERATOR = "Operator";//$NON-NLS-1$
-
-	public final static String ICON_DEFINED_EXPRESSION = "Expression";//$NON-NLS-1$
-
-	public final static String ICON_EXPRESSION_CONSTANT = "Constant";//$NON-NLS-1$
+	
+	public final static String ICON_EXPRESSION_GLOBAL = "Global";//$NON-NLS-1$
+	
+	public final static String ICON_EXPRESSION_METHOD = "Method";//$NON-NLS-1$
+	
+	public final static String ICON_EXPRESSION_STATIC_METHOD = "Static Method";//$NON-NLS-1$
+	
+	public final static String ICON_EXPRESSION_MEMBER = "Member";//$NON-NLS-1$
+	
+	public final static String ICON_EXPRESSION_STATIC_MEMBER = "Static Member";//$NON-NLS-1$
 
 	//data wizards
 	public final static String ICON_WIZARD_DATASOURCE = "DataSourceBasePage";//$NON-NLS-1$
