@@ -56,6 +56,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.requests.SelectionRequest;
+import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Font;
@@ -340,7 +341,22 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public DragTracker getDragTracker( Request req )
 	{
-		return super.getDragTracker( req );
+		DragEditPartsTracker track = new DragEditPartsTracker(this)
+		{
+			
+			/* (non-Javadoc)
+			 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
+			 */
+			protected boolean handleButtonDown( int button )
+			{
+				if (getCurrentViewer() instanceof DeferredGraphicalViewer)
+				{
+					((DeferredGraphicalViewer)getCurrentViewer()).initStepDat();
+				}
+				return super.handleButtonDown( button );
+			}
+		};
+		return track;
 	}
 
 	/**

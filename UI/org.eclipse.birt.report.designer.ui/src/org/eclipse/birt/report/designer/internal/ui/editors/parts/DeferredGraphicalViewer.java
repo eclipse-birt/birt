@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Display;
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 {
 	private DomainEventDispatcher eventDispatcher;
+	private OriginStepData stepData = new OriginStepData();
 	/**
 	 * The actual layout area size.
 	 */
@@ -284,10 +285,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#fireSelectionChanged()
 	 */
 	protected void fireSelectionChanged( )
-	{	
-		
-		
-		
+	{		
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
 			public void run( )
 			{
@@ -311,7 +309,35 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		
 	}
 	
+	/**
+	 * 
+	 */
+	public void initStepDat()
+	{
+		Viewport port = ((FigureCanvas)getControl()).getViewport();
+		stepData.minX = port.getHorizontalRangeModel().getMinimum();
+		stepData.maxX = port.getHorizontalRangeModel().getMaximum();
+		stepData.valueX = port.getHorizontalRangeModel().getValue();
+		stepData.extendX = port.getHorizontalRangeModel().getExtent();
+			
+		stepData.minY = port.getVerticalRangeModel().getMinimum();
+		stepData.maxY = port.getVerticalRangeModel().getMaximum();
+		stepData.valueY = port.getVerticalRangeModel().getValue();
+		stepData.extendY = port.getVerticalRangeModel().getExtent();
+	}
 	
+	/**
+	 * @return
+	 */
+	public OriginStepData getOriginStepData()
+	{
+		return stepData;
+	}
+	public static class OriginStepData
+	{
+		public int minX, maxX, valueX, extendX;
+		public int minY, maxY, valueY, extendY;
+	}
 	protected class EditorReportRequestConvert implements IRequestConvert
 	{
 

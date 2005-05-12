@@ -345,13 +345,12 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 					+ Math.min( bounds.height - 2, 18 ) );
 
 			setTargetFeedbackPoints( p1, p2 );
+			ep.getViewer( ).reveal( ep );
 		}
 		else
 		{
 			showLayoutTargetPosition( request );
 		}
-		ep.getViewer( ).reveal( ep );
-
 	}
 
 	private void setTargetFeedbackPoints( Point p1, Point p2 )
