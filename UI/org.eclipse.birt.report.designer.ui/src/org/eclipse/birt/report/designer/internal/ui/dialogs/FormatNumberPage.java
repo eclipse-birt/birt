@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -467,7 +469,9 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		String pattern;
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( category ) )
 		{
-			pattern = "\u00A4###,##0.00"; //$NON-NLS-1$
+			String sym = Currency.getInstance( Locale.getDefault( ) )
+					.getSymbol( );
+			pattern = sym + "###,##0.00"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED.equals( category ) )
 		{
