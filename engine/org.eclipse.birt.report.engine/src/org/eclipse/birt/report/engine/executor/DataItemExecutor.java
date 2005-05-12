@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -32,7 +33,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/11 08:18:32 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -121,8 +122,9 @@ public class DataItemExecutor extends StyledItemExecutor
 		catch(Throwable t)
 		{
 			logger.log( Level.SEVERE, "Error:", t);//$NON-NLS-1$
-			context.addErrorMsg( "Fails to handle Data " + item.getName( ) //$NON-NLS-1$
-					+ " :" + t.getLocalizedMessage( ) ); //$NON-NLS-1$
+			context.addException( new EngineException( "Failed to render Data "
+					+ ( item.getName( ) != null ? item.getName( ) : "" ),
+					t ) );//$NON-NLS-1$
 		}
 		finally
 		{

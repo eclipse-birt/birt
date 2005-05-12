@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -25,10 +24,10 @@ import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
 import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -51,7 +50,7 @@ import org.eclipse.birt.report.engine.ir.Report;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/11 02:10:16 $
  */
 public class ReportExecutor
 {
@@ -166,30 +165,27 @@ public class ReportExecutor
 			builder.endPageFlow( );
 		}
 		//Outputs the error message at the end of the report
-		if ( context.getMsgLst().size() > 0 )
+		if ( context.getMsgLst( ).size( ) > 0 )
 		{
-			IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
-			if ( textEmitter != null )
+			TextItemDesign errText = new TextItemDesign( );
+			errText.setTextType( "html" );//$NON-NLS-1$
+			StringBuffer errHtmlMsg = new StringBuffer(
+					"<hr style=\"color:red\"/>" );//$NON-NLS-1$
+			errHtmlMsg
+					.append( "<pre style=\"color:red\">There are errors on the report page:" + (char) Character.LINE_SEPARATOR );//$NON-NLS-1$
+			for ( int i = 0; i < context.getMsgLst( ).size( ); i++ )
 			{
-				builder.startPageFlow( null );
-				textEmitter
-						.start( ContentFactory
-								.createTextContent( "There are errors on the report page:" ) );//$NON-NLS-1$
-				textEmitter.end( );
-				for ( int i = 0; i < context.getMsgLst( ).size( ); i++ )
-				{
-					textEmitter
-							.start( ContentFactory
-									.createTextContent( "Error"
-											+ ( i + 1 )
-											+ ":"
-											+ context.getMsgLst( ).get( i )
-													.toString( ) ) );//$NON-NLS-1$
-					textEmitter.end( );
-				}
-				builder.endPageFlow( );
+				errHtmlMsg.append( "Error" + ( i + 1 )
+						+ ":" + context.getMsgLst( ).get( i ).toString( ) );//$NON-NLS-1$
+
 			}
+			errHtmlMsg.append("</pre>");
+			errText.setText( null, errHtmlMsg.toString( ) );
+			builder.startPageFlow( null );
+			errText.accept( builder );
+			builder.endPageFlow( );
 		}
+		
 		//USED TO FIX BUG 74548
 		//FIXME: update the master page handle routines.
 		emitter.getPageSetupEmitter( ).endBody( );

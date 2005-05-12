@@ -24,6 +24,19 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
 
 public class EngineResourceHandle extends ResourceHandle
 {
+	private static EngineResourceHandle resourceHandle;
+
+	public static EngineResourceHandle getInstance( )
+	{
+		synchronized ( EngineResourceHandle.class )
+		{
+			if ( resourceHandle == null )
+			{
+				resourceHandle = new EngineResourceHandle( Locale.getDefault( ) );
+			}
+		}
+		return resourceHandle;
+	}
 	public EngineResourceHandle( Locale locale )
 	{
 		super(locale);

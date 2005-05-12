@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -36,7 +37,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/11 02:10:16 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -168,8 +169,11 @@ public class TableItemExecutor extends ListingElementExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addErrorMsg( "Fails to handle Table " + item.getName( )
-					+ ":" + t.getLocalizedMessage( ) );
+			context
+					.addException( new EngineException(
+							"Failed to render Table "
+									+ ( item.getName( ) != null ? item
+											.getName( ):""), t ) );//$NON-NLS-1$
 
 		}
 		finally

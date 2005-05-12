@@ -42,7 +42,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/11 11:59:31 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -145,7 +145,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addErrorMsg( e );
+				context.addException( e );
 			}			
 		} // End of data source handling
 
@@ -162,7 +162,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addErrorMsg( e );
+				context.addException( e );
 			}			
 		} // End of data set handling
 
@@ -183,7 +183,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addErrorMsg( e );
+				context.addException( e );
 			}			
 		} // end of prepare
 	}
@@ -226,7 +226,7 @@ public class DteDataEngine implements IDataEngine
 				catch ( BirtException e )
 				{
 					logger.log( Level.SEVERE, e.getMessage( ), e );
-					context.addErrorMsg( e );
+					context.addException( e );
 					return null;
 				}				
 			}
@@ -255,7 +255,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addErrorMsg( e );
+				context.addException( e );
 				return null;
 			}
 		}
@@ -312,7 +312,7 @@ public class DteDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addErrorMsg( e );
+				context.addException( e );
 				return null;
 			}
 		}

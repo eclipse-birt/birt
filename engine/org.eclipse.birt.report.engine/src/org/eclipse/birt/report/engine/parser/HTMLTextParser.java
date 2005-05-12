@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:46 $
  */
 public class HTMLTextParser
 {
@@ -73,6 +73,7 @@ public class HTMLTextParser
 		//		supportedTags.add("HEAD");
 		//		supportedTags.add("HN");
 		//		supportedTags.add( "html" );
+		supportedTags.add( "hr" ); //$NON-NLS-1$
 		supportedTags.add( "i" ); //$NON-NLS-1$
 		supportedTags.add( "image" ); //$NON-NLS-1$
 		supportedTags.add( "img" ); //$NON-NLS-1$

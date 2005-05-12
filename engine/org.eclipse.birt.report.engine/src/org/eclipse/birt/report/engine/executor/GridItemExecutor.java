@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ColumnContent;
@@ -30,7 +31,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/08 06:59:45 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -142,9 +143,9 @@ public class GridItemExecutor extends StyledItemExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addErrorMsg( "Fails to handle Grid "
-					+ item.getName( ) + ":"
-					+ t.getLocalizedMessage( ) );
+			context.addException( new EngineException( "Failed to render Grid "
+					+ ( item.getName( ) != null ? item.getName( ) : "" ),
+					t ) );//$NON-NLS-1$
 
 		}
 		finally

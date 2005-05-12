@@ -51,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/11 02:10:16 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -682,7 +682,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * Adds the error message
 	 * @param errMsg the error message
 	 */
-	public void addErrorMsg( String errMsg )
+	private void addErrorMsg( String errMsg )
 	{
 		if ( !errMsgLst.contains( errMsg ) )
 		{
@@ -691,14 +691,24 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * Adds the error message
+	 * Adds the exception 
 	 * 
 	 * @param ex
-	 *            the BirtException instance
+	 *            the Throwable instance
 	 */
-	public void addErrorMsg( BirtException ex )
+	public void addException( Throwable ex )
 	{
-		addErrorMsg( ex.getLocalizedMessage( ) );
+		StringBuffer errMsg = new StringBuffer( );
+		//Loops to add the error messages except those system-defined
+		// exceptions. 
+		do
+		{
+			errMsg.append( ex.getLocalizedMessage( )
+					+ (char) Character.LINE_SEPARATOR );
+			ex = ex.getCause( );
+		} while ( ex != null
+				&& !ex.getClass( ).getName( ).startsWith( "java.lang" ) );//$NON-NLS-1$
+		addErrorMsg( errMsg.toString( ) );
 	}
 	/**
 	 * 

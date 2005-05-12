@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
@@ -53,7 +54,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.16 $ $Date: 2005/05/12 06:32:12 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -82,6 +83,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 	{
 		assert item instanceof ImageItemDesign;
 		ImageItemDesign imageItem = (ImageItemDesign) item;
+		String itemName = item.getName( );
 
 		IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
 		if ( imageEmitter == null )
@@ -136,9 +138,10 @@ public class ImageItemExecutor extends StyledItemExecutor
 				{
 					logger.log( Level.SEVERE,
 							"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
-					context.addErrorMsg( "Fails to handle Image "
-							+ item.getName( )
-							+ ": Source image file is missing." );
+					context.addException( new EngineException(
+							"Failed to render Image "
+									+ ( itemName != null ? itemName : "" )
+									+ ":Cannot find the image file" ) );//$NON-NLS-1$
 
 				}
 				break;
@@ -170,8 +173,12 @@ public class ImageItemExecutor extends StyledItemExecutor
 				catch ( Exception e )
 				{
 				    logger.log( Level.SEVERE, "[ImageItemExecutor] Fail to handle embedded image with an exception below:", e ); //$NON-NLS-1$
-				    context.addErrorMsg( "Fails to handle Image "
-							+ item.getName( ) + ":" + e.getLocalizedMessage( ) );
+				    context
+							.addException( new EngineException(
+									"Failed to render Image "
+											+ ( itemName != null
+													? itemName
+													: "" ), e ) );//$NON-NLS-1$
 				}
 
 				break;
@@ -216,17 +223,25 @@ public class ImageItemExecutor extends StyledItemExecutor
 					else
 					{
 					    logger.log( Level.SEVERE, "[ImageItemExecutor] cannot query image data from database"); //$NON-NLS-1$
-						context.addErrorMsg( "Fails to handle Image "
-								+ item.getName( )
-								+ ": Cannot query data from database." );
+					    
+					    context
+								.addException( new EngineException(
+										"Failed to render Image " + itemName != null
+												? itemName
+												: ""
+														+ ": Cannot query data from database." ) );//$NON-NLS-1$
 
 					}					
 				}
 				catch ( Exception e )
 				{
 				    logger.log( Level.SEVERE,"[ImageItemExecutor] fail to handle database image with an exception below:", e ); //$NON-NLS-1$
-				    context.addErrorMsg( "Fails to handle Image "
-							+ item.getName( ) + ":" + e.getLocalizedMessage( ) );
+				    context
+							.addException( new EngineException(
+									"Failed to render Image "
+											+ ( itemName != null
+													? itemName
+													: "" ), e ) );//$NON-NLS-1$
 
 				}
 				finally
@@ -238,8 +253,10 @@ public class ImageItemExecutor extends StyledItemExecutor
 
 			default :
 			    logger.log( Level.SEVERE, "[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
-				context.addErrorMsg( "Fails to handle Image " + item.getName( )
-						+ ": Invalid image source type." );
+				context.addException( new EngineException(
+						"Failed to render Image "
+								+ ( itemName != null ? itemName : "" )
+								+ ": Invalid image source type." ) );//$NON-NLS-1$
 
 				assert false;
 		}
