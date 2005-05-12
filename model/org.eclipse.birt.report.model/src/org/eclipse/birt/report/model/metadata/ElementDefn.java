@@ -477,15 +477,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			obj = obj.parent;
 		}
 
-		// Add all style properties if this element is container and can have
-		// style or the element is ExtendedItem.
-
-		if ( ( isContainer( ) && hasStyle( ) ) )
-		{
-			list.addAll( MetaDataDictionary.getInstance( ).getStyle( )
-					.getLocalProperties( ) );
-		}
-
 		return list;
 	}
 
@@ -614,7 +605,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 * 
 	 * @throws MetaDataException
 	 *             if any build process failed.
-	 * 
+	 *  
 	 */
 
 	protected void build( ) throws MetaDataException
@@ -735,10 +726,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	protected void buildStyleProperties( ) throws MetaDataException
 	{
 		// If this item has a style, copy the relevant style properties onto
-		// this element if it's leaf element.
+		// this element if it's leaf element or copy all the style properties
+		// onto this element if it is a container.
 
-		if ( hasStyle && !isContainer( ) )
-
+		if ( hasStyle )
 			addStyleProperties( );
 
 		if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( getName( ) ) )
@@ -943,44 +934,63 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	private void addStyleProperties( ) throws MetaDataException
 	{
-		assert !isContainer( );
-
-		if ( stylePropertyNames == null )
-			return;
-
-		ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getStyle( );
-
-		// Get the style property list this element can access if it's
-		// leaf element.
-
-		for ( int i = 0; i < stylePropertyNames.size( ); i++ )
+		assert hasStyle( );
+		if ( isContainer( ) )
 		{
-			String propName = (String) stylePropertyNames.get( i );
-
-			// Ignore properties already defined.
-
-			if ( getProperty( propName ) != null )
-				continue;
-
-			SystemPropertyDefn prop = (SystemPropertyDefn) style
-					.getProperty( propName );
-
-			// It is an implementation error if the style property list includes
-			// the name of a property that is not defined in the style element,
-			// or is defined, but is not one meant to be associated with an
-			// element.
-
-			if ( prop == null )
-				throw new MetaDataException( new String[]{propName, name},
-						MetaDataException.DESIGN_EXCEPTION_STYLE_PROP_NOT_FOUND );
-			assert prop.isStyleProperty( );
-
-			// Copy a reference to the style property into the property
-			// list for this element.
-
-			properties.put( prop.getName( ), prop );
+			// Add all style properties if this element is container and can have
+			// style or the element is ExtendedItem.
+			
+			List styleProperties = MetaDataDictionary.getInstance( ).getStyle( )
+					.getLocalProperties( );
+			for ( int i = 0; i < styleProperties.size( ); i++ )
+			{
+				PropertyDefn prop = (PropertyDefn) styleProperties.get( i );
+				properties.put( prop.getName( ), prop );
+			}
 		}
+		else
+		{
+			if ( stylePropertyNames == null )
+				return;
+
+			ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
+					.getStyle( );
+
+			// Get the style property list this element can access if it's
+			// leaf element.
+
+			for ( int i = 0; i < stylePropertyNames.size( ); i++ )
+			{
+				String propName = (String) stylePropertyNames.get( i );
+
+				// Ignore properties already defined.
+
+				if ( getProperty( propName ) != null )
+					continue;
+
+				SystemPropertyDefn prop = (SystemPropertyDefn) style
+						.getProperty( propName );
+
+				// It is an implementation error if the style property list
+				// includes
+				// the name of a property that is not defined in the style
+				// element,
+				// or is defined, but is not one meant to be associated with an
+				// element.
+
+				if ( prop == null )
+					throw new MetaDataException(
+							new String[]{propName, name},
+							MetaDataException.DESIGN_EXCEPTION_STYLE_PROP_NOT_FOUND );
+				assert prop.isStyleProperty( );
+
+				// Copy a reference to the style property into the property
+				// list for this element.
+
+				properties.put( prop.getName( ), prop );
+			}
+		}
+		
 	}
 
 	/**
@@ -1239,10 +1249,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	{
 		if ( type == this )
 			return true;
-		
+
 		if ( type == null )
 			return false;
-		
+
 		ElementDefn obj = ( (ElementDefn) type ).parent;
 		while ( obj != null )
 		{
