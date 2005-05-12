@@ -24,7 +24,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/10 01:34:10 $
  */
 public class ScriptContext
 {
@@ -180,20 +180,9 @@ public class ScriptContext
 	public Object eval( String source, String name, int lineNo )
 	{
 		assert ( this.context != null );
-		try
-		{
-			Object value = context.evaluateString( scope, source, name, lineNo,
-					null );
-			return jsToJava( value );
-		}
-		catch ( Exception ex )
-		{
-			if (logger.isLoggable(Level.WARNING))
-			{
-				logger.log(Level.WARNING, ex.getMessage());
-			}
-			return null;
-		}
+		Object value = context.evaluateString( scope, source, name, lineNo,
+				null );
+		return jsToJava( value );		
 	}
 
 	/**

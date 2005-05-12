@@ -25,9 +25,9 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.content.IPageSetupContent;
@@ -51,7 +51,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/11 02:10:16 $
+ * @version $Revision: 1.18 $ $Date: 2005/05/12 07:18:53 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -229,6 +229,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 			log.log( Level.SEVERE,e.getMessage(),  e );
+			addException( new EngineException( "Failed to evaluate " + source, e ) );
 		}
 		return null;
 
@@ -271,6 +272,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 		    log.log( Level.SEVERE,e.getMessage(),  e );
+		    addException( new EngineException( "Failed to evaluate " + expr, e ) );
 		}
 		return null;
 	}
