@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
 
 
 /**
@@ -42,7 +42,7 @@ public class AttributeConstant
 	 * Name property key
 	 */
 
-	public static final String NAME = DesignElement.NAME_PROP;
+	public static final String NAME = DesignElementHandle.NAME_PROP;
 
 	/**
 	 * Background color property key

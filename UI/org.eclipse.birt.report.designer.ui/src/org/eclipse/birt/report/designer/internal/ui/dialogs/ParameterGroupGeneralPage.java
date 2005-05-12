@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -91,7 +90,7 @@ public class ParameterGroupGeneralPage extends TabPage
 	{
 		ParameterGroupHandle group = (ParameterGroupHandle) input;
 		nameEditor.setText( group.getName( ) );
-		String displayName = group.getStringProperty( ParameterGroup.DISPLAY_NAME_PROP );
+		String displayName = group.getStringProperty( ParameterGroupHandle.DISPLAY_NAME_PROP );
 		if ( displayName != null )
 		{
 			displayNameEditor.setText( displayName );
@@ -107,7 +106,7 @@ public class ParameterGroupGeneralPage extends TabPage
 	{
 		ParameterGroupHandle group = (ParameterGroupHandle) result;
 		group.setName( nameEditor.getText( ).trim( ) );
-		group.setStringProperty( ParameterGroup.DISPLAY_NAME_PROP,
+		group.setStringProperty( ParameterGroupHandle.DISPLAY_NAME_PROP,
 				displayNameEditor.getText( ).trim( ) );
 
 	}

@@ -20,12 +20,12 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -452,7 +452,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 			return;
 		}
 		FormatChangeEvent event = new FormatChangeEvent( this,
-				Style.STRING_FORMAT_PROP,
+				StyleHandle.STRING_FORMAT_PROP,
 				newCategory,
 				newPattern );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )

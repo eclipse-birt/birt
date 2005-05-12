@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.core.StyleElement;
+
 
 
 /**
@@ -45,8 +45,8 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	protected void createFieldEditors( )
 	{
 		super.createFieldEditors( );
-		StringFieldEditor name = new StringFieldEditor( StyleElement.NAME_PROP,
-				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleElement.NAME_PROP )
+		StringFieldEditor name = new StringFieldEditor( StyleHandle.NAME_PROP,
+				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.NAME_PROP )
 						.getDefn( )
 						.getDisplayNameID( ) ),
 				getFieldEditorParent( ) );

@@ -12,22 +12,21 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Currency;
 import java.util.Locale;
-
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -527,7 +526,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			return;
 		}
 		FormatChangeEvent event = new FormatChangeEvent( this,
-				Style.NUMBER_FORMAT_PROP,
+				StyleHandle.NUMBER_FORMAT_PROP,
 				newCategory,
 				newPattern );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )

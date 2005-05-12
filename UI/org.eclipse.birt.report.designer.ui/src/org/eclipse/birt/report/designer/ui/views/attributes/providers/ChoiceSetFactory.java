@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -29,12 +30,12 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.metadata.ColorPropertyType;
+
 
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
@@ -62,11 +63,11 @@ public class ChoiceSetFactory
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
 		if ( AttributeConstant.BACKGROUND_COLOR.equals( property ) )
 		{
-			unitKey = ColorPropertyType.COLORS_CHOICE_SET;
+			unitKey = IColorConstants.COLORS_CHOICE_SET;
 		}
 		else if ( AttributeConstant.FONT_COLOR.equals( property ) )
 		{
-			unitKey = ColorPropertyType.COLORS_CHOICE_SET;
+			unitKey = IColorConstants.COLORS_CHOICE_SET;
 		}
 		else if ( AttributeConstant.FONT_SIZE.equals( property ) )
 		{
@@ -112,7 +113,7 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( IGroupElementModel.INTERVAL_PROP.equals( property ) )
+		else if ( GroupHandle.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}
@@ -402,11 +403,11 @@ public class ChoiceSetFactory
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
 		if ( AttributeConstant.BACKGROUND_COLOR.equals( property ) )
 		{
-			unitKey = ColorPropertyType.COLORS_CHOICE_SET;
+			unitKey = IColorConstants.COLORS_CHOICE_SET;
 		}
 		else if ( AttributeConstant.FONT_COLOR.equals( property ) )
 		{
-			unitKey = ColorPropertyType.COLORS_CHOICE_SET;
+			unitKey = IColorConstants.COLORS_CHOICE_SET;
 		}
 		else if ( AttributeConstant.FONT_SIZE.equals( property ) )
 		{
@@ -452,7 +453,7 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
 		}
-		else if ( IGroupElementModel.INTERVAL_PROP.equals( property ) )
+		else if ( GroupHandle.INTERVAL_PROP.equals( property ) )
 		{
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
 		}

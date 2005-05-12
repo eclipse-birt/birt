@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -161,11 +160,11 @@ abstract class InsertPositionGroupAction extends Action
 				if ( getRowHandle( ) != null )
 				{
 					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != IGroupElementModel.FOOTER_SLOT;
+							.getSlotID( ) != GroupHandle.FOOTER_SLOT;
 				}
 				else if ( getListBandProxy( ) != null )
 				{
-					return getListBandProxy( ).getSlotId( ) != IGroupElementModel.FOOTER_SLOT;
+					return getListBandProxy( ).getSlotId( ) != GroupHandle.FOOTER_SLOT;
 				}
 			}
 			else

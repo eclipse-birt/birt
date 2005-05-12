@@ -20,12 +20,12 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -467,7 +467,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			return;
 		}
 		FormatChangeEvent event = new FormatChangeEvent( this,
-				Style.DATE_TIME_FORMAT_PROP,
+				StyleHandle.DATE_TIME_FORMAT_PROP,
 				newCategory,
 				newPattern );
 		for ( Iterator iter = listeners.iterator( ); iter.hasNext( ); )

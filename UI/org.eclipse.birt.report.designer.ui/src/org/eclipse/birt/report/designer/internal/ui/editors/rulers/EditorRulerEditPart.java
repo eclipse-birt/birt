@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -36,7 +35,6 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 {
 
 	protected GraphicalViewer diagramViewer;
-	private AccessibleEditPart accPart;
 	private RulerProvider rulerProvider;
 	private boolean horizontal;
 	private RulerChangeListener listener = new RulerChangeListener.Stub( )

@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
-import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 
 /**
@@ -109,7 +108,7 @@ public class GroupModelProvider
 
 		GroupHandle handle = (GroupHandle) element;
 
-		if ( key.equals( IGroupElementModel.GROUP_NAME_PROP ) )
+		if ( key.equals( GroupHandle.GROUP_NAME_PROP ) )
 		{
 			if ( handle.getName( ) == null )
 				return ""; //$NON-NLS-1$
@@ -271,7 +270,7 @@ public class GroupModelProvider
 		if ( event instanceof PropertyEvent )
 		{
 			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( IGroupElementModel.KEY_EXPR_PROP.equals( propertyName ) )
+			if ( GroupHandle.KEY_EXPR_PROP.equals( propertyName ) )
 				return true;
 		}
 		return false;
