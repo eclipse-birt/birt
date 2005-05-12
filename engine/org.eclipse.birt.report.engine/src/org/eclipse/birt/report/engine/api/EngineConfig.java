@@ -163,13 +163,13 @@ public class EngineConfig {
     /**
      * set log configuration, i.e., log file name prefix and log level
      * 
-     * @param namePrefix the name prefix used for engine log file. Engine appends date and
-     * time to the file name. 
+     * @param directoryName - the directory name of the log file(e.g C:\Log). 
+     * 						  Engine appends a file name with date and time to the directory name (e.g. C:\Log\BIRT_Engine_2005_02_26_11_26_56.log). 
      * @param level the engine log level
      */
-    public void setLogConfig(String namePrefix, Level level)
+    public void setLogConfig(String directoryName, Level level)
     {
-    	configObjects.put(LOG_DESTINATION, namePrefix);
+    	configObjects.put(LOG_DESTINATION, directoryName);
     	configObjects.put(LOG_LEVEL, level);
     }
 

@@ -39,12 +39,11 @@ public class EngineLogger {
 
 	/**
 	 * This function should only called by the main application that starts BIRT. It will add a new log handler to the global BIRT logger. 
-	 * @param namePrefix -	the name prefix of the log file including the directory information. It can contain patterns like %h, %t, etc. 
-	 * 					   	The final file name will be the namePrefix plus a timestamp string.
-	 * 						For example, if the namePrefix is %h/BIRT, the log file name will be something like %h/BIRT_2005_02_26_11_26_56.log
+	 * @param directoryName - the directory name of the log file (e.g. C:\Log). The final file name will be the directory name plus an unique file name.
+	 * 						  For example, if the directory name is C:\Log, the log file name will be something like C:\Log\ReportEngine_2005_02_26_11_26_56.log
 	 * @param logLevel - the log level to be set. If logLevel is null, it will be ignored.
 	 */
-	public static void startEngineLogging( String namePrefix, Level logLevel )
+	public static void startEngineLogging( String directoryName, Level logLevel )
 	{
 		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
 		assert (logger != null);
@@ -54,7 +53,7 @@ public class EngineLogger {
 			
 		FileHandler logFileHandler = null;	
 		try {
-			logFileHandler = new FileHandler( generateUniqueLogFileName(namePrefix), true );
+			logFileHandler = new FileHandler( generateUniqueLogFileName(directoryName), true );
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -104,20 +103,23 @@ public class EngineLogger {
 	}
 	
 	/**
-	 * This is a utility function that will create an unique file name with the timestamp information in the file name.
-	 * For example, if the original name string is BIRT, the returned file name will be BIRT_2005_02_26_11_26_56.log.
-	 * @param namePrefix - the original name prefix string
-	 * @return An unique Log file name which is the namePrefix plug a timestamp string. For example, BIRT_2005_02_26_11_26_56.log
+	 * This is a utility function that will create an unique file name with the timestamp information in the file name and
+	 * append the file name into the directory name.
+	 * For example, if the directory name is C:\Log, the returned file name will be C:\Log\ReportEngine_2005_02_26_11_26_56.log.
+	 * @param directoryName - the directory name of the log file. 
+	 * @return An unique Log file name which is the directory name plus the file name.
 	 */
-	private static String generateUniqueLogFileName( String namePrefix )
+	private static String generateUniqueLogFileName( String directoryName )
 	{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss"); //$NON-NLS-1$
 		String dateTimeString = df.format( new Date() );
 		
-		if ( namePrefix == null )
-			namePrefix = "BIRT_Engine"; //$NON-NLS-1$
+		if ( directoryName == null )
+			directoryName = ""; //$NON-NLS-1$
+		else if ( directoryName.length() > 0 )
+			directoryName += System.getProperty("file.separator"); //$NON-NLS-1$
 		
-		return new String( namePrefix + "_" + dateTimeString + ".log" ); //$NON-NLS-1$; $NON-NLS-2$;
+		return new String( directoryName + "ReportEngine_" + dateTimeString + ".log" ); //$NON-NLS-1$; $NON-NLS-2$;
 	}
 
 }

@@ -177,7 +177,7 @@ public class ReportEngineHelper
 	}
 
 	/**
-	 * @param dest log destination. It is the name prefix for log file
+	 * @param dest log destination. It is the directory name for log file
 	 * @param level log level
 	 */
 	public void setupLogging(String dest, Level level) {
