@@ -74,17 +74,30 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		return handleImage(image, context, "custom", false); //$NON-NLS-1$
 	}
 
-	protected String getFile(String imageDir, String prefix)
+	protected String createUniqueFileName(String imageDir, String prefix, String postfix)
 	{
 		File file = null;
 		do
 		{
 			number++;
-			file = new File(imageDir + "/" + prefix + number); //$NON-NLS-1$
+			file = new File(imageDir + "/" + prefix + number + postfix); //$NON-NLS-1$
 		}
 		while (file.exists());
 
-		return prefix + number; //$NON-NLS-1$
+		return prefix + number + postfix; //$NON-NLS-1$
+	}
+	
+	protected String createUniqueFileName(String imageDir, String prefix)
+	{
+		File file = null;
+		do
+		{
+			number++;
+			file = new File(imageDir + "/" + prefix + number ); //$NON-NLS-1$
+		}
+		while (file.exists());
+
+		return prefix + number ; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -147,7 +160,15 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 			File file;
 			synchronized (HTMLCompleteImageHandler.class)
 			{
-				fileName = getFile(imageAbsoluteDir, prefix); //$NON-NLS-1$
+				String extension = image.getExtension();
+				if(extension!=null && extension.length()>0)
+				{
+					fileName = createUniqueFileName(imageAbsoluteDir, prefix, extension); //$NON-NLS-1$
+				}
+				else
+				{
+					fileName = createUniqueFileName(imageAbsoluteDir, prefix); 
+				}
 				file = new File(imageAbsoluteDir, fileName); //$NON-NLS-1$
 				try
 				{

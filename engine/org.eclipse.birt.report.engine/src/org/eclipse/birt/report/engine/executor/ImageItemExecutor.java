@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -159,12 +159,11 @@ public class ImageItemExecutor extends StyledItemExecutor
 						imageContent.setData( embeddedImage.getData( ) );
 						String extension = FileUtil
 								.getExtFromType( embeddedImage.getType( ) );
-						if ( extension == null )
+						if ( extension != null )
 						{
-							extension = FileUtil.getExtFromFileName( imageName,
-									FileUtil.SEPARATOR_PATH );
+							imageContent.setExtension( extension );
 						}
-						imageContent.setExtension( extension );
+						
 						imageContent.setUri( imageName );
 					}
 				}

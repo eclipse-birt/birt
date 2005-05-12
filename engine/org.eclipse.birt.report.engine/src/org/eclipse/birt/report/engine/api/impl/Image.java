@@ -40,6 +40,11 @@ public class Image extends ReportPart implements IImage
 	protected String id = null;
 	
 	/**
+	 * postfix of image
+	 */
+	protected String extension = null;
+	
+	/**
 	 * image source
 	 */
 	protected int source = IImage.INVALID_IMAGE;
@@ -50,6 +55,7 @@ public class Image extends ReportPart implements IImage
 	protected byte[] data = null;
 	
 	protected InputStream in = null;
+
 	
 	/**
 	 * Constructor with an image uri
@@ -105,7 +111,7 @@ public class Image extends ReportPart implements IImage
 	{
 		String imgUri = content.getUri( );
 		byte[] imgData = content.getData( );
-		
+		extension = content.getExtension();
 		switch(content.getImageSource())
 		{
 		case ImageItemDesign.IMAGE_FILE:
@@ -268,5 +274,13 @@ public class Image extends ReportPart implements IImage
 				tgt.write( buffer, 0, size );
 			}
 		} while ( size > 0 );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.IImage#getExtension()
+	 */
+	public String getExtension()
+	{
+		return extension;
 	}
 }

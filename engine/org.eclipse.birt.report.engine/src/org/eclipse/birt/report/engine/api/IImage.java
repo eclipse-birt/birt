@@ -70,4 +70,9 @@ public interface IImage extends IReportPart {
 	 * @param scalingFactor the scaling factor to scale an image
 	 */
 	//public void scale(int scalingFactor);
+	
+	/**
+	 * return the image postfix, such as jpg, png
+	 */
+	public String getExtension();
 }
