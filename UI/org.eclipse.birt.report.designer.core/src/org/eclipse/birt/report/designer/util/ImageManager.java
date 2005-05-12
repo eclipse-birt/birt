@@ -121,7 +121,7 @@ public class ImageManager
 	 */
 	public Image getImage( ReportDesignHandle handle, String name )
 	{
-		String key = name + EMBEDDED_SUFFIX + name;
+		String key = handle.hashCode() + EMBEDDED_SUFFIX + name;
 		EmbeddedImage embeddedImage = handle.findImage( name );
 		if ( embeddedImage == null )
 		{
