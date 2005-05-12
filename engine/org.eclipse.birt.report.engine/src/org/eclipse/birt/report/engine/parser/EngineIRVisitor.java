@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.30 $ $Date: 2005/05/11 06:45:14 $
+ * @version $Revision: 1.31 $ $Date: 2005/05/12 06:06:11 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1577,11 +1577,10 @@ class EngineIRVisitor extends DesignVisitor
 		parentValue = parentHandle.getProperty( name );
 		boolean canInherit = StyleDesign.canInherit( name );
 		int intValue = getColorValue( value );
-		int intContainerValue = getColorValue( parentValue );
 		
 		if( value != null &&
-		  ( canInherit || intValue != intContainerValue ) &&
-		  ( canInherit || !value.equals( StyleDesign.getDefaultValue( name ) ) ) )
+		  ( !canInherit || intValue != getColorValue( parentValue ) ) &&
+		  ( canInherit || intValue != getColorValue( StyleDesign.getDefaultValue( name ) ) ) )
 		{
 			if( value instanceof Integer )
 			{
