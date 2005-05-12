@@ -39,7 +39,8 @@ public class TableOptionDialog extends BaseDialog
 
 	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
 	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_TABLES = Messages.getString( "TableOptionDialog.message.RememberTable" ); //$NON-NLS-1$
-	private static final String MSG_NUMBER_OF_ROWS = Messages.getString( "TableOptionDialog.text.Row" ); //$NON-NLS-1$
+	private static final String MSG_NUMBER_OF_GRID_ROWS = Messages.getString( "TableOptionDialog.text.GridRow" ); //$NON-NLS-1$
+	private static final String MSG_NUMBER_OF_TABLE_ROWS = Messages.getString( "TableOptionDialog.text.TableDetail" ); //$NON-NLS-1$
 	private static final String MSG_NUMBER_OF_COLUMNS = Messages.getString( "TableOptionDialog.text.Column" ); //$NON-NLS-1$
 	private static final String MSG_GRID_SIZE = Messages.getString( "TableOptionDialog.text.GridSize" ); //$NON-NLS-1$
 	private static final String MSG_TABLE_SIZE = Messages.getString( "TableOptionDialog.text.TableSize" ); //$NON-NLS-1$
@@ -177,7 +178,8 @@ public class TableOptionDialog extends BaseDialog
 		columnEditor.setText( String.valueOf( columnCount ) );
 		columnEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( innerPane, SWT.NONE ).setText( MSG_NUMBER_OF_ROWS );
+		new Label( innerPane, SWT.NONE ).setText( insertTable ? MSG_NUMBER_OF_TABLE_ROWS
+				: MSG_NUMBER_OF_GRID_ROWS );
 		rowEditor = new SimpleSpinner( innerPane, 0 );
 		rowEditor.setText( String.valueOf( rowCount ) );
 		rowEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
