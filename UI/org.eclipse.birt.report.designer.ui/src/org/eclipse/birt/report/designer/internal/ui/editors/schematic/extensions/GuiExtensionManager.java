@@ -40,13 +40,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class GuiExtensionManager
 {
 
-	public static final String PALETTE_DESIGNER = "pallet_designer";
-	public static final String PALETTE_MASTERPAGE = "pallet_masterpage";
+	public static final String PALETTE_DESIGNER = "pallet_designer"; //$NON-NLS-1$
+	public static final String PALETTE_MASTERPAGE = "pallet_masterpage"; //$NON-NLS-1$
 
 	public static final String DESIGNER_FACTORY = "designer_factory"; //$NON-NLS-1$
 	public static final String ATTRIBUTE = "attribute"; //$NON-NLS-1$
 
-	private static final String EXT_MGR_LABEL = Messages.getString( "GuiExtensionManager.label.name" );
+	private static final String EXT_MGR_LABEL = Messages.getString( "GuiExtensionManager.label.name" ); //$NON-NLS-1$
 
 	/**
 	 * @param extension
@@ -214,7 +214,7 @@ public class GuiExtensionManager
 					.getExtension( point.getExtensionName( ) )
 					.getDisplayName( );
 			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,
-					displayName,
+					Messages.getFormattedString( "GuiExtensionManager.tooltip.insert", new Object[]{ displayName }), //$NON-NLS-1$
 					IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ),
 					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED

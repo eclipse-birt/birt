@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.chart.ui"
    name="BIRT Chart UI"
-   version="0.0.1"
+   version="1.0.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIPluginClass">
 

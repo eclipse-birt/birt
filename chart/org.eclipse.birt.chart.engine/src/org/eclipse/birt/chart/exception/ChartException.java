@@ -22,16 +22,52 @@ import org.eclipse.birt.core.exception.BirtException;
  */
 public class ChartException extends BirtException
 {
+    
+    
     /**
      * 
      * @param cause
      */
     public ChartException(Throwable cause)
     {
-        super(cause.getLocalizedMessage(), (ResourceBundle) null, cause);
+        super(getResourceKey(cause), getArguments(cause),getResourceBundle(cause), cause);
         logThis();
     }
+    
 
+    private static String getResourceKey( Throwable cause )
+    {
+        if ( cause instanceof ChartException )
+        {
+            return ((ChartException)cause).sResourceKey;
+        }
+        else
+        {
+            return cause.getLocalizedMessage();
+        }
+    }
+    private static ResourceBundle getResourceBundle( Throwable cause )
+    {
+        if ( cause instanceof ChartException )
+        {
+            return ((ChartException)cause).rb;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    private static Object[] getArguments( Throwable cause )
+    {
+        if ( cause instanceof ChartException )
+        {
+            return ((ChartException)cause).oaMessageArguments;
+        }
+        else
+        {
+            return null;
+        }
+    }
     /**
      * 
      * @param sResourceKey

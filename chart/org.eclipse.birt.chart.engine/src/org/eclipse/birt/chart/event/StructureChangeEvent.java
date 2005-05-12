@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.event;
 
-import java.util.EventObject;
 
 /**
  *
