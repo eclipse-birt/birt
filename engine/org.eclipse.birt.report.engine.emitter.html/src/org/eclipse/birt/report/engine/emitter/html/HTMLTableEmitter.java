@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import java.util.HashMap;
 import java.util.Stack;
 import java.util.logging.Level;
 
@@ -28,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/08 06:09:15 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -38,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.11 $ $Date: 2005/05/08 06:09:15 $
+	 * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
 	 */
 	private class PersistData
 	{
@@ -50,24 +49,17 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			columns = 0;
 			lastCol = 1;
-			colAlignMap = new HashMap( );
 		}
 
 		/**
-		 * Saves the column alignment information and updates column number.
+		 * Updates column number.
 		 * This method is called by startColumn.
 		 * 
-		 * @param align
-		 *            The column(s)' alignment.
 		 * @param repeat
 		 *            The column's repeat property.
 		 */
 		public void saveColInfo( String align, int repeat )
 		{
-			for ( int i = 1; i <= repeat; i++ )
-			{
-				colAlignMap.put( new Integer( columns + i ), align );
-			}
 			columns += repeat;
 		}
 
@@ -152,16 +144,6 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		}
 
 		/**
-		 * Get the column align for the current cell.
-		 * 
-		 * @return column align String.
-		 */
-		public String getCurColAlign( )
-		{
-			return (String) colAlignMap.get( new Integer( curColumnID ) );
-		}
-
-		/**
 		 * Specifies the total column number.
 		 */
 		private int columns;
@@ -180,12 +162,6 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		 * The Column ID of last cell.
 		 */
 		private int lastCol;
-
-		/**
-		 * The <code>colAlignMap</code> that stores alignment attribute of
-		 * each column.
-		 */
-		private HashMap colAlignMap;
 	};
 
 	/**
@@ -352,14 +328,15 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		writer.openTag( HTMLTags.TAG_COL );
 
-		setStyleName( columnObj.getStyle( ) );
+		// setStyleName( columnObj.getStyle( ) );
 
 		// width
 		StringBuffer styleBuffer = new StringBuffer( );
 		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, columnObj
 				.getWidth( ) );
-
-		handleStyle( columnObj, styleBuffer );
+		// output in-line style
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		// handleStyle( columnObj, styleBuffer );
 
 		// span
 		if ( repeat > 1 )
@@ -471,12 +448,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 			IStyle mergedStyle = cellObj.getMergedStyle( );
 			// 'col' align
-			if ( mergedStyle == null
-					|| mergedStyle.getTextAlign( ) == null )
-			{
-				writer.attribute( HTMLTags.ATTR_ALIGN, currentData
-						.getCurColAlign( ) );
-			}
+			writer.attribute( HTMLTags.ATTR_ALIGN, mergedStyle.getTextAlign( ) );
 
 			StringBuffer styleBuffer = new StringBuffer( );
 			if ( isEmbedded && ( mergedStyle == null || mergedStyle.getVerticalAlign( ) == null ) )
