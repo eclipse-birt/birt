@@ -86,6 +86,10 @@
 	<property name="jar.name" value="ui.jar"/>
 	
 	<property name="arch" value="x86" />	
+	
+	<tstamp>
+    	<format property="TODAY" pattern="yyyyMMdd-hhmm"/>
+	</tstamp>
 
 	<!-- Class Path used to generate Javadoc-->
 	<path id="class.path">
@@ -160,6 +164,7 @@
 		<property name="plugin.name" value="${module.name}_${plugin.version}" />
 		<copy todir="${export.dir}\${plugin.name}">
 			<fileset dir=".">
+				<exclude name="plugin.properties"/>
 	 			<include name="${jar.name}"/>
  				<include name="plugin.*"/>
  				<include name="lib\*.jar"/>
@@ -167,6 +172,14 @@
 				<include name="templates\**"/>
 				<include name="schema\*.exsd"/>
 			</fileset>
+		</copy>
+		<copy todir="${export.dir}\${plugin.name}">
+			<fileset dir=".">
+				<include name="plugin.properties"/>
+			</fileset>
+			<filterset>
+		    	<filter token="BUILD" value="${TODAY}"/>
+			</filterset>
 		</copy>
 	</target>
 
