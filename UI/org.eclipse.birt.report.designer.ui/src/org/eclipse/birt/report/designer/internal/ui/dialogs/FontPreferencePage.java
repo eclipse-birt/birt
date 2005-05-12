@@ -12,16 +12,15 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -271,27 +270,11 @@ public class FontPreferencePage extends BaseStylePreferencePage
 						.getText( );
 				String pre = size.getMeasureValueForName( size.getMeasureControl( getFieldEditorParent( ) )
 						.getText( ) );
-				String target = DesignChoiceConstants.UNITS_PT;
 
-				if ( DimensionUtil.isAbsoluteUnit( pre ) )
+				if ( DEUtil.isValidNumber( text ) )
 				{
-					if ( DEUtil.isValidNumber( text ) )
-					{
-						try
-						{
-							sizeValue = (int) ( DimensionUtil.convertTo( text,
-									pre,
-									target ) ).getMeasure( );
-						}
-						catch ( PropertyValueException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-					}
-				}
-				else
-				{
-					// use default font size.
+					sizeValue = (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( text ),
+							pre ) );
 				}
 			}
 
@@ -309,7 +292,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			int fw = 400;
 			if ( DesignChoiceConstants.FONT_WEIGHT_NORMAL.equals( fontWeight ) )
 			{
-				//
+				//no change.
 			}
 			else if ( DesignChoiceConstants.FONT_WEIGHT_BOLD.equals( fontWeight ) )
 			{

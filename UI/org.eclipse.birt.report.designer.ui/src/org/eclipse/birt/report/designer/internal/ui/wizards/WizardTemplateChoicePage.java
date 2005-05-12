@@ -59,15 +59,14 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String DESCRIPTION_BLANK_REPORT = Messages.getString( "WizardTemplateChoicePage.message.BlankReport" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.message.DualColumnListing" ); //$NON-NLS-1$
-    private static final String DESCRIPTION_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
-    
+	private static final String DESCRIPTION_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.message.FirstReport" ); //$NON-NLS-1$
+
 	private List templateList;
 
 	private ImageCanvas previewCanvas;
 	private Button chkBox;
 
 	private Label description;
-
 
 	protected class Template
 	{
@@ -135,11 +134,12 @@ public class WizardTemplateChoicePage extends WizardPage
 					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/sidebyside_chart_listing.gif", //$NON-NLS-1$
 					"org.eclipse.birt.report.designer.ui.cheatsheet.sidebysidechartlisting" ), //$NON-NLS-1$
-			/*new Template( TITLE_MAILING_LABELS,
-					DESCRIPTION_MAILING_LABELS,
-					"/templates/mailing_labels.rptdesign", //$NON-NLS-1$
-					"/templates/mailing_labels.gif", //$NON-NLS-1$
-					"" ), //$NON-NLS-1$*/
+			/*
+			 * new Template( TITLE_MAILING_LABELS, DESCRIPTION_MAILING_LABELS,
+			 * "/templates/mailing_labels.rptdesign", //$NON-NLS-1$
+			 * "/templates/mailing_labels.gif", //$NON-NLS-1$ "" ),
+			 * //$NON-NLS-1$
+			 */
 			new Template( TITLE_LETTER,
 					DESCRIPTION_LETTER,
 					"/templates/letter.rptdesign", //$NON-NLS-1$
@@ -235,15 +235,13 @@ public class WizardTemplateChoicePage extends WizardPage
 		gridLayout.verticalSpacing = 10;
 		previewPane.setLayout( gridLayout );
 
-		previewCanvas = new ImageCanvas( previewPane, SWT.BORDER
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL );
+		previewCanvas = new ImageCanvas( previewPane, SWT.BORDER );
 
 		data = new GridData( GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL );
 		data.grabExcessHorizontalSpace = true;
 		data.grabExcessVerticalSpace = true;
-		data.heightHint = 230;
-		data.widthHint = 185;
+		data.heightHint = 229;
+		data.widthHint = 184;
 		previewCanvas.setLayoutData( data );
 
 		Label descriptionTitle = new Label( previewPane, SWT.NONE );

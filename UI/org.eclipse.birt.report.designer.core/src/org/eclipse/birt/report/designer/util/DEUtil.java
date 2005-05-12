@@ -91,8 +91,8 @@ public class DEUtil
 	/**
 	 * A default quick button height which if different in win32 from other OS.
 	 */
-	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( ).equals(
-			Platform.OS_WIN32 ) ? 20 : 22;
+	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
+			.equals( Platform.OS_WIN32 ) ? 20 : 22;
 
 	private static HashMap propertiesMap = new HashMap( );
 
@@ -100,20 +100,19 @@ public class DEUtil
 
 	static
 	{
-		propertiesMap
-				.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
+		propertiesMap.put( LabelHandle.TEXT_PROP, ELEMENT_LABELCONTENT_PROPERTY );
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
 		//do not support following element in release 1
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.LINE_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.TEXT_DATA_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( ).getElement(
-				ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.LINE_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.TEXT_DATA_ITEM ) );
+		notSupportList.add( DesignEngine.getMetaDataDictionary( )
+				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
 	}
 
@@ -142,8 +141,8 @@ public class DEUtil
 		List availableList = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( parent.canContain( slotId, ( (IElementDefn) list.get( i ) )
-					.getName( ) ) )
+			if ( parent.canContain( slotId,
+					( (IElementDefn) list.get( i ) ).getName( ) ) )
 			{
 				availableList.add( list.get( i ) );
 			}
@@ -239,8 +238,8 @@ public class DEUtil
 		{
 			obj = ( (Class) obj ).getName( );
 		}
-		return obj.toString( ).substring(
-				obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
+		return obj.toString( )
+				.substring( obj.toString( ).lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
 
 	/**
@@ -254,8 +253,7 @@ public class DEUtil
 		{
 			DesignElementHandle handle = (DesignElementHandle) obj;
 			String elementName = handle.getDefn( ).getDisplayName( );
-			String displayName = handle
-					.getDisplayLabel( DesignElementHandle.USER_LABEL );
+			String displayName = handle.getDisplayLabel( DesignElementHandle.USER_LABEL );
 			if ( !StringUtil.isBlank( displayName ) )
 			{
 				return elementName + " - " + displayName; //$NON-NLS-1$
@@ -273,7 +271,8 @@ public class DEUtil
 	public static int getMasterPageAccount( )
 	{
 		SlotHandle slotHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ).getMasterPages( );
+				.getReportDesignHandle( )
+				.getMasterPages( );
 
 		Iterator itor = slotHandle.iterator( );
 
@@ -336,8 +335,7 @@ public class DEUtil
 		assert parent instanceof DesignElementHandle;
 		assert child instanceof DesignElementHandle;
 
-		int slotID = ( (DesignElementHandle) parent )
-				.findContentSlot( (DesignElementHandle) child );
+		int slotID = ( (DesignElementHandle) parent ).findContentSlot( (DesignElementHandle) child );
 
 		return slotID;
 	}
@@ -382,8 +380,7 @@ public class DEUtil
 		// if after is null, insert at last
 		if ( element == null )
 		{
-			SlotHandle slotHandle = parent.getSlot( DEUtil
-					.getDefaultSlotID( parent ) );
+			SlotHandle slotHandle = parent.getSlot( DEUtil.getDefaultSlotID( parent ) );
 			if ( slotHandle != null )
 			{
 				return slotHandle.getCount( );
@@ -488,14 +485,17 @@ public class DEUtil
 		//added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
-			units = SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+			units = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
 					.getDefaultUnits( );
-			px = DimensionUtil.convertTo( measure, units,
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		else
 		{
-			px = DimensionUtil.convertTo( measure, units,
+			px = DimensionUtil.convertTo( measure,
+					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 
@@ -668,7 +668,8 @@ public class DEUtil
 			return null;
 		}
 
-		return new RGB( ( rgbValue >> 16 ) & 0xff, ( rgbValue >> 8 ) & 0xff,
+		return new RGB( ( rgbValue >> 16 ) & 0xff,
+				( rgbValue >> 8 ) & 0xff,
 				rgbValue & 0xff );
 	}
 
@@ -687,7 +688,8 @@ public class DEUtil
 			return -1;
 		}
 
-		return ( ( rgb.red & 0xff ) << 16 ) | ( ( rgb.green & 0xff ) << 8 )
+		return ( ( rgb.red & 0xff ) << 16 )
+				| ( ( rgb.green & 0xff ) << 8 )
 				| ( rgb.blue & 0xff );
 	}
 
@@ -705,15 +707,13 @@ public class DEUtil
 		{
 			if ( handle instanceof ReportItemHandle )
 			{
-				DesignElementHandle dataSet = ( (ReportItemHandle) handle )
-						.getDataSet( );
+				DesignElementHandle dataSet = ( (ReportItemHandle) handle ).getDataSet( );
 				if ( dataSet != null && !dataSetList.contains( dataSet ) )
 				{
 					dataSetList.add( dataSet );
 				}
 			}
-			for ( Iterator itor = getDataSetList( handle.getContainer( ) )
-					.iterator( ); itor.hasNext( ); )
+			for ( Iterator itor = getDataSetList( handle.getContainer( ) ).iterator( ); itor.hasNext( ); )
 			{
 				DesignElementHandle dataSet = (DesignElementHandle) itor.next( );
 				if ( !dataSetList.contains( dataSet ) )
@@ -803,11 +803,8 @@ public class DEUtil
 
 		if ( sp[0] != null && DEUtil.isValidNumber( sp[0] ) )
 		{
-			DimensionValue dim = DimensionUtil.convertTo( Double.parseDouble( sp[0] ),
-					sp[1],
-					DesignChoiceConstants.UNITS_PT );
-
-			return (int) dim.getMeasure( );
+			return (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( sp[0] ),
+					sp[1] ) );
 		}
 
 		return 10;//as medium size.
@@ -894,8 +891,7 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( )
 	{
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment( );
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 
 		return ge.getAvailableFontFamilyNames( );
 	}
@@ -949,14 +945,16 @@ public class DEUtil
 			Object[] array = (Object[]) transferData;
 			if ( array.length == 1 )
 			{
-				return handleValidateTargetCanContain( targetObj, array[0],
+				return handleValidateTargetCanContain( targetObj,
+						array[0],
 						validateContainer );
 			}
 			int canContainAll = CONTAIN_NO;
 			for ( int i = 0; i < array.length; i++ )
 			{
 				int canContain = handleValidateTargetCanContain( targetObj,
-						array[i], validateContainer );
+						array[i],
+						validateContainer );
 				if ( i == 0 )
 				{
 					canContainAll = canContain;
@@ -974,35 +972,38 @@ public class DEUtil
 			if ( transferData instanceof DesignElementHandle )
 			{
 				return handleValidateTargetCanContainByContainer( targetObj,
-						(DesignElementHandle) transferData, validateContainer,
+						(DesignElementHandle) transferData,
+						validateContainer,
 						transferData );
 			}
 			else if ( transferData instanceof ColumnBandData )
 			{
 				if ( targetObj instanceof ColumnHandle )
 				{
-					return handleValidateContainColumnPaste(
-							(ColumnHandle) targetObj,
-							(ColumnBandData) transferData, false )
-							? CONTAIN_PARENT
-							: CONTAIN_NO;
+					return handleValidateContainColumnPaste( (ColumnHandle) targetObj,
+							(ColumnBandData) transferData,
+							false ) ? CONTAIN_PARENT : CONTAIN_NO;
 				}
 				return CONTAIN_NO;
 			}
 			else if ( transferData instanceof IDesignElement )
 			{
-				DesignElementHandle childHandle = ( (IDesignElement) transferData )
-						.getHandle( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( ).getDesign( ) );
+				DesignElementHandle childHandle = ( (IDesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getDesign( ) );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandle, validateContainer, transferData );
+						childHandle,
+						validateContainer,
+						transferData );
 			}
 			else if ( transferData instanceof SlotHandle )
 			{
 				SlotHandle slot = (SlotHandle) transferData;
 				Object[] childHandles = slot.getContents( ).toArray( );
 				return handleValidateTargetCanContainByContainer( targetObj,
-						childHandles, validateContainer, transferData );
+						childHandles,
+						validateContainer,
+						transferData );
 			}
 			else if ( transferData instanceof IStructure )
 			{
@@ -1021,14 +1022,12 @@ public class DEUtil
 	{
 		if ( targetObj instanceof EmbeddedImageNode )
 		{
-			targetObj = ( (EmbeddedImageNode) targetObj )
-					.getReportDesignHandle( );
+			targetObj = ( (EmbeddedImageNode) targetObj ).getReportDesignHandle( );
 		}
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ReportDesignHandle )
 		{
-			return ( (ReportDesignHandle) targetObj )
-					.findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			return ( (ReportDesignHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
 		}
 		return false;
 	}
@@ -1048,27 +1047,30 @@ public class DEUtil
 			ColumnHandle targetObj, ColumnBandData transferData, boolean isNew )
 	{
 		int columnNumber = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( targetObj ).getColumnNumber( );
+				.getColumnHandleAdapter( targetObj )
+				.getColumnNumber( );
 		Object parent = targetObj.getContainer( );
 		if ( parent instanceof TableHandle )
 		{
 			if ( isNew )
 			{
-				return ( (TableHandle) parent ).canInsertAndPasteColumn(
-						transferData, columnNumber );
+				return ( (TableHandle) parent ).canInsertAndPasteColumn( transferData,
+						columnNumber );
 			}
 			return ( (TableHandle) parent ).canPasteColumn( transferData,
-					columnNumber, true );
+					columnNumber,
+					true );
 		}
 		else if ( parent instanceof GridHandle )
 		{
 			if ( isNew )
 			{
-				return ( (GridHandle) parent ).canInsertAndPasteColumn(
-						transferData, columnNumber );
+				return ( (GridHandle) parent ).canInsertAndPasteColumn( transferData,
+						columnNumber );
 			}
 			return ( (GridHandle) parent ).canPasteColumn( transferData,
-					columnNumber, true );
+					columnNumber,
+					true );
 		}
 		return false;
 	}
@@ -1079,32 +1081,30 @@ public class DEUtil
 	{
 		if ( targetObj instanceof DesignElementHandle )
 		{
-			return handleValidateTargetCanContainElementHandle(
-					(DesignElementHandle) targetObj, childHandle,
-					validateContainer, transferData );
+			return handleValidateTargetCanContainElementHandle( (DesignElementHandle) targetObj,
+					childHandle,
+					validateContainer,
+					transferData );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
 			ReportElementModel targetModel = (ReportElementModel) targetObj;
-			return targetModel.getElementHandle( ).canContain(
-					targetModel.getSlotId( ), childHandle )
-					? CONTAIN_THIS
+			return targetModel.getElementHandle( )
+					.canContain( targetModel.getSlotId( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
-			return targetHandle.getElementHandle( ).canContain(
-					targetHandle.getSlotID( ), childHandle )
-					? CONTAIN_THIS
+			return targetHandle.getElementHandle( )
+					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
 			ListBandProxy targetHandle = (ListBandProxy) targetObj;
-			return targetHandle.getElemtHandle( ).canContain(
-					targetHandle.getSlotId( ), childHandle )
-					? CONTAIN_THIS
+			return targetHandle.getElemtHandle( )
+					.canContain( targetHandle.getSlotId( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else
@@ -1126,7 +1126,8 @@ public class DEUtil
 			if ( !( childHandles[i] instanceof DesignElementHandle )
 					|| handleValidateTargetCanContainByContainer( targetObj,
 							(DesignElementHandle) childHandles[i],
-							validateContainer, transferData ) == CONTAIN_NO )
+							validateContainer,
+							transferData ) == CONTAIN_NO )
 			{
 				return CONTAIN_NO;
 			}
@@ -1155,8 +1156,10 @@ public class DEUtil
 			{
 				return CONTAIN_NO;
 			}
-			if ( !targetHandle.getContainer( ).getDefn( ).getSlot(
-					targetHandle.getContainerSlotHandle( ).getSlotID( ) )
+			if ( !targetHandle.getContainer( )
+					.getDefn( )
+					.getSlot( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ) )
 					.isMultipleCardinality( ) )
 			{
 				//If only can contain single
@@ -1167,9 +1170,10 @@ public class DEUtil
 				//If class type is same
 				return CONTAIN_PARENT;
 			}
-			return targetHandle.getContainer( ).canContain(
-					targetHandle.getContainerSlotHandle( ).getSlotID( ),
-					childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+			return targetHandle.getContainer( )
+					.canContain( targetHandle.getContainerSlotHandle( )
+							.getSlotID( ),
+							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
 		}
 		return CONTAIN_NO;
 	}
@@ -1193,8 +1197,8 @@ public class DEUtil
 		}
 		if ( targetObj instanceof StructuredSelection )
 		{
-			return handleValidateTargetCanContainMore(
-					( (StructuredSelection) targetObj ).toArray( ), length );
+			return handleValidateTargetCanContainMore( ( (StructuredSelection) targetObj ).toArray( ),
+					length );
 		}
 		else if ( targetObj instanceof Object[] )
 		{
@@ -1211,19 +1215,22 @@ public class DEUtil
 		else if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) targetObj;
-			return slot.getElementHandle( ).getDefn( ).getSlot(
-					slot.getSlotID( ) ).isMultipleCardinality( )
-					|| slot.getCount( ) < 1 && length <= 1;
+			return slot.getElementHandle( )
+					.getDefn( )
+					.getSlot( slot.getSlotID( ) )
+					.isMultipleCardinality( )
+					|| slot.getCount( ) < 1
+					&& length <= 1;
 		}
 		else if ( targetObj instanceof ListBandProxy )
 		{
-			return handleValidateTargetCanContainMore(
-					( (ListBandProxy) targetObj ).getSlotHandle( ), length );
+			return handleValidateTargetCanContainMore( ( (ListBandProxy) targetObj ).getSlotHandle( ),
+					length );
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
-			return handleValidateTargetCanContainMore(
-					( (ReportElementModel) targetObj ).getSlotHandle( ), length );
+			return handleValidateTargetCanContainMore( ( (ReportElementModel) targetObj ).getSlotHandle( ),
+					length );
 		}
 		return targetObj instanceof DesignElementHandle
 				|| targetObj instanceof EmbeddedImageNode;
@@ -1252,8 +1259,7 @@ public class DEUtil
 		}
 		else if ( targetObj instanceof ReportElementModel )
 		{
-			targetHandle = ( (ReportElementModel) targetObj )
-					.getElementHandle( );
+			targetHandle = ( (ReportElementModel) targetObj ).getElementHandle( );
 			slotId = ( (ReportElementModel) targetObj ).getSlotId( );
 		}
 		else if ( targetObj instanceof SlotHandle )
@@ -1296,7 +1302,9 @@ public class DEUtil
 	 */
 	public static String escape( String str )
 	{
-		String[][] chars = {{"\\\\", "\""}, {"\\\\\\\\", "\\\\\""}}; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
+		String[][] chars = {
+				{
+						"\\\\", "\""}, {"\\\\\\\\", "\\\\\""}}; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
 		String result = str;
 		for ( int i = 0; i < chars[0].length; i++ )
 		{
@@ -1344,8 +1352,8 @@ public class DEUtil
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
-		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource )
-				.getDefn( ).getName( ).equals(
-						ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
+				.getName( )
+				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
 }
