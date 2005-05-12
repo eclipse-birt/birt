@@ -11,6 +11,9 @@
       <library name="viewer.jar">
          <export name="*"/>
       </library>
+      <library name="birt//WEB-INF/lib/viewservlets.jar">
+         <export name="*"/>
+      </library>
    </runtime>
 
    <requires>
