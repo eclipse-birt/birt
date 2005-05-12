@@ -37,6 +37,12 @@ public interface ITableRowModel
 	public static final String VISIBILITY_PROP = "visibility"; //$NON-NLS-1$
 
 	/**
+	 * Property name for the reference to the shared style.
+	 */
+
+	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
+
+	/**
 	 * Identifier of the slot that holds the cells in row.
 	 */
 

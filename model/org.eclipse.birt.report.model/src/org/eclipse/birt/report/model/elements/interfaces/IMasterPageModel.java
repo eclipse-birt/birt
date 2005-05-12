@@ -85,6 +85,12 @@ public interface IMasterPageModel
 	public static final String FOOTER_HEIGHT_PROP = "footerHeight"; //$NON-NLS-1$
 
 	/**
+	 * Property name for the reference to the shared style.
+	 */
+
+	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
+
+	/**
 	 * Height of the US Letter page.
 	 */
 

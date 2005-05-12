@@ -60,6 +60,12 @@ public interface ICellModel
 	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$ 
 
 	/**
+	 * Property name for the reference to the shared style.
+	 */
+
+	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
+
+	/**
 	 * Identifier of the slot that holds the page decoration.
 	 */
 

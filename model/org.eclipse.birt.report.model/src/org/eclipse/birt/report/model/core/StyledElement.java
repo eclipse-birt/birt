@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -26,6 +27,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  */
 
 public abstract class StyledElement extends DesignElement
+		implements
+			IStyledElementModel
 {
 
 	/**
@@ -33,12 +36,6 @@ public abstract class StyledElement extends DesignElement
 	 */
 
 	protected ElementRefValue style = null;
-
-	/**
-	 * Property name for the reference to the shared style.
-	 */
-
-	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
