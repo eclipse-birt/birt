@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.TableGroup;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.jface.util.Assert;
 
@@ -1543,8 +1543,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		TableGroupHandle groupHandle = getTableHandle( ).getElementFactory( )
 				.newTableGroup( );
-		groupHandle.getSlot( TableGroup.HEADER_SLOT ).add( header );
-		groupHandle.getSlot( TableGroup.FOOTER_SLOT ).add( footer );
+		groupHandle.getSlot( TableGroupHandle.HEADER_SLOT ).add( header );
+		groupHandle.getSlot( TableGroupHandle.FOOTER_SLOT ).add( footer );
 
 		SlotHandle handle = getTableHandle( ).getGroups( );
 		handle.add( groupHandle );

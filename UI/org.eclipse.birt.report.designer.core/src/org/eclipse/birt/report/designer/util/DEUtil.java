@@ -59,7 +59,7 @@ import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
+
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -255,7 +255,7 @@ public class DEUtil
 			DesignElementHandle handle = (DesignElementHandle) obj;
 			String elementName = handle.getDefn( ).getDisplayName( );
 			String displayName = handle
-					.getDisplayLabel( DesignElement.USER_LABEL );
+					.getDisplayLabel( DesignElementHandle.USER_LABEL );
 			if ( !StringUtil.isBlank( displayName ) )
 			{
 				return elementName + " - " + displayName; //$NON-NLS-1$

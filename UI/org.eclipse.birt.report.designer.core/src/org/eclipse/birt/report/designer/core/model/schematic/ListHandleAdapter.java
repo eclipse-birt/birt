@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -196,8 +195,8 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 		if ( model instanceof ListGroupHandle )
 		{
 			ListGroupHandle group = (ListGroupHandle) model;
-			children.remove( new ListBandProxy( group.getSlot( ListGroup.HEADER_SLOT ) ) );
-			children.remove( new ListBandProxy( group.getSlot( ListGroup.FOOTER_SLOT ) ) );
+			children.remove( new ListBandProxy( group.getSlot( ListGroupHandle.HEADER_SLOT ) ) );
+			children.remove( new ListBandProxy( group.getSlot( ListGroupHandle.FOOTER_SLOT ) ) );
 		}
 		children.remove( model );
 	}
