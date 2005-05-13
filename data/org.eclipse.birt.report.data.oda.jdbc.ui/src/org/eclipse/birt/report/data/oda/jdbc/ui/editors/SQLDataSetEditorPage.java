@@ -24,7 +24,6 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExter
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSetEditorDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
@@ -90,7 +89,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/05 02:16:15 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/05 22:06:20 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -102,11 +101,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     private TreeItem rootNode = null;
     private Text searchTxt = null;
     private boolean isSchemaSupported = false;
-    private  Tree AvailableDbObjects = null;
+    private Tree availableDbObjectsTree = null;
     private JdbcMetaDataProvider metaDataProvider = null;
     private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	// Images that will be used in displayign the tables, views etc
-	private Image dataSourceImage, schemaImage, tableImage, viewImage, 
+	private Image schemaImage, tableImage, viewImage, 
 		    dataBaseImage, columnImage;
 	
 	// List of Schema Name
@@ -228,38 +227,38 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 		
 		
-		AvailableDbObjects = new Tree(tablescomposite, SWT.BORDER|SWT.MULTI );
+		availableDbObjectsTree = new Tree(tablescomposite, SWT.BORDER|SWT.MULTI );
 		
 		{
 			GridData data = new GridData(GridData.FILL_BOTH);
 			data.grabExcessHorizontalSpace = true;
 			data.grabExcessVerticalSpace = true;
 			//data.heightHint = 150;
-			AvailableDbObjects.setLayoutData(data);
+			availableDbObjectsTree.setLayoutData(data);
 		}
 		
-		AvailableDbObjects.addMouseListener(new MouseAdapter() {
+		availableDbObjectsTree.addMouseListener(new MouseAdapter() {
 			public void mouseDoubleClick(MouseEvent e) 
 			{
 				//addTable();
 			}
 		});
-		AvailableDbObjects.addSelectionListener(new SelectionAdapter() {
+		availableDbObjectsTree.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 			  if ( event.widget.getClass() != null )
 				 handleAvailabeTreeSelection();
 			}
 
 			private void handleAvailabeTreeSelection() {
-				TreeItem items[] = AvailableDbObjects.getSelection();	
+				TreeItem items[] = availableDbObjectsTree.getSelection();	
 				for ( int i = 0; i <items.length; i++ )
 				{
 					if ( items[i].getGrayed() )
 					{
-						AvailableDbObjects.setRedraw(false);
-						AvailableDbObjects.deselectAll();
-						AvailableDbObjects.setRedraw(true);	
-						AvailableDbObjects.redraw();	
+						availableDbObjectsTree.setRedraw(false);
+						availableDbObjectsTree.deselectAll();
+						availableDbObjectsTree.setRedraw(true);	
+						availableDbObjectsTree.redraw();	
 					}
 				}
 			}
@@ -442,7 +441,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	protected void setRootElement()
 	{
-		rootNode = new TreeItem(AvailableDbObjects,SWT.NONE);
+		rootNode = new TreeItem(availableDbObjectsTree,SWT.NONE);
 		rootNode.setImage(dataBaseImage);
 		
 		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
@@ -453,7 +452,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	
 	private void RemoveAllAvailableDbObjects()
 	{
-		AvailableDbObjects.removeAll();
+		availableDbObjectsTree.removeAll();
 	}
 	
 	/**
@@ -473,7 +472,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		 // Remove all the existing children of the root Node
 		 if ( rootNode != null )
 		 {
-		 	AvailableDbObjects.removeAll();
+		 	availableDbObjectsTree.removeAll();
 		 	setRootElement();
 		 }
 
@@ -534,7 +533,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					ArrayList schema = new ArrayList();
 					TreeItem schemaTreeItem[] = null;
 					
-					int tableCount = 0;
 					Image image = tableImage;
 					while( tablesRs.next()) 
 					{
@@ -542,10 +540,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						{
 							schema.add(schemaName);
 							schemaTreeItem = Utility.createTreeItems(rootNode, schema, SWT.NONE, schemaImage);
+							//expand schema TreeItem
+							if( schemaTreeItem != null && schemaTreeItem.length > 0)
+								availableDbObjectsTree.showItem(schemaTreeItem[0]);
 						}
 						
 						count++;
-						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+//						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
 						String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
 						
@@ -582,7 +583,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					if( schemaTreeItem != null && schemaTreeItem.length > 0)
 					{
 						TreeItem item[] = Utility.createTreeItems(schemaTreeItem[0], tableList, SWT.NONE, null);
-						schemaTreeItem[0].setExpanded(false);
+						//expand table TreeItem
+						if( item != null && item.length > 0)
+							availableDbObjectsTree.showItem(item[0]);
 					}
 					
 					
@@ -612,7 +615,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				while( tablesRs.next())
 				{
 					count ++;
-					String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+//					String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
 					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
 					int dbType = DbObject.TABLE_TYPE;
@@ -641,8 +644,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				
 				TreeItem item[] = Utility.createTreeItems(rootNode, tableList, SWT.NONE, null);
 				
-				// Add listener to display the column names when expanded
+				//expand table TreeItem
+				if( item != null && item.length > 0)
+					availableDbObjectsTree.showItem(item[0]);
 				
+				// Add listener to display the column names when expanded
 				checkForMaxRecordsDisplayed(maxRecordsDisplayed, tablesRs);
 			}
 			catch(Exception e)
@@ -670,7 +676,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		
 	
-		dataSourceImage = JFaceResources.getImage( PAGE_ICON );
+//		dataSourceImage = JFaceResources.getImage( PAGE_ICON );
 		
 		tableImage = JFaceResources.getImage( TABLE_ICON );
 		
@@ -773,8 +779,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		TreeItem[] selectedItem = new TreeItem[1];
 		selectedItem[0] = item;
-		AvailableDbObjects.setSelection(selectedItem);
-		AvailableDbObjects.setFocus();
+		availableDbObjectsTree.setSelection(selectedItem);
+		availableDbObjectsTree.setFocus();
 
 	}
 
@@ -918,7 +924,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		
 		
-		AvailableDbObjects.addListener(SWT.Expand, new Listener(){
+		availableDbObjectsTree.addListener(SWT.Expand, new Listener(){
 
 			public void handleEvent(Event event) {
 
@@ -973,13 +979,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	public void addDragSupportToTree( )
 	{
 
-		DragSource dragSource = new DragSource( AvailableDbObjects, DND.DROP_COPY );
+		DragSource dragSource = new DragSource( availableDbObjectsTree, DND.DROP_COPY );
 		dragSource.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
 		dragSource.addDragListener( new DragSourceAdapter( ) {
 
 			public void dragStart( DragSourceEvent event )
 			{
-				TreeItem[] selection = AvailableDbObjects.getSelection( );
+				TreeItem[] selection = availableDbObjectsTree.getSelection( );
 				if ( selection.length <= 0
 						|| selection[0].getData( ) == null )
 				{
@@ -993,7 +999,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				if ( TextTransfer.getInstance( ).isSupportedType(
 						event.dataType ) )
 				{
-					TreeItem[] selection = AvailableDbObjects.getSelection( );
+					TreeItem[] selection = availableDbObjectsTree.getSelection( );
 					if ( selection.length > 0 )
 					{
 						event.data = selection[0].getData( );
@@ -1057,14 +1063,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		textWidget.setFocus( );
 	}
 
-	private boolean isValidConnection()
-	{
-		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
-		metaDataProvider = new JdbcMetaDataProvider(null);
-		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
-		validConnection = ( jdbcConnection == null) ? false: true;
-		return validConnection;
-	}
+//	private boolean isValidConnection()
+//	{
+//		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+//		metaDataProvider = new JdbcMetaDataProvider(null);
+//		Connection jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
+//		validConnection = ( jdbcConnection == null) ? false: true;
+//		return validConnection;
+//	}
 
 	/**
 	 * Creates the textual query editor 
