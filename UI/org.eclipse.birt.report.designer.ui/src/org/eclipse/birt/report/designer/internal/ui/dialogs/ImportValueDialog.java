@@ -13,9 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -28,6 +30,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -64,11 +67,13 @@ import org.eclipse.swt.widgets.Text;
 public class ImportValueDialog extends BaseDialog
 {
 
-	private static final String DLG_TITLE = "Import Values";
+	private static final String DLG_TITLE = Messages.getString("ImportValueDialog.Title"); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_DATASET = "Select Data Set:";
-	private static final String LABEL_SELECT_COLUMN = "Select Column:";
-	private static final String LABEL_SELECT_VALUE = "Select or enter value to add";
+	private static final String LABEL_SELECT_DATASET = Messages.getString("ImportValueDialog.Label.SelectDataSet"); //$NON-NLS-1$
+	private static final String LABEL_SELECT_COLUMN = Messages.getString("ImportValueDialog.Label.SelectColumn"); //$NON-NLS-1$
+	private static final String LABEL_SELECT_VALUE = Messages.getString("ImportValueDialog.Label.SelectValue"); //$NON-NLS-1$
+
+	private static final String DATE_TIME_PATTERN = "dd/MM/yyyy KK:mm:ss a"; //$NON-NLS-1$
 
 	private Combo dataSetChooser, columnChooser;
 	private Text valueEditor;
@@ -202,7 +207,7 @@ public class ImportValueDialog extends BaseDialog
 		//buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 
 		addAll = new Button( buttonBar, SWT.PUSH );
-		addAll.setText( ">>" );
+		addAll.setText( ">>" ); //$NON-NLS-1$
 		addAll.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.VERTICAL_ALIGN_END
 				| GridData.FILL_HORIZONTAL ) );
@@ -217,7 +222,7 @@ public class ImportValueDialog extends BaseDialog
 		} );
 
 		add = new Button( buttonBar, SWT.PUSH );
-		add.setText( ">" );
+		add.setText( ">" ); //$NON-NLS-1$
 		add.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		add.addSelectionListener( new SelectionAdapter( ) {
 
@@ -229,7 +234,7 @@ public class ImportValueDialog extends BaseDialog
 		} );
 
 		remove = new Button( buttonBar, SWT.PUSH );
-		remove.setText( "<" );
+		remove.setText( "<" ); //$NON-NLS-1$
 		remove.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		remove.addSelectionListener( new SelectionAdapter( ) {
 
@@ -241,7 +246,7 @@ public class ImportValueDialog extends BaseDialog
 		} );
 
 		removeAll = new Button( buttonBar, SWT.PUSH );
-		removeAll.setText( "<<" );
+		removeAll.setText( "<<" ); //$NON-NLS-1$
 		removeAll.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL ) );
@@ -400,6 +405,7 @@ public class ImportValueDialog extends BaseDialog
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
+			DataSetItemModel selectedColumn = null;
 			try
 			{
 				BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
@@ -412,6 +418,7 @@ public class ImportValueDialog extends BaseDialog
 							.equals( columnChooser.getText( ) ) )
 					{
 						queryExpr = DEUtil.getExpression( columns[i] );
+						selectedColumn = columns[i];
 						break;
 					}
 				}
@@ -432,9 +439,20 @@ public class ImportValueDialog extends BaseDialog
 					IResultIterator iter = results.getResultIterator( );
 					if ( iter != null )
 					{
+						DateFormatter formater = new DateFormatter( DATE_TIME_PATTERN,
+								Locale.UK );
 						while ( iter.next( ) )
 						{
-							String result = iter.getString( expression );
+							String result = null;
+							if ( selectedColumn.getDataType( ) == DataType.DATE_TYPE )
+							{
+
+								result = formater.format( iter.getDate( expression ) );
+							}
+							else
+							{
+								result = iter.getString( expression );
+							}
 							if ( !StringUtil.isBlank( result )
 									&& !resultList.contains( result ) )
 							{
