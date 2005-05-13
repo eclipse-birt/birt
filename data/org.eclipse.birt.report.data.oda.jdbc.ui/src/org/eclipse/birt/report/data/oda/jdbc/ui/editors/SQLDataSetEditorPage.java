@@ -64,6 +64,8 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -89,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/05 22:06:20 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/13 02:02:37 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1117,7 +1119,38 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
             btnExternalEditor.setText("Edit with external editor");
             btnExternalEditor.addSelectionListener(this);
         }
-
+        
+        // add support of additional accelerated key
+        viewer.getTextWidget( ).addKeyListener( new KeyListener( ) {
+			public void keyPressed( KeyEvent e )
+			{
+				if ( isUndoKeyPress( e ) )
+				{
+					viewer.doOperation( ITextOperationTarget.UNDO );
+				}
+				else if ( isRedoKeyPress( e ) )
+				{
+					viewer.doOperation( ITextOperationTarget.REDO );
+				}
+			}
+			private boolean isUndoKeyPress( KeyEvent e )
+			{
+				// CTRL + z
+				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
+						&& ( ( e.keyCode == 'z' ) || ( e.keyCode == 'Z' ) );
+			}
+			private boolean isRedoKeyPress( KeyEvent e )
+			{
+				// CTRL + y
+				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
+						&& ( ( e.keyCode == 'y' ) || ( e.keyCode == 'Y' ) );
+			}
+			public void keyReleased( KeyEvent e )
+			{
+				// do nothing
+			}
+		} );
+        
 	}
     
     private final boolean isExternalEditorConfigured()
