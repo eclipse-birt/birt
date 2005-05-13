@@ -223,31 +223,31 @@ public class Image extends ReportPart implements IImage
 		{
 			logger.log(Level.SEVERE, "image source {0} is not found!", id); //$NON-NLS-1$
 		}
-		if(!dest.exists())
-		{
+//		if(!dest.exists())
+//		{
 			
-			String parent = new File(dest.getAbsolutePath()).getParent();
-			File parentDir = new File(parent);
-			if(!parentDir.exists())
-				parentDir.mkdirs();
-			OutputStream output = null;
-			try
-			{
-				output = new BufferedOutputStream( new FileOutputStream( dest ) );
-				copyStream(input, output);
-			}
-			catch(IOException ex)
-			{
-				logger.log(Level.SEVERE, ex.getMessage(), ex);
-			}
-			finally
-			{
-				if( input != null )
-					input.close();
-				if( output != null )
-					output.close();	
-			}
+		String parent = new File( dest.getAbsolutePath( ) ).getParent( );
+		File parentDir = new File( parent );
+		if ( !parentDir.exists( ) )
+			parentDir.mkdirs( );
+		OutputStream output = null;
+		try
+		{
+			output = new BufferedOutputStream( new FileOutputStream( dest ) );
+			copyStream( input, output );
 		}
+		catch ( IOException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+		}
+		finally
+		{
+			if ( input != null )
+				input.close( );
+			if ( output != null )
+				output.close( );
+		}
+//		}
 		
 	}
 	

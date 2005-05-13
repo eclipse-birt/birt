@@ -52,7 +52,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/05/12 07:58:28 $
+ * @version $Revision: 1.20 $ $Date: 2005/05/13 03:42:47 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -312,6 +312,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			//May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
+			addException( new EngineException( "Failed to evaluate " + expr, t ) );
 		}
 		return null;
 	}
@@ -658,6 +659,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
+		    addException( new EngineException( "Failed to load the external script file ", ex ) );
 			//TODO This is a fatal error. Should throw an exception.
 		}
 	}

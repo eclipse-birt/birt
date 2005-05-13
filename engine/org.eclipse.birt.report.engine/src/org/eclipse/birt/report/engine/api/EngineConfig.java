@@ -48,6 +48,7 @@ public class EngineConfig {
 		public void finish() {};
 	};
 
+	protected String tempDir;
 	/**
 	 * 
 	 * @return
@@ -173,4 +174,22 @@ public class EngineConfig {
     	configObjects.put(LOG_LEVEL, level);
     }
 
+	/**
+	 * Sets the directory for the temporary files
+	 * 
+	 * @param tmpDir
+	 *            the specified directory
+	 */
+	public void setTempDir( String tmpDir )
+	{
+		this.tempDir = tmpDir;
+	}
+
+	/**
+	 * @return Returns the TempDir
+	 */
+	public String getTempDir( )
+	{
+		return this.tempDir;
+	}
 }
