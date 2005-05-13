@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 
 /**
  * Represents a report item: any element that can appear within a section of the
@@ -36,7 +37,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public abstract class ReportItemHandle extends ReportElementHandle
 		implements
-			IReportItemModel
+			IReportItemModel, IStyledElementModel
 {
 
 	/**
