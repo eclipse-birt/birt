@@ -163,12 +163,9 @@ public class ImageManager
 	private Image loadImage( URL url ) throws IOException
 	{
 		String key = url.toString( );
-		Image image = getImageRegistry( ).get( key );
-		if ( image != null )
-		{
-			return image;
-		}
+		getImageRegistry( ).remove( key );
 		InputStream in = null;
+		Image image;
 		try
 		{
 			in = url.openStream( );
