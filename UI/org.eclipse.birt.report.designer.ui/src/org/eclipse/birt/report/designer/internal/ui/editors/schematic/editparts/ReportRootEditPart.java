@@ -271,8 +271,6 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			else if ( ( region & PositionConstants.WEST ) != 0 )
 				loc.x -= scrollOffset;
 
-			//System.out.println( "where ==" + where.x);
-			Rectangle bounds = port.getBounds( );
 			if ( stepData.minX > loc.x )
 				loc.x = port.getHorizontalRangeModel( ).getValue( );
 			if ( stepData.maxX - stepData.extendX < loc.x )
@@ -282,7 +280,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			if ( stepData.maxY - stepData.extendY < loc.y )
 				loc.y = port.getVerticalRangeModel( ).getValue( );
 			port.setViewLocation( loc );
-			//initStepDat(port);
+
 			return true;
 		}
 
