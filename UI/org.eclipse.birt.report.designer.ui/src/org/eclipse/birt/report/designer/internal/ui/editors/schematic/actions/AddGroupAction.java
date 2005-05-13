@@ -58,7 +58,7 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{
-		return getTableEditPart( ) != null || getListEditPart( ) != null;
+		return getTableEditPart( ) != null ^ getListEditPart( ) != null;
 	}
 
 	/**
@@ -119,7 +119,8 @@ public class AddGroupAction extends SelectionAction
 				part = currentEditPart;
 			}
 			//Check if select only one table
-			if ( currentEditPart != null && part != currentEditPart )
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}
@@ -161,7 +162,8 @@ public class AddGroupAction extends SelectionAction
 				part = currentEditPart;
 			}
 			//Check if select only one list
-			if ( currentEditPart != null && part != currentEditPart )
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}

@@ -103,7 +103,7 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	public boolean isEnabled( )
 	{
-		return getTableEditPart( ) != null || getListEditPart( ) != null;
+		return getTableEditPart( ) != null ^ getListEditPart( ) != null;
 	}
 
 	/**
@@ -218,7 +218,8 @@ abstract class InsertPositionGroupAction extends Action
 				part = currentEditPart;
 			}
 			//Check if select only one table
-			if ( currentEditPart != null && part != currentEditPart )
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}
@@ -264,7 +265,8 @@ abstract class InsertPositionGroupAction extends Action
 				part = currentEditPart;
 			}
 			//Check if select only one list
-			if ( currentEditPart != null && part != currentEditPart )
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}
