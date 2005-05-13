@@ -20,12 +20,10 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -81,20 +79,7 @@ public abstract class EngineTask implements IEngineTask
 		this.engine = engine;
 		taskID = id++;
 		
-		executionContext = new ExecutionContext( taskID );
-		EngineConfig config = engine.getConfig();
-		if(config!=null)
-		{
-			executionContext.registerBeans(config.getConfigMap());
-			executionContext.registerBeans(config.getScriptObjects());
-			IStatusHandler handler = config.getStatusHandler();
-			if (handler != null)
-			{
-				handler.initialize();
-				executionContext.registerBean("_statusHandle", handler);
-				executionContext.execute("function writeStatus(msg) { _statusHandle.showStatus(msg); }");
-			}
-		}
+		executionContext = new ExecutionContext( engine, taskID );
 		executionContext.setRunnable(runnable);
 		executionContext.registerBeans(runnable.getTestConfig());
 	}

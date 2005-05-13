@@ -110,7 +110,22 @@ public class ReportEngineHelper
 	 */
 	public IReportRunnable openReportDesign(InputStream designStream) throws EngineException
 	{
-		throw new UnsupportedOperationException();
+		Report report;
+		String designName = "<stream>";	//$NON-NLS-1$
+		try 
+		{
+			report = new ReportParser( ).parse(designName, designStream);
+		} 
+		catch (DesignFileException e) 
+		{
+			logger.log(Level.SEVERE, "invalid design file {0}", designName); //$NON-NLS-1$
+			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
+		}
+		assert(report != null);
+		ReportRunnable runnable = new ReportRunnable(report);
+		runnable.setReportName(designName);
+		runnable.setReportEngine(engine);
+		return runnable;
 	}
 
 	/**

@@ -24,7 +24,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/10 01:34:10 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/12 07:58:32 $
  */
 public class ScriptContext
 {
@@ -55,10 +55,23 @@ public class ScriptContext
 	 */
 	public ScriptContext( )
 	{
+		this(null);
+	}
+	
+	public ScriptContext(ScriptableObject root)
+	{
 		try
 		{
 			this.context = Context.enter( );
-			this.scope = this.context.initStandardObjects( );
+			if (root == null)
+			{
+				this.scope = this.context.initStandardObjects( );
+			}
+			else
+			{
+				this.scope = this.context.newObject(root);
+				this.scope.setParentScope(root);
+			}
 
 			//set the wrapper factory
 			context.setWrapFactory( new BIRTWrapFactory( ) );

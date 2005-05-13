@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.content.IPageSetupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IReportElementContent;
@@ -51,7 +52,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.19 $ $Date: 2005/05/12 07:58:28 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -111,6 +112,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/** Stores the error message during running the report */
 	protected List errMsgLst = new ArrayList( );
 	
+	/** the engine used to create this context */ 
+	private ReportEngine engine;
 	
 	private String taskIDString;
 	
@@ -119,12 +122,29 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public ExecutionContext( int taskID )
 	{
+		this( null, taskID );
+	}
+	/**
+	 * create a new context. Call close to finish using the execution context
+	 */
+	public ExecutionContext( ReportEngine engine, int taskID )
+	{
+		this.engine = engine;
+		
 		taskIDString = "Task" + new Integer(taskID).toString();	// $NON-NLS-1$
 		
 		parser = new TextParser( );
 
 		locale = Locale.getDefault( );
-		scriptContext = new ScriptContext( );
+		
+		if ( engine != null )
+		{
+			scriptContext = new ScriptContext( engine.getRootScope( ) );
+		}
+		else
+		{
+			scriptContext = new ScriptContext( );
+		}
 
 		//create script context used to execute the script statements
 		//register the global variables in the script context
