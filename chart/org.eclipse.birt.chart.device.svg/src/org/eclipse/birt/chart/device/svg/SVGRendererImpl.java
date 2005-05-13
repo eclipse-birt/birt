@@ -57,15 +57,19 @@ public class SVGRendererImpl extends SwingRendererImpl {
 	 * 
 	 */
 	public SVGRendererImpl() {
-        final PluginSettings ps = PluginSettings.instance();
-        try
-        {
-            _ids = ps.getDisplayServer("ds.SVG"); //$NON-NLS-1$
+        if (System.getProperty("STANDALONE") == null){
+        	final PluginSettings ps = PluginSettings.instance();
+	        try
+	        {
+	            _ids = ps.getDisplayServer("ds.SVG"); //$NON-NLS-1$
+	        }
+	        catch (PluginException pex )
+	        {
+	            DefaultLoggerImpl.instance().log(pex);	            
+	        }
         }
-        catch (PluginException pex )
-        {
-            DefaultLoggerImpl.instance().log(pex);
-        }
+        else
+        	_ids = new SVGDisplayServer();
 	}
 	/**
 	 * The SVG version is "-//W3C//DTD SVG 1.0//EN".
