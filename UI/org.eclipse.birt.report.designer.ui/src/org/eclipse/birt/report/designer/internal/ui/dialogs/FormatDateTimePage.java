@@ -774,7 +774,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			String pattern = null;
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
-			setCategory(null);
+			setCategory( null );
 			setPattern( null );
 		}
 		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
@@ -1163,9 +1163,12 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		table = new Table( parent, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
 				| SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_VERTICAL );
+		GridData data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 2;
-		data.widthHint = 240;
+		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
+		{
+			data.widthHint = 240;
+		}
 		table.setLayoutData( data );
 
 		table.setLinesVisible( true );
