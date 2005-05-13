@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:58:29 $
  */
 public class DateFormatter
 {
@@ -121,7 +121,7 @@ public class DateFormatter
 			 * we can seperate these single name-based patterns form those
 			 * patterns with multinumber letters
 			 */
-			if ( formatString == null )
+			if ( formatString == null || "Unformatted".equals(formatString)) //$NON-NLS-1$
 			{
 				formatPattern = "";
 				dateFormat = java.text.DateFormat.getDateTimeInstance(

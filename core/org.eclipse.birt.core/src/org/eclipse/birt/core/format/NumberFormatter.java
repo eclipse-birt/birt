@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/08 06:58:29 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -262,7 +262,7 @@ public class NumberFormatter
 
 	private void handleNamedFormats( String patternStr )
 	{
-		if ( patternStr.equals( "General Number" ) ) //$NON-NLS-1$
+		if ( patternStr.equals( "General Number" ) || patternStr.equals("Unformatted") ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			numberFormat = NumberFormat.getInstance( locale );
 			numberFormat.setGroupingUsed( false );
