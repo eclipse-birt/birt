@@ -11,14 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -96,39 +92,7 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected TableEditPart getTableEditPart( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			TableEditPart currentEditPart = null;
-			if ( obj instanceof TableEditPart )
-			{
-				currentEditPart = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-			if ( part == null )
-			{
-				part = currentEditPart;
-			}
-			//Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
-			{
-				return null;
-			}
-		}
-		//Only table permitted
-		if ( part instanceof GridEditPart )
-			return null;
-		return part;
+		return UIUtil.getTableEditPart( getSelectedObjects( ) );
 	}
 
 	/**
@@ -139,36 +103,7 @@ public class AddGroupAction extends SelectionAction
 	 */
 	protected ListEditPart getListEditPart( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			ListEditPart currentEditPart = null;
-			if ( obj instanceof ListEditPart )
-			{
-				currentEditPart = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-			}
-			if ( part == null )
-			{
-				part = currentEditPart;
-			}
-			//Check if select only one list
-			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
-			{
-				return null;
-			}
-		}
-		return part;
+		return UIUtil.getListEditPart( getSelectedObjects( ) );
 	}
 
 	/**

@@ -11,8 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -486,7 +493,6 @@ public class UIUtil
 	 * 
 	 * @param wHint
 	 * @param c
-	 * @return
 	 */
 	public static int getWidthHint( int wHint, Control c )
 	{
@@ -499,7 +505,6 @@ public class UIUtil
 	 * 
 	 * @param hHint
 	 * @param c
-	 * @return
 	 */
 	public static int getHeightHint( int hHint, Control c )
 	{
@@ -534,10 +539,94 @@ public class UIUtil
 		{
 			return ( (Composite) c ).getLayout( ) instanceof ILayoutExtension;
 		}
-		else
+		return ( c.getStyle( ) & SWT.WRAP ) != 0;
+	}
+	
+	/**
+	 * Gets table editpart.
+	 * 
+	 * @param editParts
+	 *            a list of editpart
+	 * @return The current selected table editpart, null if no table editpart,
+	 *         more than one table, or other non-table editpart. Cell editpart
+	 *         is also a type of table editpart.
+	 */
+	public static TableEditPart getTableEditPart( List editParts )
+	{
+		if ( editParts == null || editParts.isEmpty( ) )
+			return null;
+		int size = editParts.size( );
+		TableEditPart part = null;
+		for ( int i = 0; i < size; i++ )
 		{
-			return ( c.getStyle( ) & SWT.WRAP ) != 0;
+			Object obj = editParts.get( i );
+
+			TableEditPart currentEditPart = null;
+			if ( obj instanceof TableEditPart )
+			{
+				currentEditPart = (TableEditPart) obj;
+			}
+			else if ( obj instanceof TableCellEditPart )
+			{
+				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one table
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
+			{
+				return null;
+			}
 		}
+		//Only table permitted
+		if ( part instanceof GridEditPart )
+			return null;
+		return part;
+	}
+	
+	/**
+	 * Gets list editpart.
+	 * 
+	 * @param editParts
+	 *            a list of editpart
+	 * @return The current selected list editpart, null if no list editpart,
+	 *         more than one list, or other list editpart. List band editpart is
+	 *         also a type of list editpart.
+	 */
+	public static ListEditPart getListEditPart( List editParts )
+	{
+		if ( editParts == null || editParts.isEmpty( ) )
+			return null;
+		int size = editParts.size( );
+		ListEditPart part = null;
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = editParts.get( i );
+
+			ListEditPart currentEditPart = null;
+			if ( obj instanceof ListEditPart )
+			{
+				currentEditPart = (ListEditPart) obj;
+			}
+			else if ( obj instanceof ListBandEditPart )
+			{
+				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			//Check if select only one list
+			if ( currentEditPart == null
+					|| currentEditPart != null && part != currentEditPart )
+			{
+				return null;
+			}
+		}
+		return part;
 	}
 
 }

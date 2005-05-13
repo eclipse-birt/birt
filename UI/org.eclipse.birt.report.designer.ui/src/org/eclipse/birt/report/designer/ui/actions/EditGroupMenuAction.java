@@ -16,11 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -52,12 +50,11 @@ public class EditGroupMenuAction extends MenuUpdateAction
 	protected List getItems( )
 	{
 		ListingHandle parentHandle = null;
-		if ( ( getTableEditPart( ) != null )
-				&& !( getTableEditPart( ) instanceof GridEditPart ) )
+		if ( getTableEditPart( ) != null && getListEditPart( ) == null )
 		{
 			parentHandle = (ListingHandle) getTableEditPart( ).getModel( );
 		}
-		else if ( getListEditPart( ) != null )
+		else if ( getListEditPart( ) != null && getTableEditPart( ) == null )
 		{
 			parentHandle = (ListingHandle) getListEditPart( ).getModel( );
 		}
@@ -85,25 +82,7 @@ public class EditGroupMenuAction extends MenuUpdateAction
 	 */
 	protected TableEditPart getTableEditPart( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			if ( obj instanceof TableEditPart )
-			{
-				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-		}
-		return part;
+		return UIUtil.getTableEditPart( getSelectedObjects( ) );
 	}
 
 	/**
@@ -114,24 +93,6 @@ public class EditGroupMenuAction extends MenuUpdateAction
 	 */
 	protected ListEditPart getListEditPart( )
 	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
-			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
-		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
-
-			if ( obj instanceof ListEditPart )
-			{
-				part = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-			}
-		}
-		return part;
+		return UIUtil.getListEditPart( getSelectedObjects( ) );
 	}
 }
