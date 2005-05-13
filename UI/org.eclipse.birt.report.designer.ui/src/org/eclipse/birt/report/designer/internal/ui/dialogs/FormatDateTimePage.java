@@ -1163,8 +1163,9 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		table = new Table( parent, SWT.FULL_SELECTION
 				| SWT.HIDE_SELECTION
 				| SWT.BORDER );
-		GridData data = new GridData( GridData.FILL_BOTH );
+		GridData data = new GridData( GridData.FILL_VERTICAL );
 		data.horizontalSpan = 2;
+		data.widthHint = 240;
 		table.setLayoutData( data );
 
 		table.setLinesVisible( true );
@@ -1191,7 +1192,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 		TableColumn tableColumnDisplay = new TableColumn( table, SWT.NONE );
 		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
-		tableColumnDisplay.setWidth( 200 );
+		tableColumnDisplay.setWidth( 115 );
 		tableColumnDisplay.setResizable( true );
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
