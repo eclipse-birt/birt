@@ -367,6 +367,12 @@ public class ReportPlatformUIImages
 		//Parameter dialog icon
 		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
 				+ "default.gif" ); //$NON-NLS-1$
+		
+		//Data editor dialog icons
+		declareImage(IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER, ICONS_PATH
+				+ "prop_dialog_title.gif" ); //$NON-NLS-1$
+
+		
 
 	}
 

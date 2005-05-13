@@ -233,4 +233,6 @@ public interface IReportGraphicConstants
 
 	//Parameter dialog icon
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
+
+	public static final String ICON_DATAEDIT_DLG_TITLE_BANNER = "org.eclipse.birt.report.designer.property";
 }

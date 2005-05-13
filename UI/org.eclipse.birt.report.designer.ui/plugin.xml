@@ -89,7 +89,7 @@
       <actionSet
             label="Preview"
             visible="true"
-            id="com.actuate.istudio.ui.actionSet">
+            id="org.eclipse.birt.report.designer.ui">
          <action
                disabledIcon="icons/preview_disabled.gif"
                hoverIcon="icons/preview.gif"
