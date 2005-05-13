@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StringPropertyType;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.TableItem;
@@ -32,7 +31,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/19 01:14:17 $
+ * @version $Revision: 1.10 $ $Date: 2005/04/23 03:21:32 $
  */
 public class Utility
 {
@@ -114,9 +113,9 @@ public class Utility
 		}
 		
 		TreeItem item[] = new TreeItem[dataSource.size()];
-		Tree parent = parentItem.getParent();
-		Font dataSourceItemFont = parent.getFont();
-		boolean addDummyNode = false;
+//		Tree parent = parentItem.getParent();
+//		Font dataSourceItemFont = parent.getFont();
+//		boolean addDummyNode = false;
 	
 		for (int i = 0; i < dataSource.size(); i++)
 		{
@@ -146,7 +145,7 @@ public class Utility
 				name = dbObject.getName();
 				displayName = dbObject.getDisplayName();
 				image = dbObject.getImage();
-				addDummyNode = true;
+//				addDummyNode = true;
 			}
 			else if ( source instanceof Column )
 			{
@@ -171,10 +170,10 @@ public class Utility
 			//parent.setTopItem(item[i]);
 			item[i].setExpanded(false);
 			
-			if ( addDummyNode )
-			{
-				TreeItem dummyItem = new TreeItem(item[i], style);
-			}
+//			if ( addDummyNode )
+//			{
+//				TreeItem dummyItem = new TreeItem(item[i], style);
+//			}
 	
 		}
 		return item;

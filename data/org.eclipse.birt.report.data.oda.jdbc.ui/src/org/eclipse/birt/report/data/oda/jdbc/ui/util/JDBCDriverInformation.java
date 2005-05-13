@@ -25,7 +25,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/21 23:45:00 $
+ * @version $Revision: 1.3 $ $Date: 2005/05/11 00:11:27 $
  */
 public final class JDBCDriverInformation
 {
@@ -46,7 +46,6 @@ public final class JDBCDriverInformation
     
     static JDBCDriverInformation getInstance(Class driverClass, URL[] classPaths) throws InstantiationException, IllegalAccessException
     {
-        URLClassLoader ucl = new URLClassLoader( classPaths );
         Driver d = (Driver) driverClass.newInstance( );
         
         JDBCDriverInformation info = new JDBCDriverInformation();

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.provider;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -50,10 +49,8 @@ public class JdbcMetaDataProvider
 	
 	private Connection jdbcConnection = null;
 	private String userName = null;
-	private String password = null;
 	private String url = null;
 	private String driverClass = null;
-	private String odaDriverName = null;
 
 	
 	private DatabaseMetaData metaData;
@@ -100,7 +97,6 @@ public class JdbcMetaDataProvider
 				    this.driverClass = driverClass;
 				    this.url = url;
 				    this.userName = userName;
-				    this.password = password;
 				}
 			}
 			catch ( SQLException e )
@@ -397,8 +393,8 @@ public class JdbcMetaDataProvider
 			// String used to quote the identifiers by default
 		    // when they have to be escaped
 			String quoteString = null;
-			String extraNameCharacters = null;
-			String searchEscapeCharacter = null;
+//			String extraNameCharacters = null;
+//			String searchEscapeCharacter = null;
 
 			
 			String databaseName = "";
@@ -411,7 +407,7 @@ public class JdbcMetaDataProvider
 			}
 			
 			
-			char escapeChar = '\'';
+//			char escapeChar = '\'';
 			
 			if  (metaDataProvider != null)
 			{
@@ -421,13 +417,9 @@ public class JdbcMetaDataProvider
 					try
 					{
 						quoteString = metaData.getIdentifierQuoteString();
-
-						extraNameCharacters = metaData.getExtraNameCharacters();
-						
-						
-						
-						searchEscapeCharacter = metaData.getSearchStringEscape();
-						
+//						extraNameCharacters = metaData.getExtraNameCharacters();
+//						searchEscapeCharacter = metaData.getSearchStringEscape();
+		
 						
 					}
 					catch(SQLException e)
@@ -480,7 +472,7 @@ public class JdbcMetaDataProvider
         		}
         		
         		selectClause.append(" ");//$NON-NLS-1$
-        		StringBuffer fromClause = new StringBuffer(" FROM ");//$NON-NLS-1$
+//        		StringBuffer fromClause = new StringBuffer(" FROM ");//$NON-NLS-1$
         		
         		String fromAndWhereClause = null;
        			fromAndWhereClause = getFromAndOnClause(tableList, joinList, startDelimitor, endDelimitor, schemaSupported);
@@ -499,7 +491,7 @@ public class JdbcMetaDataProvider
         	StringBuffer fromClause = new StringBuffer("");//$NON-NLS-1$
         	String FROM_CLAUSE_SPACING = "      ";
         	
-        	ArrayList fromTables = new ArrayList();
+//        	ArrayList fromTables = new ArrayList();
         	
         	if(joins == null || joins.size() ==0)
         	{
@@ -693,7 +685,6 @@ public class JdbcMetaDataProvider
 		
 		LinkedHashMap joinMap = new LinkedHashMap();
 		
-		boolean addParanthesis = false;
 		Iterator joinIterator = joins.iterator();
 		ArrayList fromTables = new ArrayList();
 		
@@ -715,7 +706,6 @@ public class JdbcMetaDataProvider
 		
 	
 			int joinType = joinCondition.getJoinType();
-			int operation = joinCondition.getOperationType();
 			
 			String joinTypeTxt = getJoinText(joinType);
 			
@@ -810,7 +800,7 @@ public class JdbcMetaDataProvider
      	// After Having added all the join conditions 
     	// Add the other tables
     	Iterator it1 = tableList.iterator();
-    	Iterator it2 = fromTables.iterator();
+//    	Iterator it2 = fromTables.iterator();
     	
     	while(it1.hasNext())
     	{

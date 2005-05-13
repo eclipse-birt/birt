@@ -41,7 +41,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/04/19 01:14:17 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/05 02:16:15 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -463,21 +463,21 @@ public class JdbcSQLContentAssistProcessor implements
         return '"';
     }
     
-    private char getClosingQuoteChar()
-    {
-        try
-        {
-            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
-            {
-                return ']';
-            }
-        }
-        catch(Exception ex)
-        {
-            
-        }
-        
-        return '"';
-    }
+//    private char getClosingQuoteChar()
+//    {
+//        try
+//        {
+//            if("ACCESS".equalsIgnoreCase(metaData.getDatabaseProductName()))
+//            {
+//                return ']';
+//            }
+//        }
+//        catch(Exception ex)
+//        {
+//            
+//        }
+//        
+//        return '"';
+//    }
     
 }
