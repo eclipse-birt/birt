@@ -87,7 +87,7 @@ public abstract class DataType
 	 * Other type can be found in JDK, such as Integer and String, but AnyType
 	 * have to be manually created to make it correspond to "Any" name. 
 	 */
-	static class AnyType
+	public static final class AnyType
 	{
 	};
 	

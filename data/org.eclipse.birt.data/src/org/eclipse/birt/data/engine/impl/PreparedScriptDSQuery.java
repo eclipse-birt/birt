@@ -189,7 +189,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 				Object evaResult = ((ScriptDataSetRuntime) dataSet).runFetchScript();
 	
 				if ( evaResult instanceof Boolean == false )
-					throw new DataException( ResourceConstants.INVALID_FETCH_SCIRPT );
+					throw new DataException( ResourceConstants.BAD_FETCH_RETURN_TYPE );
 				
 				if ( ( (Boolean) evaResult ).booleanValue( ) == false )
 					resultObject = null;

@@ -16,6 +16,9 @@ package org.eclipse.birt.data.engine.script;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -326,12 +329,14 @@ public class JSRowObject extends ScriptableObject
         try
 		{
         	IResultObject obj = this.getResultObject( );
-			if ( obj != null
-					&& obj.getResultClass( ).getFieldIndex( name ) >= 0 )
+        	int fieldIndex = -1;
+        	if ( obj != null )
+        		fieldIndex = obj.getResultClass().getFieldIndex( name );
+        	
+			if ( fieldIndex >= 0 )
 			{
 				// Update column value only of allowUpdate; otherwise no-op
-				if ( allowUpdate )
-					obj.setCustomFieldValue( name, value );
+				setFieldValue( fieldIndex, value );
 			}
 			else
 			{
@@ -339,7 +344,7 @@ public class JSRowObject extends ScriptableObject
 			    super.put( name, start, value );
 			}
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
     		logger.logp( Level.FINER,
 					JSColumnDefn.class.getName( ),
@@ -365,9 +370,7 @@ public class JSRowObject extends ScriptableObject
 			if ( index >= 0	&& obj != null
 					&& index <= obj.getResultClass( ).getFieldCount( ) )
 			{
-				// Update column value only of allowUpdate; otherwise no-op
-				if ( allowUpdate )
-					obj.setCustomFieldValue( index, value );
+				setFieldValue( index, value );
 			}
 			else
 			{
@@ -375,7 +378,7 @@ public class JSRowObject extends ScriptableObject
 			    super.put( index, start, value );
 			}
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
     		logger.logp( Level.FINER,
 					JSColumnDefn.class.getName( ),
@@ -384,6 +387,27 @@ public class JSRowObject extends ScriptableObject
 					e );
 		}
 		logger.exiting( JSRowObject.class.getName( ), "put" );
+    }
+    
+    /** 
+     * Sets the value of a custom field
+     * @param fieldIndex 1-based index of custom field
+     */
+    private void setFieldValue( int fieldIndex, Object value ) 
+    	throws BirtException
+    {
+    	if ( ! allowUpdate )
+    		return;		// updates not allowed; ignore
+    	
+    	IResultObject obj = this.getResultObject( );
+    	
+		// Observe the type restriction on the column
+		Class fieldClass = obj.getResultClass().getFieldValueClass(fieldIndex);
+		if ( fieldClass != DataType.AnyType.class )
+		{
+			value = DataTypeUtil.convert( value, fieldClass);
+		}
+		obj.setCustomFieldValue( fieldIndex, value );
     }
     
     /**

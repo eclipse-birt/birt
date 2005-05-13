@@ -66,7 +66,7 @@ public class ResourceConstants
 	public final static String BAD_PARAM_COUNT = "data.engine.BadParameterCount";
 	public final static String BAD_PARAM_TYPE = "data.engine.BadParameterType";
 	public final static String NO_SOLUTION_FOUND = "data.engine.NoIrrSolution";
-	public final static String INVALID_FETCH_SCIRPT = "data.engine.BadFetchScript";
+	public final static String BAD_FETCH_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
 	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
 	public final static String BAD_GROUP_KEY_TYPE = "data.engine.BadGroupKeyType";

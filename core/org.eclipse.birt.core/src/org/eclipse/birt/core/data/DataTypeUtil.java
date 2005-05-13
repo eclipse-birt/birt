@@ -60,6 +60,28 @@ public final class DataTypeUtil
 						resourceBundle );
 		}
 	}
+	
+	public static Object convert( Object source, Class toTypeClass )
+		throws BirtException
+	{
+		if ( toTypeClass == Integer.class )
+			return toInteger( source );
+		if ( toTypeClass == BigDecimal.class )
+			return toBigDecimal( source );
+		if ( toTypeClass == Boolean.class )
+			return toBoolean( source );
+		if ( toTypeClass == Date.class )
+			return toDate( source );
+		if ( toTypeClass == Double.class )
+			return toDouble( source );
+		if ( toTypeClass == String.class )
+			return toString( source );
+		if ( toTypeClass == Blob.class )
+			return toBlob( source );
+		
+		throw new BirtException( ResourceConstants.INVALID_TYPE,
+				resourceBundle );
+	}
 
 	public static Integer toInteger( Object source ) throws BirtException
 	{
