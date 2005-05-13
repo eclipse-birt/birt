@@ -12,23 +12,22 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.FORenderOption;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IRenderOption;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Defines a standalone reporting application that uses <code>StandaloneReportEngine</code> 
@@ -37,7 +36,7 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/05/10 00:07:13 $
+ * @version $Revision: 1.2 $ $Date: 2005/05/10 00:56:48 $
  */
 public class ReportRunner
 {
@@ -52,18 +51,13 @@ public class ReportRunner
 	protected String format = "html"; // The output format, defaults to HTML
 	protected String htmlType = "HTML"; // The type of html
 	protected String targetFile = null; // The target file name
-	protected int pageNum;//Name of the number of page
 	protected Options option = new Options( );//Collection of all the options
+	
 
 	// Create a standalone engine
 	ReportEngine engine;
 
-	/**
-	 * The list of pages to be processed for HTMP, PDF and other formats. We
-	 * currently do not support page list.
-	 */
-	protected String pageList = ""; //$NON-NLS-1$
-
+	
 	/**
 	 * Constructor of ReportRunner
 	 * @param args - application arguments
@@ -99,24 +93,36 @@ public class ReportRunner
 		}
 		//Process command line arguments
 		commandlineHandler.parseOptions( );
+		IReportRunnable design;
+		try
+		{
+			design = engine.openReportDesign( designName );
+		}
+		catch (EngineException e)
+		{
+			logger.log( Level.SEVERE, "There are errors generating the report in design file.", e); //$NON-NLS-1$
+			return;
+		}
 		if ( !validateAndPrepareArguments( ) )
 			return;
-
+		HashMap params = commandlineHandler.parseParameters(design);
 		// Generate the output content
-		executeReport(  );
+		executeReport( design , params);
 	}
 
+	
 	/**
 	 * Execute the report design which includes: <br>
 	 * 1. Read the input design and create the task. <br>
 	 * 2. Set report render options (including format, locale, output file name etc). <br>
 	 * 3. Run the task.
 	 */
-	protected void executeReport()
+	protected void executeReport(IReportRunnable design, HashMap params)
 	{
 		try {
-			IReportRunnable design = engine.openReportDesign( designName );
+			
 			IRunAndRenderTask task = engine.createRunAndRenderTask( design );
+			task.setParameterValues(params);
 			
 			// set report render options
 			IRenderOption options;
@@ -160,55 +166,13 @@ public class ReportRunner
 			task.setRenderOption(options);
 			
 			task.run();
-		} catch (org.eclipse.birt.report.engine.api.EngineException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (org.eclipse.birt.report.engine.api.EngineException e)
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
-	/*protected void executeReport( String targetFile, String format )
-	{
-		// Obtain a report handle
-		IReportHandle reportHandle = engine.getReportHandle( designName, getLocale( locale ));
-		if ( reportHandle == null )
-		{
-			System.out.println( "The report design file contains errors. Please fix it and try again. " ); //$NON-NLS-1$
-			return;
-		}
-
-		// Parse parameters. Note that we do not care about parameter groups,
-		// so we pass in false in the first function call.
-		Collection parameters = reportHandle.getParameters( false );
-		HashMap paramMap = commandlineHandler
-				.parseParameters( (ArrayList) parameters );
-		if ( paramMap == null )
-			return;
-
-		// Set parameters
-		reportHandle.setParameterValues( paramMap );
-		if ( reportHandle.validateParameters( ) )
-		{
-			IViewOptions viewOptions = reportHandle.getViewOptions( format );
-			viewOptions.setOption( IViewOptions.FORMAT, format );
-			viewOptions.setOption( IViewHTMLOptions.HTML_TYPE, htmlType );
-			try
-			{
-				reportHandle.viewReport( targetFile, viewOptions );
-			}
-			catch ( EngineException e )
-			{
-				System.out
-						.println( "There are errors generating the report in HTML format." ); //$NON-NLS-1$
-				e.printStackTrace( );
-			}
-		}
-		else
-		{
-			System.out.println( "There exists parameter error." ); //$NON-NLS-1$
-		}
-		reportHandle.release( true );
-
-	}*/
+	
 
 	/**
 	 * @return validate if design name is legal. Prepare various file names if
@@ -223,66 +187,10 @@ public class ReportRunner
 			printUsage( );
 			return false;
 		}
-
-		/*format = normalizeFormat( );
-		if ( format == null )
-		{
-			logger.log( Level.SEVERE, "[ReportRunner] Invalid output format." ); //$NON-NLS-1$
-			return false;
-		}
-		
-		htmlType = normalizeHTMLType( );
-		if ( htmlType == null )
-		{
-			logger.log( Level.SEVERE, "[ReportRunner] Invalid html type." ); //$NON-NLS-1$
-			return false;
-		}
-*/
 		checkTargetFileName();
-
 		return true;
 	}
 	
-	/**
-	 * @return normalized format string if format is one of the three formats; null otherwise
-	 */
-	/*private String normalizeFormat( )
-	{
-		if (IViewOptions.FORMAT_HTML.equalsIgnoreCase( format ) )
-		{
-			return IViewOptions.FORMAT_HTML;
-		}
-		
-		if (IViewOptions.FORMAT_FO.equalsIgnoreCase( format ) )
-		{
-			return IViewOptions.FORMAT_FO;
-		}
-
-		if (IViewOptions.FORMAT_PDF.equalsIgnoreCase( format ) )
-		{
-			return IViewOptions.FORMAT_PDF;
-		}
-		
-		return null;
-	}*/
-
-	/**
-	 * @return normalized html type string
-	 */
-	/*private String normalizeHTMLType( )
-	{
-		if( IViewHTMLOptions.HTML.equalsIgnoreCase( htmlType ) )
-		{
-			return IViewHTMLOptions.HTML;
-		}
-		
-		if( IViewHTMLOptions.HTML_NOCSS.equalsIgnoreCase( htmlType ) )
-		{
-			return IViewHTMLOptions.HTML_NOCSS;
-		}
-		
-		return null;
-	}*/
 	
 	/**
 	 * print out the command line usage.
@@ -297,9 +205,12 @@ public class ReportRunner
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
 		System.out.println( "\t --htmltype/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
-		//TODO: output all pages
-		System.out.println( "\t --page/-g <page number>" ); //$NON-NLS-1$
+		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
+		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
+		
 		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
+		System.out.println( "\nparameters in command line will overide parameters in parameter file" ); //$NON-NLS-1$
+		System.out.println( "\nparameter name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 	}
 
 	/**
@@ -341,10 +252,10 @@ public class ReportRunner
 			option.addOption( "t", "type", true, "" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "o", "output", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "l", "locale", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			option.addOption( "g", "page", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			// Parse
 			BasicParser parser = new BasicParser( );
+			
 			try
 			{
 				designName = args[args.length - 1];
@@ -366,8 +277,6 @@ public class ReportRunner
 					targetFile = result.getOptionValue( 'o' );
 				}
 
-				pageList = result.getOptionValue( "page" ); //$NON-NLS-1$
-
 				if ( result.hasOption( 'l' ) )
 				{
 					locale = result.getOptionValue( 'l' );
@@ -380,60 +289,150 @@ public class ReportRunner
 			}
 		}
 
-		protected HashMap parseParameters( ArrayList paramDefns )
+		protected HashMap parseParameters(IReportRunnable design  )
 		{
-
-			HashMap params = new HashMap( );
-			/*BasicParser parser = new BasicParser( );
-
+			HashMap params = new HashMap();
 			
-			 * Add parameters into instance option
-			 
-
-			for ( int i = 0; i < paramDefns.size( ); i++ )
-			{
-				option.addOption( new Integer( i ).toString( ), "param" + i, //$NON-NLS-1$
-						true, "" ); //$NON-NLS-1$
-			}
+			option.addOption("p", "parameter", true, "parameter");
+			option.addOption("F", "file", true, "parameter file");
+			BasicParser parser = new BasicParser( );
+			CommandLine results = null; 
 			try
 			{
-				CommandLine results = parser.parse( option, args, false );
-				//add the parameter values into the param hash map.
-				for ( int i = 0; i < paramDefns.size( ); i++ )
-				{
-					IScalarParameterDefn paramHandle = (IScalarParameterDefn) paramDefns
-							.get( i );
-					String paramName = paramHandle.getName( );
-					assert paramName != null;
-					Object result = null;
-					if ( results.hasOption( new Integer( i ).toString( ) ) )
-					{
-						result = results.getOptionValue( "param" + i ); //$NON-NLS-1$
-					}
-					if ( result == null )
-					{
-						result = paramHandle.getDefaultValue( );
-						if ( ( result != null ) && ( result.equals( "" ) ) ) //$NON-NLS-1$
-						{
-							result = null;
-						}
-					}
-					if ( result != null )
-					{
-						int type = paramHandle.getType( );
-						if ( type == IParameterDefn.TYPE_BOOLEAN )
-						{
-							result = new Boolean( (String) result );
-						}
-						params.put( paramName, result );
-					}
-				}
+				results = parser.parse( option, args, false );
 			}
 			catch ( org.apache.commons.cli.ParseException pe )
 			{
 			    logger.log( Level.SEVERE, "CLI parseException " + pe.getMessage( ), pe ); //$NON-NLS-1$
-			}*/
+			}
+			if(results==null)
+			{
+				return params;
+			}
+			HashMap strParams = new HashMap();
+			if(results.hasOption('F'))
+			{
+				String fileName = results.getOptionValue('F');
+				File file = new File(fileName);
+				Properties ps = new Properties();
+				try
+				{
+					ps.load(new FileInputStream(file));
+				}
+				catch (FileNotFoundException e)
+				{
+					logger.log( Level.SEVERE, "file: " + file.getAbsolutePath()+" not exists!" ); //$NON-NLS-1$
+				}
+				catch (IOException e)
+				{
+					logger.log( Level.SEVERE, "Can't open file: " + file.getAbsolutePath()); //$NON-NLS-1
+				}
+				strParams.putAll(ps);
+				
+			}
+			if(results.hasOption('p'))
+			{
+				String[] stringParams = results.getOptionValues('p');
+
+				if(stringParams!=null)
+				{
+					for(int i=0; i<stringParams.length; i++)
+					{
+						addParameter(stringParams[i], strParams);
+					}
+					
+				}
+			}
+			if(strParams.size()==0)
+			{
+				return params;
+			}
+			
+			IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(design);
+			Collection paramDefn = task.getParameterDefns(false);
+			Iterator iter = paramDefn.iterator();
+			while(iter.hasNext())
+			{
+				//now only support scalar parameter
+				IParameterDefnBase pBase = (IParameterDefnBase)iter.next();
+				if(pBase instanceof IScalarParameterDefn)
+				{
+					Object value = this.evaluateDefault((IScalarParameterDefn)pBase, (String)strParams.get(pBase.getName()));
+					if(value!=null)
+					{
+						params.put(pBase.getName(), value);
+					}
+				}
+			}
+			
+
+			
 			return params;
+		}
+		
+		protected void addParameter(String param, HashMap params)
+		{
+			if(param==null || param.length()<2)
+			{
+				return;
+			}
+			int index = param.indexOf("=");
+			if(index<1)
+			{
+				return;
+			}
+			String name = param.substring(0, index).trim();
+			String value = param.substring(index+1).trim();
+			if(value.startsWith("\"")&& value.endsWith("\"") && value.length()>2)
+			{
+				value = value.substring(1, value.length()-1);
+			}
+			params.put(name, value);
+		}
+		
+		/**
+		 * @param p the scalar parameter
+		 * @param expr the default value expression 
+		 */
+		protected Object evaluateDefault(IScalarParameterDefn p, String value)
+		{
+			int type = p.getDataType();
+			if(value==null)
+			{
+				return null;
+			}
+			Object ret = null;
+			try
+			{
+				switch (type)
+				{
+					case IScalarParameterDefn.TYPE_BOOLEAN :
+						ret = DataTypeUtil.toBoolean(value);
+						break;
+					case IScalarParameterDefn.TYPE_DATE_TIME :
+						ret = DataTypeUtil.toDate(value);
+						break;
+					case IScalarParameterDefn.TYPE_DECIMAL :
+						ret = DataTypeUtil.toBigDecimal(value);
+						break;
+					case IScalarParameterDefn.TYPE_FLOAT :
+						ret = DataTypeUtil.toDouble(value);
+						break;
+					case IScalarParameterDefn.TYPE_STRING:
+						ret = DataTypeUtil.toString(value);
+						break;
+					default:
+						break;
+				}
+
+			}
+			catch (BirtException e)
+			{
+				logger.log( Level.SEVERE, "the value of parameter " + p.getName() + " is invalid", e );
+				value = null;
+			}
+
+			return ret;
 		}
 	}
 	
@@ -452,7 +451,7 @@ public class ReportRunner
 	protected void checkTargetFileName ( )
 	{
 		String fileExt = '.' + format;
-		File designFile = new File( designName );
+		File designFile =new File( new File( designName ).getAbsolutePath());
 		String designFileName = designFile.getName( );
 		int n = designFileName.lastIndexOf( '.' );
 		if ( n != -1 )
@@ -469,5 +468,8 @@ public class ReportRunner
 			targetFile = targetFile + File.separatorChar + designFileName + fileExt;
 		}
 	}
+	
+	
+	
 }
 
