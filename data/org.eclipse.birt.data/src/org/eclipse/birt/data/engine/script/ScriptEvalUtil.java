@@ -289,6 +289,9 @@ public class ScriptEvalUtil
 				return inputObj.toString();
 			}
 		}
+		else if ( inputObj!= null && inputObj.toString().equalsIgnoreCase("NaN") )
+		    inputObj = null;
+		
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( ScriptEvalUtil.class.getName( ),
 					"convertNativeObjToJavaObj",
