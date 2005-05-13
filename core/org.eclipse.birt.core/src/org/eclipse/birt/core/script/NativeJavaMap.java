@@ -22,7 +22,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:58:29 $
  */
 class NativeJavaMap extends NativeJavaObject
 {
@@ -97,10 +97,12 @@ class NativeJavaMap extends NativeJavaObject
 
 	public Object get( int index, Scriptable start )
 	{
-		List list = new ArrayList( ( (Map) javaObject ).values( ) );
-		if ( list.size( ) > index )
-			return list.get( index );
-
-		return super.get( index, start );
+		return ( (Map) javaObject ).get(new Integer(index).toString());
 	}
+	
+	public void put(int index, Scriptable start, Object value)
+	{
+		( (Map) javaObject ).put(new Integer(index).toString(), value);
+	}
+	 
 }
