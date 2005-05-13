@@ -29,6 +29,8 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -187,6 +189,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				reLayoutSubPages( );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
@@ -223,6 +226,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				reLayoutSubPages( );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 
 		} );
@@ -261,6 +265,9 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private void createCategoryPages( Composite parent )
 	{
 		categoryPageMaps = new HashMap( );
+
+		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED,
+				getGeneralPage( parent ) );
 
 		categoryPageMaps.put( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
 				getGeneralPage( parent ) );
@@ -307,12 +314,9 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			IChoice[] choices = set.getChoices( );
 			if ( choices.length > 0 )
 			{
-				// excludes "unformatted" category.
-				choiceArray = new String[choices.length - 1][2];
+				choiceArray = new String[choices.length][2];
 				for ( int i = 0, j = 0; i < choices.length; i++ )
 				{
-					if ( !choices[i].getName( )
-							.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) )
 					{
 						choiceArray[j][0] = choices[i].getDisplayName( );
 						choiceArray[j][1] = choices[i].getName( );
@@ -341,7 +345,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			{
 				String fmtStr = ""; //$NON-NLS-1$
 				String category = choiceArray[i][1];
-				if ( category.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM ) )
+				if ( category.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM )
+						|| category.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) )
 				{
 					fmtStr = category;
 				}
@@ -480,6 +485,14 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		}
 	}
 
+	private void notifyFormatChange( )
+	{
+		if ( hasLoaded )
+		{
+			fireFormatChanged( getCategory( ), getPattern( ) );
+		}
+	}
+
 	/**
 	 * Adds format change listener to the litener list of this format page.
 	 * 
@@ -593,7 +606,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	{
 		if ( category == null && pattern == null )
 		{
-			return null;
+			return DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
 		}
 		if ( category == null )
 		{
@@ -756,7 +769,15 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			}
 		}
 
-		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
+		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED.equals( category ) )
+		{
+			String pattern = null;
+			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setCategory(null);
+			setPattern( null );
+		}
+		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
 		{
 			String pattern = getPatternForCategory( category );
 			String fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
@@ -830,10 +851,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			setPattern( pattern );
 		}
 
-		if ( hasLoaded )
-		{
-			fireFormatChanged( getCategory( ), getPattern( ) );
-		}
 		return;
 	}
 
@@ -939,6 +956,17 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 						}
 					}
 				} );
+				formatCode.addFocusListener( new FocusListener( ) {
+
+					public void focusLost( FocusEvent e )
+					{
+						notifyFormatChange( );
+					}
+
+					public void focusGained( FocusEvent e )
+					{
+					}
+				} );
 			}
 
 			createCustomPreviewPart( customPage );
@@ -990,6 +1018,17 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 					{
 						updatePreview( );
 					}
+				}
+			} );
+			formatCode.addFocusListener( new FocusListener( ) {
+
+				public void focusLost( FocusEvent e )
+				{
+					notifyFormatChange( );
+				}
+
+				public void focusGained( FocusEvent e )
+				{
 				}
 			} );
 		}
@@ -1142,6 +1181,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				String pattern = getPatternForCategory( category );
 				formatCode.setText( pattern );
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );

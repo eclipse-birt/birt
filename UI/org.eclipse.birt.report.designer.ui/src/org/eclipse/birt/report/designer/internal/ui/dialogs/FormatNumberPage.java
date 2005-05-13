@@ -29,6 +29,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -150,6 +152,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		public void widgetSelected( SelectionEvent e )
 		{
 			updatePreview( );
+			notifyFormatChange( );
 		}
 	};
 
@@ -161,6 +164,17 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			{
 				updatePreview( );
 			}
+		}
+	};
+	private FocusListener myFocusListener = new FocusListener( ) {
+
+		public void focusLost( FocusEvent e )
+		{
+			notifyFormatChange( );
+		}
+
+		public void focusGained( FocusEvent e )
+		{
 		}
 	};
 
@@ -234,6 +248,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				reLayoutSubPages( );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
@@ -271,6 +286,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				reLayoutSubPages( );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
@@ -311,16 +327,24 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		categoryPageMaps = new HashMap( );
 
+		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED,
+				getGeneralPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER,
 				getGeneralPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY,
 				getCurrencyPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_FIXED,
 				getFixedPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT,
 				getPercentPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC,
 				getScientificPage( parent ) );
+
 		categoryPageMaps.put( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM,
 				getCustomPage( parent ) );
 	}
@@ -367,14 +391,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			IChoice[] choices = set.getChoices( );
 			if ( choices.length > 0 )
 			{
-				// excludes "standard" and "unformatted" category.
-				choiceArray = new String[choices.length - 2][2];
+				// excludes "standard".
+				choiceArray = new String[choices.length - 1][2];
 				for ( int i = 0, j = 0; i < choices.length; i++ )
 				{
 					if ( !choices[i].getName( )
-							.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD )
-							&& !choices[i].getName( )
-									.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED ) )
+							.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD ) )
 					{
 						choiceArray[j][0] = choices[i].getDisplayName( );
 						choiceArray[j][1] = choices[i].getName( );
@@ -539,6 +561,14 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 	}
 
+	private void notifyFormatChange( )
+	{
+		if ( hasLoaded )
+		{
+			fireFormatChanged( getCategory( ), getPattern( ) );
+		}
+	}
+
 	/**
 	 * Adds format change listener to the litener list of this format page.
 	 * 
@@ -661,7 +691,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		if ( category == null && pattern == null )
 		{
-			return null;
+			return DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED;
 		}
 		if ( category == null )
 		{
@@ -796,18 +826,19 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 
 		String category = getCategory4DisplayName( typeChoicer.getText( ) );
-		FormatNumberPattern fmtPattern = getFmtPattern4Category( category );
-
-		setCategory( fmtPattern.getCategory( ) );
-		setPattern( fmtPattern.getPattern( ) );
-
-		doPreview( fmtPattern.getCategory( ), fmtPattern.getPattern( ) );
-
-		if ( hasLoaded )
+		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
-			fireFormatChanged( fmtPattern.getCategory( ),
-					fmtPattern.getPattern( ) );
+			setCategory( null );
+			setPattern( null );
 		}
+		else
+		{
+			FormatNumberPattern fmtPattern = getFmtPattern4Category( category );
+
+			setCategory( fmtPattern.getCategory( ) );
+			setPattern( fmtPattern.getPattern( ) );
+		}
+		doPreview( getCategory( ), getPattern( ) );
 	}
 
 	/**
@@ -833,6 +864,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		if ( category == null )
 		{
 			fmtStr = getPreviewText( );
+			fmtStr = new NumberFormatter( patternStr ).format( num );
+			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			return;
+		}
+		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED ) )
+		{
+			fmtStr = new NumberFormatter( patternStr ).format( num );
 			gPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			return;
 		}
@@ -1216,6 +1254,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
 				formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				formatCodeBox.addModifyListener( myModifyListener );
+				formatCodeBox.addFocusListener( myFocusListener );
 			}
 
 			createCustomPreviewPart4Page( customPage );
@@ -1264,6 +1303,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
 			formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			formatCodeBox.addModifyListener( myModifyListener );
+			formatCodeBox.addFocusListener(myFocusListener );
 		}
 		return customFormatCodePage;
 	}
@@ -1290,6 +1330,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		cPlacesChoice.setLayoutData( data );
 		cPlacesChoice.addSelectionListener( mySelectionListener );
 		cPlacesChoice.addModifyListener( myModifyListener );
+		cPlacesChoice.addFocusListener(myFocusListener);
 		cPlacesChoice.select( 2 );
 
 		cUseSep = new Button( setting, SWT.CHECK );
@@ -1321,6 +1362,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 					}
 				}
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		cSymbolChoice.select( 0 );
@@ -1372,6 +1414,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		fPlacesChoice.setLayoutData( data );
 		fPlacesChoice.addSelectionListener( mySelectionListener );
 		fPlacesChoice.addModifyListener( myModifyListener );
+		fPlacesChoice.addFocusListener(myFocusListener);
 		fPlacesChoice.select( 2 );
 
 		fUseSep = new Button( setting, SWT.CHECK );
@@ -1423,6 +1466,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		pPlacesChoice.setLayoutData( data );
 		pPlacesChoice.addSelectionListener( mySelectionListener );
 		pPlacesChoice.addModifyListener( myModifyListener );
+		pPlacesChoice.addFocusListener(myFocusListener);
 		pPlacesChoice.select( 2 );
 
 		pUseSep = new Button( setting, SWT.CHECK );
@@ -1481,6 +1525,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		sPlacesChoice.setLayoutData( data );
 		sPlacesChoice.addSelectionListener( mySelectionListener );
 		sPlacesChoice.addModifyListener( myModifyListener );
+		pPlacesChoice.addFocusListener(myFocusListener);
 		sPlacesChoice.select( 2 );
 	}
 
@@ -1627,6 +1672,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				formatCodeBox.setText( pattern );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 	}

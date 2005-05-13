@@ -28,6 +28,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -188,6 +190,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 			{
 				reLayoutSubPages( );
 				updatePreview( );
+				notifyFormatChange( );
 			}
 
 		} );
@@ -224,6 +227,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 				reLayoutSubPages( );
 
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		typeChoicer.setItems( getFormatTypes( ) );
@@ -410,11 +414,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 	private String getPatternForCategory( String category )
 	{
 		String pattern;
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
-		{
-			pattern = ""; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
+
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
 			pattern = ">"; //$NON-NLS-1$
 		}
@@ -465,6 +466,14 @@ public class FormatStringPage extends Composite implements IFormatPage
 		}
 	}
 
+	private void notifyFormatChange( )
+	{
+		if ( hasLoaded )
+		{
+			fireFormatChanged( getCategory( ), getPattern( ) );
+		}
+	}
+
 	/**
 	 * Adds format change listener to the litener list of this format page.
 	 * 
@@ -503,14 +512,14 @@ public class FormatStringPage extends Composite implements IFormatPage
 			return;
 		}
 		else if ( pos == -1 )
-		{ 
+		{
 			setInput( fmtStr, fmtStr );
 			return;
 		}
 
 		String category = fmtStr.substring( 0, pos );
 		String patternStr = fmtStr.substring( pos + 1 );
-		
+
 		setInput( category, patternStr );
 		return;
 	}
@@ -585,7 +594,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 	{
 		if ( category == null && pattern == null )
 		{
-			return null;
+			return DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
 		}
 		if ( category == null )
 		{
@@ -748,9 +757,11 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED.equals( category ) )
 		{
-			String pattern = getPatternForCategory( category );
-			generalPreviewLabel.setText( gText );
-			setPattern( pattern );
+			String pattern = null;
+			String fmtStr = new StringFormatter( pattern, DEFAULT_LOCALE ).format( gText );
+			generalPreviewLabel.setText( validatedFmtStr( fmtStr ) );
+			setCategory( null );
+			setPattern( null );
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE.equals( category ) )
 		{
@@ -812,10 +823,6 @@ public class FormatStringPage extends Composite implements IFormatPage
 			setPattern( pattern );
 		}
 
-		if ( hasLoaded )
-		{
-			fireFormatChanged( getCategory( ), getPattern( ) );
-		}
 		return;
 	}
 
@@ -918,6 +925,17 @@ public class FormatStringPage extends Composite implements IFormatPage
 						}
 					}
 				} );
+				formatCode.addFocusListener( new FocusListener( ) {
+
+					public void focusLost( FocusEvent e )
+					{
+						notifyFormatChange( );
+					}
+
+					public void focusGained( FocusEvent e )
+					{
+					}
+				} );
 			}
 
 			createCustomPreviewPart( customPage );
@@ -953,7 +971,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 			Label l = new Label( customFormatCodePage, SWT.SEPARATOR
 					| SWT.HORIZONTAL );
-			l.setLayoutData(  new GridData( GridData.FILL_HORIZONTAL ) );
+			l.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 			Composite container = new Composite( customFormatCodePage, SWT.NONE );
 			container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -970,6 +988,17 @@ public class FormatStringPage extends Composite implements IFormatPage
 					{
 						updatePreview( );
 					}
+				}
+			} );
+			formatCode.addFocusListener( new FocusListener( ) {
+
+				public void focusLost( FocusEvent e )
+				{
+					notifyFormatChange( );
+				}
+
+				public void focusGained( FocusEvent e )
+				{
 				}
 			} );
 		}
@@ -1093,7 +1122,9 @@ public class FormatStringPage extends Composite implements IFormatPage
 						displayName );
 				String pattern = getPatternForCategory( category );
 				formatCode.setText( pattern );
+				
 				updatePreview( );
+				notifyFormatChange( );
 			}
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -89,12 +88,6 @@ public class FormatDateTimePreferencePage extends BaseStylePreferencePage
 		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormatCategory( );
 		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getDateTimeFormat( );
 
-		if ( category == null && pattern == null )
-		{
-			String[] formatValue = ChoiceSetFactory.getDefaultFormatValue( DateTimeFormatValue.FORMAT_VALUE_STRUCT );
-			category = formatValue[0];
-			pattern = formatValue[1];
-		}
 		formatPage.setInput( category, pattern );
 		return;
 	}
