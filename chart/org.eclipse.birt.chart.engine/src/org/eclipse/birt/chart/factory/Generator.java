@@ -265,7 +265,6 @@ public final class Generator
             }
             catch (Exception ex )
             {
-                ex.printStackTrace();
                 throw new GenerationException(ex);
             }
         }

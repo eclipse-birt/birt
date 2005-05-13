@@ -87,7 +87,7 @@ public class ChartException extends BirtException
      */
     public ChartException(String sResourceKey, Object[] oaArgs, ResourceBundle rb)
     {
-        super(sResourceKey, rb);
+        super(sResourceKey, oaArgs, rb);
         logThis();
     }
     

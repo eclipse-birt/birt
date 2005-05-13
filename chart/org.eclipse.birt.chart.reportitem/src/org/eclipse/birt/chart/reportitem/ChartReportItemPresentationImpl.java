@@ -330,15 +330,18 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
         }
 
         // DELETE THE TEMP CHART IMAGE FILE CREATED
-        if (!fChartImage.delete())
+        if ( fChartImage != null )
         {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR,
-                "Could not delete temporary " + sExtension + " file created at " + fChartImage.getPath());
-        }
-        else
-        {
-            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                "Successfully deleted temporary " + sExtension + " file created at " + fChartImage.getPath());
+	        if (!fChartImage.delete())
+	        {
+	            DefaultLoggerImpl.instance().log(ILogger.ERROR,
+	                "Could not delete temporary " + sExtension + " file created at " + fChartImage.getPath());
+	        }
+	        else
+	        {
+	            DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
+	                "Successfully deleted temporary " + sExtension + " file created at " + fChartImage.getPath());
+	        }
         }
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemPresentationImpl: finish(...) - end");
     }

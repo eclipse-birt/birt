@@ -1426,7 +1426,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.invalid.minimum.scale.value", //$NON-NLS-1$
-                        new Object[] { oMinimum, ax.getModelAxis().getType().getName() },
+                        new Object[] { sc.oMinimum, ax.getModelAxis().getType().getName() },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -1451,7 +1451,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.invalid.maximum.scale.value", //$NON-NLS-1$
-                        new Object[] { oMaximum, ax.getModelAxis().getType().getName() },
+                        new Object[] { sc.oMaximum, ax.getModelAxis().getType().getName() },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -1488,7 +1488,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.min.largerthan.max", //$NON-NLS-1$ 
-                        new Object[] { oMinimum, oMaximum },
+                        new Object[] { sc.oMinimum, sc.oMaximum },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -1706,7 +1706,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
-                        new Object[] { oMinimum + ax.getModelAxis().getType().getName() },
+                        new Object[] { sc.oMinimum + ax.getModelAxis().getType().getName() },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -1727,7 +1727,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.invalid.maximum.scale.value", //$NON-NLS-1$
-                        new Object[] { oMaximum + ax.getModelAxis().getType().getName() },
+                        new Object[] { sc.oMaximum + ax.getModelAxis().getType().getName() },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -1757,7 +1757,7 @@ public final class AutoScale extends Methods implements Cloneable
                 {
                     throw new GenerationException(
                         "exception.min.largerthan.max", //$NON-NLS-1$
-                        new Object[] { oMinimum, oMaximum },
+                        new Object[] { sc.oMinimum, sc.oMaximum },
                         ResourceBundle.getBundle(
                             Messages.ENGINE, 
                             rtc.getLocale()
@@ -2238,7 +2238,7 @@ public final class AutoScale extends Methods implements Cloneable
         {
             throw new GenerationException(
                 "exception.unset.label.visibility", //$NON-NLS-1$
-                new Object[] { la },
+                new Object[] { la.getCaption().getValue() },
                 ResourceBundle.getBundle(
                     Messages.ENGINE, 
                     rtc.getLocale()
