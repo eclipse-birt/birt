@@ -173,6 +173,7 @@
                   type="string"
                   defaultDisplayName="Password"
                   canInherit="true"
+                  isEncryptable="true"
                   name="odaPassword"/>
          </propertyGroup>
       </odaDataSource>
