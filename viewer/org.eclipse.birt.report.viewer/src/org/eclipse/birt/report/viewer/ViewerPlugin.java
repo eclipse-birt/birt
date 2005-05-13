@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.viewer.utilities.WebappAccessor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -75,6 +76,7 @@ public class ViewerPlugin extends Plugin
 	 */
 	public void stop( BundleContext context ) throws Exception
 	{
+		WebappAccessor.stop( "viewer" );
 		super.stop( context );
 	}
 
