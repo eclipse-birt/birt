@@ -160,7 +160,6 @@
 		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="publicJavadoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
       <property name="javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
-      <property name="javadoc.files.api" value="${engine.dir}/src/org/eclipse/birt/report/engine/api/*.java" />
 		</ant>
   </target>
 	
