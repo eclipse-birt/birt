@@ -36,7 +36,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/10 00:56:48 $
+ * @version $Revision: 1.3 $ $Date: 2005/05/13 04:54:55 $
  */
 public class ReportRunner
 {
@@ -52,7 +52,7 @@ public class ReportRunner
 	protected String htmlType = "HTML"; // The type of html
 	protected String targetFile = null; // The target file name
 	protected Options option = new Options( );//Collection of all the options
-	
+	protected String encoding = null;
 
 	// Create a standalone engine
 	ReportEngine engine;
@@ -163,6 +163,8 @@ public class ReportRunner
 			if(htmlType == "ReportletNoCSS" )
 				((HTMLRenderOption )options).setEmbeddable(true);
 			
+			options.getOutputSetting().put(HTMLRenderOption.DEST_ENCODING, encoding);
+			
 			task.setRenderOption(options);
 			
 			task.run();
@@ -207,6 +209,7 @@ public class ReportRunner
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
 		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
+		System.out.println( "\t --encoding/-e <target encoding>" ); //$NON-NLS-1$
 		
 		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
 		System.out.println( "\nparameters in command line will overide parameters in parameter file" ); //$NON-NLS-1$
@@ -252,7 +255,8 @@ public class ReportRunner
 			option.addOption( "t", "type", true, "" ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "o", "output", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "l", "locale", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+			option.addOption( "e", "encoding", true, ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			
 			// Parse
 			BasicParser parser = new BasicParser( );
 			
@@ -280,6 +284,10 @@ public class ReportRunner
 				if ( result.hasOption( 'l' ) )
 				{
 					locale = result.getOptionValue( 'l' );
+				}
+				if (result.hasOption( 'e' ) )
+				{
+					encoding = result.getOptionValue('e');
 				}
 			}
 			catch ( org.apache.commons.cli.ParseException pe )
