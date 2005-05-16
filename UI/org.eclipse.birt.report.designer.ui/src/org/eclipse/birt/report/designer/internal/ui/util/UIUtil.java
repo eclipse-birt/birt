@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
@@ -569,6 +570,10 @@ public class UIUtil
 			else if ( obj instanceof TableCellEditPart )
 			{
 				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			}
+			else if ( obj instanceof DummyEditpart )
+			{
+				continue;
 			}
 			if ( part == null )
 			{
