@@ -82,7 +82,12 @@ public class ImageManager
 			{
 				return null;
 			}
-			image = loadImage( url );
+			String key = url.toString( );
+			image = getImageRegistry( ).get( key );
+			if ( image == null )
+			{
+				image = loadImage( url );
+			}
 			if ( image == null )
 			{
 				if ( !invalidUrlList.contains( url.toString( ) ) )
@@ -121,7 +126,7 @@ public class ImageManager
 	 */
 	public Image getImage( ReportDesignHandle handle, String name )
 	{
-		String key = handle.hashCode() + EMBEDDED_SUFFIX + name;
+		String key = handle.hashCode( ) + EMBEDDED_SUFFIX + name;
 		EmbeddedImage embeddedImage = handle.findImage( name );
 		if ( embeddedImage == null )
 		{
@@ -197,7 +202,7 @@ public class ImageManager
 	private URL generateURL( String uri ) throws MalformedURLException
 	{
 		try
-		{			 
+		{
 			return new URL( uri );
 		}
 		catch ( MalformedURLException e )

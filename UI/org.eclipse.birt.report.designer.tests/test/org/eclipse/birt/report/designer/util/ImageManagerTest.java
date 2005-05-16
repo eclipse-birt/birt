@@ -131,10 +131,23 @@ public class ImageManagerTest extends BaseTestCase
 		Image image = ImageManager.getInstance( ).loadImage( iconPath
 				+ TEST_FILE );
 		assertNotNull( image );
-		assertEquals( image, ImageManager.getInstance( ).loadImage( iconPath
+		Image clonedImage = new Image( null, (ImageData) image.getImageData( )
+				.clone( ) );
+		assertNotNull( clonedImage );
+		Image newImage = ImageManager.getInstance( ).loadImage( iconPath
+				+ TEST_FILE );
+		assertNotNull( newImage );
+		assertTrue( image.isDisposed( ) );
+		assertNotSame( image, ImageManager.getInstance( ).getImage( iconPath
 				+ TEST_FILE ) );
-		assertEquals( image, ImageManager.getInstance( ).getImage( iconPath
+		assertEquals( newImage, ImageManager.getInstance( ).getImage( iconPath
 				+ TEST_FILE ) );
+		if ( PlatformUtil.isWindows( ) )
+		{//platform related issue
+			assertTrue( Arrays.equals( clonedImage.getImageData( ).data,
+					newImage.getImageData( ).data ) );
+		}
+		clonedImage.dispose( );
 		try
 		{
 			ImageManager.getInstance( ).loadImage( TEST_ERROR_FILE );
