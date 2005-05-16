@@ -102,7 +102,7 @@ public final class SwingTextMetrics extends TextAdapter
             iLineCount = 1;
             oText = s;
             tla = new TextLayout[1];
-            tla[0] = new TextLayout(s, f, frc);
+            tla[0] = new TextLayout(s, f.getAttributes(), frc);
         }
         else
         {
@@ -111,7 +111,7 @@ public final class SwingTextMetrics extends TextAdapter
             tla = new TextLayout[iLineCount];
             for (int i = 0; i < iLineCount; i++)
             {
-                tla[i] = new TextLayout(sa[i], f, frc);
+                tla[i] = new TextLayout(sa[i], f.getAttributes(), frc);
             }
         }
         ins = la.getInsets().scaledInstance(pointsToPixels());

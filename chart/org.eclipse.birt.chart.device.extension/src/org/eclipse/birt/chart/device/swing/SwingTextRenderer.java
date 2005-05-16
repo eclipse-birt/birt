@@ -1268,6 +1268,7 @@ final class SwingTextRenderer implements IConstants
                     //tl = new TextLayout(itm.getLine(iLC - i - 1),
                     // g2d.getFont(), g2d.getFontRenderContext());
                     tl = ((SwingTextMetrics) itm).getLayout(iLC - i - 1);
+
                     if (bRightAligned)
                     {
                         dW = tl.getBounds().getWidth();
@@ -1319,7 +1320,7 @@ final class SwingTextRenderer implements IConstants
                 g2d.setColor(clrText);
                 for (int i = 0; i < itm.getLineCount(); i++)
                 {
-                    tl = new TextLayout(itm.getLine(iLC - i - 1), g2d.getFont(), g2d.getFontRenderContext());
+                    tl = new TextLayout(itm.getLine(iLC - i - 1), g2d.getFont().getAttributes(), g2d.getFontRenderContext());
                     if (bRightAligned)
                     {
                         dW = tl.getBounds().getWidth();
