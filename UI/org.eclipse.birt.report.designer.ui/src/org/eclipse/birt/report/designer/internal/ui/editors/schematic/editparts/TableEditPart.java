@@ -41,6 +41,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -1030,6 +1031,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @param colNumbers
 	 *            The column numbers of the origin selected column(s).
 	 */
+	//TODO move the logic to tableHandle adapt
 	public void insertColumns( final int relativePos, final int[] colNumbers )
 	{
 		int colCount = colNumbers.length;
@@ -1092,6 +1094,14 @@ public class TableEditPart extends ReportElementEditPart implements
 				+ maxColumn.getColSpan( );
 
 		getTableAdapter( ).transStar( MERGE_TRANS_LABEL );
+		try
+		{
+			MergeContent(cellPart, list);
+		}
+		catch(ContentException e)
+		{
+			ExceptionHandler.handle( e );
+		}
 		cellPart.setRowSpan( rowSpan );
 		cellPart.setColumnSpan( colSpan );
 
@@ -1101,6 +1111,24 @@ public class TableEditPart extends ReportElementEditPart implements
 		getTableAdapter( ).reload( );
 	}
 
+	//TODO move logic to adapt
+	private void MergeContent(TableCellEditPart cellPart, List list) throws ContentException
+	{
+		CellHandle cellHandle = (CellHandle)cellPart.getModel();
+		int size = list.size();
+		for (int i=0; i<size; i++)
+		{
+			CellHandle handle = (CellHandle)(((TableCellEditPart)list.get(i)).getModel());
+			
+			List chList = handle.getSlot(CellHandle.CONTENT_SLOT).getContents();
+			for (int j=0; j<chList.size(); j++)
+			{
+				DesignElementHandle contentHandle = (DesignElementHandle)chList.get(j);
+				handle.getSlot(CellHandle.CONTENT_SLOT).move(contentHandle, cellHandle, CellHandle.CONTENT_SLOT);
+			}
+		}
+	}
+	
 	/**
 	 * not use?
 	 * 
