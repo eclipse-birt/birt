@@ -242,7 +242,9 @@ public class Statement implements IStatement
 		}
 		catch(SQLException e)
 		{
-			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_METADATA_CANNOT_GET , e );
+			// For some database, meta data of table can not be obtained 
+			// in prepared time. To solve this problem, query execution is
+			// required to be executed first.
 		}
 		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
