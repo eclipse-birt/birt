@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.10 $ $Date: 2005/04/23 03:21:32 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/13 07:47:26 $
  */
 public class Utility
 {
@@ -115,7 +115,7 @@ public class Utility
 		TreeItem item[] = new TreeItem[dataSource.size()];
 //		Tree parent = parentItem.getParent();
 //		Font dataSourceItemFont = parent.getFont();
-//		boolean addDummyNode = false;
+		boolean addDummyNode = false;
 	
 		for (int i = 0; i < dataSource.size(); i++)
 		{
@@ -145,7 +145,7 @@ public class Utility
 				name = dbObject.getName();
 				displayName = dbObject.getDisplayName();
 				image = dbObject.getImage();
-//				addDummyNode = true;
+				addDummyNode = true;
 			}
 			else if ( source instanceof Column )
 			{
@@ -170,10 +170,10 @@ public class Utility
 			//parent.setTopItem(item[i]);
 			item[i].setExpanded(false);
 			
-//			if ( addDummyNode )
-//			{
-//				TreeItem dummyItem = new TreeItem(item[i], style);
-//			}
+			if ( addDummyNode )
+			{
+				new TreeItem(item[i], style);
+			}
 	
 		}
 		return item;
