@@ -343,7 +343,24 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 					value2 = ((ParameterSelectionChoice) o2).getValue();
 				}
 				if (value1 != null && value2 != null)
-					return ((Comparable) value1).compareTo(value2);
+				{
+					if((value1 instanceof Boolean)&&(value2 instanceof Boolean))
+					{
+						if(((Boolean)value1).booleanValue() ^ ((Boolean)value1).booleanValue())
+						{
+							return 0;
+						}
+						else
+						{
+							return ((Boolean)value1).booleanValue() ? 1: -1;
+						}
+					}
+					if(!(value1 instanceof Boolean)&&!(value2 instanceof Boolean))
+					{					
+						return ((Comparable) value1).compareTo(value2);
+					}
+				}
+					
 			}
 			return -1;
 		}
