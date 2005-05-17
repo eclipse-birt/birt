@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="1">
+    <property name="author">Bertie the Platypus</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="units">in</property>
+    <property name="comments">Not a very interesting report, just a "Hello World" with a param.</property>
+    <html-property name="description">Sample report used to test the BIRT viewer.</html-property>
+    <list-property name="configVars">
+        <structure>
+            <property name="name">sample</property>
+            <property name="value">aaa</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="sample">
+            <text-property name="displayName">Sample Parameter</text-property>
+            <property name="hidden">false</property>
+            <property name="dataType">string</property>
+            <property name="concealValue">false</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+            <property name="controlType">text-box</property>
+            <property name="mustMatch">false</property>
+            <property name="fixedOrder">false</property>
+        </scalar-parameter>
+    </parameters>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-header>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <row>
+                        <cell>
+                            <property name="fontSize">xx-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Title]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid>
+                    <property name="width">100%</property>
+                    <column/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <text>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell>
+                            <property name="textAlign">right</property>
+                            <text>
+                                <text-property name="content"><![CDATA[Page:]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <text>
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<b>Congratulations!</b>
+<br><br>
+If you can see this report, it means that the BIRT viewer is installed correctly.
+<br><br>]]></text-property>
+        </text>
+        <grid>
+            <property name="width">100%</property>
+            <column>
+                <property name="width">1.354in</property>
+            </column>
+            <column>
+                <property name="width">5.083in</property>
+            </column>
+            <row>
+                <cell>
+                    <label>
+                        <text-property name="text">Sample Parameter:</text-property>
+                    </label>
+                </cell>
+                <cell>
+                    <data>
+                        <expression name="valueExpr">params["sample"]</expression>
+                    </data>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
