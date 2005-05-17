@@ -59,6 +59,9 @@
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
+         <propertyVisibility
+               propertyVisibility="hide"
+               name="xmlRepresentation"/>
       </reportItem>
    </extension>
    <extension

@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
@@ -20,12 +21,20 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 public class ChartElementCommandImpl implements IElementCommand
 {
 
+    private ChartReportItemImpl item;
+    private Chart oldChart;
+    private Chart newChart;
     /**
+     * @param newChart
+     * @param oldChart
+     * @param impl
      *  
      */
-    public ChartElementCommandImpl()
+    public ChartElementCommandImpl(ChartReportItemImpl impl, Chart oldChart, Chart newChart)
     {
-        //        super();
+        this.item = impl;
+        this.oldChart = oldChart;
+        this.newChart = newChart;
     }
 
     /*
@@ -35,6 +44,7 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public void execute()
     {
+        item.setModel( newChart );
     }
 
     /*
@@ -44,7 +54,7 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public void undo()
     {
-        // TODO Auto-generated method stub
+        item.setModel( oldChart );
 
     }
 
@@ -55,8 +65,7 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public void redo()
     {
-        // TODO Auto-generated method stub
-
+        item.setModel( newChart );
     }
 
     /*
@@ -66,7 +75,6 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public boolean canUndo()
     {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -77,7 +85,6 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public boolean canRedo()
     {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -89,7 +96,6 @@ public class ChartElementCommandImpl implements IElementCommand
     public String getLabel( )
     {
         return Messages.getString( "ChartElementCommandImpl.editChart" ) ; 
-		   
-    }
+   }
 
 }

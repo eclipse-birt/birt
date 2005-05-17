@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  *  
@@ -245,7 +246,8 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
             idr = PluginSettings.instance().getDevice("dv." + sExtension.toUpperCase(Locale.US));
            
             // BUILD THE CHART
-            final Bounds bo = cm.getBlock().getBounds();
+            // we must copy the bounds to avoid that setting it on one object unsets it on its precedent container
+            final Bounds bo = (Bounds)EcoreUtil.copy( cm.getBlock().getBounds() );
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "Presentation uses bounds bo=" + bo);
             final Generator gr = Generator.instance();
             GeneratedChartState gcs = null;

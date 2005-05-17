@@ -108,25 +108,23 @@ public final class ChartReportItemImpl extends ReportItem
         this.reporthandle = reporthandle;
     }
 
-    public void setModel(Chart chart, boolean bAddCommand)
+    /**
+     * Set the chart directly (no command)
+     */
+    public void setModel( Chart chart )
     {
         this.cm = chart;
-        if (bAddCommand)
-        {
-            addCommandToActivityStack();
-        }
     }
-
     /**
-     *  
+     * Set the new chart through a command for command stack integration
      */
-    private void addCommandToActivityStack()
+    public void executeSetModelCommand(Chart oldChart, Chart newChart)
     {
         if (reporthandle == null)
         {
             return;
         }
-        IElementCommand command = new ChartElementCommandImpl();
+        IElementCommand command = new ChartElementCommandImpl(this, oldChart, newChart);
         // TODO Cast to be removed when CommandStack has the execute(IElementCommand) method
         ((ActivityStack)this.reporthandle.getCommandStack()).execute(command);
     }
