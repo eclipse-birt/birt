@@ -879,7 +879,7 @@ public abstract class DesignElement
 
 		// 2). Does the style provide the value of this property ?
 
-		StyleElement style = getLocalStyle( );
+		StyleElement style = getLocalStyle( design );
 		if ( style != null )
 		{
 			value = style.getLocalProperty( design, prop );
@@ -1774,11 +1774,13 @@ public abstract class DesignElement
 	 * reference for this element itself; does not search up the inheritance
 	 * hierarchy.
 	 * 
+	 * @param design
+	 *            report design
 	 * @return the shared style, or null if this element does not explicitly
 	 *         reference a shared style.
 	 */
 
-	public StyleElement getLocalStyle( )
+	public StyleElement getLocalStyle( ReportDesign design )
 	{
 		return null;
 	}
@@ -3052,9 +3054,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be ¡°elided¡± to a length of 30 characters. To
-	 * elide the text, find the first white-space before the limit, truncate the
-	 * string after that point, and append three dots: ¡°¡­¡±
+	 * All descriptive text should be ¡°elided¡± to a length of 30 characters.
+	 * To elide the text, find the first white-space before the limit, truncate
+	 * the string after that point, and append three dots: ¡°¡­¡±
 	 * <p>
 	 * 
 	 * @param displayLabel

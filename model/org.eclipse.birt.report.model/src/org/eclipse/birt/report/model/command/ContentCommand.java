@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -53,7 +54,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
  * command verifies that the move can be done before starting the action. If you
  * instead do a drop followed by an add, you'll end up with the element deleted
  * if it cannot be added into its new location.
- *  
+ * 
  */
 
 public class ContentCommand extends AbstractElementCommand
@@ -245,6 +246,34 @@ public class ContentCommand extends AbstractElementCommand
 	public void remove( DesignElement content, int slotID )
 			throws SemanticException
 	{
+		remove( content, slotID, false );
+	}
+
+	/**
+	 * Removes an item from its container. This is equivalent to deleting the
+	 * element from the design. Because the element is being deleted, we must
+	 * clean up all references to or from the element. References include:
+	 * <p>
+	 * <ul>
+	 * <li>The elements that this content extends.
+	 * <li>The elements that extend this content.
+	 * <li>The style that this content uses.
+	 * <li>The elements that use this style.
+	 * <li>The elements that this content contains.
+	 * <li>The name space that contains this content.
+	 * </ul>
+	 * 
+	 * @param content
+	 *            the element to remove
+	 * @param slotID
+	 *            the slot from which to remove the content
+	 * @throws SemanticException
+	 *             if this content cannot be removed from container.
+	 */
+
+	public void remove( DesignElement content, int slotID,
+			boolean unresolveReference ) throws SemanticException
+	{
 		assert content != null;
 
 		// Ensure that the content can be dropped from the container.
@@ -296,16 +325,15 @@ public class ContentCommand extends AbstractElementCommand
 			// Clean up references to or from the element.
 
 			dropUserProperties( content );
-			if ( content.isStyle( ) )
-				adjustStyleClients( (StyleElement) content );
-			else if ( content.hasReferences( ) )
-				adjustReferenceClients( (ReferenceableElement) content );
+			if ( content.hasReferences( ) )
+				adjustReferenceClients( (ReferenceableElement) content,
+						unresolveReference );
 			adjustReferredClients( content );
 			adjustDerived( content );
 
 			// Drop the style...
 
-			if ( content.getLocalStyle( ) != null )
+			if ( content.getLocalStyle( design ) != null )
 			{
 				StyleCommand styleCmd = new StyleCommand( design, content );
 				styleCmd.setStyle( null );
@@ -381,31 +409,50 @@ public class ContentCommand extends AbstractElementCommand
 	 *             normal conditions
 	 */
 
-	private void adjustStyleClients( StyleElement style ) throws StyleException
+	private void adjustStyleClients( StyleElement style,
+			boolean unresolveReference ) throws StyleException
 	{
-		List clients = style.getClientList( );
+		List clients = new ArrayList( style.getClientList( ) );
 
-		while ( !clients.isEmpty( ) )
+		Iterator iter = clients.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) clients.get( 0 );
+			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
-			StyleCommand clientCmd = new StyleCommand( design, client );
-			clientCmd.setStyleElement( null );
+
+			if ( unresolveReference )
+			{
+				ElementRefValue value = (ElementRefValue) client.getProperty(
+						design, ref.propName );
+				value.unresolved( value.getName( ) );
+				style.dropClient( client );
+			}
+			else
+			{
+				StyleCommand clientCmd = new StyleCommand( design, client );
+				clientCmd.setStyleElement( null );
+			}
 		}
 	}
 
 	/**
-	 * Clears references to an element that is to be deleted. The element to be
+	 * Adjusts references to an element that is to be deleted. The element to be
 	 * deleted is one that has references in the form of element reference
 	 * properties on other elements. These other elements, called "clients",
 	 * each contain a property of type element reference and that property
 	 * refers to this element. Each reference is recorded with a "back pointer"
 	 * from the referenced element to the client. That back pointer has both a
 	 * pointer to the client element, and the property within that element that
-	 * holds the reference. We use this information to clear the property.
+	 * holds the reference. There are two algorithms to handle this reference
+	 * property, which can be selected by <code>unresolveReference</code>. If
+	 * <code>unresolveReference</code> is <code>true</code>, the reference
+	 * property is unresolved. Otherwise, it's cleared.
 	 * 
 	 * @param element
 	 *            the element to be deleted
+	 * @param unresolveReference
+	 *            the flag indicating the reference property should be
+	 *            unresolved, instead of cleared
 	 * @throws SemanticException
 	 *             if an error occurs, but the operation should not fail under
 	 *             normal conditions
@@ -413,16 +460,37 @@ public class ContentCommand extends AbstractElementCommand
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
-	private void adjustReferenceClients( ReferenceableElement element )
-			throws SemanticException
+	private void adjustReferenceClients( ReferenceableElement element,
+			boolean unresolveReference ) throws SemanticException
 	{
-		List clients = element.getClientList( );
-		while ( !clients.isEmpty( ) )
+		List clients = new ArrayList( element.getClientList( ) );
+
+		Iterator iter = clients.iterator( );
+		while ( iter.hasNext( ) )
 		{
-			BackRef ref = (BackRef) clients.get( 0 );
+			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
-			PropertyCommand cmd = new PropertyCommand( design, client );
-			cmd.setProperty( ref.propName, null );
+
+			if ( unresolveReference )
+			{
+				ElementRefValue value = (ElementRefValue) client.getProperty(
+						design, ref.propName );
+				value.unresolved( value.getName( ) );
+				element.dropClient( client );
+			}
+			else
+			{
+				if ( element.isStyle( ) )
+				{
+					StyleCommand clientCmd = new StyleCommand( design, client );
+					clientCmd.setStyleElement( null );
+				}
+				else
+				{
+					PropertyCommand cmd = new PropertyCommand( design, client );
+					cmd.setProperty( ref.propName, null );
+				}
+			}
 		}
 	}
 
@@ -437,7 +505,7 @@ public class ContentCommand extends AbstractElementCommand
 	 * @throws SemanticException
 	 *             if an error occurs, but the operation should not fail under
 	 *             normal conditions
-	 *  
+	 * 
 	 */
 
 	private void adjustReferredClients( DesignElement element )
@@ -534,7 +602,7 @@ public class ContentCommand extends AbstractElementCommand
 			while ( !slot.isEmpty( ) )
 			{
 				DesignElement content = slot.getContent( 0 );
-				contentCmd.remove( content, slotID );
+				contentCmd.remove( content, slotID, false );
 			}
 		}
 	}
@@ -604,7 +672,7 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, fromSlotID,
 					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
-		//  if the content is in component slot of report design and it has
+		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
 
 		if ( hasDescendents( content, fromSlotID ) )
@@ -833,4 +901,5 @@ public class ContentCommand extends AbstractElementCommand
 				&& fromSlotID == ReportDesign.COMPONENT_SLOT
 				&& content.hasDerived( );
 	}
+
 }

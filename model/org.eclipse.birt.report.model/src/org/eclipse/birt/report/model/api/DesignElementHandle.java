@@ -522,7 +522,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -546,7 +546,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -707,7 +707,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public SharedStyleHandle getStyle( )
 	{
-		DesignElement style = getElement( ).getLocalStyle( );
+		DesignElement style = getElement( ).getLocalStyle( design );
 		if ( style == null )
 			return null;
 		return (SharedStyleHandle) style.getHandle( design );
@@ -997,11 +997,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Drops this element from the design. Removes the element from its
 	 * container and name space, if any.
+	 * <p>
+	 * Note: If this element is referenceable, the property referring it will be
+	 * set null.
 	 * 
 	 * @throws SemanticException
 	 *             if this element has no container or the element cannot be
 	 *             dropped.
 	 * @see SlotHandle
+	 * @see #dropAndUnresolve()
 	 */
 
 	public void drop( ) throws SemanticException
@@ -1011,10 +1015,39 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( container == null )
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
+		
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
 		ContentCommand cmd = new ContentCommand( design, container );
-		cmd.remove( element, slotID );
+		cmd.remove( element, slotID, false );
+	}
+
+	/**
+	 * Drops this element from the design. Removes the element from its
+	 * container and name space, if any.
+	 * <p>
+	 * Note: If this element is referenceable, the property referring it will be
+	 * unresolved. 
+	 * 
+	 * @throws SemanticException
+	 *             if this element has no container or the element cannot be
+	 *             dropped.
+	 * @see SlotHandle
+	 * @see #drop()
+	 */
+
+	public void dropAndUnresolve( ) throws SemanticException
+	{
+		DesignElement element = getElement( );
+		DesignElement container = element.getContainer( );
+		if ( container == null )
+			throw new ContentException( element, -1,
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
+		
+		int slotID = element.getContainerSlot( );
+		assert slotID != -1;
+		ContentCommand cmd = new ContentCommand( design, container );
+		cmd.remove( element, slotID, true );
 	}
 
 	/**

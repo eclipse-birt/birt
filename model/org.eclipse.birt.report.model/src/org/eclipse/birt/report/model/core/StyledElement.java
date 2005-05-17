@@ -89,11 +89,23 @@ public abstract class StyledElement extends DesignElement
 	 *         itself.
 	 * 
 	 */
-	public StyleElement getLocalStyle( )
+	public StyleElement getLocalStyle( ReportDesign design )
 	{
 		if ( style == null )
 			return null;
-		return (StyleElement) style.getElement( );
+		
+		if ( style.isResolved())
+			return (StyleElement) style.getElement( );
+		
+		NameSpace ns = design.getNameSpace( RootElement.STYLE_NAME_SPACE );
+		StyleElement target = (StyleElement) ns.getElement( style.getName( ) );
+		if ( target != null )
+		{
+			style.resolve( target );
+			target.addClient( this, STYLE_PROP );
+		}
+		
+		return target;
 	}
 
 	/**
@@ -150,7 +162,7 @@ public abstract class StyledElement extends DesignElement
 			if ( style == null )
 				style = new ElementRefValue( );
 			style.resolve( newStyle );
-			newStyle.addClient( this, null );
+			newStyle.addClient( this, STYLE_PROP );
 		}
 		else
 			style = null;
