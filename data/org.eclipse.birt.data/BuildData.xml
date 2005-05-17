@@ -69,7 +69,7 @@
 	<!-- ===== Default value for public properties ============= -->
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="apiJavadoc.dir" location="docs/birt/api"/>
+	<property name="api.javadoc.dir" location="docs/birt/api"/>
 	<property name="plugin.version" value="0.0.1" />
 	<property name="export.dir" location="export" />
 
@@ -180,8 +180,8 @@
 	</target>
 	
 	<target name="apiJavaDoc">
-		<mkdir dir="${apiJavadoc.dir}" />
-		<javadoc destdir="${apiJavadoc.dir}" 
+		<mkdir dir="${api.javadoc.dir}" />
+		<javadoc destdir="${api.javadoc.dir}" 
 				author="true" 
 				version="true" 
 				use="true" 
