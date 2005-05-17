@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -118,8 +119,11 @@ public abstract class DesignParseState extends AbstractParseState
 			if ( getElement( ) instanceof OdaDataSource
 					&& handler.getDesign( ).getStringProperty( handler.getDesign( ),
 							ReportDesign.VERSION_PROP ) == null )
+            {
 				return new CompatibleOdaDriverPropertyState( handler,
 						getElement( ) );
+            }
+            
 			return new PropertyState( handler, getElement( ) );
 		}
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
@@ -131,7 +135,15 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
 			return new StructureState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
+        {
+            if ( getElement( ) instanceof OdaDataSet )
+			{
+				return new CompatibleODADataSetPropertyState( handler,
+						getElement( ) );
+			}
+            
 			return new PropertyState( handler, getElement( ) );
+        }
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
 			return new TextPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )

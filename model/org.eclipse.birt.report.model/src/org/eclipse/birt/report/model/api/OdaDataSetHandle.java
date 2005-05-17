@@ -74,13 +74,14 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	/**
 	 * Returns the script for query.
-	 * 
+     * 
+     * @deprecated to be removed.
 	 * @return the script for query .
 	 */
 
 	public String getQueryScript( )
 	{
-		return getStringProperty( OdaDataSet.QUERY_SCRIPT_METHOD );
+		return null;
 	}
 
 	/**
@@ -165,6 +166,8 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	/**
 	 * Sets the query script.
 	 * 
+     * @deprecated to be removed.
+     * 
 	 * @param script
 	 *            the script to set
 	 * @throws SemanticException
@@ -173,7 +176,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public void setQueryScript( String script ) throws SemanticException
 	{
-		setStringProperty( OdaDataSet.QUERY_SCRIPT_METHOD, script );
+		return;
 	}
 
 	/**

@@ -298,20 +298,26 @@ public class StructureState extends AbstractPropertyState
 			return state;
 		}
 
+        String propName = propDefn == null ? null : propDefn.getName(); //$NON-NLS-1$
 		if ( element instanceof DataSet )
 		{
-			if ( propDefn != null
-					&& DataSet.PARAMETERS_PROP.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+			if ( DataSet.PARAMETERS_PROP.equalsIgnoreCase( propName ) )
 			{
 				CompatibleDataSetParamStructureState state = new CompatibleDataSetParamStructureState(
 						handler, element, propDefn, list );
-				state.setName( propDefn.getName( ) );
+				state.setName( propName );
 
 				return state;
 			}
+            else if( DataSet.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+            {
+            	CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState( handler, element, propDefn, list );
+                state.setName( propName );
+                
+                return state;
+            }
 		}
-
+        
 		return super.jumpTo( );
 	}
 

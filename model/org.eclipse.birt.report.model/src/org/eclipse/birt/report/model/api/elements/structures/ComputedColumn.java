@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
+
 
 /**
  * Represents one computed column. A computed column is a ¡°virtual¡± column
@@ -56,8 +56,18 @@ public class ComputedColumn extends Structure
 	 * Name of the column name member.
 	 */
 
-	public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
+	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
 
+    
+    /**
+     * Name of the column name member.
+     * 
+     * @deprecated using {@link #NAME_MEMBER} instead.
+     */
+
+    public static final String COLUMN_NAME_MEMBER = "columnName"; //$NON-NLS-1$
+
+    
 	/**
 	 * Name of the expression member.
 	 */
@@ -95,7 +105,7 @@ public class ComputedColumn extends Structure
 
 	protected Object getIntrinsicProperty( String memberName )
 	{
-		if ( COLUMN_NAME_MEMBER.equals( memberName ) )
+		if ( NAME_MEMBER.equals( memberName ) )
 			return columnName;
 		if ( EXPRESSION_MEMBER.equals( memberName ) )
 			return expression;
@@ -114,7 +124,7 @@ public class ComputedColumn extends Structure
 
 	protected void setIntrinsicProperty( String name, Object value )
 	{
-		if ( COLUMN_NAME_MEMBER.equals( name ) )
+		if ( NAME_MEMBER.equals( name ) )
 			columnName = (String) value;
 		else if ( EXPRESSION_MEMBER.equals( name ) )
 			expression = (String) value;
@@ -126,27 +136,52 @@ public class ComputedColumn extends Structure
 	/**
 	 * Returns the column name.
 	 * 
-	 * @return the column name
+	 * @return the column name 
+     * @deprecated using {@link #getName()} instead.
 	 */
 
 	public String getColumnName( )
 	{
-		return (String) getProperty( null, COLUMN_NAME_MEMBER );
+		return getName();
 	}
 
+    
+    /**
+     * Returns the column name.
+     * @return 
+     *      the column name 
+     */
+    
+    public String getName()
+    {
+    	return (String) getProperty( null, NAME_MEMBER );
+    }
     
 	/**
 	 * Sets the column name.
 	 * 
 	 * @param columnName
 	 *            the column name to set
+     * @deprecated using {@link #setName(String)} instead.
 	 */
 
 	public void setColumnName( String columnName )
 	{
-		setProperty( COLUMN_NAME_MEMBER, columnName );
+		setName( columnName );
 	}
 
+    /**
+     * Sets the column name
+     * @param name
+     *          the column name to set.
+     */
+    
+    public void setName( String name )
+    {
+        setProperty( NAME_MEMBER, name );
+    }
+    
+    
     
 	/**
 	 * Returns the expression to compute.
@@ -198,12 +233,12 @@ public class ComputedColumn extends Structure
 	{
 		List list = super.validate( design, element );
 
-        String columnName = getColumnName();
+		String columnName = getName( );
 		if ( StringUtil.isBlank( columnName ) )
 		{
-			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( COLUMN_NAME_MEMBER ),
-					columnName, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+			list.add( new PropertyValueException( element, getDefn( )
+					.getMember( NAME_MEMBER ), columnName,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;

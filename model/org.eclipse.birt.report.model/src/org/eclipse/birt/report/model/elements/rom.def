@@ -1491,7 +1491,7 @@
     <Member name="dataType" displayNameID="Structure.ResultSetColumn.dataType" type="choice" detailType="columnDataType" isIntrinsic="true" />
   </Structure>
   <Structure name="ComputedColumn" displayNameID="Structure.ComputedColumn">
-    <Member name="columnName" displayNameID="Structure.ComputedColumn.columnName" type="string" isIntrinsic="true" />
+    <Member name="name" displayNameID="Structure.ComputedColumn.name" type="string" isIntrinsic="true" />
     <Member name="expression" displayNameID="Structure.ComputedColumn.expression" type="expression" isIntrinsic="true" />
   </Structure>
   <Structure name="ColumnHint" displayNameID="Structure.ColumnHint">
@@ -1697,7 +1697,6 @@
     <Property name="resultSetName" type="string" displayNameID="Element.OdaDataSet.resultSetName" />
     <Property name="privateDriverDesignState" type="string" displayNameID="Element.OdaDataSet.privateDriverDesignState" />
     <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" />
-    <Method name="queryScript" displayNameID="Element.OdaDataSet.queryScript" toolTipID="Element.OdaDataSet.queryScript.toolTip" returnType="String" />
     <PropertyVisibility name="extensionName" propertyVisibility="hide" />
     <PropertyVisibility name="resultSetName" propertyVisibility="hide"/>
     <PropertyVisibility name="privateDriverDesignState" propertyVisibility="hide"/>

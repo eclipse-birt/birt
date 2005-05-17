@@ -41,25 +41,52 @@ public class ComputedColumnHandle extends StructureHandle
 	 * Returns the column name.
 	 * 
 	 * @return the column name
+     * @deprecated using {@link #getName()} instead.
 	 */
 
 	public String getColumnName( )
 	{
-        return getStringProperty( ComputedColumn.COLUMN_NAME_MEMBER );
+		return getName();
 	}
 
+    /**
+     * Returns the column name.
+     * 
+     * @return the column name
+     */
+
+    
+    public String getName()
+    {
+        return getStringProperty( ComputedColumn.NAME_MEMBER );
+    }
+    
+    
 	/**
 	 * Sets the column name.
 	 * 
 	 * @param columnName
 	 *            the column name to set
+     * @deprecated using {@link #setName(String)} instead.
 	 */
 
 	public void setColumnName( String columnName )
 	{
-        setPropertySilently( ComputedColumn.COLUMN_NAME_MEMBER, columnName );
+        setName( columnName );
 	}
 
+    /**
+     * Sets the column name.
+     * @param columnName
+     *              the column name to set.
+     */
+    
+    public void setName( String columnName )
+    {
+    	setPropertySilently( ComputedColumn.NAME_MEMBER, columnName );
+    }
+    
+    
 	/**
 	 * Returns the expression used to define this computed column.
 	 * 

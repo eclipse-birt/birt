@@ -46,6 +46,8 @@ public interface IOdaDataSetModel
 
 	/**
 	 * The property name of the script which provides the query.
+     * 
+     * @deprecated to be removed.
 	 */
 
 	public static final String QUERY_SCRIPT_METHOD = "queryScript"; //$NON-NLS-1$
