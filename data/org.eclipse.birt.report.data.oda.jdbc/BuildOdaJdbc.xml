@@ -186,7 +186,6 @@
 		 Parameters:
 		 		- ${javadoc.dir} target directory to put the java document
 	 -->
-	
 	<target name="Javadoc">
 		<mkdir dir="${javadoc.dir}" />
 		<javadoc destdir="${javadoc.dir}" 
@@ -201,6 +200,10 @@
 				<classpath refid="class.path" />
 		</javadoc>
 	</target>
+	
+	<!-- Generate the ApiJavaDoc.
+		 -->
+	<target name="apiJavaDoc" />
 	
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${oda.dir}"/>

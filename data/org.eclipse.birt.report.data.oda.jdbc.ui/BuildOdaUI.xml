@@ -227,6 +227,10 @@
 		</javadoc>
 	</target>
 	
+	<!-- Generate the ApiJavaDoc.
+		 -->
+	<target name="apiJavaDoc" />
+	
 	<target name="doGenerateBuildScript">
 		<eclipse.buildScript elements="plugin@${module.name}" workingDirectory="${eclipse.home}"/>
 	</target>

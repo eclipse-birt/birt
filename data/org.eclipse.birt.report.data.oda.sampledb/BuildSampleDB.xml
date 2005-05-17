@@ -182,6 +182,7 @@
 	</target>
 	
 	<target name="Javadoc" />
+	<target name="apiJavaDoc" />
 	
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${oda.jdbc.dir}"/>
