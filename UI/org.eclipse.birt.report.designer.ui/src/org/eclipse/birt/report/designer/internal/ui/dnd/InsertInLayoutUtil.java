@@ -488,15 +488,20 @@ public class InsertInLayoutUtil
 				.getReportDesignHandle( )
 				.getElementFactory( )
 				.newDataItem( null );
+		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
 
 		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
-		ReportItemHandle container = (ReportItemHandle) targetParent;
-		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
-		if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
+		dataHandle.setDataSet( dataSet );
+				
+		if ( targetParent instanceof ReportItemHandle )
 		{
-			if ( container.getDataSet( ) == null )
+			ReportItemHandle container = (ReportItemHandle) targetParent;
+			if ( !DEUtil.getDataSetList( container ).contains( dataSet ) )
 			{
-				container.setDataSet( dataSet );
+				if ( container.getDataSet( ) == null )
+				{
+					container.setDataSet( dataSet );
+				}
 			}
 		}
 
@@ -668,7 +673,8 @@ public class InsertInLayoutUtil
 		Object container = dropPart.getParent( ).getModel( );
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
-				|| container instanceof FreeFormHandle || container instanceof ListHandle );
+				|| container instanceof FreeFormHandle
+				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ReportDesignHandle );
 	}
 
 	/**
@@ -715,6 +721,12 @@ public class InsertInLayoutUtil
 				&& DNDUtil.handleValidateTargetCanContainType( target.getModel( ),
 						ReportDesignConstants.DATA_ITEM ) )
 		{
+			//Validates target is report root
+			if ( target.getModel( ) instanceof ReportDesignHandle )
+			{
+				return true;
+			}
+			//Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
 			if ( handle instanceof ReportItemHandle
