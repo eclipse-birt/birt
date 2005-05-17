@@ -98,7 +98,7 @@ public class ScriptEvalUtil
 				result = isTrue( resultObject );
 				break;
 			case IConditionalExpression.OP_FALSE :
-				result = !isTrue( resultObject );
+				result = isFalse( resultObject );
 				break;
 			case IConditionalExpression.OP_LIKE :
 				result = like( resultObject, resultOp1 );
@@ -147,7 +147,7 @@ public class ScriptEvalUtil
 		return ( result instanceof Date ) || ( result instanceof String );
 	}
 	
-	private static boolean isTrue( Object obj ) throws DataException
+	private static boolean isTrue( Object obj )
 	{
 		if ( obj == null )
 		    return false;
@@ -157,10 +157,24 @@ public class ScriptEvalUtil
 		}
 		catch ( BirtException e )
 		{
-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			return false;
 		}
 	}
 	
+	private static boolean isFalse( Object obj )
+	{
+		if ( obj == null )
+		    return false;
+		try
+		{
+			return DataTypeUtil.toBoolean( obj ).equals( Boolean.FALSE );
+		}
+		catch ( BirtException e )
+		{
+			return false;
+		}
+	}
+
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
 	    if (obj1 == null || obj2 == null) 
