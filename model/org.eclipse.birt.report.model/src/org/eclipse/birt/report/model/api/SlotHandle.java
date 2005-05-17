@@ -420,7 +420,7 @@ public class SlotHandle extends ElementDetailHandle
 	}
 
 	/**
-	 * Drops a content element from the slot, and clear any reference proeprty
+	 * Drops a content element from the slot, and clear any reference property
 	 * which refers the element to drop.
 	 * 
 	 * @param content
@@ -429,7 +429,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void drop( DesignElementHandle content ) throws SemanticException
+	public void dropAndClear( DesignElementHandle content ) throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getDesign( ), getElement( ) );
 		cmd.remove( content.getElement( ), slotID, false );
@@ -437,7 +437,7 @@ public class SlotHandle extends ElementDetailHandle
 
 	/**
 	 * Drops a content element from the slot, and unresolve any reference
-	 * proeprty which refers the element to drop.
+	 * property which refers the element to drop.
 	 * 
 	 * @param content
 	 *            a handle to the content to drop
@@ -445,7 +445,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void dropAndUnresolve( DesignElementHandle content )
+	public void drop( DesignElementHandle content )
 			throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getDesign( ), getElement( ) );
@@ -454,7 +454,7 @@ public class SlotHandle extends ElementDetailHandle
 
 	/**
 	 * Drops a content element at the given position from the slot, and clear
-	 * any reference proeprty which refers the element to drop.
+	 * any reference property which refers the element to drop.
 	 * 
 	 * @param posn
 	 *            the position of the content to drop
@@ -462,7 +462,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the position is out of range
 	 */
 
-	public void drop( int posn ) throws SemanticException
+	public void dropAndClear( int posn ) throws SemanticException
 	{
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
@@ -472,7 +472,7 @@ public class SlotHandle extends ElementDetailHandle
 
 	/**
 	 * Drops a content element at the given position from the slot, and
-	 * unresolve any reference proeprty which refers the element to drop.
+	 * unresolve any reference property which refers the element to drop.
 	 * 
 	 * @param posn
 	 *            the position of the content to drop
@@ -480,7 +480,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the position is out of range
 	 */
 
-	public void dropAndUnResolve( int posn ) throws SemanticException
+	public void drop( int posn ) throws SemanticException
 	{
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );

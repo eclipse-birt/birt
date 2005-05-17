@@ -599,7 +599,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		for ( int i = slotHandle.getCount( ) - 1; i >= 0; i-- )
 		{
-			slotHandle.drop( i );
+			slotHandle.dropAndClear( i );
 		}
 	}
 
@@ -1005,10 +1005,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if this element has no container or the element cannot be
 	 *             dropped.
 	 * @see SlotHandle
-	 * @see #dropAndUnresolve()
+	 * @see #drop()
 	 */
 
-	public void drop( ) throws SemanticException
+	public void dropAndClear( ) throws SemanticException
 	{
 		DesignElement element = getElement( );
 		DesignElement container = element.getContainer( );
@@ -1033,10 +1033,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if this element has no container or the element cannot be
 	 *             dropped.
 	 * @see SlotHandle
-	 * @see #drop()
+	 * @see #dropAndClear()
 	 */
 
-	public void dropAndUnresolve( ) throws SemanticException
+	public void drop( ) throws SemanticException
 	{
 		DesignElement element = getElement( );
 		DesignElement container = element.getContainer( );

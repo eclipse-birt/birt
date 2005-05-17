@@ -74,14 +74,27 @@ public class PrivateStyleHandle extends StyleHandle
 	 * if called. To change the element that owns this private style, use
 	 * <code>getElementHandle</code> to first get a handle to that element.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#dropAndClear()
 	 */
 
-	public void drop( ) throws SemanticException
+	public void dropAndClear( ) throws SemanticException
 	{
 		assert false;
 	}
 
+	/**
+	 * This method is not defined for private styles. It will raise an assertion
+	 * if called. To change the element that owns this private style, use
+	 * <code>getElementHandle</code> to first get a handle to that element.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
+	 */
+	
+	public void drop( ) throws SemanticException
+	{
+		assert false;
+	}
+	
 	/**
 	 * This method is not defined for private styles. It will raise an assertion
 	 * if called. To change the element that owns this private style, use

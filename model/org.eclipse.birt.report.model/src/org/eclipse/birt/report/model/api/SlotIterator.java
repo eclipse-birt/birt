@@ -60,7 +60,7 @@ public class SlotIterator implements Iterator
 			return;
 		try
 		{
-			slotHandle.drop( posn );
+			slotHandle.dropAndClear( posn );
 		}
 		catch ( SemanticException e )
 		{

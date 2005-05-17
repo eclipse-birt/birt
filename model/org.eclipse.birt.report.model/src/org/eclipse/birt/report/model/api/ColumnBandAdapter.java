@@ -554,7 +554,7 @@ abstract class ColumnBandAdapter
 			if ( isInsert )
 				oldPos++;
 			else
-				columns.drop( target );
+				columns.dropAndClear( target );
 
 			columns.add( toAdd, oldPos );
 			return;
@@ -729,7 +729,7 @@ abstract class ColumnBandAdapter
 					.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle( getDesign( ) );
 			if ( !isInsert )
-				cell.getContainerSlotHandle( ).drop( cell );
+				cell.getContainerSlotHandle( ).dropAndClear( cell );
 		}
 
 		// adds the copied cells to the destination.
