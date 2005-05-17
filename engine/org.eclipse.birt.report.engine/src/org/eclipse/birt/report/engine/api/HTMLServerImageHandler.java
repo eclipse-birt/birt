@@ -22,12 +22,20 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  */
 public class HTMLServerImageHandler implements IHTMLImageHandler
 {
-	private static int number = 0;
+	protected Logger log = Logger.getLogger(HTMLServerImageHandler.class.getName());
+	
+	private static int count = 0;
 	
 	private static HashMap map = new HashMap();
-
-	protected Logger log = Logger.getLogger(HTMLServerImageHandler.class
-			.getName());
+	
+	/**
+	 * dummy constructor 
+	 */
+	public HTMLServerImageHandler()
+	{
+		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,12 +87,12 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		File file = null;
 		do
 		{
-			number++;
-			file = new File(imageDir + "/" + prefix + number + postfix); //$NON-NLS-1$
+			count++;
+			file = new File(imageDir + "/" + prefix + count + postfix); //$NON-NLS-1$
 		}
 		while (file.exists());
 
-		return prefix + number + postfix; //$NON-NLS-1$
+		return prefix + count + postfix; //$NON-NLS-1$
 	}
 	
 	protected String createUniqueFileName(String imageDir, String prefix)
@@ -92,12 +100,12 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		File file = null;
 		do
 		{
-			number++;
-			file = new File(imageDir + "/" + prefix + number ); //$NON-NLS-1$
+			count++;
+			file = new File(imageDir + "/" + prefix + count ); //$NON-NLS-1$
 		}
 		while (file.exists());
 
-		return prefix + number ; //$NON-NLS-1$
+		return prefix + count ; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)

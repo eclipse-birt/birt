@@ -26,6 +26,7 @@ public class EngineConfig {
 	public static final String CONFIG_VAR_ENGINE_HOME = "BIRT_HOME";		//$NON-NLS-1$
 	protected static final String LOG_DESTINATION= "logDest";				//$NON-NLS-1$			
 	protected static final String LOG_LEVEL= "logLevel";					//$NON-NLS-1$
+	protected static final String TEMP_DIR= "tmpDir";						//$NON-NLS-1$
 	
 	/**
 	 * stores various configuration objects
@@ -42,21 +43,11 @@ public class EngineConfig {
 	 */
 	protected HashMap emitterConfigs = new HashMap();
 	
-	protected IStatusHandler statusHandler = new IStatusHandler() {
-		public void initialize(){}
-		public void showStatus(String s) { System.out.println(s); }
-		public void finish() {};
-	};
-
-	protected String tempDir;
 	/**
-	 * 
-	 * @return
+	 * default status handler
 	 */
-	public HashMap getEmitterConfigs()
-	{
-		return emitterConfigs;
-	}
+	protected IStatusHandler statusHandler = new DefaultStatusHandler(); 
+	
 	/**
 	 * constructor
 	 */
@@ -105,8 +96,6 @@ public class EngineConfig {
 	 * objects
 	 * 
 	 * @return a hash map with all the app-specific, app-wide scriptable Java objects
-	 * 
-     * @uml.property name="scriptObjects"
 	 */
 	public HashMap getScriptObjects() {
 		return scriptObjects;
@@ -124,19 +113,6 @@ public class EngineConfig {
 	}
 	
 	/**
-	 * this function exists to resolve conflict when more than one extensions supports
-	 * a specific format. The specified extensionID allows the user to specify a specific
-	 * report emitter for an output format
-	 * 
-	 * @param extensionID the extension ID for a specific format
-	 */
-	//public void useExtension(String format, String extensionID)
-	//{
-		
-	//}
-	
-	
-	/**
 	 * sets configuration for a specific extension to engine, i.e., an emitter extension
 	 * 
 	 * @param extensionID identifier for the emitter
@@ -148,7 +124,7 @@ public class EngineConfig {
 	}
 	
 	/**
-	 * 	sets the handler for reporting report running status.  
+	 * sets the handler for reporting report running status.  
 	 * 
 	 * @param handler status handler
 	 */
@@ -157,6 +133,11 @@ public class EngineConfig {
 		statusHandler = handler;
 	}
 	
+	/**
+	 * returns the status handler
+	 * 
+	 * @return the status handler
+	 */
 	public IStatusHandler getStatusHandler()
 	{
 		return statusHandler;
@@ -175,21 +156,32 @@ public class EngineConfig {
     }
 
 	/**
-	 * Sets the directory for the temporary files
+	 * gets a map for emitter configuration objects
 	 * 
-	 * @param tmpDir
-	 *            the specified directory
+	 * @return emitter configuration
+	 */
+	public HashMap getEmitterConfigs()
+	{
+		return emitterConfigs;
+	}
+    
+	/**
+	 * sets the directory for temporary files
+	 * 
+	 * @param tmpDir the directory for temporary files
 	 */
 	public void setTempDir( String tmpDir )
 	{
-		this.tempDir = tmpDir;
+		configObjects.put(TEMP_DIR, tmpDir);
 	}
 
 	/**
-	 * @return Returns the TempDir
+	 * returns engine temporary directory for temporary files
+	 * 
+	 * @return Returns the Temp Directory for engine to write temp files
 	 */
 	public String getTempDir( )
 	{
-		return this.tempDir;
+		return (String)configObjects.get(TEMP_DIR);
 	}
 }

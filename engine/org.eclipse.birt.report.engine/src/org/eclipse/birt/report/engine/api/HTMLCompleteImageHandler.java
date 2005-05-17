@@ -23,12 +23,20 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  */
 public class HTMLCompleteImageHandler implements IHTMLImageHandler
 {
-	private static int number = 0;
+	protected Logger log = Logger.getLogger(HTMLCompleteImageHandler.class.getName());
+	
+	private static int count = 0;
 	
 	private static HashMap map = new HashMap();
-
-	protected Logger log = Logger.getLogger(HTMLCompleteImageHandler.class
-			.getName());
+	
+	/**
+	 * dmmy constructor
+	 */
+	public HTMLCompleteImageHandler()
+	{
+		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -48,7 +56,6 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 	 */
 	public String onDocImage(IImage image, Object context)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -86,37 +93,12 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 		File file = null;
 		do
 		{
-			number++;
-			file = new File( imageDir + "/" + prefix + number + postfix ); //$NON-NLS-1$
+			count++;
+			file = new File( imageDir + "/" + prefix + count + postfix ); //$NON-NLS-1$
 		} while ( file.exists( ) );
 
-		return new File( imageDir, prefix + number + postfix ); //$NON-NLS-1$
+		return new File( imageDir, prefix + count + postfix ); //$NON-NLS-1$
 	}
-	/*protected String createUniqueFileName(String imageDir, String prefix, String postfix)
-	{
-		File file = null;
-		do
-		{
-			number++;
-			file = new File(imageDir + "/" + prefix + number + postfix); //$NON-NLS-1$
-		}
-		while (file.exists());
-
-		return prefix + number + postfix; //$NON-NLS-1$
-	}
-	
-	protected String createUniqueFileName(String imageDir, String prefix)
-	{
-		File file = null;
-		do
-		{
-			number++;
-			file = new File(imageDir + "/" + prefix + number ); //$NON-NLS-1$
-		}
-		while (file.exists());
-
-		return prefix + number ; //$NON-NLS-1$
-	}*/
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onFileImage(org.eclipse.birt.report.engine.api2.IImage, java.lang.Object)
@@ -181,17 +163,7 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 				file = createUniqueFile( imageAbsoluteDir, prefix, image
 						.getExtension( ) );
 				fileName = file.getName( );
-				/*String extension = image.getExtension();
-				if(extension!=null && extension.length()>0)
-				{
-					fileName = createUniqueFileName(imageAbsoluteDir, prefix, extension); //$NON-NLS-1$
-				}
-				else
-				{
-					fileName = createUniqueFileName(imageAbsoluteDir, prefix); 
-				}
-				file = new File(imageAbsoluteDir, fileName); //$NON-NLS-1$
-*/				try
+			try
 				{
 					image.writeImage(file);
 				}
@@ -225,14 +197,16 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 		return ret;
 	}
 	
+	/**
+	 * returns the unique identifier for the image
+	 * 
+	 * @param image the image object 
+	 * @return the image id
+	 */
 	protected String getImageMapID(IImage image)
 	{
 		if(image.getReportRunnable()!=null)
-		{
 			return image.getReportRunnable().hashCode() + image.getID();
-		}
 		return image.getID();
 	}
-	
-	
 }

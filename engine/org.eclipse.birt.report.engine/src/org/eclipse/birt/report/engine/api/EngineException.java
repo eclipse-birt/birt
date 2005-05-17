@@ -25,7 +25,7 @@ public class EngineException extends BirtException {
 	
 	/**
 	 * @param errorCode erroe code for the exception
-	 * @param arg0 
+	 * @param arg0 message argument
 	 */
 	public EngineException( String errorCode, Object arg0 )
 	{
@@ -34,8 +34,8 @@ public class EngineException extends BirtException {
 	
 	/**
 	 * @param errorCode
-	 * @param arg0
-	 * @param cause
+	 * @param arg0 message argument
+	 * @param cause the cause of the exception
 	 */
 	public EngineException( String errorCode, Object arg0,
 			Throwable cause )
@@ -44,8 +44,8 @@ public class EngineException extends BirtException {
 	}
 	
 	/**
-	 * @param errorCode
-	 * @param args
+	 * @param errorCode error code
+	 * @param args message argument
 	 */
 	public EngineException( String errorCode, Object[] args)
 	{
@@ -53,9 +53,9 @@ public class EngineException extends BirtException {
 	}
 	
 	/**
-	 * @param errorCode
-	 * @param args
-	 * @param cause
+	 * @param errorCode error code
+	 * @param args message arguments
+	 * @param cause the cause of the exception
 	 */
 	public EngineException( String errorCode, Object[] args,
 			Throwable cause )
@@ -64,7 +64,7 @@ public class EngineException extends BirtException {
 	}
 	
 	/**
-	 * @param errorCode
+	 * @param errorCode the error code
 	 */
 	public EngineException( String errorCode)
 	{
@@ -72,8 +72,8 @@ public class EngineException extends BirtException {
 	}
 	
 	/**
-	 * @param errorCode
-	 * @param cause
+	 * @param errorCode the error code for the exception
+	 * @param cause the cause of the exception
 	 */
 	public EngineException( String errorCode,Throwable cause )
 	{
