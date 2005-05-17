@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.extension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -116,7 +118,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 
 		if ( extDefn == null )
 			return props;
-		
+
 		// If the extension provides dynamic property list, add them.
 
 		IPropertyDefinition[] dynamicProps = getExtensionModelPropertyDefns( );
@@ -224,7 +226,16 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 				if ( stream == null )
 					return null;
 
-				return stream.toString( );
+				String retValue = null;
+				try
+				{
+					retValue = stream.toString( UnicodeUtil.SIGNATURE_UTF_8 );
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					assert false;
+				}
+				return retValue;
 			}
 		}
 		else if ( isExtensionModelProperty( propName ) )
@@ -258,9 +269,21 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 				try
 				{
 					if ( value != null )
+					{
+						byte[] raw = null;
+						try
+						{
+							raw = value.toString( ).getBytes(
+									UnicodeUtil.SIGNATURE_UTF_8 );
+						}
+						catch ( UnsupportedEncodingException e )
+						{
+							assert false;
+						}
+
 						reportItem.deserialize( prop.getName( ),
-								new ByteArrayInputStream( value.toString( )
-										.getBytes( ) ) );
+								new ByteArrayInputStream( raw ) );
+					}
 					else
 						reportItem.deserialize( prop.getName( ),
 								new ByteArrayInputStream( null ) );
@@ -353,9 +376,18 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 
 				if ( prop.getTypeCode( ) == PropertyType.XML_TYPE )
 				{
+					byte[] raw = null;
+					try
+					{
+						raw = value.toString( ).getBytes(
+								UnicodeUtil.SIGNATURE_UTF_8 );
+					}
+					catch ( UnsupportedEncodingException e )
+					{
+						assert false;
+					}
 					reportItem.deserialize( prop.getName( ),
-							new ByteArrayInputStream( value.toString( )
-									.getBytes( ) ) );
+							new ByteArrayInputStream( raw ) );
 					names.add( propName );
 				}
 			}
