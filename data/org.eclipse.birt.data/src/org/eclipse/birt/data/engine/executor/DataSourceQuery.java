@@ -398,8 +398,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			//If the parameter is input parameter then add it to input value list.
 			if(parameterHint.isInputMode())
 			{
-				if(parameterHint.getDefaultInputValue() == null)
-					throw new DataException(ResourceConstants.DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL);
 				this.setInputParamValue(parameterHint.getName(),parameterHint.getDefaultInputValue());
 			}
 		}
