@@ -38,7 +38,9 @@ import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * Processes an extended item.
@@ -66,10 +68,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item1, IReportEmitter emitter )
 	{
-		assert item instanceof ExtendedItemDesign;
-
+		assert item1 instanceof ExtendedItemDesign;
+		ExtendedItemDesign item = (ExtendedItemDesign) item1;
 		IExtendedItemContent content = ContentFactory
 				.createExtendedItemContent( (ExtendedItemDesign) item , context.getContentObject( ));
 		
@@ -225,7 +227,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	 * @param output
 	 *            output
 	 */
-	protected void handleItemContent( ReportItemDesign item,
+	protected void handleItemContent( ExtendedItemDesign item,
 			IReportEmitter emitter, IExtendedItemContent content, int type,
 			Object output )
 	{
@@ -253,6 +255,12 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 							"unsupported image type:{0}", output ); //$NON-NLS-1$
 
 				}
+				setStyles( image, item );
+				setVisibility( item, image );				
+				String bookmarkStr = evalBookmark( item );
+				if ( bookmarkStr != null )
+					image.setBookmarkValue( bookmarkStr );
+				
 				image.setImageSource( ImageItemDesign.IMAGE_EXPRESSION );
 				IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
 				if ( imageEmitter != null )
@@ -262,7 +270,33 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				}
 				break;
 			case IReportItemPresentation.OUTPUT_AS_CUSTOM :
-				( (ExtendedItemContent) content ).setContent( output );
+				ExtendedItemContent customContent= (ExtendedItemContent) content ;
+				
+				customContent.setContent( output );
+				Object value = getMapVal( customContent.getContent(), item );
+				StringBuffer formattedString = new StringBuffer( );
+				formatValue( value, null, item.getStyle( ), formattedString ,customContent);
+				customContent.setContent( formattedString.toString( ) );
+				setStyles( customContent, item );
+				if ( value != null )
+				{
+					if ( value instanceof Number )
+					{
+						String numberAlign = ( (StyleDesign) customContent
+								.getMergedStyle( ) ).getNumberAlign( );
+						if ( numberAlign != null )
+						{
+							// set number alignment
+							customContent.setStyleProperty( Style.TEXT_ALIGN_PROP,
+									numberAlign );
+						}
+					}
+				}				
+				setVisibility( item, customContent );
+				bookmarkStr = evalBookmark( item );
+				if ( bookmarkStr != null )
+					customContent.setBookmarkValue( bookmarkStr );
+				
 				//get the emmiter type, and give it to others type
 				IReportItemEmitter itemEmitter = emitter
 						.getEmitter( "extendedItem" ); //$NON-NLS-1$
