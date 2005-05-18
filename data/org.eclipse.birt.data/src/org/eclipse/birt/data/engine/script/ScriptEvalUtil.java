@@ -27,9 +27,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EcmaError;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
 
@@ -243,15 +241,11 @@ public class ScriptEvalUtil
 				return null;
 			}
 		}
-		catch ( Exception e)
+		catch ( RhinoException e)
 		{
-			// The message from RethrowJSEvalException is not very friendly.
-			// It needs to be enhanced and then become uesful.
-            throw new DataException( ResourceConstants.JSSCRIPT_INVALID,
-					new Object[]{
-							scriptText, source, new Integer( lineNo )
-					} );
+			RethrowJSEvalException( e, scriptText, source, lineNo );
 		}
+		
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( ScriptEvalUtil.class.getName( ),
 					"evaluateJSExpr",
@@ -374,48 +368,28 @@ public class ScriptEvalUtil
 	 * Converts an exception which occurred in the evaluation of a ROM script to a DataException,
 	 * and rethrows such exception. This method never returns.
 	 */
-	public static void RethrowJSEvalException( Exception e ) throws DataException
+	public static void RethrowJSEvalException( RhinoException e, String scriptText, 
+			String source, int lineNo ) 
+		throws DataException
 	{
-		// Only convert exceptions known to be thrown by Rhino engine; other exceptions
-		// are not handled
+		if ( source == null )
+		{
+			// Note that sourceName from RhinoException sometimes get truncated (need to find out why)
+			// Better some than nothing
+			source = e.sourceName();
+			lineNo = e.lineNumber();
+		}
 		
-		// TODO: log the expression (lineSource) to log file
-		String source = null;
-		int lineNo = 0;
-		if ( e instanceof JavaScriptException )
-		{
-			JavaScriptException err = (JavaScriptException )e;
-			source = err.sourceName();
-			lineNo = err.lineNumber();
-		}
-		else if ( e instanceof EcmaError )
-		{
-			EcmaError err = (EcmaError) e;
-			source = err.sourceName();
-			lineNo = err.lineNumber();
-		}
-		else if ( e instanceof EvaluatorException)
-		{
-			EvaluatorException err = (EvaluatorException )e;
-			source = err.sourceName();
-			lineNo = err.lineNumber();
-		}
-		else if ( e instanceof RuntimeException)
-		{
-			// Not an expected error
-			throw (RuntimeException) e;
-		}
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.logp( Level.FINER,
-				ScriptEvalUtil.class.getName( ),
-				"RethrowJSEvalException",
-				"RethrowJSEvalException()"
-						+ "source=" + source + ", lineNo=" + lineNo,
-				e );
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.log( Level.FINE, 
+					"Unexpected RhinoException. Source=" + source + ", line=" + lineNo+ ", Script=\n"
+					+ scriptText + "\n",
+					e );
 
-		throw new DataException( ResourceConstants.SCRIPT_EVAL_ERROR, e,
-				new Object[] { source, new Integer(lineNo), e.getMessage() });
-		
+        throw new DataException( ResourceConstants.JSSCRIPT_INVALID,
+				new Object[]{
+						scriptText, source, new Integer( lineNo ), e.getLocalizedMessage()
+				} );
 	}
 
 	private static boolean like( Object obj1, Object pattern ) throws DataException
