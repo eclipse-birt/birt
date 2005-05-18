@@ -32,10 +32,32 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
  */
 public final class DataTypeUtil
 {
+	// Default Date Style 
+	private static int DEFAULT_DATE_STYLE =DateFormat.SHORT;
 
+	// Defalult Locale, if we have any problem parse string to date for Locale.getDefault()
+	// we will try to parse it for Locale.US
+	private static Locale DEFAULT_LOCALE = Locale.US;
+
+	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( Locale
 			.getDefault( ) ) ).getResourceBundle( );
 
+	/**
+	 * convert an object to given type
+	 * Types supported:
+	 * 	 	DataType.INTEGER_TYPE
+	 * 		DataType.DECIMAL_TYPE
+	 * 		DataType.BOOLEAN_TYPE
+	 * 		DataType.DATE_TYPE
+	 * 		DataType.DOUBLE_TYPE
+	 * 		DataType.STRING_TYPE
+	 * 		DataType.BLOB_TYPE
+	 * @param source
+	 * @param toType
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Object convert( Object source, int toType )
 			throws BirtException
 	{
@@ -61,6 +83,21 @@ public final class DataTypeUtil
 		}
 	}
 	
+	/**
+	 * convert a object to given class
+	 * Classes supported:
+	 * 		Integer.class
+	 * 		BigDecimal.class
+	 * 		Boolean.class
+	 * 		Date.class
+	 * 		Double.class
+	 * 		String.class
+	 * 		Blob.class
+	 * @param source
+	 * @param toTypeClass
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Object convert( Object source, Class toTypeClass )
 		throws BirtException
 	{
@@ -83,6 +120,18 @@ public final class DataTypeUtil
 				resourceBundle );
 	}
 
+	/**
+	 * Boolean -> Integer
+	 * 		true 	-> 1
+	 * 		others 	-> 0 
+	 * Date -> Integer
+	 * 		Date.getTime();
+	 * String -> Integer
+	 * 		Integer.valueOf();
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Integer toInteger( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -129,6 +178,18 @@ public final class DataTypeUtil
 					"Integer", resourceBundle );
 	}
 
+	/**
+	 * Boolean -> BigDecimal
+	 * 		true 	-> 1
+	 * 		others 	-> 0 
+	 * Date -> BigDecimal
+	 * 		Date.getTime();
+	 * String -> BigDecimal
+	 * 		new BigDecimal(String);
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static BigDecimal toBigDecimal( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -175,6 +236,21 @@ public final class DataTypeUtil
 					"BigDecimal", resourceBundle );
 	}
 
+
+	/**
+	 * Number -> Boolean
+	 * 		0 		-> false
+	 * 		others 	-> true
+	 * String -> Boolean
+	 * 		"true" 	-> true (ignore case)
+	 * 		"false" -> false (ignore case)
+	 * 		other string will throw an exception
+	 * Date -> Boolean
+	 * 		throw exception
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Boolean toBoolean( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -219,7 +295,16 @@ public final class DataTypeUtil
 					"Boolean", resourceBundle );
 	}
 
-	public static Date toDate( Object source, Locale locale ) throws BirtException
+	/**
+	 * Number -> Date
+	 * 		new Date((long)Number)
+	 * String -> Date
+	 * 		toDate(String)  
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Date toDate( Object source ) throws BirtException
 	{
 		if ( source == null )
 			return null;
@@ -249,18 +334,95 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof String )
 		{
-			return convertStringtoDate( (String) source, locale);
+			return toDate( (String) source  );
 		}
 		else
 			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
 					resourceBundle );
 	}
 
-	public static Date toDate( Object source ) throws BirtException
+	/**
+	 * convert String with the specified locale to java.util.Date
+	 * 
+	 * @param source
+	 *            the String to be convert
+	 * @param locate
+	 * 			  the locate of the string
+	 * @return result Date
+	 */
+	public static Date toDate( String source, Locale locale )
+			throws BirtException
 	{
-		return toDate( source, Locale.US );
+		DateFormat dateFormat = null;
+		Date resultDate = null;
+
+		//For each pattern, we try to format a date for a default Locale
+		//If format fails, we format it for Locale.US
+
+		//Date style is SHORT such as 12.13.52
+		//Time sytle is MEDIUM such as 3:30:32pm
+		try
+		{
+			dateFormat = DateFormat.getDateTimeInstance( DEFAULT_DATE_STYLE,
+					DateFormat.MEDIUM, locale );
+			resultDate = dateFormat.parse( source );
+		}
+		catch ( ParseException e1 )
+		{
+		}
+
+		if ( resultDate == null )
+		{
+			//Date style is SHORT such as 12.13.52
+			//Time style is SHORT such as 3:30pm
+			try
+			{
+				dateFormat = DateFormat.getDateTimeInstance(
+						DEFAULT_DATE_STYLE, DateFormat.SHORT, locale );
+				resultDate = dateFormat.parse( source );
+			}
+			catch ( ParseException e1 )
+			{
+			}
+		}
+
+		if ( resultDate == null )
+		{
+			//Date style is SHORT such as 12.13.52
+			//No Time sytle
+			try
+			{
+				dateFormat = DateFormat.getDateInstance( DEFAULT_DATE_STYLE,
+						locale );
+				resultDate = dateFormat.parse( source );
+			}
+			catch ( ParseException e1 )
+			{
+			}
+		}
+		
+		// for the String can not be parsed, throws a BirtException
+		if ( resultDate == null )
+		{
+			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
+					resourceBundle );
+		}
+		
+		return resultDate;
 	}
-	
+
+	/**
+	 * Boolean -> Double
+	 * 		true 	-> 1
+	 * 		others 	-> 0 
+	 * Date -> Double
+	 * 		Date.getTime();
+	 * String -> Double
+	 * 		Double.valueOf(String);
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Double toDouble( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -307,6 +469,17 @@ public final class DataTypeUtil
 					resourceBundle );
 	}
 
+	/**
+	 * Number -> String
+	 * 		Number.toString()
+	 * Boolean -> String
+	 * 		Boolean.toString()
+	 * Date	-> String
+	 * 		toString(Date)
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static String toString( Object source ) throws BirtException
 	{
 		if ( source == null )
@@ -325,7 +498,7 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof Date )
 		{
-			return ( (Date) source ).toString( );
+			return toString( (Date) source );
 		}
 		else if ( source instanceof Double )
 		{
@@ -340,6 +513,12 @@ public final class DataTypeUtil
 					resourceBundle );
 	}
 
+	/**
+	 * Converting Blob to/from other types is not currently supported
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
 	public static Blob toBlob( Object source ) throws BirtException
 	{
 		// Converting Blob to/from other types is not currently supported
@@ -352,8 +531,10 @@ public final class DataTypeUtil
 					resourceBundle );
 	}
 
-	// A utility method to convert an ODI data type class value to a BIRT data
-	// type integer, as defined in org.eclipse.birt.core.data.DataType .
+	/**
+	 * A utility method to convert an ODI data type class value to a BIRT data
+	 * type integer, as defined in org.eclipse.birt.core.data.DataType .
+	 */
 	public static int toApiDataType( Class odiDataType )
 	{
 		if ( odiDataType == null )
@@ -380,101 +561,41 @@ public final class DataTypeUtil
 		return DataType.UNKNOWN_TYPE;
 	}
 	
-	
 	/**
-	 * convert String with the specified locale to java.util.Date
-	 * 
+	 * Convert String without specified locale to java.util.Date
+	 * Try to format the given String for JRE default Locale,
+	 * if it fails, try to format the String for Locale.US 
 	 * @param source
 	 *            the String to be convert
 	 * @param locate
 	 * 			  the locate of the string
 	 * @return result Date
 	 */
-	private static Date convertStringtoDate( String source, Locale locale )
+	private static Date toDate( String source )
 			throws BirtException
 	{
-		DateFormat dateFormat = null;
-		Date resultDate = null;
-
-		//For each pattern, we try to format a date for a default Locale
-		//If format fails, we format it for Locale.US
-
-		//Date style is SHORT such as 12.13.52
-		//Time sytle is MEDIUM such as 3:30:32pm
 		try
 		{
-			dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-					DateFormat.MEDIUM );
-			resultDate = dateFormat.parse( source );
+			//Try to format the given String for JRE default Locale
+			return toDate( source, Locale.getDefault( ) );
 		}
-		catch ( ParseException e )
+		catch ( BirtException e )
 		{
-			try
-			{
-				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-						DateFormat.MEDIUM, locale );
-				resultDate = dateFormat.parse( source );
-			}
-			catch ( ParseException e1 )
-			{
-			}
+			//format the String for Locale.US
+			return toDate( source, DEFAULT_LOCALE );
 		}
-
-		if ( resultDate == null )
-		{
-			//Date style is SHORT such as 12.13.52
-			//Time style is SHORT such as 3:30pm
-			try
-			{
-				dateFormat = DateFormat.getDateTimeInstance( DateFormat.SHORT,
-						DateFormat.SHORT );
-				resultDate = dateFormat.parse( source );
-			}
-			catch ( ParseException e )
-			{
-				try
-				{
-					dateFormat = DateFormat.getDateTimeInstance(
-							DateFormat.SHORT, DateFormat.SHORT, locale );
-					resultDate = dateFormat.parse( source );
-				}
-				catch ( ParseException e1 )
-				{
-				}
-			}
-		}
-
-		if ( resultDate == null )
-		{
-			//Date style is SHORT such as 12.13.52
-			//No Time sytle
-			try
-			{
-				dateFormat = DateFormat.getDateInstance( DateFormat.SHORT );
-				resultDate = dateFormat.parse( source );
-			}
-			catch ( ParseException e )
-			{
-				try
-				{
-					dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
-							locale );
-					resultDate = dateFormat.parse( source );
-				}
-				catch ( ParseException e1 )
-				{
-				}
-			}
-		}
-		
-		// for the String can not be parsed, throws a BirtException
-		if ( resultDate == null )
-		{
-			throw new BirtException( ResourceConstants.CONVERT_FAILS, "Date",
-					resourceBundle );
-		}
-		
-		return resultDate;
 	}
 
+	/**
+	 * format Date to String
+	 * since toDate() only support SHORT Style,use SHORT Style here,too.
+	 * @param source
+	 * @return
+	 */
+	private static String toString( Date source ){
+		DateFormat df = DateFormat.getDateTimeInstance( DEFAULT_DATE_STYLE,
+				DateFormat.SHORT );
+		return df.format( (Date) source );
+	}
+	
 }
