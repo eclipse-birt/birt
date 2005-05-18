@@ -66,7 +66,7 @@
 		     plugin.version 
 		-->
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="plugin.version" value="0.0.1" />		
+	<property name="plugin.version" value="1.0.0" />		
 	<property name="eclipse.home" location="." />
 	
 	<!--properties -->
@@ -127,7 +127,7 @@
 	<target name="Export">
 		<property name="plugin.name" value="${module.name}_${plugin.version}" />
 		<copy todir="${export.dir}\${plugin.name}">
-			<fileset dir="." includes="${jar.name},plugin.xml" />
+			<fileset dir="." includes="${jar.name},about.html,plugin.xml" />
 		</copy>
 	</target>
 
