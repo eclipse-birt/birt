@@ -132,7 +132,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.33 $ $Date: 2005/05/18 02:24:56 $
+ * @version $Revision: 1.34 $ $Date: 2005/05/18 04:47:49 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1504,7 +1504,16 @@ class EngineIRVisitor extends DesignVisitor
 		boolean canInherit = StyleDesign.canInherit( name );
 		if( canInherit )
 		{
-			int parentValue = getColorValue( parentHandle.getProperty( name ) );
+			int parentValue;
+			if( this.handle == parentHandle )
+			{
+				parentValue = getColorValue( reportDefaultStyle.get( name ) );
+			}
+			else
+			{
+				parentValue = getColorValue( parentHandle.getProperty( name ) );
+			}
+			
 			if( intValue != parentValue )
 			{
 				return value;
@@ -1607,10 +1616,10 @@ class EngineIRVisitor extends DesignVisitor
 				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_BEFORE_PROP ) );
 		setStyleProperty( style, Style.PAGE_BREAK_INSIDE_PROP,
 				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_INSIDE_PROP ) );
-		/*setStyleProperty( style, Style.SHOW_IF_BLANK_PROP,
+		setStyleProperty( style, Style.SHOW_IF_BLANK_PROP,
 				getDistinctProperty( handle, parentHandle, Style.SHOW_IF_BLANK_PROP ) );
 		setStyleProperty( style, Style.CAN_SHRINK_PROP,
-				getDistinctProperty( handle, parentHandle, Style.CAN_SHRINK_PROP ) );*/
+				getDistinctProperty( handle, parentHandle, Style.CAN_SHRINK_PROP ) );
 
 		// Font related
 		setStyleProperty( style, Style.FONT_FAMILY_PROP,
@@ -1687,9 +1696,11 @@ class EngineIRVisitor extends DesignVisitor
 		setStyleProperty( style, Style.STRING_FORMAT_PROP, handle.getProperty( Style.STRING_FORMAT_PROP ) );
 
 		//Others
-		setStyleProperty( style, Style.CAN_SHRINK_PROP,	handle.getProperty( Style.CAN_SHRINK_PROP ) );
+		/*
+		 * setStyleProperty( style, Style.CAN_SHRINK_PROP,	handle.getProperty( Style.CAN_SHRINK_PROP ) );
+		 * setStyleProperty( style, Style.SHOW_IF_BLANK_PROP, handle.getProperty( Style.SHOW_IF_BLANK_PROP ) );
+		*/
 		setStyleProperty( style, Style.MASTER_PAGE_PROP, handle.getProperty( Style.MASTER_PAGE_PROP ) );
-		setStyleProperty( style, Style.SHOW_IF_BLANK_PROP, handle.getProperty( Style.SHOW_IF_BLANK_PROP ) );
 	}
 	
 	/**
