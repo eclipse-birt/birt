@@ -65,10 +65,13 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 		while ( iterator.hasNext( ) )
 		{
 			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
-			ApplyStyleAction action = new ApplyStyleAction( handle );
-			action.setSelection( getSelection( ) );
-			action.setChecked( currentStyle == handle );
-			actionList.add( action );
+			if ( !handle.isPredefined( ) )
+			{
+				ApplyStyleAction action = new ApplyStyleAction( handle );
+				action.setSelection( getSelection( ) );
+				action.setChecked( currentStyle == handle );
+				actionList.add( action );
+			}
 		}
 		return actionList;
 	}
