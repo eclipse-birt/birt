@@ -16,13 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  * Represents the scriptable object for Java object, <code>LinkedHashMap</code>.
  * This class supports to access hash map with index.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2005/05/13 09:47:58 $
  */
 
 public class NativeJavaLinkedHashMap extends NativeJavaMap

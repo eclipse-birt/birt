@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.core.script;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,11 +24,12 @@ import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.WrapFactory;
 
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/12 07:58:32 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/13 03:42:54 $
  */
 public class ScriptContext
 {
@@ -74,11 +79,11 @@ public class ScriptContext
 			}
 
 			//set the wrapper factory
-			context.setWrapFactory( new BIRTWrapFactory( ) );
+			context.setWrapFactory( new BIRTWrapper( ) );
 
 			//register BIRT defined static objects into script context
-			ScriptableObject.defineClass(scope, NativeFinance.class);
-			ScriptableObject.defineClass(scope, NativeDateTimeSpan.class);
+			
+			new BIRTInitializer().intialize(context, scope);
 		}
 		catch ( Exception ex )
 		{
@@ -225,4 +230,121 @@ public class ScriptContext
 		}
 		return Context.toType( jsValue, Object.class );
 	}
+	
+	/**
+	 * the registed intializers. 
+	 */
+	protected static ArrayList initializers = new ArrayList();
+	/**
+	 * register a intializer which is called when construct a new script context.
+	 * You can't reigster the same initializer more than once, otherwise the initailzier
+	 * will be called multiple times.
+	 * @param initializer initializer.
+	 */
+	public static synchronized void registerInitializer(IJavascriptInitializer initializer)
+	{
+		initializers.add(initializer);
+	}
+	/**
+	 * remove a intialzier.
+	 * @param initializer to be removed.
+	 */
+	public static synchronized void unregisterInitializer(IJavascriptInitializer initializer)
+	{
+		initializers.remove(initializer);
+	}
+
+	/**
+	 * any wapper instance.
+	 */
+	protected static ArrayList wrappers = new ArrayList();
+	/**
+	 * register a wrapper which should be called in WapperFactory.
+	 * @param wrapper new wrapper.
+	 */
+	public static synchronized void registerWrapper( IJavascriptWrapper wrapper )
+	{
+		wrappers.add(wrapper);
+	}
+
+	/**
+	 * remove the wapper.
+	 * @param wrapper to be removed.
+	 */
+	public static synchronized void unregisterWrapper(
+			IJavascriptWrapper wrapper )
+	{
+		wrappers.remove(wrapper);
+	}
+	
+	/**
+	 * wapper factory to wrap the java object to java script object.
+	 * 
+	 * In this wapper factory, it calls registed wapper one by one to see if
+	 * any wapper can handle the object. If no wapper is used, the default 
+	 * wapper is used. 
+	 *
+	 * @version $Revision:$ $Date:$
+	 */
+	private class BIRTWrapper extends WrapFactory
+	{
+		/**
+		 * wrapper an java object to javascript object.
+		 */
+		public Object wrap( Context cx, Scriptable scope, Object obj,
+				Class staticType )
+		{
+			int wrapperCount = wrappers.size();
+			for ( int i = 0; i < wrapperCount; i++ )
+			{
+				IJavascriptWrapper wrapper = (IJavascriptWrapper)wrappers.get(i);
+				if ( wrapper != null )
+				{
+					Object object = wrapper.wrap( cx, scope, obj, staticType );
+					if ( object != obj )
+					{
+						return object;
+					}
+				}
+			}
+			if ( obj instanceof LinkedHashMap )
+			{
+				return new NativeJavaLinkedHashMap( scope, obj, staticType );
+			}
+			if ( obj instanceof Map )
+			{
+				return new NativeJavaMap( scope, obj, staticType );
+			}
+			if ( obj instanceof List )
+			{
+				return new NativeJavaList( scope, obj, staticType );
+			}
+			return super.wrap( cx, scope, obj, staticType );
+		}
+	}	
+
+	/**
+	 * initailzier used to initalize the script context.
+	 *
+	 * @version $Revision:$ $Date:$
+	 */
+	private class BIRTInitializer
+	{
+		void intialize(Context cx, Scriptable scope) throws Exception
+		{
+			int initializerCount = initializers.size();
+			for ( int i = 0; i < initializerCount; i++ )
+			{
+				IJavascriptInitializer initalizer = (IJavascriptInitializer)initializers.get(i);
+				if ( initalizer != null )
+				{
+					initalizer.initialize(cx, scope);
+				}
+			}
+			ScriptableObject.defineClass(scope, NativeFinance.class);
+			ScriptableObject.defineClass(scope, NativeDateTimeSpan.class);
+		}
+	}
+
+	
 }

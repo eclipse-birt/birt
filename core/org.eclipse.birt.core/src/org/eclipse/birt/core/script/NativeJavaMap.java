@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.core.script;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.mozilla.javascript.NativeJavaObject;
@@ -22,7 +20,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/13 03:31:27 $
  */
 class NativeJavaMap extends NativeJavaObject
 {
