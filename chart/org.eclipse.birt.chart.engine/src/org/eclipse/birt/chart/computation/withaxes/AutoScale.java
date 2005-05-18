@@ -815,6 +815,11 @@ public final class AutoScale extends Methods implements Cloneable
                 double dMin = asDouble(oMinimum).doubleValue();
                 double dStep = asDouble(oStep).doubleValue();
                 nTicks = (int) Math.round((dMax - dMin) / dStep) + 1;
+                // ARTIFICIAL LIMIT TO TICK COUNT
+                if (nTicks > 100)
+                {
+                    nTicks = 10;
+                }
                 if (nTicks < 2)
                 {
                     nTicks = 2;

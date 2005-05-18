@@ -29,8 +29,12 @@ public final class Grid
     int iMinorUnitsPerMajorUnit = 0;
 
     LineAttributes laMajorGrid;
+    
+    LineAttributes laMajorTicks;
 
     LineAttributes laMinorGrid;
+    
+    LineAttributes laMinorTicks;
 
     public final int getTickStyle(int iMajorOrMinor)
     {
@@ -61,6 +65,23 @@ public final class Grid
     public final int getMinorCountPerMajor()
     {
         return iMinorUnitsPerMajorUnit;
+    }
+
+    /**
+     * @param major
+     * @return
+     */
+    public LineAttributes getTickAttributes(int iMajorOrMinor)
+    {
+        if (iMajorOrMinor == IConstants.MAJOR)
+        {
+            return laMajorTicks;
+        }
+        else if (iMajorOrMinor == IConstants.MINOR)
+        {
+            return laMinorTicks;
+        }
+        return null;
     }
 }
 

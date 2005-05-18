@@ -243,10 +243,18 @@ public final class PlotWithoutAxes
                 if (dpct == DataPointComponentType.BASE_VALUE_LITERAL)
                 {
                     fsBase = dpc.getFormatSpecifier();
+                    if (fsBase == null) // BACKUP
+                    {
+                        fsBase = sd.getFormatSpecifier();
+                    }
                 }
                 else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL)
                 {
                     fsOrthogonal = dpc.getFormatSpecifier();
+                    if (fsOrthogonal == null) // BACKUP
+                    {
+                        fsOrthogonal = ((SeriesDefinition) sd.getSeriesDefinitions().get(i)).getFormatSpecifier();
+                    }
                 }
                 else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL)
                 {

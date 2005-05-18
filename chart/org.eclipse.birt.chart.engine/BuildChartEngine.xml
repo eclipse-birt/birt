@@ -249,7 +249,7 @@
 					</fileset>
 					<pathelement path="${core.dir}/bin"/>
 				</classpath>
-				<bottom><![CDATA[<i>Copyright &#169;  2004 Actuate Corp. All rights reserved. </i>]]></bottom>
+				<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 	</target>
 

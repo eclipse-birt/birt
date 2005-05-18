@@ -1396,13 +1396,15 @@ public abstract class AxesRenderer extends BaseRenderer
         double dAngleInDegrees = ax.getLabel().getCaption().getFont().getRotation();
         AutoScale sc = ax.getScale();
         IntersectionValue iv = ax.getIntersectionValue();
-        int iTickStyle = ax.getGrid().getTickStyle(IConstants.MAJOR);
+        int iMajorTickStyle = ax.getGrid().getTickStyle(IConstants.MAJOR);
+        int iMinorTickStyle = ax.getGrid().getTickStyle(IConstants.MINOR);
         int iLabelLocation = ax.getLabelPosition();
         int iOrientation = ax.getOrientation();
         IDisplayServer xs = this.getDevice().getDisplayServer();
 
         double[] daEndPoints = sc.getEndPoints();
         double[] da = sc.getTickCordinates();
+        double[] daMinor = sc.getMinorCoordinates(ax.getGrid().getMinorCountPerMajor());
         String sText = null;
         boolean bLabelShadowEnabled = (ax.getLabel().getShadowColor() != null);
         int iDimension = pwa.getDimension();
@@ -1413,6 +1415,9 @@ public abstract class AxesRenderer extends BaseRenderer
         DecimalFormat df = null;
 
         LineAttributes lia = ax.getLineAttributes();
+        LineAttributes liaMajorTick = ax.getGrid().getTickAttributes(IConstants.MAJOR);
+        LineAttributes liaMinorTick = ax.getGrid().getTickAttributes(IConstants.MINOR);
+        
         if (!lia.isSetVisible())
         {
             throw new RenderingException(
@@ -1453,8 +1458,8 @@ public abstract class AxesRenderer extends BaseRenderer
                 ipr.applyTransformation(trae);
             }
 
-            double dXTick1 = ((iTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
-                : dX, dXTick2 = ((iTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
+            double dXTick1 = ((iMajorTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
+                : dX, dXTick2 = ((iMajorTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
                 + IConstants.TICK_SIZE : dX;
 
             if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS && lia.isVisible())
@@ -1591,9 +1596,29 @@ public abstract class AxesRenderer extends BaseRenderer
                     y = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dXMinorTick1 = ((iMinorTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
+                            : dX, dXMinorTick2 = ((iMinorTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
+                            + IConstants.TICK_SIZE : dX;
+                        if (dXMinorTick1 != dXMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(dXMinorTick1, y - daMinor[k]));
+		                            lreMinor.setEnd(LocationImpl.create(dXMinorTick2, y - daMinor[k]));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dXTick1 != dXTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(dXTick1, y);
                             lre.getEnd().set(dXTick2, y);
                             ipr.drawLine(lre);
@@ -1620,7 +1645,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 y = (int) da[da.length - 1];
                 if (dXTick1 != dXTick2)
                 {
-                    lre.setLineAttributes(lia);
+                    lre.setLineAttributes(liaMajorTick);
                     lre.getStart().set(dXTick1, y);
                     lre.getEnd().set(dXTick2, y);
                     ipr.drawLine(lre);
@@ -1700,9 +1725,29 @@ public abstract class AxesRenderer extends BaseRenderer
 
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dXMinorTick1 = ((iMinorTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
+                            : dX, dXMinorTick2 = ((iMinorTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
+                            + IConstants.TICK_SIZE : dX;
+                        if (dXMinorTick1 != dXMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(dXMinorTick1, y - daMinor[k]));
+		                            lreMinor.setEnd(LocationImpl.create(dXMinorTick2, y - daMinor[k]));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dXTick1 != dXTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(dXTick1, y);
                             lre.getEnd().set(dXTick2, y);
                             ipr.drawLine(lre);
@@ -1786,12 +1831,32 @@ public abstract class AxesRenderer extends BaseRenderer
                         sText = IConstants.NULL_STRING;
                     }
                     y = (int) da[i];
-
+                    
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dXMinorTick1 = ((iMinorTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
+                            : dX, dXMinorTick2 = ((iMinorTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
+                            + IConstants.TICK_SIZE : dX;
+                        if (dXMinorTick1 != dXMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(dXMinorTick1, y - daMinor[k]));
+		                            lreMinor.setEnd(LocationImpl.create(dXMinorTick2, y - daMinor[k]));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dXTick1 != dXTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(dXTick1, y);
                             lre.getEnd().set(dXTick2, y);
                             ipr.drawLine(lre);
@@ -1876,9 +1941,29 @@ public abstract class AxesRenderer extends BaseRenderer
                     y = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dXMinorTick1 = ((iMinorTickStyle & IConstants.TICK_LEFT) == IConstants.TICK_LEFT) ? (dX - IConstants.TICK_SIZE)
+                            : dX, dXMinorTick2 = ((iMinorTickStyle & IConstants.TICK_RIGHT) == IConstants.TICK_RIGHT) ? dX
+                            + IConstants.TICK_SIZE : dX;
+                        if (dXMinorTick1 != dXMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(dXMinorTick1, y - daMinor[k]));
+		                            lreMinor.setEnd(LocationImpl.create(dXMinorTick2, y - daMinor[k]));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dXTick1 != dXTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(dXTick1, y);
                             lre.getEnd().set(dXTick2, y);
                             ipr.drawLine(lre);
@@ -1950,8 +2035,8 @@ public abstract class AxesRenderer extends BaseRenderer
             int x;
             double dY = dLocation;
 
-            double dYTick1 = ((iTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
-                : dY, dYTick2 = ((iTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
+            double dYTick1 = ((iMajorTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
+                : dY, dYTick2 = ((iMajorTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
                 + IConstants.TICK_SIZE : dY;
 
             if (iv != null && iv.getType() == IntersectionValue.MAX && iDimension == IConstants.TWO_5_D)
@@ -2058,9 +2143,29 @@ public abstract class AxesRenderer extends BaseRenderer
                     x = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dYMinorTick1 = ((iMinorTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
+                            : dY, dYMinorTick2 = ((iMinorTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
+                            + IConstants.TICK_SIZE : dY;
+                        if(dYMinorTick1 !=- dYMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(x + daMinor[k], dYMinorTick1));
+		                            lreMinor.setEnd(LocationImpl.create(x + daMinor[k], dYMinorTick2));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dYTick1 != dYTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(x, dYTick1);
                             lre.getEnd().set(x, dYTick2);
                             ipr.drawLine(lre);
@@ -2125,7 +2230,7 @@ public abstract class AxesRenderer extends BaseRenderer
                 {
                     if (dYTick1 != dYTick2)
                     {
-                        lre.setLineAttributes(lia);
+                        lre.setLineAttributes(liaMajorTick);
                         lre.getStart().set(x, dYTick1);
                         lre.getEnd().set(x, dYTick2);
                         ipr.drawLine(lre);
@@ -2184,9 +2289,29 @@ public abstract class AxesRenderer extends BaseRenderer
                     x = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dYMinorTick1 = ((iMinorTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
+                            : dY, dYMinorTick2 = ((iMinorTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
+                            + IConstants.TICK_SIZE : dY;
+                        if(dYMinorTick1 !=- dYMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(x + daMinor[k], dYMinorTick1));
+		                            lreMinor.setEnd(LocationImpl.create(x + daMinor[k], dYMinorTick2));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dYTick1 != dYTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(x, dYTick1);
                             lre.getEnd().set(x, dYTick2);
                             ipr.drawLine(lre);
@@ -2270,6 +2395,26 @@ public abstract class AxesRenderer extends BaseRenderer
                     x = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dYMinorTick1 = ((iMinorTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
+                            : dY, dYMinorTick2 = ((iMinorTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
+                            + IConstants.TICK_SIZE : dY;
+                        if(dYMinorTick1 !=- dYMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(x + daMinor[k], dYMinorTick1));
+		                            lreMinor.setEnd(LocationImpl.create(x + daMinor[k], dYMinorTick2));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dYTick1 != dYTick2)
                         {
                             lre.setLineAttributes(lia);
@@ -2362,9 +2507,29 @@ public abstract class AxesRenderer extends BaseRenderer
                     x = (int) da[i];
                     if ((iWhatToDraw & IConstants.AXIS) == IConstants.AXIS)
                     {
+                        double dYMinorTick1 = ((iMinorTickStyle & IConstants.TICK_ABOVE) == IConstants.TICK_ABOVE) ? (dY - IConstants.TICK_SIZE)
+                            : dY, dYMinorTick2 = ((iMinorTickStyle & IConstants.TICK_BELOW) == IConstants.TICK_BELOW) ? dY
+                            + IConstants.TICK_SIZE : dY;
+                        if(dYMinorTick1 !=- dYMinorTick2)
+                        {
+                            // RENDER THE MINOR TICKS FIRST (For ALL but the last Major tick)
+                            if(i != da.length - 1)
+                            {
+    	                        LineRenderEvent lreMinor = null;
+    	                        for (int k = 0; k < daMinor.length - 1; k++)
+    	                        {
+    	                            lreMinor = (LineRenderEvent) ((EventObjectCache) ipr).getEventObject(pl, LineRenderEvent.class);
+    	                            lreMinor.setLineAttributes(liaMinorTick);
+		                            lreMinor.setStart(LocationImpl.create(x + daMinor[k], dYMinorTick1));
+		                            lreMinor.setEnd(LocationImpl.create(x + daMinor[k], dYMinorTick2));
+    	                            ipr.drawLine(lreMinor);
+    	                        }
+                            }
+                        }
+
                         if (dYTick1 != dYTick2)
                         {
-                            lre.setLineAttributes(lia);
+                            lre.setLineAttributes(liaMajorTick);
                             lre.getStart().set(x, dYTick1);
                             lre.getEnd().set(x, dYTick2);
                             ipr.drawLine(lre);

@@ -781,7 +781,8 @@ public final class PlotWith2DAxes extends PlotContent
             getLabelPosition(axPrimaryBase.getTitlePosition())), axPrimaryBase.isSetCategoryAxis()
             && axPrimaryBase.isCategoryAxis());
         oaxPrimaryBase.setGridProperties(axPrimaryBase.getMajorGrid().getLineAttributes(), axPrimaryBase.getMinorGrid()
-            .getLineAttributes(), transposeTickStyle(IConstants.BASE, getTickStyle(axPrimaryBase, MAJOR)),
+            .getLineAttributes(), axPrimaryBase.getMajorGrid().getTickAttributes(), axPrimaryBase.getMinorGrid()
+            .getTickAttributes(), transposeTickStyle(IConstants.BASE, getTickStyle(axPrimaryBase, MAJOR)),
             transposeTickStyle(IConstants.BASE, getTickStyle(axPrimaryBase, MINOR)), axPrimaryBase.getScale()
                 .getMinorGridsPerUnit());
 
@@ -813,7 +814,8 @@ public final class PlotWith2DAxes extends PlotContent
             getLabelPosition(axPrimaryOrthogonal.getTitlePosition())), axPrimaryOrthogonal.isSetCategoryAxis()
             && axPrimaryOrthogonal.isCategoryAxis());
         oaxPrimaryOrthogonal.setGridProperties(axPrimaryOrthogonal.getMajorGrid().getLineAttributes(),
-            axPrimaryOrthogonal.getMinorGrid().getLineAttributes(), transposeTickStyle(IConstants.ORTHOGONAL,
+            axPrimaryOrthogonal.getMinorGrid().getLineAttributes(), axPrimaryOrthogonal.getMajorGrid().getTickAttributes(),
+            axPrimaryOrthogonal.getMinorGrid().getTickAttributes(), transposeTickStyle(IConstants.ORTHOGONAL,
                 getTickStyle(axPrimaryOrthogonal, MAJOR)), transposeTickStyle(IConstants.ORTHOGONAL, getTickStyle(
                 axPrimaryOrthogonal, MINOR)), axPrimaryOrthogonal.getScale().getMinorGridsPerUnit());
 
@@ -856,7 +858,8 @@ public final class PlotWith2DAxes extends PlotContent
                     .getTitlePosition())), axaOverlayOrthogonal[i].isSetCategoryAxis()
                     && axaOverlayOrthogonal[i].isCategoryAxis());
             oaxOverlayOrthogonal.setGridProperties(axaOverlayOrthogonal[i].getMajorGrid().getLineAttributes(),
-                axaOverlayOrthogonal[i].getMinorGrid().getLineAttributes(), transposeTickStyle(IConstants.ORTHOGONAL,
+                axaOverlayOrthogonal[i].getMinorGrid().getLineAttributes(), axaOverlayOrthogonal[i].getMajorGrid().getTickAttributes(),
+                axaOverlayOrthogonal[i].getMinorGrid().getTickAttributes(),transposeTickStyle(IConstants.ORTHOGONAL,
                     getTickStyle(axaOverlayOrthogonal[i], MAJOR)), transposeTickStyle(IConstants.ORTHOGONAL,
                     getTickStyle(axaOverlayOrthogonal[i], MINOR)), axaOverlayOrthogonal[i].getScale()
                     .getMinorGridsPerUnit());

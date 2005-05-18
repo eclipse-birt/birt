@@ -114,11 +114,13 @@ public final class OneAxis
         return axModel;
     }
 
-    final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, int iMajorTickStyle,
+    final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, LineAttributes laMajorTicks, LineAttributes laMinorTicks, int iMajorTickStyle,
         int iMinorTickStyle, int iMinorUnitsPerMajorUnit)
     {
         gr.laMajorGrid = laMajorGrid;
         gr.laMinorGrid = laMinorGrid;
+        gr.laMajorTicks = laMajorTicks;
+        gr.laMinorTicks = laMinorTicks;
         gr.iMajorTickStyle = iMajorTickStyle;
         gr.iMinorTickStyle = iMinorTickStyle;
         gr.iMinorUnitsPerMajorUnit = iMinorUnitsPerMajorUnit;
