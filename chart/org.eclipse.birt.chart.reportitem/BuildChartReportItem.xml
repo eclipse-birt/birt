@@ -70,7 +70,7 @@
 	
 	<property name="module.name" value="org.eclipse.birt.chart.reportitem"/>
 
-	<property name="plugin.version" value="0.0.1" />
+	<property name="plugin.version" value="1.0.0" />
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="model.dir" location="../org.eclipse.birt.report.model"/>
 	<property name="engine.dir" location="../org.eclipse.birt.report.engine"/>
