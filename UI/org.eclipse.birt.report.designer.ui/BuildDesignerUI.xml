@@ -171,7 +171,8 @@
 				<include name="icons\**"/>
 				<include name="templates\**"/>
 				<include name="schema\*.exsd"/>
-				<include name="about.html"/>
+				<include name="About.html"/>
+				<include name="nl\**\*"/> 
 			</fileset>
 		</copy>
 		<copy todir="${export.dir}\${plugin.name}">
