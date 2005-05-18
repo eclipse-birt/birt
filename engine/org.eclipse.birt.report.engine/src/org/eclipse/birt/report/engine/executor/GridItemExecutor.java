@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/12 07:18:53 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -152,7 +152,6 @@ public class GridItemExecutor extends StyledItemExecutor
 		{
 			closeResultSet( rs );			
 		}
-		context.exitScope( );
 	}
 
 	/*
