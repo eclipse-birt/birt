@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents the style properties for either a shared style or an element with
@@ -479,7 +480,8 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER</code>
-	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * <li>
+	 * <code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
 	 * 
 	 * @param pattern
@@ -1882,6 +1884,22 @@ public abstract class StyleHandle extends ReportElementHandle
 	public void setFontStyle( String fontStyle ) throws SemanticException
 	{
 		setStringProperty( Style.FONT_STYLE_PROP, fontStyle );
+	}
+
+	/**
+	 * checks whether this style is created by user or predefined by BIRT.
+	 * 
+	 * @return True if is predefined, false if not.
+	 */
+
+	public boolean isPredefined( )
+	{
+
+		if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( getName( ) ) != null )
+			return true;
+		
+		return false;
+
 	}
 
 }
