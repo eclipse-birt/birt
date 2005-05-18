@@ -93,7 +93,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.25 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.26 $ $Date: 2005/05/11 11:59:31 $
  */
 public class ReportQueryBuilder
 {
@@ -1177,7 +1177,14 @@ public class ReportQueryBuilder
 							.next( );
 					IInputParameterBinding binding = createParamBinding( modelParamBinding );
 					if ( binding != null )
+					{
 						list.add( binding );
+						BaseQueryDefinition parentQuery = getParentQuery();
+						if(parentQuery!=null)
+						{
+							parentQuery.getRowExpressions().add(binding.getExpr());
+						}
+					}
 				}
 			}
 			return list;
