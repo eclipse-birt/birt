@@ -99,6 +99,9 @@ public class ReportEngine
 		}
 	}
 
+	/**
+	 * register globally available script functions
+	 */
 	private void setupScriptScope( )
 	{
 		EngineConfig config = getConfig( );
@@ -115,11 +118,14 @@ public class ReportEngine
 				{
 					handler.initialize( );
 					rootScope.put( "_statusHandle", rootScope, handler );
-					cx
-							.evaluateString(
+					cx.evaluateString(
 									rootScope,
 									"function writeStatus(msg) { _statusHandle.showStatus(msg); }",
 									"<inline>", 0, null );
+					cx.evaluateString(
+							rootScope,
+							"function skipNull(str) { return (str == null) ? \"\" : str; }",
+							"<inline>", 0, null );					
 				}
 			}
 			catch ( Exception ex )
