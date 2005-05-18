@@ -252,6 +252,32 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Sets group start property of this group. Group start, in conjunction with
+	 * Interval and IntervalRange, determines how data is divided into groups.
+	 * 
+	 * @param groupStart
+	 *            group start property value.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setGroupStart( String groupStart ) throws SemanticException
+	{
+		setStringProperty( GroupElement.GROUP_START_PROP, groupStart );
+	}
+
+	/**
+	 * Return the group start property value of this group.
+	 * 
+	 * @return group start property value of this group.
+	 */
+
+	public String getGroupStart( )
+	{
+		return getStringProperty( GroupElement.GROUP_START_PROP );
+	}
+
+	/**
 	 * Returns the interval of this group. The return value is defined in
 	 * <code>DesignChoiceConstants</code> and can be one of:
 	 * 
@@ -368,7 +394,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
-	 * 
+	 *  
 	 */
 
 	public void setSortDirection( String direction ) throws SemanticException
@@ -380,7 +406,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group header slot is empty.
 	 * 
 	 * @return true is the header slot is not empty, otherwise, return false.
-	 * 
+	 *  
 	 */
 
 	public boolean hasHeader( )
@@ -392,7 +418,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group footer slot is empty.
 	 * 
 	 * @return true is the footer slot is not empty, otherwise, return false.
-	 * 
+	 *  
 	 */
 
 	public boolean hasFooter( )

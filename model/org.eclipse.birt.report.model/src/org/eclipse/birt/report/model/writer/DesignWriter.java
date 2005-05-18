@@ -2287,6 +2287,7 @@ public class DesignWriter extends ElementVisitor
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );
+        property( obj, GroupElement.GROUP_START_PROP );
 		property( obj, GroupElement.INTERVAL_PROP );
 		property( obj, GroupElement.INTERVAL_RANGE_PROP );
 		property( obj, GroupElement.SORT_DIRECTION_PROP );

@@ -2257,6 +2257,7 @@
     <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
       <Trigger validator="GroupNameValidator" targetElement="Listing"/>
 	</Property>
+    <Property name="groupStart" displayNameID="Element.ListingGroup.groupStart" type="string" />
     <Property name="interval" displayNameID="Element.ListingGroup.interval" type="choice" detailType="interval">
       <Default>none</Default>
     </Property>

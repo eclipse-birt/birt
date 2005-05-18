@@ -51,6 +51,13 @@ public interface IGroupElementModel
 	public static final String KEY_EXPR_PROP = "keyExpr"; //$NON-NLS-1$
 
 	/**
+	 * In conjunction with Interval and IntervalRange, determines how data is
+	 * divided into groups.
+	 */
+
+	public static final String GROUP_START_PROP = "groupStart"; //$NON-NLS-1$
+
+	/**
 	 * Name of the grouping interval property. This is a choice with values such
 	 * as "year", "month" and "day."
 	 */
