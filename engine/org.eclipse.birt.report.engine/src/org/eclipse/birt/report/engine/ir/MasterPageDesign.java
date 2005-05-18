@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Master Page
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {
@@ -54,6 +54,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 */
 	protected String orientation;
 
+	protected StyleDesign contentStyle = null;
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
@@ -196,4 +197,15 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	{
 		this.orientation = orientation;
 	}
+	
+	public StyleDesign getContentStyle( )
+	{
+		return contentStyle;
+	}
+	
+	public void setContentStyle( StyleDesign contentStyle)
+	{
+		this.contentStyle = contentStyle;
+	}
+
 }

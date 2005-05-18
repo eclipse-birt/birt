@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the emitters
  * 
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:45 $
  */
 public interface IReportContent extends IReportElementContent
 {
@@ -45,5 +45,5 @@ public interface IReportContent extends IReportElementContent
 	/**
 	 * @return the style of the whole report body.
 	 */
-	public IStyle getBodyStyle( );
+	public IStyle getDefaultStyle( );
 }

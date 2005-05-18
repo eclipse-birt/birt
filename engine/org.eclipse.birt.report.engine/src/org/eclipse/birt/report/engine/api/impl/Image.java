@@ -18,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,21 +72,34 @@ public class Image extends ReportPart implements IImage
 		}
 		
 		id = uri;
-		if(FileUtil.isLocalResource(uri))
-		{
-			try
-			{
-				this.in = new BufferedInputStream(new FileInputStream(new File(uri)));
-				this.source = IImage.FILE_IMAGE;
-			}
-			catch (FileNotFoundException e)
-			{
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}
-		else
+		if( !FileUtil.isLocalResource( uri ) )
 		{
 			this.source = IImage.URL_IMAGE;
+			return;
+		}
+		
+		try
+		{
+			URL url = new URL( uri );
+			this.in = new BufferedInputStream( url.openStream( ) );
+			this.source = IImage.FILE_IMAGE;
+			return;
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+		catch ( IOException e1 )
+		{
+		}
+
+		try
+		{
+			this.in = new BufferedInputStream(new FileInputStream(new File(uri)));
+			this.source = IImage.FILE_IMAGE;
+		}
+		catch (FileNotFoundException e)
+		{
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	

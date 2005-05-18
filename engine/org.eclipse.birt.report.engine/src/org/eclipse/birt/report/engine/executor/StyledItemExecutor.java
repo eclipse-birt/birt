@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/11 06:03:42 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/11 08:18:32 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -258,100 +258,36 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 		if ( ( value instanceof Number ) )
 		{
-			NumberFormatter numberFormat = null;
 			if ( formatStr == null || formatStr.length( ) == 0 )
 			{
-				numberFormat = style.getNumberFormatObject( );
-				//initial number-format for the first time
-				if ( numberFormat == null )
-				{
-//					formatStr = style.getNumberFormat( );
-					formatStr = getNumberFormat(reportContent);
+				formatStr = style.getNumberFormat( );
+			}
 
-					if ( formatStr != null && formatStr.length( ) != 0)
-					{
-						numberFormat = new NumberFormatter( formatStr, context.getLocale( ) );
-						style.setNumberFormatObject( numberFormat );
-					}
-				}
-			}
-			else
-			//deal with value-of for text item
-			{
-				numberFormat = new NumberFormatter( formatStr, context.getLocale( ) );
-			}
-			
-			if (numberFormat == null)
-			{
-				numberFormat = new NumberFormatter( context.getLocale( ) );
-			}
-			
-			formattedStr.append( numberFormat.format( ( (Number) value )
-					.doubleValue( ) ) );
+			NumberFormatter numberFormat = context.createNumberFormatter( formatStr );
+			formattedStr.append( numberFormat.format( ( ( Number ) value ).doubleValue( ) ) );
 			return;
 		}
 		else if ( value instanceof Date )
 		{
-			DateFormatter dateFormat = null;
 			if ( formatStr == null || formatStr.length( ) == 0 )
 			{
-				dateFormat = style.getDateFormatObject( );
-
-				//initial date-format for the first time
-				if ( dateFormat == null )
-				{
-//					formatStr = style.getDateTimeFormat( );
-					formatStr = getDateTimeFormat( reportContent );
-					if ( formatStr != null && formatStr.length( ) != 0)
-					{
-						dateFormat = new DateFormatter( formatStr, context.getLocale( ) );
-						style.setDateFormatObject( dateFormat );
-					}
-				}
-			}
-			else
-			//deal with value-of for text item
-			{
-				dateFormat = new DateFormatter( formatStr, context.getLocale( ) );
+				formatStr = style.getDateTimeFormat( );
 			}
 
-			if( dateFormat == null )
-			{
-				dateFormat = new DateFormatter( context.getLocale( ) );
-			}
-			
-			formattedStr.append( dateFormat.format( (Date) value ) );
+			DateFormatter dateFormat = context.createDateFormatter( formatStr );
+			formattedStr.append( dateFormat.format( ( Date ) value ) );
 			return;
 		}
-		else if ( value instanceof String )
+		else if( value instanceof String )
 		{
-			StringFormatter stringFormat = null;
-			if ( formatStr == null || formatStr.length( ) == 0 )
+			if( formatStr == null || formatStr.length( ) == 0 )
 			{
-				stringFormat = style.getStringFormatObject( );				 
-
-				//initial string-format for the first time
-				if ( stringFormat == null )
-				{
-					//get format pattern from style
-//					formatStr = style.getStringFormat( );
-					formatStr = getStringFormat( reportContent );
-					if ( formatStr != null && formatStr.length( ) != 0)
-					{
-						//use default stringFormat
-						stringFormat = new StringFormatter( formatStr, context.getLocale( ) );
-						style.setStringFormatObject( stringFormat );
-					}
-				}
+				formatStr = style.getStringFormat( ); 				 
 			}
-			else
-			//deal with value-of for text item
+			
+			if( formatStr == null || formatStr.length( ) == 0 )
 			{
-				stringFormat = new StringFormatter( formatStr, context.getLocale( ) );
-			}
-
-			if( stringFormat != null )
-			{
+				StringFormatter stringFormat = context.createStringFormatter( formatStr);
 				formattedStr.append( stringFormat.format( value.toString( ) ) );
 				return;
 			}
@@ -360,114 +296,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		formattedStr.append( value.toString( ) );
 	}
 
-	/**
-	 * Gets the StringFormat property
-	 * 
-	 * @param reportContent
-	 *            the ReportContent instance
-	 * @return the StringFormat property of the nearest ancestor with this property
-	 */
-	protected String getStringFormat( ReportElementContent reportContent )
-	{
-		//TODO At present the non-CSS style defined on the Column is not
-		// supported.
-		ReportElementContent parent = reportContent;
-		String formatStr=null;
-		while ( formatStr == null && parent != null )
-		{
-			if ( parent instanceof StyledElementContent )
-			{
-				StyleDesign style = (StyleDesign) ( (StyledElementContent) parent )
-						.getMergedStyle( );
-				if ( style != null && style.getStringFormat( ) != null
-						&& style.getStringFormat( ).length( ) != 0 )
-				{
-					formatStr = style.getStringFormat( );
-				}
-			}
-			parent = (ReportElementContent) parent.getParent( );
-		}
-		if(formatStr == null && parent == null)
-		{
-			StyleDesign bodyStyle=(StyleDesign)context.getReport().getBodyStyle();
-			if(bodyStyle!=null)
-			{
-				formatStr = bodyStyle.getStringFormat();
-			}
-		}
-		return formatStr;
-	}
-	/**
-	 * Gets the NumberFormat property
-	 * 
-	 * @param reportContent
-	 *            the ReportContent instance	
-	 * @return the NumberFormat property of the nearest ancestor with this property
-	 */
-	protected String getNumberFormat( ReportElementContent reportContent)
-	{
-		//TODO At present the non-CSS style defined on the Column is not
-		// supported.
-		ReportElementContent parent = reportContent;
-		String formatStr=null;
-		while ( formatStr == null && parent != null )
-		{
-			if ( parent instanceof StyledElementContent )
-			{
-				StyleDesign style = (StyleDesign) ( (StyledElementContent) parent )
-						.getMergedStyle( );
-				if ( style != null && style.getNumberFormat( ) != null
-						&& style.getNumberFormat( ).length( ) != 0 )
-				{
-					formatStr = style.getNumberFormat( );
-				}
-			}
-			parent = (ReportElementContent) parent.getParent( );
-		}
-		if(formatStr == null && parent == null)
-		{
-			StyleDesign bodyStyle=(StyleDesign)context.getReport().getBodyStyle();
-			if(bodyStyle!=null)
-			{
-				formatStr = bodyStyle.getNumberFormat();
-			}
-		}
-		return formatStr;
-	}
-	/**
-	 * Gets the DateTimeFormat property
-	 * 
-	 * @param reportContent
-	 *            the ReportContent instance
-	 * @return the DateTimeFormat property of the nearest ancestor with this
-	 *         property
-	 */
-	protected String getDateTimeFormat(ReportElementContent reportContent) 
-	{
-		//TODO At present the non-CSS style defined on the Column is not
-		// supported.
-		ReportElementContent parent = reportContent;
-		String formatStr = null;
-		while (formatStr == null && parent != null) {
-			if (parent instanceof StyledElementContent) {
-				StyleDesign style = (StyleDesign) ((StyledElementContent) parent)
-						.getMergedStyle();
-				if (style != null && style.getDateTimeFormat() != null
-						&& style.getDateTimeFormat().length() != 0) {
-					formatStr = style.getDateTimeFormat();
-				}
-			}
-			parent = (ReportElementContent) parent.getParent();
-		}
-		if (formatStr == null && parent == null) {
-			StyleDesign bodyStyle = (StyleDesign) context.getReport()
-					.getBodyStyle();
-			if (bodyStyle != null) {
-				formatStr = bodyStyle.getDateTimeFormat();
-			}
-		}
-		return formatStr;
-	}
+
+
+
 	/**
 	 * Checks the background image property. If it is given as a relative path,
 	 * gets its absolute path and sets it back to the style.

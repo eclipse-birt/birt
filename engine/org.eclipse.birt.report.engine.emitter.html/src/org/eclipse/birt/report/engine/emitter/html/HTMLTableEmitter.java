@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/12 06:06:04 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
+	 * @version $Revision: 1.13 $ $Date: 2005/05/12 06:06:04 $
 	 */
 	private class PersistData
 	{
@@ -58,7 +58,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		 * @param repeat
 		 *            The column's repeat property.
 		 */
-		public void saveColInfo( String align, int repeat )
+		public void saveColInfo( int repeat )
 		{
 			columns += repeat;
 		}
@@ -315,16 +315,9 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			return;
 		}
 
-		int repeat;
-
-		repeat = columnObj.getRepeat( );
-
+		int repeat = columnObj.getRepeat( );
 		assert repeat > 0 && currentData != null;
-
-		IStyle mergedStyle = columnObj.getMergedStyle( );
-
-		currentData.saveColInfo( mergedStyle == null ? null : mergedStyle
-				.getTextAlign( ), repeat );
+		currentData.saveColInfo( repeat );
 
 		writer.openTag( HTMLTags.TAG_COL );
 
@@ -446,10 +439,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 				writer.attribute( HTMLTags.ATTR_ROWSPAN, cellObj.getRowSpan( ) );
 			}
 
-			IStyle mergedStyle = cellObj.getMergedStyle( );
-			// 'col' align
-			writer.attribute( HTMLTags.ATTR_ALIGN, mergedStyle.getTextAlign( ) );
-
+			IStyle mergedStyle = cellObj.getMergedStyle( ); 
 			StringBuffer styleBuffer = new StringBuffer( );
 			if ( isEmbedded && ( mergedStyle == null || mergedStyle.getVerticalAlign( ) == null ) )
 			{

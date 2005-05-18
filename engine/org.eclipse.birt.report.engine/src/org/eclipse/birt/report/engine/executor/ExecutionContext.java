@@ -25,6 +25,9 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -52,7 +55,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.20 $ $Date: 2005/05/13 03:42:47 $
+ * @version $Revision: 1.21 $ $Date: 2005/05/13 05:04:53 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -117,6 +120,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	
 	private String taskIDString;
 	
+	protected NumberFormatter numberFormatter;
+	
+	protected StringFormatter stringFormatter;
+	
+	protected DateFormatter dateFormatter;
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -131,7 +139,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	{
 		this.engine = engine;
 		
-		taskIDString = "Task" + new Integer(taskID).toString();	// $NON-NLS-1$
+		taskIDString = "Task" + new Integer(taskID).toString();	//$NON-NLS-1$
 		
 		parser = new TextParser( );
 
@@ -249,7 +257,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 			log.log( Level.SEVERE,e.getMessage(),  e );
-			addException( new EngineException( "Failed to evaluate " + source, e ) );
+			addException( new EngineException( "Failed to evaluate " + source, e ) ); //$NON-NLS-1$
 		}
 		return null;
 
@@ -292,7 +300,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 		    log.log( Level.SEVERE,e.getMessage(),  e );
-		    addException( new EngineException( "Failed to evaluate " + expr, e ) );
+		    addException( new EngineException( "Failed to evaluate " + expr, e ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -312,7 +320,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			//May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
-			addException( new EngineException( "Failed to evaluate " + expr, t ) );
+			addException( new EngineException( "Failed to evaluate " + expr, t ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -659,7 +667,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
-		    addException( new EngineException( "Failed to load the external script file ", ex ) );
+		    addException( new EngineException( "Failed to load the external script file ", ex ) ); //$NON-NLS-1$
 			//TODO This is a fatal error. Should throw an exception.
 		}
 	}
@@ -834,5 +842,38 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public void setRenderOption(IRenderOption renderOption)
 	{
 		this.renderOption = renderOption;
+	}
+	
+	public NumberFormatter createNumberFormatter( String format )
+	{
+		if( numberFormatter == null )
+		{
+			numberFormatter = new NumberFormatter( locale );
+		}
+		
+		numberFormatter.applyPattern( format );
+		return numberFormatter;
+	}
+	
+	public DateFormatter createDateFormatter( String format )
+	{
+		if( dateFormatter == null )
+		{
+			dateFormatter = new DateFormatter( locale );
+		}
+		
+		dateFormatter.applyPattern( format );
+		return dateFormatter;
+	}
+	
+	public StringFormatter createStringFormatter( String format )
+	{
+		if( stringFormatter == null )
+		{
+			stringFormatter = new StringFormatter( locale );
+		}
+		
+		stringFormatter.applyPattern( format );
+		return stringFormatter;
 	}
 }

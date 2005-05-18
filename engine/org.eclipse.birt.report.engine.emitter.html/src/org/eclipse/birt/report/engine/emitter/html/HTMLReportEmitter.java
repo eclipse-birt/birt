@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.29 $ $Date: 2005/05/08 06:09:15 $
+ * @version $Revision: 1.30 $ $Date: 2005/05/08 07:00:43 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -356,6 +356,9 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 		else
 		{
+			AttributeBuilder.buildStyle( styleBuffer, report.getDefaultStyle( ), this );
+			writer.style( ".", styleBuffer.toString( ), true ); //$NON-NLS-1$
+
 			ArrayList styleList = new ArrayList( );
 			int styleNum = 0;
 			int m;
@@ -446,15 +449,9 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void startBody( )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
+/*		logger.log( Level.FINE, "[HTMLReportEmitter] Start body." ); //$NON-NLS-1$
 		IStyle bodyStyle = null;
 
-		//in unittest, report may be null.
-		if ( report != null )
-		{
-			bodyStyle = report.getBodyStyle( );
-		}
-		
 		if ( !isEmbeddable )
 		{
 			writer.openTag( HTMLTags.TAG_BODY );
@@ -474,7 +471,7 @@ public class HTMLReportEmitter implements IReportEmitter
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}
-	}
+*/	}
 
 	/*
 	 * (non-Javadoc)

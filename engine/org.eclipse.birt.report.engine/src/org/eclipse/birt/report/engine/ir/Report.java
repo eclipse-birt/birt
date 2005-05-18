@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
@@ -29,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
  */
 public class Report
 {
@@ -91,7 +90,7 @@ public class Report
 	/**
 	 * the style of the whole report body
 	 */
-	protected StyleDesign bodyStyle;
+	protected StyleDesign defaultStyle;
 
 	/**
 	 * default constructor.
@@ -466,19 +465,19 @@ public class Report
 	}
 
 	/**
-	 * @return Returns the bodyStyle.
+	 * @return Returns the defaultStyle.
 	 */
-	public IStyle getBodyStyle( )
+	public IStyle getDefaultStyle( )
 	{
-		return bodyStyle;
+		return defaultStyle;
 	}
 
 	/**
-	 * @param bodyStyle
+	 * @param defaultStyle
 	 *            The bodyStyle to set.
 	 */
-	public void setBodyStyle( StyleDesign bodyStyle )
+	public void setDefaultStyle( StyleDesign defaultStyle )
 	{
-		this.bodyStyle = bodyStyle;
+		this.defaultStyle = defaultStyle;
 	}
 }
