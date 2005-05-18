@@ -36,6 +36,7 @@
       <import plugin="org.eclipse.help.base"/>
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.team.core"/>
    </requires>
    
    <!-- Extension points -->
@@ -243,5 +244,11 @@
       <runtime>
          <run class="org.eclipse.birt.report.designer.ui.ProjectNature"/>
       </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.team.core.fileTypes">
+      <fileTypes
+            extension="rptdesign"
+            type="text"/>
    </extension>
 </plugin>
