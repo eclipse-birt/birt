@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.Hide;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -129,14 +129,14 @@ public class StructureFactory
 	}
 
 	/**
-	 * Creates an empty visibility rule structure.
+	 * Creates an empty hide rule structure.
 	 * 
-	 * @return an empty visibility rule structure
+	 * @return an empty hide rule structure
 	 */
 
-	public static Hide createHide( )
+	public static HideRule createHideRule( )
 	{
-		return new Hide( );
+		return new HideRule( );
 	}
 
 	/**

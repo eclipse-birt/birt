@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.api.elements.structures.Hide;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
@@ -386,7 +386,7 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( FilterCondition.FILTER_COND_STRUCT.toLowerCase( ),
 				FilterCondition.class );
 
-		structDict.put( Hide.STRUCTURE_NAME.toLowerCase( ), Hide.class );
+		structDict.put( HideRule.STRUCTURE_NAME.toLowerCase( ), HideRule.class );
 
 		structDict.put( HighlightRule.STRUCTURE_NAME.toLowerCase( ),
 				HighlightRule.class );

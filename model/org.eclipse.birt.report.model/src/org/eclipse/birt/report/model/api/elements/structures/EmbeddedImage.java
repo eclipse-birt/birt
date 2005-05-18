@@ -54,7 +54,7 @@ public class EmbeddedImage extends Structure
 	 * dictionary.
 	 */
 
-	public static final String IMAGE_STRUCT = "Image"; //$NON-NLS-1$
+	public static final String EMBEDDED_IMAGE_STRUCT = "EmbeddedImage"; //$NON-NLS-1$
 
 	/**
 	 * Name of the "name" property.
@@ -150,7 +150,7 @@ public class EmbeddedImage extends Structure
 
 	public String getStructName( )
 	{
-		return IMAGE_STRUCT;
+		return EMBEDDED_IMAGE_STRUCT;
 	}
 
 	/*

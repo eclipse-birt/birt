@@ -1439,19 +1439,19 @@
     <Member name="value1" displayNameID="Structure.FilterCond.value1" type="expression" isIntrinsic="true" />
     <Member name="value2" displayNameID="Structure.FilterCond.value2" type="expression" isIntrinsic="true" />
   </Structure>
-  <Structure name="Hide" displayNameID="Structure.Hide">
-    <Member name="format" displayNameID="Structure.Hide.format" type="choice" detailType="formatType" isIntrinsic="true">
+  <Structure name="HideRule" displayNameID="Structure.HideRule">
+    <Member name="format" displayNameID="Structure.HideRule.format" type="choice" detailType="formatType" isIntrinsic="true">
       <Default>all</Default>
     </Member>
-    <Member name="valueExpr" displayNameID="Structure.Hide.valueExpr" type="expression" isIntrinsic="true" />
+    <Member name="valueExpr" displayNameID="Structure.HideRule.valueExpr" type="expression" isIntrinsic="true" />
   </Structure>
   <Structure name="IncludeScript" displayNameID="Structure.IncludeScript">
     <Member name="fileName" displayNameID="Structure.IncludeScript.fileName" type="string" isIntrinsic="true" />
   </Structure>
-  <Structure name="Image" displayNameID="Structure.Image">
-    <Member name="name" displayNameID="Structure.Image.name" type="name" isIntrinsic="true" />
-    <Member name="type" displayNameID="Structure.Image.type" type="choice" detailType="imageType" isIntrinsic="true" />
-    <Member name="data" displayNameID="Structure.Image.data" type="string" isIntrinsic="true" />
+  <Structure name="EmbeddedImage" displayNameID="Structure.EmbeddedImage">
+    <Member name="name" displayNameID="Structure.EmbeddedImage.name" type="name" isIntrinsic="true" />
+    <Member name="type" displayNameID="Structure.EmbeddedImage.type" type="choice" detailType="imageType" isIntrinsic="true" />
+    <Member name="data" displayNameID="Structure.EmbeddedImage.data" type="string" isIntrinsic="true" />
   </Structure>
   <Structure name="PropertyMask" displayNameID="Structure.PropertyMask">
     <Member name="name" displayNameID="Structure.PropertyMask.name" type="string" isIntrinsic="true" />
@@ -1563,7 +1563,7 @@
     <Property name="comments" displayNameID="Element.ReportDesign.comments" type="html" canInherit="false" />
     <Property name="colorPalette" displayNameID="Element.ReportDesign.colorPalette" type="structure" isList="true" canInherit="false" detailType="CustomColor" />
     <Property name="configVars" displayNameID="Element.ReportDesign.configVars" type="structure" isList="true" canInherit="false" detailType="ConfigVar" />
-    <Property name="images" displayNameID="Element.ReportDesign.images" type="structure" isList="true" canInherit="false" detailType="Image" />
+    <Property name="images" displayNameID="Element.ReportDesign.images" type="structure" isList="true" canInherit="false" detailType="EmbeddedImage" />
     <Property name="includeLibraries" displayNameID="Element.ReportDesign.includeLibraries" type="structure" isList="true" canInherit="false" detailType="IncludeLibrary" />
     <Property name="includeScripts" displayNameID="Element.ReportDesign.includeScripts" type="structure" isList="true" canInherit="false" detailType="IncludeScript" />
     <PropertyVisibility name="msgBaseName" propertyVisibility="hide" />
@@ -2049,7 +2049,7 @@
       <Property name="height" displayNameID="Element.ReportItem.height" type="dimension" validator="NonNegativeValueValidator"/>
       <Property name="width" displayNameID="Element.ReportItem.width" type="dimension" validator="NonNegativeValueValidator"/>
     </PropertyGroup>
-    <Property name="visibility" displayNameID="Element.ReportItem.visibility" type="structure" isList="true" detailType="Hide"/>
+    <Property name="visibility" displayNameID="Element.ReportItem.visibility" type="structure" isList="true" detailType="HideRule"/>
     <Method name="onCreate" displayNameID="Element.ReportItem.onCreate" toolTipID="Element.ReportItem.onCreate.toolTip" />
     <Method name="onRender" displayNameID="Element.ReportItem.onRender" toolTipID="Element.ReportItem.onRender.toolTip" />
     <Property name="paramBindings" displayNameID="Element.ReportItem.paramBindings" type="structure" isList="true" detailType="ParamBinding" />
@@ -2447,7 +2447,7 @@
     <StyleProperty name="marginRight" />
   </Element>
   <Element name="Row" javaClass="org.eclipse.birt.report.model.elements.TableRow" displayNameID="Element.Row" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="true" nameSpace="none">
-    <Property name="visibility" displayNameID="Element.Row.visibility" type="structure" isList="true" detailType="Hide" />
+    <Property name="visibility" displayNameID="Element.Row.visibility" type="structure" isList="true" detailType="HideRule" />
     <Property name="height" displayNameID="Element.Row.height" type="dimension" validator="NonNegativeValueValidator"/>
     <Property name="bookmark" displayNameID="Element.Row.bookmark" type="expression" />    
     <PropertyVisibility name="bookmark" propertyVisibility="hide" />      

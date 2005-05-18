@@ -299,7 +299,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * @return the iterator for visibility rules defined on this report item.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
+	 * @see org.eclipse.birt.report.model.api.elements.structures.HideRule
 	 */
 
 	public Iterator visibilityRulesIterator( )

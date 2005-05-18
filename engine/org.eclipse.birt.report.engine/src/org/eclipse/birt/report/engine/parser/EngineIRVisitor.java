@@ -78,7 +78,7 @@ import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.HideHandle;
+import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -133,7 +133,7 @@ import org.xml.sax.Attributes;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.31 $ $Date: 2005/05/12 06:06:11 $
+ * @version $Revision: 1.32 $ $Date: 2005/05/12 08:23:35 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -983,7 +983,7 @@ class EngineIRVisitor extends DesignVisitor
 			VisibilityDesign visibility = new VisibilityDesign( );
 			while ( visibilityRulesIterator.hasNext( ) )
 			{
-				VisibilityRuleDesign hide = createHide( (HideHandle) visibilityRulesIterator
+				VisibilityRuleDesign hide = createHide( (HideRuleHandle) visibilityRulesIterator
 						.next( ) );
 				visibility.addRule( hide );
 			}
@@ -1003,7 +1003,7 @@ class EngineIRVisitor extends DesignVisitor
 	 *            the DE's handle
 	 * @return the created visibility rule
 	 */
-	protected VisibilityRuleDesign createHide( HideHandle handle )
+	protected VisibilityRuleDesign createHide( HideRuleHandle handle )
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 		rule.setExpression( new Expression( handle.getExpression( ) ) );

@@ -103,7 +103,7 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	 * 
 	 * @return the iterator for visibility rules defined on this row.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.Hide
+	 * @see org.eclipse.birt.report.model.api.elements.structures.HideRule
 	 */
 
 	public Iterator visibilityRulesIterator( )
