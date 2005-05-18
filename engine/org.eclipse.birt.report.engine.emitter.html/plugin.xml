@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.report.engine.emitter.html"
-   name="BIRT Engine HTML Emitter"
+   name="BIRT HTML Emitter"
    version="1.0.0"
    provider-name="Eclipse.org">
 
