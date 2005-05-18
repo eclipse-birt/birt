@@ -245,7 +245,12 @@ public class ScriptEvalUtil
 		}
 		catch ( Exception e)
 		{
-			RethrowJSEvalException(e);
+			// The message from RethrowJSEvalException is not very friendly.
+			// It needs to be enhanced and then become uesful.
+            throw new DataException( ResourceConstants.JSSCRIPT_INVALID,
+					new Object[]{
+							scriptText, source, new Integer( lineNo )
+					} );
 		}
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( ScriptEvalUtil.class.getName( ),

@@ -91,7 +91,8 @@ public class ResourceConstants
 	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "data.engine.NullDefaultInParamValue";
 	public final static String INVALID_GROUP_EXPR = "data.engine.BadGroupKeyExpr";
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "data.engine.NoParamMetaForDataSource";
-	public final static String UNEXPECTED_ERROR="data.engine.UnexpectedError";
+	public final static String UNEXPECTED_ERROR = "data.engine.UnexpectedError";
+	public final static String JSSCRIPT_INVALID = "data.engine.JSScriptInvalid";
 	
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
