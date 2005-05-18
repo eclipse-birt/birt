@@ -818,7 +818,7 @@ public final class AutoScale extends Methods implements Cloneable
                 // ARTIFICIAL LIMIT TO TICK COUNT
                 if (nTicks > 100)
                 {
-                    nTicks = 10;
+                    nTicks = 100;
                 }
                 if (nTicks < 2)
                 {
@@ -934,61 +934,76 @@ public final class AutoScale extends Methods implements Cloneable
      * 
      * @return
      */
-    final Object[] getMinMax()
+    final Object[] getMinMax() throws GenerationException
     {
-        if ((iType & NUMERICAL) == NUMERICAL)
+        Object oValue = null;
+        try
         {
-            Object oValue;
-            double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = Double.MIN_VALUE;
-            dsiData.reset();
-            while (dsiData.hasNext())
-            {
-                oValue = dsiData.next();
-                if (oValue == null) // NULL VALUE CHECK
-                {
-                    continue;
-                }
-                dValue = ((Double) oValue).doubleValue();
-                if (dValue < dMinValue)
-                    dMinValue = dValue;
-                if (dValue > dMaxValue)
-                    dMaxValue = dValue;
-            }
-
-            return new Object[]
-            {
-                new Double(dMinValue), new Double(dMaxValue)
-            };
+	        if ((iType & NUMERICAL) == NUMERICAL)
+	        {
+	            
+	            double dValue, dMinValue = Double.MAX_VALUE, dMaxValue = Double.MIN_VALUE;
+	            dsiData.reset();
+	            while (dsiData.hasNext())
+	            {
+	                oValue = dsiData.next();
+	                if (oValue == null) // NULL VALUE CHECK
+	                {
+	                    continue;
+	                }
+	                dValue = ((Double) oValue).doubleValue();
+	                if (dValue < dMinValue)
+	                    dMinValue = dValue;
+	                if (dValue > dMaxValue)
+	                    dMaxValue = dValue;
+	            }
+	
+	            return new Object[]
+	            {
+	                new Double(dMinValue), new Double(dMaxValue)
+	            };
+	        }
+	        else if ((iType & DATE_TIME) == DATE_TIME)
+	        {
+	            Calendar cValue;
+	            Calendar caMin = null, caMax = null;
+	            dsiData.reset();
+	            while (dsiData.hasNext())
+	            {
+	                oValue = dsiData.next();
+	                cValue = (Calendar) oValue;
+	                if (caMin == null)
+	                {
+	                    caMin = cValue;
+	                }
+	                if (caMax == null)
+	                {
+	                    caMax = cValue;
+	                }
+	                if (cValue == null) // NULL VALUE CHECK
+	                {
+	                    continue;
+	                }
+	                if (cValue.before(caMin))
+	                    caMin = cValue;
+	                else if (cValue.after(caMax))
+	                    caMax = cValue;
+	            }
+	            return new Object[]
+	            {
+	                new CDateTime(caMin), new CDateTime(caMax)
+	            };
+	        }
         }
-        else if ((iType & DATE_TIME) == DATE_TIME)
+        catch ( ClassCastException ex )
         {
-            Calendar cValue;
-            Calendar caMin = null, caMax = null;
-            dsiData.reset();
-            while (dsiData.hasNext())
-            {
-                cValue = (Calendar) dsiData.next();
-                if (caMin == null)
-                {
-                    caMin = cValue;
-                }
-                if (caMax == null)
-                {
-                    caMax = cValue;
-                }
-                if (cValue == null) // NULL VALUE CHECK
-                {
-                    continue;
-                }
-                if (cValue.before(caMin))
-                    caMin = cValue;
-                else if (cValue.after(caMax))
-                    caMax = cValue;
-            }
-            return new Object[]
-            {
-                new CDateTime(caMin), new CDateTime(caMax)
-            };
+           throw new GenerationException(
+                    "exception.invalid.axis.data.type", //$NON-NLS-1$
+                    new Object[] { oValue },
+                    ResourceBundle.getBundle(
+                        Messages.ENGINE, 
+                        rtc.getLocale()
+                    ));
         }
         return null;
     }
