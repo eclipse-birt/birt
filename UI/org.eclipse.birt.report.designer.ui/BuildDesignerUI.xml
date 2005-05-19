@@ -177,7 +177,7 @@
 		</copy>
 		<copy todir="${export.dir}\${plugin.name}">
 			<fileset dir=".">
-				<include name="plugin.properties"/>
+				<include name="plugin*.properties"/>
 			</fileset>
 			<filterset>
 		    	<filter token="BUILD" value="${TODAY}"/>
