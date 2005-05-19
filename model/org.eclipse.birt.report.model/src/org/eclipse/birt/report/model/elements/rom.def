@@ -290,25 +290,27 @@
     <Choice displayNameID="Choices.drillThroughType.bookmark-link" name="bookmark-link" />
     <Choice displayNameID="Choices.drillThroughType.search" name="search" />
   </ChoiceType>
-  <ChoiceType name="contentType">
-    <Choice name="auto" displayNameID="Choices.ContentType.auto" />
-    <Choice name="plain" displayNameID="Choices.ContentType.plain" />
-    <Choice name="html" displayNameID="Choices.ContentType.html" />
-	 <!-- BIRT doesn't support the following content type
-    <Choice name="rtf" displayNameID="Choices.ContentType.rtf" />
+  <ChoiceType name="textContentType">
+    <Choice name="auto" displayNameID="Choices.textContentType.auto" />
+    <Choice name="plain" displayNameID="Choices.textContentType.plain" />
+    <Choice name="html" displayNameID="Choices.textContentType.html" />
+	<!-- BIRT doesn't support the following content type
+    <Choice name="rtf" displayNameID="Choices.textContentType.rtf" />
 	-->
   </ChoiceType>
   <ChoiceType name="formatType">
     <Choice name="all" displayNameID="Choices.formatType.all" />
     <Choice name="viewer" displayNameID="Choices.formatType.viewer" />
+    <Choice name="pdf" displayNameID="Choices.formatType.pdf" />
+    <Choice name="reportlet" displayNameID="Choices.formatType.reportlet" />        
+    <!--
     <Choice name="email" displayNameID="Choices.formatType.email" />
     <Choice name="print" displayNameID="Choices.formatType.print" />
-    <Choice name="pdf" displayNameID="Choices.formatType.pdf" />
     <Choice name="rtf" displayNameID="Choices.formatType.rtf" />
-    <Choice name="reportlet" displayNameID="Choices.formatType.reportlet" />
     <Choice name="excel" displayNameID="Choices.formatType.excel" />
     <Choice name="word" displayNameID="Choices.formatType.word" />
     <Choice name="powerpoint" displayNameID="Choices.formatType.powerpoint" />
+    -->
   </ChoiceType>
   <ChoiceType name="imageRefType">
     <Choice displayNameID="Choices.imageRefType.none" name="none" />
@@ -466,109 +468,7 @@
     <Method name="toString" displayNameID="Class.String.toString" toolTipID="Class.String.toString.toolTip" returnType="string" />
     <Method name="valueOf" displayNameID="Class.String.valueOf" toolTipID="Class.String.valueOf.toolTip" returnType="string" />
   </Class>
-  <Class name="Global" displayNameID="Class.Global" toolTipID="Class.Global.toolTip" native="true">
-    <Member name="NaN" displayNameID="Class.Global.NaN" toolTipID="Class.Global.NaN.toolTip" dataType="Object" isStatic="true" />
-    <Member name="Infinity" displayNameID="Class.Global.Infinity" toolTipID="Class.Global.Infinity.toolTip" dataType="Number" isStatic="true" />
-    <Member name="undefined" displayNameID="Class.Global.undefined" toolTipID="Class.Global.undefined.toolTip" dataType="Object" isStatic="true" />
-    <Method name="decodeURI" displayNameID="Class.Global.decodeURI" toolTipID="Class.Global.decodeURI.toolTip" returnType="String" isStatic="true" >
-      <Argument name="uri" type="String" tagID="Class.Global.decodeURI.uri" />
-    </Method>
-    <Method name="decodeURIComponent" displayNameID="Class.Global.decodeURIComponent" toolTipID="Class.Global.decodeURIComponent.toolTip" returnType="String" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.decodeURIComponent.s" />
-    </Method>
-    <Method name="encodeURI" displayNameID="Class.Global.encodeURI" toolTipID="Class.Global.encodeURI.toolTip" returnType="String" isStatic="true" >
-      <Argument name="uri" type="String" tagID="Class.Global.encodeURI.uri" />
-    </Method>
-    <Method name="encodeURIComponent" displayNameID="Class.Global.encodeURIComponent" toolTipID="Class.Global.encodeURIComponent.toolTip" returnType="String" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.encodeURIComponent.s" />
-    </Method>
-    <Method name="escape" displayNameID="Class.Global.escape" toolTipID="Class.Global.escape.toolTip" returnType="String" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.escape.s" />
-    </Method>
-    <Method name="eval" displayNameID="Class.Global.eval" toolTipID="Class.Global.eval.toolTip" returnType="Object" isStatic="true" >
-      <Argument name="code" type="String" tagID="Class.Global.eval.code" />
-    </Method>
-    <Method name="isNaN" displayNameID="Class.Global.isNaN" toolTipID="Class.Global.isNaN.toolTip" returnType="boolean" isStatic="true" >
-      <Argument name="x" type="Object" tagID="Class.Global.isNaN.x" />
-    </Method>
-    <Method name="isFinite" displayNameID="Class.Global.isFinite" toolTipID="Class.Global.isFinite.toolTip" returnType="boolean" isStatic="true" >
-      <Argument name="n" type="number" tagID="Class.Global.isFinite.n" />
-    </Method>
-    <Method name="parseFloat" displayNameID="Class.Global.parseFloat" toolTipID="Class.Global.parseFloat.toolTip" returnType="number" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.parseFloat.s" />
-    </Method>
-    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
-      <Argument name="radix" type="number" tagID="Class.Global.parseInt.radix" />
-    </Method>
-    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
-    </Method>
-    <Method name="unescape" displayNameID="Class.Global.unescape" toolTipID="Class.Global.unescape.toolTip" returnType="String" isStatic="true" >
-      <Argument name="s" type="String" tagID="Class.Global.unescape.s" />
-    </Method>
-  </Class>
-  <Class name="GlobalBirt" displayNameID="Class.GlobalBirt" toolTipID="Class.GlobalBirt.toolTip" >
-    <Member name="datasets" displayNameID="Class.GlobalBirt.datasets" toolTipID="Class.GlobalBirt.datasets.toolTip" dataType="Datasets[]" isStatic="true" />
-    <Member name="params" displayNameID="Class.GlobalBirt.params" toolTipID="Class.GlobalBirt.params.toolTip" dataType="Object[]" isStatic="true" />
-    <Member name="row" displayNameID="Class.GlobalBirt.row"  toolTipID="Class.GlobalBirt.row.toolTip" dataType="DataRow" isStatic="true" />
-    <Member name="rows" displayNameID="Class.GlobalBirt.rows" toolTipID="Class.GlobalBirt.rows.toolTip" dataType="DataRow[]" isStatic="true" />
-    <Member name="config" displayNameID="Class.GlobalBirt.config" toolTipID="Class.GlobalBirt.config.toolTip" dataType="Object[]" isStatic="true" />
-    <Member name="report" displayNameID="Class.GlobalBirt.report" toolTipID="Class.GlobalBirt.report.toolTip" dataType="Report" isStatic="true" />
-  </Class>
-  <Class name="Array" displayNameID="Class.Array" toolTipID="Class.Array.toolTip" native="true">
-    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array" />
-    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array">
-      <Argument name="size" type="number" tagID="Class.Array.Array.size" />
-    </Constructor>
-    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array">
-      <Argument name="element" type="Object" tagID="Class.Array.Array.element" />
-      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
-    </Constructor>
-    <Member name="length" displayNameID="Class.Array.length" toolTipID="Class.Array.length.toolTip" dataType="number" />
-    <Method name="concat" displayNameID="Class.Array.concat" toolTipID="Class.Array.concat.toolTip" returnType="Array">
-      <Argument name="value" type="Object" tagID="Class.Array.concat.value" />
-      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
-    </Method>
-    <Method name="join" displayNameID="Class.Array.join" toolTipID="Class.Array.join.toolTip" returnType="String" />
-    <Method name="join" displayNameID="Class.Array.join" toolTipID="Class.Array.join.toolTip" returnType="String">
-      <Argument name="seperator" type="String" tagID="Class.Array.join.seperator" />
-    </Method>
-    <Method name="pop" displayNameID="Class.Array.pop" toolTipID="Class.Array.pop.toolTip" returnType="Object" />
-    <Method name="push" displayNameID="Class.Array.push" toolTipID="Class.Array.push.toolTip" returnType="number">
-      <Argument name="value" type="String" tagID="Class.Array.push.value" />
-      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
-    </Method>
-    <Method name="reverse" displayNameID="Class.Array.reverse" toolTipID="Class.Array.reverse.toolTip" />
-    <Method name="shift" displayNameID="Class.Array.shift" toolTipID="Class.Array.shift.toolTip" returnType="Object" />
-    <Method name="slice" displayNameID="Class.Array.slice" toolTipID="Class.Array.slice.toolTip" returnType="Array">
-      <Argument name="start" type="number" tagID="Class.Array.slice.start" />
-      <Argument name="end" type="number" tagID="Class.Array.slice.end" />
-    </Method>
-    <Method name="sort" displayNameID="Class.Array.sort" toolTipID="Class.Array.sort.toolTip" returnType="Array" />
-    <Method name="sort" displayNameID="Class.Array.sort" toolTipID="Class.Array.sort.toolTip" returnType="Array">
-      <Argument name="orderfunc" type="Function" tagID="Class.Array.sort.orderfunc" />
-    </Method>
-    <Method name="splice" displayNameID="Class.Array.splice" toolTipID="Class.Array.splice.toolTip" returnType="Array">
-      <Argument name="start" type="number" tagID="Class.Array.splice.start" />
-      <Argument name="deleteCount" type="number" tagID="Class.Array.splice.deleteCount" />
-      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
-    </Method>
-    <Method name="toLocaleString" displayNameID="Class.Array.toLocaleString" toolTipID="Class.Array.toLocaleString.toolTip" returnType="String" />
-    <Method name="toString" displayNameID="Class.Array.toString" toolTipID="Class.Array.toString.toolTip" returnType="String" />
-    <Method name="unshift" displayNameID="Class.Array.unshift" toolTipID="Class.Array.unshift.toolTip" returnType="Array">
-      <Argument name="value" type="Object" tagID="Class.Array.unshift.value" />
-      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
-    </Method>
-  </Class>
-  <Class name="Boolean" displayNameID="Class.Boolean" toolTipID="Class.Boolean.toolTip" native="true">
-    <Constructor name="Boolean" displayNameID="Class.Boolean.Boolean" toolTipID="Class.Boolean.Boolean.toolTip" returnType="Boolean">
-      <Argument name="value" type="Object" tagID="Class.Boolean.Boolean.value" />
-    </Constructor>
-    <Method name="toString" displayNameID="Class.Boolean.toString" toolTipID="Class.Boolean.toString.toolTip" returnType="string" />
-    <Method name="valueOf" displayNameID="Class.Boolean.valueOf" toolTipID="Class.Boolean.valueOf.toolTip" returnType="boolean" />
-  </Class>
-  <Class name="Date" displayNameID="Class.Date" toolTipID="Class.Date.toolTip" native="true">
+<Class name="Date" displayNameID="Class.Date" toolTipID="Class.Date.toolTip" native="true">
     <Constructor name="Date" displayNameID="Class.Date.Date" toolTipID="Class.Date.Date.toolTip" returnType="Date" />
     <Constructor name="Date" displayNameID="Class.Date.Date" toolTipID="Class.Date.Date.toolTip" returnType="Date">
       <Argument name="milliseconds" type="number" tagID="Class.Date.Date.milliseconds" />
@@ -755,7 +655,100 @@
       <Argument name="ms" type="number" tagID="Class.Date.UTC.ms" />
     </Method>
     <Method name="valueOf" displayNameID="Class.Date.valueOf" toolTipID="Class.Date.valueOf.toolTip" returnType="number" />
-  </Class>
+  </Class>  
+  <Class name="Array" displayNameID="Class.Array" toolTipID="Class.Array.toolTip" native="true">
+    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array" />
+    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array">
+      <Argument name="size" type="number" tagID="Class.Array.Array.size" />
+    </Constructor>
+    <Constructor name="Array" displayNameID="Class.Array.Array" toolTipID="Class.Array.Array.toolTip" returnType="Array">
+      <Argument name="element" type="Object" tagID="Class.Array.Array.element" />
+      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
+    </Constructor>
+    <Member name="length" displayNameID="Class.Array.length" toolTipID="Class.Array.length.toolTip" dataType="number" />
+    <Method name="concat" displayNameID="Class.Array.concat" toolTipID="Class.Array.concat.toolTip" returnType="Array">
+      <Argument name="value" type="Object" tagID="Class.Array.concat.value" />
+      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
+    </Method>
+    <Method name="join" displayNameID="Class.Array.join" toolTipID="Class.Array.join.toolTip" returnType="String" />
+    <Method name="join" displayNameID="Class.Array.join" toolTipID="Class.Array.join.toolTip" returnType="String">
+      <Argument name="seperator" type="String" tagID="Class.Array.join.seperator" />
+    </Method>
+    <Method name="pop" displayNameID="Class.Array.pop" toolTipID="Class.Array.pop.toolTip" returnType="Object" />
+    <Method name="push" displayNameID="Class.Array.push" toolTipID="Class.Array.push.toolTip" returnType="number">
+      <Argument name="value" type="String" tagID="Class.Array.push.value" />
+      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
+    </Method>
+    <Method name="reverse" displayNameID="Class.Array.reverse" toolTipID="Class.Array.reverse.toolTip" />
+    <Method name="shift" displayNameID="Class.Array.shift" toolTipID="Class.Array.shift.toolTip" returnType="Object" />
+    <Method name="slice" displayNameID="Class.Array.slice" toolTipID="Class.Array.slice.toolTip" returnType="Array">
+      <Argument name="start" type="number" tagID="Class.Array.slice.start" />
+      <Argument name="end" type="number" tagID="Class.Array.slice.end" />
+    </Method>
+    <Method name="sort" displayNameID="Class.Array.sort" toolTipID="Class.Array.sort.toolTip" returnType="Array" />
+    <Method name="sort" displayNameID="Class.Array.sort" toolTipID="Class.Array.sort.toolTip" returnType="Array">
+      <Argument name="orderfunc" type="Function" tagID="Class.Array.sort.orderfunc" />
+    </Method>
+    <Method name="splice" displayNameID="Class.Array.splice" toolTipID="Class.Array.splice.toolTip" returnType="Array">
+      <Argument name="start" type="number" tagID="Class.Array.splice.start" />
+      <Argument name="deleteCount" type="number" tagID="Class.Array.splice.deleteCount" />
+      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
+    </Method>
+    <Method name="toLocaleString" displayNameID="Class.Array.toLocaleString" toolTipID="Class.Array.toLocaleString.toolTip" returnType="String" />
+    <Method name="toString" displayNameID="Class.Array.toString" toolTipID="Class.Array.toString.toolTip" returnType="String" />
+    <Method name="unshift" displayNameID="Class.Array.unshift" toolTipID="Class.Array.unshift.toolTip" returnType="Array">
+      <Argument name="value" type="Object" tagID="Class.Array.unshift.value" />
+      <Argument name="optionalArgument" tagID="Class.optionalArgument" />
+    </Method>
+  </Class>  
+  <Class name="Boolean" displayNameID="Class.Boolean" toolTipID="Class.Boolean.toolTip" native="true">
+    <Constructor name="Boolean" displayNameID="Class.Boolean.Boolean" toolTipID="Class.Boolean.Boolean.toolTip" returnType="Boolean">
+      <Argument name="value" type="Object" tagID="Class.Boolean.Boolean.value" />
+    </Constructor>
+    <Method name="toString" displayNameID="Class.Boolean.toString" toolTipID="Class.Boolean.toString.toolTip" returnType="string" />
+    <Method name="valueOf" displayNameID="Class.Boolean.valueOf" toolTipID="Class.Boolean.valueOf.toolTip" returnType="boolean" />
+  </Class>    
+  <Class name="Number" displayNameID="Class.Number" toolTipID="Class.Number.toolTip" native="true">
+    <Constructor name="Number" displayNameID="Class.Number.Number" toolTipID="Class.Number.Number.toolTip" returnType="Number">
+      <Argument name="value" type="Object" tagID="Class.Number.Number.value" />
+    </Constructor>
+    <Member name="MAX_VALUE" displayNameID="Class.Number.MAX_VALUE" toolTipID="Class.Number.MAX_VALUE.toolTip" dataType="number" isStatic="true" />
+    <Member name="MIN_VALUE" displayNameID="Class.Number.MIN_VALUE" toolTipID="Class.Number.MIN_VALUE.toolTip" dataType="number" isStatic="true" />
+    <Member name="NaN" displayNameID="Class.Number.NaN" toolTipID="Class.Number.NaN.toolTip" dataType="number" isStatic="true" />
+    <Member name="NEGATIVE_INFINITY" displayNameID="Class.Number.NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
+    <Member name="POSITIVE_INFINITY" displayNameID="Class.Number.POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
+    <Method name="toExpoential" displayNameID="Class.Number.toExpoential" toolTipID="Class.Number.toExpoential.toolTip" returnType="String">
+      <Argument name="digits" type="number" tagID="Class.Number.toExpoential.digits" />
+    </Method>
+    <Method name="toFixed" displayNameID="Class.Number.toFixed" toolTipID="Class.Number.toFixed.toolTip" returnType="String">
+      <Argument name="digits" type="number" tagID="Class.Number.toFixed.digits" />
+    </Method>
+    <Method name="toLocaleString" displayNameID="Class.Number.toLocaleString" toolTipID="Class.Number.toLocaleString.toolTip" returnType="String" />
+    <Method name="toPrecision" displayNameID="Class.Number.toPrecision" toolTipID="Class.Number.toPrecision.toolTip" returnType="String">
+      <Argument name="precision" type="number" tagID="Class.Number.toPrecision.precision" />
+    </Method>
+    <Method name="toString" displayNameID="Class.Number.toString" toolTipID="Class.Number.toString.toolTip" returnType="String">
+      <Argument name="radix" type="number" tagID="Class.Number.toString.radix" />
+    </Method>
+    <Method name="valueOf" displayNameID="Class.Number.valueOf" toolTipID="Class.Number.valueOf.toolTip" returnType="number" />
+  </Class>  
+  <Class name="RegExp" displayNameID="Class.RegExp" toolTipID="Class.RegExp.toolTip" native="true">
+    <Constructor name="RegExp" displayNameID="Class.RegExp.RegExp" toolTipID="Class.RegExp.RegExp.toolTip" returnType="RegExp">
+      <Argument name="pattern" type="String" tagID="Class.RegExp.RegExp.pattern" />
+      <Argument name="attributes" type="String" tagID="Class.RegExp.RegExp.attributes" />
+    </Constructor>
+    <Member name="global" displayNameID="Class.RegExp.global" toolTipID="Class.RegExp.global.toolTip" dataType="boolean" />
+    <Member name="ignoreCase" displayNameID="Class.RegExp.ignoreCase" toolTipID="Class.RegExp.ignoreCase.toolTip" dataType="boolean" />
+    <Member name="lastIndex" displayNameID="Class.RegExp.lastIndex" toolTipID="Class.RegExp.lastIndex.toolTip" dataType="number" />
+    <Member name="source" displayNameID="Class.RegExp.source" toolTipID="Class.RegExp.source.toolTip" dataType="String" />
+    <Method name="exec" displayNameID="Class.RegExp.exec" toolTipID="Class.RegExp.exec.toolTip" returnType="String[]">
+      <Argument name="string" type="String" tagID="Class.RegExp.exec.string" />
+    </Method>
+    <Method name="test" displayNameID="Class.RegExp.test" toolTipID="Class.RegExp.test.toolTip" returnType="boolean">
+      <Argument name="string" type="String" tagID="Class.RegExp.test.string" />
+    </Method>
+    <Method name="toString" displayNameID="Class.RegExp.toString" toolTipID="Class.RegExp.toString.toolTip" returnType="String" />
+  </Class>  
   <Class name="Math" displayNameID="Class.Math" toolTipID="Class.Math.toolTip" native="true">
     <Member name="E" displayNameID="Class.Math.E" toolTipID="Class.Math.E.toolTip" dataType="number" isStatic="true" />
     <Member name="LN10" displayNameID="Class.Math.LN10" toolTipID="Class.Math.LN10.toolTip" dataType="number" isStatic="true" />
@@ -821,31 +814,7 @@
     <Method name="tan" displayNameID="Class.Math.tan" toolTipID="Class.Math.tan.toolTip" returnType="number" isStatic="true">
       <Argument name="x" type="number" tagID="Class.Math.tan.x" />
     </Method>
-  </Class>
-  <Class name="Number" displayNameID="Class.Number" toolTipID="Class.Number.toolTip" native="true">
-    <Constructor name="Number" displayNameID="Class.Number.Number" toolTipID="Class.Number.Number.toolTip" returnType="Number">
-      <Argument name="value" type="Object" tagID="Class.Number.Number.value" />
-    </Constructor>
-    <Member name="MAX_VALUE" displayNameID="Class.Number.MAX_VALUE" toolTipID="Class.Number.MAX_VALUE.toolTip" dataType="number" isStatic="true" />
-    <Member name="MIN_VALUE" displayNameID="Class.Number.MIN_VALUE" toolTipID="Class.Number.MIN_VALUE.toolTip" dataType="number" isStatic="true" />
-    <Member name="NaN" displayNameID="Class.Number.NaN" toolTipID="Class.Number.NaN.toolTip" dataType="number" isStatic="true" />
-    <Member name="NEGATIVE_INFINITY" displayNameID="Class.Number.NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
-    <Member name="POSITIVE_INFINITY" displayNameID="Class.Number.POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
-    <Method name="toExpoential" displayNameID="Class.Number.toExpoential" toolTipID="Class.Number.toExpoential.toolTip" returnType="String">
-      <Argument name="digits" type="number" tagID="Class.Number.toExpoential.digits" />
-    </Method>
-    <Method name="toFixed" displayNameID="Class.Number.toFixed" toolTipID="Class.Number.toFixed.toolTip" returnType="String">
-      <Argument name="digits" type="number" tagID="Class.Number.toFixed.digits" />
-    </Method>
-    <Method name="toLocaleString" displayNameID="Class.Number.toLocaleString" toolTipID="Class.Number.toLocaleString.toolTip" returnType="String" />
-    <Method name="toPrecision" displayNameID="Class.Number.toPrecision" toolTipID="Class.Number.toPrecision.toolTip" returnType="String">
-      <Argument name="precision" type="number" tagID="Class.Number.toPrecision.precision" />
-    </Method>
-    <Method name="toString" displayNameID="Class.Number.toString" toolTipID="Class.Number.toString.toolTip" returnType="String">
-      <Argument name="radix" type="number" tagID="Class.Number.toString.radix" />
-    </Method>
-    <Method name="valueOf" displayNameID="Class.Number.valueOf" toolTipID="Class.Number.valueOf.toolTip" returnType="number" />
-  </Class>
+  </Class>  
   <Class name="Object" displayNameID="Class.Object" toolTipID="Class.Object.toolTip" native="true">
     <Constructor name="Object" displayNameID="Class.Object.Object" toolTipID="Class.Object.Object.toolTip" returnType="Object" />
     <Constructor name="Object" displayNameID="Class.Object.Object" toolTipID="Class.Object.Object.toolTip" returnType="Object">
@@ -863,124 +832,59 @@
     <Method name="toLocaleString" displayNameID="Class.Object.toLocaleString" toolTipID="Class.Object.toLocaleString.toolTip" returnType="String" />
     <Method name="toString" displayNameID="Class.Object.toString" toolTipID="Class.Object.toString.toolTip" returnType="String" />
     <Method name="valueOf" displayNameID="Class.Object.valueOf" toolTipID="Class.Object.valueOf.toolTip" returnType="Object" />
-  </Class>
-  <Class name="RegExp" displayNameID="Class.RegExp" toolTipID="Class.RegExp.toolTip" native="true">
-    <Constructor name="RegExp" displayNameID="Class.RegExp.RegExp" toolTipID="Class.RegExp.RegExp.toolTip" returnType="RegExp">
-      <Argument name="pattern" type="String" tagID="Class.RegExp.RegExp.pattern" />
-      <Argument name="attributes" type="String" tagID="Class.RegExp.RegExp.attributes" />
-    </Constructor>
-    <Member name="global" displayNameID="Class.RegExp.global" toolTipID="Class.RegExp.global.toolTip" dataType="boolean" />
-    <Member name="ignoreCase" displayNameID="Class.RegExp.ignoreCase" toolTipID="Class.RegExp.ignoreCase.toolTip" dataType="boolean" />
-    <Member name="lastIndex" displayNameID="Class.RegExp.lastIndex" toolTipID="Class.RegExp.lastIndex.toolTip" dataType="number" />
-    <Member name="source" displayNameID="Class.RegExp.source" toolTipID="Class.RegExp.source.toolTip" dataType="String" />
-    <Method name="exec" displayNameID="Class.RegExp.exec" toolTipID="Class.RegExp.exec.toolTip" returnType="String[]">
-      <Argument name="string" type="String" tagID="Class.RegExp.exec.string" />
+  </Class>  
+  <Class name="Global" displayNameID="Class.Global" toolTipID="Class.Global.toolTip" native="true">
+    <Member name="NaN" displayNameID="Class.Global.NaN" toolTipID="Class.Global.NaN.toolTip" dataType="Object" isStatic="true" />
+    <Member name="Infinity" displayNameID="Class.Global.Infinity" toolTipID="Class.Global.Infinity.toolTip" dataType="Number" isStatic="true" />
+    <Member name="undefined" displayNameID="Class.Global.undefined" toolTipID="Class.Global.undefined.toolTip" dataType="Object" isStatic="true" />
+    <Method name="decodeURI" displayNameID="Class.Global.decodeURI" toolTipID="Class.Global.decodeURI.toolTip" returnType="String" isStatic="true" >
+      <Argument name="uri" type="String" tagID="Class.Global.decodeURI.uri" />
     </Method>
-    <Method name="test" displayNameID="Class.RegExp.test" toolTipID="Class.RegExp.test.toolTip" returnType="boolean">
-      <Argument name="string" type="String" tagID="Class.RegExp.test.string" />
+    <Method name="decodeURIComponent" displayNameID="Class.Global.decodeURIComponent" toolTipID="Class.Global.decodeURIComponent.toolTip" returnType="String" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.decodeURIComponent.s" />
     </Method>
-    <Method name="toString" displayNameID="Class.RegExp.toString" toolTipID="Class.RegExp.toString.toolTip" returnType="String" />
+    <Method name="encodeURI" displayNameID="Class.Global.encodeURI" toolTipID="Class.Global.encodeURI.toolTip" returnType="String" isStatic="true" >
+      <Argument name="uri" type="String" tagID="Class.Global.encodeURI.uri" />
+    </Method>
+    <Method name="encodeURIComponent" displayNameID="Class.Global.encodeURIComponent" toolTipID="Class.Global.encodeURIComponent.toolTip" returnType="String" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.encodeURIComponent.s" />
+    </Method>
+    <Method name="escape" displayNameID="Class.Global.escape" toolTipID="Class.Global.escape.toolTip" returnType="String" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.escape.s" />
+    </Method>
+    <Method name="eval" displayNameID="Class.Global.eval" toolTipID="Class.Global.eval.toolTip" returnType="Object" isStatic="true" >
+      <Argument name="code" type="String" tagID="Class.Global.eval.code" />
+    </Method>
+    <Method name="isNaN" displayNameID="Class.Global.isNaN" toolTipID="Class.Global.isNaN.toolTip" returnType="boolean" isStatic="true" >
+      <Argument name="x" type="Object" tagID="Class.Global.isNaN.x" />
+    </Method>
+    <Method name="isFinite" displayNameID="Class.Global.isFinite" toolTipID="Class.Global.isFinite.toolTip" returnType="boolean" isStatic="true" >
+      <Argument name="n" type="number" tagID="Class.Global.isFinite.n" />
+    </Method>
+    <Method name="parseFloat" displayNameID="Class.Global.parseFloat" toolTipID="Class.Global.parseFloat.toolTip" returnType="number" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.parseFloat.s" />
+    </Method>
+    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
+      <Argument name="radix" type="number" tagID="Class.Global.parseInt.radix" />
+    </Method>
+    <Method name="parseInt" displayNameID="Class.Global.parseInt" toolTipID="Class.Global.parseInt.toolTip" returnType="number" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.parseInt.s" />
+    </Method>
+    <Method name="unescape" displayNameID="Class.Global.unescape" toolTipID="Class.Global.unescape.toolTip" returnType="String" isStatic="true" >
+      <Argument name="s" type="String" tagID="Class.Global.unescape.s" />
+    </Method>
   </Class>
-  <Class name="ElementDefn" displayNameID="Class.ElementDefn" toolTipID="Class.ElementDefn.toolTip">	
-		<Member name="name" displayNameID="Class.ElementDefn.name" toolTipID="Class.ElementDefn.name.toolTip" dataType="String"/>
-		<Member name="extends" displayNameID="Class.ElementDefn.extends" toolTipID="Class.ElementDefn.extends.toolTip" dataType="String"/>		
-		<Member name="propertyDefns" displayNameID="Class.ElementDefn.propertyDefns" toolTipID="Class.ElementDefn.propertyDefns.toolTip" dataType="PropertyDefn[]"/>			
-		<Member name="slotDefns" displayNameID="Class.ElementDefn.slotDefns" toolTipID="Class.ElementDefn.slotDefns.toolTip" dataType="SlotDefn[]"/>			
-		<Member name="property" displayNameID="Class.ElementDefn.property" toolTipID="Class.ElementDefn.property.toolTip" dataType="Object"/>			
-		<Member name="properties" displayNameID="Class.ElementDefn.properties" toolTipID="Class.ElementDefn.properties.toolTip" dataType="Object[]"/>			
-		<Member name="slots" displayNameID="Class.ElementDefn.slots" toolTipID="Class.ElementDefn.slots.toolTip" dataType="Object[]"/>											
-		<Member name="allowsUserProperties" displayNameID="Class.ElementDefn.allowsUserProperties" toolTipID="Class.ElementDefn.allowsUserProperties.toolTip" dataType="boolean"/>			
-		<Member name="hasStyle" displayNameID="Class.ElementDefn.hasStyle" toolTipID="Class.ElementDefn.hasStyle.toolTip" dataType="boolean"/>			
-		<Member name="container" displayNameID="Class.ElementDefn.container" toolTipID="Class.ElementDefn.container.toolTip" dataType="ElementDefn"/>			
-		<Member name="containerSlot" displayNameID="Class.ElementDefn.containerSlot" toolTipID="Class.ElementDefn.containerSlot.toolTip" dataType="String"/>											
-  </Class>
-  <Class name="Color" displayNameID="Class.Color" toolTipID="Class.Color.toolTip">		
-		<Member name="transparent" displayNameID="Class.Color.transparent" toolTipID="Class.Color.transparent.toolTip" dataType="boolean"/>
-		<Member name="rgb" displayNameID="Class.Color.rgb" toolTipID="Class.Color.rgb.toolTip" dataType="number"/>					
-		<Member name="value" displayNameID="Class.Color.value" toolTipID="Class.Color.value.toolTip" dataType="String"/>					
-		<Member name="cssValue" displayNameID="Class.Color.cssValue" toolTipID="Class.Color.cssValue.toolTip" dataType="String"/>					
-  </Class>
-  <Class name="Dimension" displayNameID="Class.Dimension" toolTipID="Class.Dimension.toolTip">		
-		<Member name="value" displayNameID="Class.Dimension.value" toolTipID="Class.Dimension.value.toolTip" dataType="String"/>
-		<Member name="measure" displayNameID="Class.Dimension.measure" toolTipID="Class.Dimension.measure.toolTip" dataType="number"/>					
-		<Member name="units" displayNameID="Class.Dimension.units" toolTipID="Class.Dimension.units.toolTip" dataType="String"/>					
-  </Class>
-  <Class name="PropertyDefn"  displayNameID="Class.PropertyDefn" toolTipID="Class.PropertyDefn.toolTip">		
-		<Member name="isUserProperty" displayNameID="Class.PropertyDefn.isUserProperty" toolTipID="Class.PropertyDefn.isUserProperty.toolTip" dataType="boolean"/>
-		<Member name="name" displayNameID="Class.PropertyDefn.name" toolTipID="Class.PropertyDefn.name.toolTip" dataType="String"/>					
-		<Member name="group" displayNameID="Class.PropertyDefn.group" toolTipID="Class.PropertyDefn.group.toolTip" dataType="String"/>					
-		<Member name="canInherit" displayNameID="Class.PropertyDefn.canInherit" toolTipID="Class.PropertyDefn.canInherit.toolTip" dataType="boolean"/>
-		<Member name="isStyle" displayNameID="Class.PropertyDefn.isStyle" toolTipID="Class.PropertyDefn.isStyle.toolTip" dataType="boolean"/>					
-		<Member name="type" displayNameID="Class.PropertyDefn.type" toolTipID="Class.PropertyDefn.type.toolTip" dataType="String"/>					
-		<Member name="choices" displayNameID="Class.PropertyDefn.choices" toolTipID="Class.PropertyDefn.choices.toolTip" dataType="String[]"/>					
-		<Member name="defaultValue" displayNameID="Class.PropertyDefn.defaultValue" toolTipID="Class.PropertyDefn.defaultValue.toolTip" dataType="Object"/>					
-  </Class>
-  <Class name="Report" displayNameID="Class.Report" toolTipID="Class.Report.toolTip">	
-		<Member name="design" displayNameID="Class.Report.design" toolTipID="Class.Report.design.toolTip" dataType="ReportDefn"/>
-		<Member name="document" displayNameID="Class.Report.document" toolTipID="Class.Report.document.toolTip" dataType="ReportDoc"/>
-		<Member name="params" displayNameID="Class.Report.params" toolTipID="Class.Report.params.toolTip" dataType="Object[]"/>
-		<Member name="dataSets" displayNameID="Class.Report.dataSets" toolTipID="Class.Report.dataSets.toolTip" dataType="DataSet[]"/>
-		<Member name="dataSources" displayNameID="Class.Report.dataSources" toolTipID="Class.Report.dataSources.toolTip" dataType="DataSource[]"/>		
-		<Member name="config" displayNameID="Class.Report.config" toolTipID="Class.Report.config.toolTip" dataType="Object[]"/>		
-  </Class>
-  <Class name="ReportDefn" displayNameID="Class.ReportDefn" toolTipID="Class.ReportDefn.toolTip">	
-		<Method name="findStyle" displayNameID="Class.ReportDefn.findStyle" toolTipID="Class.ReportDefn.findStyle.toolTip" returnType="ElementDefn">
-			<Argument name="styleName" type="String" tagID="Class.ReportDefn.findStyle.styleName"/>
-		</Method>
-		<Method name="findReportItem" displayNameID="Class.ReportDefn.findReportItem" toolTipID="Class.ReportDefn.findReportItem.toolTip" returnType="ElementDefn">
-			<Argument name="itemName" type="String" tagID="Class.ReportDefn.findReportItem.itemName"/>
-		</Method>		
-		<Method name="findDataSource" displayNameID="Class.ReportDefn.findDataSource" toolTipID="Class.ReportDefn.findDataSource.toolTip" returnType="ElementDefn">
-			<Argument name="sourceName" type="String" tagID="Class.ReportDefn.findDataSource.sourceName"/>
-		</Method>			
-		<Method name="findDataSet" displayNameID="Class.ReportDefn.findDataSet" toolTipID="Class.ReportDefn.findDataSet.toolTip" returnType="ElementDefn">
-			<Argument name="dataSetName" type="String" tagID="Class.ReportDefn.findDataSet.dataSetName"/>
-		</Method>			
-		<Method name="findParameter" displayNameID="Class.ReportDefn.findParameter" toolTipID="Class.ReportDefn.findParameter.toolTip" returnType="ElementDefn">
-			<Argument name="parameterName" type="String" tagID="Class.ReportDefn.findParameter.parameterName"/>
-		</Method>			
-  </Class>	
-  <Class name="DataSet" displayNameID="Class.DataSet" toolTipID="Class.DataSet.toolTip">	
-		<Member name="row" displayNameID="Class.DataSet.row" toolTipID="Class.DataSet.row.toolTip" dataType="DataRow"/>
-		<Member name="rows" displayNameID="Class.DataSet.rows" toolTipID="Class.DataSet.rows.toolTip" dataType="DataRow[]"/>			
-		<Member name="command" displayNameID="Class.DataSet.command" toolTipID="Class.DataSet.command.toolTip" dataType="String"/>					
-		<Member name="columns" displayNameID="Class.DataSet.columns" toolTipID="Class.DataSet.columns.toolTip" dataType="ColumnDefn[]"/>					
-		<Member name="schema" displayNameID="Class.DataSet.schema" toolTipID="Class.DataSet.schema.toolTip" dataType="DataSetSchema"/>							
-		<Member name="inputParams" displayNameID="Class.DataSet.inputParams" toolTipID="Class.DataSet.inputParams.toolTip" dataType="DataSetInputParam[]"/>							
-		<Member name="outputParams" displayNameID="Class.DataSet.outputParams" toolTipID="Class.DataSet.outputParams.toolTip" dataType="DataSetOutputParam[]"/>							
-		<Member name="publicProperties" displayNameID="Class.DataSet.publicProperties" toolTipID="Class.DataSet.publicProperties.toolTip" dataType="Object[]"/>									
-		<Member name="privateProperties" displayNameID="Class.DataSet.privateProperties" toolTipID="Class.DataSet.privateProperties.toolTip" dataType="Object[]"/>									
-  </Class>
-  <Class name="DataRow" displayNameID="Class.DataRow" toolTipID="Class.DataRow.toolTip">	
-		<Constructor name="DataRow" displayNameID="Class.DataRow.DataRow" toolTipID="Class.DataRow.DataRow.toolTip" returnType="DataRow">
-			<Argument name="ds" type="DataSet" tagID="Class.DataRow.DataRow.ds"/>
-		</Constructor>
-		<Constructor name="DataRow" displayNameID="Class.DataRow.DataRow" toolTipID="Class.DataRow.DataRow.toolTip" returnType="DataRow">
-			<Argument name="r" type="DataRow" tagID="Class.DataRow.DataRow.r"/>
-		</Constructor>
-		<Member name="column" displayNameID="Class.DataRow.column" toolTipID="Class.DataRow.column.toolTip" dataType="Object"/>
-		<Member name="rowNo" displayNameID="Class.DataRow.rowNo" toolTipID="Class.DataRow.rowNo.toolTip" dataType="number"/>		
-		<Member name="dataSet" displayNameID="Class.DataRow.dataSet" toolTipID="Class.DataRow.dataSet.toolTip" dataType="DataSet"/>				
-		<Member name="schema" displayNameID="Class.DataRow.schema" toolTipID="Class.DataRow.schema.toolTip" dataType="ColumnDefn[]"/>				
-  </Class>
-  <Class name="ColumnDefn" displayNameID="Class.ColumnDefn" toolTipID="Class.ColumnDefn.toolTip">	
-		<Member name="index" displayNameID="Class.ColumnDefn.index" toolTipID="Class.ColumnDefn.index.toolTip" dataType="number"/>		
-		<Member name="name" displayNameID="Class.ColumnDefn.name" toolTipID="Class.ColumnDefn.name.toolTip" dataType="String"/>		
-		<Member name="type" displayNameID="Class.ColumnDefn.type" toolTipID="Class.ColumnDefn.type.toolTip" dataType="String"/>		
-		<Member name="expr" displayNameID="Class.ColumnDefn.expr" toolTipID="Class.ColumnDefn.expr.toolTip" dataType="String"/>		
-		<Member name="INTEGER" displayNameID="Class.ColumnDefn.INTEGER" toolTipID="Class.ColumnDefn.INTEGER.toolTip" dataType="String" isStatic="true"/>		
-		<Member name="FLOAT" displayNameID="Class.ColumnDefn.FLOAT" toolTipID="Class.ColumnDefn.FLOAT.toolTip" dataType="String" isStatic="true"/>				
-		<Member name="DECIMAL" displayNameID="Class.ColumnDefn.DECIMAL" toolTipID="Class.ColumnDefn.DECIMAL.toolTip" dataType="String" isStatic="true"/>				
-		<Member name="BOOLEAN" displayNameID="Class.ColumnDefn.BOOLEAN" toolTipID="Class.ColumnDefn.BOOLEAN.toolTip" dataType="String" isStatic="true"/>				
-		<Member name="STRING" displayNameID="Class.ColumnDefn.STRING" toolTipID="Class.ColumnDefn.STRING.toolTip" dataType="String" isStatic="true"/>								
-		<Member name="BLOB" displayNameID="Class.ColumnDefn.BLOB" toolTipID="Class.ColumnDefn.BLOB.toolTip" dataType="String" isStatic="true"/>						
-  </Class>
-  <Class name="DataSetSchema" displayNameID="Class.DataSetSchema" toolTipID="Class.DataSetSchema.toolTip">	
-		<Member name="description" displayNameID="Class.DataSetSchema.description" toolTipID="Class.DataSetSchema.description.toolTip" dataType="String"/>
-		<Member name="resultSets" displayNameID="Class.DataSetSchema.resultSets" toolTipID="Class.DataSetSchema.resultSets.toolTip" dataType="ResultSetDefn[]"/>			
-		<Member name="inputParams" displayNameID="Class.DataSetSchema.inputParams" toolTipID="Class.DataSetSchema.inputParams.toolTip" dataType="DataSetInputParam[]"/>			
-		<Member name="outputParams" displayNameID="Class.DataSetSchema.outputParams" toolTipID="Class.DataSetSchema.outputParams.toolTip" dataType="DataSetOutputParam[]"/>									
-  </Class>
+  <Class name="GlobalBirt" displayNameID="Class.GlobalBirt" toolTipID="Class.GlobalBirt.toolTip" >
+    <!--
+    <Member name="datasets" displayNameID="Class.GlobalBirt.datasets" toolTipID="Class.GlobalBirt.datasets.toolTip" dataType="Datasets[]" isStatic="true" />
+    <Member name="row" displayNameID="Class.GlobalBirt.row"  toolTipID="Class.GlobalBirt.row.toolTip" dataType="DataRow" isStatic="true" />
+    <Member name="rows" displayNameID="Class.GlobalBirt.rows" toolTipID="Class.GlobalBirt.rows.toolTip" dataType="DataRow[]" isStatic="true" />
+    -->
+    <Member name="params" displayNameID="Class.GlobalBirt.params" toolTipID="Class.GlobalBirt.params.toolTip" dataType="Object[]" isStatic="true" />    
+    <Member name="config" displayNameID="Class.GlobalBirt.config" toolTipID="Class.GlobalBirt.config.toolTip" dataType="Object[]" isStatic="true" />
+    <Member name="report" displayNameID="Class.GlobalBirt.report" toolTipID="Class.GlobalBirt.report.toolTip" dataType="Report" isStatic="true" />
+  </Class>  	  
   <!--
   <Class name="ResultSetDefn" displayNameID="Class.ResultSetDefn" toolTipID="Class.ResultSetDefn.toolTip">	
 		<Member name="name" displayNameID="Class.ResultSetDefn.name" toolTipID="Class.ResultSetDefn.name.toolTip" dataType="String"/>
@@ -1024,6 +928,387 @@
 		<Member name="body" displayNameID="Class.ReportDoc.body" toolTipID="Class.ReportDoc.body.toolTip" dataType="Section[]"/>		
   </Class>	    
   -->
+  <Class name="Total" displayNameID="Class.Total" toolTipID="Class.Total.toolTip">	
+	<Member name="OVERALL" displayNameID="Class.Total.OVERALL" toolTipID="Class.Total.OVERALL.toolTip" dataType="String" isStatic="true"/>						
+	<Method name="sum" displayNameID="Class.Total.sum" toolTipID="Class.Total.sum.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.sum.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.sum.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.sum.group"/>			 			
+	</Method>
+	<Method name="runningSum" displayNameID="Class.Total.runningSum" toolTipID="Class.Total.runningSum.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.runningSum.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.runningSum.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.runningSum.group"/>			 			
+	</Method>
+	<Method name="count" displayNameID="Class.Total.count" toolTipID="Class.Total.count.toolTip" returnType="number" isStatic="true">
+		<Argument name="filter" type="String" tagID="Class.Total.count.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.count.group"/>			 			
+	</Method>
+	<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.countDistinct.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
+	</Method>
+	<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.countDistinct.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
+	</Method>
+	<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.countDistinct.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
+	</Method>
+	<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.max.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
+	</Method>
+	<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.max.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
+	</Method>
+	<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.max.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
+	</Method>
+	<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.min.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
+	</Method>
+	<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.min.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
+	</Method>
+	<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.min.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
+	</Method>
+	<Method name="ave" displayNameID="Class.Total.ave" toolTipID="Class.Total.ave.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.ave.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.ave.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.ave.group"/>			 			
+	</Method>
+	<Method name="ave" displayNameID="Class.Total.ave" toolTipID="Class.Total.ave.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.ave.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.ave.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.ave.group"/>			 			
+	</Method>
+	<Method name="weightedAve" displayNameID="Class.Total.weightedAve" toolTipID="Class.Total.weightedAve.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.weightedAve.expr"/>
+		<Argument name="weight" type="number" tagID="Class.Total.weightedAve.weight"/>
+		<Argument name="filter" type="String" tagID="Class.Total.weightedAve.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.weightedAve.group"/>			 			
+	</Method>
+	<Method name="movingAve" displayNameID="Class.Total.movingAve" toolTipID="Class.Total.movingAve.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.movingAve.expr"/>
+		<Argument name="window" type="number" tagID="Class.Total.movingAve.window"/>
+		<Argument name="filter" type="String" tagID="Class.Total.movingAve.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.movingAve.group"/>			 			
+	</Method>				
+	<Method name="median" displayNameID="Class.Total.median" toolTipID="Class.Total.median.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.median.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.median.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.median.group"/>			 			
+	</Method>				
+	<Method name="median" displayNameID="Class.Total.median" toolTipID="Class.Total.median.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.median.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.median.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.median.group"/>			 			
+	</Method>				
+	<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.mode.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
+	</Method>				
+	<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.mode.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
+	</Method>				
+	<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.mode.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
+	</Method>				
+	<Method name="stdDev" displayNameID="Class.Total.stdDev" toolTipID="Class.Total.stdDev.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.stdDev.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.stdDev.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.stdDev.group"/>			 			
+	</Method>				
+	<Method name="variance" displayNameID="Class.Total.variance" toolTipID="Class.Total.variance.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.variance.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.variance.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.variance.group"/>			 			
+	</Method>				
+	<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.first.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
+	</Method>				
+	<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.first.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
+	</Method>				
+	<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.first.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
+	</Method>				
+	<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="number" tagID="Class.Total.last.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
+	</Method>				
+	<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="String" tagID="Class.Total.last.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
+	</Method>						
+	<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
+		<Argument name="expr" type="Date" tagID="Class.Total.last.expr"/>
+		<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
+		<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
+	</Method>						
+  </Class>  			
+  <Class name="DateTimeSpan" displayNameID="Class.DateTimeSpan" toolTipID="Class.DateTimeSpan.toolTip">	
+    <Method name="years" displayNameID="Class.DateTimeSpan.years" toolTipID="Class.DateTimeSpan.years.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.years.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.years.endDate"/>			
+	</Method>	
+    <Method name="months" displayNameID="Class.DateTimeSpan.months" toolTipID="Class.DateTimeSpan.months.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.months.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.months.endDate"/>			
+	</Method>	
+    <Method name="days" displayNameID="Class.DateTimeSpan.days" toolTipID="Class.DateTimeSpan.days.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.days.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.days.endDate"/>			
+	</Method>	
+    <Method name="hours" displayNameID="Class.DateTimeSpan.hours" toolTipID="Class.DateTimeSpan.hours.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.hours.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.hours.endDate"/>			
+	</Method>	
+    <Method name="minutes" displayNameID="Class.DateTimeSpan.minutes" toolTipID="Class.DateTimeSpan.minutes.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.minutes.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.minutes.endDate"/>			
+	</Method>	
+    <Method name="seconds" displayNameID="Class.DateTimeSpan.seconds" toolTipID="Class.DateTimeSpan.seconds.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.seconds.startDate"/>
+		<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.seconds.endDate"/>			
+	</Method>	
+    <Method name="addDate" displayNameID="Class.DateTimeSpan.addDate" toolTipID="Class.DateTimeSpan.addDate.toolTip" returnType="date" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.addDate.startDate"/>
+		<Argument name="years" type="number" tagID="Class.DateTimeSpan.addDate.years"/>			
+		<Argument name="months" type="number" tagID="Class.DateTimeSpan.addDate.months"/>			
+		<Argument name="days" type="number" tagID="Class.DateTimeSpan.addDate.days"/>			
+	</Method>	
+    <Method name="addTime" displayNameID="Class.DateTimeSpan.addTime" toolTipID="Class.DateTimeSpan.addTime.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.addTime.startDate"/>
+		<Argument name="hours" type="number" tagID="Class.DateTimeSpan.addTime.hours"/>			
+		<Argument name="minutes" type="number" tagID="Class.DateTimeSpan.addTime.minutes"/>
+		<Argument name="seconds" type="number" tagID="Class.DateTimeSpan.addTime.seconds"/>			
+	</Method>	
+    <Method name="subDate" displayNameID="Class.DateTimeSpan.subDate" toolTipID="Class.DateTimeSpan.subDate.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.subDate.startDate"/>
+		<Argument name="years" type="number" tagID="Class.DateTimeSpan.subDate.years"/>
+		<Argument name="months" type="number" tagID="Class.DateTimeSpan.subDate.months"/>			
+		<Argument name="days" type="number" tagID="Class.DateTimeSpan.subDate.days"/>						
+	</Method>	
+    <Method name="subTime" displayNameID="Class.DateTimeSpan.subTime" toolTipID="Class.DateTimeSpan.subTime.toolTip" returnType="number" isStatic="true">
+		<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.subTime.startDate"/>
+		<Argument name="hours" type="number" tagID="Class.DateTimeSpan.subTime.hours"/>			
+		<Argument name="minutes" type="number" tagID="Class.DateTimeSpan.subTime.minutes"/>			
+		<Argument name="seconds" type="number" tagID="Class.DateTimeSpan.subTime.seconds"/>									
+	</Method>	
+  </Class>
+  <Class name="Finance" displayNameID="Class.Finance" toolTipID="Class.Finance.toolTip">	
+	<Method name="sln" displayNameID="Class.Finance.sln" toolTipID="Class.Finance.sln.toolTip" returnType="number" isStatic="true">
+		<Argument name="initialCost" type="number" tagID="Class.Finance.sln.initialCost"/>
+		<Argument name="salvageValue" type="number" tagID="Class.Finance.sln.salvageValue"/>			 
+		<Argument name="assetLifespan" type="number" tagID="Class.Finance.sln.assetLifespan"/>			 			
+	</Method>			      
+	<Method name="nper" displayNameID="Class.Finance.nper" toolTipID="Class.Finance.nper.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.nper.ratePerPeriod"/>
+		<Argument name="eachPmt" type="number" tagID="Class.Finance.nper.eachPmt"/>			 
+		<Argument name="presentValue" type="number" tagID="Class.Finance.nper.presentValue"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.nper.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.nper.whenDue"/>			 									
+	</Method>								
+	<Method name="npv" displayNameID="Class.Finance.npv" toolTipID="Class.Finance.npv.toolTip" returnType="number" isStatic="true">
+		<Argument name="rate" type="number" tagID="Class.Finance.npv.rate"/>
+		<Argument name="cashArray" type="number[]" tagID="Class.Finance.npv.cashArray"/>			 
+	</Method>						 		
+    <Method name="mirr" displayNameID="Class.Finance.mirr" toolTipID="Class.Finance.mirr.toolTip" returnType="number" isStatic="true">
+		<Argument name="cashArray" type="number[]" tagID="Class.Finance.mirr.cashArray"/>			 
+		<Argument name="financeRate" type="number" tagID="Class.Finance.mirr.rate"/>
+		<Argument name="reinvestmentRate " type="number" tagID="Class.Finance.mirr.rate"/>
+	</Method>	
+    <Method name="percent" displayNameID="Class.Finance.percent" toolTipID="Class.Finance.percent.toolTip" returnType="number" isStatic="true">
+		<Argument name="denom" type="number" tagID="Class.Finance.percent.denom"/>			 
+		<Argument name="num" type="number" tagID="Class.Finance.percent.num"/>
+		<Argument name="valueIfZero" type="number" tagID="Class.Finance.percent.rate"/>
+	</Method>			
+    <!--		
+	<Method name="ddb" displayNameID="Class.Finance.ddb" toolTipID="Class.Finance.ddb.toolTip" returnType="number" isStatic="true">
+		<Argument name="initialCost" type="number" tagID="Class.Finance.ddb.initialCost"/>
+		<Argument name="salvageValue" type="number" tagID="Class.Finance.ddb.salvageValue"/>			 
+		<Argument name="assetLifespan" type="number" tagID="Class.Finance.ddb.assetLifespan"/>			 			
+		<Argument name="singlePeriod" type="number" tagID="Class.Finance.ddb.singlePeriod"/>			 			
+	</Method>									
+	<Method name="syd" displayNameID="Class.Finance.syd" toolTipID="Class.Finance.syd.toolTip" returnType="number" isStatic="true">
+		<Argument name="initialCost" type="number" tagID="Class.Finance.syd.initialCost"/>
+		<Argument name="salvageValue" type="number" tagID="Class.Finance.syd.salvageValue"/>			 
+		<Argument name="assetLifespan" type="number" tagID="Class.Finance.syd.assetLifespan"/>	
+		<Argument name="singlePeriod" type="number" tagID="Class.Finance.syd.singlePeriod"/>				
+	</Method>						
+	<Method name="fv" displayNameID="Class.Finance.fv" toolTipID="Class.Finance.fv.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.fv.ratePerPeriod"/>
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.fv.numberPayPeriods"/>			 
+		<Argument name="eachPmt" type="number" tagID="Class.Finance.fv.eachPmt"/>			 			
+		<Argument name="presentValue" type="number" tagID="Class.Finance.fv.presentValue"/>			 			
+		<Argument name="whenDue" type="number" tagID="Class.Finance.fv.whenDue"/>			 						
+	</Method>						
+	<Method name="ipmt" displayNameID="Class.Finance.ipmt" toolTipID="Class.Finance.ipmt.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.ipmt.ratePerPeriod"/>
+		<Argument name="singlePeriod" type="number" tagID="Class.Finance.ipmt.singlePeriod"/>			 
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.ipmt.numberPayPeriods"/>			 			
+		<Argument name="presentValue" type="number" tagID="Class.Finance.ipmt.presentValue"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.ipmt.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.ipmt.whenDue"/>			 									
+	</Method>						
+	<Method name="pmt" displayNameID="Class.Finance.pmt" toolTipID="Class.Finance.pmt.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.pmt.ratePerPeriod"/>
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.pmt.numberPayPeriods"/>			 
+		<Argument name="presentValue" type="number" tagID="Class.Finance.pmt.presentValue"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.pmt.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.pmt.whenDue"/>			 									
+	</Method>						
+	<Method name="ppmt" displayNameID="Class.Finance.ppmt" toolTipID="Class.Finance.ppmt.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.ppmt.ratePerPeriod"/>
+		<Argument name="singlePeriod" type="number" tagID="Class.Finance.ppmt.singlePeriod"/>			 			
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.ppmt.numberPayPeriods"/>			 
+		<Argument name="presentValue" type="number" tagID="Class.Finance.ppmt.presentValue"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.ppmt.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.ppmt.whenDue"/>			 									
+	</Method>						
+	<Method name="pv" displayNameID="Class.Finance.pv" toolTipID="Class.Finance.pv.toolTip" returnType="number" isStatic="true">
+		<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.pv.ratePerPeriod"/>
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.pv.numberPayPeriods"/>			 
+		<Argument name="eachPmt" type="number" tagID="Class.Finance.pv.eachPmt"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.pv.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.pv.whenDue"/>			 									
+	</Method>						
+	<Method name="rate" displayNameID="Class.Finance.rate" toolTipID="Class.Finance.rate.toolTip" returnType="number" isStatic="true">
+		<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.rate.numberPayPeriods"/>			 
+		<Argument name="eachPmt" type="number" tagID="Class.Finance.rate.eachPmt"/>			 			
+		<Argument name="presentValue" type="number" tagID="Class.Finance.rate.presentValue"/>			 			
+		<Argument name="futureValue" type="number" tagID="Class.Finance.rate.futureValue"/>			 						
+		<Argument name="whenDue" type="number" tagID="Class.Finance.rate.whenDue"/>			 									
+		<Argument name="startingGuess" type="number" tagID="Class.Finance.rate.startingGuess"/>
+	</Method>					
+	<Method name="irr" displayNameID="Class.Finance.irr" toolTipID="Class.Finance.irr.toolTip" returnType="number" isStatic="true">
+		<Argument name="cashArray" type="String" tagID="Class.Finance.irr.cashArray"/>			 
+		<Argument name="startingGuess" type="number" tagID="Class.Finance.irr.startingGuess"/>
+	</Method>						 
+	-->
+  </Class>  
+  <Class name="Report" displayNameID="Class.Report" toolTipID="Class.Report.toolTip">	
+	<Member name="design" displayNameID="Class.Report.design" toolTipID="Class.Report.design.toolTip" dataType="ReportDefn"/>
+	<Member name="document" displayNameID="Class.Report.document" toolTipID="Class.Report.document.toolTip" dataType="ReportDoc"/>
+	<Member name="params" displayNameID="Class.Report.params" toolTipID="Class.Report.params.toolTip" dataType="Object[]"/>
+	<Member name="dataSets" displayNameID="Class.Report.dataSets" toolTipID="Class.Report.dataSets.toolTip" dataType="DataSet[]"/>
+	<Member name="dataSources" displayNameID="Class.Report.dataSources" toolTipID="Class.Report.dataSources.toolTip" dataType="DataSource[]"/>		
+	<Member name="config" displayNameID="Class.Report.config" toolTipID="Class.Report.config.toolTip" dataType="Object[]"/>		
+  </Class> 
+  <Class name="DataSet" displayNameID="Class.DataSet" toolTipID="Class.DataSet.toolTip">	
+		<Member name="row" displayNameID="Class.DataSet.row" toolTipID="Class.DataSet.row.toolTip" dataType="DataRow"/>
+		<Member name="rows" displayNameID="Class.DataSet.rows" toolTipID="Class.DataSet.rows.toolTip" dataType="DataRow[]"/>			
+		<Member name="command" displayNameID="Class.DataSet.command" toolTipID="Class.DataSet.command.toolTip" dataType="String"/>					
+		<Member name="columns" displayNameID="Class.DataSet.columns" toolTipID="Class.DataSet.columns.toolTip" dataType="ColumnDefn[]"/>					
+		<Member name="schema" displayNameID="Class.DataSet.schema" toolTipID="Class.DataSet.schema.toolTip" dataType="DataSetParamMetaData"/>							
+		<Member name="inputParams" displayNameID="Class.DataSet.inputParams" toolTipID="Class.DataSet.inputParams.toolTip" dataType="DataSetInputParam[]"/>							
+		<Member name="outputParams" displayNameID="Class.DataSet.outputParams" toolTipID="Class.DataSet.outputParams.toolTip" dataType="DataSetOutputParam[]"/>							
+		<Member name="publicProperties" displayNameID="Class.DataSet.publicProperties" toolTipID="Class.DataSet.publicProperties.toolTip" dataType="Object[]"/>									
+		<Member name="privateProperties" displayNameID="Class.DataSet.privateProperties" toolTipID="Class.DataSet.privateProperties.toolTip" dataType="Object[]"/>									
+  </Class>
+  <Class name="DataRow" displayNameID="Class.DataRow" toolTipID="Class.DataRow.toolTip">	
+		<Constructor name="DataRow" displayNameID="Class.DataRow.DataRow" toolTipID="Class.DataRow.DataRow.toolTip" returnType="DataRow">
+			<Argument name="ds" type="DataSet" tagID="Class.DataRow.DataRow.ds"/>
+		</Constructor>
+		<Constructor name="DataRow" displayNameID="Class.DataRow.DataRow" toolTipID="Class.DataRow.DataRow.toolTip" returnType="DataRow">
+			<Argument name="r" type="DataRow" tagID="Class.DataRow.DataRow.r"/>
+		</Constructor>
+		<Member name="column" displayNameID="Class.DataRow.column" toolTipID="Class.DataRow.column.toolTip" dataType="Object"/>
+		<Member name="rowNo" displayNameID="Class.DataRow.rowNo" toolTipID="Class.DataRow.rowNo.toolTip" dataType="number"/>		
+		<Member name="dataSet" displayNameID="Class.DataRow.dataSet" toolTipID="Class.DataRow.dataSet.toolTip" dataType="DataSet"/>				
+		<Member name="schema" displayNameID="Class.DataRow.schema" toolTipID="Class.DataRow.schema.toolTip" dataType="ColumnDefn[]"/>				
+  </Class>
+  <Class name="ReportDefn" displayNameID="Class.ReportDefn" toolTipID="Class.ReportDefn.toolTip">	
+		<Method name="findStyle" displayNameID="Class.ReportDefn.findStyle" toolTipID="Class.ReportDefn.findStyle.toolTip" returnType="ElementDefn">
+			<Argument name="styleName" type="String" tagID="Class.ReportDefn.findStyle.styleName"/>
+		</Method>
+		<Method name="findReportItem" displayNameID="Class.ReportDefn.findReportItem" toolTipID="Class.ReportDefn.findReportItem.toolTip" returnType="ElementDefn">
+			<Argument name="itemName" type="String" tagID="Class.ReportDefn.findReportItem.itemName"/>
+		</Method>		
+		<Method name="findDataSource" displayNameID="Class.ReportDefn.findDataSource" toolTipID="Class.ReportDefn.findDataSource.toolTip" returnType="ElementDefn">
+			<Argument name="sourceName" type="String" tagID="Class.ReportDefn.findDataSource.sourceName"/>
+		</Method>			
+		<Method name="findDataSet" displayNameID="Class.ReportDefn.findDataSet" toolTipID="Class.ReportDefn.findDataSet.toolTip" returnType="ElementDefn">
+			<Argument name="dataSetName" type="String" tagID="Class.ReportDefn.findDataSet.dataSetName"/>
+		</Method>			
+		<Method name="findParameter" displayNameID="Class.ReportDefn.findParameter" toolTipID="Class.ReportDefn.findParameter.toolTip" returnType="ElementDefn">
+			<Argument name="parameterName" type="String" tagID="Class.ReportDefn.findParameter.parameterName"/>
+		</Method>			
+  </Class>  
+  <Class name="ColumnDefn" displayNameID="Class.ColumnDefn" toolTipID="Class.ColumnDefn.toolTip">	
+		<Member name="index" displayNameID="Class.ColumnDefn.index" toolTipID="Class.ColumnDefn.index.toolTip" dataType="number"/>		
+		<Member name="name" displayNameID="Class.ColumnDefn.name" toolTipID="Class.ColumnDefn.name.toolTip" dataType="String"/>		
+		<Member name="type" displayNameID="Class.ColumnDefn.type" toolTipID="Class.ColumnDefn.type.toolTip" dataType="String"/>		
+		<Member name="expr" displayNameID="Class.ColumnDefn.expr" toolTipID="Class.ColumnDefn.expr.toolTip" dataType="String"/>		
+		<Member name="INTEGER" displayNameID="Class.ColumnDefn.INTEGER" toolTipID="Class.ColumnDefn.INTEGER.toolTip" dataType="String" isStatic="true"/>		
+		<Member name="FLOAT" displayNameID="Class.ColumnDefn.FLOAT" toolTipID="Class.ColumnDefn.FLOAT.toolTip" dataType="String" isStatic="true"/>				
+		<Member name="DECIMAL" displayNameID="Class.ColumnDefn.DECIMAL" toolTipID="Class.ColumnDefn.DECIMAL.toolTip" dataType="String" isStatic="true"/>				
+		<Member name="BOOLEAN" displayNameID="Class.ColumnDefn.BOOLEAN" toolTipID="Class.ColumnDefn.BOOLEAN.toolTip" dataType="String" isStatic="true"/>				
+		<Member name="STRING" displayNameID="Class.ColumnDefn.STRING" toolTipID="Class.ColumnDefn.STRING.toolTip" dataType="String" isStatic="true"/>								
+		<Member name="BLOB" displayNameID="Class.ColumnDefn.BLOB" toolTipID="Class.ColumnDefn.BLOB.toolTip" dataType="String" isStatic="true"/>						
+  </Class>   
+  <Class name="ElementDefn" displayNameID="Class.ElementDefn" toolTipID="Class.ElementDefn.toolTip">	
+		<Member name="name" displayNameID="Class.ElementDefn.name" toolTipID="Class.ElementDefn.name.toolTip" dataType="String"/>
+		<Member name="extends" displayNameID="Class.ElementDefn.extends" toolTipID="Class.ElementDefn.extends.toolTip" dataType="String"/>		
+		<Member name="propertyDefns" displayNameID="Class.ElementDefn.propertyDefns" toolTipID="Class.ElementDefn.propertyDefns.toolTip" dataType="PropertyDefn[]"/>			
+		<Member name="slotDefns" displayNameID="Class.ElementDefn.slotDefns" toolTipID="Class.ElementDefn.slotDefns.toolTip" dataType="SlotDefn[]"/>			
+		<Member name="property" displayNameID="Class.ElementDefn.property" toolTipID="Class.ElementDefn.property.toolTip" dataType="Object"/>			
+		<Member name="properties" displayNameID="Class.ElementDefn.properties" toolTipID="Class.ElementDefn.properties.toolTip" dataType="Object[]"/>			
+		<Member name="slots" displayNameID="Class.ElementDefn.slots" toolTipID="Class.ElementDefn.slots.toolTip" dataType="Object[]"/>											
+		<Member name="allowsUserProperties" displayNameID="Class.ElementDefn.allowsUserProperties" toolTipID="Class.ElementDefn.allowsUserProperties.toolTip" dataType="boolean"/>			
+		<Member name="hasStyle" displayNameID="Class.ElementDefn.hasStyle" toolTipID="Class.ElementDefn.hasStyle.toolTip" dataType="boolean"/>			
+		<Member name="container" displayNameID="Class.ElementDefn.container" toolTipID="Class.ElementDefn.container.toolTip" dataType="ElementDefn"/>			
+		<Member name="containerSlot" displayNameID="Class.ElementDefn.containerSlot" toolTipID="Class.ElementDefn.containerSlot.toolTip" dataType="String"/>											
+  </Class>  
+  <Class name="PropertyDefn"  displayNameID="Class.PropertyDefn" toolTipID="Class.PropertyDefn.toolTip">		
+		<Member name="isUserProperty" displayNameID="Class.PropertyDefn.isUserProperty" toolTipID="Class.PropertyDefn.isUserProperty.toolTip" dataType="boolean"/>
+		<Member name="name" displayNameID="Class.PropertyDefn.name" toolTipID="Class.PropertyDefn.name.toolTip" dataType="String"/>					
+		<Member name="group" displayNameID="Class.PropertyDefn.group" toolTipID="Class.PropertyDefn.group.toolTip" dataType="String"/>					
+		<Member name="canInherit" displayNameID="Class.PropertyDefn.canInherit" toolTipID="Class.PropertyDefn.canInherit.toolTip" dataType="boolean"/>
+		<Member name="isStyle" displayNameID="Class.PropertyDefn.isStyle" toolTipID="Class.PropertyDefn.isStyle.toolTip" dataType="boolean"/>					
+		<Member name="type" displayNameID="Class.PropertyDefn.type" toolTipID="Class.PropertyDefn.type.toolTip" dataType="String"/>					
+		<Member name="choices" displayNameID="Class.PropertyDefn.choices" toolTipID="Class.PropertyDefn.choices.toolTip" dataType="String[]"/>					
+		<Member name="defaultValue" displayNameID="Class.PropertyDefn.defaultValue" toolTipID="Class.PropertyDefn.defaultValue.toolTip" dataType="Object"/>					
+  </Class> 
+  <Class name="DataSetParamMetaData" displayNameID="Class.DataSetParamMetaData" toolTipID="Class.DataSetParamMetaData.toolTip">	
+    <!--              
+	<Member name="description" displayNameID="Class.DataSetParamMetaData.description" toolTipID="Class.DataSetParamMetaData.description.toolTip" dataType="String"/>
+	<Member name="resultSets" displayNameID="Class.DataSetParamMetaData.resultSets" toolTipID="Class.DataSetParamMetaData.resultSets.toolTip" dataType="ResultSetDefn[]"/>			
+	-->
+	<Member name="inputParams" displayNameID="Class.DataSetParamMetaData.inputParams" toolTipID="Class.DataSetParamMetaData.inputParams.toolTip" dataType="DataSetInputParam[]"/>			
+	<Member name="outputParams" displayNameID="Class.DataSetParamMetaData.outputParams" toolTipID="Class.DataSetParamMetaData.outputParams.toolTip" dataType="DataSetOutputParam[]"/>									
+  </Class>   
   <Class name="DataSetInputParam" displayNameID="Class.DataSetInputParam" toolTipID="Class.DataSetInputParam.toolTip">	
 		<Member name="name" displayNameID="Class.DataSetInputParam.name" toolTipID="Class.DataSetInputParam.name.toolTip" dataType="String"/>
 		<Member name="displayName" displayNameID="Class.DataSetInputParam.displayName" toolTipID="Class.DataSetInputParam.displayName.toolTip" dataType="String"/>						
@@ -1039,297 +1324,18 @@
 		<Member name="nativeTypeCode" displayNameID="Class.DataSetOutputParam.nativeTypeCode" toolTipID="Class.DataSetOutputParam.nativeTypeCode.toolTip" dataType="String"/>									
 		<Member name="nativeTypeName" displayNameID="Class.DataSetOutputParam.nativeTypeName" toolTipID="Class.DataSetOutputParam.nativeTypeName.toolTip" dataType="String"/>									
 		<Member name="recordDefn" displayNameID="Class.DataSetOutputParam.recordDefn" toolTipID="Class.DataSetOutputParam.recordDefn.toolTip" dataType="String"/>									
+  </Class>  
+  <Class name="Color" displayNameID="Class.Color" toolTipID="Class.Color.toolTip">		
+		<Member name="transparent" displayNameID="Class.Color.transparent" toolTipID="Class.Color.transparent.toolTip" dataType="boolean"/>
+		<Member name="rgb" displayNameID="Class.Color.rgb" toolTipID="Class.Color.rgb.toolTip" dataType="number"/>					
+		<Member name="value" displayNameID="Class.Color.value" toolTipID="Class.Color.value.toolTip" dataType="String"/>					
+		<Member name="cssValue" displayNameID="Class.Color.cssValue" toolTipID="Class.Color.cssValue.toolTip" dataType="String"/>					
   </Class>
-  <Class name="Total" displayNameID="Class.Total" toolTipID="Class.Total.toolTip">	
-		<Member name="OVERALL" displayNameID="Class.Total.OVERALL" toolTipID="Class.Total.OVERALL.toolTip" dataType="String" isStatic="true"/>						
-		<Method name="sum" displayNameID="Class.Total.sum" toolTipID="Class.Total.sum.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.sum.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.sum.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.sum.group"/>			 			
-		</Method>
-		<Method name="runningSum" displayNameID="Class.Total.runningSum" toolTipID="Class.Total.runningSum.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.runningSum.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.runningSum.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.runningSum.group"/>			 			
-		</Method>
-		<Method name="count" displayNameID="Class.Total.count" toolTipID="Class.Total.count.toolTip" returnType="number" isStatic="true">
-			<Argument name="filter" type="String" tagID="Class.Total.count.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.count.group"/>			 			
-		</Method>
-		<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.countDistinct.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
-		</Method>
-		<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.countDistinct.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
-		</Method>
-		<Method name="countDistinct" displayNameID="Class.Total.countDistinct" toolTipID="Class.Total.countDistinct.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.countDistinct.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.countDistinct.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.countDistinct.group"/>			 			
-		</Method>
-		<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.max.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
-		</Method>
-		<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.max.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
-		</Method>
-		<Method name="max" displayNameID="Class.Total.max" toolTipID="Class.Total.max.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.max.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.max.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.max.group"/>			 			
-		</Method>
-		<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.min.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
-		</Method>
-		<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.min.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
-		</Method>
-		<Method name="min" displayNameID="Class.Total.min" toolTipID="Class.Total.min.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.min.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.min.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.min.group"/>			 			
-		</Method>
-		<Method name="ave" displayNameID="Class.Total.ave" toolTipID="Class.Total.ave.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.ave.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.ave.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.ave.group"/>			 			
-		</Method>
-		<Method name="ave" displayNameID="Class.Total.ave" toolTipID="Class.Total.ave.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.ave.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.ave.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.ave.group"/>			 			
-		</Method>
-		<Method name="weightedAve" displayNameID="Class.Total.weightedAve" toolTipID="Class.Total.weightedAve.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.weightedAve.expr"/>
-			<Argument name="weight" type="number" tagID="Class.Total.weightedAve.weight"/>
-			<Argument name="filter" type="String" tagID="Class.Total.weightedAve.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.weightedAve.group"/>			 			
-		</Method>
-		<Method name="movingAve" displayNameID="Class.Total.movingAve" toolTipID="Class.Total.movingAve.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.movingAve.expr"/>
-			<Argument name="window" type="number" tagID="Class.Total.movingAve.window"/>
-			<Argument name="filter" type="String" tagID="Class.Total.movingAve.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.movingAve.group"/>			 			
-		</Method>				
-		<Method name="median" displayNameID="Class.Total.median" toolTipID="Class.Total.median.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.median.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.median.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.median.group"/>			 			
-		</Method>				
-		<Method name="median" displayNameID="Class.Total.median" toolTipID="Class.Total.median.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.median.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.median.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.median.group"/>			 			
-		</Method>				
-		<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.mode.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
-		</Method>				
-		<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.mode.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
-		</Method>				
-		<Method name="mode" displayNameID="Class.Total.mode" toolTipID="Class.Total.mode.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.mode.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.mode.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.mode.group"/>			 			
-		</Method>				
-		<Method name="stdDev" displayNameID="Class.Total.stdDev" toolTipID="Class.Total.stdDev.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.stdDev.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.stdDev.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.stdDev.group"/>			 			
-		</Method>				
-		<Method name="variance" displayNameID="Class.Total.variance" toolTipID="Class.Total.variance.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.variance.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.variance.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.variance.group"/>			 			
-		</Method>				
-		<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.first.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
-		</Method>				
-		<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.first.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
-		</Method>				
-		<Method name="first" displayNameID="Class.Total.first" toolTipID="Class.Total.first.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.first.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.first.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.first.group"/>			 			
-		</Method>				
-		<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="number" tagID="Class.Total.last.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
-		</Method>				
-		<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="String" tagID="Class.Total.last.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
-		</Method>						
-		<Method name="last" displayNameID="Class.Total.last" toolTipID="Class.Total.last.toolTip" returnType="number" isStatic="true">
-			<Argument name="expr" type="Date" tagID="Class.Total.last.expr"/>
-			<Argument name="filter" type="String" tagID="Class.Total.last.filter"/>			 
-			<Argument name="group" type="String" tagID="Class.Total.last.group"/>			 			
-		</Method>						
-  </Class>
-  <Class name="Finance" displayNameID="Class.Finance" toolTipID="Class.Finance.toolTip">	
-		<Method name="sln" displayNameID="Class.Finance.sln" toolTipID="Class.Finance.sln.toolTip" returnType="number" isStatic="true">
-			<Argument name="initialCost" type="number" tagID="Class.Finance.sln.initialCost"/>
-			<Argument name="salvageValue" type="number" tagID="Class.Finance.sln.salvageValue"/>			 
-			<Argument name="assetLifespan" type="number" tagID="Class.Finance.sln.assetLifespan"/>			 			
-		</Method>			      
-		<Method name="nper" displayNameID="Class.Finance.nper" toolTipID="Class.Finance.nper.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.nper.ratePerPeriod"/>
-			<Argument name="eachPmt" type="number" tagID="Class.Finance.nper.eachPmt"/>			 
-			<Argument name="presentValue" type="number" tagID="Class.Finance.nper.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.nper.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.nper.whenDue"/>			 									
-		</Method>								
-		<Method name="npv" displayNameID="Class.Finance.npv" toolTipID="Class.Finance.npv.toolTip" returnType="number" isStatic="true">
-			<Argument name="rate" type="number" tagID="Class.Finance.npv.rate"/>
-			<Argument name="cashArray" type="number[]" tagID="Class.Finance.npv.cashArray"/>			 
-		</Method>						 		
-	    <Method name="mirr" displayNameID="Class.Finance.mirr" toolTipID="Class.Finance.mirr.toolTip" returnType="number" isStatic="true">
-			<Argument name="cashArray" type="number[]" tagID="Class.Finance.mirr.cashArray"/>			 
-			<Argument name="financeRate" type="number" tagID="Class.Finance.mirr.rate"/>
-			<Argument name="reinvestmentRate " type="number" tagID="Class.Finance.mirr.rate"/>
-		</Method>	
-	    <Method name="percent" displayNameID="Class.Finance.percent" toolTipID="Class.Finance.percent.toolTip" returnType="number" isStatic="true">
-			<Argument name="denom" type="number" tagID="Class.Finance.percent.denom"/>			 
-			<Argument name="num" type="number" tagID="Class.Finance.percent.num"/>
-			<Argument name="valueIfZero" type="number" tagID="Class.Finance.percent.rate"/>
-		</Method>			
-        <!--		
-		<Method name="ddb" displayNameID="Class.Finance.ddb" toolTipID="Class.Finance.ddb.toolTip" returnType="number" isStatic="true">
-			<Argument name="initialCost" type="number" tagID="Class.Finance.ddb.initialCost"/>
-			<Argument name="salvageValue" type="number" tagID="Class.Finance.ddb.salvageValue"/>			 
-			<Argument name="assetLifespan" type="number" tagID="Class.Finance.ddb.assetLifespan"/>			 			
-			<Argument name="singlePeriod" type="number" tagID="Class.Finance.ddb.singlePeriod"/>			 			
-		</Method>									
-		<Method name="syd" displayNameID="Class.Finance.syd" toolTipID="Class.Finance.syd.toolTip" returnType="number" isStatic="true">
-			<Argument name="initialCost" type="number" tagID="Class.Finance.syd.initialCost"/>
-			<Argument name="salvageValue" type="number" tagID="Class.Finance.syd.salvageValue"/>			 
-			<Argument name="assetLifespan" type="number" tagID="Class.Finance.syd.assetLifespan"/>	
-			<Argument name="singlePeriod" type="number" tagID="Class.Finance.syd.singlePeriod"/>				
-		</Method>						
-		<Method name="fv" displayNameID="Class.Finance.fv" toolTipID="Class.Finance.fv.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.fv.ratePerPeriod"/>
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.fv.numberPayPeriods"/>			 
-			<Argument name="eachPmt" type="number" tagID="Class.Finance.fv.eachPmt"/>			 			
-			<Argument name="presentValue" type="number" tagID="Class.Finance.fv.presentValue"/>			 			
-			<Argument name="whenDue" type="number" tagID="Class.Finance.fv.whenDue"/>			 						
-		</Method>						
-		<Method name="ipmt" displayNameID="Class.Finance.ipmt" toolTipID="Class.Finance.ipmt.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.ipmt.ratePerPeriod"/>
-			<Argument name="singlePeriod" type="number" tagID="Class.Finance.ipmt.singlePeriod"/>			 
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.ipmt.numberPayPeriods"/>			 			
-			<Argument name="presentValue" type="number" tagID="Class.Finance.ipmt.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.ipmt.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.ipmt.whenDue"/>			 									
-		</Method>						
-		<Method name="pmt" displayNameID="Class.Finance.pmt" toolTipID="Class.Finance.pmt.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.pmt.ratePerPeriod"/>
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.pmt.numberPayPeriods"/>			 
-			<Argument name="presentValue" type="number" tagID="Class.Finance.pmt.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.pmt.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.pmt.whenDue"/>			 									
-		</Method>						
-		<Method name="ppmt" displayNameID="Class.Finance.ppmt" toolTipID="Class.Finance.ppmt.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.ppmt.ratePerPeriod"/>
-			<Argument name="singlePeriod" type="number" tagID="Class.Finance.ppmt.singlePeriod"/>			 			
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.ppmt.numberPayPeriods"/>			 
-			<Argument name="presentValue" type="number" tagID="Class.Finance.ppmt.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.ppmt.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.ppmt.whenDue"/>			 									
-		</Method>						
-		<Method name="pv" displayNameID="Class.Finance.pv" toolTipID="Class.Finance.pv.toolTip" returnType="number" isStatic="true">
-			<Argument name="ratePerPeriod" type="number" tagID="Class.Finance.pv.ratePerPeriod"/>
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.pv.numberPayPeriods"/>			 
-			<Argument name="eachPmt" type="number" tagID="Class.Finance.pv.eachPmt"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.pv.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.pv.whenDue"/>			 									
-		</Method>						
-		<Method name="rate" displayNameID="Class.Finance.rate" toolTipID="Class.Finance.rate.toolTip" returnType="number" isStatic="true">
-			<Argument name="numberPayPeriods" type="number" tagID="Class.Finance.rate.numberPayPeriods"/>			 
-			<Argument name="eachPmt" type="number" tagID="Class.Finance.rate.eachPmt"/>			 			
-			<Argument name="presentValue" type="number" tagID="Class.Finance.rate.presentValue"/>			 			
-			<Argument name="futureValue" type="number" tagID="Class.Finance.rate.futureValue"/>			 						
-			<Argument name="whenDue" type="number" tagID="Class.Finance.rate.whenDue"/>			 									
-			<Argument name="startingGuess" type="number" tagID="Class.Finance.rate.startingGuess"/>
-		</Method>					
-		<Method name="irr" displayNameID="Class.Finance.irr" toolTipID="Class.Finance.irr.toolTip" returnType="number" isStatic="true">
-			<Argument name="cashArray" type="String" tagID="Class.Finance.irr.cashArray"/>			 
-			<Argument name="startingGuess" type="number" tagID="Class.Finance.irr.startingGuess"/>
-		</Method>						 
-		-->
-  </Class>			
-  <Class name="DateTimeSpan" displayNameID="Class.DateTimeSpan" toolTipID="Class.DateTimeSpan.toolTip">	
-	    <Method name="years" displayNameID="Class.DateTimeSpan.years" toolTipID="Class.DateTimeSpan.years.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.years.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.years.endDate"/>			
-		</Method>	
-	    <Method name="months" displayNameID="Class.DateTimeSpan.months" toolTipID="Class.DateTimeSpan.months.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.months.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.months.endDate"/>			
-		</Method>	
-	    <Method name="days" displayNameID="Class.DateTimeSpan.days" toolTipID="Class.DateTimeSpan.days.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.days.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.days.endDate"/>			
-		</Method>	
-	    <Method name="hours" displayNameID="Class.DateTimeSpan.hours" toolTipID="Class.DateTimeSpan.hours.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.hours.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.hours.endDate"/>			
-		</Method>	
-	    <Method name="minutes" displayNameID="Class.DateTimeSpan.minutes" toolTipID="Class.DateTimeSpan.minutes.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.minutes.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.minutes.endDate"/>			
-		</Method>	
-	    <Method name="seconds" displayNameID="Class.DateTimeSpan.seconds" toolTipID="Class.DateTimeSpan.seconds.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.seconds.startDate"/>
-			<Argument name="endDate" type="Date" tagID="Class.DateTimeSpan.seconds.endDate"/>			
-		</Method>	
-	    <Method name="addDate" displayNameID="Class.DateTimeSpan.addDate" toolTipID="Class.DateTimeSpan.addDate.toolTip" returnType="date" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.addDate.startDate"/>
-			<Argument name="years" type="number" tagID="Class.DateTimeSpan.addDate.years"/>			
-			<Argument name="months" type="number" tagID="Class.DateTimeSpan.addDate.months"/>			
-			<Argument name="days" type="number" tagID="Class.DateTimeSpan.addDate.days"/>			
-		</Method>	
-	    <Method name="addTime" displayNameID="Class.DateTimeSpan.addTime" toolTipID="Class.DateTimeSpan.addTime.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.addTime.startDate"/>
-			<Argument name="hours" type="number" tagID="Class.DateTimeSpan.addTime.hours"/>			
-			<Argument name="minutes" type="number" tagID="Class.DateTimeSpan.addTime.minutes"/>
-			<Argument name="seconds" type="number" tagID="Class.DateTimeSpan.addTime.seconds"/>			
-		</Method>	
-	    <Method name="subDate" displayNameID="Class.DateTimeSpan.subDate" toolTipID="Class.DateTimeSpan.subDate.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.subDate.startDate"/>
-			<Argument name="years" type="number" tagID="Class.DateTimeSpan.subDate.years"/>
-			<Argument name="months" type="number" tagID="Class.DateTimeSpan.subDate.months"/>			
-			<Argument name="days" type="number" tagID="Class.DateTimeSpan.subDate.days"/>						
-		</Method>	
-	    <Method name="subTime" displayNameID="Class.DateTimeSpan.subTime" toolTipID="Class.DateTimeSpan.subTime.toolTip" returnType="number" isStatic="true">
-			<Argument name="startDate" type="Date" tagID="Class.DateTimeSpan.subTime.startDate"/>
-			<Argument name="hours" type="number" tagID="Class.DateTimeSpan.subTime.hours"/>			
-			<Argument name="minutes" type="number" tagID="Class.DateTimeSpan.subTime.minutes"/>			
-			<Argument name="seconds" type="number" tagID="Class.DateTimeSpan.subTime.seconds"/>									
-		</Method>	
-  </Class>
+  <Class name="Dimension" displayNameID="Class.Dimension" toolTipID="Class.Dimension.toolTip">		
+		<Member name="value" displayNameID="Class.Dimension.value" toolTipID="Class.Dimension.value.toolTip" dataType="String"/>
+		<Member name="measure" displayNameID="Class.Dimension.measure" toolTipID="Class.Dimension.measure.toolTip" dataType="number"/>					
+		<Member name="units" displayNameID="Class.Dimension.units" toolTipID="Class.Dimension.units.toolTip" dataType="String"/>					
+  </Class>    
   <Validators>
 		<ValueValidator name="NonNegativeValueValidator" class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator"/>
 		<ValueValidator name="PositiveValueValidator" class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator"/>
@@ -1431,13 +1437,13 @@
       <Default>asc</Default>
     </Member>
   </Structure>
-  <Structure name="FilterCond" displayNameID="Structure.FilterCond">
-    <Member name="operator" displayNameID="Structure.FilterCond.operator" type="choice" detailType="filterOperator" isIntrinsic="true">
+  <Structure name="FilterCondition" displayNameID="Structure.FilterCondition">
+    <Member name="operator" displayNameID="Structure.FilterCondition.operator" type="choice" detailType="filterOperator" isIntrinsic="true">
       <Default>eq</Default>
     </Member>
-    <Member name="expr" displayNameID="Structure.FilterCond.expr" type="expression" isIntrinsic="true" />
-    <Member name="value1" displayNameID="Structure.FilterCond.value1" type="expression" isIntrinsic="true" />
-    <Member name="value2" displayNameID="Structure.FilterCond.value2" type="expression" isIntrinsic="true" />
+    <Member name="expr" displayNameID="Structure.FilterCondition.expr" type="expression" isIntrinsic="true" />
+    <Member name="value1" displayNameID="Structure.FilterCondition.value1" type="expression" isIntrinsic="true" />
+    <Member name="value2" displayNameID="Structure.FilterCondition.value2" type="expression" isIntrinsic="true" />
   </Structure>
   <Structure name="HideRule" displayNameID="Structure.HideRule">
     <Member name="format" displayNameID="Structure.HideRule.format" type="choice" detailType="formatType" isIntrinsic="true">
@@ -1681,7 +1687,7 @@
 	</Property>
     <Property name="computedColumns" type="structure" isList="true" detailType="ComputedColumn" displayNameID="Element.DataSet.computedColumns" />
     <Property name="columnHints" type="structure" isList="true" detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" />
-    <Property name="filter" type="structure" isList="true" detailType="FilterCond" displayNameID="Element.DataSet.filter" />
+    <Property name="filter" type="structure" isList="true" detailType="FilterCondition" displayNameID="Element.DataSet.filter" />
 	<Property name="cachedMetaData" type="structure" isList="false" detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" />
   </Element>
   <Element name="ScriptDataSet" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" displayNameID="Element.ScriptDataSet" isAbstract="false" extends="DataSet" canExtend="false" isNameRequired="true">
@@ -2196,7 +2202,7 @@
   <Element name="Text" javaClass="org.eclipse.birt.report.model.elements.TextItem" displayNameID="Element.Text" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="text">
     <Property name="content" displayNameID="Element.Text.content" type="literalString" />
     <Property name="contentID" displayNameID="Element.Text.contentID" type="resourceKey" />
-    <Property name="contentType" displayNameID="Element.Text.contentType" type="choice" detailType="contentType">
+    <Property name="contentType" displayNameID="Element.Text.contentType" type="choice" detailType="textContentType">
       <Default>auto</Default>
     </Property>
     <StyleProperty name="backgroundAttachment" />
@@ -2252,7 +2258,7 @@
   <Element name="ListingGroup" displayNameID="Element.ListingGroup" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="group">
     <Property name="keyExpr" displayNameID="Element.ListingGroup.keyExpr" type="expression" valueRequired="true" />
     <Property name="sort" displayNameID="Element.ListingGroup.sort" type="structure" isList="true" detailType="SortKey" />
-    <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCond" />
+    <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCondition" />
     <Property name="toc" displayNameID="Element.ListingGroup.toc" type="expression" />
     <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
       <Trigger validator="GroupNameValidator" targetElement="Listing"/>
@@ -2274,7 +2280,7 @@
   </Element>
   <Element name="Listing" displayNameID="Element.Listing" isAbstract="true" extends="ReportItem" allowsUserProperties="false" canExtend="true" nameSpace="none">
     <Property name="sort" displayNameID="Element.Listing.sorting" type="structure" isList="true" detailType="SortKey" />
-    <Property name="filter" displayNameID="Element.Listing.filter" type="structure" isList="true" detailType="FilterCond" />
+    <Property name="filter" displayNameID="Element.Listing.filter" type="structure" isList="true" detailType="FilterCondition" />
     <Method name="onStart" displayNameID="Element.Listing.onStart" toolTipID="Element.Listing.onStart.toolTip" />
     <Method name="onRow" displayNameID="Element.Listing.onRow" toolTipID="Element.Listing.onRow.toolTip" />
     <Method name="onFinish" displayNameID="Element.Listing.onFinish" toolTipID="Element.Listing.onFinish.toolTip" />
@@ -2293,7 +2299,7 @@
       <Type name="TextData" />
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
-    <Slot name="group" displayNameID="Element.List.slot.group" multipleCardinality="true" selector="group">
+    <Slot name="groups" displayNameID="Element.List.slot.groups" multipleCardinality="true" selector="group">
       <Type name="ListGroup" />
       <Trigger validator="GroupNameValidator"/>
     </Slot>
@@ -2363,7 +2369,7 @@
       <Trigger validator="InconsistentColumnsValidator"/>
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
-    <Slot name="group" displayNameID="Element.Table.slot.group" multipleCardinality="true">
+    <Slot name="groups" displayNameID="Element.Table.slot.groups" multipleCardinality="true">
       <Type name="TableGroup" />
       <Trigger validator="GroupNameValidator"/>
       <Trigger validator="TableDroppingValidator"/>
@@ -2464,7 +2470,7 @@
     <PropertyVisibility name="borderBottomColor" propertyVisibility="hide" />          
     <PropertyVisibility name="borderBottomStyle" propertyVisibility="hide" />              
     <PropertyVisibility name="borderBottomWidth" propertyVisibility="hide" />                           
-    <Slot name="cell" displayNameID="Element.Row.slot.cell" multipleCardinality="true">
+    <Slot name="cells" displayNameID="Element.Row.slot.cells" multipleCardinality="true">
       <Type name="Cell" />
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
@@ -2575,7 +2581,7 @@
       <Type name="Column" />
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot name="row" displayNameID="Element.Grid.slot.row" multipleCardinality="true">
+    <Slot name="rows" displayNameID="Element.Grid.slot.rows" multipleCardinality="true">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>

@@ -348,14 +348,14 @@ public interface DesignChoiceConstants
 	public static final String DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK = "bookmark-link"; //$NON-NLS-1$
 	public static final String DRILL_THROUGH_LINK_TYPE_SEARCH = "search"; //$NON-NLS-1$
 
-	// ContentType
+	// ContentType for TextItem
 
-	public static final String CHOICE_CONTENT_TYPE = "contentType"; //$NON-NLS-1$
-	public static final String CONTENT_TYPE_AUTO = "auto"; //$NON-NLS-1$
-	public static final String CONTENT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
-	public static final String CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
-	public static final String CONTENT_TYPE_RTF = "rtf"; //$NON-NLS-1$
-
+	public static final String CHOICE_TEXT_CONTENT_TYPE = "textContentType"; //$NON-NLS-1$
+	public static final String TEXT_CONTENT_TYPE_AUTO = "auto"; //$NON-NLS-1$
+	public static final String TEXT_CONTENT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
+	public static final String TEXT_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String TEXT_CONTENT_TYPE_RTF = "rtf"; //$NON-NLS-1$
+	
 	// Pagination orphans
 
 	public static final String CHOICE_OPRHANS = "orphans"; //$NON-NLS-1$

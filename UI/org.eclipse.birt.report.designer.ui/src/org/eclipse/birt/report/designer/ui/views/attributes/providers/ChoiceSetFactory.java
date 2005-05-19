@@ -79,7 +79,7 @@ public class ChoiceSetFactory
 		}
 		else if ( AttributeConstant.TEXT_FORMAT.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_CONTENT_TYPE;
+			unitKey = DesignChoiceConstants.CHOICE_TEXT_CONTENT_TYPE;
 		}
 		else if ( AttributeConstant.BORDER_STYLE.equals( property ) )
 		{
@@ -419,7 +419,7 @@ public class ChoiceSetFactory
 		}
 		else if ( AttributeConstant.TEXT_FORMAT.equals( property ) )
 		{
-			unitKey = DesignChoiceConstants.CHOICE_CONTENT_TYPE;
+			unitKey = DesignChoiceConstants.CHOICE_TEXT_CONTENT_TYPE;
 		}
 		else if ( AttributeConstant.BORDER_STYLE.equals( property ) )
 		{

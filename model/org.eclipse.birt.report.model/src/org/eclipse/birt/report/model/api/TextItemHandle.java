@@ -101,10 +101,10 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 	 * the following constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>CONTENT_TYPE_AUTO</code>
-	 * <li><code>CONTENT_TYPE_PLAIN</code>
-	 * <li><code>CONTENT_TYPE_HTML</code>
-	 * <li><code>CONTENT_TYPE_RTF</code>
+	 * <li><code>TEXT_CONTENT_TYPE_AUTO</code>
+	 * <li><code>TEXT_CONTENT_TYPE_PLAIN</code>
+	 * <li><code>TEXT_CONTENT_TYPE_HTML</code>
+	 * <li><code>TEXT_CONTENT_TYPE_RTF</code>
 	 * </ul>
 	 * 
 	 * @return the content type. if this property value is not set, return
@@ -123,10 +123,10 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 	 * following constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>CONTENT_TYPE_AUTO</code>
-	 * <li><code>CONTENT_TYPE_PLAIN</code>
-	 * <li><code>CONTENT_TYPE_HTML</code>
-	 * <li><code>CONTENT_TYPE_RTF</code>
+	 * <li><code>TEXT_CONTENT_TYPE_AUTO</code>
+	 * <li><code>TEXT_CONTENT_TYPE_PLAIN</code>
+	 * <li><code>TEXT_CONTENT_TYPE_HTML</code>
+	 * <li><code>TEXT_CONTENT_TYPE_RTF</code>
 	 * </ul>
 	 * 
 	 * @param contentType

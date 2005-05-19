@@ -105,7 +105,7 @@ public class TextEditPart extends LabelEditPart
 		else
 		{
 			if ( text.length( ) > TRUNCATE_LENGTH
-					&& DesignChoiceConstants.CONTENT_TYPE_HTML.equals( handle.getContentType( ) ) )
+					&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals( handle.getContentType( ) ) )
 			{
 				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
 			}

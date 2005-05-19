@@ -257,13 +257,13 @@ public class BasePaletteFactory
 				else if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
 					text = "<value-of>new Date()</value-of>"; //$NON-NLS-1$
-					textItemHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
+					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 				}
 				else if ( IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( type ) )
 				{
 					text = AUTOTEXT_LABEL_CREATE_ON
 							+ "<value-of>new Date()</value-of>"; //$NON-NLS-1$
-					textItemHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
+					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 				}
 				else if ( IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( type ) )
 				{
@@ -291,7 +291,7 @@ public class BasePaletteFactory
 				{
 					text = AUTOTEXT_LABEL_LAST_PRINTED
 							+ "<value-of>new Date()</value-of>"; //$NON-NLS-1$
-					textItemHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
+					textItemHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 				}
 				else if ( IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( type ) )
 				{
@@ -443,7 +443,7 @@ public class BasePaletteFactory
 
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
-					textHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
+					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 					( (CellHandle) cellList.get( 1 ) ).getContent( )
 							.add( textHandle );
 				}
@@ -462,7 +462,7 @@ public class BasePaletteFactory
 
 					TextItemHandle textHandle = factory.newTextItem( null );
 					textHandle.setContent( AUTOTEXT_TEXT_CONFIDENTIAL ); 
-					textHandle.setContentType( DesignChoiceConstants.CONTENT_TYPE_HTML );
+					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 

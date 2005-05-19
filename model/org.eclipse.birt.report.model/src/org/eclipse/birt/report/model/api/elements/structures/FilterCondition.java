@@ -61,7 +61,7 @@ public class FilterCondition extends Structure
 	 * dictionary.
 	 */
 
-	public static final String FILTER_COND_STRUCT = "FilterCond"; //$NON-NLS-1$
+	public static final String FILTER_COND_STRUCT = "FilterCondition"; //$NON-NLS-1$
 
 	/**
 	 * Name of the filter operator member.
