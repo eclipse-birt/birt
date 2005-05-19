@@ -36,7 +36,6 @@ public class UnsupportedElementValidator extends AbstractElementValidator
 {
 
 	private static final String[] unSupportedElements = {
-			ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
 			ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT,
 			ReportDesignConstants.FREE_FORM_ITEM,
 			ReportDesignConstants.LINE_ITEM,
