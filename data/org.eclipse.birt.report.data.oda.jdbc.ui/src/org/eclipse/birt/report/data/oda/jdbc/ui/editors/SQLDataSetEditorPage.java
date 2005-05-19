@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/13 02:02:37 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/13 07:46:39 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -178,10 +178,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	public Control createPageControl( Composite parent )
 	{
-		
-	
-		
-		
 		Splitter splitter = new Splitter( parent, SWT.NONE );
 		splitter.setOrientation( SWT.HORIZONTAL );
 		splitter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1218,8 +1214,43 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		// If the Selected Data Source HAs changed then the 
 		// Table Selection Page and the Textual query editor should reflect this change
 		refreshPage();
+		
+		prepareUI();		
 	}
 
+	/**
+	 * Prepare UI when pageActivated event is invoked
+	 * Following things will be done:
+	 * 		Set StyledText content
+	 * 		Set StyledText as focus
+	 * 		
+	 */
+	private void prepareUI()
+	{
+		// TODO: to be externalized
+		final String[] lines = new String[]{
+				"select", "from"
+		};		
+		StyledText styledText = viewer.getTextWidget( );
+		String content = styledText.getText( );
+		if ( content == null || content.trim().length( ) == 0 )
+		{
+			String defaultContent = "";
+			for ( int i = 0; i < lines.length; i++ )
+			{
+				if ( i > 0 )
+					defaultContent += "\n";
+				defaultContent += lines[i] + " ";
+			}
+			styledText.setText( defaultContent );
+			if ( lines.length > 0 )
+				styledText.setSelection( lines[0].length( ) + 1 ,
+						lines[0].length( ) + 1 );
+		}
+		
+		styledText.setFocus( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1305,6 +1336,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     {
     }
 
+	/*
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
+	 */
+	public String getToolTip( )
+	{
+		// TODO: to be externalized
+		return "Create or Edit an SQL SELECT statement";
+	}
+	
 }
 
 class SQLEditorAction extends Action
@@ -1376,5 +1416,6 @@ class DbType
         this.type = type;
         this.name = name;
     }
+    
 }
 
