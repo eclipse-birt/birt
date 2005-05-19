@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class ExpressionTreeSupport
 	private static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
 
 	private static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
-	
+
 	private static final Image IMAGE_GOLBAL = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL );
 
 	private static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
@@ -188,13 +189,13 @@ public class ExpressionTreeSupport
 	private static final String TREE_ITEM_ASSIGNMENT = Messages.getString( "ExpressionBuidler.Tree.Assignment" ); //$NON-NLS-1$	
 
 	/** Tool tip key of tree item data */
-	private static final String ITEM_DATA_KEY_TOOLTIP = "TOOL_TIP"; //$NON-NLS-1$
+	protected static final String ITEM_DATA_KEY_TOOLTIP = "TOOL_TIP"; //$NON-NLS-1$
 	/**
 	 * Text key of tree item data, this data is the text string to be inserted
 	 * into the text area
 	 */
-	private static final String ITEM_DATA_KEY_TEXT = "TEXT"; //$NON-NLS-1$
-	private static final String ITEM_DATA_KEY_ENABLED = "ENABLED"; //$NON-NLS-1$
+	protected static final String ITEM_DATA_KEY_TEXT = "TEXT"; //$NON-NLS-1$
+	protected static final String ITEM_DATA_KEY_ENABLED = "ENABLED"; //$NON-NLS-1$
 
 	private static final String OBJECTS_TYPE_NATIVE = "native";//$NON-NLS-1$
 	private static final String OBJECTS_TYPE_BIRT = "birt";//$NON-NLS-1$
@@ -204,6 +205,21 @@ public class ExpressionTreeSupport
 	private Tree tree;
 
 	private DropTarget dropTarget;
+
+	/**
+	 * Creates all expression trees in default order
+	 * 
+	 * @param dataSetList
+	 *            list for DataSet tree
+	 */
+	public void createDefaultExpressionTree( List dataSetList )
+	{
+		createDataSetsTree( dataSetList );
+		createParamtersTree( );
+		createNativeObjectsTree( );
+		createBirtObjectsTree( );
+		createOperatorsTree( );
+	}
 
 	/**
 	 * Create operators band.Must set Tree before execution.
@@ -254,6 +270,7 @@ public class ExpressionTreeSupport
 						handle.getDisplayLabel( ),
 						ReportPlatformUIImages.getImage( handle ),
 						DEUtil.getExpression( handle ),
+						( (ParameterHandle) handle ).getHelpText( ),
 						true );
 			}
 			else if ( handle instanceof ParameterGroupHandle )
@@ -270,6 +287,7 @@ public class ExpressionTreeSupport
 							parameter.getDisplayLabel( ),
 							ReportPlatformUIImages.getImage( handle ),
 							DEUtil.getExpression( parameter ),
+							parameter.getDisplayLabel( ),
 							true );
 				}
 			}
@@ -299,6 +317,7 @@ public class ExpressionTreeSupport
 						columns[i].getDisplayName( ),
 						IMAGE_COLUMN,
 						DEUtil.getExpression( columns[i] ),
+						columns[i].getHelpText( ),
 						true );
 			}
 		}
@@ -334,18 +353,7 @@ public class ExpressionTreeSupport
 	private TreeItem createSubTreeItem( TreeItem parent, String text,
 			Image image, boolean isEnabled )
 	{
-		return createSubTreeItem( parent, text, image, null, isEnabled );
-	}
-
-	private TreeItem createSubTreeItem( TreeItem parent, String text,
-			Image image, String textData, boolean isEnabled )
-	{
-		return createSubTreeItem( parent,
-				text,
-				image,
-				textData,
-				text,
-				isEnabled );
+		return createSubTreeItem( parent, text, image, null, text, isEnabled );
 	}
 
 	private TreeItem createSubTreeItem( TreeItem parent, String text,
@@ -366,6 +374,16 @@ public class ExpressionTreeSupport
 	private TreeItem createSubFolderItem( TreeItem parent, String text )
 	{
 		return createSubTreeItem( parent, text, IMAGE_FOLDER, true );
+	}
+	
+	private TreeItem createSubFolderItem( TreeItem parent, IClassInfo classInfo )
+	{
+		return createSubTreeItem( parent,
+				classInfo.getDisplayName( ),
+				IMAGE_FOLDER,
+				null,
+				classInfo.getToolTip( ),
+				true );
 	}
 
 	private void createSubTreeItems( TreeItem parent, String[][] texts,
@@ -421,7 +439,7 @@ public class ExpressionTreeSupport
 
 			public void mouseDoubleClick( MouseEvent event )
 			{
-				TreeItem[] selection = tree.getSelection( );
+				TreeItem[] selection = getTreeSelection( );
 				if ( selection == null || selection.length <= 0 )
 					return;
 				TreeItem item = selection[0];
@@ -437,6 +455,11 @@ public class ExpressionTreeSupport
 				}
 			}
 		} );
+	}
+
+	protected TreeItem[] getTreeSelection( )
+	{
+		return tree.getSelection( );
 	}
 
 	/**
@@ -483,9 +506,13 @@ public class ExpressionTreeSupport
 	 * 
 	 * @param text
 	 */
-	private void insertText( String text )
+	protected void insertText( String text )
 	{
 		StyledText textWidget = expressionViewer.getTextWidget( );
+		if ( !textWidget.isEnabled( ) )
+		{
+			return;
+		}
 		int selectionStart = textWidget.getSelection( ).x;
 		if ( text.equalsIgnoreCase( "x++" ) ) //$NON-NLS-1$
 		{
@@ -578,6 +605,11 @@ public class ExpressionTreeSupport
 		this.tree = tree;
 	}
 
+	protected Tree getTree( )
+	{
+		return tree;
+	}
+
 	/**
 	 * Sets the viewer to use.
 	 * 
@@ -586,6 +618,11 @@ public class ExpressionTreeSupport
 	public void setExpressionViewer( SourceViewer expressionViewer )
 	{
 		this.expressionViewer = expressionViewer;
+	}
+
+	protected SourceViewer getExpressionViewer( )
+	{
+		return expressionViewer;
 	}
 
 	/**
@@ -613,35 +650,14 @@ public class ExpressionTreeSupport
 			{
 				continue;
 			}
-			TreeItem subItem = createSubFolderItem( topItem,
-					classInfo.getDisplayName( ) );			
+			TreeItem subItem = createSubFolderItem( topItem, classInfo );
 			Image globalImage = null;
 			if ( isGlobal( classInfo.getName( ) ) )
 			{
 				globalImage = IMAGE_GOLBAL;
 			}
-			for ( Iterator iterator = classInfo.getMethods( ).iterator( ); iterator.hasNext( ); )
-			{
-				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
-				Image image = globalImage;
-				if ( image == null )
-				{
-					if ( methodInfo.isStatic( ) )
-					{
-						image = IMAGE_STATIC_METHOD;
-					}
-					else
-					{
-						image = IMAGE_METHOD;
-					}
-				}
-				createSubTreeItem( subItem,
-						getMethodDisplayName( classInfo.getName( ), methodInfo ),
-						image,
-						getTextData( classInfo.getName( ), methodInfo ),
-						methodInfo.getToolTip( ),
-						true );
-			}
+			
+			//Add members
 			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
 			{
 				IMemberInfo memberInfo = (IMemberInfo) iterator.next( );
@@ -660,9 +676,48 @@ public class ExpressionTreeSupport
 				createSubTreeItem( subItem,
 						memberInfo.getDisplayName( ),
 						image,
-						getTextData( classInfo.getName( ), memberInfo ),
+						getMemberTextData( classInfo.getName( ), memberInfo ),
 						memberInfo.getToolTip( ),
 						true );
+			}
+			
+			//Add constructors and methods
+			List methodList = new ArrayList( );
+			methodList.add( classInfo.getConstructor( ) );
+			methodList.addAll( classInfo.getMethods( ) );
+			for ( Iterator iterator = methodList.iterator( ); iterator.hasNext( ); )
+			{
+				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
+				if ( methodInfo == null )
+				{
+					//Constructor is null
+					continue;
+				}
+				Image image = globalImage;
+				if ( image == null )
+				{
+					if ( methodInfo.isStatic( ) )
+					{
+						image = IMAGE_STATIC_METHOD;
+					}
+					else
+					{
+						image = IMAGE_METHOD;
+					}
+				}
+				//Split a method with more than one signature into several entries
+				List displayList = getMethodArgumentsList( classInfo.getName( ),
+						methodInfo );
+				for ( int i = 0; i < displayList.size( ); i++ )
+				{
+					String[] array = (String[]) displayList.get( i );
+					createSubTreeItem( subItem,
+							array[0],
+							image,
+							array[1],
+							methodInfo.getToolTip( ),
+							true );
+				}
 			}
 		}
 	}
@@ -673,21 +728,30 @@ public class ExpressionTreeSupport
 		return name != null && name.startsWith( "Global" ); //$NON-NLS-1$
 	}
 
-	private String getMethodDisplayName( String className, IMethodInfo info )
+	private List getMethodArgumentsList( String className, IMethodInfo info )
 	{
-		StringBuffer textData = new StringBuffer( );
-		textData.append( info.getDisplayName( ) );
-		textData.append( "(" );//$NON-NLS-1$
-		
-		boolean firstArg = true;
+		List list = new ArrayList( );
+		boolean isClassNameAdded = !isGlobal( className ) && isStatic( info );
+		String methodStart = info.isConstructor( ) ? "new " : "";  //$NON-NLS-1$//$NON-NLS-2$
+
 		for ( Iterator it = info.argumentListIterator( ); it.hasNext( ); )
 		{
-			if (!firstArg)
+			//Includes display text in tree view and expression in source
+			// viewer
+			String[] array = new String[2];
+
+			StringBuffer displayText = new StringBuffer( methodStart );
+			displayText.append( info.getDisplayName( ) );
+			displayText.append( "(" );//$NON-NLS-1$
+
+			StringBuffer expression = new StringBuffer( methodStart );
+			if ( isClassNameAdded )
 			{
-				textData.append("|");//$NON-NLS-1$
+				expression.append( className + "." );//$NON-NLS-1$
 			}
-			firstArg = false;
-			
+			expression.append( info.getName( ) );
+			expression.append( "(" );//$NON-NLS-1$	
+
 			IArgumentInfoList arguments = (IArgumentInfoList) it.next( );
 			boolean firstTime = true;
 			for ( Iterator iterator = arguments.argumentsIterator( ); iterator.hasNext( ); )
@@ -695,18 +759,23 @@ public class ExpressionTreeSupport
 				IArgumentInfo argument = (IArgumentInfo) iterator.next( );
 				if ( !firstTime )
 				{
-					textData.append( "," );//$NON-NLS-1$
+					displayText.append( ", " );//$NON-NLS-1$
 				}
 				firstTime = false;
-				textData.append( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argument.getName( ) ) ? argument.getDisplayName( )
-						: argument.getType( ) );
+				displayText.append( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argument.getName( ) )
+						? argument.getDisplayName( ) : ( argument.getType( )
+								+ " " + argument.getDisplayName( ) ) ); //$NON-NLS-1$
 			}
+			displayText.append( ")" );//$NON-NLS-1$
+			expression.append( ")" );//$NON-NLS-1$
+			array[0] = displayText.toString( );
+			array[1] = expression.toString( );
+			list.add( array );
 		}
-		textData.append( ")" );//$NON-NLS-1$
-		return textData.toString( );
+		return list;
 	}
 
-	private String getTextData( String className, ILocalizableInfo info )
+	private String getMemberTextData( String className, ILocalizableInfo info )
 	{
 		StringBuffer textData = new StringBuffer( );
 		if ( !isGlobal( className ) && isStatic( info ) )
@@ -714,33 +783,6 @@ public class ExpressionTreeSupport
 			textData.append( className + "." );//$NON-NLS-1$
 		}
 		textData.append( info.getName( ) );
-		if ( info instanceof IMethodInfo )
-		{
-			textData.append( "(" );//$NON-NLS-1$
-			boolean firstArg = true;
-			for ( Iterator it = ( (IMethodInfo) info ).argumentListIterator( ); it.hasNext( ); )
-			{
-				if (!firstArg)
-				{
-					textData.append("|");//$NON-NLS-1$
-				}
-				firstArg = false;
-				
-				IArgumentInfoList arguments = (IArgumentInfoList) it.next( );
-				boolean firstTime = true;
-				for ( Iterator iterator = arguments.argumentsIterator( ); iterator.hasNext( ); )
-				{
-					IArgumentInfo argument = (IArgumentInfo) iterator.next( );
-					if ( !firstTime )
-					{
-						textData.append( "," );//$NON-NLS-1$
-					}
-					firstTime = false;
-					textData.append( argument.getDisplayName( ) );
-				}
-			}
-			textData.append( ")" );//$NON-NLS-1$
-		}
 		return textData.toString( );
 	}
 

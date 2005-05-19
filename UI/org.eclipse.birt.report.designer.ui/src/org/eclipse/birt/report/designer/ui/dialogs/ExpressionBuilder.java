@@ -22,7 +22,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -37,12 +39,16 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandManager;
 import org.eclipse.ui.keys.KeySequence;
@@ -60,35 +66,93 @@ import org.eclipse.ui.texteditor.TextEditorAction;
 public class ExpressionBuilder extends BaseDialog
 {
 
+	private static final String LABEL_TEXT_EXPRESSION = Messages.getString( "ExpressionBuilder.Label.Expression" ); //$NON-NLS-1$
+	private static final String LABEL_TEXT_AVAILABLE_OBJECTS = Messages.getString( "ExpressionBuilder.Label.AvailableObjects" ); //$NON-NLS-1$
+	private static final String LABEL_TEXT_DESCRIPTION = Messages.getString( "ExpressionBuilder.Label.instruction" ); //$NON-NLS-1$
+	private static final String LABEL_TEXT_HEADER = Messages.getString( "ExpressionBuilder.Label.title" ); //$NON-NLS-1$
+	private static final String LABEL_TEXT_SELECTION = Messages.getString( "ExpressionBuilder.Label.Selection" ); //$NON-NLS-1$
+	
 	/** file name of the state file */
 	// Layout constant values
-	private static final int SASH_WEIGHT_LEFT = 30;
+	private static final int SASH_WEIGHT_LEFT = 33;
 
 	private static final int SASH_WEIGHT_RIGHT = 100 - SASH_WEIGHT_LEFT;
-
-	/** The Left tree */
-	protected Tree tree = null;
 
 	/** The expression text area */
 	protected SourceViewer expressionViewer;
 
 	/** The expression value to return */
 	protected String inputExpression = ""; //$NON-NLS-1$
-
-	/** The sash form */
-	protected SashForm sashForm;
-
-	/** The operator buttons group */
-	protected Composite opButtonsGroup;
-
-	/** Columns, expressions and parameters available for the left tree */
-	protected List choiceOfValues;
-
+	
+	private Label lblText;
+	private Label lblTooltip;
+	
 	final static String EXPRESSIONBUILDERDIALOG_SHELLNAME = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
 
 	private List dataSetList = null;
 
-	private ExpressionTreeSupport treeCommon = new ExpressionTreeSupport( );
+	/**
+	 * Add extension support: mouse down to show selection status
+	 */
+	private ExpressionTreeSupport treeCommon = new ExpressionTreeSupport( ) {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport#addMouseListener()
+		 */
+		public void addMouseListener( )
+		{
+			getTree( ).addMouseListener( new MouseAdapter( ) {
+
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see org.eclipse.swt.events.MouseAdapter#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
+				 */
+				public void mouseDoubleClick( MouseEvent e )
+				{
+					TreeItem[] selection = getTreeSelection( );
+					if ( selection == null || selection.length <= 0 )
+						return;
+					TreeItem item = selection[0];
+					if ( item != null )
+					{
+						Object obj = item.getData( ITEM_DATA_KEY_TEXT );
+						Boolean isEnabled = (Boolean) item.getData( ITEM_DATA_KEY_ENABLED );
+						if ( obj != null && isEnabled.booleanValue( ) )
+						{
+							String text = (String) obj;
+							insertText( text );
+						}
+					}
+				}
+
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see org.eclipse.swt.events.MouseAdapter#mouseDown(org.eclipse.swt.events.MouseEvent)
+				 */
+				public void mouseDown( MouseEvent e )
+				{
+					TreeItem[] selection = getTreeSelection( );
+					if ( selection == null || selection.length <= 0 )
+						return;
+					TreeItem item = selection[0];
+					if ( item != null )
+					{
+						lblText.setText( LABEL_TEXT_SELECTION + item.getText( ) );
+						String tooltip = (String) item.getData( ITEM_DATA_KEY_TOOLTIP );
+						if ( tooltip == null )
+						{
+							tooltip = ""; //$NON-NLS-1$
+						}
+						lblTooltip.setText( tooltip );
+					}
+				}
+			} );
+		}
+	};
 
 	class EBTextAction extends TextEditorAction
 	{
@@ -188,32 +252,90 @@ public class ExpressionBuilder extends BaseDialog
 					.getDataSets( )
 					.getContents( );
 		}
-		//create sash form
-		sashForm = new SashForm( topLevel, SWT.HORIZONTAL );
+
+		createTopArea( topLevel );
+		createExpressionArea( topLevel );
+		createStatusArea( topLevel );
+		
+		return topLevel;
+	}
+	
+	private void createExpressionArea( Composite composite )
+	{
+		//	create sash form
+		SashForm sashForm = new SashForm( composite, SWT.HORIZONTAL );
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.widthHint = 600;
-		data.heightHint = 300;
+		data.heightHint = 400;
 		sashForm.setLayoutData( data );
 
+		Composite c = new Composite( sashForm, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		c.setLayout( layout );
+		c.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Label label = new Label( c, SWT.NONE );
+		label.setText( LABEL_TEXT_AVAILABLE_OBJECTS );
 		// Create left tree
-		createLeftTree( sashForm );
+		createLeftTree( c );
 
+		c = new Composite( sashForm, SWT.NONE );
+		layout = new GridLayout( );
+		layout.marginWidth = 0;
+		c.setLayout( layout );
+		c.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		label = new Label( c, SWT.NONE );
+		label.setText( LABEL_TEXT_EXPRESSION );
 		// Expression Text Area:
-		createExpressionViewer( sashForm );
+		createExpressionViewer( c );
+		setFocus( );
 		
-		setFocus();
-
-		// Set weight for the tree and text area.
 		sashForm.setWeights( new int[]{
 				SASH_WEIGHT_LEFT, SASH_WEIGHT_RIGHT
 		} );
+	}
+	
+	private void createTopArea( Composite composite )
+	{
+		Composite c = new Composite( composite, SWT.NONE );
+		c.setBackground( ColorConstants.white );
+		c.setLayout( new GridLayout( ) );
+
+		Label title = new Label( c, SWT.NONE );
+		title.setText( LABEL_TEXT_HEADER );
+		title.setFont( FontManager.getFont( title.getFont( ).toString( ),
+				10,
+				SWT.BOLD ) );
+		title.setBackground( ColorConstants.white );
+		title.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		title = new Label( c, SWT.NONE );
+		title.setText( LABEL_TEXT_DESCRIPTION );
+		title.setFont( FontManager.getFont( title.getFont( ).toString( ),
+				9,
+				SWT.NORMAL ) );
+		title.setBackground( ColorConstants.white );
+		title.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		Label bar = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
+		bar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+	}
+
+	private void createStatusArea( Composite composite )
+	{
+		lblText = new Label( composite, SWT.HORIZONTAL );
+		lblText.setText( LABEL_TEXT_SELECTION );
+		lblText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		lblTooltip = new Label( composite, SWT.HORIZONTAL );
+		lblTooltip.setText( " " ); //$NON-NLS-1$
+		lblTooltip.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// horizontal bar
-		Label bar = new Label( parent, SWT.HORIZONTAL | SWT.SEPARATOR );
-		data = new GridData( );
+		Label bar = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
+		GridData data = new GridData( );
 		data.horizontalAlignment = GridData.FILL;
 		bar.setLayoutData( data );
-		return topLevel;
 	}
 
 	/**
@@ -232,13 +354,10 @@ public class ExpressionBuilder extends BaseDialog
 	 */
 	private void createLeftTree( Composite parent )
 	{
-		tree = new Tree( parent, SWT.BORDER );
+		Tree tree = new Tree( parent, SWT.BORDER );
+		tree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		treeCommon.setTree( tree );
-		treeCommon.createOperatorsTree( );
-		treeCommon.createNativeObjectsTree( );
-		treeCommon.createBirtObjectsTree( );
-		treeCommon.createDataSetsTree( dataSetList );
-		treeCommon.createParamtersTree( );
+		treeCommon.createDefaultExpressionTree( dataSetList );
 
 		// Add tool tips
 		tree.setToolTipText( "" ); //$NON-NLS-1$
@@ -261,7 +380,9 @@ public class ExpressionBuilder extends BaseDialog
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
+		expressionViewer.getTextWidget().setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		treeCommon.setExpressionViewer( expressionViewer );
+		treeCommon.addDropSupportToViewer( );
 
 		expressionViewer.configure( new JSSourceViewerConfiguration( ) );
 		JSEditorInput editorInput = new JSEditorInput( inputExpression );
@@ -322,8 +443,8 @@ public class ExpressionBuilder extends BaseDialog
 				copyAction.update( );
 				cutAction.update( );
 				pasteAction.update( );
-
 				selectAllAction.update( );
+				
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
 						undoAction );
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
@@ -368,8 +489,6 @@ public class ExpressionBuilder extends BaseDialog
 				}
 			}
 		} );
-
-		treeCommon.addDropSupportToViewer( );
 	}
 
 	private KeySequence getKeySequenceFromKeyEvent( KeyEvent e )

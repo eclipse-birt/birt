@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
@@ -230,7 +231,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				IAction action = getAction( GEFActionConstants.DIRECT_EDIT );
 				action.setAccelerator( SWT.F2 );
-				action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
+				if ( ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof DataEditPart )
+				{
+					action.setText( Messages.getString("SchematicContextMenuProvider.ActionText.editData") ); //$NON-NLS-1$
+				}
+				else
+				{
+					action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
+				}
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						action );
 			}
