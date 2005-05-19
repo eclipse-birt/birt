@@ -58,8 +58,7 @@ class FillCanvas extends Canvas implements PaintListener
         GC gc = pe.gc;
         if (!this.isEnabled())
         {
-            cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-            gc.setBackground(cBackground);
+            gc.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
             gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         }
         else

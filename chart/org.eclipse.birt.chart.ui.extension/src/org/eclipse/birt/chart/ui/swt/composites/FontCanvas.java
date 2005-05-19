@@ -205,7 +205,6 @@ public class FontCanvas extends Canvas implements PaintListener
             fCurrent.dispose();
         }
         cFore.dispose();
-        cBack.dispose();
         gc.setFont(fOld);
     }
 

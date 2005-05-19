@@ -65,7 +65,7 @@ public class LineCanvas extends Canvas implements PaintListener
         Color cBackground = null;
         if (this.isEnabled())
         {
-            cForeground = new Color(this.getDisplay(), 0, 0, 0);
+            cForeground = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
             cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
         }
         else
@@ -80,8 +80,6 @@ public class LineCanvas extends Canvas implements PaintListener
         gc.setLineWidth(iLineWidth);
         gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this.getSize().y / 2);
-        cForeground.dispose();
-        cBackground.dispose();
         gc.dispose();
     }
 
