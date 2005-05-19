@@ -93,7 +93,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.26 $ $Date: 2005/05/11 11:59:31 $
+ * @version $Revision: 1.27 $ $Date: 2005/05/18 08:47:06 $
  */
 public class ReportQueryBuilder
 {
@@ -334,6 +334,21 @@ public class ReportQueryBuilder
 							if (queries[i] instanceof IQueryDefinition)
 							{
 								this.queries.add( queries[i] );
+								//to support parameter binding with data related expression in report query
+								Collection bindings = ((IQueryDefinition)queries[i]).getInputParamBindings();
+								if(bindings.size()>0)
+								{
+									if(parentTrans!=null)
+									{
+										Iterator iter = bindings.iterator();
+										while(iter.hasNext())
+										{
+											IInputParameterBinding binding = (IInputParameterBinding)iter.next();
+											parentTrans.getRowExpressions().add(binding.getExpr());
+										}
+									}
+									
+								}
 							}
 							else if (queries[i] instanceof ISubqueryDefinition)
 							{
@@ -343,6 +358,7 @@ public class ReportQueryBuilder
 									parentTrans.getSubqueries().add(queries[i]);
 								}
 							}
+							
 						}
 					}
 					if (queries.length > 0)
@@ -850,10 +866,23 @@ public class ReportQueryBuilder
 				QueryDefinition query = new QueryDefinition( getParentQuery( ) );
 				query.setDataSetName( dsHandle.getName( ) );
 
-				query.getInputParamBindings( )
-						.addAll(
-								createParamBindings( riHandle
-										.paramBindingsIterator( ) ) );
+				ArrayList bindings = createParamBindings( riHandle
+						.paramBindingsIterator( ) );
+				if(bindings.size()>0)
+				{
+					query.getInputParamBindings( ).addAll(bindings);
+					IBaseTransform trans = getTransform();
+					if(trans!=null)
+					{
+						for(int i=0; i<bindings.size(); i++)
+						{
+							IInputParameterBinding binding = (IInputParameterBinding)bindings.get(i);
+							trans.getRowExpressions().add(binding.getExpr());
+						}
+					}
+					
+				}
+				
 				this.queries.add( query );
 				item.setQuery( query );
 				return query;
@@ -1179,11 +1208,6 @@ public class ReportQueryBuilder
 					if ( binding != null )
 					{
 						list.add( binding );
-						BaseQueryDefinition parentQuery = getParentQuery();
-						if(parentQuery!=null)
-						{
-							parentQuery.getRowExpressions().add(binding.getExpr());
-						}
 					}
 				}
 			}
