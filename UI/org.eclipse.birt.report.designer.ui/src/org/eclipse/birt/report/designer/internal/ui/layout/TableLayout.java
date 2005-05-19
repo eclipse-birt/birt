@@ -406,7 +406,7 @@ public class TableLayout extends XYLayout
 			TableCellEditPart cellPart = (TableCellEditPart) map.get( figure );
 			int rowNumber = cellPart.getRowNumber( );
 			int rowSpan = cellPart.getRowSpan( );
-
+			
 			Dimension minSize = figure.getMinimumSize( data.findColumnData( cellPart.getColumnNumber( ) ).width,
 					-1 );
 
@@ -747,7 +747,8 @@ public class TableLayout extends XYLayout
 			int rowNumber = cellPart.getRowNumber( );
 			int rowSpan = cellPart.getRowSpan( );
 
-			Dimension minSize = figure.getMinimumSize( );
+			Dimension minSize = figure.getMinimumSize( data.findColumnData( cellPart.getColumnNumber( ) ).width,
+					-1 );
 			int samMin = 0;
 			int trueSamMin = 0;
 
