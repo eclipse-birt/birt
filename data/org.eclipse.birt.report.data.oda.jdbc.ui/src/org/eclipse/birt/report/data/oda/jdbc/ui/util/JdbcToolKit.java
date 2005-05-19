@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -95,6 +97,8 @@ public class JdbcToolKit
 	{
 		if ( jdbcDrivers == null )
 		{
+			LogInfo( 1000, "Enter getJdbcDriverNames" );
+			
 			jdbcDrivers = new ArrayList( );
 			URL[] classPathURLs = getJdbcDriverClassPathURLS( driverName );
 			try
@@ -116,6 +120,12 @@ public class JdbcToolKit
 			{
 				driverConfigUtil = new JdbcDriverConfigUtil( driverName );
 				driverFiles = driverConfigUtil.getDriverFiles( );
+				
+				LogInfo( 1111, new String( "FILES number is " + driverFiles.length ) );
+				for ( int i = 0; i < driverFiles.length; i++ )
+				{
+					LogInfo( 2222, driverFiles[i].toString( ) );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -150,12 +160,14 @@ public class JdbcToolKit
 						ClassLoader.getSystemClassLoader( ) );
 				for ( int i = 0; i < driverFiles.length; i++ )
 				{
-
 					if ( driverFiles[i].getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
 					{
 						try
 						{
 							String[] resourceNames = getJarFileEntries( driverFiles[i] );
+							
+							LogInfo( 3333, driverFiles[i].toString() );
+							
 							for ( int j = 0; j < resourceNames.length; j++ )
 							{
 								String resourceName = resourceNames[j];
@@ -177,7 +189,8 @@ public class JdbcToolKit
 									{
 										if ( implementsSQLDriver( aClass ) )
 										{
-
+											LogInfo( 4444, aClass.getName() );
+											
 											// Do not add it, if it is a
 											// Abstract
 											// class
@@ -230,6 +243,14 @@ public class JdbcToolKit
 		return jdbcDrivers;
 	}
 
+	// for debug a bug
+	private static Logger logger = Logger.getLogger( JdbcToolKit.class.getName( ) );
+	private static void LogInfo( int index, String logInfo )
+	{
+		logger.log( Level.INFO, "******************PLACE"
+				+ index + ": " + logInfo );
+	}
+	
 	public static URL[] getJdbcDriverClassPathURLS( String driverName )
 	{
 		if ( jdbcDriverLocations == null )
