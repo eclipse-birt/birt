@@ -11,10 +11,12 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TextEditDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TextFigure;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.Dialog;
@@ -28,10 +30,12 @@ public class TextEditPart extends LabelEditPart
 	private static final String DLG_TITLE_TEXT = Messages.getString( "TextEditPart.Dialog.Title" ); //$NON-NLS-1$
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
-	
+
 	private static final String TEXT_TRANS_MSG = Messages.getString( "TextEditPart.trans.editText" ); //$NON-NLS-1$
 
 	/**
+	 * The constructor.
+	 * 
 	 * @param model
 	 */
 	public TextEditPart( Object model )
@@ -45,40 +49,75 @@ public class TextEditPart extends LabelEditPart
 	public void performDirectEdit( )
 	{
 		CommandStack stack = SessionHandleAdapter.getInstance( )
-		.getCommandStack();
+				.getCommandStack( );
 		stack.startTrans( TEXT_TRANS_MSG );
-		
+
 		TextEditDialog dialog = new TextEditDialog( DLG_TITLE_TEXT,
 				( (TextItemHandle) getModel( ) ) );
 
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			stack.commit();
+			stack.commit( );
 			refreshVisuals( );
 		}
 		else
 		{
-			stack.rollback();
+			stack.rollback( );
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	protected IFigure createFigure( )
 	{
 		TextFigure text = new TextFigure( );
 		return text;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 */
+	public void refreshFigure( )
+	{
+		super.refreshFigure( );
+
+		( (LabelFigure) getFigure( ) ).setToolTipText( ( (TextItemHandle) getModel( ) ).getDisplayContent( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
+	 */
 	protected String getText( )
 	{
 		TextItemHandle handle = (TextItemHandle) getModel( );
-		String textContent = handle.getDisplayContent( );
-		if ( textContent == null )
+		String text = handle.getDisplayContent( );
+		if ( text == null || text.length( ) == 0 )
 		{
-			textContent = FIGURE_DEFAULT_TEXT;
+			text = FIGURE_DEFAULT_TEXT;
 		}
-		return textContent;
+		else
+		{
+			if ( text.length( ) > TRUNCATE_LENGTH
+					&& DesignChoiceConstants.CONTENT_TYPE_HTML.equals( handle.getContentType( ) ) )
+			{
+				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
+			}
+		}
+		return text;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
+	 */
 	protected boolean hasText( )
 	{
 		if ( StringUtil.isBlank( ( (TextItemHandle) getModel( ) ).getDisplayContent( ) ) )

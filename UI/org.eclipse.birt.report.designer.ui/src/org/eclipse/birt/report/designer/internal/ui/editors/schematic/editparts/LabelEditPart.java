@@ -43,6 +43,10 @@ import org.eclipse.jface.viewers.TextCellEditor;
 public class LabelEditPart extends ReportElementEditPart
 {
 
+	protected static final int TRUNCATE_LENGTH = 18;
+
+	protected static final String ELLIPSIS = "..."; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,9 +54,9 @@ public class LabelEditPart extends ReportElementEditPart
 	 */
 	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString( "LabelEditPart.Figure.Default" );//$NON-NLS-1$
 
-	public void markDirty( boolean bool,  boolean notifyParent )
+	public void markDirty( boolean bool, boolean notifyParent )
 	{
-		super.markDirty( bool,notifyParent  );
+		super.markDirty( bool, notifyParent );
 
 		// refresh label to adopt container's changes.
 		if ( bool )
@@ -172,6 +176,11 @@ public class LabelEditPart extends ReportElementEditPart
 		refreshMargin( );
 	}
 
+	/**
+	 * Returns if the model element has explicit text set.
+	 * 
+	 * @return
+	 */
 	protected boolean hasText( )
 	{
 		if ( StringUtil.isBlank( ( (LabelHandle) getModel( ) ).getDisplayText( ) ) )

@@ -30,10 +30,6 @@ public class DataEditPart extends LabelEditPart
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
 
-	private static final int TRUNCATE_LENGTH = 18;
-
-	private static final String ELLIPSIS = "..."; //$NON-NLS-1$
-
 	/**
 	 * Constructor
 	 * 
@@ -44,6 +40,9 @@ public class DataEditPart extends LabelEditPart
 		super( model );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
 	protected IFigure createFigure( )
 	{
 		LabelFigure label = new LabelFigure( );
@@ -91,6 +90,9 @@ public class DataEditPart extends LabelEditPart
 		( (LabelFigure) getFigure( ) ).setToolTipText( ( (DataItemHandle) getModel( ) ).getValueExpr( ) );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
+	 */
 	protected String getText( )
 	{
 		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
@@ -108,6 +110,9 @@ public class DataEditPart extends LabelEditPart
 		return text;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
+	 */
 	protected boolean hasText( )
 	{
 		String text = ( (DataItemHandle) getModel( ) ).getValueExpr( );
