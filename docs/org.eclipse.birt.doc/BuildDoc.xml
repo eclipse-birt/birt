@@ -157,9 +157,9 @@
 	
 	<target name="engineJavadoc">
 		<delete dir="${engine.javadoc.dir}"/>
-		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="publicJavadoc" inheritall="false" inheritrefs="false">
+		<ant dir="${engine.dir}" antfile="BuildEngine.xml" target="APIJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
+      <property name="api.javadoc.dir" value="../${module.name}/${engine.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -181,9 +181,9 @@
 	
 	<target name="odaJavadoc">
 		<delete dir="${oda.javadoc.dir}"/>
-		<ant dir="${oda.dir}" antfile="BuildOda.xml" target="Javadoc" inheritall="false" inheritrefs="false">
+		<ant dir="${oda.dir}" antfile="BuildOda.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
-      <property name="javadoc.dir" value="../${module.name}/${oda.javadoc.dir}" />
+      <property name="api.javadoc.dir" value="../${module.name}/${oda.javadoc.dir}" />
 		</ant>
   </target>
 	
