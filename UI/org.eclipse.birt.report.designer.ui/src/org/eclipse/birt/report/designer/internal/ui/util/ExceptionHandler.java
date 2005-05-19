@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
+import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
@@ -50,25 +50,27 @@ public class ExceptionHandler
 
 	private static final String MSG_UNKNOWN_HOST = Messages.getString( "ExceptionHandler.Message.UnknownHost" ); //$NON-NLS-1$
 
-	private static final String MSG_SEMANTIC_CHECK_FAIL = Messages.getString( "ExceptionHandler.Message.SemanticFail" ); //$NON-NLS-1$
-
 	private static final String MSG_PART_INIT_ERROR = Messages.getString( "ExceptionHandler.Message.PartInitError" ); //$NON-NLS-1$
 
-	private static final String MSG_OCURR = Messages.getString( "ExceptionHandler.Meesage.Occur" ); //$NON-NLS-1$
+	private static final String MSG_BIRT_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Meesage.BirtExceptionOccur" ); //$NON-NLS-1$
+
+	private static final String MSG_OUT_OF_MEMORY = Messages.getString( "ExceptionHandler.Message.OutOfMemory" ); //$NON-NLS-1$
+
+	private static final String MSG_UNEXPECTED_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Meesage.UnexceptedExceptionOccur" ); //$NON-NLS-1$
 
 	private static final String LABEL_ERROR_MESSAGE = Messages.getString( "ExceptionHandler.Label.ErrorMessage" ); //$NON-NLS-1$
 
 	private static final String LABEL_ERROR_CODE = Messages.getString( "ExceptionHandler.Label.ErrorCode" ); //$NON-NLS-1$
 
-	private static List ExpectedExceptionList;
+	private static final String GUI_ERROR_CODE = "Error.GUIException.invokedByIOException"; //$NON-NLS-1$
+
+	private static List ExpectedExceptionList = new ArrayList( );
 
 	private static boolean isNeedLog = true;
 
 	static
 	{
-		ExpectedExceptionList = new ArrayList( );
 		ExpectedExceptionList.add( SemanticException.class );
-		ExpectedExceptionList.add( IOException.class );
 	}
 
 	/**
@@ -131,32 +133,6 @@ public class ExceptionHandler
 		}
 	}
 
-	/**
-	 * Handles the exception
-	 * 
-	 * @param list
-	 *            the list of ErrorDetail
-	 * @param dialogTitle
-	 *            the title of the error dialog
-	 * @param message
-	 *            the error message
-	 *  
-	 */
-	public static void handle( List list, String dialogTitle, String message )
-	{
-		ErrorStatus status = createErrorStatus( list );
-		if ( status != null )
-		{
-			ErrorDialog.openError( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), dialogTitle, message, status );
-		}
-		else
-		{
-			openErrorMessageBox( dialogTitle, message );
-		}
-	}
-
 	private static ErrorStatus createErrorStatus( Throwable e )
 	{
 		Throwable exception = null;
@@ -168,7 +144,7 @@ public class ExceptionHandler
 		}
 		if ( e instanceof DesignFileException )
 		{
-			detail = e.toString( ).split( "\n" ); //$NON-NLS-1$
+			detail = e.toString( ).split( "\n" ); //$NON-NLS-1$			
 			reason = detail[0];
 		}
 		else if ( e instanceof BirtException )
@@ -179,25 +155,39 @@ public class ExceptionHandler
 					LABEL_ERROR_MESSAGE + ":" //$NON-NLS-1$
 							+ birtException.getLocalizedMessage( ),
 			};
-			reason = e.getClass( ).getName( ) + " " //$NON-NLS-1$
-					+ MSG_OCURR + "\n" //$NON-NLS-1$
-					+ LABEL_ERROR_CODE + ":" //$NON-NLS-1$
-					+ birtException.getErrorCode( );
+			reason = MSG_BIRT_EXCEPTION_OCURR;
 		}
 		else
 		{
-			reason = e.getClass( ).getName( ) + " " + MSG_OCURR; //$NON-NLS-1$
-			if ( e.getLocalizedMessage( ) != null )
+			if ( e instanceof IOException )
 			{
-				detail = new String[]{
-					e.getLocalizedMessage( )
-				};
+				return createErrorStatus( new GUIException( GUI_ERROR_CODE, e ) );
+			}
+			else if ( e instanceof OutOfMemoryError )
+			{
+				reason = MSG_OUT_OF_MEMORY;
 			}
 			else
 			{
-				detail = new String[]{
-					e.getClass( ).getName( )
-				};
+				reason = MSG_UNEXPECTED_EXCEPTION_OCURR;
+			}
+			detail = new String[1];
+			if ( e.getLocalizedMessage( ) != null )
+			{
+				if ( e instanceof FileNotFoundException )
+				{
+					detail[0] = MSG_FILE_NOT_FOUND_PREFIX + ":" //$NON-NLS-1$
+							+ e.getLocalizedMessage( );
+				}
+				else
+				{
+					detail[0] = e.getLocalizedMessage( );
+				}
+
+			}
+			else
+			{
+				detail[0] = e.getClass( ).getName( );
 			}
 		}
 		ErrorStatus status = new ErrorStatus( ReportPlugin.REPORT_UI,
@@ -225,24 +215,6 @@ public class ExceptionHandler
 			}
 		}
 		return false;
-	}
-
-	private static ErrorStatus createErrorStatus( List list )
-	{
-		if ( list.isEmpty( ) )
-		{
-			return null;
-		}
-		ErrorStatus status = new ErrorStatus( ReportPlugin.REPORT_UI,
-				1001,
-				MSG_SEMANTIC_CHECK_FAIL,
-				null );
-		for ( Iterator itor = list.iterator( ); itor.hasNext( ); )
-		{
-			ErrorDetail detail = (ErrorDetail) itor.next( );
-			status.addError( detail.getMessage( ) );
-		}
-		return status;
 	}
 
 	/**
