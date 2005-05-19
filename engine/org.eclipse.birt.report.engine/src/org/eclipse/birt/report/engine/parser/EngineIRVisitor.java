@@ -132,7 +132,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.34 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.35 $ $Date: 2005/05/18 08:34:44 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -797,7 +797,12 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	protected void setupStyledElement( StyledElementDesign design, ReportElementHandle handle )
 	{
-		DesignElementHandle parentHandle = handle.getContainer( );
+		DesignElementHandle parentHandle = handle;
+		do
+		{
+			parentHandle = parentHandle.getContainer( );
+		}
+		while( this.handle != parentHandle && !parentHandle.getDefn( ).hasStyle( ) );
 		
 		// Styled element is a report element
 		setupReportElement( design, handle );
