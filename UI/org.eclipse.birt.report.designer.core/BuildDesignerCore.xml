@@ -127,7 +127,7 @@
 	<target name="Export">
 		<property name="plugin.name" value="${module.name}_${plugin.version}" />
 		<copy todir="${export.dir}\${plugin.name}">
-			<fileset dir="." includes="${jar.name},about.html,plugin.xml" />
+			<fileset dir="." includes="${jar.name},About.html,plugin.xml" />
 		</copy>
 	</target>
 
