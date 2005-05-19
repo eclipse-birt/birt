@@ -93,7 +93,7 @@ public class ResourceConstants
 	public final static String PARAMETER_METADATA_NOT_SUPPORTED = "data.engine.NoParamMetaForDataSource";
 	public final static String UNEXPECTED_ERROR = "data.engine.UnexpectedError";
 	public final static String JSSCRIPT_INVALID = "data.engine.JSScriptInvalid";
-	
+	public final static String CANNOT_CONVERT_PARAMETER_TYPE = "data.engine.ConvertDataTypeError";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

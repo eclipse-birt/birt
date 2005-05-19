@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -398,7 +399,9 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			//If the parameter is input parameter then add it to input value list.
 			if(parameterHint.isInputMode())
 			{
-				this.setInputParamValue(parameterHint.getName(),parameterHint.getDefaultInputValue());
+				Object inputValue = convertToValue( paramDef.getDefaultInputValue( ),
+						paramDef.getType( ) );
+				this.setInputParamValue( parameterHint.getName( ), inputValue );
 			}
 		}
 		this.setInputParameterBinding();
@@ -514,5 +517,57 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 						paramBind.getValue() );
 		}
     }
-
+    
+    // convert the String value to Object according to it's datatype.
+	private static Object convertToValue( String inputValue, int type )
+			throws DataException
+	{
+		//dataType can be refered from DataType's class type.
+		int dataType = type;
+		Object convertedResult = null;
+		try
+		{
+			if ( dataType == DataType.INTEGER_TYPE )
+			{
+				convertedResult = DataTypeUtil.toInteger( inputValue );
+			}
+			else if ( dataType == DataType.DOUBLE_TYPE )
+			{
+				convertedResult = DataTypeUtil.toDouble( inputValue );
+			}
+			else if ( dataType == DataType.STRING_TYPE )
+			{
+				convertedResult = inputValue;
+			}
+			else if ( dataType == DataType.DECIMAL_TYPE )
+			{
+				convertedResult = DataTypeUtil.toBigDecimal( inputValue );
+			}
+			else if ( dataType == DataType.DATE_TYPE )
+			{
+				convertedResult = DataTypeUtil.toDate( inputValue );
+			}
+			else if ( dataType == DataType.ANY_TYPE )
+			{
+				convertedResult = inputValue;
+			}
+			else if ( dataType == DataType.UNKNOWN_TYPE )
+			{
+				convertedResult = DataTypeUtil.toAutoValue( inputValue );
+			}
+			else
+			{
+				convertedResult = inputValue;
+			}
+			return convertedResult;
+		}
+		catch ( Exception ex )
+		{
+			throw new DataException( ResourceConstants.CANNOT_CONVERT_PARAMETER_TYPE,
+					ex,
+					new Object[]{
+							inputValue, DataType.getClass( dataType )
+					} );
+		}
+	}
 }

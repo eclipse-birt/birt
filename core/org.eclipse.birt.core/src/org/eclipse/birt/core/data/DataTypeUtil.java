@@ -562,6 +562,96 @@ public final class DataTypeUtil
 	}
 	
 	/**
+	 * Convert object to a suitable type from its value 
+	 * Object -> Integer -> Double -> BigDecimal -> Date -> String
+	 */
+	public static Object toAutoValue( Object evaValue )
+	{
+		if ( evaValue == null )
+			return null;
+
+		Object value = null;
+		if ( evaValue instanceof String )
+		{
+			// 1: to Integer
+			String stringValue = (String) evaValue;
+			value = toIntegerValue( evaValue );
+			if ( value == null )
+			{
+				try
+				{
+					// 2: to Double
+					value = Double.valueOf( stringValue );
+				}
+				catch ( NumberFormatException e1 )
+				{
+					try
+					{
+						// 3: to BigDecimal
+						value = new BigDecimal( stringValue );
+					}
+					catch ( NumberFormatException e2 )
+					{
+						try
+						{
+							// 4: to Date
+							value = toDate( stringValue );
+						}
+						catch ( BirtException e3 )
+						{
+							value = evaValue;
+						}
+					}
+				}
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * convert object to Integer. If fails, return null. 
+	 * Object -> Integer
+	 */
+	public static Integer toIntegerValue( Object evaValue )
+	{
+		// to Integer
+		Integer value = null;
+		if ( evaValue instanceof String )
+		{
+			String stringValue = evaValue.toString( );
+			try
+			{
+				// 1: to Integer
+				value = Integer.valueOf( stringValue );
+			}
+			catch ( NumberFormatException e1 )
+			{
+				try
+				{
+					Double ddValue = Double.valueOf( stringValue );
+					int intValue = ddValue.intValue( );
+					double doubleValue = ddValue.doubleValue( );
+					// TODO: improve this implementation
+					// here examine whether the two values are equal.1.0e-5
+					if ( Math.abs( intValue - doubleValue ) < 0.0000001 )
+					{
+						value = Integer.valueOf( String.valueOf( intValue ) );
+					}
+					else
+					{
+						value = null;
+					}
+				}
+				catch ( NumberFormatException e2 )
+				{
+					value = null;
+				}
+			}
+		}
+		return value;
+	}
+	
+	/**
 	 * Convert String without specified locale to java.util.Date
 	 * Try to format the given String for JRE default Locale,
 	 * if it fails, try to format the String for Locale.US 
@@ -597,5 +687,4 @@ public final class DataTypeUtil
 				DateFormat.SHORT );
 		return df.format( (Date) source );
 	}
-	
 }
