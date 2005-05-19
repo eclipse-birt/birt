@@ -257,6 +257,13 @@ Note: The page with the id &quot;one&quot; should already have been added before
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="initFocus" type="string">
+            <annotation>
+               <documentation>
+                  An boolean string indicates whether this page needs to be focused.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
