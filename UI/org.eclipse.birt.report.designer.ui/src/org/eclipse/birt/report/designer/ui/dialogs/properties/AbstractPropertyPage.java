@@ -14,7 +14,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/21 23:45:04 $
  */
 
 public abstract class AbstractPropertyPage implements IPropertyPage
@@ -118,4 +118,12 @@ public abstract class AbstractPropertyPage implements IPropertyPage
 	public void performHelp( )
 	{
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#getToolTip()
+	 */
+	public String getToolTip( )
+	{
+		return "";  //$NON-NLS-1$
+	}	
 }

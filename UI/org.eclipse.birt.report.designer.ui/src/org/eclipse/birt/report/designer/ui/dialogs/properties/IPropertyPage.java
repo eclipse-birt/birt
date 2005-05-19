@@ -34,4 +34,6 @@ public interface IPropertyPage
 	public void performHelp( );
 
 	public void pageActivated( );
+	
+	public String getToolTip();
 }
