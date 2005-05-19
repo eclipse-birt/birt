@@ -491,7 +491,6 @@ public class InsertInLayoutUtil
 		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
 
 		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
-		dataHandle.setDataSet( dataSet );
 				
 		if ( targetParent instanceof ReportItemHandle )
 		{
@@ -503,6 +502,11 @@ public class InsertInLayoutUtil
 					container.setDataSet( dataSet );
 				}
 			}
+		}
+		else
+		{
+			//Adds dataset to the single query in the top level of the report
+			dataHandle.setDataSet( dataSet );
 		}
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
