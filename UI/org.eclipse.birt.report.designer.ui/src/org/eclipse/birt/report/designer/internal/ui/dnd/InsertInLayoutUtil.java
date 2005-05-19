@@ -85,6 +85,10 @@ public class InsertInLayoutUtil
 		 */
 		public boolean canInsert( )
 		{
+			if ( container instanceof SlotHandle )
+			{
+				container = ( (SlotHandle) container ).getElementHandle( );
+			}
 			if ( !( container instanceof CellHandle ) )
 				return false;
 
@@ -358,44 +362,43 @@ public class InsertInLayoutUtil
 	}
 
 	/**
-	 * Creates a object, "Add" operation to layout needs to handle later.
-	 * <p>
-	 * Must make sure operation legal before execution.
-	 * </p>
+	 * Creates a object to insert.
 	 * 
-	 * @param singleInsertObj
+	 * @param insertObj
 	 *            object insert to layout
 	 * @param target
+	 *            insert target, like cell or ListBandProxy
 	 * @param targetParent
+	 *            insert target's non-dummy container, like table or list
 	 * @return new object in layout
 	 * @throws SemanticException
 	 */
-	protected static DesignElementHandle performInsert( Object singleInsertObj,
+	public static DesignElementHandle performInsert( Object insertObj,
 			Object target, Object targetParent ) throws SemanticException
 	{
-		if ( singleInsertObj instanceof DataSetHandle )
+		if ( insertObj instanceof DataSetHandle )
 		{
-			return performInsertDataSet( (DataSetHandle) singleInsertObj );
+			return performInsertDataSet( (DataSetHandle) insertObj );
 		}
-		else if ( singleInsertObj instanceof DataSetItemModel )
+		else if ( insertObj instanceof DataSetItemModel )
 		{
-			return performInsertDataSetColumn( (DataSetItemModel) singleInsertObj,
+			return performInsertDataSetColumn( (DataSetItemModel) insertObj,
 					target,
 					targetParent );
 		}
-		else if ( singleInsertObj instanceof ScalarParameterHandle )
+		else if ( insertObj instanceof ScalarParameterHandle )
 		{
-			return performInsertParameter( (ScalarParameterHandle) singleInsertObj );
+			return performInsertParameter( (ScalarParameterHandle) insertObj );
 		}
-		else if ( singleInsertObj instanceof Object[] )
+		else if ( insertObj instanceof Object[] )
 		{
-			return performMultiInsert( (Object[]) singleInsertObj,
+			return performMultiInsert( (Object[]) insertObj,
 					target,
 					targetParent );
 		}
-		else if ( singleInsertObj instanceof IStructuredSelection )
+		else if ( insertObj instanceof IStructuredSelection )
 		{
-			return performMultiInsert( ( (IStructuredSelection) singleInsertObj ).toArray( ),
+			return performMultiInsert( ( (IStructuredSelection) insertObj ).toArray( ),
 					target,
 					targetParent );
 		}
@@ -480,6 +483,19 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
+	/**
+	 * Inserts dataset column into the target. Add label or group key if
+	 * possible
+	 * 
+	 * @param model
+	 *            column item
+	 * @param target
+	 *            insert target like cell or ListBandProxy
+	 * @param targetParent
+	 *            target container like table or list
+	 * @return to be inserted data item
+	 * @throws SemanticException
+	 */
 	protected static DataItemHandle performInsertDataSetColumn(
 			DataSetItemModel model, Object target, Object targetParent )
 			throws SemanticException
