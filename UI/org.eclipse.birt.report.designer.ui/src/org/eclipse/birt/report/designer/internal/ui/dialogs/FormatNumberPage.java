@@ -66,7 +66,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
 	private static final String LABEL_PERCENT_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.percent.settings" ); //$NON-NLS-1$
 	private static final String LABEL_USE_1000S_SEPARATOR = Messages.getString( "FormatNumberPage.label.use1000sSeparator" ); //$NON-NLS-1$
-	private static final String LABEL_USE_LEADING_ZERO = Messages.getString( "FormatNumberPage.label.useLeadingZero" ); //$NON-NLS-1$
+	//	private static final String LABEL_USE_LEADING_ZERO = Messages.getString(
+	// "FormatNumberPage.label.useLeadingZero" ); //$NON-NLS-1$
 	private static final String LABEL_SYMBOL_POSITION = Messages.getString( "FormatNumberPage.label.symbol.position" ); //$NON-NLS-1$
 	private static final String LABEL_NEGATIVE_NUMBERS = Messages.getString( "FormatNumberPage.label.negative.numbers" ); //$NON-NLS-1$
 	private static final String LABEL_SCIENTIFIC_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.scientific.settings" ); //$NON-NLS-1$
@@ -131,7 +132,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private Combo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
 
-	private Button cUseSep, fUseSep, fUseZero, pUseSep, pUseZero;
+	private Button cUseSep, pUseSep, fUseSep; // fUseZero, pUseZero;
 	private List cNegNumChoice, fNegNumChoice, pNegNumChoice;
 	private Table table;
 
@@ -1026,7 +1027,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		fPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		fUseSep.setSelection( fmtPattern.getUseSep( ) );
-		fUseZero.setSelection( fmtPattern.getUseZero( ) );
+		//		fUseZero.setSelection( fmtPattern.getUseZero( ) );
 		if ( fmtPattern.getUseBracket( ) )
 		{
 			fNegNumChoice.select( 1 );
@@ -1041,7 +1042,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		pPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		pUseSep.setSelection( fmtPattern.getUseSep( ) );
-		pUseZero.setSelection( fmtPattern.getUseZero( ) );
+		//		pUseZero.setSelection( fmtPattern.getUseZero( ) );
 		pSymPosChoice.setText( fmtPattern.getSymPos( ) );
 		if ( fmtPattern.getUseBracket( ) )
 		{
@@ -1090,7 +1091,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( fUseSep.getSelection( ) );
-			pattern.setUseZero( fUseZero.getSelection( ) );
+			//			pattern.setUseZero( fUseZero.getSelection( ) );
 			pattern.setUseBracket( fNegNumChoice.getSelectionIndex( ) == 1 );
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_PERCENT ) )
@@ -1100,7 +1101,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( pUseSep.getSelection( ) );
-			pattern.setUseZero( pUseZero.getSelection( ) );
+			//			pattern.setUseZero( pUseZero.getSelection( ) );
 			pattern.setSymPos( pSymPosChoice.getText( ) );
 			pattern.setUseBracket( pNegNumChoice.getSelectionIndex( ) == 1 );
 		}
@@ -1303,7 +1304,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
 			formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			formatCodeBox.addModifyListener( myModifyListener );
-			formatCodeBox.addFocusListener(myFocusListener );
+			formatCodeBox.addFocusListener( myFocusListener );
 		}
 		return customFormatCodePage;
 	}
@@ -1330,7 +1331,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		cPlacesChoice.setLayoutData( data );
 		cPlacesChoice.addSelectionListener( mySelectionListener );
 		cPlacesChoice.addModifyListener( myModifyListener );
-		cPlacesChoice.addFocusListener(myFocusListener);
+		cPlacesChoice.addFocusListener( myFocusListener );
 		cPlacesChoice.select( 2 );
 
 		cUseSep = new Button( setting, SWT.CHECK );
@@ -1414,7 +1415,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		fPlacesChoice.setLayoutData( data );
 		fPlacesChoice.addSelectionListener( mySelectionListener );
 		fPlacesChoice.addModifyListener( myModifyListener );
-		fPlacesChoice.addFocusListener(myFocusListener);
+		fPlacesChoice.addFocusListener( myFocusListener );
 		fPlacesChoice.select( 2 );
 
 		fUseSep = new Button( setting, SWT.CHECK );
@@ -1424,12 +1425,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		fUseSep.setLayoutData( gData );
 		fUseSep.addSelectionListener( mySelectionListener );
 
-		fUseZero = new Button( setting, SWT.CHECK );
-		fUseZero.setText( LABEL_USE_LEADING_ZERO );
-		gData = new GridData( );
-		gData.horizontalSpan = 2;
-		fUseZero.setLayoutData( gData );
-		fUseZero.addSelectionListener( mySelectionListener );
+		//		fUseZero = new Button( setting, SWT.CHECK );
+		//		fUseZero.setText( LABEL_USE_LEADING_ZERO );
+		//		gData = new GridData( );
+		//		gData.horizontalSpan = 2;
+		//		fUseZero.setLayoutData( gData );
+		//		fUseZero.addSelectionListener( mySelectionListener );
 
 		label = new Label( setting, SWT.NONE );
 		label.setText( LABEL_NEGATIVE_NUMBERS );
@@ -1466,7 +1467,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		pPlacesChoice.setLayoutData( data );
 		pPlacesChoice.addSelectionListener( mySelectionListener );
 		pPlacesChoice.addModifyListener( myModifyListener );
-		pPlacesChoice.addFocusListener(myFocusListener);
+		pPlacesChoice.addFocusListener( myFocusListener );
 		pPlacesChoice.select( 2 );
 
 		pUseSep = new Button( setting, SWT.CHECK );
@@ -1476,12 +1477,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		pUseSep.setLayoutData( gData );
 		pUseSep.addSelectionListener( mySelectionListener );
 
-		pUseZero = new Button( setting, SWT.CHECK );
-		pUseZero.setText( LABEL_USE_LEADING_ZERO );
-		gData = new GridData( );
-		gData.horizontalSpan = 2;
-		pUseZero.setLayoutData( gData );
-		pUseZero.addSelectionListener( mySelectionListener );
+		//		pUseZero = new Button( setting, SWT.CHECK );
+		//		pUseZero.setText( LABEL_USE_LEADING_ZERO );
+		//		gData = new GridData( );
+		//		gData.horizontalSpan = 2;
+		//		pUseZero.setLayoutData( gData );
+		//		pUseZero.addSelectionListener( mySelectionListener );
 
 		new Label( setting, SWT.NONE ).setText( LABEL_SYMBOL_POSITION );
 		pSymPosChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -1525,7 +1526,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		sPlacesChoice.setLayoutData( data );
 		sPlacesChoice.addSelectionListener( mySelectionListener );
 		sPlacesChoice.addModifyListener( myModifyListener );
-		pPlacesChoice.addFocusListener(myFocusListener);
+		pPlacesChoice.addFocusListener( myFocusListener );
 		sPlacesChoice.select( 2 );
 	}
 
@@ -1726,12 +1727,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 		fPlacesChoice.setEnabled( b );
 		fUseSep.setEnabled( b );
-		fUseZero.setEnabled( b );
+		//		fUseZero.setEnabled( b );
 		fNegNumChoice.setEnabled( b );
 
 		pPlacesChoice.setEnabled( b );
 		pUseSep.setEnabled( b );
-		pUseZero.setEnabled( b );
+		//		pUseZero.setEnabled( b );
 		pSymPosChoice.setEnabled( b );
 		pNegNumChoice.setEnabled( b );
 
