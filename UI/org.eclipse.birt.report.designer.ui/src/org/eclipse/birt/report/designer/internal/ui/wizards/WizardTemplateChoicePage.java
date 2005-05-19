@@ -187,7 +187,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	/**
 	 * @param pageName
 	 */
-	protected WizardTemplateChoicePage( String pageName )
+	public WizardTemplateChoicePage( String pageName )
 	{
 		super( pageName );
 
@@ -237,9 +237,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		previewCanvas = new ImageCanvas( previewPane, SWT.BORDER );
 
-		data = new GridData( GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL );
-		data.grabExcessHorizontalSpace = true;
-		data.grabExcessVerticalSpace = true;
+		data = new GridData( GridData.BEGINNING );
 		data.heightHint = 229;
 		data.widthHint = 184;
 		previewCanvas.setLayoutData( data );
@@ -252,9 +250,12 @@ public class WizardTemplateChoicePage extends WizardPage
 		description = new Label( previewPane, SWT.WRAP );
 
 		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.widthHint = 184;
 		data.horizontalIndent = 20;
 		description.setLayoutData( data );
 
+		new Label( previewPane, SWT.NONE );
+		
 		chkBox = new Button( composite, SWT.CHECK );
 		chkBox.setText( MESSAGE_SHOW_CHEATSHEET );
 		chkBox.setSelection( ReportPlugin.readCheatSheetPreference( ) );
@@ -290,7 +291,8 @@ public class WizardTemplateChoicePage extends WizardPage
 			//change description/image
 			selectedIndex = templateList.getSelectionIndex( );
 			description.setText( templates[selectedIndex].description );
-
+			// we need to relayout if the new text has different number of lines
+			previewPane.layout();
 			String key = templates[selectedIndex].picturePath;
 			Object img = imageMap.get( key );
 

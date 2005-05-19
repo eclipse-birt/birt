@@ -48,7 +48,7 @@ public class WizardChoicePage extends WizardPage
 	 * 
 	 * @param pageName
 	 */
-	protected WizardChoicePage( String pageName )
+	public WizardChoicePage( String pageName )
 	{
 		super( pageName );
 	}

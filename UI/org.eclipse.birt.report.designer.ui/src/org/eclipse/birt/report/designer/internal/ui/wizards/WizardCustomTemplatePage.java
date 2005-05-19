@@ -67,7 +67,7 @@ public class WizardCustomTemplatePage extends WizardPage
 	 * 
 	 * @param pageName
 	 */
-	protected WizardCustomTemplatePage( String pageName )
+	public WizardCustomTemplatePage( String pageName )
 	{
 		super( pageName );
 	}
