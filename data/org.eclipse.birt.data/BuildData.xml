@@ -132,7 +132,10 @@
 	-->
 	<target name="Export">
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="dte.jar,About.html,plugin.xml,lib/**"/>
+	        <fileset dir="." 
+	        	includes="dte.jar, About.html, plugin.xml, lib/**"
+	        	excludes="lib/derby.jar"
+	        />
 	    </copy>
 	</target>
 

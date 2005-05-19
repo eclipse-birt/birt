@@ -6,9 +6,6 @@
    version="1.0.0"
    provider-name="Eclipse.org">
    <runtime>
-      <library name="lib/js.jar">
-         <export name="*"/>
-      </library>
       <library name="dte.jar">
          <export name="*"/>
       </library>
