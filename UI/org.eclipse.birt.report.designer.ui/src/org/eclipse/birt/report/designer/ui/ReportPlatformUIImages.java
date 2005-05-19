@@ -356,9 +356,9 @@ public class ReportPlatformUIImages
 		//**********************************************************
 		//Preview icons
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS,
-				ICONS_PATH + "params ecl_show.gif" ); //$NON-NLS-1$
+				ICONS_PATH + "params_ecl_show.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS_HIDE,
-				ICONS_PATH + "params ecl_hide.gif" ); //$NON-NLS-1$
+				ICONS_PATH + "params_ecl_hide.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ "refresh.gif" ); //$NON-NLS-1$
 
