@@ -1349,20 +1349,6 @@
 		<xs:complexContent>
 			<xs:extension base="DesignElement">
 				<xs:sequence>
-					<xs:element name="include-library" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Includes a library into the design. The name of the file to include appears within the element.</xs:documentation>
-						</xs:annotation>
-						<xs:complexType/>
-					</xs:element>
-					<xs:element name="include-script" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>References JavaScript modules defined in external files.</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:attribute name="file-name" type="xs:string" use="required"/>
-						</xs:complexType>
-					</xs:element>
 					<xs:element name="parameters" type="ParametersType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>List of parameters defined in this report.</xs:documentation>
