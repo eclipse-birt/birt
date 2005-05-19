@@ -227,7 +227,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPageHandle.RIGHT_MARGIN_PROP;
 
 	//Preview editer icons
-	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters";//$NON-NLS-1$	
+	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$	
+	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$	
 
 	public final static String ICON_PREVIEW_REFRESH = "Refresh";//$NON-NLS-1$
 
