@@ -22,6 +22,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.ColorConstants;
@@ -317,6 +319,12 @@ public class ExpressionBuilder extends BaseDialog
 		title.setBackground( ColorConstants.white );
 		title.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
+		title = new Label( c, SWT.NONE );
+		title.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalAlignment = GridData.END;
+		title.setLayoutData( gd );
+		
 		Label bar = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
 		bar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
