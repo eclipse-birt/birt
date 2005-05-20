@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.data.DataType;
@@ -67,13 +66,13 @@ import org.eclipse.swt.widgets.Text;
 public class ImportValueDialog extends BaseDialog
 {
 
-	private static final String DLG_TITLE = Messages.getString("ImportValueDialog.Title"); //$NON-NLS-1$
+	private static final String DLG_TITLE = Messages.getString( "ImportValueDialog.Title" ); //$NON-NLS-1$
 
-	private static final String LABEL_SELECT_DATASET = Messages.getString("ImportValueDialog.Label.SelectDataSet"); //$NON-NLS-1$
-	private static final String LABEL_SELECT_COLUMN = Messages.getString("ImportValueDialog.Label.SelectColumn"); //$NON-NLS-1$
-	private static final String LABEL_SELECT_VALUE = Messages.getString("ImportValueDialog.Label.SelectValue"); //$NON-NLS-1$
+	private static final String LABEL_SELECT_DATASET = Messages.getString( "ImportValueDialog.Label.SelectDataSet" ); //$NON-NLS-1$
+	private static final String LABEL_SELECT_COLUMN = Messages.getString( "ImportValueDialog.Label.SelectColumn" ); //$NON-NLS-1$
+	private static final String LABEL_SELECT_VALUE = Messages.getString( "ImportValueDialog.Label.SelectValue" ); //$NON-NLS-1$
 
-	private static final String DATE_TIME_PATTERN = "dd/MM/yyyy KK:mm:ss a"; //$NON-NLS-1$
+	private static final String DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private Combo dataSetChooser, columnChooser;
 	private Text valueEditor;
@@ -439,15 +438,14 @@ public class ImportValueDialog extends BaseDialog
 					IResultIterator iter = results.getResultIterator( );
 					if ( iter != null )
 					{
-						DateFormatter formater = new DateFormatter( DATE_TIME_PATTERN,
-								Locale.UK );
+						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN );
 						while ( iter.next( ) )
 						{
 							String result = null;
 							if ( selectedColumn.getDataType( ) == DataType.DATE_TYPE )
 							{
 
-								result = formater.format( iter.getDate( expression ) );
+								result = formatter.format( iter.getDate( expression ) );
 							}
 							else
 							{
