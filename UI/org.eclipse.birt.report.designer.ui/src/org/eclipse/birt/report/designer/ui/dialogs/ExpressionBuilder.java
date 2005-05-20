@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
@@ -73,7 +76,7 @@ public class ExpressionBuilder extends BaseDialog
 	private static final String LABEL_TEXT_DESCRIPTION = Messages.getString( "ExpressionBuilder.Label.instruction" ); //$NON-NLS-1$
 	private static final String LABEL_TEXT_HEADER = Messages.getString( "ExpressionBuilder.Label.title" ); //$NON-NLS-1$
 	private static final String LABEL_TEXT_SELECTION = Messages.getString( "ExpressionBuilder.Label.Selection" ); //$NON-NLS-1$
-	
+
 	/** file name of the state file */
 	// Layout constant values
 	private static final int SASH_WEIGHT_LEFT = 33;
@@ -85,13 +88,18 @@ public class ExpressionBuilder extends BaseDialog
 
 	/** The expression value to return */
 	protected String inputExpression = ""; //$NON-NLS-1$
-	
+
 	private Label lblText;
 	private Label lblTooltip;
-	
+
 	final static String EXPRESSIONBUILDERDIALOG_SHELLNAME = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
 
 	private List dataSetList = null;
+
+	/**
+	 * This tree's filters, null means there are no filters.
+	 */
+	private List filterList;
 
 	/**
 	 * Add extension support: mouse down to show selection status
@@ -258,10 +266,10 @@ public class ExpressionBuilder extends BaseDialog
 		createTopArea( topLevel );
 		createExpressionArea( topLevel );
 		createStatusArea( topLevel );
-		
+
 		return topLevel;
 	}
-	
+
 	private void createExpressionArea( Composite composite )
 	{
 		//	create sash form
@@ -291,12 +299,12 @@ public class ExpressionBuilder extends BaseDialog
 		// Expression Text Area:
 		createExpressionViewer( c );
 		setFocus( );
-		
+
 		sashForm.setWeights( new int[]{
 				SASH_WEIGHT_LEFT, SASH_WEIGHT_RIGHT
 		} );
 	}
-	
+
 	private void createTopArea( Composite composite )
 	{
 		Composite c = new Composite( composite, SWT.NONE );
@@ -347,11 +355,11 @@ public class ExpressionBuilder extends BaseDialog
 	}
 
 	/**
-	 * Set focus on source viewer. 
+	 * Set focus on source viewer.
 	 */
 	private void setFocus( )
 	{
-		expressionViewer.getControl().setFocus();
+		expressionViewer.getControl( ).setFocus( );
 	}
 
 	/**
@@ -365,7 +373,7 @@ public class ExpressionBuilder extends BaseDialog
 		Tree tree = new Tree( parent, SWT.BORDER );
 		tree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		treeCommon.setTree( tree );
-		treeCommon.createDefaultExpressionTree( dataSetList );
+		treeCommon.createFilteredExpressionTree( dataSetList, filterList );
 
 		// Add tool tips
 		tree.setToolTipText( "" ); //$NON-NLS-1$
@@ -388,7 +396,8 @@ public class ExpressionBuilder extends BaseDialog
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION );
-		expressionViewer.getTextWidget().setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		expressionViewer.getTextWidget( )
+				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		treeCommon.setExpressionViewer( expressionViewer );
 		treeCommon.addDropSupportToViewer( );
 
@@ -452,7 +461,7 @@ public class ExpressionBuilder extends BaseDialog
 				cutAction.update( );
 				pasteAction.update( );
 				selectAllAction.update( );
-				
+
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
 						undoAction );
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
@@ -546,6 +555,73 @@ public class ExpressionBuilder extends BaseDialog
 	public void setDataSetList( List dataSetList )
 	{
 		this.dataSetList = dataSetList;
+	}
+
+	/**
+	 * Adds a filter for this expression builder.
+	 * 
+	 * @param filter
+	 */
+	public void addFilter( ExpressionFilter filter )
+	{
+		if ( filterList == null )
+		{
+			filterList = new ArrayList( );
+		}
+
+		if ( !filterList.contains( filter ) )
+		{
+			filterList.add( filter );
+		}
+	}
+
+	/**
+	 * Adds a filter list for this expression builder.
+	 * 
+	 * @param list
+	 */
+	public void addFilterList( List list )
+	{
+		// allows for null.
+		if ( list == null )
+		{
+			return;
+		}
+		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
+		{
+			Object obj = iter.next( );
+			if ( obj instanceof ExpressionFilter )
+			{
+				addFilter( (ExpressionFilter) obj );
+			}
+		}
+	}
+
+	/**
+	 * Removes a filter from the filter list.
+	 * 
+	 * @param filter
+	 */
+	public void removeFilter( ExpressionFilter filter )
+	{
+		if ( filterList == null )
+		{
+			return;
+		}
+		filterList.remove( filter );
+	}
+
+	/**
+	 * Clears the filter list.
+	 *  
+	 */
+	public void clearFilters( )
+	{
+		if ( filterList == null )
+		{
+			return;
+		}
+		filterList.clear( );
 	}
 
 }

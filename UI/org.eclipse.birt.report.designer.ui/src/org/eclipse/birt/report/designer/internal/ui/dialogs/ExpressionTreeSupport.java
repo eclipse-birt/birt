@@ -207,6 +207,15 @@ public class ExpressionTreeSupport
 	private DropTarget dropTarget;
 
 	/**
+	 * public tree name constants used to be identified when a filter is added.
+	 */
+	public static final String TREE_NAME_OPERATORS = "Operators"; //$NON-NLS-1$
+	public static final String TREE_NAME_NATIVE_OBJECTS = "Native Objects"; //$NON-NLS-1$
+	public static final String TREE_NAME_BIRT_OBJECTS = "Birt Objects"; //$NON-NLS-1$
+	public static final String TREE_NAME_DATASETS = "DataSets"; //$NON-NLS-1$
+	public static final String TREE_NAME_PARAMETERS = "Parameters"; //$NON-NLS-1$
+
+	/**
 	 * Creates all expression trees in default order
 	 * 
 	 * @param dataSetList
@@ -214,11 +223,70 @@ public class ExpressionTreeSupport
 	 */
 	public void createDefaultExpressionTree( List dataSetList )
 	{
-		createDataSetsTree( dataSetList );
-		createParamtersTree( );
-		createNativeObjectsTree( );
-		createBirtObjectsTree( );
-		createOperatorsTree( );
+		createFilteredExpressionTree( dataSetList, null );
+	}
+
+	/**
+	 * Creates selected expression trees with given filter list.
+	 * 
+	 * @param dataSetList
+	 *            list for DataSet tree
+	 * @param filterList
+	 *            list of filters
+	 */
+	public void createFilteredExpressionTree( List dataSetList, List filterList )
+	{
+		if ( filter( TREE_NAME_DATASETS, filterList ) )
+		{
+			createDataSetsTree( dataSetList );
+		}
+		if ( filter( TREE_NAME_PARAMETERS, filterList ) )
+		{
+			createParamtersTree( );
+		}
+		if ( filter( TREE_NAME_NATIVE_OBJECTS, filterList ) )
+		{
+			createNativeObjectsTree( );
+		}
+		if ( filter( TREE_NAME_BIRT_OBJECTS, filterList ) )
+		{
+			createBirtObjectsTree( );
+		}
+		if ( filter( TREE_NAME_OPERATORS, filterList ) )
+		{
+			createOperatorsTree( );
+		}
+
+	}
+
+	/**
+	 * Filters the tree name, given the filter list.
+	 * 
+	 * @param treeName
+	 *            the tree name to be filtered.
+	 * @param filters
+	 *            the filter list.
+	 * @return true if the tree name passes the filter list.
+	 */
+	private boolean filter( String treeName, List filters )
+	{
+		if ( filters == null )
+		{
+			return true;
+		}
+		for ( Iterator iter = filters.iterator( ); iter.hasNext( ); )
+		{
+			Object obj = iter.next( );
+
+			if ( obj instanceof ExpressionFilter )
+			{
+				if ( !( (ExpressionFilter) obj ).select( this, treeName ) )
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -375,7 +443,7 @@ public class ExpressionTreeSupport
 	{
 		return createSubTreeItem( parent, text, IMAGE_FOLDER, true );
 	}
-	
+
 	private TreeItem createSubFolderItem( TreeItem parent, IClassInfo classInfo )
 	{
 		return createSubTreeItem( parent,
@@ -656,7 +724,7 @@ public class ExpressionTreeSupport
 			{
 				globalImage = IMAGE_GOLBAL;
 			}
-			
+
 			//Add members
 			for ( Iterator iterator = classInfo.getMembers( ).iterator( ); iterator.hasNext( ); )
 			{
@@ -680,7 +748,7 @@ public class ExpressionTreeSupport
 						memberInfo.getToolTip( ),
 						true );
 			}
-			
+
 			//Add constructors and methods
 			List methodList = new ArrayList( );
 			methodList.add( classInfo.getConstructor( ) );
@@ -705,7 +773,8 @@ public class ExpressionTreeSupport
 						image = IMAGE_METHOD;
 					}
 				}
-				//Split a method with more than one signature into several entries
+				//Split a method with more than one signature into several
+				// entries
 				List displayList = getMethodArgumentsList( classInfo.getName( ),
 						methodInfo );
 				for ( int i = 0; i < displayList.size( ); i++ )
@@ -732,7 +801,7 @@ public class ExpressionTreeSupport
 	{
 		List list = new ArrayList( );
 		boolean isClassNameAdded = !isGlobal( className ) && isStatic( info );
-		String methodStart = info.isConstructor( ) ? "new " : "";  //$NON-NLS-1$//$NON-NLS-2$
+		String methodStart = info.isConstructor( ) ? "new " : ""; //$NON-NLS-1$//$NON-NLS-2$
 
 		for ( Iterator it = info.argumentListIterator( ); it.hasNext( ); )
 		{
@@ -762,9 +831,8 @@ public class ExpressionTreeSupport
 					displayText.append( ", " );//$NON-NLS-1$
 				}
 				firstTime = false;
-				displayText.append( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argument.getName( ) )
-						? argument.getDisplayName( ) : ( argument.getType( )
-								+ " " + argument.getDisplayName( ) ) ); //$NON-NLS-1$
+				displayText.append( IArgumentInfo.OPTIONAL_ARGUMENT_NAME.equals( argument.getName( ) ) ? argument.getDisplayName( )
+						: ( argument.getType( ) + " " + argument.getDisplayName( ) ) ); //$NON-NLS-1$
 			}
 			displayText.append( ")" );//$NON-NLS-1$
 			expression.append( ")" );//$NON-NLS-1$
