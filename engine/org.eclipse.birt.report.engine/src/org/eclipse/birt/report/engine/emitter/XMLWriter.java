@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/13 07:39:02 $
  */
 public class XMLWriter
 {
@@ -64,11 +64,6 @@ public class XMLWriter
 	 */
 	public XMLWriter( )
 	{
-	}
-
-	public void setLogger( Logger log )
-	{
-		this.log = log;
 	}
 
 	public void open( OutputStream outputStream, String encoding )

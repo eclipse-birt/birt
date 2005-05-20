@@ -35,7 +35,8 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	public abstract Collection getParameterDefns(boolean includeParameterGroups);
 	
 	/**
-	 * get parameter definition by name
+	 * returns the parameter definition given the parameter name name
+	 * 
 	 * @param name the parameter name
 	 * @return the definition
 	 */
@@ -79,9 +80,10 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	public HashMap getDefaultValues();
 	
 	/**
-	 * get default value by name
-	 * @param param
-	 * @return
+	 * get default value by parameter name
+	 * 
+	 * @param param reference to a parameter 
+	 * @return default value for a parameter 
 	 */
 	public Object getDefaultValue(IParameterDefnBase param);
 }

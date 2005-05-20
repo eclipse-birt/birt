@@ -31,13 +31,6 @@ public interface IRunAndRenderTask extends IEngineTask {
 	public abstract IRenderOption getRenderOption();
 
 	/**
-	 * set the options for running a report
-	 * 
-	 * @param runOptions the options for runnning a report
-	 */
-	// public abstract void setRunOptions(HashMap runOptions);
-
-	/**
 	 * set all parameter valuess
 	 * 
 	 * @param params a hash map with all parameters
@@ -65,7 +58,7 @@ public interface IRunAndRenderTask extends IEngineTask {
 	public boolean validateParameters( );
 
 	/**
-	 * run the task to generate report document or other output format
+	 * runs the task to generate report document or other output format
 	 */
 	public abstract void run() throws EngineException;
 

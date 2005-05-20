@@ -14,7 +14,8 @@ package org.eclipse.birt.report.engine.api;
 import java.util.Locale;
 
 /**
- * defines an engine task 
+ * defines common features for an engine task. A task captures a set of operations that engine
+ * performs to get a unit of work done.  
  */
 public interface IEngineTask {
 	/**

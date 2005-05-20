@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * Settings for rendering a report to an output format. Currently supported options 
@@ -107,13 +106,6 @@ public class RenderOptionBase implements IRenderOption {
 		options.put(OUTPUT_STREAM, ostream);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setLocale(java.util.Locale)
-	 */
-	public void setLocale(Locale locale) {
-		options.put(LOCALE, locale);
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputFileName(java.lang.String)
 	 */

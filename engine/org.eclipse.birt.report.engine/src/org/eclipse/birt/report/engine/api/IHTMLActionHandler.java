@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 /**
- * 
+ * Defines an interface for action handler used in HTML format 
  */
 public interface IHTMLActionHandler {
 

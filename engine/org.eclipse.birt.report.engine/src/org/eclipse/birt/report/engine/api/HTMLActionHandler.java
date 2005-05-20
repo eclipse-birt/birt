@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Action handler for HTML format
+ * Defines a default action handler for HTML output format
  */
 public class HTMLActionHandler implements IHTMLActionHandler {
 	
@@ -52,6 +52,8 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 	}
 
 	/**
+	 * builds URL for drillthrough action
+	 * 
 	 * @param action instance of the IAction instance
 	 * @param context the context for building the action string
 	 * @return a URL 

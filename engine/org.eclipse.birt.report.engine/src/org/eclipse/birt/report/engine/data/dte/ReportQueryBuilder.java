@@ -93,7 +93,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.27 $ $Date: 2005/05/18 08:47:06 $
+ * @version $Revision: 1.28 $ $Date: 2005/05/19 09:23:34 $
  */
 public class ReportQueryBuilder
 {
@@ -857,8 +857,7 @@ public class ReportQueryBuilder
 		 */
 		protected BaseQueryDefinition createQuery( ReportItemDesign item )
 		{
-			DataSetHandle dsHandle = (DataSetHandle) ( (ReportItemHandle) item
-					.getHandle( ) ).getDataSet( );
+			DataSetHandle dsHandle = ( (ReportItemHandle) item.getHandle( ) ).getDataSet( );
 
 			if ( dsHandle != null )
 			{

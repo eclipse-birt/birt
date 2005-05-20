@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.engine.api;
 
 /**
- * 
+ * Defines the image handler interface for use in HTML format 
  */
 public interface IHTMLImageHandler {
 	/**
-	 * handles a specific image. The implementation supplies a URL and optionally stores the image.   
+	 * handles a design image. The implementation supplies a URL and optionally stores the image.   
 	 * 
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
@@ -24,12 +24,43 @@ public interface IHTMLImageHandler {
 	 */
 	public abstract String onDesignImage(IImage image, Object context);
 	
+	/**
+	 * handles a database image. The implementation supplies a URL and optionally stores the image.   
+	 * 
+	 * @param image the image definition object
+	 * @param context the context for generating the URL 
+	 * @return the URL for the image
+	 */
 	public abstract String onDocImage(IImage image, Object context);
 	
+	/**
+	 * handles a image specified as a on-disk URI. The implementation supplies a URL and 
+	 * optionally stores the image.   
+	 * 
+	 * @param image the image definition object
+	 * @param context the context for generating the URL 
+	 * @return the URL for the image
+	 */
 	public abstract String onFileImage(IImage image, Object context);
 	
+	/**
+	 * handles an image specified as an external URL. The implementation supplies a URL and 
+	 * optionally stores the image.   
+	 * 
+	 * @param image the image definition object
+	 * @param context the context for generating the URL 
+	 * @return the URL for the image
+	 */
 	public abstract String onURLImage(IImage image, Object context);
 
+	/**
+	 * handles a custom image created for example, by chart extension. The implementation 
+	 * supplies a URL and optionally stores the image.   
+	 * 
+	 * @param image the image definition object
+	 * @param context the context for generating the URL 
+	 * @return the URL for the image
+	 */
 	public abstract String onCustomImage(IImage image, Object context);
 
 }

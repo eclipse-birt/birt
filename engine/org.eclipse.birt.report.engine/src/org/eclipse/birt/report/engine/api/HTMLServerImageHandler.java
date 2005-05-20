@@ -82,6 +82,14 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		return handleImage(image, context, "custom", false); //$NON-NLS-1$
 	}
 
+	/**
+	 * creates a unique tempoary file to store an image
+	 * 
+	 * @param imageDir directory to put image into
+	 * @param prefix file name prefix
+	 * @param postfix file name postfix
+	 * @return a Java File Object
+	 */
 	protected String createUniqueFileName(String imageDir, String prefix, String postfix)
 	{
 		File file = null;
@@ -95,6 +103,13 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		return prefix + count + postfix; //$NON-NLS-1$
 	}
 	
+	/**
+	 * returns a unique file name based on a directory and name prefix
+	 * 
+	 * @param imageDir directory to store the image
+	 * @param prefix prefix for the file name 
+	 * @return a file name
+	 */
 	protected String createUniqueFileName(String imageDir, String prefix)
 	{
 		File file = null;
@@ -116,6 +131,15 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		return handleImage(image, context, "file", true); //$NON-NLS-1$
 	}
 	
+	/**
+	 * handles an image report item and returns an image URL
+	 * 
+	 * @param image represents the image design information
+	 * @param context context information
+	 * @param prefix image prefix in URL
+	 * @param needMap whether image map is needed
+	 * @return URL for the image
+	 */
 	protected String handleImage(IImage image, Object context, String prefix, boolean needMap)
 	{
 		String mapID = null;
@@ -212,6 +236,12 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 		return ret;
 	}
 	
+	/**
+	 * returns the unique identifier for the image
+	 * 
+	 * @param image the image object 
+	 * @return the image id
+	 */
 	protected String getImageMapID(IImage image)
 	{
 		if(image.getReportRunnable()!=null)

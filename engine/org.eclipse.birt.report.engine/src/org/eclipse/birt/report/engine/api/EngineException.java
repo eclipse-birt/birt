@@ -17,7 +17,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 
 /**
- * Describes an engine exception that clients of the engine need to handle
+ * Define an engine exception that clients of the engine need to handle. EngineException
+ * builds on top of BireException and provides resource bundle support
  */
 public class EngineException extends BirtException {
 	

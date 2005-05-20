@@ -30,11 +30,10 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 	private static HashMap map = new HashMap();
 	
 	/**
-	 * dmmy constructor
+	 * dummy constructor
 	 */
 	public HTMLCompleteImageHandler()
 	{
-		
 	}
 	
 	/*
@@ -82,8 +81,15 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 		return handleImage(image, context, "custom", false); //$NON-NLS-1$
 	}
 
-	protected File createUniqueFile( String imageDir, String prefix,
-			String postfix )
+	/**
+	 * creates a unique tempoary file to store an image
+	 * 
+	 * @param imageDir directory to put image into
+	 * @param prefix file name prefix
+	 * @param postfix file name postfix
+	 * @return a Java File Object
+	 */
+	protected File createUniqueFile( String imageDir, String prefix, String postfix )
 	{
 		assert prefix != null;
 		if ( postfix == null )
@@ -108,6 +114,15 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 		return handleImage(image, context, "file", true); //$NON-NLS-1$
 	}
 	
+	/**
+	 * handles an image report item and returns an image URL
+	 * 
+	 * @param image represents the image design information
+	 * @param context context information
+	 * @param prefix image prefix in URL
+	 * @param needMap whether image map is needed
+	 * @return URL for the image
+	 */
 	protected String handleImage(IImage image, Object context, String prefix, boolean needMap)
 	{
 		String mapID = null;

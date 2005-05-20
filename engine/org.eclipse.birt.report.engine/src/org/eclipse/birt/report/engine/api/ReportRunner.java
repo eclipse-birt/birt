@@ -36,7 +36,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/13 04:54:55 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/15 05:53:18 $
  */
 public class ReportRunner
 {
@@ -146,7 +146,6 @@ public class ReportRunner
 			if(locale != null) 
 			{
 				Locale loc = getLocale( locale );
-				options.setLocale(loc);
 				task.setLocale(loc);
 			}
 			
@@ -163,7 +162,7 @@ public class ReportRunner
 			if(htmlType == "ReportletNoCSS" )
 				((HTMLRenderOption )options).setEmbeddable(true);
 			
-			options.getOutputSetting().put(HTMLRenderOption.DEST_ENCODING, encoding);
+			options.getOutputSetting().put(HTMLRenderOption.URL_ENCODING, encoding);
 			
 			task.setRenderOption(options);
 			

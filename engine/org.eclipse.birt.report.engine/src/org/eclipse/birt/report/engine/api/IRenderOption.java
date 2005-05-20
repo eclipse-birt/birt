@@ -13,12 +13,12 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
- * 
+ * Defines render options for emitters
  */
 public interface IRenderOption {
+	
 	/**
 	 * returns the output format, i.e., html, pdf, etc. 
 	 * 
@@ -33,23 +33,24 @@ public interface IRenderOption {
 	 */
 	public abstract HashMap getOutputSetting();
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputFormat(java.lang.String)
+	/**
+	 * sets the output format
+	 * 
+	 * @param format the output format
 	 */
 	public abstract void setOutputFormat(String format);
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputStream(java.io.OutputStream)
+	/**
+	 * sets the stream for writing emitter output
+	 * 
+	 * @param ostream the output stream for writing emitter output
 	 */
 	public abstract void setOutputStream(OutputStream ostream);
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setLocale(java.util.Locale)
-	 */
-	public abstract void setLocale(Locale locale);
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IOutputSetting#setOutputFileName(java.lang.String)
+	/**
+	 * sets the output file name. The emitter uses the file for writing its ouput
+	 * 
+	 * @param outputFileName the output file name that emitter uses
 	 */
 	public abstract void setOutputFileName(String outputFileName);
 }

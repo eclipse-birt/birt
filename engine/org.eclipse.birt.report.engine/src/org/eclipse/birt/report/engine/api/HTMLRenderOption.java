@@ -20,7 +20,7 @@ public class HTMLRenderOption extends RenderOptionBase {
 	public static final String HTML = "HTML"; 				//$NON-NLS-1$
 	public static final String HTML_NOCSS = "HTMLNoCSS"; 	//$NON-NLS-1$
 	public static final String USER_AGENT = "user-agent"; 	//$NON-NLS-1$
-	public static final String DEST_ENCODING = "dest_encoding";
+	public static final String URL_ENCODING = "url-encoding"; //$NON-NLS-1$
 	
 	/**
 	 * constructor

@@ -65,11 +65,15 @@ public interface IReportRunnable {
 	public abstract DesignElementHandle getDesignHandle();
 	
 	/**
+	 * returns report name
+	 * 
 	 * @return the name of the report
 	 */
 	public abstract String getReportName();
 	
 	/**
+	 * returns test configuration for the report
+	 * 
 	 * @return test configurations for the report
 	 */
 	public abstract HashMap getTestConfig();

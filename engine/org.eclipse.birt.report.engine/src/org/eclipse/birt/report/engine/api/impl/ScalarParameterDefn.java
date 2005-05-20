@@ -350,10 +350,7 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 						{
 							return 0;
 						}
-						else
-						{
-							return ((Boolean)value1).booleanValue() ? 1: -1;
-						}
+						return ((Boolean)value1).booleanValue() ? 1: -1;
 					}
 					if(!(value1 instanceof Boolean)&&!(value2 instanceof Boolean))
 					{					

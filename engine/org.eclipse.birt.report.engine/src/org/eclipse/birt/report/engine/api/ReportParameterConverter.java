@@ -22,14 +22,18 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 
 /**
- * Utilites class to convert report paramete value between object and string.
- * <p>
+ * Utilites class to convert report paramete value between object and string. 
  */
 public class ReportParameterConverter
 {
 	private String format = null;
 	private Locale locale = null;
 
+	/**
+	 * @param format format to format report parameter, or recover parameter value as object
+	 * given a string as report parameter value
+	 * @param locale the locale to format/parse the parameter value
+	 */
 	public ReportParameterConverter( String format, Locale locale )
 	{
 		this.format = format;

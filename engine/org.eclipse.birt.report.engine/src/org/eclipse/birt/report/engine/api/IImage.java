@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Defines an image
+ * Defines an interface to communicate info about an image to image handler 
  */
 public interface IImage extends IReportPart {
 	
@@ -26,7 +26,6 @@ public interface IImage extends IReportPart {
 	public final static int FILE_IMAGE = 3;
 	public final static int CUSTOM_IMAGE = 4;
 	public final static int INVALID_IMAGE = -1;
-	
 	
 	/**
 	 * returns an identifier for the image
@@ -64,13 +63,6 @@ public interface IImage extends IReportPart {
 	 */
 	public void writeImage(File dest) throws IOException;
 
-	/**
-	 * scales an image by a scaling factor. Not supported in R1.
-	 * 
-	 * @param scalingFactor the scaling factor to scale an image
-	 */
-	//public void scale(int scalingFactor);
-	
 	/**
 	 * return the image postfix, such as jpg, png
 	 */
