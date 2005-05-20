@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Listing Element</title>
+<link rel="stylesheet" href="../../style/compose.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<h1>Listing</h1>
+
+<p>Abstract base element that captures the behavior common 
+to lists and tables.</p>
+
+<h3>Description</h3>
+
+<p>The listing element is an abstract base element that 
+captures the commonality between the List and Table element. Both elements 
+support a data set, filtering, sorting, methods, and so on.</p>
+
+<p>See the List and Table items for the specific visual 
+differences between the two items.</p>
+
+<h3>See Also</h3>
+
+<p>Report Item for information on the data set, input 
+parameter bindings, and so on.</p>
+
+<h2 class="property">sort</h2>
+
+<p>The sort order for detail rows in the List.</p>
+
+<h3>Description</h3>
+
+<p>Specifies the sorting of the rows within the detail band. This sorting is 
+done within BIRT. If you want the database to do the sorting, specify the sort 
+within the ORDER BY clause of your query.</p>
+
+<h3>See Also</h3>
+
+<h2 class="property">filter</h2>
+
+<p>Filter criteria to apply to each row in the List.</p>
+
+<h3>Description</h3>
+
+<p>The filter property specifies filter criteria to apply to each row in the 
+data set. The filter can contain BIRT expressions (in JavaScript.) If you want 
+the database to do the filtering, put the filter criteria in the WHERE clause of 
+your query.</p>
+
+<h3>See Also</h3>
+
+<h2 class="method">onStart</h2>
+
+<p>Called before the first row is retrieved from the data set for this element.</p>
+
+<h3>Description</h3>
+
+<p>Called before the first row is retrieved from the data 
+set for this element. Called after the data set is open but before the header 
+band is created. This script is a convenient place to initialize custom running 
+total variables.</p>
+
+<p>The scripts allow the 
+application to calculate custom running totals using code. Simply:</p>
+
+<ul>
+<li>initialize a global variable in the on-start method (optional),</li>
+<li>accumulate the running total by adding values to the global variable,</li>
+<li>finalize the running total prior to displaying it (optional).</li>
+</ul></p>
+
+<h3>See Also</h3>
+
+<p><code>onRow</code> method</p>
+<p><code>onFinish</code> method</p>
+
+<h2 class="method">onRow</h2>
+
+<p>Called for each row retrieved from the data set for this element, but before creating any content for that row.</p>
+
+<h3>Description</h3>
+
+<p>Called for each row retrieved from the data set for this 
+element, but before creating any content for that row.</p>
+
+<h3>See Also</h3>
+
+<p><code>onStart</code> method</p>
+<p><code>onFinish</code> method</p>
+
+<h2 class="method">onFinish</h2>
+
+<p>Called after the last row is read from the data set for this element, but before the footer band is created.</p>
+
+<h3>Description</h3>
+
+<p>Called after the last row is read from the data set for 
+this element, but before the footer band is created.</p>
+
+<h3>See Also</h3>
+<p><code>onStart</code> method</p>
+<p><code>onRow</code> method</p>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>Module Element</title>
+<link rel="stylesheet" href="../../style/compose.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<h1>Module</h1>
+
+<p>Report design information common to report designs and 
+libraries. This is most of the report except for the body.</p>
+
+<h3>Description</h3>
+
+<p>The module element describes the common characteristics 
+between libraries and designs. It provides a wide variety of properties to help 
+people understand the module, and provide lists of most components: page setup, 
+data sources, data sets, reusable report items, and so on. It also provides a 
+list of custom color definitions.</p>
+
+<h4>Name Spaces</h4>
+
+<p>ROM defines a number of <i>name spaces</i> within a report 
+design. A name space holds a set of named components. Each name space is 
+independent of the other. ROM name spaces are:</p>
+
+  <table class="section-table">
+    <thead>
+      <tr><td>Name Space</td>
+        <td>Contents</td>
+      </tr>
+    </thead>
+    <tr>
+      <td>Styles</td>
+      <td>Shared styles</td>
+    </tr>
+    <tr>
+      <td>Data Sources</td>
+      <td>Data sources (database connections)</td>
+    </tr>
+    <tr>
+      <td>Data Sets</td>
+      <td>Queries and other data sources</td>
+    </tr>
+    <tr>
+      <td>Master Pages</td>
+      <td>Page definitions.</td>
+    </tr>
+    <tr>
+      <td>Layout Elements</td>
+      <td>All visual elements such as lists, tables, etc.</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>Report parameters</td>
+    </tr>
+  </table>
+
+<p>The name is optional for elements that can appear in the 
+Layout Elements name space. The name is required for all other elements.</p>
+
+<h3>See Also</h3>
+
+<p>Report Design element</p>
+<p>Library element</p>
+
+<h2 class="property">author</h2>
+
+<p>The person who created the report.</p>
+
+<h3>Description</h3>
+
+<p>The person who created the report. The user can fill this 
+in to keep track of the person who wrote the report, or is responsible for 
+maintaining the report. This is purely documentation; BIRT does not use this 
+property at runtime.</p>
+
+<h3>See Also</h3>
+
+<p>Module element createdBy Property</p>
+
+<h2 class="property">colorPalette</h2>
+
+<p>A set of custom color names.</p>
+
+<h3>Description</h3>
+
+<p>The developer can define a set of custom color names as 
+part of the design. The developer can then reference these names within 
+properties. Defining the colors in the palette helps the developer achieve a 
+consistent look throughout the report, and allows colors to be refined by 
+changing just one place. </p>
+
+<p>Every custom color has three parts: a display name, an 
+internal name and an RGB value. The display name is what the developer sees. If 
+the palette will be used by people in different countries, then the display name 
+can be externalized and translated. The internal name identifies the color 
+within the design and in the XML design file. The internal name cannot be 
+localized. Finally, the RGB value gives the actual color.</p>
+
+<h3>See Also</h3>
+
+<p>Custom Color structure</p>
+
+<h2 class="property">comments</h2>
+
+<p>Text that describes the report design.</p>
+
+<h3>Description</h3>
+
+<p>Text that describes the report design. It can contain 
+embedded HTML. The comments are notes for the people who develop and maintain 
+the report. Comments cannot be externalized. BIRT does not use this information 
+at runtime, it is purely documentation for the report developer.</p>
+
+<h3>See Also</h3>
+
+<p>See the <code>helpGuide</code> and the
+<code>description</code> properties for a way to provide 
+information for the users of the report.</p>
+
+<h2 class="property">createdBy</h2>
+
+<p>Name of the tool that created the design.</p>
+
+<h3>Description</h3>
+<p>Name of the tool that created the design. Designs created 
+by BIRT will contain the text &quot;BIRT Version xxx&quot;. Customers or third parties who 
+generate designs can insert their product name here. This is purely a 
+documentation property; BIRT does not use it at runtime.</p>
+
+<h3>See Also</h3>
+<p><code>author</code> property</p>
+
+<h2 class="property">description</h2>
+
+<p>A description presented to the end user of report when it is deployed.</p>
+
+<h3>Description</h3>
+
+<p>A description presented to the end user of report when it 
+is deployed. Can contain HTML. Can be externalized. This is a full description, 
+and can be shown to the user when using the report in the UI. The actual use of 
+this property is determined by the application UI.</p>
+
+<h3>See Also</h3>
+
+<p><code>title</code> property</p>
+<p><code>helpGuide</code> property</p>
+
+<h2 class="property">helpGuide</h2>
+
+<p>External file that provides help information for the report.</p>
+
+<h3>Description</h3>
+
+<p>The help guide is an external file that provides help 
+information for the report. Help information can include detailed information 
+about parameters, report content or other information. The file can be in any 
+format supported by the browser. The help guide will open in a separate popup 
+window.</p>
+
+<h3>See Also</h3>
+<p><code>description</code> property</p>
+<p><code>title</code> property</p>
+
+<h2 class="property">includeLibraries</h2>
+
+<p>The name(s) of BIRT library files for this report.</p>
+
+<h3>Description</h3>
+
+<p>The name(s) of BIRT library files for this report. A 
+library can include reusable components, styles, page setup, scripts, and so on. 
+A report design can also be used as a library. If so, the Body portion of the 
+included design is ignored.</p>
+
+<h3>See Also</h3>
+
+<p>Library element</p>
+
+<h2 class="property">includeScripts</h2>
+
+<p>The name(s) of JavaScript files to include into this report.</p>
+
+<h3>Description</h3>
+
+<p>The name(s) of JavaScript files to include into this 
+report. BIRT reads and executes these scripts before calling the
+<code>initialize</code> method for the design. The scripts can 
+define reusable variables, functions, objects, Java imports and so on. The 
+design can contain any number of script includes.</p>
+
+<h3>See Also</h3>
+
+<p><code>initialize</code> method</p>
+
+<h2 class="property">title</h2>
+
+<p>A short description of the report presented to the user when the report is deployed.</p>
+
+<h3>Description</h3>
+<p>A short description of the report presented to the user 
+when the report is deployed. The string can be externalized. The use of the 
+string depends on the application UI used at deployment.</p>
+
+<h3>See Also</h3>
+<p><code>description</code> property</p>
+<p><code>helpGuide</code> property</p>
+<p><code>title</code> property</p>
+
+<h2 class="property">images</h2>
+
+<p>A list of images embedded in this report.</p>
+
+<h3>Description</h3>
+
+<p>A design often uses images. Most images in a report will 
+be accessed via a URL, or a file deployed externally to the report. However, 
+some reports may want to embed an image directly into the report design. 
+Embedded images are especially helpful if a report design is generated in a 
+custom application and sent to the server for one-time execution.</p>
+
+<p>Images have a name. The name allows an image item to 
+reference the embedded image. Scripts can use the image name to retrieve the 
+image from the images array:</p>
+
+<pre class="code-block">var img = report.design.images[&quot;MyImage&quot;]</pre>
+
+<h3>See Also</h3>
+
+<p>Image item</p>
+
+<h2 class="method">initialize</h2>
+
+<p>Called when the report starts executing in either the 
+Factory or Presentation engine.</p>
+
+<h3>Description</h3>
+
+<p>BIRT calls this method before calling any other method in 
+the design. </p>
+
+<p>BIRT calls this method at the start of the Factory and 
+Presentation engines, just after loading the imports, before opening the report 
+document. Implement this method to define global functions, objects, Java 
+imports and other resources used throughout the report.</p>
+
+<p>Libraries can also contain an init script and imports. 
+BIRT executes these scripts in the following order:</p>
+
+<ul>
+<li>For each library, in the order that the library is included:</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the <code>initialize</code> script.</li>
+</ul>
+
+<li>For the report design itself.</li>
+
+<ul>
+<li>Locate, read and execute the imported scripts in the order they appear in 
+the Code Modules element.</li>
+<li>Execute the init script.</li>
+</ul>
+</ul>
+
+<p>In general, the <code>initialize</code> 
+method of a report design or library can reference resources defined in the
+<code>initialize</code> script of any included libraries, but 
+not visa-versa. This is the generally accepted meaning of an include.</p>
+
+<h3>See Also</h3>
+
+<p>Report Design <code>beforeFactory</code> method</p>
+<p>Report Design <code>beforeRender</code> method</p>
+
+<h2 class="slot">parameters</h2>
+
+<p>A list of Parameter elements that describe the data that the user can enter when running the report.</p>
+
+<h3>Description</h3>
+
+<p>A list of parameter elements that describe the data that 
+the user can enter when running the report. BIRT supports four kinds of 
+parameters identified above. The design can also include parameter groups that 
+organize parameters visually.</p>
+
+<p>The order of parameters within this slot in the design 
+file determines the order that they will appear in the requester UI.</p>
+
+<p>The parameters property provides a &quot;flattened&quot; list of 
+parameters. Each parameter identifies the group (if any) to which it belongs.</p>
+<p>Parameter values are also available using the
+<code>params</code> global variable.</p>
+
+<h3>See Also</h3>
+
+<h2 class="slot">dataSources</h2>
+
+<p>The connections used by the report.</p>
+
+<h3>Description</h3>
+
+<p>This slot holds the list of data sources defined within 
+the report itself. Each data source must have a unique name. The order of items 
+within this slot is unimportant.</p>
+
+<h3>See Also</h3>
+
+<h2 class="slot">dataSets</h2>
+
+<p>Data sets (queries) defined in the design.</p>
+
+<h3>Description</h3>
+
+<p>This slot holds the list of data sets defined within the 
+report itself. Each data set must have a unique name. The order of items within 
+this slot is unimportant.</p>
+
+<h3>See Also</h3>
+
+<h2 class="slot">styles</h2>
+
+<p>List of user-defined styles used to format elements in the report.</p>
+
+<h3>Description</h3>
+
+<p>User-defined styles used to format elements in the 
+report. Each style must have a unique name within the set of styles for this 
+report.</p>
+
+<h3>See Also</h3>
+
+<h2 class="slot">pageSetup</h2>
+
+<p>The layout of the master pages within the report.</p>
+
+<h3>Description</h3>
+
+<p>The page setup defines the way that the report will 
+appear when printed. It consists of a master page that defines the page size, 
+page &quot;decoration&quot;, margins and so on. Some reports need to use different master 
+pages, perhaps to have the first page of the report appear in letterhead, with 
+the remaining pages on plain paper. Other reports may be printed and bound, 
+requiring differing page layout for the left and right pages.</p>
+
+<p>A report can omit the page setup information. If so, page 
+setup is taken from a library, if provided. If the library is not provided, or 
+does not have a page setup, or the master page does not have page dimensions, 
+then the setup comes from BIRT preferences, or from locale-specific defaults.</p>
+
+<p>If the user lists multiple master pages, but no page 
+sequences, then BIRT uses the first master page by default. If the user defines 
+one or more page sequences, then BIRT uses the first page sequence by default. 
+Other than these two cases, the order of elements within the page setup slot is 
+unimportant.</p>
+
+<p>This slot defines a name space; the name of each master 
+page and page sequence must be unique across the set of other page setup 
+elements.</p>
+
+<p>Only the simple master page is available in the first 
+release, and the design can contain at most one simple master page in the first 
+release.</p>
+
+<p>The page setup can contain zero or more master pages (of 
+either type) and zero or more page sequences (of either type). The simplest 
+report provides no master page. It will appear with the default pages size and 
+margins, and with no page header or footer.</p>
+
+<h3>See Also</h3>
+
+</body>
+</html>

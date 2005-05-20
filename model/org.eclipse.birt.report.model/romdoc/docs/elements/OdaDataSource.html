@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 transitional//EN">
+<html>
+<head>
+<title>ODA Data Source Element</title>
+<link rel="stylesheet" href="../../style/compose.css" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<h1>OdaDataSource</h1>
+
+<p>An extended data source that represents a connection that 
+implements the BIRT Open Data Access (ODA) interfaces to interact with an 
+external data provider.</p>
+
+<h3>Description</h3>
+
+<p>The ODA Data Source element represents an Open Data 
+Access (ODA) connection.&nbsp; It is described by a driver name and optional sets of 
+driver-specific properties.</p>
+
+<p>An ODA driver may statically define driver-specific 
+connection properties by implementing the ODA model extension point 
+(org.eclipse.birt.report.model.odaDriverModel). See the BIRT Extensions 
+functional specification document for more detail description.&nbsp; By implementing 
+this extension point, an ODA driver’s extension plug-in manifest (plugin.xml) 
+could statically define driver-specific connection properties. BIRT supports 
+these driver-defined properties as ROM properties with all their built-in 
+features, such as direct editing from the BIRT designer’s property sheet. BIRT 
+uniquely identifies each of these extension-specified properties within the 
+scope of its ODA extension. From the UI perspective, for ease of identifying 
+these driver-specific connection properties, one could define them within a 
+group, and name it something like &quot;connectionProperties&quot;. At Factory time, each 
+of these static driver-defined properties, with its defined property name and 
+corresponding value, is passed to the ODA run-time driver as runt-time 
+properties to open a data source.</p>
+
+<p>The following plug-in manifest segment demonstrates a 
+simple example of such static property definitions.</p>
+
+<pre class="code-block">&lt;extension
+      name=<span style="color:green">&quot;BIRT ODA-JDBC Bridge&quot;</span>
+      point=<span style="color:green">&quot;org.eclipse.birt.report.model.odaDriverModel&quot;</span>&gt;
+  &lt;odaDataSource
+        extensionName=<span style="color:green">&quot;jdbc&quot;</span>&gt;
+    &lt;propertyGroup
+          name=<span style="color:green">&quot;connectionProperties&quot;</span>&gt;
+      &lt;property
+            name=<span style="color:green">&quot;ODA:driver-class&quot;</span>
+            type=<span style="color:green">&quot;string&quot;</span>
+            defaultValue=<span style="color:green">&quot;org.apache.derby.jdbc.EmbeddedDriver&quot;</span>/&gt;
+      &lt;property
+            name=<span style="color:green">&quot;ODA:url&quot;</span>
+            type=<span style="color:green">&quot;string&quot;</span>
+            defaultValue=<span style="color:green">&quot;jdbc:derby:net://localhost:1527/db&quot;</span>/&gt;
+       &lt;property
+            name=<span style="color:green">&quot;ODA:data-source&quot;</span>
+            type=<span style="color:green">&quot;string&quot;</span>/&gt;
+       &lt;property
+            name=<span style="color:green">&quot;ODA:user&quot;</span>
+            type=<span style="color:green">&quot;string&quot;</span>/&gt;
+       &lt;property
+            name=<span style="color:green">&quot;ODA:password&quot;</span>
+            type=<span style="color:green">&quot;string&quot;</span>/&gt;
+     &lt;/propertyGroup&gt;
+  &lt;/odaDataSource&gt;
+&lt;/extension&gt;</pre>
+
+<h3>See Also</h3>
+
+<p><code>OdaDataSet</code> element</p>
+<p><code>DataSource</code> scripting object</p>
+
+<h2 class="property">driverName</h2>
+
+<p>The name of the ODA driver that implements the ODA interfaces to access an external data provider.</p>
+
+<h3>Description</h3>
+
+<p>The name of the ODA driver that implements the ODA 
+interfaces to access an external data provider.  The name is used to uniquely 
+identify an installed ODA driver.  It must be specified before the data source 
+is opened.</p>
+
+<h3>See Also</h3>
+
+<h2 class="property">privateDriverProperties</h2>
+
+<p>A list of dynamic name-value structures for 
+specifying private data or attributes specific to the ODA connection.</p>
+
+<h3>Description</h3>
+
+<p>A list of dynamic name-value structures (<code>ExtendedProperty</code> 
+structures) that specify private runtime data or attributes specific to the ODA 
+connection. This is an optional element that an ODA driver may use to store and 
+pass pertinent driver-specific attributes from its designer tool to the runtime 
+driver.  The content of this element is specific and private to an ODA driver, 
+whose designer tool can dynamically define and update them as appropriate.  
+These name-value pairs are stored in the report design file as a persistent 
+service, and are passed to the ODA runtime driver at Factory time as connection 
+properties.</p>
+
+<h3>See Also</h3>
+
+<p><code>ExtendedProperty</code> structure</p>
+
+</body>
+</html>
