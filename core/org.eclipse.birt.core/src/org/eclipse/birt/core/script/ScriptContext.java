@@ -19,8 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -29,7 +27,7 @@ import org.mozilla.javascript.WrapFactory;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/13 03:42:54 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
  */
 public class ScriptContext
 {
@@ -60,30 +58,30 @@ public class ScriptContext
 	 */
 	public ScriptContext( )
 	{
-		this(null);
+		this( null );
 	}
-	
-	public ScriptContext(ScriptableObject root)
+
+	public ScriptContext( ScriptableObject root )
 	{
 		try
 		{
 			this.context = Context.enter( );
-			if (root == null)
+			if ( root == null )
 			{
 				this.scope = this.context.initStandardObjects( );
 			}
 			else
 			{
-				this.scope = this.context.newObject(root);
-				this.scope.setParentScope(root);
+				this.scope = this.context.newObject( root );
+				this.scope.setParentScope( root );
 			}
 
 			//set the wrapper factory
 			context.setWrapFactory( new BIRTWrapper( ) );
 
 			//register BIRT defined static objects into script context
-			
-			new BIRTInitializer().intialize(context, scope);
+
+			new BIRTInitializer( ).intialize( context, scope );
 		}
 		catch ( Exception ex )
 		{
@@ -125,29 +123,20 @@ public class ScriptContext
 	/**
 	 * creates a new scripting scope
 	 */
-	public void newScope( )
+	public Scriptable enterScope( )
 	{
-		Scriptable newScope;
-		try
+		return enterScope( null );
+	}
+
+	public Scriptable enterScope( Scriptable newScope )
+	{
+		if ( newScope == null )
 		{
 			newScope = context.newObject( scope );
-			newScope.setParentScope( scope );
-			scope = newScope;
 		}
-		catch ( EvaluatorException e )
-		{
-			if ( logger.isLoggable( Level.WARNING ) )
-			{
-				logger.log( Level.WARNING, e.getMessage( ) );
-			}
-		}
-		catch ( JavaScriptException e )
-		{
-			if ( logger.isLoggable( Level.WARNING ) )
-			{
-				logger.log( Level.WARNING, e.getMessage( ) );
-			}
-		}
+		newScope.setParentScope( scope );
+		scope = newScope;
+		return newScope;
 	}
 
 	/**
@@ -163,9 +152,14 @@ public class ScriptContext
 	/**
 	 * @return the current scope
 	 */
-	public Scriptable getCurrentScope( )
+	public Scriptable getScope( )
 	{
 		return scope;
+	}
+
+	public Context getContext( )
+	{
+		return context;
 	}
 
 	/**
@@ -200,7 +194,7 @@ public class ScriptContext
 		assert ( this.context != null );
 		Object value = context.evaluateString( scope, source, name, lineNo,
 				null );
-		return jsToJava( value );		
+		return jsToJava( value );
 	}
 
 	/**
@@ -230,74 +224,89 @@ public class ScriptContext
 		}
 		return Context.toType( jsValue, Object.class );
 	}
-	
+
 	/**
-	 * the registed intializers. 
+	 * the registed intializers.
 	 */
-	protected static ArrayList initializers = new ArrayList();
+	protected static ArrayList initializers = new ArrayList( );
+
 	/**
-	 * register a intializer which is called when construct a new script context.
-	 * You can't reigster the same initializer more than once, otherwise the initailzier
-	 * will be called multiple times.
-	 * @param initializer initializer.
+	 * register a intializer which is called when construct a new script
+	 * context. You can't reigster the same initializer more than once,
+	 * otherwise the initailzier will be called multiple times.
+	 * 
+	 * @param initializer
+	 *            initializer.
 	 */
-	public static synchronized void registerInitializer(IJavascriptInitializer initializer)
+	public static synchronized void registerInitializer(
+			IJavascriptInitializer initializer )
 	{
-		initializers.add(initializer);
+		initializers.add( initializer );
 	}
+
 	/**
 	 * remove a intialzier.
-	 * @param initializer to be removed.
+	 * 
+	 * @param initializer
+	 *            to be removed.
 	 */
-	public static synchronized void unregisterInitializer(IJavascriptInitializer initializer)
+	public static synchronized void unregisterInitializer(
+			IJavascriptInitializer initializer )
 	{
-		initializers.remove(initializer);
+		initializers.remove( initializer );
 	}
 
 	/**
 	 * any wapper instance.
 	 */
-	protected static ArrayList wrappers = new ArrayList();
+	protected static ArrayList wrappers = new ArrayList( );
+
 	/**
 	 * register a wrapper which should be called in WapperFactory.
-	 * @param wrapper new wrapper.
+	 * 
+	 * @param wrapper
+	 *            new wrapper.
 	 */
 	public static synchronized void registerWrapper( IJavascriptWrapper wrapper )
 	{
-		wrappers.add(wrapper);
+		wrappers.add( wrapper );
 	}
 
 	/**
 	 * remove the wapper.
-	 * @param wrapper to be removed.
+	 * 
+	 * @param wrapper
+	 *            to be removed.
 	 */
 	public static synchronized void unregisterWrapper(
 			IJavascriptWrapper wrapper )
 	{
-		wrappers.remove(wrapper);
+		wrappers.remove( wrapper );
 	}
-	
+
 	/**
 	 * wapper factory to wrap the java object to java script object.
 	 * 
-	 * In this wapper factory, it calls registed wapper one by one to see if
-	 * any wapper can handle the object. If no wapper is used, the default 
-	 * wapper is used. 
-	 *
-	 * @version $Revision:$ $Date:$
+	 * In this wapper factory, it calls registed wapper one by one to see if any
+	 * wapper can handle the object. If no wapper is used, the default wapper is
+	 * used.
+	 * 
+	 * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
 	 */
 	private class BIRTWrapper extends WrapFactory
 	{
+
 		/**
 		 * wrapper an java object to javascript object.
 		 */
 		public Object wrap( Context cx, Scriptable scope, Object obj,
 				Class staticType )
 		{
-			int wrapperCount = wrappers.size();
+			int wrapperCount = wrappers.size( );
 			for ( int i = 0; i < wrapperCount; i++ )
 			{
-				IJavascriptWrapper wrapper = (IJavascriptWrapper)wrappers.get(i);
+				IJavascriptWrapper wrapper = (IJavascriptWrapper) wrappers
+						.get( i );
 				if ( wrapper != null )
 				{
 					Object object = wrapper.wrap( cx, scope, obj, staticType );
@@ -321,30 +330,31 @@ public class ScriptContext
 			}
 			return super.wrap( cx, scope, obj, staticType );
 		}
-	}	
+	}
 
 	/**
 	 * initailzier used to initalize the script context.
-	 *
-	 * @version $Revision:$ $Date:$
+	 * 
+	 * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
 	 */
 	private class BIRTInitializer
 	{
-		void intialize(Context cx, Scriptable scope) throws Exception
+
+		void intialize( Context cx, Scriptable scope ) throws Exception
 		{
-			int initializerCount = initializers.size();
+			int initializerCount = initializers.size( );
 			for ( int i = 0; i < initializerCount; i++ )
 			{
-				IJavascriptInitializer initalizer = (IJavascriptInitializer)initializers.get(i);
+				IJavascriptInitializer initalizer = (IJavascriptInitializer) initializers
+						.get( i );
 				if ( initalizer != null )
 				{
-					initalizer.initialize(cx, scope);
+					initalizer.initialize( cx, scope );
 				}
 			}
-			ScriptableObject.defineClass(scope, NativeFinance.class);
-			ScriptableObject.defineClass(scope, NativeDateTimeSpan.class);
+			ScriptableObject.defineClass( scope, NativeFinance.class );
+			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
 		}
 	}
 
-	
 }

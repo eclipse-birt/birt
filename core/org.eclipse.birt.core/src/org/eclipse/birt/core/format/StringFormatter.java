@@ -12,13 +12,12 @@
 package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
-import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/11 06:45:21 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/12 02:40:49 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting

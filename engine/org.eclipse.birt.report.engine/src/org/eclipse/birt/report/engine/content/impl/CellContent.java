@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:46 $
  */
 public class CellContent extends StyledElementContent implements ICellContent
 {
@@ -29,7 +29,17 @@ public class CellContent extends StyledElementContent implements ICellContent
 	/**
 	 * row span
 	 */
-	protected int rowSpan = 1;
+	protected int rowSpan = -1;
+
+	/**
+	 * col span, if equals to 1, then get it from the design.
+	 */
+	protected int colSpan = -1;
+	
+	/**
+	 * column id, if equals to 0, get it from the design
+	 */
+	protected int column = -1;
 
 	/**
 	 * constructor
@@ -48,6 +58,10 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getRowSpan( )
 	{
+		if (rowSpan == -1)
+		{
+			return ( (CellDesign) designReference ).getRowSpan( );
+		}
 		return this.rowSpan;
 	}
 
@@ -57,7 +71,11 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getColSpan( )
 	{
-		return ( (CellDesign) designReference ).getColSpan( );
+		if ( colSpan == -1 )
+		{
+			return ( (CellDesign) designReference ).getColSpan( );
+		}
+		return colSpan;
 	}
 
 	/**
@@ -66,7 +84,11 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getColumn( )
 	{
-		return ( (CellDesign) designReference ).getColumn( );
+		if (column == -1)
+		{
+			return ( (CellDesign) designReference ).getColumn( );
+		}
+		return column;
 	}
 
 	/**
@@ -92,4 +114,13 @@ public class CellContent extends StyledElementContent implements ICellContent
 		this.rowSpan = rowSpan;
 	}
 
+	public void setColSpan( int colSpan )
+	{
+		this.colSpan = colSpan;
+	}
+	
+	public void setColumn(int column)
+	{
+		this.column = column;
+	}
 }
