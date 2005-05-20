@@ -124,7 +124,7 @@
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
 	        <fileset
 	        	dir="."
-	        	includes="*.jar,About.html,plugin.xml,plugin*.properties,${db.dir}/**"
+	        	includes="*.jar,About.html,plugin.xml,plugin*.properties,${db.dir}/*.jar"
 	        />
 	    </copy>
 	</target>
