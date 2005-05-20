@@ -95,6 +95,8 @@ public class ReportState extends DesignParseState
 			return new BodyState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
 			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
+        if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+            return new CompatibleReportPropertyState( handler, getElement() );
 		return super.startElement( tagName );
 	}
 

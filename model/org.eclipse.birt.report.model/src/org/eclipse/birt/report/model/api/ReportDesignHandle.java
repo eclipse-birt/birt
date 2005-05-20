@@ -1580,6 +1580,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		design.broadcastValidationEvent( design, event );
 	}
 
+    
 	/**
 	 * Set the base name of the customer-defined resource bundle. The name is a
 	 * common base name, e.g: "myMessage" without the Language_Country suffix,
@@ -1592,11 +1593,11 @@ public class ReportDesignHandle extends DesignElementHandle
 	 *  
 	 */
 
-	public void setMessageBaseName( String baseName )
+	public void setIncludeResource( String baseName )
 	{
 		try
 		{
-			setProperty( ReportDesign.MSG_BASE_NAME_PROP, baseName );
+			setProperty( ReportDesign.INCLUDE_RESOURCE_PROP, baseName );
 		}
 		catch ( SemanticException e )
 		{
@@ -1604,17 +1605,19 @@ public class ReportDesignHandle extends DesignElementHandle
 		}
 	}
 
+    
 	/**
 	 * Get the base name of the customer-defined resource bundle.
 	 * 
 	 * @return the base name of the customer-defined resource bundle.
 	 */
 
-	public String getMessageBaseName( )
+	public String getIncludeResource( )
 	{
-		return getStringProperty( ReportDesign.MSG_BASE_NAME_PROP );
+		return getStringProperty( ReportDesign.INCLUDE_RESOURCE_PROP );
 	}
 
+    
 	/**
 	 * Finds user-defined messages for the given locale.
 	 * <p>

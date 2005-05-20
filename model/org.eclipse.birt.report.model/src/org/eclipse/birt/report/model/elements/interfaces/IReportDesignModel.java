@@ -81,12 +81,13 @@ public interface IReportDesignModel
 
 	public static final String BASE_PROP = "base"; //$NON-NLS-1$
 
-	/**
-	 * Base name of the linked resource bundle file.
-	 */
 
-	public static final String MSG_BASE_NAME_PROP = "msgBaseName"; //$NON-NLS-1$
-
+    /**
+     * Base name of the included resource bundle file.
+     */
+    
+    public static final String INCLUDE_RESOURCE_PROP = "includeResource";   //$NON-NLS-1$
+    
 	/**
 	 * Name of the method called when the report starts executing in the BIRT
 	 * Report Engine.

@@ -491,7 +491,7 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 		// find from the referenced message files.
 		// e.g: message
 
-		String baseName = getStringProperty( this, MSG_BASE_NAME_PROP );
+		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
 		if ( baseName == null )
 			return new ArrayList( keys );
 
@@ -556,7 +556,7 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 
 		// find it in the linked resource file.
 
-		String baseName = getStringProperty( this, MSG_BASE_NAME_PROP );
+		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
 		if ( baseName == null )
 			return null;
 

@@ -1560,7 +1560,7 @@
       <Default>0</Default>
     </Property>
     <Property name="base" displayNameID="Element.ReportDesign.base" type="string" canInherit="false" />
-	<Property name="msgBaseName" displayNameID="Element.ReportDesign.msgBaseName" type="string" canInherit="false" />	
+	<Property name="includeResource" displayNameID="Element.ReportDesign.includeResource" type="string" canInherit="false" />	
     <Property name="title" displayNameID="Element.ReportDesign.title" type="string" canInherit="false" />
     <Property name="titleID" displayNameID="Element.ReportDesign.titleID" type="resourceKey" canInherit="false" />
     <Property name="description" displayNameID="Element.ReportDesign.description" type="html" canInherit="false" />

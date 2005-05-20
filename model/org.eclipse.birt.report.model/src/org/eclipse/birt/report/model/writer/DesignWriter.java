@@ -202,7 +202,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, ReportDesign.UNITS_PROP );
 		property( obj, ReportDesign.REFRESH_RATE_PROP );
 		property( obj, ReportDesign.BASE_PROP );
-		property( obj, ReportDesign.MSG_BASE_NAME_PROP );
+		property( obj, ReportDesign.INCLUDE_RESOURCE_PROP );
 
 		resourceKey( obj, ReportDesign.TITLE_ID_PROP, ReportDesign.TITLE_PROP );
 		property( obj, ReportDesign.COMMENTS_PROP );
