@@ -73,7 +73,6 @@ class FillCanvas extends Canvas implements PaintListener
                 gc.setBackground(cFore);
                 gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
             }
-            cFore.dispose();
         }
         else
         {

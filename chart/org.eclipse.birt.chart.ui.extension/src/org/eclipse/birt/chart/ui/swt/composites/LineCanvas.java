@@ -80,7 +80,6 @@ public class LineCanvas extends Canvas implements PaintListener
         gc.setLineWidth(iLineWidth);
         gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
         gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this.getSize().y / 2);
-        gc.dispose();
     }
 
     public void setEnabled(boolean bState)
