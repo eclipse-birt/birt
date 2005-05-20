@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.36 $ $Date: 2005/05/19 07:19:11 $
+ * @version $Revision: 1.38 $ $Date: 2005/05/20 03:39:29 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1963,6 +1963,11 @@ class EngineIRVisitor extends DesignVisitor
 		addReportStyleProperty( handle, Style.PADDING_LEFT_PROP );
 		addReportStyleProperty( handle, Style.PADDING_BOTTOM_PROP );
 		addReportStyleProperty( handle, Style.PADDING_RIGHT_PROP );
+		
+		if( !inheritableReportStyle.isEmpty( ) )
+		{
+			assignStyleName( inheritableReportStyle );
+		}
 	}
 	
 	protected void setupContentStyle( MasterPageDesign design )
@@ -1973,7 +1978,7 @@ class EngineIRVisitor extends DesignVisitor
 			return;
 		}
 		
-		StyleDesign contentStyle = new StyleDesign( inheritableReportStyle );
+		StyleDesign contentStyle = new StyleDesign( );
 		contentStyle.put( Style.BACKGROUND_COLOR_PROP, style.get( Style.BACKGROUND_COLOR_PROP ) );
 		contentStyle.put( Style.BACKGROUND_IMAGE_PROP, style.get( Style.BACKGROUND_IMAGE_PROP ) );
 		contentStyle.put( Style.BACKGROUND_POSITION_X_PROP, style.get( Style.BACKGROUND_POSITION_X_PROP ) );
