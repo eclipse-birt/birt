@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
@@ -61,7 +61,7 @@ public class ROMExtension implements IReportItemFactory
 	 * @see org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.model.api.ReportDesignHandle)
 	 */
 
-	public IReportItem newReportItem( ReportDesignHandle item )
+	public IReportItem newReportItem( DesignElementHandle item )
 	{
 		return new ExtendedElement( this, item );
 	}

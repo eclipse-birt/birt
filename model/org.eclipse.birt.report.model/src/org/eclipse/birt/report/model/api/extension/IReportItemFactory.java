@@ -11,7 +11,8 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Represents the peer extension itself. Provides metadata about the extension.
@@ -43,7 +44,7 @@ public interface IReportItemFactory
 	 * @return a new peer element
 	 */
 
-	IReportItem newReportItem( ReportDesignHandle item );
+	IReportItem newReportItem( DesignElementHandle extendedItemHandle );
 
 	/**
 	 * Returns whether the peer element supports BIRT styles. If true, then all

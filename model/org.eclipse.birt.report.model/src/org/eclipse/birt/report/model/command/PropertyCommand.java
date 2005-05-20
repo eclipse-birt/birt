@@ -17,10 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -183,8 +180,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
-				sendNotifcations( element, prop.getName( ) );
-
+		
 				return;
 			}
 		}
@@ -194,43 +190,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 	}
 
-	/**
-	 * Sends the notifications of extended element. This implementation uses
-	 * <code>getEvent( )</code> to produce the notification, and sends the
-	 * event to the element returned by <code>getTarget( )</code>.
-	 * 
-	 * @param target
-	 *            the target element of the event
-	 * @param propName
-	 *            the property name changed
-	 */
-
-	private void sendNotifcations( DesignElement target, String propName )
-	{
-		NotificationEvent event = null;
-		assert element instanceof ExtendedItem;
-
-		IReportItem extElement = ( (ExtendedItem) element )
-				.getExtendedElement( );
-		assert extElement != null;
-
-		if ( extElement.refreshPropertyDefinition( ) )
-			event = new ExtensionPropertyDefinitionEvent( element );
-		else
-			event = new PropertyEvent( element, propName );
-
-		// Include the sender if this is the original execution.
-		// The sender is not sent for undo, redo because such actions are
-		// triggered by the activity stack, not dialog or editor.
-
-		// if ( state == DONE_STATE )
-		// event.setSender( sender );
-
-		// Broadcast the event to the target.
-
-		element.broadcast( event );
-	}
-
+	
 	/**
 	 * Justifies whether the extended element is created if the UI invokes some
 	 * operations to change the extension properties.

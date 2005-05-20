@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 
 /**
@@ -25,7 +25,7 @@ abstract public class ReportItemFactory implements IReportItemFactory
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#newReportItem(org.eclipse.birt.report.model.api.ReportDesignHandle)
 	 */
 	
-	abstract public IReportItem newReportItem( ReportDesignHandle item );
+	abstract public IReportItem newReportItem( DesignElementHandle extendedItemHandle );
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()

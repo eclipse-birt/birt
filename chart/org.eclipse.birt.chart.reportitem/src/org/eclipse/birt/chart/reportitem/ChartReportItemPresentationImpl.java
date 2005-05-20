@@ -15,10 +15,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.exception.GenerationException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -88,7 +90,15 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
      */
     public void setModelObject(ExtendedItemHandle eih)
     {
-        IReportItem item = ((ExtendedItem) eih.getElement()).getExtendedElement();
+        IReportItem item = null;
+        try
+        {
+            item = eih.getReportItem();
+        }
+        catch ( ExtendedElementException e )
+        {
+            DefaultLoggerImpl.instance().log(e);
+        }
         if (item == null)
         {
             try
@@ -209,11 +219,16 @@ public final class ChartReportItemPresentationImpl extends ReportItemPresentatio
     public Object onRowSets(IRowSet[] irsa) throws BirtException
     {
         // BIND RESULTSET TO CHART DATASETS
-        if (irsa == null || irsa.length != 1 || ibqda == null || ibqda.length != 1)
+        if (irsa == null || irsa.length != 1 || ibqda == null || ibqda.length != 1 || irsa[0] == null)
         {
-            throw new BirtException("chart.presentation", new UnexpectedInputException(
-                "The number of rowsets provided to the chart was incorrect or 'null'", null), null);
+            //  Data rows are empty
+            throw new GenerationException("ChartReportItemPresentationImpl.error.NoData",
+                    ResourceBundle.getBundle(
+                    Messages.REPORT_ITEM, 
+                    rtc.getLocale()
+                ));
         }
+
         DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemGenerationImpl: onRowSets(...) - start");
 
         try

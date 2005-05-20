@@ -187,6 +187,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 								"Failed to render "
 								+ handle.getExtensionName( )
 								+ ( elementName != null ? " " + elementName : "" ), ex ) );//$NON-NLS-1$
+						
 
 					}
 				}

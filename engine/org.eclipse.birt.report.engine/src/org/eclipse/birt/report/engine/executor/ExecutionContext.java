@@ -55,7 +55,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.22 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.23 $ $Date: 2005/05/20 15:11:05 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -731,15 +731,25 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public void addException( Throwable ex )
 	{
 		StringBuffer errMsg = new StringBuffer( );
-		//Loops to add the error messages except those system-defined
-		// exceptions. 
+		// Loops to add the error messages except those system-defined
+		// exceptions. Skip redundant message.
+		String lastMessage = "";
+		String currentMessage = null;
 		do
 		{
-			errMsg.append( ex.getLocalizedMessage( )
-					+ (char) Character.LINE_SEPARATOR );
+		    currentMessage =  ex.getLocalizedMessage( );
+		    // skip redundant messages
+		    if ( !currentMessage.equals( lastMessage ) )
+		    {
+		        lastMessage = currentMessage;
+		        errMsg.append( currentMessage );
+		        errMsg.append( (char) Character.LINE_SEPARATOR );
+		    }
 			ex = ex.getCause( );
 		} while ( ex != null
-				&& !ex.getClass( ).getName( ).startsWith( "java.lang" ) );//$NON-NLS-1$
+				&& !ex.getClass( ).getName( ).startsWith( "java.lang" )
+				);//$NON-NLS-1$
+	
 		addErrorMsg( errMsg.toString( ) );
 	}
 	/**

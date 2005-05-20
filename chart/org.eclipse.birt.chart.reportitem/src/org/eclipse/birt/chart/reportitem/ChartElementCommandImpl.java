@@ -12,6 +12,8 @@ package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 /**
@@ -24,14 +26,16 @@ public class ChartElementCommandImpl implements IElementCommand
     private ChartReportItemImpl item;
     private Chart oldChart;
     private Chart newChart;
+    private DesignElementHandle handle;
     /**
      * @param newChart
      * @param oldChart
      * @param impl
      *  
      */
-    public ChartElementCommandImpl(ChartReportItemImpl impl, Chart oldChart, Chart newChart)
+    public ChartElementCommandImpl(ExtendedItemHandle handle, ChartReportItemImpl impl, Chart oldChart, Chart newChart)
     {
+        this.handle = handle;
         this.item = impl;
         this.oldChart = oldChart;
         this.newChart = newChart;
@@ -97,5 +101,13 @@ public class ChartElementCommandImpl implements IElementCommand
     {
         return Messages.getString( "ChartElementCommandImpl.editChart" ) ; 
    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+     */
+    public DesignElementHandle getElementHandle( )
+    {
+        return handle;
+    }
 
 }

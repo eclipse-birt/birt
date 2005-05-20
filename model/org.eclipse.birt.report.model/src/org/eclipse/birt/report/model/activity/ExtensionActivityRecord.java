@@ -11,7 +11,13 @@
 
 package org.eclipse.birt.report.model.activity;
 
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 
 /**
  * The activity record provides the mechanism for performing a low-level change
@@ -27,19 +33,18 @@ public final class ExtensionActivityRecord extends ActivityRecord
 
 	private IElementCommand extRecord = null;
 
-	//	/**
-	//	 * The design element, that is, a report element. All report element
-	// classes
-	//	 * derives from DesignElement
-	//	 */
-	//
-	//	private DesignElement element = null;
-	//	
-	//	/**
-	//	 * The extension property name.
-	//	 */
-	//	
-	//	private String propName = null;
+	/**
+	 * The design element, that is, a report element. All report element classes
+	 * derives from DesignElement
+	 */
+
+	private DesignElement element = null;
+
+	/**
+	 * The extension property name.
+	 */
+
+	private String propName = null;
 
 	/**
 	 * Constructs the extension activity record with the effective extended
@@ -54,6 +59,10 @@ public final class ExtensionActivityRecord extends ActivityRecord
 		assert extCommand != null;
 		extRecord = extCommand;
 		setLabel( extCommand.getLabel( ) );
+
+		if ( extCommand.getElementHandle( ) != null )
+			element = (DesignElement) extCommand.getElementHandle( )
+					.getElement( );
 	}
 
 	/*
@@ -133,50 +142,54 @@ public final class ExtensionActivityRecord extends ActivityRecord
 		extRecord.redo( );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sends the notifications of extended element. This implementation uses
+	 * <code>getEvent( )</code> to produce the notification, and sends the
+	 * event to the element returned by <code>getTarget( )</code>.
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(
-	 *      boolean transactionStarted )
+	 * @param target
+	 *            the target element of the event
+	 * @param propName
+	 *            the property name changed
 	 */
-
 	public void sendNotifcations( boolean transactionStarted )
 	{
-		return;
+		if ( element != null )
+		{
+			element.broadcast( getEvent( ) );
+		}
 	}
 
-	//	/*
-	//	 * (non-Javadoc)
-	//	 *
-	//	 * @see
-	// org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
-	//	 */
-	//	public DesignElement getTarget( )
-	//	{
-	//		return element;
-	//	}
+	public DesignElement getTarget( )
+	{
+		return element;
+	}
 
-	//	/*
-	//	 * (non-Javadoc)
-	//	 *
-	//	 * @see
-	// org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
-	//	 */
-	//	
-	//	public NotificationEvent getEvent( )
-	//	{
-	//		// Use the same notification for the done/redone and undone states.
-	//		
-	//		assert element instanceof ExtendedItem;
-	//		
-	//		IElement extElement = ((ExtendedItem)element).getExtendedElement( );
-	//		assert extElement != null;
-	//		
-	//		if ( extElement.refreshPropertyDefinition( ) )
-	//		{
-	//			return new ExtensionPropertyDefinitionEvent( element );
-	//		}
-	//
-	//		return new PropertyEvent( element, propName );
-	//	}
+	/**
+	 * gets the event for extension element. The
+	 * <code>ExtensionPropertyDefinitionEvent</code> will be returned when the
+	 * extension element is not null and the dynamic property list is changed.
+	 * <code>propertyEvent</code> will be returned if not the above case.
+	 * 
+	 * @return
+	 * 		event
+	 */
+	private NotificationEvent getEvent( )
+	{
+		assert element != null;
+		NotificationEvent event = null;
+		assert element instanceof ExtendedItem;
+
+		IReportItem extElement = ( (ExtendedItem) element )
+				.getExtendedElement( );
+		if ( extElement != null && extElement.refreshPropertyDefinition( ) )
+		{
+			event = new ExtensionPropertyDefinitionEvent( element );
+		}
+		else
+			event = new PropertyEvent( element, propName );
+		// Use the same notification for the done/redone and undone states.
+		return event;
+
+	}
 }

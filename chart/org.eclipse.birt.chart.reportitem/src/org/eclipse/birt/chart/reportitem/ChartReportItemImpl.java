@@ -26,7 +26,8 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
@@ -53,7 +54,7 @@ public final class ChartReportItemImpl extends ReportItem
 
     private static final List liChartDimensions = new LinkedList();
 
-    private transient ReportDesignHandle reporthandle = null;
+    private transient DesignElementHandle handle = null;
 
     static
     {
@@ -103,9 +104,9 @@ public final class ChartReportItemImpl extends ReportItem
     /**
      *  
      */
-    public ChartReportItemImpl(ReportDesignHandle reporthandle)
+    public ChartReportItemImpl(DesignElementHandle handle)
     {
-        this.reporthandle = reporthandle;
+        this.handle = handle;
     }
 
     /**
@@ -118,15 +119,15 @@ public final class ChartReportItemImpl extends ReportItem
     /**
      * Set the new chart through a command for command stack integration
      */
-    public void executeSetModelCommand(Chart oldChart, Chart newChart)
+    public void executeSetModelCommand(ExtendedItemHandle eih, Chart oldChart, Chart newChart)
     {
-        if (reporthandle == null)
+        if (handle == null)
         {
             return;
         }
-        IElementCommand command = new ChartElementCommandImpl(this, oldChart, newChart);
+        IElementCommand command = new ChartElementCommandImpl(eih, this, oldChart, newChart);
         // TODO Cast to be removed when CommandStack has the execute(IElementCommand) method
-        ((ActivityStack)this.reporthandle.getCommandStack()).execute(command);
+        ((ActivityStack)this.handle.getDesignHandle().getCommandStack()).execute(command);
     }
 
     /**
@@ -358,7 +359,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public final IReportItem copy()
     {
-        final ChartReportItemImpl crii = new ChartReportItemImpl(reporthandle);
+        final ChartReportItemImpl crii = new ChartReportItemImpl(handle);
         crii.setProperty("chart.instance", EcoreUtil.copy(cm));
         return crii;
     }

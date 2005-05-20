@@ -19,9 +19,9 @@ import java.util.ResourceBundle;
  */
 public class Messages
 {
-    private static final String BUNDLE_NAME = "org.eclipse.birt.chart.reportitem.i18n.messages";//$NON-NLS-1$
+    public static final String REPORT_ITEM = "org.eclipse.birt.chart.reportitem.i18n.messages";//$NON-NLS-1$
 
-    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+    private static final ResourceBundle REPORT_ITEM_BUNDLE = ResourceBundle.getBundle(REPORT_ITEM);
 
     private Messages()
     {
@@ -32,7 +32,7 @@ public class Messages
         // TODO Auto-generated method stub
         try
         {
-            return RESOURCE_BUNDLE.getString(key);
+            return REPORT_ITEM_BUNDLE.getString(key);
         }
         catch (MissingResourceException e )
         {

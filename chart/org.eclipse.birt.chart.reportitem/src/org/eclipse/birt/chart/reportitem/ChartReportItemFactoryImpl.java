@@ -12,7 +12,7 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.Locale;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItemFactory;
@@ -35,7 +35,7 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements IMe
      * 
      * @see org.eclipse.birt.report.model.extension.IReportItemFactory#newReportItem(org.eclipse.birt.report.model.api.ReportDesignHandle)
      */
-    public IReportItem newReportItem(ReportDesignHandle item)
+    public IReportItem newReportItem(DesignElementHandle item)
     {
         return new ChartReportItemImpl(item);
     }

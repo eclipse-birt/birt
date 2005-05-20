@@ -206,7 +206,7 @@
             id="org.eclipse.birt.report.designer.ui.cheatsheet.chartlisting"/>
       <cheatsheet
             category="org.eclipse.birt.report.designer.ui.cheatsheetcategory"
-            contentFile="$nl$/templates/dual_chart_listing.xml"
+            contentFile="$nl$/templates/dual_column_chart_listing.xml"
             name="%cheatsheet.dualcolumnchartlisting"
             id="org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting"/>
       <cheatsheet

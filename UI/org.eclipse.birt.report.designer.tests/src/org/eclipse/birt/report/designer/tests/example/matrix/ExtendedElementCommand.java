@@ -9,6 +9,8 @@
 
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 public class ExtendedElementCommand implements IElementCommand
@@ -37,6 +39,8 @@ public class ExtendedElementCommand implements IElementCommand
 
 	private Object newValue = null;
 
+    private DesignElementHandle handle;
+
 	/**
 	 * Constructor.
 	 * 
@@ -48,13 +52,13 @@ public class ExtendedElementCommand implements IElementCommand
 	 *            the new value
 	 */
 
-	public ExtendedElementCommand( ExtendedElement propertyOwner, String name,
+	public ExtendedElementCommand( DesignElementHandle handle, ExtendedElement propertyOwner, String name,
 			Object value )
 	{
 		assert propertyOwner != null;
 		element = propertyOwner;
 		assert name != null;
-
+		this.handle = handle;
 		propName = name;
 		newValue = value;
 		oldValue = propertyOwner.getProperty( name );
@@ -141,4 +145,12 @@ public class ExtendedElementCommand implements IElementCommand
 	{
 		return "Command"; //$NON-NLS-1$
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+     */
+    public DesignElementHandle getElementHandle( )
+    {
+        return handle;
+    }
 }

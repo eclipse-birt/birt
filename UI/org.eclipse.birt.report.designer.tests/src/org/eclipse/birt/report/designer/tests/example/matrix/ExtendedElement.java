@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
@@ -57,7 +57,7 @@ public class ExtendedElement implements IReportItem
 
 	//	protected HashMap values = new HashMap( );
 	protected IReportItemFactory cachedDefn = null;
-	protected ReportDesignHandle designHandle = null;
+	protected DesignElementHandle designHandle = null;
 	public static String CHECK_PROPERTY_TAG = null;
 
 	private ExtensionPropertyDefn[] piePropertyList = null;
@@ -97,7 +97,7 @@ public class ExtendedElement implements IReportItem
 	 * @param designHandle
 	 */
 
-	public ExtendedElement( IReportItemFactory extDefn, ReportDesignHandle designHandle )
+	public ExtendedElement( IReportItemFactory extDefn, DesignElementHandle designHandle )
 	{
 		this.cachedDefn = extDefn;
 		assert designHandle != null;
@@ -481,7 +481,7 @@ public class ExtendedElement implements IReportItem
 	 */
 	public IElementCommand getElementCommand( String propName, Object value )
 	{
-		return new ExtendedElementCommand( this, propName, value );
+		return new ExtendedElementCommand( designHandle, this, propName, value );
 	}
 
 	private void execute( IElementCommand command )

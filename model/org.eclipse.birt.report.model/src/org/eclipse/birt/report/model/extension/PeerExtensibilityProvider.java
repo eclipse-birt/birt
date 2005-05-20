@@ -354,7 +354,7 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory( );
 		assert elementFactory != null;
 
-		reportItem = elementFactory.newReportItem( design.handle( ) );
+		reportItem = elementFactory.newReportItem( element.getHandle(design) );
 
 		// if the item caches the property values of extension, transfer them
 		// and then clear the cached values
