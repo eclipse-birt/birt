@@ -106,7 +106,10 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -132,7 +135,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.35 $ $Date: 2005/05/18 08:34:44 $
+ * @version $Revision: 1.36 $ $Date: 2005/05/19 07:19:11 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1695,10 +1698,29 @@ class EngineIRVisitor extends DesignVisitor
 				getDistinctProperty( handle, parentHandle, Style.PADDING_RIGHT_PROP ) );
 
 		// Data Formatting
-		setStyleProperty( style, Style.DATE_TIME_FORMAT_PROP, handle.getProperty( Style.DATE_TIME_FORMAT_PROP ) );
-		setStyleProperty( style, Style.NUMBER_FORMAT_PROP, handle.getProperty( Style.NUMBER_FORMAT_PROP ) );
-		setStyleProperty( style, Style.NUMBER_ALIGN_PROP, handle.getProperty( Style.NUMBER_ALIGN_PROP ) );
-		setStyleProperty( style, Style.STRING_FORMAT_PROP, handle.getProperty( Style.STRING_FORMAT_PROP ) );
+		DateTimeFormatValue dataTimeFormat = (DateTimeFormatValue) handle
+				.getProperty( Style.DATE_TIME_FORMAT_PROP );
+		if ( dataTimeFormat != null )
+		{
+			setStyleProperty( style, Style.DATE_TIME_FORMAT_PROP,
+					dataTimeFormat.getPattern( ) );
+		}
+		NumberFormatValue numberFormat = (NumberFormatValue) handle
+				.getProperty( Style.NUMBER_FORMAT_PROP );
+		if ( numberFormat != null )
+		{
+			setStyleProperty( style, Style.NUMBER_FORMAT_PROP, numberFormat
+					.getPattern( ) );
+		}
+		setStyleProperty( style, Style.NUMBER_ALIGN_PROP, handle
+				.getProperty( Style.NUMBER_ALIGN_PROP ) );
+		StringFormatValue stringFormat = (StringFormatValue) handle
+				.getProperty( Style.STRING_FORMAT_PROP );
+		if ( stringFormat != null )
+		{
+			setStyleProperty( style, Style.STRING_FORMAT_PROP, stringFormat
+					.getPattern( ) );
+		}
 
 		//Others
 		/*
