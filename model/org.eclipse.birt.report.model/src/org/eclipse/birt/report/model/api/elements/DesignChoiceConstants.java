@@ -284,10 +284,10 @@ public interface DesignChoiceConstants
 	public static final String MAP_OPERATOR_GT = "gt"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_BETWEEN = "between"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_NOT_BETWEEN = "not-between"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_NULL = "null"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_NOT_NULL = "not-null"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_TRUE = "true"; //$NON-NLS-1$
-	public static final String MAP_OPERATOR_FALSE = "false"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_NULL = "is-null"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_NOT_NULL = "is-not-null"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_TRUE = "is-true"; //$NON-NLS-1$
+	public static final String MAP_OPERATOR_FALSE = "is-false"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_LIKE = "like"; //$NON-NLS-1$
 	public static final String MAP_OPERATOR_ANY = "any"; //$NON-NLS-1$
 
@@ -486,10 +486,10 @@ public interface DesignChoiceConstants
 	public static final String FILTER_OPERATOR_GT = "gt"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_BETWEEN = "between"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_NOT_BETWEEN = "not-between"; //$NON-NLS-1$
-	public static final String FILTER_OPERATOR_NULL = "null"; //$NON-NLS-1$
-	public static final String FILTER_OPERATOR_NOT_NULL = "not-null"; //$NON-NLS-1$
-	public static final String FILTER_OPERATOR_TRUE = "true"; //$NON-NLS-1$
-	public static final String FILTER_OPERATOR_FALSE = "false"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_NULL = "is-null"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_NOT_NULL = "is-not-null"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_TRUE = "is-true"; //$NON-NLS-1$
+	public static final String FILTER_OPERATOR_FALSE = "is-false"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_LIKE = "like"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_TOP_N = "top-n"; //$NON-NLS-1$
 	public static final String FILTER_OPERATOR_BOTTOM_N = "bottom-n"; //$NON-NLS-1$

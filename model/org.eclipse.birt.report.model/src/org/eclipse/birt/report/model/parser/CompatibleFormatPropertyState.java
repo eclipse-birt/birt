@@ -20,6 +20,36 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.xml.sax.SAXException;
 
+/**
+ * Represents the property state which is used to reading format properties. The
+ * compatible version is 0.
+ * <p>
+ * Can translate the obsolete format
+ * 
+ * <pre>
+ *   <property name="dateTimeFormat">:yyyy/mm/dd</property>
+ *    <property name="numberFormat">:</property>
+ *    <property name="stringFormat">noformat:</property>  
+ * </pre>
+ * 
+ * to:
+ * 
+ * <pre>
+ * 	<structure name="dateTimeFormat">
+ * 		<property name="category">Custom</property>
+ * 		<property name="pattern">yyyy/mm/dd</property>
+ * 	</structure>
+ * 	<structure name="numberFormat">
+ * 		<property name="category">Currency</property>
+ * 		<property name="pattern">$###,###.##</property>
+ * 	</structure>
+ * 	<structure name="stringFormat">
+ * 		<property name="category">noformat</property>
+ * 		<property name="pattern">***</property>
+ * 	</structure>
+ * </pre>
+ */
+
 public class CompatibleFormatPropertyState extends PropertyState
 {
 

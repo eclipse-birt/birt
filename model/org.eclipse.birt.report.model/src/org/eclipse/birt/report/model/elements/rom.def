@@ -224,10 +224,10 @@
     <Choice displayNameID="Choices.mapOperator.gt" name="gt" />
     <Choice displayNameID="Choices.mapOperator.between" name="between" />
     <Choice displayNameID="Choices.mapOperator.notBetween" name="not-between" />
-    <Choice displayNameID="Choices.mapOperator.null" name="null" />
-    <Choice displayNameID="Choices.mapOperator.notNull" name="not-null" />
-    <Choice displayNameID="Choices.mapOperator.true" name="true" />
-    <Choice displayNameID="Choices.mapOperator.false" name="false" />
+    <Choice displayNameID="Choices.mapOperator.isNull" name="is-null" />
+    <Choice displayNameID="Choices.mapOperator.isNotNull" name="is-not-null" />
+    <Choice displayNameID="Choices.mapOperator.isTrue" name="is-true" />
+    <Choice displayNameID="Choices.mapOperator.isFalse" name="is-false" />
     <Choice displayNameID="Choices.mapOperator.like" name="like" />
     <Choice displayNameID="Choices.mapOperator.any" name="any" />
   </ChoiceType>
@@ -239,11 +239,11 @@
     <Choice displayNameID="Choices.filterOperator.ge" name="ge" />
     <Choice displayNameID="Choices.filterOperator.gt" name="gt" />
     <Choice displayNameID="Choices.filterOperator.between" name="between" />
-    <Choice displayNameID="Choices.filterOperator.not-between" name="not-between" />
-    <Choice displayNameID="Choices.filterOperator.null" name="null" />
-    <Choice displayNameID="Choices.filterOperator.not-null" name="not-null" />
-    <Choice displayNameID="Choices.filterOperator.true" name="true" />
-    <Choice displayNameID="Choices.filterOperator.false" name="false" />
+    <Choice displayNameID="Choices.filterOperator.notBetween" name="not-between" />
+    <Choice displayNameID="Choices.filterOperator.isNull" name="is-null" />
+    <Choice displayNameID="Choices.filterOperator.isNotNull" name="is-not-null" />
+    <Choice displayNameID="Choices.filterOperator.isTrue" name="is-true" />
+    <Choice displayNameID="Choices.filterOperator.isFalse" name="is-false" />
     <Choice displayNameID="Choices.filterOperator.like" name="like" />
 	<!-- DTE doesn't support the following operator
     <Choice displayNameID="Choices.filterOperator.top-n" name="top-n" />

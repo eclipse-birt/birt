@@ -191,6 +191,18 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	public List getContentElements( )
 	{
+		return new ArrayList( contentElements );
+	}
+
+	/**
+	 * Returns the set of element types that can appear in the slot. Extended
+	 * elements are replaced by actual extensions.
+	 * 
+	 * @return the list of content elements.
+	 */
+
+	public List getContentExtendedElements( )
+	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		IElementDefn extendItem = dd
 				.getElement( ReportDesignConstants.EXTENDED_ITEM );

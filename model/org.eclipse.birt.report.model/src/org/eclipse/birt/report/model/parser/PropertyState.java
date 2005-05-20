@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -122,6 +124,17 @@ class PropertyState extends AbstractPropertyState
 			jmpDefn = struct.getDefn( ).getMember( name );
 		else
 			jmpDefn = element.getPropertyDefn( name );
+
+		if ( jmpDefn != null
+				&& ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( jmpDefn
+						.getName( ) ) || MapRule.OPERATOR_MEMBER
+						.equalsIgnoreCase( jmpDefn.getName( ) ) ) )
+		{
+			CompatibleOperatorState state = new CompatibleOperatorState(
+					handler, element, propDefn, struct );
+			state.setName( name );
+			return state;
+		}
 
 		if ( ( jmpDefn != null ) && ( jmpDefn.getStructDefn( ) != null ) )
 		{

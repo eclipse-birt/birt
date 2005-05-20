@@ -28,8 +28,6 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
@@ -37,6 +35,7 @@ import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -504,18 +503,6 @@ public abstract class DesignElement
 	 * this limit, the exceeding part will be shown as "...".
 	 */
 	private static final int MAX_DISPLAY_LABEL_LEN = 30;
-
-	/**
-	 * The element list each of which is not supported in release one.
-	 */
-
-	private static final String[] unSupportedElements = {
-			ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
-			ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT,
-			ReportDesignConstants.FREE_FORM_ITEM,
-			ReportDesignConstants.LINE_ITEM,
-			ReportDesignConstants.RECTANGLE_ITEM,
-			ReportDesignConstants.EXTENDED_ITEM};
 
 	/**
 	 * Elements have an optional name. The name may be required by some element
@@ -2272,17 +2259,20 @@ public abstract class DesignElement
 
 		// Check whether this element is unsupported element.
 
-		String elementName = getElementName( );
+		errors.addAll( UnsupportedElementValidator.getInstance( ).validate(
+				design, this ) );
 
-		for ( int i = 0; i < unSupportedElements.length; i++ )
-		{
-			if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
-			{
-				errors.add( new SemanticError( this,
-						SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
-						SemanticError.WARNING ) );
-			}
-		}
+		// String elementName = getElementName( );
+		//
+		// for ( int i = 0; i < unSupportedElements.length; i++ )
+		// {
+		// if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
+		// {
+		// errors.add( new SemanticError( this,
+		// SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
+		// SemanticError.WARNING ) );
+		// }
+		// }
 
 		// check property masks.
 

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 public interface ISlotDefn
 {
+
 	/**
 	 * Returns the internal name.
 	 * 
@@ -32,7 +33,7 @@ public interface ISlotDefn
 	 */
 
 	public String getName( );
-	
+
 	/**
 	 * Returns the slot cardinality.
 	 * 
@@ -48,7 +49,7 @@ public interface ISlotDefn
 	 */
 
 	public String getDisplayName( );
-	
+
 	/**
 	 * Returns the message ID for the display name.
 	 * 
@@ -73,7 +74,17 @@ public interface ISlotDefn
 	 */
 
 	public List getContentElements( );
-	
+
+	/**
+	 * Returns the set of element types that can appear in the slot. Each object
+	 * in the list is instance of {@link IElementDefn}. Extended elements are
+	 * replaced by actual extension elements.
+	 * 
+	 * @return the list of content elements.
+	 */
+
+	public List getContentExtendedElements( );
+
 	/**
 	 * Determines if this slot can contain an element of the given type.
 	 * 
@@ -83,7 +94,7 @@ public interface ISlotDefn
 	 */
 
 	public boolean canContain( IElementDefn type );
-	
+
 	/**
 	 * Determines if an element can reside within this slot.
 	 * 
