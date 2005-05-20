@@ -127,7 +127,21 @@ public class ReportParameterConverter
 			{
 				case IScalarParameterDefn.TYPE_STRING:
 				{
-					parameterValueObj = reportParameterValue;
+					StringFormatter sf = new StringFormatter( locale );
+					
+					if ( format != null )
+					{
+						sf.applyPattern( format );
+					}
+	
+					try
+					{
+						parameterValueObj = sf.parser( reportParameterValue );
+					}
+					catch ( ParseException e )
+					{
+						parameterValueObj = reportParameterValue;
+					}
 					break;
 				}
 				
