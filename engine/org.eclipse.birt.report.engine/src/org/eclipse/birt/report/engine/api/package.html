@@ -2,29 +2,32 @@
 <html>
 <body bgcolor="white">
 
-This is a Tool-writer's interface for using the BIRT report engine. To use the engine, 
-first create an engine configuration (EngineConfig) object. The report engine 
-(ReportEngine) constructor takes the configuration object to initialize the report 
-engine. 
+This is an application-writer's interface for using the BIRT report engine.
+To use the engine, first create an engine configuration object of type EngineConfig. 
+Set configuration properties on the object, and then pass it to the report engine
+constructor (class ReportEngine).
 <p>
-A report engine supports running several types of task. Examples are RunReportTask,
-RunDataSetTask, GetDnamicParameterListTask, etc. To run a report, the following steps 
+A report engine supports running several types of task. Examples are GetParameterDefinitionTask,
+RunAndRenderReportTask, etc. To run and render a report, the following steps 
 may be involved:
 <ul>
-	<li> The report design is opened by calling the openReportDesign() method on ReportEngine. 
-The method returns a ReportRunnable object. 	
-	<li> From the ReportRunnable object, parameter definitions are retrieved. A UI
-page is constructed based on the definitions to prompt for parameter values.
-	<li> A RunReportTask is constructed, and report parameters are set.
-	<li> The run() method on RunReportTask is called. 
+	<li> The report design is opened by calling the ReportEngine.openReportDesign(...)
+The method returns an IReportRunnable object. 	
+	<li> With the IReportRunnable object, call ReportEngine.createGetParameterDefinitionTask(...) 
+to obtain an IGetParameterDefinitionTask object, from which parameter definitions are 
+retrieved. A UI page can be constructed based on the definitions to prompt end users for 
+parameter values.
+	<li> An IRunReportTask object can be obtained by calling ReportEngine.createRunAndRenderReportTask(...).
+From the task, report parameters are set. Running options can also be set.
+	<li> The run() method on IRunAndRenderReportTask is called. 
 </ul>
-Code segments are shown below to demonstrate how to use the engine.
-<h3>Simplest use of report engine</h3>
-To get a report to run, one needs only 7 lines of code:
+Code segments are shown below to demonstrate how to use the engine APIs.
+<h3>Simple Use of Report Engine, No Customization</h3>
+To get a report to run, do the following:
 <p>
 <code>
 	ReportEngine engine = new ReportEngine(null);	<BR>
-	IReportRunnable design = engine.openReportDesign("C:/temp/test.design");	<BR>
+	IReportRunnable design = engine.openReportDesign("C:/temp/test.rptdesign");	<BR>
 	IRunAndRenderTask task = engine.createRunAndRenderTask(design); <BR>
 	IOutputSetting setting = new OutputSetting(); <BR>
 	setting.setOutputFileName("C:/temp/test.html");<BR>
@@ -32,62 +35,58 @@ To get a report to run, one needs only 7 lines of code:
 	task.run();
 </code>
 <p>
-No customization is done so engine will asserts its default behavior: output the
+No customization is done so engine will asserts its default behavior: write the
 report to HTML format at C:/temp/test.html, assuming JVM locale. The report design 
 can not contain images, charts ot hyperlinks, or otherwise engine has to be 
-configured with corresponging handlers. 
+configured with corresponging image or action handlers. It is also assumed that 
+test.rptdesign does not have parameters, so no GetParameterDefinition task
+is constructed. 
 </code>
 
-<h3>Using engine with heavy customization</h3>
-The following example customizes the engine in detail:
+<h3>Using Report Engine with Customization</h3>
+The following example customizes the engine:
 <p>
 <code>
 	// Engine configuration<BR>
 	EngineConfig config = new EngineConfig();<BR>
-	config.setBIRTHome("C:/birt/");				// Configuring where BIRT engine is installed<BR>
-	config.setDataDriverDir("C:/drivers/");		// Configures where data drivers are stored.<BR>
-	config.setImageHandler(IImage.DESIGN_IMAGE, designImageHandler); // customize design time image handler <BR>
-	config.setImageHandler(IImage.CUSTOM_IMAGE, customImageHandler); // configure customized image (i.e., chart) handler <BR>
-	config.setImageHandler(IImage.CUSTOM_IMAGE, customImageHandler); // configure customized image (i.e., chart) handler <BR>
-	config.addScriptableJavaObject("myJavaObject", aJavaObject);	// Customized Java object to scripting<BR>
+	config.setEngineHome("C:/birt/");				// Configuring where BIRT engine is installed<BR>
+	config.setImageHandler(new MyImageHandler(...)); // You define and instantiate class MyImageHandler<BR>
+	config.setActionHandler(new MyActionHandler(...)); // You define and instantiate class MYActionHandler<BR>
+	config.addScriptableJavaObject("foo", aFooinstance);// You can now write foo.bar() in your report<BR>
 	<BR>
 	// Create engine and open report design <BR>
 	ReportEngine engine = new ReportEngine(config);	//Create engine with configuration <BR>
-	IReportRunnable design = engine.openReportDesign("C:/temp/test.design");	<BR>
+	IReportRunnable design = engine.openReportDesign("C:/temp/test.rptdesign");	<BR>
 	<BR>
 	// Get parameter definitions<BR>
-	Collection parameters = design.getParameterDefns(false, myLocale);	// get parameter definitions, with display names, default values, etc. in myLocale
+	IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(design);
+	task.setLocale(myLocale);	// set rendering locale
+	Collection parameters = task.getParameterDefns(false);	// get parameter definitions
 	<BR>
-	// Present parameter prompt page and receive inputs. Use class ParameterMapBuilder to build up a parameter value colleciton<BR>
+	// Present parameter prompt page and receive inputs.
 	<BR>
 	// Create task to run and render the report<BR>
 	IRunAndRenderTask task = engine.createRunAndRenderTask(design); <BR>
 	<BR>
 	// Set parameters<BR>
-	task.setParameters(parameterMap);<BR>
+	task.setParameters(parameterMap); // parameterMap is a hash map of parameter name/value pairs<BR>
+	task.setLocale(myLocale);
 	<BR>
 	// output options <BR>
 	XHTMLOutputSetting setting = new XHTMLOutputSetting(); // assume this is a third-party format <BR>
 	setting.setOutputFileName("C:/temp/test.html");<BR>
-	setting.setOutputFormat("html");	// XHTML is still "html" with certain changes<BR>
+	setting.setOutputFormat("xhtml");	// XHTML emitter supports "xhtml" format<BR>
 	setting.setEmbeddable(true);		// XHTML also supports embeddable <BR>
-	setting.setLocale(myLocale);		<BR>
-	setting.setExtensionID("org.mycompany.report.extension.html");	// Now 2 emitters support html format, choose which one to use <BR>
 	task.setOutputSetting(setting);<BR>
 	<BR>
 	task.run();
 </code>
 <p>
-No customization is done so engine will asserts its default behavior: output the
-report to HTML format at C:/temp/test.html. The report design can not contain
-images, charts ot hyperlinks, or otherwise engine has to be configured with corresponging
-handlers. 
-</code>
 
 <h2>Package Specification</h2>
 
-Tool-writer's interface for the BIRT Engine.
-
+Application-writer's interface for the BIRT Engine.
+<p>
 <!-- Put @see and @since tags down here. -->
 @since 1.0
 </body>
