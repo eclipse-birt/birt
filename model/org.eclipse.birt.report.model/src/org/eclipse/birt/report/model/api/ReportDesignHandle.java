@@ -1694,15 +1694,4 @@ public class ReportDesignHandle extends DesignElementHandle
 	{
 		return getDesign( ).removeValidationListener( listener );
 	}
-	
-	/**
-	 * Returns the version of this report.
-	 * 
-	 * @return the version of this report
-	 */
-	
-	public String getVersion()
-	{
-		return getStringProperty( ReportDesign.VERSION_PROP );
-	}
 }

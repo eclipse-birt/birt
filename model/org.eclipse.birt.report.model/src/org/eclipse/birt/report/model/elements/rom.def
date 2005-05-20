@@ -1550,7 +1550,6 @@
     <Member name="resultSet" displayNameID="Structure.CachedMetaData.resultSet" type="structure" isList="true" detailType="ResultSetColumn"/>		
   </Structure>
   <Element name="ReportDesign" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" displayNameID="Element.ReportDesign" isAbstract="false" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="report">
-    <Property name="version" displayNameID="Element.ReportDesign.version" type="string" canInherit="false" />
     <Property name="author" displayNameID="Element.ReportDesign.author" type="string" canInherit="false" />
     <Property name="helpGuide" displayNameID="Element.ReportDesign.helpGuide" type="uri" canInherit="false" />
     <Property name="createdBy" displayNameID="Element.ReportDesign.createdBy" type="string" canInherit="false" />

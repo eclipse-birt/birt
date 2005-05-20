@@ -117,8 +117,7 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 		{
 			if ( getElement( ) instanceof OdaDataSource
-					&& handler.getDesign( ).getStringProperty( handler.getDesign( ),
-							ReportDesign.VERSION_PROP ) == null )
+					&& handler.isVersion( "0" ) ) //$NON-NLS-1$
             {
 				return new CompatibleOdaDriverPropertyState( handler,
 						getElement( ) );

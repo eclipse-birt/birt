@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
 /**
  * Top-level handler for the XML design file. Holds the design being created and
  * recognizes the top-level tags in the file.
- *  
+ * 
  */
 
 public class DesignParserHandler extends XMLParserHandler
@@ -44,6 +44,12 @@ public class DesignParserHandler extends XMLParserHandler
 	 */
 
 	protected ReportDesign design = null;
+
+	/**
+	 * The version of the design file this handle is parsing.
+	 */
+
+	String version = "0"; //$NON-NLS-1$
 
 	/**
 	 * Constructs the design parser handler with the design session.
@@ -131,8 +137,9 @@ public class DesignParserHandler extends XMLParserHandler
 
 		if ( getErrors( ) != null )
 		{
-			List errorDetailList = ErrorDetail.convertExceptionList( getErrors( ) );
-			
+			List errorDetailList = ErrorDetail
+					.convertExceptionList( getErrors( ) );
+
 			design.getAllErrors( ).addAll( errorDetailList );
 		}
 	}
@@ -210,5 +217,45 @@ public class DesignParserHandler extends XMLParserHandler
 	public ReportDesign getDesign( )
 	{
 		return design;
+	}
+
+	/**
+	 * Returns the version of the design file this handler is parsing.
+	 * 
+	 * @return version of design file.
+	 */
+
+	String getVersion( )
+	{
+		return version;
+	}
+
+	/**
+	 * Sets the version of the design file this handler is parsing.
+	 * 
+	 * @param version
+	 *            The version to set.
+	 */
+
+	void setVersion( String version )
+	{
+		this.version = version;
+	}
+
+	/**
+	 * Returns <code>true</code> if the version of the design file this
+	 * handler is parsing equals the given version.
+	 * 
+	 * @param toCompare
+	 *            the version to compare
+	 * @return <code>true</code> if the version of the design file this
+	 *         handler is parsing equals <code>toCompare</code>.
+	 */
+
+	public boolean isVersion( String toCompare )
+	{
+		assert toCompare != null;
+
+		return version.equals( toCompare );
 	}
 }

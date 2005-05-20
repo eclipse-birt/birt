@@ -136,7 +136,7 @@ public class ReportState extends DesignParseState
 				throw new XMLParserException( e );
 			}
 
-			setProperty( ReportDesign.VERSION_PROP, version );
+			handler.setVersion( version );
 		}
 
 		super.parseAttrs( attrs );
