@@ -2,3 +2,4 @@ bin
 oda-jdbc.jar
 doc
 export
+derby.log
