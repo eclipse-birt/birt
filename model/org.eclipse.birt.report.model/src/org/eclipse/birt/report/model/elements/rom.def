@@ -1669,8 +1669,8 @@
     <PropertyVisibility name="extensionName" propertyVisibility="hide" />
   </Element>
   <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" canExtend="false" isNameRequired="true">
-    <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" valueRequired="true" />
-    <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" valueRequired="true" />
+    <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" />
+    <Method name="close" displayNameID="Element.ScriptDataSource.close" toolTipID="Element.ScriptDataSource.close.toolTip" />
   </Element>
   <Element name="DataSet" displayNameID="Element.DataSet" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="false" hasStyle="false" nameSpace="dataSet" isNameRequired="true">
     <Method name="beforeOpen" displayNameID="Element.DataSet.beforeOpen" toolTipID="Element.DataSet.beforeOpen.toolTip" />
