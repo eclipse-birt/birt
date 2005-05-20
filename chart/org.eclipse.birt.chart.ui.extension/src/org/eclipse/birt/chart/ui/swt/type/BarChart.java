@@ -361,7 +361,8 @@ public class BarChart extends DefaultChartTypeImpl
                         {
                             series.setStacked(false);
                         }
-                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().set(j, series);
+                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().clear();
+                        ((SeriesDefinition) seriesdefinitions.get(j)).getSeries().add(series);
                     }
                 }
             }
@@ -578,7 +579,7 @@ public class BarChart extends DefaultChartTypeImpl
         {
             String sElement = strtok.nextToken().trim();
             if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
-                                          // //$NON-NLS-1$
+            // //$NON-NLS-1$
             // be text
             {
                 StringTokenizer strStockTokenizer = new StringTokenizer(sElement);
