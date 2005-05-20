@@ -59,39 +59,42 @@ class FillCanvas extends Canvas implements PaintListener
         if (!this.isEnabled())
         {
             gc.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-            gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+            Color cFore = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
+            gc.setForeground(cFore);
+            if (fCurrent == null || fCurrent instanceof ColorDefinition
+                && ((ColorDefinition) fCurrent).getTransparency() == 0)
+            {
+                gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+                gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2); //$NON-NLS-1$
+            }
+            else
+            {
+                gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+                gc.setBackground(cFore);
+                gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
+            }
+            cFore.dispose();
         }
         else
         {
-            if (fCurrent == null)
+            if (fCurrent == null || fCurrent instanceof ColorDefinition
+                && ((ColorDefinition) fCurrent).getTransparency() == 0)
             {
                 gc.setBackground(clrTransparencyBackground);
                 gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
-                Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
-                gc.setForeground(cBlack);
+                Color cText = new Color(this.getDisplay(), 0, 0, 0);
+                gc.setForeground(cText);
                 gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2); //$NON-NLS-1$
-                cBlack.dispose();
+                cText.dispose();
             }
             else
             {
                 if (fCurrent instanceof ColorDefinition)
                 {
-                    if (((ColorDefinition) fCurrent).getTransparency() == 0)
-                    {
-                        gc.setBackground(clrTransparencyBackground);
-                        gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
-                        Color cBlack = new Color(this.getDisplay(), 0, 0, 0);
-                        gc.setForeground(cBlack);
-                        gc.drawText(Messages.getString("FillCanvas.Transparent"), 2, 2);
-                        cBlack.dispose();
-                    }
-                    else
-                    {
-                        cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
-                            ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
-                        gc.setBackground(cBackground);
-                        gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
-                    }
+                    cBackground = new Color(Display.getDefault(), ((ColorDefinition) fCurrent).getRed(),
+                        ((ColorDefinition) fCurrent).getGreen(), ((ColorDefinition) fCurrent).getBlue());
+                    gc.setBackground(cBackground);
+                    gc.fillRectangle(2, 2, this.getSize().x - 4, this.getSize().y - 4);
                 }
                 else if (fCurrent instanceof Image)
                 {

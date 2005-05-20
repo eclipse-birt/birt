@@ -120,6 +120,8 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
     public void setEnabled(boolean bState)
     {
         this.btnEllipsis.setEnabled(bState);
+        this.cnvSelection.setEnabled(bState);
+        cnvSelection.redraw();
         this.bEnabled = bState;
     }
 

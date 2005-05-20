@@ -92,21 +92,22 @@ public class FontCanvas extends Canvas implements PaintListener
         GC gc = pe.gc;
         Font fOld = gc.getFont();
 
-        if (cdCurrent != null && bUseColor)
+        if (!this.isEnabled())
         {
-            cFore = new Color(this.getDisplay(), cdCurrent.getRed(), cdCurrent.getGreen(), cdCurrent.getBlue());
+            cFore = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
+            cBack = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
         }
         else
-        {
-            cFore = new Color(this.getDisplay(), 0, 0, 0);
-        }
-        if (this.isEnabled())
         {
             cBack = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
-        }
-        else
-        {
-            cBack = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
+            if (cdCurrent != null && bUseColor)
+            {
+                cFore = new Color(this.getDisplay(), cdCurrent.getRed(), cdCurrent.getGreen(), cdCurrent.getBlue());
+            }
+            else
+            {
+                cFore = new Color(this.getDisplay(), 0, 0, 0);
+            }
         }
         gc.setForeground(cFore);
         gc.setBackground(cBack);
@@ -204,7 +205,10 @@ public class FontCanvas extends Canvas implements PaintListener
 
             fCurrent.dispose();
         }
-        cFore.dispose();
+        if (this.isEnabled())
+        {
+            cFore.dispose();
+        }
         gc.setFont(fOld);
     }
 

@@ -70,7 +70,7 @@ public class LineCanvas extends Canvas implements PaintListener
         }
         else
         {
-            cForeground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+            cForeground = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
             cBackground = Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
         }
         GC gc = pe.gc;

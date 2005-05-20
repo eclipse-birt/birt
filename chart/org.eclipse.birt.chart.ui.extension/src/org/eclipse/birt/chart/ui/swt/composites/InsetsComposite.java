@@ -42,7 +42,7 @@ public class InsetsComposite extends Composite implements Listener
     private transient Insets insets = null;
 
     private transient Group grpInsets = null;
-    
+
     private transient Label lblTop = null;
 
     private transient Label lblLeft = null;
@@ -62,7 +62,7 @@ public class InsetsComposite extends Composite implements Listener
     private transient Vector vListeners = null;
 
     private transient IUIServiceProvider serviceprovider = null;
-    
+
     private transient boolean bEnabled = true;
 
     /**
@@ -108,7 +108,8 @@ public class InsetsComposite extends Composite implements Listener
 
         grpInsets = new Group(this, SWT.NONE);
         grpInsets.setLayout(glGroup);
-        grpInsets.setText(new MessageFormat(Messages.getString("InsetsComposite.Lbl.Insets")).format(new Object[] {sUnits})); //$NON-NLS-1$
+        grpInsets
+            .setText(new MessageFormat(Messages.getString("InsetsComposite.Lbl.Insets")).format(new Object[] { sUnits})); //$NON-NLS-1$
 
         lblTop = new Label(grpInsets, SWT.NONE);
         GridData gdLTop = new GridData(GridData.VERTICAL_ALIGN_CENTER);
@@ -174,7 +175,7 @@ public class InsetsComposite extends Composite implements Listener
         txtRight.setText(new Double(dblCurrent).toString());
         txtRight.addListener(this);
     }
-    
+
     public void setEnabled(boolean bState)
     {
         lblTop.setEnabled(bState);
@@ -188,7 +189,7 @@ public class InsetsComposite extends Composite implements Listener
         grpInsets.setEnabled(bState);
         bEnabled = bState;
     }
-    
+
     public boolean isEnabled()
     {
         return bEnabled;
@@ -278,7 +279,7 @@ public class InsetsComposite extends Composite implements Listener
             {
                 dblCurrent = Double.parseDouble(txtBottom.getText());
                 dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
-                insets.setLeft(dblPoints);
+                insets.setBottom(dblPoints);
             }
             catch (NumberFormatException e1 )
             {
@@ -293,7 +294,7 @@ public class InsetsComposite extends Composite implements Listener
             {
                 dblCurrent = Double.parseDouble(txtRight.getText());
                 dblPoints = serviceprovider.getConvertedValue(dblCurrent, sUnits, "Points"); //$NON-NLS-1$
-                insets.setLeft(dblPoints);
+                insets.setRight(dblPoints);
             }
             catch (NumberFormatException e1 )
             {

@@ -385,9 +385,9 @@ public class FillChooserComposite extends Composite implements SelectionListener
 
     public Fill getFill()
     {
-        if (fCurrent == null)
+        if (fCurrent == null || fCurrent.equals(ColorDefinitionImpl.TRANSPARENT()))
         {
-            return ColorDefinitionImpl.TRANSPARENT();
+            return null;
         }
         return this.fCurrent;
     }
@@ -396,6 +396,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
     {
         btnDown.setEnabled(bState);
         cnvSelection.setEnabled(bState);
+        cnvSelection.redraw();
         this.bEnabled = bState;
     }
 
@@ -490,12 +491,14 @@ public class FillChooserComposite extends Composite implements SelectionListener
             int iTrans = 255;
             if (fCurrent instanceof ColorDefinition)
             {
-                iTransparency = ((ColorDefinition) fCurrent).getTransparency();
+                if (!fCurrent.equals(ColorDefinitionImpl.TRANSPARENT()))
+                {
+                    iTransparency = ((ColorDefinition) fCurrent).getTransparency();
+                }
                 cDlg.setRGB(new RGB(((ColorDefinition) this.fCurrent).getRed(), ((ColorDefinition) this.fCurrent)
                     .getGreen(), ((ColorDefinition) this.fCurrent).getBlue()));
             }
-            cDlg.open();
-            RGB rgb = cDlg.getRGB();
+            RGB rgb = cDlg.open();
             if (rgb != null)
             {
                 ColorDefinition cdNew = AttributeFactory.eINSTANCE.createColorDefinition();
