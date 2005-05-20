@@ -242,7 +242,7 @@ public abstract class DataSetRuntime implements IBaseDataSetDesign
 			
 			try
 			{
-				return ScriptEvalUtil.evaluateJSExpr( cx, getScriptable(), 
+				return ScriptEvalUtil.evaluateJSAsMethod( cx, getScriptable(), 
 						script, 
 						"DataSet:" + getName() + "." + eventName, 
 						0 ); 

@@ -112,7 +112,7 @@ public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesi
 			Context cx = Context.enter();
 			try
 			{
-				Object result = ScriptEvalUtil.evaluateJSExpr( cx, this.getScriptable(), queryScript, 
+				Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, this.getScriptable(), queryScript, 
 						"DataSet(" +getName() + ").QueryScript",
 						1);
 				query = result.toString();

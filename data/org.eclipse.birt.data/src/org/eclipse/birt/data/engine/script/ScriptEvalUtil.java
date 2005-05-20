@@ -211,6 +211,23 @@ public class ScriptEvalUtil
 		}
 	}
 	
+	public static Object evaluateJSAsMethod (Context cx, Scriptable scope, String scriptText, String source, int lineNo) throws DataException
+	{
+	    if ( logger.isLoggable( Level.FINER ) )
+			logger.entering( ScriptEvalUtil.class.getName( ),
+				"evaluateJSExpr",
+				"evaluateJSExpr() scriptText=" + scriptText 
+				+ ", source=" + source 
+				+ ", lineNo=" + lineNo);
+	    
+	    Object result = evaluateJSScript (cx, scope, ScriptUtil.getTailoredScript( scriptText , scope ) , source, lineNo);
+	    
+	    if ( logger.isLoggable( Level.FINER ) )
+			logger.exiting( ScriptEvalUtil.class.getName( ),
+					"evaluateJSExpr",
+					convertNativeObjToJavaObj( result ) );
+	    return result;
+	}
 	/**
 	 * Evaluates a ROM script and converts the result type into one accepted by BIRT:
 	 * Double (for all numeric types), java.util.Date, String, Boolean. Converts 
@@ -218,7 +235,7 @@ public class ScriptEvalUtil
 	 * 
 	 * @throws DataException 
 	 */
-	public static Object evaluateJSExpr(Context cx, Scriptable scope,
+	public static Object evaluateJSAsExpr(Context cx, Scriptable scope,
 			String scriptText, String source, int lineNo)
 			throws DataException 
 	{
@@ -228,23 +245,8 @@ public class ScriptEvalUtil
 				"evaluateJSExpr() scriptText=" + scriptText 
 				+ ", source=" + source 
 				+ ", lineNo=" + lineNo);
-		Object result = null;
-		try
-		{
-			result = cx.evaluateString(scope, scriptText, source, lineNo, null);
-			// It seems Rhino 1.6 has changed its way to process incorrect expression.
-			// When there is an error, exception will not be thrown, but rather an Undefined
-			// instance will be returned. Here its return value is changed to null.
-			if ( result instanceof Undefined )
-			{
-				//throw new Exception( scriptText + " is not valid expression." );
-				return null;
-			}
-		}
-		catch ( RhinoException e)
-		{
-			RethrowJSEvalException( e, scriptText, source, lineNo );
-		}
+		
+		Object result = evaluateJSScript( cx, scope, scriptText, source, lineNo);
 		
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.exiting( ScriptEvalUtil.class.getName( ),
@@ -354,12 +356,12 @@ public class ScriptEvalUtil
 			if ( logger.isLoggable( Level.FINER ) )
 				logger.exiting( ScriptEvalUtil.class.getName( ),
 						"evalExpr",
-						evaluateJSExpr( cx,
+						evaluateJSAsExpr( cx,
 								scope,
 								jsExpr.getText( ),
 								source,
 								lineNo ) );
-			return evaluateJSExpr( cx, scope, jsExpr.getText(), source, lineNo );
+			return evaluateJSAsExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
 	}
 	
@@ -438,5 +440,30 @@ public class ScriptEvalUtil
 	{
 	    return ise!=null && ise.getText().trim().length() > 0 ? ise : new ScriptExpression("null");
 	}
+	
+	private static Object evaluateJSScript(Context cx, Scriptable scope,
+			String scriptText, String source, int lineNo)
+			throws DataException 
+	{
+		Object result = null;
+		try
+		{
+			result = cx.evaluateString(scope, scriptText, source, lineNo, null);
+			// It seems Rhino 1.6 has changed its way to process incorrect expression.
+			// When there is an error, exception will not be thrown, but rather an Undefined
+			// instance will be returned. Here its return value is changed to null.
+			if ( result instanceof Undefined )
+			{
+				//throw new Exception( scriptText + " is not valid expression." );
+				return null;
+			}
+		}
+		catch ( RhinoException e)
+		{
+			RethrowJSEvalException( e, scriptText, source, lineNo );
+		}
+		return convertNativeObjToJavaObj(result);
+	}
+	
 	
 }

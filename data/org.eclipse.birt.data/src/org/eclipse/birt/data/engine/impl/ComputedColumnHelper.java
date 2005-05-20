@@ -100,7 +100,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				if ( columnExprArray[i] != null
 						&& columnExprArray[i].trim( ).length( ) >0 )
 				{
-					Object value = ScriptEvalUtil.evaluateJSExpr( cx,
+					Object value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 							scope,
 							columnExprArray[i],
 							"ComputedColumn",

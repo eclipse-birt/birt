@@ -224,7 +224,7 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 			
 			try
 			{
-				return ScriptEvalUtil.evaluateJSExpr( cx, getScriptable(), 
+				return ScriptEvalUtil.evaluateJSAsMethod( cx, getScriptable(), 
 						script, 
 						"DataSource:" + getName() + "." + eventName, 
 						0 ); 
