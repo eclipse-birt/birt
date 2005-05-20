@@ -72,7 +72,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -167,10 +166,15 @@ class EngineIRVisitor extends DesignVisitor
 	protected ReportDesignHandle handle;
 	
 	/**
-	 * report default style
+	 * non-inheritable report style
 	 */
-	protected StyleDesign reportDefaultStyle;
+	protected StyleDesign nonInheritableReportStyle;
 	
+	/**
+	 * inheritable report style
+	 */
+	protected StyleDesign inheritableReportStyle;
+
 	/**
 	 * constructor
 	 * 
@@ -228,7 +232,8 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Sets the report default style
 		StyleHandle reportStyleHandle = handle.findStyle( "report" );//$NON-NLS-1$		
-		report.setDefaultStyle( createDefaultStyle( reportStyleHandle ) );
+		createReportStyles( reportStyleHandle );
+		report.setDefaultStyles( nonInheritableReportStyle, inheritableReportStyle );
 
 		//COLOR-PALETTE
 		//METHOD
@@ -1462,7 +1467,7 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				// if its parent is ReportDesignHandle
 				// get parentValue from reportDefaultStyle
-				parentValue = reportDefaultStyle.get( name );
+				parentValue = inheritableReportStyle.get( name );
 			}
 			else
 			{
@@ -1476,7 +1481,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		else
 		{
-			Object defaultValue = reportDefaultStyle.get( name );
+			Object defaultValue = nonInheritableReportStyle.get( name );
 			if( !value.equals( defaultValue ) )
 			{
 				return value;
@@ -1515,7 +1520,7 @@ class EngineIRVisitor extends DesignVisitor
 			int parentValue;
 			if( this.handle == parentHandle )
 			{
-				parentValue = getColorValue( reportDefaultStyle.get( name ) );
+				parentValue = getColorValue( inheritableReportStyle.get( name ) );
 			}
 			else
 			{
@@ -1529,7 +1534,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		else
 		{
-			int defaultValue = getColorValue( reportDefaultStyle.get( name ) );
+			int defaultValue = getColorValue( nonInheritableReportStyle.get( name ) );
 			if( intValue != defaultValue )
 			{
 				return value;
@@ -1624,11 +1629,12 @@ class EngineIRVisitor extends DesignVisitor
 				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_BEFORE_PROP ) );
 		setStyleProperty( style, Style.PAGE_BREAK_INSIDE_PROP,
 				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_INSIDE_PROP ) );
-		setStyleProperty( style, Style.SHOW_IF_BLANK_PROP,
-				getDistinctProperty( handle, parentHandle, Style.SHOW_IF_BLANK_PROP ) );
-		setStyleProperty( style, Style.CAN_SHRINK_PROP,
-				getDistinctProperty( handle, parentHandle, Style.CAN_SHRINK_PROP ) );
-
+		/*
+		 * setStyleProperty( style, Style.SHOW_IF_BLANK_PROP,
+		 * 			getDistinctProperty( handle, parentHandle, Style.SHOW_IF_BLANK_PROP ) );
+		 * setStyleProperty( style, Style.CAN_SHRINK_PROP,
+		 * 			getDistinctProperty( handle, parentHandle, Style.CAN_SHRINK_PROP ) );
+		 */
 		// Font related
 		setStyleProperty( style, Style.FONT_FAMILY_PROP,
 				getDistinctProperty( handle, parentHandle, Style.FONT_FAMILY_PROP ) );
@@ -1698,35 +1704,29 @@ class EngineIRVisitor extends DesignVisitor
 				getDistinctProperty( handle, parentHandle, Style.PADDING_RIGHT_PROP ) );
 
 		// Data Formatting
-		DateTimeFormatValue dataTimeFormat = (DateTimeFormatValue) handle
-				.getProperty( Style.DATE_TIME_FORMAT_PROP );
-		if ( dataTimeFormat != null )
+		setStyleProperty( style, Style.NUMBER_ALIGN_PROP, handle.getProperty( Style.NUMBER_ALIGN_PROP ) );
+
+		Object value = handle.getProperty( Style.DATE_TIME_FORMAT_PROP );
+		if ( value != null && value instanceof DateTimeFormatValue )
 		{
-			setStyleProperty( style, Style.DATE_TIME_FORMAT_PROP,
-					dataTimeFormat.getPattern( ) );
+			setStyleProperty( style, Style.DATE_TIME_FORMAT_PROP, ( (DateTimeFormatValue) value ).getPattern( ) );
 		}
-		NumberFormatValue numberFormat = (NumberFormatValue) handle
-				.getProperty( Style.NUMBER_FORMAT_PROP );
-		if ( numberFormat != null )
+		
+		value = handle.getProperty( Style.NUMBER_FORMAT_PROP );
+		if ( value != null && value instanceof NumberFormatValue )
 		{
-			setStyleProperty( style, Style.NUMBER_FORMAT_PROP, numberFormat
-					.getPattern( ) );
+			setStyleProperty( style, Style.NUMBER_FORMAT_PROP, ( (NumberFormatValue) value ).getPattern( ) );
 		}
-		setStyleProperty( style, Style.NUMBER_ALIGN_PROP, handle
-				.getProperty( Style.NUMBER_ALIGN_PROP ) );
-		StringFormatValue stringFormat = (StringFormatValue) handle
-				.getProperty( Style.STRING_FORMAT_PROP );
-		if ( stringFormat != null )
+		
+		value = handle.getProperty( Style.STRING_FORMAT_PROP );
+		if ( value != null && value instanceof StringFormatValue )
 		{
-			setStyleProperty( style, Style.STRING_FORMAT_PROP, stringFormat
-					.getPattern( ) );
+			setStyleProperty( style, Style.STRING_FORMAT_PROP, ( (StringFormatValue) value ).getPattern( ) );
 		}
 
 		//Others
-		/*
-		 * setStyleProperty( style, Style.CAN_SHRINK_PROP,	handle.getProperty( Style.CAN_SHRINK_PROP ) );
-		 * setStyleProperty( style, Style.SHOW_IF_BLANK_PROP, handle.getProperty( Style.SHOW_IF_BLANK_PROP ) );
-		*/
+		setStyleProperty( style, Style.CAN_SHRINK_PROP,	handle.getProperty( Style.CAN_SHRINK_PROP ) );
+		setStyleProperty( style, Style.SHOW_IF_BLANK_PROP, handle.getProperty( Style.SHOW_IF_BLANK_PROP ) );
 		setStyleProperty( style, Style.MASTER_PAGE_PROP, handle.getProperty( Style.MASTER_PAGE_PROP ) );
 	}
 	
@@ -1832,118 +1832,137 @@ class EngineIRVisitor extends DesignVisitor
 	}
 
 
-	protected void addStyleProperty( StyleDesign style, StyleHandle handle, String name )
+	protected void addReportStyleProperty( StyleHandle handle, String name )
 	{
-		Object value;
-		if( handle != null && StyleDesign.canInherit( name ) )
+		Object value = null;
+		if( StyleDesign.canInherit( name ) )
 		{
-			value = handle.getProperty( name );
-			if( value != null )
+			if( handle != null )
 			{
-				setStyleProperty( style, name, value );
-				return;
+				value = handle.getProperty( name );
 			}
+			if( value == null )
+			{
+				value = StyleDesign.getDefaultValue( name );
+			}
+			setStyleProperty( inheritableReportStyle, name, value );
 		}
-		
-		value = StyleDesign.getDefaultValue( name );
-		if( value != null )
+		else
 		{
-			setStyleProperty( style, name, value );
+			value = StyleDesign.getDefaultValue( name );
+			setStyleProperty( nonInheritableReportStyle, name, value );
 		}
 	}
 	
-	protected void addColorStyleProperty( StyleDesign style, StyleHandle handle, String name )
+	protected String getStrColorValue( Object value )
 	{
-		if( handle != null && StyleDesign.canInherit( name ) )
+		int intValue = getColorValue( value );
+		if( intValue == -1 )
 		{
-			FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
-			if( prop != null && prop.isSet( ) )
-			{
-				setStyleProperty( style, name, prop.getColorValue( ) );
-				return;
-			}
+			return null;
 		}
 		
-		int value = getColorValue( StyleDesign.getDefaultValue( name ) );
-		if( value != -1)
+		if( value instanceof String )
 		{
-			setStyleProperty( style, name, StringUtil.toRgbText( value ) );
+			return ( String ) value;
+		}
+		
+		return StringUtil.toRgbText( intValue );
+	}
+	
+	protected void addReportColorStyleProperty( StyleHandle handle, String name )
+	{
+		Object value = null;
+		if( StyleDesign.canInherit( name ) )
+		{
+			if( handle != null )
+			{
+				value = handle.getProperty( name );
+			}
+			if( getColorValue( value ) == -1 )
+			{
+				value = StyleDesign.getDefaultValue( name );
+			}
+			setStyleProperty( inheritableReportStyle, name, getStrColorValue( value ) );
+		}
+		else
+		{
+			value = StyleDesign.getDefaultValue( name );
+			setStyleProperty( nonInheritableReportStyle, name, getStrColorValue( value ) );
 		}
 	}
 	
-	protected StyleDesign createDefaultStyle( StyleHandle handle )
+	protected void createReportStyles( StyleHandle handle )
 	{
-		StyleDesign style = new StyleDesign( );
+		nonInheritableReportStyle = new StyleDesign( );
+		inheritableReportStyle = new StyleDesign( );
 		
 		// Background
-		addColorStyleProperty( style, handle, Style.BACKGROUND_COLOR_PROP );
-		addStyleProperty( style, handle, Style.BACKGROUND_IMAGE_PROP );
-		addStyleProperty( style, handle, Style.BACKGROUND_POSITION_X_PROP );
-		addStyleProperty( style, handle, Style.BACKGROUND_POSITION_Y_PROP );
-		addStyleProperty( style, handle, Style.BACKGROUND_REPEAT_PROP );
+		addReportColorStyleProperty( handle, Style.BACKGROUND_COLOR_PROP );
+		addReportStyleProperty( handle, Style.BACKGROUND_IMAGE_PROP );
+		addReportStyleProperty( handle, Style.BACKGROUND_POSITION_X_PROP );
+		addReportStyleProperty( handle, Style.BACKGROUND_POSITION_Y_PROP );
+		addReportStyleProperty( handle, Style.BACKGROUND_REPEAT_PROP );
 
 		// Text related
-		addStyleProperty( style, handle, Style.TEXT_ALIGN_PROP );
-		addStyleProperty( style, handle, Style.TEXT_INDENT_PROP );
-		addStyleProperty( style, handle, Style.LETTER_SPACING_PROP );
-		addStyleProperty( style, handle, Style.LINE_HEIGHT_PROP );
-		addStyleProperty( style, handle, Style.ORPHANS_PROP );
-		addStyleProperty( style, handle, Style.TEXT_TRANSFORM_PROP );
-		addStyleProperty( style, handle, Style.VERTICAL_ALIGN_PROP );
-		addStyleProperty( style, handle, Style.WHITE_SPACE_PROP );
-		addStyleProperty( style, handle, Style.WIDOWS_PROP );
-		addStyleProperty( style, handle, Style.WORD_SPACING_PROP );
+		addReportStyleProperty( handle, Style.TEXT_ALIGN_PROP );
+		addReportStyleProperty( handle, Style.TEXT_INDENT_PROP );
+		addReportStyleProperty( handle, Style.LETTER_SPACING_PROP );
+		addReportStyleProperty( handle, Style.LINE_HEIGHT_PROP );
+		addReportStyleProperty( handle, Style.ORPHANS_PROP );
+		addReportStyleProperty( handle, Style.TEXT_TRANSFORM_PROP );
+		addReportStyleProperty( handle, Style.VERTICAL_ALIGN_PROP );
+		addReportStyleProperty( handle, Style.WHITE_SPACE_PROP );
+		addReportStyleProperty( handle, Style.WIDOWS_PROP );
+		addReportStyleProperty( handle, Style.WORD_SPACING_PROP );
 
 		// Section properties
-		addStyleProperty( style, handle, Style.DISPLAY_PROP );
-		addStyleProperty( style, handle, Style.MASTER_PAGE_PROP );
-		addStyleProperty( style, handle, Style.PAGE_BREAK_AFTER_PROP );
-		addStyleProperty( style, handle, Style.PAGE_BREAK_BEFORE_PROP );
-		addStyleProperty( style, handle, Style.PAGE_BREAK_INSIDE_PROP );
+		addReportStyleProperty( handle, Style.DISPLAY_PROP );
+		addReportStyleProperty( handle, Style.MASTER_PAGE_PROP );
+		addReportStyleProperty( handle, Style.PAGE_BREAK_AFTER_PROP );
+		addReportStyleProperty( handle, Style.PAGE_BREAK_BEFORE_PROP );
+		addReportStyleProperty( handle, Style.PAGE_BREAK_INSIDE_PROP );
 		// addStyleProperty( style, handle, Style.SHOW_IF_BLANK_PROP );
 		// addStyleProperty( style, handle, Style.CAN_SHRINK_PROP );
 
 		// Font related
-		addStyleProperty( style, handle, Style.FONT_FAMILY_PROP );
-		addColorStyleProperty( style, handle, Style.COLOR_PROP );
-		addStyleProperty( style, handle, Style.FONT_SIZE_PROP );
-		addStyleProperty( style, handle, Style.FONT_STYLE_PROP );
-		addStyleProperty( style, handle, Style.FONT_WEIGHT_PROP );
-		addStyleProperty( style, handle, Style.FONT_VARIANT_PROP );
+		addReportStyleProperty( handle, Style.FONT_FAMILY_PROP );
+		addReportColorStyleProperty( handle, Style.COLOR_PROP );
+		addReportStyleProperty( handle, Style.FONT_SIZE_PROP );
+		addReportStyleProperty( handle, Style.FONT_STYLE_PROP );
+		addReportStyleProperty( handle, Style.FONT_WEIGHT_PROP );
+		addReportStyleProperty( handle, Style.FONT_VARIANT_PROP );
 
 		// Text decoration
-		addStyleProperty( style, handle, Style.TEXT_LINE_THROUGH_PROP );
-		addStyleProperty( style, handle, Style.TEXT_OVERLINE_PROP );
-		addStyleProperty( style, handle, Style.TEXT_UNDERLINE_PROP );
+		addReportStyleProperty( handle, Style.TEXT_LINE_THROUGH_PROP );
+		addReportStyleProperty( handle, Style.TEXT_OVERLINE_PROP );
+		addReportStyleProperty( handle, Style.TEXT_UNDERLINE_PROP );
 
 		// Border
-		addColorStyleProperty( style, handle, Style.BORDER_BOTTOM_COLOR_PROP );
-		addStyleProperty( style, handle, Style.BORDER_BOTTOM_STYLE_PROP );
-		addStyleProperty( style, handle, Style.BORDER_BOTTOM_WIDTH_PROP );
-		addColorStyleProperty( style, handle, Style.BORDER_LEFT_COLOR_PROP );
-		addStyleProperty( style, handle, Style.BORDER_LEFT_STYLE_PROP );
-		addStyleProperty( style, handle, Style.BORDER_LEFT_WIDTH_PROP );
-		addColorStyleProperty( style, handle, Style.BORDER_RIGHT_COLOR_PROP );
-		addStyleProperty( style, handle, Style.BORDER_RIGHT_STYLE_PROP );
-		addStyleProperty( style, handle, Style.BORDER_RIGHT_WIDTH_PROP );
-		addColorStyleProperty( style, handle, Style.BORDER_TOP_COLOR_PROP );
-		addStyleProperty( style, handle, Style.BORDER_TOP_STYLE_PROP );
-		addStyleProperty( style, handle, Style.BORDER_TOP_WIDTH_PROP );
+		addReportColorStyleProperty( handle, Style.BORDER_BOTTOM_COLOR_PROP );
+		addReportStyleProperty( handle, Style.BORDER_BOTTOM_STYLE_PROP );
+		addReportStyleProperty( handle, Style.BORDER_BOTTOM_WIDTH_PROP );
+		addReportColorStyleProperty( handle, Style.BORDER_LEFT_COLOR_PROP );
+		addReportStyleProperty( handle, Style.BORDER_LEFT_STYLE_PROP );
+		addReportStyleProperty( handle, Style.BORDER_LEFT_WIDTH_PROP );
+		addReportColorStyleProperty( handle, Style.BORDER_RIGHT_COLOR_PROP );
+		addReportStyleProperty( handle, Style.BORDER_RIGHT_STYLE_PROP );
+		addReportStyleProperty( handle, Style.BORDER_RIGHT_WIDTH_PROP );
+		addReportColorStyleProperty( handle, Style.BORDER_TOP_COLOR_PROP );
+		addReportStyleProperty( handle, Style.BORDER_TOP_STYLE_PROP );
+		addReportStyleProperty( handle, Style.BORDER_TOP_WIDTH_PROP );
 		
 		// Margin
-		addStyleProperty( style, handle, Style.MARGIN_TOP_PROP );
-		addStyleProperty( style, handle, Style.MARGIN_LEFT_PROP );
-		addStyleProperty( style, handle, Style.MARGIN_BOTTOM_PROP );
-		addStyleProperty( style, handle, Style.MARGIN_RIGHT_PROP );
+		addReportStyleProperty( handle, Style.MARGIN_TOP_PROP );
+		addReportStyleProperty( handle, Style.MARGIN_LEFT_PROP );
+		addReportStyleProperty( handle, Style.MARGIN_BOTTOM_PROP );
+		addReportStyleProperty( handle, Style.MARGIN_RIGHT_PROP );
 
 		// Padding
-		addStyleProperty( style, handle, Style.PADDING_TOP_PROP );
-		addStyleProperty( style, handle, Style.PADDING_LEFT_PROP );
-		addStyleProperty( style, handle, Style.PADDING_BOTTOM_PROP );
-		addStyleProperty( style, handle, Style.PADDING_RIGHT_PROP );
-
-		reportDefaultStyle = style;
-		return style;
+		addReportStyleProperty( handle, Style.PADDING_TOP_PROP );
+		addReportStyleProperty( handle, Style.PADDING_LEFT_PROP );
+		addReportStyleProperty( handle, Style.PADDING_BOTTOM_PROP );
+		addReportStyleProperty( handle, Style.PADDING_RIGHT_PROP );
 	}
 	
 	protected void setupContentStyle( MasterPageDesign design )
@@ -1954,7 +1973,7 @@ class EngineIRVisitor extends DesignVisitor
 			return;
 		}
 		
-		StyleDesign contentStyle = new StyleDesign( );
+		StyleDesign contentStyle = new StyleDesign( inheritableReportStyle );
 		contentStyle.put( Style.BACKGROUND_COLOR_PROP, style.get( Style.BACKGROUND_COLOR_PROP ) );
 		contentStyle.put( Style.BACKGROUND_IMAGE_PROP, style.get( Style.BACKGROUND_IMAGE_PROP ) );
 		contentStyle.put( Style.BACKGROUND_POSITION_X_PROP, style.get( Style.BACKGROUND_POSITION_X_PROP ) );

@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.30 $ $Date: 2005/05/08 07:00:43 $
+ * @version $Revision: 1.31 $ $Date: 2005/05/18 04:47:27 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -343,10 +343,12 @@ public class HTMLReportEmitter implements IReportEmitter
 		// output general styles
 		writer.style(
 				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
-		//MOZILLA/IE use middle as the default vertical align, but ROM defines the 
-		//baseline instead. CSS uses baseline also. 
+		/*
+		 * //MOZILLA/IE use middle as the default vertical align, but ROM defines the
+		 * //baseline instead. CSS uses baseline also. 
 		writer.style( "td", "vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
-
+		*/
+		
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
 		if ( report == null )
@@ -356,8 +358,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		}
 		else
 		{
-			AttributeBuilder.buildStyle( styleBuffer, report.getDefaultStyle( ), this );
-			writer.style( ".", styleBuffer.toString( ), true ); //$NON-NLS-1$
+			AttributeBuilder.buildStyle( styleBuffer, report.getNonInheritableDefaultStyle( ), this );
+			writer.style( "*", styleBuffer.toString( ), true ); //$NON-NLS-1$
 
 			ArrayList styleList = new ArrayList( );
 			int styleNum = 0;

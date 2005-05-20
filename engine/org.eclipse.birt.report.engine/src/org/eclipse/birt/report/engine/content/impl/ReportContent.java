@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/18 04:47:49 $
  */
 public class ReportContent extends ReportElementContent implements IReportContent
 {
@@ -60,9 +60,17 @@ public class ReportContent extends ReportElementContent implements IReportConten
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.content.IReportContent#getBodyStyle()
 	 */
-	public IStyle getDefaultStyle( )
+	public IStyle getInheritableDefaultStyle( )
 	{
-		return ( ( Report ) designReference ).getDefaultStyle( );
+		return ( ( Report ) designReference ).getInheritableStyle( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.content.IReportContent#getNonInheritableDefaultStyle()
+	 */
+	public IStyle getNonInheritableDefaultStyle( )
+	{
+		return ( ( Report ) designReference ).getNonInheritableStyle( );
 	}
 
 	/* (non-Javadoc)

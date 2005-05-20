@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the emitters
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/18 04:47:49 $
  */
 public interface IReportContent extends IReportElementContent
 {
@@ -43,7 +43,12 @@ public interface IReportContent extends IReportElementContent
 	public String getBasePath( );
 
 	/**
-	 * @return the style of the whole report body.
+	 * @return the inheritable report default style.
 	 */
-	public IStyle getDefaultStyle( );
+	public IStyle getInheritableDefaultStyle( );
+
+	/**
+	 * @return the non-inheritable report default style.
+	 */
+	public IStyle getNonInheritableDefaultStyle( );
 }

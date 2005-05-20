@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/18 04:47:49 $
  */
 public class Report
 {
@@ -88,9 +88,14 @@ public class Report
 	protected String basePath;
 
 	/**
-	 * the style of the whole report body
+	 * the non-inheritable report style
 	 */
-	protected StyleDesign defaultStyle;
+	protected StyleDesign nonInheritableStyle;
+	
+	/**
+	 * the inheritable report style
+	 */
+	protected StyleDesign inheritableStyle;
 
 	/**
 	 * default constructor.
@@ -467,17 +472,26 @@ public class Report
 	/**
 	 * @return Returns the defaultStyle.
 	 */
-	public IStyle getDefaultStyle( )
+	public IStyle getNonInheritableStyle( )
 	{
-		return defaultStyle;
+		return nonInheritableStyle;
+	}
+
+	/**
+	 * @return Returns the defaultStyle.
+	 */
+	public IStyle getInheritableStyle( )
+	{
+		return inheritableStyle;
 	}
 
 	/**
 	 * @param defaultStyle
 	 *            The bodyStyle to set.
 	 */
-	public void setDefaultStyle( StyleDesign defaultStyle )
+	public void setDefaultStyles( StyleDesign nonInheritableStyle, StyleDesign inheritableStyle )
 	{
-		this.defaultStyle = defaultStyle;
+		this.nonInheritableStyle = nonInheritableStyle;
+		this.inheritableStyle = inheritableStyle;
 	}
 }
