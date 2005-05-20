@@ -133,7 +133,7 @@ public class DEUtil
 		ISlotDefn slotDefn = parent.getDefn( ).getSlot( slotId );
 		if ( slotDefn != null )
 		{
-			list.addAll( slotDefn.getContentElements( ) );
+			list.addAll( slotDefn.getContentExtendedElements( ) );
 			list.removeAll( notSupportList );
 		}
 
