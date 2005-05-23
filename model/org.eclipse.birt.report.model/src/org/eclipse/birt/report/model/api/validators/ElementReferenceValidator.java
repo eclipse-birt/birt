@@ -109,12 +109,6 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	{
 		assert !StringUtil.isBlank( propName );
 
-		// Is the value set?
-
-		Object value = element.getLocalProperty( design, propName );
-		if ( value == null )
-			return true;
-
 		// This must be an element reference property.
 
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
@@ -122,8 +116,10 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 
 		// Attempt to resolve the reference.
 
-		ElementRefValue ref = (ElementRefValue) value;
-		element.resolveElementReference( design, prop, ref );
+		ElementRefValue ref = element.resolveElementReference( design, prop );
+		if ( ref == null )		
+			return true;
+			
 		return ref.isResolved( );
 	}
 

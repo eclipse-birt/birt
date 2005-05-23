@@ -22,14 +22,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -397,45 +395,6 @@ public class ContentCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Clears style of all clients of a style. This occurs when a style is
-	 * deleted. There may be elements in the design that refer to the deleted
-	 * style. To avoid "dangling references" to this style, the references must
-	 * be cleared. The algorithm used is to simply delete the style reference.
-	 * 
-	 * @param style
-	 *            the style to clean up
-	 * @throws StyleException
-	 *             if an error occurs, but the operation should not fail under
-	 *             normal conditions
-	 */
-
-	private void adjustStyleClients( StyleElement style,
-			boolean unresolveReference ) throws StyleException
-	{
-		List clients = new ArrayList( style.getClientList( ) );
-
-		Iterator iter = clients.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			BackRef ref = (BackRef) iter.next( );
-			DesignElement client = ref.element;
-
-			if ( unresolveReference )
-			{
-				ElementRefValue value = (ElementRefValue) client.getProperty(
-						design, ref.propName );
-				value.unresolved( value.getName( ) );
-				style.dropClient( client );
-			}
-			else
-			{
-				StyleCommand clientCmd = new StyleCommand( design, client );
-				clientCmd.setStyleElement( null );
-			}
-		}
-	}
-
-	/**
 	 * Adjusts references to an element that is to be deleted. The element to be
 	 * deleted is one that has references in the form of element reference
 	 * properties on other elements. These other elements, called "clients",
@@ -460,10 +419,10 @@ public class ContentCommand extends AbstractElementCommand
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
-	private void adjustReferenceClients( ReferenceableElement element,
+	private void adjustReferenceClients( ReferenceableElement referred,
 			boolean unresolveReference ) throws SemanticException
 	{
-		List clients = new ArrayList( element.getClientList( ) );
+		List clients = new ArrayList( referred.getClientList( ) );
 
 		Iterator iter = clients.iterator( );
 		while ( iter.hasNext( ) )
@@ -473,14 +432,14 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( unresolveReference )
 			{
-				ElementRefValue value = (ElementRefValue) client.getProperty(
-						design, ref.propName );
-				value.unresolved( value.getName( ) );
-				element.dropClient( client );
+				BackRefRecord record = new BackRefRecord( design,
+						referred, client,
+						ref.propName );
+				getActivityStack( ).execute( record );
 			}
 			else
 			{
-				if ( element.isStyle( ) )
+				if ( referred.isStyle( ) )
 				{
 					StyleCommand clientCmd = new StyleCommand( design, client );
 					clientCmd.setStyleElement( null );
@@ -502,14 +461,10 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param element
 	 *            the element to be deleted
-	 * @throws SemanticException
-	 *             if an error occurs, but the operation should not fail under
-	 *             normal conditions
 	 * 
 	 */
 
 	private void adjustReferredClients( DesignElement element )
-			throws SemanticException
 	{
 		List propDefns = element.getPropertyDefns( );
 
@@ -538,7 +493,7 @@ public class ContentCommand extends AbstractElementCommand
 
 					if ( referred != null )
 					{
-						BackRefRecord record = new BackRefRecord(
+						BackRefRecord record = new BackRefRecord( design,
 								(ReferenceableElement) referred, element,
 								propDefn.getName( ) );
 						getActivityStack( ).execute( record );

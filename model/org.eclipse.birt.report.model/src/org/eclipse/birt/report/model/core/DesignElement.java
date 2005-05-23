@@ -1179,20 +1179,16 @@ public abstract class DesignElement
 			return getIntrinsicProperty( prop.getName( ) );
 		}
 
-		// Get the value of a non-intrinsic property.
-
-		Object value = propValues.get( prop.getName( ) );
-		if ( value == null || design == null )
-			return value;
-
 		// Cache an element reference property if necessary.
 
 		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
 		{
-			resolveElementReference( design, prop, (ElementRefValue) value );
+			return resolveElementReference( design, prop );
 		}
 
-		return value;
+		// Get the value of a non-intrinsic property.
+
+		return propValues.get( prop.getName( ) );
 	}
 
 	/**
@@ -2852,15 +2848,21 @@ public abstract class DesignElement
 	 *            records any errors
 	 * @param prop
 	 *            the property whose type is element reference
-	 * @param ref
-	 *            reference value to resolve
 	 */
 
-	public void resolveElementReference( ReportDesign design,
-			ElementPropertyDefn prop, ElementRefValue ref )
+	public ElementRefValue resolveElementReference( ReportDesign design,
+			ElementPropertyDefn prop )
 	{
+		Object value = propValues.get( prop.getName( ) );
+		
+		assert value == null || value instanceof ElementRefValue;
+
+		if ( value == null || design == null )
+			return (ElementRefValue) value;
+		
+		ElementRefValue ref = (ElementRefValue) value;
 		if ( ref.isResolved( ) )
-			return;
+			return ref;
 
 		// The element exist and is not resolved. Try to resolve it.
 		// If it is now resolved, cache the back pointer.
@@ -2874,42 +2876,8 @@ public abstract class DesignElement
 		refType.resolve( design, prop, ref );
 		if ( ref.isResolved( ) )
 			ref.getTargetElement( ).addClient( this, prop.getName( ) );
-	}
-
-	/**
-	 * Attempts to resolve an element reference property. If the property is
-	 * empty, or the reference is already resolved, return true. If the
-	 * reference is not resolved, attempt to resolve it. If it cannot be
-	 * resolved, return false.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param propName
-	 *            the name of the property
-	 * @return <code>true</code> if the property is resolved;
-	 *         <code>false</code> otherwise.
-	 */
-
-	public boolean checkElementReference( ReportDesign design, String propName )
-	{
-		assert !StringUtil.isBlank( propName );
-
-		// Is the value set?
-
-		Object value = propValues.get( propName );
-		if ( value == null )
-			return true;
-
-		// This must be an element reference property.
-
-		ElementPropertyDefn prop = getPropertyDefn( propName );
-		assert PropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
-
-		// Attempt to resolve the reference.
-
-		ElementRefValue ref = (ElementRefValue) value;
-		resolveElementReference( design, prop, ref );
-		return ref.isResolved( );
+		
+		return ref;
 	}
 
 	/**

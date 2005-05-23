@@ -15,6 +15,9 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records a change to the back reference of an element.
@@ -44,9 +47,16 @@ public class BackRefRecord extends SimpleRecord
 	protected String propName = null;
 
 	/**
+      * Report design
+      */
+	private ReportDesign design = null;
+
+	/**
 	 * Constructor.
 	 * 
-	 * @param obj
+	 * @param design
+	 *            report design
+	 * @param referred
 	 *            the element to change.
 	 * @param reference
 	 *            the element that refers to another element.
@@ -57,14 +67,15 @@ public class BackRefRecord extends SimpleRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( ReferenceableElement obj, DesignElement reference,
-			String propName )
+	public BackRefRecord( ReportDesign design, ReferenceableElement referred,
+			DesignElement reference, String propName )
 	{
-		this.referred = obj;
+		this.design = design;
+		this.referred = referred;
 		this.reference = reference;
 		this.propName = propName;
 
-		assert referred != null;		
+		assert referred != null;
 	}
 
 	/*
@@ -76,9 +87,20 @@ public class BackRefRecord extends SimpleRecord
 	protected void perform( boolean undo )
 	{
 		if ( undo )
-			referred.addClient( reference, propName );
+		{
+			ElementPropertyDefn propDefn = reference.getPropertyDefn( propName );
+			
+			// To add client is done in resolving element reference.
+			
+			reference.resolveElementReference( design, propDefn );
+		}
 		else
+		{
+			ElementRefValue value = (ElementRefValue) reference.getLocalProperty(
+					design, propName );
+			value.unresolved( value.getName( ) );
 			referred.dropClient( reference );
+		}
 	}
 
 	/*
