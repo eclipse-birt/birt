@@ -1666,6 +1666,7 @@
     <Property name="extensionID" displayNameID="Element.OdaDataSource.extensionID" type="string" isIntrinsic="true" />
     <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" />
     <PropertyVisibility name="extensionID" propertyVisibility="hide" />
+    <PropertyVisibility name="privateDriverProperties" propertyVisibility="hide" />
   </Element>
   <Element name="ScriptDataSource" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" displayNameID="Element.ScriptDataSource" isAbstract="false" extends="DataSource" canExtend="false" isNameRequired="true">
     <Method name="open" displayNameID="Element.ScriptDataSource.open" toolTipID="Element.ScriptDataSource.open.toolTip" />
