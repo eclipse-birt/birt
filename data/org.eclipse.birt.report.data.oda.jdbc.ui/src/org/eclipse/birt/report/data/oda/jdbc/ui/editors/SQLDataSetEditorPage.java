@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/13 07:46:39 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/19 07:02:02 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1089,7 +1089,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				| SWT.V_SCROLL );
         sourceViewerConfiguration = new JdbcSQLSourceViewerConfiguration( ( (OdaDataSetHandle) getContainer( ).getModel( ) ) );
 		viewer.configure( sourceViewerConfiguration );
-		doc = new Document( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( ) );
+		
+		doc = new Document( getQueryText() );
 		DefaultPartitioner partitioner = new DefaultPartitioner( new SQLPartitionScanner( ),
 				new String[]{
 						SQLPartitionScanner.SINGLE_LINE_COMMENT1,
@@ -1226,29 +1227,44 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 * 		
 	 */
 	private void prepareUI()
+	{		
+		String queryText = ((OdaDataSetHandle) getContainer().getModel()).getQueryText();
+		StyledText styledText = viewer.getTextWidget();
+		if (queryText == null || queryText.trim().length() == 0) {
+			String[] lines = getQueryPresetText();
+			if (lines != null && lines.length > 0)
+				styledText.setSelection(lines[0].length() + 1, lines[0].length() + 1);
+		}
+		styledText.setFocus();
+	}
+	
+	// return the query text. If the query text is empty then return the pre-defined pattern
+	private String getQueryText()
+	{
+		String queryText = ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( );
+		if ( queryText != null && queryText.trim().length() > 0)
+			return queryText;
+		
+		String[] lines = getQueryPresetText();
+		String result = "";
+		if( lines!= null && lines.length > 0 )
+		{
+			for (int i = 0; i < lines.length; i++)
+			{
+				result = result + lines[i] + ( i == lines.length -1? " ":" \n");
+			}
+		}
+		return result;
+	}
+	
+	// return pre-defined query text pattern with every element in a cell in an Array
+	private String[] getQueryPresetText()
 	{
 		// TODO: to be externalized
 		final String[] lines = new String[]{
 				"select", "from"
-		};		
-		StyledText styledText = viewer.getTextWidget( );
-		String content = styledText.getText( );
-		if ( content == null || content.trim().length( ) == 0 )
-		{
-			String defaultContent = "";
-			for ( int i = 0; i < lines.length; i++ )
-			{
-				if ( i > 0 )
-					defaultContent += "\n";
-				defaultContent += lines[i] + " ";
-			}
-			styledText.setText( defaultContent );
-			if ( lines.length > 0 )
-				styledText.setSelection( lines[0].length( ) + 1 ,
-						lines[0].length( ) + 1 );
-		}
-		
-		styledText.setFocus( );
+		};
+		return lines;
 	}
 	
 	/*
