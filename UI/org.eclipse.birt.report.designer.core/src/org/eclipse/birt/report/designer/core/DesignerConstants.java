@@ -43,6 +43,8 @@ public class DesignerConstants
 	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
 	
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
+	
+	public static final String DATA_SOURCE_FLATFILE = "flatfile";
 
 	/**
 	 * Map between CSS style font family to system font family
