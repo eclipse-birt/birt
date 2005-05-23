@@ -13,21 +13,19 @@ package org.eclipse.birt.report.model.extension;
 
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
-
-
 /**
- * TODO: Document required
+ * Defines the interface for extendable element.
  */
+
 public interface IExtendableElement
 {
 	/**
-	 * Name of the property that identifies the name of the extension. BIRT uses
-	 * the property to find extension definition in our meta-data dictionary.
+	 * Returns the extension element definition which contains all property
+	 * definition from extension and Model.
+	 * 
+	 * @return extension element definition
 	 */
-
-	public static final String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
 
 	public ExtensionElementDefn getExtDefn( );
 
-	
 }

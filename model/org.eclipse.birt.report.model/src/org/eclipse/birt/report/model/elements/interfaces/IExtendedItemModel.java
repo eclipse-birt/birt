@@ -16,5 +16,10 @@ package org.eclipse.birt.report.model.elements.interfaces;
  */
 public interface IExtendedItemModel
 {
+	/**
+	 * Name of the property that identifies the name of the extension. BIRT uses
+	 * the property to find extension definition in our meta-data dictionary.
+	 */
 
+	public static final String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
 }

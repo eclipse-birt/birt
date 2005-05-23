@@ -13,8 +13,8 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -23,9 +23,39 @@ import org.xml.sax.SAXException;
 
 /**
  * Represents the list property state which is used to reading structure list of
- * private ODA driver properties.
+ * private/public ODA driver properties.
  * <p>
  * The compatible version is 0.
+ * <p>
+ * 
+ * <pre>
+ * 
+ *        &lt;oda-data-source name=&quot;myDataSource1&quot;&gt;
+ *          &lt;list-property name=&quot;privateDriverProperties&quot;&gt;
+ *            &lt;ex-property&gt;
+ *              &lt;name&gt;ODA:driver-class&lt;/name&gt;
+ *              &lt;value&gt;Driver Class&lt;/value&gt;
+ *            &lt;/ex-property&gt;
+ *            &lt;ex-property&gt;
+ *              &lt;name&gt;ODA:url&lt;/name&gt;
+ *              &lt;value&gt;URL&lt;/value&gt;
+ *            &lt;/ex-property&gt;
+ *            &lt;ex-property&gt;
+ *              &lt;name&gt;ODA:data-source&lt;/name&gt;
+ *              &lt;value&gt;Data Source&lt;/value&gt;
+ *            &lt;/ex-property&gt;
+ *            &lt;ex-property&gt;
+ *              &lt;name&gt;ODA:user&lt;/name&gt;
+ *              &lt;value&gt;User&lt;/value&gt;
+ *            &lt;/ex-property&gt;
+ *            &lt;ex-property&gt;
+ *              &lt;name&gt;ODA:password&lt;/name&gt;
+ *              &lt;value&gt;Password&lt;/value&gt;
+ *            &lt;/ex-property&gt;
+ *          &lt;/list-property&gt;
+ *        &lt;/oda-data-source&gt;
+ *  
+ * </pre>
  */
 
 public class CompatibleOdaDriverPropertyStructureListState
@@ -38,7 +68,8 @@ public class CompatibleOdaDriverPropertyStructureListState
 	{
 		super( theHandler, element );
 
-		setProperty( DesignSchemaConstants.EXTENSION_NAME_ATTRIB, "jdbc" ); //$NON-NLS-1$
+		setProperty( OdaDataSource.EXTENSION_ID_PROP,
+				"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -49,8 +80,8 @@ public class CompatibleOdaDriverPropertyStructureListState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EX_PROPERTY_TAG ) )
-			return new CompatibleOdaDriverPropertyStructureState( handler, element,
-					propDefn, list );
+			return new CompatibleOdaDriverPropertyStructureState( handler,
+					element, propDefn, list );
 
 		return super.startElement( tagName );
 	}
@@ -70,8 +101,9 @@ public class CompatibleOdaDriverPropertyStructureListState
 		String propertyName = null;
 		String propertyValue = null;
 
-		CompatibleOdaDriverPropertyStructureState( DesignParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, ArrayList theList )
+		CompatibleOdaDriverPropertyStructureState(
+				DesignParserHandler theHandler, DesignElement element,
+				PropertyDefn propDefn, ArrayList theList )
 		{
 			super( theHandler, element );
 			this.list = theList;
@@ -127,7 +159,8 @@ public class CompatibleOdaDriverPropertyStructureListState
 		boolean isPropertyName = false;
 		CompatibleOdaDriverPropertyStructureState state;
 
-		CompatibleTextState( DesignParserHandler handler, boolean isPropertyName,
+		CompatibleTextState( DesignParserHandler handler,
+				boolean isPropertyName,
 				CompatibleOdaDriverPropertyStructureState state )
 		{
 			super( handler );

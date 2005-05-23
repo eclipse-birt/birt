@@ -24,12 +24,6 @@ public interface IOdaDataSetModel
 	public static final String QUERY_TEXT_PROP = "queryText"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the query type.
-	 */
-
-	public static final String TYPE_PROP = "type"; //$NON-NLS-1$
-
-	/**
 	 * The property name of the result set name.
 	 */
 
@@ -43,14 +37,6 @@ public interface IOdaDataSetModel
 	 */
 
 	public static final String PRIVATE_DRIVER_DESIGN_STATE_PROP = "privateDriverDesignState"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the script which provides the query.
-     * 
-     * @deprecated to be removed.
-	 */
-
-	public static final String QUERY_SCRIPT_METHOD = "queryScript"; //$NON-NLS-1$
 
 	/**
 	 * The property name of public driver properties.

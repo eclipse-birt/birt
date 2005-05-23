@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -375,27 +376,25 @@ public class DesignWriter extends ElementVisitor
 	public void visitOdaDataSource( OdaDataSource obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SOURCE_TAG );
-		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-				OdaDataSource.EXTENSION_NAME_PROP );
+		attribute( obj, DesignSchemaConstants.EXTENSION_ID_ATTRIB,
+				OdaDataSource.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSource( obj );
-
-		property( obj, OdaDataSource.DRIVER_NAME_PROP );
 
 		List properties = (List) obj.getLocalProperty( design,
 				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 		writeExtendedProperties( properties,
 				OdaDataSource.PRIVATE_DRIVER_PROPERTIES_PROP );
 
-		writeOdaExtensionProperties( obj, OdaDataSource.EXTENSION_NAME_PROP );
+		writeOdaExtensionProperties( obj, OdaDataSource.EXTENSION_ID_PROP );
 
 		writer.endElement( );
 	}
 
 	private void writeOdaExtensionProperties( DesignElement obj,
-			String extensionNameProp )
+			String extensionIDProp )
 	{
-		ExtensionElementDefn extDefn = null;
+		IElementDefn extDefn = null;
 		if ( obj instanceof OdaDataSource )
 			extDefn = ( (OdaDataSource) obj ).getExtDefn( );
 		else if ( obj instanceof OdaDataSet )
@@ -408,7 +407,7 @@ public class DesignWriter extends ElementVisitor
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			PropertyDefn prop = (PropertyDefn) list.get( i );
-			if ( OdaDataSource.EXTENSION_NAME_PROP.equals( prop.getName( ) ) )
+			if ( extensionIDProp.equals( prop.getName( ) ) )
 				continue;
 
 			Object value = obj.getLocalProperty( design, prop.getName( ) );
@@ -2338,23 +2337,16 @@ public class DesignWriter extends ElementVisitor
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_DATA_SET_TAG );
-		attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
-				OdaDataSet.EXTENSION_NAME_PROP );
+		attribute( obj, OdaDataSet.EXTENSION_ID_PROP,
+				OdaDataSet.EXTENSION_ID_PROP );
 
 		super.visitOdaDataSet( obj );
 
-		if ( (String) obj.getLocalProperty( design,
-				OdaDataSet.QUERY_SCRIPT_METHOD ) != null )
-		{
-			property( obj, OdaDataSet.QUERY_SCRIPT_METHOD );
-		}
-		else if ( (String) obj.getLocalProperty( design,
-				OdaDataSet.QUERY_TEXT_PROP ) != null )
+		if ( (String) obj.getLocalProperty( design, OdaDataSet.QUERY_TEXT_PROP ) != null )
 		{
 			property( obj, OdaDataSet.QUERY_TEXT_PROP );
 		}
 
-		property( obj, OdaDataSet.TYPE_PROP );
 		property( obj, OdaDataSet.RESULT_SET_NAME_PROP );
 
 		propertyCDATA( obj, OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
@@ -2364,7 +2356,7 @@ public class DesignWriter extends ElementVisitor
 		writeExtendedProperties( properties,
 				OdaDataSet.PRIVATE_DRIVER_PROPERTIES_PROP );
 
-		writeOdaExtensionProperties( obj, OdaDataSet.EXTENSION_NAME_PROP );
+		writeOdaExtensionProperties( obj, OdaDataSet.EXTENSION_ID_PROP );
 
 		writer.endElement( );
 	}

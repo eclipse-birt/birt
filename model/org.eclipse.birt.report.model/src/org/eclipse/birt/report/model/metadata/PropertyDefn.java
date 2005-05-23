@@ -200,6 +200,7 @@ public abstract class PropertyDefn
 	 * <li>SYSTEM_PROPERTY</li>
 	 * <li>USER_PROPERTY</li>
 	 * <li>STRUCT_PROPERTY</li>
+	 * <li>EXTENSION_PROPERTY</li>
 	 * </ul>
 	 * 
 	 * @return the type of this definition
@@ -228,7 +229,7 @@ public abstract class PropertyDefn
 
 		// Perform type-specific initialization.
 
-		switch ( type.getTypeCode( ) )
+		switch ( getTypeCode( ) )
 		{
 			case PropertyType.CHOICE_TYPE :
 
@@ -355,7 +356,7 @@ public abstract class PropertyDefn
 		getTriggerDefnSet( ).build( );
 
 		// default unit check
-		if ( type.getTypeCode( ) == PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) == PropertyType.DIMENSION_TYPE )
 		{
 			String defaultUnit = getDefaultUnit( );
 			if ( !StringUtil.isBlank( defaultUnit ) )
@@ -439,7 +440,7 @@ public abstract class PropertyDefn
 
 	public int getTypeCode( )
 	{
-		return type.getTypeCode( );
+		return getType( ).getTypeCode( );
 	}
 
 	/**
@@ -528,7 +529,7 @@ public abstract class PropertyDefn
 
 		// Validates from extended choices.
 
-		if ( hasChoices( ) && type.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+		if ( hasChoices( ) && getTypeCode( ) != PropertyType.CHOICE_TYPE )
 		{
 			retValue = validateExtendedChoicesByName( value );
 
@@ -542,7 +543,7 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = type.validateValue( design, this, value );
+		retValue = getType( ).validateValue( design, this, value );
 
 		// Per-property validations using a specific validator.
 
@@ -576,7 +577,7 @@ public abstract class PropertyDefn
 
 		// Validates from extended choices.
 
-		if ( hasChoices( ) && type.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+		if ( hasChoices( ) && getTypeCode( ) != PropertyType.CHOICE_TYPE )
 		{
 			retValue = validateExtendedChoicesByName( value );
 
@@ -712,7 +713,7 @@ public abstract class PropertyDefn
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? type.toXml( design, this, value ) : retValue;
+		return retValue == null ? getType( ).toXml( design, this, value ) : retValue;
 	}
 
 	/**
@@ -735,7 +736,7 @@ public abstract class PropertyDefn
 
 		String retValue = validateExtendedChoicesByName( value );
 		return retValue == null
-				? type.toString( design, this, value )
+				? getType( ).toString( design, this, value )
 				: retValue;
 	}
 
@@ -758,7 +759,7 @@ public abstract class PropertyDefn
 			return 0.0;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? type.toDouble( design, value ) : 0.0d;
+		return retValue == null ? getType( ).toDouble( design, value ) : 0.0d;
 	}
 
 	/**
@@ -780,7 +781,7 @@ public abstract class PropertyDefn
 			return 0;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? type.toInteger( design, value ) : 0;
+		return retValue == null ? getType( ).toInteger( design, value ) : 0;
 	}
 
 	/**
@@ -802,7 +803,7 @@ public abstract class PropertyDefn
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? type.toNumber( design, value ) : null;
+		return retValue == null ? getType( ).toNumber( design, value ) : null;
 	}
 
 	/**
@@ -824,7 +825,7 @@ public abstract class PropertyDefn
 			return false;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? type.toBoolean( design, value ) : false;
+		return retValue == null ? getType( ).toBoolean( design, value ) : false;
 	}
 
 	/**
@@ -845,7 +846,7 @@ public abstract class PropertyDefn
 		String retValue = validateExtendedChoicesByName( value );
 
 		if ( retValue == null )
-			return type.toDisplayString( design, this, value );
+			return getType( ).toDisplayString( design, this, value );
 
 		return getChoices( ).findChoice( value.toString( ) ).getDisplayName( );
 
@@ -1083,7 +1084,7 @@ public abstract class PropertyDefn
 
 	public String getDefaultUnit( )
 	{
-		if ( type.getTypeCode( ) != PropertyType.DIMENSION_TYPE )
+		if ( getTypeCode( ) != PropertyType.DIMENSION_TYPE )
 			return DimensionValue.DEFAULT_UNIT; //$NON-NLS-1$
 
 		return defaultUnit;
@@ -1098,7 +1099,7 @@ public abstract class PropertyDefn
 
 	void setDefaultUnit( String defaultUnit )
 	{
-		assert type.getTypeCode( ) == PropertyType.DIMENSION_TYPE;
+		assert getTypeCode( ) == PropertyType.DIMENSION_TYPE;
 		this.defaultUnit = defaultUnit;
 	}
 

@@ -114,7 +114,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 *            the choices to set
 	 */
 
-	public void setChoices( Choice[] choiceArray )
+	public void setChoices( IChoice[] choiceArray )
 	{
 		if ( choices == null )
 			choices = new ArrayList( );

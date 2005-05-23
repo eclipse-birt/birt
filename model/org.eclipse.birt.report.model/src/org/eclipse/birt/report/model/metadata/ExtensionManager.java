@@ -28,7 +28,7 @@ public final class ExtensionManager
 	}
 
 	/**
-	 * Initialize all extensions that Model supports.
+	 * Initializes all extensions that Model supports.
 	 * 
 	 * @throws MetaDataParserException
 	 *             if any error encountered when loading extension.
@@ -36,7 +36,6 @@ public final class ExtensionManager
 
 	public static void initialize( ) throws MetaDataParserException
 	{
-		new AddOnExtensionLoader( ).load( );
 		new PeerExtensionLoader( ).load( );
 		new EncryptionHelperExtensionLoader( ).load( );
 	}

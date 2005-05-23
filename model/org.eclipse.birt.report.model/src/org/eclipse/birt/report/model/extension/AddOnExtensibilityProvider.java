@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * its extension property.
  */
 
-public class AddOnExtensibilityProvider extends ExtensibilityProvider
+public class AddOnExtensibilityProvider extends ModelExtensibilityProvider
 {
 
 	/**

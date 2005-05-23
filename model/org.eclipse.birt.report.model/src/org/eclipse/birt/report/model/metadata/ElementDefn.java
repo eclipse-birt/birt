@@ -495,7 +495,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		ElementDefn e = this;
 		while ( e != null )
 		{
-			SystemPropertyDefn prop = (SystemPropertyDefn) e.properties
+			ElementPropertyDefn prop = (ElementPropertyDefn) e.properties
 					.get( propName );
 			if ( prop != null )
 				return prop;
@@ -897,7 +897,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	protected void buildProperties( ) throws MetaDataException
 	{
-		boolean isStyle = name.equals( MetaDataConstants.STYLE_NAME );
+		boolean isStyle = MetaDataConstants.STYLE_NAME.equals( name );
 		Iterator iter = properties.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{

@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.data.oda.util.manifest.DataSetType;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -58,8 +63,50 @@ public class OdaDataSetState extends DataSetState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		parseExtensionName( attrs, false );
+		parseODADataSetExtensionID( attrs, false );
 
 		initElement( attrs, true );
 	}
+
+	/**
+	 * Parse the attribute of "extensionId" for extendable element.
+	 * 
+	 * @param attrs
+	 *            the SAX attributes object
+	 * @param extensionNameRequired
+	 *            whether extension name is required
+	 */
+
+	private void parseODADataSetExtensionID( Attributes attrs,
+			boolean extensionNameRequired )
+	{
+		String extensionID = getAttrib( attrs,
+				DesignSchemaConstants.EXTENSION_ID_ATTRIB );
+
+		if ( StringUtil.isBlank( extensionID ) )
+		{
+			if ( !extensionNameRequired )
+				return;
+
+			SemanticError e = new SemanticError( element,
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
+			RecoverableError.dealMissingInvalidExtension( handler, e );
+		}
+		else
+		{
+			DataSetType dataSetType = ODAManifestUtil
+					.getDataSetExtension( extensionID );
+
+			if ( dataSetType == null )
+			{
+				SemanticError e = new SemanticError( element,
+						new String[]{extensionID},
+						SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+				RecoverableError.dealMissingInvalidExtension( handler, e );
+			}
+		}
+
+		setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+	}
+
 }

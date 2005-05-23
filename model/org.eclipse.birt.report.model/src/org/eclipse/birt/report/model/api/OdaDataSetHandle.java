@@ -98,25 +98,13 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	/**
 	 * Returns the data set type.
 	 * 
+	 * @deprecated type has been replaced by extension ID
 	 * @return the data set type
 	 */
 
 	public String getType( )
 	{
-		return getStringProperty( OdaDataSet.TYPE_PROP );
-	}
-
-	/**
-	 * Returns the query type.
-	 * 
-	 * @return the query type
-	 * 
-	 * @deprecated by the {@link #getType()}
-	 */
-
-	public String getQueryType( )
-	{
-		return getStringProperty( OdaDataSet.TYPE_PROP );
+		return null;
 	}
 
 	/**
@@ -172,11 +160,11 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if this property is locked.
+	 * @deprecated
 	 */
 
 	public void setQueryScript( String script ) throws SemanticException
 	{
-		return;
 	}
 
 	/**
@@ -196,6 +184,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	/**
 	 * Sets the type.
 	 * 
+	 * @deprecated type has been replaced by extension ID
 	 * @param type
 	 *            the type to set
 	 * @throws SemanticException
@@ -204,23 +193,6 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public void setType( String type ) throws SemanticException
 	{
-		setStringProperty( OdaDataSet.TYPE_PROP, type );
-	}
-
-	/**
-	 * Sets the query type.
-	 * 
-	 * @param type
-	 *            the type to set
-	 * @throws SemanticException
-	 *             if this property is locked.
-	 * 
-	 * @deprecated by the {@link #setType(String)}
-	 */
-
-	public void setQueryType( String type ) throws SemanticException
-	{
-		setStringProperty( OdaDataSet.TYPE_PROP, type );
 	}
 
 	/**
@@ -241,11 +213,23 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns the extension name defined by the extended item.
 	 * 
 	 * @return the extension name as a string
+	 * @deprecated use <code>getExtensionID()</code>
 	 */
 
 	public String getExtensionName( )
 	{
-		return getStringProperty( OdaDataSet.EXTENSION_NAME_PROP );
+		return null;
+	}
+
+	/**
+	 * Returns ID of the extension which extends this ODA data set.
+	 * 
+	 * @return the extension ID
+	 */
+
+	public String getExtensionID( )
+	{
+		return getStringProperty( OdaDataSet.EXTENSION_ID_PROP );
 	}
 
 	/**

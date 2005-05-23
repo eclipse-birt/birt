@@ -19,6 +19,7 @@ public interface IOdaDataSourceModel
 
 	/**
 	 * The property name of the name of a driver.
+	 * @deprecated This property is removed.
 	 */
 
 	public static final String DRIVER_NAME_PROP = "driverName"; //$NON-NLS-1$

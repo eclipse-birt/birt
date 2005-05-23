@@ -62,7 +62,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * 
  */
 
-public class PeerExtensibilityProvider extends ExtensibilityProvider
+public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 {
 
 	/**
@@ -93,7 +93,6 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 			String extensionName )
 	{
 		super( element, extensionName );
-
 	}
 
 	/**
@@ -167,17 +166,6 @@ public class PeerExtensibilityProvider extends ExtensibilityProvider
 		}
 
 		return propDefn;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#getExtensionPropertyDefn(java.lang.String)
-	 */
-	public IPropertyDefn getExtensionPropertyDefn( String propName )
-	{
-		// TODO Auto-generated method stub
-		return super.getExtensionPropertyDefn( propName );
 	}
 
 	/**

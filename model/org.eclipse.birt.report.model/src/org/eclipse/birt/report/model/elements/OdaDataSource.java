@@ -20,9 +20,9 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
-import org.eclipse.birt.report.model.extension.AddOnExtensibilityProvider;
-import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
+import org.eclipse.birt.report.model.extension.oda.OdaExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -33,25 +33,22 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 public class OdaDataSource extends DataSource
 		implements
 			IExtendableElement,
-			IOdaDataSourceModel
+			IOdaDataSourceModel,
+			IOdaExtendableElementModel
 {
 
 	/**
-	 * ODA data source can support extension. It has a unique name to identify
-	 * the extension. Using this name, BIRT can get the extension definition.
-	 * The name is an internal name for an implementation of extension.
-	 * <p>
-	 * The name does not occur in a name space.
+	 * ID of the extension which extends this ODA data source.
 	 */
 
-	protected String extensionName = null;
+	protected String extensionID = null;
 
 	/**
 	 * The extensibility provider which provides the functionality of this
 	 * extendable element.
 	 */
 
-	private ExtensibilityProvider provider = null;
+	private OdaExtensibilityProvider provider = null;
 
 	/**
 	 * Default constructor.
@@ -177,8 +174,8 @@ public class OdaDataSource extends DataSource
 
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( EXTENSION_NAME_PROP.equals( propName ) )
-			return extensionName;
+		if ( EXTENSION_ID_PROP.equals( propName ) )
+			return extensionID;
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -191,13 +188,13 @@ public class OdaDataSource extends DataSource
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( EXTENSION_NAME_PROP.equals( propName ) )
+		if ( EXTENSION_ID_PROP.equals( propName ) )
 		{
-			extensionName = (String) value;
-			if ( extensionName != null )
-				provider = new AddOnExtensibilityProvider( this, extensionName );
-			else 
-				provider = null;			
+			extensionID = (String) value;
+			if ( extensionID != null )
+				provider = new OdaExtensibilityProvider( this, extensionID );
+			else
+				provider = null;
 		}
 		else
 		{
@@ -228,9 +225,6 @@ public class OdaDataSource extends DataSource
 	public List validate( ReportDesign design )
 	{
 		List list = super.validate( design );
-
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
-				this, DRIVER_NAME_PROP ) );
 
 		return list;
 	}

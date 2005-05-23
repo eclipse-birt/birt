@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents the extensibility provider which make design element extendable.
@@ -31,19 +30,13 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 * The design element which is extendable.
 	 */
 
-	DesignElement element;
+	protected DesignElement element;
 
 	/**
 	 * The overridden extension element definition.
 	 */
 
-	ExtensionElementDefn cachedExtDefn = null;
-
-	/**
-	 * The name of the extension which is used to extend the extendable element.
-	 */
-
-	String extensionName = null;
+	protected ExtensionElementDefn cachedExtDefn = null;
 
 	/**
 	 * Constructs the extensibility provider with the extendable element and the
@@ -51,35 +44,11 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 * 
 	 * @param element
 	 *            the extendable element
-	 * @param extensionName
-	 *            the extension name
 	 */
 
-	ExtensibilityProvider( DesignElement element, String extensionName )
+	public ExtensibilityProvider( DesignElement element )
 	{
-		this.extensionName = extensionName;
 		this.element = element;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
-	 */
-
-	public ExtensionElementDefn getExtDefn( )
-	{
-		if ( extensionName == null )
-			return null;
-
-		if ( cachedExtDefn == null )
-		{
-			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-			cachedExtDefn = (ExtensionElementDefn) dd
-					.getExtension( extensionName );
-		}
-
-		return cachedExtDefn;
 	}
 
 	/**
@@ -159,15 +128,6 @@ public abstract class ExtensibilityProvider implements IExtendableElement
 	 *             if the extendable element this provide supports can not
 	 *             extends from the given parent element.
 	 */
+	public abstract void checkExtends( DesignElement parent )  throws ExtendsException;
 
-	public void checkExtends( DesignElement parent ) throws ExtendsException
-	{
-		String parentExt = (String) parent.getProperty( null,
-				EXTENSION_NAME_PROP );
-
-		assert extensionName != null;
-		if ( !extensionName.equalsIgnoreCase( parentExt ) )
-			throw new ExtendsException( element, parent,
-					ExtendsException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
-	}
 }

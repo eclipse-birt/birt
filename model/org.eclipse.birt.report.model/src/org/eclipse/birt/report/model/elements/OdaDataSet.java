@@ -20,9 +20,9 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
-import org.eclipse.birt.report.model.extension.AddOnExtensibilityProvider;
-import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
+import org.eclipse.birt.report.model.extension.oda.OdaExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 
@@ -33,20 +33,21 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 public class OdaDataSet extends DataSet
 		implements
 			IExtendableElement,
-			IOdaDataSetModel
+			IOdaDataSetModel,
+			IOdaExtendableElementModel
 {
 
-	private ExtensibilityProvider provider = null;
-
 	/**
-	 * ODA data set can support extension. It has a unique name to identify the
-	 * extension. Using this name, BIRT can get the extension definition. The
-	 * name is an internal name for an implementation of extension.
-	 * <p>
-	 * The name does not occur in a name space.
+	 * Extensibility provider which provides the extension logic.
 	 */
 
-	protected String extensionName = null;
+	private OdaExtensibilityProvider provider = null;
+
+	/**
+	 * ID of the extension which extends this ODA data set
+	 */
+
+	protected String extensionID = null;
 
 	/**
 	 * Default constructor.
@@ -174,8 +175,8 @@ public class OdaDataSet extends DataSet
 
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( EXTENSION_NAME_PROP.equals( propName ) )
-			return extensionName;
+		if ( EXTENSION_ID_PROP.equals( propName ) )
+			return extensionID;
 
 		return super.getIntrinsicProperty( propName );
 	}
@@ -189,12 +190,12 @@ public class OdaDataSet extends DataSet
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( EXTENSION_NAME_PROP.equals( propName ) )
+		if ( EXTENSION_ID_PROP.equals( propName ) )
 		{
-			extensionName = (String) value;
-			if ( extensionName != null )
-				provider = new AddOnExtensibilityProvider( this, extensionName );
-			else 
+			extensionID = (String) value;
+			if ( extensionID != null )
+				provider = new OdaExtensibilityProvider( this, extensionID );
+			else
 				provider = null;
 		}
 		else

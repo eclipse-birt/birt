@@ -134,15 +134,7 @@ public abstract class DesignParseState extends AbstractParseState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
 			return new StructureState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-        {
-            if ( getElement( ) instanceof OdaDataSet )
-			{
-				return new CompatibleODADataSetPropertyState( handler,
-						getElement( ) );
-			}
-            
 			return new PropertyState( handler, getElement( ) );
-        }
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
 			return new TextPropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )

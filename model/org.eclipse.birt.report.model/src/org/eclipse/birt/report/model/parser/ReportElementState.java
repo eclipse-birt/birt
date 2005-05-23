@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -315,8 +316,6 @@ public abstract class ReportElementState extends DesignParseState
 			}
 		}
 
-		// here is for the deprecate property name "extension"
-
-		setProperty( DesignSchemaConstants.EXTENSION_NAME_ATTRIB, extensionName );
+		setProperty( IExtendedItemModel.EXTENSION_NAME_PROP, extensionName );
 	}
 }
