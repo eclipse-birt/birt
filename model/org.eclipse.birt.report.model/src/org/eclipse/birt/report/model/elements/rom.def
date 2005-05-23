@@ -2258,7 +2258,7 @@
     <StyleProperty name="whiteSpace" />
     <StyleProperty name="wordSpacing" />
   </Element>
-  <Element name="ListingGroup" displayNameID="Element.ListingGroup" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="group">
+  <Element name="ListingGroup" displayNameID="Element.ListingGroup" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" >
     <Property name="keyExpr" displayNameID="Element.ListingGroup.keyExpr" type="expression" valueRequired="true" />
     <Property name="sort" displayNameID="Element.ListingGroup.sort" type="structure" isList="true" detailType="SortKey" />
     <Property name="filter" displayNameID="Element.ListingGroup.filter" type="structure" isList="true" detailType="FilterCondition" />
@@ -2289,7 +2289,7 @@
     <Method name="onFinish" displayNameID="Element.Listing.onFinish" toolTipID="Element.Listing.onFinish.toolTip" />
   </Element>
   <Element name="List" javaClass="org.eclipse.birt.report.model.elements.ListItem" displayNameID="Element.List" isAbstract="false" extends="Listing" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="list">
-    <Slot name="header" displayNameID="Element.List.slot.header" multipleCardinality="true" selector="header">
+    <Slot name="header" displayNameID="Element.List.slot.header" multipleCardinality="true" selector="list-header">
       <Type name="FreeForm" />
       <Type name="Text" />
       <Type name="List" />
@@ -2302,11 +2302,11 @@
       <Type name="TextData" />
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
-    <Slot name="groups" displayNameID="Element.List.slot.groups" multipleCardinality="true" selector="group">
+    <Slot name="groups" displayNameID="Element.List.slot.groups" multipleCardinality="true" >
       <Type name="ListGroup" />
       <Trigger validator="GroupNameValidator"/>
     </Slot>
-    <Slot name="detail" displayNameID="Element.List.slot.detail" multipleCardinality="true" selector="detail">
+    <Slot name="detail" displayNameID="Element.List.slot.detail" multipleCardinality="true" selector="list-detail">
       <Type name="FreeForm" />
       <Type name="Text" />
       <Type name="List" />
@@ -2319,7 +2319,7 @@
       <Type name="TextData" />
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
-    <Slot name="footer" displayNameID="Element.List.slot.footer" multipleCardinality="true" selector="footer">
+    <Slot name="footer" displayNameID="Element.List.slot.footer" multipleCardinality="true" selector="list-footer">
       <Type name="FreeForm" />
       <Type name="Text" />
       <Type name="List" />
@@ -2333,8 +2333,8 @@
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
   </Element>
-  <Element name="ListGroup" javaClass="org.eclipse.birt.report.model.elements.ListGroup" displayNameID="Element.ListGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="list-group">
-    <Slot name="header" displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" selector="header">
+  <Element name="ListGroup" javaClass="org.eclipse.birt.report.model.elements.ListGroup" displayNameID="Element.ListGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" >
+    <Slot name="header" displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" selector="list-group-header">
       <Type name="FreeForm" />
       <Type name="Text" />
       <Type name="List" />
@@ -2347,7 +2347,7 @@
       <Type name="TextData" />
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
     </Slot>
-    <Slot name="footer" displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" selector="footer">
+    <Slot name="footer" displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" selector="list-group-footer">
       <Type name="FreeForm" />
       <Type name="Text" />
       <Type name="List" />
@@ -2367,7 +2367,7 @@
     <Property name="repeatHeader" displayNameID="Element.Table.repeatHeader" type="boolean">
       <Default>true</Default>
     </Property>
-    <Slot name="header" displayNameID="Element.Table.slot.header" multipleCardinality="true" selector="header">
+    <Slot name="header" displayNameID="Element.Table.slot.header" multipleCardinality="true" selector="table-header">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator"/>
       <Trigger validator="TableHeaderContextContainmentValidator" targetElement="Listing"/>
@@ -2377,11 +2377,11 @@
       <Trigger validator="GroupNameValidator"/>
       <Trigger validator="TableDroppingValidator"/>
     </Slot>
-    <Slot name="detail" displayNameID="Element.Table.slot.detail" multipleCardinality="true" selector="detail">
+    <Slot name="detail" displayNameID="Element.Table.slot.detail" multipleCardinality="true" selector="table-detail">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot name="footer" displayNameID="Element.Table.slot.footer" multipleCardinality="true" selector="footer">
+    <Slot name="footer" displayNameID="Element.Table.slot.footer" multipleCardinality="true" selector="table-footer">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
@@ -2390,13 +2390,13 @@
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
-  <Element name="TableGroup" javaClass="org.eclipse.birt.report.model.elements.TableGroup" displayNameID="Element.TableGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" selector="table-group">
-    <Slot name="header" displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" selector="header">
+  <Element name="TableGroup" javaClass="org.eclipse.birt.report.model.elements.TableGroup" displayNameID="Element.TableGroup" isAbstract="false" extends="ListingGroup" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none" >
+    <Slot name="header" displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" selector="table-group-header">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
       <Trigger validator="TableDroppingValidator" targetElement="Table"/>
     </Slot>
-    <Slot name="footer" displayNameID="Element.TableGroup.slot.footer" multipleCardinality="true" selector="footer">
+    <Slot name="footer" displayNameID="Element.TableGroup.slot.footer" multipleCardinality="true" selector="table-group-footer">
       <Type name="Row" />
       <Trigger validator="InconsistentColumnsValidator" targetElement="Table"/>
     </Slot>
