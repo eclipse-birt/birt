@@ -90,7 +90,7 @@
 				<exclude name="about.mappings" />
 			</fileset>
 		</copy>
-		<copy todir="${export.dir}/${module.name}_${plugin.version}">
+		<copy todir="${export.dir}/${module.name}_${plugin.version}" overwrite="true">
 			<fileset dir=".">
 				<include name="about.mappings" />
 			</fileset>
