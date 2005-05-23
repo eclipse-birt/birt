@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.Utility;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -49,16 +48,16 @@ public abstract class DefaultExtendedDataSourceWizard extends
 	 */
 	public DataSourceHandle createDataSource( ReportDesignHandle handle )
 	{
-        String modelExtension = null;
-        String dataSourceType = getConfigurationElement( ).getAttribute( "name" ); //$NON-NLS-1$
-        if(Utility.doesDataSourceModelExtensionExist(dataSourceType))
-        {
-            modelExtension = dataSourceType; 
-        }
+  //      String modelExtension = null;
+          String dataSourceType = getConfigurationElement( ).getAttribute( "id" ); //$NON-NLS-1$
+  //      if(Utility.doesDataSourceModelExtensionExist(dataSourceType))
+  //      {
+  //          modelExtension = dataSourceType; 
+  //      }
 		OdaDataSourceHandle dsHandle = handle.getDataSources( )
 				.getElementHandle( )
 				.getElementFactory( )
-				.newOdaDataSource( Messages.getString("datasource.new.defaultName"), modelExtension); //$NON-NLS-1$
+				.newOdaDataSource( Messages.getString("datasource.new.defaultName"), dataSourceType); //$NON-NLS-1$
         
 		try
 		{

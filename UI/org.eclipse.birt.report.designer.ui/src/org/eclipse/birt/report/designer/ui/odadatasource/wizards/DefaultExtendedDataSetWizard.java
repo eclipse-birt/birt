@@ -9,12 +9,9 @@
 
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.Utility;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * TODO: Please document
@@ -51,26 +48,14 @@ public abstract class DefaultExtendedDataSetWizard extends
 	 */
 	public DataSetHandle createDataSet( ReportDesignHandle handle )
 	{
-        String modelExtension = null;
-        String dataSetType = getConfigurationElement( ).getAttribute( "name" ); //$NON-NLS-1$
-        if(Utility.doesDataSetModelExtensionExist(dataSetType))
-        {
-            modelExtension = dataSetType; 
-        }
+        String dataSetType = getConfigurationElement( ).getAttribute( "id" ); //$NON-NLS-1$
+        
+        // TODO: "New data_set_default_display_name" will be better
+        String newName = "New Data Set"; 		//$NON-NLS-1$ 
 		OdaDataSetHandle dataSetHandle = handle.getDataSets( )
 				.getElementHandle( )
 				.getElementFactory( )
-				.newOdaDataSet( "New " //$NON-NLS-1$
-						+ getConfigurationElement( ).getAttribute( "displayName" ), modelExtension ); //$NON-NLS-1$
-		try
-		{
-			dataSetHandle.setType( dataSetType );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
+				.newOdaDataSet( newName, dataSetType ); //$NON-NLS-1$
 		return dataSetHandle;
 	}
 }
