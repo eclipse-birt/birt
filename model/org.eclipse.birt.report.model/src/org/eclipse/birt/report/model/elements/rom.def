@@ -1943,9 +1943,7 @@
     <PropertyGroup displayNameID="Element.Style.format">
       <Property name="dateTimeFormat" displayNameID="Element.Style.format.dateTime" type="structure" detailType="DateTimeFormatValue" isStyleProperty="true" />
       <Property name="numberFormat" displayNameID="Element.Style.format.number" type="structure" detailType="NumberFormatValue" isStyleProperty="true" />
-      <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true">
-        <Default>left</Default>
-      </Property>
+      <Property name="numberAlign" displayNameID="Element.Style.format.number.align" type="choice" detailType="textAlign" isStyleProperty="true"/>
       <Property name="stringFormat" displayNameID="Element.Style.format.string" type="structure" detailType="StringFormatValue" isStyleProperty="true" />
     </PropertyGroup>
     <Property name="canShrink" displayNameID="Element.Style.canShrink" type="boolean" isStyleProperty="true" >
