@@ -245,24 +245,15 @@ public abstract class StyleElement extends ReferenceableElement
 			String selectorName, NotificationEvent event, ReportDesign design )
 	{
 
-		String[] selectors = element.getContainer( ).getSelectors(
+		String selector = element.getContainer( ).getSelector(
 				element.getContainerSlot( ) );
-		String selector = selectors[0];
-
-		if ( selectors.length == 2 )
+		
+		if ( selector != null
+					&& selector.equalsIgnoreCase( selectorName ) )
 		{
-			for ( int i = 0; i < selectors.length; i++ )
-			{
-				selector = selectors[i];
-				if ( selector != null
-						&& selector.equalsIgnoreCase( selectorName ) )
-				{
-					element.broadcast( event, design );
-					return true;
-				}
-			}
-		}
-
+			element.broadcast( event, design );
+			return true;
+		}		
 		return false;
 
 	}

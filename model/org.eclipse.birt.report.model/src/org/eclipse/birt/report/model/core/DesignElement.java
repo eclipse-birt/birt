@@ -1029,30 +1029,21 @@ public abstract class DesignElement
 	 *         second is that of slot.
 	 */
 
-	public String[] getSelectors( int slotID )
+	public String getSelector( int slotID )
 	{
-		String[] selectors = {null, null};
-
 		ElementDefn defn = (ElementDefn) getDefn( );
 		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
-		String selector = defn.getSelector( );
-
+		
 		if ( slotDefn == null )
 		{
-			selectors[0] = selector;
-			return selectors;
+			return null;
 		}
 		String slotSelector = slotDefn.getSelector( );
 		if ( StringUtil.isBlank( slotSelector ) )
 		{
-			selectors[0] = selector;
-			return selectors;
+			return null;
 		}
-
-		selectors[0] = selector + "-" + slotSelector; //$NON-NLS-1$
-		selectors[1] = slotSelector;
-
-		return selectors;
+		return slotSelector;
 	}
 
 	/**
@@ -1104,14 +1095,11 @@ public abstract class DesignElement
 		if ( getContainer( ) == null )
 			return null;
 
-		String[] selectors = getContainer( ).getSelectors( getContainerSlot( ) );
-		for ( int i = 0; i < selectors.length; i++ )
-		{
-			Object value = getPropertyFromSelector( design, prop, selectors[i] );
-			if ( value != null )
-				return value;
-		}
-
+		String selector = getContainer( ).getSelector( getContainerSlot( ) );
+		
+		Object value = getPropertyFromSelector( design, prop, selector );
+		if ( value != null )
+			return value;
 		return null;
 	}
 

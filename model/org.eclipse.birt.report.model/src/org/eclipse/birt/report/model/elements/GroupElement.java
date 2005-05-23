@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
@@ -108,18 +107,13 @@ public abstract class GroupElement extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSelectors(int)
 	 */
 
-	public String[] getSelectors( int slotID )
+	public String getSelector( int slotID )
 	{
-		String[] selectors = {null, null};
-
 		IElementDefn defn = getDefn( );
 		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
-		String selector = ( (ElementDefn) defn ).getSelector( );
-
 		if ( slotDefn == null )
 		{
-			selectors[0] = selector;
-			return selectors;
+			return null;
 		}
 
 		int depth = getGroupLevel( );
@@ -129,15 +123,10 @@ public abstract class GroupElement extends DesignElement
 		String slotSelector = slotDefn.getSelector( );
 		if ( StringUtil.isBlank( slotSelector ) )
 		{
-			selectors[0] = selector;
-			return selectors;
+			return null;
 		}
 
-		selectors[0] = selector
-				+ "-" + slotSelector + "-" + Integer.toString( depth ); //$NON-NLS-1$ //$NON-NLS-2$
-		selectors[1] = slotSelector + "-" + Integer.toString( depth ); //$NON-NLS-1$
-
-		return selectors;
+		return slotSelector + "-" + Integer.toString( depth ); //$NON-NLS-1$
 	}
 
 	/*
