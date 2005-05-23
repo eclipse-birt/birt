@@ -1424,7 +1424,7 @@
   <Structure name="UserProperty" displayNameID="Structure.UserProperty">
     <Member name="name" displayNameID="Structure.UserProperty.name" type="string" isIntrinsic="true" />
     <Member name="type" displayNameID="Structure.UserProperty.type" type="string" isIntrinsic="true" />
-    <Member name="displayNameID" displayNameID="Structure.UserProperty.displayNameID" type="string" />
+    <Member name="displayNameID" displayNameID="Structure.UserProperty.displayNameID" type="resourceKey" />
     <Member name="displayName" displayNameID="Structure.UserProperty.displayName" type="string" />
   </Structure>
   <Structure name="ConfigVar" displayNameID="Structure.ConfigVar">
@@ -1515,9 +1515,9 @@
     <Member name="parentLevel" displayNameID="Structure.ColumnHint.parentLevel" type="string" />
     <Member name="format" displayNameID="Structure.ColumnHint.format" type="string" />
     <Member name="displayName" displayNameID="Structure.ColumnHint.displayName" type="string" />
-    <Member name="displayNameID" displayNameID="Structure.ColumnHint.displayNameID" type="string" />
+    <Member name="displayNameID" displayNameID="Structure.ColumnHint.displayNameID" type="resourceKey" />
     <Member name="helpText" displayNameID="Structure.ColumnHint.helpText" type="string" />
-    <Member name="helpTextID" displayNameID="Structure.ColumnHint.helpTextID" type="string" />
+    <Member name="helpTextID" displayNameID="Structure.ColumnHint.helpTextID" type="resourceKey" />
   </Structure>
   <Structure name="DrillThroughSearchKey" displayNameID="Structure.DrillThroughSearchKey">
     <Member name="expression" displayNameID="Structure.DrillThroughSearchKey.expression" type="expression" isIntrinsic="true" />
@@ -1540,7 +1540,7 @@
   <Structure name="SelectionChoice" displayNameID="Structure.SelectionChoice">
     <Member name="value" displayNameID="Structure.SelectionChoice.value" type="string" isIntrinsic="true" />
     <Member name="label" displayNameID="Structure.SelectionChoice.label" type="string" isIntrinsic="true" />
-    <Member name="labelID" displayNameID="Structure.SelectionChoice.labelID" type="string" isIntrinsic="true" />
+    <Member name="labelID" displayNameID="Structure.SelectionChoice.labelID" type="resourceKey" isIntrinsic="true" />
   </Structure>
   <Structure name="IncludeLibrary" displayNameID="Structure.IncludeLibrary">
     <Member name="fileName" displayNameID="Structure.IncludeLibrary.fileName" type="string" isIntrinsic="true" />
@@ -1646,7 +1646,7 @@
   </Element>
   <Element name="ReportElement" displayNameID="Element.ReportElement" isAbstract="true" allowsUserProperties="false" canExtend="false" hasStyle="false" nameSpace="none">
     <Property name="displayName" displayNameID="Element.ReportElement.displayName" type="string" />
-    <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="string" />
+    <Property name="displayNameID" displayNameID="Element.ReportElement.displayNameID" type="resourceKey" />
     <Property name="customXml" displayNameID="Element.ReportElement.customXml" type="xml" />
     <Property name="comments" displayNameID="Element.ReportElement.comments" type="string" />
     <Property name="name" displayNameID="Element.ReportElement.name" type="name" isIntrinsic="true" />
@@ -2199,7 +2199,7 @@
     <StyleProperty name="wordSpacing" />
   </Element>
   <Element name="Text" javaClass="org.eclipse.birt.report.model.elements.TextItem" displayNameID="Element.Text" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="text">
-    <Property name="content" displayNameID="Element.Text.content" type="literalString" />
+    <Property name="content" displayNameID="Element.Text.content" type="string" />
     <Property name="contentID" displayNameID="Element.Text.contentID" type="resourceKey" />
     <Property name="contentType" displayNameID="Element.Text.contentType" type="choice" detailType="textContentType">
       <Default>auto</Default>

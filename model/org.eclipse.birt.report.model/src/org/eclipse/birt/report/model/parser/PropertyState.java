@@ -95,8 +95,6 @@ class PropertyState extends AbstractPropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
-		if ( StringUtil.isBlank( value ) )
-			return;
 
 		if ( struct != null )
 		{

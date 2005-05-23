@@ -69,8 +69,6 @@ public class CompatibleComputedColumnStructureState extends StructureState
             if ( ComputedColumn.COLUMN_NAME_MEMBER.equals( name ) )
             {
                 String value = text.toString( );
-                if ( StringUtil.isBlank( value ) )
-                    return;
 
                 assert ( struct != null );
                 assert ( propDefn != null );

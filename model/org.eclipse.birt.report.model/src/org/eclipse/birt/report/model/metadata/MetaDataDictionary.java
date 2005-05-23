@@ -230,7 +230,6 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new StructPropertyType( ) );
 		addPropertyType( new ExtendsPropertyType( ) );
 		addPropertyType( new ScriptPropertyType( ) );
-		addPropertyType( new LiteralStringPropertyType( ) );
 	}
 
 	/**

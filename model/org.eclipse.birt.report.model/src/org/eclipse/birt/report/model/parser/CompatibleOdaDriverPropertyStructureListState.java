@@ -154,9 +154,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 
 		public void end( ) throws SAXException
 		{
-			String value = text.toString( ).trim( );
-			if ( StringUtil.isBlank( value ) )
-				return;
+			String value = text.toString( );
 
 			if ( isPropertyName )
 				state.propertyName = value;

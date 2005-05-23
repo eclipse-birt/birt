@@ -65,9 +65,7 @@ public class TextState extends DesignParseState
 
 	public void end( ) throws SAXException
 	{
-		String value = text.toString( ).trim( );
-		if ( StringUtil.isBlank( value ) )
-			return;
+		String value = text.toString( );
 
 		PropertyDefn prop = (PropertyDefn)valueSet.getObjectDefn( ).findProperty( valueName );
 		assert prop != null;

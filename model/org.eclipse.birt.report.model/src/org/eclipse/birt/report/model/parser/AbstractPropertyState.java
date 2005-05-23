@@ -174,12 +174,12 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		String valueToSet = value;
-		if ( memberDefn.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
-			valueToSet = StringUtil.trimString( valueToSet );
+		// Any empty string will be treated as null.
 
-		if ( StringUtil.isBlank( valueToSet ) )
+		if ( StringUtil.isEmpty( value ) )
 			return;
+
+		String valueToSet = value;
 
 		if ( memberDefn.isEncryptable( ) )
 		{
@@ -249,14 +249,12 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		String valueToSet = value;
-		if ( propDefn.getTypeCode( ) != PropertyType.LITERAL_STRING_TYPE )
-			valueToSet = StringUtil.trimString( valueToSet );
-
-		if ( StringUtil.isBlank( valueToSet ) )
+		// Any empty string will be treated as null.
+		
+		if ( StringUtil.isEmpty( value ) )
 			return;
 
-		doSetProperty( propDefn, valueToSet );
+		doSetProperty( propDefn, value );
 	}
 
 	protected void doSetProperty( PropertyDefn propDefn, String valueToSet )

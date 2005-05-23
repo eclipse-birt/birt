@@ -53,8 +53,6 @@ public class EncryptedPropertyState extends PropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
-		if ( StringUtil.isBlank( value ) )
-			return;
 
 		PropertyDefn propDefn = null;
 		if ( struct != null )
@@ -92,7 +90,7 @@ public class EncryptedPropertyState extends PropertyState
 		}
 
 		String valueToSet = StringUtil.trimString( value );
-		if ( StringUtil.isBlank( valueToSet ) )
+		if ( null == valueToSet )
 			return;
 
 		IEncryptionHelper helper = MetaDataDictionary.getInstance( )

@@ -274,7 +274,7 @@ public class ReportState extends DesignParseState
 		{
 			key = attrs.getValue( DesignSchemaConstants.KEY_ATTRIB );
 
-			if ( StringUtil.isBlank( key ) )
+			if ( StringUtil.isEmpty( key ) )
 			{
 				handler
 						.semanticError( new DesignParserException(
@@ -324,14 +324,8 @@ public class ReportState extends DesignParseState
 
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
 		{
-			this.locale = attrs.getValue( DesignSchemaConstants.LOCALE_ATTRIB ); //$NON-NLS-1$
-			if ( StringUtil.isBlank( locale ) )
-			{
-				// Translation without a locale or the locale is just a blank
-				// string
-				// is keyed by a null.
-				this.locale = null;
-			}
+			locale = attrs.getValue( DesignSchemaConstants.LOCALE_ATTRIB );
+			locale = StringUtil.trimString( locale );
 
 			// TODO: text format of the locale should be checked.
 			// TODO: Should we define a ChoiceSet for the supported locales?

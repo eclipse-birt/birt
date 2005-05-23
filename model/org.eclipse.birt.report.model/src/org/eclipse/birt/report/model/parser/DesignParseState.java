@@ -78,7 +78,7 @@ public abstract class DesignParseState extends AbstractParseState
 
 	protected void setProperty( String propName, String value )
 	{
-		if ( StringUtil.isBlank( value ) )
+		if ( StringUtil.isEmpty( value ) )
 			return;
 
 		// Ensure that the property is defined.
@@ -94,7 +94,7 @@ public abstract class DesignParseState extends AbstractParseState
 		Object propValue = null;
 		try
 		{
-			propValue = prop.validateXml( handler.getDesign( ), value.trim( ) );
+			propValue = prop.validateXml( handler.getDesign( ), value );
 		}
 		catch ( PropertyValueException ex )
 		{

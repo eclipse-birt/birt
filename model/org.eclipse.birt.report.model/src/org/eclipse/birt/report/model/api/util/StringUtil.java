@@ -104,6 +104,23 @@ public class StringUtil
 	}
 
 	/**
+	 * Reports if a string is empty. A string is considered empty either if it
+	 * is null, is an empty string.
+	 * 
+	 * @param value
+	 *            the string to check
+	 * @return true if the string is empty, false otherwise.
+	 */
+
+	public static boolean isEmpty( String value )
+	{
+		if ( value == null || value.length( ) == 0 )
+			return true;
+
+		return false;
+	}
+	
+	/**
 	 * Returns if the two string are null or equal. The
 	 * {@link java.lang.String#equals(String)}is used to compare two strings.
 	 * 

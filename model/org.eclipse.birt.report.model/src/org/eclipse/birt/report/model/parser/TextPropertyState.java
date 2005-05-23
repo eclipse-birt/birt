@@ -118,8 +118,6 @@ public class TextPropertyState extends AbstractPropertyState
 	public void end( )
 	{
 		String value = text.toString( );
-		if ( StringUtil.isBlank( value ) )
-			return;
 
 		if ( struct != null )
 			setMember( struct, propDefn.getName( ), name, value );

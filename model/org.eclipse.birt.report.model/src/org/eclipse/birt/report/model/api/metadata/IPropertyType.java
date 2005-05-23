@@ -30,272 +30,267 @@ public interface IPropertyType
 	 * Type code for the String property type.
 	 */
 
-	public static final int STRING_TYPE = PropertyType.STRING_TYPE;
+	public static final int STRING_TYPE = 0;
 
 	/**
 	 * Type code for the Number property type.
 	 */
 
-	public static final int NUMBER_TYPE = PropertyType.NUMBER_TYPE;
+	public static final int NUMBER_TYPE = 1;
 
 	/**
 	 * Type code for the Integer property type.
 	 */
 
-	public static final int INTEGER_TYPE = PropertyType.INTEGER_TYPE;
+	public static final int INTEGER_TYPE = 2;
 
 	/**
 	 * Type code for the Dimension property type.
 	 */
 
-	public static final int DIMENSION_TYPE = PropertyType.DIMENSION_TYPE;
+	public static final int DIMENSION_TYPE = 3;
 
 	/**
 	 * Type code for the Color property type.
 	 */
 
-	public static final int COLOR_TYPE = PropertyType.COLOR_TYPE;
+	public static final int COLOR_TYPE = 4;
 
 	/**
 	 * Type code for the Choice property type.
 	 */
 
-	public static final int CHOICE_TYPE = PropertyType.CHOICE_TYPE;
+	public static final int CHOICE_TYPE = 5;
 
 	/**
 	 * Type code for the Boolean property type.
 	 */
 
-	public static final int BOOLEAN_TYPE = PropertyType.BOOLEAN_TYPE;
+	public static final int BOOLEAN_TYPE = 6;
 
 	/**
 	 * Type code for the Expression property type.
 	 */
 
-	public static final int EXPRESSION_TYPE = PropertyType.EXPRESSION_TYPE;
+	public static final int EXPRESSION_TYPE = 7;
 
 	/**
 	 * Type code for the HTML property type.
 	 */
 
-	public static final int HTML_TYPE = PropertyType.HTML_TYPE;
+	public static final int HTML_TYPE = 8;
 
 	/**
 	 * Type code for the resource key property type.
 	 */
 
-	public static final int RESOURCE_KEY_TYPE = PropertyType.RESOURCE_KEY_TYPE;
+	public static final int RESOURCE_KEY_TYPE = 9;
 
 	/**
 	 * Type code for the URI property type.
 	 */
 
-	public static final int URI_TYPE = PropertyType.URI_TYPE;
+	public static final int URI_TYPE = 10;
 
 	/**
 	 * Type code for the Date time property type.
 	 */
 
-	public static final int DATE_TIME_TYPE = PropertyType.DATE_TIME_TYPE;
+	public static final int DATE_TIME_TYPE = 11;
 
 	/**
 	 * Type code for the XML property type.
 	 */
 
-	public static final int XML_TYPE = PropertyType.XML_TYPE;
+	public static final int XML_TYPE = 12;
 
 	/**
 	 * Type code for the Name property type.
 	 */
 
-	public static final int NAME_TYPE = PropertyType.NAME_TYPE;
+	public static final int NAME_TYPE = 13;
 
 	/**
 	 * Type code for the Float property type.
 	 */
 
-	public static final int FLOAT_TYPE = PropertyType.FLOAT_TYPE;
+	public static final int FLOAT_TYPE = 14;
 
 	/**
 	 * Type code for the Element reference property type.
 	 */
 
-	public static final int ELEMENT_REF_TYPE = PropertyType.ELEMENT_REF_TYPE;
+	public static final int ELEMENT_REF_TYPE = 15;
 
 	/**
 	 * Type code for the Column reference property type.
 	 */
 
-	public static final int COLUMN_REF_TYPE = PropertyType.COLUMN_REF_TYPE;
+	public static final int COLUMN_REF_TYPE = 16;
 
 	/**
 	 * Type code for the Variant property type.
 	 */
 
-	public static final int VARIANT_TYPE = PropertyType.VARIANT_TYPE;
+	public static final int VARIANT_TYPE = 17;
 
 	/**
 	 * Type code for the Structure property type.
 	 */
 
-	public static final int STRUCT_TYPE = PropertyType.STRUCT_TYPE;
+	public static final int STRUCT_TYPE = 18;
 
 	/**
 	 * Type code for the Extends property type.
 	 */
 
-	public static final int EXTENDS_TYPE = PropertyType.EXTENDS_TYPE;
+	public static final int EXTENDS_TYPE = 19;
 
 	/**
 	 * Type code for the Script property type.
 	 */
 
-	public static final int SCRIPT_TYPE = PropertyType.SCRIPT_TYPE;
+	public static final int SCRIPT_TYPE = 20;
 
-	/**
-	 * Type code for the literal string property type.
-	 */
-
-	public static final int LITERAL_STRING_TYPE = PropertyType.LITERAL_STRING_TYPE;
-	
 	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 22;
+	public static final int TYPE_COUNT = 21;
 
 	/**
 	 * Name of the String property type.
 	 */
 
-	public static final String STRING_TYPE_NAME = PropertyType.STRING_TYPE_NAME;
+	public static final String STRING_TYPE_NAME = "string"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Number property type.
 	 */
 
-	public static final String NUMBER_TYPE_NAME = PropertyType.NUMBER_TYPE_NAME;
+	public static final String NUMBER_TYPE_NAME = "number"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Integer property type.
 	 */
 
-	public static final String INTEGER_TYPE_NAME = PropertyType.INTEGER_TYPE_NAME;
+	public static final String INTEGER_TYPE_NAME = "integer"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Dimension property type.
 	 */
 
-	public static final String DIMENSION_TYPE_NAME = PropertyType.DIMENSION_TYPE_NAME;
+	public static final String DIMENSION_TYPE_NAME = "dimension"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Color property type.
 	 */
 
-	public static final String COLOR_TYPE_NAME = PropertyType.COLOR_TYPE_NAME;
+	public static final String COLOR_TYPE_NAME = "color"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Choice property type.
 	 */
 
-	public static final String CHOICE_TYPE_NAME = PropertyType.CHOICE_TYPE_NAME;
+	public static final String CHOICE_TYPE_NAME = "choice"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Boolean property type.
 	 */
 
-	public static final String BOOLEAN_TYPE_NAME = PropertyType.BOOLEAN_TYPE_NAME;
+	public static final String BOOLEAN_TYPE_NAME = "boolean"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Expression property type.
 	 */
 
-	public static final String EXPRESSION_TYPE_NAME = PropertyType.EXPRESSION_TYPE_NAME;
+	public static final String EXPRESSION_TYPE_NAME = "expression"; //$NON-NLS-1$
 
 	/**
 	 * Name of the HTML property type.
 	 */
 
-	public static final String HTML_TYPE_NAME = PropertyType.HTML_TYPE_NAME;
+	public static final String HTML_TYPE_NAME = "html"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Resource Key property type.
 	 */
 
-	public static final String RESOURCE_KEY_TYPE_NAME = PropertyType.RESOURCE_KEY_TYPE_NAME;
+	public static final String RESOURCE_KEY_TYPE_NAME = "resourceKey"; //$NON-NLS-1$
+
+	/**
+	 * Name of the Points property type.
+	 */
+
+	public static final String POINTS_TYPE_NAME = "points"; //$NON-NLS-1$
 
 	/**
 	 * Name of the URI property type.
 	 */
 
-	public static final String URI_TYPE_NAME = PropertyType.URI_TYPE_NAME;
+	public static final String URI_TYPE_NAME = "uri"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Date Time property type.
 	 */
 
-	public static final String DATE_TIME_TYPE_NAME = PropertyType.DATE_TIME_TYPE_NAME;
+	public static final String DATE_TIME_TYPE_NAME = "dateTime"; //$NON-NLS-1$
 
 	/**
 	 * Name of the XML property type.
 	 */
 
-	public static final String XML_TYPE_NAME = PropertyType.XML_TYPE_NAME;
+	public static final String XML_TYPE_NAME = "xml"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Name property type.
 	 */
 
-	public static final String NAME_TYPE_NAME = PropertyType.NAME_TYPE_NAME;
+	public static final String NAME_TYPE_NAME = "name"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Float property type.
 	 */
 
-	public static final String FLOAT_TYPE_NAME = PropertyType.FLOAT_TYPE_NAME;
+	public static final String FLOAT_TYPE_NAME = "float"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Element reference property type.
 	 */
 
-	public static final String ELEMENT_REF_NAME = PropertyType.ELEMENT_REF_NAME;
+	public static final String ELEMENT_REF_NAME = "element"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Column reference property type.
 	 */
 
-	public static final String COLUMN_REF_NAME = PropertyType.COLUMN_REF_NAME;
+	public static final String COLUMN_REF_NAME = "column"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Variant property type.
 	 */
 
-	public static final String VARIANT_NAME = PropertyType.VARIANT_NAME;
+	public static final String VARIANT_NAME = "variant"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Structure property type.
 	 */
 
-	public static final String STRUCT_TYPE_NAME = PropertyType.STRUCT_TYPE_NAME;
+	public static final String STRUCT_TYPE_NAME = "structure"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Extends property type.
 	 */
 
-	public static final String EXTENDS_TYPE_NAME = PropertyType.EXTENDS_TYPE_NAME;
+	public static final String EXTENDS_TYPE_NAME = "extends"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Script property type.
 	 */
 
-	public static final String SCRIPT_TYPE_NAME = PropertyType.SCRIPT_TYPE_NAME;
+	public static final String SCRIPT_TYPE_NAME = "script"; //$NON-NLS-1$
 
-	/**
-	 * Name of the literal string property type.
-	 */
 
-	public static final String LITERAL_STRING_TYPE_NAME = PropertyType.LITERAL_STRING_TYPE_NAME;
-	
 	/**
 	 * Returns the localized display name.
 	 * 

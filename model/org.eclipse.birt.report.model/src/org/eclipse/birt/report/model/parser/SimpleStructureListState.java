@@ -90,8 +90,6 @@ public class SimpleStructureListState extends PropertyListState
 			assert struct != null;
 
 			String value = text.toString( );
-			if ( StringUtil.isBlank( value ) )
-				return;
 
 			setMember( struct, propDefn.getName( ), memberName, value );
 

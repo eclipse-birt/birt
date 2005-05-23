@@ -128,11 +128,6 @@ public class ScriptDataSource extends DataSource
 	{
 		List list = super.validate( design );
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
-				this, OPEN_METHOD ) );
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
-				this, CLOSE_METHOD ) );
-
 		return list;
 	}
 }

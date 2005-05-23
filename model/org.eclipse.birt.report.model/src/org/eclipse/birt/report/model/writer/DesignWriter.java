@@ -195,7 +195,8 @@ public class DesignWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.REPORT_TAG );
 		writer.attribute( DesignSchemaConstants.XMLNS_ATTRIB,
 				DEFAULT_NAME_SPACE );
-		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB, DesignSchemaConstants.REPORT_VERSION );
+		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
+				DesignSchemaConstants.REPORT_VERSION );
 		property( obj, ReportDesign.AUTHOR_PROP );
 		property( obj, ReportDesign.HELP_GUIDE_PROP );
 		property( obj, ReportDesign.CREATED_BY_PROP );
@@ -279,15 +280,12 @@ public class DesignWriter extends ElementVisitor
 				for ( int j = 0; j < translations.size( ); j++ )
 				{
 					writer.startElement( DesignSchemaConstants.TRANSLATION_TAG );
+
 					Translation translation = (Translation) translations
 							.get( j );
-					String locale = translation.getLocale( );
-					if ( !StringUtil.isBlank( locale ) )
-					{
-						writer.attribute( DesignSchemaConstants.LOCALE_ATTRIB,
-								locale );
-					}
 
+					writer.attribute( DesignSchemaConstants.LOCALE_ATTRIB,
+							translation.getLocale( ) );
 					writer.text( translation.getText( ) );
 					writer.endElement( );
 				}
@@ -448,18 +446,21 @@ public class DesignWriter extends ElementVisitor
 				ExtendedProperty property = (ExtendedProperty) iter.next( );
 
 				writer.startElement( DesignSchemaConstants.EX_PROPERTY_TAG );
-				if ( !StringUtil.isBlank( property.getName( ) ) )
+
+				if ( !StringUtil.isEmpty( property.getName( ) ) )
 				{
 					writer.startElement( DesignSchemaConstants.NAME_ATTRIB );
 					writer.text( property.getName( ) );
 					writer.endElement( );
 				}
-				if ( !StringUtil.isBlank( property.getValue( ) ) )
+
+				if ( !StringUtil.isEmpty( property.getValue( ) ) )
 				{
 					writer.startElement( DesignSchemaConstants.VALUE_TAG );
 					writer.text( property.getValue( ) );
 					writer.endElement( );
 				}
+
 				writer.endElement( );
 			}
 			writer.endElement( );
@@ -1345,26 +1346,20 @@ public class DesignWriter extends ElementVisitor
 					UserChoice choice = (UserChoice) choices[i];
 					writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
-					if ( !StringUtil.isBlank( choice.getName( ) ) )
-					{
-						writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-								UserChoice.NAME_PROP, choice.getName( ), false );
-					}
+					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+							UserChoice.NAME_PROP, choice.getName( ), false );
+
 					if ( choice.getValue( ) != null )
 					{
 						writeEntry( DesignSchemaConstants.PROPERTY_TAG,
 								UserChoice.VALUE_PROP, choice.getValue( )
 										.toString( ), false );
 					}
-					if ( !StringUtil.isBlank( choice.getDisplayNameKey( ) )
-							|| !StringUtil.isBlank( choice.getDisplayName( ) ) )
-					{
-						writeResouceKey(
-								DesignSchemaConstants.TEXT_PROPERTY_TAG,
-								UserChoice.DISPLAY_NAME_PROP, choice
-										.getDisplayNameKey( ), choice
-										.getDisplayName( ), false );
-					}
+
+					writeResouceKey( DesignSchemaConstants.TEXT_PROPERTY_TAG,
+							UserChoice.DISPLAY_NAME_PROP, choice
+									.getDisplayNameKey( ), choice
+									.getDisplayName( ), false );
 
 					writer.endElement( );
 				}
@@ -1478,7 +1473,7 @@ public class DesignWriter extends ElementVisitor
 
 		// Empty action
 
-		if ( StringUtil.isBlank( targetWindow )
+		if ( targetWindow == null
 				&& linkType
 						.equalsIgnoreCase( DesignChoiceConstants.ACTION_LINK_TYPE_NONE ) )
 			return;
@@ -1811,7 +1806,7 @@ public class DesignWriter extends ElementVisitor
 
 		value = obj.getLocalProperty( design, keyProp.getName( ) );
 		String xmlKey = keyProp.getXmlValue( design, value );
-		if ( StringUtil.isBlank( xmlKey ) && StringUtil.isBlank( xml ) )
+		if ( StringUtil.isEmpty( xmlKey ) && StringUtil.isEmpty( xml ) )
 			return;
 
 		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
@@ -1856,7 +1851,7 @@ public class DesignWriter extends ElementVisitor
 
 		value = struct.getLocalProperty( design, keyProp );
 		String xmlKey = keyProp.getXmlValue( design, value );
-		if ( StringUtil.isBlank( xmlKey ) && StringUtil.isBlank( xml ) )
+		if ( StringUtil.isEmpty( xmlKey ) && StringUtil.isEmpty( xml ) )
 			return;
 
 		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
@@ -1889,6 +1884,11 @@ public class DesignWriter extends ElementVisitor
 	private void writeResouceKey( String tagName, String name, String key,
 			String xml, boolean cdata )
 	{
+		// No value should be output.
+
+		if ( key == null && xml == null )
+			return;
+
 		writer.startElement( tagName );
 
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
@@ -1936,7 +1936,7 @@ public class DesignWriter extends ElementVisitor
 			default :
 				if ( prop.isEncryptable( ) )
 					return DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
-			
+
 				return DesignSchemaConstants.PROPERTY_TAG;
 		}
 	}
@@ -2287,7 +2287,7 @@ public class DesignWriter extends ElementVisitor
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );
-        property( obj, GroupElement.GROUP_START_PROP );
+		property( obj, GroupElement.GROUP_START_PROP );
 		property( obj, GroupElement.INTERVAL_PROP );
 		property( obj, GroupElement.INTERVAL_RANGE_PROP );
 		property( obj, GroupElement.SORT_DIRECTION_PROP );

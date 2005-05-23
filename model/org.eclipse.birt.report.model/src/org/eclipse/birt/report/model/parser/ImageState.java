@@ -89,10 +89,10 @@ public class ImageState extends ReportItemState
 
 		String uri = (String) image.getLocalProperty( design,
 				ImageItem.URI_PROP );
-		if ( !StringUtil.isBlank( uri ) )
+		if ( !StringUtil.isEmpty( uri ) )
 		{
 			String filePath = URIUtil.getLocalPath( uri );
-			if ( !StringUtil.isBlank( filePath ) )
+			if ( !StringUtil.isEmpty( filePath ) )
 			{
 				setProperty( ImageItem.SOURCE_PROP,
 						DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
@@ -107,7 +107,7 @@ public class ImageState extends ReportItemState
 
 		String name = (String) image.getLocalProperty( design,
 				ImageItem.IMAGE_NAME_PROP );
-		if ( !StringUtil.isBlank( name ) )
+		if ( !StringUtil.isEmpty( name ) )
 		{
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
@@ -119,7 +119,7 @@ public class ImageState extends ReportItemState
 		String valueExpr = (String) image.getLocalProperty( design,
 				ImageItem.VALUE_EXPR_PROP );
 
-		if ( !StringUtil.isBlank( typeExpr ) || !StringUtil.isBlank( valueExpr ) )
+		if ( !StringUtil.isEmpty( typeExpr ) || !StringUtil.isEmpty( valueExpr ) )
 		{
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -153,8 +153,8 @@ public class ImageState extends ReportItemState
 					ImageItem.TYPE_EXPR_PROP );
 			String valueExpr = image.getStringProperty( design,
 					ImageItem.VALUE_EXPR_PROP );
-			if ( StringUtil.isBlank( typeExpr )
-					|| StringUtil.isBlank( valueExpr ) )
+			if ( StringUtil.isEmpty( typeExpr )
+					|| StringUtil.isEmpty( valueExpr ) )
 			{
 				handler.semanticError( new DesignParserException(
 						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
@@ -166,7 +166,7 @@ public class ImageState extends ReportItemState
 						.equalsIgnoreCase( refType ) )
 		{
 			String uri = image.getStringProperty( design, ImageItem.URI_PROP );
-			if ( StringUtil.isBlank( uri ) )
+			if ( StringUtil.isEmpty( uri ) )
 			{
 				handler.semanticError( new DesignParserException(
 						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
@@ -178,7 +178,7 @@ public class ImageState extends ReportItemState
 			String name = image.getStringProperty( design,
 					ImageItem.IMAGE_NAME_PROP );
 
-			if ( StringUtil.isBlank( name ) )
+			if ( StringUtil.isEmpty( name ) )
 			{
 				handler.semanticError( new DesignParserException(
 						DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );

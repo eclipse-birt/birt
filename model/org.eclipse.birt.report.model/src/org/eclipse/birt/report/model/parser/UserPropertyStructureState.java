@@ -377,8 +377,6 @@ public class UserPropertyStructureState extends StructureState
 		public void end( ) throws SAXException
 		{
 			String value = text.toString( );
-			if ( StringUtil.isBlank( value ) )
-				return;
 
 			// if the property tag is to set the type of a user-defined
 			// property, then we implement it like this.

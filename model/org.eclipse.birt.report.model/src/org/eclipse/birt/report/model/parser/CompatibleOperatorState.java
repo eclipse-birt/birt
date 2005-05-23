@@ -65,8 +65,6 @@ class CompatibleOperatorState extends PropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
-		if ( StringUtil.isBlank( value ) )
-			return;
 
 		assert struct != null;
 
