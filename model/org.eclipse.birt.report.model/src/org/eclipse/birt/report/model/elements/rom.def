@@ -1698,11 +1698,10 @@
 	<Property name="extensionID" displayNameID="Element.OdaDataSet.extensionID" type="string" isIntrinsic="true" />
     <Property name="queryText" type="string" displayNameID="Element.OdaDataSet.queryText" />
     <Property name="resultSetName" type="string" displayNameID="Element.OdaDataSet.resultSetName" />
-    <Property name="privateDriverDesignState" type="string" displayNameID="Element.OdaDataSet.privateDriverDesignState" />
     <Property name="privateDriverProperties" type="structure" isList="true" detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" />
     <PropertyVisibility name="extensionID" propertyVisibility="hide" />
     <PropertyVisibility name="resultSetName" propertyVisibility="hide"/>
-    <PropertyVisibility name="privateDriverDesignState" propertyVisibility="hide"/>
+    <PropertyVisibility name="privateDriverProperties" propertyVisibility="hide"/>
   </Element>
   <Element name="Parameter" displayNameID="Element.Parameter" isAbstract="true" extends="ReportElement" allowsUserProperties="true" canExtend="true" hasStyle="false" nameSpace="parameter" isNameRequired="true">
     <Property name="helpText" displayNameID="Element.Parameter.helpText" type="string" />

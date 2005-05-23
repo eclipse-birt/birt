@@ -30,15 +30,6 @@ public interface IOdaDataSetModel
 	public static final String RESULT_SET_NAME_PROP = "resultSetName"; //$NON-NLS-1$
 
 	/**
-	 * Name of the driver state property that gives the private driver design
-	 * state from the extended driver. It is optional from the ODA data source
-	 * builder. This is a CDATA section. If omitted or discarded, it will be
-	 * recomputed when the report is next edited or run.
-	 */
-
-	public static final String PRIVATE_DRIVER_DESIGN_STATE_PROP = "privateDriverDesignState"; //$NON-NLS-1$
-
-	/**
 	 * The property name of public driver properties.
 	 * @deprecated
 	 */

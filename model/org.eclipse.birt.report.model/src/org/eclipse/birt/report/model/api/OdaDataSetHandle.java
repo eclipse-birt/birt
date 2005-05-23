@@ -49,27 +49,15 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	}
 
 	/**
-	 * Returns the cached response.
-	 * 
-	 * @return the cached response
-	 * 
-	 * @deprecated by the method {@link #getPrivateDriverDesignState()}
-	 */
-
-	public String getCachedResponse( )
-	{
-		return getStringProperty( OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
-	}
-
-	/**
 	 * Returns the private driver design state.
 	 * 
 	 * @return the private driver design state
+	 * @deprecated
 	 */
 
 	public String getPrivateDriverDesignState( )
 	{
-		return getStringProperty( OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP );
+		return null;
 	}
 
 	/**
@@ -125,30 +113,12 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 *            the design state to set
 	 * @throws SemanticException
 	 *             if this property is locked.
+	 * @deprecated
 	 */
 
 	public void setPrivateDriverDesignState( String state )
 			throws SemanticException
 	{
-		setStringProperty( OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP, state );
-	}
-
-	/**
-	 * Sets the cached response.
-	 * 
-	 * @param response
-	 *            the response to set
-	 * @throws SemanticException
-	 *             if this property is locked.
-	 * 
-	 * @deprecated by the {@link #setPrivateDriverDesignState(String)}
-	 */
-
-	public void setCachedResponse( String response ) throws SemanticException
-
-	{
-		setStringProperty( OdaDataSet.PRIVATE_DRIVER_DESIGN_STATE_PROP,
-				response );
 	}
 
 	/**
