@@ -519,7 +519,7 @@
     </Method>
     <Method name="setFullYear" displayNameID="Class.Date.setFullYear" toolTipID="Class.Date.setFullYear.toolTip" returnType="number">
       <Argument name="year" type="number" tagID="Class.Date.setFullYear.year" />
-      <Argument name="minutes" type="number" tagID="Class.Date.setFullYear.minutes" />
+      <Argument name="month" type="number" tagID="Class.Date.setFullYear.month" />
       <Argument name="day" type="number" tagID="Class.Date.setFullYear.day" />
     </Method>
     <Method name="setHours" displayNameID="Class.Date.setHours" toolTipID="Class.Date.setHours.toolTip" returnType="number">
