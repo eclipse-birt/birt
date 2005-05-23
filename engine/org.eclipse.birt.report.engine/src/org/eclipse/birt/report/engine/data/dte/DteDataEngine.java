@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -42,7 +43,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/11 11:59:31 $
+ * @version $Revision: 1.16 $ $Date: 2005/05/12 07:18:53 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -360,8 +361,13 @@ public class DteDataEngine implements IDataEngine
 	protected Object evaluateCondExpr( IConditionalExpression expr )
 	{
 		if ( expr == null )
+		{
+			EngineException e = new EngineException( "Failed to evaluate: null" );//$NON-NLS-1$
+			context.addException( e ); 
+			logger.log( Level.SEVERE, e.getMessage(), e );
 			return new Boolean( false );
-
+		}
+			
 		int operator = expr.getOperator( );
 		IScriptExpression testExpr = expr.getExpression( );
 		IScriptExpression v1 = expr.getOperand1( );

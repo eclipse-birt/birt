@@ -55,7 +55,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.23 $ $Date: 2005/05/20 15:11:05 $
+ * @version $Revision: 1.24 $ $Date: 2005/05/20 18:44:35 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -243,9 +243,12 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * @see evaluate(String,String,int)
 	 */
 	public Object evaluate( String source )
-	{
-		if ( source == null )
+	{	
+		if(source==null)
 		{
+			EngineException e = new EngineException( "Failed to evaluate " + source);//$NON-NLS-1$
+			addException( e ); 
+			log.log( Level.SEVERE, e.getMessage(), e );
 			return null;
 		}
 		try
@@ -254,9 +257,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( Exception e )
 		{
-			// TODO eval may throw RuntimeException, which may also need
-			// logging. May need to log more info.
-			log.log( Level.SEVERE,e.getMessage(),  e );
+			log.log( Level.SEVERE, e.getMessage(),  e );
 			addException( new EngineException( "Failed to evaluate " + source, e ) ); //$NON-NLS-1$
 		}
 		return null;
@@ -287,8 +288,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public Object evaluate( String expr, String name, int lineNo )
 	{
-		if ( expr == null )
+		if(expr==null)
 		{
+			EngineException e = new EngineException( "Failed to execute " + expr);//$NON-NLS-1$
+			addException( e ); 
+			log.log( Level.SEVERE, e.getMessage(), e );
 			return null;
 		}
 		try
@@ -300,7 +304,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 		    log.log( Level.SEVERE,e.getMessage(),  e );
-		    addException( new EngineException( "Failed to evaluate " + expr, e ) ); //$NON-NLS-1$
+		    addException( new EngineException( "Failed to execute " + expr, e ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
