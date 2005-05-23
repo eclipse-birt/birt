@@ -44,7 +44,7 @@ public class DesignerConstants
 	
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
 	
-	public static final String DATA_SOURCE_FLATFILE = "flatfile";
+	public static final String DATA_SOURCE_FLATFILE = "org.eclipse.birt.report.data.oda.flatfile";
 
 	/**
 	 * Map between CSS style font family to system font family
