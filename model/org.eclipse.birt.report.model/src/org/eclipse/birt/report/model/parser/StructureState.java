@@ -412,7 +412,7 @@ public class StructureState extends AbstractPropertyState
 				ResultSetColumn.RESULT_SET_COLUMN_STRUCT.toLowerCase( ),
 				ResultSetColumn.class );
 
-		structDict.put( SearchKey.DRILLTHROUGH_SEARCHKEY_STRUCT.toLowerCase( ),
+		structDict.put( SearchKey.SEARCHKEY_STRUCT.toLowerCase( ),
 				SearchKey.class );
 
 		structDict.put( SelectionChoice.STRUCTURE_NAME.toLowerCase( ),

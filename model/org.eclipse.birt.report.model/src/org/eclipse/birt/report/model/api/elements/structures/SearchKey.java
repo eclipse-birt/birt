@@ -40,7 +40,7 @@ public class SearchKey extends Structure
 	 * Name of the structure.
 	 */
 
-	public static final String DRILLTHROUGH_SEARCHKEY_STRUCT = "DrillThroughSearchKey"; //$NON-NLS-1$
+	public static final String SEARCHKEY_STRUCT = "SearchKey"; //$NON-NLS-1$
 
 	/**
 	 * Name of the expression property.
@@ -62,7 +62,7 @@ public class SearchKey extends Structure
 
 	public String getStructName( )
 	{
-		return DRILLTHROUGH_SEARCHKEY_STRUCT;
+		return SEARCHKEY_STRUCT;
 	}
 
 	/*

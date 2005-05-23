@@ -1525,8 +1525,8 @@
     <Member name="helpText" displayNameID="Structure.ColumnHint.helpText" type="string" />
     <Member name="helpTextID" displayNameID="Structure.ColumnHint.helpTextID" type="resourceKey" />
   </Structure>
-  <Structure name="DrillThroughSearchKey" displayNameID="Structure.DrillThroughSearchKey">
-    <Member name="expression" displayNameID="Structure.DrillThroughSearchKey.expression" type="expression" isIntrinsic="true" />
+  <Structure name="SearchKey" displayNameID="Structure.SearchKey">
+    <Member name="expression" displayNameID="Structure.SearchKey.expression" type="expression" isIntrinsic="true" />
   </Structure>
   <Structure name="Action" displayNameID="Structure.Action">
     <Member name="targetWindow" displayNameID="Structure.Action.targetWindow" type="string" detailType="targetNames" />
@@ -1541,7 +1541,7 @@
       <Default>none</Default>
     </Member>
     <Member name="drillThroughBookmarkLink" displayNameID="Structure.Action.drillThroughBookmarkLink" type="expression" />
-    <Member name="drillThroughSearch" displayNameID="Structure.Action.drillThroughSearch" type="structure" isList="true" detailType="DrillThroughSearchKey" />
+    <Member name="drillThroughSearch" displayNameID="Structure.Action.drillThroughSearch" type="structure" isList="true" detailType="SearchKey" />
   </Structure>
   <Structure name="SelectionChoice" displayNameID="Structure.SelectionChoice">
     <Member name="value" displayNameID="Structure.SelectionChoice.value" type="string" isIntrinsic="true" />
