@@ -17,25 +17,24 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.IParameterMetaData;
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.IStatement;
+import org.eclipse.birt.data.oda.IQuery;
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.data.oda.SortSpec;
-import org.eclipse.birt.data.oda.util.logging.Level;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 
 /**
  * 
- * The class implements the org.eclipse.birt.data.oda.IStatement interface.
+ * The class implements the org.eclipse.birt.data.oda.IQuery interface.
  * 
  */
-public class Statement implements IStatement
+public class Statement implements IQuery
 {
 
 	/** the JDBC preparedStatement object */
@@ -96,12 +95,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#prepare(java.lang.String)
+	 * @see org.eclipse.birt.data.oda.IQuery#prepare(java.lang.String)
 	 */
 	public void prepare( String command ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Statement.prepare( \""
-				+ command + "\" )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"prepare",
@@ -130,43 +127,51 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setProperty(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public void setProperty( String name, String value ) throws OdaException
 	{
-		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException(
-				"setProperty is not supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setProperty",
-				"setProperty is not supported.",
-				e );
-		throw e;
+		if ( name == null )
+			throw new NullPointerException("name is null");
+		
+		if ( name.equals("queryTimeOut") )
+		{
+			// Ignore null or empty value
+			if ( value != null && value.length() > 0 )
+			{
+				try
+				{
+					// Be forgiving if a floating point gets passed in - can happen 
+					// when Javascript gets involved in calculating the property value
+					double secs = Double.parseDouble( value );
+					this.preStat.setQueryTimeout( (int) secs );
+				}
+				catch ( SQLException e )
+				{
+					// This is not an essential property; log and ignore error if driver doesn't
+					// support query timeout
+					logger.log( Level.FINE, "Statement.setQueryTimeout failed", e );
+				}
+			}
+		}
+		else
+		{
+			// unsupported query properties
+			OdaException e = new OdaException( "Unsupported query property: " + name );
+			logger.logp( java.util.logging.Level.FINE,
+					Statement.class.getName( ),
+					"setProperty",
+					"Unsupported property", e);
+			throw e;
+		}
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setPropertyInfo(java.util.Properties)
-	 */
-	public void setPropertyInfo( Properties info ) throws OdaException
-	{
-		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "setPropertyInfo is not supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setPropertyInfo",
-				"setPropertyInfo is not supported.",
-				e );
-		throw e;
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#close()
+	 * @see org.eclipse.birt.data.oda.IQuery#close()
 	 */
 	public void close( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Statement.close( )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"close",
@@ -186,12 +191,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setMaxRows(int)
+	 * @see org.eclipse.birt.data.oda.IQuery#setMaxRows(int)
 	 */
 	public void setMaxRows( int max )
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setMaxRows( "
-				+ max + " )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"setMaxRows",
@@ -204,11 +207,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getMaxRows()
+	 * @see org.eclipse.birt.data.oda.IQuery#getMaxRows()
 	 */
 	public int getMaxRows( )
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.getMaxRows( )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"getMaxRows",
@@ -218,12 +220,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getMetaData()
+	 * @see org.eclipse.birt.data.oda.IQuery#getMetaData()
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
-		JDBCConnectionFactory
-				.log( Level.FINE_LEVEL, "Statement.getMetaData( )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"getMetaData",
@@ -263,12 +263,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#executeQuery()
+	 * @see org.eclipse.birt.data.oda.IQuery#executeQuery()
 	 */
 	public IResultSet executeQuery( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL,
-				"Statement.executeQuery( )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"executeQuery",
@@ -302,7 +300,6 @@ public class Statement implements IStatement
 	 */
 	boolean execute( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.execute( )" );
 		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"execute",
@@ -326,7 +323,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setInt(java.lang.String, int)
+	 * @see org.eclipse.birt.data.oda.IQuery#setInt(java.lang.String, int)
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
@@ -341,12 +338,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setInt(int, int)
+	 * @see org.eclipse.birt.data.oda.IQuery#setInt(int, int)
 	 */
 	public void setInt( int parameterId, int value ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setInt( "
-				+ parameterId + " , " + value + " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -365,7 +360,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setDouble(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setDouble(java.lang.String,
 	 *      double)
 	 */
 	public void setDouble( String parameterName, double value )
@@ -382,12 +377,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setDouble(int, double)
+	 * @see org.eclipse.birt.data.oda.IQuery#setDouble(int, double)
 	 */
 	public void setDouble( int parameterId, double value ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setDouble( "
-				+ parameterId + " , " + value + " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -406,7 +399,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setBigDecimal(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setBigDecimal(java.lang.String,
 	 *      java.math.BigDecimal)
 	 */
 	public void setBigDecimal( String parameterName, BigDecimal value )
@@ -423,15 +416,12 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setBigDecimal(int,
+	 * @see org.eclipse.birt.data.oda.IQuery#setBigDecimal(int,
 	 *      java.math.BigDecimal)
 	 */
 	public void setBigDecimal( int parameterId, BigDecimal value )
 			throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"Statement.setBigDecimal( " + parameterId + " , " + value
-						+ " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -453,7 +443,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setString(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setString(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public void setString( String parameterName, String value )
@@ -470,13 +460,11 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setString(int,
+	 * @see org.eclipse.birt.data.oda.IQuery#setString(int,
 	 *      java.lang.String)
 	 */
 	public void setString( int parameterId, String value ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setString( "
-				+ parameterId + " , \"" + value + "\" )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -495,7 +483,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setDate(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setDate(java.lang.String,
 	 *      java.sql.Date)
 	 */
 	public void setDate( String parameterName, Date value ) throws OdaException
@@ -511,12 +499,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setDate(int, java.sql.Date)
+	 * @see org.eclipse.birt.data.oda.IQuery#setDate(int, java.sql.Date)
 	 */
 	public void setDate( int parameterId, Date value ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setDate( "
-				+ parameterId + " , " + value + " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -535,7 +521,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setTime(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setTime(java.lang.String,
 	 *      java.sql.Time)
 	 */
 	public void setTime( String parameterName, Time value ) throws OdaException
@@ -551,12 +537,10 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setTime(int, java.sql.Time)
+	 * @see org.eclipse.birt.data.oda.IQuery#setTime(int, java.sql.Time)
 	 */
 	public void setTime( int parameterId, Time value ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setTime( "
-				+ parameterId + " , " + value + " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -575,7 +559,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setTimestamp(java.lang.String,
+	 * @see org.eclipse.birt.data.oda.IQuery#setTimestamp(java.lang.String,
 	 *      java.sql.Timestamp)
 	 */
 	public void setTimestamp( String parameterName, Timestamp value )
@@ -592,14 +576,12 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setTimestamp(int,
+	 * @see org.eclipse.birt.data.oda.IQuery#setTimestamp(int,
 	 *      java.sql.Timestamp)
 	 */
 	public void setTimestamp( int parameterId, Timestamp value )
 			throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "Statement.setTimestamp( "
-				+ parameterId + " , " + value + " )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -621,7 +603,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#findInParameter(java.lang.String)
+	 * @see org.eclipse.birt.data.oda.IQuery#findInParameter(java.lang.String)
 	 */
 	public int findInParameter( String parameterName ) throws OdaException
 	{
@@ -635,53 +617,12 @@ public class Statement implements IStatement
 		throw e;
 	}
 
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getParameterType(java.lang.String)
-	 */
-	public int getParameterType( String parameterName ) throws OdaException
-	{
-		/* not supported */
-		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"getParameterType",
-				"No named Parameter supported.",
-				e );
-		throw e;
-	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getParameterType(int)
-	 */
-	public int getParameterType( int parameterId ) throws OdaException
-	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"Statement.getParameterType( " + parameterId + " )" );
-		assertNotNull( preStat );
-
-		try
-		{
-			/*
-			 * redirect the call to JDBC preparedStatement.getParameterMetaData(
-			 * ).getParameterType(int)
-			 */
-			return this.preStat.getParameterMetaData( ).getParameterType(
-					parameterId );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_PARAMETER_TYPE_CANNOT_GET,
-					e );
-		}
-	}
-
-	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getParameterMetaData()
+	 * @see org.eclipse.birt.data.oda.IQuery#getParameterMetaData()
 	 */
 	public IParameterMetaData getParameterMetaData( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"Statement.getParameterMetaData( )" );
 		assertNotNull( preStat );
 		try
 		{
@@ -695,7 +636,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#setSortSpec(org.eclipse.birt.data.oda.SortSpec)
+	 * @see org.eclipse.birt.data.oda.IQuery#setSortSpec(org.eclipse.birt.data.oda.SortSpec)
 	 */
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
@@ -710,7 +651,7 @@ public class Statement implements IStatement
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IStatement#getSortSpec()
+	 * @see org.eclipse.birt.data.oda.IQuery#getSortSpec()
 	 */
 	public SortSpec getSortSpec( ) throws OdaException
 	{
@@ -726,7 +667,6 @@ public class Statement implements IStatement
 
 	public void clearInParameters() throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL, "Statement.clearInParameters( )" );
 		assertNotNull( preStat );
 		try
 		{

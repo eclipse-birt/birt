@@ -124,7 +124,7 @@ public class JdbcMetaDataProvider
 				passWord,
 				url,
 				driver,
-				handle.getDriverName( ) ); 
+				handle.getExtensionID()); 
 		
 		return jdbcConnection;
 	}

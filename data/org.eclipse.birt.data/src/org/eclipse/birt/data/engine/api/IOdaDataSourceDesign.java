@@ -25,11 +25,12 @@ import java.util.Map;
 public interface IOdaDataSourceDesign extends IBaseDataSourceDesign 
 {
     /**
-     * Gets the name of the data source driver name.
-     * The driver name is required in a data source design.
-     * @return	The data source driver name
+     * Gets the unique id of this data source type, assigned by the extension 
+     * providing the implementation of this ODA data source.
+     * An extension id is required in a data source design.
+     * @return	The data source extension id
      */
-    public abstract String getDriverName();
+    public abstract String getExtensionID();
 
     /**
 	 * Gets the public connection property, in the form of a (name, value) pair.

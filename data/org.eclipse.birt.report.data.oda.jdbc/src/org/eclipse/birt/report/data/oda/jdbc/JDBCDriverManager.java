@@ -14,8 +14,6 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -29,8 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
-import org.eclipse.birt.data.oda.util.driverconfig.OdaDriverConfiguration;
 
 /**
  * Utility classs that manages the JDBC drivers available to this bridge driver.
@@ -53,7 +49,7 @@ public class JDBCDriverManager
 	private JDBCDriverManager()
 	{
 		logger.logp( java.util.logging.Level.FINE,
-				JDBCConnectionFactory.class.getName( ),
+				OdaJdbcDriver.class.getName( ),
 				"JDBCDriverManager",
 				"JDBCDriverManager starts up" );
 	}
@@ -221,9 +217,6 @@ public class JDBCDriverManager
 	
 	private static class DriverClassLoader extends URLClassLoader
 	{
-		private final static String DRIVER_NAME = "jdbc";
-		private final static String DRIVER_DIRECTORY = "drivers";
-		
 		private File driverHomeDir = null;
 		
 		//The list of file names which are used to construct the URL search list of URLClassLoader
@@ -303,24 +296,7 @@ public class JDBCDriverManager
 			assert driverHomeDir == null;
 			try 
 			{
-				OdaDriverConfiguration driverConfig = 
-					ConfigManager.getInstance().getDriverConfig( DRIVER_NAME );
-				if ( driverConfig != null )
-				{
-				    URL url = driverConfig.getDriverLocation();
-				    // TODO: need be enhanced
-				    try
-					{
-				    	URI uri = new URI(url.toString());
-						driverHomeDir = new File( uri.getPath(), 
-								DRIVER_DIRECTORY );
-					}
-					catch ( URISyntaxException e )
-					{
-						driverHomeDir = new File( url.getFile(), 
-								DRIVER_DIRECTORY );
-					}
-				}
+				driverHomeDir = OdaJdbcDriver.getDriverDirectory();
 			}
 			catch ( Exception e) 
 			{
@@ -331,7 +307,7 @@ public class JDBCDriverManager
 			{
 				//if cannot find driver directory in plugin path, try to find it in
 				// current path
-				driverHomeDir = new File(DRIVER_DIRECTORY);
+				driverHomeDir = new File( OdaJdbcDriver.DRIVER_DIRECTORY );
 			}
 			
 			logger.info( "JDBCDriverManager: drivers directory location: " + driverHomeDir );

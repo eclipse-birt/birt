@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (C) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
@@ -179,18 +179,12 @@ public class JdbcDriverManagerDialog extends Dialog
 
 	/**
 	 * Returns the ODA dirvers directory path. <br>
-	 * TODO: may change according to ODA API change.
-	 * 
-	 * @return
 	 */
 	private File getDriverLocation( )
 	{
-		ConfigManager configMgr = ConfigManager.getInstance( );
 		try
 		{
-			return new File( ( configMgr.getDriverConfig( "jdbc" ) ).getDriverLocation( )
-					.getFile( )
-					+ "/drivers" ); //$NON-NLS-1$ //$NON-NLS-2$
+			return OdaJdbcDriver.getDriverDirectory();
 		}
 		catch ( IOException e )
 		{
@@ -473,7 +467,7 @@ public class JdbcDriverManagerDialog extends Dialog
 
 	private void updateDriverMap( )
 	{
-		ArrayList driverList = JdbcToolKit.getJdbcDriverNames( "jdbc" ); //$NON-NLS-1$
+		ArrayList driverList = JdbcToolKit.getJdbcDriverNames( OdaJdbcDriver.DATA_SOURCE_ID );
 		for ( Iterator itr = driverList.iterator( ); itr.hasNext( ); )
 		{
 			JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );

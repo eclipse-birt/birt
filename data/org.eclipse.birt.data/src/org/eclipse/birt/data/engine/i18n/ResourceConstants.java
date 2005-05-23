@@ -30,7 +30,7 @@ public class ResourceConstants
 	public final static String DUPLICATE_PROPERTY_NAME = "data.engine.DupPropertyName";
 	public final static String SUBQUERY_NOT_FOUND = "data.engine.NoSubQueryName";
 
-	public final static String MISSING_DRIVERNAME = "data.engine.DataSourceMissingDriver";
+	public final static String MISSING_DATASOURCE_EXT_ID = "data.engine.DataSourceMissingExtId";
 	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "data.engine.NullGroupStart";
 	
 	public final static String RESULT_CLOSED = "data.engine.ResultClosed";
@@ -109,7 +109,7 @@ public class ResourceConstants
 	public final static String PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ParameterPositionIsOneBased";
 	public final static String CANNOT_GET_PARAMETER_TYPE_NAME = "odaconsumer.CannotGetParameterTypeName";
 	public final static String CANNOT_GET_PARAMETER_MODE = "odaconsumer.CannotGetParameterMode";
-	public final static String CANOOT_GET_PARAMETER_SCALE = "odaconsumer.CannotGetParameterScale";
+	public final static String CANNOT_GET_PARAMETER_SCALE = "odaconsumer.CannotGetParameterScale";
 	public final static String CANNOT_GET_PARAMETER_PRECISION = "odaconsumer.CannotGetParameterPrecision";
 	public final static String CANNOT_GET_PARAMETER_ISNULLABLE = "odaconsumer.CannotGetParameterIsNullable";
 	public final static String SAME_PARAM_NAME_FOR_DIFFERENT_HINTS = "odaconsumer.SameParamNameForDifferentHints";
@@ -125,7 +125,7 @@ public class ResourceConstants
 	public final static String OUTPUT_PARAMETERS_UNSUPPORTED = "odaconsumer.OutputParameterUnsupported";
 	public final static String CANNOT_GET_CONNECTION_METADATA = "odaconsumer.CannotGetConnectionMetaData";
 	public final static String CANNOT_GET_MAX_CONNECTIONS = "odaconsumer.CannotGetMaxConnections";
-	public final static String CANNOT_GET_MAX_STATEMENTS = "odaconsumer.CannotGetMaxStatements";
+	public final static String CANNOT_GET_MAX_QUERIES = "odaconsumer.CannotGetMaxStatements";
 	public final static String CANNOT_GET_DS_METADATA = "odaconsumer.CannotGetDataSetMetaData";
 	public final static String CANNOT_PREPARE_STATEMENT = "odaconsumer.CannotPrepareStatement";
 	public final static String CANNOT_CLOSE_CONNECTION = "odaconsumer.CannotCloseConnection";
@@ -181,5 +181,6 @@ public class ResourceConstants
 	public final static String CANNOT_CLEAR_IN_PARAMETERS = "odaconsumer.CannotClearInParameters";
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
 	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
+	public final static String CANNOT_GET_PARAMETER_METADATA = "odaconsumer.CannotGetParameterMetaData";
 	
 }

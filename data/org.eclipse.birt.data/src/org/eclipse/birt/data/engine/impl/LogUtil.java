@@ -250,8 +250,8 @@ public final class LogUtil
 		if ( !isEmpty( dataSet.getResultSetHints( ) ) )
 			stringBuffer.append( "ResultSetHints : "+ toString(dataSet.getResultSetHints())+"\r\n" );
 		//OdaDataSetDesign
-		if ( !isEmpty( dataSet.getDataSetType( ) ) )
-			stringBuffer.append( "DataSetType : "+dataSet.getDataSetType()+"\r\n" );
+		if ( !isEmpty( dataSet.getExtensionID( ) ) )
+			stringBuffer.append( "ExtensionID : "+dataSet.getExtensionID()+"\r\n" );
 		
 		if ( !isEmpty( dataSet.getPrimaryResultSetName( ) ) )
 			stringBuffer.append( "PrimaryResultSetName : "+dataSet.getPrimaryResultSetName()+"\r\n" );
@@ -287,8 +287,8 @@ public final class LogUtil
 		if ( !isEmpty( dataSource.getBeforeOpenScript( ) ) )
 			stringBuffer.append( "BeforeOpenScript : "+dataSource.getBeforeOpenScript()+"\r\n" );
 		//OdaDataSourceDesign
-		if ( !isEmpty( dataSource.getDriverName( ) ) )
-			stringBuffer.append( "DriverName : "+dataSource.getDriverName()+"\r\n" );
+		if ( !isEmpty( dataSource.getExtensionID( ) ) )
+			stringBuffer.append( "ExtensionID : "+dataSource.getExtensionID()+"\r\n" );
 		if ( !isEmpty( dataSource.getPrivateProperties( ) ) )
 			stringBuffer.append( "PrivateProperties : "+dataSource.getPrivateProperties()+"\r\n" );
 		if ( !isEmpty( dataSource.getPublicProperties( ) ) )

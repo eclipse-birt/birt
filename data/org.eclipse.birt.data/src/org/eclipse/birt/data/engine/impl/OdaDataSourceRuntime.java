@@ -26,7 +26,7 @@ import java.util.logging.Level;
 public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataSourceDesign
 {
 	private	Map			publicProperties;
-	private String		driverName;
+	private String		extensionID;
 	
     OdaDataSourceRuntime( IOdaDataSourceDesign dataSource, DataEngineImpl dataEngine )
     {
@@ -36,7 +36,7 @@ public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataS
         publicProperties = new HashMap();
         publicProperties.putAll( dataSource.getPublicProperties() );
         
-        driverName = dataSource.getDriverName();
+        extensionID = dataSource.getExtensionID();
 		logger.log(Level.FINER,"OdaDataSourceRuntime starts up");
    }
 
@@ -45,15 +45,15 @@ public class OdaDataSourceRuntime extends DataSourceRuntime implements IOdaDataS
 		return (IOdaDataSourceDesign) getDesign();
 	}
 
-    public String getDriverName()
+    public String getExtensionID()
 	{
-	    return driverName;
+	    return extensionID;
 	}
     
-    /** Sets the driverName */
-    public void setDriverName( String driverName )
+    /** Sets the extensionID */
+    public void setExtensionID( String exensionID )
     {
-    	this.driverName = driverName;
+    	this.extensionID = exensionID;
     }
 
     public Map getPublicProperties( ) 

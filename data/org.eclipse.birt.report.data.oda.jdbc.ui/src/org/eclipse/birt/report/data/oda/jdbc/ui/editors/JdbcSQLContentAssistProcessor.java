@@ -41,7 +41,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/05 02:16:15 $
+ * @version $Revision: 1.9.2.1 $ $Date: 2005/05/19 19:40:40 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -76,7 +76,7 @@ public class JdbcSQLContentAssistProcessor implements
                         (String)dataSourceHandle.getProperty(Constants.ODAURL),
                         (String)dataSourceHandle.getProperty(Constants.ODAUser),
                         (String)dataSourceHandle.getProperty(Constants.ODAPassword), //$NON-NLS-1$
-                        JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getDriverName( ) ),
+                        JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getExtensionID( ) ),
                         null );
         
     }

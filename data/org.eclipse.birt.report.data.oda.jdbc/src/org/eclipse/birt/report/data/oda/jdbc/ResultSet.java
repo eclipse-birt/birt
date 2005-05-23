@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.data.oda.IResultSet;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
 import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.logging.Level;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
@@ -85,7 +84,6 @@ public class ResultSet implements IResultSet
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getMetaData()" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"getMetaData",
@@ -112,7 +110,6 @@ public class ResultSet implements IResultSet
 	 */
 	public void close( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.INFO_LEVEL, "ResultSet.close()" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"close",
@@ -138,8 +135,6 @@ public class ResultSet implements IResultSet
 	 */
 	public void setMaxRows( int max )
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.setMaxRows( "
-				+ max + " )" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"setMaxRows",
@@ -160,7 +155,6 @@ public class ResultSet implements IResultSet
 	 */
 	public boolean next( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.next()" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"next",
@@ -190,7 +184,6 @@ public class ResultSet implements IResultSet
 	 */
 	public int getRow( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getRow()" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"getRow",
@@ -205,8 +198,6 @@ public class ResultSet implements IResultSet
 	 */
 	public String getString( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getString( "
-				+ index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -227,8 +218,6 @@ public class ResultSet implements IResultSet
 	 */
 	public String getString( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getString( \""
-				+ columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -249,8 +238,6 @@ public class ResultSet implements IResultSet
 	 */
 	public int getInt( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getInt( "
-				+ index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -271,8 +258,6 @@ public class ResultSet implements IResultSet
 	 */
 	public int getInt( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getInt( \""
-				+ columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -293,8 +278,6 @@ public class ResultSet implements IResultSet
 	 */
 	public double getDouble( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getDouble( "
-				+ index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -315,8 +298,6 @@ public class ResultSet implements IResultSet
 	 */
 	public double getDouble( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getDouble( \""
-				+ columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -337,8 +318,6 @@ public class ResultSet implements IResultSet
 	 */
 	public BigDecimal getBigDecimal( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"ResultSet.getBigDecimal( " + index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -359,8 +338,6 @@ public class ResultSet implements IResultSet
 	 */
 	public BigDecimal getBigDecimal( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"ResultSet.getBigDecimal( \"" + columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -381,8 +358,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Date getDate( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getDate( "
-				+ index + " )" );
 		assertNotNull( rs );
 
 		try
@@ -404,8 +379,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Date getDate( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getDate( \""
-				+ columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -426,8 +399,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Time getTime( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getTime( "
-				+ index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -448,8 +419,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Time getTime( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getTime( \""
-				+ columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -470,8 +439,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Timestamp getTimestamp( int index ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.getTimestamp( "
-				+ index + " )" );
 		assertNotNull( rs );
 		try
 		{
@@ -492,8 +459,6 @@ public class ResultSet implements IResultSet
 	 */
 	public Timestamp getTimestamp( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL,
-				"ResultSet.getTimestamp( \"" + columnName + "\" )" );
 		assertNotNull( rs );
 		try
 		{
@@ -514,7 +479,6 @@ public class ResultSet implements IResultSet
 	 */
 	public boolean wasNull( ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.wasNull()" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"getMetaData",
@@ -539,8 +503,6 @@ public class ResultSet implements IResultSet
 	 */
 	public int findColumn( String columnName ) throws OdaException
 	{
-		JDBCConnectionFactory.log( Level.FINE_LEVEL, "ResultSet.findColumn( \""
-				+ columnName + "\" )" );
 		logger.logp( java.util.logging.Level.FINE,
 				ResultSet.class.getName( ),
 				"findColumn",

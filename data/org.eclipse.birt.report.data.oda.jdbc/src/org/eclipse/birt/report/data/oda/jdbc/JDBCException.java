@@ -17,7 +17,6 @@ import java.sql.SQLException;
 
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.logging.Level;
 
 /**
  * JDBCException is thrown when a JDBC call results in a java.sql.SQLException
@@ -46,7 +45,6 @@ public class JDBCException extends OdaException
 	{
 		super( errorCode, null, vendorCode );
 		this.errorCode = errorCode;
-		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
 		logger.logp( java.util.logging.Level.FINE,
 				JDBCException.class.getName( ),
 				"JDBCException",
@@ -65,7 +63,6 @@ public class JDBCException extends OdaException
 				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
-		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
 		logger.logp( java.util.logging.Level.FINE,
 				JDBCException.class.getName( ),
 				"JDBCException",
@@ -88,7 +85,6 @@ public class JDBCException extends OdaException
 		this.argv = new Object[]{
 			argv
 		};
-		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
 		logger.logp( java.util.logging.Level.FINE,
 				JDBCException.class.getName( ),
 				"JDBCException",
@@ -109,7 +105,6 @@ public class JDBCException extends OdaException
 		initCause( cause );
 		this.errorCode = errorCode;
 		this.argv = argv;
-		JDBCConnectionFactory.log( Level.SEVERE_LEVEL, errorCode );
 		logger.logp( java.util.logging.Level.FINE,
 				JDBCException.class.getName( ),
 				"JDBCException",

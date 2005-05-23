@@ -28,7 +28,7 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 {
 	private String	queryText;
 	private String	queryScript;
-	private String	dataSetType;
+	private String	extensionID;
 	private String	primaryResultSetName;
 	private Map 	publicProps;
 	private Map 	privateProps;
@@ -86,20 +86,20 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getDataSetType()
+	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getExtensionID()
 	 */
-    public String getDataSetType()
+    public String getExtensionID()
     {
-        return dataSetType;
+        return extensionID;
     }
 
     /**
-     * Specifies the type of data set query defined in the data set.
-     * @param dataSetType	The type of data set query, as named by the data access driver.
+     * Specifies the extension ID for this type of data set
+     * @param extensionID	The extension id for this data set type as assigned by the ODA driver
      */
-    public void setDataSetType( String dataSetType )
+    public void setExtensionID( String extensionID )
     {
-        this.dataSetType = dataSetType;
+        this.extensionID = extensionID;
     }
 
     /**
@@ -171,7 +171,8 @@ public class OdaDataSetDesign extends BaseDataSetDesign
         if ( values == null )
             values = new HashSet();
  
-        // add given value to the set of values
+        // add given value to the set of values;
+        // any property value, including null, is passed to the underlying data provider
         values.add( value );
         
         properties.put( name, values );

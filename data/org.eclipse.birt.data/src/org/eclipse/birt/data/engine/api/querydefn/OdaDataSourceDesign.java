@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 public class OdaDataSourceDesign extends BaseDataSourceDesign 
 		implements IOdaDataSourceDesign 
 {
-    private String	driverName;
+    private String	extensionID;
     private Map 	publicProps;
     private Map 	privateProps;
 
@@ -41,22 +41,22 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
     }
     
     /**
-     * Gets the name of the data source driver name.
-     * The driver name is required in a data source design.
-     * @return	The data source driver name
+     * Gets the data source extension id as defined by ODA driver
+     * This property is required in a data source design.
+     * @return	The data source extension id
      */
- 	public String getDriverName()
+ 	public String getExtensionID()
 	{
-	    return driverName;
+	    return extensionID;
 	}
 
  	/**
- 	 * Specifies the name of the data source driver.
- 	 * @param name	Name of the data source driver.
+     * Sets the data source extension id as defined by ODA driver
+ 	 * @param id	The data source extension id
  	 */
-	public void setDriverName( String name )
+	public void setExtensionID( String id )
 	{
-	    driverName = name;
+	    extensionID = id;
 	}
 
 	/**
@@ -113,8 +113,10 @@ public class OdaDataSourceDesign extends BaseDataSourceDesign
             throw new DataException( ResourceConstants.DUPLICATE_PROPERTY_NAME,
 					name );
         
+        // since the ultimate destination used is a java.util.Properties,
+        // a null property value is not accepted
         if ( value != null )
-			properties.put( name, value );
+            properties.put( name, value );
     }
    
 }

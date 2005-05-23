@@ -25,103 +25,141 @@
    			schema="schema/driverinfo.exsd"/>
    			
    <extension
-         point="org.eclipse.birt.data.oda.odaDriverRuntime">
-      <odaDriverRuntime
-            odaVersion="2.0"
-            driverName="jdbc"
-            connectionFactoryClass="org.eclipse.birt.report.data.oda.jdbc.JDBCConnectionFactory"
+         point="org.eclipse.birt.data.oda.dataSource">
+      <dataSource
+            odaVersion="2.0.0"
+            driverClass="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver"
+            defaultDisplayName="JDBC Data Source"
             setThreadContextClassLoader="false"
-            displayName="JDBC Data Source">
-         <providerInfo
-               providerOrg="Eclipse.org"
-               applicationName="BIRT JDBC-ODA Bridge Driver"
-               providerURL="http://www.eclipse.org"
-               copyrightNotice="Copyright (c) 2004-2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html"
-               version="1.0"/>
-         <connectionType name="jdbc"/>
-         <dataSetType name="JdbcSelectDataSet">
-            <dataTypeMapping
-                  nativeDataType="BIT"
-                  nativeDataTypeCode="-7"
-                  odaScalarDataType="Integer"/>
-            <dataTypeMapping
-                  nativeDataType="TINYINT"
-                  nativeDataTypeCode="-6"
-                  odaScalarDataType="Integer"/>
-            <dataTypeMapping
-                  nativeDataType="SMALLINT"
-                  nativeDataTypeCode="5"
-                  odaScalarDataType="Integer"/>
-            <dataTypeMapping
-                  nativeDataType="INTEGER"
-                  nativeDataTypeCode="4"
-                  odaScalarDataType="Integer"/>
-            <dataTypeMapping
-                  nativeDataType="BIGINT"
-                  nativeDataTypeCode="-5"
-                  odaScalarDataType="Decimal"/>
-            <dataTypeMapping
-                  nativeDataType="FLOAT"
-                  nativeDataTypeCode="6"
-                  odaScalarDataType="Double"/>
-            <dataTypeMapping
-                  nativeDataType="REAL"
-                  nativeDataTypeCode="7"
-                  odaScalarDataType="Double"/>
-            <dataTypeMapping
-                  nativeDataType="DOUBLE"
-                  nativeDataTypeCode="8"
-                  odaScalarDataType="Double"/>
-            <dataTypeMapping
-                  nativeDataType="NUMERIC"
-                  nativeDataTypeCode="2"
-                  odaScalarDataType="Decimal"/>
-            <dataTypeMapping
-                  nativeDataType="DECIMAL"
-                  nativeDataTypeCode="3"
-                  odaScalarDataType="Decimal"/>
-            <dataTypeMapping
-                  nativeDataType="CHAR"
-                  nativeDataTypeCode="1"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="VARCHAR"
-                  nativeDataTypeCode="12"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="LONGVARCHAR"
-                  nativeDataTypeCode="-1"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="DATE"
-                  nativeDataTypeCode="91"
-                  odaScalarDataType="Date"/>
-            <dataTypeMapping
-                  nativeDataType="TIME"
-                  nativeDataTypeCode="92"
-                  odaScalarDataType="Time"/>
-            <dataTypeMapping
-                  nativeDataType="TIMESTAMP"
-                  nativeDataTypeCode="93"
-                  odaScalarDataType="Timestamp"/>
-            <dataTypeMapping
-                  nativeDataType="BINARY"
-                  nativeDataTypeCode="-2"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="VARBINARY"
-                  nativeDataTypeCode="-3"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="LONGVARBINARY"
-                  nativeDataTypeCode="-4"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="BOOLEAN"
-                  nativeDataTypeCode="16"
-                  odaScalarDataType="Integer"/>
-          </dataSetType>
-      </odaDriverRuntime>
+            id="org.eclipse.birt.report.data.oda.jdbc">
+         <properties>
+            <propertyGroup
+                  defaultDisplayName="Connection Properties"
+                  name="connectionProperties">
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver Class"
+                  canInherit="true"
+                  name="odaDriverClass"/>
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver URL"
+                  canInherit="true"
+                  name="odaURL"/>
+               <property
+                  type="string"
+                  defaultDisplayName="Data Source"
+                  canInherit="true"
+                  name="odaDataSource"/>
+               <property
+                  type="string"
+                  defaultDisplayName="User Name"
+                  canInherit="true"
+                  name="odaUser"/>
+               <property
+                     isEncryptable="true"
+                     type="string"
+                     canInherit="true"
+                     defaultDisplayName="Password"
+                     name="odaPassword"/>
+            </propertyGroup>
+         </properties>
+      </dataSource>
+      <dataSet
+            defaultDisplayName="SQL Select Query"
+            id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+         <dataTypeMapping
+               nativeDataType="BIT"
+               nativeDataTypeCode="-7"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="TINYINT"
+               nativeDataTypeCode="-6"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="SMALLINT"
+               nativeDataTypeCode="5"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="INTEGER"
+               nativeDataTypeCode="4"
+               odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="BIGINT"
+               nativeDataTypeCode="-5"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="FLOAT"
+               nativeDataTypeCode="6"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="REAL"
+               nativeDataTypeCode="7"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="DOUBLE"
+               nativeDataTypeCode="8"
+               odaScalarDataType="Double"/>
+         <dataTypeMapping
+               nativeDataType="NUMERIC"
+               nativeDataTypeCode="2"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="DECIMAL"
+               nativeDataTypeCode="3"
+               odaScalarDataType="Decimal"/>
+         <dataTypeMapping
+               nativeDataType="CHAR"
+               nativeDataTypeCode="1"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="VARCHAR"
+               nativeDataTypeCode="12"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="LONGVARCHAR"
+               nativeDataTypeCode="-1"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="DATE"
+               nativeDataTypeCode="91"
+               odaScalarDataType="Date"/>
+         <dataTypeMapping
+               nativeDataType="TIME"
+               nativeDataTypeCode="92"
+               odaScalarDataType="Time"/>
+         <dataTypeMapping
+               nativeDataType="TIMESTAMP"
+               nativeDataTypeCode="93"
+               odaScalarDataType="Timestamp"/>
+         <dataTypeMapping
+               nativeDataType="BINARY"
+               nativeDataTypeCode="-2"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="VARBINARY"
+               nativeDataTypeCode="-3"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="LONGVARBINARY"
+               nativeDataTypeCode="-4"
+               odaScalarDataType="String"/>
+         <dataTypeMapping
+               nativeDataType="BOOLEAN"
+               nativeDataTypeCode="16"
+               odaScalarDataType="Integer"/>
+         <properties>
+            <propertyGroup
+                  defaultDisplayName="Query Properties"
+                  name="queryProperties">
+               <property
+                     type="string"
+                     defaultDisplayName="Query Time Out (in seconds)"
+                     canInherit="true"
+                     name="queryTimeOut"/>
+            </propertyGroup>
+         </properties>
+      </dataSet>
    </extension>
    <extension
          point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
@@ -141,41 +179,5 @@
             driverClass="com.ibm.db2.jcc.DB2Driver"
             urlTemplate="jdbc:derby:net://&lt;server&gt;[:&lt;port&gt;]/&lt;databaseName&gt;[;&lt;attr&gt;=&lt;value&gt; ]*"
             name="Apache Derby Network (IBM DB2 Universal Driver)"/>
-   </extension>
-   <extension
-         point="org.eclipse.birt.report.model.odaDriverModel">
-	  <odaDataSource
-            extensionName="jdbc">
-         <propertyGroup
-               defaultDisplayName="Connection Properties"
-               name="connectionProperties">
-            <property
-                  type="string"
-                  defaultDisplayName="JDBC Driver Class"
-                  canInherit="true"
-                  name="odaDriverClass"/>
-            <property
-                  type="string"
-                  defaultDisplayName="JDBC Driver URL"
-                  canInherit="true"
-                  name="odaURL"/>
-            <property
-                  type="string"
-                  defaultDisplayName="Data Source"
-                  canInherit="true"
-                  name="odaDataSource"/>
-            <property
-                  type="string"
-                  defaultDisplayName="User Name"
-                  canInherit="true"
-                  name="odaUser"/>
-            <property
-                  type="string"
-                  defaultDisplayName="Password"
-                  canInherit="true"
-                  isEncryptable="true"
-                  name="odaPassword"/>
-         </propertyGroup>
-      </odaDataSource>
    </extension>
 </plugin>

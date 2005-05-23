@@ -41,13 +41,14 @@ public interface IOdaDataSetDesign extends IBaseDataSetDesign
     public abstract String getQueryScript();
 
     /**
-     * Gets the type of data set query defined, as identified by
-     * an ODA data access driver.  The type name is required if the
-     * data access driver supports more than one types of data set query.
-     * @return	The type of data set query as referenced by a data access driver.
+     * Gets the unique id that identifies the type of the data set, assigned by the
+     * extension providing the implementation of this data set.  
+     * The id is required if the
+     * ODA driver supports more than one types of data set.
+     * @return	The id fo the type of data set type as referenced by an ODA driver.
      * 			Null if none is defined. 
      */
-    public abstract String getDataSetType();
+    public abstract String getExtensionID();
       
    
     /**

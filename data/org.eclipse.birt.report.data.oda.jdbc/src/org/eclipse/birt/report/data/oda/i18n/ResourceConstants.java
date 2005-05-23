@@ -113,4 +113,8 @@ public class ResourceConstants
 	public final static String DRIVER_NO_RESULTSETMETADATA = "odajdbc.driver.ResultSetMetadataCannotNull";
 	public final static String DRIVER_NO_STATEMENT = "odajdbc.driver.StatementCannotNull";
 
+	public final static String CANNOT_GET_MAXQUERIES="odajdbc.CannotGetMaxQuerie";
+	public final static String CANNOT_SET_QUERY_TIMEOUT="odajdbc.CannotSetQueryTimeout";
+	public final static String BAD_QUERY_PROPERTY="odajdbc.BadQueryProperty";
+	
 }

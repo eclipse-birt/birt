@@ -70,19 +70,11 @@ public class OdaDataSetRuntime extends DataSetRuntime implements IOdaDataSetDesi
     	return getSubdesign().getQueryScript();
     }
     
-    public String getDataSetType()
+    public String getExtensionID()
     {
-        return getSubdesign().getDataSetType();
+        return getSubdesign().getExtensionID();
     }
 
-    /**
-     * @deprecated use getDataSetType
-     */
-	public String getQueryType()
-	{
-        return getSubdesign().getDataSetType();
-	}
-	
     public String getPrimaryResultSetName()
     {
         return getSubdesign().getPrimaryResultSetName();

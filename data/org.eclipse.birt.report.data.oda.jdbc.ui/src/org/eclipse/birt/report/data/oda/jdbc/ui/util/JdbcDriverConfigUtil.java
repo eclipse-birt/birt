@@ -13,13 +13,13 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.driverconfig.ConfigManager;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcDriverConfigUtil
 {
 
-	private String driverName = "jdbc"; //$NON-NLS-1$
+	private String driverName = OdaJdbcDriver.DATA_SOURCE_ID; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -50,8 +50,7 @@ public class JdbcDriverConfigUtil
 
 	private File getDriverLocation( ) throws OdaException, IOException
 	{
-        ConfigManager configMgr = ConfigManager.getInstance( );
-        return new File((configMgr.getDriverConfig(getDriverName())).getDriverLocation().getFile() + "/drivers");
+		return OdaJdbcDriver.getDriverDirectory();
 	}
     
 
