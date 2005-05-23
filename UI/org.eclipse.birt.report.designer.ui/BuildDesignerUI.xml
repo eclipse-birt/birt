@@ -164,7 +164,7 @@
 		<property name="plugin.name" value="${module.name}_${plugin.version}" />
 		<copy todir="${export.dir}\${plugin.name}">
 			<fileset dir=".">
-				<exclude name="plugin.properties"/>
+				<exclude name="plugin*.properties"/>
 	 			<include name="${jar.name}"/>
  				<include name="plugin*.*"/>
  				<include name="lib\*.jar"/>
@@ -175,7 +175,7 @@
 				<include name="nl\**\*"/> 
 			</fileset>
 		</copy>
-		<copy todir="${export.dir}\${plugin.name}">
+		<copy todir="${export.dir}\${plugin.name}" overwrite="true">
 			<fileset dir=".">
 				<include name="plugin*.properties"/>
 			</fileset>
