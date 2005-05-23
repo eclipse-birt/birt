@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.Choice;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/08 06:09:15 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
  */
 public class AttributeBuilder
 {
@@ -130,43 +130,32 @@ public class AttributeBuilder
 	private static void buildBackground( StringBuffer content,
 			IStyle style, HTMLReportEmitter emitter )
 	{
-		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) ); //$NON-NLS-1$
+		buildProperty( content, HTMLTags.ATTR_COLOR, style.getColor( ) );
+		buildProperty( content, HTMLTags.ATTR_BACKGROUND_COLOR, style.getBackgroundColor( ) );
 
-		String color = style.getBackgroundColor( );
 		String image = style.getBackgroundImage( );
-		String repeat = style.getBackgroundRepeat( );
-		String attach = style.getBackgroundAttachment( );
-		String x = style.getBackgroundPositionX( );
-		String y = style.getBackgroundPositionY( );
-
-		if ( color == null && image == null && !"none".equalsIgnoreCase( image ) //$NON-NLS-1$
-				&& repeat == null && attach == null && x == null && y == null )
+		if ( image == null && !"none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
 		{
 			return;
 		}
 
-		content.append( " background:" ); //$NON-NLS-1$
-		addPropValue( content, color );
-		if(!"none".equalsIgnoreCase( image ) ) //$NON-NLS-1$
+		image = HTMLBaseEmitter.handleStyleImage(image, emitter);
+		if( image != null && image.length( ) > 0 )
 		{
-			if ( image!=null )
+			buildURLProperty( content, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
+			buildProperty( content, HTMLTags.ATTR_BACKGROUND_REPEAT, style.getBackgroundRepeat( ) );
+			buildProperty( content, HTMLTags.ATTR_BACKGROUND_ATTACHEMNT, style.getBackgroundAttachment( ) );
+			
+			String x = style.getBackgroundPositionX( );
+			String y = style.getBackgroundPositionY( );
+			if( x != null || y != null )
 			{
-				image = HTMLBaseEmitter.handleStyleImage(image, emitter);
-			}
-			if(image!=null  && image.length()>0)
-			{
-				addURLValue( content, image );
+				addPropName( content, HTMLTags.ATTR_BACKGROUND_POSITION );
+				addPropValue( content, x );
+				addPropValue( content, y );
+				content.append( ';' );
 			}
 		}
-		addPropValue( content, repeat );
-
-		addPropValue( content, attach );
-
-		addPropValue( content, x );
-
-		addPropValue( content, y );
-
-		content.append( ';' );
 	}
 
 	/**
@@ -424,6 +413,16 @@ public class AttributeBuilder
 		}
 	}
 
+	private static void buildURLProperty( StringBuffer content, String name, String url )
+	{
+		if( url != null )
+		{
+			addPropName( content, name );
+			addURLValue( content, url );
+			content.append( ';' );
+		}
+	}
+	
 	/**
 	 * Add property name to the Style string.
 	 * 

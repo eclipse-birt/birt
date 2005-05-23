@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/18 04:47:27 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/20 15:10:48 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.14 $ $Date: 2005/05/18 04:47:27 $
+	 * @version $Revision: 1.15 $ $Date: 2005/05/20 15:10:48 $
 	 */
 	private class PersistData
 	{
@@ -324,7 +324,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		writer.openTag( HTMLTags.TAG_COL );
 
-		// setStyleName( columnObj.getStyle( ) );
+		setStyleName( columnObj.getStyle( ) );
 
 		// width
 		StringBuffer styleBuffer = new StringBuffer( );
