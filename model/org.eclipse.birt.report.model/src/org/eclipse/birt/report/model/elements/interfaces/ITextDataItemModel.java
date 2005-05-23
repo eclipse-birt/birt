@@ -31,18 +31,15 @@ public interface ITextDataItemModel
 	 * that defines the type of text. Applies to both static text and the value
 	 * expression. The choices are:
 	 * <ul>
-	 * <li>¡°Auto¡± (default): BIRT will infer the format as explained above.
-	 * <li>¡°Plain¡±: Plain text.
-	 * <li>¡°HTML¡±: HTML format.
-	 * <li>¡°RTF¡±: Rich Text Format.
+	 * <li>Auto (default): BIRT will infer the format as explained above.
+	 * <li>Plain: Plain text.
+	 * <li>HTML: HTML format.
+	 * <li>RTF: Rich Text Format.
 	 * <li>Expression: an expression that returns one of the above strings.
 	 * </ul>
-	 * Note that the content type is an expression, not a choice. It the
-	 * developer wishes to specify the format statically, the value must be
-	 * enclosed in quotes to make it a valid expression.
 	 * 
 	 */
 
-	public static final String CONTENT_TYPE_EXPR_PROP = "contentTypeExpr"; //$NON-NLS-1$
+	public static final String CONTENT_TYPE_PROP = "contentType"; //$NON-NLS-1$
 
 }

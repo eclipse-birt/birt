@@ -259,22 +259,53 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *            group start property value.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * 
+	 * @deprecated by {@link #setIntervalBase(String)}
 	 */
 
 	public void setGroupStart( String groupStart ) throws SemanticException
 	{
-		setStringProperty( GroupElement.GROUP_START_PROP, groupStart );
+		setIntervalBase( groupStart );
 	}
 
 	/**
 	 * Return the group start property value of this group.
 	 * 
 	 * @return group start property value of this group.
+	 * 
+	 * @deprecated by {@link #getIntervalBase()}
 	 */
 
 	public String getGroupStart( )
 	{
-		return getStringProperty( GroupElement.GROUP_START_PROP );
+		return getIntervalBase( );
+	}
+
+	/**
+	 * Sets the base of the interval property of this group.IntervalBase, in
+	 * conjunction with Interval and IntervalRange, determines how data is
+	 * divided into groups.
+	 * 
+	 * @param intervalBase
+	 *            interval base property value.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIntervalBase( String intervalBase ) throws SemanticException
+	{
+		setStringProperty( GroupElement.INTERVAL_BASE_PROP, intervalBase );
+	}
+
+	/**
+	 * Return the interval base property value of this group.
+	 * 
+	 * @return interval baseF property value of this group.
+	 */
+
+	public String getIntervalBase( )
+	{
+		return getStringProperty( GroupElement.INTERVAL_BASE_PROP );
 	}
 
 	/**
@@ -394,7 +425,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
-	 *  
+	 * 
 	 */
 
 	public void setSortDirection( String direction ) throws SemanticException
@@ -406,7 +437,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group header slot is empty.
 	 * 
 	 * @return true is the header slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasHeader( )
@@ -418,7 +449,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group footer slot is empty.
 	 * 
 	 * @return true is the footer slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasFooter( )

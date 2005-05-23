@@ -18,9 +18,9 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -122,6 +122,15 @@ class PropertyState extends AbstractPropertyState
 			jmpDefn = struct.getDefn( ).getMember( name );
 		else
 			jmpDefn = element.getPropertyDefn( name );
+
+		if ( element instanceof ListGroup
+				&& ListGroup.GROUP_START_PROP.equalsIgnoreCase( name ) )
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, ListGroup.GROUP_START_PROP );
+			state.setName( ListGroup.INTERVAL_BASE_PROP );
+			return state;
+		}
 
 		if ( jmpDefn != null
 				&& ( FilterCondition.OPERATOR_MEMBER.equalsIgnoreCase( jmpDefn

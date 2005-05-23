@@ -18,10 +18,10 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -125,7 +125,7 @@ public class AbstractPropertyState extends AbstractParseState
 			valid = false;
 			return;
 		}
-		
+
 		super.parseAttrs( attrs );
 	}
 
@@ -349,6 +349,11 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
 					.getName( ) ) )
+				return true;
+
+			if ( element instanceof TextDataItem
+					&& TextDataItem.CONTENT_TYPE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 		}
 

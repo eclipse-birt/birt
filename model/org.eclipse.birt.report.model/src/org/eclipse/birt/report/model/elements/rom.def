@@ -298,6 +298,12 @@
     <Choice name="rtf" displayNameID="Choices.textContentType.rtf" />
 	-->
   </ChoiceType>
+  <ChoiceType name="textDataContentType">
+    <Choice name="auto" displayNameID="Choices.textDataContentType.auto" />
+    <Choice name="plain" displayNameID="Choices.textDataContentType.plain" />
+    <Choice name="html" displayNameID="Choices.textDataContentType.html" />
+    <Choice name="rtf" displayNameID="Choices.textDataContentType.rtf" />
+  </ChoiceType>  
   <ChoiceType name="formatType">
     <Choice name="all" displayNameID="Choices.formatType.all" />
     <Choice name="viewer" displayNameID="Choices.formatType.viewer" />
@@ -2260,7 +2266,7 @@
     <Property name="groupName" displayNameID="Element.ListingGroup.groupName" type="string" >
       <Trigger validator="GroupNameValidator" targetElement="Listing"/>
 	</Property>
-    <Property name="groupStart" displayNameID="Element.ListingGroup.groupStart" type="string" />
+    <Property name="intervalBase" displayNameID="Element.ListingGroup.intervalBase" type="string" />
     <Property name="interval" displayNameID="Element.ListingGroup.interval" type="choice" detailType="interval">
       <Default>none</Default>
     </Property>
@@ -2628,7 +2634,7 @@
   </Element>
   <Element name="TextData" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" displayNameID="Element.TextData" isAbstract="false" extends="ReportItem" allowsUserProperties="true" canExtend="true" hasStyle="true" isNameRequired="false" selector="text-data">
     <Property name="valueExpr" displayNameID="Element.TextData.valueExpr" type="expression" valueRequired="true" />
-    <Property name="contentTypeExpr" displayNameID="Element.TextData.contentTypeExpr" type="expression" />
+    <Property name="contentType" displayNameID="Element.TextData.contentType" type="choice" detailType="textDataContentType" />
     <StyleProperty name="backgroundAttachment" />
     <StyleProperty name="backgroundImage" />
     <StyleProperty name="backgroundPositionX" />

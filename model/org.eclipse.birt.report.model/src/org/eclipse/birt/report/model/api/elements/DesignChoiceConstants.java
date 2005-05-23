@@ -355,7 +355,15 @@ public interface DesignChoiceConstants
 	public static final String TEXT_CONTENT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
 	public static final String TEXT_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
 	public static final String TEXT_CONTENT_TYPE_RTF = "rtf"; //$NON-NLS-1$
-	
+
+	// ContentType for TextDataItem
+
+	public static final String CHOICE_TEXT_DATA_CONTENT_TYPE = "textDataContentType"; //$NON-NLS-1$
+	public static final String TEXT_DATA_CONTENT_TYPE_AUTO = "auto"; //$NON-NLS-1$
+	public static final String TEXT_DATA_CONTENT_TYPE_PLAIN = "plain"; //$NON-NLS-1$
+	public static final String TEXT_DATA_CONTENT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String TEXT_DATA_CONTENT_TYPE_RTF = "rtf"; //$NON-NLS-1$
+
 	// Pagination orphans
 
 	public static final String CHOICE_OPRHANS = "orphans"; //$NON-NLS-1$
@@ -567,13 +575,12 @@ public interface DesignChoiceConstants
 	public static final String STRING_FORMAT_TYPE_ZIP_CODE_4 = "Zip Code + 4"; //$NON-NLS-1$	
 	public static final String STRING_FORMAT_TYPE_PHONE_NUMBER = "Phone Number"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER = "Social Security Number"; //$NON-NLS-1$
-    
-    
-    //targetNames
-    
-    public static final String CHOICE_TARGET_NAMES_TYPE = "targetNames";  //$NON-NLS-1$
-    public static final String TARGET_NAMES_TYPE_BLANK ="_blank";        //$NON-NLS-1$
-    public static final String TARGET_NAMES_TYPE_SELF = "_self";         //$NON-NLS-1$
-    public static final String TARGET_NAMES_TYPE_PARENT = "_parent";    //$NON-NLS-1$
-    public static final String TARGET_NAMES_TYPE_TOP = "_top";           //$NON-NLS-1$
+
+	// targetNames
+
+	public static final String CHOICE_TARGET_NAMES_TYPE = "targetNames"; //$NON-NLS-1$
+	public static final String TARGET_NAMES_TYPE_BLANK = "_blank"; //$NON-NLS-1$
+	public static final String TARGET_NAMES_TYPE_SELF = "_self"; //$NON-NLS-1$
+	public static final String TARGET_NAMES_TYPE_PARENT = "_parent"; //$NON-NLS-1$
+	public static final String TARGET_NAMES_TYPE_TOP = "_top"; //$NON-NLS-1$
 }

@@ -53,10 +53,20 @@ public interface IGroupElementModel
 	/**
 	 * In conjunction with Interval and IntervalRange, determines how data is
 	 * divided into groups.
+	 * 
+	 * @deprecated by {@link #INTERVAL_BASE_PROP}
 	 */
 
 	public static final String GROUP_START_PROP = "groupStart"; //$NON-NLS-1$
 
+	/**
+	 * In conjunction with Interval and IntervalRange, determines how data is
+	 * divided into groups.
+	 */
+
+	public static final String INTERVAL_BASE_PROP = "intervalBase"; //$NON-NLS-1$
+
+	
 	/**
 	 * Name of the grouping interval property. This is a choice with values such
 	 * as "year", "month" and "day."

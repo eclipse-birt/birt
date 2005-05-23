@@ -13,13 +13,16 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
 /**
- * Parses the "expression" tag. If the element property or structure member
- * is expression type, then we will use the expression not the property tag.
+ * Parses the "expression" tag. If the element property or structure member is
+ * expression type, then we will use the expression not the property tag.
  */
 
 class ExpressionState extends PropertyState
@@ -31,6 +34,23 @@ class ExpressionState extends PropertyState
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
 	 *      theHandler, DesignElement element, )
 	 */
+
+	public AbstractParseState jumpTo( )
+	{
+		if ( !valid )
+			return new AnyElementState( getHandler( ) );
+
+		if ( ( element instanceof TextDataItem )
+				&& "contentTypeExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, "contentTypeExpr" ); //$NON-NLS-1$
+			state.setName( TextDataItem.CONTENT_TYPE_PROP );
+			return state;
+		}
+
+		return super.jumpTo( );
+	}
 
 	ExpressionState( DesignParserHandler theHandler, DesignElement element )
 	{
@@ -45,8 +65,8 @@ class ExpressionState extends PropertyState
 	 *      struct)
 	 */
 
-	ExpressionState( DesignParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
+	ExpressionState( DesignParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );
 	}
@@ -63,5 +83,3 @@ class ExpressionState extends PropertyState
 	}
 
 }
-
-

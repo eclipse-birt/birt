@@ -83,11 +83,13 @@ public class TextDataHandle extends ReportItemHandle
 	 * expression that returns one of the above strings.
 	 * 
 	 * @return the expression for the text type
+	 * 
+	 * @deprecated by the method {@link #getContentType()}
 	 */
 
 	public String getContentTypeExpr( )
 	{
-		return getStringProperty( TextDataItem.CONTENT_TYPE_EXPR_PROP );
+		return getStringProperty( TextDataItem.CONTENT_TYPE_PROP );
 	}
 
 	/**
@@ -100,10 +102,62 @@ public class TextDataHandle extends ReportItemHandle
 	 *            the new expression for the text type
 	 * @throws SemanticException
 	 *             if the expression contains errors, or the property is locked.
+	 * 
+	 * @deprecated by the method {@link #setContentType(String)}
 	 */
 
 	public void setContentTypeExpr( String expr ) throws SemanticException
 	{
-		setProperty( TextDataItem.CONTENT_TYPE_EXPR_PROP, expr );
+		setProperty( TextDataItem.CONTENT_TYPE_PROP, expr );
+	}
+
+	/**
+	 * Returns the expression that that defines the type of text the multi-line
+	 * data item holds. The content type can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code>
+	 * (default)
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
+	 * Plain text;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>:
+	 * HTML format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>:
+	 * Rich Text format;
+	 * </ul>
+	 * 
+	 * @return the text type
+	 */
+
+	public String getContentType( )
+	{
+		return getStringProperty( TextDataItem.CONTENT_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the expression that defines the text type this multi-line data item
+	 * holds. The content type can be one of
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code>
+	 * (default)
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
+	 * Plain text;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>:
+	 * HTML format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>:
+	 * Rich Text format;
+	 * </ul>
+	 * 
+	 * @param contentType
+	 *            the new text type
+	 * @throws SemanticException
+	 *             if the property is locked or the <code>contentType</code>
+	 *             is not one of the above.
+	 */
+
+	public void setContentType( String contentType ) throws SemanticException
+	{
+		setProperty( TextDataItem.CONTENT_TYPE_PROP, contentType );
 	}
 }
