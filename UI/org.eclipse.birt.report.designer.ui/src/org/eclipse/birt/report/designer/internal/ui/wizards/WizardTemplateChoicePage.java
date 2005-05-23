@@ -128,7 +128,7 @@ public class WizardTemplateChoicePage extends WizardPage
 					DESCRIPTION_DUAL_COLUMN_CHART_LISTING,
 					"/templates/dual_column_chart_listing.rptdesign", //$NON-NLS-1$
 					"/templates/dual_column_chart_listing.gif", //$NON-NLS-1$
-					"org.eclipse.birt.report.designer.ui.cheatsheet.dualcolumnchartlisting" ), //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.cheatsheet.dualchartlisting" ), //$NON-NLS-1$
 			new Template( TITLE_SIDE_BY_SIDE_CHART_LISTING,
 					DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING,
 					"/templates/sidebyside_chart_listing.rptdesign", //$NON-NLS-1$
@@ -140,11 +140,11 @@ public class WizardTemplateChoicePage extends WizardPage
 			 * "/templates/mailing_labels.gif", //$NON-NLS-1$ "" ),
 			 * //$NON-NLS-1$
 			 */
-			new Template( TITLE_LETTER,
+			/*new Template( TITLE_LETTER,
 					DESCRIPTION_LETTER,
 					"/templates/letter.rptdesign", //$NON-NLS-1$
 					"/templates/letter.gif", //$NON-NLS-1$
-					"" ) //$NON-NLS-1$
+					"" ) //$NON-NLS-1$*/
 	};
 
 	protected int selectedIndex;

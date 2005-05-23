@@ -86,7 +86,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
         {
             ibqd = QueryHelper.instance(rtc).build(eih, ibqdParent, cm);
         }
-        catch (Exception gex )
+        catch (RuntimeException gex )
         {
             DefaultLoggerImpl.instance().log(gex);
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
