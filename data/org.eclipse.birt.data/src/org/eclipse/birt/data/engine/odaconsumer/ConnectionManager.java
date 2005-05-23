@@ -15,10 +15,12 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IConnectionFactory;
+import org.eclipse.birt.data.oda.IDriver;
 import org.eclipse.birt.data.oda.OdaException;
 
 /**
@@ -26,11 +28,18 @@ import org.eclipse.birt.data.oda.OdaException;
  * <code>getInstance</code> will return an instance of <code>ConnectionManager</code>.
  * When the method <code>getConnection</code> is called, the 
  * <code>ConnectionManager</code> will attempt to return an opened 
- * <code>Connection</code> supported by that driver.
+ * <code>Connection</code> instance of the data source extension 
+ * supported by that driver.
  */
 public class ConnectionManager
 {
 	private static ConnectionManager sm_instance = new ConnectionManager( );
+	
+    // trace logging variables
+	private static String sm_className = ConnectionManager.class.getName();
+	static String sm_packageName = "org.eclipse.birt.data.engine.odaconsumer";
+	private static String sm_loggerName = sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
 	
 	private ConnectionManager( )
 	{
@@ -45,46 +54,99 @@ public class ConnectionManager
 	 */
 	public static ConnectionManager getInstance( ) throws IllegalStateException
 	{
+		String methodName = "getInstance";		
+		sm_logger.entering( sm_className, methodName );
+		sm_logger.exiting( sm_className, methodName, sm_instance );
+		
 		return sm_instance;
 	}
 
 	/**
 	 * Returns an opened <code>Connection</code> that is supported by the specified 
-	 * driver using the specified connection properties.
-	 * @param driverName	name of the driver.
+	 * data source extension using the specified connection properties.
+	 * @param dataSourceElementId	id of the data source element defined
+	 * 								in the data source extension.
 	 * @param connectionProperties	connection properties to open the underlying connection.
 	 * @return	an opened <code>Connection</code> instance. 
 	 * @throws DataException	if data source error occurs.
 	 */
-	public Connection openConnection( String driverName, 
+	public Connection openConnection( String dataSourceElementId, 
 									  Properties connectionProperties )
 		throws DataException
 	{
+		String methodName = "openConnection";
+		
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.entering( sm_className, methodName, 
+								new Object[] { dataSourceElementId, connectionProperties } );
+		
 		try
 		{
-		    DriverManager driverMgr = DriverManager.getInstance();
-			IConnectionFactory factory = 
-			    	driverMgr.getConnectionFactory( driverName );
-			String connectionName = 
-			    	driverMgr.getConnectionClassName( driverName );
-			
-			// first pass log configuration to connection factory before any operations
-			driverMgr.setDriverLogConfiguration( driverName, factory );
-			
-			IConnection connection = factory.getConnection( connectionName );
+			IDriver factory = 
+				DriverManager.getInstance().getDriverConnectionFactory( dataSourceElementId );
+			String dataSourceId = 
+				DriverManager.getInstance().getExtensionDataSourceId( dataSourceElementId );
+			IConnection connection = factory.getConnection( dataSourceId );
 			connection.open( connectionProperties );
 			
-			return ( new Connection( connection, driverName ) );
+			Connection ret = ( new Connection( connection, dataSourceElementId ) );
+			
+			sm_logger.exiting( sm_className, methodName, ret );	
+			return ret;
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot open connection.", ex );
+			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
-			                         new Object[] { driverName } );
+			                         new Object[] { dataSourceElementId } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot open connection.", ex );
+			
 			throw new DataException( ResourceConstants.CANNOT_OPEN_CONNECTION, ex, 
-			                         new Object[] { driverName } );
+			                         new Object[] { dataSourceElementId } );
 		}
 	}
+
+	/**
+	 * Returns the maximum number of active connections that the driver can support.
+	 * @return	the maximum number of connections that can be opened concurrently, 
+	 * 			or 0 if there is no limit or the limit is unknown.
+	 * @throws DataException	if data source error occurs.
+	 */
+	public int getMaxConnections( String driverName ) throws DataException
+	{
+		String methodName = "getMaxConnections";
+		sm_logger.entering( sm_className, methodName, driverName );
+
+		int maxConnections = 0;  	// default to unknown limit
+		try
+		{
+			IDriver factory = 
+				DriverManager.getInstance().getDriverConnectionFactory( driverName );
+			if ( factory != null )
+			    maxConnections = factory.getMaxConnections();
+		}
+		catch( OdaException ex )
+		{
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"Cannot get max connections.", ex );
+			maxConnections = 0;
+		}
+		catch( UnsupportedOperationException ex )
+		{
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get max connections.", ex );
+			maxConnections = 0;
+		}
+
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.exiting( sm_className, methodName, new Integer( maxConnections ) );			
+		return maxConnections;
+	}
+
 }

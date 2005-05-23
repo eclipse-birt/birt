@@ -15,6 +15,9 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IParameterMetaData;
@@ -37,8 +40,16 @@ public class ParameterMetaData
 	private int m_precision = -1;
 	private Boolean m_isNullable;
 	
+	// trace logging variables
+	private static String sm_className = ParameterMetaData.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	
 	ParameterMetaData( ParameterHint paramHint )
 	{
+		String methodName = "ParameterMetaData";
+		sm_logger.entering( sm_className, methodName, paramHint );
+
 		m_name = paramHint.getName();
 		
 		int position = paramHint.getPosition();
@@ -54,12 +65,19 @@ public class ParameterMetaData
 		
 		m_defaultValue = paramHint.getDefaultInputValue();
 		m_isNullable = Boolean.valueOf( paramHint.isNullable() );
+
+		sm_logger.exiting( sm_className, methodName, this );
 	}
 
 	ParameterMetaData( IParameterMetaData parameterMetaData, int index, 
 	                   String driverName, String dataSetType ) 
 		throws DataException
 	{
+		String methodName = "ParameterMetaData";
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.entering( sm_className, methodName, 
+		        				new Object[] { parameterMetaData, new Integer( index ),
+		            							driverName, dataSetType } );
 		m_position = index;
 		int nativeType = getRuntimeParameterType( parameterMetaData, index );
 		
@@ -102,6 +120,8 @@ public class ParameterMetaData
 			m_isNullable = Boolean.FALSE;
 			m_isOptional = Boolean.FALSE;
 		}
+
+		sm_logger.exiting( sm_className, methodName, this );
 	}
 	
 	/**
@@ -112,6 +132,9 @@ public class ParameterMetaData
 	 */
 	void updateWith( ParameterHint paramHint ) throws DataException
 	{
+		String methodName = "updateWith";
+		sm_logger.entering( sm_className, methodName, paramHint );
+		
 		// Based on previous experience, runtime parameter metadata can often 
 		// be incorrect about the parameter's input and output modes.  Therefore, 
 		// we want to use the static parameter hints provided by the user to override 
@@ -158,22 +181,29 @@ public class ParameterMetaData
 		
 		m_defaultValue = paramHint.getDefaultInputValue();
 		
+		sm_logger.exiting( sm_className, methodName, this );
 	}
 
 	private int getRuntimeParameterType( IParameterMetaData parameterMetaData, 
 										 int index ) throws DataException
 	{
+		String methodName = "getRuntimeParameterType";
 		try
 		{
 			return parameterMetaData.getParameterType( index );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter type.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
+		    // minimum required parameter metadata is not available
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter type.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
@@ -182,95 +212,115 @@ public class ParameterMetaData
 	private String getRuntimeParamTypeName( IParameterMetaData parameterMetaData,
 											int index ) throws DataException
 	{
+		String methodName = "getRuntimeParamTypeName";
 		try
 		{
 			return parameterMetaData.getParameterTypeName( index );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter type name.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_TYPE_NAME, ex, 
-			                         new Object[] { new Integer( index ) } );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get parameter type name.", ex );
+			return "";
 		}
 	}
 	
 	private int getRuntimeParameterMode( IParameterMetaData parameterMetaData, 
 										 int index ) throws DataException
 	{
+		String methodName = "getRuntimeParameterMode";
 		try
 		{
 			return parameterMetaData.getParameterMode( index );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter mode.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_MODE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_MODE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"Cannot get parameter mode.", ex );
+			return IParameterMetaData.parameterModeUnknown;
 		}
 	}
 
 	private int getRuntimeParameterScale( IParameterMetaData parameterMetaData,
 										  int index ) throws DataException
 	{
+		String methodName = "getRuntimeParameterScale";
 		try
 		{
 			return parameterMetaData.getScale( index );
 		}
 		catch( OdaException ex )
 		{
-			throw new DataException( ResourceConstants.CANOOT_GET_PARAMETER_SCALE, ex, 
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter scale.", ex );
+			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_SCALE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANOOT_GET_PARAMETER_SCALE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get parameter scale.", ex );
+		    return -1;
 		}
 	}
 	
 	private int getRuntimeParameterPrecision( IParameterMetaData parameterMetaData, 
 											  int index ) throws DataException
 	{
+		String methodName = "getRuntimeParameterPrecision";
 		try
 		{
 			return parameterMetaData.getPrecision( index );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter precision.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_PRECISION, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_PRECISION, ex, 
-			                         new Object[] { new Integer( index ) } );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get parameter precision.", ex );
+			return -1;
 		}
 	}
 	
 	private int getRuntimeIsNullable( IParameterMetaData parameterMetaData, 
 									  int index ) throws DataException
 	{
+		String methodName = "getRuntimeIsNullable";
 		try
 		{
 			return parameterMetaData.isNullable( index );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get parameter nullability.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_PARAMETER_ISNULLABLE, ex, 
-			                         new Object[] { new Integer( index ) } );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get parameter nullability.", ex );
+			return IParameterMetaData.parameterNullableUnknown;
 		}
 	}
 	

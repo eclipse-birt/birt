@@ -15,27 +15,32 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.oda.IConnectionFactory;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.driverconfig.ConnectionType;
-import org.eclipse.birt.data.oda.util.driverconfig.OdaDriverConfiguration;
-import org.eclipse.birt.data.oda.util.driverconfig.TraceLogging;
+import org.eclipse.birt.data.oda.IDriver;
+import org.eclipse.birt.data.oda.util.manifest.ExtensionManifest;
 
 /**
  * <code>DriverManager</code> manages a set of data source drivers.  Calling 
- * <code>getInstance</code> will return an instance of <code>DriverManager</code>.
+ * <code>getInstance</code> will return the singleton instance of <code>DriverManager</code>.
  * 
- * When the method <code>getConnectionFactory</code> is called by the 
+ * When the method <code>getDriverConnectionFactory</code> is initiated by the 
  * <code>ConnectionManager</code>, the <code>DriverManager</code> will 
- * attempt to load the specified driver and return a <code>ConnectionFactory</code> 
- * supported by that driver.
+ * attempt to load the specified driver and return a <code>IDriver</code> 
+ * instance of that driver.
  */
 class DriverManager
 {
 	private static DriverManager sm_driverManager = new DriverManager();
 	private Hashtable m_loadedDrivers;
 	
+	// trace logging variables
+	private static String sm_className = DriverManager.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+
 	private DriverManager()
 	{
 	}
@@ -53,68 +58,96 @@ class DriverManager
 	}
 	
 	/**
-	 * Returns the <code>IConnectionFactory</code> based on driverName.
-	 * @param driverName	the name of the driver.
-	 * @return	an <code>IConnectionFactory</code> instance.
+	 * Returns the <code>IDriver</code> based on driverName.
+	 * @param dataSourceElementId	the name of the driver.
+	 * @return	an <code>IDriver</code> instance.
 	 */
-	IConnectionFactory getConnectionFactory( String driverName )
+	IDriver getDriverConnectionFactory( String dataSourceElementId )
 		throws DataException
 	{
-		Driver driver = getDriver( driverName );
-		return driver.getConnectionFactory();
+		String methodName = "getDriverConnectionFactory";
+		sm_logger.entering( sm_className, methodName, dataSourceElementId );
+
+		Driver driver = getDriver( dataSourceElementId );
+		IDriver ret = driver.getConnectionFactory();
+		
+		sm_logger.exiting( sm_className, methodName, ret );
+		return ret;
 	}
 
 	/**
-	 * Returns the connection class name to use as an argument for 
-	 * <code>IConnectionFactory.getConnection</code>.
-	 * @param driverName	the name of the driver.
-	 * @return	the connection class name for <code>IConnectionFactory.getConnection</code>, 
-	 * 			or null if no connection type or class name was specified.
+	 * Returns the id of the type of ODA data source for use as an argument to 
+	 * <code>IDriver.getConnection</code>.
+	 * @param dataSourceElementId	the id of the data source element defined
+	 * 								in a data source extension.
+	 * @return	the extension data source type id for <code>IDriver.getConnection</code>, 
+	 * 			or null if no explicit data source type was specified.
 	 */
-	String getConnectionClassName( String driverName ) 
+	String getExtensionDataSourceId( String dataSourceElementId ) 
 		throws DataException
 	{
-		Driver driver = getDriver( driverName );
-		OdaDriverConfiguration config = driver.getDriverConfig();
-		ConnectionType connectionType = config.getConnectionType();
-		return ( connectionType == null ) ? null : connectionType.getClassName();
+		String methodName = "getExtensionDataSourceType";
+		sm_logger.entering( sm_className, methodName, dataSourceElementId );
+
+		Driver driver = getDriver( dataSourceElementId );
+		ExtensionManifest config = driver.getExtensionConfig();
+		String ret = config.getDataSourceElementID();
+		
+		sm_logger.exiting( sm_className, methodName, ret );
+		return ret;
 	}
 	
-	void setDriverLogConfiguration( String driverName, 
-	        						IConnectionFactory connFactory )
+	void setDriverLogConfiguration( String dataSourceElementId, 
+	        						IDriver dataSourceDriver )
 	{
-	    assert( driverName != null && connFactory != null );
+		String methodName = "setDriverLogConfiguration";
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.entering( sm_className, methodName, 
+		        				new Object[] { dataSourceElementId, dataSourceDriver } );
+
+	    assert( dataSourceElementId != null && dataSourceDriver != null );
 	    
-		Driver driver = getDriver( driverName );
+		Driver driver = getDriver( dataSourceElementId );
 		assert( driver != null );
-        driver.setLogConfiguration( connFactory );
+        driver.setLogConfiguration( dataSourceDriver );
+
+		sm_logger.exiting( sm_className, methodName );
 	}
 	
 	/**
 	 * Returns the default ODA type code mapped to the native type code for the 
 	 * specified driver and data set type.
-	 * @param driverName	the name of the driver.
+	 * @param dataSourceElementId	the name of the driver.
 	 * @param dataSetType	the type of the data set.
 	 * @param nativeType	the native type code.
 	 * @return	the ODA type code.
 	 */
-	int getNativeToOdaMapping( String driverName, 
+	int getNativeToOdaMapping( String dataSourceElementId, 
 							   String dataSetType, 
 							   int nativeType ) throws DataException
 	{
-		Driver driver = getDriver( driverName );
-		return driver.getTypeMapping( dataSetType, nativeType );
+		String methodName = "getNativeToOdaMapping";
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.entering( sm_className, methodName, 
+							new Object[] { dataSourceElementId, dataSetType, new Integer( nativeType ) } );
+
+		Driver driver = getDriver( dataSourceElementId );
+		int ret = driver.getTypeMapping( dataSetType, nativeType );
+		
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
+		return ret;
 	}
 	
-	private Driver getDriver( String driverName )
+	private Driver getDriver( String dataSourceElementId )
 	{
-		assert( driverName != null && driverName.length() != 0 );
+		assert( dataSourceElementId != null && dataSourceElementId.length() != 0 );
 		
-		Driver driver = (Driver) getLoadedDrivers().get( driverName );
+		Driver driver = (Driver) getLoadedDrivers().get( dataSourceElementId );
 		if( driver == null )
 		{
-			driver = new Driver( driverName );
-			getLoadedDrivers().put( driverName, driver );
+			driver = new Driver( dataSourceElementId );
+			getLoadedDrivers().put( dataSourceElementId, driver );
 		}
 		
 		return driver;

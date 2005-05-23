@@ -14,6 +14,9 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
@@ -25,12 +28,22 @@ import org.eclipse.birt.data.oda.OdaException;
 public class DataSetCapabilities
 {
 	private IDataSetMetaData m_dsMetaData;
+
+	// trace logging variables
+	private static String sm_className = DataSetCapabilities.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
 	
 	DataSetCapabilities( IDataSetMetaData dsMetaData )
 	{
+		String methodName = "DataSetCapabilities";		
+		sm_logger.entering( sm_className, methodName, dsMetaData );
+		
 		assert( dsMetaData != null );
 		m_dsMetaData = dsMetaData;
-	}
+
+		sm_logger.exiting( sm_className, methodName, this );
+}
 	
 	/**
 	 * Returns the mode supported by this data set for dynamic sorting functionality.
@@ -50,17 +63,23 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsMultipleOpenResults( ) throws DataException
 	{
+		String methodName = "supportsMultipleOpenResults";		
+
 		try
 		{
 			return m_dsMetaData.supportsMultipleOpenResults( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of multiple open results.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_OPEN_RESULTS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of multiple open results.  Default to false.", ex );
+			return false;
 		}
 	}
 	
@@ -72,17 +91,22 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsMultipleResultSets( ) throws DataException
 	{
+		String methodName = "supportsMultipleResultSets";		
 		try
 		{
 			return m_dsMetaData.supportsMultipleResultSets( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of multiple results.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_MULTIPLE_RESULT_SETS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of multiple results.  Default to false.", ex );
+			return false;
 		}
 	}
 	
@@ -94,17 +118,22 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsNamedResultSets( ) throws DataException
 	{
+		String methodName = "supportsNamedResultSets";		
 		try
 		{
 			return m_dsMetaData.supportsNamedResultSets( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of named results.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_RESULT_SETS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of named results.  Default to false.", ex );
+			return false;
 		}
 	}
 	
@@ -116,17 +145,22 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsNamedParameters( ) throws DataException
 	{
+		String methodName = "supportsNamedParameters";		
 		try
 		{
 			return m_dsMetaData.supportsNamedParameters( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of named parameters.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_NAMED_PARAMETERS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of named parameters. Default to false.", ex );
+			return false;
 		}
 	}
 	
@@ -138,17 +172,22 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsInParameters( ) throws DataException
 	{
+		String methodName = "supportsInParameters";		
 		try
 		{
 			return m_dsMetaData.supportsInParameters( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of input parameters.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_IN_PARAMETERS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of input parameters. Default to false.", ex );
+			return false;
 		}
 	}
 	
@@ -160,17 +199,22 @@ public class DataSetCapabilities
 	 */
 	public boolean supportsOutParameters( ) throws DataException
 	{
+		String methodName = "supportsOutParameters";		
 		try
 		{
 			return m_dsMetaData.supportsOutParameters( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Cannot determine support of output parameters.", ex );
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_SUPPORT_FOR_OUT_PARAMETERS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+					"Cannot determine support of output parameters. Default to false.", ex );
+			return false;
 		}
 	}
 }

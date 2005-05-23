@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -32,6 +34,11 @@ public class ColumnHint
 	private Class m_dataType;
 	private String m_alias;
 	
+	// trace logging variables
+	private static String sm_className = ColumnHint.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	
 	/**
 	 * Constructs a <code>ColumnHint</code> with the specified column name.
 	 * @param columnName	the column name of this <code>ColumnHint</code>.
@@ -40,6 +47,9 @@ public class ColumnHint
 	 */
 	public ColumnHint( String columnName )
 	{
+		String methodName = "ColumnHint";
+		sm_logger.entering( sm_className, methodName, columnName );
+
 		if( columnName == null || columnName.length() == 0 )
 		{
 			String localizedMessage = 
@@ -48,6 +58,8 @@ public class ColumnHint
 		}
 			
 		m_name = columnName;
+
+		sm_logger.exiting( sm_className, methodName, this );
 	}
 
 	/**
@@ -66,11 +78,18 @@ public class ColumnHint
 	 */
 	public void setPosition( int position )
 	{
+		String methodName = "setPosition";
+
 		if( position < 1 )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE );
-			throw new IllegalArgumentException( localizedMessage );
+			RuntimeException ex = new IllegalArgumentException( localizedMessage );
+
+			if( sm_logger.isLoggable( Level.SEVERE ) )
+			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Invalid column position {0}.", new Integer( position ) );
+			throw ex;
 		}
 		
 		m_position = position;
@@ -119,13 +138,20 @@ public class ColumnHint
 	 */
 	public void setAlias( String alias )
 	{
-		// ok to set the alias as null, meaning no alias.  but not
-		// ok to have an empty alias
+		String methodName = "setAlias";
+		
+		// ok to set the alias as null, meaning no alias,  but 
+		// not ok to have an empty alias
 		if( alias != null && alias.length() == 0 )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.COLUMN_ALIAS_CANNOT_BE_EMPTY );
-			throw new IllegalArgumentException( localizedMessage );
+			RuntimeException ex = new IllegalArgumentException( localizedMessage );
+
+			if( sm_logger.isLoggable( Level.SEVERE ) )
+			    sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"The alias is empty; must be either null or non-empty value." );
+			throw ex;
 		}
 		
 		m_alias = alias;

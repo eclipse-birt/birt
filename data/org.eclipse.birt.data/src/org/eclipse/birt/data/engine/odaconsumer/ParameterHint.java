@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -35,7 +37,12 @@ public class ParameterHint
 	private boolean m_isInputMode;
 	private boolean m_isOutputMode;
 	private boolean m_isNullable;
-	
+
+	// trace logging variables
+	private static String sm_className = ParameterHint.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+
 	/**
 	 * Constructs a <code>ParameterHint</code> with the specified name.
 	 * @param parameterName	the parameter name.
@@ -46,10 +53,18 @@ public class ParameterHint
 	 */
 	public ParameterHint( String parameterName, boolean isInputMode, boolean isOutputMode )
 	{
+		String methodName = "ParameterHint";
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.entering( sm_className, methodName,
+		            			new Object[] { parameterName, new Boolean( isInputMode ), new Boolean( isOutputMode ) } );
+		
 		if( parameterName == null || parameterName.length() == 0 )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL );
+			    
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"The given parameter is null or empty." );
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -59,6 +74,8 @@ public class ParameterHint
 		
 		m_isInputOptional = true;
 		m_isNullable = true;
+		
+	    sm_logger.exiting( sm_className, methodName, this );
 	}
 
 	/**
@@ -78,10 +95,14 @@ public class ParameterHint
 	 */
 	public void setPosition( int position )
 	{
+		String methodName = "setPosition";
+		
 		if( position < 1 )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE );
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Invalid parameter position {0} ", new Integer( position ) );
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -213,6 +234,9 @@ public class ParameterHint
 	 */
 	void updateHint( ParameterHint hint )
 	{
+		String methodName = "updateHint";
+		sm_logger.entering( sm_className, methodName, hint );
+
 		m_name = hint.m_name;
 		
 		// don't update if the other hint has the default values
@@ -227,5 +251,7 @@ public class ParameterHint
 		m_isInputMode = hint.m_isInputMode;
 		m_isOutputMode = hint.m_isOutputMode;
 		m_isNullable = hint.m_isNullable;
+
+		sm_logger.exiting( sm_className, methodName, this );
 	}
 }

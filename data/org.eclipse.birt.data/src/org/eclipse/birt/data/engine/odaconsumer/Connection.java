@@ -15,78 +15,77 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IConnectionMetaData;
 import org.eclipse.birt.data.oda.IDataSetMetaData;
-import org.eclipse.birt.data.oda.IStatement;
+import org.eclipse.birt.data.oda.IQuery;
 import org.eclipse.birt.data.oda.OdaException;
 
 /**
- * A connection with a specific data source.
+ * A runtime connection of a specific data source extension.
  */
 public class Connection
 {	
-	private String m_driverName;
+	private String m_dataSourceId;
 	private IConnection m_connection;
-	private IConnectionMetaData m_cachedConnMetaData;
 	private Hashtable m_cachedDsMetaData;
 	
-	Connection( IConnection connection, String driverName ) 
+    // trace logging variables
+	private static String sm_className = Connection.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	
+	Connection( IConnection connection, String dataSourceId ) 
 		throws OdaException
 	{
-		assert( connection != null && connection.isOpened( ) );
-		m_driverName = driverName;
-		m_connection = connection;
-	}
-	
-	/**
-	 * Returns the maximum number of active connections that can supported.
-	 * @return	the maximum number of connections that can be opened concurrently, 
-	 * 			or 0 if there is no limit or the limit is unknown.
-	 * @throws DataException	if data source error occurs.
-	 */
-	public int getMaxConnections() throws DataException
-	{
-		IConnectionMetaData connMetaData = getCachedConnMetaData();
+		String methodName = "Connection";		
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.entering( sm_className, methodName, 
+								new Object[] { connection, dataSourceId } );
 		
-		try
-		{
-			return connMetaData.getMaxConnections( );
-		}
-		catch( OdaException ex )
-		{
-			throw new DataException( ResourceConstants.CANNOT_GET_MAX_CONNECTIONS, ex );
-		}
-		catch( UnsupportedOperationException ex )
-		{
-			throw new DataException( ResourceConstants.CANNOT_GET_MAX_CONNECTIONS, ex );
-		}
+		assert( connection != null && connection.isOpen( ) );
+		m_dataSourceId = dataSourceId;
+		m_connection = connection;
+		
+		sm_logger.exiting( sm_className, methodName, this );
 	}
-	
+		
 	/**
-	 * Returns the maximum number of active statements of any data set types 
+	 * Returns the maximum number of active queries of any data set types 
 	 * that the driver can support per active connection.
-	 * @return	the maximum number of any type of statements that can be supported 
+	 * @return	the maximum number of any type of queries that can be supported 
 	 * 			concurrently, or 0 if there is no limit or the limit is unknown.
 	 * @throws DataException	if data source error occurs.
 	 */
-	public int getMaxStatements() throws DataException
+	public int getMaxQueries() throws DataException
 	{
-		IConnectionMetaData connMetaData = getCachedConnMetaData();
-		
+		String methodName = "getMaxQueries";		
+		sm_logger.entering( sm_className, methodName );
+				
 		try
 		{
-			return connMetaData.getMaxStatements();
+			int ret = m_connection.getMaxQueries();
+			
+			if( sm_logger.isLoggable( Level.FINER ) )
+				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
+			
+			return ret;
 		}
 		catch( OdaException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_MAX_STATEMENTS, ex );
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot get max queries.", ex );
+			
+			throw new DataException( ResourceConstants.CANNOT_GET_MAX_QUERIES, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_MAX_STATEMENTS, ex );
+			sm_logger.logp( Level.INFO, sm_className, methodName, 
+							"Cannot get max queries.", ex );
+			return 0;
 		}
 	}
 	
@@ -99,6 +98,9 @@ public class Connection
 	 */
 	public DataSetCapabilities getMetaData( String dataSetType ) throws DataException
 	{
+		String methodName = "getMetaData";		
+		sm_logger.entering( sm_className, methodName, dataSetType );
+		
 		DataSetCapabilities capabilities = 
 			(DataSetCapabilities) getCachedDsMetaData( ).get( dataSetType );
 		
@@ -111,11 +113,17 @@ public class Connection
 			}
 			catch( OdaException ex )
 			{
+				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+								"Cannot get data set metadata.", ex );
+				
 				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
 				                         new Object[] { dataSetType } );
 			}
 			catch( UnsupportedOperationException ex )
 			{
+				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+								"Cannot get data set metadata.", ex );
+				
 				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
 				                         new Object[] { dataSetType } );
 			}
@@ -124,15 +132,16 @@ public class Connection
 			getCachedDsMetaData( ).put( dataSetType, capabilities );
 		}
 		
+		sm_logger.exiting( sm_className, methodName, capabilities );
+		
 		return capabilities;
 	}
 
 	/**
 	 * Creates a <code>PreparedStatement</code> object that needs to specify input 
 	 * parameter values to execute.
-	 * 
 	 * @param dataSetType	name of the data set type.
-	 * @param query	the statement query to be executed.
+	 * @param query	the statement query text to be executed.
 	 * @return	a <code>PreparedStatement</code> of the specified type with the specified 
 	 * 			statement query.
 	 * @throws DataException	if data source error occurs.
@@ -141,9 +150,17 @@ public class Connection
 											   String dataSetType )
 		throws DataException
 	{
-		IStatement statement = prepareOdaStatement( query, dataSetType );
-		return ( new PreparedStatement( statement, dataSetType, this, 
-		                                query ) );
+		String methodName = "prepareStatement";		
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.entering( sm_className, methodName, 
+								new Object[] { query, dataSetType } );
+		
+		IQuery statement = prepareOdaQuery( query, dataSetType );
+		PreparedStatement ret = ( new PreparedStatement( statement, dataSetType, this, 
+														 query ) );
+		
+		sm_logger.exiting( sm_className, methodName, ret );		
+		return ret;
 	}
 	
 	/**
@@ -152,39 +169,27 @@ public class Connection
 	 */
 	public void close( ) throws DataException
 	{
+		String methodName = "close";		
+		sm_logger.entering( sm_className, methodName );
+		
 		try
 		{
 			m_connection.close( );
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot close connection.", ex );
+			
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_CLOSE_CONNECTION, ex );
-		}
-	}
-	
-	private IConnectionMetaData getCachedConnMetaData() throws DataException
-	{
-		if( m_cachedConnMetaData == null )
-		{
-			try
-			{
-				m_cachedConnMetaData = m_connection.getMetaData();
-			}
-			catch( OdaException ex )
-			{
-				throw new DataException( ResourceConstants.CANNOT_GET_CONNECTION_METADATA, ex );
-			}
-			catch( UnsupportedOperationException ex )
-			{
-				throw new DataException( ResourceConstants.CANNOT_GET_CONNECTION_METADATA, ex );
-			}
+			sm_logger.logp( Level.WARNING, sm_className, methodName, 
+							"Cannot close connection.", ex );			
 		}
 		
-		return m_cachedConnMetaData;
+		sm_logger.exiting( sm_className, methodName );
 	}
 	
 	// cache the metadata since it's the same for the lifetime of this connection, 
@@ -197,28 +202,41 @@ public class Connection
 		return m_cachedDsMetaData;
 	}
 	
-	String getDriverName( )
+	String getDataSourceId( )
 	{
-		return m_driverName;
+		return m_dataSourceId;
 	}
 	
-	IStatement prepareOdaStatement( String query, String dataSetType ) 
+	IQuery prepareOdaQuery( String query, String dataSetType ) 
 		throws DataException
 	{
+		String methodName = "prepareOdaQuery";		
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.entering( sm_className, methodName, new Object[] { query, dataSetType } );
+		
 		try
 		{
-			assert( m_connection.isOpened( ) );
-			IStatement statement = m_connection.createStatement( dataSetType );
+			assert( m_connection.isOpen( ) );
+			IQuery statement = m_connection.newQuery( dataSetType );
 			statement.prepare( query );
+			
+			sm_logger.exiting( sm_className, methodName, statement );
+			
 			return statement;
 		}
 		catch( OdaException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot prepare statement.", ex );
+			
 			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
 			                         new Object[] { query, dataSetType } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+							"Cannot prepare statement.", ex );
+			
 			throw new DataException( ResourceConstants.CANNOT_PREPARE_STATEMENT, ex, 
 			                         new Object[] { query, dataSetType } );
 		}

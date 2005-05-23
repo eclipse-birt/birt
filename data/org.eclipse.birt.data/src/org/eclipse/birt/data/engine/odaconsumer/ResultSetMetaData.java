@@ -15,6 +15,9 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IResultSetMetaData;
@@ -29,13 +32,25 @@ public class ResultSetMetaData
 	private IResultSetMetaData m_metadata;
 	private String m_driverName;
 	private String m_dataSetType;
-	
+
+	// trace logging variables
+	private static String sm_className = ResultSetMetaData.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+
 	ResultSetMetaData( IResultSetMetaData metadata, String driverName,
 					   String dataSetType )
 	{
+		String methodName = "ResultSetMetaData";
+		if( sm_logger.isLoggable( Level.FINER ) )
+		    sm_logger.entering( sm_className, methodName, 
+            		new Object[] { metadata, driverName, dataSetType } );
+
 		m_metadata = metadata;
 		m_driverName = driverName;
 		m_dataSetType = dataSetType;
+
+	    sm_logger.exiting( sm_className, methodName, this );
 	}
 	
 	/**
@@ -45,16 +60,21 @@ public class ResultSetMetaData
 	 */
 	public int getColumnCount( ) throws DataException
 	{
+	    String methodName = "getColumnCount";
 		try
 		{
 			return m_metadata.getColumnCount( );
 		}
 		catch( OdaException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+            				"Cannot get column count.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+            				"Cannot get column count.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_COUNT, ex );
 		}
 	}
@@ -67,19 +87,23 @@ public class ResultSetMetaData
 	 */
 	public String getColumnName( int index ) throws DataException
 	{
+	    String methodName = "getColumnName";
 		try
 		{
 			return m_metadata.getColumnName( index );
 		}
 		catch( OdaException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+            				"Cannot get column name.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NAME, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NAME, ex, 
-			                         new Object[] { new Integer( index ) } );
+		    sm_logger.logp( Level.WARNING, sm_className, methodName,
+    						"Cannot get column name.", ex );
+		    return "";
 		}
 	}
 	
@@ -91,19 +115,23 @@ public class ResultSetMetaData
 	 */
 	public String getColumnLabel( int index ) throws DataException
 	{
+	    String methodName = "getColumnLabel";
 		try
 		{
 			return m_metadata.getColumnLabel( index );
 		}
 		catch( OdaException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+    						"Cannot get column label.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_LABEL, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_LABEL, ex, 
-			                         new Object[] { new Integer( index ) } );
+		    sm_logger.logp( Level.INFO, sm_className, methodName,
+    						"Cannot get column label.", ex );
+		    return "";
 		}
 	}
 	
@@ -115,6 +143,8 @@ public class ResultSetMetaData
 	 */
 	public int getColumnType( int index ) throws DataException
 	{
+	    String methodName = "getColumnType";
+	    
 		int nativeType = doGetColumnType( index );
 		int odaType = 
 			DriverManager.getInstance().getNativeToOdaMapping( m_driverName, 
@@ -129,6 +159,11 @@ public class ResultSetMetaData
 			odaType != Types.TIMESTAMP )
 			assert false;	// exception is now thrown by DriverManager
 		
+		if( sm_logger.isLoggable( Level.FINEST ) )
+		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
+		            		"Column at index {0} has ODA data type {1}.",
+		            		new Object[] { new Integer( index ), new Integer( odaType ) } );
+
 		return odaType;
 	}
 	
@@ -140,35 +175,44 @@ public class ResultSetMetaData
 	 */
 	public String getColumnNativeTypeName( int index ) throws DataException
 	{
+	    String methodName = "getColumnNativeTypeName";
 		try
 		{
 			return m_metadata.getColumnTypeName( index );
 		}
 		catch( OdaException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+							"Cannot get column native type name.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
 									 new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_NATIVE_TYPE_NAME, ex, 
-									 new Object[] { new Integer( index ) } );
+		    sm_logger.logp( Level.WARNING, sm_className, methodName,
+							"Cannot get column native type name.", ex );
+		    return "";
 		}
 	}
 
 	private int doGetColumnType( int index ) throws DataException
 	{
+	    String methodName = "doGetColumnType";
 		try
 		{
 			return m_metadata.getColumnType( index );
 		}
 		catch( OdaException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+							"Cannot get column native type code.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );
 		}
 		catch( UnsupportedOperationException ex )
 		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+							"Cannot get column native type code.", ex );
 			throw new DataException( ResourceConstants.CANNOT_GET_COLUMN_TYPE, ex, 
 			                         new Object[] { new Integer( index ) } );			
 		}

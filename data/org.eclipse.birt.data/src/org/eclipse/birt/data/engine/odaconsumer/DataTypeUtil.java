@@ -16,6 +16,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -28,6 +30,11 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  */
 public final class DataTypeUtil
 {
+	// trace logging variables
+	private static String sm_className = DataTypeUtil.class.getName();
+	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+
 	private DataTypeUtil()
 	{
 		// not meant to be instantiated
@@ -49,6 +56,8 @@ public final class DataTypeUtil
 	 */
 	public static Class toTypeClass( int odaDataType )
 	{
+		String methodName = "toTypeClass";		
+
 		if( odaDataType != Types.INTEGER &&
 			odaDataType != Types.DOUBLE &&
 			odaDataType != Types.CHAR &&
@@ -60,6 +69,8 @@ public final class DataTypeUtil
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNRECOGNIZED_ODA_TYPE, 
 				                                             new Object[] { new Integer( odaDataType ) } );
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Invalid ODA data type: {0}", new Integer( odaDataType ) );
 			throw new IllegalArgumentException( localizedMessage );
 		}
 		
@@ -95,6 +106,11 @@ public final class DataTypeUtil
 				break;
 		}
 		
+		if( sm_logger.isLoggable( Level.FINEST ) )
+		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
+				"Converted from ODA data type {0} to Java data type class {1}.", 
+				new Object[] { new Integer( odaDataType ), fieldClass } );
+
 		return fieldClass;
 	}
 	
@@ -114,25 +130,33 @@ public final class DataTypeUtil
 	 */
 	public static int toOdaType( Class javaClass )
 	{
+		String methodName = "toOdaType";		
+
+		int odaType = Types.CHAR;	// default
+		
 		// returns Types.CHAR if the hint didn't have data type information
 		if( javaClass == null )
-			return Types.CHAR;
-		
-		if( javaClass == Integer.class )
-			return Types.INTEGER;
+		    odaType = Types.CHAR;		
+		else if( javaClass == Integer.class )
+		    odaType = Types.INTEGER;
 		else if( javaClass == Double.class )
-			return Types.DOUBLE;
+		    odaType = Types.DOUBLE;
 		else if( javaClass == BigDecimal.class )
-			return Types.DECIMAL;
+		    odaType = Types.DECIMAL;
 		else if( javaClass == String.class )
-			return Types.CHAR;
+		    odaType = Types.CHAR;
 		else if( javaClass == Date.class )
-			return Types.DATE;
+		    odaType = Types.DATE;
 		else if( javaClass == Time.class )
-			return Types.TIME;
+		    odaType = Types.TIME;
 		else if( javaClass == Timestamp.class )
-			return Types.TIMESTAMP;
-		else
-			return Types.CHAR;
+		    odaType = Types.TIMESTAMP;
+		
+		if( sm_logger.isLoggable( Level.FINEST ) )
+		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
+				"Converted from Java data type class {0} to ODA data type {1}.", 
+				new Object[] { javaClass, new Integer( odaType ) } );
+
+		return odaType;
 	}
 }
