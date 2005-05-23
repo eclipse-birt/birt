@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.39 $ $Date: 2005/05/20 06:58:08 $
+ * @version $Revision: 1.40 $ $Date: 2005/05/23 08:39:55 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -744,6 +744,8 @@ class EngineIRVisitor extends DesignVisitor
 		SlotHandle footerSlot = handle.getFooter( );
 		TableBandDesign footer = createTableBand( footerSlot );
 		table.setFooter( footer );
+		
+		new TableItemDesignLayout().layout(table);
 
 		currentElement = table;
 	}

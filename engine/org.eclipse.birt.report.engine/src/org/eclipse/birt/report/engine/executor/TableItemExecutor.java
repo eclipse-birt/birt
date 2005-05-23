@@ -45,7 +45,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/20 15:11:05 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -254,6 +254,10 @@ public class TableItemExecutor extends ListingElementExecutor
 		 */
 		ArrayList rows = new ArrayList( );
 		/**
+		 * first row of group header
+		 */
+		int[] firstRowOfGroup;
+		/**
 		 * the outmost group which contains drop cells. -1 means there are no
 		 * drop cells in the table.
 		 */
@@ -264,9 +268,11 @@ public class TableItemExecutor extends ListingElementExecutor
 			outmostDropGroup = -1;
 
 			//analysis group header
+			firstRowOfGroup = new int[table.getGroupCount()];
 			for ( int groupId = 0; groupId < table.getGroupCount(); groupId++ )
 			{
 				TableBandDesign header = table.getGroup( groupId ).getHeader( );
+				firstRowOfGroup[groupId] = rows.size();
 				if ( header != null )
 				{
 					for ( int j = 0; j < header.getRowCount( ); j++ )
@@ -282,6 +288,10 @@ public class TableItemExecutor extends ListingElementExecutor
 			}
 		}
 
+		int getFirstRowOfGroup(int groupId)
+		{
+			return firstRowOfGroup[groupId];
+		}
 		/**
 		 * should we start layout in group header group index. layout should be
 		 * started while handle the header of outmost drop group.
@@ -290,7 +300,16 @@ public class TableItemExecutor extends ListingElementExecutor
 		 */
 		boolean shouldStartLayout( int groupIndex )
 		{
-			return outmostDropGroup == groupIndex;
+			if (outmostDropGroup != -1)
+			{
+				return outmostDropGroup == groupIndex;
+			}
+			return false;
+		}
+		
+		boolean hasDropCells()
+		{
+			return outmostDropGroup != -1;
 		}
 
 		/**
@@ -302,7 +321,11 @@ public class TableItemExecutor extends ListingElementExecutor
 		 */
 		boolean shouldStopLayout( int groupIndex )
 		{
-			return outmostDropGroup == groupIndex;
+			if (outmostDropGroup != -1)
+			{
+				return outmostDropGroup == groupIndex;
+			}
+			return false;
 		}
 
 		boolean hasStartLayout( int groupIndex )
@@ -316,8 +339,9 @@ public class TableItemExecutor extends ListingElementExecutor
 			{
 				return ((ROWINFO)rows.get(rowId)).endTag;
 			}
-			return false;
+			return true;
 		}
+		
 		public int getCellDrop( int rowId, int colId )
 		{
 			if ( outmostDropGroup != -1 )
@@ -434,52 +458,12 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * @param tableEmitter
 	 *            the table emitter
 	 */
-	private void accessNoDropBand( TableBandDesign band )
+	private void accessBand( TableBandDesign band )
 	{
-		if ( ( band == null ) || ( band.getRowCount( ) == 0 ) )
-		{
-			return;
-		}
+		assert band != null;
 		for ( int i = 0; i < band.getRowCount( ); i++ )
 		{
-
-			RowDesign row = band.getRow( i );
-			//			if ( !isRowVisible( row ) )
-			//			{
-			//				break;
-			//			}
-			RowContent rowContent = (RowContent) ContentFactory
-					.createRowContent( row, context.getContentObject( ) );
-			setVisibility( row, rowContent );
-			setBookmarkValue( row, rowContent );
-			setStyles( rowContent, row );
-			tableEmitter.startRow( rowContent );
-
-			for ( int j = 0; j < row.getCellCount( ); j++ )
-			{
-				CellDesign cell = row.getCell( j );
-				if ( cell != null )
-				{
-					CellContent cellContent = (CellContent) ContentFactory
-							.createCellContent( cell, rowContent );
-					context.pushContentObject( cellContent );
-					setStyles( cellContent, cell );
-					tableEmitter.startCell( cellContent );
-
-					for ( int m = 0; m < cell.getContentCount( ); m++ )
-					{
-						ReportItemDesign item = cell.getContent( m );
-						if ( item != null )
-						{
-							item.accept( this.visitor );
-						}
-					}
-
-					tableEmitter.endCell( );
-					context.popContentObject( );
-				}
-			}
-			tableEmitter.endRow( );
+			accessRow(band.getRow(i), isRowEnd, true);
 		}
 	}
 
@@ -539,7 +523,7 @@ public class TableItemExecutor extends ListingElementExecutor
 		if ( tHeader != null && tHeader.getRowCount( ) > 0 )
 		{
 			tableEmitter.startHeader( );
-			accessNoDropBand( tHeader );
+			accessBand( tHeader );
 			tableEmitter.endHeader( );
 		}
 	}
@@ -557,9 +541,12 @@ public class TableItemExecutor extends ListingElementExecutor
 	protected void accessSummary( )
 	{
 		TableBandDesign tFooter = table.getFooter( );
-		//tableEmitter( ).startFooter( );
-		accessNoDropBand( tFooter );
-		//tableEmitter( ).endFooter( );
+		if (tFooter != null && tFooter.getRowCount() > 0)
+		{
+			//tableEmitter( ).startFooter( );
+			accessBand( tFooter );
+			//tableEmitter( ).endFooter( );
+		}
 	}
 
 	/*
@@ -569,13 +556,11 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessDetailOnce( )
 	{
+		
 		TableBandDesign band = table.getDetail( );
-		if ( band != null )
+		if ( band != null && band.getRowCount() > 0)
 		{
-			for ( int i = 0; i < band.getRowCount( ); i++ )
-			{
-				accessRow( band.getRow( i ), isRowEnd, true );
-			}
+			accessBand(band);
 		}
 	}
 
@@ -630,7 +615,6 @@ public class TableItemExecutor extends ListingElementExecutor
 			context.popContentObject( );
 			isRowEnd = true;
 		}
-		rowIndex++;
 	}
 
 	/*
@@ -640,29 +624,22 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessGroupHeader( int index )
 	{
-		TableBandDesign band = getGroupHeader( index, table );
-		if (index == 0)
-		{
-			rowIndex = 0;
-		}
+		this.rowIndex = tableInfo.getFirstRowOfGroup(index);
 		this.groupIndex = index;
 		
-		if ( band == null )
+		TableBandDesign band = getGroupHeader( index, table );
+		if ( band != null && band.getRowCount() > 0)
 		{
-			return;
-		}
-
-			
-		context.execute( table.getOnRow( ) );
-
-		if ( tableInfo.shouldStartLayout( groupIndex ) )
-		{
-			tableEmitter = this.layoutTableEmitter;
-		}
-
-		for ( int i = 0; i < band.getRowCount( ); i++ )
-		{
-			accessRow( band.getRow( i ), true, tableInfo.shouldEndRow(rowIndex) );
+			if ( tableInfo.shouldStartLayout( groupIndex ) )
+			{
+				tableEmitter = this.layoutTableEmitter;
+			}
+	
+			for ( int i = 0; i < band.getRowCount( ); i++ )
+			{
+				accessRow( band.getRow( i ), true, tableInfo.shouldEndRow(rowIndex) );
+				this.rowIndex++;
+			}
 		}
 	}
 
@@ -678,14 +655,17 @@ public class TableItemExecutor extends ListingElementExecutor
 	 */
 	protected void accessGroupFooter( int index )
 	{
-		TableBandDesign band = getGroupFooter( index, table );
-
 		if ( tableEmitter == layoutTableEmitter )
 		{
 			layoutTableEmitter
 					.resolveDropCells( getDropId( index, DROP_DETAIL ) );
 		}
-		accessNoDropBand( band );
+		
+		TableBandDesign band = getGroupFooter( index, table );
+		if (band != null && band.getRowCount() > 0)
+		{
+			accessBand( band );
+		}
 
 		if ( tableEmitter == layoutTableEmitter )
 		{
@@ -845,6 +825,7 @@ public class TableItemExecutor extends ListingElementExecutor
 				}
 				tableEmitter.endRow( );
 			}
+			layout.reset();
 		}
 
 		class TableCellContent implements IContent

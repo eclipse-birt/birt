@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/20 15:10:48 $
+ * @version $Revision: 1.16 $ $Date: 2005/05/23 08:39:40 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.15 $ $Date: 2005/05/20 15:10:48 $
+	 * @version $Revision: 1.16 $ $Date: 2005/05/23 08:39:40 $
 	 */
 	private class PersistData
 	{
@@ -73,6 +73,19 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			for ( int n = 0; n < columns; n++ )
 			{
 				rowSpans[n] = 0;
+			}
+		}
+		
+		protected void ensureSize(int columnSize)
+		{
+			if (rowSpans.length < columnSize)
+			{
+				int[] newRowSpans = new int[columnSize];
+				if (rowSpans != null)
+				{
+					System.arraycopy(rowSpans, 0, newRowSpans, 0, rowSpans.length);
+					rowSpans = newRowSpans;
+				}
 			}
 		}
 
@@ -118,6 +131,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		{
 			if ( columnID > 0 )
 			{
+				ensureSize(columnID + colSpan);
 				for ( ; lastCol < columnID; lastCol++ )
 				{
 					if ( rowSpans[lastCol - 1] == 0 )
@@ -129,7 +143,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			}
 			else
 			{
-				while ( rowSpans[lastCol - 1] > 0 )
+				while ( lastCol <= rowSpans.length && rowSpans[lastCol - 1] > 0 )
 				{
 					lastCol++;
 				}
@@ -137,12 +151,10 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 			curColumnID = lastCol;
 
+			ensureSize(lastCol + colSpan);
 			for ( int n = 0; n < colSpan; n++, lastCol++ )
 			{
-				if (lastCol < columns)
-				{
-					rowSpans[lastCol - 1] = rowSpan;
-				}
+				rowSpans[lastCol - 1] = rowSpan;
 			}
 		}
 

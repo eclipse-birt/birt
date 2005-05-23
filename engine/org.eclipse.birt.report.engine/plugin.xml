@@ -20,6 +20,7 @@
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.junit"/>
    </requires>
    <extension-point id="reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
    <extension-point id="reportitemPresentation" name="Extended Item Presentation-Time Support" schema="schema/reportitemPresentation.exsd"/>
