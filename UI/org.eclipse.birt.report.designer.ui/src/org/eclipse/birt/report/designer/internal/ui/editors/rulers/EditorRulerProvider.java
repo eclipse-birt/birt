@@ -183,7 +183,7 @@ public class EditorRulerProvider extends RulerProvider
 		}
 
 		return new MoveGuideCommand( pDelta,
-				( (EditorGuide) guide ).getPropertyName( ) );
+				guide.getPropertyName( ) );
 	}
 
 	/**

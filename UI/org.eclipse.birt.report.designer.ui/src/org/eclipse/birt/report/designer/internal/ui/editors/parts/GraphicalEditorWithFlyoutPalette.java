@@ -98,7 +98,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.9 $ $Date: 2005/05/11 01:58:40 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/11 07:59:49 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -283,7 +283,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 					public void mouseDoubleClick( MouseEvent e )
 					{
-						EditPart editPart = (EditPart) viewer
+						EditPart editPart = viewer
 								.findObjectAt( new Point( e.x, e.y ) );
 						ReportCombinedTemplateCreationEntry entry = null;
 						if ( editPart != null

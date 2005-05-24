@@ -40,7 +40,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	public WrapperCommandStack(
 			org.eclipse.birt.report.model.api.CommandStack ar )
 	{
-		this.ar = (CommandStack) ar;
+		this.ar = ar;
 	}
 
 	public boolean canUndo( )

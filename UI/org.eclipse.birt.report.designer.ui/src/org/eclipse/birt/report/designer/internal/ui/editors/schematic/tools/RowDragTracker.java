@@ -66,7 +66,7 @@ public class RowDragTracker extends TableDragGuideTracker
 				value = dimension.width;
 			}
 
-			TableHandleAdapter adp = (TableHandleAdapter) HandleAdapterFactory.getInstance( )
+			TableHandleAdapter adp = HandleAdapterFactory.getInstance( )
 					.getTableHandleAdapter( part.getModel( ) );
 
 			Dimension dm = adp.calculateSize( );

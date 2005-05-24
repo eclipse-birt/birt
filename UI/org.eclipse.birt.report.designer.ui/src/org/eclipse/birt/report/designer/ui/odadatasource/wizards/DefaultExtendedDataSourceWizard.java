@@ -9,12 +9,10 @@
 
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * TODO: Please document
@@ -59,14 +57,6 @@ public abstract class DefaultExtendedDataSourceWizard extends
 				.getElementFactory( )
 				.newOdaDataSource( Messages.getString("datasource.new.defaultName"), dataSourceType); //$NON-NLS-1$
         
-		try
-		{
-			dsHandle.setDriverName( dataSourceType );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
 		return dsHandle;
 	}
 }

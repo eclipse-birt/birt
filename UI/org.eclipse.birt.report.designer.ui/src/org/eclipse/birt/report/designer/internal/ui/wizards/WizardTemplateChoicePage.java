@@ -42,7 +42,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String MESSAGE_PREVIEW = Messages.getString( "WizardTemplateChoicePage.label.Preview" ); //$NON-NLS-1$
 	private static final String MESSAGE_REPORT_TEMPLATES = Messages.getString( "WizardTemplateChoicePage.label.ReportTemplates" ); //$NON-NLS-1$
 	private static final String MESSAGE_SHOW_CHEATSHEET = Messages.getString( "WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
-	private static final String TITLE_LETTER = Messages.getString( "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
+//	private static final String TITLE_LETTER = Messages.getString( "WizardTemplateChoicePage.title.Letter" ); //$NON-NLS-1$
 	private static final String TITLE_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.SideBySideChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.ChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.title.GroupedListing" ); //$NON-NLS-1$
@@ -51,7 +51,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	private static final String TITLE_DUAL_COLUMN_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnChartListing" ); //$NON-NLS-1$
 	private static final String TITLE_DUAL_COLUMN_LISTING = Messages.getString( "WizardTemplateChoicePage.title.DualColumnListing" ); //$NON-NLS-1$
 	private static final String TITLE_FIRST_REPORT = Messages.getString( "WizardTemplateChoicePage.title.FirstReport" ); //$NON-NLS-1$
-	private static final String DESCRIPTION_LETTER = Messages.getString( "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
+//	private static final String DESCRIPTION_LETTER = Messages.getString( "WizardTemplateChoicePage.message.Letter" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_SIDE_BY_SIDE_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.SideBySideChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_CHART_LISTING = Messages.getString( "WizardTemplateChoicePage.message.ChartListing" ); //$NON-NLS-1$
 	private static final String DESCRIPTION_GROUPED_LISTING = Messages.getString( "WizardTemplateChoicePage.message.GroupedListing" ); //$NON-NLS-1$

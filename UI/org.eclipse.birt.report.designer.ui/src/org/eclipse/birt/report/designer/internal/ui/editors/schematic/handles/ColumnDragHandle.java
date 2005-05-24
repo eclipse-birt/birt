@@ -34,7 +34,7 @@ public class ColumnDragHandle extends AbstractHandle
 	 */
 	protected DragTracker createDragTracker( )
 	{
-		return new ColumnDragTracker( (TableEditPart) getOwner( ),
+		return new ColumnDragTracker( getOwner( ),
 				getStart( ),
 				getEnd( ) );
 	}

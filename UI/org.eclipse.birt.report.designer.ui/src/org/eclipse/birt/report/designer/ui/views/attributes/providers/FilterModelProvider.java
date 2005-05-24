@@ -215,7 +215,7 @@ public class FilterModelProvider
 	 */
 	private String[] getDataSetColumns( ReportItemHandle handle )
 	{
-		DataSetHandle dataSet = (DataSetHandle) handle.getDataSet( );
+		DataSetHandle dataSet = handle.getDataSet( );
 		if ( dataSet == null )
 			return EMPTY;
 		models = DataSetManager.getCurrentInstance().getColumns(dataSet,false);

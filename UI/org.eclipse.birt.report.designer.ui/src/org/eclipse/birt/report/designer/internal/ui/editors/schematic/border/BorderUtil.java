@@ -67,7 +67,7 @@ public class BorderUtil
 			i = x;
 		}
 
-		return (int) ( y * i / x );
+		return  y * i / x ;
 	}
 
 	/**

@@ -436,17 +436,17 @@ public class EditorRulerComposite extends Composite
 
 	private int getLeftMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).left );
+		return ( getMasterPageInsets( getMasterPageHandle( ) ).left );
 	}
 
 	private int getRightMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).right );
+		return ( getMasterPageInsets( getMasterPageHandle( ) ).right );
 	}
 
 	private int getBottomMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).bottom );
+		return ( getMasterPageInsets( getMasterPageHandle( ) ).bottom );
 	}
 
 	private double getZoom( )
@@ -467,7 +467,7 @@ public class EditorRulerComposite extends Composite
 
 	private int getTopMargin( )
 	{
-		return (int) ( getMasterPageInsets( getMasterPageHandle( ) ).top );
+		return ( getMasterPageInsets( getMasterPageHandle( ) ).top );
 	}
 
 	private GraphicalViewer getRulerContainer( int orientation )
