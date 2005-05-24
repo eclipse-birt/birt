@@ -49,6 +49,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -700,6 +701,12 @@ public class FillChooserComposite extends Composite implements SelectionListener
     {
         if (e.getSource().equals(cmpDropDown))
         {
+            // Condition added to handle behavior under Linux
+            Control cTmp = Display.getCurrent().getCursorControl(); 
+            if (cTmp.equals(btnGradient) || cTmp.equals(btnCustom) || cTmp.equals(btnImage) || cTmp.equals(srTransparency))
+            {
+                return;
+            }
             if (btnCustom != null && btnCustom.isFocusControl())
             {
                 return;
