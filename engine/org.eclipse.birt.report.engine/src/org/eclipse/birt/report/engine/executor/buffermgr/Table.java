@@ -12,7 +12,7 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 
 /**
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2005/05/20 15:11:05 $
  */
 public class Table
 {
@@ -58,10 +58,10 @@ public class Table
 	 */
 	public void reset( )
 	{
+		fillEmptyCells( 0, 0, rowBufferSize, colBufferSize );
 		nextColId = -1;
 		rowCount = 0;
 		colCount = 0;
-		fillEmptyCells( 0, 0, rowBufferSize, colBufferSize );
 	}
 
 	public int getRowCount( )
