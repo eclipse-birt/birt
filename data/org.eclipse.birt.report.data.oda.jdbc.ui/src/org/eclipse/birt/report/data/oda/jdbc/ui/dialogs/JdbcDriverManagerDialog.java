@@ -475,7 +475,8 @@ public class JdbcDriverManagerDialog extends Dialog
 			if ( !driverMap.containsKey( info.toString( ) ) )
 			{
 				driverMap.put( info.toString( ), new String[]{
-						"",
+						( info.getDisplayName( ) == null ) ? ""
+								: ( info.getDisplayName( ) ),
 						( info.getUrlFormat( ) == null ) ? ""
 								: ( info.getUrlFormat( ) )
 				} ); //$NON-NLS-1$ //$NON-NLS-2$

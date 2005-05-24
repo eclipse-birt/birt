@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager.JdbcDriverInfo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcDriverConfigUtil
@@ -74,6 +75,21 @@ public class JdbcDriverConfigUtil
     
     public String getURLFormat(String className)
     {
-        return null;
+       	JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );
+		if ( jdbcDriverInfo != null )
+			return jdbcDriverInfo.getDriverUrlTemplate( );
+		else
+			return null;
     }
+    
+    public String getDisplayName( String className )
+	{
+
+		JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );
+		if ( jdbcDriverInfo != null )
+			return jdbcDriverInfo.getDisplayName( );
+		else
+			return null;
+	}
+    
 }

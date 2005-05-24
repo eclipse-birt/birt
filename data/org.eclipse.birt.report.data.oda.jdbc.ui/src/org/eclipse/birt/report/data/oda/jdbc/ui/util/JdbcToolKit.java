@@ -107,6 +107,7 @@ public class JdbcToolKit
 						classPathURLs );
 				// Adding the odbc-jdbc driver
 				info.setUrlFormat( "jdbc:odbc:<data source name>" );
+				info.setDisplayName( "Sun JDBC-ODBC Bridge Driver" );
 				jdbcDrivers.add( info ); //$NON-NLS-1$
 			}
 			catch ( Exception e )
@@ -204,6 +205,7 @@ public class JdbcToolKit
 												if ( driverConfigUtil != null )
 												{
 													info.setUrlFormat( driverConfigUtil.getURLFormat( info.getDriverClassName( ) ) );
+													info.setDisplayName( driverConfigUtil.getDisplayName( info.getDriverClassName( ) ) );
 												}
 												jdbcDrivers.add( info );
 											}

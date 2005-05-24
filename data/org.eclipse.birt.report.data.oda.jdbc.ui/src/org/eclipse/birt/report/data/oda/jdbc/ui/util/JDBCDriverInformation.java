@@ -25,7 +25,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/11 00:11:27 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/13 07:47:26 $
  */
 public final class JDBCDriverInformation
 {
@@ -35,6 +35,7 @@ public final class JDBCDriverInformation
     private int minorVersion = 0;
     private String urlFormat = null;
     private boolean displayVersion = true;
+    private String driverDisplayName = null;
 
     /**
      * 
@@ -61,8 +62,6 @@ public final class JDBCDriverInformation
         return getInstance(Class.forName( driverClassName, true, ucl ), classPaths);
     }
     
-    
-
     /**
      * @return Returns the driverClassName.
      */
@@ -70,6 +69,7 @@ public final class JDBCDriverInformation
     {
         return driverClassName;
     }
+    
     /**
      * @param driverClassName The driverClassName to set.
      */
@@ -77,6 +77,7 @@ public final class JDBCDriverInformation
     {
         this.driverClassName = driverClassName;
     }
+    
     /**
      * @return Returns the majorVersion.
      */
@@ -84,6 +85,7 @@ public final class JDBCDriverInformation
     {
         return majorVersion;
     }
+    
     /**
      * @param majorVersion The majorVersion to set.
      */
@@ -91,6 +93,7 @@ public final class JDBCDriverInformation
     {
         this.majorVersion = majorVersion;
     }
+    
     /**
      * @return Returns the minorVersion.
      */
@@ -98,6 +101,7 @@ public final class JDBCDriverInformation
     {
         return minorVersion;
     }
+    
     /**
      * @param minorVersion The minorVersion to set.
      */
@@ -105,7 +109,10 @@ public final class JDBCDriverInformation
     {
         this.minorVersion = minorVersion;
     }
-   
+    
+    /*
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(driverClassName);
@@ -127,6 +134,7 @@ public final class JDBCDriverInformation
     {
         return urlFormat;
     }
+    
     /**
      * @param urlFormat The urlFormat to set.
      */
@@ -134,16 +142,33 @@ public final class JDBCDriverInformation
     {
         this.urlFormat = urlFormat;
     }
+    
 	/**
 	 * @return Returns the displayVersion.
 	 */
 	public boolean isDisplayVersion() {
 		return displayVersion;
 	}
+	
 	/**
 	 * @param displayVersion The displayVersion to set.
 	 */
 	public void setDisplayVersion(boolean displayVersion) {
 		this.displayVersion = displayVersion;
 	}
+	
+	/**
+	 * @return Returns the displayName.
+	 */
+	public String getDisplayName(){
+	   return driverDisplayName;	
+	}
+	
+	/**
+	 * @param displayName The displayName to set.
+	 */
+	public void setDisplayName(String displayName){
+	    this.driverDisplayName = displayName;
+	}
+	
 }
