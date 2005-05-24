@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,12 +32,12 @@ import org.eclipse.birt.core.i18n.ResourceHandle;
  */
 public final class DataTypeUtil
 {
-	// Default Date Style 
-	private static int DEFAULT_DATE_STYLE =DateFormat.SHORT;
-
 	// Defalult Locale, if we have any problem parse string to date for Locale.getDefault()
 	// we will try to parse it for Locale.US
 	private static Locale DEFAULT_LOCALE = Locale.US;
+
+	// Default Date/Time Style 
+	private static int DEFAULT_DATE_STYLE =DateFormat.MEDIUM;
 
 	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( Locale
@@ -356,45 +356,27 @@ public final class DataTypeUtil
 		DateFormat dateFormat = null;
 		Date resultDate = null;
 
-		//For each pattern, we try to format a date for a default Locale
-		//If format fails, we format it for Locale.US
-
-		//Date style is SHORT such as 12.13.52
-		//Time sytle is MEDIUM such as 3:30:32pm
-		try
+		for ( int i = DEFAULT_DATE_STYLE; i <= DateFormat.SHORT; i++ )
 		{
-			dateFormat = DateFormat.getDateTimeInstance( DEFAULT_DATE_STYLE,
-					DateFormat.MEDIUM, locale );
-			resultDate = dateFormat.parse( source );
-		}
-		catch ( ParseException e1 )
-		{
-		}
-
-		if ( resultDate == null )
-		{
-			//Date style is SHORT such as 12.13.52
-			//Time style is SHORT such as 3:30pm
+			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
+			{
+				dateFormat = DateFormat.getDateTimeInstance( i, j, locale );
+				try
+				{
+					resultDate = dateFormat.parse( source );
+					return resultDate;
+				}
+				catch ( ParseException e1 )
+				{
+				}
+			}
+			
+			// only Date, no Time 
+			dateFormat = DateFormat.getDateInstance( i, locale );
 			try
 			{
-				dateFormat = DateFormat.getDateTimeInstance(
-						DEFAULT_DATE_STYLE, DateFormat.SHORT, locale );
 				resultDate = dateFormat.parse( source );
-			}
-			catch ( ParseException e1 )
-			{
-			}
-		}
-
-		if ( resultDate == null )
-		{
-			//Date style is SHORT such as 12.13.52
-			//No Time sytle
-			try
-			{
-				dateFormat = DateFormat.getDateInstance( DEFAULT_DATE_STYLE,
-						locale );
-				resultDate = dateFormat.parse( source );
+				return resultDate;
 			}
 			catch ( ParseException e1 )
 			{
@@ -408,6 +390,7 @@ public final class DataTypeUtil
 					resourceBundle );
 		}
 		
+		// never access here
 		return resultDate;
 	}
 
@@ -678,13 +661,13 @@ public final class DataTypeUtil
 
 	/**
 	 * format Date to String
-	 * since toDate() only support SHORT Style,use SHORT Style here,too.
+	 * e.g. Jan 12, 1952 3:30:32pm 
 	 * @param source
 	 * @return
 	 */
 	private static String toString( Date source ){
 		DateFormat df = DateFormat.getDateTimeInstance( DEFAULT_DATE_STYLE,
-				DateFormat.SHORT );
+				DEFAULT_DATE_STYLE );
 		return df.format( (Date) source );
 	}
 }
