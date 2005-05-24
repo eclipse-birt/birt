@@ -483,20 +483,21 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
 			{
-				Object value = element.getLocalProperty( null,
+				Object value = element.getLocalProperty( design,
 						(ElementPropertyDefn) propDefn );
 
 				if ( value != null )
 				{
-					ElementRefValue refValue = (ElementRefValue) value;
-					DesignElement referred = refValue.getElement( );
-
-					if ( referred != null )
+					try
 					{
-						BackRefRecord record = new BackRefRecord( design,
-								(ReferenceableElement) referred, element,
-								propDefn.getName( ) );
-						getActivityStack( ).execute( record );
+						// Clear all element reference property for dropped element
+						
+						PropertyCommand cmd = new PropertyCommand( design, element );
+						cmd.setProperty( propDefn.getName( ), null );
+					}
+					catch ( SemanticException e )
+					{
+						assert false;
 					}
 				}
 			}
