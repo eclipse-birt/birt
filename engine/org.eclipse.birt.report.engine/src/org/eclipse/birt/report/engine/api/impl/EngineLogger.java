@@ -65,6 +65,8 @@ public class EngineLogger {
 			logFileHandler.setFormatter( new SimpleFormatter() ); // In BIRT log, we should always use the simple format.
 			logger.addHandler( logFileHandler );
 		}
+		
+		logger.setUseParentHandlers( false );
 	}
 
 	/**
