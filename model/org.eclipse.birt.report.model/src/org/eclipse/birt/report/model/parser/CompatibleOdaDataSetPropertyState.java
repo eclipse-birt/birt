@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.xml.sax.SAXException;
 
 /**
  * Represents the property state for OdaDataSet.
@@ -21,9 +22,18 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * <pre>
  * 
  *  
- *        &lt;oda-data-set name=&quot;myDataSet1&quot;&gt;
- *          &lt;property name=&quot;type&quot;&gt;JdbcSelectDataSet&lt;/property&gt;
- *        &lt;/oda-data-set&gt;
+ *    
+ *   Old design file:
+ *   
+ *     &lt;oda-data-set name=&quot;myDataSet1&quot;&gt;
+ *       &lt;property name=&quot;type&quot;&gt;JdbcSelectDataSet&lt;/property&gt;
+ *     &lt;/oda-data-set&gt;
+ *   
+ *    New design file:
+ *    
+ *     &lt;oda-data-set extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSet1&quot;&gt;
+ *     &lt;/oda-data-set&gt;
+ *     
  *   
  *  
  * </pre>
@@ -43,54 +53,24 @@ public class CompatibleOdaDataSetPropertyState extends PropertyState
 		assert element instanceof OdaDataSet;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#setProperty(java.lang.String,
-	 *      java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-
-	protected void setProperty( String propName, String value )
+	 
+	public void end( ) throws SAXException
 	{
-		assert propName != null;
-
-		if ( propName.equalsIgnoreCase( DesignElement.NAME_PROP )
-				|| propName.equalsIgnoreCase( DesignElement.EXTENDS_PROP ) )
+		if ( "type".equals( name ) ) //$NON-NLS-1$ 
 		{
-			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
-			handler.semanticError( e );
-			valid = false;
+			String convertedValue = convertToExtensionID( text.toString( ) );
+
+			setProperty( OdaDataSet.EXTENSION_ID_PROP, convertedValue );
+			
 			return;
 		}
 
-		// The property definition is not found, including user
-		// properties.
-
-		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
-		if ( propDefn == null )
-		{
-			if ( "type".equals( propName ) ) //$NON-NLS-1$ 
-			{
-				String convertedValue = convertToExtensionID( value );
-
-				setProperty( OdaDataSet.EXTENSION_ID_PROP, convertedValue );
-				return;
-			}
-		}
-		if ( propDefn == null )
-		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{propName},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
-			valid = false;
-			return;
-		}
-
-		doSetProperty( propDefn, value );
+		super.end( );
 	}
-
+	
 	/**
 	 * Convert type name to extension ID.
 	 * 

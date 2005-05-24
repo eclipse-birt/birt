@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
  * 
  * <pre>
  * 
+ * Old design file:
+ * 
  *        &lt;oda-data-source name=&quot;myDataSource1&quot;&gt;
  *          &lt;list-property name=&quot;privateDriverProperties&quot;&gt;
  *            &lt;ex-property&gt;
@@ -53,6 +55,16 @@ import org.xml.sax.SAXException;
  *              &lt;value&gt;Password&lt;/value&gt;
  *            &lt;/ex-property&gt;
  *          &lt;/list-property&gt;
+ *        &lt;/oda-data-source&gt;
+ * 
+ *  New design file:
+ *  
+ *        &lt;oda-data-source extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSource1&quot;&gt;
+ *          &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
+ *          &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
+ *          &lt;property name=&quot;odaDataSource&quot;&gt;Data Source&lt;/property&gt;
+ *          &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
+ *          &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
  *        &lt;/oda-data-source&gt;
  *  
  * </pre>

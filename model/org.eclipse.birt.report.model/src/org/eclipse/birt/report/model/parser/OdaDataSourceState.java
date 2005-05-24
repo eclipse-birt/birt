@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
+import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -53,6 +54,25 @@ public class OdaDataSourceState extends DataSourceState
 		parseODADataSourceExtensionID( attrs, false );
 
 		initElement( attrs, true );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 */
+	public AbstractParseState startElement( String tagName )
+	{
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		{
+			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) //$NON-NLS-1$//$NON-NLS-2$
+			{
+				return new CompatibleOdaDataSourcePropertyState( handler,
+						getElement( ) );
+			}
+		}
+
+		return super.startElement( tagName );
 	}
 
 	/**

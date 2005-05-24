@@ -27,26 +27,28 @@ import org.xml.sax.SAXException;
  * Can translate the obsolete format
  * 
  * <pre>
- *   <property name="dateTimeFormat">:yyyy/mm/dd</property>
- *    <property name="numberFormat">:</property>
- *    <property name="stringFormat">noformat:</property>  
- * </pre>
- * 
- * to:
- * 
- * <pre>
- * 	<structure name="dateTimeFormat">
- * 		<property name="category">Custom</property>
- * 		<property name="pattern">yyyy/mm/dd</property>
- * 	</structure>
- * 	<structure name="numberFormat">
- * 		<property name="category">Currency</property>
- * 		<property name="pattern">$###,###.##</property>
- * 	</structure>
- * 	<structure name="stringFormat">
- * 		<property name="category">noformat</property>
- * 		<property name="pattern">***</property>
- * 	</structure>
+ *   
+ *   Old design file:
+ *   
+ *      &lt;property name=&quot;dateTimeFormat&quot;&gt;:yyyy/mm/dd&lt;/property&gt;
+ *      &lt;property name=&quot;numberFormat&quot;&gt;:&lt;/property&gt;
+ *      &lt;property name=&quot;stringFormat&quot;&gt;noformat:&lt;/property&gt;
+ *      
+ *   New design file:
+ *   
+ *   	&lt;structure name=&quot;dateTimeFormat&quot;&gt;
+ *   	  &lt;property name=&quot;category&quot;&gt;Custom&lt;/property&gt;
+ *   	  &lt;property name=&quot;pattern&quot;&gt;yyyy/mm/dd&lt;/property&gt;
+ *   	&lt;/structure&gt;
+ *   	&lt;structure name=&quot;numberFormat&quot;&gt;
+ *   	  &lt;property name=&quot;category&quot;&gt;Currency&lt;/property&gt;
+ *   	  &lt;property name=&quot;pattern&quot;&gt;$###,###.##&lt;/property&gt;
+ *   	&lt;/structure&gt;
+ *   	&lt;structure name=&quot;stringFormat&quot;&gt;
+ *   	  &lt;property name=&quot;category&quot;&gt;noformat&lt;/property&gt;
+ *   	  &lt;property name=&quot;pattern&quot;&gt;***&lt;/property&gt;
+ *   	&lt;/structure&gt;
+ *   
  * </pre>
  */
 
