@@ -90,9 +90,6 @@
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
 		<pathelement path="derby.jar" />
-		<fileset dir="${dir.lib}">
-			<include name="**/*.jar"/>
-		</fileset>
 		<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 			<include name="lib/*.jar"/>
