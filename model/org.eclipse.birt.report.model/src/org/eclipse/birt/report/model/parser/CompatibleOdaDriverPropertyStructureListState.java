@@ -145,7 +145,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 		{
 			if ( propertyValue != null && propertyName != null )
 			{
-				String newPropertyName = CompatibleOdaDriverPropertyState
+				String newPropertyName = CompatibleOdaDataSourcePropertyState
 						.getNewOdaDriverProperty( propertyName );
 
 				element.setProperty( newPropertyName, propertyValue );

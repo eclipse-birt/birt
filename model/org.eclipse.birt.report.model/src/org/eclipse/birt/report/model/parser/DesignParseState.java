@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -117,7 +118,13 @@ public abstract class DesignParseState extends AbstractParseState
 			if ( getElement( ) instanceof OdaDataSource
 					&& ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) )//$NON-NLS-1$//$NON-NLS-2$
 			{
-				return new CompatibleOdaDriverPropertyState( handler,
+				return new CompatibleOdaDataSourcePropertyState( handler,
+						getElement( ) );
+			}
+			else if ( getElement( ) instanceof OdaDataSet
+					&& ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) )//$NON-NLS-1$//$NON-NLS-2$
+			{
+				return new CompatibleOdaDataSetPropertyState( handler,
 						getElement( ) );
 			}
 
