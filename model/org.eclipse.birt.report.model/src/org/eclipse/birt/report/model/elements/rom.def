@@ -827,13 +827,13 @@
       <Argument name="value" type="Object" tagID="Class.Object.Object.value" />
     </Constructor>
     <Method name="hasOwnProperty" displayNameID="Class.Object.hasOwnProperty" toolTipID="Class.Object.hasOwnProperty.toolTip" returnType="boolean">
-      <Argument name="propname" type="boolean" tagID="Class.Object.hasOwnProperty.propname" />
+      <Argument name="propname" type="String" tagID="Class.Object.hasOwnProperty.propname" />
     </Method>
     <Method name="isPrototypeOf" displayNameID="Class.Object.isPrototypeOf" toolTipID="Class.Object.isPrototypeOf.toolTip" returnType="boolean">
-      <Argument name="o" type="boolean" tagID="Class.Object.isPrototypeOf.o" />
+      <Argument name="o" type="Object" tagID="Class.Object.isPrototypeOf.o" />
     </Method>
     <Method name="propertyIsEnumerable" displayNameID="Class.Object.propertyIsEnumerable" toolTipID="Class.Object.propertyIsEnumerable.toolTip" returnType="boolean">
-      <Argument name="propname" type="boolean" tagID="Class.Object.propertyIsEnumerable.propname" />
+      <Argument name="propname" type="String" tagID="Class.Object.propertyIsEnumerable.propname" />
     </Method>
     <Method name="toLocaleString" displayNameID="Class.Object.toLocaleString" toolTipID="Class.Object.toLocaleString.toolTip" returnType="String" />
     <Method name="toString" displayNameID="Class.Object.toString" toolTipID="Class.Object.toString.toolTip" returnType="String" />
