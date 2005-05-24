@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 /**
  * calculate the cell id explictly.
  *
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.1 $ $Date: 2005/05/23 11:57:54 $
  */
 public class TableItemDesignLayout
 {
@@ -107,7 +107,7 @@ public class TableItemDesignLayout
 		{
 			columns[columnId + i] = rowSpan;
 		}
-		lastColumn = columnId + 1;
+		lastColumn = columnId + colSpan;
 		if (lastColumn > columnCount)
 		{
 			columnCount = lastColumn;
