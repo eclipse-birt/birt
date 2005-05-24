@@ -376,6 +376,8 @@ public class InsertInLayoutUtil
 	public static DesignElementHandle performInsert( Object insertObj,
 			Object target, Object targetParent ) throws SemanticException
 	{
+		Assert.isNotNull( insertObj );
+		Assert.isNotNull( target );
 		if ( insertObj instanceof DataSetHandle )
 		{
 			return performInsertDataSet( (DataSetHandle) insertObj );
@@ -577,6 +579,10 @@ public class InsertInLayoutUtil
 	public static boolean handleValidateInsertToLayout( Object insertObj,
 			EditPart targetPart )
 	{
+		if ( targetPart == null )
+		{
+			return false;
+		}
 		if ( insertObj instanceof Object[] )
 		{
 			Object[] array = (Object[]) insertObj;
@@ -598,7 +604,6 @@ public class InsertInLayoutUtil
 			return handleValidateInsertToLayout( ( (IStructuredSelection) insertObj ).toArray( ),
 					targetPart );
 		}
-
 		else if ( insertObj instanceof DataSetHandle )
 		{
 			return isHandleValid( (DataSetHandle) insertObj )
