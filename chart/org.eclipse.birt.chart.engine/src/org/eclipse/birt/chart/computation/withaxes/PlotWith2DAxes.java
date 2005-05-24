@@ -1205,8 +1205,11 @@ public final class PlotWith2DAxes extends PlotContent
                         dAxisMin = Math.min(dGroupMin, dAxisMin);
                         if (ax.isPercent())
                         {
-                            dPercentMax = Math.max((dGroupMax / dAbsTotal) * 100d, dPercentMax);
-                            dPercentMin = Math.min((dGroupMin / dAbsTotal) * 100d, dPercentMin);
+                            if (dAbsTotal != 0d)
+                            {
+                                dPercentMax = Math.max((dGroupMax / dAbsTotal) * 100d, dPercentMax);
+                            	dPercentMin = Math.min((dGroupMin / dAbsTotal) * 100d, dPercentMin);
+                            }
                         }
                     }
                 }

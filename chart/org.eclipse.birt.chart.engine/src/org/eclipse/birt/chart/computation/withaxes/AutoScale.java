@@ -289,6 +289,8 @@ public final class AutoScale extends Methods implements Cloneable
     {
         if (bStepFixed)
             return false; // CANNOT ZOOM FOR FIXED STEPS
+        if ( ((Number)oStep).doubleValue() == 0 )
+            return false; // CANNOT ZOOM ANY MORE
 
         if ((iType & NUMERICAL) == NUMERICAL)
         {
