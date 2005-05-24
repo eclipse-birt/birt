@@ -723,7 +723,7 @@
     <Member name="NaN" displayNameID="Class.Number.NaN" toolTipID="Class.Number.NaN.toolTip" dataType="number" isStatic="true" />
     <Member name="NEGATIVE_INFINITY" displayNameID="Class.Number.NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
     <Member name="POSITIVE_INFINITY" displayNameID="Class.Number.POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
-    <Method name="toExpoential" displayNameID="Class.Number.toExpoential" toolTipID="Class.Number.toExpoential.toolTip" returnType="String">
+    <Method name="getExponential" displayNameID="Class.Number.getExponential" toolTipID="Class.Number.getExponential.toolTip" returnType="String">
       <Argument name="digits" type="number" tagID="Class.Number.toExpoential.digits" />
     </Method>
     <Method name="toFixed" displayNameID="Class.Number.toFixed" toolTipID="Class.Number.toFixed.toolTip" returnType="String">
@@ -842,7 +842,7 @@
   <Class name="Global" displayNameID="Class.Global" toolTipID="Class.Global.toolTip" native="true">
     <Member name="NaN" displayNameID="Class.Global.NaN" toolTipID="Class.Global.NaN.toolTip" dataType="Object" isStatic="true" />
     <Member name="Infinity" displayNameID="Class.Global.Infinity" toolTipID="Class.Global.Infinity.toolTip" dataType="Number" isStatic="true" />
-    <Member name="undefined" displayNameID="Class.Global.undefined" toolTipID="Class.Global.undefined.toolTip" dataType="Object" isStatic="true" />
+    <Member name="Undefined" displayNameID="Class.Global.Undefined" toolTipID="Class.Global.Undefined.toolTip" dataType="Object" isStatic="true" />
     <Method name="decodeURI" displayNameID="Class.Global.decodeURI" toolTipID="Class.Global.decodeURI.toolTip" returnType="String" isStatic="true" >
       <Argument name="uri" type="String" tagID="Class.Global.decodeURI.uri" />
     </Method>
