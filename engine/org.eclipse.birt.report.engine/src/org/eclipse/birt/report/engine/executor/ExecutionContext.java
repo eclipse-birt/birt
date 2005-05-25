@@ -46,6 +46,8 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.script.NativeReportDefinition;
+import org.eclipse.birt.report.model.script.ReportDefinition;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -55,7 +57,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.24 $ $Date: 2005/05/20 18:44:35 $
+ * @version $Revision: 1.25 $ $Date: 2005/05/23 05:08:17 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -125,6 +127,8 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	protected StringFormatter stringFormatter;
 	
 	protected DateFormatter dateFormatter;
+	
+	protected Object designObj;
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -156,7 +160,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 		//create script context used to execute the script statements
 		//register the global variables in the script context
-		scriptContext.registerBean( "report", new ReportObject( ) ); 	//$NON-NLS-1$
+		scriptContext.registerBean( "report", new ReportObject()); 
 		scriptContext.registerBean( "params", params ); 				//$NON-NLS-1$
 		scriptContext.registerBean( "config", configs ); 				//$NON-NLS-1$
 		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
@@ -480,10 +484,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * @param report
 	 *            The report to set.
 	 */
-	public void setReport( Report report )
+	public void setReport(Report report)
 	{
 		this.report = report;
 	}
+
 
 	/**
 	 * @return Returns the defaultMasterPage.
@@ -779,9 +784,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		 * 
 		 * @return report design object.
 		 */
-		public ReportDesignHandle getDesign( )
+		public Object getDesign( )
 		{
-			return report.getReportDesign( ).handle( );
+			return designObj;
 		}
 
 		/**
@@ -809,7 +814,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		 */
 		public SlotHandle getDataSets( )
 		{
-			return report.getReportDesign( ).handle( ).getDataSets( );
+			return null;
 		}
 
 		/**
@@ -817,7 +822,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		 */
 		public SlotHandle getDataSources( )
 		{
-			return report.getReportDesign( ).handle( ).getDataSets( );
+			return null;
 		}
 
 		/**
@@ -842,6 +847,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public void setRunnable(IReportRunnable runnable)
 	{
 		this.runnable = runnable;
+		ReportDefinition designDefn = new ReportDefinition((ReportDesignHandle)runnable.getDesignHandle());
+		scriptContext.registerBean("design", designDefn);
+		this.designObj = scriptContext.eval("design");
 	}
 	/**
 	 * @return Returns the renderOption.
