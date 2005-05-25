@@ -627,6 +627,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( !isAbstract( ) )
 			checkJavaClass( );
 
+        checkPropertyVisibilities();
+        
 		buildSlots( );
 
 		buildTriggerDefnSet( );
@@ -634,6 +636,25 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		isBuilt = true;
 	}
 
+    
+    private void checkPropertyVisibilities( ) throws MetaDataException
+    {
+        if( this.propVisibilites == null )
+            return;
+        
+        Iterator propNames = this.propVisibilites.keySet().iterator();
+        while( propNames.hasNext() )
+        {
+        	String propName = (String)propNames.next();
+            
+            // Visibility should defined for an exsiting element property.
+            
+            if( getProperty( propName ) == null )
+                throw new MetaDataException( new String[]{ name, propName }, 
+                        MetaDataException.DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND );
+        }
+    }
+    
 	/*
 	 * (non-Javadoc)
 	 * 

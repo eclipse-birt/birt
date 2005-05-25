@@ -200,12 +200,20 @@ public class MetaDataException extends BirtException
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_CHOICE_NAME = "DUPLICATE_CHOICE_NAME"; //$NON-NLS-1$
-	/**
+	
+    /**
 	 * Error code constant indicating a duplicate choice set name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_CHOICE_SET_NAME = "DUPLICATE_CHOICE_SET_NAME"; //$NON-NLS-1$
 
+    /**
+     * Error code constant indicating a property visibility name defined on element doesn't point to an existing property.
+     */
+    
+    public static final String DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND = "VISIBILITY_PROPERTY_NOT_FOUND";  //$NON-NLS-1$
+    
+    
 	/**
 	 * Error code constant indicating a missing structure name.
 	 */
