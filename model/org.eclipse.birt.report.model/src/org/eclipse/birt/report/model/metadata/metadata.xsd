@@ -29,6 +29,7 @@
 						<xs:attribute name="displayNameID" type="xs:string" use="optional"/>
 						<xs:attribute name="toolTipID" type="xs:string" use="optional"/>
 						<xs:attribute name="native" type="xs:boolean" use="optional" default="false"/>
+						<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Validators">
@@ -167,7 +168,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="propertyVisibility" type="xs:string" use="optional"/>
+					<xs:attribute name="visibility" type="VisibilityType" use="required"/>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="Method" minOccurs="0" maxOccurs="unbounded">
@@ -211,6 +212,8 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="nameSpace" type="NameSpaceType" use="optional"/>
 		<xs:attribute name="isNameRequired" type="xs:boolean" use="optional"/>
 		<xs:attribute name="javaClass" type="xs:string" use="optional"/>
+		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
+		<xs:attribute name="xmlName" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="PropertyDefnType">
 		<xs:annotation>
@@ -256,6 +259,9 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="isList" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="validator" type="xs:string" use="optional"/>
+		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
+		<xs:attribute name="runtimeSettable" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="exprContext" type="ExprContextType" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="StyleDefnType">
 		<xs:attribute name="reference" type="xs:string" use="optional">
@@ -327,6 +333,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 	<xs:complexType name="ChoiceType">
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
 		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
 	</xs:complexType>
 	<xs:complexType name="StructureType">
 		<xs:sequence>
@@ -352,6 +359,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>
+		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
 	</xs:complexType>
 	<xs:complexType name="MethodType">
 		<xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -372,6 +380,8 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="returnType" type="xs:string" use="optional"/>
 		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="false"/>
 		<xs:attribute name="valueRequired" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="since" type="xs:string" use="optional" default="1.0"/>
+		<xs:attribute name="context" type="ExprContextType" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="TriggerDefnType">
 		<xs:annotation>
@@ -398,4 +408,17 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:attribute name="dataType" type="xs:string" use="required"/>
 		<xs:attribute name="isStatic" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
+	<xs:simpleType name="ExprContextType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="factory"/>
+			<xs:enumeration value="presentation"/>
+			<xs:enumeration value="element"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VisibilityType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="hide"/>
+			<xs:enumeration value="lock"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

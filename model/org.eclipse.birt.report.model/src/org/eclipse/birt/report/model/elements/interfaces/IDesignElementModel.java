@@ -70,7 +70,7 @@ public interface IDesignElementModel
 	 * the element.
 	 */
 
-	public static final String PROPERTY_MASKS_PROP = "propertyMask"; //$NON-NLS-1$
+	public static final String PROPERTY_MASKS_PROP = "propertyMasks"; //$NON-NLS-1$
 
 	/**
 	 * Name of the user property definition.

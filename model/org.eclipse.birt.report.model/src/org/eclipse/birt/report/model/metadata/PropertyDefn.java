@@ -66,6 +66,12 @@ public abstract class PropertyDefn
 	public static final int EXTENSION_PROPERTY = 3;
 
 	/**
+	 * Where the property is defined.
+	 */
+	
+	protected ObjectDefn definedBy = null; 
+
+	/**
 	 * The cached property type.
 	 */
 
@@ -185,11 +191,46 @@ public abstract class PropertyDefn
 	private boolean isEncryptable = false;
 
 	/**
+	 * The BIRT release when this property was introduced.
+	 */
+	
+	protected String since;
+	
+	/**
+	 * Whether the property can be set in the Factory or Presentation
+	 * engine. If false, the property is read-only at runtime.
+	 */
+	
+	protected boolean runtimeSettable;
+
+	/**
+	 * The context for a method.
+	 */
+	
+	protected String context;
+	
+	/**
+	 * The return type for an expression or method.
+	 */
+	
+	protected String returnType;
+	
+	/**
 	 * Constructs a Property Definition.
 	 */
 
 	public PropertyDefn( )
 	{
+	}
+	
+	public void setOwner( ObjectDefn owner )
+	{
+		definedBy = owner;
+	}
+	
+	public ObjectDefn definedBy( )
+	{
+		return definedBy;
 	}
 
 	/**
@@ -1124,5 +1165,95 @@ public abstract class PropertyDefn
 	void setIsEncryptable( boolean isEncryptable )
 	{
 		this.isEncryptable = isEncryptable;
+	}
+	
+	/**
+	 * Set the release in which this object was introduced.
+	 * 
+	 * @param value the release value
+	 */
+	
+	public void setSince( String value )
+	{
+		if ( ! StringUtil.isBlank( value ) )
+			since = value;
+	}
+	
+	/**
+	 * @return the release in which this object was introduced. A value of "none"
+	 * means that the feature is experimental and is not yet released.
+	 */
+	
+	public String getSince( )
+	{
+		return since;
+	}
+	
+	/**
+	 * Set the indication of whether this property can be set at runtime.
+	 * 
+	 * @param flag true if it can be set, false if it is read-only
+	 */
+	
+	public void setRuntimeSettable( boolean flag )
+	{
+		runtimeSettable = flag;
+	}
+	
+	/**
+	 * Indicates whether this property can be set at runtime.
+	 * 
+	 * @return true if it can be set, false if it is read-only
+	 */
+	
+	public boolean isRuntimeSettable( )
+	{
+		return runtimeSettable;
+	}
+
+	/**
+	 * Set the context for a method or expression.
+	 * 
+	 * @param value the context to set
+	 */
+	
+	public void setContext( String value )
+	{
+		context = value;
+	}
+
+	/**
+	 * Return the context for a method or expression.
+	 * 
+	 * @return the expression or method context
+	 */
+	
+	public String getContext( )
+	{
+		return context;
+	}
+	
+	/**
+	 * Sets the return type of an expression or method.
+	 * 
+	 * @param type the return type to set
+	 */
+	
+	public void setReturnType( String type )
+	{
+		returnType = type;
+	}
+	
+	/**
+	 * Returns the return type of an expression or method. A null type for
+	 * an expression means that return type is any type. A null type for a
+	 * method means that the method does not return anything.
+	 * 
+	 * @return the method or property return type
+	 */
+	
+	public String getReturnType( )
+	{
+		return returnType;
 	}
 }

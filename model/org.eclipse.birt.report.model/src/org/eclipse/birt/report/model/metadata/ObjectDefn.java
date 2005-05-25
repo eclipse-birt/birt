@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -50,6 +51,12 @@ public class ObjectDefn implements IObjectDefn
 	 */
 
 	protected Map properties = new LinkedHashMap( );
+	
+	/**
+	 * The BIRT release when this object was introduced.
+	 */
+	
+	protected String since;
 
 	/**
 	 * Default constructor.
@@ -57,6 +64,10 @@ public class ObjectDefn implements IObjectDefn
 
 	public ObjectDefn( )
 	{
+		// Temporary until all of rom.def is updated. Once the update
+		// is done, change this to "none".
+		
+		since = "1.0"; //$NON-NLS-1$
 	}
 
 	/**
@@ -150,6 +161,7 @@ public class ObjectDefn implements IObjectDefn
 			throw new MetaDataException( new String[]{name, this.name},
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY );
 		properties.put( name, property );
+		property.setOwner( this );
 	}
 
 	/**
@@ -197,9 +209,33 @@ public class ObjectDefn implements IObjectDefn
 	/**
 	 * Builds information for this definition itself. Called during the build
 	 * step.
+	 * @throws MetaDataException
+	 *   if the definition is invalid
 	 */
 
 	protected void buildDefn( ) throws MetaDataException
 	{
+	}
+	
+	/**
+	 * Set the release in which this object was introduced.
+	 * 
+	 * @param value the release value
+	 */
+	
+	public void setSince( String value )
+	{
+		if ( ! StringUtil.isBlank( value ) )
+			since = value;
+	}
+	
+	/**
+	 * @return the release in which this object was introduced. A value of "none"
+	 * means that the feature is experimental and is not yet released.
+	 */
+	
+	public String getSince( )
+	{
+		return since;
 	}
 }

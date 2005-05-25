@@ -93,7 +93,11 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String PRE_REQUISITE_ATTRIB = "preRequisite"; //$NON-NLS-1$
 	private static final String TARGET_ELEMENT_ATTRIB = "targetElement"; //$NON-NLS-1$
 	private static final String VALUE_REQUIRED_ATTRIB = "valueRequired"; //$NON-NLS-1$
-	private static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
+	private static final String PROPERTY_VISIBILITY_ATTRIB = "visibility"; //$NON-NLS-1$
+	private static final String SINCE_ATTRIB = "since"; //$NON-NLS-1$
+	private static final String XML_NAME_ATTRIB = "xmlName"; //$NON-NLS-1$
+	private static final String RUNTIME_SETTABLE_ATTRIB = "runtimeSettable"; //$NON-NLS-1$
+	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -293,6 +297,8 @@ class MetaDataHandler extends XMLParserHandler
 				struct = new StructureDefn( name );
 				struct.setDisplayNameKey( attrs
 						.getValue( DISPLAY_NAME_ID_ATTRIB ) );
+				struct.setSince( attrs.getValue( SINCE_ATTRIB ) );
+				
 				try
 				{
 					dictionary.addStructure( struct );
@@ -304,6 +310,7 @@ class MetaDataHandler extends XMLParserHandler
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
+			
 		}
 
 		/*
@@ -439,6 +446,16 @@ class MetaDataHandler extends XMLParserHandler
 			memberDefn.setName( name );
 			memberDefn.setType( typeDefn );
 			memberDefn.setDisplayNameID( displayNameID );
+			memberDefn.setValueRequired( getBooleanAttrib( attrs,
+					VALUE_REQUIRED_ATTRIB, false ) );
+			memberDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
+			memberDefn.setRuntimeSettable( getBooleanAttrib( attrs,
+					RUNTIME_SETTABLE_ATTRIB, true ) );
+			if ( memberDefn.getTypeCode( ) == PropertyType.EXPRESSION_TYPE )
+			{
+				memberDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
+				memberDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
+			}
 
 			if ( !StringUtil.isBlank( validator ) )
 			{
@@ -523,6 +540,8 @@ class MetaDataHandler extends XMLParserHandler
 			elementDefn.setJavaClass( attrs.getValue( JAVA_CLASS_ATTRIB ) );
 			elementDefn.setCanExtend( getBooleanAttrib( attrs,
 					CAN_EXTEND_ATTRIB, true ) );
+			elementDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
+			elementDefn.setXmlElement( attrs.getValue( XML_NAME_ATTRIB ) );
 			String nameRequired = attrs.getValue( IS_NAME_REQUIRED_ATTRIB );
 			if ( nameRequired != null )
 			{
@@ -792,7 +811,15 @@ class MetaDataHandler extends XMLParserHandler
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
 			propDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
-
+			propDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
+			propDefn.setRuntimeSettable( getBooleanAttrib( attrs,
+					RUNTIME_SETTABLE_ATTRIB, true ) );
+			if ( propDefn.getTypeCode( ) == PropertyType.EXPRESSION_TYPE )
+			{
+				propDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
+				propDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
+			}
+			
 			if ( !StringUtil.isBlank( validator ) )
 			{
 				propDefn.setValueValidator( validator );
@@ -1211,6 +1238,8 @@ class MetaDataHandler extends XMLParserHandler
 			slotDefn.setMultipleCardinality( parseBoolean( multipleCardinality,
 					true ) );
 			slotDefn.setSelector( attrs.getValue( SELECTOR_ATTRIB ) );
+			slotDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
+			slotDefn.setXmlName( attrs.getValue( XML_NAME_ATTRIB ) );
 			elementDefn.addSlot( slotDefn );
 		}
 
@@ -1362,6 +1391,9 @@ class MetaDataHandler extends XMLParserHandler
 			super.parseAttrs( attrs );
 			localPropDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
+			localPropDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
+			localPropDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
+			localPropDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
 		}
 
 		/*

@@ -124,6 +124,9 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Builds the semantic information for this property. Called once while
 	 * loading the meta-data. The build must succeed, or a programming error has
 	 * occurred.
+	 * 
+	 * @throws MetaDataException
+	 *             if the build is failed
 	 */
 
 	public void build( ) throws MetaDataException
@@ -179,7 +182,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * Checks whether the property is visible to the property sheet.
 	 * 
 	 * @return <code>true</code>.
-	 *         
+	 * 
 	 * @deprecated by the method {@link ElementDefn#isPropertyVisible(String)}
 	 */
 

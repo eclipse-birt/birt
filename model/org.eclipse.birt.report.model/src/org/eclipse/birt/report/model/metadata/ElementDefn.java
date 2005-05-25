@@ -346,6 +346,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 
 	protected Map propVisibilites = null;
+	
+	/**
+	 * The name of the XML element used when serializing this ROM element.
+	 */
+	
+	protected String xmlElement;
 
 	/**
 	 * Sets the Java class which implements this element.
@@ -1533,5 +1539,26 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		}
 
 		return null;
+	}
+
+	/**
+	 * Set the name of the XML element for this ROM element.
+	 * 
+	 * @param value the name of the XML element
+	 */
+	
+	public void setXmlElement( String value )
+	{
+		xmlElement = value;
+	}
+	
+	/**
+	 * 
+	 * @return the name of the XML element used to serialize this ROM element.
+	 */
+	
+	public String getXmlElement( )
+	{
+		return xmlElement;
 	}
 }

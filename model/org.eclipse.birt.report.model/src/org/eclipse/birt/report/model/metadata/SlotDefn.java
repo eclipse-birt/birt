@@ -101,6 +101,19 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 */
 
 	private SemanticTriggerDefnSet triggers = null;
+	
+	/**
+	 * The BIRT release when this slot was introduced.
+	 */
+	
+	private String since;
+	
+	/**
+	 * The XML element name used to identify slot contents. Will be
+	 * blank if the slot is anonymous.
+	 */
+	
+	private String xmlName;
 
 	/**
 	 * Returns the slot cardinality.
@@ -383,6 +396,46 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 			triggers = new SemanticTriggerDefnSet( );
 
 		return triggers;
+	}
+
+	/**
+	 * Set the version in which the slot was introduced.
+	 * 
+	 * @param value the version in which the slot was introduced
+	 */
+	
+	public void setSince( String value )
+	{
+		since = value;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getSince()
+	 */
+	
+	public String getSince( )
+	{
+		return since;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getXmlName()
+	 */
+	
+	public String getXmlName( )
+	{
+		return xmlName;
+	}
+
+	/**
+	 * Set the name of the XML element used to hold the slot.
+	 * 
+	 * @param value the XML element name to set
+	 */
+	
+	public void setXmlName( String value )
+	{
+		xmlName = value;
 	}
 
 }
