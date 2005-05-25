@@ -1,4 +1,3 @@
-package org.eclipse.birt.report.designer.ui.extensions;
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +8,7 @@ package org.eclipse.birt.report.designer.ui.extensions;
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
+package org.eclipse.birt.report.designer.ui.extensions;
 /**
  * Property Listener. Listens to property changes in the Property Editor Tabs UI
  */

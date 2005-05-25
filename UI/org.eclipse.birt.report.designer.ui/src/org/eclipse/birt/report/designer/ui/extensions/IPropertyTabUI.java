@@ -1,6 +1,3 @@
-package org.eclipse.birt.report.designer.ui.extensions;
-import org.eclipse.swt.widgets.Composite;
-
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -11,7 +8,8 @@ import org.eclipse.swt.widgets.Composite;
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
+package org.eclipse.birt.report.designer.ui.extensions;
+import org.eclipse.swt.widgets.Composite;
 /**
  * This interface is used to represent a new tab in the Property Editor
  * view. It creates the UI, updates property values when requested,
