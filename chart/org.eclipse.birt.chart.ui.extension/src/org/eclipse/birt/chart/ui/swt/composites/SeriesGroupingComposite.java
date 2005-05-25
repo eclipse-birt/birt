@@ -221,7 +221,7 @@ public class SeriesGroupingComposite extends Composite implements SelectionListe
             cmbUnit.add(((GroupingUnitType) oUnitArr[iR]).getName());
         }
         if (bEnableUI && grouping.getGroupType() != null
-            && grouping.getGroupType().equals(DataType.DATE_TIME_LITERAL.getName())
+            && grouping.getGroupType() == DataType.DATE_TIME_LITERAL
             && grouping.getGroupingUnit() != null)
         {
             cmbUnit.setText(grouping.getGroupingUnit().getName());
