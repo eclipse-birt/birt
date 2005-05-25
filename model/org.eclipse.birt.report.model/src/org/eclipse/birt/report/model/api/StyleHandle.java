@@ -680,12 +680,13 @@ public abstract class StyleHandle extends ReportElementHandle
 	private void setFormatValue( String propName, String memberName,
 			String valueToSet ) throws SemanticException
 	{
-		Object value = getProperty( propName );
-
-		FormatValue formatValueToSet = null;
+		DesignElement element = getElement( );
+		Object value = element.getLocalProperty( design, propName );			
 
 		if ( value == null )
 		{
+			FormatValue formatValueToSet = null;
+			
 			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
 			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
@@ -705,9 +706,9 @@ public abstract class StyleHandle extends ReportElementHandle
 			setProperty( propName, formatValueToSet );
 		}
 		else
-		{
-			PropertyHandle propHandle = getPropertyHandle( propName );
-			formatValueToSet = (FormatValue) propHandle.getValue( );
+		{	
+			PropertyHandle propHandle = getPropertyHandle( propName );			
+			FormatValue formatValueToSet = (FormatValue) value;
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
 					.getHandle( propHandle );

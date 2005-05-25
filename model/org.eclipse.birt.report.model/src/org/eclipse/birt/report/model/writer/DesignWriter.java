@@ -1155,7 +1155,7 @@ public class DesignWriter extends ElementVisitor
 		if ( struct == null )
 			return;
 
-		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+		writer.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
 
 		IStructureDefn structDefn = prop.getStructDefn( );
@@ -1165,7 +1165,6 @@ public class DesignWriter extends ElementVisitor
 		{
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
 					.next( );
-
 			property( struct, strcutPropDefn.getName( ) );
 		}
 
@@ -1192,7 +1191,7 @@ public class DesignWriter extends ElementVisitor
 		if ( memberStruct == null )
 			return;
 
-		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+		writer.conditionalStartElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, memberName );
 
 		Iterator iter = structDefn.getPropertyIterator( );

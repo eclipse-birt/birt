@@ -125,7 +125,9 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_MISSING_DATA_SET = MessageConstants.SEMANTIC_ERROR_MISSING_DATA_SET;
 
 	/**
-	 * Error code indicating the image file is not found.
+	 * Error code indicating the image file is not found. 
+	 * 
+	 * @deprecated
 	 */
 
 	public static final String DESIGN_EXCEPTION_IMAGE_FILE_NOT_EXIST = MessageConstants.SEMANTIC_ERROR_IMAGE_FILE_NOT_EXIST;

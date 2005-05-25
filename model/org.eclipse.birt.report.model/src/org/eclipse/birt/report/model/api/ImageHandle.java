@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -137,6 +136,30 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public String getSource( )
 	{
 		return getStringProperty( ImageItem.SOURCE_PROP );
+	}
+
+	/**
+	 * Returns the image source type. This is one of the following options
+	 * defined in <code>DesignChoiceConstants</code>:
+	 * <p>
+	 * <ul>
+	 * <li><code>IMAGE_REF_TYPE_NONE</code>
+	 * <li><code>IMAGE_REF_TYPE_URL</code>
+	 * <li><code>IMAGE_REF_TYPE_FILE</code>
+	 * <li><code>IMAGE_REF_TYPE_EXPR</code>
+	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
+	 * </ul>
+	 * 
+	 * @param source
+	 *            the image source type.
+	 * @throws SemanticException
+	 *             if the <code>source</code> is not one of the above.
+	 * 
+	 */
+
+	public void setSource( String source ) throws SemanticException
+	{
+		setProperty( ImageItem.SOURCE_PROP, source );
 	}
 
 	/**
@@ -267,10 +290,6 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public void setURI( String uri ) throws SemanticException
 	{
 		String source = DesignChoiceConstants.IMAGE_REF_TYPE_URL;
-
-		String filePath = URIUtil.getLocalPath( uri );
-		if ( filePath != null )
-			source = DesignChoiceConstants.IMAGE_REF_TYPE_FILE;
 
 		try
 		{

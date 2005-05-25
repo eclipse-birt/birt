@@ -2528,10 +2528,8 @@
     </Property>
     <Property name="source" displayNameID="Element.Image.source" type="choice" detailType="imageRefType">
       <Default>none</Default>
-	  <Trigger validator="ImageFileExistingValidator"/>
     </Property>
     <Property name="uri" displayNameID="Element.Image.uri" type="expression">
-	  <Trigger validator="ImageFileExistingValidator"/>
 	</Property>
     <Property name="imageName" displayNameID="Element.Image.imageName" type="expression" />
     <Property name="valueExpr" displayNameID="Element.Image.valueExpr" type="expression" />

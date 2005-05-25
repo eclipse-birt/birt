@@ -11,13 +11,10 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
@@ -151,22 +148,6 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	public String getAltText( ReportDesign design )
 	{
 		return getStringProperty( design, ALT_TEXT_PROP );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
-	 */
-
-	public List validate( ReportDesign design )
-	{
-		List list = super.validate( design );
-
-		list.addAll( ImageFileExistingValidator.getInstance( ).validate(
-				design, this ) );
-
-		return list;
 	}
 
 	/*
