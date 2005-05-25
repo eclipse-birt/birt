@@ -63,20 +63,12 @@ It defines child elements for the data source wizard, one or more editor pages a
          <sequence>
             <element ref="newDataSourceWizard" minOccurs="0" maxOccurs="1"/>
             <element ref="dataSourceEditorPage" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="odaDataSetUI" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
-         <attribute name="name" type="string" use="required">
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
                   The name of this data source type.&lt;br/&gt;
 This has to be the same as the model and runtime ODA extension name for the same driver.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="displayName" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Display name to be shown in the selection list of available data sources.
                </documentation>
             </annotation>
          </attribute>
@@ -169,14 +161,7 @@ A data source can have one or more data sets.
             <element ref="newDataSetWizard" minOccurs="0" maxOccurs="1"/>
             <element ref="dataSetEditorPage" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
-         <attribute name="displayName" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Display name to be shown in the selection list of available data sets for the data source
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="name" type="string" use="required">
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
                   The name of this data set.&lt;br/&gt;
