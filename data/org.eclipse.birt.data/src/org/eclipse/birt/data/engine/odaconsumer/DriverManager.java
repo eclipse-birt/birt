@@ -15,8 +15,6 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.oda.IDriver;
@@ -39,7 +37,7 @@ class DriverManager
 	// trace logging variables
 	private static String sm_className = DriverManager.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 
 	private DriverManager()
 	{
@@ -101,7 +99,7 @@ class DriverManager
 	        						IDriver dataSourceDriver )
 	{
 		String methodName = "setDriverLogConfiguration";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 		        				new Object[] { dataSourceElementId, dataSourceDriver } );
 
@@ -127,15 +125,14 @@ class DriverManager
 							   int nativeType ) throws DataException
 	{
 		String methodName = "getNativeToOdaMapping";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 							new Object[] { dataSourceElementId, dataSetType, new Integer( nativeType ) } );
 
 		Driver driver = getDriver( dataSourceElementId );
 		int ret = driver.getTypeMapping( dataSetType, nativeType );
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
-		    sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
+		sm_logger.exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	

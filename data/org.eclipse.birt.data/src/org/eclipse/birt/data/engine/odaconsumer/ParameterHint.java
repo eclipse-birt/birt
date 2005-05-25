@@ -17,7 +17,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -41,7 +40,7 @@ public class ParameterHint
 	// trace logging variables
 	private static String sm_className = ParameterHint.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 
 	/**
 	 * Constructs a <code>ParameterHint</code> with the specified name.
@@ -54,7 +53,7 @@ public class ParameterHint
 	public ParameterHint( String parameterName, boolean isInputMode, boolean isOutputMode )
 	{
 		String methodName = "ParameterHint";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName,
 		            			new Object[] { parameterName, new Boolean( isInputMode ), new Boolean( isOutputMode ) } );
 		

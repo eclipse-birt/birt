@@ -16,7 +16,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Hashtable;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
@@ -36,13 +35,13 @@ public class Connection
     // trace logging variables
 	private static String sm_className = Connection.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	Connection( IConnection connection, String dataSourceId ) 
 		throws OdaException
 	{
 		String methodName = "Connection";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { connection, dataSourceId } );
 		
@@ -69,9 +68,7 @@ public class Connection
 		{
 			int ret = m_connection.getMaxQueries();
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
-			
+			sm_logger.exiting( sm_className, methodName, ret );	
 			return ret;
 		}
 		catch( OdaException ex )
@@ -151,7 +148,7 @@ public class Connection
 		throws DataException
 	{
 		String methodName = "prepareStatement";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { query, dataSetType } );
 		
@@ -211,7 +208,7 @@ public class Connection
 		throws DataException
 	{
 		String methodName = "prepareOdaQuery";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, new Object[] { query, dataSetType } );
 		
 		try

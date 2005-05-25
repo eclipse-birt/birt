@@ -17,7 +17,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
@@ -38,7 +37,7 @@ class ProjectedColumns
 	// trace logging variables
 	private static String sm_className = ProjectedColumns.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	ProjectedColumns( ResultSetMetaData runtimeMetaData ) throws DataException
 	{

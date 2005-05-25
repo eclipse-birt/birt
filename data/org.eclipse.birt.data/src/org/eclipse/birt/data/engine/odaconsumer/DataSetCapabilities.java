@@ -15,7 +15,6 @@
 package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -32,7 +31,7 @@ public class DataSetCapabilities
 	// trace logging variables
 	private static String sm_className = DataSetCapabilities.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	DataSetCapabilities( IDataSetMetaData dsMetaData )
 	{

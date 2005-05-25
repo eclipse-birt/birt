@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 //import org.eclipse.birt.data.engine.executor.ParameterMetaData;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -91,13 +90,13 @@ public class PreparedStatement
     // trace logging variables
 	private static String sm_className = PreparedStatement.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	PreparedStatement( IQuery statement, String dataSetType, 
 	                   Connection connection, String query )
 	{
 		String methodName = "PreparedStatement";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { statement, dataSetType, 
 											   connection, query } );
@@ -124,7 +123,7 @@ public class PreparedStatement
 	public void setProperty( String name, String value ) throws DataException
 	{
 		String methodName = "setProperty";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, new Object[] { name, value } );
 		
 		doSetProperty( name, value );
@@ -140,7 +139,7 @@ public class PreparedStatement
 	private void doSetProperty( String name, String value ) throws DataException
 	{
 		String methodName = "doSetProperty";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, new Object[] { name, value } );
 		
 		try
@@ -234,8 +233,7 @@ public class PreparedStatement
 	public void setMaxRows( int max ) throws DataException
 	{
 		String methodName = "setMaxRows";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( max ) );
+		sm_logger.entering( sm_className, methodName, max );
 		
 		doSetMaxRows( max );
 		
@@ -247,8 +245,7 @@ public class PreparedStatement
 	private void doSetMaxRows( int max ) throws DataException
 	{
 		String methodName = "doSetMaxRows";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( max ) );
+		sm_logger.entering( sm_className, methodName, max );
 		
 		try
 		{
@@ -550,7 +547,7 @@ public class PreparedStatement
 			    ret = true;
 			}
 
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
 
 		    return ret;
@@ -706,9 +703,7 @@ public class PreparedStatement
 		{
 			int ret = getAdvancedStatement().findOutParameter( paramName );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
-			
+			sm_logger.exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
@@ -738,15 +733,13 @@ public class PreparedStatement
 	public int getParameterType( int paramIndex ) throws DataException
 	{
 		String methodName = "getParameterType";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 
 	    ParameterMetaData paramMD = getParameterMetaData( paramIndex );
 		assert( paramMD != null );	// invalid paramIndex would have thrown exception
 		int ret = paramMD.getDataType();
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
+		sm_logger.exiting( sm_className, methodName, ret );
 		return ret;
 	}
 	
@@ -774,8 +767,7 @@ public class PreparedStatement
 
 		int ret = getParameterType( paramIndex );
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.exiting( sm_className, methodName, new Integer( ret ) );		
+		sm_logger.exiting( sm_className, methodName, ret );		
 		return ret;
 	}
 
@@ -788,8 +780,7 @@ public class PreparedStatement
 	public Object getParameterValue( int paramIndex ) throws DataException
 	{
 		String methodName = "getParameterValue";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		checkOutputParameterSupport( );
 		
@@ -898,7 +889,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "addColumnHint";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnHint } );
 		
@@ -1024,9 +1015,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "setColumnsProjection";		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, 
-				projectedNames == null? new String[0] : projectedNames );
+		sm_logger.entering( sm_className, methodName, projectedNames );
 		
 		resetCurrentMetaData();
 		getProjectedColumns().setProjectedNames( projectedNames );
@@ -1047,7 +1036,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "setColumnsProjection";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, projectedNames } );
 		
@@ -1069,7 +1058,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "declareCustomColumn";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { columnName, columnType } );
 		
@@ -1097,7 +1086,7 @@ public class PreparedStatement
 									 Class columnType ) throws DataException
 	{
 		String methodName = "declareCustomColumn";		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnName, columnType } );
 		
@@ -1193,7 +1182,7 @@ public class PreparedStatement
 		{
 			boolean ret = ( m_supportsNamedResults == TRUE );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
 			
 			return ret;
@@ -1204,7 +1193,7 @@ public class PreparedStatement
 			m_connection.getMetaData( m_dataSetType ).supportsNamedResultSets( );
 		m_supportsNamedResults = b ? TRUE : FALSE;
 
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );
 		return b;
 	}
@@ -1218,7 +1207,7 @@ public class PreparedStatement
 		{
 			boolean ret = ( m_supportsOutputParameters == TRUE );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
 			
 			return ret;
@@ -1229,7 +1218,7 @@ public class PreparedStatement
 			m_connection.getMetaData( m_dataSetType ).supportsOutParameters();
 		m_supportsOutputParameters = b ? TRUE : FALSE;
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );
 		return b;
 	}
@@ -1243,7 +1232,7 @@ public class PreparedStatement
 		{
 			boolean ret = ( m_supportsNamedParameters == TRUE );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
 			
 			return ret;
@@ -1254,7 +1243,7 @@ public class PreparedStatement
 			m_connection.getMetaData( m_dataSetType ).supportsNamedParameters();
 		m_supportsNamedParameters = b ? TRUE : FALSE;
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );	
 		return b;
 	}
@@ -1295,9 +1284,20 @@ public class PreparedStatement
 		
 		if( m_parameterMetaData == null )
 		{
-			IParameterMetaData odaParamMetaData = getOdaDriverParamMetaData();
-			
-			m_parameterMetaData = ( odaParamMetaData == null ) ?
+			IParameterMetaData odaParamMetaData = null;
+            try
+            {
+                odaParamMetaData = getOdaDriverParamMetaData();
+            }
+            catch( DataException e )
+            {
+                // if parameter hints exist, proceed with
+                // returning its metadata; otherwise, throw exception
+        		if( m_parameterHints == null || m_parameterHints.size() <= 0 )
+        		    throw e;
+            }
+     
+            m_parameterMetaData = ( odaParamMetaData == null ) ?
 								  mergeParamHints() :
 								  mergeParamHintsWithMetaData( odaParamMetaData );
 		}
@@ -1309,8 +1309,7 @@ public class PreparedStatement
 	private ParameterMetaData getParameterMetaData( int paramIndex ) throws DataException
 	{
 		String methodName = "getParameterMetaData";	
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 
 		Collection allParamsMetadata = null; 
 	    if ( paramIndex > 0 )	// index is 1-based
@@ -1383,7 +1382,7 @@ public class PreparedStatement
 	private void addParameterHints( List parameterMetaData, List parameterHints )
 	{
 		String methodName = "addParameterHints";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { parameterMetaData, parameterHints } );
 		
@@ -1436,9 +1435,7 @@ public class PreparedStatement
 		{
 			int ret = runtimeParamMetaData.getParameterCount();
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
-			
+			sm_logger.exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
@@ -1462,7 +1459,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "updateWithParameterHints";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { parameterMetaData, parameterHints } );
 		
@@ -1507,7 +1504,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getRuntimeParameterIndexFromName";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { paramName, Boolean.valueOf( forInput ) } );
 		
@@ -1517,9 +1514,7 @@ public class PreparedStatement
 			{	
 				int ret = findInParameter( paramName );
 				
-				if( sm_logger.isLoggable( Level.FINER ) )
-					sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
-				
+				sm_logger.exiting( sm_className, methodName, ret );				
 				return ret;
 			}
 			catch( DataException ex )
@@ -1527,9 +1522,7 @@ public class PreparedStatement
 				// findInParameter is not supported
 				if( ex.getCause() instanceof UnsupportedOperationException )
 				{
-					if( sm_logger.isLoggable( Level.FINER ) )
-						sm_logger.exiting( sm_className, methodName, new Integer( 0 ) );
-					
+					sm_logger.exiting( sm_className, methodName, 0 );					
 					return 0;
 				}
 				
@@ -1544,9 +1537,7 @@ public class PreparedStatement
 		{
 			int ret = findOutParameter( paramName );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
-			
+			sm_logger.exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( DataException ex )
@@ -1554,9 +1545,7 @@ public class PreparedStatement
 			// findOutParameter is not supported
 			if( ex.getCause() instanceof UnsupportedOperationException )
 			{
-				if( sm_logger.isLoggable( Level.FINER ) )
-					sm_logger.exiting( sm_className, methodName, new Integer( 0 ) );
-				
+				sm_logger.exiting( sm_className, methodName, 0 );				
 				return 0;
 			}
 			
@@ -1588,7 +1577,7 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "getParameterValue";	
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { paramName, new Integer( paramIndex ) } );
 		
@@ -1690,8 +1679,7 @@ public class PreparedStatement
 			ret = doGetInt( paramName );
 		}
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.exiting( sm_className, methodName, new Integer( ret ) );	
+		sm_logger.exiting( sm_className, methodName, ret );	
 		return ret;
 	}
 
@@ -1713,7 +1701,7 @@ public class PreparedStatement
 			ret = doGetDouble( paramName );
 		}
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.exiting( sm_className, methodName, new Double( ret ) );	
 		return ret;
 	}
@@ -1831,15 +1819,13 @@ public class PreparedStatement
 	private int doGetInt( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetInt";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			int ret = getAdvancedStatement().getInt( paramIndex );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );			
+			sm_logger.exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )
@@ -1869,8 +1855,7 @@ public class PreparedStatement
 		{
 			int ret = getAdvancedStatement().getInt( paramName );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );
+			sm_logger.exiting( sm_className, methodName, ret );
 			
 			return ret;
 		}
@@ -1895,14 +1880,13 @@ public class PreparedStatement
 	private double doGetDouble( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetDouble";		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
 			double ret = getAdvancedStatement().getDouble( paramIndex );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, new Double( ret ) );
 			
 			return ret;
@@ -1934,7 +1918,7 @@ public class PreparedStatement
 		{
 			double ret = getAdvancedStatement().getDouble( paramName );
 			
-			if( sm_logger.isLoggable( Level.FINER ) )
+			if( sm_logger.isLoggingEnterExitLevel() )
 				sm_logger.exiting( sm_className, methodName, new Double( ret ) );
 			
 			return ret;
@@ -1960,8 +1944,7 @@ public class PreparedStatement
 	private String doGetString( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetString";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
@@ -2023,8 +2006,7 @@ public class PreparedStatement
 	private BigDecimal doGetBigDecimal( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetBigDecimal";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
@@ -2084,8 +2066,7 @@ public class PreparedStatement
 	private java.util.Date doGetDate( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetDate";		
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
@@ -2145,8 +2126,7 @@ public class PreparedStatement
 	private Time doGetTime( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetTime";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 		
 		try
 		{
@@ -2206,8 +2186,7 @@ public class PreparedStatement
 	private Timestamp doGetTimestamp( int paramIndex ) throws DataException
 	{
 		String methodName = "doGetTimestamp";
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.entering( sm_className, methodName, new Integer( paramIndex ) );
+		sm_logger.entering( sm_className, methodName, paramIndex );
 
 		try
 		{
@@ -2475,8 +2454,7 @@ public class PreparedStatement
 		{
 			int ret = getStatement( ).findInParameter( paramName );
 
-			if( sm_logger.isLoggable( Level.FINER ) )
-				sm_logger.exiting( sm_className, methodName, new Integer( ret ) );			
+			sm_logger.exiting( sm_className, methodName, ret );			
 			return ret;
 		}
 		catch( OdaException ex )

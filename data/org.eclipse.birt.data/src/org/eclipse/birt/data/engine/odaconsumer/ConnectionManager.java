@@ -16,7 +16,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.oda.IConnection;
@@ -39,7 +38,7 @@ public class ConnectionManager
 	private static String sm_className = ConnectionManager.class.getName();
 	static String sm_packageName = "org.eclipse.birt.data.engine.odaconsumer";
 	private static String sm_loggerName = sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	private ConnectionManager( )
 	{
@@ -76,7 +75,7 @@ public class ConnectionManager
 	{
 		String methodName = "openConnection";
 		
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { dataSourceElementId, connectionProperties } );
 		
@@ -144,8 +143,7 @@ public class ConnectionManager
 			maxConnections = 0;
 		}
 
-		if( sm_logger.isLoggable( Level.FINER ) )
-			sm_logger.exiting( sm_className, methodName, new Integer( maxConnections ) );			
+		sm_logger.exiting( sm_className, methodName, maxConnections );			
 		return maxConnections;
 	}
 

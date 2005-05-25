@@ -17,7 +17,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -37,7 +36,7 @@ public class ColumnHint
 	// trace logging variables
 	private static String sm_className = ColumnHint.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	/**
 	 * Constructs a <code>ColumnHint</code> with the specified column name.

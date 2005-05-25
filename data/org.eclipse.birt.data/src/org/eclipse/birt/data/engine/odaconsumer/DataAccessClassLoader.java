@@ -16,7 +16,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +29,7 @@ class DataAccessClassLoader extends URLClassLoader
 	// trace logging variables
 	private static String sm_className = DataAccessClassLoader.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	DataAccessClassLoader( URL[] urls )
 	{

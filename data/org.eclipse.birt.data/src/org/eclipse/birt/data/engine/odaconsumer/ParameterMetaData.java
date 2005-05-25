@@ -16,7 +16,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 
 import java.sql.Types;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -43,7 +42,7 @@ public class ParameterMetaData
 	// trace logging variables
 	private static String sm_className = ParameterMetaData.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
-	private static Logger sm_logger = Logger.getLogger( sm_loggerName );
+	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
 	ParameterMetaData( ParameterHint paramHint )
 	{
@@ -74,7 +73,7 @@ public class ParameterMetaData
 		throws DataException
 	{
 		String methodName = "ParameterMetaData";
-		if( sm_logger.isLoggable( Level.FINER ) )
+		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 		        				new Object[] { parameterMetaData, new Integer( index ),
 		            							driverName, dataSetType } );
