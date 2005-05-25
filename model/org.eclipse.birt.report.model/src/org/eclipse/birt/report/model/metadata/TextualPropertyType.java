@@ -58,7 +58,7 @@ public abstract class TextualPropertyType extends PropertyType
 		}
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				VARIANT_TYPE );
+				getTypeCode( ) );
 	}
 
 	/*

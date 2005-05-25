@@ -225,8 +225,6 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new NamePropertyType( ) );
 		addPropertyType( new FloatPropertyType( ) );
 		addPropertyType( new ElementRefPropertyType( ) );
-		addPropertyType( new ColumnRefPropertyType( ) );
-		addPropertyType( new VariantPropertyType( ) );
 		addPropertyType( new StructPropertyType( ) );
 		addPropertyType( new ExtendsPropertyType( ) );
 		addPropertyType( new ScriptPropertyType( ) );

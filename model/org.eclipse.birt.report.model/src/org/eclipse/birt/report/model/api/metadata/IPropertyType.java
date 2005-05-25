@@ -123,40 +123,28 @@ public interface IPropertyType
 	public static final int ELEMENT_REF_TYPE = 15;
 
 	/**
-	 * Type code for the Column reference property type.
-	 */
-
-	public static final int COLUMN_REF_TYPE = 16;
-
-	/**
-	 * Type code for the Variant property type.
-	 */
-
-	public static final int VARIANT_TYPE = 17;
-
-	/**
 	 * Type code for the Structure property type.
 	 */
 
-	public static final int STRUCT_TYPE = 18;
+	public static final int STRUCT_TYPE = 16;
 
 	/**
 	 * Type code for the Extends property type.
 	 */
 
-	public static final int EXTENDS_TYPE = 19;
+	public static final int EXTENDS_TYPE = 17;
 
 	/**
 	 * Type code for the Script property type.
 	 */
 
-	public static final int SCRIPT_TYPE = 20;
+	public static final int SCRIPT_TYPE = 18;
 
 	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 21;
+	public static final int TYPE_COUNT = 19;
 
 	/**
 	 * Name of the String property type.
@@ -259,18 +247,6 @@ public interface IPropertyType
 	 */
 
 	public static final String ELEMENT_REF_NAME = "element"; //$NON-NLS-1$
-
-	/**
-	 * Name of the Column reference property type.
-	 */
-
-	public static final String COLUMN_REF_NAME = "column"; //$NON-NLS-1$
-
-	/**
-	 * Name of the Variant property type.
-	 */
-
-	public static final String VARIANT_NAME = "variant"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Structure property type.
