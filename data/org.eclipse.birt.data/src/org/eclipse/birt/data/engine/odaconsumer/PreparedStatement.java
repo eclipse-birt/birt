@@ -1024,7 +1024,9 @@ public class PreparedStatement
 		throws DataException
 	{
 		String methodName = "setColumnsProjection";		
-		sm_logger.entering( sm_className, methodName, projectedNames );
+		if( sm_logger.isLoggable( Level.FINER ) )
+			sm_logger.entering( sm_className, methodName, 
+				projectedNames == null? new String[0] : projectedNames );
 		
 		resetCurrentMetaData();
 		getProjectedColumns().setProjectedNames( projectedNames );

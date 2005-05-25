@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
+import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -496,15 +497,15 @@ abstract class PreparedQuery
 			// Execute the query
 			odiResult = executeOdiQuery( );
 
+			// Bind the row object to the odi result set
+			rowObject.setResultSet( odiResult, false );
+				
 			// Data set is open in executeOdiQuery; now run aferOpen script
 			if ( dataSet != null )
 			{
 				dataSet.afterOpen();
 			}
 			
-			// Bind the row object to the odi result set
-			rowObject.setResultSet( odiResult, false );
-				
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
 			    
@@ -571,7 +572,6 @@ abstract class PreparedQuery
 		    	if ( dataSet != null )
 		    	{
 		    		dataSet.close();
-		    		dataSet.afterClose();
 		    	}
 			}
 		    catch (DataException e )
@@ -583,15 +583,36 @@ abstract class PreparedQuery
 						e );
 			}
 		    
-		    dataSet = null;
 			odiQuery = null;
 			odiDataSource = null;
-			dataSource = null;
 			aggregates = null;
 			odiResult = null;
 			rowObject = null;
 			rowsObject = null;
 			scope = null;
+			isPrepared = false;
+			isExecuted = false;
+			
+			// Note: reset dataSet and dataSource only after afterClose() is executed, since
+			// the script may access these two objects
+	    	if ( dataSet != null )
+	    	{
+	    		try
+				{
+		    		dataSet.afterClose();
+				}
+			    catch (DataException e )
+				{
+					logger.logp( Level.FINE,
+								PreparedQuery.Executor.class.getName( ),
+								"close",
+								e.getMessage( ),
+								e );
+				}
+			    dataSet = null;
+	    	}
+			dataSource = null;
+		    
 			logger.logp( Level.FINER,
 					PreparedQuery.Executor.class.getName( ),
 					"close",
@@ -693,6 +714,17 @@ abstract class PreparedQuery
 						odiQuery.addOnFetchEvent( objectEvent );
 					}
 				}
+			    
+			    // set Onfetch event - this should be added after computed column and before filtering
+			    if ( dataSet != null )
+			    {
+			    	String onFetchScript = dataSet.getOnFetchScript();
+			    	if ( onFetchScript != null && onFetchScript.length() > 0 )
+			    	{
+			    		OnFetchScriptHelper event = new OnFetchScriptHelper( dataSet ); 
+			    		odiQuery.addOnFetchEvent( event );
+			    	}
+			    }
 			    
 				// Set filtering
 		    	assert rowObject != null;

@@ -97,14 +97,24 @@ public class DataException extends BirtException
 	 */
 	public String getMessage( )
 	{
+		String msg;
 		if ( argv == null )
 		{
-			return resourceHandle.getMessage( getErrorCode() );
+			msg = resourceHandle.getMessage( getErrorCode() );
 		}
 		else
 		{
-			return resourceHandle.getMessage( getErrorCode(), argv );
+			msg = resourceHandle.getMessage( getErrorCode(), argv );
 		}
+		
+		// Concatenate error from initCause if available
+		if ( this.getCause() != null )
+		{
+			String extraMsg = this.getCause().getLocalizedMessage();
+			if ( extraMsg != null && extraMsg.length() > 0 )
+				msg += "\n" + extraMsg; 
+		}
+		return msg;
 	}
 	
 }
