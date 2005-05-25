@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.designer.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="datasource" name="Data Source Extension point"/>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="odadatasource" name="Data Source Extension point"/>
       </appInfo>
       <documentation>
          The data source extension allows providers to add their own type of data source support to the BIRT designer.&lt;br/&gt;
@@ -27,6 +27,7 @@ For each data set that is defined, it can optionally provide &lt;br/&gt;
       <complexType>
          <sequence>
             <element ref="odaDataSourceUI"/>
+            <element ref="odaDataSetUI" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -67,8 +68,8 @@ It defines child elements for the data source wizard, one or more editor pages a
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of this data source type.&lt;br/&gt;
-This has to be the same as the model and runtime ODA extension name for the same driver.
+                  The fully qualified name of this data source type.&lt;br/&gt;
+This has to be the same as defined in the ODA extension for the same driver.
                </documentation>
             </annotation>
          </attribute>
@@ -164,8 +165,8 @@ A data source can have one or more data sets.
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of this data set.&lt;br/&gt;
-This has to be the same as the model and runtime ODA Data Set extension name for the same driver.
+                  The fully qualified name of this data set.&lt;br/&gt;
+This has to be the same as the ODA Data Set extension name for the same driver.
                </documentation>
             </annotation>
          </attribute>
@@ -266,33 +267,29 @@ Note: The page with the id &quot;one&quot; should already have been added before
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         The following is an example of the JDBC data source extension point.
+         The following is an example of the JDBC data source extension.
 &lt;p&gt;
-   &lt;pre&gt;
-   &lt;extension
-         point=&quot;org.eclipse.birt.report.designer.ui.odadatasource&quot;&gt;
-      &lt;odaDataSourceUI
-            name=&quot;jdbc&quot;
-            displayName=&quot;%datasource.name&quot;&gt;
-         &lt;newDataSourceWizard class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourceWizard&quot;/&gt;
-         &lt;dataSourceEditorPage
-               class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourcePage&quot;
-               path=&quot;/&quot;
-               displayName=&quot;%datasource.editor.page.connection&quot;
-               name=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor.connection&quot;/&gt;
-         &lt;odaDataSetUI
-               name=&quot;JdbcSelectDataSet&quot;
-               displayName=&quot;%dataset.jdbcselect&quot;&gt;
-            &lt;newDataSetWizard class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSetWizard&quot;/&gt;
-            &lt;dataSetEditorPage
-                  class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage&quot;
-                  path=&quot;/&quot;
-                  displayName=&quot;%dataset.editor.page.query&quot;
-                  name=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1&quot;/&gt;
-         &lt;/odaDataSetUI&gt;
-      &lt;/odaDataSourceUI&gt;
-    &lt;/extension&gt;
- &lt;/pre&gt;
+&lt;pre&gt;
+
+&lt;extension point=&quot;org.eclipse.birt.report.designer.ui.odadatasource&quot;&gt;
+  &lt;odaDataSourceUI id=&quot;org.eclipse.birt.report.data.oda.jdbc&quot;&gt;
+    &lt;newDataSourceWizard class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourceWizard&quot;/&gt;
+      &lt;dataSourceEditorPage
+            class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourcePage&quot;
+            path=&quot;/&quot;
+            displayName=&quot;%datasource.editor.page.connection&quot;
+            name=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor.connection&quot;/&gt;
+  &lt;/odaDataSourceUI&gt;
+  &lt;odaDataSetUI id=&quot;org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet&quot;&gt;
+    &lt;dataSetEditorPage
+            class=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage&quot;
+            path=&quot;/&quot;
+            displayName=&quot;%dataset.editor.page.query&quot;
+            name=&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1&quot;/&gt;
+  &lt;/odaDataSetUI&gt;
+&lt;/extension&gt;
+
+&lt;/pre&gt;
 &lt;/p&gt;
       </documentation>
    </annotation>
