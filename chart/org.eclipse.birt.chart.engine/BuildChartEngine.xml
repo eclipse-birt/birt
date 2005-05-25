@@ -221,8 +221,10 @@
 					org.eclipse.birt.chart.log
 					"
 		sourcefiles="
+					./src/org/eclipse/birt/chart/aggregate/IAggregateFunction.java,
 					./src/org/eclipse/birt/chart/render/BaseRenderer.java,
 					./src/org/eclipse/birt/chart/render/AxesRenderer.java,
+					./src/org/eclipse/birt/chart/render/ISeriesRenderer.java,
 					./src/org/eclipse/birt/chart/render/ISeriesRenderingHints.java,
 					./src/org/eclipse/birt/chart/factory/Generator.java,
 					./src/org/eclipse/birt/chart/factory/GeneratedChartState.java,
