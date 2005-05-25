@@ -116,14 +116,23 @@ public class JDBCException extends OdaException
 	 */
 	public String getMessage( )
 	{
+		String msg;
 		if ( argv == null )
 		{
-			return resourceHandle.getMessage( errorCode );
+			msg = resourceHandle.getMessage( errorCode );
 		}
 		else
 		{
-			return resourceHandle.getMessage( errorCode, argv );
+			msg = resourceHandle.getMessage( errorCode, argv );
 		}
+		
+		if ( this.getCause() != null )
+		{
+			String extraMsg = this.getCause().getLocalizedMessage();
+			if ( extraMsg != null && extraMsg.length() > 0 )
+				msg += "\n" + extraMsg; 
+		}
+		return msg;
 	}
 
 }
