@@ -26,9 +26,10 @@ public class ResultFieldMetadata
 	private String m_name;
 	private String m_label;
 	private String m_alias;
-	private Class m_dataType;
+	private Class m_dataType;	// can be overwritten by column hints
 	private String m_nativeTypeName;
 	private boolean m_isCustom;
+	private Class m_driverProvidedDataType;
 
 	public ResultFieldMetadata( int driverPosition, String name, 
 						 		String label, Class dataType,
@@ -40,6 +41,7 @@ public class ResultFieldMetadata
 		m_dataType = dataType;
 		m_nativeTypeName = nativeTypeName;
 		m_isCustom = isCustom;
+		m_driverProvidedDataType = null;	// initialize to unknown
 	}
 	
 	// returns the driver position from the runtime metadata
@@ -70,7 +72,15 @@ public class ResultFieldMetadata
 	
 	public Class getDataType()
 	{
-		return m_dataType;
+	    if ( m_dataType != null )
+	        return m_dataType;
+	    
+	    Class driverDataType = getDriverProvidedDataType();
+	    if ( driverDataType != null )
+	        return driverDataType;
+	    
+	    // default to a String if data type is unknown
+	    return String.class;
 	}
 	
 	public void setDataType( Class dataType )
@@ -105,4 +115,14 @@ public class ResultFieldMetadata
 	{
 		return m_isCustom;
 	}
+
+    public Class getDriverProvidedDataType()
+    {
+        return m_driverProvidedDataType;
+    }
+ 
+    public void setDriverProvidedDataType( Class odaDataTypeAsClass )
+    {
+        m_driverProvidedDataType = odaDataTypeAsClass;
+    }
 }

@@ -156,7 +156,8 @@ public class ResultSetMetaData
 			odaType != Types.DECIMAL &&
 			odaType != Types.DATE &&
 			odaType != Types.TIME &&
-			odaType != Types.TIMESTAMP )
+			odaType != Types.TIMESTAMP &&
+			odaType != Types.NULL )
 			assert false;	// exception is now thrown by DriverManager
 		
 		if( sm_logger.isLoggable( Level.FINEST ) )

@@ -53,12 +53,14 @@ class ProjectedColumns
 		{
 			String name = runtimeMetaData.getColumnName( i );
 			String label = runtimeMetaData.getColumnLabel( i );
-			Class dataType = runtimeMetaData.getColumnTypeAsJavaClass( i );
+			Class driverDataType = runtimeMetaData.getColumnTypeAsJavaClass( i );
 			String nativeTypeName = runtimeMetaData.getColumnNativeTypeName( i );
 			ResultFieldMetadata column = 
 					new ResultFieldMetadata( i, name, label, 
-					                         dataType, nativeTypeName, 
+					        				 driverDataType, nativeTypeName, 
 											 false /* isCustom */ );
+			column.setDriverProvidedDataType( driverDataType );
+			
 			m_columns.add( column );
 		}
 
@@ -131,7 +133,10 @@ class ProjectedColumns
 	{
 		String methodName = "updateDataTypeAndAlias";
 
-		if( column.getDataType() == null && columnHintType != null )
+		// accepts column hint's data type only if the driver
+		// cannot provide a data type
+		if( column.getDriverProvidedDataType() == null && 
+		    columnHintType != null )
 			column.setDataType( columnHintType );
 		
 		column.setAlias( columnHintAlias );

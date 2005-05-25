@@ -64,7 +64,8 @@ public final class DataTypeUtil
 			odaDataType != Types.DECIMAL &&
 			odaDataType != Types.DATE &&
 			odaDataType != Types.TIME &&
-			odaDataType != Types.TIMESTAMP )
+			odaDataType != Types.TIMESTAMP &&
+			odaDataType != Types.NULL )
 		{
 			String localizedMessage = 
 				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNRECOGNIZED_ODA_TYPE, 
@@ -104,13 +105,17 @@ public final class DataTypeUtil
 			case Types.TIMESTAMP:
 				fieldClass = Timestamp.class;
 				break;
+				
+			case Types.NULL:
+				fieldClass = null;
+				break;				    
 		}
 		
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
 				"Converted from ODA data type {0} to Java data type class {1}.", 
 				new Object[] { new Integer( odaDataType ), fieldClass } );
-
+		
 		return fieldClass;
 	}
 	

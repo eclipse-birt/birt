@@ -122,7 +122,7 @@ class Driver
 		
 		// no mapping found in data source extension configuration, return a default type
 		if( mapping == null )	
-			return Types.CHAR;
+			return Types.NULL;
 		
 		String odaType = mapping.getOdaScalarDataType();
 		
