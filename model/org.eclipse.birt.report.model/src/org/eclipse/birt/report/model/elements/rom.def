@@ -723,7 +723,7 @@
     <Member name="NaN" displayNameID="Class.Number.NaN" toolTipID="Class.Number.NaN.toolTip" dataType="number" isStatic="true" />
     <Member name="NEGATIVE_INFINITY" displayNameID="Class.Number.NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
     <Member name="POSITIVE_INFINITY" displayNameID="Class.Number.POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip" dataType="number" isStatic="true" />
-    <Method name="getExponential" displayNameID="Class.Number.getExponential" toolTipID="Class.Number.getExponential.toolTip" returnType="String">
+    <Method name="toExponential" displayNameID="Class.Number.toExponential" toolTipID="Class.Number.toExponential.toolTip" returnType="String">
       <Argument name="digits" type="number" tagID="Class.Number.toExpoential.digits" />
     </Method>
     <Method name="toFixed" displayNameID="Class.Number.toFixed" toolTipID="Class.Number.toFixed.toolTip" returnType="String">
