@@ -1577,7 +1577,7 @@
     <Property name="images" displayNameID="Element.ReportDesign.images" type="structure" isList="true" canInherit="false" detailType="EmbeddedImage" />
     <Property name="includeLibraries" displayNameID="Element.ReportDesign.includeLibraries" type="structure" isList="true" canInherit="false" detailType="IncludeLibrary" />
     <Property name="includeScripts" displayNameID="Element.ReportDesign.includeScripts" type="structure" isList="true" canInherit="false" detailType="IncludeScript" />
-    <PropertyVisibility name="msgBaseName" propertyVisibility="hide" />
+    <PropertyVisibility name="includeResource" propertyVisibility="hide" />
     <PropertyVisibility name="refreshRate" propertyVisibility="hide" />	
     <Method name="initialize" displayNameID="Element.ReportDesign.initialize" toolTipID="Element.ReportDesign.initialize.toolTip" />
     <Method name="beforeFactory" displayNameID="Element.ReportDesign.beforeFactory" toolTipID="Element.ReportDesign.beforeFactory.toolTip" />
