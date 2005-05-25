@@ -93,7 +93,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.28 $ $Date: 2005/05/19 09:23:34 $
+ * @version $Revision: 1.29 $ $Date: 2005/05/20 19:17:55 $
  */
 public class ReportQueryBuilder
 {
@@ -273,6 +273,11 @@ public class ReportQueryBuilder
 			{
 				addExpression( image.getImageExpression( ) );
 				addExpression( image.getImageFormat( ) );
+			}
+			else if (image.getImageSource( ) == ImageItemDesign.IMAGE_URI ||
+			image.getImageSource( ) == ImageItemDesign.IMAGE_FILE)
+			{
+				addExpression(image.getImageUri());
 			}
 
 			finishVisit( query );

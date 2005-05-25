@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/12 06:32:12 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/12 07:18:53 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -104,13 +105,48 @@ public class ImageItemExecutor extends StyledItemExecutor
 		switch ( imageItem.getImageSource( ) )
 		{
 			case ImageItemDesign.IMAGE_URI : // URI
-				assert imageItem.getImageUri( ) != null;
-				imageContent.setUri( imageItem.getImageUri( ) );
-				break;
+				Expression expr = imageItem.getImageUri( );
+				assert expr != null;
+				Object uriObj = context.evaluate(expr);
+				String strUri = null;
+				if(uriObj!=null)
+				{
+					strUri = uriObj.toString();
+				}
+				else if(expr.getExpression()!=null && expr.getExpression().length()>0)
+				{
+					strUri = expr.getExpression().toString();
+				}
+				URL uri = null;
+				try
+				{
+					uri = new URL(strUri);
+				}
+				catch (MalformedURLException e1)
+				{
+					
+				}
+				if(uri==null || !uri.getProtocol().equals("file"))
+				{
+					imageContent.setUri(strUri );
+					imageContent.setImageSource(ImageItemDesign.IMAGE_URI);
+					break;
+				}
+				
 
 			case ImageItemDesign.IMAGE_FILE : // File
-				String imageFile = imageItem.getImageFile( );
-				assert imageFile != null;
+				String imageFile = null;
+				Expression exprFile = imageItem.getImageUri( );
+				assert exprFile != null;
+				Object file = context.evaluate(exprFile);
+				if(file!=null)
+				{
+					imageFile = file.toString() ;
+				}
+				else if(exprFile.getExpression()!=null && exprFile.getExpression().length()>0)
+				{
+					imageFile = exprFile.getExpression().toString() ;
+				}
 				//image file may be file: or a file path.
 				try
 				{
@@ -133,6 +169,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 				// resource. The content of the file is loaded lazily to improve
 				// the performance.
 				imageContent.setUri( imageFile );
+				imageContent.setImageSource(ImageItemDesign.IMAGE_FILE);
 
 				if ( imageFile == null )
 				{
@@ -168,6 +205,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 						}
 						
 						imageContent.setUri( imageName );
+						imageContent.setImageSource(ImageItemDesign.IMAGE_NAME);
 					}
 				}
 				catch ( Exception e )
@@ -219,6 +257,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 						imageContent.setData( blob );
 						imageContent.setExtension( fileExt );
 						imageContent.setUri( null );
+						imageContent.setImageSource(ImageItemDesign.IMAGE_EXPRESSION);
 					}
 					else
 					{

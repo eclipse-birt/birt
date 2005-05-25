@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/08 06:59:46 $
  */
 class ReportDesignWriter
 {
@@ -554,12 +554,12 @@ class ReportDesignWriter
 					break;
 				case ImageItemDesign.IMAGE_URI :
 					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageUri( ) );
+					text( image.getImageUri( ).getExpression() );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_FILE :
 					pushTag( "uri" ); //$NON-NLS-1$
-					text( image.getImageFile( ) );
+					text( image.getImageUri().getExpression() );
 					popTag( );
 					break;
 				case ImageItemDesign.IMAGE_EXPRESSION :

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -45,7 +45,7 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * image uri, used if source type URI
 	 */
-	protected String imageUri;
+	protected Expression imageUri;
 	/**
 	 * image name, used if source type NAME
 	 */
@@ -157,7 +157,7 @@ public class ImageItemDesign extends ReportItemDesign
 	 * @param imageUri
 	 *            The imageUri to set.
 	 */
-	public void setImageUri( String imageUri )
+	public void setImageUri( Expression imageUri )
 	{
 		this.imageSource = IMAGE_URI;
 		this.imageUri = imageUri;
@@ -166,25 +166,17 @@ public class ImageItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the imageUri.
 	 */
-	public String getImageUri( )
+	public Expression getImageUri( )
 	{
 		assert imageSource == IMAGE_URI;
 		return imageUri;
 	}
 	
-	public void setImageFile(String file)
+	public void setImageFile(Expression file)
 	{
 		imageSource = IMAGE_FILE;
 		imageUri = file;
 	}
-	
-	public String getImageFile()
-	{
-		assert imageSource == IMAGE_FILE;
-		return imageUri;
-	}
-	
-	
 
 	/**
 	 * @return Returns the action.
