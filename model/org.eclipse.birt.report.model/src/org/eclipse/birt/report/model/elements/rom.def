@@ -763,7 +763,7 @@
     <Member name="LOG2E" displayNameID="Class.Math.LOG2E" toolTipID="Class.Math.LOG2E.toolTip" dataType="number" isStatic="true" />
     <Member name="PI" displayNameID="Class.Math.PI" toolTipID="Class.Math.PI.toolTip" dataType="number" isStatic="true" />
     <Member name="SQRT1_2" displayNameID="Class.Math.SQRT1_2" toolTipID="Class.Math.SQRT1_2.toolTip" dataType="number" isStatic="true" />
-    <Member name="SQRT_2" displayNameID="Class.Math.SQRT_2" toolTipID="Class.Math.SQRT_2.toolTip" dataType="number" isStatic="true" />
+    <Member name="SQRT2" displayNameID="Class.Math.SQRT2" toolTipID="Class.Math.SQRT2.toolTip" dataType="number" isStatic="true" />
     <Method name="abs" displayNameID="Class.Math.abs" toolTipID="Class.Math.abs.toolTip" returnType="number" isStatic="true">
       <Argument name="x" type="number" tagID="Class.Math.abs.x" />
     </Method>
