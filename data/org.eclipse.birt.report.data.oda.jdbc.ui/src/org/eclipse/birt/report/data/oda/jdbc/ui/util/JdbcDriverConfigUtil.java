@@ -10,70 +10,40 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager.JdbcDriverInfo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcDriverConfigUtil
 {
-
-	private String driverName = OdaJdbcDriver.DATA_SOURCE_ID; //$NON-NLS-1$
-
+	/** can not be instantiated */
+	private JdbcDriverConfigUtil(){};
+	
 	/**
-	 * 
-	 * @param driverName
+	 * @return driverFiles
 	 */
-	public JdbcDriverConfigUtil( String driverName )
+	public static File[] getDriverFiles( )
 	{
-		super( );
-		this.driverName = driverName;
-	}
-
-	/**
-	 * @return Returns the driverName.
-	 */
-	public String getDriverName( )
-	{
-		return driverName;
-	}
-
-	/**
-	 * @param driverName
-	 *            The driverName to set.
-	 */
-	public void setDriverName( String driverName )
-	{
-		this.driverName = driverName;
-	}
-
-	private File getDriverLocation( ) throws OdaException, IOException
-	{
-		return OdaJdbcDriver.getDriverDirectory();
-	}
-    
-
-	/**
-	 * @return
-	 */
-	public File[] getDriverFiles( )
-	{
+		File[] driverFiles = null;
 		try
 		{
-            return getDriverLocation().listFiles();
+			File driverDir = OdaJdbcDriver.getDriverDirectory( );
+			if ( driverDir != null )
+				driverFiles = driverDir.listFiles( );
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
-        
-        return null;
-
+		return driverFiles;
 	}
     
-    public String getURLFormat(String className)
+	/**
+	 * @param className
+	 * @return urlFormat
+	 */
+    public static String getURLFormat(String className)
     {
        	JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );
 		if ( jdbcDriverInfo != null )
@@ -82,7 +52,11 @@ public class JdbcDriverConfigUtil
 			return null;
     }
     
-    public String getDisplayName( String className )
+    /**
+     * @param className
+     * @return displayName
+     */
+    public static String getDisplayName( String className )
 	{
 
 		JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );

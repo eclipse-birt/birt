@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.Driver;
-
 
 
 /**
@@ -25,43 +22,39 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/13 07:47:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/24 06:57:27 $
  */
 public final class JDBCDriverInformation
-{
-    
+{    
     private String driverClassName = null;
     private int majorVersion = 0;
     private int minorVersion = 0;
-    private String urlFormat = null;
     private boolean displayVersion = true;
+    private String urlFormat = null;
     private String driverDisplayName = null;
 
-    /**
-     * 
-     */
-    public JDBCDriverInformation()
-    {
-        super();
-    }
-    
-    static JDBCDriverInformation getInstance(Class driverClass, URL[] classPaths) throws InstantiationException, IllegalAccessException
-    {
-        Driver d = (Driver) driverClass.newInstance( );
-        
-        JDBCDriverInformation info = new JDBCDriverInformation();
-        info.setDriverClassName(driverClass.getName());
-        info.setMajorVersion(d.getMajorVersion());
-        info.setMinorVersion(d.getMinorVersion());
-        return info;
-    }
-
-    static JDBCDriverInformation getInstance(String driverClassName, URL[] classPaths) throws InstantiationException, IllegalAccessException, ClassNotFoundException
-    {
-        URLClassLoader ucl = new URLClassLoader( classPaths );
-        return getInstance(Class.forName( driverClassName, true, ucl ), classPaths);
-    }
-    
+    static JDBCDriverInformation newInstance( Class driverClass )
+	{
+		Driver d = null;
+		try
+		{
+			d = (Driver) driverClass.newInstance( );
+		}
+		catch ( Throwable e )
+		{
+		}
+		
+		JDBCDriverInformation info = null;
+		if ( d != null )
+		{
+			info = new JDBCDriverInformation( );
+			info.setDriverClassName( driverClass.getName( ) );
+			info.setMajorVersion( d.getMajorVersion( ) );
+			info.setMinorVersion( d.getMinorVersion( ) );
+		}
+		return info;
+	}
+  
     /**
      * @return Returns the driverClassName.
      */
@@ -109,24 +102,7 @@ public final class JDBCDriverInformation
     {
         this.minorVersion = minorVersion;
     }
-    
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(driverClassName);
-        if ( displayVersion )
-        {
-	        buffer.append(" (");
-	        buffer.append(majorVersion);
-	        buffer.append(".");
-	        buffer.append(minorVersion);
-	        buffer.append(")");
-        }
-        return buffer.toString();
-    }
-
+	
     /**
      * @return Returns the urlFormat.
      */
@@ -144,20 +120,6 @@ public final class JDBCDriverInformation
     }
     
 	/**
-	 * @return Returns the displayVersion.
-	 */
-	public boolean isDisplayVersion() {
-		return displayVersion;
-	}
-	
-	/**
-	 * @param displayVersion The displayVersion to set.
-	 */
-	public void setDisplayVersion(boolean displayVersion) {
-		this.displayVersion = displayVersion;
-	}
-	
-	/**
 	 * @return Returns the displayName.
 	 */
 	public String getDisplayName(){
@@ -171,4 +133,35 @@ public final class JDBCDriverInformation
 	    this.driverDisplayName = displayName;
 	}
 	
+	/**
+	 * @return Returns the displayVersion.
+	 */
+	public boolean isDisplayVersion() {
+		return displayVersion;
+	}
+	
+	/**
+	 * @param displayVersion The displayVersion to set.
+	 */
+	public void setDisplayVersion(boolean displayVersion) {
+		this.displayVersion = displayVersion;
+	}
+	
+    /*
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(driverClassName);
+        if ( displayVersion )
+        {
+	        buffer.append(" (");
+	        buffer.append(majorVersion);
+	        buffer.append(".");
+	        buffer.append(minorVersion);
+	        buffer.append(")");
+        }
+        return buffer.toString();
+    }
+    
 }
