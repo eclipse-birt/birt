@@ -45,14 +45,6 @@ import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
 public final class DesignEngine
 {
 
-    static
-    {
-        // Initialize model script system.
-        
-    	ScriptContext.registerInitializer( new ModelJavaScriptInitializer() );
-        ScriptContext.registerWrapper( new ModelJavaScriptWrapper() );
-    }
-    
 	/**
 	 * The file name of ROM.DEF
 	 */
@@ -140,6 +132,11 @@ public final class DesignEngine
 
 	public static SessionHandle newSession( Locale locale )
 	{
+        // Initialize model script system.
+        
+    	ScriptContext.registerInitializer( new ModelJavaScriptInitializer() );
+        ScriptContext.registerWrapper( new ModelJavaScriptWrapper() );
+
 		// meta-data ready.
 
 		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
