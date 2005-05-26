@@ -293,7 +293,7 @@ public class ScriptEvalUtil
 							new Double( Context.toNumber( inputObj ) ) );
 				return new Double(Context.toNumber(inputObj));
 			} 
-			else 
+			else if(jsClass.equals("String"))
 			{
 				// For JS "String" type, toString gives the correct result
 				// For all other types that we cannot handle, toString is the best we can do
@@ -302,6 +302,10 @@ public class ScriptEvalUtil
 							"convertNativeObjToJavaObj",
 							inputObj.toString( ).trim() );
 				return inputObj.toString();
+			}
+			else
+			{
+				return Context.toType( inputObj, Object.class );
 			}
 		}
 		else if ( inputObj!= null && inputObj.toString().equalsIgnoreCase("NaN") )
