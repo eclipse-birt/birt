@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<xs:schema targetNamespace="http://www.actuate.com/Schema/BIRTSchema1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.actuate.com/Schema/BIRTSchema1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.eclipse.org/birt/2005/design" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.eclipse.org/birt/2005/design" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="report">
 		<xs:annotation>
 			<xs:documentation>A BIRT report design.</xs:documentation>
