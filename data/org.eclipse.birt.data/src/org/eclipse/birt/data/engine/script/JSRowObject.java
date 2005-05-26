@@ -36,7 +36,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class JSRowObject extends ScriptableObject
 {
 	static private final String DATA_SET = "dataSet";
-	static private final String COLUMN_MD = "columnMetaData";
+	static private final String COLUMN_MD = "columnDefns";
 	
 	private IResultObject resultObj;
     private IResultIterator resultSet;
