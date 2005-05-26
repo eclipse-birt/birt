@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/19 07:02:02 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/23 09:31:06 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1295,9 +1295,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
 	 */
 	public boolean performOk( )
@@ -1310,12 +1308,38 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		{
 			return false;
 		}
+		finally
+		{
+			cleanUp( );
+		}
 		return true;
 	}
-    
-    /* (non-Javadoc)
-     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-     */
+
+	/*
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#performCancel()
+	 */
+	public boolean performCancel( )
+	{
+		cleanUp();
+		return super.performCancel();
+	}
+
+	/**
+	 * CleanUp database connection
+	 */
+	private void cleanUp( )
+	{
+		if ( metaDataProvider != null )
+		{
+			metaDataProvider.closeConnection( );
+		}
+	}
+
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
     public void widgetSelected(SelectionEvent e)
     {
         if(preference != null)
