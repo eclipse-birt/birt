@@ -1225,34 +1225,18 @@
   </Class>
   <Class displayNameID="Class.Report" name="Report" toolTipID="Class.Report.toolTip">	
 	<Member dataType="ReportDefn" displayNameID="Class.Report.design" name="design" toolTipID="Class.Report.design.toolTip"/>
-	<Member dataType="ReportDoc" displayNameID="Class.Report.document" name="document" toolTipID="Class.Report.document.toolTip"/>
 	<Member dataType="Object[]" displayNameID="Class.Report.params" name="params" toolTipID="Class.Report.params.toolTip"/>
-	<Member dataType="DataSet[]" displayNameID="Class.Report.dataSets" name="dataSets" toolTipID="Class.Report.dataSets.toolTip"/>
-	<Member dataType="DataSource[]" displayNameID="Class.Report.dataSources" name="dataSources" toolTipID="Class.Report.dataSources.toolTip"/>		
 	<Member dataType="Object[]" displayNameID="Class.Report.config" name="config" toolTipID="Class.Report.config.toolTip"/>		
   </Class>	
   <Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
-	<Member dataType="DataRow" displayNameID="Class.DataSet.row" name="row" toolTipID="Class.DataSet.row.toolTip"/>
-	<Member dataType="DataRow[]" displayNameID="Class.DataSet.rows" name="rows" toolTipID="Class.DataSet.rows.toolTip"/>			
-	<Member dataType="String" displayNameID="Class.DataSet.command" name="command" toolTipID="Class.DataSet.command.toolTip"/>					
-	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columns" name="columns" toolTipID="Class.DataSet.columns.toolTip"/>					
-	<Member dataType="DataSetSchema" displayNameID="Class.DataSet.schema" name="schema" toolTipID="Class.DataSet.schema.toolTip"/>							
-	<Member dataType="DataSetInputParam[]" displayNameID="Class.DataSet.inputParams" name="inputParams" toolTipID="Class.DataSet.inputParams.toolTip"/>							
-	<Member dataType="DataSetOutputParam[]" displayNameID="Class.DataSet.outputParams" name="outputParams" toolTipID="Class.DataSet.outputParams.toolTip"/>							
-	<Member dataType="Object[]" displayNameID="Class.DataSet.publicProperties" name="publicProperties" toolTipID="Class.DataSet.publicProperties.toolTip"/>									
-	<Member dataType="Object[]" displayNameID="Class.DataSet.privateProperties" name="privateProperties" toolTipID="Class.DataSet.privateProperties.toolTip"/>									
+	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					
+	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columnDefns" name="columnDefns" toolTipID="Class.DataSet.columnDefns.toolTip"/>					
+	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>									
   </Class>
   <Class displayNameID="Class.DataRow" name="DataRow" toolTipID="Class.DataRow.toolTip">	
-	<Constructor displayNameID="Class.DataRow.DataRow" name="DataRow" returnType="DataRow" toolTipID="Class.DataRow.DataRow.toolTip">
-		<Argument name="ds" tagID="Class.DataRow.DataRow.ds" type="DataSet"/>
-	</Constructor>
-	<Constructor displayNameID="Class.DataRow.DataRow" name="DataRow" returnType="DataRow" toolTipID="Class.DataRow.DataRow.toolTip">
-		<Argument name="r" tagID="Class.DataRow.DataRow.r" type="DataRow"/>
-	</Constructor>
 	<Member dataType="Object" displayNameID="Class.DataRow.column" name="column" toolTipID="Class.DataRow.column.toolTip"/>
-	<Member dataType="number" displayNameID="Class.DataRow.rowNo" name="rowNo" toolTipID="Class.DataRow.rowNo.toolTip"/>		
 	<Member dataType="DataSet" displayNameID="Class.DataRow.dataSet" name="dataSet" toolTipID="Class.DataRow.dataSet.toolTip"/>				
-	<Member dataType="ColumnDefn[]" displayNameID="Class.DataRow.schema" name="schema" toolTipID="Class.DataRow.schema.toolTip"/>				
+    <Member dataType="ColumnDefn[]" displayNameID="Class.DataRow.columnDefns" name="columnDefns" toolTipID="Class.DataRow.columnDefns.toolTip"/>					
   </Class>
   <Class displayNameID="Class.ReportDefn" name="ReportDefn" toolTipID="Class.ReportDefn.toolTip">	
 	<Method displayNameID="Class.ReportDefn.findStyle" name="findStyle" returnType="ElementDefn" toolTipID="Class.ReportDefn.findStyle.toolTip">
@@ -1285,7 +1269,7 @@
   </Class>
   <Class displayNameID="Class.ElementDefn" name="ElementDefn" toolTipID="Class.ElementDefn.toolTip">	
 	<Member dataType="String" displayNameID="Class.ElementDefn.name" name="name" toolTipID="Class.ElementDefn.name.toolTip"/>
-	<Member dataType="String" displayNameID="Class.ElementDefn.extends" name="extends" toolTipID="Class.ElementDefn.extends.toolTip"/>		
+	<Member dataType="String" displayNameID="Class.ElementDefn.extendsElement" name="extendsElement" toolTipID="Class.ElementDefn.extendsElement.toolTip"/>		
 	<Member dataType="PropertyDefn[]" displayNameID="Class.ElementDefn.propertyDefns" name="propertyDefns" toolTipID="Class.ElementDefn.propertyDefns.toolTip"/>			
 	<Member dataType="SlotDefn[]" displayNameID="Class.ElementDefn.slotDefns" name="slotDefns" toolTipID="Class.ElementDefn.slotDefns.toolTip"/>			
 	<Member dataType="Object" displayNameID="Class.ElementDefn.property" name="property" toolTipID="Class.ElementDefn.property.toolTip"/>			
@@ -1305,30 +1289,6 @@
 	<Member dataType="String" displayNameID="Class.PropertyDefn.type" name="type" toolTipID="Class.PropertyDefn.type.toolTip"/>					
 	<Member dataType="String[]" displayNameID="Class.PropertyDefn.choices" name="choices" toolTipID="Class.PropertyDefn.choices.toolTip"/>					
 	<Member dataType="Object" displayNameID="Class.PropertyDefn.defaultValue" name="defaultValue" toolTipID="Class.PropertyDefn.defaultValue.toolTip"/>					
-  </Class>
-  <Class displayNameID="Class.DataSetParamMetaData" name="DataSetParamMetaData" toolTipID="Class.DataSetParamMetaData.toolTip">	
-	<!--
-	<Member dataType="String" displayNameID="Class.DataSetParamMetaData.description" name="description" toolTipID="Class.DataSetParamMetaData.description.toolTip"/>
-	<Member dataType="ResultSetDefn[]" displayNameID="Class.DataSetParamMetaData.resultSets" name="resultSets" toolTipID="Class.DataSetParamMetaData.resultSets.toolTip"/ >			
-	-->	
-	<Member dataType="DataSetInputParam[]" displayNameID="Class.DataSetParamMetaData.inputParams" name="inputParams" toolTipID="Class.DataSetParamMetaData.inputParams.toolTip"/>			
-	<Member dataType="DataSetOutputParam[]" displayNameID="Class.DataSetParamMetaData.outputParams" name="outputParams" toolTipID="Class.DataSetParamMetaData.outputParams.toolTip"/>									
-  </Class>
-  <Class displayNameID="Class.DataSetInputParam" name="DataSetInputParam" toolTipID="Class.DataSetInputParam.toolTip">	
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.name" name="name" toolTipID="Class.DataSetInputParam.name.toolTip"/>
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.displayName" name="displayName" toolTipID="Class.DataSetInputParam.displayName.toolTip"/>						
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.description" name="description" toolTipID="Class.DataSetInputParam.description.toolTip"/>																		
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.nativeTypeCode" name="nativeTypeCode" toolTipID="Class.DataSetInputParam.nativeTypeCode.toolTip"/>									
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.nativeTypeName" name="nativeTypeName" toolTipID="Class.DataSetInputParam.nativeTypeName.toolTip"/>									
-	<Member dataType="String" displayNameID="Class.DataSetInputParam.recordDefn" name="recordDefn" toolTipID="Class.DataSetInputParam.recordDefn.toolTip"/>									
-  </Class>
-  <Class displayNameID="Class.DataSetOutputParam" name="DataSetOutputParam" toolTipID="Class.DataSetOutputParam.toolTip">	
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.name" name="name" toolTipID="Class.DataSetOutputParam.name.toolTip"/>
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.displayName" name="displayName" toolTipID="Class.DataSetOutputParam.displayName.toolTip"/>						
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.description" name="description" toolTipID="Class.DataSetOutputParam.description.toolTip"/>																		
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.nativeTypeCode" name="nativeTypeCode" toolTipID="Class.DataSetOutputParam.nativeTypeCode.toolTip"/>									
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.nativeTypeName" name="nativeTypeName" toolTipID="Class.DataSetOutputParam.nativeTypeName.toolTip"/>									
-	<Member dataType="String" displayNameID="Class.DataSetOutputParam.recordDefn" name="recordDefn" toolTipID="Class.DataSetOutputParam.recordDefn.toolTip"/>									
   </Class>
   <Class displayNameID="Class.Color" name="Color" toolTipID="Class.Color.toolTip">		
 	<Member dataType="boolean" displayNameID="Class.Color.transparent" name="transparent" toolTipID="Class.Color.transparent.toolTip"/>
