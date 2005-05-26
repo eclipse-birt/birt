@@ -128,14 +128,31 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		assert prop != null;
 		String memberName = prop.getName( );
 		if ( memberName.equals( TYPE_MEMBER ) )
+		{
 			type = MetaDataDictionary.getInstance( ).getPropertyType(
 					(String) value );
-		if ( memberName.equals( NAME_MEMBER ) )
-			name = value.toString( );
-		if ( memberName.equals( DISPLAY_NAME_MEMBER ) )
-			displayName = value.toString( );
-		if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
-			displayNameID = value.toString( );
+		}
+		else if ( memberName.equals( NAME_MEMBER ) )
+		{
+			if ( value == null )
+				name = null;
+			else
+				name = value.toString( );
+		}
+		else if ( memberName.equals( DISPLAY_NAME_MEMBER ) )
+		{
+			if ( value == null )
+				displayName = null;
+			else
+				displayName = value.toString( ); 
+		}
+		else if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
+		{
+			if ( value == null )
+				displayNameID = null;
+			else
+				displayNameID = value.toString( );
+		}
 	}
 
 	/**

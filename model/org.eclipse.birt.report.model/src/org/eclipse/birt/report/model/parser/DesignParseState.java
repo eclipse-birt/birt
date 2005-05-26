@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -75,9 +74,6 @@ public abstract class DesignParseState extends AbstractParseState
 
 	protected void setProperty( String propName, String value )
 	{
-		if ( StringUtil.isEmpty( value ) )
-			return;
-
 		// Ensure that the property is defined.
 
 		DesignElement element = getElement( );

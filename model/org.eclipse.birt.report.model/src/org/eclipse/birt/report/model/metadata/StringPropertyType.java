@@ -1,17 +1,19 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -56,7 +58,23 @@ public class StringPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		return value.toString( );
+		String stringValue = value.toString( );
+
+		// For config variable, "" and null are different values.
+
+		if ( defn.definedBy( ) != null )
+		{
+			if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( defn.definedBy( )
+					.getName( ) ) )
+				return stringValue;
+		}
+
+		// Model treats "" is as same as null.
+		
+		if ( StringUtil.isEmpty( stringValue ) )
+			return null;
+
+		return stringValue;
 	}
 
 	/*
@@ -68,6 +86,20 @@ public class StringPropertyType extends PropertyType
 	public Object validateXml( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
+		// For config variable, "" and null are different values.
+
+		if ( defn.definedBy( ) != null )
+		{
+			if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( defn.definedBy( )
+					.getName( ) ) )
+				return value;
+		}
+
+		// Model treats "" is as same as null.
+		
+		if ( StringUtil.isEmpty( value ) )
+			return null;
+
 		return value;
 	}
 
@@ -95,7 +127,7 @@ public class StringPropertyType extends PropertyType
 
 	/**
 	 * Converts the string property value to a double, this method will always
-     * return 0.  
+	 * return 0.
 	 */
 
 	public double toDouble( ReportDesign design, Object value )
@@ -106,26 +138,24 @@ public class StringPropertyType extends PropertyType
 		return 0;
 	}
 
-    
-    /**
-     * Converts the string property value to a string.
-     * 
-     * @return <code>value</code> as a string.
-     */
+	/**
+	 * Converts the string property value to a string.
+	 * 
+	 * @return <code>value</code> as a string.
+	 */
 
 	public String toString( ReportDesign design, PropertyDefn defn, Object value )
 	{
 		return (String) value;
 	}
 
-
-    /**
+	/**
 	 * Converts the string property value to an integer.
 	 * 
 	 * @return integer value of the string representation, return <code>0</code>
 	 *         if <code>value</code> is null.
 	 */
-    
+
 	public int toInteger( ReportDesign design, Object value )
 	{
 		if ( value == null )

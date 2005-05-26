@@ -174,11 +174,6 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		// Any empty string will be treated as null.
-
-		if ( StringUtil.isEmpty( value ) )
-			return;
-
 		String valueToSet = value;
 
 		if ( memberDefn.isEncryptable( ) )
@@ -248,11 +243,6 @@ public class AbstractPropertyState extends AbstractParseState
 			valid = false;
 			return;
 		}
-
-		// Any empty string will be treated as null.
-		
-		if ( StringUtil.isEmpty( value ) )
-			return;
 
 		doSetProperty( propDefn, value );
 	}

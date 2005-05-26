@@ -446,14 +446,14 @@ public class DesignWriter extends ElementVisitor
 
 				writer.startElement( DesignSchemaConstants.EX_PROPERTY_TAG );
 
-				if ( !StringUtil.isEmpty( property.getName( ) ) )
+				if ( property.getName( ) != null )
 				{
 					writer.startElement( DesignSchemaConstants.NAME_ATTRIB );
 					writer.text( property.getName( ) );
 					writer.endElement( );
 				}
 
-				if ( !StringUtil.isEmpty( property.getValue( ) ) )
+				if ( property.getValue( ) != null )
 				{
 					writer.startElement( DesignSchemaConstants.VALUE_TAG );
 					writer.text( property.getValue( ) );
@@ -1804,7 +1804,7 @@ public class DesignWriter extends ElementVisitor
 
 		value = obj.getLocalProperty( design, keyProp.getName( ) );
 		String xmlKey = keyProp.getXmlValue( design, value );
-		if ( StringUtil.isEmpty( xmlKey ) && StringUtil.isEmpty( xml ) )
+		if ( xmlKey == null && xml == null )
 			return;
 
 		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
@@ -1849,7 +1849,7 @@ public class DesignWriter extends ElementVisitor
 
 		value = struct.getLocalProperty( design, keyProp );
 		String xmlKey = keyProp.getXmlValue( design, value );
-		if ( StringUtil.isEmpty( xmlKey ) && StringUtil.isEmpty( xml ) )
+		if ( xmlKey == null && xml == null )
 			return;
 
 		if ( nameProp.getTypeCode( ) == PropertyType.HTML_TYPE )
