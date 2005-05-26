@@ -467,33 +467,15 @@ public final class DataTypeUtil
 	{
 		if ( source == null )
 			return null;
-		else if ( source instanceof Integer )
-		{
-			return ( (Integer) source ).toString( );
-		}
-		else if ( source instanceof BigDecimal )
-		{
-			return ( (BigDecimal) source ).toString( );
-		}
-		else if ( source instanceof Boolean )
-		{
-			return ( (Boolean) source ).toString( );
-		}
-		else if ( source instanceof Date )
+		
+		if(source instanceof Date )
 		{
 			return toString( (Date) source );
 		}
-		else if ( source instanceof Double )
-		{
-			return ( (Double) source ).toString( );
-		}
-		else if ( source instanceof String )
-		{
-			return (String) source;
-		}
 		else
-			throw new BirtException( ResourceConstants.CONVERT_FAILS, "String",
-					resourceBundle );
+		{
+			return source.toString();
+		}
 	}
 
 	/**
