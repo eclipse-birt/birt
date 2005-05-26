@@ -73,8 +73,8 @@ public class JdbcToolKit
 					(JDBCDriverInformation)	driverNameMap.get( newInfo.getDriverClassName());
 			if ( existing == null )
 			{
-				/*jdbcDriverInfos.add( newInfo );
-				driverNameMap.put( newInfo.getDriverClassName(), newInfo);*/
+				jdbcDriverInfos.add( newInfo );
+				driverNameMap.put( newInfo.getDriverClassName(), newInfo);
 			}
 			else
 			{
