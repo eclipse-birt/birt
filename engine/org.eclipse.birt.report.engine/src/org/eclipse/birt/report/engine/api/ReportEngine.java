@@ -86,16 +86,19 @@ public class ReportEngine
 	 */
 	private void setupLogging( )
 	{
-		String dest = (String) config.configObjects
-				.get( EngineConfig.LOG_DESTINATION );
-
-		if ( dest != null )
+		if (config != null)
 		{
-			Level level = (Level) config.configObjects
-					.get( EngineConfig.LOG_LEVEL );
-			if ( level == null )
-				level = Level.WARNING;
-			helper.setupLogging( dest, level );
+			String dest = (String) config.configObjects
+					.get( EngineConfig.LOG_DESTINATION );
+	
+			if ( dest != null )
+			{
+				Level level = (Level) config.configObjects
+						.get( EngineConfig.LOG_LEVEL );
+				if ( level == null )
+					level = Level.WARNING;
+				helper.setupLogging( dest, level );
+			}
 		}
 	}
 	
@@ -104,7 +107,6 @@ public class ReportEngine
 	 */
 	private void setupScriptScope( )
 	{
-		EngineConfig config = getConfig( );
 		if ( config != null )
 		{
 			Context cx = Context.enter( );
