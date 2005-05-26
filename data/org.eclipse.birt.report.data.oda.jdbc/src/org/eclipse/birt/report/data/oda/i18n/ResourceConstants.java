@@ -118,4 +118,5 @@ public class ResourceConstants
 	public final static String BAD_QUERY_PROPERTY="odajdbc.BadQueryProperty";
 	public final static String CANNOT_LOAD_DRIVER="odajdbc.CannotLoadDriverClass";
 	public final static String CANNOT_INSTANTIATE_DRIVER="odajdbc.CannotInstantiateDriverClass";
+	public final static String CANNOT_INSTANTIATE_FACTORY="odajdbc.CannotInstantiateFactory";
 }

@@ -35,12 +35,26 @@ public class OdaJdbcDriver implements IDriver
 {
 	private static Logger logger = Logger.getLogger( OdaJdbcDriver.class.getName( ) );	
 	
-	/** ODA data source ID; must match value of dataSource.id attribute defined in extension */
-	public static final String DATA_SOURCE_ID = "org.eclipse.birt.report.data.oda.jdbc";
 
-	/** Name of directory that contains user provided JDBC drivers */
-	public static final String DRIVER_DIRECTORY = "drivers";
-
+	public static final class Constants
+	{
+		/** Name of directory that contains user provided JDBC drivers */
+		public static final String DRIVER_DIRECTORY = "drivers";
+		
+		/** ODA data source ID; must match value of dataSource.id attribute defined in extension */
+		public static final String DATA_SOURCE_ID = "org.eclipse.birt.report.data.oda.jdbc";
+		
+		/** Full name of driverinfo extension */
+		public static final String DRIVER_INFO_EXTENSION = "org.eclipse.birt.report.data.oda.jdbc.driverinfo";
+		
+		public static final String DRIVER_INFO_ATTR_NAME = "name";
+		public static final String DRIVER_INFO_ATTR_DRIVERCLASS= "driverClass";
+		public static final String DRIVER_INFO_ATTR_URLTEMPL = "urlTemplate";
+		public static final String DRIVER_INFO_ATTR_CONNFACTORY = "connectionFactory";
+		public static final String DRIVER_INFO_ELEM_JDBCDRIVER = "jdbcDriver";
+		
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -83,20 +97,18 @@ public class OdaJdbcDriver implements IDriver
 	{
 		File result = null;
 		ExtensionManifest extMF = 
-			ManifestExplorer.getInstance().getExtensionManifest( OdaJdbcDriver.DATA_SOURCE_ID );
+			ManifestExplorer.getInstance().getExtensionManifest( Constants.DATA_SOURCE_ID );
 		if ( extMF != null )
 		{
 		    URL url = extMF.getRuntimeInterface().getLibraryLocation();
 		    try
 			{
 		    	URI uri = new URI(url.toString());
-				result = new File( uri.getPath(), 
-						DRIVER_DIRECTORY );
+				result = new File( uri.getPath(), Constants.DRIVER_DIRECTORY );
 			}
 			catch ( URISyntaxException e )
 			{
-				result = new File( url.getFile(), 
-						DRIVER_DIRECTORY );
+				result = new File( url.getFile(), Constants.DRIVER_DIRECTORY );
 			}
 		}
 		

@@ -14,10 +14,8 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.util.ArrayList;
 
 import org.eclipse.birt.core.framework.IConfigurationElement;
-import org.eclipse.birt.core.framework.IExtension;
-import org.eclipse.birt.core.framework.IExtensionPoint;
-import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 
 /**
  * The JDBCDriverInfoManager manage the information of jdbc drivers read from the 
@@ -39,22 +37,17 @@ public class JDBCDriverInfoManager
 	 */
 	static public JDBCDriverInformation[] getDrivers( )
 	{
-		IExtension[] driverInfoExts = getDriverInfoExtensions( );
-		if ( driverInfoExts == null || driverInfoExts.length == 0 )
-			return null;
-
 		ArrayList drivers = new ArrayList();
-		for ( int i = 0; i < driverInfoExts.length; i++ )
+		IConfigurationElement[] configElements = Platform.getExtensionRegistry().
+				getConfigurationElementsFor( OdaJdbcDriver.Constants.DRIVER_INFO_EXTENSION ) ;
+		if ( configElements != null )
 		{
-			IConfigurationElement[] configElements = driverInfoExts[i].getConfigurationElements( );
-			if ( configElements != null )
+			for ( int e = 0; e < configElements.length; e++ )
 			{
-				for ( int e = 0; e < configElements.length; e++ )
+				if ( configElements[e].getName( ).equals( 
+						OdaJdbcDriver.Constants.DRIVER_INFO_ELEM_JDBCDRIVER ) )
 				{
-					if ( configElements[e].getName( ).equals( "jdbcDriver" ) )
-					{
-						drivers.add( newJdbcDriverInfo( configElements[e] ));
-					}
+					drivers.add( newJdbcDriverInfo( configElements[e] ));
 				}
 			}
 		}
@@ -69,21 +62,12 @@ public class JDBCDriverInfoManager
 	private static JDBCDriverInformation newJdbcDriverInfo( IConfigurationElement configElement )
 	{
 		JDBCDriverInformation driverInfo = new JDBCDriverInformation();
-		driverInfo.setDriverClassName( configElement.getAttribute( "driverClass" ) );
-		driverInfo.setDisplayName( configElement.getAttribute( "name" ) );
-		driverInfo.setUrlFormat( configElement.getAttribute( "urlTemplate" ) );
+		driverInfo.setDriverClassName( configElement.getAttribute( 
+					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_DRIVERCLASS ) );
+		driverInfo.setDisplayName( configElement.getAttribute( 
+					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_NAME ) );
+		driverInfo.setUrlFormat( configElement.getAttribute( 
+					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
 		return driverInfo;
-	}
-
-	/**
-	 * Get IExtension of driverinfo 
-	 * @return
-	 */
-	private static IExtension[] getDriverInfoExtensions( )
-	{
-		final String driverInfoExtName = "org.eclipse.birt.report.data.oda.jdbc.driverinfo";
-		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( driverInfoExtName );
-		return extensionPoint.getExtensions( );
 	}
 }

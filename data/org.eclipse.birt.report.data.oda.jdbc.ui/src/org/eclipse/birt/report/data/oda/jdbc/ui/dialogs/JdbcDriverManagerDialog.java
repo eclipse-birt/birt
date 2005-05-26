@@ -467,7 +467,7 @@ public class JdbcDriverManagerDialog extends Dialog
 
 	private void updateDriverMap( )
 	{
-		ArrayList driverList = JdbcToolKit.getJdbcDriverNames( OdaJdbcDriver.DATA_SOURCE_ID );
+		ArrayList driverList = JdbcToolKit.getJdbcDriverNames( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
 		for ( Iterator itr = driverList.iterator( ); itr.hasNext( ); )
 		{
 			JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
