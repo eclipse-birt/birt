@@ -1534,7 +1534,7 @@
   </Structure>
   <Structure displayNameID="Structure.Action" name="Action" since="1.0">
     <Member detailType="targetNames" displayNameID="Structure.Action.targetWindow" name="targetWindow" since="1.0" type="string">
-    	<Default>blank. (the link replaces the report in the current browser window.)</Default>
+    	<Default>_blank</Default>
     </Member>
     <Member detailType="actionLinkType" displayNameID="Structure.Action.linkType" name="linkType" since="1.0" type="choice">
       <Default>none</Default>
