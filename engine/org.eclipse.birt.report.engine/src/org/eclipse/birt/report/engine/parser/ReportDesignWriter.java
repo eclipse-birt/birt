@@ -49,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/25 07:24:15 $
  */
 class ReportDesignWriter
 {
@@ -281,10 +281,10 @@ class ReportDesignWriter
 			attribute( "width", page.getPageWidth( ) ); //$NON-NLS-1$
 			attribute( "height", page.getPageHeight( ) ); //$NON-NLS-1$
 			attribute( "orientation", page.getOrientation( ) ); //$NON-NLS-1$
-			attribute( "top-marign", page.getTopMargin( ) ); //$NON-NLS-1$
-			attribute( "bottom-marign", page.getBottomMargin( ) ); //$NON-NLS-1$
-			attribute( "left-marign", page.getLeftMargin( ) ); //$NON-NLS-1$
-			attribute( "right-marign", page.getRightMargin( ) ); //$NON-NLS-1$
+			attribute( "top-margin", page.getTopMargin( ) ); //$NON-NLS-1$
+			attribute( "bottom-margin", page.getBottomMargin( ) ); //$NON-NLS-1$
+			attribute( "left-margin", page.getLeftMargin( ) ); //$NON-NLS-1$
+			attribute( "right-margin", page.getRightMargin( ) ); //$NON-NLS-1$
 		}
 
 		private void writeGraphicMasterPage( GraphicMasterPageDesign page )
