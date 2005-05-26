@@ -27,7 +27,7 @@ import org.mozilla.javascript.WrapFactory;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
  */
 public class ScriptContext
 {
@@ -222,6 +222,10 @@ public class ScriptContext
 				return Context.toString( jsValue );
 			}
 		}
+		if(jsValue instanceof Integer)
+		{
+			return jsValue;
+		}
 		return Context.toType( jsValue, Object.class );
 	}
 
@@ -291,7 +295,7 @@ public class ScriptContext
 	 * wapper can handle the object. If no wapper is used, the default wapper is
 	 * used.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
+	 * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
 	 */
 	private class BIRTWrapper extends WrapFactory
 	{
@@ -335,7 +339,7 @@ public class ScriptContext
 	/**
 	 * initailzier used to initalize the script context.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2005/05/18 03:31:00 $
+	 * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
 	 */
 	private class BIRTInitializer
 	{

@@ -90,7 +90,7 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 		} 
 		catch (BirtException e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			this.value = value;
+			this.value = null;
 		}
 	}
 

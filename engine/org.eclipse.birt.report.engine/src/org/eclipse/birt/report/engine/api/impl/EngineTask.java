@@ -221,6 +221,7 @@ public abstract class EngineTask implements IEngineTask
 						value = DataTypeUtil.toString(value);
 						break;
 					default:
+						value = null;
 						break;
 				}
 	
