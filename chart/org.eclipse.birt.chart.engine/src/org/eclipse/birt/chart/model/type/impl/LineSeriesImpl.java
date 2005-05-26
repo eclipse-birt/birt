@@ -737,7 +737,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
      */
     public final boolean canShareAxisUnit()
     {
-        return false;
+        return true;
     }
 
     /**

@@ -1996,8 +1996,25 @@ public final class AutoScale extends Methods implements Cloneable
             // START/END OF X-AXIS
             final double dUnitSize = getUnitSize();
             final DataSetIterator dsi = getData();
-            final int iDateTimeUnit = (getType() == IConstants.DATE_TIME) ? CDateTime.computeUnit(dsi)
+            final int iDateTimeUnit;
+            try
+            {
+                iDateTimeUnit = (getType() == IConstants.DATE_TIME) ? CDateTime.computeUnit(dsi)
                 : IConstants.UNDEFINED;
+            }
+            catch (ClassCastException e)
+            {
+                // Happens when data in dsi is not of DateTime format
+                throw new GenerationException(
+                        "exception.dataset.non.datetime", //$NON-NLS-1$
+                        ResourceBundle.getBundle(
+                            Messages.ENGINE, 
+                            rtc.getLocale()
+                        )
+                    ); // i18n_CONCATENATIONS_REMOVED 
+                
+            }
+            
 
             // ADJUST THE START POSITION
             la.getCaption().setValue(formatCategoryValue(getType(), dsi.first(), iDateTimeUnit));
