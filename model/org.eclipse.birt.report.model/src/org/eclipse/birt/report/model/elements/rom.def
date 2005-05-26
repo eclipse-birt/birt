@@ -755,15 +755,15 @@
     </Method>
     <Method displayNameID="Class.RegExp.toString" name="toString" returnType="String" toolTipID="Class.RegExp.toString.toolTip"/>
   </Class>
-  <Class displayNameID="Class.Math" name="Math" native="true" toolTipID="Class.Math.toolTip">
+  <Class displayNameID="Class.Math" name="Math" native="true" toolTipID="Class.Math.toolTip" >
     <Member dataType="number" displayNameID="Class.Math.E" name="E" toolTipID="Class.Math.E.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.LN10" name="LN10" toolTipID="Class.Math.LN10.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.LN2" name="LN2" toolTipID="Class.Math.LN2.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.LOG10E" name="LOG10E" toolTipID="Class.Math.LOG10E.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.LOG2E" name="LOG2E" toolTipID="Class.Math.LOG2E.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.PI" name="PI" toolTipID="Class.Math.PI.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.SQRT1_2" name="SQRT1_2" toolTipID="Class.Math.SQRT1_2.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.SQRT2" name="SQRT2" toolTipID="Class.Math.SQRT2.toolTip" />
+    <Member dataType="number" displayNameID="Class.Math.LN10" name="LN10" toolTipID="Class.Math.LN10.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.LN2" name="LN2" toolTipID="Class.Math.LN2.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.LOG10E" name="LOG10E" toolTipID="Class.Math.LOG10E.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.LOG2E" name="LOG2E" toolTipID="Class.Math.LOG2E.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.PI" name="PI" toolTipID="Class.Math.PI.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.SQRT1_2" name="SQRT1_2" toolTipID="Class.Math.SQRT1_2.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.SQRT2" name="SQRT2" toolTipID="Class.Math.SQRT2.toolTip" isStatic="true"/>
     <Method displayNameID="Class.Math.abs" isStatic="true" name="abs" returnType="number" toolTipID="Class.Math.abs.toolTip">
       <Argument name="x" tagID="Class.Math.abs.x" type="number"/>
     </Method>
@@ -1231,7 +1231,13 @@
   <Class displayNameID="Class.DataSet" name="DataSet" toolTipID="Class.DataSet.toolTip">	
 	<Member dataType="String" displayNameID="Class.DataSet.queryText" name="queryText" toolTipID="Class.DataSet.queryText.toolTip"/>					
 	<Member dataType="ColumnDefn[]" displayNameID="Class.DataSet.columnDefns" name="columnDefns" toolTipID="Class.DataSet.columnDefns.toolTip"/>					
-	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>									
+	<Member dataType="Object[]" displayNameID="Class.DataSet.extensionProperties" name="extensionProperties" toolTipID="Class.DataSet.extensionProperties.toolTip"/>
+	<Member dataType="DataSource" displayNameID="Class.DataSet.DataSource" name="DataSource" toolTipID="Class.DataSet.DataSource.toolTip"/>														
+  </Class>
+  <Class displayNameID="Class.DataSource" name="DataSource" toolTipID="Class.DataSource.toolTip">	
+	<Member dataType="String" displayNameID="Class.DataSource.extensionID" name="extensionID" toolTipID="Class.DataSource.extensionID.toolTip"/>					
+	<Member dataType="boolean" displayNameID="Class.DataSource.isOpen" name="isOpen" toolTipID="Class.DataSource.isOpen.toolTip"/>					
+	<Member dataType="Object[]" displayNameID="Class.DataSource.extensionProperties" name="extensionProperties" toolTipID="Class.DataSource.extensionProperties.toolTip"/>									
   </Class>
   <Class displayNameID="Class.DataRow" name="DataRow" toolTipID="Class.DataRow.toolTip">	
 	<Member dataType="Object" displayNameID="Class.DataRow.column" name="column" toolTipID="Class.DataRow.column.toolTip"/>
