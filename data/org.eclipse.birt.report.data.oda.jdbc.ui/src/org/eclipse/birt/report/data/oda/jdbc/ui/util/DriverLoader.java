@@ -23,12 +23,9 @@ public final class DriverLoader
 	}
 
 	public static Connection getConnection( String driverClassName,
-			String classPath, String connectionString, String userId,
+			String connectionString, String userId,
 			String password ) throws SQLException
 	{
-		// gxue 4/15/05 - use common code in the oda.jdbc driver to handle
-		// JDBC connection. Note that the classPath parameter is no longer needed -
-		// the oda.jdbc driver handles class path searches
 		try
 		{
 			return JDBCDriverManager.getInstance().getConnection( 

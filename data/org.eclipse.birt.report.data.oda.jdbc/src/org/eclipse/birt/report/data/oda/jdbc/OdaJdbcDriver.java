@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -100,5 +101,33 @@ public class OdaJdbcDriver implements IDriver
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * Lists all possible driver files (those ending with .zip or .jar) in the drivers directory
+	 */
+	public static File[] getDriverFileList() throws OdaException, IOException
+	{
+		File driverHomeDir = getDriverDirectory();
+		String files[] = driverHomeDir.list( new FilenameFilter() {
+					public boolean accept( File dir,String name )
+					{	return isDriverFile( name ); }
+				} );
+		File[] ret = new File[files.length];
+		for ( int i = 0; i < files.length; i++ )
+		{
+			ret[i] = new File( driverHomeDir, files[i]);
+		}
+		return ret;
+	}
+		
+    /**
+     * Check to see if a file has the correct extension for a JDBC driver. ZIP and JAR files
+     * are accepted
+     */
+	static boolean isDriverFile( String fileName )
+	{
+		String lcName = fileName.toLowerCase();
+		return lcName.endsWith(".jar") || lcName.endsWith(".zip");
 	}
 }

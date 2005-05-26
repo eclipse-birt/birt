@@ -116,5 +116,6 @@ public class ResourceConstants
 	public final static String CANNOT_GET_MAXQUERIES="odajdbc.CannotGetMaxQuerie";
 	public final static String CANNOT_SET_QUERY_TIMEOUT="odajdbc.CannotSetQueryTimeout";
 	public final static String BAD_QUERY_PROPERTY="odajdbc.BadQueryProperty";
-	
+	public final static String CANNOT_LOAD_DRIVER="odajdbc.CannotLoadDriverClass";
+	public final static String CANNOT_INSTANTIATE_DRIVER="odajdbc.CannotInstantiateDriverClass";
 }

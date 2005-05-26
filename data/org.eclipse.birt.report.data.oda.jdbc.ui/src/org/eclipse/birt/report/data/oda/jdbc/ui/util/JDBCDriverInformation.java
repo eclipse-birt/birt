@@ -22,37 +22,35 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/24 06:57:27 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/25 10:25:38 $
  */
 public final class JDBCDriverInformation
 {    
     private String driverClassName = null;
     private int majorVersion = 0;
     private int minorVersion = 0;
-    private boolean displayVersion = true;
     private String urlFormat = null;
     private String driverDisplayName = null;
 
     static JDBCDriverInformation newInstance( Class driverClass )
 	{
-		Driver d = null;
 		try
 		{
-			d = (Driver) driverClass.newInstance( );
+			Driver d = (Driver) driverClass.newInstance( );
+			if ( d != null )
+			{
+				JDBCDriverInformation info = new JDBCDriverInformation();
+				info.setDriverClassName( driverClass.getName( ) );
+				info.setMajorVersion( d.getMajorVersion( ) );
+				info.setMinorVersion( d.getMinorVersion( ) );
+				return info;
+			}
 		}
 		catch ( Throwable e )
 		{
 		}
 		
-		JDBCDriverInformation info = null;
-		if ( d != null )
-		{
-			info = new JDBCDriverInformation( );
-			info.setDriverClassName( driverClass.getName( ) );
-			info.setMajorVersion( d.getMajorVersion( ) );
-			info.setMinorVersion( d.getMinorVersion( ) );
-		}
-		return info;
+		return null;
 	}
   
     /**
@@ -133,27 +131,13 @@ public final class JDBCDriverInformation
 	    this.driverDisplayName = displayName;
 	}
 	
-	/**
-	 * @return Returns the displayVersion.
-	 */
-	public boolean isDisplayVersion() {
-		return displayVersion;
-	}
-	
-	/**
-	 * @param displayVersion The displayVersion to set.
-	 */
-	public void setDisplayVersion(boolean displayVersion) {
-		this.displayVersion = displayVersion;
-	}
-	
     /*
      * @see java.lang.Object#toString()
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append(driverClassName);
-        if ( displayVersion )
+        if ( majorVersion != 0 || minorVersion != 0 )
         {
 	        buffer.append(" (");
 	        buffer.append(majorVersion);
@@ -164,4 +148,28 @@ public final class JDBCDriverInformation
         return buffer.toString();
     }
     
+    /** Gets a display-friendly string which has driver class, driver name and version */
+    public String getDisplayString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(driverClassName);
+        if ( majorVersion != 0 || minorVersion != 0 ||
+        	driverDisplayName != null )
+        {
+	        buffer.append(" (");
+	        if ( driverDisplayName != null )
+	        	buffer.append( driverDisplayName );
+	        if ( majorVersion != 0 || minorVersion != 0 )
+	        {
+		        if ( driverDisplayName != null )
+		        	buffer.append(" ");
+		        buffer.append("v");
+				buffer.append(majorVersion);
+		        buffer.append(".");
+		        buffer.append(minorVersion);
+	        }
+	        buffer.append(")");
+        }
+        return buffer.toString();
+    }
 }

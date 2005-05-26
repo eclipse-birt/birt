@@ -17,7 +17,6 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaData;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaDataManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
 import org.eclipse.birt.report.designer.ui.editors.sql.ISQLSyntax;
@@ -41,7 +40,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.9.2.1 $ $Date: 2005/05/19 19:40:40 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/23 05:37:11 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -76,7 +75,6 @@ public class JdbcSQLContentAssistProcessor implements
                         (String)dataSourceHandle.getProperty(Constants.ODAURL),
                         (String)dataSourceHandle.getProperty(Constants.ODAUser),
                         (String)dataSourceHandle.getProperty(Constants.ODAPassword), //$NON-NLS-1$
-                        JdbcToolKit.getJdbcDriverClassPath( dataSourceHandle.getExtensionID( ) ),
                         null );
         
     }

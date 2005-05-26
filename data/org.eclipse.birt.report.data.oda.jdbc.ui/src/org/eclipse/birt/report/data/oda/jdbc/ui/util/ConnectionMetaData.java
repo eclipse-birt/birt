@@ -25,7 +25,7 @@ import java.util.Properties;
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.3 $ $Date: 2005/02/21 23:45:00 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/05 02:16:15 $
  */
 
 public class ConnectionMetaData implements Serializable
@@ -36,7 +36,6 @@ public class ConnectionMetaData implements Serializable
 	private String username = null;
 	private String password = null;
 	private Properties properties = null;
-	private String driverClassPath = null;
 	private String catalogname = null;
 	private ArrayList schemas = null;
 	private transient Connection connection = null;
@@ -150,23 +149,6 @@ public class ConnectionMetaData implements Serializable
 		return catalogname;
 	}
 
-	/**
-	 * @return Returns the driverClassPath.
-	 */
-	public String getDriverClassPath( )
-	{
-		return driverClassPath;
-	}
-
-	/**
-	 * @param driverClassPath
-	 *            The driverClassPath to set.
-	 */
-	public void setDriverClassPath( String driverClassPath )
-	{
-		this.driverClassPath = driverClassPath;
-	}
-    
     public String getDatabaseProductName() throws SQLException
     {
         return getMetaData().getDatabaseProductName();
@@ -239,7 +221,6 @@ public class ConnectionMetaData implements Serializable
 				}
 
 				connection = DriverLoader.getConnection( classname,
-						driverClassPath,
 						url,
 						username,
 						password );
@@ -327,8 +308,7 @@ public class ConnectionMetaData implements Serializable
 				&& ( this.password == null ? castedObj.password == null
 						: this.password.equals( castedObj.password ) )
 				&& ( this.properties == null ? castedObj.properties == null
-						: this.properties.equals( castedObj.properties ) ) && ( this.driverClassPath == null ? castedObj.driverClassPath == null
-				: this.driverClassPath.equals( castedObj.driverClassPath ) ) );
+						: this.properties.equals( castedObj.properties ) )  );
 	}
 
 	/**
@@ -352,9 +332,6 @@ public class ConnectionMetaData implements Serializable
 		hashCode = 31
 				* hashCode
 				+ ( properties == null ? 0 : properties.hashCode( ) );
-		hashCode = 31
-				* hashCode
-				+ ( driverClassPath == null ? 0 : driverClassPath.hashCode( ) );
 		return hashCode;
 	}
 

@@ -11,106 +11,67 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.data.oda.OdaException;
 
 /**
- * The JDBCDriverInfoManager manage the information of jdbc drivers. The
+ * The JDBCDriverInfoManager manage the information of jdbc drivers read from the 
+ * org.eclipse.birt.report.data.oda.jdbc.driverInfo extensions. The
  * <code>JDBCDriverInfoManager</code> instance can be retrieved using the
  * <code>getInstance()</code> method.
  */
 
 public class JDBCDriverInfoManager
 {
-	private static Map driverInfoMap = new HashMap( );
-	private static Object nullObject = new Object( );
-
-	/** single instance */
+	// prevents construction
 	private JDBCDriverInfoManager( )
 	{
 	}
 
 	/**
-	 * Return the information for the specified jdbc driver
-	 * Since cache mechanism is used, plugin registry is not
-	 * allowed to be updated in running time.
-	 * @param driverClass
-	 *            The jdbc driver class name
-	 * @return
-	 * @throws OdaException
+	 * Returns a list of JDBC drivers discovered in the driverInfo extensions,
+	 * as an array of JDBCDriverInformation objects
 	 */
-	static JdbcDriverInfo getDriverInfo( String driverClass )
+	static public JDBCDriverInformation[] getDrivers( )
 	{
-		if ( driverClass == null )
+		IExtension[] driverInfoExts = getDriverInfoExtensions( );
+		if ( driverInfoExts == null || driverInfoExts.length == 0 )
 			return null;
-		
-		JdbcDriverInfo driverInfo = null;
-		
-		Object ob = driverInfoMap.get( driverClass );
-		if ( ob != null )
+
+		ArrayList drivers = new ArrayList();
+		for ( int i = 0; i < driverInfoExts.length; i++ )
 		{
-			if ( ob == nullObject )
+			IConfigurationElement[] configElements = driverInfoExts[i].getConfigurationElements( );
+			if ( configElements != null )
 			{
-				driverInfo = null;
-			}
-			else
-			{
-				driverInfo = (JdbcDriverInfo) ob;
-			}
-		}
-		else
-		{
-			driverInfo = getJdbcDriverInfo( driverClass );
-			if ( driverInfo == null )
-			{
-				driverInfoMap.put( driverClass, nullObject );
-			}
-			else
-			{
-				driverInfoMap.put( driverClass, driverInfo );
-			}
-		}
-
-		return driverInfo;
-	}
-
-	/**
-	 * Get JdbcDriverInfo from plugin file
-	 * @param driverClass
-	 * @return
-	 */
-	private static JdbcDriverInfo getJdbcDriverInfo( String driverClass )
-	{
-		JdbcDriverInfo driverInfo = null;
-		
-		IExtension[] extensions = getDriverInfoExtensions( );		
-		for ( int i = 0, n = extensions.length; i < n; i++ )
-		{
-			IConfigurationElement[] configElements = extensions[i].getConfigurationElements( );
-			String configDriverName = null;
-			for ( int j = 0; j < configElements.length; j++ )
-			{
-				IConfigurationElement configElement = configElements[j];
-
-				if ( configElement.getName( ).equals( "jdbcDriver" ) )
-					configDriverName = configElement.getAttribute( "driverClass" );
-
-				if ( configDriverName != null
-						&& configDriverName.equals( driverClass ) )
+				for ( int e = 0; e < configElements.length; e++ )
 				{
-					driverInfo = new JdbcDriverInfo( configElement );
-					break;
+					if ( configElements[e].getName( ).equals( "jdbcDriver" ) )
+					{
+						drivers.add( newJdbcDriverInfo( configElements[e] ));
+					}
 				}
 			}
 		}
+		return (JDBCDriverInformation[])drivers.toArray( new JDBCDriverInformation[0]);
+	}
 
+	/**
+	 * Creates a new JDBCDriverInformation instance based on a driverInfo extension element
+	 * @param driverClass
+	 * @return
+	 */
+	private static JDBCDriverInformation newJdbcDriverInfo( IConfigurationElement configElement )
+	{
+		JDBCDriverInformation driverInfo = new JDBCDriverInformation();
+		driverInfo.setDriverClassName( configElement.getAttribute( "driverClass" ) );
+		driverInfo.setDisplayName( configElement.getAttribute( "name" ) );
+		driverInfo.setUrlFormat( configElement.getAttribute( "urlTemplate" ) );
 		return driverInfo;
 	}
 
@@ -125,54 +86,4 @@ public class JDBCDriverInfoManager
 		IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( driverInfoExtName );
 		return extensionPoint.getExtensions( );
 	}
-
-	/**
-	 * This class encapsulates access to a driver's information.
-	 */
-	static class JdbcDriverInfo
-	{
-		private String driverClass;
-		private String name;
-		private String urlTemplate;
-
-		JdbcDriverInfo( IConfigurationElement odaDriverConfigElement )
-		{
-			this.driverClass = odaDriverConfigElement.getAttribute( "driverClass" );
-			this.name = odaDriverConfigElement.getAttribute( "name" );
-			this.urlTemplate = odaDriverConfigElement.getAttribute( "urlTemplate" );
-		}
-
-		/**
-		 * Returns the driver url template
-		 * 
-		 * @return the url template for the driver, null if the driver does not
-		 *         have a url template.
-		 */
-		public String getDriverUrlTemplate( )
-		{
-			return urlTemplate;
-		}
-
-		/**
-		 * Returns the driver class name
-		 * 
-		 * @return the class name for the driver.
-		 */
-		public String getDriverClassName( )
-		{
-			return driverClass;
-		}
-
-		/**
-		 * Returns the driver display name
-		 * 
-		 * @return the display name for the driver, null if the driver does not
-		 *         have a display name.
-		 */
-		public String getDisplayName( )
-		{
-			return name;
-		}
-	}
-
 }

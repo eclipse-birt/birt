@@ -30,7 +30,6 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -75,12 +74,9 @@ public class JdbcMetaDataProvider
 		}
 		if(jdbcConnection == null)
 		{
-			String additionalClassPath = JdbcToolKit.getJdbcDriverClassPath( odaDriverName );
-		
 			try
 			{
 				jdbcConnection = DriverLoader.getConnection( driverClass,
-						additionalClassPath,
 						url,
 						userName,
 						password );

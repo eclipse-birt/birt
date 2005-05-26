@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * Utility classs that manages the JDBC drivers available to this bridge driver.
@@ -70,7 +71,7 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public Connection getConnection( String driverClass, String url, 
-			Properties connectionProperties ) throws SQLException, ClassNotFoundException
+			Properties connectionProperties ) throws SQLException, OdaException
 	{
 		if ( url == null )
 			throw new NullPointerException("getConnection: url is null ");
@@ -91,7 +92,7 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public  Connection getConnection( String driverClass, String url, 
-			String user, String password ) throws SQLException, ClassNotFoundException
+			String user, String password ) throws SQLException, OdaException
 	{
 		if ( url == null )
 			throw new NullPointerException("getConnection: url is null ");
@@ -103,16 +104,17 @@ public class JDBCDriverManager
 		return DriverManager.getConnection( url, user, password );
 	}
 	
-	private  boolean loadAndRegisterDriver( String className ) 
-		throws ClassNotFoundException
+	private  void loadAndRegisterDriver( String className ) 
+		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
-			return false;
+			// no driver class; assume class already loaded
+			return;
 		
 		Class driverClass = null;
 		if ( registeredDrivers.contains( className ) )
 			// Driver previously loaded successfully
-			return true;
+			return;
 
 		if ( logger.isLoggable( Level.INFO ))
 		{
@@ -142,7 +144,7 @@ public class JDBCDriverManager
 			if( driverClass == null)
 			{
 				logger.warning( "Failed to load JDBC driver class: " + className );
-				return false;
+				throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER, null, className );
 			}
 		}
 
@@ -160,7 +162,7 @@ public class JDBCDriverManager
 			catch ( Exception e )
 			{
 				logger.log( Level.WARNING, "Failed to create new instance of JDBC driver:" + className, e);
-				return false;
+				throw new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_DRIVER, null, className );
 			}
 
 			try
@@ -178,7 +180,6 @@ public class JDBCDriverManager
 		}
 		
 		registeredDrivers.add( className );
-		return true;
 	}
 	
 	/**
@@ -329,7 +330,7 @@ public class JDBCDriverManager
 		
 		public boolean accept( File dir,String name )
 		{
-			if( name.toLowerCase().endsWith(".jar") && 
+			if( OdaJdbcDriver.isDriverFile(name) && 
 					! knownFiles.contains (name) )
 				return true;
 			else

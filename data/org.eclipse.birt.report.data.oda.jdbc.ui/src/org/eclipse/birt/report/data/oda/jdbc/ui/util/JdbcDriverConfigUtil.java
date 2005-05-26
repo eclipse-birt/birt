@@ -12,7 +12,6 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.io.File;
 
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager.JdbcDriverInfo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
 public class JdbcDriverConfigUtil
@@ -21,49 +20,21 @@ public class JdbcDriverConfigUtil
 	private JdbcDriverConfigUtil(){};
 	
 	/**
+	 * Gets a list of possible driver files under the oda.jdbc plugin's "drivers" directory
+	 * Returned file list has been filtered by file type. Only JAR and ZIP files are expected
 	 * @return driverFiles
 	 */
 	public static File[] getDriverFiles( )
 	{
-		File[] driverFiles = null;
 		try
 		{
-			File driverDir = OdaJdbcDriver.getDriverDirectory( );
-			if ( driverDir != null )
-				driverFiles = driverDir.listFiles( );
+			return OdaJdbcDriver.getDriverFileList();
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
-		return driverFiles;
-	}
-    
-	/**
-	 * @param className
-	 * @return urlFormat
-	 */
-    public static String getURLFormat(String className)
-    {
-       	JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );
-		if ( jdbcDriverInfo != null )
-			return jdbcDriverInfo.getDriverUrlTemplate( );
-		else
-			return null;
-    }
-    
-    /**
-     * @param className
-     * @return displayName
-     */
-    public static String getDisplayName( String className )
-	{
-
-		JdbcDriverInfo jdbcDriverInfo = JDBCDriverInfoManager.getDriverInfo( className );
-		if ( jdbcDriverInfo != null )
-			return jdbcDriverInfo.getDisplayName( );
-		else
-			return null;
+		return null;
 	}
     
 }

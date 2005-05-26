@@ -222,11 +222,6 @@ public class Connection implements IConnection
 		{
 			throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e );
 		}
-		catch ( ClassNotFoundException e )
-		{
-			throw (OdaException)(new OdaException( 
-					"Cannot load JDBC driver: " + driverClass).initCause(e));
-		}
 	}
 
 	/**

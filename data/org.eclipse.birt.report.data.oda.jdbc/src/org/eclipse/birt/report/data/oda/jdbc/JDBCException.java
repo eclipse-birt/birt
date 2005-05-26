@@ -58,8 +58,8 @@ public class JDBCException extends OdaException
 	 */
 	public JDBCException( String errorCode, SQLException cause )
 	{
-		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
-				cause.getSQLState( ),
+		super( "JDBCException",			// dummy message
+				cause == null? "" : cause.getSQLState( ),
 				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
@@ -77,8 +77,8 @@ public class JDBCException extends OdaException
 	 */
 	public JDBCException( String errorCode, SQLException cause, Object argv )
 	{
-		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
-				cause.getSQLState( ),
+		super( "JDBCException",			// dummy message
+				cause == null? "" : cause.getSQLState( ),
 				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;
@@ -99,8 +99,8 @@ public class JDBCException extends OdaException
 	 */
 	public JDBCException( String errorCode, SQLException cause, Object argv[] )
 	{
-		super( "A JDBC Exception occured: " + cause.getLocalizedMessage( ),
-				cause.getSQLState( ),
+		super( "JDBCException",			// dummy message
+				cause == null? "" : cause.getSQLState( ),
 				ERROR_JDBC );
 		initCause( cause );
 		this.errorCode = errorCode;

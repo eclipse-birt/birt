@@ -165,19 +165,19 @@
          point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
       <jdbcDriver
             driverClass="sun.jdbc.odbc.JdbcOdbcDriver"
-            urlTemplate="jdbc:odbc:&lt;data-source-name&gt;[;&lt;attribute-name&gt;=&lt;attribute-value&gt;]*"
+            urlTemplate="jdbc:odbc:ODBC_DATA_SOURCE[;ATTRIBUTE=VALUE]*"
             name="Sun JDBC-ODBC Bridge Driver"/>
       <jdbcDriver
-            driverClass="net.sourceforge.jtds.jdbc.Driver"
-            urlTemplate="jdbc:jtds:[sqlserver|sybase]://&lt;server&gt;[:&lt;port&gt;][/&lt;database&gt;][;&lt;property&gt;=&lt;value&gt;[;...]]"
-            name="jTDS 1.02  for MSSQL and Sybase"/>
-      <jdbcDriver
             driverClass="org.apache.derby.jdbc.EmbeddedDriver"
-            urlTemplate="jdbc:derby:[subsubprotocol:][databasename][;attributes]"
+            urlTemplate="jdbc:derby:[subsubprotocol:]DATABASE[;ATTRIBUTE=VALUE]*"
             name="Apache Derby Embedded Driver"/>
       <jdbcDriver
-            driverClass="com.ibm.db2.jcc.DB2Driver"
-            urlTemplate="jdbc:derby:net://&lt;server&gt;[:&lt;port&gt;]/&lt;databaseName&gt;[;&lt;attr&gt;=&lt;value&gt; ]*"
-            name="Apache Derby Network (IBM DB2 Universal Driver)"/>
+            driverClass="net.sourceforge.jtds.jdbc.Driver"
+            urlTemplate="jdbc:jtds:&lt;sqlserver|sybase&gt;://SERVER[:PORT][/DATABASE][;ATTRIBUTE=VALUE]*"
+            name="jTDS Driver for SQLServer and Sybase"/>
+      <jdbcDriver
+            driverClass="com.mysql.jdbc.Driver"
+            urlTemplate="jdbc:mysql://[HOST][:PORT]/[DATABASE][?PROPERTY=VALUE[&amp;PROPERTY=VALUE]*]"
+            name="MySQL Connector /J"/>
    </extension>
 </plugin>

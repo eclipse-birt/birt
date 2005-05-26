@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * TODO: Please document
  * 
- * @version $Revision: #2 $ $Date: 2005/02/05 $
+ * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
  */
 
 public class ConnectionMetaDataManager implements Serializable
@@ -43,7 +43,7 @@ public class ConnectionMetaDataManager implements Serializable
 	}
 
 	public ConnectionMetaData getMetaData( String classname, String url,
-			String username, String password, String driverClassPath,
+			String username, String password, 
 			Properties properties )
 	{
 		//construct a new meta data instance
@@ -52,7 +52,6 @@ public class ConnectionMetaDataManager implements Serializable
 		metaData.setUrl( url );
 		metaData.setUsername( username );
 		metaData.setPassword( password );
-		metaData.setDriverClassPath( driverClassPath );
 		metaData.setProperties( properties );
 
 		//Iterate through the list and find out whether this meta data object

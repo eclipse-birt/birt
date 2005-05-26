@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004-2005 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -18,6 +18,7 @@ import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -26,17 +27,14 @@ import java.util.zip.ZipFile;
 import org.eclipse.birt.report.data.oda.jdbc.ui.dialogs.JdbcDriverManagerDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
-/**
- * TODO
- */
 public class JdbcToolKit
 {
-	// class path used for obtaining a connection using a jdbc driver
-	private static File[] jdbcDriverFiles = null;
-	
-	// Name of all the configured jdbc drivers
+	// A list of JDBCDriverInformation objects
 	private static ArrayList jdbcDriverInfos = null;
 
+	// A map from driverClass (String) to JDBCDriverInformation
+	private static HashMap driverNameMap = null;
+	
 	private static final Class DriverClass = Driver.class;
 
 	/**
@@ -46,6 +44,7 @@ public class JdbcToolKit
 	public static void resetJdbcDriverNames( )
 	{
 		jdbcDriverInfos = null;
+		driverNameMap = null;
 	}
 
 	/**
@@ -55,103 +54,49 @@ public class JdbcToolKit
 	 */
 	public static ArrayList getJdbcDriverNames( String driverName )
 	{
-		if ( jdbcDriverInfos == null )
+		if ( jdbcDriverInfos != null )
+			return jdbcDriverInfos;
+		
+		jdbcDriverInfos = new ArrayList( );
+		driverNameMap = new HashMap();
+
+		// Get drivers from drivers subdirectory
+		addDriversFromFiles( );
+
+		// Merge drivers from the driverInfo extension point
+		JDBCDriverInformation driverInfos[] = JDBCDriverInfoManager.getDrivers();
+		for (int i = 0; i < driverInfos.length; i++)
 		{
-			jdbcDriverInfos = new ArrayList( );
+			JDBCDriverInformation newInfo = driverInfos[i];
+			// If driver already found in last step, update it; otherwise add new
+			JDBCDriverInformation existing = 
+					(JDBCDriverInformation)	driverNameMap.get( newInfo.getDriverClassName());
+			if ( existing == null )
+			{
+				jdbcDriverInfos.add( newInfo );
+				driverNameMap.put( newInfo.getDriverClassName(), newInfo);
+			}
+			else
+			{
+				existing.setDisplayName( newInfo.getDisplayName());
+				existing.setUrlFormat( newInfo.getUrlFormat());
+			}
+		}
 			
-			// add JdbcOdbc first
-			JDBCDriverInformation odbcInfo = JDBCDriverInformation.newInstance( sun.jdbc.odbc.JdbcOdbcDriver.class );
-			if ( odbcInfo != null )
-			{
-				// Adding the odbc-jdbc driver
-				odbcInfo.setUrlFormat( "jdbc:odbc:<data source name>" );
-				odbcInfo.setDisplayName( "Sun JDBC-ODBC Bridge Driver" );
-				jdbcDriverInfos.add( odbcInfo );
-			}
+		// Read user setting from the preference store and update
+		Map preferenceMap = JdbcDriverManagerDialog.getPreferenceDriverInfo( );
 
-			jdbcDriverFiles = JdbcDriverConfigUtil.getDriverFiles( );
-			if ( jdbcDriverFiles != null )
-			{	
-				// Create a URL Array for the class loader to use
-				URL[] urlList = new URL[jdbcDriverFiles.length];
-				for ( int i = 0; i < jdbcDriverFiles.length; i++ )
-				{
-					try
-					{
-						urlList[i] = new URL( "file", null, jdbcDriverFiles[i].getAbsolutePath( ) ); //$NON-NLS-1$
-					}
-					catch ( MalformedURLException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-				URLClassLoader urlClassLoader = new URLClassLoader( urlList,
-						ClassLoader.getSystemClassLoader( ) );
+		for ( Iterator itr = jdbcDriverInfos.iterator( ); itr.hasNext( ); )
+		{
+			JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
 				
-				for ( int i = 0; i < jdbcDriverFiles.length; i++ )
-				{
-					if ( jdbcDriverFiles[i].getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
-					{
-						String[] resourceNames = getAllResouceNames( jdbcDriverFiles[i] );
-						for ( int j = 0; j < resourceNames.length; j++ )
-						{
-							String resourceName = resourceNames[j];
-							if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
-							{
-								resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
-										"." ) ).substring( 0, //$NON-NLS-1$
-										resourceName.length( ) - 6 );
-								
-								Class aClass = null;
-								try
-								{
-									aClass = urlClassLoader.loadClass( resourceName );
-								}
-								catch ( Throwable e )
-								{
-									// here throwable is used to catch exception and error
-								}
-
-								if ( aClass != null )
-								{
-									if ( implementsSQLDriverClass( aClass ) )
-									{
-										// Do not add it, if it is a
-										// Abstract class
-										boolean isAbstract = Modifier.isAbstract( aClass.getModifiers( ) );
-										if ( !isAbstract )
-										{
-											JDBCDriverInformation info = JDBCDriverInformation.newInstance( aClass );
-											if ( info != null )
-											{
-												info.setUrlFormat( JdbcDriverConfigUtil.getURLFormat( info.getDriverClassName( ) ) );
-												info.setDisplayName( JdbcDriverConfigUtil.getDisplayName( info.getDriverClassName( ) ) );
-												jdbcDriverInfos.add( info );
-											}
-										}
-									}
-								}
-							}
-						} // end of resourceNames
-					}
-				} // end of jdbcDriverFiles
-			}
-
-			//read user setting from the preference store and update.
-			Map preferenceMap = JdbcDriverManagerDialog.getPreferenceDriverInfo( );
-
-			for ( Iterator itr = jdbcDriverInfos.iterator( ); itr.hasNext( ); )
+			Object ob = preferenceMap.get( info.toString( ) );
+			if ( ob != null )
 			{
-				JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
-				
-				Object ob = preferenceMap.get( info.toString( ) );
-				if ( ob != null )
+				String[] vals = (String[]) ob;
+				if ( vals[1] != null && vals[1].length( ) > 0 )
 				{
-					String[] vals = (String[]) ob;
-					if ( vals[1] != null && vals[1].length( ) > 0 )
-					{
-						info.setUrlFormat( vals[1] );
-					}
+					info.setUrlFormat( vals[1] );
 				}
 			}
 		}
@@ -159,6 +104,70 @@ public class JdbcToolKit
 		return jdbcDriverInfos;
 	}
 
+	/**
+	 * Search files under "drivers" directory for JDBC drivers. Found drivers are added
+	 * to jdbdDriverInfos as JDBCDriverInformation instances
+	 */
+	private static void addDriversFromFiles( )
+	{
+		File[] jdbcDriverFiles = JdbcDriverConfigUtil.getDriverFiles( );
+		if ( jdbcDriverFiles == null || jdbcDriverFiles.length == 0 )
+			return;
+		
+		// Create a URL Array for the class loader to use
+		URL[] urlList = new URL[jdbcDriverFiles.length];
+		for ( int i = 0; i < jdbcDriverFiles.length; i++ )
+		{
+			try
+			{
+				urlList[i] = new URL( "file", null, jdbcDriverFiles[i].getAbsolutePath( ) ); //$NON-NLS-1$
+			}
+			catch ( MalformedURLException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		URLClassLoader urlClassLoader = new URLClassLoader( urlList,
+					ClassLoader.getSystemClassLoader( ) );
+			
+		for ( int i = 0; i < jdbcDriverFiles.length; i++ )
+		{
+			String[] resourceNames = getAllResouceNames( jdbcDriverFiles[i] );
+			for ( int j = 0; j < resourceNames.length; j++ )
+			{
+				String resourceName = resourceNames[j];
+				if ( resourceName.endsWith( ".class" ) ) //$NON-NLS-1$
+				{
+					resourceName = ( resourceName.replaceAll( "/", //$NON-NLS-1$
+								"." ) ).substring( 0, //$NON-NLS-1$
+								resourceName.length( ) - 6 );
+							
+					Class aClass = null;
+					try
+					{
+						aClass = urlClassLoader.loadClass( resourceName );
+					}
+					catch ( Throwable e )
+					{
+						// here throwable is used to catch exception and error
+					}
+					
+					// Do not add it, if it is a Abstract class
+					if ( aClass != null && implementsSQLDriverClass( aClass ) &&
+							! Modifier.isAbstract( aClass.getModifiers( )) )
+					{
+						JDBCDriverInformation info = JDBCDriverInformation.newInstance( aClass );
+						if ( info != null )
+						{
+							jdbcDriverInfos.add( info );
+							driverNameMap.put( info.getDriverClassName(), info);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Get all resouces included in a jar file
 	 * @param jarFile
@@ -205,27 +214,4 @@ public class JdbcToolKit
 		return false;
 	}
 
-	/**
-	 * Get driver class path of specified driverName
-	 * @param driverName
-	 * @return
-	 */
-	public static String getJdbcDriverClassPath( String driverName )
-	{
-		String driverLocation = ""; //$NON-NLS-1$
-		if ( jdbcDriverFiles == null )
-		{
-			getJdbcDriverNames( driverName );
-		}
-
-		// Generate a class path from the entries
-		if ( jdbcDriverFiles != null )
-		{
-			for ( int i = 0; i < jdbcDriverFiles.length; i++ )
-				driverLocation += jdbcDriverFiles[i].toString( ) + ";"; //$NON-NLS-1$
-		}
-
-		return driverLocation;
-	}
-	
 }
