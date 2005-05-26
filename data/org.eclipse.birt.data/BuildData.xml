@@ -191,8 +191,8 @@
 				author="true" 
 				version="true" 
 				use="true" 
-				windowtitle="BIRT Data Engine API Specification" 
-				doctitle="BIRT Data Engine API"  
+				windowtitle="BIRT Data Engine API 1.0 Specification - Provisional" 
+				doctitle="BIRT Data Engine API 1.0 (Provisional)"  
 				source="1.4"
 				packagenames="${module.name}.*">
 			  	<packageset dir="${src}" defaultexcludes="yes">
