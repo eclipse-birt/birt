@@ -218,7 +218,7 @@ public class ChoiceSetFactory
 		displayNames = new String[choices.length];
 		for ( int i = 0; i < choices.length; i++ )
 		{
-			displayNames[i] = choices[i].getName( );
+			displayNames[i] = choices[i].getDisplayName( );
 		}
 		return displayNames;
 	}
