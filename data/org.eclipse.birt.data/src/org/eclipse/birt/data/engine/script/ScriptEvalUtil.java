@@ -190,6 +190,17 @@ public class ScriptEvalUtil
 		{
 			if ( isSameType( obj1, obj2 ) )
 			{
+				if ( obj1 instanceof Boolean )
+				{
+					if ( obj1.equals( obj2 ) )
+						return 0;
+					
+					Boolean bool = (Boolean) obj1;
+					if ( bool.equals( Boolean.TRUE ) )
+						return 1;
+					else
+						return -1;
+				}
 				return ( (Comparable) obj1 ).compareTo( obj2 );
 			}
 			else if ( isNumericOrString( obj1 ) && isNumericOrString( obj2 ) )
