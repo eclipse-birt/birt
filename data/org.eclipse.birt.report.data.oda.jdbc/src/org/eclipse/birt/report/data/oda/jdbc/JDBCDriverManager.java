@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
+import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.oda.OdaException;
@@ -206,10 +208,25 @@ public class JDBCDriverManager
 		// First time: load all driverinfo extensions
 		driverExtensions = new HashMap();
 		IExtensionRegistry extReg = Platform.getExtensionRegistry();
+
+		/* 
+		 * getConfigurationElementsFor is not working for server Platform. 
+		 * I have to work around this by walking the extension list
 		IConfigurationElement[] configElems = 
 			extReg.getConfigurationElementsFor( OdaJdbcDriver.Constants.DRIVER_INFO_EXTENSION );
-		if ( configElems != null )
+		*/
+		IExtensionPoint extPoint = 
+			extReg.getExtensionPoint( OdaJdbcDriver.Constants.DRIVER_INFO_EXTENSION );
+		IExtension[] exts = extPoint.getExtensions();
+		if ( exts == null )
+			return;
+		
+		for ( int e = 0; e < exts.length; e++)
 		{
+			IConfigurationElement[] configElems = exts[e].getConfigurationElements(); 
+			if ( configElems == null )
+				continue;
+			
 			for ( int i = 0; i < configElems.length; i++ )
 			{
 				if ( configElems[i].getName().equals( 
