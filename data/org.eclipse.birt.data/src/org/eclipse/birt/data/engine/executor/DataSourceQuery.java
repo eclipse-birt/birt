@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -390,7 +391,14 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 															 paramDef.isInputMode(),
 															 paramDef.isOutputMode() );
 			parameterHint.setPosition( paramDef.getPosition( ) );
-			parameterHint.setDataType( DataType.getClass( paramDef.getType() ));
+			// following data types is not supported by odaconsumer currently
+			Class dataTypeClass = DataType.getClass( paramDef.getType( ) );
+			if ( dataTypeClass == DataType.AnyType.class
+					|| dataTypeClass == Boolean.class || dataTypeClass == Blob.class )
+			{
+				dataTypeClass = null;
+			}
+			parameterHint.setDataType( dataTypeClass );
 			parameterHint.setIsInputOptional( paramDef.isInputOptional( ) );
 			parameterHint.setDefaultInputValue( paramDef.getDefaultInputValue() );
 			parameterHint.setIsNullable( paramDef.isNullable() );
