@@ -201,7 +201,14 @@ public class ScriptEvalUtil
 					else
 						return -1;
 				}
-				return ( (Comparable) obj1 ).compareTo( obj2 );
+				else if ( obj1 instanceof Comparable )
+				{
+					return ( (Comparable) obj1 ).compareTo( obj2 );
+				}
+				else
+				{
+					return obj1.toString( ).compareTo( obj2.toString( ) );
+				}
 			}
 			else if ( isNumericOrString( obj1 ) && isNumericOrString( obj2 ) )
 			{
