@@ -32,6 +32,11 @@ class DataSource implements IDataSource
     protected Connection	odaConnection;
     protected Properties	connectionProps = new Properties();
 
+    // not all data source can be cached, it depends on whether
+    // odaConnection supports multiple use, this value indicates
+    // cache count of an instance
+    private int usedCount = 1;
+    
     DataSource( String driverName )
     {
         this.driverName = driverName;
@@ -115,6 +120,32 @@ class DataSource implements IDataSource
 		odaConnection = connManager.openConnection( driverName, connectionProps );
     }
 
+    /*
+     * @see org.eclipse.birt.data.engine.odi.IDataSource#canBeCached(boolean)
+     */
+	public boolean canBeReused( boolean toUse ) throws DataException
+	{
+		if ( odaConnection != null )
+		{
+			if ( odaConnection.getMaxQueries( ) <= 0 )
+			{
+				return true;
+			}
+			else
+			{
+				// odaConnection.getMaxQueries( ) means this instance can be
+				// used count.
+				if ( usedCount <  odaConnection.getMaxQueries( ) )
+				{
+					if ( toUse )
+						usedCount++;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+    
     /**
      * Gets the Oda connection associated with this data source 
      */

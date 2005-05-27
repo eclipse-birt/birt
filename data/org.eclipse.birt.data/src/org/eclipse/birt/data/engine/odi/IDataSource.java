@@ -97,7 +97,16 @@ public interface IDataSource
      * @throws DataException	if opening data source has error(s).
 	 */
     public void open() throws DataException;
-	
+    
+    /**
+     * Determin whether this instance can be reuse presently
+     * @param toCache boolean value indicates whether this instance will
+     * be immediately reuse when it is available 
+     * @return if data source can be reuse
+     * @throws DataException
+     */
+    public boolean canBeReused( boolean toUse ) throws DataException;
+    
 	/**
      * Closes the data source and any associated resources.  
      * The data source and its query instances can no longer be used.
