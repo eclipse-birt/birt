@@ -200,7 +200,7 @@
 
 	<target name="Javadoc" depends="javadoc_init">
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc access="public" author="true" overview="overview.html" windowtitle="BIRT Chart Engine Project" destdir="${javadoc.dir}" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		<javadoc access="public" author="true" overview="overview.html" windowtitle="BIRT Chart Engine Project" destdir="${javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
