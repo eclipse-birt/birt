@@ -254,55 +254,52 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns a handle to work with with a Dimension property. Returns null if
-	 * the dimension property is not set. It is set if it is defined on this
-	 * element or any of its parents, or in the element's private style. It is
-	 * considered unset if it is set on a shared style. Return <code>null</code>
-	 * if the element does not define this property.
+	 * Returns a handle to work with a Dimension property. Returns null if the
+	 * given property is not defined or not dimension property.
 	 * 
 	 * @param propName
 	 *            name of the property.
 	 * @return a corresponding DimensionHandle to deal with the dimension
-	 *         property. Return <code>null</code> if the property is unset or
-	 *         if the element does not define the property.
+	 *         property. Return <code>null</code> if the property is defined
+	 *         or not dimension property.
 	 * 
 	 * @see DimensionHandle
 	 */
 
-	protected DimensionHandle getDimensionProperty( String propName )
+	public DimensionHandle getDimensionProperty( String propName )
 	{
 		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn( propName );
 		if ( propDefn == null )
 			return null;
 
-		assert propDefn.getType( ) instanceof DimensionPropertyType;
+		if ( propDefn.getTypeCode( ) != PropertyType.DIMENSION_TYPE )
+			return null;
 
 		return new DimensionHandle( this, propDefn );
 	}
 
 	/**
-	 * Returns a handle to work with a color property. Returns null if the
-	 * property is not set. It is set if it is defined on this element or any of
-	 * its parents, or in the element's private style. It is considered unset if
-	 * it is set on a shared style. Return <code>null</code> if the element
-	 * does not define this property.
+	 * Returns a handle to work with a color property. Returns null if the given
+	 * property is not defined or not color property.
 	 * 
 	 * @param propName
 	 *            name of the property.
 	 * @return a corresponding ColorHandle to with with the color property.
-	 *         Return <code>null</code> if the property is unset or if the
-	 *         element does not define this property.
+	 *         Return <code>null</code> if the given property is not defined
+	 *         or not color property.
 	 * 
 	 * @see ColorHandle
 	 */
 
-	protected ColorHandle getColorProperty( String propName )
+	public ColorHandle getColorProperty( String propName )
 	{
 		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn( propName );
 		if ( propDefn == null )
 			return null;
 
-		assert propDefn.getType( ) instanceof ColorPropertyType;
+		if ( propDefn.getTypeCode( ) != PropertyType.COLOR_TYPE )
+			return null;
+
 		return new ColorHandle( this, propDefn );
 	}
 
@@ -320,6 +317,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		ElementPropertyDefn propDefn = getElement( ).getPropertyDefn(
 				Style.FONT_FAMILY_PROP );
+
 		if ( propDefn == null )
 			return null;
 
@@ -1015,7 +1013,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( container == null )
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
-		
+
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
 		ContentCommand cmd = new ContentCommand( design, container );
@@ -1027,7 +1025,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * container and name space, if any.
 	 * <p>
 	 * Note: If this element is referenceable, the property referring it will be
-	 * unresolved. 
+	 * unresolved.
 	 * 
 	 * @throws SemanticException
 	 *             if this element has no container or the element cannot be
@@ -1043,7 +1041,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( container == null )
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
-		
+
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
 		ContentCommand cmd = new ContentCommand( design, container );

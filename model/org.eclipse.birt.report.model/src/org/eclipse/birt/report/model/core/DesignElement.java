@@ -2372,20 +2372,22 @@ public abstract class DesignElement
 	 * @param design
 	 *            the report design
 	 * @return the property value as an integer. Returns 0 if the property is
-	 *         not set, or cannot convert to an integer.
+	 *         not defined, or cannot convert to an integer.
 	 */
 
 	public int getIntProperty( ReportDesign design, String propName )
 	{
-		Object value = getProperty( design, propName );
-		if ( value == null )
+		ElementPropertyDefn prop = getPropertyDefn( propName );
+		if ( prop == null )
 			return 0;
+		
+		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
+				prop.getTypeCode( ) );
+
+		Object value = getProperty( design, propName );
 		if ( value instanceof Integer )
 			return ( (Integer) value ).intValue( );
 
-		ElementPropertyDefn prop = getPropertyDefn( propName );
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
 		return type.toInteger( design, value );
 	}
 
@@ -2397,20 +2399,22 @@ public abstract class DesignElement
 	 * @param design
 	 *            the report design
 	 * @return the property value as a double. Returns 0 if the property is not
-	 *         set, or cannot convert to a double.
+	 *         defined, or cannot convert to a double.
 	 */
 
 	public double getFloatProperty( ReportDesign design, String propName )
 	{
-		Object value = getProperty( design, propName );
-		if ( value == null )
+		ElementPropertyDefn prop = getPropertyDefn( propName );
+		if ( prop == null )
 			return 0;
+
+		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
+				prop.getTypeCode( ) );
+
+		Object value = getProperty( design, propName );
 		if ( value instanceof Double )
 			return ( (Double) value ).doubleValue( );
 
-		ElementPropertyDefn prop = getPropertyDefn( propName );
-		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
-				prop.getTypeCode( ) );
 		return type.toDouble( design, value );
 	}
 
@@ -2422,15 +2426,18 @@ public abstract class DesignElement
 	 * @param design
 	 *            the report design
 	 * @return the property value as a boolean. Returns false if the property is
-	 *         not set, or cannot convert to a boolean.
+	 *         not set, or not defined, or cannot convert to a boolean.
 	 */
 
 	public boolean getBooleanProperty( ReportDesign design, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
+		if ( prop == null )
+			return false;
+
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
-		assert type instanceof BooleanPropertyType;
+		
 		Object value = getProperty( design, propName );
 		return ( (BooleanPropertyType) type ).toBoolean( design, value );
 	}
