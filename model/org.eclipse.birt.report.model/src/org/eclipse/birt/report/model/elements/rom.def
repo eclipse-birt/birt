@@ -495,7 +495,7 @@
     <Method displayNameID="Class.Date.getDay" name="getDay" returnType="number" toolTipID="Class.Date.getDay.toolTip"/>
     <Method displayNameID="Class.Date.getFullYear" name="getFullYear" returnType="number" toolTipID="Class.Date.getFullYear.toolTip"/>
     <Method displayNameID="Class.Date.getHours" name="getHours" returnType="number" toolTipID="Class.Date.getHours.toolTip"/>
-    <Method displayNameID="Class.Date.getmilliSeconds" name="getmilliSeconds" returnType="number" toolTipID="Class.Date.getmilliSeconds.toolTip"/>
+    <Method displayNameID="Class.Date.getMilliseconds" name="getMilliseconds" returnType="number" toolTipID="Class.Date.getMilliseconds.toolTip"/>
     <Method displayNameID="Class.Date.getMinutes" name="getMinutes" returnType="number" toolTipID="Class.Date.getMinutes.toolTip"/>
     <Method displayNameID="Class.Date.getMonth" name="getMonth" returnType="number" toolTipID="Class.Date.getMonth.toolTip"/>
     <Method displayNameID="Class.Date.getSeconds" name="getSeconds" returnType="number" toolTipID="Class.Date.getSeconds.toolTip"/>
