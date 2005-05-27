@@ -555,11 +555,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			{
 				convertedResult = DataTypeUtil.toDate( inputValue );
 			}
-			else if ( dataType == DataType.ANY_TYPE )
-			{
-				convertedResult = inputValue;
-			}
-			else if ( dataType == DataType.UNKNOWN_TYPE )
+			else if ( dataType == DataType.ANY_TYPE
+					|| dataType == DataType.UNKNOWN_TYPE )
 			{
 				convertedResult = DataTypeUtil.toAutoValue( inputValue );
 			}
