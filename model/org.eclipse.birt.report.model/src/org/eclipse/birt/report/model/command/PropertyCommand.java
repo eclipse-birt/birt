@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- *  
+ * 
  */
 
 public class PropertyCommand extends AbstractElementCommand
@@ -170,17 +170,17 @@ public class PropertyCommand extends AbstractElementCommand
 					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
-				//				if ( extElement == null )
-				//				{
-				//					extendedItem.initializeReportItem( design );
-				//					extElement = ( (ExtendedItem) element )
-				//							.getExtendedElement( );
-				//				}
+				// if ( extElement == null )
+				// {
+				// extendedItem.initializeReportItem( design );
+				// extElement = ( (ExtendedItem) element )
+				// .getExtendedElement( );
+				// }
 				assert extElement != null;
 
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
-		
+
 				return;
 			}
 		}
@@ -881,8 +881,9 @@ public class PropertyCommand extends AbstractElementCommand
 				.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-			memberDefn.validateValue( design, item.getProperty( design,
-					memberDefn ) );
+
+			item.setProperty( memberDefn, memberDefn.validateValue( design,
+					item.getLocalProperty( design, memberDefn ) ) );
 		}
 
 		if ( item instanceof Structure )

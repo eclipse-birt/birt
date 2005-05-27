@@ -78,7 +78,12 @@ public class ExpressionPropertyType extends TextualPropertyType
         if ( value == null )
             return null;
         if ( value instanceof String )
-        	return value;
+		{
+			if ( StringUtil.isEmpty( (String) value ))
+				return null;
+			
+			return value;
+		}
             
         throw new PropertyValueException( value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, EXPRESSION_TYPE );
     }
