@@ -58,7 +58,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage( getImageHandle( ).getURI( ) );
+					.getImage(removeQuoteString( getImageHandle( ).getURI( )) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
 		{
@@ -67,6 +67,20 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		return null;
 	}
 
+	/**
+	 * @param value
+	 * @return
+	 */
+	private String removeQuoteString( String value )
+	{
+		if ( value != null && value.length( ) > 1 && value.charAt( 0 ) == '\"'
+				&& value.charAt( value.length( ) - 1 ) == '\"' )
+		{
+			return value.substring( 1, value.length( ) - 1 );
+		}
+		return value;
+	}
+	
 	private ImageHandle getImageHandle( )
 	{
 		return (ImageHandle) getHandle( );
