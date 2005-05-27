@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.41 $ $Date: 2005/05/23 11:57:54 $
+ * @version $Revision: 1.42 $ $Date: 2005/05/25 07:24:15 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1511,64 +1511,39 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	protected Object getDistinctColorProperty( DesignElementHandle handle, DesignElementHandle parentHandle, String name, int flag )
 	{
-		Object value = handle.getProperty( name );
-		int intValue = getColorValue( value ); 
-		String strValue;
-		
-		if( intValue == -1 )
+		String strValue = getStrColorValue( handle.getIntProperty( name ) );
+		if( strValue == null )
 		{
 			return null;
 		}
 		
-		if( value instanceof Integer )
-		{
-			value = StringUtil.toRgbText( intValue );
-		}
-
 		boolean canInherit = StyleDesign.canInherit( name );
 		if( canInherit && ( flag & STYLE_FLAG_INHERITABLE ) > 0 )
 		{
-			int parentValue;
+			Object parentValue = null;
 			if( this.handle == parentHandle )
 			{
-				parentValue = getColorValue( inheritableReportStyle.get( name ) );
+				parentValue = inheritableReportStyle.get( name );
 			}
 			else
 			{
-				parentValue = getColorValue( parentHandle.getProperty( name ) );
+				parentValue = getStrColorValue( parentHandle.getIntProperty( name ) );
 			}
 			
-			if( intValue != parentValue )
+			if( !strValue.equals( parentValue ) )
 			{
-				return value;
+				return strValue;
 			}
 		}
 		else if( !canInherit && ( flag & STYLE_FLAG_PRIVATE ) > 0 )
 		{
-			int defaultValue = getColorValue( nonInheritableReportStyle.get( name ) );
-			if( intValue != defaultValue )
+			Object defaultValue = nonInheritableReportStyle.get( name );
+			if( !strValue.equals( defaultValue ) )
 			{
-				return value;
+				return strValue;
 			}
 		}
 		return null;
-	}
-	
-	protected int getColorValue( Object value )
-	{
-		if( value == null )
-		{
-			return -1;
-		}
-		
-		if( value instanceof Integer )
-		{
-			return ( ( Integer ) value ).intValue( );
-		}
-		else
-		{
-			return ColorUtil.parseColor( value.toString( ) );
-		}
 	}
 	
 	protected StyleDesign createDistinctStyle( DesignElementHandle handle,
@@ -1866,17 +1841,35 @@ class EngineIRVisitor extends DesignVisitor
 		}
 	}
 	
+	protected String getStrColorValue( int value )
+	{
+		if( value == -1 )
+		{
+			return null;
+		}
+		return StringUtil.toRgbText( value );
+	}
+
 	protected String getStrColorValue( Object value )
 	{
-		int intValue = getColorValue( value );
-		if( intValue == -1 )
+		int intValue = -1;
+		if( value == null )
 		{
 			return null;
 		}
 		
-		if( value instanceof String )
+		if( value instanceof Integer )
 		{
-			return ( String ) value;
+			intValue = ( ( Integer ) value ).intValue( );
+		}
+		else
+		{
+			intValue = ColorUtil.parseColor( value.toString( ) );
+		}
+
+		if( intValue == -1 )
+		{
+			return null;
 		}
 		
 		return StringUtil.toRgbText( intValue );
@@ -1884,23 +1877,24 @@ class EngineIRVisitor extends DesignVisitor
 	
 	protected void addReportColorStyleProperty( StyleHandle handle, String name )
 	{
-		Object value = null;
+		String value = null;
+		
 		if( StyleDesign.canInherit( name ) )
 		{
 			if( handle != null )
 			{
-				value = handle.getProperty( name );
+				value = getStrColorValue( handle.getIntProperty( name ) );
 			}
-			if( getColorValue( value ) == -1 )
+			if( value == null )
 			{
-				value = StyleDesign.getDefaultValue( name );
+				value = getStrColorValue( StyleDesign.getDefaultValue( name ) );
 			}
-			setStyleProperty( inheritableReportStyle, name, getStrColorValue( value ) );
+			setStyleProperty( inheritableReportStyle, name, value );
 		}
 		else
 		{
-			value = StyleDesign.getDefaultValue( name );
-			setStyleProperty( nonInheritableReportStyle, name, getStrColorValue( value ) );
+			value = getStrColorValue( StyleDesign.getDefaultValue( name ) );
+			setStyleProperty( nonInheritableReportStyle, name, value );
 		}
 	}
 	
