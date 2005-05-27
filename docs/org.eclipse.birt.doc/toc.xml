@@ -129,7 +129,6 @@
       </topic>
   <topic label="Sorting and grouping data" href="birt/birt-07-1.html" >
     <topic label="Sorting data" href="birt/birt-07-2.html" >
-      <topic label="You sort data in one of two ways:" href="birt/birt-07-2.html#wp94017" />
       <topic label="How to sort data through the query" href="birt/birt-07-2.html#wp98526" />
       <topic label="How to sort data in BIRT Report Designer" href="birt/birt-07-2.html#wp98387" />
       </topic>
@@ -702,8 +701,8 @@
       <topic label="About the BIRT Report Item Extension API" href="birt/birt-20-2.html#wp93998" />
       <topic label="About the BIRT Open Data Access (ODA) Extension API" href="birt/birt-20-2.html#wp118606" />
       <topic label="About the BIRT Report Rendering Extension API" href="birt/birt-20-2.html#wp118631" />
-      <topic label="About the BIRT Chart Type Extension API" href="birt/birt-20-2.html#wp118759" />
-      <topic label="About the BIRT Chart Device Rendering Extension API" href="birt/birt-20-2.html#wp123951" />
+      <topic label="About the BIRT Chart Extension API" href="birt/birt-20-2.html#wp118759" />
+      <topic label="About the BIRT Chart Device Rendering Extension API" href="birt/birt-20-2.html#wp124713" />
       <topic label="Understanding a report item extension" href="birt/birt-20-2.html#wp104478" />
       <topic label="Understanding an Open Data Access (ODA) extension" href="birt/birt-20-2.html#wp103560" />
       <topic label="Understanding a rendering extension" href="birt/birt-20-2.html#wp105910" />
@@ -754,4 +753,5 @@
  <topic label="Open Data Access (ODA) API Reference" href="oda/api/index.html"/>
  <topic label="Chart Engine API Reference" href="chart/api/index.html"/>
  <topic label="Chart User Interface API Reference" href="chartui/api/index.html"/>
+ 
 </toc>
