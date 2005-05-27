@@ -718,11 +718,11 @@
     <Constructor displayNameID="Class.Number.Number" name="Number" returnType="Number" toolTipID="Class.Number.Number.toolTip">
       <Argument name="value" tagID="Class.Number.Number.value" type="Object"/>
     </Constructor>
-    <Member dataType="number" displayNameID="Class.Number.MAX_VALUE" name="MAX_VALUE" toolTipID="Class.Number.MAX_VALUE.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Number.MIN_VALUE" name="MIN_VALUE" toolTipID="Class.Number.MIN_VALUE.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Number.NaN" name="NaN" isStatic="true" toolTipID="Class.Number.NaN.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Number.NEGATIVE_INFINITY" name="NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Number.POSITIVE_INFINITY" name="POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Number.MAX_VALUE" isStatic="true" name="MAX_VALUE" toolTipID="Class.Number.MAX_VALUE.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Number.MIN_VALUE" isStatic="true" name="MIN_VALUE" toolTipID="Class.Number.MIN_VALUE.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Number.NaN" isStatic="true" name="NaN" toolTipID="Class.Number.NaN.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Number.NEGATIVE_INFINITY" isStatic="true" name="NEGATIVE_INFINITY" toolTipID="Class.Number.NEGATIVE_INFINITY.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Number.POSITIVE_INFINITY" isStatic="true" name="POSITIVE_INFINITY" toolTipID="Class.Number.POSITIVE_INFINITY.toolTip"/>
     <Method displayNameID="Class.Number.toExponential" name="toExponential" returnType="String" toolTipID="Class.Number.toExponential.toolTip" >
       <Argument name="digits" tagID="Class.Number.toExpoential.digits" type="number"/>
     </Method>
@@ -756,14 +756,14 @@
     <Method displayNameID="Class.RegExp.toString" name="toString" returnType="String" toolTipID="Class.RegExp.toString.toolTip"/>
   </Class>
   <Class displayNameID="Class.Math" name="Math" native="true" toolTipID="Class.Math.toolTip" >
-    <Member dataType="number" displayNameID="Class.Math.E" name="E" toolTipID="Class.Math.E.toolTip"/>
-    <Member dataType="number" displayNameID="Class.Math.LN10" name="LN10" toolTipID="Class.Math.LN10.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.LN2" name="LN2" toolTipID="Class.Math.LN2.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.LOG10E" name="LOG10E" toolTipID="Class.Math.LOG10E.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.LOG2E" name="LOG2E" toolTipID="Class.Math.LOG2E.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.PI" name="PI" toolTipID="Class.Math.PI.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.SQRT1_2" name="SQRT1_2" toolTipID="Class.Math.SQRT1_2.toolTip" isStatic="true"/>
-    <Member dataType="number" displayNameID="Class.Math.SQRT2" name="SQRT2" toolTipID="Class.Math.SQRT2.toolTip" isStatic="true"/>
+    <Member dataType="number" displayNameID="Class.Math.E" isStatic="true" name="E" toolTipID="Class.Math.E.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.LN10" isStatic="true" name="LN10" toolTipID="Class.Math.LN10.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.LN2" isStatic="true" name="LN2" toolTipID="Class.Math.LN2.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.LOG10E" isStatic="true" name="LOG10E" toolTipID="Class.Math.LOG10E.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.LOG2E" isStatic="true" name="LOG2E" toolTipID="Class.Math.LOG2E.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.PI" isStatic="true" name="PI" toolTipID="Class.Math.PI.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.SQRT1_2" isStatic="true" name="SQRT1_2" toolTipID="Class.Math.SQRT1_2.toolTip"/>
+    <Member dataType="number" displayNameID="Class.Math.SQRT2" isStatic="true" name="SQRT2" toolTipID="Class.Math.SQRT2.toolTip"/>
     <Method displayNameID="Class.Math.abs" isStatic="true" name="abs" returnType="number" toolTipID="Class.Math.abs.toolTip">
       <Argument name="x" tagID="Class.Math.abs.x" type="number"/>
     </Method>
@@ -842,7 +842,7 @@
   <Class displayNameID="Class.Global" name="Global" native="true" toolTipID="Class.Global.toolTip">
     <Member dataType="Object" displayNameID="Class.Global.NaN" name="NaN" toolTipID="Class.Global.NaN.toolTip"/>
     <Member dataType="Number" displayNameID="Class.Global.Infinity" name="Infinity" toolTipID="Class.Global.Infinity.toolTip"/>
-    <Member dataType="Object" displayNameID="Class.Global.undefined" isStatic="true" name="undefined" toolTipID="Class.Global.undefined.toolTip" />
+    <Member dataType="Object" displayNameID="Class.Global.undefined" name="undefined" toolTipID="Class.Global.undefined.toolTip" />
     <Method displayNameID="Class.Global.decodeURI" name="decodeURI" returnType="String" toolTipID="Class.Global.decodeURI.toolTip">
       <Argument name="uri" tagID="Class.Global.decodeURI.uri" type="String"/>
     </Method>
@@ -883,13 +883,13 @@
   </Class>
   <Class displayNameID="Class.GlobalBirt" name="GlobalBirt" toolTipID="Class.GlobalBirt.toolTip" >
     <!--
-    <Member dataType="Datasets[]" displayNameID="Class.GlobalBirt.datasets" isStatic="true" name="datasets" toolTipID="Class.GlobalBirt.datasets.toolTip" />
-    <Member dataType="DataRow" displayNameID="Class.GlobalBirt.row" isStatic="true" name="row" toolTipID="Class.GlobalBirt.row.toolTip" />
-    <Member dataType="DataRow[]" displayNameID="Class.GlobalBirt.rows" isStatic="true" name="rows" toolTipID="Class.GlobalBirt.rows.toolTip" />
+    <Member dataType="Datasets[]" displayNameID="Class.GlobalBirt.datasets" name="datasets" toolTipID="Class.GlobalBirt.datasets.toolTip" />
+    <Member dataType="DataRow" displayNameID="Class.GlobalBirt.row" name="row" toolTipID="Class.GlobalBirt.row.toolTip" />
+    <Member dataType="DataRow[]" displayNameID="Class.GlobalBirt.rows" name="rows" toolTipID="Class.GlobalBirt.rows.toolTip" />
     -->
-    <Member dataType="Object[]" displayNameID="Class.GlobalBirt.params" isStatic="true" name="params" toolTipID="Class.GlobalBirt.params.toolTip" />    
-    <Member dataType="Object[]" displayNameID="Class.GlobalBirt.config" isStatic="true" name="config" toolTipID="Class.GlobalBirt.config.toolTip" />
-    <Member dataType="Report" displayNameID="Class.GlobalBirt.report" isStatic="true" name="report" toolTipID="Class.GlobalBirt.report.toolTip" />
+    <Member dataType="Object[]" displayNameID="Class.GlobalBirt.params" name="params" toolTipID="Class.GlobalBirt.params.toolTip" />    
+    <Member dataType="Object[]" displayNameID="Class.GlobalBirt.config" name="config" toolTipID="Class.GlobalBirt.config.toolTip" />
+    <Member dataType="Report" displayNameID="Class.GlobalBirt.report" name="report" toolTipID="Class.GlobalBirt.report.toolTip" />
   </Class>  	  
   <!--
   <Class displayNameID="Class.ResultSetDefn" name="ResultSetDefn" toolTipID="Class.ResultSetDefn.toolTip">	
