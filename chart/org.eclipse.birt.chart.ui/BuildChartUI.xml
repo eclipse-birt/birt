@@ -216,6 +216,7 @@
 				 author="true" 
 				 version="true" 
 				 use="true" 
+				 doctitle="BIRT Chart UI Extension API (Provisional)" 
 				 windowtitle="BIRT Chart UI Project" 
 				 source="1.4"
 				 packagenames="${module.name}.*">
@@ -252,7 +253,8 @@
 				 author="true" 
 				 version="true" 
 				 use="true" 
-				 windowtitle="BIRT Chart UI Extension Interfaces" 
+				 windowtitle="BIRT Chart UI Extension Interfaces"
+				 doctitle="BIRT Chart UI Extension API (Provisional)" 
 				 source="1.4"
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
 				 sourcepath="${src}" defaultexcludes="yes" >
