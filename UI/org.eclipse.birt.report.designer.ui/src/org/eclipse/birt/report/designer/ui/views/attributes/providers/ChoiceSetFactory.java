@@ -223,6 +223,31 @@ public class ChoiceSetFactory
 		return displayNames;
 	}
 
+	
+	/**
+	 * Gets all names that a given ChoiceSet instance contained.
+	 * 
+	 * @param choiceSet
+	 *            The ChoiceSet instance.
+	 * @return A String array contains names.
+	 */
+	public static String[] getNamefromChoiceSet( IChoiceSet choiceSet )
+	{
+		String[] names = new String[0];
+		if ( choiceSet == null )
+			return names;
+		IChoice[] choices = choiceSet.getChoices( );
+		if ( choices == null )
+			return names;
+
+		names = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			names[i] = choices[i].getName( );
+		}
+		return names;
+	}
+	
 	/**
 	 * Gets property 's display names given element name and the property name.
 	 * 
