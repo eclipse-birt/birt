@@ -495,12 +495,12 @@
     <Method displayNameID="Class.Date.getDay" name="getDay" returnType="number" toolTipID="Class.Date.getDay.toolTip"/>
     <Method displayNameID="Class.Date.getFullYear" name="getFullYear" returnType="number" toolTipID="Class.Date.getFullYear.toolTip"/>
     <Method displayNameID="Class.Date.getHours" name="getHours" returnType="number" toolTipID="Class.Date.getHours.toolTip"/>
-    <Method displayNameID="Class.Date.getMilliSeconds" name="getMilliSeconds" returnType="number" toolTipID="Class.Date.getMilliSeconds.toolTip"/>
+    <Method displayNameID="Class.Date.getmilliSeconds" name="getmilliSeconds" returnType="number" toolTipID="Class.Date.getmilliSeconds.toolTip"/>
     <Method displayNameID="Class.Date.getMinutes" name="getMinutes" returnType="number" toolTipID="Class.Date.getMinutes.toolTip"/>
     <Method displayNameID="Class.Date.getMonth" name="getMonth" returnType="number" toolTipID="Class.Date.getMonth.toolTip"/>
     <Method displayNameID="Class.Date.getSeconds" name="getSeconds" returnType="number" toolTipID="Class.Date.getSeconds.toolTip"/>
     <Method displayNameID="Class.Date.getTime" name="getTime" returnType="number" toolTipID="Class.Date.getTime.toolTip"/>
-    <Method displayNameID="Class.Date.getTimeZoneOffset" name="getTimeZoneOffset" returnType="number" toolTipID="Class.Date.getTimeZoneOffset.toolTip"/>
+    <Method displayNameID="Class.Date.getTimezoneOffset" name="getTimezoneOffset" returnType="number" toolTipID="Class.Date.getTimezoneOffset.toolTip"/>
     <Method displayNameID="Class.Date.getUTCDate" name="getUTCDate" returnType="number" toolTipID="Class.Date.getUTCDate.toolTip"/>
     <Method displayNameID="Class.Date.getUTCDay" name="getUTCDay" returnType="number" toolTipID="Class.Date.getUTCDay.toolTip"/>
     <Method displayNameID="Class.Date.getUTCFullYear" name="getUTCFullYear" returnType="number" toolTipID="Class.Date.getUTCFullYear.toolTip"/>
@@ -2287,7 +2287,7 @@
       <Type name="TextData"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
-    <Slot displayNameID="Element.List.slot.group" multipleCardinality="true" name="group" since="1.0" xmlName="">
+    <Slot displayNameID="Element.List.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
       <Type name="ListGroup"/>
       <Trigger validator="GroupNameValidator"/>
     </Slot>
@@ -2357,7 +2357,7 @@
       <Trigger validator="InconsistentColumnsValidator"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.group" multipleCardinality="true" name="group" xmlName="">
+    <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" xmlName="">
       <Type name="TableGroup"/>
       <Trigger validator="GroupNameValidator"/>
       <Trigger validator="TableDroppingValidator"/>
@@ -2458,7 +2458,7 @@
     <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
     <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
     <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                           
-    <Slot displayNameID="Element.Row.slot.cell" multipleCardinality="true" name="cell" xmlName="">
+    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" xmlName="">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
