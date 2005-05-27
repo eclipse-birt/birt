@@ -31,6 +31,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 public abstract class StyleElement extends ReferenceableElement
 {
 
+	private final static String ReportSelector = "report";
+
 	/**
 	 * Default constructor.
 	 */
@@ -174,16 +176,26 @@ public abstract class StyleElement extends ReferenceableElement
 		if ( selector != null )
 		{
 			// Work around for renaming selector style.
+			if ( ReportSelector.equals( selector ) )
+			{
+				NotificationEvent event = null;
+				event = new StyleEvent( design );
+				event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
+				design.broadcast( event );
 
-			broadcastToSelectedElementsInSlot( design, design
-					.getSlot( ReportDesign.COMPONENT_SLOT ), selector );
-			broadcastToSelectedElementsInSlot( design, design
-					.getSlot( ReportDesign.PAGE_SLOT ), selector );
-			broadcastToSelectedElementsInSlot( design, design
-					.getSlot( ReportDesign.BODY_SLOT ), selector );
-			broadcastToSelectedElementsInSlot( design, design
-					.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selector );
+			}
+			else
+			{
 
+				broadcastToSelectedElementsInSlot( design, design
+						.getSlot( ReportDesign.COMPONENT_SLOT ), selector );
+				broadcastToSelectedElementsInSlot( design, design
+						.getSlot( ReportDesign.PAGE_SLOT ), selector );
+				broadcastToSelectedElementsInSlot( design, design
+						.getSlot( ReportDesign.BODY_SLOT ), selector );
+				broadcastToSelectedElementsInSlot( design, design
+						.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selector );
+			}
 		}
 
 	}
@@ -221,6 +233,7 @@ public abstract class StyleElement extends ReferenceableElement
 					.getSelector( );
 
 			if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
+
 			{
 				element.broadcast( event, design );
 				continue;
@@ -247,13 +260,12 @@ public abstract class StyleElement extends ReferenceableElement
 
 		String selector = element.getContainer( ).getSelector(
 				element.getContainerSlot( ) );
-		
-		if ( selector != null
-					&& selector.equalsIgnoreCase( selectorName ) )
+
+		if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
 		{
 			element.broadcast( event, design );
 			return true;
-		}		
+		}
 		return false;
 
 	}
