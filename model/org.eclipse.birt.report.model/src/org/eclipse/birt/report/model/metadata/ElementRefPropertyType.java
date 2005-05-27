@@ -100,8 +100,7 @@ public class ElementRefPropertyType extends PropertyType
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
-			String name = StringUtil.trimString( (String) value );
-			return validateStringValue( design, targetDefn, name );
+			return validateStringValue( design, targetDefn, (String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
@@ -134,6 +133,10 @@ public class ElementRefPropertyType extends PropertyType
 	private ElementRefValue validateStringValue( ReportDesign design,
 			ElementDefn targetDefn, String name ) throws PropertyValueException
 	{
+		name = StringUtil.trimString( name );
+		if ( name == null )
+			return null;
+		
 		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
 		DesignElement target = ns.getElement( name );
 

@@ -1,24 +1,25 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
- * Represents the integer property type. Integer property values are
- * stored as <code>java.lang.Integer</code> objects.
+ * Represents the integer property type. Integer property values are stored as
+ * <code>java.lang.Integer</code> objects.
  */
 
 public class IntegerPropertyType extends PropertyType
@@ -46,9 +47,8 @@ public class IntegerPropertyType extends PropertyType
 	 * the value is within the integer range.</li>
 	 * <li>BigDecimal object. Truncate the decimal portion. Ensure that the
 	 * value is is within the integer range.</li>
-     * <li>A Boolean object, <code>TRUE</code> will be converted into
-     * Integer(1), <code>FALST</code> will be converted into Integer(0)
-     * </li>
+	 * <li>A Boolean object, <code>TRUE</code> will be converted into
+	 * Integer(1), <code>FALST</code> will be converted into Integer(0)</li>
 	 * <li>String that must evaluate to an integer in either of the two Java
 	 * forms: decimal [1-9][0-9]* or hexadecimal format &[hH]xxxx.</li>
 	 * <li>String that must evaluate to an HTML hexidecimal: #xxxxx.</li>.
@@ -60,16 +60,21 @@ public class IntegerPropertyType extends PropertyType
 	public Object validateValue( ReportDesign design, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
-        if( value == null )
-            return null;
-        if ( value instanceof Integer )
+		if ( value == null )
+			return null;
+		if ( value instanceof Integer )
 			return value;
 		if ( value instanceof Float )
 			return new Integer( ( (Float) value ).intValue( ) );
 		if ( value instanceof Double )
 			return new Integer( ( (Double) value ).intValue( ) );
 		if ( value instanceof String )
-			return parseInteger( (String) value );
+		{
+			if ( StringUtil.trimString( (String) value ) == null )
+				return null;
+				
+			return parseInteger( ( (String) value ).trim( ) );
+		}
 		if ( value instanceof BigDecimal )
 			return new Integer( ( (BigDecimal) value ).intValue( ) );
 		if ( value instanceof Boolean )
@@ -78,14 +83,13 @@ public class IntegerPropertyType extends PropertyType
 					: BooleanPropertyType.INT_FALSE );
 
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, INTEGER_TYPE );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
-	 */
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				INTEGER_TYPE );
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+		 */
 
 	public int getTypeCode( )
 	{
@@ -142,7 +146,7 @@ public class IntegerPropertyType extends PropertyType
 	 * @throws PropertyValueException
 	 *             if the string can not be parsed to an integer
 	 */
-    
+
 	protected Integer parseInteger( String value )
 			throws PropertyValueException
 	{
@@ -153,7 +157,8 @@ public class IntegerPropertyType extends PropertyType
 		catch ( NumberFormatException e )
 		{
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, INTEGER_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					INTEGER_TYPE );
 		}
 	}
 

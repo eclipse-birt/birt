@@ -84,6 +84,8 @@ public class ExtendsPropertyType extends PropertyType
 		if ( value instanceof String )
 		{
 			String name = StringUtil.trimString( (String) value );
+			if ( name == null )
+				return null;
 			
 			// Element is unresolved.
 			

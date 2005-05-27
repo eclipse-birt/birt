@@ -63,9 +63,7 @@ public class ChoicePropertyType extends PropertyType
 
 		if ( value instanceof String )
 		{
-			Object data = validateInputString( design, defn, (String) value );
-			if ( data != null )
-				return data;
+			return validateInputString( design, defn, (String) value );
 		}
 
 		throw new PropertyValueException( value,
