@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Moves a content element within its container.
- *  
+ * 
  */
 
 public class MoveContentRecord extends SimpleRecord
@@ -122,7 +122,7 @@ public class MoveContentRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return new ContentEvent( container, slot, ContentEvent.SHIFT );
+		return new ContentEvent( container, content, slot, ContentEvent.SHIFT );
 	}
 
 }

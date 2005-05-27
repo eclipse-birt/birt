@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * <p>
  * If content is moved from one container element to another, the event with
  * {@link #REMOVE}and that with {@link #ADD}are received respectively.
- *  
+ * 
  */
 
 public class ContentEvent extends NotificationEvent
@@ -61,31 +61,13 @@ public class ContentEvent extends NotificationEvent
 	/**
 	 * The content element causing the event.
 	 */
-	
+
 	private DesignElement content;
 
 	/**
-	 * Constructs the content event with container element and the slot within
-	 * this container.
 	 * 
-	 * @param obj
-	 *            the container element
-	 * @param theSlot
-	 *            the slot within the container
-	 * @param theAction
-	 *            the action causing this event
-	 */
-
-	public ContentEvent( DesignElement obj, int theSlot, int theAction )
-	{
-		super( obj );
-		slot = theSlot;
-		action = theAction;
-	}
-
-	/**
-	 * Constructs the content event with the container element, content element,
-	 * the slot within this container and the event operation kind.
+	 * /** Constructs the content event with the container element, content
+	 * element, the slot within this container and the event operation kind.
 	 * 
 	 * @param theContainer
 	 *            the container element
@@ -138,12 +120,13 @@ public class ContentEvent extends NotificationEvent
 	{
 		return slot;
 	}
-	
+
 	/**
 	 * Returns the content element causing this event.
+	 * 
 	 * @return the content element causing this event.
 	 */
-	
+
 	public IDesignElement getContent( )
 	{
 		return content;

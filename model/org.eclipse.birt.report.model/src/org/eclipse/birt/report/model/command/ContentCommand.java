@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -407,7 +406,7 @@ public class ContentCommand extends AbstractElementCommand
 	 * <code>unresolveReference</code> is <code>true</code>, the reference
 	 * property is unresolved. Otherwise, it's cleared.
 	 * 
-	 * @param element
+	 * @param referred
 	 *            the element to be deleted
 	 * @param unresolveReference
 	 *            the flag indicating the reference property should be
@@ -432,9 +431,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( unresolveReference )
 			{
-				BackRefRecord record = new BackRefRecord( design,
-						referred, client,
-						ref.propName );
+				BackRefRecord record = new BackRefRecord( design, referred,
+						client, ref.propName );
 				getActivityStack( ).execute( record );
 			}
 			else
@@ -456,8 +454,8 @@ public class ContentCommand extends AbstractElementCommand
 	/**
 	 * Clears references of elements that are referred by the to-be-deleted
 	 * element, except for extends and style element references. Unlike the
-	 * method {@link #adjustReferenceClients(ReferenceableElement)}, this
-	 * method removes references from those elements that are referred.
+	 * method {@link #adjustReferenceClients(ReferenceableElement, boolean)},
+	 * this method removes references from those elements that are referred.
 	 * 
 	 * @param element
 	 *            the element to be deleted
@@ -490,9 +488,11 @@ public class ContentCommand extends AbstractElementCommand
 				{
 					try
 					{
-						// Clear all element reference property for dropped element
-						
-						PropertyCommand cmd = new PropertyCommand( design, element );
+						// Clear all element reference property for dropped
+						// element
+
+						PropertyCommand cmd = new PropertyCommand( design,
+								element );
 						cmd.setProperty( propDefn.getName( ), null );
 					}
 					catch ( SemanticException e )
