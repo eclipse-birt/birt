@@ -1923,7 +1923,6 @@
       <Property detailType="DateTimeFormatValue" displayNameID="Element.Style.format.dateTime" isStyleProperty="true" name="dateTimeFormat" type="structure"/>
       <Property detailType="NumberFormatValue" displayNameID="Element.Style.format.number" isStyleProperty="true" name="numberFormat" type="structure"/>
       <Property detailType="textAlign" displayNameID="Element.Style.format.number.align" isStyleProperty="true" name="numberAlign" type="choice">
-        <Default>left</Default>
       </Property>
       <Property detailType="StringFormatValue" displayNameID="Element.Style.format.string" isStyleProperty="true" name="stringFormat" type="structure"/>
     </PropertyGroup>
