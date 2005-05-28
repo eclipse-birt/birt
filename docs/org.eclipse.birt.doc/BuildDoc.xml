@@ -94,14 +94,14 @@
 	<target name="Jar" depends="Javadoc">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,oda/**,model/**,engine/**"
+			includes="birt/**,chart/**,chartui/**,engine/**,oda/**,model/**,ref/**"
 		/>
 	</target>
 
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,oda/**,model/**,engine/**"
+			includes="birt/**,chart/**,chartui/**,engine/**,oda/**,model/**,ref/**"
 		/>
 	</target>
 	
@@ -113,7 +113,7 @@
 	-->
 	<target name="Export">
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="plugin.xml,.project,toc.xml,doc.zip,about.html,notices.html"/>
+	        <fileset dir="." includes="plugin.xml,.project,*Toc.xml,doc.zip,about.html,notices.html"/>
 	    </copy>
 	</target>
 

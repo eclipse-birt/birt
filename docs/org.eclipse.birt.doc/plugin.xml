@@ -12,7 +12,12 @@
          point="org.eclipse.help.toc">
       <toc
             primary="true"
-            file="toc.xml"/>
+            file="BIRTToc.xml"/>
+      <toc
+            primary="true"
+            file="UserToc.xml"/>
+      <toc
+            file="RefToc.xml"/>
    </extension>
 
 </plugin>

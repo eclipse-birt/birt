@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="BIRT Developer Guide" >
+<toc label="Field Guide to BIRT" >
  <topic label="Field Guide to BIRT" >
 
   <topic label="Introduction" href="birt/birt-02-1.html" >
@@ -747,11 +747,4 @@
     </topic>
 
  </topic>
-
- <topic label="Report Object Model API Reference" href="model/api/index.html"/>
- <topic label="Report Engine API Reference" href="engine/api/index.html"/>
- <topic label="Open Data Access (ODA) API Reference" href="oda/api/index.html"/>
- <topic label="Chart Engine API Reference" href="chart/api/index.html"/>
- <topic label="Chart User Interface API Reference" href="chartui/api/index.html"/>
- 
 </toc>
