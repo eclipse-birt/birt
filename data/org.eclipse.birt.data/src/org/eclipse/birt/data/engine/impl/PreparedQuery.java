@@ -635,7 +635,11 @@ abstract class PreparedQuery
 					// runtime data source properties
 					dataSource.beforeOpen();
 					
-					newOdiDataSource();
+					// Let subclass create a new unopened odi data source
+					odiDataSource = createOdiDataSource( ); 
+					
+					// Open the odi data source
+					dataSource.openOdiDataSource( odiDataSource );
 					
 					dataSource.afterOpen();
 				}
@@ -643,26 +647,8 @@ abstract class PreparedQuery
 				{
 					// Use existing odiDataSource created for the data source runtime
 					odiDataSource = dataSource.getOdiDataSource();
-					
-					if ( !odiDataSource.canBeReused( true ) )
-					{
-						newOdiDataSource( );
-					}
 				}
 			}
-		}
-		
-		/**
-		 * odiDataSource will be assigned a new instance
-		 * @throws DataException
-		 */
-		private void newOdiDataSource() throws DataException 
-		{
-			// Let subclass create a new unopened odi data source
-			odiDataSource = createOdiDataSource( ); 
-			
-			// Open the odi data source
-			dataSource.openOdiDataSource( odiDataSource );
 		}
 		
 		/**

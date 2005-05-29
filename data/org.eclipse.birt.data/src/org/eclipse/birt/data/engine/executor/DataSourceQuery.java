@@ -133,7 +133,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	// Properties added by addProperty()
 	private ArrayList propNames;
 	private ArrayList propValues;
-
+	
     DataSourceQuery( DataSource dataSource, String queryType, String queryText )
     {
         this.dataSource = dataSource;
@@ -287,7 +287,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         if ( odaStatement != null )
             throw new DataException( ResourceConstants.QUERY_HAS_PREPARED );
 
-        odaStatement = dataSource.getConnection().prepareStatement( queryText, queryType );
+        odaStatement = dataSource.prepareStatement( queryText, queryType );
         
         // Add custom properties
         addProperties();
@@ -496,20 +496,23 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     {
         if ( odaStatement != null )
         {
-	        try
-	        {
-	            odaStatement.close();
-	        }
-	        catch ( DataException e )
-	        {
-	            // TODO log exception
-	            e.printStackTrace();
-	        }
+        	this.dataSource.closeStatement( odaStatement );
 	        odaStatement = null;
         }
         
+        this.dataSource = null;
         // TODO: close all CachedResultSets created by us
     }
+    
+    public void finalize()
+    {
+    	// Makes sure no statement is leaked
+    	if ( odaStatement != null )
+    	{
+    		close();
+    	}
+    }
+    
     // set input parameter bindings
     private void setInputParameterBinding() throws DataException{
 		//		 set input parameter bindings
@@ -555,8 +558,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			{
 				convertedResult = DataTypeUtil.toDate( inputValue );
 			}
-			else if ( dataType == DataType.ANY_TYPE
-					|| dataType == DataType.UNKNOWN_TYPE )
+			else if ( dataType == DataType.ANY_TYPE )
+			{
+				convertedResult = inputValue;
+			}
+			else if ( dataType == DataType.UNKNOWN_TYPE )
 			{
 				convertedResult = DataTypeUtil.toAutoValue( inputValue );
 			}

@@ -13,12 +13,19 @@
  */ 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
+import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
@@ -28,15 +35,28 @@ import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
  */
 class DataSource implements IDataSource
 {
+	private static String className = DataSource.class.getName();
+	private static Logger logger = Logger.getLogger( className ); 
     protected String 		driverName;
-    protected Connection	odaConnection;
+    
+    // Information about an open oda connection 
+    static private final class OpenConnection
+	{
+    	Connection connection;
+    	int maxStatements = Integer.MAX_VALUE;		// max # of supported concurrent statements
+    	int currentStatements = 0;	// # of currently active statements
+	};
+	
+    // A pool of open odaconsumer.Connection. Since each connection may support a limited
+	// # of statements, we may need to use more than one connection to handle concurrent statements
+	// This is a set of OpenConnection
+	private HashSet odaConnections = new HashSet();
+	
+	// Currently active oda Statements. This is a map from PreparedStatement to OpenConnection
+	private HashMap statementMap = new HashMap();
+	
     protected Properties	connectionProps = new Properties();
 
-    // not all data source can be cached, it depends on whether
-    // odaConnection supports multiple use, this value indicates
-    // cache count of an instance
-    private int usedCount = 1;
-    
     DataSource( String driverName )
     {
         this.driverName = driverName;
@@ -99,7 +119,7 @@ class DataSource implements IDataSource
      */
     public boolean isOpen()
     {
-        return odaConnection != null;
+        return odaConnections.size() > 0;
     }
 
     /**
@@ -108,7 +128,7 @@ class DataSource implements IDataSource
     public void open() throws DataException
     {
         // No op if we are already open
-        if ( odaConnection != null )
+        if ( isOpen() )
             return;
         
         // If no driver name is specified, this is an empty data source used soley for
@@ -116,73 +136,150 @@ class DataSource implements IDataSource
         if ( driverName == null || driverName.length() == 0 )
         	return;
         
-		ConnectionManager connManager = ConnectionManager.getInstance();
-		odaConnection = connManager.openConnection( driverName, connectionProps );
+        // Create first open connection
+        newConnection();
     }
-
-    /*
-     * @see org.eclipse.birt.data.engine.odi.IDataSource#canBeCached(boolean)
-     */
-	public boolean canBeReused( boolean toUse ) throws DataException
-	{
-		if ( odaConnection != null )
-		{
-			if ( odaConnection.getMaxQueries( ) <= 0 )
-			{
-				return true;
-			}
-			else
-			{
-				// odaConnection.getMaxQueries( ) means this instance can be
-				// used count.
-				if ( usedCount <  odaConnection.getMaxQueries( ) )
-				{
-					if ( toUse )
-						usedCount++;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
     
-    /**
-     * Gets the Oda connection associated with this data source 
+    /** Opens a new Connection and add it to the pool */
+    private OpenConnection newConnection() throws DataException
+    {
+    	OpenConnection conn = new OpenConnection();
+    	conn.connection = ConnectionManager.getInstance().openConnection( 
+    			driverName, connectionProps );
+    	int max = conn.connection.getMaxQueries();
+    	if ( max != 0 )		//	0 means no limit
+    		conn.maxStatements = max;
+    	this.odaConnections.add( conn );
+    	return conn;
+    }
+    
+    /** 
+     * Find a connection available for new statements in the pool, or create
+     * a new one if none available 
      */
-    Connection getConnection()
+    private OpenConnection getAvailableConnection() throws DataException
+	{
+    	Iterator it = odaConnections.iterator();
+    	while ( it.hasNext() )
+    	{
+    		OpenConnection c = (OpenConnection) (it.next());
+    		if ( c.currentStatements < c.maxStatements )
+    			return c;
+    	}
+    	
+    	// No more available connections; create a new one
+    	return newConnection();
+	}
+
+    /**
+     * Prepares an ODA Statement. May use an existing Connection from the pool
+     * which has free active statements, or a new connection if all connections
+     * in pool have readed their maximum active statements.
+     * Returned PreparedStatement must be closed by calling closeStatement.
+     */
+    synchronized PreparedStatement prepareStatement ( String queryText, String dataSetType )
+    	throws DataException
     {
         assert isOpen();
-        return odaConnection;
+        OpenConnection conn = getAvailableConnection();
+        assert conn.currentStatements < conn.maxStatements;
+        ++ conn.currentStatements;
+        PreparedStatement stmt = conn.connection.prepareStatement( queryText, dataSetType );
+        
+        // Map statement to the open connection, so we can release the connection
+        // when statement is closed
+        this.statementMap.put( stmt, conn );
+        return stmt;
     }
+    
+    /**
+     * Closes a PreparedStatement returned by the prepareStatement call. Frees the associated
+     * ODA Connection and make it available for new statements. 
+     */
+    synchronized void closeStatement ( PreparedStatement stmt )
+    {
+    	assert stmt != null;
+    	// Find the associated connection
+    	OpenConnection conn = (OpenConnection) statementMap.remove( stmt );
+    	if ( conn == null )
+    	{
+    		// unexpected error: stmt not created by us
+    		logger.logp( Level.WARNING, className, "closeStatement",
+    				"statement not found");
+    		// Fall through and call close() on stmt any way
+    	}
+    	else
+    	{
+    		-- conn.currentStatements;
+    		if ( conn.currentStatements < 0 )
+        		logger.warning( DataSource.class.getName() + ".closeStatement: negative statement count for connection.");
+    		
+    		// TODO: consider releasing connections here if we have more than 1 free connections
+    	}
+    	
+    	try
+		{
+    		stmt.close();
+		}
+        catch ( DataException e )
+        {
+    		logger.logp( Level.FINE, className, "closeStatement",
+    					"Exception at PreparedStatement.close()", e );
+        }
+    }
+    
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IDataSource#close()
      */
     public void close()
     {
-        // TODO: should also close all open DataSourceQuery
+    	// At this time all statements should have been closed
+    	// Any remaining statement indicate resource leak, or obnormal shtudown
+    	if ( statementMap.size() > 0 )
+    	{
+    		logger.logp( Level.WARNING, className, "close",
+    				statementMap.size() + " statements still active.");
 
-        if ( odaConnection == null )
-            return;		// nothing to close
+    		statementMap.clear();
+    	}
 
-		try
-		{		
-            // initiates immediate release of resources
-            odaConnection.close();	
-		}
-		catch ( DataException e ) 
-		{
-		    // ignore close exception
-		}
-        odaConnection = null;        
+
+    	// Close all open connections
+    	Iterator it = odaConnections.iterator();
+    	while ( it.hasNext() )
+    	{
+    		OpenConnection c = (OpenConnection) (it.next());
+    		
+    		try
+			{
+    			c.connection.close();
+			}
+    		catch ( DataException e ) 
+			{
+    			logger.logp( Level.FINE, className, "close",
+    				 "Exception at Connection.close()", e );
+			}
+    	}
+        odaConnections.clear();        
     }
 
-    // Checks that 
-    private void checkState( boolean open ) throws DataException
+    // Checks the open state 
+    private void checkState( boolean checkOpen ) throws DataException
     {
-        if ( ! open && odaConnection != null )
+        if ( ! checkOpen && isOpen() )
             throw new DataException( ResourceConstants.DS_HAS_OPENED );
-        else if ( open && odaConnection == null )
+        else if ( checkOpen && ! isOpen() )
             throw new DataException( ResourceConstants.DS_NOT_OPEN );
     }
+    
+    public void finalize()
+    {
+    	// Makes sure no connection is leaked
+    	if ( isOpen() )
+    	{
+    		close();
+    	}
+    }
+   
 }
