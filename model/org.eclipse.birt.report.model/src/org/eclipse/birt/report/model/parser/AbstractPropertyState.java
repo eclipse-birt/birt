@@ -12,7 +12,12 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -21,6 +26,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.ObjectDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -35,8 +41,9 @@ import org.xml.sax.Attributes;
  * 
  * <pre>
  * 
- *                                   
- *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *  
+ *    
+ *    &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *   
  *  
  * </pre>
@@ -278,8 +285,8 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 		String propName = e.getPropertyName( );
 
-		if ( isRecoverableError( e.getErrorCode( ), e.getElement( )
-				.getPropertyDefn( propName ) ) )
+		if ( isRecoverableError( e.getInvalidValue( ), e.getErrorCode( ), e
+				.getElement( ).getPropertyDefn( propName ) ) )
 			RecoverableError.dealInvalidPropertyValue( handler, e );
 		else
 			handler.semanticError( e );
@@ -297,7 +304,8 @@ public class AbstractPropertyState extends AbstractParseState
 	private void handleMemberValueException( PropertyValueException e,
 			StructPropertyDefn memberDefn )
 	{
-		if ( isRecoverableError( e.getErrorCode( ), memberDefn ) )
+		if ( isRecoverableError( e.getInvalidValue( ), e.getErrorCode( ),
+				memberDefn ) )
 			RecoverableError.dealInvalidMemberValue( handler, e, struct,
 					memberDefn );
 		else
@@ -317,7 +325,8 @@ public class AbstractPropertyState extends AbstractParseState
 	 *         otherwise <code>false</code>.
 	 */
 
-	private boolean isRecoverableError( String errorCode, IPropertyDefn propDefn )
+	private boolean isRecoverableError( Object invalidValue, String errorCode,
+			IPropertyDefn propDefn )
 	{
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
@@ -337,14 +346,47 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 						.equalsIgnoreCase( errorCode ) )
 		{
-			if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
-					.getName( ) ) )
-				return true;
+			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );
 
 			if ( element instanceof TextDataItem
 					&& TextDataItem.CONTENT_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
+
+			if ( objDefn instanceof StructureDefn )
+			{
+				// DateTimeFormatValue.CATEGORY_MEMBER
+				// NumberFormatValue.CATEGORY_MEMBER
+				// StringFormatValue.CATEGORY_MEMBER
+
+				String structureName = objDefn.getName( );
+				if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
+						.equals( structureName )
+						|| NumberFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| StringFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName ) )
+				{
+					if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
+							.getName( ) ) )
+						return true;
+				}
+
+				// MapRule.OPERATOR_MEMBER
+				// HighlightRule.OPERATOR_MEMBER
+
+				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) )
+						|| HighlightRule.STRUCTURE_NAME.equals( objDefn
+								.getName( ) ) )
+				{
+					if ( MapRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
+							|| HighlightRule.OPERATOR_MEMBER.equals( propDefn
+									.getName( ) ) )
+					{
+						return "any".equalsIgnoreCase( invalidValue.toString( ) ); //$NON-NLS-1$
+					}
+				}
+			}
 		}
 
 		return false;

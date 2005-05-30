@@ -229,7 +229,9 @@
     <Choice displayNameID="Choices.mapOperator.isTrue" name="is-true"/>
     <Choice displayNameID="Choices.mapOperator.isFalse" name="is-false"/>
     <Choice displayNameID="Choices.mapOperator.like" name="like"/>
+	<!-- DTE doesn't support the following operator
     <Choice displayNameID="Choices.mapOperator.any" name="any"/>
+    -->
   </ChoiceType>
   <ChoiceType name="filterOperator">
     <Choice displayNameID="Choices.filterOperator.eq" name="eq" />
