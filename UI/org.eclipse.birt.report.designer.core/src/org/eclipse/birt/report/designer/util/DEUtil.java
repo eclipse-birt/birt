@@ -483,7 +483,7 @@ public class DEUtil
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
 		//added by gao if unit is "", set the unit is Design default unit
-		else if ( "".equals( units ) )//$NON-NLS-1$ 
+		else if ( "".equals( units ) || units == null )//$NON-NLS-1$ 
 		{
 			units = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
