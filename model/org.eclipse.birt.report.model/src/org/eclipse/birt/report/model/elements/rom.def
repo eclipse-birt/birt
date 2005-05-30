@@ -1656,8 +1656,8 @@
     <PropertyVisibility name="privateDriverProperties" propertyVisibility="hide" />
   </Element>
   <Element canExtend="false" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="ScriptDataSource">
-    <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" valueRequired="true"/>
-    <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip" valueRequired="true"/>
+    <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" />
+    <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="DataSet">
     <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip"/>
