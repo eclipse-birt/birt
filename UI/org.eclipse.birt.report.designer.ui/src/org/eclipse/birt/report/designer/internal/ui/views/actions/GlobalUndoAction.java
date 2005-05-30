@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 public class GlobalUndoAction extends GlobalStackAction
 {
 
-	private static String UNDO_LABEL = Messages.getString( "label.undo" );
+	private static String UNDO_LABEL = Messages.getString( "label.undo" ); //$NON-NLS-1$
 
 	protected GlobalUndoAction( CommandStack stack )
 	{

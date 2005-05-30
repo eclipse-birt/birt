@@ -294,7 +294,7 @@ public class ResourceEditDialog extends BaseDialog
 		Locale lc = SessionHandleAdapter.getInstance( ).getSessionHandle( )
 				.getLocale( );
 
-		String fullBaseName = folderName + File.separator + baseName + "_"
+		String fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
 				+ lc.getLanguage( ) + "_" + lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		File f = new File( fullBaseName );
@@ -318,7 +318,7 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		}
 
-		fullBaseName = folderName + File.separator + baseName + "_"
+		fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
 				+ lc.getLanguage( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		f = new File( fullBaseName );
@@ -365,7 +365,7 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		}
 
-		propFileName = baseName + "_" + lc.getLanguage( ) + "_"
+		propFileName = baseName + "_" + lc.getLanguage( ) + "_" //$NON-NLS-1$ //$NON-NLS-2$
 				+ lc.getCountry( ) + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 

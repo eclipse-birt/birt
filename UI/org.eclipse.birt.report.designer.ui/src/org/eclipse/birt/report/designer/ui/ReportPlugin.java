@@ -121,15 +121,15 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private void initCellCursor( )
 	{
-		ImageData source = ReportPlugin.getImageDescriptor( "icons/cellcursor.bmp" )
+		ImageData source = ReportPlugin.getImageDescriptor( "icons/cellcursor.bmp" ) //$NON-NLS-1$
 				.getImageData( );
-		ImageData mask = ReportPlugin.getImageDescriptor( "icons/cellcursormask.bmp" )
+		ImageData mask = ReportPlugin.getImageDescriptor( "icons/cellcursormask.bmp" ) //$NON-NLS-1$
 				.getImageData( );
 		cellLeftCursor = new Cursor( null, source, mask, 16, 16 );
 
-		source = ReportPlugin.getImageDescriptor( "icons/cellrightcursor.bmp" )
+		source = ReportPlugin.getImageDescriptor( "icons/cellrightcursor.bmp" ) //$NON-NLS-1$
 				.getImageData( );
-		mask = ReportPlugin.getImageDescriptor( "icons/cellrightcursormask.bmp" )
+		mask = ReportPlugin.getImageDescriptor( "icons/cellrightcursormask.bmp" ) //$NON-NLS-1$
 				.getImageData( );
 		cellRightCursor = new Cursor( null, source, mask, 16, 16 );
 	}
@@ -247,8 +247,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		try
 		{
 			String property = workspace.getRoot( )
-					.getPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
-							"showCheatSheet" ) );
+					.getPersistentProperty( new QualifiedName( "org.eclipse.birt.property", //$NON-NLS-1$
+							"showCheatSheet" ) ); //$NON-NLS-1$
 			if ( property != null )
 				return Boolean.valueOf( property ).booleanValue( );
 		}
@@ -268,8 +268,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		try
 		{
 			workspace.getRoot( )
-					.setPersistentProperty( new QualifiedName( "org.eclipse.birt.property",
-							"showCheatSheet" ),
+					.setPersistentProperty( new QualifiedName( "org.eclipse.birt.property", //$NON-NLS-1$
+							"showCheatSheet" ), //$NON-NLS-1$
 							String.valueOf( value ) );
 		}
 		catch ( CoreException e )

@@ -27,7 +27,7 @@ import org.eclipse.ui.PlatformUI;
 public class EditBindingAction extends InsertRowAction
 {
 
-	public static final String ID = "org.eclipse.birt.report.designer.action.editBinding";
+	public static final String ID = "org.eclipse.birt.report.designer.action.editBinding"; //$NON-NLS-1$
 
 	/**
 	 * @param part

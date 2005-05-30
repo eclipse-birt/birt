@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 public class GlobalRedoAction extends GlobalStackAction
 {
 
-	private static String REDO_LABEL = Messages.getString( "label.redo" );
+	private static String REDO_LABEL = Messages.getString( "label.redo" ); //$NON-NLS-1$
 
 	protected GlobalRedoAction( CommandStack stack )
 	{

@@ -307,7 +307,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			previewCanvas.loadImage( ( (Image) img ) );
 			previewCanvas.showOriginal( );
 
-			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) );
+			chkBox.setEnabled( !templates[selectedIndex].cheatSheetId.equals( "" ) ); //$NON-NLS-1$
 		}
 	};
 

@@ -233,7 +233,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command undoCmd = getCommandStack( ).getUndoCommand( );
-			action.setToolTipText( MessageFormat.format( Messages.getString("UndoAction_Tooltip"),
+			action.setToolTipText( MessageFormat.format( Messages.getString("UndoAction_Tooltip"), //$NON-NLS-1$
 					new Object[]{
 						getLabelForCommand( undoCmd )
 					} )
@@ -272,7 +272,7 @@ public abstract class StackWindowAction
 		protected void changeLabel( IAction action )
 		{
 			Command redoCmd = getCommandStack( ).getRedoCommand( );
-			action.setToolTipText( MessageFormat.format( Messages.getString("RedoAction_Tooltip"),
+			action.setToolTipText( MessageFormat.format( Messages.getString("RedoAction_Tooltip"), //$NON-NLS-1$
 					new Object[]{
 						getLabelForCommand( redoCmd )
 					} )

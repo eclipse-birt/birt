@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -180,7 +181,7 @@ public final class PropertyHandleTableViewer
                 }
             });
             itmRemove = new MenuItem(menu, SWT.NONE);
-            itmRemove .setText("Remove");
+            itmRemove .setText(Messages.getString("PropertyHandleTableViewer.Menu.Remove")); //$NON-NLS-1$
             itmRemove .addSelectionListener(new SelectionAdapter(){
 
                 public void widgetSelected(SelectionEvent e)
@@ -190,7 +191,7 @@ public final class PropertyHandleTableViewer
 
             });
             itmRemoveAll = new MenuItem(menu, SWT.NONE);
-            itmRemoveAll.setText("Remove All");
+            itmRemoveAll.setText(Messages.getString("PropertyHandleTableViewer.Menu.RemoveAll")); //$NON-NLS-1$
             itmRemoveAll.addSelectionListener(new SelectionAdapter(){
                 public void widgetSelected(SelectionEvent e)
                 {

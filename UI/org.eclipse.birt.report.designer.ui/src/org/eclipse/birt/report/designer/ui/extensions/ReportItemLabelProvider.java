@@ -23,7 +23,7 @@ public class ReportItemLabelProvider implements IReportItemLabelProvider
      */
     public String getLabel( ExtendedItemHandle handle )
     {
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
 }

@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.Platform;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2005/03/17 20:39:18 $
+ * @version $Revision: 1.5 $ $Date: 2005/04/19 01:14:21 $
  */
 public final class Utility
 {
@@ -119,12 +119,12 @@ public final class Utility
     public static boolean doesDataSourceModelExtensionExist(String extensionName)
     {
         IConfigurationElement[] elements = Platform.getExtensionRegistry( )
-        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" );
+        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" ); //$NON-NLS-1$
         if(elements != null)
         {
             for(int n = 0; n < elements.length; n++)
             {
-                if(elements[n].getName().equals("odaDataSource") && extensionName.equals(elements[n].getAttribute("extensionName")))
+                if(elements[n].getName().equals("odaDataSource") && extensionName.equals(elements[n].getAttribute("extensionName"))) //$NON-NLS-1$ //$NON-NLS-2$
                 {
                     return true;
                 }
@@ -137,12 +137,12 @@ public final class Utility
     public static boolean doesDataSetModelExtensionExist(String extensionName)
     {
         IConfigurationElement[] elements = Platform.getExtensionRegistry( )
-        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" );
+        .getConfigurationElementsFor( "org.eclipse.birt.report.model.odaDriverModel" ); //$NON-NLS-1$
         if(elements != null)
         {
             for(int n = 0; n < elements.length; n++)
             {
-                if(elements[n].getName().equals("odaDataSet") && extensionName.equals(elements[n].getAttribute("extensionName")))
+                if(elements[n].getName().equals("odaDataSet") && extensionName.equals(elements[n].getAttribute("extensionName"))) //$NON-NLS-1$ //$NON-NLS-2$
                 {
                     return true;
                 }

@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import org.eclipse.birt.report.designer.nls.Messages;
+
 /**
  * Implment Fix layout algorithm of table column width. The class assume the
- * table width and column width are setted to fix size, eg fix num or fix
+ * table width and column width are setted to fix size, eg. fix number or fix
  * percentage.
  *  
  */
@@ -145,8 +147,8 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 			amt = amt + tableWidthValues[i];
 		}
 
-		//amt < table mini with
-		//make every column be minisize
+		//amt < table minimum width
+		//make every column be minimum size
 		if ( tableWidth <= colNum * colMinSize )
 		{
 			for ( int i = 0; i < tableWidthValues.length; i++ )
@@ -192,7 +194,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 			}
 			catch ( NumberFormatException e )
 			{
-				if ( definedWidthValues[i].endsWith( "%" ) )
+				if ( definedWidthValues[i].endsWith( "%" ) ) //$NON-NLS-1$
 				{
 					tableWidthValues[i] = tableWidth
 							* getPercentValue( definedWidthValues[i] )
@@ -206,7 +208,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 					fixWidthAmt = fixWidthAmt + tableWidthValues[i];
 				}
 				else if ( definedWidthValues[i] == null
-						| "".equalsIgnoreCase( definedWidthValues[i] ) )
+						| "".equalsIgnoreCase( definedWidthValues[i] ) ) //$NON-NLS-1$
 				{
 					tableWidthValues[i] = 0;
 					fixWidthAmt = fixWidthAmt + tableWidthValues[i];
@@ -229,7 +231,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 	 */
 	private float getPercentValue( String value )
 	{
-		return Float.parseFloat( value.substring( 0, value.indexOf( "%" ) ) );
+		return Float.parseFloat( value.substring( 0, value.indexOf( "%" ) ) ); //$NON-NLS-1$
 
 	}
 
@@ -303,7 +305,7 @@ public class FixTableLayoutCalculator implements ITableLayoutCalculator
 
 		if ( width == null )
 		{
-			throw new NumberFormatException( "The input value can't be parse" );
+			throw new NumberFormatException( Messages.getString("FixTableLayoutCalculator.Error.CannotParse") ); //$NON-NLS-1$
 		}
 
 		int[] intWidth = new int[width.length];
