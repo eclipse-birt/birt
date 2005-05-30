@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
@@ -395,16 +396,20 @@ public class StockChart extends DefaultChartTypeImpl
             }
             stockseries.getDataDefinition().addAll(series.getDataDefinition());
         }
-
+        
         // Copy series specific properties
         if (series instanceof BarSeries)
         {
-            stockseries.getLineAttributes().setColor(((BarSeries) series).getRiserOutline());
+            // Stock series with transparent fillCandle cannot display propertly. Fix it during conversion if needed.
+            ColorDefinition colorDefinition = ((BarSeries) series).getRiserOutline();
+            if ( colorDefinition != null && ( !colorDefinition.isSetTransparency() || colorDefinition.getTransparency() != 255 ))
+                stockseries.getLineAttributes().setColor( colorDefinition );
         }
         else if (series instanceof LineSeries)
         {
             stockseries.setLineAttributes(((LineSeries) series).getLineAttributes());
         }
+       
         return stockseries;
     }
 
@@ -485,34 +490,37 @@ public class StockChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
+            double value;
             try
             {
-                if (nf.parse(sElement).doubleValue() < 0)
+                value = nf.parse(sElement).doubleValue();
+                if (value < 0)
                 {
                     // If the value is negative, use an arbitrary positive value
-                    sElement = String.valueOf(4.0 + iValueCount);
+                    value = 4.0 + iValueCount;
                     iValueCount++;
                 }
             }
             catch (ParseException e )
             {
-                sElement = String.valueOf(4.0 + iValueCount);
+                value = 4.0 + iValueCount;
                 iValueCount++;
             }
+            
             sbNewRepresentation.append("H"); //$NON-NLS-1$
-            sbNewRepresentation.append(sElement);
+            sbNewRepresentation.append(String.valueOf(value + 2));
             sbNewRepresentation.append(" "); //$NON-NLS-1$
 
             sbNewRepresentation.append(" L"); //$NON-NLS-1$
-            sbNewRepresentation.append(sElement);
+            sbNewRepresentation.append(String.valueOf(value -1));
             sbNewRepresentation.append(" "); //$NON-NLS-1$
 
             sbNewRepresentation.append(" O"); //$NON-NLS-1$
-            sbNewRepresentation.append(sElement);
+            sbNewRepresentation.append(String.valueOf(value));
             sbNewRepresentation.append(" "); //$NON-NLS-1$
 
             sbNewRepresentation.append(" C"); //$NON-NLS-1$
-            sbNewRepresentation.append(sElement);
+            sbNewRepresentation.append(String.valueOf(value + 1));
             sbNewRepresentation.append(","); //$NON-NLS-1$
         }
         return sbNewRepresentation.toString().substring(0, sbNewRepresentation.length() - 1);
