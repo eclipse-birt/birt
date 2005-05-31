@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.ui" id="seriescomposites" name="Composites for series type specific Attribute and Data definitions"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         The SeriesComposites extension point provides hooks using which the chart builder can show customized UI elements to set properties specific to custom series types.
       </documentation>
    </annotation>
 
@@ -40,11 +40,16 @@
    </element>
 
    <element name="seriescomposite">
+      <annotation>
+         <documentation>
+            Defines a series composite provider for a custom series type.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="seriesType" type="string" use="required">
             <annotation>
                <documentation>
-                  Series implementation class. This should be a fully qualified class name of the Series implementation class in the model for which this extension provides UI.
+                  Series implementation class. This should be a fully qualified class name of the Series implementation class in the model for which this extension provides UI components.
                </documentation>
             </annotation>
          </attribute>
@@ -63,7 +68,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         1.0.0
       </documentation>
    </annotation>
 
@@ -72,7 +77,27 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         &lt;extension
+         point=&quot;org.eclipse.birt.chart.ui.seriescomposites&quot;&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.SeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.component.impl.SeriesImpl&quot;/&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.type.impl.BarSeriesImpl&quot;/&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.type.impl.LineSeriesImpl&quot;/&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.PieSeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.type.impl.PieSeriesImpl&quot;/&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.ScatterSeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl&quot;/&gt;
+      &lt;seriescomposite
+            seriesUIProvider=&quot;org.eclipse.birt.chart.ui.swt.series.StockSeriesUIProvider&quot;
+            seriesType=&quot;org.eclipse.birt.chart.model.type.impl.StockSeriesImpl&quot;/&gt;
+   &lt;/extension&gt;
       </documentation>
    </annotation>
 
@@ -81,7 +106,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         Please refer to the javadocs for ISeriesUIProvider interface in the &lt;i&gt;org.eclipse.birt.chart.ui.swt.interfaces&lt;/i&gt; package.
       </documentation>
    </annotation>
 
@@ -90,7 +115,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         The &lt;i&gt;org.eclipse.birt.chart.ui.extension&lt;/i&gt; plug-in provides implementations of the SeriesComposites extension point.
       </documentation>
    </annotation>
 
@@ -99,7 +124,8 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2004-2005 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
       </documentation>
    </annotation>
 

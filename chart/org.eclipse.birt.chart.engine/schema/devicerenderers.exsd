@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="devicerenderers" name="Contains definition of chart device renderers"/>
       </appInfo>
       <documentation>
-         Refer to the documentation provided for each extension point schema element
+         The DeviceRenderer extension point allows custom implementations of device renderers to be plugged into the chart library to generate charts in new output formats.
       </documentation>
    </annotation>
 
@@ -71,7 +71,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         1.0.0
       </documentation>
    </annotation>
 
@@ -80,7 +80,36 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         &lt;extension
+         point=&quot;org.eclipse.birt.chart.engine.devicerenderers&quot;&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.swing.SwingRendererImpl&quot;
+            name=&quot;dv.SWING&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.swt.SwtRendererImpl&quot;
+            name=&quot;dv.SWT&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.PngRendererImplOld&quot;
+            name=&quot;dv.PNG24&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.GifRendererImplOld&quot;
+            name=&quot;dv.GIF8&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.PngRendererImpl&quot;
+            name=&quot;dv.PNG&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.GifRendererImpl&quot;
+            name=&quot;dv.GIF&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.JpegRendererImpl&quot;
+            name=&quot;dv.JPEG&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.JpegRendererImpl&quot;
+            name=&quot;dv.JPG&quot;/&gt;
+      &lt;deviceRenderer
+            device=&quot;org.eclipse.birt.chart.device.image.BmpRendererImpl&quot;
+            name=&quot;dv.BMP&quot;/&gt;
+   &lt;/extension&gt;
       </documentation>
    </annotation>
 
@@ -89,7 +118,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         Please refer to the javadocs for IDeviceRenderer in the &lt;i&gt;org.eclipse.birt.chart.device&lt;/i&gt; package.
       </documentation>
    </annotation>
 
@@ -98,7 +127,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         The &lt;i&gt;org.eclipse.birt.chart.device.extension&lt;/i&gt; plug-in provides device renderers for default supported output devices.
       </documentation>
    </annotation>
 
@@ -107,7 +136,8 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2004-2005 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
       </documentation>
    </annotation>
 

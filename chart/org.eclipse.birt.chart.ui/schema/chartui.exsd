@@ -40,18 +40,23 @@
    </element>
 
    <element name="propertySheet">
+      <annotation>
+         <documentation>
+            The definition of a UI component to be added to the chart builder.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="nodeIndex" type="int">
             <annotation>
                <documentation>
-                  The index for the node in the tree. This value will determine the order in which the node is added to the tree. A higher number will cause it to appear lower down in the tree.
+                  The index for the node in the navigation tree. This value will determine the order in which the node is added to the tree. A higher number will cause it to appear lower down in the tree.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="nodePath" type="string">
             <annotation>
                <documentation>
-                  The node path is the path in the Chart Builder tree that shows hierarchy of the node representing the custom sheet.
+                  The node path is the path in the Chart Builder navigation tree that shows hierarchy of the node representing the custom sheet.
                </documentation>
             </annotation>
          </attribute>
@@ -67,5 +72,62 @@
          </attribute>
       </complexType>
    </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.0.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;extension
+         point=&quot;org.eclipse.birt.chart.ui.uisheets&quot;&gt;
+      &lt;propertySheet
+            classDefinition=&quot;org.eclipse.birt.chart.ui.swt.general.GeneralSheetImpl&quot;
+			nodePath=&quot;General&quot;
+            nodeIndex=&quot;20&quot;/&gt;
+      &lt;propertySheet
+            classDefinition=&quot;org.eclipse.birt.chart.ui.swt.data.BaseAxisDataSheetImpl&quot;
+			nodePath=&quot;Data.X Axis&quot;
+            nodeIndex=&quot;21&quot;/&gt;
+...
+   &lt;/extension&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         Please refer to the javadocs for the ISheet and ISheetListener interfaces in the  &lt;i&gt;org.eclipse.birt.chart.ui.swt.interfaces&lt;/i&gt; package.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         The &lt;i&gt;org.eclipse.birt.chart.ui.extension&lt;/i&gt; plug-in provides an example of an implementation of ISheet interface.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2004-2005 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+      </documentation>
+   </annotation>
 
 </schema>
