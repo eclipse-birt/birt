@@ -93,7 +93,7 @@
 
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;public void setModelObject(ExtendedItemHandle handle)&lt;/code&gt; ---- 
-	passes the model object to the extension provider. &lt;/li&gt;
+ passes the model object to the extension provider. &lt;/li&gt;
 &lt;li&gt;&lt;code&gt;public void onRowSets(IRowSet[] rowSets) throws BirtException&lt;/code&gt; ----
 processes the extended item in report generation environment. The data that the report item needs is passed in through the rowSets array&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;public boolean needSerialization() &lt;/code&gt; ----
@@ -123,7 +123,12 @@ performs cleanup jobs&lt;/li&gt;
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br/&gt;&lt;br/&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
       </documentation>
    </annotation>
 

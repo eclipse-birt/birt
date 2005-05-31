@@ -102,7 +102,7 @@ name=&quot;chart presentation extension&quot;&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;public void setModelObject(ExtendedItemHandle handle)&lt;/code&gt; ---- 
-	passes the model object to the extension provider. &lt;/li&gt;
+ passes the model object to the extension provider. &lt;/li&gt;
 &lt;li&gt;&lt;code&gt;public void setResolution(int dpi)&lt;/code&gt; ---- 
 passes the rendering environment resolution (dpi, i.e., dot per inch) to extension provider.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;public void setOutputFormat(String outputFormat)&lt;/code&gt; ---- 
@@ -138,7 +138,12 @@ performs cleanup jobs&lt;/li&gt;&lt;p&gt;
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br/&gt;&lt;br/&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
       </documentation>
    </annotation>
 
