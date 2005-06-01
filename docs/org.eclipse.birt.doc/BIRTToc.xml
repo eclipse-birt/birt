@@ -2,7 +2,7 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="BIRT Developer Guide" >
- <link toc="UserToc.xml" >
- <link toc="RefToc.xml" >
+ <link toc="UserToc.xml" />
+ <link toc="RefToc.xml" />
 
 </toc>
