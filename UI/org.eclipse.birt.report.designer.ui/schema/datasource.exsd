@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.birt.report.designer.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="odadatasource" name="Data Source Extension point"/>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="odadatasource" name="Data Source UI Extension point"/>
       </appInfo>
       <documentation>
          The data source extension allows providers to add their own type of data source support to the BIRT designer.&lt;br/&gt;
@@ -323,7 +323,7 @@ A default JDBC data source implementation plugin is also provided
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and 
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
 the accompanying materials are made available under the terms of the Eclipse 
 Public License v1.0 which accompanies this distribution, and is available at 
 http://www.eclipse.org/legal/epl-v10.html&lt;br/&gt;&lt;br/&gt;

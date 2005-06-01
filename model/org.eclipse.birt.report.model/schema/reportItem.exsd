@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.birt.model">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.model" id="reportItemModel" name="reportItemModel"/>
+         <meta.schema plugin="org.eclipse.birt.model" id="reportItemModel" name="BIRT Report Item Extension Point"/>
       </appInfo>
       <documentation>
-         This extension point is used to register an a new report element extension with the model and get information about the element
+         This extension point is used to support the extension of a report item.
       </documentation>
    </annotation>
 
@@ -384,25 +384,32 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         &lt;reportItem 
- class=&quot;org.eclipse.birt.report.model.tests.matrix.ReportItemFactoryImpl&quot; 
+         The following is an example of the JDBC data source extension.
+&lt;p&gt;
+&lt;pre&gt;
+
+&lt;extension point=&quot;org.eclipse.birt.report.engine.reportitemPresentation&quot;&gt;
+     
+&lt;reportItem 
+ class=&quot;org.eclipse.test.ReportItemFactoryImpl&quot; 
  isNameRequired=&quot;true&quot; 
  extensionName=&quot;TestingMatrix&quot;
  displayNameID=&quot;Element.TestingMatrix&quot;&gt;
- &lt;property 
+
+&lt;property 
   defaultValue=&quot;default test&amp;amp;&amp;quot;&amp;lt;&quot; 
   type=&quot;string&quot; 
   displayNameID=&quot;Element.TestingMatrix.test1&quot; 
   name=&quot;test1&quot;/&gt;
- &lt;property type=&quot;integer&quot; 
+&lt;property type=&quot;integer&quot; 
   displayNameID=&quot;Element.TestingMatrix.test2&quot; 
   canInherit=&quot;false&quot; 
   name=&quot;test2&quot;/&gt;
- &lt;property
+&lt;property
      displayNameID=&quot;Element.TestingMatrix.test3&quot;
      name=&quot;test3&quot;     
      type=&quot;xml&quot;/&gt;     
- &lt;property type=&quot;choice&quot; 
+&lt;property type=&quot;choice&quot; 
   displayNameID=&quot;Element.TestingMatrix.test5&quot; 
   canInherit=&quot;false&quot; 
   name=&quot;test5&quot;&gt;
@@ -415,8 +422,8 @@
   &lt;choice value=&quot;three&quot; 
    displayNameID=&quot;Choices.test5.choice3&quot; 
    name=&quot;choice3&quot;/&gt;
- &lt;/property&gt;
- &lt;propertyGroup name=&quot;group1&quot; 
+&lt;/property&gt;
+&lt;propertyGroup name=&quot;group1&quot; 
   displayNameID=&quot;Element.TestingMatrix.group1&quot;&gt;
   &lt;property type=&quot;string&quot;
    displayNameID=&quot;Element.TestingMatrix.test6&quot;
@@ -424,12 +431,16 @@
   &lt;property type=&quot;integer&quot;
    displayNameID=&quot;Element.TestingMatrix.test7&quot;
    name=&quot;test7&quot;/&gt;
- &lt;/propertyGroup&gt;
+&lt;/propertyGroup&gt;
   &lt;propertyVisibility name=&quot;bookmark&quot; propertyVisibility=&quot;hide&quot;/&gt;
   &lt;propertyVisibility name=&quot;InvalidProperty&quot; propertyVisibility=&quot;hide&quot;/&gt;
   &lt;propertyVisibility name=&quot;dataSet&quot; propertyVisibility=&quot;readonly&quot;/&gt;
   &lt;propertyVisibility name=&quot;test3&quot; propertyVisibility=&quot;hide&quot;/&gt;  
 &lt;/reportItem&gt;
+&lt;/extension&gt;
+
+&lt;/pre&gt;
+&lt;/p&gt;
       </documentation>
    </annotation>
 
@@ -438,7 +449,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         The report item extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.model.api.extension&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
 
@@ -447,7 +458,8 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         The plugin &lt;i&gt;org.eclipse.birt.chart.reportitem&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing an report item extension.
+&lt;br&gt;
       </documentation>
    </annotation>
 
@@ -456,16 +468,12 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br/&gt;&lt;br/&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
       </documentation>
    </annotation>
 

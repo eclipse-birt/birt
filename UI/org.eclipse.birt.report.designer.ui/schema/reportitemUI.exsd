@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.birt.report.designer.ui">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="reportitemUI" name="%designer.ui.extensionPointName"/>
+         <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="reportitemUI" name="Report Item UI Extension Point"/>
       </appInfo>
       <documentation>
-         This extension point is used in conjonction with the BIRT Report Object Model extension point to register the GUI to be used for the Extended Element.
+         This extension point is used in conjunction with the Report Item extension point defined in the model. It is used to register the GUI to be used for the Extended report item.
       </documentation>
    </annotation>
 
@@ -221,7 +221,7 @@
 
    <annotation>
       <appInfo>
-      	<meta.section type="since"/>
+         <meta.section type="since"/>
       </appInfo>
       <documentation>
          1.0
@@ -237,11 +237,11 @@
 &lt;p&gt;&lt;pre&gt;
 
 &lt;extension point=&quot;org.eclipse.birt.report.designer.reportitemUI&quot;&gt;
-	&lt;model extensionName=&quot;chart&quot;/&gt;
-	&lt;reportItemFigureUI  class==&quot;org.eclipse.birt.chart.ChartAdapterUI&quot;/&gt;
-	&lt;palette icon=&quot;/icons/paletteimage.gif&quot; category=&quot;main&quot;/&gt;
-	&lt;editor showInMasterPage=&quot;false&quot;/&gt;
-	&lt;outline icon=&quot;/icons/outlineimage.gif&quot;/&gt;
+ &lt;model extensionName=&quot;chart&quot;/&gt;
+ &lt;reportItemFigureUI  class==&quot;org.eclipse.birt.chart.ChartAdapterUI&quot;/&gt;
+ &lt;palette icon=&quot;/icons/paletteimage.gif&quot; category=&quot;main&quot;/&gt;
+ &lt;editor showInMasterPage=&quot;false&quot;/&gt;
+ &lt;outline icon=&quot;/icons/outlineimage.gif&quot;/&gt;
 &lt;/extension&gt;
 
 &lt;/pre&gt;&lt;/p&gt;
@@ -253,7 +253,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         The report item UI extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.extensions&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
 
@@ -262,7 +262,8 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         The plugin &lt;i&gt;org.eclipse.birt.chart.reportitem&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing a report item UI extension.
+&lt;br&gt;
       </documentation>
    </annotation>
 
@@ -271,7 +272,7 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
 
 Contributors: Actuate Corporation - initial API and implementation
       </documentation>
