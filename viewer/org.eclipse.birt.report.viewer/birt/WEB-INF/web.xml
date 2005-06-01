@@ -15,11 +15,13 @@
 		<param-value></param-value>
 	</context-param>
 
+	<!-- Absolute downloaded image/chart directory. Default to ${birt home}/report/images -->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
 
+	<!-- Absolute engine log directory. Default to ${birt home}/logs -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_DIR</param-name>
 		<param-value></param-value>
