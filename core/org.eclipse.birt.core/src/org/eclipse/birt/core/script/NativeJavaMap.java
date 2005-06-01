@@ -13,6 +13,7 @@ package org.eclipse.birt.core.script;
 
 import java.util.Map;
 
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
@@ -20,7 +21,7 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/13 03:31:27 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/18 03:31:00 $
  */
 class NativeJavaMap extends NativeJavaObject
 {
@@ -55,12 +56,11 @@ class NativeJavaMap extends NativeJavaObject
 
 	public Object get( String name, Scriptable start )
 	{
-		// Support the array member "length".
-
-		if ( name.equalsIgnoreCase( "length" ) ) //$NON-NLS-1$
-			return new Integer( ( (Map) javaObject ).values( ).size( ) );
-
-		return ( (Map) javaObject ).get( name );
+		if (has(name, start))
+		{
+			return ((Map) javaObject).get(name);
+		}
+		throw new JavaScriptException(name + " not found");
 	}
 
 	/*
@@ -95,7 +95,12 @@ class NativeJavaMap extends NativeJavaObject
 
 	public Object get( int index, Scriptable start )
 	{
-		return ( (Map) javaObject ).get(new Integer(index).toString());
+		if(has(new Integer(index).toString(), start))
+		{
+			return ( (Map) javaObject ).get(new Integer(index).toString());
+		}
+		throw new JavaScriptException(index + " not found"); //$NON-NLS-1$
+
 	}
 	
 	public void put(int index, Scriptable start, Object value)

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -27,7 +28,7 @@ import org.mozilla.javascript.WrapFactory;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/26 05:36:56 $
  */
 public class ScriptContext
 {
@@ -181,7 +182,7 @@ public class ScriptContext
 	 *            script to be evaluated
 	 * @return the evaluated value
 	 */
-	public Object eval( String source )
+	public Object eval( String source ) 
 	{
 		return eval( source, "<inline>", 1 );
 	}
@@ -189,7 +190,7 @@ public class ScriptContext
 	/**
 	 * evaluates a script
 	 */
-	public Object eval( String source, String name, int lineNo )
+	public Object eval( String source, String name, int lineNo ) 
 	{
 		assert ( this.context != null );
 		Object value = context.evaluateString( scope, source, name, lineNo,
@@ -220,6 +221,10 @@ public class ScriptContext
 			else if ( "String".equals( className ) )
 			{
 				return Context.toString( jsValue );
+			}
+			else if("undefined".equals(className))
+			{
+				throw new JavaScriptException("Java script error");
 			}
 		}
 		if(jsValue instanceof Integer)
@@ -295,7 +300,7 @@ public class ScriptContext
 	 * wapper can handle the object. If no wapper is used, the default wapper is
 	 * used.
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
+	 * @version $Revision: 1.14 $ $Date: 2005/05/26 05:36:56 $
 	 */
 	private class BIRTWrapper extends WrapFactory
 	{
@@ -324,7 +329,7 @@ public class ScriptContext
 			{
 				return new NativeJavaLinkedHashMap( scope, obj, staticType );
 			}
-			if ( obj instanceof Map )
+			if ( obj instanceof BirtHashMap )
 			{
 				return new NativeJavaMap( scope, obj, staticType );
 			}
@@ -339,7 +344,7 @@ public class ScriptContext
 	/**
 	 * initailzier used to initalize the script context.
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2005/05/20 15:11:13 $
+	 * @version $Revision: 1.14 $ $Date: 2005/05/26 05:36:56 $
 	 */
 	private class BIRTInitializer
 	{

@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.core.script.BirtHashMap;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -46,7 +47,6 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.script.NativeReportDefinition;
 import org.eclipse.birt.report.model.script.ReportDefinition;
 import org.mozilla.javascript.Scriptable;
 
@@ -57,7 +57,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.25 $ $Date: 2005/05/23 05:08:17 $
+ * @version $Revision: 1.26 $ $Date: 2005/05/25 02:47:24 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -90,10 +90,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	private Stack reportContents = new Stack( );
 
 	// Global configuration variables
-	private Map configs = new HashMap( );
+	private Map configs = new BirtHashMap( );
 
 	// Report parameters
-	private Map params = new HashMap( );
+	private Map params = new BirtHashMap( );
 
 	// the report design
 	protected Report report;

@@ -37,13 +37,14 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
 /**
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/23 05:08:17 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -314,6 +315,12 @@ public class DteDataEngine implements IDataEngine
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
 				context.addException( e );
+				return null;
+			}
+			catch(JavaScriptException ee)
+			{
+				logger.log( Level.SEVERE, ee.getMessage( ), ee );
+				context.addException( ee );
 				return null;
 			}
 		}
