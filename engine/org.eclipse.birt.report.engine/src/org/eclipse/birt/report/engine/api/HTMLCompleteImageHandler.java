@@ -177,7 +177,6 @@ public class HTMLCompleteImageHandler implements IHTMLImageHandler
 			{
 				file = createUniqueFile( imageAbsoluteDir, prefix, image
 						.getExtension( ) );
-				file.deleteOnExit();
 				fileName = file.getName( );
 			try
 				{
