@@ -1676,7 +1676,7 @@
     <Property detailType="FilterCondition" displayNameID="Element.DataSet.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
   </Element>
-  <Element canExtend="false" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="ScriptDataSet">
+  <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="ScriptDataSet">
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="boolean" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true"/>
