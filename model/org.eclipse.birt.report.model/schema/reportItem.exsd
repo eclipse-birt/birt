@@ -360,7 +360,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="propertyVisibility" type="string">
+         <attribute name="visibility" type="string">
             <annotation>
                <documentation>
                   Two options are: hide, readonly.

@@ -1447,7 +1447,9 @@
   </Structure>
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam">
     <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
-    <Member detailType="columnDataType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice"><Default>any</Default></Member> 
+    <Member detailType="columnDataType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+        <Default>any</Default>
+    </Member> 
     <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
 	<Member context="factory" displayNameID="Structure.DataSetParam.defaultValue" isIntrinsic="true" name="defaultValue" returnType="any" runtimeSettable="false" since="reserved" type="expression"/>    
     <Member displayNameID="Structure.DataSetParam.isOptional" isIntrinsic="true" name="isOptional" runtimeSettable="false" since="1.0" type="boolean">
@@ -1491,7 +1493,7 @@
       <Default>auto</Default>
     </Member>
     <Member displayNameID="Structure.ColumnHint.parentLevel" name="parentLevel" runtimeSettable="false" since="reserved" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.format" name="format" runtimeSettable="false" since="reserved" type="string"><Default>varies depends on data type</Default></Member>
+    <Member displayNameID="Structure.ColumnHint.format" name="format" runtimeSettable="false" since="reserved" type="string" />
     <Member displayNameID="Structure.ColumnHint.displayName" name="displayName" runtimeSettable="false" since="1.0" type="string"/>
     <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" type="string"/>
     <Member displayNameID="Structure.ColumnHint.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
@@ -1543,6 +1545,7 @@
     <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.ReportDesign.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.ReportDesign.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip"/>
+    <PropertyVisibility name="createdBy" visibility="readonly" />	     
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportDesign" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
     <Property canInherit="false" displayNameID="Element.ReportDesign.refreshRate" name="refreshRate" runtimeSettable="false" since="reserved" type="integer" validator="NonNegativeValueValidator">
@@ -1550,7 +1553,6 @@
     </Property>
 	<Property canInherit="false" displayNameID="Element.ReportDesign.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
     <Property canInherit="false" displayNameID="Element.ReportDesign.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
-    <PropertyVisibility name="refreshRate" visibility="hide"/>	
     <Method context="factory" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="reserved" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip"/>
@@ -1559,6 +1561,7 @@
     <Method context="factory" displayNameID="Element.ReportDesign.afterCloseDoc" name="afterCloseDoc" since="reserved" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip"/>
     <Method context="presentation" displayNameID="Element.ReportDesign.beforeRender" name="beforeRender" since="1.0" toolTipID="Element.ReportDesign.beforeRender.toolTip"/>
     <Method context="presentation" displayNameID="Element.ReportDesign.afterRender" name="afterRender" since="1.0" toolTipID="Element.ReportDesign.afterRender.toolTip"/>
+    <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<PropertyVisibility name="beforeOpenDoc" visibility="hide"/>
     <PropertyVisibility name="afterOpenDoc" visibility="hide"/>
@@ -1675,7 +1678,7 @@
   <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="ScriptDataSet">
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip"/>
-    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="boolean" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true"/>
+    <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip"/>
   </Element>
   <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="OdaDataSet">
@@ -1690,7 +1693,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">
     <Property displayNameID="Element.Parameter.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Parameter.helpTextID" name="helpTextID" type="resourceKey"/>
-    <Property displayNameID="Element.Parameter.hidden" name="hidden" runtimeSettable="false" since="1.0" type="boolean"><Default>false</Default></Property>
+    <Property displayNameID="Element.Parameter.hidden" name="hidden" runtimeSettable="false" since="1.0" type="boolean">
+        <Default>false</Default>
+    </Property>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property displayNameID="Element.ScalarParameter.displayPrompt" name="displayPrompt" type="string"/>
@@ -1900,19 +1905,19 @@
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" type="dimension">
+      <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" type="dimension">
+      <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" type="dimension">
+      <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" type="dimension">
+      <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>

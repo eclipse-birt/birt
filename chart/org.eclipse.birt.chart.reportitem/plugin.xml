@@ -60,7 +60,7 @@
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
          <propertyVisibility
-               propertyVisibility="hide"
+               visibility="hide"
                name="xmlRepresentation"/>
       </reportItem>
    </extension>

@@ -134,7 +134,7 @@ public abstract class ExtensionLoader
 		static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
 		static final String DEFAULT_VALUE_ATTRIB = "defaultValue"; //$NON-NLS-1$
 		static final String VALUE_ATTRIB = "value"; //$NON-NLS-1$
-		static final String PROPERTY_VISIBILITY_ATTRIB = "propertyVisibility"; //$NON-NLS-1$
+		static final String VISIBILITY_ATTRIB = "visibility"; //$NON-NLS-1$
 		static final String DEFAULT_DISPLAY_NAME_ATTRIB = "defaultDisplayName"; //$NON-NLS-1$
 		static final String IS_ENCRYPTABLE_ATTRIB = "isEncryptable"; //$NON-NLS-1$
 
@@ -247,7 +247,7 @@ public abstract class ExtensionLoader
 				ExtensionElementDefn elementDefn ) throws ExtensionException
 		{
 			String name = propTag.getAttribute( NAME_ATTRIB );
-			String visible = propTag.getAttribute( PROPERTY_VISIBILITY_ATTRIB );
+			String visible = propTag.getAttribute( VISIBILITY_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
 			elementDefn.addPropertyVisibility( name, visible );
