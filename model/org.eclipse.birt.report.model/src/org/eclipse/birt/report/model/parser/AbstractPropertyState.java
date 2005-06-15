@@ -336,8 +336,6 @@ public class AbstractPropertyState extends AbstractParseState
 				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode )
 				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
-						.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED
 						.equalsIgnoreCase( errorCode ) )
 			return true;
 

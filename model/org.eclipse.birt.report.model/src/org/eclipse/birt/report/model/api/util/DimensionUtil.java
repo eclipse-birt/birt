@@ -174,6 +174,8 @@ public class DimensionUtil
 			String appUnit, String targetUnits )
 	{
 		String fromUnit = dimension.getUnits( );
+		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( fromUnit ) )
+			fromUnit = appUnit;
 
 		return convertTo( dimension.getMeasure( ), fromUnit, targetUnits );
 	}

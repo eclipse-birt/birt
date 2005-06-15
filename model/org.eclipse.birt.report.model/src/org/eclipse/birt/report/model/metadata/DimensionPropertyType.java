@@ -118,15 +118,7 @@ public class DimensionPropertyType extends PropertyType
 			return null;
 
 		if ( value instanceof String )
-		{
-			DimensionValue dim = DimensionValue.parseInput( (String) value );
-			if ( dim == null )
-				return null;
-			if ( !StringUtil.isBlank( dim.getUnits( ) ) )
-				return dim;
-			return new DimensionValue( dim.getMeasure( ), getDefaultUnit(
-					design, defn ) );
-		}
+			return validateInputString( design, defn, (String) value );
 		if ( value instanceof DimensionValue )
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
@@ -165,8 +157,7 @@ public class DimensionPropertyType extends PropertyType
 		String unit = defn.getDefaultUnit( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		if ( design == null )
-			return DimensionValue.DEFAULT_UNIT;
+		assert design != null;
 		unit = design.getUnits( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
@@ -206,14 +197,7 @@ public class DimensionPropertyType extends PropertyType
 	public Object validateXml( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-
-		DimensionValue dim = DimensionValue.parse( value );
-
-		if ( dim != null )
-			validateUnits( design, defn, dim, true );
-
-		return dim;
-
+		return validateInputString( design, defn, value );
 	}
 
 	/**
@@ -237,11 +221,13 @@ public class DimensionPropertyType extends PropertyType
 			String value ) throws PropertyValueException
 	{
 		DimensionValue dim = DimensionValue.parseInput( value );
-
-		if ( dim != null )
-			validateUnits( design, defn, dim, false );
-
-		return dim;
+		if ( dim == null )
+			return null;
+		validateUnits( design, defn, dim );
+		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+			return dim;
+		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+				defn ) );
 	}
 
 	/**
@@ -267,31 +253,25 @@ public class DimensionPropertyType extends PropertyType
 	/**
 	 * Validates the unit of the dimension value, checks to see if it is in the
 	 * allowed units set.
+	 * 
 	 * @param design
-	 * 		the report design 
+	 *            the report design
 	 * @param defn
 	 *            property definition.
 	 * @param value
 	 *            the dimension value of the dimension.
-	 * @param isUnitRequired
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
 	 *  
 	 */
 
 	private void validateUnits( ReportDesign design, PropertyDefn defn,
-			DimensionValue value, boolean isUnitRequired )
+			DimensionValue value )
 			throws PropertyValueException
 	{
 		assert value != null;
 		String unit = value.getUnits( );
-		double measure = value.getMeasure( );
-		if ( Double.compare( 0, measure ) != 0 && isUnitRequired && StringUtil.isBlank( unit ) )
-		{
-			throw new PropertyValueException( null, defn, value,
-					PropertyValueException.DESIGN_EXCEPTION_UNIT_REQUIRED );
-		}
-		if ( StringUtil.isBlank( value.getUnits( ) ) )
+		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( value.getUnits( ) ) )
 		{
 			unit = getDefaultUnit( design, defn );
 		}
@@ -364,7 +344,7 @@ public class DimensionPropertyType extends PropertyType
 
 		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim.getMeasure( );
-			
+
 		return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
 				design.getSession( ).getUnits( ) ).getMeasure( );
 	}

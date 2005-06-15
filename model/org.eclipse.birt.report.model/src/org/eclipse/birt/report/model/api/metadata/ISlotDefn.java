@@ -104,4 +104,34 @@ public interface ISlotDefn
 	 */
 
 	public boolean canContain( DesignElement content );
+
+	/**
+	 * Return the version in which the slot was introduced. Returns "reserved"
+	 * if the slot is not yet supported.
+	 * 
+	 * @return version in which the slot was introduced.
+	 * 
+	 */
+	
+	public String getSince( );
+
+	/**
+	 * Return the XML element used to hold slot contents. If blank,
+	 * then the slot is anonymous (its contents appear directly inside
+	 * the container.)
+	 * 
+	 * @return the XML element used to hold slot contents
+	 */
+	
+	public String getXmlName( );
+	
+	/**
+	 * Returns the selector associated with the slot. Some selectors end
+	 * with -n. In this case, the n represents the number 1 though 9, depending
+	 * on the slot location.
+	 * 
+	 * @return the default style for this slot.
+	 */
+	
+	public String getSelector( );
 }

@@ -112,7 +112,6 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_VALUE_REQUIRED = "Error.PropertyValueException.VALUE_REQUIRED"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_VALUE_LOCKED = "Error.PropertyValueException.VALUE_LOCKED"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_UNIT_NOT_ALLOWED = "Error.PropertyValueException.UNIT_NOT_ALLOWED"; //$NON-NLS-1$
-	public static final String PROPERTY_VALUE_EXCEPTION_UNIT_REQUIRED = "Error.PropertyValueException.UNIT_REQUIRED"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_CHOICE_NOT_ALLOWED = "Error.PropertyValueException.CHOICE_NOT_ALLOWED"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_WRONG_ITEM_TYPE = "Error.PropertyValueException.WRONG_ITEM_TYPE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_NEGATIVE_VALUE = "Error.PropertyValueException.NEGATIVE_VALUE"; //$NON-NLS-1$

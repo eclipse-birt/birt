@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.metadata;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -124,13 +123,6 @@ public class PropertyValueException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNIT_NOT_ALLOWED = MessageConstants.PROPERTY_VALUE_EXCEPTION_UNIT_NOT_ALLOWED;
-
-	/**
-	 * Error code constant indicating unit is not set for the dimension
-	 * property.
-	 */
-
-	public static final String DESIGN_EXCEPTION_UNIT_REQUIRED = MessageConstants.PROPERTY_VALUE_EXCEPTION_UNIT_REQUIRED;
 
 	/**
 	 * Error code constant indicating the choice value is not allowed for a
@@ -320,15 +312,6 @@ public class PropertyValueException extends SemanticException
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{propertyName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_UNIT_REQUIRED )
-		{
-			String name = element.getName( );
-			if ( StringUtil.isBlank( name ) )
-				return ModelMessages.getMessage( sResourceKey, new String[]{
-						propertyName, element.getElementName( )} );
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					propertyName, element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_ITEM_TYPE )
 		{
