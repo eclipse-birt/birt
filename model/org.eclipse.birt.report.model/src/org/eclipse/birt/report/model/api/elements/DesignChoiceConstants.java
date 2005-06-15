@@ -336,18 +336,11 @@ public interface DesignChoiceConstants
 	// actionLinkType
 
 	public static final String CHOICE_ACTION_LINK_TYPE = "actionLinkType"; //$NON-NLS-1$
-	public static final String ACTION_LINK_TYPE_NONE = "none"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_HYPERLINK = "hyperlink"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_DRILL_THROUGH = "drill-through"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_BOOKMARK_LINK = "bookmark-link"; //$NON-NLS-1$
 
-	// drillThroughLinkType
-
-	public static final String CHOICE_DRILL_THROUGH_LINK_TYPE = "drillThroughLinkType"; //$NON-NLS-1$
-	public static final String DRILL_THROUGH_LINK_TYPE_NONE = "none"; //$NON-NLS-1$
-	public static final String DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK = "bookmark-link"; //$NON-NLS-1$
-	public static final String DRILL_THROUGH_LINK_TYPE_SEARCH = "search"; //$NON-NLS-1$
-
+	
 	// ContentType for TextItem
 
 	public static final String CHOICE_TEXT_CONTENT_TYPE = "textContentType"; //$NON-NLS-1$

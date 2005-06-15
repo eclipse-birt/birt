@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.42 $ $Date: 2005/05/25 07:24:15 $
+ * @version $Revision: 1.43 $ $Date: 2005/05/27 08:13:34 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1190,13 +1190,13 @@ class EngineIRVisitor extends DesignVisitor
 		String linkType = handle.getLinkType( );
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
-			action.setHyperlink( new Expression( handle.getHyperlink( ) ) );
+			action.setHyperlink( new Expression( handle.getURI() ) );
 			action.setTargetWindow( handle.getTargetWindow( ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
-			action.setBookmark( new Expression( handle.getBookmarkLink( ) ) );
+			action.setBookmark( new Expression( handle.getTargetBookmark() ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
@@ -1206,9 +1206,9 @@ class EngineIRVisitor extends DesignVisitor
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
 
-			drillThrough.setReportName( handle.getDrillThroughReportName( ) );
+			drillThrough.setReportName( handle.getReportName( ) );
 			drillThrough.setBookmark( new Expression( handle
-					.getDrillThroughBookmarkLink( ) ) );
+					.getTargetBookmark( ) ) );
 			Map params = new HashMap( );
 			Iterator paramIte = handle.paramBindingsIterator( );
 			while ( paramIte.hasNext( ) )
@@ -1231,10 +1231,6 @@ class EngineIRVisitor extends DesignVisitor
 			//			}
 			//			drillThrough.setSearch( search );
 			
-		}
-		else if ( EngineIRConstants.ACTION_LINK_TYPE_NONE.equals( linkType ) )
-		{
-			return null;
 		}
 		else
 		{

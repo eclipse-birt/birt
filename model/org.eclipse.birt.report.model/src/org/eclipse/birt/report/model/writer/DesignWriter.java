@@ -1466,52 +1466,28 @@ public class DesignWriter extends ElementVisitor
 
 		String linkType = (String) action.getProperty( design,
 				Action.LINK_TYPE_MEMBER );
-		String targetWindow = (String) action.getProperty( design,
-				Action.TARGET_WINDOW_MEMBER );
-
-		// Empty action
-
-		if ( targetWindow == null
-				&& linkType
-						.equalsIgnoreCase( DesignChoiceConstants.ACTION_LINK_TYPE_NONE ) )
-			return;
-
+		
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignElement.NAME_PROP, propName );
 
-		property( action, Action.TARGET_WINDOW_MEMBER );
-
-		if ( linkType
-				.equalsIgnoreCase( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK ) )
+        property( action, Action.LINK_TYPE_MEMBER );
+        
+        if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK.equalsIgnoreCase( linkType ) )
 		{
-			property( action, Action.HYPERLINK_MEMBER );
+			property( action, Action.URI_MEMBER );
+            property( action, Action.TARGET_WINDOW_MEMBER );
 		}
-		else if ( linkType
-				.equalsIgnoreCase( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equalsIgnoreCase( linkType ) )
 		{
-			property( action, Action.BOOKMARK_LINK_MEMBER );
+			property( action, Action.TARGET_BOOKMARK_MEMBER );
 		}
-		else if ( linkType
-				.equalsIgnoreCase( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH ) )
+		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equalsIgnoreCase( linkType ) )
 		{
-			property( action, Action.DRILLTHROUGH_REPORT_NAME_MEMBER );
-
-			writeStructureList( action,
-					Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
-
-			String drillThroughType = (String) action.getProperty( design,
-					Action.DRILLTHROUGH_TYPE_MEMBER );
-
-			if ( DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK
-					.equalsIgnoreCase( drillThroughType ) )
-			{
-				property( action, Action.DRILLTHROUGH_BOOKMARK_LINK_MEMBER );
-			}
-			else if ( DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_SEARCH
-					.equalsIgnoreCase( drillThroughType ) )
-			{
-				writeStructureList( action, Action.DRILLTHROUGH_SEARCH_MEMBER );
-			}
+			property( action, Action.REPORT_NAME_MEMBER );
+            property( action, Action.TARGET_BOOKMARK_MEMBER );
+            property( action, Action.TARGET_WINDOW_MEMBER );
+			writeStructureList( action,Action.PARAM_BINDINGS_MEMBER );
+			writeStructureList( action, Action.SEARCH_MEMBER );
 		}
 		else
 		{

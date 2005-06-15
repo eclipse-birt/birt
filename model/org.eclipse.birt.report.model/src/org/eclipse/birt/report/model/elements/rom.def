@@ -1500,22 +1500,18 @@
   <Structure displayNameID="Structure.SearchKey" name="SearchKey" since="reserved">
     <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" type="expression"/>
   </Structure>
-  <Structure displayNameID="Structure.Action" name="Action" since="1.0">
+ <Structure displayNameID="Structure.Action" name="Action" since="1.0">
     <Member detailType="targetNames" displayNameID="Structure.Action.targetWindow" name="targetWindow" since="1.0" type="string">
     	<Default>_blank</Default>
     </Member>
     <Member detailType="actionLinkType" displayNameID="Structure.Action.linkType" name="linkType" since="1.0" type="choice">
-      <Default>none</Default>
+      <Default>hyperlink</Default>
     </Member>
-    <Member displayNameID="Structure.Action.hyperlink" name="hyperlink" since="1.0" type="expression"/>
-    <Member displayNameID="Structure.Action.bookmarkLink" name="bookmarkLink" since="reserved" type="expression"/>
-    <Member displayNameID="Structure.Action.drillThroughReportName" name="drillThroughReportName" since="reserved" type="string"/>
-    <Member detailType="ParamBinding" displayNameID="Structure.Action.drillThroughParamBindings" isList="true" name="drillThroughParamBindings" since="reserved" type="structure"/>
-    <Member detailType="drillThroughType" displayNameID="Structure.Action.drillThroughType" name="drillThroughType" since="reserved" type="choice">
-      <Default>none</Default>
-    </Member>
-    <Member displayNameID="Structure.Action.drillThroughBookmarkLink" name="drillThroughBookmarkLink" type="expression"/>
-    <Member detailType="SearchKey" displayNameID="Structure.Action.drillThroughSearch" isList="true" name="drillThroughSearch" since="reserved" type="structure"/>
+    <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" since="reserved" type="expression"/>
+    <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="string"/>
+    <Member detailType="ParamBinding" displayNameID="Structure.Action.paramBindings" isList="true" name="paramBindings" since="reserved" type="structure"/>
+    <Member detailType="SearchKey" displayNameID="Structure.Action.search" isList="true" name="search" since="reserved" type="structure"/>
   </Structure>
   <Structure displayNameID="Structure.SelectionChoice" name="SelectionChoice" since="1.0">
     <Member displayNameID="Structure.SelectionChoice.value" isIntrinsic="true" name="value" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>

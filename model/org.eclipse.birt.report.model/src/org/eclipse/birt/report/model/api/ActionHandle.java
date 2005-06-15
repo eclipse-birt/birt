@@ -64,35 +64,52 @@ public class ActionHandle extends StructureHandle
 		super( element, ref );
 	}
 
+    
+    /**
+     * Gets the hyperlink if the link type is
+     * <code>ACTION_LINK_TYPE_HYPERLINK</code>. Otherwise, return null.
+     * 
+     * @return the link expression in a string
+     * @deprecated use {@link #getURI()} instead.
+     */
+
+    public String getHyperlink( )
+    {
+        return getURI( );
+    }
+    
 	/**
-	 * Gets the hyperlink if the link type is
+	 * Gets the identifier of the hyperlink if the link type is
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>. Otherwise, return null.
 	 * 
-	 * @return the link expression in a string
+	 * @return the URI link expression in a string
 	 */
 
-	public String getHyperlink( )
+	public String getURI( )
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
 				.equalsIgnoreCase( getLinkType( ) ) )
-			return getStringProperty( Action.HYPERLINK_MEMBER );
+			return getStringProperty( Action.URI_MEMBER );
 
 		return null;
 	}
 
 	/**
-	 * Gets the target window of the action.
+	 * Gets the name of the target browser window for the link. (Optional.) Used
+	 * only for the Hyperlink and Drill Through options. Otherwise, return null.
 	 * 
 	 * @return the window name
 	 */
 
 	public String getTargetWindow( )
 	{
-		if ( DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK
-				.equalsIgnoreCase( getLinkType( ) ) )
-			return null;
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
+				.equalsIgnoreCase( getLinkType( ) )
+				|| DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+						.equalsIgnoreCase( getLinkType( ) ) )
+			return getStringProperty( Action.TARGET_WINDOW_MEMBER );
 
-		return getStringProperty( Action.TARGET_WINDOW_MEMBER );
+		return null;
 	}
 
 	/**
@@ -117,6 +134,28 @@ public class ActionHandle extends StructureHandle
 	}
 
 	/**
+	 * Sets the link type of the action. The link type are defined in
+	 * DesignChoiceConstants and can be one of the following:
+	 * <p>
+	 * <ul>
+	 * <li><code>ACTION_LINK_TYPE_NONE</code>
+	 * <li><code>ACTION_LINK_TYPE_HYPERLINK</code>
+	 * <li><code>ACTION_LINK_TYPE_DRILLTHROUGH</code>
+	 * <li><code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            type of the action.
+	 * @throws SemanticException
+	 *             if the <code>type</code> is not one of the above.
+	 */
+
+	public void setLinkType( String type ) throws SemanticException
+	{
+		setProperty( Action.LINK_TYPE_MEMBER, type );
+	}
+
+	/**
 	 * Get a handle to deal with the parameter binding list member if the link
 	 * type is <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return
 	 * null.
@@ -128,13 +167,13 @@ public class ActionHandle extends StructureHandle
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equalsIgnoreCase( getLinkType( ) ) )
-			return getMember( Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
+			return getMember( Action.PARAM_BINDINGS_MEMBER );
 
 		return null;
 	}
 
 	/**
-	 * Add a new parameter binding to the action.
+	 * Add a new parameter binding to the action. 
 	 * 
 	 * @param paramBinding
 	 *            a new parameter binding to be added.
@@ -145,44 +184,28 @@ public class ActionHandle extends StructureHandle
 	public void addParamBinding( ParamBinding paramBinding )
 			throws SemanticException
 	{
-		MemberHandle memberHandle = getMember( Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
-		elementHandle.design.getActivityStack( ).startTrans( );
-
-		try
-		{
-			memberHandle.addItem( paramBinding );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-
-		elementHandle.design.getActivityStack( ).commit( );
+		MemberHandle memberHandle = getMember( Action.PARAM_BINDINGS_MEMBER );
+		memberHandle.addItem( paramBinding );
 	}
 
 	/**
 	 * Get a handle to deal with the search key list member if the link type is
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> and the drill-through type
-	 * is <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>. Otherwise,
-	 * return null.
+	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return null.
 	 * 
 	 * @return a handle to deal with the search key list member
 	 */
 
 	public MemberHandle getSearch( )
 	{
-		if ( DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_SEARCH
-				.equalsIgnoreCase( getDrillThroughType( ) ) )
-			return getMember( Action.DRILLTHROUGH_SEARCH_MEMBER );
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equalsIgnoreCase( getLinkType( ) ) )
+			return getMember( Action.SEARCH_MEMBER );
 
 		return null;
 	}
 
 	/**
-	 * Add a new search key to the action.
+	 * Add a new search key to the action. 
 	 * 
 	 * @param key
 	 *            a new search key to be added.
@@ -192,23 +215,8 @@ public class ActionHandle extends StructureHandle
 
 	public void addSearch( SearchKey key ) throws SemanticException
 	{
-		MemberHandle memberHandle = getMember( Action.DRILLTHROUGH_SEARCH_MEMBER );
-
-		elementHandle.design.getActivityStack( ).startTrans( );
-		try
-		{
-			memberHandle.addItem( key );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-			setProperty( Action.DRILLTHROUGH_TYPE_MEMBER,
-					DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_SEARCH );
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-		elementHandle.design.getActivityStack( ).commit( );
+		MemberHandle memberHandle = getMember( Action.SEARCH_MEMBER );
+		memberHandle.addItem( key );
 	}
 
 	/**
@@ -225,51 +233,97 @@ public class ActionHandle extends StructureHandle
 		setProperty( Action.TARGET_WINDOW_MEMBER, window );
 	}
 
+
+    /**
+     * Sets the hyperlink of this action. The link type will be changed to
+     * <code>ACTION_LINK_TYPE_HYPERLINK</code>.
+     * 
+     * @param hyperlink
+     *            the hyperlink to set
+     * @throws SemanticException
+     *             if the property is locked.
+     * @see #getHyperlink()
+     * @deprecated {@link #setURI(String)}
+     */
+
+    public void setHyperlink( String hyperlink ) throws SemanticException
+    {
+        setURI( hyperlink );
+    }
+    
 	/**
+	 * 
 	 * Sets the hyperlink of this action. The link type will be changed to
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>.
 	 * 
-	 * @param hyperlink
+	 * @param uri
 	 *            the hyperlink to set
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @see #getHyperlink()
 	 */
 
-	public void setHyperlink( String hyperlink ) throws SemanticException
+	public void setURI( String uri ) throws SemanticException
 	{
-		try
-		{
-			elementHandle.design.getActivityStack( ).startTrans( );
-
-			setProperty( Action.HYPERLINK_MEMBER, hyperlink );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-
-		elementHandle.design.getActivityStack( ).commit( );
+		setProperty( Action.URI_MEMBER, uri );
 	}
 
+    /**
+     * Gets the name of the target report document if the link type is
+     * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return null.
+     * 
+     * @return the name of the target report document
+     * @see #setDrillThroughReportName(String)
+     * @deprecated use {@link #getReportName()} instead.
+     */
+
+    public String getDrillThroughReportName( )
+    {
+        return getReportName( );
+    }
+    
 	/**
 	 * Gets the name of the target report document if the link type is
 	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return null.
 	 * 
 	 * @return the name of the target report document
-	 * @see #setDrillThroughReportName(String)
+	 * @see #setReportName(String)
 	 */
 
-	public String getDrillThroughReportName( )
+	public String getReportName( )
 	{
-		return getStringProperty( Action.DRILLTHROUGH_REPORT_NAME_MEMBER );
+		if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equalsIgnoreCase( getLinkType( ) ) )
+			return getStringProperty( Action.REPORT_NAME_MEMBER );
+
+		return null;
 	}
 
+
+    /**
+     * Sets target report name for a drill-though link. The link type willl be
+     * changed to <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. The report name
+     * can include relative or absolute names. If the suffix is omitted, it is
+     * computed on the server by looking for a matching report. BIRT reports are
+     * searched in the following order: 1) a BIRT report document or 2) a BIRT
+     * report design.
+     * 
+     * @param reportName
+     *            the name of the target report
+     * @throws SemanticException
+     *             if the property is locked.
+     * @see #getDrillThroughReportName()
+     * @deprecated use {@link #setReportName(String)} instead.
+     */
+
+    public void setDrillThroughReportName( String reportName )
+            throws SemanticException
+    {
+        setReportName( reportName );
+    }
+
+    
 	/**
-	 * Sets target report name for a drill-though link. The link type willl be
+	 * Sets target report name for a drill-though link. The link type will be
 	 * changed to <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. The report name
 	 * can include relative or absolute names. If the suffix is omitted, it is
 	 * computed on the server by looking for a matching report. BIRT reports are
@@ -280,28 +334,47 @@ public class ActionHandle extends StructureHandle
 	 *            the name of the target report
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @see #getDrillThroughReportName()
+	 * @see #getReportName()
 	 */
 
-	public void setDrillThroughReportName( String reportName )
-			throws SemanticException
+	public void setReportName( String reportName ) throws SemanticException
 	{
-		try
-		{
-			elementHandle.design.getActivityStack( ).startTrans( );
-
-			setProperty( Action.DRILLTHROUGH_REPORT_NAME_MEMBER, reportName );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-		elementHandle.design.getActivityStack( ).commit( );
+		setProperty( Action.REPORT_NAME_MEMBER, reportName );
 	}
 
+    /**
+     * Sets the drill-through bookmark. The link type will be changed to
+     * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>, and drill-through type
+     * will be changed to <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>.
+     * 
+     * @param bookmark
+     *            the bookmark to set.
+     * @throws SemanticException
+     *             if the property is locked.
+     * @see #getBookmarkLink()
+     * @deprecated use {@link #setTargetBookmark(String)} instead.
+     */
+
+    public void setDrillThroughBookmarkLink( String bookmark )
+            throws SemanticException
+    {
+        setTargetBookmark( bookmark );
+    }
+
+    
+    /**
+     * Gets the bookmark link if the link type is
+     * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>. Otherwise, return null.
+     * 
+     * @return the bookmark link
+     * @deprecated use {@link #getTargetBookmark()} instead.
+     */
+
+    public String getBookmarkLink( )
+    {
+        return getTargetBookmark( );
+    }
+    
 	/**
 	 * Gets the bookmark link if the link type is
 	 * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>. Otherwise, return null.
@@ -309,114 +382,74 @@ public class ActionHandle extends StructureHandle
 	 * @return the bookmark link
 	 */
 
-	public String getBookmarkLink( )
+	public String getTargetBookmark( )
 	{
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
-				.equalsIgnoreCase( getLinkType( ) ) )
-			return getStringProperty( Action.BOOKMARK_LINK_MEMBER );
+				.equalsIgnoreCase( getLinkType( ) )
+				|| DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+						.equalsIgnoreCase( getLinkType( ) ) )
+			return getStringProperty( Action.TARGET_BOOKMARK_MEMBER );
 
 		return null;
+
 	}
 
 	/**
-	 * Sets the bookmark link of this action. The link type will be changed to
+	 * Sets the target bookmark defined within this same report, or another
+	 * report for a drill-though link. Call {@link #setLinkType(String)}to do
+	 * the link type change, it can either be
+	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> or
 	 * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>.
 	 * 
-	 * @param expr
-	 *            the expression value.
-	 * @throws SemanticException
-	 *             if the property is locked.
-	 * @see #getBookmarkLink()
-	 */
-
-	public void setBookmarkLink( String expr ) throws SemanticException
-	{
-		try
-		{
-			elementHandle.design.getActivityStack( ).startTrans( );
-
-			setProperty( Action.BOOKMARK_LINK_MEMBER, expr );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
-
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-		elementHandle.design.getActivityStack( ).commit( );
-	}
-
-	/**
-	 * Gets the drill-through bookmark if the link type is
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> and the drill-through type
-	 * is <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>.
-	 * 
-	 * @return drill-through bookmark link
-	 */
-
-	public String getDrillThroughBookmarkLink( )
-	{
-		if ( DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK
-				.equalsIgnoreCase( getDrillThroughType( ) ) )
-			return getStringProperty( Action.DRILLTHROUGH_BOOKMARK_LINK_MEMBER );
-
-		return null;
-	}
-
-	/**
-	 * Sets the drill-through bookmark. The link type will be changed to
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>, and drill-through type
-	 * will be changed to <code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>.
 	 * 
 	 * @param bookmark
-	 *            the bookmark to set.
+	 *            the bookmark value.
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @see #getBookmarkLink()
+	 * @see #getTargetBookmark()
 	 */
 
-	public void setDrillThroughBookmarkLink( String bookmark )
-			throws SemanticException
+	public void setTargetBookmark( String bookmark ) throws SemanticException
 	{
-		try
-		{
-			elementHandle.design.getActivityStack( ).startTrans( );
-
-			setProperty( Action.DRILLTHROUGH_BOOKMARK_LINK_MEMBER, bookmark );
-			setProperty( Action.LINK_TYPE_MEMBER,
-					DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-			setProperty( Action.DRILLTHROUGH_TYPE_MEMBER,
-					DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK );
-		}
-		catch ( SemanticException e )
-		{
-			elementHandle.design.getActivityStack( ).rollback( );
-			throw e;
-		}
-		elementHandle.design.getActivityStack( ).commit( );
+		setProperty( Action.TARGET_BOOKMARK_MEMBER, bookmark );
 	}
 
-	/**
-	 * Gets the drill-through link type. The drillthrough link type is defined
-	 * in DesignChoiceConstants and can be one of the following:
-	 * <p>
-	 * <ul>
-	 * <li><code>DRILL_THROUGH_LINK_TYPE_NONE</code>
-	 * <li><code>DRILL_THROUGH_LINK_TYPE_BOOKMARK_LINK</code>
-	 * <li><code>DRILL_THROUGH_LINK_TYPE_SEARCH</code>
-	 * </ul>
-	 * 
-	 * @return the string value of the drillthrough type
-	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
-	 */
+    /**
+     * Sets the drill-through bookmark. The link type will be changed to
+     * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>.
+     * 
+     * @param bookmark
+     *            the bookmark to set.
+     * @throws SemanticException
+     *             if the property is locked.
+     * @see #getTargetBookmark()
+     * @deprecated use {@link #setTargetBookmark(String)} instead.
+     */
 
-	public String getDrillThroughType( )
-	{
-		return getStringProperty( Action.DRILLTHROUGH_TYPE_MEMBER );
-	}
+    public void setDrillThroughTargetBookmark( String bookmark )
+            throws SemanticException
+    {
+        setTargetBookmark( bookmark );
+    }
+    
+    /**
+     * Sets the bookmark link of this action. The link type will be changed to
+     * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>.
+     * 
+     * @param bookmark
+     *            the expression value.
+     * @throws SemanticException
+     *             if the property is locked.
+     * @see #getBookmarkLink()
+     * @deprecated use {@link #setTargetBookmark(String)} instead.
+     */
+
+    public void setBookmarkLink( String bookmark ) throws SemanticException
+    {
+        setTargetBookmark( bookmark );
+    }
+    
+    
 
 	/**
 	 * Gets the parameter binding list of a drill-through action if the link
@@ -442,9 +475,8 @@ public class ActionHandle extends StructureHandle
 				.equalsIgnoreCase( getLinkType( ) ) )
 			return Collections.EMPTY_LIST.iterator( );
 
-		MemberHandle memberHandle = getMember( Action.DRILLTHROUGH_PARAM_BINDINGS_MEMBER );
+		MemberHandle memberHandle = getMember( Action.PARAM_BINDINGS_MEMBER );
 		return memberHandle.iterator( );
-
 	}
 
 	/**
@@ -464,12 +496,11 @@ public class ActionHandle extends StructureHandle
 
 	public Iterator searchIterator( )
 	{
-		if ( !DesignChoiceConstants.DRILL_THROUGH_LINK_TYPE_SEARCH
-				.equalsIgnoreCase( getDrillThroughType( ) ) )
-			return Collections.EMPTY_LIST.iterator( );;
+		if ( !DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH
+				.equalsIgnoreCase( getLinkType( ) ) )
+			return Collections.EMPTY_LIST.iterator( );
 
-		MemberHandle memberHandle = getMember( Action.DRILLTHROUGH_SEARCH_MEMBER );
+		MemberHandle memberHandle = getMember( Action.SEARCH_MEMBER );
 		return memberHandle.iterator( );
 	}
-
 }

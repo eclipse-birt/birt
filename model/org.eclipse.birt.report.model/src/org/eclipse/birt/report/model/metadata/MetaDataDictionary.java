@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -392,6 +393,17 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		return propertyTypes[type];
 	}
 
+    /**
+     * Gets a list of rom-defined property types.
+     * 
+     * @return a list of rom-defined property types.
+     */
+    
+    public List getPropertyTypes()
+    {
+        return Arrays.asList( propertyTypes );
+    }
+    
 	/**
 	 * Gets the metadata for a property type given the type's XML name.
 	 * 

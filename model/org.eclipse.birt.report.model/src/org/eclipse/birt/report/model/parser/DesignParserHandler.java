@@ -130,8 +130,8 @@ public class DesignParserHandler extends XMLParserHandler
 			throw new SAXException( exception );
 
 		}
-
 		design.semanticCheck( design );
+
 
 		// translates warnings during parsing design files to ErrorDetail.
 

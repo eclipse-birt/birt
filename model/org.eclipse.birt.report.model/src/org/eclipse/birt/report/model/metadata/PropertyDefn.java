@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.api.validators.StructureValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -299,6 +300,16 @@ public abstract class PropertyDefn
 							.getInstance( );
 					SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 							StructureListValidator.NAME );
+					triggerDefn.setPropertyName( getName( ) );
+					triggerDefn.setValidator( validator );
+					getTriggerDefnSet( ).add( triggerDefn );
+				}
+                else
+				{
+					StructureValidator validator = StructureValidator
+							.getInstance( );
+					SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+							StructureValidator.NAME );
 					triggerDefn.setPropertyName( getName( ) );
 					triggerDefn.setValidator( validator );
 					getTriggerDefnSet( ).add( triggerDefn );
