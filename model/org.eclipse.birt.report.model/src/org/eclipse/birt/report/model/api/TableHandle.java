@@ -159,11 +159,12 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public boolean canCopyColumn( int columnIndex )
 	{
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new TableColumnBandAdapter( this ) );
 
 		try
 		{
-			adapter.copyColumn( this, columnIndex );
+			pasteAction.copyColumnBand( columnIndex );
 		}
 		catch ( SemanticException e )
 		{
@@ -171,6 +172,19 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		}
 
 		return true;
+
+		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
+		//
+		// try
+		// {
+		// adapter.copyColumn( this, columnIndex );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// return false;
+		// }
+		//
+		// return true;
 	}
 
 	/**
@@ -195,9 +209,14 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to check." ); //$NON-NLS-1$
 
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new TableColumnBandAdapter( this ) );
 
-		return adapter.canPaste( this, columnIndex, inForce );
+		return pasteAction.canPaste( columnIndex, inForce, data );
+
+		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
+		//
+		// return adapter.canPaste( this, columnIndex, inForce );
 	}
 
 	/**
@@ -213,8 +232,13 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public ColumnBandData copyColumn( int columnIndex )
 			throws SemanticException
 	{
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
-		return adapter.copyColumn( this, columnIndex );
+		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
+		// return adapter.copyColumn( this, columnIndex );
+
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new TableColumnBandAdapter( this ) );
+
+		return pasteAction.copyColumnBand( columnIndex );
 	}
 
 	/**
@@ -236,8 +260,13 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
 
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		adapter.pasteColumnBand( this, columnNumber, inForce );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new TableColumnBandAdapter( this ) );
+
+		pasteAction.pasteColumnBand( columnNumber, inForce, data );
+
+		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
+		// adapter.pasteColumnBand( this, columnNumber, inForce );
 	}
 
 	/**
@@ -256,8 +285,13 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
 
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		adapter.insertAndPasteColumnBand( this, columnNumber );
+		ColumnBandInsertPasteAction insertAction = new ColumnBandInsertPasteAction(
+				new TableColumnBandAdapter( this ) );
+
+		insertAction.insertAndPasteColumnBand( columnNumber, data );
+
+		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
+		// adapter.insertAndPasteColumnBand( this, columnNumber );
 	}
 
 	/**
@@ -279,8 +313,54 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to check." ); //$NON-NLS-1$
 
-		TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		return adapter.canInsertAndPaste( this, columnIndex );
+		ColumnBandInsertPasteAction insertAction = new ColumnBandInsertPasteAction(
+				new TableColumnBandAdapter( this ) );
+
+		return insertAction.canInsertAndPaste( columnIndex, data );
 	}
 
+	/**
+	 * Moves the column from <code>sourceColumn</code> to
+	 * <code>destIndex</code>.
+	 * 
+	 * @param sourceColumn
+	 *            the source column ranging from 1 to the column number
+	 * @param destColumn
+	 *            the target column ranging from 0 to the column number
+	 */
+
+	public void shiftColumn( int sourceColumn, int destColumn )
+			throws SemanticException
+	{
+
+		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
+				new TableColumnBandAdapter( this ) );
+		shiftAction.shiftColumnBand( sourceColumn, destColumn );
+	}
+
+	/**
+	 * Moves the column from <code>sourceColumn</code> to
+	 * <code>destColumn</code>.
+	 * 
+	 * @param sourceColumn
+	 *            the source column ranging from 1 to the column number
+	 * @param destColumn
+	 *            the target column ranging from 0 to the column number
+	 */
+
+	public boolean canShiftColumn( int sourceColumn, int destColumn )
+	{
+		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
+				new TableColumnBandAdapter( this ) );
+
+		try
+		{
+			shiftAction.getShiftData( sourceColumn );
+		}
+		catch ( SemanticException e )
+		{
+			return false;
+		}
+		return shiftAction.checkTargetColumn( sourceColumn, destColumn );
+	}
 }

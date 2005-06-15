@@ -138,11 +138,12 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 	public boolean canCopyColumn( int columnIndex )
 	{
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new GridColumnBandAdapter( this ) );
 
 		try
 		{
-			adapter.copyColumn( this, columnIndex );
+			pasteAction.copyColumnBand( columnIndex );
 		}
 		catch ( SemanticException e )
 		{
@@ -150,6 +151,19 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		}
 
 		return true;
+
+		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( );
+		//
+		// try
+		// {
+		// adapter.copyColumn( this, columnIndex );
+		// }
+		// catch ( SemanticException e )
+		// {
+		// return false;
+		// }
+		//
+		// return true;
 	}
 
 	/**
@@ -165,8 +179,12 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	public ColumnBandData copyColumn( int columnIndex )
 			throws SemanticException
 	{
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( );
-		return adapter.copyColumn( this, columnIndex );
+		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( );
+		// return adapter.copyColumn( this, columnIndex );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new GridColumnBandAdapter( this ) );
+
+		return pasteAction.copyColumnBand( columnIndex );
 	}
 
 	/**
@@ -188,8 +206,12 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
 
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
-		adapter.pasteColumnBand( this, columnNumber, inForce );
+		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
+		// adapter.pasteColumnBand( this, columnNumber, inForce );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new GridColumnBandAdapter( this ) );
+
+		pasteAction.pasteColumnBand( columnNumber, inForce, data );
 	}
 
 	/**
@@ -214,28 +236,36 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to check." ); //$NON-NLS-1$
 
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
-		return adapter.canPaste( this, columnIndex, inForce );
+		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
+				new GridColumnBandAdapter( this ) );
+
+		return pasteAction.canPaste( columnIndex, inForce, data );
+		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
+		// return adapter.canPaste( this, columnIndex, inForce );
 	}
-	
+
 	/**
 	 * Inserts and pastes a column with its cells to the given column number.
 	 * 
 	 * @param data
 	 *            the data of a column band to paste
-	 * @param columnIndex
+	 * @param columnNumber
 	 *            the column index from 0 to the number of columns in the grid
 	 * @throws SemanticException
 	 */
 
-	public void insertAndPasteColumn( ColumnBandData data, int columnIndex )
+	public void insertAndPasteColumn( ColumnBandData data, int columnNumber )
 			throws SemanticException
 	{
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to paste." ); //$NON-NLS-1$
 
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
-		adapter.insertAndPasteColumnBand( this, columnIndex );
+		// GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
+		// adapter.insertAndPasteColumnBand( this, columnIndex );
+		ColumnBandInsertPasteAction insertAction = new ColumnBandInsertPasteAction(
+				new GridColumnBandAdapter( this ) );
+
+		insertAction.insertAndPasteColumnBand( columnNumber, data );
 	}
 
 	/**
@@ -257,7 +287,54 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 		if ( data == null )
 			throw new IllegalArgumentException( "empty column to check." ); //$NON-NLS-1$
 
-		GridColumnBandAdapter adapter = new GridColumnBandAdapter( data );
-		return adapter.canInsertAndPaste( this, columnIndex );
+		ColumnBandInsertPasteAction insertAction = new ColumnBandInsertPasteAction(
+				new GridColumnBandAdapter( this ) );
+
+		return insertAction.canInsertAndPaste( columnIndex, data );
+	}
+	
+	/**
+	 * Moves the column from <code>sourceColumn</code> to
+	 * <code>destIndex</code>.
+	 * 
+	 * @param sourceColumn
+	 *            the source column ranging from 1 to the column number
+	 * @param destColumn
+	 *            the target column ranging from 0 to the column number
+	 */
+
+	public void shiftColumn( int sourceColumn, int destColumn )
+			throws SemanticException
+	{
+
+		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
+				new GridColumnBandAdapter( this ) );
+		shiftAction.shiftColumnBand( sourceColumn, destColumn );
+	}
+
+	/**
+	 * Moves the column from <code>sourceColumn</code> to
+	 * <code>destColumn</code>.
+	 * 
+	 * @param sourceColumn
+	 *            the source column ranging from 1 to the column number
+	 * @param destColumn
+	 *            the target column ranging from 0 to the column number
+	 */
+
+	public boolean canShiftColumn( int sourceColumn, int destColumn )
+	{
+		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
+				new GridColumnBandAdapter( this ) );
+
+		try
+		{
+			shiftAction.getShiftData( sourceColumn );
+		}
+		catch ( SemanticException e )
+		{
+			return false;
+		}
+		return shiftAction.checkTargetColumn( sourceColumn, destColumn );
 	}
 }
