@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -869,7 +868,9 @@ public class DesignWriter extends ElementVisitor
 		property( obj, SimpleMasterPage.SHOW_HEADER_ON_FIRST_PROP );
 		property( obj, SimpleMasterPage.SHOW_FOOTER_ON_LAST_PROP );
 		property( obj, SimpleMasterPage.FLOATING_FOOTER );
-
+		property( obj, SimpleMasterPage.HEADER_HEIGHT_PROP );
+		property( obj, SimpleMasterPage.FOOTER_HEIGHT_PROP );
+		
 		writeContents( obj, SimpleMasterPage.PAGE_HEADER_SLOT,
 				DesignSchemaConstants.PAGE_HEADER_TAG );
 		writeContents( obj, SimpleMasterPage.PAGE_FOOTER_SLOT,
@@ -2201,8 +2202,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, MasterPage.LEFT_MARGIN_PROP );
 		property( obj, MasterPage.BOTTOM_MARGIN_PROP );
 		property( obj, MasterPage.RIGHT_MARGIN_PROP );
-		property( obj, MasterPage.HEADER_HEIGHT_PROP );
-		property( obj, MasterPage.FOOTER_HEIGHT_PROP );
+		
 
 		writeStyle( obj );
 	}

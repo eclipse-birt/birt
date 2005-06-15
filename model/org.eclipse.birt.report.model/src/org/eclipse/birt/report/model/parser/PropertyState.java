@@ -106,6 +106,7 @@ class PropertyState extends AbstractPropertyState
 		{
 			( (StyledElement) element ).setStyleName( value );
 		}
+
 		else
 		{
 			setProperty( name, value );
@@ -161,6 +162,11 @@ class PropertyState extends AbstractPropertyState
 				return state;
 			}
 		}
+		if ( "GraphicMasterPage" //$NON-NLS-1$
+				.equalsIgnoreCase( element.getDefn( ).getName( ) )
+				&& ( name.equalsIgnoreCase( "headerHeight" ) || name //$NON-NLS-1$
+						.equalsIgnoreCase( "footerHeight" ) ) ) //$NON-NLS-1$
+			return new CompatibleIgnorePropertyState( handler, element );
 
 		return super.jumpTo( );
 	}

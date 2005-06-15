@@ -290,27 +290,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 		return super.getDimensionProperty( MasterPage.TOP_MARGIN_PROP );
 	}
 
-	/**
-	 * Gets a dimension handle to work with the height on page header.
-	 * 
-	 * @return a DimensionHandle for the header height.
-	 */
-
-	public DimensionHandle getHeaderHeight( )
-	{
-		return super.getDimensionProperty( MasterPage.HEADER_HEIGHT_PROP );
-	}
-
-	/**
-	 * Gets a dimension handle to work with the height on page footer.
-	 * 
-	 * @return a DimensionHandle for the header footer.
-	 */
-
-	public DimensionHandle getFooterHeight( )
-	{
-		return super.getDimensionProperty( MasterPage.FOOTER_HEIGHT_PROP );
-	}
+	
 
 	/**
 	 * Gets the effective page height.

@@ -154,5 +154,25 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	{
 		return getSlot( SimpleMasterPage.PAGE_FOOTER_SLOT );
 	}
+	/**
+	 * Gets a dimension handle to work with the height on page header.
+	 * 
+	 * @return a DimensionHandle for the header height.
+	 */
 
+	public DimensionHandle getHeaderHeight( )
+	{
+		return super.getDimensionProperty( SimpleMasterPage.HEADER_HEIGHT_PROP );
+	}
+
+	/**
+	 * Gets a dimension handle to work with the height on page footer.
+	 * 
+	 * @return a DimensionHandle for the header footer.
+	 */
+
+	public DimensionHandle getFooterHeight( )
+	{
+		return super.getDimensionProperty( SimpleMasterPage.FOOTER_HEIGHT_PROP );
+	}
 }

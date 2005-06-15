@@ -133,12 +133,12 @@ public class AreaEditPart extends ReportElementEditPart
 		rect.width = region.width;
 
 		//Define the default height value of header and footer
-		MasterPageHandle mphandle = ( (MasterPageHandle) ( (MasterPageEditPart) getParent( ) )
+		SimpleMasterPageHandle mphandle = ( (SimpleMasterPageHandle) ( (MasterPageEditPart) getParent( ) )
 				.getModel( ) );
 
 		if ( ( (ReportElementModel) getModel( ) ).getSlotId( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
 		{
-			if ( mphandle.getPropertyHandle( MasterPageHandle.HEADER_HEIGHT_PROP )
+			if ( mphandle.getPropertyHandle( SimpleMasterPageHandle.HEADER_HEIGHT_PROP )
 					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getHeaderHeight( );
@@ -148,7 +148,7 @@ public class AreaEditPart extends ReportElementEditPart
 		}
 		else
 		{
-			if ( mphandle.getPropertyHandle( MasterPageHandle.FOOTER_HEIGHT_PROP )
+			if ( mphandle.getPropertyHandle( SimpleMasterPageHandle.FOOTER_HEIGHT_PROP )
 					.isSet( ) )
 			{
 				DimensionHandle handle = mphandle.getFooterHeight( );

@@ -72,17 +72,6 @@ public interface IMasterPageModel
 
 	public static final String LEFT_MARGIN_PROP = "leftMargin"; //$NON-NLS-1$
 
-	/**
-	 * Name of the dimension property that gives the height of the header.
-	 */
-
-	public static final String HEADER_HEIGHT_PROP = "headerHeight"; //$NON-NLS-1$
-
-	/**
-	 * Name of the dimension property that gives the height of the footer.
-	 */
-
-	public static final String FOOTER_HEIGHT_PROP = "footerHeight"; //$NON-NLS-1$
 
 	/**
 	 * Property name for the reference to the shared style.

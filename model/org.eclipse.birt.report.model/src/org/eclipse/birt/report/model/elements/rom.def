@@ -1961,8 +1961,6 @@
 	  <Trigger validator="MasterPageSizeValidator"/>
 	  <Trigger validator="MasterPageMultiColumnValidator"/>
 	</Property>		
-	<Property displayNameID="Element.MasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-	<Property displayNameID="Element.MasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property detailType="pageOrientation" displayNameID="Element.MasterPage.orientation" name="orientation" runtimeSettable="false" since="1.0" type="string">
       <Default>auto</Default>
     </Property>
@@ -2021,8 +2019,10 @@
     <Property displayNameID="Element.SimpleMasterPage.floatingFooter" name="floatingFooter" runtimeSettable="false" since="reserved" type="boolean">
     	<Default>false</Default>
     </Property>
-    <PropertyVisibility name="floatingFooter" visibility="hide"/>         
-    <Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
+    <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>     
+  	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
+	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
       <Type name="FreeForm"/>
       <Type name="Grid"/>
       <Type name="Text"/>
