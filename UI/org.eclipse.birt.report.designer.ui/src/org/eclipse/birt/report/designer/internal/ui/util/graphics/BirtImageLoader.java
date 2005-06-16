@@ -78,8 +78,28 @@ public class BirtImageLoader
 	public EmbeddedImage save( ReportDesignHandle handle, String fileName )
 			throws SemanticException, IOException
 	{
+		return save(handle,fileName,fileName);
+	}
+	
+	/**
+	 * Loads given image file into given Design file.
+	 * 
+	 * @param handle
+	 *            design file instance handle
+	 * @param fileName
+	 *            file name of image
+	 * @param imageName
+	 *            name of embedded image
+
+	 * @return
+	 * @throws SemanticException
+	 * @throws IOException
+	 */
+	public EmbeddedImage save( ReportDesignHandle handle, String fileName, String imageName )
+			throws SemanticException, IOException
+	{
 		EmbeddedImage embeddedImage = StructureFactory.createEmbeddedImage( );
-		embeddedImage.setName( fileName );
+		embeddedImage.setName( imageName );
 		embeddedImage.setData( load( fileName ) );
 		handle.addImage( embeddedImage );
 
