@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -41,6 +42,8 @@ public class DeleteCommand extends Command
 {
 
 	private Object model = null;
+
+	private ArrayList embeddedImageList = new ArrayList( );
 
 	/**
 	 * Deletes the command
@@ -64,6 +67,13 @@ public class DeleteCommand extends Command
 		try
 		{
 			dropSource( model );
+			if ( !embeddedImageList.isEmpty( ) )
+			{
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
+						.removeItems( embeddedImageList );
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -110,18 +120,7 @@ public class DeleteCommand extends Command
 
 	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
 	{
-		try
-		{
-			List images = new ArrayList();
-			images.add(embeddedImage);
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ).dropImage(images );
-		}
-		catch ( SemanticException e )
-		{
-			e.printStackTrace( );
-		}
-
+		embeddedImageList.add( embeddedImage );
 	}
 
 	protected void dropSourceElementHandle( DesignElementHandle handle )
