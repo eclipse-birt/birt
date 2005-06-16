@@ -384,7 +384,7 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         The following is an example of the JDBC data source extension.
+         The following is an example of the Report Item extension.
 &lt;p&gt;
 &lt;pre&gt;
 
@@ -449,7 +449,19 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         The report item extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.model.api.extension&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
+         If the extended Report Item stores properties in its own model; i.e its own way of storing data then it must satisfy the following requirements&lt;br&gt;
+- serialize/deserialize as part of the report design file&lt;br&gt;
+- support undo/redo&lt;br&gt;
+- support generic property sheet&lt;br&gt;
+&lt;br&gt;
+In order to acheive this, the report item extension must implement some of the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.model.api.extension&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.&lt;br&gt;
+ &lt;br&gt;
+The classes/interfaces to be extend/implement are:&lt;br&gt;
+- ReportItem ( required )&lt;br&gt;
+- ReportItemFactory ( required )&lt;br&gt;
+- ElementCommand ( optional, extend this class to suport undo/redo operation ).	Extend ElementCommand class and integrate with the command stack in the	 IReportItem::setProperty() method implementation&lt;br&gt;
+- IPropertyDefinition, IChoiceDefinition ( optional, implement this class to integrate with the generic property sheet in the designer )&lt;br&gt;
+- IMessages ( optional, implement this class to support externalized strings )&lt;br&gt;
       </documentation>
    </annotation>
 
