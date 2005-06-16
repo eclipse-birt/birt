@@ -217,6 +217,10 @@ public class JDBCDriverManager
 		*/
 		IExtensionPoint extPoint = 
 			extReg.getExtensionPoint( OdaJdbcDriver.Constants.DRIVER_INFO_EXTENSION );
+		
+		if ( extPoint == null )
+			return;
+		
 		IExtension[] exts = extPoint.getExtensions();
 		if ( exts == null )
 			return;
