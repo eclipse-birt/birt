@@ -34,4 +34,11 @@ public interface IParameterModel
 	 */
 
 	public static final String HIDDEN_PROP = "hidden"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the validation property. It allows the user to input their
+	 * validation code for the parameter to validate.
+	 */
+	
+	public static final String VALIDATE_PROP = "validate"; //$NON-NLS-1$
 }

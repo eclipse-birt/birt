@@ -130,4 +130,29 @@ public abstract class ParameterHandle extends ReportElementHandle
 	{
 		setProperty( Parameter.HIDDEN_PROP, Boolean.valueOf( hidden ) );
 	}
+
+	/**
+	 * Gets the custom validation code for the parameter.
+	 * 
+	 * @return the custom validation code for the parameter
+	 */
+
+	public String getValidate( )
+	{
+		return getStringProperty( Parameter.VALIDATE_PROP );
+	}
+
+	/**
+	 * Sets the custom validation code for the parameter.
+	 * 
+	 * @param validation
+	 *            the custom validation code to set
+	 * @throws SemanticException
+	 *             if the property is locked
+	 */
+	
+	public void setValidate( String validation ) throws SemanticException
+	{
+		setProperty( Parameter.VALIDATE_PROP, validation );
+	}
 }

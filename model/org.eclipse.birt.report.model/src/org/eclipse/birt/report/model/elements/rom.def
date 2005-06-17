@@ -1696,6 +1696,7 @@
     <Property displayNameID="Element.Parameter.hidden" name="hidden" runtimeSettable="false" since="1.0" type="boolean">
         <Default>false</Default>
     </Property>
+  	<Method context="factory" displayNameID="Element.Parameter.validate" name="validate" returnType="boolean" since="reserved" toolTipID="Element.Parameter.validate.toolTip"/>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property displayNameID="Element.ScalarParameter.displayPrompt" name="displayPrompt" type="string"/>

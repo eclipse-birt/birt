@@ -2147,6 +2147,7 @@ public class DesignWriter extends ElementVisitor
 
 		resourceKey( obj, Parameter.HELP_TEXT_KEY_PROP,
 				Parameter.HELP_TEXT_PROP );
+		property( obj, Parameter.VALIDATE_PROP );
 	}
 
 	/*
