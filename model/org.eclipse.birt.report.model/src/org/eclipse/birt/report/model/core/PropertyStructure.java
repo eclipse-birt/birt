@@ -79,6 +79,27 @@ public abstract class PropertyStructure extends Structure
 			propValues.put( prop.getName( ), value );
 	}
 
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 */
+	
+	protected Object getIntrinsicProperty( String propName )
+	{
+		assert false;
+		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String, java.lang.Object)
+	 */
+	
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		assert false;
+	}
+	
 	/**
 	 * Makes a copy of this property structure map.
 	 * 

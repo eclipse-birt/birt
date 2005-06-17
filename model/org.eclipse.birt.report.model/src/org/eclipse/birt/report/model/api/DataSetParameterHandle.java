@@ -13,6 +13,8 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -44,7 +46,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
- *  
+ * 
  */
 
 public class DataSetParameterHandle extends StructureHandle
@@ -131,7 +133,23 @@ public class DataSetParameterHandle extends StructureHandle
 
 	public void setName( String name )
 	{
+		String oldName = getName( );
+
 		setPropertySilently( DataSetParameter.NAME_MEMBER, name );
+
+		if ( oldName != null )
+		{
+			updateParamBindings( oldName, name );
+		}
+	}
+
+	private void updateParamBindings( String oldParamName, String newParamName )
+	{
+		DataSetHandle.DataSetParametersPropertyHandle propHandle = (DataSetHandle.DataSetParametersPropertyHandle) getElementHandle( )
+				.getPropertyHandle( getPropertyDefn( ).getName( ) );
+
+		propHandle.updateParamBindings( oldParamName, newParamName );
+
 	}
 
 	/**
@@ -312,4 +330,81 @@ public class DataSetParameterHandle extends StructureHandle
 		setPropertySilently( DataSetParameter.IS_OUTPUT_MEMBER, Boolean
 				.valueOf( isOutput ) );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getMember(java.lang.String)
+	 */
+	public MemberHandle getMember( String memberName )
+	{
+		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn( )
+				.getMember( memberName );
+		if ( memberDefn == null )
+			return null;
+
+		return new NameMemberHandle( this, memberDefn );
+	}
+
+	/**
+	 * Represents the member handle which handles the "name" member in the data
+	 * set parameter structure.
+	 */
+
+	final static class NameMemberHandle extends MemberHandle
+	{
+
+		DataSetParameterHandle paramHandle = null;
+
+		/**
+		 * Constructs a member handle with the given structure handle and the
+		 * member property definition.
+		 * 
+		 * @param structHandle
+		 *            a handle to the structure
+		 * @param member
+		 *            definition of the member within the structure
+		 */
+
+		public NameMemberHandle( StructureHandle structHandle,
+				StructPropertyDefn member )
+		{
+			super( structHandle, member );
+			paramHandle = (DataSetParameterHandle) structHandle;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+		 */
+
+		public void setValue( Object value ) throws SemanticException
+		{
+			String oldName = this.getStringValue( );
+
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.setValue( value );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			// Drop the parameter binding for data set parameters
+
+			DataSetHandle.DataSetParametersPropertyHandle propHandle = (DataSetHandle.DataSetParametersPropertyHandle) getElementHandle( )
+					.getPropertyHandle( getPropertyDefn( ).getName( ) );
+
+			propHandle.updateParamBindings( oldName, value.toString( ) );
+
+			getDesign( ).getActivityStack( ).commit( );
+
+		}
+	}
+
 }

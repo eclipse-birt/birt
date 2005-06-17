@@ -96,37 +96,30 @@ public class ExtendedProperty extends Structure
 		return Extended_PROPERTY_STRUCT;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#getProperty(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
 	 */
 
-	public Object getProperty( ReportDesign design, PropertyDefn prop )
+	protected Object getIntrinsicProperty( String propName )
 	{
-		String valueName = prop.getName( );
-		if ( valueName.equals( NAME_MEMBER ) )
+		if ( propName.equals( NAME_MEMBER ) )
 			return name;
-		else if ( valueName.equals( VALUE_MEMBER ) )
+		else if ( propName.equals( VALUE_MEMBER ) )
 			return value;
+
 		assert false;
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse.birt.report.model.metadata.PropertyDefn,
-	 *      java.lang.Object)
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String, java.lang.Object)
 	 */
 
-	public void setProperty( PropertyDefn prop, Object value )
+	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		String valueName = prop.getName( );
-		if ( valueName.equals( NAME_MEMBER ) )
+		if ( propName.equals( NAME_MEMBER ) )
 			name = (String) value;
-		else if ( valueName.equals( VALUE_MEMBER ) )
+		else if ( propName.equals( VALUE_MEMBER ) )
 			this.value = (String) value;
 		else
 			assert false;

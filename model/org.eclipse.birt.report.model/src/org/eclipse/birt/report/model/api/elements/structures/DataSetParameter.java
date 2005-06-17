@@ -211,7 +211,9 @@ public class DataSetParameter extends Structure
 			return isInput;
 		if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			return isOutput;
-		return super.getIntrinsicProperty( propName );
+	
+		assert false;
+		return null;
 	}
 
 	/*
@@ -241,7 +243,7 @@ public class DataSetParameter extends Structure
 		else if ( IS_OUTPUT_MEMBER.equals( propName ) )
 			isOutput = (Boolean) value;
 		else
-			super.setIntrinsicProperty( propName, value );
+			assert false;
 	}
 
 	/**

@@ -11,14 +11,23 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * Abstract handle for data set elements. A data set is a named object that
@@ -64,26 +73,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
  *            
  *             
  *              
- *               
- *                
- *                 
- *                  
- *                   
- *                    
- *                     
- *                      
- *                       
- *                        DataSetHandle dataHandle = designHandle
- *                                 		findDataSet( &quot;My First Data Set &quot; );
- *                        
- *                       
- *                      
- *                     
- *                    
- *                   
- *                  
- *                 
- *                
+ *                       DataSetHandle dataHandle = designHandle
+ *                           findDataSet( &quot;My First Data Set &quot; );
  *               
  *              
  *             
@@ -456,6 +447,473 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		return (CachedMetaDataHandle) metadata
 				.getHandle( getPropertyHandle( DataSet.CACHED_METADATA_PROP ) );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getPropertyHandle(java.lang.String)
+	 */
+	public PropertyHandle getPropertyHandle( String propName )
+	{
+		if ( PARAMETERS_PROP.equals( propName ) )
+			return new DataSetParametersPropertyHandle( this, propName );
+
+		return super.getPropertyHandle( propName );
+	}
+
+	/**
+	 * Represents the property handle which handles the structure list of data
+	 * set parameters.
+	 */
+
+	final static class DataSetParametersPropertyHandle extends PropertyHandle
+	{
+
+		/**
+		 * Constructs the handle for a top-level property with the given element
+		 * handle and the definition of the property.
+		 * 
+		 * @param element
+		 *            a handle to a report element
+		 * @param prop
+		 *            the definition of the property.
+		 */
+
+		public DataSetParametersPropertyHandle( DesignElementHandle element,
+				ElementPropertyDefn prop )
+		{
+			super( element, prop );
+		}
+
+		/**
+		 * Constructs the handle for a top-level property with the given element
+		 * handle and property name.
+		 * 
+		 * @param element
+		 *            a handle to a report element
+		 * @param propName
+		 *            the name of the property
+		 */
+
+		public DataSetParametersPropertyHandle( DesignElementHandle element,
+				String propName )
+		{
+			super( element, propName );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
+		 */
+
+		public void removeItem( int posn ) throws PropertyValueException
+		{
+			DataSetParameterHandle paramHandle = (DataSetParameterHandle) getAt( posn );
+			DataSetParameter param = (DataSetParameter) paramHandle
+					.getStructure( );
+
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.removeItem( posn );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			try
+			{
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( param.getName( ) );
+			}
+			catch ( PropertyValueException e )
+			{
+			}
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(org.eclipse.birt.report.model.api.core.IStructure)
+		 */
+
+		public void removeItem( IStructure item ) throws PropertyValueException
+		{
+			DataSetParameter param = (DataSetParameter) item;
+
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.removeItem( item );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			try
+			{
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( param.getName( ) );
+			}
+			catch ( PropertyValueException e )
+			{
+			}
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItems(java.util.List)
+		 */
+
+		public void removeItems( List items ) throws PropertyValueException
+		{
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.removeItems( items );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			try
+			{
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( items );
+			}
+			catch ( PropertyValueException e )
+			{
+			}
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#replaceItem(org.eclipse.birt.report.model.api.core.IStructure,
+		 *      org.eclipse.birt.report.model.api.core.IStructure)
+		 */
+
+		public void replaceItem( IStructure oldItem, IStructure newItem )
+				throws SemanticException
+		{
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.replaceItem( oldItem, newItem );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			// Drop the parameter binding for data set parameters
+
+			updateParamBindings( ( (DataSetParameter) oldItem ).getName( ),
+					( (DataSetParameter) newItem ).getName( ) );
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+		 */
+
+		public void setValue( Object value ) throws SemanticException
+		{
+			List paramList = getListValue( );
+
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.setValue( value );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			try
+			{
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( paramList );
+			}
+			catch ( PropertyValueException e )
+			{
+			}
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#clearValue()
+		 */
+
+		public void clearValue( ) throws SemanticException
+		{
+			List paramList = getListValue( );
+
+			getDesign( ).getActivityStack( ).startTrans( );
+
+			try
+			{
+				super.clearValue( );
+			}
+			catch ( PropertyValueException e )
+			{
+				getDesign( ).getActivityStack( ).rollback( );
+				throw e;
+			}
+
+			try
+			{
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( paramList );
+			}
+			catch ( PropertyValueException e )
+			{
+			}
+
+			getDesign( ).getActivityStack( ).commit( );
+		}
+
+		/**
+		 * Removes the parameter binding for the parameters in the given
+		 * parameter list. The parameter binding is defined in clients of the
+		 * data set in which this handle exists. The instance in the list can be
+		 * both <code>DataSetParameterHandle</code> and
+		 * <code>DataSetParameter</code>.
+		 * 
+		 * @param params
+		 *            list of the data set parameters
+		 * @throws PropertyValueException
+		 *             if error occurs when removing parameter binding.
+		 */
+
+		private void removeParamBindingsFor( List params )
+				throws PropertyValueException
+		{
+			if ( params == null )
+				return;
+
+			Iterator iter = params.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				String paramName = null;
+				Object item = iter.next( );
+				if ( item instanceof DataSetParameterHandle )
+				{
+					paramName = ( (DataSetParameterHandle) item ).getName( );
+				}
+				else if ( item instanceof DataSetParameter )
+				{
+					paramName = ( (DataSetParameter) item ).getName( );
+				}
+				else
+				{
+					assert false;
+				}
+
+				// Drop the parameter binding for data set parameters
+
+				removeParamBindingsFor( paramName );
+			}
+		}
+
+		/**
+		 * Removes the parameter binding for the parameter with the given
+		 * parameter name. The parameter binding is defined in clients of the
+		 * data set in which this handle exists.
+		 * 
+		 * @param paramName
+		 *            name of the parameter
+		 * @throws PropertyValueException
+		 *             if error occurs when removing parameter binding.
+		 */
+
+		private void removeParamBindingsFor( String paramName )
+				throws PropertyValueException
+		{
+			if ( paramName == null )
+				return;
+
+			Iterator iter = getElementHandle( ).clientsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DesignElementHandle client = (DesignElementHandle) iter.next( );
+
+				// Remove bindings from report items
+
+				PropertyHandle paramBindingsPropHandle = client
+						.getPropertyHandle( ReportItem.PARAM_BINDINGS_PROP );
+				removeParamBindingFor( paramBindingsPropHandle, paramName );
+
+				// Remove binding from action
+
+				PropertyHandle actionPropHandle = client
+						.getPropertyHandle( ImageItem.ACTION_PROP );
+				if ( actionPropHandle != null )
+				{
+					Action action = (Action) actionPropHandle.getValue( );
+					ActionHandle actionHandle = (ActionHandle) action
+							.getHandle( actionPropHandle );
+					MemberHandle paramBindingsMemberHandle = actionHandle
+							.getMember( Action.PARAM_BINDINGS_MEMBER );
+					removeParamBindingFor( paramBindingsMemberHandle, paramName );
+				}
+			}
+
+			// Remove the bindings with the given name from data set itself
+
+			PropertyHandle paramBindingsPropHandle = getElementHandle( )
+					.getPropertyHandle( PARAM_BINDINGS_PROP );
+			removeParamBindingFor( paramBindingsPropHandle, paramName );
+		}
+
+		/**
+		 * Removes the parameter binding with the given name from the given
+		 * parameter binding property handle.
+		 * 
+		 * @param paramBindingsPropHandle
+		 *            the parameter binding property handle from which parameter
+		 *            binding will be removed.
+		 * @param paramName
+		 *            the name of the parameter with which parameter binding
+		 *            will be removed.
+		 * @throws PropertyValueException
+		 *             if error occurs when removing parameter binding
+		 */
+
+		private static void removeParamBindingFor(
+				SimpleValueHandle paramBindingsPropHandle, String paramName )
+				throws PropertyValueException
+		{
+			if ( paramBindingsPropHandle == null )
+				return;
+
+			List bindings = new ArrayList( );
+
+			Iterator bindingIter = paramBindingsPropHandle.iterator( );
+			while ( bindingIter.hasNext( ) )
+			{
+				ParamBindingHandle bindingHandle = (ParamBindingHandle) bindingIter
+						.next( );
+
+				if ( paramName.equals( bindingHandle.getParamName( ) ) )
+				{
+					bindings.add( bindingHandle );
+				}
+			}
+
+			paramBindingsPropHandle.removeItems( bindings );
+		}
+
+		/**
+		 * Updates the parameter binding from old parameter name to new one.
+		 * 
+		 * @param oldParamName
+		 *            old parameter name
+		 * @param newParamName
+		 *            new parameter name
+		 */
+
+		void updateParamBindings( String oldParamName, String newParamName )
+		{
+			Iterator iter = getElementHandle( ).clientsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DesignElementHandle client = (DesignElementHandle) iter.next( );
+
+				// Update parameter name in report items
+
+				PropertyHandle paramBindingsPropHandle = client
+						.getPropertyHandle( ReportItem.PARAM_BINDINGS_PROP );
+				updateParamBindings( paramBindingsPropHandle, oldParamName,
+						newParamName );
+
+				// Update parameter name in action
+
+				PropertyHandle actionPropHandle = client
+						.getPropertyHandle( ImageItem.ACTION_PROP );
+				if ( actionPropHandle != null )
+				{
+					Action action = (Action) actionPropHandle.getValue( );
+					ActionHandle actionHandle = (ActionHandle) action
+							.getHandle( actionPropHandle );
+					MemberHandle paramBindingsMemberHandle = actionHandle
+							.getMember( Action.PARAM_BINDINGS_MEMBER );
+					updateParamBindings( paramBindingsMemberHandle,
+							oldParamName, newParamName );
+				}
+			}
+
+			// update the bindings with the given name from data set itself
+
+			PropertyHandle paramBindingsPropHandle = getElementHandle( )
+					.getPropertyHandle( PARAM_BINDINGS_PROP );
+			updateParamBindings( paramBindingsPropHandle, oldParamName,
+					newParamName );
+		}
+
+		/**
+		 * Updates the parameter name in parameter binding.
+		 *  
+		 * @param paramBindingsPropHandle the parameter binding to update
+		 * @param oldParamName old parameter name
+		 * @param newParamName new parameter name
+		 */
+
+		private static void updateParamBindings(
+				SimpleValueHandle paramBindingsPropHandle, String oldParamName,
+				String newParamName )
+		{
+			if ( paramBindingsPropHandle == null )
+				return;
+
+			Iterator bindingIter = paramBindingsPropHandle.iterator( );
+			while ( bindingIter.hasNext( ) )
+			{
+				ParamBindingHandle bindingHandle = (ParamBindingHandle) bindingIter
+						.next( );
+
+				if ( oldParamName.equals( bindingHandle.getParamName( ) ) )
+				{
+					bindingHandle.setParamName( newParamName );
+				}
+			}
+
+		}
 
 	}
 

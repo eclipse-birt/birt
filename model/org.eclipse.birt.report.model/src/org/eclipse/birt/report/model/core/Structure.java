@@ -174,26 +174,19 @@ public abstract class Structure implements IStructure
 	 * @return the value of the property, or null if the property is not set
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		assert false;
-		return null;
-	}
+	protected abstract Object getIntrinsicProperty( String propName );
 
 	/**
 	 * Sets the value of of a structure property represented as a member
 	 * variable.
 	 * 
-	 * @param name
+	 * @param propName
 	 *            the name of the property to set
 	 * @param value
 	 *            the property value
 	 */
 
-	protected void setIntrinsicProperty( String name, Object value )
-	{
-		assert false;
-	}
+	protected abstract void setIntrinsicProperty( String propName, Object value );
 
 	/**
 	 * Validate whether this structure is valid. The derived class should

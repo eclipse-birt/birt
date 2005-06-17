@@ -160,7 +160,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 				String newPropertyName = CompatibleOdaDataSourcePropertyState
 						.getNewOdaDriverProperty( propertyName );
 
-				element.setProperty( newPropertyName, propertyValue );
+				setProperty( newPropertyName, propertyValue );
 			}
 		}
 	}

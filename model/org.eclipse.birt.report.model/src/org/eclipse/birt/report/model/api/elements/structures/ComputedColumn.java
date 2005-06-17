@@ -122,11 +122,11 @@ public class ComputedColumn extends Structure
 	 *      java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String name, Object value )
+	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( NAME_MEMBER.equals( name ) )
+		if ( NAME_MEMBER.equals( propName ) )
 			columnName = (String) value;
-		else if ( EXPRESSION_MEMBER.equals( name ) )
+		else if ( EXPRESSION_MEMBER.equals( propName ) )
 			expression = (String) value;
 		else
 			assert false;

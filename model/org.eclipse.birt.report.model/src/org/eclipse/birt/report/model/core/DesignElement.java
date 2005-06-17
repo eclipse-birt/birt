@@ -51,8 +51,6 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
-;
-
 /**
  * Base class for all design elements in BIRT. This class provides a number of
  * basic services:
@@ -656,6 +654,8 @@ public abstract class DesignElement
 
 	/**
 	 * Removes all listeners on this element.
+	 * <p>
+	 * Part of: Notification system.
 	 */
 
 	public void clearListeners( )
@@ -814,8 +814,8 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the property value from this element's parent. The search is only
-	 * made in local properties, and local style of parents.
+	 * Returns the property value from this element's parent, or any ancestor.
+	 * The value is only from local properties, or local style of its ancestor.
 	 * 
 	 * @param design
 	 *            report design.
@@ -845,8 +845,8 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the property value of this element and the style which is defined
-	 * directly on this element.
+	 * Returns the property value from this element. The value is only from
+	 * local properties or local style of this element.
 	 * 
 	 * @param design
 	 *            the report design
@@ -1019,21 +1019,21 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Gets selector array, which contains the predefined style of
-	 * container/slot combination and slot.
+	 * Gets selector of the given slot of this element. The selector is kind of
+	 * predefined style, and its style property value can be applied on contents
+	 * of the given slot of this element depending on whether property can be
+	 * inherited.
 	 * 
 	 * @param slotID
 	 *            slot id
-	 * @return the selector array, which always contains two strings. The first
-	 *         is the predefined style of container/slot combination, and the
-	 *         second is that of slot.
+	 * @return the selector of the given slot of this element.
 	 */
 
 	public String getSelector( int slotID )
 	{
 		ElementDefn defn = (ElementDefn) getDefn( );
 		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
-		
+
 		if ( slotDefn == null )
 		{
 			return null;
@@ -1061,17 +1061,14 @@ public abstract class DesignElement
 	public Object getPropertyFromSelector( ReportDesign design,
 			ElementPropertyDefn prop, String selector )
 	{
-		if ( design == null )
-			return null;
+		assert design != null;
 
 		// Find the predefined style
 
 		StyleElement style = design.findStyle( selector );
 		if ( style != null )
 		{
-			Object value = style.getLocalProperty( design, prop );
-			if ( value != null )
-				return value;
+			return style.getLocalProperty( design, prop );
 		}
 
 		return null;
@@ -1096,11 +1093,8 @@ public abstract class DesignElement
 			return null;
 
 		String selector = getContainer( ).getSelector( getContainerSlot( ) );
-		
-		Object value = getPropertyFromSelector( design, prop, selector );
-		if ( value != null )
-			return value;
-		return null;
+
+		return getPropertyFromSelector( design, prop, selector );
 	}
 
 	/**
@@ -1279,8 +1273,8 @@ public abstract class DesignElement
 		// have done all the required checks for property validity.
 
 		assert prop != null;
-		if ( prop != null )
-			setProperty( prop, value );
+
+		setProperty( prop, value );
 	}
 
 	/**
@@ -1349,9 +1343,7 @@ public abstract class DesignElement
 	public String getPropertyMask( ReportDesign design, String propName )
 	{
 		DesignElement e = this;
-		String value = null;
 
-		boolean found = false;
 		do
 		{
 			ArrayList masks = (ArrayList) e.getLocalProperty( design,
@@ -1362,20 +1354,16 @@ public abstract class DesignElement
 				for ( int i = 0; i < masks.size( ); i++ )
 				{
 					PropertyMask mask = (PropertyMask) masks.get( i );
-					if ( propName.equalsIgnoreCase( mask.getName( ) ) )
-					{
-						value = mask.getMask( );
-						found = true;
-						break;
-					}
+					if ( propName.equals( mask.getName( ) ) )
+						return mask.getMask( );
 				}
 			}
 
 			e = e.getExtendsElement( );
 
-		} while ( ( e != null ) && ( found == false ) );
+		} while ( e != null );
 
-		return value;
+		return null;
 	}
 
 	/**
@@ -1466,17 +1454,14 @@ public abstract class DesignElement
 
 	public IElementDefn getDefn( )
 	{
-		if ( cachedDefn != null )
-			return cachedDefn;
+		if ( cachedDefn == null )
+		{
+			cachedDefn = MetaDataDictionary.getInstance( ).getElement(
+					getElementName( ) );
+			
+			assert cachedDefn != null;
+		}
 
-		// The find( ) method will throw an assertion if the meta data
-		// information
-		// cannot be found. This case is a programming error, and should never
-		// occur in the field.
-
-		cachedDefn = MetaDataDictionary.getInstance( ).getElement(
-				getElementName( ) );
-		assert cachedDefn != null;
 		return cachedDefn;
 	}
 
@@ -1744,6 +1729,8 @@ public abstract class DesignElement
 	 * Returns the shared style referenced by this element. Returns the
 	 * reference for this element itself; does not search up the inheritance
 	 * hierarchy.
+	 * <p>
+	 * Part of: Style system.
 	 * 
 	 * @param design
 	 *            report design
@@ -1828,6 +1815,7 @@ public abstract class DesignElement
 			return;
 		if ( oldExtends != null )
 			oldExtends.dropDerived( this );
+		
 		if ( base == null )
 		{
 			extendsRef = null;
@@ -1853,6 +1841,8 @@ public abstract class DesignElement
 	 * Returns a list of the descendents of this element. The descendents
 	 * include elements that directly extend from this one, along with elements
 	 * that extend from those, and so on recursively.
+	 * <p>
+	 * Part of: Inheritance system.
 	 * 
 	 * @return The list of descendents.
 	 */
@@ -1867,6 +1857,8 @@ public abstract class DesignElement
 	/**
 	 * Builds up a list of the elements that extend from this one, directly or
 	 * indirectly.
+	 * <p>
+	 * Part of: Inheritance system.
 	 * 
 	 * @param list
 	 *            The list of descendents.
@@ -2058,7 +2050,8 @@ public abstract class DesignElement
 	 * @param element
 	 *            The potential container.
 	 * @return True if this element is contained in the container either
-	 *         directly or indirectly. False if this element is not contained.
+	 *         directly or indirectly. False if this element is not contained. If the given
+	 *         element is this element itself, return true.
 	 */
 
 	public boolean isContentOf( DesignElement element )
@@ -2380,7 +2373,7 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return 0;
-		
+
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
@@ -2437,7 +2430,7 @@ public abstract class DesignElement
 
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
-		
+
 		Object value = getProperty( design, propName );
 		return ( (BooleanPropertyType) type ).toBoolean( design, value );
 	}
@@ -2861,12 +2854,12 @@ public abstract class DesignElement
 			ElementPropertyDefn prop )
 	{
 		Object value = propValues.get( prop.getName( ) );
-		
+
 		assert value == null || value instanceof ElementRefValue;
 
 		if ( value == null || design == null )
 			return (ElementRefValue) value;
-		
+
 		ElementRefValue ref = (ElementRefValue) value;
 		if ( ref.isResolved( ) )
 			return ref;
@@ -2883,7 +2876,7 @@ public abstract class DesignElement
 		refType.resolve( design, prop, ref );
 		if ( ref.isResolved( ) )
 			ref.getTargetElement( ).addClient( this, prop.getName( ) );
-		
+
 		return ref;
 	}
 
