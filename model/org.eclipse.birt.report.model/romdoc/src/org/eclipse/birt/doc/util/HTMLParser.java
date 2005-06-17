@@ -176,7 +176,7 @@ public class HTMLParser
 
 	private int skipSpace( int c )
 	{
-		while ( c != EOF  &&  Character.isWhitespace( c ) )
+		while ( c != EOF  &&  Character.isWhitespace( (char)c ) )
 		{
 			c = getC( );
 		}
@@ -205,7 +205,7 @@ public class HTMLParser
 		{
 			tag.append( (char) c );
 			c = skipSpace( getC( ) );
-			while ( c != EOF  &&  c != '>'  && ! Character.isWhitespace( c ) )
+			while ( c != EOF  &&  c != '>'  && ! Character.isWhitespace( (char)c ) )
 			{
 				tag.append( (char) c );
 				c = getC( );
@@ -220,7 +220,7 @@ public class HTMLParser
 			return ELEMENT;			
 		}
 		
-		while ( c != EOF  &&  c != '>'  &&  c != '/'  && ! Character.isWhitespace( c ) )
+		while ( c != EOF  &&  c != '>'  &&  c != '/'  && ! Character.isWhitespace( (char)c ) )
 		{
 			tag.append( (char) c );
 			c = getC( );
@@ -256,7 +256,7 @@ public class HTMLParser
 	{
 		AttribPair a = new AttribPair( );
 		StringBuffer s = new StringBuffer( );
-		while ( c != EOF  &&  c != '='  &&  ! Character.isWhitespace( c ) )
+		while ( c != EOF  &&  c != '='  &&  ! Character.isWhitespace( (char)c ) )
 		{
 			s.append( (char) c );
 			c = getC( );
@@ -304,7 +304,7 @@ public class HTMLParser
 				c = getC( );
 				if ( c == -1 )
 					break;
-				if ( c == '>'  ||  c == '/'  ||  Character.isWhitespace( c ) )
+				if ( c == '>'  ||  c == '/'  ||  Character.isWhitespace( (char)c ) )
 				{
 					c = getC( );
 					break;

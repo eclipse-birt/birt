@@ -50,10 +50,7 @@ public class DocSlot extends DocObject
 	{
 		ArrayList list = new ArrayList( );
 		
-		// The following is a workaround because the meaning of getContentElements
-		// was changed in an unfortunate way. See SCR 78805.
-		
-		list.addAll( ( (SlotDefn) defn).getRealContentElements( ) );
+		list.addAll( ( (SlotDefn) defn).getContentElements( ) );
 		Collections.sort( list, new ElementComparator( ) );
 		Iterator iter = list.iterator( );
 		StringBuffer contents = new StringBuffer( );

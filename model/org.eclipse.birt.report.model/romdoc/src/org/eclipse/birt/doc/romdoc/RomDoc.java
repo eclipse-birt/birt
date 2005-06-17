@@ -14,9 +14,24 @@ package org.eclipse.birt.doc.romdoc;
  */
 public class RomDoc
 {
+    /**
+     * 
+     * @param args
+     */
+    
 	public static void main( String[] args )
 	{
-		Generator generator = new Generator( );
+        Generator generator = new Generator( );
+        
+        if( args.length > 0 )
+        {
+            // Output folder is specified
+            
+        	String arg0 = args[0];
+            generator.setOutputDir( arg0 );
+        }
+        
+		
 		try
 		{
 			generator.generate( );

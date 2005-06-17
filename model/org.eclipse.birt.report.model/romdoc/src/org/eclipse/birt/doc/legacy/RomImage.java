@@ -157,7 +157,7 @@ public class RomImage
 		if ( list.getLength( ) == 0 )
 			return null;
 		Element valueNode = (Element) list.item( 0 );
-		return valueNode.getTextContent( );
+		return valueNode.getNodeValue();
 	}
 
 	public void setDefaultValue( Element romProp, String defaultValue )
@@ -171,7 +171,7 @@ public class RomImage
 		}
 		else
 			valueNode = (Element) list.item( 0 );
-		valueNode.setTextContent( defaultValue );
+		valueNode.setNodeValue( defaultValue );
 	}
 
 	public Element findPropertyVisibility( Element romElement, String name )
