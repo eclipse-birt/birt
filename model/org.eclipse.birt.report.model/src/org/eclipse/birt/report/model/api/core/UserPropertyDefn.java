@@ -429,4 +429,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
+	 */
+	public boolean isReferencable( )
+	{
+		return false;
+	}	
 }

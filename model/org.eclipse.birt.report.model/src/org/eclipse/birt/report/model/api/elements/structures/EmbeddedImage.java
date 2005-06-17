@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  *  
  */
 
-public class EmbeddedImage extends Structure
+public class EmbeddedImage extends ReferencableStructure
 {
 
 	/**
@@ -347,5 +347,21 @@ public class EmbeddedImage extends Structure
 		}
 
 		return list;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
+	 */
+	public boolean isReferencableProperty( String memberName )
+	{
+		return NAME_MEMBER.equalsIgnoreCase( memberName );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
+	 */
+	public String getReferencableProperty( )
+	{
+		return name;
 	}
 }

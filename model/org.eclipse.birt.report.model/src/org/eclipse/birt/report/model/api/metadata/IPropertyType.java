@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * Base class for the meta-data for property types. Every property has a
@@ -141,10 +140,16 @@ public interface IPropertyType
 	public static final int SCRIPT_TYPE = 18;
 
 	/**
+	 * Type code for the structure reference property type.
+	 */
+	
+	public static final int STRUCT_REF_TYPE = 19;
+	
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 19;
+	public static final int TYPE_COUNT = 20;
 
 	/**
 	 * Name of the String property type.
@@ -267,6 +272,12 @@ public interface IPropertyType
 	public static final String SCRIPT_TYPE_NAME = "script"; //$NON-NLS-1$
 
 
+	/**
+	 * Name of the structure reference property type.
+	 */
+	
+	public static final String STRUCT_REF_TYPE_NAME = "structRef"; //$NON-NLS-1$
+	
 	/**
 	 * Returns the localized display name.
 	 * 

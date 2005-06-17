@@ -271,4 +271,22 @@ public abstract class Structure implements IStructure
 		return handle( valueHandle, posn );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
+	 */
+	
+	public boolean isReferencable( )
+	{
+		return false;
+	}	
+	
+	/**
+	 * Gets the value of the referencable member.
+	 * @return the value of the referencable member
+	 */
+	
+	public String getReferencableProperty( )
+	{
+		return null;
+	}
 }

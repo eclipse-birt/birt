@@ -52,6 +52,8 @@ public interface ReportDesignConstants
 	String	TABLE_ITEM					= "Table";				//$NON-NLS-1$ 
 	String	TEXT_ITEM					= "Text";				//$NON-NLS-1$
 	String 	TEXT_DATA_ITEM 				= "TextData"; //$NON-NLS-1$
+	String  MODULE_ELEMENT				= "Module";				//$NON-NLS-1$
+	String	DESIGN_ELEMENT				= "DesignElement"; 		//$NON-NLS-1$
 	
 
 	/**

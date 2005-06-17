@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
+import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -162,7 +165,7 @@ public abstract class PropertyDefn
 	/**
 	 * Indicates if this whether this property is a list. This property is
 	 * useful only when the property type is a structure type.
-	 * 
+	 *  
 	 */
 
 	protected boolean isList = false;
@@ -186,9 +189,9 @@ public abstract class PropertyDefn
 	private boolean valueRequired = false;
 
 	/**
-     * Whether the value of this property should be protected.
-     */
-     
+	 * Whether the value of this property should be protected.
+	 */
+
 	private boolean isEncryptable = false;
 
 	/**
@@ -358,6 +361,48 @@ public abstract class PropertyDefn
 					getTriggerDefnSet( ).add( triggerDefn );
 				}
 				break;
+
+			case PropertyType.STRUCT_REF_TYPE :
+
+				// A structure definition must be provided.
+
+				if ( getStructDefn( ) == null )
+					throw new MetaDataException(
+							new String[]{name},
+							MetaDataException.DESIGN_EXCEPTION_MISSING_STRUCT_DEFN );
+
+				// the structure must be defined in the ReportDesign
+
+				MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+				IElementDefn report = dd
+						.getElement( ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+				List properties = report.getProperties( );
+				boolean isFound = false;
+				for ( int i = 0; i < properties.size( ); i++ )
+				{
+					IPropertyDefn property = (IPropertyDefn) properties.get( i );
+					if ( property.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+					{
+						if ( property.getStructDefn( ) == getStructDefn( ) )
+						{
+							isFound = true;
+							break;
+						}
+					}
+				}
+				if ( !isFound )
+					throw new MetaDataException(
+							new String[]{name},
+							MetaDataException.DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN );
+				
+				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+						StructureReferenceValidator.NAME );
+				triggerDefn.setPropertyName( getName( ) );
+				triggerDefn.setValidator( StructureReferenceValidator
+						.getInstance( ) );
+				getTriggerDefnSet( ).add( triggerDefn );
+
+				break;
 		}
 
 		if ( isValueRequired( ) )
@@ -419,7 +464,8 @@ public abstract class PropertyDefn
 				if ( choice == null )
 				{
 					setDefaultUnit( DimensionValue.DEFAULT_UNIT );
-					throw new MetaDataException( new String[]{ getName( ), defaultUnit},
+					throw new MetaDataException( new String[]{getName( ),
+							defaultUnit},
 							MetaDataException.DESIGN_EXCEPTION_INVALID_UNIT );
 				}
 			}

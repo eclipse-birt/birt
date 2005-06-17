@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -229,6 +230,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new StructPropertyType( ) );
 		addPropertyType( new ExtendsPropertyType( ) );
 		addPropertyType( new ScriptPropertyType( ) );
+		addPropertyType( new StructRefPropertyType( ) );
 	}
 
 	/**
@@ -353,6 +355,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			throw new MetaDataException(
 					MetaDataException.DESIGN_EXCEPTION_STYLE_TYPE_MISSING );
 		style.build( );
+		
+		ElementDefn report = (ElementDefn) getElement( ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+		if ( report == null )
+			throw new MetaDataException( MetaDataException.DESIGN_EXCEPTION_CONSTRUCTOR_EXISTING );
+		report.build( );
 
 		// Build the element metadata.
 

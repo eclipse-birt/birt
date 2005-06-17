@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  *  
  */
 
-public abstract class ReferenceableElement extends DesignElement
+public abstract class ReferenceableElement extends DesignElement implements IReferencable
 {
 
 	/**
@@ -33,46 +33,6 @@ public abstract class ReferenceableElement extends DesignElement
 	 */
 
 	protected ArrayList clients = new ArrayList( );
-
-	/**
-	 * Represents the back reference for the referencable element. The back
-	 * reference provides the capability that the referencable element knows
-	 * what element is referring it. The element referring it is called "client
-	 * element". It contains the client element and element reference property
-	 * name.
-	 */
-
-	public static class BackRef
-	{
-
-		/**
-		 * The client element that refers to one referencable element.
-		 */
-
-		public DesignElement element;
-
-		/**
-		 * The name of the property that refers to one referencable element.
-		 */
-
-		public String propName;
-
-		/**
-		 * Constructs the back reference with the client element and the element
-		 * reference property name.
-		 * 
-		 * @param obj
-		 *            client element
-		 * @param prop
-		 *            name of the property which refers to another element
-		 */
-
-		public BackRef( DesignElement obj, String prop )
-		{
-			element = obj;
-			propName = prop;
-		}
-	}
 
 	/**
 	 * Default constructor.
@@ -112,7 +72,7 @@ public abstract class ReferenceableElement extends DesignElement
 	}
 
 	/**
-	 * Adds a style client. Should be called only from
+	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty( ElementPropertyDefn, Object )}.
 	 * 
 	 * @param client

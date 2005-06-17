@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -157,7 +158,8 @@ public class DimensionPropertyType extends PropertyType
 		String unit = defn.getDefaultUnit( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		assert design != null;
+		if ( design == null )
+			return DesignChoiceConstants.UNITS_IN;
 		unit = design.getUnits( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;

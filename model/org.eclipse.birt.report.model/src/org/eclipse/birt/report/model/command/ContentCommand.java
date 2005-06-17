@@ -25,11 +25,11 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.core.ReferenceableElement.BackRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
  * command verifies that the move can be done before starting the action. If you
  * instead do a drop followed by an add, you'll end up with the element deleted
  * if it cannot be added into its new location.
- * 
+ *  
  */
 
 public class ContentCommand extends AbstractElementCommand
@@ -264,6 +264,8 @@ public class ContentCommand extends AbstractElementCommand
 	 *            the element to remove
 	 * @param slotID
 	 *            the slot from which to remove the content
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references
 	 * @throws SemanticException
 	 *             if this content cannot be removed from container.
 	 */
@@ -431,7 +433,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( unresolveReference )
 			{
-				BackRefRecord record = new BackRefRecord( design, referred,
+				BackRefRecord record = new ElementBackRefRecord( design, referred,
 						client, ref.propName );
 				getActivityStack( ).execute( record );
 			}
@@ -454,12 +456,12 @@ public class ContentCommand extends AbstractElementCommand
 	/**
 	 * Clears references of elements that are referred by the to-be-deleted
 	 * element, except for extends and style element references. Unlike the
-	 * method {@link #adjustReferenceClients(ReferenceableElement, boolean)},
+	 * method {@link #adjustReferenceClients(ReferenceableElement,boolean)},
 	 * this method removes references from those elements that are referred.
 	 * 
 	 * @param element
 	 *            the element to be deleted
-	 * 
+	 *  
 	 */
 
 	private void adjustReferredClients( DesignElement element )
@@ -479,7 +481,8 @@ public class ContentCommand extends AbstractElementCommand
 							.getName( ) ) )
 				continue;
 
-			if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
+			if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
+					|| propDefn.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
 			{
 				Object value = element.getLocalProperty( design,
 						(ElementPropertyDefn) propDefn );

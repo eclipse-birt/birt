@@ -1330,6 +1330,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator" name="TableHeaderContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator" name="UnsupportedElementValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" name="ValueRequiredValidator"/>
+  	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" name="StructureReferenceValidator" />
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" type="choice"/>
@@ -2522,7 +2523,7 @@
       <Default>none</Default>
     </Property>
     <Property displayNameID="Element.Image.uri" name="uri" returnType="string" runtimeSettable="false" since="1.0" type="expression"/>
-	<Property displayNameID="Element.Image.imageName" name="imageName" returnType="string" runtimeSettable="false" since="1.0" type="expression"/>
+	<Property detailType="EmbeddedImage" displayNameID="Element.Image.imageName" name="imageName" returnType="string" runtimeSettable="false" since="1.0" type="structRef"/>
     <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="reserved" type="expression"/>
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="reserved" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>

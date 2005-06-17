@@ -89,6 +89,13 @@ public class MetaDataException extends BirtException
 	 */
 
 	public static final String DESIGN_EXCEPTION_STYLE_TYPE_MISSING = "STYLE_TYPE_MISSING"; //$NON-NLS-1$
+	
+	/**
+	 * Error code constant indicating that the Style element is missing from the
+	 * meta-data dictionary.
+	 */
+
+	public static final String DESIGN_EXCEPTION_REPORT_MISSING = "REPORT_MISSING"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating that the Style element should be defined
@@ -232,6 +239,13 @@ public class MetaDataException extends BirtException
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_STRUCT_DEFN = "MISSING_STRUCT_DEFN"; //$NON-NLS-1$
+	
+	/**
+	 * Error code constant indicating a structure definition is unreferencable for
+	 * a structure reference type property.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN = "UNREFERENCABLE_STRUCT_DEFN"; //$NON-NLS-1$
 
 	/**
 	 * Error code constant indicating a missing element reference for element

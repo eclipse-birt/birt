@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -89,6 +90,8 @@ public class MemberHandle extends SimpleValueHandle
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
+		if ( value instanceof StructRefValue )
+			value = ( (StructRefValue) value ).getName( );
 		return value;
 	}
 

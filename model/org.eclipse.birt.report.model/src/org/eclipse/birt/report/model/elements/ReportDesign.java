@@ -55,7 +55,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * specifications for global scripts that apply to the report as a whole.Report
  * design is valid if it is opened without error or with semantic error.
  * Otherwise, it's invalid.
- * 
+ *  
  */
 
 public class ReportDesign extends RootElement implements IReportDesignModel
@@ -108,6 +108,13 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 			this );
 
 	private List validationListeners = null;
+
+	/**
+	 * The property definition list of all the referencable structure list
+	 * property. Each one in the list is instance of <code>IPropertyDefn</code>
+	 */
+
+	private List referencableProperties = null;
 
 	/**
 	 * Default constructor.
@@ -1044,7 +1051,7 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 	 *            the validation listener to remove
 	 * @return <code>true</code> if <code>listener</code> is sucessfully
 	 *         removed. Otherwise <code>false</code>.
-	 * 
+	 *  
 	 */
 
 	public boolean removeValidationListener( IValidationListener listener )
@@ -1077,5 +1084,29 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 				listener.elementValidated( element.getHandle( this ), event );
 			}
 		}
+	}
+
+	/**
+	 * Gets the property definition list of the structure list type and its
+	 * structure can be referred by other elements. Each one in the list is
+	 * instance of <code>IElementPropertyDefn</code>.
+	 * 
+	 * @return the property definition list of the structure list type and its
+	 *         structure can be referred by other elements
+	 */
+
+	public List getReferencablePropertyDefns( )
+	{
+		if ( referencableProperties == null )
+			referencableProperties = new ArrayList( );
+		if ( referencableProperties.size( ) > 0 )
+			return referencableProperties;
+		referencableProperties
+				.add( getPropertyDefn( IReportDesignModel.CONFIG_VARS_PROP ) );
+		referencableProperties
+				.add( getPropertyDefn( IReportDesignModel.COLOR_PALETTE_PROP ) );
+		referencableProperties
+				.add( getPropertyDefn( IReportDesignModel.IMAGES_PROP ) );
+		return referencableProperties;
 	}
 }

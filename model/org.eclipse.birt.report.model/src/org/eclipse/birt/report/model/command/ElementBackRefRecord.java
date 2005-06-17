@@ -11,44 +11,34 @@
 
 package org.eclipse.birt.report.model.command;
 
-import org.eclipse.birt.report.model.activity.SimpleRecord;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records a change to the back reference of an element.
  * 
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
- * @see org.eclipse.birt.report.model.core.ReferencableStructure
  */
 
-abstract public class BackRefRecord extends SimpleRecord
+public class ElementBackRefRecord extends BackRefRecord
 {
 
 	/**
-	 * The element that refers to another element.
+	 * The element is referred by <code>reference</code>.
 	 */
 
-	protected DesignElement reference = null;
-
-	/**
-	 * The property name.
-	 */
-
-	protected String propName = null;
-
-	/**
-	 * Report design
-	 */
-	
-	protected ReportDesign design = null;
+	protected ReferenceableElement referred = null;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param design
 	 *            report design
+	 * @param referred
+	 *            the element to change
 	 * @param reference
 	 *            the element that refers to another element.
 	 * @param propName
@@ -58,32 +48,51 @@ abstract public class BackRefRecord extends SimpleRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( ReportDesign design, DesignElement reference,
+	public ElementBackRefRecord( ReportDesign design,
+			ReferenceableElement referred, DesignElement reference,
 			String propName )
 	{
-		this.design = design;
-		this.reference = reference;
-		this.propName = propName;
+		super( design, reference, propName );
+		this.referred = referred;
+
+		assert referred != null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	public NotificationEvent getEvent( )
+	protected void perform( boolean undo )
 	{
-		return null;
+		if ( undo )
+		{
+			ElementPropertyDefn propDefn = reference.getPropertyDefn( propName );
+
+			// To add client is done in resolving element reference.
+
+			reference.resolveElementReference( design, propDefn );
+		}
+		else
+		{
+			ElementRefValue value = (ElementRefValue) reference.getLocalProperty(
+					design, propName );
+			value.unresolved( value.getName( ) );
+
+			referred.dropClient( reference );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
-	public void sendNotifcations( boolean transactionStarted )
-	{
 
+	public DesignElement getTarget( )
+	{
+		return referred;
 	}
+
 }

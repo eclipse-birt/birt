@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -95,9 +96,9 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		String name = (String) image.getLocalProperty( design,
+		StructRefValue imageName = (StructRefValue) image.getLocalProperty( design,
 				ImageItem.IMAGE_NAME_PROP );
-		if ( !StringUtil.isEmpty( name ) )
+		if ( imageName != null )
 		{
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );

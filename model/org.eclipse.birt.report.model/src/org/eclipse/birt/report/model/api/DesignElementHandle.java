@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Base class for all report elements. Provides a high-level interface to the
@@ -165,6 +166,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
+		if ( value instanceof StructRefValue )
+			value = ( (StructRefValue) value ).getName( );
 
 		return value;
 	}
@@ -1401,6 +1404,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				else
 					targetHandle.setProperty( propDefn.getName( ), refValue
 							.getName( ) );
+				break;
+				
+			case PropertyType.STRUCT_REF_TYPE :
+				StructRefValue structRefValue = (StructRefValue) value;
+			 
+				if ( structRefValue.isResolved( ) )
+					targetHandle.setProperty( propDefn.getName( ), structRefValue.getStructure( ) );
+				else 
+					targetHandle.setProperty( propDefn.getName( ), structRefValue.getName( ) );
 				break;
 
 			case PropertyType.STRUCT_TYPE :

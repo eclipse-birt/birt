@@ -22,13 +22,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents an custom color in the report's color palette.The use-defined
@@ -55,7 +54,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  *  
  */
 
-public class CustomColor extends Structure
+public class CustomColor extends ReferencableStructure
 {
 
 	/**
@@ -397,7 +396,7 @@ public class CustomColor extends Structure
 		if ( StringUtil.isBlank( name ) )
 		{
 			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( NAME_MEMBER ), name,
+					getDefn( ).getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
@@ -410,6 +409,24 @@ public class CustomColor extends Structure
 		}
 
 		return list;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
+	 */
+	
+	public boolean isReferencableProperty( String memberName )
+	{
+		return NAME_MEMBER.equalsIgnoreCase( memberName );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
+	 */
+	
+	public String getReferencableProperty( )
+	{
+		return name;
 	}
 
 }

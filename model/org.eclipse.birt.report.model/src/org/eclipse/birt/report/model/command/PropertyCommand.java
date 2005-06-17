@@ -25,8 +25,10 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -41,7 +43,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- * 
+ *  
  */
 
 public class PropertyCommand extends AbstractElementCommand
@@ -170,17 +172,12 @@ public class PropertyCommand extends AbstractElementCommand
 					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
-				// if ( extElement == null )
-				// {
-				// extendedItem.initializeReportItem( design );
-				// extElement = ( (ExtendedItem) element )
-				// .getExtendedElement( );
-				// }
+				
 				assert extElement != null;
 
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
-
+		
 				return;
 			}
 		}
@@ -323,12 +320,12 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            reference to the member to set
 	 * @param value
 	 *            new value of the member
-	 * @throws PropertyValueException
+	 * @throws SemanticException
 	 *             if the value is not valid
 	 */
 
 	public void setMember( MemberRef ref, Object value )
-			throws PropertyValueException
+			throws SemanticException
 	{
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		PropertyDefn propDefn = ref.getPropDefn( );
@@ -393,6 +390,9 @@ public class PropertyCommand extends AbstractElementCommand
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( design, element, propDefn );
+
+		if ( item.isReferencable( ) )
+			assert !( (ReferencableStructure) item ).hasReferences( );
 
 		checkListMemberRef( ref );
 		checkItem( ref, item );
@@ -587,12 +587,48 @@ public class PropertyCommand extends AbstractElementCommand
 		stack.startTrans( label );
 
 		List list = getOrMakePropertyList( structRef );
-
+		Structure struct = structRef.getStructure( design, element );
+		if ( struct.isReferencable( ) )
+			adjustReferenceClients( (ReferencableStructure) struct );
 		PropertyListRecord record = new PropertyListRecord( element, structRef,
 				list );
-		getActivityStack( ).execute( record );
+		getActivityStack( ).execute( record );		
 		stack.commit( );
+	}
 
+	/**
+	 * Adjusts references to a structure that is to be deleted. The structure to
+	 * be deleted is one that has references in the form of structure reference
+	 * properties on other elements. These other elements, called "clients",
+	 * each contain a property of type structure reference and that property
+	 * refers to this structure. Each reference is recorded with a "back
+	 * pointer" from the referenced structure to the client. That back pointer
+	 * has both a pointer to the client element, and the property within that
+	 * element that holds the reference. The reference property is unresolved.
+	 * 
+	 * @param struct
+	 *            the structure to be deleted
+	 */
+
+	private void adjustReferenceClients( ReferencableStructure struct )
+	{
+		assert struct != null;
+		if ( !struct.hasReferences( ) )
+			return;
+
+		List clients = new ArrayList( struct.getClientList( ) );
+
+		Iterator iter = clients.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			BackRef ref = (BackRef) iter.next( );
+			DesignElement client = ref.element;
+
+			BackRefRecord record = new StructBackRefRecord( design, struct,
+					client, ref.propName );
+			getActivityStack( ).execute( record );
+
+		}
 	}
 
 	/**
@@ -656,8 +692,10 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
 				list, index, newItem );
-
 		stack.execute( record );
+
+		if ( oldItem.isReferencable( ) )
+			adjustReferenceClients( (ReferencableStructure) oldItem );
 
 		stack.commit( );
 	}

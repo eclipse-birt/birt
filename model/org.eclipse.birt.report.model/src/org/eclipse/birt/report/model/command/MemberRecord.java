@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -123,4 +124,23 @@ public class MemberRecord extends SimpleRecord
 		return new PropertyEvent( element, memberRef.getPropDefn( ).getName( ) );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
+	 */
+
+	public void sendNotifcations( boolean transactionStarted )
+	{
+		super.sendNotifcations( transactionStarted );
+
+		// if the structure is referencable, then send notification to the
+		// clients
+
+		if ( structure != null && structure.isReferencable( ) )
+		{
+			ReferencableStructure refValue = (ReferencableStructure) structure;
+			refValue.broadcast( getEvent( ) );
+		}
+	}
 }

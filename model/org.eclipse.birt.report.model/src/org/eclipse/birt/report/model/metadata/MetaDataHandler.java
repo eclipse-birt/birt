@@ -298,7 +298,7 @@ class MetaDataHandler extends XMLParserHandler
 				struct.setDisplayNameKey( attrs
 						.getValue( DISPLAY_NAME_ID_ATTRIB ) );
 				struct.setSince( attrs.getValue( SINCE_ATTRIB ) );
-				
+
 				try
 				{
 					dictionary.addStructure( struct );
@@ -310,7 +310,7 @@ class MetaDataHandler extends XMLParserHandler
 							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
-			
+
 		}
 
 		/*
@@ -764,6 +764,7 @@ class MetaDataHandler extends XMLParserHandler
 					break;
 
 				case PropertyType.STRUCT_TYPE :
+				case PropertyType.STRUCT_REF_TYPE :
 					if ( detailName == null )
 					{
 						semanticError( new MetaDataParserException(
@@ -819,7 +820,7 @@ class MetaDataHandler extends XMLParserHandler
 				propDefn.setReturnType( attrs.getValue( RETURN_TYPE_ATTRIB ) );
 				propDefn.setContext( attrs.getValue( CONTEXT_ATTRIB ) );
 			}
-			
+
 			if ( !StringUtil.isBlank( validator ) )
 			{
 				propDefn.setValueValidator( validator );

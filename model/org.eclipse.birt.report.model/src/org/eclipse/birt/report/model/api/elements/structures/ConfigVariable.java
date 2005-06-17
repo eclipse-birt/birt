@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * This class represents a configuration variable in the report's config
@@ -50,7 +49,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  *  
  */
 
-public class ConfigVariable extends Structure
+public class ConfigVariable extends ReferencableStructure
 {
 
 	/**
@@ -232,10 +231,28 @@ public class ConfigVariable extends Structure
 		if ( StringUtil.isBlank( name ) )
 		{
 			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( NAME_MEMBER ), name,
+					getDefn( ).getMember( NAME_MEMBER ), name,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}
 
 		return list;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.ReferencableStructure#isReferencableProperty(java.lang.String)
+	 */
+	
+	public boolean isReferencableProperty( String memberName )
+	{
+		return NAME_MEMBER.equalsIgnoreCase( memberName );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Structure#getReferencableProperty()
+	 */
+	
+	public String getReferencableProperty( )
+	{
+		return name;
 	}
 }

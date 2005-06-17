@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -98,6 +99,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
+		if ( value instanceof StructRefValue )
+			value = ( (StructRefValue) value ).getName( );
 		return value;
 	}
 

@@ -134,6 +134,13 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int ELEMENT_CLIENT = 4;
+	
+	/**
+	 * Event is being sent to the elements that use a structure
+	 * defined in report design. 
+	 */
+	
+	public static final int STRUCTURE_CLIENT = 5;
 
 	/**
 	 * The design element that changed.

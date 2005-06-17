@@ -113,6 +113,12 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_REF = MessageConstants.SEMANTIC_ERROR_INVALID_ELEMENT_REF;
 
 	/**
+	 * Error code indicating the structure referred is not found.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_STRUCTURE_REF = MessageConstants.SEMANTIC_ERROR_INVALID_STRUCTURE_REF;
+
+	/**
 	 * Error code indicating the JDBC select data set has no SQL statement.
 	 */
 
@@ -308,7 +314,8 @@ public class SemanticError extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{element
 					.getElementName( )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_REF )
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_REF
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_STRUCTURE_REF )
 		{
 			assert oaMessageArguments != null;
 

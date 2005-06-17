@@ -49,6 +49,8 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -1180,6 +1182,13 @@ public abstract class DesignElement
 			return resolveElementReference( design, prop );
 		}
 
+		// Cache a structure reference property if necessary.
+
+		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
+		{
+			return resolveStructReference( design, prop );
+		}
+
 		// Get the value of a non-intrinsic property.
 
 		return propValues.get( prop.getName( ) );
@@ -1317,6 +1326,14 @@ public abstract class DesignElement
 			updateReference( oldRef, (ElementRefValue) value, prop );
 		}
 
+		// handle caching for structure references.
+
+		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
+		{
+			StructRefValue oldRef = (StructRefValue) propValues.get( propName );
+			updateReference( oldRef, (StructRefValue) value, prop );
+		}
+
 		// Set or clear the property.
 
 		if ( value == null )
@@ -1410,6 +1427,55 @@ public abstract class DesignElement
 		if ( newRef != null )
 		{
 			target = newRef.getTargetElement( );
+			if ( target != null )
+				target.addClient( this, prop.getName( ) );
+		}
+	}
+
+	/**
+	 * Implements to cache a back-pointer from a referenced structure. This
+	 * element has a structure reference property that can point to another
+	 * "referencable" structure. To maintain semantic consistency, the
+	 * referenced structure maintains a list of "clients" that identifies the
+	 * elements that refer to it. The client list is used when the target
+	 * structure changes names or is deleted. In these cases, the change
+	 * automatically updates the clients as well.
+	 * <p>
+	 * References can be in two states: resovled and unresolved. An unresolved
+	 * reference is just a name, but the system has not yet identified the
+	 * target structure, or if a target even exists. A resolved reference caches
+	 * a pointer to the target structure itself.
+	 * 
+	 * @param oldRef
+	 *            the old reference, if any
+	 * @param newRef
+	 *            the new reference, if any
+	 * @param prop
+	 *            definition of the property
+	 */
+
+	protected void updateReference( StructRefValue oldRef,
+			StructRefValue newRef, ElementPropertyDefn prop )
+	{
+		ReferencableStructure target;
+
+		// Drop the old reference. Clear the back pointer from the referenced
+		// structure to this element.
+
+		if ( oldRef != null )
+		{
+			target = oldRef.getTargetStructure( );
+			if ( target != null )
+				target.dropClient( this );
+		}
+
+		// Add the new reference. Cache a back pointer from the referenced
+		// element to this element. Include the property name so we know which
+		// property to adjust it the target is deleted.
+
+		if ( newRef != null )
+		{
+			target = newRef.getTargetStructure( );
 			if ( target != null )
 				target.addClient( this, prop.getName( ) );
 		}
@@ -2373,7 +2439,7 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return 0;
-
+		
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
@@ -2430,7 +2496,7 @@ public abstract class DesignElement
 
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
-
+		
 		Object value = getProperty( design, propName );
 		return ( (BooleanPropertyType) type ).toBoolean( design, value );
 	}
@@ -2881,6 +2947,83 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Resolves a property structure reference. The reference is the value of a
+	 * property of type property structure reference.
+	 * 
+	 * @param design
+	 *            the report design information needed for the check, and
+	 *            records any errors
+	 * @param prop
+	 *            the property whose type is structure reference
+	 * @return the resolved value if the resolve operation is successful,
+	 *         otherwise the unresolved value
+	 */
+
+	public StructRefValue resolveStructReference( ReportDesign design,
+			ElementPropertyDefn prop )
+	{
+		Object value = propValues.get( prop.getName( ) );
+
+		assert value == null || value instanceof StructRefValue;
+
+		if ( value == null || design == null )
+			return (StructRefValue) value;
+
+		StructRefValue ref = (StructRefValue) value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		StructRefPropertyType refType = (StructRefPropertyType) prop.getType( );
+		refType.resolve( design, prop, ref );
+		if ( ref.isResolved( ) )
+			ref.getTargetStructure( ).addClient( this, prop.getName( ) );
+
+		return ref;
+	}
+
+	/**
+	 * Attempts to resolve an element reference property. If the property is
+	 * empty, or the reference is already resolved, return true. If the
+	 * reference is not resolved, attempt to resolve it. If it cannot be
+	 * resolved, return false.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param propName
+	 *            the name of the property
+	 * @return <code>true</code> if the property is resolved;
+	 *         <code>false</code> otherwise.
+	 */
+
+	public boolean checkElementReference( ReportDesign design, String propName )
+	{
+		assert !StringUtil.isBlank( propName );
+
+		// Is the value set?
+
+		Object value = propValues.get( propName );
+		if ( value == null )
+			return true;
+
+		// This must be an element reference property.
+
+		ElementPropertyDefn prop = getPropertyDefn( propName );
+		assert PropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
+
+		// Attempt to resolve the reference.
+
+		ElementRefValue ref = resolveElementReference( design, prop );
+		return ref.isResolved( );
+	}
+
+	/**
 	 * Returns the list of elements that extend this one.
 	 * 
 	 * @return the list of elements. The list is always non-null.
@@ -3043,7 +3186,7 @@ public abstract class DesignElement
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 * 
+	 *  
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException
@@ -3067,34 +3210,47 @@ public abstract class DesignElement
 			String key = (String) it.next( );
 			PropertyDefn propDefn = getPropertyDefn( key );
 
-			if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+			switch ( propDefn.getTypeCode( ) )
 			{
-				if ( propDefn.isList( ) )
-				{
-					element.propValues
-							.put( key, cloneStructList( (ArrayList) propValues
-									.get( key ) ) );
-				}
-				else
-				{
-					element.propValues.put( key, ( (Structure) propValues
-							.get( key ) ).copy( ) );
-				}
+				case PropertyType.STRUCT_TYPE :
+					if ( propDefn.isList( ) )
+					{
+						element.propValues.put( key,
+								cloneStructList( (ArrayList) propValues
+										.get( key ) ) );
+					}
+					else
+					{
+						element.propValues.put( key, ( (Structure) propValues
+								.get( key ) ).copy( ) );
+					}
+					break;
+
+				case PropertyType.ELEMENT_REF_TYPE :
+
+					// set cloned reference to be unresolved.
+
+					ElementRefValue refValue = (ElementRefValue) propValues
+							.get( key );
+					ElementRefValue newRefValue = new ElementRefValue( );
+					newRefValue.unresolved( refValue.getName( ) );
+					element.propValues.put( key, newRefValue );
+
+					break;
+
+				case PropertyType.STRUCT_REF_TYPE :
+
+					// set cloned reference to be unresolved
+
+					StructRefValue structRefValue = (StructRefValue) propValues
+							.get( key );
+					StructRefValue newStructRefValue = new StructRefValue( );
+					newStructRefValue.unresolved( structRefValue.getName( ) );
+					element.propValues.put( key, newStructRefValue );
+
+				default :
+					element.propValues.put( key, propValues.get( key ) );
 			}
-			else if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
-			{
-
-				// set cloned reference to be unresolved.
-
-				ElementRefValue refValue = (ElementRefValue) propValues
-						.get( key );
-				ElementRefValue newRefValue = new ElementRefValue( );
-				newRefValue.unresolved( refValue.getName( ) );
-				element.propValues.put( key, newRefValue );
-
-			}
-			else
-				element.propValues.put( key, propValues.get( key ) );
 		}
 
 		// User Properties

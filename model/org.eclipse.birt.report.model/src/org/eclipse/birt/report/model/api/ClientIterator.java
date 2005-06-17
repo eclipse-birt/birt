@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -112,7 +113,7 @@ class ClientIterator implements Iterator
 	{
 		if ( iter != null )
 		{
-			ReferenceableElement.BackRef client = (ReferenceableElement.BackRef) iter
+			BackRef client = (BackRef) iter
 					.next( );
 			return client.element.getHandle( design );
 		}
