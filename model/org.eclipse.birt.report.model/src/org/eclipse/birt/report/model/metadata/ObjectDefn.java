@@ -63,11 +63,8 @@ public class ObjectDefn implements IObjectDefn
 	 */
 
 	public ObjectDefn( )
-	{
-		// Temporary until all of rom.def is updated. Once the update
-		// is done, change this to "none".
-		
-		since = "1.0"; //$NON-NLS-1$
+	{	
+		since = "none"; //$NON-NLS-1$
 	}
 
 	/**

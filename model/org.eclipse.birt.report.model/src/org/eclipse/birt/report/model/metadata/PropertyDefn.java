@@ -225,6 +225,7 @@ public abstract class PropertyDefn
 
 	public PropertyDefn( )
 	{
+		since = "none"; //$NON-NLS-1$
 	}
 	
 	public void setOwner( ObjectDefn owner )

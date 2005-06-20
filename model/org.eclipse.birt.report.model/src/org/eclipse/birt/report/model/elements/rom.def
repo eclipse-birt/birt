@@ -1332,81 +1332,81 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" name="ValueRequiredValidator"/>
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" name="StructureReferenceValidator" />
   </Validators>
-  <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue">
-    <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" type="choice"/>
-    <Member displayNameID="Structure.NumberFormatValue.pattern" isIntrinsic="true" name="pattern" type="string"/>		
+  <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
+    <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.NumberFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
   </Structure>  
-  <Structure displayNameID="Structure.StringFormatValue" name="StringFormatValue">
-    <Member detailType="stringFormat" displayNameID="Structure.StringFormatValue.category" isIntrinsic="true" name="category" type="choice"/>
-    <Member displayNameID="Structure.StringFormatValue.pattern" isIntrinsic="true" name="pattern" type="string"/>		
+  <Structure displayNameID="Structure.StringFormatValue" name="StringFormatValue" since="1.0">
+    <Member detailType="stringFormat" displayNameID="Structure.StringFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.StringFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
   </Structure>  
-  <Structure displayNameID="Structure.DateTimeFormatValue" name="DateTimeFormatValue">
-    <Member detailType="dateTimeFormat" displayNameID="Structure.DateTimeFormatValue.category" isIntrinsic="true" name="category" type="choice"/>
-    <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" type="string"/>		
+  <Structure displayNameID="Structure.DateTimeFormatValue" name="DateTimeFormatValue" since="1.0">
+    <Member detailType="dateTimeFormat" displayNameID="Structure.DateTimeFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
   </Structure>     
-  <Structure displayNameID="Structure.MapRule" name="MapRule">
-    <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" type="choice">
+  <Structure displayNameID="Structure.MapRule" name="MapRule" since="1.0">
+    <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
     </Member>
-    <Member displayNameID="Structure.MapRule.value1" isIntrinsic="true" name="value1" returnType="any" type="expression"/>
-    <Member displayNameID="Structure.MapRule.value2" isIntrinsic="true" name="value2" returnType="any" type="expression"/>
-    <Member displayNameID="Structure.MapRule.display" isIntrinsic="true" name="display" type="string"/>
-    <Member displayNameID="Structure.MapRule.displayID" isIntrinsic="true" name="displayID" type="resourceKey"/>
+    <Member displayNameID="Structure.MapRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.MapRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.MapRule.display" isIntrinsic="true" name="display" since="1.0" type="string"/>
+    <Member displayNameID="Structure.MapRule.displayID" isIntrinsic="true" name="displayID" since="1.0" type="resourceKey"/>
   </Structure>
-  <Structure displayNameID="Structure.HighlightRule" name="HighlightRule">
-    <Member detailType="mapOperator" displayNameID="Structure.HighlightRule.operator" isIntrinsic="true" name="operator" type="choice">
+  <Structure displayNameID="Structure.HighlightRule" name="HighlightRule" since="1.0" >
+    <Member detailType="mapOperator" displayNameID="Structure.HighlightRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
     </Member>
-    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" type="expression"/>
-    <Member displayNameID="Structure.HighlightRule.value2" isIntrinsic="true" name="value2" returnType="any" type="expression"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.top.style" name="borderTopStyle" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.top.width" name="borderTopWidth" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.top.color" name="borderTopColor" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.left.style" name="borderLeftStyle" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.left.width" name="borderLeftWidth" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.left.color" name="borderLeftColor" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.bottom.style" name="borderBottomStyle" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.bottom.width" name="borderBottomWidth" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.bottom.color" name="borderBottomColor" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.right.style" name="borderRightStyle" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" type="color"/>
-    <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" type="color"/>
-    <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" type="structure"/>
-    <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" type="structure"/>
-    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" type="choice"/>
-    <Member detailType="StringFormatValue" displayNameID="Structure.HighlightRule.format.string" name="stringFormat" type="structure"/>
-    <Member detailType="fontFamily" displayNameID="Structure.HighlightRule.font.family" name="fontFamily" type="string"/>
-    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" type="dimension" validator="PositiveValueValidator"/>
-    <Member detailType="fontStyle" displayNameID="Structure.HighlightRule.font.style" name="fontStyle" type="choice"/>
-    <Member detailType="fontWeight" displayNameID="Structure.HighlightRule.font.weight" name="fontWeight" type="choice"/>
-    <Member detailType="fontVariant" displayNameID="Structure.HighlightRule.font.variant" name="fontVariant" type="choice"/>
-    <Member displayNameID="Structure.HighlightRule.font.color" name="color" type="color"/>
-    <Member detailType="textUnderline" displayNameID="Structure.HighlightRule.font.textUnderline" name="textUnderline" type="choice"/>
-    <Member detailType="textOverline" displayNameID="Structure.HighlightRule.font.textOverline" name="textOverline" type="choice"/>
-    <Member detailType="textLineThrough" displayNameID="Structure.HighlightRule.font.textLineThrough" name="textLineThrough" type="choice"/>
-    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" type="choice"/>
-    <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" type="dimension"/>
-    <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.HighlightRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.top.color" name="borderTopColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.left.style" name="borderLeftStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.left.width" name="borderLeftWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.left.color" name="borderLeftColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.bottom.style" name="borderBottomStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.bottom.width" name="borderBottomWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.bottom.color" name="borderBottomColor" since="1.0" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.right.style" name="borderRightStyle" since="1.0" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" since="1.0" type="color"/>
+    <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" since="1.0" type="color"/>
+    <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" since="1.0" type="structure"/>
+    <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" since="1.0" type="structure"/>
+    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" since="1.0" type="choice"/>
+    <Member detailType="StringFormatValue" displayNameID="Structure.HighlightRule.format.string" name="stringFormat" since="1.0" type="structure"/>
+    <Member detailType="fontFamily" displayNameID="Structure.HighlightRule.font.family" name="fontFamily" since="1.0" type="string"/>
+    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator"/>
+    <Member detailType="fontStyle" displayNameID="Structure.HighlightRule.font.style" name="fontStyle" since="1.0" type="choice"/>
+    <Member detailType="fontWeight" displayNameID="Structure.HighlightRule.font.weight" name="fontWeight" since="1.0" type="choice"/>
+    <Member detailType="fontVariant" displayNameID="Structure.HighlightRule.font.variant" name="fontVariant" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.font.color" name="color" since="1.0" type="color"/>
+    <Member detailType="textUnderline" displayNameID="Structure.HighlightRule.font.textUnderline" name="textUnderline" since="1.0" type="choice"/>
+    <Member detailType="textOverline" displayNameID="Structure.HighlightRule.font.textOverline" name="textOverline" since="1.0" type="choice"/>
+    <Member detailType="textLineThrough" displayNameID="Structure.HighlightRule.font.textLineThrough" name="textLineThrough" since="1.0" type="choice"/>
+    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
+    <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
     <Member displayNameID="Structure.CustomColor.color" isIntrinsic="true" name="color" runtimeSettable="false" since="reserved" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.CustomColor.displayName" isIntrinsic="true" name="displayName" runtimeSettable="false" since="reserved" type="string"/>
-    <Member displayNameID="Structure.CustomColor.displayNameID" isIntrinsic="true" name="displayNameID" type="resourceKey"/>
+    <Member displayNameID="Structure.CustomColor.displayNameID" isIntrinsic="true" name="displayNameID" since="reserved" type="resourceKey"/>
   </Structure>
   <Structure displayNameID="Structure.UserProperty" name="UserProperty" since="1.0">
     <Member displayNameID="Structure.UserProperty.name" isIntrinsic="true" name="name" since="1.0" type="string" valueRequired="true"/>
-    <Member displayNameID="Structure.UserProperty.type" isIntrinsic="true" name="type" type="string" />
-    <Member displayNameID="Structure.UserProperty.displayNameID" name="displayNameID" type="string"/>
+    <Member displayNameID="Structure.UserProperty.type" isIntrinsic="true" name="type" since="1.0" type="string" />
+    <Member displayNameID="Structure.UserProperty.displayNameID" name="displayNameID" since="1.0" type="string"/>
     <Member displayNameID="Structure.UserProperty.displayName" name="displayName" since="1.0" type="string"/>
   </Structure>
-  <Structure displayNameID="Structure.UserMethod" name="UserMethod">
-    <Member displayNameID="Structure.UserMethod.name" isIntrinsic="true" name="name" type="string"/>
+  <Structure displayNameID="Structure.UserMethod" name="UserMethod" since="reserved">
+    <Member displayNameID="Structure.UserMethod.name" isIntrinsic="true" name="name" since="reserved" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.ConfigVar" name="ConfigVar">
-    <Member displayNameID="Structure.ConfigVar.name" isIntrinsic="true" name="name" type="name"/>
-    <Member displayNameID="Structure.ConfigVar.value" isIntrinsic="true" name="value" type="string"/>
+    <Member displayNameID="Structure.ConfigVar.name" isIntrinsic="true" name="name" since="1.0" type="name"/>
+    <Member displayNameID="Structure.ConfigVar.value" isIntrinsic="true" name="value" returnType="any" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.SortKey" name="SortKey" since="1.0">
     <Member displayNameID="Structure.SortKey.key" isIntrinsic="true" name="key" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
@@ -1426,10 +1426,10 @@
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="choice">
       <Default>all</Default>
     </Member>
-    <Member displayNameID="Structure.HideRule.valueExpr" isIntrinsic="true" name="valueExpr" returnType="any" type="expression"/>
+    <Member displayNameID="Structure.HideRule.valueExpr" isIntrinsic="true" name="valueExpr" returnType="boolean" since="1.0" type="expression"/>
   </Structure>
-  <Structure displayNameID="Structure.IncludeScript" name="IncludeScript">
-    <Member displayNameID="Structure.IncludeScript.fileName" isIntrinsic="true" name="fileName" type="string"/>
+  <Structure displayNameID="Structure.IncludeScript" name="IncludeScript" since="1.0">
+    <Member displayNameID="Structure.IncludeScript.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.EmbeddedImage" name="EmbeddedImage" since="1.0">
     <Member displayNameID="Structure.EmbeddedImage.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name" valueRequired="true"/>
@@ -1437,16 +1437,16 @@
     <Member displayNameID="Structure.EmbeddedImage.data" isIntrinsic="true" name="data" runtimeSettable="false" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.PropertyMask" name="PropertyMask" since="1.0">
-    <Member displayNameID="Structure.PropertyMask.name" isIntrinsic="true" name="name" required="true" since="1.0" type="string"/>
+    <Member displayNameID="Structure.PropertyMask.name" isIntrinsic="true" name="name" valueRequired="true" since="1.0" type="string"/>
     <Member detailType="propertyMaskType" displayNameID="Structure.PropertyMask.mask" isIntrinsic="true" name="mask" since="1.0" type="choice">
       <Default>hide</Default>
     </Member>
   </Structure>
-  <Structure displayNameID="Structure.ExtendedProperty" name="ExtendedProperty">
-    <Member displayNameID="Structure.ExtendedProperty.name" isIntrinsic="true" name="name" type="name"/>
-    <Member displayNameID="Structure.ExtendedProperty.value" isIntrinsic="true" name="value" type="string"/>
+  <Structure displayNameID="Structure.ExtendedProperty" name="ExtendedProperty" since="1.0">
+    <Member displayNameID="Structure.ExtendedProperty.name" isIntrinsic="true" name="name" since="1.0" type="name"/>
+    <Member displayNameID="Structure.ExtendedProperty.value" isIntrinsic="true" name="value" since="1.0" type="string"/>
   </Structure>
-  <Structure displayNameID="Structure.DataSetParam" name="DataSetParam">
+  <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
     <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member detailType="columnDataType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
         <Default>any</Default>
@@ -1468,7 +1468,7 @@
   </Structure>
   <Structure displayNameID="Structure.ParamBinding" name="ParamBinding" since="1.0">
     <Member displayNameID="Structure.ParamBinding.paramName" isIntrinsic="true" name="paramName" since="1.0" type="name"/>
-    <Member displayNameID="Structure.ParamBinding.expression" isIntrinsic="true" name="expression" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.ParamBinding.expression" isIntrinsic="true" name="expression" returnType="any" since="1.0" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.ResultSetColumn" name="ResultSetColumn" since="1.0">
     <Member displayNameID="Structure.ResultSetColumn.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
@@ -1481,7 +1481,7 @@
     <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member context="factory" displayNameID="Structure.ComputedColumn.expression" isIntrinsic="true" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
   </Structure>
-  <Structure displayNameID="Structure.ColumnHint" name="ColumnHint">
+  <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.ColumnHint.alias" name="alias" runtimeSettable="false" since="1.0" type="string"/>
     <Member detailType="searchType" displayNameID="Structure.ColumnHint.searching" name="searching" since="reserved" type="choice">
@@ -1496,22 +1496,22 @@
     <Member displayNameID="Structure.ColumnHint.parentLevel" name="parentLevel" runtimeSettable="false" since="reserved" type="string"/>
     <Member displayNameID="Structure.ColumnHint.format" name="format" runtimeSettable="false" since="reserved" type="string" />
     <Member displayNameID="Structure.ColumnHint.displayName" name="displayName" runtimeSettable="false" since="1.0" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.displayNameID" name="displayNameID" since="1.0" type="string"/>
     <Member displayNameID="Structure.ColumnHint.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
-    <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" type="string"/>
+    <Member displayNameID="Structure.ColumnHint.helpTextID" name="helpTextID" since="1.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.SearchKey" name="SearchKey" since="reserved">
-    <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" type="expression"/>
+    <Member displayNameID="Structure.SearchKey.expression" isIntrinsic="true" name="expression" returnType="string" runtimeSettable="true" since="reserved" type="expression"/>
   </Structure>
- <Structure displayNameID="Structure.Action" name="Action" since="1.0">
+  <Structure displayNameID="Structure.Action" name="Action" since="1.0">
     <Member detailType="targetNames" displayNameID="Structure.Action.targetWindow" name="targetWindow" since="1.0" type="string">
     	<Default>_blank</Default>
     </Member>
     <Member detailType="actionLinkType" displayNameID="Structure.Action.linkType" name="linkType" since="1.0" type="choice">
       <Default>hyperlink</Default>
     </Member>
-    <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" type="expression"/>
-    <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" since="reserved" type="expression"/>
+    <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" returnType="string" type="expression"/>
+    <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" returnType="string" since="reserved" type="expression"/>
     <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="string"/>
     <Member detailType="ParamBinding" displayNameID="Structure.Action.paramBindings" isList="true" name="paramBindings" since="reserved" type="structure"/>
     <Member detailType="SearchKey" displayNameID="Structure.Action.search" isList="true" name="search" since="reserved" type="structure"/>
@@ -1519,12 +1519,12 @@
   <Structure displayNameID="Structure.SelectionChoice" name="SelectionChoice" since="1.0">
     <Member displayNameID="Structure.SelectionChoice.value" isIntrinsic="true" name="value" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.SelectionChoice.label" isIntrinsic="true" name="label" runtimeSettable="false" since="1.0" type="string"/>
-    <Member displayNameID="Structure.SelectionChoice.labelID" isIntrinsic="true" name="labelID" type="string"/>
+    <Member displayNameID="Structure.SelectionChoice.labelID" isIntrinsic="true" name="labelID" since="1.0" type="string"/>
   </Structure>
-  <Structure displayNameID="Structure.IncludeLibrary" name="IncludeLibrary">
-    <Member displayNameID="Structure.IncludeLibrary.fileName" isIntrinsic="true" name="fileName" type="string"/>
+  <Structure displayNameID="Structure.IncludeLibrary" name="IncludeLibrary" since="1.0">
+    <Member displayNameID="Structure.IncludeLibrary.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
   </Structure>
-  <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData">
+  <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
@@ -1532,21 +1532,20 @@
     <Property canInherit="false" displayNameID="Element.ReportDesign.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
-    <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" type="choice">
+    <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" since="1.0" type="choice">
       <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>
 	<Property canInherit="false" displayNameID="Element.ReportDesign.title" name="title" runtimeSettable="false" since="1.0" type="string"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.titleID" name="titleID" type="resourceKey"/>
+    <Property canInherit="false" displayNameID="Element.ReportDesign.titleID" name="titleID" since="1.0" type="resourceKey"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.description" name="description" runtimeSettable="false" since="reserved" type="html"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.descriptionID" name="descriptionID" type="resourceKey"/>
+    <Property canInherit="false" displayNameID="Element.ReportDesign.descriptionID" name="descriptionID" since="reserved" type="resourceKey"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.comments" name="comments" since="1.0" type="html"/>
     <Property canInherit="false" detailType="CustomColor" displayNameID="Element.ReportDesign.colorPalette" isList="true" name="colorPalette" runtimeSettable="false" since="reserved" type="structure"/>
-    <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.ReportDesign.configVars" isList="true" name="configVars" type="structure"/>
+    <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.ReportDesign.configVars" isList="true" name="configVars" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.ReportDesign.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
     <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.ReportDesign.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.ReportDesign.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip"/>
-    <PropertyVisibility name="createdBy" visibility="readonly" />	     
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportDesign" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
     <Property canInherit="false" displayNameID="Element.ReportDesign.refreshRate" name="refreshRate" runtimeSettable="false" since="reserved" type="integer" validator="NonNegativeValueValidator">
@@ -1635,9 +1634,9 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportElement" extends="DesignElement" hasStyle="false" isAbstract="true" name="ReportElement" nameSpace="none" since="1.0">
     <Property canInherit="false" displayNameID="Element.ReportElement.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="name"/>
-    <Property canInherit="false" displayNameID="Element.ReportElement.extends" isIntrinsic="true" name="extends" runtimeSettable="false" since="1.0" type="extends"/>
-    <Property displayNameID="Element.ReportElement.displayName" name="displayName" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" type="resourceKey"/>
+    <Property canInherit="false" displayNameID="Element.ReportElement.extends" isIntrinsic="true" name="extends" runtimeSettable="false" since="reserved" type="extends"/>
+    <Property displayNameID="Element.ReportElement.displayName" name="displayName" runtimeSettable="false" since="reserved" type="string"/>
+    <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" since="reserved" type="resourceKey"/>
     <Property displayNameID="Element.ReportElement.comments" name="comments" runtimeSettable="false" since="1.0" type="string"/>
     <PropertyVisibility name="extends" visibility="hide"/>        
     <PropertyVisibility name="displayName" visibility="hide"/>    
@@ -1650,10 +1649,10 @@
     <Method context="factory" displayNameID="Element.DataSource.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSource.afterClose.toolTip"/>
   </Element>
   <Element canExtend="false" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="OdaDataSource">
-    <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" type="string"/>
-    <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isList="true" name="privateDriverProperties" type="structure"/>
-    <PropertyVisibility name="extensionID" propertyVisibility="hide" />
-    <PropertyVisibility name="privateDriverProperties" propertyVisibility="hide" />
+    <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
+    <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
+    <PropertyVisibility name="extensionID" visibility="hide" />
+    <PropertyVisibility name="privateDriverProperties" visibility="hide" />
   </Element>
   <Element canExtend="false" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="ScriptDataSource">
     <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" />
@@ -1665,7 +1664,7 @@
     <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSet.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSet.afterOpen.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSet.afterClose.toolTip"/>
-    <Property detailType="DataSource" displayNameID="Element.DataSet.dataSource" name="dataSource" type="element" valueRequired="true"/>    
+    <Property detailType="DataSource" displayNameID="Element.DataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.DataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
     <Property detailType="ResultSetColumn" displayNameID="Element.DataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
@@ -1683,10 +1682,10 @@
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip"/>
   </Element>
   <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="OdaDataSet">
-    <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" type="string"/>
+    <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
-    <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" type="structure"/>
+    <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
@@ -1700,7 +1699,6 @@
   	<Method context="factory" displayNameID="Element.Parameter.validate" name="validate" returnType="boolean" since="reserved" toolTipID="Element.Parameter.validate.toolTip"/>
   </Element>
   <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
-    <Property displayNameID="Element.ScalarParameter.displayPrompt" name="displayPrompt" type="string"/>
     <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
       <Default>string</Default>
     </Property>
@@ -1745,199 +1743,199 @@
       <Default>true</Default>
     </Property>
     <Property displayNameID="Element.ParameterGroup.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.ParameterGroup.helpTextID" name="helpTextID" type="resourceKey"/>
-    <Slot displayNameID="Element.ParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" xmlName="parameters">
+    <Property displayNameID="Element.ParameterGroup.helpTextID" name="helpTextID" runtimeSettable="false" since="1.0" type="resourceKey"/>
+    <Slot displayNameID="Element.ParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="1.0" xmlName="parameters">
       <Type name="Parameter"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Style" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Style" name="Style" nameSpace="style">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Style" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Style" name="Style" nameSpace="style" since="1.0">
     <PropertyGroup displayNameID="Element.Style.font">
-      <Property detailType="fontFamily" displayNameID="Element.Style.font.family" isStyleProperty="true" name="fontFamily" type="string">
+      <Property detailType="fontFamily" displayNameID="Element.Style.font.family" isStyleProperty="true" name="fontFamily" since="1.0" type="string">
         <Default>serif</Default>
       </Property>
-      <Property detailType="fontSize" displayNameID="Element.Style.font.size" isStyleProperty="true" name="fontSize" type="dimension" validator="PositiveValueValidator">
+      <Property detailType="fontSize" displayNameID="Element.Style.font.size" isStyleProperty="true" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator">
         <Default>medium</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property detailType="fontStyle" displayNameID="Element.Style.font.style" isStyleProperty="true" name="fontStyle" type="choice">
+      <Property detailType="fontStyle" displayNameID="Element.Style.font.style" isStyleProperty="true" name="fontStyle" since="1.0" type="choice">
         <Default>normal</Default>
       </Property>
-      <Property detailType="fontWeight" displayNameID="Element.Style.font.weight" isStyleProperty="true" name="fontWeight" type="choice">
+      <Property detailType="fontWeight" displayNameID="Element.Style.font.weight" isStyleProperty="true" name="fontWeight" since="1.0" type="choice">
         <Default>normal</Default>
       </Property>
-      <Property detailType="fontVariant" displayNameID="Element.Style.font.variant" isStyleProperty="true" name="fontVariant" type="choice">
+      <Property detailType="fontVariant" displayNameID="Element.Style.font.variant" isStyleProperty="true" name="fontVariant" since="1.0" type="choice">
         <Default>normal</Default>
       </Property>
-      <Property displayNameID="Element.Style.color" isStyleProperty="true" name="color" type="color">
+      <Property displayNameID="Element.Style.color" isStyleProperty="true" name="color" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="textUnderline" displayNameID="Element.Style.font.textUnderline" isStyleProperty="true" name="textUnderline" type="choice">
+      <Property canInherit="false" detailType="textUnderline" displayNameID="Element.Style.font.textUnderline" isStyleProperty="true" name="textUnderline" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="textOverline" displayNameID="Element.Style.font.textOverline" isStyleProperty="true" name="textOverline" type="choice">
+      <Property canInherit="false" detailType="textOverline" displayNameID="Element.Style.font.textOverline" isStyleProperty="true" name="textOverline" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="textLineThrough" displayNameID="Element.Style.font.textLineThrough" isStyleProperty="true" name="textLineThrough" type="choice">
+      <Property canInherit="false" detailType="textLineThrough" displayNameID="Element.Style.font.textLineThrough" isStyleProperty="true" name="textLineThrough" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.background">
-      <Property canInherit="false" detailType="backgroundAttachment" displayNameID="Element.Style.background.attachment" isStyleProperty="true" name="backgroundAttachment" type="choice">
+      <Property canInherit="false" detailType="backgroundAttachment" displayNameID="Element.Style.background.attachment" isStyleProperty="true" name="backgroundAttachment" since="reserved" type="choice">
         <Default>scroll</Default>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.background.color" isStyleProperty="true" name="backgroundColor" type="color"/>
-      <Property canInherit="false" displayNameID="Element.Style.background.image" isStyleProperty="true" name="backgroundImage" type="uri"/>
-      <Property canInherit="false" detailType="backgroundPositionX" displayNameID="Element.Style.background.positionX" isStyleProperty="true" name="backgroundPositionX" type="dimension">
+      <Property canInherit="false" displayNameID="Element.Style.background.color" isStyleProperty="true" name="backgroundColor" since="1.0" type="color"/>
+      <Property canInherit="false" displayNameID="Element.Style.background.image" isStyleProperty="true" name="backgroundImage" since="reserved" type="uri"/>
+      <Property canInherit="false" detailType="backgroundPositionX" displayNameID="Element.Style.background.positionX" isStyleProperty="true" name="backgroundPositionX" since="reserved" type="dimension">
         <Default>0%</Default>
       </Property>
-      <Property canInherit="false" detailType="backgroundPositionY" displayNameID="Element.Style.background.positionY" isStyleProperty="true" name="backgroundPositionY" type="dimension">
+      <Property canInherit="false" detailType="backgroundPositionY" displayNameID="Element.Style.background.positionY" isStyleProperty="true" name="backgroundPositionY" since="reserved" type="dimension">
         <Default>0%</Default>
       </Property>
-      <Property canInherit="false" detailType="backgroundRepeat" displayNameID="Element.Style.background.repeat" isStyleProperty="true" name="backgroundRepeat" type="choice">
+      <Property canInherit="false" detailType="backgroundRepeat" displayNameID="Element.Style.background.repeat" isStyleProperty="true" name="backgroundRepeat" since="reserved" type="choice">
         <Default>repeat</Default>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.text">
-      <Property detailType="normal" displayNameID="Element.Style.letterSpacing" isStyleProperty="true" name="letterSpacing" type="dimension">
+      <Property detailType="normal" displayNameID="Element.Style.letterSpacing" isStyleProperty="true" name="letterSpacing" since="1.0" type="dimension">
         <Default>normal</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property detailType="normal" displayNameID="Element.Style.lineHeight" isStyleProperty="true" name="lineHeight" type="dimension" validator="NonNegativeValueValidator">
+      <Property detailType="normal" displayNameID="Element.Style.lineHeight" isStyleProperty="true" name="lineHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>normal</Default>
       </Property>
-      <Property detailType="textAlign" displayNameID="Element.Style.text.align" isStyleProperty="true" name="textAlign" type="choice">
+      <Property detailType="textAlign" displayNameID="Element.Style.text.align" isStyleProperty="true" name="textAlign" since="1.0" type="choice">
         <Default>left</Default>
       </Property>
-      <Property displayNameID="Element.Style.text.indent" isStyleProperty="true" name="textIndent" type="dimension">
+      <Property displayNameID="Element.Style.text.indent" isStyleProperty="true" name="textIndent" since="1.0" type="dimension">
         <Default>0em</Default>
         <DefaultUnit>em</DefaultUnit>
       </Property>
-      <Property detailType="transform" displayNameID="Element.Style.text.transform" isStyleProperty="true" name="textTransform" type="choice">
+      <Property detailType="transform" displayNameID="Element.Style.text.transform" isStyleProperty="true" name="textTransform" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="verticalAlign" displayNameID="Element.Style.verticalAlign" isStyleProperty="true" name="verticalAlign" type="string">
+      <Property canInherit="false" detailType="verticalAlign" displayNameID="Element.Style.verticalAlign" isStyleProperty="true" name="verticalAlign" since="1.0" type="string">
         <Default>baseline</Default>
       </Property>
-      <Property detailType="whiteSpace" displayNameID="Element.Style.whiteSpace" isStyleProperty="true" name="whiteSpace" type="choice">
+      <Property detailType="whiteSpace" displayNameID="Element.Style.whiteSpace" isStyleProperty="true" name="whiteSpace" since="1.0" type="choice">
         <Default>normal</Default>
       </Property>
-      <Property detailType="inherit" displayNameID="Element.Style.widows" isStyleProperty="true" name="widows" type="integer">
+      <Property detailType="inherit" displayNameID="Element.Style.widows" isStyleProperty="true" name="widows" since="1.0" type="integer">
         <Default>2</Default>
       </Property>
-      <Property detailType="inherit" displayNameID="Element.Style.orphans" isStyleProperty="true" name="orphans" type="integer">
+      <Property detailType="inherit" displayNameID="Element.Style.orphans" isStyleProperty="true" name="orphans" since="1.0" type="integer">
         <Default>2</Default>
       </Property>
-      <Property detailType="normal" displayNameID="Element.Style.wordSpacing" isStyleProperty="true" name="wordSpacing" type="dimension">
+      <Property detailType="normal" displayNameID="Element.Style.wordSpacing" isStyleProperty="true" name="wordSpacing" since="1.0" type="dimension">
         <Default>normal</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.section">
-      <Property canInherit="false" detailType="display" displayNameID="Element.Style.display" isStyleProperty="true" name="display" type="choice">
+      <Property canInherit="false" detailType="display" displayNameID="Element.Style.display" isStyleProperty="true" name="display" since="1.0" type="choice">
         <Default>block</Default>
       </Property>
-      <Property displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" type="name"/>
-      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" type="choice">
+      <Property displayNameID="Element.Style.masterPage" isStyleProperty="true" name="masterPage" since="reserved" type="name"/>
+      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakBefore" isStyleProperty="true" name="pageBreakBefore" since="1.0" type="choice">
         <Default>auto</Default>
       </Property>
-      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" type="choice">
+      <Property canInherit="false" detailType="pageBreak" displayNameID="Element.Style.pageBreakAfter" isStyleProperty="true" name="pageBreakAfter" since="1.0" type="choice">
         <Default>auto</Default>
       </Property>
-      <Property detailType="pageBreakInside" displayNameID="Element.Style.pageBreakInside" isStyleProperty="true" name="pageBreakInside" type="choice">
+      <Property detailType="pageBreakInside" displayNameID="Element.Style.pageBreakInside" isStyleProperty="true" name="pageBreakInside" since="1.0" type="choice">
         <Default>auto</Default>
       </Property>
-      <Property displayNameID="Element.Style.showIfBlank" isStyleProperty="true" name="showIfBlank" type="boolean">
+      <Property displayNameID="Element.Style.showIfBlank" isStyleProperty="true" name="showIfBlank" since="1.0" type="boolean">
         <Default>false</Default>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.box">
-      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.top.style" isStyleProperty="true" name="borderTopStyle" type="choice">
+      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.top.style" isStyleProperty="true" name="borderTopStyle" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.top.width" isStyleProperty="true" name="borderTopWidth" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.top.width" isStyleProperty="true" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>medium</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.border.top.color" isStyleProperty="true" name="borderTopColor" type="color">
+      <Property canInherit="false" displayNameID="Element.Style.border.top.color" isStyleProperty="true" name="borderTopColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.left.style" isStyleProperty="true" name="borderLeftStyle" type="choice">
+      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.left.style" isStyleProperty="true" name="borderLeftStyle" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.left.width" isStyleProperty="true" name="borderLeftWidth" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.left.width" isStyleProperty="true" name="borderLeftWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>medium</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.border.left.color" isStyleProperty="true" name="borderLeftColor" type="color">
+      <Property canInherit="false" displayNameID="Element.Style.border.left.color" isStyleProperty="true" name="borderLeftColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.bottom.style" isStyleProperty="true" name="borderBottomStyle" type="choice">
+      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.bottom.style" isStyleProperty="true" name="borderBottomStyle" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.bottom.width" isStyleProperty="true" name="borderBottomWidth" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.bottom.width" isStyleProperty="true" name="borderBottomWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>medium</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.border.bottom.color" isStyleProperty="true" name="borderBottomColor" type="color">
+      <Property canInherit="false" displayNameID="Element.Style.border.bottom.color" isStyleProperty="true" name="borderBottomColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.right.style" isStyleProperty="true" name="borderRightStyle" type="choice">
+      <Property canInherit="false" detailType="lineStyle" displayNameID="Element.Style.border.right.style" isStyleProperty="true" name="borderRightStyle" since="1.0" type="choice">
         <Default>none</Default>
       </Property>
-      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.right.width" isStyleProperty="true" name="borderRightWidth" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.right.width" isStyleProperty="true" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>medium</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.border.right.color" isStyleProperty="true" name="borderRightColor" type="color">
+      <Property canInherit="false" displayNameID="Element.Style.border.right.color" isStyleProperty="true" name="borderRightColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.top" isStyleProperty="true" name="marginTop" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.top" isStyleProperty="true" name="marginTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.bottom" isStyleProperty="true" name="marginBottom" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.bottom" isStyleProperty="true" name="marginBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.left" isStyleProperty="true" name="marginLeft" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.left" isStyleProperty="true" name="marginLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.right" isStyleProperty="true" name="marginRight" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.right" isStyleProperty="true" name="marginRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
-      <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" type="dimension" validator="NonNegativeValueValidator">
+      <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>0pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
-      <Property detailType="DateTimeFormatValue" displayNameID="Element.Style.format.dateTime" isStyleProperty="true" name="dateTimeFormat" type="structure"/>
-      <Property detailType="NumberFormatValue" displayNameID="Element.Style.format.number" isStyleProperty="true" name="numberFormat" type="structure"/>
-      <Property detailType="textAlign" displayNameID="Element.Style.format.number.align" isStyleProperty="true" name="numberAlign" type="choice">
+      <Property detailType="DateTimeFormatValue" displayNameID="Element.Style.format.dateTime" isStyleProperty="true" name="dateTimeFormat" since="1.0" type="structure"/>
+      <Property detailType="NumberFormatValue" displayNameID="Element.Style.format.number" isStyleProperty="true" name="numberFormat" since="1.0" type="structure"/>
+      <Property detailType="textAlign" displayNameID="Element.Style.format.number.align" isStyleProperty="true" name="numberAlign" since="1.0" type="choice">
       </Property>
-      <Property detailType="StringFormatValue" displayNameID="Element.Style.format.string" isStyleProperty="true" name="stringFormat" type="structure"/>
+      <Property detailType="StringFormatValue" displayNameID="Element.Style.format.string" isStyleProperty="true" name="stringFormat" since="1.0" type="structure"/>
     </PropertyGroup>
-    <Property displayNameID="Element.Style.canShrink" isStyleProperty="true" name="canShrink" type="boolean">
+    <Property displayNameID="Element.Style.canShrink" isStyleProperty="true" name="canShrink" since="reserved" type="boolean">
       <Default>true</Default>
     </Property>
-    <Property displayNameID="Element.Style.map.testExpr" isStyleProperty="true" name="mapTestExpr" returnType="any" type="expression"/>
-    <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" type="structure"/>
-    <Property displayNameID="Element.Style.highlight.testExpr" isStyleProperty="true" name="highlightTestExpr" returnType="any" type="expression"/>
-    <Property detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" type="structure"/>
+    <Property displayNameID="Element.Style.map.testExpr" isStyleProperty="true" name="mapTestExpr" returnType="any" since="1.0" type="expression"/>
+    <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
+    <Property displayNameID="Element.Style.highlight.testExpr" isStyleProperty="true" name="highlightTestExpr" returnType="any" since="1.0" type="expression"/>
+    <Property detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>
     <PropertyVisibility name="backgroundAttachment" visibility="hide"/>          
     <PropertyVisibility name="backgroundImage" visibility="hide"/>      
     <PropertyVisibility name="backgroundPositionX" visibility="hide"/>      
@@ -1989,17 +1987,17 @@
       </Property>
     </PropertyGroup>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" xmlName="graphic-master-page">
-    <Property displayNameID="Element.GraphicMasterPage.columns" name="columns" type="integer" validator="PositiveValueValidator">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="1.0" xmlName="graphic-master-page">
+    <Property displayNameID="Element.GraphicMasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
-    <Property displayNameID="Element.GraphicMasterPage.columnSpacing" name="columnSpacing" type="dimension">
+    <Property displayNameID="Element.GraphicMasterPage.columnSpacing" name="columnSpacing" since="1.0" type="dimension">
       <Default>0.5pt</Default>
       <DefaultUnit>pt</DefaultUnit>
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
-    <Slot displayNameID="Element.GraphicMasterPage.slot.contents" multipleCardinality="true" name="contents" xmlName="contents">
+    <Slot displayNameID="Element.GraphicMasterPage.slot.contents" multipleCardinality="true" name="contents" since="1.0" xmlName="contents">
       <Type name="Label"/>
       <Type name="FreeForm"/>
       <Type name="Data"/>
@@ -2029,7 +2027,7 @@
       <Type name="Grid"/>
       <Type name="Text"/>
     </Slot>
-    <Slot displayNameID="Element.SimpleMasterPage.slot.pageFooter" multipleCardinality="false" name="pageFooter" xmlName="page-footer">
+    <Slot displayNameID="Element.SimpleMasterPage.slot.pageFooter" multipleCardinality="false" name="pageFooter" since="1.0" xmlName="page-footer">
       <Type name="FreeForm"/>
       <Type name="Grid"/>
       <Type name="Text"/>
@@ -2058,9 +2056,9 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.Label" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Label" name="Label" selector="label" since="1.0" xmlName="label">
     <Property displayNameID="Element.Label.text" name="text" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.Label.textID" name="textID" type="resourceKey"/>
+    <Property displayNameID="Element.Label.textID" name="textID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.Label.helpTextID" name="helpTextID" type="resourceKey"/>
+    <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Label.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="dataSet" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
@@ -2112,8 +2110,8 @@
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
   </Element>
-  <Element canExtend="true" displayNameID="Element.FreeForm" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.FreeForm" name="FreeForm" selector="free-form">
-    <Slot displayNameID="Element.FreeForm.slot.reportItems" multipleCardinality="true" name="reportItems" xmlName="report-items">
+  <Element canExtend="true" displayNameID="Element.FreeForm" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.FreeForm" name="FreeForm" since="reserved" selector="free-form">
+    <Slot displayNameID="Element.FreeForm.slot.reportItems" multipleCardinality="true" name="reportItems" since="reserved" xmlName="report-items">
       <Type name="FreeForm"/>
       <Type name="Label"/>
       <Type name="Data"/>
@@ -2132,7 +2130,7 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Data" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataItem" name="Data" selector="number,string,date" since="1.0" xmlName="data">
     <Property context="element" displayNameID="Element.Data.valueExpr" name="valueExpr" returnType="any" since="1.0" type="expression"/>
     <Property displayNameID="Element.Data.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.Data.helpTextID" name="helpTextID" type="resourceKey"/>
+    <Property displayNameID="Element.Data.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
     <Property detailType="Action" displayNameID="Element.Data.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="backgroundImage"/>
@@ -2193,7 +2191,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Text" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextItem" name="Text" selector="text" since="1.0" xmlName="text">
     <Property displayNameID="Element.Text.content" name="content" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.Text.contentID" name="contentID" type="resourceKey"/>
+    <Property displayNameID="Element.Text.contentID" name="contentID" since="1.0" type="resourceKey"/>
     <Property detailType="textContentType" displayNameID="Element.Text.contentType" name="contentType" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
@@ -2354,29 +2352,29 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Table" extends="Listing" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TableItem" name="Table" selector="table" since="1.0" xmlName="table">
     <Property displayNameID="Element.Table.caption" name="caption" runtimeSettable="false" since="1.0" type="string"/>
-    <Property displayNameID="Element.Table.captionID" name="captionID" type="resourceKey"/>
+    <Property displayNameID="Element.Table.captionID" name="captionID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Table.repeatHeader" name="repeatHeader" runtimeSettable="false" since="1.0" type="boolean">
       <Default>true</Default>
     </Property>
-    <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" xmlName="header">
+    <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" xmlName="">
+    <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
       <Type name="TableGroup"/>
       <Trigger validator="GroupNameValidator"/>
       <Trigger validator="TableDroppingValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.detail" multipleCardinality="true" name="detail" selector="table-detail" xmlName="detail">
+    <Slot displayNameID="Element.Table.slot.detail" multipleCardinality="true" name="detail" selector="table-detail" since="1.0" xmlName="detail">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.footer" multipleCardinality="true" name="footer" selector="table-footer" xmlName="footer">
+    <Slot displayNameID="Element.Table.slot.footer" multipleCardinality="true" name="footer" selector="table-footer" since="1.0" xmlName="footer">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.columns" multipleCardinality="true" name="columns" xmlName="columns">
+    <Slot displayNameID="Element.Table.slot.columns" multipleCardinality="true" name="columns" since="1.0" xmlName="columns">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
@@ -2450,7 +2448,7 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="1.0" type="expression"/>    
+    <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>    
     <PropertyVisibility name="bookmark" visibility="hide"/>      
     <PropertyVisibility name="borderTopColor" visibility="hide"/>          
     <PropertyVisibility name="borderTopStyle" visibility="hide"/>              
@@ -2464,7 +2462,7 @@
     <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
     <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
     <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                           
-    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" xmlName="">
+    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
@@ -2493,7 +2491,7 @@
     <PropertyVisibility name="column" visibility="hide"/>        
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
     <PropertyVisibility name="rowSpan" visibility="readonly"/>                   
-    <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" xmlName="content">
+    <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0" xmlName="content">
       <Type name="Label"/>
       <Type name="Data"/>
       <Type name="Text"/>
@@ -2568,17 +2566,17 @@
     <StyleProperty name="verticalAlign"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Grid" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.GridItem" name="Grid" selector="grid" since="1.0" xmlName="grid">
-    <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" xmlName="columns">
+    <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0" xmlName="columns">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" xmlName="">
+    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" since="1.0" xmlName="">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" selector="line">
-    <Property detailType="lineOrientation" displayNameID="Element.Line.orientation" name="orientation" type="choice">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Line" extends="ReportItem" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.LineItem" name="Line" since="reserved" selector="line">
+    <Property detailType="lineOrientation" displayNameID="Element.Line.orientation" name="orientation" since="reserved" type="choice">
       <Default>horizontal</Default>
     </Property>
     <PropertyVisibility name="orientation" visibility="hide"/>     
@@ -2600,7 +2598,7 @@
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Rectangle" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.RectangleItem" name="Rectangle" selector="rectangle">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Rectangle" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.RectangleItem" name="Rectangle" since="reserved" selector="rectangle">
     <StyleProperty name="paddingTop"/>
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
@@ -2620,9 +2618,9 @@
     <StyleProperty name="borderRightColor"/>
     <StyleProperty name="display"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" selector="text-data">
-    <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" type="expression" valueRequired="true"/>
-    <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" type="choice"/>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.TextData" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextDataItem" name="TextData" since="1.0" selector="text-data">
+    <Property displayNameID="Element.TextData.valueExpr" name="valueExpr" returnType="string" since="1.0" type="expression" valueRequired="true"/>
+    <Property detailType="textDataContentType" displayNameID="Element.TextData.contentType" name="contentType" since="1.0" type="choice"/>
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundPositionX"/>
@@ -2673,8 +2671,8 @@
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" selector="extended-item">
-    <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" type="string"/>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" selector="extended-item">
+    <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string"/>
 	<PropertyVisibility name="extensionName" visibility="hide"/>
   </Element>
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
