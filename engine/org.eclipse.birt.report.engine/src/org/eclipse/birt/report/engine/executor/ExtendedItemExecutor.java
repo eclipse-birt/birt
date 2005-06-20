@@ -370,7 +370,14 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			for ( int i = 0; i < rowSets.length; i++ )
 			{
 				IResultSet rset = context.dataEngine.execute( queries[i] );
-				rowSets[i] = new RowSet( (DteResultSet) rset );
+				if(rset!=null)
+				{
+					rowSets[i] = new RowSet( (DteResultSet) rset );
+				}
+				else
+				{
+					rowSets[i] = null;
+				}
 			}
 		}
 		return rowSets;
