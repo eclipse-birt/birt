@@ -39,9 +39,11 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -93,7 +95,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.29 $ $Date: 2005/05/20 19:17:55 $
+ * @version $Revision: 1.30 $ $Date: 2005/05/25 07:24:15 $
  */
 public class ReportQueryBuilder
 {
@@ -863,6 +865,16 @@ public class ReportQueryBuilder
 		protected BaseQueryDefinition createQuery( ReportItemDesign item )
 		{
 			DataSetHandle dsHandle = ( (ReportItemHandle) item.getHandle( ) ).getDataSet( );
+			
+			if (dsHandle == null)
+			{
+				//dataset reference error
+				String dsName = (String)( (ReportItemHandle) item.getHandle( ) ).getProperty(ReportItemHandle.DATA_SET_PROP);
+				if(dsName!=null && dsName.length()>0)
+				{
+					context.addException(new EngineException(MessageConstants.UNDEFINED_DATASET_ERROR, dsName));
+				}
+			}
 
 			if ( dsHandle != null )
 			{

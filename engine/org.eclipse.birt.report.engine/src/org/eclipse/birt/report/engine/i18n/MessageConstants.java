@@ -44,6 +44,8 @@ public class MessageConstants
 	public static final String  EMBEDDED_EXPRESSION_ERROR = "Error.EmbeddedExpressionError";	//$NON-NLS-1$
 	public static final String  EMBEDDED_IMAGE_ERROR = "Error.EmbeddedImageError";	//$NON-NLS-1$
 	public static final String  HTML_IMAGE_ERROR = "Error.HTMLImageError";	//$NON-NLS-1$
+	
+	public static final String  UNDEFINED_DATASET_ERROR = "Error.UndefinedDatasetError";	//$NON-NLS-1$
 
 }
 
