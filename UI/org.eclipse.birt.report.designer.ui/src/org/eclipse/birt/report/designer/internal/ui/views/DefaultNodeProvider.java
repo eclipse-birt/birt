@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +101,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public static final String MISSINGNAME = Messages.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
 
+	private Comparator comparator;
+
 	/**
 	 * Creates the context menu
 	 * 
@@ -180,7 +184,12 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
 			{
-				return this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
+				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
+				if(comparator !=null)
+				{
+					Arrays.sort(children,comparator);
+				}
+				return children;
 			}
 		}
 		return new Object[]{};
@@ -453,6 +462,15 @@ public class DefaultNodeProvider implements INodeProvider
 	public boolean hasChildren( Object object )
 	{
 		return getChildren( object ).length > 0;
+	}
+	
+	/**
+	 * Set comparator to control the order of children.
+	 * @param comparator
+	 */
+	public void setSorter(Comparator comparator)
+	{
+		this.comparator = comparator;
 	}
 }
 

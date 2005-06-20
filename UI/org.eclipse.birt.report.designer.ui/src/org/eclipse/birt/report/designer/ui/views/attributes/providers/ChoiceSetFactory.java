@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -578,12 +579,11 @@ public class ChoiceSetFactory
 	{
 		ArrayList list = new ArrayList( );
 		list.add( CHOICE_NONE );
-		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		SlotHandle styles = handle.getStyles( );
-		if ( styles != null )
+
+		Iterator iterator = DEUtil.getStyles();
+		
+		if(iterator !=null)
 		{
-			Iterator iterator = styles.iterator( );
 			while ( iterator.hasNext( ) )
 			{
 				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditStyleAction;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -47,16 +47,16 @@ public class EditStyleMenuAction extends MenuUpdateAction
 	{
 
 		ArrayList actionList = new ArrayList( );
-		Iterator iterator = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getStyles( )
-				.iterator( );
-		while ( iterator.hasNext( ) )
+		Iterator iterator = DEUtil.getStyles();
+		if(iterator!=null)
 		{
-			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
-			EditStyleAction action = new EditStyleAction( handle );
-			action.setSelection( getSelection( ) );
-			actionList.add( action );
+			while ( iterator.hasNext( ) )
+			{
+				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+				EditStyleAction action = new EditStyleAction( handle );
+				action.setSelection( getSelection( ) );
+				actionList.add( action );
+			}
 		}
 		return actionList;
 	}

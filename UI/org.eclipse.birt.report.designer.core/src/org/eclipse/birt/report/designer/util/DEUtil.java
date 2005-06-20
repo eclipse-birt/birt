@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.util;
 
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -59,7 +61,6 @@ import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -1355,12 +1356,49 @@ public class DEUtil
 
 	/**
 	 * @param transferSource
-	 * @return
+	 * @return true if parameter is parameter group.
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
 		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
 				.getName( )
 				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+	}
+	
+	
+	/**
+	 * @return Alphabetically sortted styles list.
+	 */
+	public static Iterator getStyles()
+	{
+		return getStyles(new AlphabeticallyComparator());
+	}
+	
+	/**
+	 * @param comparator
+	 * @return return styles list sortted with given comparator.
+	 */
+	public static Iterator getStyles(Comparator comparator)
+	{
+		SlotHandle styles = SessionHandleAdapter.getInstance().getReportDesignHandle().getStyles();
+		
+		if(styles ==null) 
+		{
+			return null;
+		}
+		
+		Object[] stylesArray = new Object[styles.getCount()];
+		
+		int i =0;
+		for(Iterator it= styles.iterator();it.hasNext();)
+		{
+			stylesArray[i++] = it.next();
+		}
+		
+		if(comparator!=null)
+		{
+			Arrays.sort(stylesArray,comparator);
+		}
+		return Arrays.asList(stylesArray).iterator();
 	}
 }

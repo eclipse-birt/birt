@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -58,19 +58,19 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 		actionList.add( reset );
 		actionList.add( null );//Adds separator
 
-		Iterator iterator = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getStyles( )
-				.iterator( );
-		while ( iterator.hasNext( ) )
+		Iterator iterator = DEUtil.getStyles();
+		if(iterator!=null)
 		{
-			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
-			if ( !handle.isPredefined( ) )
+			while ( iterator.hasNext( ) )
 			{
-				ApplyStyleAction action = new ApplyStyleAction( handle );
-				action.setSelection( getSelection( ) );
-				action.setChecked( currentStyle == handle );
-				actionList.add( action );
+				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+				if ( !handle.isPredefined( ) )
+				{
+					ApplyStyleAction action = new ApplyStyleAction( handle );
+					action.setSelection( getSelection( ) );
+					action.setChecked( currentStyle == handle );
+					actionList.add( action );
+				}
 			}
 		}
 		return actionList;
