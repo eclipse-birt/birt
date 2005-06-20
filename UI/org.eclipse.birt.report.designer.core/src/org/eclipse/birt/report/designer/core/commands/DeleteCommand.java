@@ -69,8 +69,7 @@ public class DeleteCommand extends Command
 			dropSource( model );
 			if ( !embeddedImageList.isEmpty( ) )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
+				SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 						.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 						.removeItems( embeddedImageList );
 			}
@@ -105,7 +104,8 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof ReportElementModel )
 		{
-			dropSourceSlotHandle( ( (ReportElementModel) source ).getSlotHandle( ) );
+			dropSourceSlotHandle( ( (ReportElementModel) source )
+					.getSlotHandle( ) );
 		}
 		else if ( source instanceof ListBandProxy )
 		{
@@ -205,14 +205,16 @@ public class DeleteCommand extends Command
 		else if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
-			return slot.getElementHandle( ) instanceof ListHandle;
+			return slot.getElementHandle( ) instanceof ListHandle
+					&& slot.getContents( ).size( ) > 0;
 		}
 		else if ( source instanceof EmbeddedImageHandle )
 		{
 			return true;
 		}
-		return source instanceof ReportElementHandle
-				&& !( source instanceof MasterPageHandle );
-
+		return source instanceof ReportElementHandle && !(source instanceof CellHandle)
+				&& !( source instanceof MasterPageHandle )  ||
+				source instanceof CellHandle
+				&& ( (CellHandle) source ).getContent( ).getContents().size()>0;
 	}
 }
