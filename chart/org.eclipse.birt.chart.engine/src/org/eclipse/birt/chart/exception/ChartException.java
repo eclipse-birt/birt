@@ -18,110 +18,250 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * 
+ * Exception class for Chart framework.
  */
 public class ChartException extends BirtException
 {
-    
-    
-    /**
-     * 
-     * @param cause
-     */
-    public ChartException(Throwable cause)
-    {
-        super(getResourceKey(cause), getArguments(cause),getResourceBundle(cause), cause);
-        logThis();
-    }
-    
 
-    private static String getResourceKey( Throwable cause )
-    {
-        if ( cause instanceof ChartException )
-        {
-            return ((ChartException)cause).sResourceKey;
-        }
-        else
-        {
-            return cause.getLocalizedMessage();
-        }
-    }
-    private static ResourceBundle getResourceBundle( Throwable cause )
-    {
-        if ( cause instanceof ChartException )
-        {
-            return ((ChartException)cause).rb;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    private static Object[] getArguments( Throwable cause )
-    {
-        if ( cause instanceof ChartException )
-        {
-            return ((ChartException)cause).oaMessageArguments;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    /**
-     * 
-     * @param sResourceKey
-     * @param rb
-     */
-    public ChartException(String sResourceKey, ResourceBundle rb)
-    {
-        super(sResourceKey, rb);
-        logThis();
-    }
+	private static final int MAX_VALUE = 20;
 
-    /**
-     * 
-     * @param sResourceKey
-     * @param oaArgs
-     * @param rb
-     */
-    public ChartException(String sResourceKey, Object[] oaArgs, ResourceBundle rb)
-    {
-        super(sResourceKey, oaArgs, rb);
-        logThis();
-    }
-    
-    /**
-     * 
-     * @param sResourceKey
-     * @param rb
-     * @param thCause
-     */
-    public ChartException(String sResourceKey, ResourceBundle rb, Throwable thCause)
-    {
-        super(sResourceKey, rb);
-        logThis();
-    }
+	/**
+	 * Exception type for Data format error.
+	 */
+	public static final int DATA_FORMAT = 0;
+	/**
+	 * Exception type for Data set error.
+	 */
+	public static final int DATA_SET = 1;
+	/**
+	 * Exception type for Does not fit error.
+	 */
+	public static final int DOES_NOT_FIT = 2;
+	/**
+	 * Exception type for chart Generation error.
+	 */
+	public static final int GENERATION = 3;
+	/**
+	 * Exception type for Image loading error.
+	 */
+	public static final int IMAGE_LOADING = 4;
+	/**
+	 * Exception type for Missing stacked entry error.
+	 */
+	public static final int MISSING_STACKED_ENTRY = 5;
+	/**
+	 * Exception type for Not found error.
+	 */
+	public static final int NOT_FOUND = 6;
+	/**
+	 * Exception type for Out of range error.
+	 */
+	public static final int OUT_OF_RANGE = 7;
+	/**
+	 * Exception type for Out of SYnc error.
+	 */
+	public static final int OUT_OF_SYNC = 8;
+	/**
+	 * Exception type for Overlap error.
+	 */
+	public static final int OVERLAP = 9;
+	/**
+	 * Exception type for Plugin error.
+	 */
+	public static final int PLUGIN = 10;
+	/**
+	 * Exception type for Rendering error.
+	 */
+	public static final int RENDERING = 11;
+	/**
+	 * Exception type for Script error.
+	 */
+	public static final int SCRIPT = 12;
+	/**
+	 * Exception type for Undefined value error.
+	 */
+	public static final int UNDEFINED_VALUE = 13;
+	/**
+	 * Exception type for Unsupported feature error.
+	 */
+	public static final int UNSUPPORTED_FEATURE = 14;
+	/**
+	 * Exception type for Computation error.
+	 */
+	public static final int COMPUTATION = 15;
+	/**
+	 * Exception type for Validation error.
+	 */
+	public static final int VALIDATION = MAX_VALUE;
 
-    /**
-     * 
-     * @param sResourceKey
-     * @param oaArgs
-     * @param rb
-     * @param thCause
-     */
-    public ChartException(String sResourceKey, Object[] oaArgs, ResourceBundle rb, Throwable thCause)
-    {
-        super(sResourceKey, oaArgs, rb, thCause);
-        logThis();
-    }
-    
-    /**
-     *  
-     */
-    private final void logThis()
-    {
-        ILogger il = DefaultLoggerImpl.instance();
-        il.log(this);
-    }
+	final int type;
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param cause
+	 */
+	public ChartException( final int type, Throwable cause )
+	{
+		super( getResourceKey( cause ),
+				getArguments( cause ),
+				getResourceBundle( cause ),
+				cause );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param cause
+	 */
+	public ChartException( final int type, String errorMsg )
+	{
+		super( errorMsg, null );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param rb
+	 */
+	public ChartException( final int type, String sResourceKey,
+			ResourceBundle rb )
+	{
+		super( sResourceKey, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param oaArgs
+	 * @param rb
+	 */
+	public ChartException( final int type, String sResourceKey,
+			Object[] oaArgs, ResourceBundle rb )
+	{
+		super( sResourceKey, oaArgs, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param rb
+	 * @param thCause
+	 */
+	public ChartException( final int type, String sResourceKey,
+			ResourceBundle rb, Throwable thCause )
+	{
+		super( sResourceKey, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param oaArgs
+	 * @param rb
+	 * @param thCause
+	 */
+	public ChartException( final int type, String sResourceKey,
+			Object[] oaArgs, ResourceBundle rb, Throwable thCause )
+	{
+		super( sResourceKey, oaArgs, rb, thCause );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	private static String getResourceKey( Throwable cause )
+	{
+		if ( cause instanceof ChartException )
+		{
+			return ( (ChartException) cause ).sResourceKey;
+		}
+		else
+		{
+			return cause.getLocalizedMessage( );
+		}
+	}
+
+	private static ResourceBundle getResourceBundle( Throwable cause )
+	{
+		if ( cause instanceof ChartException )
+		{
+			return ( (ChartException) cause ).rb;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	private static Object[] getArguments( Throwable cause )
+	{
+		if ( cause instanceof ChartException )
+		{
+			return ( (ChartException) cause ).oaMessageArguments;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	private final void logThis( )
+	{
+		ILogger il = DefaultLoggerImpl.instance( );
+		il.log( this );
+	}
+
+	/**
+	 * Returns the Chart exception type.
+	 * 
+	 * @return
+	 */
+	public int getType( )
+	{
+		return type;
+	}
 }

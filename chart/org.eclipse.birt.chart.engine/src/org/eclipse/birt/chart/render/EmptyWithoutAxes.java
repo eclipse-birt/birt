@@ -13,8 +13,7 @@ package org.eclipse.birt.chart.render;
 
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.exception.GenerationException;
-import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -34,57 +33,77 @@ import org.eclipse.birt.chart.model.layout.Plot;
 public final class EmptyWithoutAxes extends BaseRenderer
 {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.render.BaseRenderer#renderSeries(org.eclipse.birt.chart.device.IPrimitiveRenderer,
-     *      org.eclipse.birt.chart.model.layout.Plot, org.eclipse.birt.chart.render.ISeriesRenderingHints)
-     */
-    public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws RenderingException
-    {
-        // NOTE: NO-OP IMPL
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-            Messages.getString(
-                "info.render.series", //$NON-NLS-1$
-                new Object[] { getClass().getName(), new Integer(iSeriesIndex + 1), new Integer(iSeriesCount) }, 
-                getRunTimeContext().getLocale()
-            )
-        ); // i18n_CONCATENATIONS_REMOVED
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.render.BaseRenderer#renderSeries(org.eclipse.birt.chart.device.IPrimitiveRenderer,
+	 *      org.eclipse.birt.chart.model.layout.Plot,
+	 *      org.eclipse.birt.chart.render.ISeriesRenderingHints)
+	 */
+	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
+			ISeriesRenderingHints isrh ) throws ChartException
+	{
+		// NOTE: NO-OP IMPL
+		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				Messages.getString( "info.render.series", //$NON-NLS-1$
+						new Object[]{
+								getClass( ).getName( ),
+								new Integer( iSeriesIndex + 1 ),
+								new Integer( iSeriesCount )
+						}, getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.model.attribute.Bounds,
-     *      org.eclipse.birt.chart.model.layout.Plot, org.eclipse.birt.chart.render.ISeriesRenderingHints)
-     */
-    public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws GenerationException
-    {
-        // NOTE: This method is not used by the Empty renderer
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.model.attribute.Bounds,
+	 *      org.eclipse.birt.chart.model.layout.Plot,
+	 *      org.eclipse.birt.chart.render.ISeriesRenderingHints)
+	 */
+	public void compute( Bounds bo, Plot p, ISeriesRenderingHints isrh )
+			throws ChartException
+	{
+		// NOTE: This method is not used by the Empty renderer
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.birt.chart.device.IPrimitiveRenderer,
-     *      org.eclipse.birt.chart.model.layout.Legend, org.eclipse.birt.chart.model.attribute.Fill,
-     *      org.eclipse.birt.chart.model.attribute.Bounds)
-     */
-    public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
-        throws RenderingException
-    {
-        final LineAttributes lia = LineAttributesImpl.create(ColorDefinitionImpl.GREY(), LineStyle.SOLID_LITERAL, 1);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.birt.chart.device.IPrimitiveRenderer,
+	 *      org.eclipse.birt.chart.model.layout.Legend,
+	 *      org.eclipse.birt.chart.model.attribute.Fill,
+	 *      org.eclipse.birt.chart.model.attribute.Bounds)
+	 */
+	public void renderLegendGraphic( IPrimitiveRenderer ipr, Legend lg,
+			Fill fPaletteEntry, Bounds bo ) throws ChartException
+	{
+		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
 
-        // COMPUTE THE FRONT FACE ONLY
-        final double dXOffset = (bo.getWidth() - bo.getHeight()) / 2;
-        Location[] loaFrontFace = null;
-        loaFrontFace = new Location[4];
-        loaFrontFace[0] = LocationImpl.create(bo.getLeft() + dXOffset, bo.getTop());
-        loaFrontFace[1] = LocationImpl.create(bo.getLeft() + dXOffset, bo.getTop() + bo.getHeight());
-        loaFrontFace[2] = LocationImpl.create(bo.getLeft() + dXOffset + bo.getHeight(), bo.getTop() + bo.getHeight());
-        loaFrontFace[3] = LocationImpl.create(bo.getLeft() + dXOffset + bo.getHeight(), bo.getTop());
+		// COMPUTE THE FRONT FACE ONLY
+		final double dXOffset = ( bo.getWidth( ) - bo.getHeight( ) ) / 2;
+		Location[] loaFrontFace = null;
+		loaFrontFace = new Location[4];
+		loaFrontFace[0] = LocationImpl.create( bo.getLeft( ) + dXOffset,
+				bo.getTop( ) );
+		loaFrontFace[1] = LocationImpl.create( bo.getLeft( ) + dXOffset,
+				bo.getTop( ) + bo.getHeight( ) );
+		loaFrontFace[2] = LocationImpl.create( bo.getLeft( )
+				+ dXOffset
+				+ bo.getHeight( ), bo.getTop( ) + bo.getHeight( ) );
+		loaFrontFace[3] = LocationImpl.create( bo.getLeft( )
+				+ dXOffset
+				+ bo.getHeight( ), bo.getTop( ) );
 
-        // RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)
-        renderPlane(ipr, lg, loaFrontFace, fPaletteEntry, lia, getModel().getDimension(), 3, false);
-    }
+		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)
+		renderPlane( ipr,
+				lg,
+				loaFrontFace,
+				fPaletteEntry,
+				lia,
+				getModel( ).getDimension( ),
+				3,
+				false );
+	}
 }

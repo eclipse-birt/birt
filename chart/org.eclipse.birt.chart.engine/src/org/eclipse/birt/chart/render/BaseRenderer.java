@@ -39,12 +39,7 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
-import org.eclipse.birt.chart.exception.DataFormatException;
-import org.eclipse.birt.chart.exception.GenerationException;
-import org.eclipse.birt.chart.exception.PluginException;
-import org.eclipse.birt.chart.exception.RenderingException;
-import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
-import org.eclipse.birt.chart.exception.ValidationException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
@@ -315,8 +310,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @param bo
 	 */
-	public void render( Map htRenderers, Bounds bo )
-			throws GenerationException, RenderingException
+	public void render( Map htRenderers, Bounds bo ) throws ChartException
 	{
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
@@ -448,11 +442,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			{
 				dc.flush( ); // FLUSH DEFERRED CACHE
 			}
-			catch ( UnsupportedFeatureException ex ) // NOTE: RENDERING
+			catch ( ChartException ex ) // NOTE: RENDERING
 			// EXCEPTION ALREADY BEING
 			// THROWN
 			{
-				throw new RenderingException( ex );
+				throw new ChartException( ChartException.RENDERING, ex );
 			}
 			il.log( ILogger.INFORMATION,
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
@@ -473,7 +467,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	public void renderLegend( IPrimitiveRenderer ipr, Legend lg, Map htRenderers )
-			throws RenderingException
+			throws ChartException
 	{
 		if ( !lg.isVisible( ) ) // CHECK VISIBILITY
 		{
@@ -495,7 +489,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			catch ( Exception ex )
 			{
-				throw new RenderingException( ex );
+				throw new ChartException( ChartException.RENDERING, ex );
 			}
 			sz.scale( dScale );
 
@@ -657,7 +651,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 				catch ( Exception ex )
 				{
-					throw new RenderingException( ex );
+					throw new ChartException( ChartException.RENDERING, ex );
 				}
 
 				if ( sdBase != null )
@@ -680,7 +674,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									getRunTimeContext( ).getLocale( ),
 									null );
 						}
-						catch ( DataFormatException e )
+						catch ( ChartException e )
 						{
 							//ignore, use original text.
 						}
@@ -734,7 +728,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										getRunTimeContext( ).getLocale( ),
 										null );
 							}
-							catch ( DataFormatException e )
+							catch ( ChartException e )
 							{
 								//ignore, use original text.
 							}
@@ -801,7 +795,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										getRunTimeContext( ).getLocale( ),
 										null );
 							}
-							catch ( DataFormatException e )
+							catch ( ChartException e )
 							{
 								//ignore, use original text.
 							}
@@ -852,7 +846,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				throw new RenderingException( "exception.illegal.legend.direction", //$NON-NLS-1$
+				throw new ChartException( ChartException.RENDERING,
+						"exception.illegal.legend.direction", //$NON-NLS-1$
 						new Object[]{
 							d.getName( )
 						},
@@ -909,7 +904,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 				catch ( Exception ex )
 				{
-					throw new RenderingException( ex );
+					throw new ChartException( ChartException.RENDERING, ex );
 				}
 
 				if ( sdBase != null )
@@ -933,7 +928,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									getRunTimeContext( ).getLocale( ),
 									null );
 						}
-						catch ( DataFormatException e )
+						catch ( ChartException e )
 						{
 							//ignore, use original text.
 						}
@@ -991,7 +986,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										getRunTimeContext( ).getLocale( ),
 										null );
 							}
-							catch ( DataFormatException e )
+							catch ( ChartException e )
 							{
 								//ignore, use original text.
 							}
@@ -1069,7 +1064,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 										getRunTimeContext( ).getLocale( ),
 										null );
 							}
-							catch ( DataFormatException e )
+							catch ( ChartException e )
 							{
 								//ignore, use original text.
 							}
@@ -1118,7 +1113,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				throw new RenderingException( "exception.illegal.legend.direction", //$NON-NLS-1$
+				throw new ChartException( ChartException.RENDERING,
+						"exception.illegal.legend.direction", //$NON-NLS-1$
 						new Object[]{
 							d.getName( )
 						},
@@ -1128,7 +1124,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else
 		{
-			throw new RenderingException( "exception.illegal.legend.orientation", //$NON-NLS-1$ 
+			throw new ChartException( ChartException.RENDERING,
+					"exception.illegal.legend.orientation", //$NON-NLS-1$ 
 					new Object[]{
 						o.getName( )
 					},
@@ -1149,7 +1146,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected static final void renderSeparator( IPrimitiveRenderer ipr,
 			Legend lg, LineAttributes lia, double dX, double dY,
-			double dLength, Orientation o ) throws RenderingException
+			double dLength, Orientation o ) throws ChartException
 	{
 		if ( o.getValue( ) == Orientation.HORIZONTAL )
 		{
@@ -1193,7 +1190,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Label la, double dX, double dY, double dW, double dItemHeight,
 			double dFullHeight, double dLeftInset, double dHorizontalSpacing,
 			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh )
-			throws RenderingException
+			throws ChartException
 	{
 		ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
@@ -1264,7 +1261,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
-			throws RenderingException
+			throws ChartException
 	{
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
@@ -1302,7 +1299,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	protected void renderBackground( IPrimitiveRenderer ipr, Plot p )
-			throws RenderingException
+			throws ChartException
 	{
 		final double dScale = getDevice( ).getDisplayServer( )
 				.getDpiResolution( ) / 72d;
@@ -1322,7 +1319,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 			if ( !ca.getOutline( ).isSetVisible( ) )
 			{
-				throw new RenderingException( "exception.client.area.outline.visibility", //$NON-NLS-1$ 
+				throw new ChartException( ChartException.RENDERING,
+						"exception.client.area.outline.visibility", //$NON-NLS-1$ 
 						ResourceBundle.getBundle( Messages.ENGINE,
 								rtc.getLocale( ) ) );
 			}
@@ -1369,7 +1367,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	protected void renderBlock( IPrimitiveRenderer ipr, Block b )
-			throws RenderingException
+			throws ChartException
 	{
 		final double dScale = getDevice( ).getDisplayServer( )
 				.getDpiResolution( ) / 72d;
@@ -1388,7 +1386,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	public void renderLabel( IPrimitiveRenderer ipr, Block b )
-			throws RenderingException
+			throws ChartException
 	{
 		if ( !b.isVisible( ) ) // CHECK VISIBILITY
 		{
@@ -1416,7 +1414,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	public void renderTitle( IPrimitiveRenderer ipr, Block b )
-			throws RenderingException
+			throws ChartException
 	{
 		renderLabel( ipr, b );
 	}
@@ -1452,7 +1450,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws PluginException
 	 */
 	public static final BaseRenderer[] instances( Chart cm, RunTimeContext rtc,
-			Object oComputations ) throws PluginException
+			Object oComputations ) throws ChartException
 	{
 		final PluginSettings ps = PluginSettings.instance( );
 		BaseRenderer[] brna = null;
@@ -1567,7 +1565,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				if ( alRuntimeSeries.size( ) != 1 ) // CHECK FOR A SINGLE BASE
 				// SERIES ONLY
 				{
-					throw new PluginException( "exception.illegal.base.runtime.series.count", //$NON-NLS-1$
+					throw new ChartException( ChartException.PLUGIN,
+							"exception.illegal.base.runtime.series.count", //$NON-NLS-1$
 							new Object[]{
 								new Integer( alRuntimeSeries.size( ) )
 							},
@@ -1677,8 +1676,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	protected final void renderPlane( IPrimitiveRenderer ipr, Object oSource,
 			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
-			double dSeriesThickness, boolean bDeferred )
-			throws RenderingException
+			double dSeriesThickness, boolean bDeferred ) throws ChartException
 	{
 		PolygonRenderEvent pre;
 		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL )
@@ -2028,7 +2026,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 */
 	public final void renderLabel( Object oSource, int iTextRenderType,
 			Label laDataPoint, Position lp, Location lo, Bounds bo )
-			throws RenderingException
+			throws ChartException
 	{
 		final IDeviceRenderer idr = getDevice( );
 		TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) idr ).getEventObject( oSource,
@@ -2052,11 +2050,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @param isrh
 	 */
 	protected void validateDataSetCount( ISeriesRenderingHints isrh )
-			throws ValidationException
+			throws ChartException
 	{
 		if ( ( isrh.getDataSetStructure( ) & ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC ) == ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC )
 		{
-			throw new ValidationException( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+			throw new ChartException( ChartException.VALIDATION,
+					"exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
 					new Object[]{
 							new Integer( isrh.getBaseDataSet( ).size( ) ),
 							new Integer( isrh.getOrthogonalDataSet( ).size( ) )

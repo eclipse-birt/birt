@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.exception.RenderingException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -25,127 +25,127 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class LineRenderEvent extends PrimitiveRenderEvent
 {
 
-    /**
-     *  
-     */
-    private Location loStart;
+	/**
+	 *  
+	 */
+	private Location loStart;
 
-    /**
-     *  
-     */
-    private Location loEnd;
+	/**
+	 *  
+	 */
+	private Location loEnd;
 
-    /**
-     *  
-     */
-    private LineAttributes lia;
+	/**
+	 *  
+	 */
+	private LineAttributes lia;
 
-    /**
-     *  
-     */
-    public LineRenderEvent(Object oSource)
-    {
-        super(oSource);
-    }
+	/**
+	 *  
+	 */
+	public LineRenderEvent( Object oSource )
+	{
+		super( oSource );
+	}
 
-    /**
-     * 
-     * @param _loStart
-     */
-    public final void setStart(Location _loStart)
-    {
-        loStart = _loStart;
-    }
+	/**
+	 * 
+	 * @param _loStart
+	 */
+	public final void setStart( Location _loStart )
+	{
+		loStart = _loStart;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final Location getStart()
-    {
-        return loStart;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final Location getStart( )
+	{
+		return loStart;
+	}
 
-    /**
-     * 
-     * @param _loEnd
-     */
-    public final void setEnd(Location _loEnd)
-    {
-        loEnd = _loEnd;
-    }
+	/**
+	 * 
+	 * @param _loEnd
+	 */
+	public final void setEnd( Location _loEnd )
+	{
+		loEnd = _loEnd;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final Location getEnd()
-    {
-        return loEnd;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final Location getEnd( )
+	{
+		return loEnd;
+	}
 
-    /**
-     * 
-     * @param _lia
-     */
-    public final void setLineAttributes(LineAttributes _lia)
-    {
-        lia = _lia;
-    }
+	/**
+	 * 
+	 * @param _lia
+	 */
+	public final void setLineAttributes( LineAttributes _lia )
+	{
+		lia = _lia;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final LineAttributes getLineAttributes()
-    {
-        return lia;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final LineAttributes getLineAttributes( )
+	{
+		return lia;
+	}
 
-    /**
-     *  
-     */
-    public final Bounds getBounds()
-    {
-        final double dMinX = Math.min(loStart.getX(), loEnd.getX());
-        final double dMaxX = Math.max(loStart.getX(), loEnd.getX());
-        final double dMinY = Math.min(loStart.getY(), loEnd.getY());
-        final double dMaxY = Math.max(loStart.getY(), loEnd.getY());
-        return BoundsImpl.create(dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY);
-    }
+	/**
+	 *  
+	 */
+	public final Bounds getBounds( )
+	{
+		final double dMinX = Math.min( loStart.getX( ), loEnd.getX( ) );
+		final double dMaxX = Math.max( loStart.getX( ), loEnd.getX( ) );
+		final double dMinY = Math.min( loStart.getY( ), loEnd.getY( ) );
+		final double dMaxY = Math.max( loStart.getY( ), loEnd.getY( ) );
+		return BoundsImpl.create( dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
-     */
-    public final PrimitiveRenderEvent copy()
-    {
-        LineRenderEvent lre = new LineRenderEvent(source);
-        if (lia != null)
-        {
-            lre.setLineAttributes((LineAttributes) EcoreUtil.copy(lia));
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
+	 */
+	public final PrimitiveRenderEvent copy( )
+	{
+		LineRenderEvent lre = new LineRenderEvent( source );
+		if ( lia != null )
+		{
+			lre.setLineAttributes( (LineAttributes) EcoreUtil.copy( lia ) );
+		}
 
-        if (loStart != null)
-        {
-            lre.setStart((Location) EcoreUtil.copy(loStart));
-        }
+		if ( loStart != null )
+		{
+			lre.setStart( (Location) EcoreUtil.copy( loStart ) );
+		}
 
-        if (loEnd != null)
-        {
-            lre.setEnd((Location) EcoreUtil.copy(loEnd));
-        }
-        return lre;
-    }
+		if ( loEnd != null )
+		{
+			lre.setEnd( (Location) EcoreUtil.copy( loEnd ) );
+		}
+		return lre;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
-     */
-    public final void draw(IDeviceRenderer idr) throws RenderingException
-    {
-        idr.drawLine(this);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public final void draw( IDeviceRenderer idr ) throws ChartException
+	{
+		idr.drawLine( this );
+	}
 }

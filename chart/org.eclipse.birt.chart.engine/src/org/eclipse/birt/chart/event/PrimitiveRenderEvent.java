@@ -18,269 +18,262 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.exception.RenderingException;
-import org.eclipse.birt.chart.exception.UnsupportedFeatureException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 
 /**
  * @author Actuate Corporation
  */
-public abstract class PrimitiveRenderEvent extends EventObject implements Comparable
+public abstract class PrimitiveRenderEvent extends EventObject implements
+		Comparable
 {
 
-    public static final int DRAW = 1;
+	public static final int DRAW = 1;
 
-    public static final int FILL = 2;
+	public static final int FILL = 2;
 
-    public int iObjIndex = 0;
+	public int iObjIndex = 0;
 
-    /**
-     *  
-     */
-    private double dDepth = 0;
+	/**
+	 *  
+	 */
+	private double dDepth = 0;
 
-    /**
-     * 
-     * @param oSource
-     */
-    public PrimitiveRenderEvent(Object oSource)
-    {
-        super(oSource);
-    }
+	/**
+	 * 
+	 * @param oSource
+	 */
+	public PrimitiveRenderEvent( Object oSource )
+	{
+		super( oSource );
+	}
 
-    /**
-     * 
-     * @return
-     * @throws UnsupportedFeatureException
-     */
-    public Bounds getBounds() throws UnsupportedFeatureException
-    {
-        throw new UnsupportedFeatureException(
-            "exception.unsupported.bounds", //$NON-NLS-1$ 
-            new Object[] { this }, 
-            ResourceBundle.getBundle(
-                Messages.ENGINE, 
-                Locale.getDefault()
-            )
-        ); // i18n_CONCATENATIONS_REMOVED
-    }
+	/**
+	 * 
+	 * @return
+	 * @throws UnsupportedFeatureException
+	 */
+	public Bounds getBounds( ) throws ChartException
+	{
+		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+				"exception.unsupported.bounds", //$NON-NLS-1$ 
+				new Object[]{
+					this
+				},
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	}
 
-    /**
-     * 
-     * @return A copy of this primitive rendering instruction implemented by subclasses
-     * 
-     * @throws UnsupportedFeatureException
-     */
-    public PrimitiveRenderEvent copy() throws UnsupportedFeatureException
-    {
-        throw new UnsupportedFeatureException(
-            "exception.unsupported.copy", //$NON-NLS-1$ 
-            new Object[] { this }, 
-            ResourceBundle.getBundle(
-                Messages.ENGINE, 
-                Locale.getDefault()
-            )
-        ); // i18n_CONCATENATIONS_REMOVED
-    }
+	/**
+	 * 
+	 * @return A copy of this primitive rendering instruction implemented by
+	 *         subclasses
+	 * 
+	 * @throws UnsupportedFeatureException
+	 */
+	public PrimitiveRenderEvent copy( ) throws ChartException
+	{
+		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+				"exception.unsupported.copy", //$NON-NLS-1$ 
+				new Object[]{
+					this
+				},
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	}
 
-    /**
-     * 
-     * @param bo1
-     * @param bo2
-     * @return
-     */
-    public static final int compareRegular(Bounds bo1, Bounds bo2)
-    {
-        final double dMinX1 = bo1.getLeft();
-        final double dMinX2 = bo2.getLeft();
-        double dDiff = dMinX1 - dMinX2;
-        if (dDiff != 0)
-        {
-            return (dDiff < 0) ? IConstants.LESS : IConstants.MORE;
-        }
-        else
-        {
-            final double dMaxX1 = bo1.getLeft() + bo1.getWidth();
-            final double dMaxX2 = bo2.getLeft() + bo2.getWidth();
-            dDiff = dMaxX1 - dMaxX2;
-            if (dDiff != 0)
-            {
-                return (dDiff < 0) ? IConstants.LESS : IConstants.MORE;
-            }
-            else
-            {
-                final double dMinY1 = bo1.getTop();
-                final double dMinY2 = bo2.getTop();
-                dDiff = dMinY1 - dMinY2;
-                if (dDiff != 0)
-                {
-                    return (dDiff < 0) ? IConstants.MORE : IConstants.LESS;
-                }
-                else
-                {
-                    final double dMaxY1 = bo1.getTop() + bo1.getHeight();
-                    final double dMaxY2 = bo2.getTop() + bo2.getHeight();
-                    dDiff = dMaxY1 - dMaxY2;
-                    if (dDiff != 0)
-                    {
-                        return (dDiff < 0) ? IConstants.MORE : IConstants.LESS;
-                    }
-                    else
-                    {
-                        return IConstants.EQUAL;
-                    }
-                }
-            }
-        }
-    }
+	/**
+	 * 
+	 * @param bo1
+	 * @param bo2
+	 * @return
+	 */
+	public static final int compareRegular( Bounds bo1, Bounds bo2 )
+	{
+		final double dMinX1 = bo1.getLeft( );
+		final double dMinX2 = bo2.getLeft( );
+		double dDiff = dMinX1 - dMinX2;
+		if ( dDiff != 0 )
+		{
+			return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
+		}
+		else
+		{
+			final double dMaxX1 = bo1.getLeft( ) + bo1.getWidth( );
+			final double dMaxX2 = bo2.getLeft( ) + bo2.getWidth( );
+			dDiff = dMaxX1 - dMaxX2;
+			if ( dDiff != 0 )
+			{
+				return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
+			}
+			else
+			{
+				final double dMinY1 = bo1.getTop( );
+				final double dMinY2 = bo2.getTop( );
+				dDiff = dMinY1 - dMinY2;
+				if ( dDiff != 0 )
+				{
+					return ( dDiff < 0 ) ? IConstants.MORE : IConstants.LESS;
+				}
+				else
+				{
+					final double dMaxY1 = bo1.getTop( ) + bo1.getHeight( );
+					final double dMaxY2 = bo2.getTop( ) + bo2.getHeight( );
+					dDiff = dMaxY1 - dMaxY2;
+					if ( dDiff != 0 )
+					{
+						return ( dDiff < 0 ) ? IConstants.MORE
+								: IConstants.LESS;
+					}
+					else
+					{
+						return IConstants.EQUAL;
+					}
+				}
+			}
+		}
+	}
 
-    public static final int compareTransposed(Bounds bo1, Bounds bo2)
-    {
-        final double dMinY1 = bo1.getTop();
-        final double dMinY2 = bo2.getTop();
-        double dDiff = dMinY1 - dMinY2;
-        if (dDiff != 0)
-        {
-            return (dDiff < 0) ? IConstants.MORE : IConstants.LESS;
-        }
-        else
-        {
-            final double dMaxY1 = bo1.getTop() + bo1.getHeight();
-            final double dMaxY2 = bo2.getTop() + bo2.getHeight();
-            dDiff = dMaxY1 - dMaxY2;
-            if (dDiff != 0)
-            {
-                return (dDiff < 0) ? IConstants.MORE : IConstants.LESS;
-            }
-            else
-            {
-                final double dMinX1 = bo1.getLeft();
-                final double dMinX2 = bo2.getLeft();
-                dDiff = dMinX1 - dMinX2;
-                if (dDiff != 0)
-                {
-                    return (dDiff < 0) ? IConstants.LESS : IConstants.MORE;
-                }
-                else
-                {
-                    final double dMaxX1 = bo1.getLeft() + bo1.getWidth();
-                    final double dMaxX2 = bo2.getLeft() + bo2.getWidth();
-                    dDiff = dMaxX1 - dMaxX2;
-                    if (dDiff != 0)
-                    {
-                        return (dDiff < 0) ? IConstants.LESS : IConstants.MORE;
-                    }
-                    else
-                    {
-                        return IConstants.EQUAL;
-                    }
-                }
-            }
-        }
-    }
+	public static final int compareTransposed( Bounds bo1, Bounds bo2 )
+	{
+		final double dMinY1 = bo1.getTop( );
+		final double dMinY2 = bo2.getTop( );
+		double dDiff = dMinY1 - dMinY2;
+		if ( dDiff != 0 )
+		{
+			return ( dDiff < 0 ) ? IConstants.MORE : IConstants.LESS;
+		}
+		else
+		{
+			final double dMaxY1 = bo1.getTop( ) + bo1.getHeight( );
+			final double dMaxY2 = bo2.getTop( ) + bo2.getHeight( );
+			dDiff = dMaxY1 - dMaxY2;
+			if ( dDiff != 0 )
+			{
+				return ( dDiff < 0 ) ? IConstants.MORE : IConstants.LESS;
+			}
+			else
+			{
+				final double dMinX1 = bo1.getLeft( );
+				final double dMinX2 = bo2.getLeft( );
+				dDiff = dMinX1 - dMinX2;
+				if ( dDiff != 0 )
+				{
+					return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
+				}
+				else
+				{
+					final double dMaxX1 = bo1.getLeft( ) + bo1.getWidth( );
+					final double dMaxX2 = bo2.getLeft( ) + bo2.getWidth( );
+					dDiff = dMaxX1 - dMaxX2;
+					if ( dDiff != 0 )
+					{
+						return ( dDiff < 0 ) ? IConstants.LESS
+								: IConstants.MORE;
+					}
+					else
+					{
+						return IConstants.EQUAL;
+					}
+				}
+			}
+		}
+	}
 
-    /**
-     * Compares two primitives in terms of Z-order rendering
-     */
-    public int compareTo(Object o)
-    {
-        PrimitiveRenderEvent pre = null;
-        if (o instanceof WrappedInstruction)
-        {
-            pre = ((WrappedInstruction) o).getEvent();
-        }
-        else if (o instanceof PrimitiveRenderEvent)
-        {
-            pre = (PrimitiveRenderEvent) o;
-        }
-        else
-        {
-            throw new RuntimeException(
-                    new UnsupportedFeatureException(
-                    "exception.unsupported.comparison", //$NON-NLS-1$ 
-                    new Object[] { o }, 
-                    ResourceBundle.getBundle(
-                        Messages.ENGINE, 
-                        Locale.getDefault()
-                    )
-                )
-            ); // i18n_CONCATENATIONS_REMOVED
-        }
-        /*
-         * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ? IConstants.MORE : IConstants.LESS; }
-         */
+	/**
+	 * Compares two primitives in terms of Z-order rendering
+	 */
+	public int compareTo( Object o )
+	{
+		PrimitiveRenderEvent pre = null;
+		if ( o instanceof WrappedInstruction )
+		{
+			pre = ( (WrappedInstruction) o ).getEvent( );
+		}
+		else if ( o instanceof PrimitiveRenderEvent )
+		{
+			pre = (PrimitiveRenderEvent) o;
+		}
+		else
+		{
+			throw new RuntimeException( new ChartException( ChartException.UNSUPPORTED_FEATURE,
+					"exception.unsupported.comparison", //$NON-NLS-1$ 
+					new Object[]{
+						o
+					},
+					ResourceBundle.getBundle( Messages.ENGINE,
+							Locale.getDefault( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+		}
+		/*
+		 * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ?
+		 * IConstants.MORE : IConstants.LESS; }
+		 */
 
-        Bounds bo = null, boPre = null;
-        try
-        {
-            bo = getBounds();
-            boPre = pre.getBounds();
-        }
-        catch (UnsupportedFeatureException ufex )
-        {
-            throw new RuntimeException(ufex);
-        }
-        return compareRegular(bo, boPre);
-    }
+		Bounds bo = null, boPre = null;
+		try
+		{
+			bo = getBounds( );
+			boPre = pre.getBounds( );
+		}
+		catch ( ChartException ufex )
+		{
+			throw new RuntimeException( ufex );
+		}
+		return compareRegular( bo, boPre );
+	}
 
-    /**
-     * Causes this instruction to 'draw' itself on the device renderer
-     * 
-     * @param idr
-     * @throws UnsupportedFeatureException
-     */
-    public void draw(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
-    {
-        throw new UnsupportedFeatureException(
-            "exception.unsupported.internal.draw", //$NON-NLS-1$ 
-            new Object[] { this }, 
-            ResourceBundle.getBundle(
-                Messages.ENGINE, 
-                Locale.getDefault()
-            )
-        ); // i18n_CONCATENATIONS_REMOVED
-    }
+	/**
+	 * Causes this instruction to 'draw' itself on the device renderer
+	 * 
+	 * @param idr
+	 * @throws UnsupportedFeatureException
+	 */
+	public void draw( IDeviceRenderer idr ) throws ChartException
+	{
+		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+				"exception.unsupported.internal.draw", //$NON-NLS-1$ 
+				new Object[]{
+					this
+				},
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	}
 
-    /**
-     * Causes this instruction to 'fill' itself on the device renderer
-     * 
-     * @param idr
-     * @throws UnsupportedFeatureException
-     */
-    public void fill(IDeviceRenderer idr) throws UnsupportedFeatureException, RenderingException
-    {
-        throw new UnsupportedFeatureException(
-            "exception.unsupported.internal.fill", //$NON-NLS-1$ 
-            new Object[] { this }, 
-            ResourceBundle.getBundle(
-                Messages.ENGINE, 
-                Locale.getDefault()
-            )
-        ); // i18n_CONCATENATIONS_REMOVED
-    }
+	/**
+	 * Causes this instruction to 'fill' itself on the device renderer
+	 * 
+	 * @param idr
+	 * @throws UnsupportedFeatureException
+	 */
+	public void fill( IDeviceRenderer idr ) throws ChartException
+	{
+		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+				"exception.unsupported.internal.fill", //$NON-NLS-1$ 
+				new Object[]{
+					this
+				},
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	}
 
-    /**
-     * 
-     * @param dDepth
-     */
-    public final void setDepth(double dDepth)
-    {
-        this.dDepth = dDepth;
-    }
-    
-    public final void setSourceObject(Object oSource)
-    {
-    	if (oSource == null)
-    	    throw new IllegalArgumentException("null source");
-    	super.source = oSource;
-    }
+	/**
+	 * 
+	 * @param dDepth
+	 */
+	public final void setDepth( double dDepth )
+	{
+		this.dDepth = dDepth;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final double getDepth()
-    {
-        return dDepth;
-    }
+	public final void setSourceObject( Object oSource )
+	{
+		if ( oSource == null )
+			throw new IllegalArgumentException( "null source" );
+		super.source = oSource;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public final double getDepth( )
+	{
+		return dDepth;
+	}
 }

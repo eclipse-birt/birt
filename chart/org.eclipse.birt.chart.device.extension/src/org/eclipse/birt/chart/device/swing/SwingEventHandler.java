@@ -30,7 +30,7 @@ import javax.swing.JComponent;
 
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
-import org.eclipse.birt.chart.exception.OutOfSyncException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -45,364 +45,381 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * Provides a reference implementation into handling events generated on a
- * SWING JComponent with a rendered chart.
+ * Provides a reference implementation into handling events generated on a SWING
+ * JComponent with a rendered chart.
  */
-public final class SwingEventHandler implements MouseListener, MouseMotionListener
+public final class SwingEventHandler implements
+		MouseListener,
+		MouseMotionListener
 {
-    /**
-     *  
-     */
-    private static final BasicStroke bs = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0,
-        new float[]
-        {
-            6.0f, 4.0f
-        }, 0);
 
-    /**
-     *  
-     */
-    private ShapedAction saTooltip = null;
+	/**
+	 *  
+	 */
+	private static final BasicStroke bs = new BasicStroke( 5,
+			BasicStroke.CAP_ROUND,
+			BasicStroke.JOIN_ROUND,
+			0,
+			new float[]{
+					6.0f, 4.0f
+			},
+			0 );
 
-    /**
-     *  
-     */
-    private ShapedAction saHighlighted = null;
+	/**
+	 *  
+	 */
+	private ShapedAction saTooltip = null;
 
-    /**
-     *  
-     */
-    private final LinkedHashMap lhmAllTriggers;
+	/**
+	 *  
+	 */
+	private ShapedAction saHighlighted = null;
 
-    /**
-     *  
-     */
-    private final IUpdateNotifier iun;
+	/**
+	 *  
+	 */
+	private final LinkedHashMap lhmAllTriggers;
 
-    /**
-     * 
-     */
-    private final Locale lcl;
-    
-    /**
-     *  
-     */
-    SwingEventHandler(LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc, Locale _lcl)
-    {
-        lhmAllTriggers = _lhmAllTriggers;
-        iun = _jc;
-        lcl = _lcl;
-    }
+	/**
+	 *  
+	 */
+	private final IUpdateNotifier iun;
 
-    /**
-     *  
-     */
-    private final boolean isLeftButton(MouseEvent e)
-    {
-        return ((e.getButton() & MouseEvent.BUTTON1) == MouseEvent.BUTTON1);
-    }
+	/**
+	 *  
+	 */
+	private final Locale lcl;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    public void mouseClicked(MouseEvent e)
-    {
-        if (!isLeftButton(e))
-        {
-            return;
-        }
+	/**
+	 *  
+	 */
+	SwingEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
+			Locale _lcl )
+	{
+		lhmAllTriggers = _lhmAllTriggers;
+		iun = _jc;
+		lcl = _lcl;
+	}
 
-        // FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
-        final Point p = e.getPoint();
-        final ArrayList al = (ArrayList) lhmAllTriggers.get(TriggerCondition.MOUSE_CLICK_LITERAL);
-        if (al == null)
-            return;
+	/**
+	 *  
+	 */
+	private final boolean isLeftButton( MouseEvent e )
+	{
+		return ( ( e.getButton( ) & MouseEvent.BUTTON1 ) == MouseEvent.BUTTON1 );
+	}
 
-        ShapedAction sa;
-        Shape sh;
-        Action ac;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	public void mouseClicked( MouseEvent e )
+	{
+		if ( !isLeftButton( e ) )
+		{
+			return;
+		}
 
-        // POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
-        for (int i = 0; i < al.size(); i++)
-        {
-            sa = (ShapedAction) al.get(i);
-            sh = sa.getShape();
-            if (sh.contains(p))
-            {
-                ac = sa.getAction();
-                switch (ac.getType().getValue())
-                {
-                    case ActionType.URL_REDIRECT:
-                        final URLValue uv = (URLValue) ac.getValue();
-                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("info.redirect.url", lcl) + uv.getBaseUrl()); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
-                        break;
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		final Point p = e.getPoint( );
+		final ArrayList al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_CLICK_LITERAL );
+		if ( al == null )
+			return;
 
-                    case ActionType.TOGGLE_VISIBILITY:
-                        final Series seRT = (Series) sa.getSource();
-                        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("info.toggle.visibility", lcl) + seRT); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
-                        Series seDT = null;
-                        try
-                        {
-                            seDT = findDesignTimeSeries(seRT); // LOCATE THE CORRESPONDING DESIGN-TIME SERIES
-                        }
-                        catch (OutOfSyncException oosx )
-                        {
-                            DefaultLoggerImpl.instance().log(oosx);
-                            return;
-                        }
-                        seDT.setVisible(!seDT.isVisible());
-                        iun.regenerateChart();
-                        break;
-                }
-            }
-        }
-    }
+		ShapedAction sa;
+		Shape sh;
+		Action ac;
 
-    /**
-     * Locates a design-time series corresponding to a given cloned run-time series.
-     * 
-     * @param seRT
-     * @return
-     */
-    private final Series findDesignTimeSeries(Series seRT) throws OutOfSyncException
-    {
-        final ChartWithAxes cwaRT = (ChartWithAxes) iun.getRunTimeModel();
-        final ChartWithAxes cwaDT = (ChartWithAxes) iun.getDesignTimeModel();
-        Series seDT = null;
+		// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
+		for ( int i = 0; i < al.size( ); i++ )
+		{
+			sa = (ShapedAction) al.get( i );
+			sh = sa.getShape( );
+			if ( sh.contains( p ) )
+			{
+				ac = sa.getAction( );
+				switch ( ac.getType( ).getValue( ) )
+				{
+					case ActionType.URL_REDIRECT :
+						final URLValue uv = (URLValue) ac.getValue( );
+						DefaultLoggerImpl.instance( )
+								.log( ILogger.INFORMATION,
+										Messages.getString( "info.redirect.url", lcl ) + uv.getBaseUrl( ) ); // i18n_CONCATENATIONS_REMOVED
+																											 // //$NON-NLS-1$
+						break;
 
-        Axis[] axaBase = cwaRT.getPrimaryBaseAxes();
-        Axis axBase = axaBase[0];
-        Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes(axBase, true);
-        EList elSD, elSE;
-        SeriesDefinition sd;
-        Series se = null;
-        int i, j = 0, k = 0;
-        boolean bFound = false;
+					case ActionType.TOGGLE_VISIBILITY :
+						final Series seRT = (Series) sa.getSource( );
+						DefaultLoggerImpl.instance( )
+								.log( ILogger.INFORMATION,
+										Messages.getString( "info.toggle.visibility", lcl ) + seRT ); // i18n_CONCATENATIONS_REMOVED
+																									  // //$NON-NLS-1$
+						Series seDT = null;
+						try
+						{
+							seDT = findDesignTimeSeries( seRT ); // LOCATE THE
+																 // CORRESPONDING
+																 // DESIGN-TIME
+																 // SERIES
+						}
+						catch ( ChartException oosx )
+						{
+							DefaultLoggerImpl.instance( ).log( oosx );
+							return;
+						}
+						seDT.setVisible( !seDT.isVisible( ) );
+						iun.regenerateChart( );
+						break;
+				}
+			}
+		}
+	}
 
-        // LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
-        for (i = 0; i < axaOrthogonal.length; i++)
-        {
-            elSD = axaOrthogonal[i].getSeriesDefinitions();
-            for (j = 0; j < elSD.size(); j++)
-            {
-                sd = (SeriesDefinition) elSD.get(j);
-                elSE = sd.getSeries();
-                for (k = 0; k < elSE.size(); k++)
-                {
-                    se = (Series) elSE.get(k);
-                    if (seRT == se)
-                    {
-                        bFound = true;
-                        break;
-                    }
-                }
-                if (bFound)
-                {
-                    break;
-                }
-            }
-            if (bFound)
-            {
-                break;
-            }
-        }
+	/**
+	 * Locates a design-time series corresponding to a given cloned run-time
+	 * series.
+	 * 
+	 * @param seRT
+	 * @return
+	 */
+	private final Series findDesignTimeSeries( Series seRT )
+			throws ChartException
+	{
+		final ChartWithAxes cwaRT = (ChartWithAxes) iun.getRunTimeModel( );
+		final ChartWithAxes cwaDT = (ChartWithAxes) iun.getDesignTimeModel( );
+		Series seDT = null;
 
-        if (!bFound)
-        {
-            throw new OutOfSyncException(
-                "info.cannot.find.series", //$NON-NLS-1$
-                new Object[] { seRT },
-                ResourceBundle.getBundle(
-                    Messages.DEVICE_EXTENSION, 
-                    lcl)
-            ); // i18n_CONCATENATIONS_REMOVED 
-        }
+		Axis[] axaBase = cwaRT.getPrimaryBaseAxes( );
+		Axis axBase = axaBase[0];
+		Axis[] axaOrthogonal = cwaRT.getOrthogonalAxes( axBase, true );
+		EList elSD, elSE;
+		SeriesDefinition sd;
+		Series se = null;
+		int i, j = 0, k = 0;
+		boolean bFound = false;
 
-        // MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL
-        axaBase = cwaDT.getPrimaryBaseAxes();
-        axBase = axaBase[0];
-        axaOrthogonal = cwaDT.getOrthogonalAxes(axBase, true);
-        elSD = axaOrthogonal[i].getSeriesDefinitions();
-        sd = (SeriesDefinition) elSD.get(j);
-        elSE = sd.getSeries();
-        seDT = (Series) elSE.get(k);
+		// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
+		for ( i = 0; i < axaOrthogonal.length; i++ )
+		{
+			elSD = axaOrthogonal[i].getSeriesDefinitions( );
+			for ( j = 0; j < elSD.size( ); j++ )
+			{
+				sd = (SeriesDefinition) elSD.get( j );
+				elSE = sd.getSeries( );
+				for ( k = 0; k < elSE.size( ); k++ )
+				{
+					se = (Series) elSE.get( k );
+					if ( seRT == se )
+					{
+						bFound = true;
+						break;
+					}
+				}
+				if ( bFound )
+				{
+					break;
+				}
+			}
+			if ( bFound )
+			{
+				break;
+			}
+		}
 
-        return seDT;
-    }
+		if ( !bFound )
+		{
+			throw new ChartException( ChartException.OUT_OF_SYNC,
+					"info.cannot.find.series", //$NON-NLS-1$
+					new Object[]{
+						seRT
+					},
+					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION, lcl ) ); // i18n_CONCATENATIONS_REMOVED
+		}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
-    public void mouseEntered(MouseEvent e)
-    {
-    }
+		// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL
+		axaBase = cwaDT.getPrimaryBaseAxes( );
+		axBase = axaBase[0];
+		axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
+		elSD = axaOrthogonal[i].getSeriesDefinitions( );
+		sd = (SeriesDefinition) elSD.get( j );
+		elSE = sd.getSeries( );
+		seDT = (Series) elSE.get( k );
 
-    /**
-     * 
-     * @param sa
-     */
-    private final void showTooltip(ShapedAction sa)
-    {
-        Action ac = sa.getAction();
-        TooltipValue tv = (TooltipValue) ac.getValue();
-        String s = tv.getText();
+		return seDT;
+	}
 
-        ((JComponent) iun.peerInstance()).setToolTipText(s);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered( MouseEvent e )
+	{
+	}
 
-    /**
-     * 
-     *  
-     */
-    private final void hideTooltip()
-    {
-        ((JComponent) iun.peerInstance()).setToolTipText(null);
-    }
+	/**
+	 * 
+	 * @param sa
+	 */
+	private final void showTooltip( ShapedAction sa )
+	{
+		Action ac = sa.getAction( );
+		TooltipValue tv = (TooltipValue) ac.getValue( );
+		String s = tv.getText( );
 
-    /**
-     * 
-     * @param sh
-     */
-    private final void toggle(Shape sh)
-    {
-        final Graphics2D g2d = (Graphics2D) ((JComponent) iun.peerInstance()).getGraphics();
-        final Color c = g2d.getColor();
-        final Stroke st = g2d.getStroke();
-        g2d.setXORMode(Color.white);
-        g2d.setStroke(bs);
-        g2d.fill(sh);
-        g2d.setStroke(st);
-        g2d.setColor(c);
-    }
+		( (JComponent) iun.peerInstance( ) ).setToolTipText( s );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
-    public void mouseExited(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
+	/**
+	 * 
+	 *  
+	 */
+	private final void hideTooltip( )
+	{
+		( (JComponent) iun.peerInstance( ) ).setToolTipText( null );
+	}
 
-    }
+	/**
+	 * 
+	 * @param sh
+	 */
+	private final void toggle( Shape sh )
+	{
+		final Graphics2D g2d = (Graphics2D) ( (JComponent) iun.peerInstance( ) ).getGraphics( );
+		final Color c = g2d.getColor( );
+		final Stroke st = g2d.getStroke( );
+		g2d.setXORMode( Color.white );
+		g2d.setStroke( bs );
+		g2d.fill( sh );
+		g2d.setStroke( st );
+		g2d.setColor( c );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
-    public void mousePressed(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
-    public void mouseReleased(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	public void mousePressed( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
-     */
-    public void mouseDragged(MouseEvent e)
-    {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
-     */
-    public void mouseMoved(MouseEvent e)
-    {
-        final Point p = e.getPoint();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
+	public void mouseDragged( MouseEvent e )
+	{
+		// TODO Auto-generated method stub
 
-        // 1. CHECK FOR MOUSE-CLICK TRIGGERS
-        ArrayList al = (ArrayList) lhmAllTriggers.get(TriggerCondition.MOUSE_CLICK_LITERAL);
-        if (al != null)
-        {
-            ShapedAction sa;
-            Shape sh;
+	}
 
-            // POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
-            boolean bFound = false;
-            for (int i = 0; i < al.size(); i++)
-            {
-                sa = (ShapedAction) al.get(i);
-                sh = sa.getShape();
-                if (sh.contains(p))
-                {
-                    if (sa != saHighlighted)
-                    {
-                        if (saHighlighted != null)
-                        {
-                            toggle(saHighlighted.getShape());
-                        }
-                        ((JComponent) iun.peerInstance()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                        toggle(sh);
-                    }
-                    saHighlighted = sa;
-                    bFound = true;
-                    break;
-                }
-            }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
+	public void mouseMoved( MouseEvent e )
+	{
+		final Point p = e.getPoint( );
 
-            if (!bFound && saHighlighted != null)
-            {
-                ((JComponent) iun.peerInstance()).setCursor(Cursor.getDefaultCursor());
-                toggle(saHighlighted.getShape());
-                saHighlighted = null;
-                bFound = false;
-            }
-        }
+		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
+		ArrayList al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_CLICK_LITERAL );
+		if ( al != null )
+		{
+			ShapedAction sa;
+			Shape sh;
 
-        // 2. CHECK FOR MOUSE-HOVER CONDITION
-        al = (ArrayList) lhmAllTriggers.get(TriggerCondition.MOUSE_HOVER_LITERAL);
-        if (al != null)
-        {
-            ShapedAction sa;
-            Shape sh;
+			// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
+			boolean bFound = false;
+			for ( int i = 0; i < al.size( ); i++ )
+			{
+				sa = (ShapedAction) al.get( i );
+				sh = sa.getShape( );
+				if ( sh.contains( p ) )
+				{
+					if ( sa != saHighlighted )
+					{
+						if ( saHighlighted != null )
+						{
+							toggle( saHighlighted.getShape( ) );
+						}
+						( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+						toggle( sh );
+					}
+					saHighlighted = sa;
+					bFound = true;
+					break;
+				}
+			}
 
-            // POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
-            boolean bFound = false;
-            for (int i = 0; i < al.size(); i++)
-            {
-                sa = (ShapedAction) al.get(i);
-                sh = sa.getShape();
-                if (sh.contains(p))
-                {
-                    if (sa != saTooltip)
-                    {
-                        hideTooltip();
-                    }
-                    saTooltip = sa;
-                    bFound = true;
-                    showTooltip(saTooltip);
-                    break;
-                }
-            }
+			if ( !bFound && saHighlighted != null )
+			{
+				( (JComponent) iun.peerInstance( ) ).setCursor( Cursor.getDefaultCursor( ) );
+				toggle( saHighlighted.getShape( ) );
+				saHighlighted = null;
+				bFound = false;
+			}
+		}
 
-            if (!bFound && saTooltip != null)
-            {
-                hideTooltip();
-                saTooltip = null;
-                bFound = false;
-            }
-        }
-    }
+		// 2. CHECK FOR MOUSE-HOVER CONDITION
+		al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_HOVER_LITERAL );
+		if ( al != null )
+		{
+			ShapedAction sa;
+			Shape sh;
+
+			// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
+			boolean bFound = false;
+			for ( int i = 0; i < al.size( ); i++ )
+			{
+				sa = (ShapedAction) al.get( i );
+				sh = sa.getShape( );
+				if ( sh.contains( p ) )
+				{
+					if ( sa != saTooltip )
+					{
+						hideTooltip( );
+					}
+					saTooltip = sa;
+					bFound = true;
+					showTooltip( saTooltip );
+					break;
+				}
+			}
+
+			if ( !bFound && saTooltip != null )
+			{
+				hideTooltip( );
+				saTooltip = null;
+				bFound = false;
+			}
+		}
+	}
 }

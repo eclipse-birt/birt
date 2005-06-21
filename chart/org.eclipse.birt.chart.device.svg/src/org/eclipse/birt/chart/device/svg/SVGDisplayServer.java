@@ -15,19 +15,22 @@ import java.awt.Image;
 import java.net.URL;
 
 import org.eclipse.birt.chart.device.swing.SwingDisplayServer;
-import org.eclipse.birt.chart.exception.ImageLoadingException;
+import org.eclipse.birt.chart.exception.ChartException;
 
 /**
- *This class represents the SVG Displayer Server.
+ * This class represents the SVG Displayer Server.
  */
-public class SVGDisplayServer extends SwingDisplayServer {
+public class SVGDisplayServer extends SwingDisplayServer
+{
 
-      
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
-	public Object loadImage(URL url) throws ImageLoadingException {
-		Image image = (Image)super.loadImage(url);
-		return new SVGImage(image, url);
+	public Object loadImage( URL url ) throws ChartException
+	{
+		Image image = (Image) super.loadImage( url );
+		return new SVGImage( image, url );
 	}
 }

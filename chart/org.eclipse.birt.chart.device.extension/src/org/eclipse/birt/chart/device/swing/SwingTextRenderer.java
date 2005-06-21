@@ -28,8 +28,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
-import org.eclipse.birt.chart.exception.RenderingException;
-import org.eclipse.birt.chart.exception.UnexpectedInputException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -45,8 +44,8 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * Provides convenience methods for rendering rotated text with configurable attributes on a SWING graphics
- * context.
+ * Provides convenience methods for rendering rotated text with configurable
+ * attributes on a SWING graphics context.
  */
 final class SwingTextRenderer implements IConstants
 {
@@ -97,12 +96,12 @@ final class SwingTextRenderer implements IConstants
     public final void renderShadowAtLocation(IPrimitiveRenderer idr, int iLabelPosition, // IConstants. LEFT, RIGHT,
                                                                                          // ABOVE or BELOW
         Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE CENTERED) IS RENDERED
-        Label la) throws RenderingException
+        Label la) throws ChartException
     {
         final ColorDefinition cdShadow = la.getShadowColor();
         if (cdShadow == null)
         {
-            throw new RenderingException(
+            throw new ChartException(ChartException.RENDERING,
                 "exception.undefined.shadow.color", //$NON-NLS-1$
                 ResourceBundle.getBundle(
                     Messages.DEVICE_EXTENSION, 
@@ -145,12 +144,12 @@ final class SwingTextRenderer implements IConstants
     public final void renderTextAtLocation(IPrimitiveRenderer ipr, int iLabelPosition, // IConstants. LEFT, RIGHT, ABOVE
                                                                                        // or BELOW
         Location lo, // POINT WHERE THE CORNER OF THE ROTATED RECTANGLE (OR EDGE CENTERED) IS RENDERED
-        Label la) throws RenderingException
+        Label la) throws ChartException
     {
         final ColorDefinition cdText = la.getCaption().getColor();
         if (cdText == null)
         {
-            throw new RenderingException(
+            throw new ChartException(ChartException.RENDERING,
                 "exception.undefined.text.color", //$NON-NLS-1$
                 ResourceBundle.getBundle(
                     Messages.DEVICE_EXTENSION, 
@@ -191,7 +190,7 @@ final class SwingTextRenderer implements IConstants
      * @param la
      */
     public final void renderTextInBlock(IDeviceRenderer idr, Bounds boBlock, TextAlignment taBlock, Label la)
-        throws RenderingException
+        throws ChartException
     {
         Text t = la.getCaption();
         String sText = t.getValue();
@@ -199,7 +198,7 @@ final class SwingTextRenderer implements IConstants
         ColorDefinition cdText = t.getColor();
         if (cdText == null)
         {
-            throw new RenderingException(
+            throw new ChartException(ChartException.RENDERING,
                 "exception.undefined.text.color", //$NON-NLS-1$
                 ResourceBundle.getBundle(
                     Messages.DEVICE_EXTENSION, 
@@ -215,9 +214,9 @@ final class SwingTextRenderer implements IConstants
         BoundingBox bb = null;
         try {
             bb = Methods.computeBox(xs, ABOVE, la, 0, 0);
-        } catch (UnexpectedInputException uiex)
+        } catch (IllegalArgumentException uiex)
         {
-            throw new RenderingException(uiex);
+            throw new ChartException(ChartException.RENDERING,uiex);
         }
         if (taBlock == null)
         {
@@ -1518,16 +1517,16 @@ final class SwingTextRenderer implements IConstants
         itm.dispose();
     }
 
-    private static final void renderBox(Graphics2D g2d, BoundingBox bb, Color cFG, Color cBG)
-    {
-        if (cBG != null)
-        {
-            g2d.setColor(cBG);
-            g2d.fillRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(), (int) bb.getHeight());
-        }
-        g2d.setColor(cFG);
-        g2d.drawRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(), (int) bb.getHeight());
-    }
+//    private static final void renderBox(Graphics2D g2d, BoundingBox bb, Color cFG, Color cBG)
+//    {
+//        if (cBG != null)
+//        {
+//            g2d.setColor(cBG);
+//            g2d.fillRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(), (int) bb.getHeight());
+//        }
+//        g2d.setColor(cFG);
+//        g2d.drawRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(), (int) bb.getHeight());
+//    }
 
     private final void renderOutline(IPrimitiveRenderer ipr, LineAttributes lia, Rectangle2D.Double r2d)
     {

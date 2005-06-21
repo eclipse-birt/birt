@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.exception.GenerationException;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -39,376 +39,435 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ *  
  */
 public final class LegendBuilder
 {
-    /**
-     * 
-     */
-    private final double dHorizontalSpacing = 4;
 
-    /**
-     * 
-     */
-    private final double dVerticalSpacing = 4;
+	/**
+	 *  
+	 */
+	private final double dHorizontalSpacing = 4;
 
-    /**
-     * 
-     */
-    private Size sz;
+	/**
+	 *  
+	 */
+	private final double dVerticalSpacing = 4;
 
-    /**
-     *
-     */
-    public LegendBuilder()
-    {
-    }
+	/**
+	 *  
+	 */
+	private Size sz;
 
-    /**
-     * Computes the size of the legend
-     * 
-     * @param lg
-     * @param sea
-     * 
-     * @throws GenerationException
-     */
-    public final Size compute(IDisplayServer xs, Chart cm, SeriesDefinition[] seda) throws GenerationException
-    {
-        // THREE CASES:
-        // 1. ALL SERIES IN ONE ARRAYLIST
-        // 2. ONE SERIES PER ARRAYLIST
-        // 3. ALL OTHERS
+	/**
+	 *  
+	 */
+	public LegendBuilder( )
+	{
+	}
 
-        Legend lg = cm.getLegend();
-        if (!lg.isSetOrientation())
-        {
-            throw new GenerationException(
-                "exception.legend.orientation.horzvert", //$NON-NLS-1$
-                ResourceBundle.getBundle(
-                    Messages.ENGINE, 
-                    xs.getLocale()
-                )
-            ); 
-        }
-        if (!lg.isSetDirection())
-        {
-            throw new GenerationException(
-                "exception.legend.direction.tblr", //$NON-NLS-1$
-                ResourceBundle.getBundle(
-                    Messages.ENGINE, 
-                    xs.getLocale()
-                )
-            ); 
-        }
+	/**
+	 * Computes the size of the legend
+	 * 
+	 * @param lg
+	 * @param sea
+	 * 
+	 * @throws GenerationException
+	 */
+	public final Size compute( IDisplayServer xs, Chart cm,
+			SeriesDefinition[] seda ) throws ChartException
+	{
+		// THREE CASES:
+		// 1. ALL SERIES IN ONE ARRAYLIST
+		// 2. ONE SERIES PER ARRAYLIST
+		// 3. ALL OTHERS
 
-        // INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
-        Orientation o = lg.getOrientation();
-        Direction d = lg.getDirection();
+		Legend lg = cm.getLegend( );
+		if ( !lg.isSetOrientation( ) )
+		{
+			throw new ChartException( ChartException.GENERATION,
+					"exception.legend.orientation.horzvert", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+		}
+		if ( !lg.isSetDirection( ) )
+		{
+			throw new ChartException( ChartException.GENERATION,
+					"exception.legend.direction.tblr", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+		}
 
-        Label la = LabelImpl.create();
-        la.setCaption((Text) EcoreUtil.copy(lg.getText()));
+		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
+		Orientation o = lg.getOrientation( );
+		Direction d = lg.getDirection( );
 
-        ClientArea ca = lg.getClientArea();
-        LineAttributes lia = ca.getOutline();
-        double dSeparatorThickness = lia.getThickness();
-        double dWidth = 0, dHeight = 0;
-        la.getCaption().setValue("X"); //$NON-NLS-1$
-        final ITextMetrics itm = xs.getTextMetrics(la);
-        double dItemHeight = itm.getFullHeight();
-        Series se;
-        ArrayList al;
-        Insets insCA = ca.getInsets().scaledInstance(xs.getDpiResolution() / 72d);
-        final boolean bPaletteByCategory = (cm.getLegend().getItemType().getValue() == LegendItemType.CATEGORIES);
+		Label la = LabelImpl.create( );
+		la.setCaption( (Text) EcoreUtil.copy( lg.getText( ) ) );
 
-        Series seBase;
+		ClientArea ca = lg.getClientArea( );
+		LineAttributes lia = ca.getOutline( );
+		double dSeparatorThickness = lia.getThickness( );
+		double dWidth = 0, dHeight = 0;
+		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
+		final ITextMetrics itm = xs.getTextMetrics( la );
+		double dItemHeight = itm.getFullHeight( );
+		Series se;
+		ArrayList al;
+		Insets insCA = ca.getInsets( )
+				.scaledInstance( xs.getDpiResolution( ) / 72d );
+		final boolean bPaletteByCategory = ( cm.getLegend( )
+				.getItemType( )
+				.getValue( ) == LegendItemType.CATEGORIES );
 
-        // COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
-        if (o.getValue() == Orientation.VERTICAL)
-        {
-            double dW, dMaxW = 0;
-            if (bPaletteByCategory)
-            {
-                SeriesDefinition sdBase = null;
-                if (cm instanceof ChartWithAxes)
-                {
-                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR NOW
-                    if (axPrimaryBase.getSeriesDefinitions().isEmpty())
-                    {
-                        return SizeImpl.create(0, 0);
-                    }
-                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-                }
-                else if (cm instanceof ChartWithoutAxes)
-                {
-                    if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
-                    {
-                        return SizeImpl.create(0, 0);
-                    }
-                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-                }
-                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+		Series seBase;
 
-                DataSetIterator dsiBase = null;
-                try
-                {
-                    dsiBase = new DataSetIterator(seBase.getDataSet());
-                }
-                catch (Exception ex )
-                {
-                    throw new GenerationException(ex);
-                }
+		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+		if ( o.getValue( ) == Orientation.VERTICAL )
+		{
+			double dW, dMaxW = 0;
+			if ( bPaletteByCategory )
+			{
+				SeriesDefinition sdBase = null;
+				if ( cm instanceof ChartWithAxes )
+				{
+					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
+																						 // SUPPORT
+																						 // 1
+																						 // BASE
+																						 // AXIS
+																						 // FOR
+																						 // NOW
+					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
+					{
+						return SizeImpl.create( 0, 0 );
+					}
+					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
+							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
+									   // DEFINITION EXISTS
+				}
+				else if ( cm instanceof ChartWithoutAxes )
+				{
+					if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+							.isEmpty( ) )
+					{
+						return SizeImpl.create( 0, 0 );
+					}
+					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
+									   // DEFINITION EXISTS
+				}
+				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 ); // OK TO
+																	   // ASSUME
+																	   // THAT 1
+																	   // BASE
+																	   // RUNTIME
+																	   // SERIES
+																	   // EXISTS
 
-                while (dsiBase.hasNext())
-                {
-                    la.getCaption().setValue(String.valueOf(dsiBase.next()));
-                    itm.reuse(la);
-                    dWidth = Math.max(itm.getFullWidth(), dWidth);
-                    dHeight += insCA.getTop() + itm.getFullHeight() + insCA.getBottom();
-                }
-                dWidth += insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + insCA.getRight();
-            }
-            else if (d.getValue() == Direction.TOP_BOTTOM) // (VERTICAL => TB)
-            {
-                dSeparatorThickness += dVerticalSpacing;
-                for (int j = 0; j < seda.length; j++)
-                {
-                    al = seda[j].getRunTimeSeries();
-                    for (int i = 0; i < al.size(); i++)
-                    {
-                        se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
-                        dW = itm.getFullWidth();
-                        if (dW > dMaxW)
-                        {
-                            dMaxW = dW;
-                        }
-                        dHeight += insCA.getTop() + dItemHeight + insCA.getBottom();
-                    }
+				DataSetIterator dsiBase = null;
+				try
+				{
+					dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+				}
+				catch ( Exception ex )
+				{
+					throw new ChartException( ChartException.GENERATION, ex );
+				}
 
-                    // SETUP HORIZONTAL SEPARATOR SPACING
-                    if (j < seda.length - 1)
-                    {
-                        dHeight += dSeparatorThickness;
-                    }
-                }
+				while ( dsiBase.hasNext( ) )
+				{
+					la.getCaption( )
+							.setValue( String.valueOf( dsiBase.next( ) ) );
+					itm.reuse( la );
+					dWidth = Math.max( itm.getFullWidth( ), dWidth );
+					dHeight += insCA.getTop( )
+							+ itm.getFullHeight( )
+							+ insCA.getBottom( );
+				}
+				dWidth += insCA.getLeft( )
+						+ ( 3 * dItemHeight )
+						/ 2
+						+ dHorizontalSpacing
+						+ insCA.getRight( );
+			}
+			else if ( d.getValue( ) == Direction.TOP_BOTTOM ) // (VERTICAL =>
+															  // TB)
+			{
+				dSeparatorThickness += dVerticalSpacing;
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					for ( int i = 0; i < al.size( ); i++ )
+					{
+						se = (Series) al.get( i );
+						la.getCaption( )
+								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
+																						 // APPLY
+																						 // FORMAT
+						// SPECIFIER
+						itm.reuse( la );
+						dW = itm.getFullWidth( );
+						if ( dW > dMaxW )
+						{
+							dMaxW = dW;
+						}
+						dHeight += insCA.getTop( )
+								+ dItemHeight
+								+ insCA.getBottom( );
+					}
 
-                // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX ITEM WIDTH + RIGHT INSETS
-                dWidth = insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + dMaxW + insCA.getRight();
-            }
-            else if (d.getValue() == Direction.LEFT_RIGHT) // (VERTICAL => LR)
-            {
-                double dMaxH = 0;
-                dSeparatorThickness += dHorizontalSpacing;
-                for (int j = 0; j < seda.length; j++)
-                {
-                    al = seda[j].getRunTimeSeries();
-                    for (int i = 0; i < al.size(); i++)
-                    {
-                        se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
-                        dMaxW = Math.max(dMaxW, itm.getFullWidth());
-                        dHeight += insCA.getTop() + dItemHeight + insCA.getBottom();
-                    }
+					// SETUP HORIZONTAL SEPARATOR SPACING
+					if ( j < seda.length - 1 )
+					{
+						dHeight += dSeparatorThickness;
+					}
+				}
 
-                    // SETUP VERTICAL SEPARATOR SPACING
-                    if (j < seda.length - 1)
-                    {
-                        dWidth += dSeparatorThickness;
-                    }
-                    // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
-                    // MAX ITEM WIDTH + RIGHT INSETS
-                    dWidth += insCA.getLeft() + (3 * dItemHeight / 2) + dHorizontalSpacing + dMaxW + insCA.getRight();
+				// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING + MAX
+				// ITEM WIDTH + RIGHT INSETS
+				dWidth = insCA.getLeft( )
+						+ ( 3 * dItemHeight )
+						/ 2
+						+ dHorizontalSpacing
+						+ dMaxW
+						+ insCA.getRight( );
+			}
+			else if ( d.getValue( ) == Direction.LEFT_RIGHT ) // (VERTICAL =>
+															  // LR)
+			{
+				double dMaxH = 0;
+				dSeparatorThickness += dHorizontalSpacing;
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					for ( int i = 0; i < al.size( ); i++ )
+					{
+						se = (Series) al.get( i );
+						la.getCaption( )
+								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
+																						 // APPLY
+																						 // FORMAT
+						// SPECIFIER
+						itm.reuse( la );
+						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+						dHeight += insCA.getTop( )
+								+ dItemHeight
+								+ insCA.getBottom( );
+					}
 
-                    if (dHeight > dMaxH)
-                        dMaxH = dHeight;
-                    dHeight = 0;
-                    dMaxW = 0;
-                }
-                dHeight = dMaxH;
-            }
-            else
-            {
-                throw new GenerationException(
-                    "exception.illegal.rendering.direction", //$NON-NLS-1$
-                    new Object[] { d.getName() },
-                    ResourceBundle.getBundle(
-                        Messages.ENGINE, 
-                        xs.getLocale()
-                    )    
-                ); // i18n_CONCATENATIONS_REMOVED 
-            }
-        }
-        else if (o.getValue() == Orientation.HORIZONTAL)
-        {
-            if (bPaletteByCategory)
-            {
-                SeriesDefinition sdBase = null;
-                if (cm instanceof ChartWithAxes)
-                {
-                    final Axis axPrimaryBase = ((ChartWithAxes) cm).getBaseAxes()[0]; // ONLY SUPPORT 1 BASE AXIS FOR
-                    // NOW
-                    if (axPrimaryBase.getSeriesDefinitions().isEmpty())
-                    {
-                        throw new GenerationException(
-                            "exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
-                            ResourceBundle.getBundle(
-                                Messages.ENGINE, 
-                                xs.getLocale()
-                            )
-                        ); //$NON-NLS-1$
-                    }
-                    sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
-                }
-                else if (cm instanceof ChartWithoutAxes)
-                {
-                    if (((ChartWithoutAxes) cm).getSeriesDefinitions().isEmpty())
-                    {
-                        throw new GenerationException(
-                            "exception.base.axis.no.series.definitions", //$NON-NLS-1$
-                            ResourceBundle.getBundle(
-                                Messages.ENGINE, 
-                                xs.getLocale()
-                            )
-                        ); 
-                    }
-                    sdBase = (SeriesDefinition) ((ChartWithoutAxes) cm).getSeriesDefinitions().get(0); // OK TO ASSUME
-                    // THAT 1 BASE
-                    // SERIES
-                    // DEFINITION
-                    // EXISTS
-                }
-                seBase = (Series) sdBase.getRunTimeSeries().get(0); // OK TO
-                // ASSUME
-                // THAT 1
-                // BASE
-                // RUNTIME
-                // SERIES
-                // EXISTS
+					// SETUP VERTICAL SEPARATOR SPACING
+					if ( j < seda.length - 1 )
+					{
+						dWidth += dSeparatorThickness;
+					}
+					// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
+					// MAX ITEM WIDTH + RIGHT INSETS
+					dWidth += insCA.getLeft( )
+							+ ( 3 * dItemHeight / 2 )
+							+ dHorizontalSpacing
+							+ dMaxW
+							+ insCA.getRight( );
 
-                DataSetIterator dsiBase = null;
-                try
-                {
-                    dsiBase = new DataSetIterator(seBase.getDataSet());
-                }
-                catch (Exception ex )
-                {
-                    throw new GenerationException(ex);
-                }
+					if ( dHeight > dMaxH )
+						dMaxH = dHeight;
+					dHeight = 0;
+					dMaxW = 0;
+				}
+				dHeight = dMaxH;
+			}
+			else
+			{
+				throw new ChartException( ChartException.GENERATION,
+						"exception.illegal.rendering.direction", //$NON-NLS-1$
+						new Object[]{
+							d.getName( )
+						},
+						ResourceBundle.getBundle( Messages.ENGINE,
+								xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+			}
+		}
+		else if ( o.getValue( ) == Orientation.HORIZONTAL )
+		{
+			if ( bPaletteByCategory )
+			{
+				SeriesDefinition sdBase = null;
+				if ( cm instanceof ChartWithAxes )
+				{
+					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
+																						 // SUPPORT
+																						 // 1
+																						 // BASE
+																						 // AXIS
+																						 // FOR
+					// NOW
+					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
+					{
+						throw new ChartException( ChartException.GENERATION,
+								"exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
+								ResourceBundle.getBundle( Messages.ENGINE,
+										xs.getLocale( ) ) ); //$NON-NLS-1$
+					}
+					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
+							.get( 0 ); // OK TO ASSUME
+					// THAT 1 BASE
+					// SERIES
+					// DEFINITION
+					// EXISTS
+				}
+				else if ( cm instanceof ChartWithoutAxes )
+				{
+					if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+							.isEmpty( ) )
+					{
+						throw new ChartException( ChartException.GENERATION,
+								"exception.base.axis.no.series.definitions", //$NON-NLS-1$
+								ResourceBundle.getBundle( Messages.ENGINE,
+										xs.getLocale( ) ) );
+					}
+					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+							.get( 0 ); // OK TO ASSUME
+					// THAT 1 BASE
+					// SERIES
+					// DEFINITION
+					// EXISTS
+				}
+				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 ); // OK TO
+				// ASSUME
+				// THAT 1
+				// BASE
+				// RUNTIME
+				// SERIES
+				// EXISTS
 
-                double dMaxHeight = 0;
-                while (dsiBase.hasNext())
-                {
-                    la.getCaption().setValue(String.valueOf(dsiBase.next()));
-                    itm.reuse(la);
-                    dMaxHeight = Math.max(itm.getFullHeight(), dMaxHeight);
-                    dWidth += itm.getFullWidth();
-                }
-                dHeight = insCA.getTop() + dMaxHeight + insCA.getBottom();
-                dWidth += dsiBase.size()
-                    * (insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + insCA.getRight());
-            }
-            else if (d.getValue() == Direction.TOP_BOTTOM) // (HORIZONTAL =>
-            // TB)
-            {
-                double dMaxW = 0;
-                dSeparatorThickness += dVerticalSpacing;
-                for (int j = 0; j < seda.length; j++)
-                {
-                    dWidth = 0;
-                    al = seda[j].getRunTimeSeries();
-                    for (int i = 0; i < al.size(); i++)
-                    {
-                        se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+				DataSetIterator dsiBase = null;
+				try
+				{
+					dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+				}
+				catch ( Exception ex )
+				{
+					throw new ChartException( ChartException.GENERATION, ex );
+				}
 
-                        // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
-                        // + MAX ITEM WIDTH + RIGHT INSETS
-                        dWidth += insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + itm.getFullWidth()
-                            + insCA.getRight();
-                    }
+				double dMaxHeight = 0;
+				while ( dsiBase.hasNext( ) )
+				{
+					la.getCaption( )
+							.setValue( String.valueOf( dsiBase.next( ) ) );
+					itm.reuse( la );
+					dMaxHeight = Math.max( itm.getFullHeight( ), dMaxHeight );
+					dWidth += itm.getFullWidth( );
+				}
+				dHeight = insCA.getTop( ) + dMaxHeight + insCA.getBottom( );
+				dWidth += dsiBase.size( )
+						* ( insCA.getLeft( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing + insCA.getRight( ) );
+			}
+			else if ( d.getValue( ) == Direction.TOP_BOTTOM ) // (HORIZONTAL =>
+			// TB)
+			{
+				double dMaxW = 0;
+				dSeparatorThickness += dVerticalSpacing;
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					dWidth = 0;
+					al = seda[j].getRunTimeSeries( );
+					for ( int i = 0; i < al.size( ); i++ )
+					{
+						se = (Series) al.get( i );
+						la.getCaption( )
+								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
+																						 // APPLY
+																						 // FORMAT
+						// SPECIFIER
+						itm.reuse( la );
 
-                    // SETUP HORIZONTAL SEPARATOR SPACING
-                    if (j < seda.length - 1)
-                    {
-                        dHeight += dSeparatorThickness;
-                    }
+						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
+						// + MAX ITEM WIDTH + RIGHT INSETS
+						dWidth += insCA.getLeft( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing
+								+ itm.getFullWidth( )
+								+ insCA.getRight( );
+					}
 
-                    // SET WIDTH TO MAXIMUM ROW WIDTH
-                    dMaxW = Math.max(dWidth, dMaxW);
-                    dHeight += insCA.getTop() + dItemHeight + insCA.getRight();
-                }
-                dWidth = dMaxW;
-            }
-            else if (d.getValue() == Direction.LEFT_RIGHT) // (HORIZONTAL =>
-            // LR)
-            {
-                dSeparatorThickness += dHorizontalSpacing;
-                for (int j = 0; j < seda.length; j++)
-                {
-                    al = seda[j].getRunTimeSeries();
-                    for (int i = 0; i < al.size(); i++)
-                    {
-                        se = (Series) al.get(i);
-                        la.getCaption().setValue(String.valueOf(se.getSeriesIdentifier()));// TBD: APPLY FORMAT
-                        // SPECIFIER
-                        itm.reuse(la);
+					// SETUP HORIZONTAL SEPARATOR SPACING
+					if ( j < seda.length - 1 )
+					{
+						dHeight += dSeparatorThickness;
+					}
 
-                        // LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
-                        // + MAX ITEM WIDTH + RIGHT INSETS
-                        dWidth += insCA.getLeft() + (3 * dItemHeight) / 2 + dHorizontalSpacing + itm.getFullWidth()
-                            + insCA.getRight();
-                    }
+					// SET WIDTH TO MAXIMUM ROW WIDTH
+					dMaxW = Math.max( dWidth, dMaxW );
+					dHeight += insCA.getTop( ) + dItemHeight + insCA.getRight( );
+				}
+				dWidth = dMaxW;
+			}
+			else if ( d.getValue( ) == Direction.LEFT_RIGHT ) // (HORIZONTAL =>
+			// LR)
+			{
+				dSeparatorThickness += dHorizontalSpacing;
+				for ( int j = 0; j < seda.length; j++ )
+				{
+					al = seda[j].getRunTimeSeries( );
+					for ( int i = 0; i < al.size( ); i++ )
+					{
+						se = (Series) al.get( i );
+						la.getCaption( )
+								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
+																						 // APPLY
+																						 // FORMAT
+						// SPECIFIER
+						itm.reuse( la );
 
-                    // SETUP VERTICAL SEPARATOR SPACING
-                    if (j < seda.length - 1)
-                    {
-                        dWidth += dSeparatorThickness;
-                    }
-                }
-                dHeight = insCA.getTop() + dItemHeight + insCA.getRight();
-            }
-            else
-            {
-                throw new GenerationException(
-                    "exception.illegal.rendering.direction", //$NON-NLS-1$
-                    new Object[] { d },
-                    ResourceBundle.getBundle(
-                        Messages.ENGINE, 
-                        xs.getLocale()
-                    )
-                ); // i18n_CONCATENATIONS_REMOVED
-            }
-        }
-        else
-        {
-            throw new GenerationException(
-                "exception.illegal.rendering.orientation", //$NON-NLS-1$
-                new Object[] { o },
-                ResourceBundle.getBundle(
-                    Messages.ENGINE, 
-                    xs.getLocale()
-                )
-            ); // i18n_CONCATENATIONS_REMOVED
-        }
+						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
+						// + MAX ITEM WIDTH + RIGHT INSETS
+						dWidth += insCA.getLeft( )
+								+ ( 3 * dItemHeight )
+								/ 2
+								+ dHorizontalSpacing
+								+ itm.getFullWidth( )
+								+ insCA.getRight( );
+					}
 
-        itm.dispose(); // DISPOSE RESOURCE AFTER USE
-        sz = SizeImpl.create(dWidth, dHeight);
-        return sz;
-    }
+					// SETUP VERTICAL SEPARATOR SPACING
+					if ( j < seda.length - 1 )
+					{
+						dWidth += dSeparatorThickness;
+					}
+				}
+				dHeight = insCA.getTop( ) + dItemHeight + insCA.getRight( );
+			}
+			else
+			{
+				throw new ChartException( ChartException.GENERATION,
+						"exception.illegal.rendering.direction", //$NON-NLS-1$
+						new Object[]{
+							d
+						},
+						ResourceBundle.getBundle( Messages.ENGINE,
+								xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+			}
+		}
+		else
+		{
+			throw new ChartException( ChartException.GENERATION,
+					"exception.illegal.rendering.orientation", //$NON-NLS-1$
+					new Object[]{
+						o
+					},
+					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+		}
 
-    public final Size getSize()
-    {
-        return sz;
-    }
+		itm.dispose( ); // DISPOSE RESOURCE AFTER USE
+		sz = SizeImpl.create( dWidth, dHeight );
+		return sz;
+	}
+
+	public final Size getSize( )
+	{
+		return sz;
+	}
 }
