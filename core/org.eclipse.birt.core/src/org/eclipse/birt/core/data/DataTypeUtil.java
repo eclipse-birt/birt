@@ -393,7 +393,48 @@ public final class DataTypeUtil
 		// never access here
 		return resultDate;
 	}
+	
+	/**
+	 * Convert string to date with check.
+	 * JDK may do incorrect converse, for example:
+	 * 		2005/1/1 Local.US, format pattern is MM/dd/YY.
+	 * Above conversion can be done without error, but obviously
+	 * the result is not right. This method will do such a simple check,
+	 * in DateFormat.SHORT case instead of all cases.
+	 * 		Year is not lower than 0.
+	 * 		Month is from 1 to 12.
+	 * 		Day is from 1 to 31.  
+	 * @param source
+	 * @param locale
+	 * @return Date
+	 * @throws BirtException
+	 */
+	public static Date toDateWithCheck( String source, Locale locale )
+			throws BirtException
+	{
+		DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT,
+				locale );
+		Date resultDate = null;
+		try
+		{
+			resultDate = dateFormat.parse( source );
+		}
+		catch ( ParseException e )
+		{
+			return toDate( source, locale );
+		}
+		
+		// check whether conversion is correct
+		if ( DateUtil.checkValid( dateFormat, source ) == false )
+		{
+			throw new BirtException( ResourceConstants.CONVERT_FAILS,
+					"Date",
+					resourceBundle );
+		}
 
+		return resultDate;
+	}
+	
 	/**
 	 * Boolean -> Double
 	 * 		true 	-> 1
