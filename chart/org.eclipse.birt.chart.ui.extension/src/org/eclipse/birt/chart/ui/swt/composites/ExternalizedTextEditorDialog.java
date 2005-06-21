@@ -39,6 +39,8 @@ import org.eclipse.swt.widgets.Text;
 public class ExternalizedTextEditorDialog extends Dialog implements SelectionListener
 {
     private transient String sResult = ""; //$NON-NLS-1$
+    
+    private transient String sInputValue = ""; //$NON-NLS-1$
 
     private transient Shell shell = null;
 
@@ -65,9 +67,10 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
      */
     public ExternalizedTextEditorDialog(Shell parent, String sText, List keys)
     {
-        super(parent);
-        this.sResult = sText;
-        this.keys = keys;
+        super( parent );
+		this.sResult = sText;
+		this.sInputValue = getValueComponent( sText );
+		this.keys = keys;
     }
 
     /**
@@ -79,6 +82,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         super(parent, style);
         this.sResult = sText;
+        this.sInputValue = getValueComponent( sText );
         this.keys = keys;
         this.serviceprovider = serviceprovider;
     }
@@ -227,10 +231,17 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
             {
                 cbExternalize.setSelection(true);
                 cmbKeys.setEnabled(true);
-                // Add non-existent key into list
-                cmbKeys.add(str);
-                // Select newly added entry
-                cmbKeys.select(cmbKeys.getItemCount() - 1);
+                if ( !keys.contains( str ) )
+				{
+					// Add non-existent key into list
+					cmbKeys.add( str );
+					// Select newly added entry
+					cmbKeys.select( cmbKeys.getItemCount( ) - 1 );
+				}
+                else
+				{
+					cmbKeys.setText( str );
+				}
             }
             else
             {
@@ -255,7 +266,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     private String getValueComponent(String sText)
     {
         String sKey = getKeyComponent(sText);
-        if (sKey == null || "".equals(sKey)) //$NON-NLS-1$
+        if ( sKey == null || "".equals( sKey ) || serviceprovider == null ) //$NON-NLS-1$
         {
             if (sText.indexOf(ExternalizedTextEditorComposite.SEPARATOR) != -1)
             {
@@ -263,7 +274,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
                     + ExternalizedTextEditorComposite.SEPARATOR.length(), sText.length());
             }
             return sText;
-        }
+        }        
         String sValue = serviceprovider.getValue(sKey);
         if (sValue == null || "".equals(sValue)) //$NON-NLS-1$
         {
@@ -324,13 +335,22 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
         }
         else if (e.getSource().equals(cbExternalize))
         {
-            cmbKeys.setEnabled(cbExternalize.getSelection());
-            if (cmbKeys.getItemCount() > 0)
-            {
-                sResult = buildString();
-                txtValue.setText(getDisplayValue());
-                txtCurrent.setText(getCurrentPropertyValue());
-            }
+            if ( cbExternalize.getSelection( ) )
+			{
+				cmbKeys.setEnabled( true );
+				if ( cmbKeys.getItemCount( ) > 0 )
+				{
+					sResult = buildString( );
+					txtValue.setText( getDisplayValue( ) );
+					txtCurrent.setText( getCurrentPropertyValue( ) );
+				}
+			}
+			else
+			{
+				cmbKeys.setEnabled( false );
+				txtValue.setText( sInputValue );
+				txtCurrent.setText( "" ); //$NON-NLS-1$
+			}
         }
         else if (e.getSource().equals(cmbKeys))
         {
