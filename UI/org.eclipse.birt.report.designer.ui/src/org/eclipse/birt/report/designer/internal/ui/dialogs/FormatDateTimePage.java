@@ -348,7 +348,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				if ( category.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM )
 						|| category.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) )
 				{
-					fmtStr = category;
+					fmtStr = choiceArray[i][0];
 				}
 				else
 				{
