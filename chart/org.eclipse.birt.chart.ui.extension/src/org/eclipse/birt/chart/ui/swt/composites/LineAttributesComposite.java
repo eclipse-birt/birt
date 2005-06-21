@@ -253,6 +253,19 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             {
                 cbVisible.setSelection(attributes.isVisible());
             }
+            boolean bUIEnabled = cbVisible.getSelection();
+            if (bEnableStyles)
+            {
+                cmbStyle.setEnabled(bUIEnabled);
+                lblStyle.setEnabled(bUIEnabled);
+            }
+            if (bEnableWidths)
+            {
+                cmbWidth.setEnabled(bUIEnabled);
+                lblWidth.setEnabled(bUIEnabled);
+            }
+            cmbColor.setEnabled(bUIEnabled);
+            lblColor.setEnabled(bUIEnabled);
         }
         if (bEnableStyles)
         {
