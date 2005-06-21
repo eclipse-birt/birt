@@ -15,6 +15,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphi
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.draw2d.geometry.PrecisionDimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -27,6 +29,7 @@ import org.eclipse.swt.events.ControlListener;
  */
 public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 {
+
 	public static final int MINLEFTSPACE = 20;
 	public static final int MINRIGHTSPACE = 20;
 	public static final int MINTOPSPACE = 20;
@@ -39,30 +42,61 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 	/**
 	 * @param owner
 	 */
-	public AbstractPageFlowLayout( GraphicalEditPart owner )
+	public AbstractPageFlowLayout( final GraphicalEditPart owner )
 	{
 		super( );
 		assert owner != null;
 		this.owner = owner;
 
-		owner.getViewer( ).getControl( ).addControlListener(
-				new ControlListener( )
-				{
+		final ControlListener listener = new ControlListener( )
+		{
 
-					public void controlMoved( ControlEvent e )
-					{
+			public void controlMoved( ControlEvent e )
+			{
 
-					}
+			}
 
-					public void controlResized( ControlEvent e )
-					{
+			public void controlResized( ControlEvent e )
+			{
+				setComsiteBounds( new Rectangle( ( getOwner( ).getViewer( )
+						.getControl( ).getBounds( ) ) ) );
+				layouRootLayer( );
+			}
 
-						setComsiteBounds( new Rectangle( ( getOwner( )
-								.getViewer( ).getControl( ).getBounds( ) ) ) );
-						layouRootLayer();
-					}
+		};
+		owner.getViewer( ).getControl( ).addControlListener( listener );
+		owner.addEditPartListener( new EditPartListener( )
+		{
 
-				} );
+			public void childAdded( EditPart child, int index )
+			{
+				//Do nothing
+			}
+
+			public void partActivated( EditPart editpart )
+			{
+				//Do nothing
+			}
+
+			public void partDeactivated( EditPart editpart )
+			{
+				owner.getViewer( ).getControl( ).removeControlListener(
+						listener );
+			}
+
+			public void removingChild( EditPart child, int index )
+			{
+				// Do nothing
+
+			}
+
+			public void selectedStateChanged( EditPart editpart )
+			{
+				//Do nothing
+
+			}
+
+		} );
 
 		getZoomManager( ).addZoomListener( new ZoomListener( )
 		{
@@ -71,21 +105,21 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 			{
 				setComsiteBounds( new Rectangle( ( getOwner( ).getViewer( )
 						.getControl( ).getBounds( ) ) ) );
-				layouRootLayer();
+				layouRootLayer( );
 
 			}
 		} );
 
 	}
 
-	private void layouRootLayer()
+	private void layouRootLayer( )
 	{
-		if (getOwner().getFigure() instanceof ReportElementFigure)
+		if ( getOwner( ).getFigure( ) instanceof ReportElementFigure )
 		{
-			((ReportElementFigure)getOwner().getFigure()).fireMoved();
+			( (ReportElementFigure) getOwner( ).getFigure( ) ).fireMoved( );
 		}
 	}
-	
+
 	/**
 	 * @return Returns the owner.
 	 */
@@ -165,8 +199,7 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 				DeferredGraphicalViewer.LAYOUT_SIZE, ownerBounds );
 
 	}
-	
-	
+
 	protected Result getReportBounds( Rectangle reportSize )
 	{
 		Result revValue = new Result( );
@@ -174,9 +207,9 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 		revValue.reportSize.width = reportSize.width;
 		revValue.reportSize.height = reportSize.height;
 
-		PrecisionDimension dim = new PrecisionDimension( getComsiteBounds().width,
-				getComsiteBounds().height );
-		double scale = getZoomManager().getZoom( );
+		PrecisionDimension dim = new PrecisionDimension(
+				getComsiteBounds( ).width, getComsiteBounds( ).height );
+		double scale = getZoomManager( ).getZoom( );
 		dim.performScale( 1 / scale );
 		if ( dim.width > reportSize.width + MINLEFTSPACE + MINRIGHTSPACE )
 		{
