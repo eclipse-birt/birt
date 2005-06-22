@@ -78,7 +78,7 @@ public class ReportEngineHelper
 		File file = new File(designName);
 		if(!file.exists())
 		{
-			logger.log(Level.SEVERE, "{0} not found!", designName); //$NON-NLS-1$
+			logger.log(Level.SEVERE, "{0} not found!", file.getAbsolutePath( ) ); //$NON-NLS-1$
 			throw new EngineException(MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, designName);
 		}
 		
@@ -88,7 +88,7 @@ public class ReportEngineHelper
 		} 
 		catch (DesignFileException e) 
 		{
-			logger.log(Level.SEVERE, "invalid design file {0}", designName); //$NON-NLS-1$
+			logger.log(Level.SEVERE, "invalid design file {0}", file.getAbsolutePath( ) ); //$NON-NLS-1$
 			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
 		}
 		assert(report != null);
