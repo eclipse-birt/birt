@@ -23,7 +23,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.browser.Browser;
 
 /**
- * Static accessor to display an arbitary url.
+ * Static accessor to display an arbitary url. It serves as an entry point to integrate viewer.
  * <p>
  */
 public class WebViewer
