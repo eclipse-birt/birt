@@ -291,7 +291,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 			return errors;
 
 		errors.addAll( TableHeaderContextContainmentValidator.getInstance( )
-				.validateForAdding( design, container, content ) );
+				.validateForAdding( design, container, slotId, content ) );
 
 		return errors;
 	}

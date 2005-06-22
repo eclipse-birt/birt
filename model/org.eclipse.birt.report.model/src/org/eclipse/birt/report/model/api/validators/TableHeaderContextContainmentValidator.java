@@ -38,13 +38,15 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <h3>Applicability</h3>
  * This validator is only applied to <code>TableItem</code> and
  * <code>ListItem</code> currently.
- *  
+ * 
  */
 
-public class TableHeaderContextContainmentValidator extends
-		AbstractElementValidator {
+public class TableHeaderContextContainmentValidator
+		extends
+			AbstractElementValidator
+{
 
-	private final static TableHeaderContextContainmentValidator instance = new TableHeaderContextContainmentValidator();
+	private final static TableHeaderContextContainmentValidator instance = new TableHeaderContextContainmentValidator( );
 
 	/**
 	 * Returns the singleton validator instance.
@@ -52,7 +54,8 @@ public class TableHeaderContextContainmentValidator extends
 	 * @return the validator instance
 	 */
 
-	public static TableHeaderContextContainmentValidator getInstance() {
+	public static TableHeaderContextContainmentValidator getInstance( )
+	{
 		return instance;
 	}
 
@@ -69,35 +72,61 @@ public class TableHeaderContextContainmentValidator extends
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate(ReportDesign design, DesignElement element) {
-		if (!(element instanceof ListingElement))
+	public List validate( ReportDesign design, DesignElement element )
+	{
+		if ( !( element instanceof ListingElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate(design, element);
+		return doValidate( design, element, DesignElement.NO_SLOT );
 	}
 
-	private List doValidate(ReportDesign design, DesignElement toValidate) {
-		List list = new ArrayList();
+	/**
+	 * Checks whether the <code>toValidate</code> is or is in the table
+	 * element and its slotId is <code>TableItem.HEADER_SLOT</code>.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param toValidate
+	 *            the element to validate
+	 * @param slotId
+	 *            the slot id
+	 * @return <code>true</code> if <code>toValidate</code> is a table item
+	 *         or nested in the table item and the table slot is
+	 *         <code>TableItem.HEADER_SLOT</code>.
+	 */
 
-		DesignElement curContainer = toValidate.getContainer();
-		int curSlotID = toValidate.getContainerSlot();
+	private List doValidate( ReportDesign design, DesignElement toValidate,
+			int slotId )
+	{
+		List list = new ArrayList( );
 
-		while (curContainer != null) {
-			IElementDefn containerDefn = curContainer.getDefn();
+		DesignElement curContainer = toValidate;
+		int curSlotID = slotId;
 
-			if (ReportDesignConstants.TABLE_ITEM.equalsIgnoreCase(containerDefn
-					.getName())
-					&& curSlotID == TableItem.HEADER_SLOT) {
+		if ( slotId == DesignElement.NO_SLOT )
+		{
+			curContainer = toValidate.getContainer( );
+			curSlotID = toValidate.getContainerSlot( );
+		}
+
+		while ( curContainer != null )
+		{
+			IElementDefn containerDefn = curContainer.getDefn( );
+
+			if ( ReportDesignConstants.TABLE_ITEM
+					.equalsIgnoreCase( containerDefn.getName( ) )
+					&& curSlotID == TableItem.HEADER_SLOT )
+			{
 				list
-						.add(new ContentException(
+						.add( new ContentException(
 								curContainer,
 								curSlotID,
 								toValidate,
-								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT));
+								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT ) );
 			}
 
-			curSlotID = curContainer.getContainerSlot();
-			curContainer = curContainer.getContainer();
+			curSlotID = curContainer.getContainerSlot( );
+			curContainer = curContainer.getContainer( );
 		}
 		return list;
 	}
@@ -110,6 +139,8 @@ public class TableHeaderContextContainmentValidator extends
 	 *            the report design
 	 * @param element
 	 *            the container element
+	 * @param slotId
+	 *            the slot where the new element to insert
 	 * @param toAdd
 	 *            the element to add
 	 * 
@@ -117,12 +148,13 @@ public class TableHeaderContextContainmentValidator extends
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding(ReportDesign design, DesignElement element,
-			DesignElement toAdd) {
-		if (!containsListingElement(toAdd))
+	public List validateForAdding( ReportDesign design, DesignElement element,
+			int slotId, DesignElement toAdd )
+	{
+		if ( !containsListingElement( toAdd ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate(design, element);
+		return doValidate( design, element, slotId );
 	}
 
 	/**
@@ -140,14 +172,15 @@ public class TableHeaderContextContainmentValidator extends
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding(ReportDesign design, DesignElement element,
-			IElementDefn toAdd) {
+	public List validateForAdding( ReportDesign design, DesignElement element,
+			IElementDefn toAdd )
+	{
 		ElementDefn listingDefn = (ElementDefn) MetaDataDictionary
-				.getInstance().getElement(ReportDesignConstants.LISTING_ITEM);
-		if (!listingDefn.isKindOf(toAdd))
+				.getInstance( ).getElement( ReportDesignConstants.LISTING_ITEM );
+		if ( !listingDefn.isKindOf( toAdd ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate(design, element);
+		return doValidate( design, element, DesignElement.NO_SLOT );
 	}
 
 	/**
@@ -162,22 +195,25 @@ public class TableHeaderContextContainmentValidator extends
 	 *         <code>false</code>.
 	 */
 
-	private static boolean containsListingElement(DesignElement element) {
-		if (element instanceof ListingElement)
+	private static boolean containsListingElement( DesignElement element )
+	{
+		if ( element instanceof ListingElement )
 			return true;
 
 		// Check contents.
 
-		int count = element.getDefn().getSlotCount();
-		for (int i = 0; i < count; i++) {
-			Iterator iter = element.getSlot(i).iterator();
-			while (iter.hasNext()) {
-				DesignElement e = (DesignElement) iter.next();
+		int count = element.getDefn( ).getSlotCount( );
+		for ( int i = 0; i < count; i++ )
+		{
+			Iterator iter = element.getSlot( i ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				DesignElement e = (DesignElement) iter.next( );
 
-				if (e instanceof ListingElement)
+				if ( e instanceof ListingElement )
 					return true;
 
-				if (containsListingElement(e))
+				if ( containsListingElement( e ) )
 					return true;
 			}
 		}
