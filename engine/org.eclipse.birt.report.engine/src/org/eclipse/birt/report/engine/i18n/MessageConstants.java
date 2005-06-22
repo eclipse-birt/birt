@@ -46,6 +46,9 @@ public class MessageConstants
 	public static final String  HTML_IMAGE_ERROR = "Error.HTMLImageError";	//$NON-NLS-1$
 	
 	public static final String  UNDEFINED_DATASET_ERROR = "Error.UndefinedDatasetError";	//$NON-NLS-1$
+	public static final String  INVALID_EXPRESSION_ERROR = "Error.InvalidExpressionError";	//$NON-NLS-1$
+	public static final String  LIST_PROCESSING_ERROR = "Error.ListProcessingError";	//$NON-NLS-1$	
+	
 
 }
 

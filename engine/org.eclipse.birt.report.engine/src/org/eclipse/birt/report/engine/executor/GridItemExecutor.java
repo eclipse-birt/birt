@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.impl.TableContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.ITableEmitter;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/18 02:15:18 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -143,8 +144,8 @@ public class GridItemExecutor extends StyledItemExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addException( new EngineException( "Failed to render Grid "
-					+ ( item.getName( ) != null ? item.getName( ) : "" ),
+			context.addException( new EngineException( MessageConstants.GRID_PROCESSING_ERROR,
+					( item.getName( ) != null ? item.getName( ) : "" ),
 					t ) );//$NON-NLS-1$
 
 		}

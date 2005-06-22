@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
@@ -41,10 +41,12 @@ import org.eclipse.birt.report.engine.content.IReportElementContent;
 import org.eclipse.birt.report.engine.content.IReportItemContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.script.ReportDefinition;
@@ -57,7 +59,7 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.26 $ $Date: 2005/05/25 02:47:24 $
+ * @version $Revision: 1.27 $ $Date: 2005/06/01 07:57:46 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -115,7 +117,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	protected Stack contentStack = new Stack( );
 	
 	/** Stores the error message during running the report */
-	protected List errMsgLst = new ArrayList( );
+	protected HashMap errMsgLst = new HashMap( );
 	
 	/** the engine used to create this context */ 
 	private ReportEngine engine;
@@ -294,7 +296,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	{
 		if(expr==null)
 		{
-			EngineException e = new EngineException( "Failed to execute " + expr);//$NON-NLS-1$
+			EngineException e =  new EngineException(MessageConstants.SCRIPT_EVALUATION_ERROR, expr);
 			addException( e ); 
 			log.log( Level.SEVERE, e.getMessage(), e );
 			return null;
@@ -308,7 +310,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
 		    log.log( Level.SEVERE,e.getMessage(),  e );
-		    addException( new EngineException( "Failed to execute " + expr, e ) ); //$NON-NLS-1$
+		    addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,  expr, e ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -328,7 +330,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			//May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
-			addException( new EngineException( "Failed to evaluate " + expr, t ) ); //$NON-NLS-1$
+			addException( new EngineException(MessageConstants.INVALID_EXPRESSION_ERROR, expr, t ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -661,10 +663,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		if ( loadedScripts.contains( fileName ) )
 			return;
 
+		File script = new File( report.getBasePath( ), fileName );
 		//read the script in the file, and execution.
 		try
 		{
-			File script = new File( report.getBasePath( ), fileName );
+			
 			FileInputStream in = new FileInputStream( script );
 			byte[] buffer = new byte[in.available( )];
 			in.read( buffer );
@@ -676,7 +679,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
-		    addException( new EngineException( "Failed to load the external script file ", ex ) ); //$NON-NLS-1$
+		    addException( new EngineException( MessageConstants.SCRIPT_FILE_LOAD_ERROR, script.getAbsolutePath(), ex ) ); //$NON-NLS-1$
 			//TODO This is a fatal error. Should throw an exception.
 		}
 	}
@@ -720,52 +723,36 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * Adds the error message
-	 * @param errMsg the error message
-	 */
-	private void addErrorMsg( String errMsg )
-	{
-		if ( !errMsgLst.contains( errMsg ) )
-		{
-			errMsgLst.add( errMsg );
-		}
-	}
-
-	/**
 	 * Adds the exception 
 	 * 
 	 * @param ex
 	 *            the Throwable instance
 	 */
-	public void addException( Throwable ex )
+	public void addException( BirtException ex )
 	{
-		StringBuffer errMsg = new StringBuffer( );
-		// Loops to add the error messages except those system-defined
-		// exceptions. Skip redundant message.
-		String lastMessage = "";
-		String currentMessage = null;
-		do
-		{
-		    currentMessage =  ex.getLocalizedMessage( );
-		    // skip redundant messages
-		    if ( !currentMessage.equals( lastMessage ) )
-		    {
-		        lastMessage = currentMessage;
-		        errMsg.append( currentMessage );
-		        errMsg.append( (char) Character.LINE_SEPARATOR );
-		    }
-			ex = ex.getCause( );
-		} while ( ex != null
-				&& !ex.getClass( ).getName( ).startsWith( "java.lang" )
-				);//$NON-NLS-1$
+		ReportElementHandle item = getItemDesign();
+		addException(item, ex);
+	}
 	
-		addErrorMsg( errMsg.toString( ) );
+	public void addException(ReportElementHandle element, BirtException ex)
+	{
+		if(errMsgLst.containsKey(element))
+		{
+			ElementExceptionInfo exInfo = (ElementExceptionInfo)errMsgLst.get(element);
+			exInfo.addException(ex);
+		}
+		else
+		{
+			ElementExceptionInfo info = new ElementExceptionInfo(element);
+			info.addException(ex);
+			errMsgLst.put(element, info);
+		}
 	}
 	/**
 	 * 
 	 * @return Returns the error message list
 	 */
-	public List getMsgLst( )
+	public HashMap getMsgLst( )
 	{		
 		return this.errMsgLst;
 	}
@@ -898,4 +885,54 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		stringFormatter.applyPattern( format );
 		return stringFormatter;
 	}
+	
+	protected class ElementExceptionInfo
+	{
+		ReportElementHandle element;
+		ArrayList exList = new ArrayList();
+		ArrayList countList = new ArrayList();
+		
+		public ElementExceptionInfo(ReportElementHandle element)
+		{
+			this.element = element;
+		}
+		public void addException(BirtException e)
+		{
+			for(int i=0; i<exList.size(); i++)
+			{
+				BirtException err = (BirtException)exList.get(i);
+				if(e.getErrorCode()!=null && e.getErrorCode().equals(err.getErrorCode())
+					&& e.getLocalizedMessage()!=null && e.getLocalizedMessage().equals(err.getLocalizedMessage()))
+				{
+					countList.set(i, new Integer(((Integer)countList.get(i)).intValue() + 1)); 
+					return;
+				}
+			}
+			exList.add(e);
+			countList.add(new Integer(1));
+
+		}
+		public String getType()
+		{
+			return element.getDefn().getName();
+		}
+		public String getElementInfo()
+		{
+			return element.getName();
+		}
+		public ArrayList getErrorList()
+		{
+			return exList;
+		}
+		
+		public ArrayList getCountList()
+		{
+			return countList;
+		}
+		
+		
+		
+	}
+	
+	
 }

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.16 $ $Date: 2005/05/12 07:18:53 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -107,8 +108,8 @@ public class ListItemExecutor extends ListingElementExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addException( new EngineException( "Failed to render List "
-					+ ( item.getName( ) != null ? item.getName( ) : "" ), t ) );//$NON-NLS-1$
+			context.addException( new EngineException( MessageConstants.LIST_PROCESSING_ERROR, 
+					 ( item.getName( ) != null ? item.getName( ) : "" ), t ) );//$NON-NLS-1$
 		}
 		finally
 		{

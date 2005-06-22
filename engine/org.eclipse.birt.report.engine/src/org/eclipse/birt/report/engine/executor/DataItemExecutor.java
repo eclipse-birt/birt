@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.impl.TextItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyleDesign;
@@ -33,7 +34,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/11 08:18:32 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/12 07:18:53 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -122,8 +123,8 @@ public class DataItemExecutor extends StyledItemExecutor
 		catch(Throwable t)
 		{
 			logger.log( Level.SEVERE, "Error:", t);//$NON-NLS-1$
-			context.addException( new EngineException( "Failed to render Data "
-					+ ( item.getName( ) != null ? item.getName( ) : "" ),
+			context.addException( new EngineException( MessageConstants.TEXT_PROCESSING_ERROR,
+					( item.getName( ) != null ? item.getName( ) : "" ),
 					t ) );//$NON-NLS-1$
 		}
 		finally

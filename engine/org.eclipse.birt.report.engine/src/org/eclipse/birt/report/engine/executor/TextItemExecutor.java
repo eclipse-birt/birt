@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
@@ -41,7 +42,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/12 07:18:53 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -149,8 +150,10 @@ public class TextItemExecutor extends StyledItemExecutor
 		catch ( Throwable t )
 		{
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addException( new EngineException( "Failed to render Text "
-					+ ( item.getName( ) != null ? item.getName( ) : "" ), t ) );//$NON-NLS-1$
+			context.addException( new EngineException(
+					MessageConstants.TEXT_PROCESSING_ERROR,
+									( item.getName( ) != null ? item
+											.getName( ) : "" ), t ) );//$NON-NLS-1$
 		}
 		finally
 		{
@@ -284,9 +287,9 @@ public class TextItemExecutor extends StyledItemExecutor
 											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
 							context.addException( new EngineException(
-									"Failed to render Text "
-											+ ( text.getName( ) != null ? text
-													.getName( ) : "" )+": Cannot handle the value-of expression", e ) );//$NON-NLS-1$
+									MessageConstants.TEXT_PROCESSING_ERROR,
+													( text.getName( ) != null ? text
+															.getName( ) : "" ), e ) );//$NON-NLS-1$
 
 						}
 						catch ( FactoryConfigurationError e )
@@ -297,9 +300,7 @@ public class TextItemExecutor extends StyledItemExecutor
 											"[TextItemExecutor] Fails to create document for value-of", //$NON-NLS-1$
 											e );
 							context.addException( new EngineException(
-									"Failed to render Text "
-									+ ( text.getName( ) != null ? text
-											.getName( ) : "" )+": Cannot handle the value-of expression", e ) );//$NON-NLS-1$
+									MessageConstants.EMBEDDED_EXPRESSION_ERROR, "", e)); //$NON-NLS-1$
 
 
 						}
@@ -378,11 +379,7 @@ public class TextItemExecutor extends StyledItemExecutor
 										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
 						context.addException( new EngineException(
-								"Failed to render Text "
-										+ ( text.getName( ) != null ? text
-												.getName( ) : "" )
-										+ ": Cannot handle the img", e ) );//$NON-NLS-1$
-
+								MessageConstants.HTML_IMAGE_ERROR,  e));
 					}
 					catch ( FactoryConfigurationError e )
 					{
@@ -392,22 +389,15 @@ public class TextItemExecutor extends StyledItemExecutor
 										"[TextItemExecutor] Fails to create document for img", //$NON-NLS-1$
 										e );
 						context.addException( new EngineException(
-								"Failed to render Text "
-										+ ( text.getName( ) != null ? text
-												.getName( ) : "" )
-										+ ": Cannot handle the img", e ) );//$NON-NLS-1$
+								MessageConstants.HTML_IMAGE_ERROR,  e));
 					}
 				}
 				else
 				{
 					logger.log( Level.SEVERE,
 							"can't handle image element in HTML" ); //$NON-NLS-1$
-					context
-							.addException( new EngineException(
-									"Failed to render Text "
-									+ ( text.getName( ) != null ? text
-											.getName( ) : "" )
-									+ "Cannot handle image element in HTML" ) );//$NON-NLS-1$
+					context.addException( new EngineException(
+							MessageConstants.HTML_IMAGE_ERROR));
 
 				}
 

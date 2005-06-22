@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.34 $ $Date: 2005/05/26 08:12:14 $
+ * @version $Revision: 1.35 $ $Date: 2005/05/27 08:13:25 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -422,6 +422,7 @@ public class HTMLReportEmitter implements IReportEmitter
 	 */
 	public void endReport( )
 	{
+		addExpandableErrorMsg();
 		logger.log( Level.FINE, "[HTMLReportEmitter] End report." ); //$NON-NLS-1$
 		if ( !isEmbeddable )
 		{
@@ -573,6 +574,21 @@ public class HTMLReportEmitter implements IReportEmitter
 		return (String) styleNameMapping.get( name );
 	}
 
+	protected void addExpandableErrorMsg()
+	{
+		writer.writeCode( "<script>" );
+		writer.writeCode( "function expand(index)" );
+		writer.writeCode( "{var icon = document.getElementById(\"error_icon\" + index);" );
+		writer.writeCode( "var detail = document.getElementById(\"error_detail\" + index);" );
+		writer.writeCode( "if (icon != null && detail != null)" );
+		writer.writeCode( "{var display = detail.style.display;" );
+		writer.writeCode( "if (display == \"none\")" );
+		writer.writeCode( "{icon.innerHTML = \" - \";detail.style.display = \"block\";}" );
+		writer.writeCode( "else{icon.innerHTML = \" + \";detail.style.display = \"none\";}}}" );
+		writer.writeCode( "for(var i=0; i<document.getElementsByName(\"error_title\").length; i++)" );
+		writer.writeCode( "{document.getElementById(\"error_detail\" + i).style.display = \"none\";}" );
+		writer.writeCode( "</script>" );
+	}
 	/**
 	 * Fixes a PNG problem related to transparency. See 
 	 * http://homepage.ntlworld.com/bobosola/ for detail. 

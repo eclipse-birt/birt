@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IPageSequenceContent;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
 import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -50,7 +53,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/11 02:10:16 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/12 07:18:53 $
  */
 public class ReportExecutor
 {
@@ -172,14 +175,15 @@ public class ReportExecutor
 			StringBuffer errHtmlMsg = new StringBuffer(
 					"<hr style=\"color:red\"/>" );//$NON-NLS-1$
 			errHtmlMsg
-					.append( "<pre style=\"color:red\">There are errors on the report page:" + (char) Character.LINE_SEPARATOR );//$NON-NLS-1$
-			for ( int i = 0; i < context.getMsgLst( ).size( ); i++ )
+					.append( "<div style=\"color:red\"><div>There are errors on the report page:</div>"  );//$NON-NLS-1$
+			HashMap errLst = context.getMsgLst();
+			Iterator it = errLst.values().iterator();
+			int index = 0; 
+			while(it.hasNext())
 			{
-				errHtmlMsg.append( "Error" + ( i + 1 )
-						+ ":" + context.getMsgLst( ).get( i ).toString( ) );//$NON-NLS-1$
-
+				appendErrorMessage(index++, errHtmlMsg, (ElementExceptionInfo)it.next());
 			}
-			errHtmlMsg.append("</pre>");
+			errHtmlMsg.append("</div>");
 			errText.setText( null, errHtmlMsg.toString( ) );
 			builder.startPageFlow( null );
 			errText.accept( builder );
@@ -298,5 +302,43 @@ public class ReportExecutor
 	protected void setParameters( HashMap paramValues )
 	{
 		context.getParams( ).putAll( paramValues );
+	}
+	
+	private void appendErrorMessage(int index, StringBuffer errMsg, ElementExceptionInfo info)
+	{
+		errMsg.append("<div><span id=\"error_icon" + index +"\"  style=\"cursor:pointer\" onclick=\"expand(" + index +  ")\" > + </span>");
+		errMsg.append("<span  id=\"error_title\">There are error(s) in "+ info.getType() +":" + info.getElementInfo() + "</span>");
+		errMsg.append("<pre id=\"error_detail" + index+ "\" style=\"display:block\" >");
+		ArrayList errorList = info.getErrorList();
+		ArrayList countList = info.getCountList();
+		for(int i=0; i<errorList.size(); i++)
+		{
+			BirtException ex = (BirtException)errorList.get(i);
+			int count = ((Integer)countList.get(i)).intValue();
+			if(count==1)
+			{
+				errMsg.append("Error" + i + " : "+ ex.getErrorCode() + "(1 time)"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
+				errMsg.append("Error" + i + " : " + ex.getErrorCode() + "(" + count + "times)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+			errMsg.append((char) Character.LINE_SEPARATOR);
+			errMsg.append("detail: " + getDetailMessage(ex)); //$NON-NLS-1$
+		}
+		errMsg.append("</pre></div>"); //$NON-NLS-1$
+	}
+	
+	private String getDetailMessage(Throwable t)
+	{
+		StringBuffer detailMsg = new StringBuffer();
+		do
+		{
+			detailMsg.append( t.getLocalizedMessage( ));
+			detailMsg.append( (char) Character.LINE_SEPARATOR );
+			t = t.getCause( );
+		} while (  t != null );
+		
+		return detailMsg.toString();
 	}
 }

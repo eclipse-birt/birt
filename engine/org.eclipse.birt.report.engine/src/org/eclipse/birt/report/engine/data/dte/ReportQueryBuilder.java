@@ -1,4 +1,4 @@
-/*******************************************************************************
+ /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -82,6 +82,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -95,7 +96,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.30 $ $Date: 2005/05/25 07:24:15 $
+ * @version $Revision: 1.31 $ $Date: 2005/06/20 02:58:06 $
  */
 public class ReportQueryBuilder
 {
@@ -872,7 +873,7 @@ public class ReportQueryBuilder
 				String dsName = (String)( (ReportItemHandle) item.getHandle( ) ).getProperty(ReportItemHandle.DATA_SET_PROP);
 				if(dsName!=null && dsName.length()>0)
 				{
-					context.addException(new EngineException(MessageConstants.UNDEFINED_DATASET_ERROR, dsName));
+					context.addException((ReportElementHandle)item.getHandle(), new EngineException(MessageConstants.UNDEFINED_DATASET_ERROR, dsName));
 				}
 			}
 

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -55,7 +56,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.18 $ $Date: 2005/05/25 07:24:15 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -176,9 +177,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 					logger.log( Level.SEVERE,
 							"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
 					context.addException( new EngineException(
-							"Failed to render Image "
-									+ ( itemName != null ? itemName : "" )
-									+ ":Cannot find the image file" ) );//$NON-NLS-1$
+							MessageConstants.MISSING_IMAGE_FILE_ERROR));
 
 				}
 				break;
@@ -213,26 +212,26 @@ public class ImageItemExecutor extends StyledItemExecutor
 				    logger.log( Level.SEVERE, "[ImageItemExecutor] Fail to handle embedded image with an exception below:", e ); //$NON-NLS-1$
 				    context
 							.addException( new EngineException(
-									"Failed to render Image "
-											+ ( itemName != null
-													? itemName
-													: "" ), e ) );//$NON-NLS-1$
+									MessageConstants.EMBEDDED_IMAGE_ERROR,  e ) );//$NON-NLS-1$
 				}
 
 				break;
 
 			case ImageItemDesign.IMAGE_EXPRESSION : // get image from database
 				assert imageItem.getImageExpression( ) != null;
-
+				
 				IResultSet rs = null;
+				Expression imgExpr = imageItem.getImageExpression( );
+				String exprStr = (imgExpr==null ? null : imgExpr.getExpr()); 
 				try
 				{
 					rs = openResultSet( item );
+					
 					if ( rs != null )
 					{
 						rs.next( );
 					}
-					Expression imgExpr = imageItem.getImageExpression( );
+					
 					Object value = context.evaluate( imgExpr );
 					byte[] blob = null;
 					if ( value != null
@@ -264,11 +263,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 					    logger.log( Level.SEVERE, "[ImageItemExecutor] cannot query image data from database"); //$NON-NLS-1$
 					    
 					    context
-								.addException( new EngineException(
-										"Failed to render Image " + itemName != null
-												? itemName
-												: ""
-														+ ": Cannot query data from database." ) );//$NON-NLS-1$
+								.addException( new EngineException(MessageConstants.DATABASE_IMAGE__ERROR, exprStr ));//$NON-NLS-1$
 
 					}					
 				}
@@ -276,11 +271,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 				{
 				    logger.log( Level.SEVERE,"[ImageItemExecutor] fail to handle database image with an exception below:", e ); //$NON-NLS-1$
 				    context
-							.addException( new EngineException(
-									"Failed to render Image "
-											+ ( itemName != null
-													? itemName
-													: "" ), e ) );//$NON-NLS-1$
+							.addException( new EngineException(MessageConstants.DATABASE_IMAGE__ERROR, exprStr ,  e ) );
 
 				}
 				finally
@@ -293,9 +284,7 @@ public class ImageItemExecutor extends StyledItemExecutor
 			default :
 			    logger.log( Level.SEVERE, "[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
 				context.addException( new EngineException(
-						"Failed to render Image "
-								+ ( itemName != null ? itemName : "" )
-								+ ": Invalid image source type." ) );//$NON-NLS-1$
+						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ));
 
 				assert false;
 		}

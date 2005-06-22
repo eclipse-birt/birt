@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -44,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/23 05:08:17 $
+ * @version $Revision: 1.18 $ $Date: 2005/06/01 07:57:46 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -137,17 +138,17 @@ public class DteDataEngine implements IDataEngine
 		SlotHandle dataSourceSlot = handle.getDataSources( );
 		for ( int i = 0; i < dataSourceSlot.getCount( ); i++ )
 		{
+			DataSourceHandle dataSource = (DataSourceHandle) dataSourceSlot.get( i )  ;
 
 			try
 			{
 				engine.defineDataSource( ModelDteApiAdapter.getInstance( )
-						.createDataSourceDesign(
-								(DataSourceHandle) dataSourceSlot.get( i ) ) );
+						.createDataSourceDesign(dataSource));
 			}
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addException( e );
+				context.addException(dataSource,  e );
 			}			
 		} // End of data source handling
 
@@ -155,16 +156,16 @@ public class DteDataEngine implements IDataEngine
 		SlotHandle dataSetSlot = handle.getDataSets( );
 		for ( int i = 0; i < dataSetSlot.getCount( ); i++ )
 		{
+			DataSetHandle dataset = (DataSetHandle) dataSetSlot.get( i ) ;
 			try
 			{
 				engine.defineDataSet( ModelDteApiAdapter.getInstance( )
-						.createDataSetDesign(
-								(DataSetHandle) dataSetSlot.get( i ) ) );
+						.createDataSetDesign(dataset) );
 			}
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addException( e );
+				context.addException( dataset, e );
 			}			
 		} // End of data set handling
 
@@ -320,7 +321,7 @@ public class DteDataEngine implements IDataEngine
 			catch(JavaScriptException ee)
 			{
 				logger.log( Level.SEVERE, ee.getMessage( ), ee );
-				context.addException( ee );
+				context.addException( new EngineException(MessageConstants.INVALID_EXPRESSION_ERROR, expr, ee) );
 				return null;
 			}
 		}

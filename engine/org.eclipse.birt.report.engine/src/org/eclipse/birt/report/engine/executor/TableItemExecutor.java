@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
 import org.eclipse.birt.report.engine.executor.buffermgr.IContent;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.Table;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -45,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/20 15:11:05 $
+ * @version $Revision: 1.18 $ $Date: 2005/05/23 11:57:54 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -179,8 +180,8 @@ public class TableItemExecutor extends ListingElementExecutor
 			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 			context
 					.addException( new EngineException(
-							"Failed to render Table "
-									+ ( item.getName( ) != null ? item
+							MessageConstants.TABLE_PROCESSING_ERROR,
+									( item.getName( ) != null ? item
 											.getName( ) : "" ), t ) );//$NON-NLS-1$
 
 		}

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -72,6 +73,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	{
 		assert item1 instanceof ExtendedItemDesign;
 		ExtendedItemDesign item = (ExtendedItemDesign) item1;
+		String name = item.getName();
 		IExtendedItemContent content = ContentFactory
 				.createExtendedItemContent( (ExtendedItemDesign) item , context.getContentObject( ));
 		
@@ -109,10 +111,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
 						context.addException( new EngineException(
-								"Failed to render "
-										+ handle.getExtensionName( )
-										+ ( item.getName( ) != null ? " "
-												+ item.getName( ) : "" ), ex ) );//$NON-NLS-1$
+								MessageConstants.EXTENDED_ITEM_GENERATION_ERROR,
+										handle.getExtensionName( )
+										+ ( name != null ? " "
+												+ name : "" ), ex ) );//$NON-NLS-1$
 
 					}
 				}
@@ -128,10 +130,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
 						context.addException( new EngineException(
-								"Failed to render "
-										+ handle.getExtensionName( )
-										+ ( item.getName( ) != null ? " "
-												+ item.getName( ) : "" ), ex ) );//$NON-NLS-1$
+								MessageConstants.EXTENDED_ITEM_GENERATION_ERROR,
+										handle.getExtensionName( )
+										+ ( name != null ? " "
+												+ name : "" ), ex ) );//$NON-NLS-1$
 					}
 					itemGeneration.finish( );
 				}
@@ -140,10 +142,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			{
 				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
 				context.addException( new EngineException(
-						"Failed to render "
-								+ handle.getExtensionName( )
-								+ ( item.getName( ) != null ? " "
-										+ item.getName( ) : "" ), t ) );//$NON-NLS-1$
+						MessageConstants.EXTENDED_ITEM_GENERATION_ERROR,
+								handle.getExtensionName( )
+								+ ( name != null ? " "
+										+ name : "" ), t ) );//$NON-NLS-1$
 			}
 			finally
 			{
@@ -182,11 +184,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					catch ( BirtException ex )
 					{
 						logger.log( Level.SEVERE, ex.getMessage( ), ex );
-						String elementName = handle.getName( );
+						
 						context.addException( new EngineException(
-								"Failed to render "
-								+ handle.getExtensionName( )
-								+ ( elementName != null ? " " + elementName : "" ), ex ) );//$NON-NLS-1$
+								MessageConstants.EXTENDED_ITEM_RENDERING_ERROR,
+								new String[]{handle.getExtensionName( ), ( name != null ? " " + name : "" )}, ex ) );//$NON-NLS-1$ //$NON-NLS-2$
 						
 
 					}
@@ -201,11 +202,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			catch ( Throwable t )
 			{
 				logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-				context.addException( new EngineException(
-						"Failed to render "
-								+ handle.getExtensionName( )
-								+ ( item.getName( ) != null ? " "
-										+ item.getName( ) : "" ), t ) );//$NON-NLS-1$
+				context.addException(new EngineException(
+						MessageConstants.EXTENDED_ITEM_RENDERING_ERROR,
+						new String[]{handle.getExtensionName( ), ( name != null ? " " + name : "" )}, t ) );//$NON-NLS-1$ //$NON-NLS-2$
+				
 			}
 			finally
 			{
