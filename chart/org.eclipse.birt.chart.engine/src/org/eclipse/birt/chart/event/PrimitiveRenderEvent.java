@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 
 /**
- * @author Actuate Corporation
+ * PrimitiveRenderEvent
  */
 public abstract class PrimitiveRenderEvent extends EventObject implements
 		Comparable
@@ -34,9 +34,6 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 
 	public int iObjIndex = 0;
 
-	/**
-	 *  
-	 */
 	private double dDepth = 0;
 
 	/**
@@ -60,7 +57,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -77,7 +74,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -200,7 +197,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 						o
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+							Locale.getDefault( ) ) ) );
 		}
 		/*
 		 * if (dDepth != pre.dDepth) { return (dDepth > pre.dDepth) ?
@@ -233,7 +230,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -249,7 +246,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 				new Object[]{
 					this
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, Locale.getDefault( ) ) );
 	}
 
 	/**
@@ -264,7 +261,7 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	public final void setSourceObject( Object oSource )
 	{
 		if ( oSource == null )
-			throw new IllegalArgumentException( "null source" );
+			throw new IllegalArgumentException( Messages.getString( "error.null.source", Locale.getDefault( ) ) ); //$NON-NLS-1$ 
 		super.source = oSource;
 	}
 

@@ -187,7 +187,7 @@ public class Methods implements IConstants
 						sc
 					} )
 
-			); // i18n_CONCATENATIONS_REMOVED
+			); 
 		}
 		if ( oValue instanceof Double )
 		{
@@ -604,7 +604,7 @@ public class Methods implements IConstants
 						la
 					} )
 
-			); // i18n_CONCATENATIONS_REMOVED
+			); 
 		}
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );

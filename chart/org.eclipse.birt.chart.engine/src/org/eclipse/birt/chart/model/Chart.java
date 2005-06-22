@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.model;
 
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.SeriesHint;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;

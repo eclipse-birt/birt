@@ -124,7 +124,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 							o
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								pwoa.getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								pwoa.getRunTimeContext( ).getLocale( ) ) );
 			}
 		}
 		return doa;
@@ -160,7 +160,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 							o
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								pwoa.getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								pwoa.getRunTimeContext( ).getLocale( ) ) );
 			}
 		}
 		final double[] doaTrimmed = new double[j];

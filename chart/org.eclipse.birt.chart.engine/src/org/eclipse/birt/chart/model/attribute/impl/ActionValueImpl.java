@@ -17,34 +17,33 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Action Value</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Action Value</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  * 
- * @generated
  */
 public class ActionValueImpl extends EObjectImpl implements ActionValue
 {
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected ActionValueImpl()
-    {
-        super();
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected ActionValueImpl( )
+	{
+		super( );
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected EClass eStaticClass()
-    {
-        return AttributePackage.eINSTANCE.getActionValue();
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected EClass eStaticClass( )
+	{
+		return AttributePackage.eINSTANCE.getActionValue( );
+	}
 
 } //ActionValueImpl

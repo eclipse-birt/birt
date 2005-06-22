@@ -59,10 +59,10 @@ public final class ValueFormatter
 		}
 
 		if ( fs == null ) // IF A FORMAT SPECIFIER WAS NOT ASSOCIATED WITH THE
-						  // VALUE
+		// VALUE
 		{
 			if ( oCachedJavaFormatter != null ) // CHECK IF AN INTERNAL JAVA
-												// FORMAT SPECIFIER WAS COMPUTED
+			// FORMAT SPECIFIER WAS COMPUTED
 			{
 				if ( oValue instanceof Double )
 				{
@@ -161,7 +161,7 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); 
 	}
 
 	private static final Calendar asCalendar( Object o, Locale lcl )
@@ -180,7 +180,7 @@ public final class ValueFormatter
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); // i18n_CONCATENATIONS_REMOVED
+				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); 
 	}
 
 	/**

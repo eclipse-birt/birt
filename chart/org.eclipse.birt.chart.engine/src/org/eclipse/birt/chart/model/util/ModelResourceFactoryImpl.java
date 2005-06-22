@@ -24,7 +24,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 
 /**
- * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the package. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> The <b>Resource Factory </b> associated with the
+ * package. <!-- end-user-doc -->
  * 
  * @see org.eclipse.birt.chart.model.util.ModelResourceImpl
  * @generated
@@ -32,44 +33,58 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 public class ModelResourceFactoryImpl extends XMLResourceFactoryImpl
 {
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    protected ExtendedMetaData extendedMetaData;
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected ExtendedMetaData extendedMetaData;
 
-    /**
-     * Creates an instance of the resource factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     */
-    public ModelResourceFactoryImpl()
-    {
-        super();
-        extendedMetaData = ExtendedMetaData.INSTANCE;
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModel", ModelPackage.eINSTANCE);
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModelAttribute", AttributePackage.eINSTANCE);
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModelComponent", ComponentPackage.eINSTANCE);
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModelData", DataPackage.eINSTANCE);
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModelLayout", LayoutPackage.eINSTANCE);
-        extendedMetaData.putPackage("http://www.birt.eclipse.org/ChartModelType", TypePackage.eINSTANCE);
-    }
+	/**
+	 * Creates an instance of the resource factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 */
+	public ModelResourceFactoryImpl( )
+	{
+		super( );
+		extendedMetaData = ExtendedMetaData.INSTANCE;
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModel", //$NON-NLS-1$
+				ModelPackage.eINSTANCE );
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelAttribute", //$NON-NLS-1$
+				AttributePackage.eINSTANCE );
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelComponent", //$NON-NLS-1$
+				ComponentPackage.eINSTANCE );
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelData", //$NON-NLS-1$
+				DataPackage.eINSTANCE );
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelLayout", //$NON-NLS-1$
+				LayoutPackage.eINSTANCE );
+		extendedMetaData.putPackage( "http://www.birt.eclipse.org/ChartModelType", //$NON-NLS-1$
+				TypePackage.eINSTANCE );
+	}
 
-    /**
-     * Creates an instance of the resource. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public Resource createResource(URI uri)
-    {
-        XMLResource result = new ModelResourceImpl(uri);
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+	/**
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public Resource createResource( URI uri )
+	{
+		XMLResource result = new ModelResourceImpl( uri );
+		result.getDefaultSaveOptions( )
+				.put( XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData );
+		result.getDefaultLoadOptions( )
+				.put( XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData );
 
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-        result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+		result.getDefaultSaveOptions( )
+				.put( XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE );
+		result.getDefaultSaveOptions( )
+				.put( XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE,
+						Boolean.TRUE );
 
-        result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
-        return result;
-    }
+		result.getDefaultLoadOptions( )
+				.put( XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE );
+		return result;
+	}
 
 } //ModelResourceFactoryImpl

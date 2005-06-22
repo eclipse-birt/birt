@@ -160,7 +160,7 @@ public final class Generator
 		final String sScriptContent = cmRunTime.getScript( );
 		ScriptHandler sh = rtc.getScriptHandler( );
 		if ( sh == null && sScriptContent != null ) // NOT PREVIOUSLY DEFINED BY
-													// REPORTITEM ADAPTER
+		// REPORTITEM ADAPTER
 		{
 			sh = new ScriptHandler( );
 			try
@@ -176,7 +176,7 @@ public final class Generator
 			}
 		}
 		else if ( sh != null ) // COPY SCRIPTS FROM DESIGNTIME TO RUNTIME
-							   // INSTANCE
+		// INSTANCE
 		{
 			rtc.setScriptHandler( sh );
 		}
@@ -217,7 +217,7 @@ public final class Generator
 					new Object[]{
 						cmRunTime
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
 		}
 
 		// OBTAIN THE RENDERERS
@@ -334,7 +334,7 @@ public final class Generator
 				Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 						new Object[]{
 							new Long( System.currentTimeMillis( ) - lTimer )
-						}, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+						}, rtc.getLocale( ) ) ); 
 
 		final GeneratedChartState gcs = new GeneratedChartState( ids,
 				cmRunTime,
@@ -393,7 +393,7 @@ public final class Generator
 					Messages.getString( "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
-							}, gcs.getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, gcs.getRunTimeContext( ).getLocale( ) ) ); 
 		}
 		else if ( iChartType == WITHOUT_AXES )
 		{
@@ -411,7 +411,7 @@ public final class Generator
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
 							},
-							gcs.getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							gcs.getRunTimeContext( ).getLocale( ) ) ); 
 		}
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
@@ -468,10 +468,10 @@ public final class Generator
 		final Collection co = lhm.values( );
 		final LegendItemRenderingHints[] lirha = (LegendItemRenderingHints[]) co.toArray( EMPTY_LIRHA );
 		final DeferredCache dc = new DeferredCache( idr, cm ); // USED IN
-															   // RENDERING
-															   // ELEMENTS WITH
-															   // THE CORRECT
-															   // Z-ORDER
+		// RENDERING
+		// ELEMENTS WITH
+		// THE CORRECT
+		// Z-ORDER
 
 		// USE SAME BOUNDS FOR RENDERING AS THOSE USED TO PREVIOUSLY COMPUTE THE
 		// CHART OFFSCREEN

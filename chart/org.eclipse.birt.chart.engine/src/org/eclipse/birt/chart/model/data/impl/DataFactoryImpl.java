@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
-import org.eclipse.birt.chart.model.data.*;
+import java.util.Locale;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -98,7 +99,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
             case DataPackage.TRIGGER:
                 return createTrigger();
             default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+                throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", new Object[]{eClass.getName( )}, Locale.getDefault( ) ) ); //$NON-NLS-1$
         }
     }
 

@@ -85,11 +85,6 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	/**
 	 *  
 	 */
-	private Label laDataPoint = null;
-
-	/**
-	 *  
-	 */
 	private final PlotWith2DAxes pwa;
 
 	/**
@@ -260,7 +255,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 						se
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							pwa.getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							pwa.getRunTimeContext( ).getLocale( ) ) );
 		}
 
 		final int iTransposed = pwa.transposeLabelPosition( IConstants.ORTHOGONAL,

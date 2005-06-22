@@ -52,16 +52,10 @@ public final class StackedSeriesLookup
 	/**
 	 *  
 	 */
-	private final RunTimeContext rtc;
-
-	/**
-	 *  
-	 */
 	StackedSeriesLookup( RunTimeContext rtc )
 	{
 		htAxisToStackGroups = new Hashtable( );
 		htSeriesToStackGroup = new Hashtable( );
-		this.rtc = rtc;
 	}
 
 	/**
@@ -261,7 +255,7 @@ public final class StackedSeriesLookup
 											new Integer( iDataSetCount )
 									} )
 
-							); // i18n_CONCATENATIONS_REMOVED
+							);
 						}
 						if ( se.canBeStacked( ) )
 						{
@@ -273,7 +267,7 @@ public final class StackedSeriesLookup
 											se
 										},
 										ResourceBundle.getBundle( Messages.ENGINE,
-												rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+												rtc.getLocale( ) ) );
 							}
 							if ( se.canShareAxisUnit( ) )
 							{
@@ -288,7 +282,7 @@ public final class StackedSeriesLookup
 													sd
 												} )
 
-										); // i18n_CONCATENATIONS_REMOVED
+										);
 									}
 									if ( k == 0 ) // ONE GROUP FOR ALL STACKED
 									// SERIES
@@ -313,7 +307,7 @@ public final class StackedSeriesLookup
 													sd
 												} )
 
-										); // i18n_CONCATENATIONS_REMOVED
+										);
 									}
 									sg = new StackGroup( iSharedUnitIndex++ ); // NEW
 									// GROUP
@@ -341,7 +335,7 @@ public final class StackedSeriesLookup
 													sd
 												} )
 
-										); // i18n_CONCATENATIONS_REMOVED
+										);
 									}
 									if ( k == 0 ) // ONE GROUP FOR ALL STACKED
 									// SERIES
@@ -369,7 +363,7 @@ public final class StackedSeriesLookup
 													sd
 												} )
 
-										); // i18n_CONCATENATIONS_REMOVED
+										);
 									}
 									sg = new StackGroup( -1 ); // NEW GROUP FOR
 									// EACH UNSTACKED
@@ -418,7 +412,7 @@ public final class StackedSeriesLookup
 											new Integer( iDataSetCount )
 									} )
 
-							); // i18n_CONCATENATIONS_REMOVED
+							);
 						}
 						if ( se.canBeStacked( ) )
 						{

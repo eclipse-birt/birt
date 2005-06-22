@@ -19,26 +19,15 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * This class ...
- * 
- * @author Actuate Corporation
+ * OvalRenderEvent
  */
 public final class OvalRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 *  
-	 */
 	private Bounds _bo = null;
 
-	/**
-	 *  
-	 */
 	private LineAttributes _lia;
 
-	/**
-	 *  
-	 */
 	private Fill _ifBackground;
 
 	/**

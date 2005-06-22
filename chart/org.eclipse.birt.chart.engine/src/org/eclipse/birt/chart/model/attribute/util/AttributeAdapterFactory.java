@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.util;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -36,7 +34,6 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
-import org.eclipse.birt.chart.model.attribute.SeriesHint;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.StyleMap;

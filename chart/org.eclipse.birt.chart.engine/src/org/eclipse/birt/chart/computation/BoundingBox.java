@@ -19,65 +19,63 @@ package org.eclipse.birt.chart.computation;
 public final class BoundingBox
 {
 
-    private double dX, dY;
+	private double dX, dY;
 
-    private double dWidth, dHeight;
+	private double dWidth, dHeight;
 
-    private double dHotPoint;
+	private double dHotPoint;
 
-    private final int iLabelLocation;
+	public BoundingBox( int _iLabelLocation, double _dX, double _dY,
+			double _dWidth, double _dHeight, double _dHotPoint )
+	{
+		dX = _dX;
+		dY = _dY;
+		dWidth = _dWidth;
+		dHeight = _dHeight;
+		dHotPoint = _dHotPoint;
+	}
 
-    public BoundingBox(int _iLabelLocation, double _dX, double _dY, double _dWidth, double _dHeight, double _dHotPoint)
-    {
-        iLabelLocation = _iLabelLocation;
-        dX = _dX;
-        dY = _dY;
-        dWidth = _dWidth;
-        dHeight = _dHeight;
-        dHotPoint = _dHotPoint;
-    }
+	public final double getHotPoint( )
+	{
+		return dHotPoint;
+	}
 
-    public final double getHotPoint()
-    {
-        return dHotPoint;
-    }
+	public final double getTop( )
+	{
+		return dY;
+	}
 
-    public final double getTop()
-    {
-        return dY;
-    }
+	public final double getLeft( )
+	{
+		return dX;
+	}
 
-    public final double getLeft()
-    {
-        return dX;
-    }
+	public final double getWidth( )
+	{
+		return dWidth;
+	}
 
-    public final double getWidth()
-    {
-        return dWidth;
-    }
+	public final double getHeight( )
+	{
+		return dHeight;
+	}
 
-    public final double getHeight()
-    {
-        return dHeight;
-    }
+	public final void setLeft( double _dX )
+	{
+		dX = _dX;
+	}
 
-    public final void setLeft(double _dX)
-    {
-        dX = _dX;
-    }
+	public final void setTop( double _dY )
+	{
+		dY = _dY;
+	}
 
-    public final void setTop(double _dY)
-    {
-        dY = _dY;
-    }
-
-    public final void scale(double dScale)
-    {
-        dX *= dScale;
-        dY *= dScale;
-        dWidth *= dScale;
-        dHeight *= dScale;
-        dHotPoint *= dScale;
-    }
+	public final void scale( double dScale )
+	{
+		dX *= dScale;
+		dY *= dScale;
+		dWidth *= dScale;
+		dHeight *= dScale;
+		dHotPoint *= dScale;
+	}
 }

@@ -282,7 +282,7 @@ public final class LegendBuilder
 							d.getName( )
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								xs.getLocale( ) ) ); 
 			}
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
@@ -448,7 +448,7 @@ public final class LegendBuilder
 							d
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								xs.getLocale( ) ) ); 
 			}
 		}
 		else
@@ -458,7 +458,7 @@ public final class LegendBuilder
 					new Object[]{
 						o
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) ); 
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE

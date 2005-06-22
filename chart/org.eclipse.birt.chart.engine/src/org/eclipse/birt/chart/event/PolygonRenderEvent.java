@@ -21,24 +21,15 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * PolygonRenderEvent
  */
 public final class PolygonRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 *  
-	 */
 	private Location[] _loa;
 
-	/**
-	 *  
-	 */
 	private LineAttributes _lia;
 
-	/**
-	 *  
-	 */
 	private Fill _ifBackground;
 
 	/**

@@ -20,93 +20,87 @@ import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 
 /**
- * @author Actuate Corporation
+ * InteractionEvent
  */
 public final class InteractionEvent extends PrimitiveRenderEvent
 {
 
-    /**
-     *  
-     */
-    private PrimitiveRenderEvent _pre = null;
+	private PrimitiveRenderEvent _pre = null;
 
-    /**
-     *  
-     */
-    private final LinkedHashMap _lhmTriggers = new LinkedHashMap();
+	private final LinkedHashMap _lhmTriggers = new LinkedHashMap( );
 
-    /**
-     * @param source
-     */
-    public InteractionEvent(Object source)
-    {
-        super(source);
-    }
+	/**
+	 * @param source
+	 */
+	public InteractionEvent( Object source )
+	{
+		super( source );
+	}
 
-    /**
-     * 
-     * @param pre
-     */
-    public final void setHotSpot(PrimitiveRenderEvent pre)
-    {
-        _pre = pre;
-    }
+	/**
+	 * 
+	 * @param pre
+	 */
+	public final void setHotSpot( PrimitiveRenderEvent pre )
+	{
+		_pre = pre;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public final PrimitiveRenderEvent getHotSpot()
-    {
-        return _pre;
-    }
+	/**
+	 * 
+	 * @return
+	 */
+	public final PrimitiveRenderEvent getHotSpot( )
+	{
+		return _pre;
+	}
 
-    /**
-     * 
-     * @param t
-     */
-    public final void addTrigger(Trigger t)
-    {
-        _lhmTriggers.put(t.getCondition(), t.getAction());
-    }
+	/**
+	 * 
+	 * @param t
+	 */
+	public final void addTrigger( Trigger t )
+	{
+		_lhmTriggers.put( t.getCondition( ), t.getAction( ) );
+	}
 
-    /**
-     * 
-     * @param tc
-     * @return
-     */
-    public final Action getAction(TriggerCondition tc)
-    {
-        return (Action) _lhmTriggers.get(tc);
-    }
+	/**
+	 * 
+	 * @param tc
+	 * @return
+	 */
+	public final Action getAction( TriggerCondition tc )
+	{
+		return (Action) _lhmTriggers.get( tc );
+	}
 
-    /**
-     * 
-     * @param tc
-     * @return
-     */
-    public final Trigger[] getTriggers()
-    {
-        if (_lhmTriggers.isEmpty())
-            return null;
-        Trigger[] tga = new Trigger[_lhmTriggers.size()];
-        final Iterator it = _lhmTriggers.keySet().iterator();
-        int i = 0;
-        while (it.hasNext())
-        {
-            TriggerCondition tcKey = (TriggerCondition) it.next();
-            Action acValue = (Action) _lhmTriggers.get(tcKey);
-            tga[i++] = TriggerImpl.create(tcKey, acValue);
-        }
-        return tga;
-    }
+	/**
+	 * 
+	 * @param tc
+	 * @return
+	 */
+	public final Trigger[] getTriggers( )
+	{
+		if ( _lhmTriggers.isEmpty( ) )
+			return null;
+		Trigger[] tga = new Trigger[_lhmTriggers.size( )];
+		final Iterator it = _lhmTriggers.keySet( ).iterator( );
+		int i = 0;
+		while ( it.hasNext( ) )
+		{
+			TriggerCondition tcKey = (TriggerCondition) it.next( );
+			Action acValue = (Action) _lhmTriggers.get( tcKey );
+			tga[i++] = TriggerImpl.create( tcKey, acValue );
+		}
+		return tga;
+	}
 
-    /**
-     *  
-     */
-    public final void reuse(Object oNewSource)
-    {
-        source = oNewSource;
-        _lhmTriggers.clear();
-    }
+	/**
+	 *  
+	 */
+	public final void reuse( Object oNewSource )
+	{
+		source = oNewSource;
+		_lhmTriggers.clear( );
+	}
 }

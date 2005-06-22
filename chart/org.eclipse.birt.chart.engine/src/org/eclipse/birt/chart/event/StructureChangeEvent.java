@@ -11,112 +11,94 @@
 
 package org.eclipse.birt.chart.event;
 
-
 /**
- *
+ * StructureChangeEvent
  */
 public final class StructureChangeEvent extends PrimitiveRenderEvent
 {
-    /**
-     * 
-     */
-    public static final int UNDEFINED = 0;
-    
-    /**
-     * 
-     */
-    public static final int BEFORE = 1;
-    
-    /**
-     * 
-     */
-    public static final int AFTER = 2;
-    
-    /**
-     * 
-     */
-    private static final String BEFORE_PREFIX = "before"; //$NON-NLS-1$
-    
-    /**
-     * 
-     */
-    private static final String AFTER_PREFIX = "after"; //$NON-NLS-1$
-    
-    
-    /**
-     * 
-     */
-    private String sEventName = null;
-    
-    /**
-     * @param source
-     */
-    public StructureChangeEvent(Object source)
-    {
-        super(source);
-    }
-    
-    /**
-     * @param bStripType
-     * @return
-     */
-    public final String getEventName(boolean bStripType)
-    {
-        if (bStripType) // STRIP OUT THE 'before' OR 'after' PREFIX IF REQUESTED
-        {
-            int iPrefixLength, iType = getEventType();
-            if (iType == BEFORE)
-            {
-                iPrefixLength = BEFORE_PREFIX.length();
-            }
-            else if (iType == AFTER)
-            {
-                iPrefixLength = BEFORE_PREFIX.length();
-            }
-            else
-            {
-                iPrefixLength = 0;
-            }
-            return sEventName.substring(iPrefixLength);
-        }
-        else
-        {
-            return sEventName;
-        }
-    }
-    
-    /**
-     * @param   sEventName    This must include the 'before' or 'after' prefix
-     *  as defined by each of the constants in IStructureDefinition
-     */
-    public final void setEventName(String sEventName)
-    {
-        this.sEventName = sEventName;
-    }
-    
-    
-    /**
-     * A convenience method provided to indicate if the event
-     * occurs before the start of a structure definition or after
-     * the end of a structure definition.
-     * 
-     * @return  An event type indicating BEFORE or AFTER a structure definition
-     */
-    public final int getEventType()
-    {
-        if (sEventName == null)
-        {
-            return UNDEFINED;
-        }
-        else if (sEventName.startsWith(BEFORE_PREFIX))
-        {
-            return BEFORE;
-        }
-        else if (sEventName.startsWith(AFTER_PREFIX))
-        {
-            return AFTER;
-        }
-        return UNDEFINED;
-    }
-    
+
+	public static final int UNDEFINED = 0;
+
+	public static final int BEFORE = 1;
+
+	public static final int AFTER = 2;
+
+	private static final String BEFORE_PREFIX = "before"; //$NON-NLS-1$
+
+	private static final String AFTER_PREFIX = "after"; //$NON-NLS-1$
+
+	private String sEventName = null;
+
+	/**
+	 * @param source
+	 */
+	public StructureChangeEvent( Object source )
+	{
+		super( source );
+	}
+
+	/**
+	 * @param bStripType
+	 * @return
+	 */
+	public final String getEventName( boolean bStripType )
+	{
+		if ( bStripType ) // STRIP OUT THE 'before' OR 'after' PREFIX IF
+						  // REQUESTED
+		{
+			int iPrefixLength, iType = getEventType( );
+			if ( iType == BEFORE )
+			{
+				iPrefixLength = BEFORE_PREFIX.length( );
+			}
+			else if ( iType == AFTER )
+			{
+				iPrefixLength = BEFORE_PREFIX.length( );
+			}
+			else
+			{
+				iPrefixLength = 0;
+			}
+			return sEventName.substring( iPrefixLength );
+		}
+		else
+		{
+			return sEventName;
+		}
+	}
+
+	/**
+	 * @param sEventName
+	 *            This must include the 'before' or 'after' prefix as defined by
+	 *            each of the constants in IStructureDefinition
+	 */
+	public final void setEventName( String sEventName )
+	{
+		this.sEventName = sEventName;
+	}
+
+	/**
+	 * A convenience method provided to indicate if the event occurs before the
+	 * start of a structure definition or after the end of a structure
+	 * definition.
+	 * 
+	 * @return An event type indicating BEFORE or AFTER a structure definition
+	 */
+	public final int getEventType( )
+	{
+		if ( sEventName == null )
+		{
+			return UNDEFINED;
+		}
+		else if ( sEventName.startsWith( BEFORE_PREFIX ) )
+		{
+			return BEFORE;
+		}
+		else if ( sEventName.startsWith( AFTER_PREFIX ) )
+		{
+			return AFTER;
+		}
+		return UNDEFINED;
+	}
+
 }

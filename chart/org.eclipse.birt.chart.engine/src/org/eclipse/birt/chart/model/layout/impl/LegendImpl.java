@@ -1220,36 +1220,36 @@ public class LegendImpl extends BlockImpl implements Legend
 			return super.toString( );
 
 		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (horizontalSpacing: " );
+		result.append( " (horizontalSpacing: " ); //$NON-NLS-1$
 		if ( horizontalSpacingESet )
 			result.append( horizontalSpacing );
 		else
-			result.append( "<unset>" );
-		result.append( ", verticalSpacing: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", verticalSpacing: " ); //$NON-NLS-1$
 		if ( verticalSpacingESet )
 			result.append( verticalSpacing );
 		else
-			result.append( "<unset>" );
-		result.append( ", orientation: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", orientation: " ); //$NON-NLS-1$
 		if ( orientationESet )
 			result.append( orientation );
 		else
-			result.append( "<unset>" );
-		result.append( ", direction: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", direction: " ); //$NON-NLS-1$
 		if ( directionESet )
 			result.append( direction );
 		else
-			result.append( "<unset>" );
-		result.append( ", position: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", position: " ); //$NON-NLS-1$
 		if ( positionESet )
 			result.append( position );
 		else
-			result.append( "<unset>" );
-		result.append( ", itemType: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", itemType: " ); //$NON-NLS-1$
 		if ( itemTypeESet )
 			result.append( itemType );
 		else
-			result.append( "<unset>" );
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}

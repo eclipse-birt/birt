@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import org.eclipse.birt.chart.model.type.*;
+import java.util.Locale;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -25,121 +26,127 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
+ * end-user-doc -->
  * 
  * @generated
  */
 public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 {
 
-    /**
-     * Creates and instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public TypeFactoryImpl()
-    {
-        super();
-    }
+	/**
+	 * Creates and instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public TypeFactoryImpl( )
+	{
+		super( );
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public EObject create(EClass eClass)
-    {
-        switch (eClass.getClassifierID())
-        {
-            case TypePackage.BAR_SERIES:
-                return createBarSeries();
-            case TypePackage.LINE_SERIES:
-                return createLineSeries();
-            case TypePackage.PIE_SERIES:
-                return createPieSeries();
-            case TypePackage.SCATTER_SERIES:
-                return createScatterSeries();
-            case TypePackage.STOCK_SERIES:
-                return createStockSeries();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EObject create( EClass eClass )
+	{
+		switch ( eClass.getClassifierID( ) )
+		{
+			case TypePackage.BAR_SERIES :
+				return createBarSeries( );
+			case TypePackage.LINE_SERIES :
+				return createLineSeries( );
+			case TypePackage.PIE_SERIES :
+				return createPieSeries( );
+			case TypePackage.SCATTER_SERIES :
+				return createScatterSeries( );
+			case TypePackage.STOCK_SERIES :
+				return createStockSeries( );
+			default :
+				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", //$NON-NLS-1$
+						new Object[]{
+							eClass.getName( )
+						},
+						Locale.getDefault( ) ) );
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public BarSeries createBarSeries()
-    {
-        BarSeriesImpl barSeries = new BarSeriesImpl();
-        return barSeries;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public BarSeries createBarSeries( )
+	{
+		BarSeriesImpl barSeries = new BarSeriesImpl( );
+		return barSeries;
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public LineSeries createLineSeries()
-    {
-        LineSeriesImpl lineSeries = new LineSeriesImpl();
-        return lineSeries;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public LineSeries createLineSeries( )
+	{
+		LineSeriesImpl lineSeries = new LineSeriesImpl( );
+		return lineSeries;
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public PieSeries createPieSeries()
-    {
-        PieSeriesImpl pieSeries = new PieSeriesImpl();
-        return pieSeries;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public PieSeries createPieSeries( )
+	{
+		PieSeriesImpl pieSeries = new PieSeriesImpl( );
+		return pieSeries;
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public ScatterSeries createScatterSeries()
-    {
-        ScatterSeriesImpl scatterSeries = new ScatterSeriesImpl();
-        return scatterSeries;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public ScatterSeries createScatterSeries( )
+	{
+		ScatterSeriesImpl scatterSeries = new ScatterSeriesImpl( );
+		return scatterSeries;
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public StockSeries createStockSeries()
-    {
-        StockSeriesImpl stockSeries = new StockSeriesImpl();
-        return stockSeries;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public StockSeries createStockSeries( )
+	{
+		StockSeriesImpl stockSeries = new StockSeriesImpl( );
+		return stockSeries;
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    public TypePackage getTypePackage()
-    {
-        return (TypePackage) getEPackage();
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public TypePackage getTypePackage( )
+	{
+		return (TypePackage) getEPackage( );
+	}
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @deprecated
-     * @generated
-     */
-    public static TypePackage getPackage()
-    {
-        return TypePackage.eINSTANCE;
-    }
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @deprecated
+	 * @generated
+	 */
+	public static TypePackage getPackage( )
+	{
+		return TypePackage.eINSTANCE;
+	}
 
 } //TypeFactoryImpl

@@ -310,11 +310,11 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
             return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (type: ");
+        result.append(" (type: "); //$NON-NLS-1$
         if (typeESet)
             result.append(type);
         else
-            result.append("<unset>");
+            result.append("<unset>"); //$NON-NLS-1$
         result.append(')');
         return result.toString();
     }

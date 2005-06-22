@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
@@ -207,16 +208,16 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 			return super.toString( );
 
 		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (type: " );
+		result.append( " (type: " ); //$NON-NLS-1$
 		if ( typeESet )
 			result.append( type );
 		else
-			result.append( "<unset>" );
-		result.append( ", detail: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", detail: " ); //$NON-NLS-1$
 		if ( detailESet )
 			result.append( detail );
 		else
-			result.append( "<unset>" );
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
@@ -241,7 +242,7 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		if ( !isSetType( ) )
 		{
 			throw new ChartException( ChartException.UNDEFINED_VALUE,
-					"The TYPE has not been set for this instance of DateFormatSpecifier" );
+					Messages.getString( "error.type.not.set", Locale.getDefault( ) ) ); //$NON-NLS-1$
 		}
 		switch ( getType( ).getValue( ) )
 		{

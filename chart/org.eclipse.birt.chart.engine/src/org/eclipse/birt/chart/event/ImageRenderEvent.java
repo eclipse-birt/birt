@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 /**
- * @author Actuate Corporation
+ * ImageRenderEvent
  */
 public final class ImageRenderEvent extends PrimitiveRenderEvent
 {
@@ -23,7 +23,6 @@ public final class ImageRenderEvent extends PrimitiveRenderEvent
     public ImageRenderEvent(Object oSource)
     {
         super(oSource);
-        // TODO Auto-generated constructor stub
     }
 
 }

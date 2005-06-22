@@ -47,7 +47,6 @@ public final class AreaRenderEvent extends PrimitiveRenderEvent
 	public AreaRenderEvent( Object oSource )
 	{
 		super( oSource );
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

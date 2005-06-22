@@ -16,114 +16,109 @@ import java.util.Locale;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * A no-op adapter implementation for the {@link org.eclipse.birt.chart.device.ITextMetrics}
- * interface definition.
+ * A no-op adapter implementation for the
+ * {@link org.eclipse.birt.chart.device.ITextMetrics}interface definition.
  */
 public class TextAdapter implements ITextMetrics
 {
-    private transient Locale lcl = null;
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model.component.Label)
-     */
-    public void reuse(Label la)
-    {
-        // TODO Auto-generated method stub
 
-    }
+	private transient Locale lcl = null;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getHeight()
-     */
-    public double getHeight()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model.component.Label)
+	 */
+	public void reuse( Label la )
+	{
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getDescent()
-     */
-    public double getDescent()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getHeight()
+	 */
+	public double getHeight( )
+	{
+		return 0;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getFullHeight()
-     */
-    public double getFullHeight()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getDescent()
+	 */
+	public double getDescent( )
+	{
+		return 0;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getFullWidth()
-     */
-    public double getFullWidth()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getFullHeight()
+	 */
+	public double getFullHeight( )
+	{
+		return 0;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getLineCount()
-     */
-    public int getLineCount()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getFullWidth()
+	 */
+	public double getFullWidth( )
+	{
+		return 0;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getLine(int)
-     */
-    public String getLine(int iIndex)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLineCount()
+	 */
+	public int getLineCount( )
+	{
+		return 0;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.device.ITextMetrics#dispose()
-     */
-    public void dispose()
-    {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLine(int)
+	 */
+	public String getLine( int iIndex )
+	{
+		return null;
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#dispose()
+	 */
+	public void dispose( )
+	{
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
-     */
-    public final Locale getLocale()
-    {
-        return (lcl == null) ? Locale.getDefault() : lcl;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
+	 */
+	public final Locale getLocale( )
+	{
+		return ( lcl == null ) ? Locale.getDefault( ) : lcl;
+	}
 
-    /**
-     * @param lcl
-     */
-    public final void setLocale(Locale lcl)
-    {
-        this.lcl = lcl;
-    }
+	/**
+	 * Sets the locale.
+	 * 
+	 * @param lcl
+	 */
+	public final void setLocale( Locale lcl )
+	{
+		this.lcl = lcl;
+	}
 }

@@ -489,7 +489,7 @@ public final class AutoScale extends Methods implements Cloneable
 									new Double( dStep )
 								},
 								ResourceBundle.getBundle( Messages.ENGINE,
-										rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+										rtc.getLocale( ) ) ) ); 
 					}
 					oStep = new Double( dStep );
 				}
@@ -1475,7 +1475,7 @@ public final class AutoScale extends Methods implements Cloneable
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -1501,7 +1501,7 @@ public final class AutoScale extends Methods implements Cloneable
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 				sc.bMaximumFixed = true;
 			}
@@ -1521,7 +1521,7 @@ public final class AutoScale extends Methods implements Cloneable
 								oStep
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 
@@ -1536,7 +1536,7 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 
@@ -1798,7 +1798,7 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -1821,7 +1821,7 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 				sc.bMaximumFixed = true;
 			}
@@ -1846,7 +1846,7 @@ public final class AutoScale extends Methods implements Cloneable
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 
@@ -2087,7 +2087,7 @@ public final class AutoScale extends Methods implements Cloneable
 				throw new ChartException( ChartException.GENERATION,
 						"exception.dataset.non.datetime", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 
 			}
 
@@ -2391,7 +2391,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
 		}
 
 		if ( !la.isVisible( ) )

@@ -45,11 +45,6 @@ public final class PlotWithoutAxes
 	/**
 	 *  
 	 */
-	private final IDisplayServer xs;
-
-	/**
-	 *  
-	 */
 	private final ChartWithoutAxes cwoa;
 
 	/**
@@ -90,7 +85,6 @@ public final class PlotWithoutAxes
 	public PlotWithoutAxes( IDisplayServer xs, ChartWithoutAxes cwoa,
 			RunTimeContext rtc )
 	{
-		this.xs = xs;
 		this.cwoa = cwoa;
 		this.rtc = rtc;
 		dPointToPixel = xs.getDpiResolution( ) / 72d;
@@ -221,7 +215,7 @@ public final class PlotWithoutAxes
 							new Object[]{
 									new Integer( dsiBaseValues.size( ) ),
 									new Integer( dsiOrthogonalValues.size( ) )
-							}, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, rtc.getLocale( ) ) ); 
 		}
 		else
 		{

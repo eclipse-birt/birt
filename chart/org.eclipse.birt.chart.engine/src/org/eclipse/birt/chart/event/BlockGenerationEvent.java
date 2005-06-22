@@ -16,13 +16,13 @@ import java.util.EventObject;
 import org.eclipse.birt.chart.model.layout.Block;
 
 /**
- * @author Actuate Corporation Copyright 2004-2008. All rights reserved.
+ * BlockGenerationEvent
  */
 public class BlockGenerationEvent extends EventObject
 {
 
     /**
-     *  
+     * @param oSource
      */
     public BlockGenerationEvent(Object oSource)
     {

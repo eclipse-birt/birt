@@ -111,7 +111,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VERSION_EDEFAULT = "1.0.0";
+	protected static final String VERSION_EDEFAULT = "1.0.0"; //$NON-NLS-1$
 
 	/**
 	 * The cached value of the '{@link #getVersion() <em>Version</em>}'
@@ -1153,34 +1153,34 @@ public class ChartImpl extends EObjectImpl implements Chart
 			return super.toString( );
 
 		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (version: " );
+		result.append( " (version: " ); //$NON-NLS-1$
 		if ( versionESet )
 			result.append( version );
 		else
-			result.append( "<unset>" );
-		result.append( ", type: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", type: " ); //$NON-NLS-1$
 		result.append( type );
-		result.append( ", subType: " );
+		result.append( ", subType: " ); //$NON-NLS-1$
 		result.append( subType );
-		result.append( ", dimension: " );
+		result.append( ", dimension: " ); //$NON-NLS-1$
 		if ( dimensionESet )
 			result.append( dimension );
 		else
-			result.append( "<unset>" );
-		result.append( ", script: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", script: " ); //$NON-NLS-1$
 		result.append( script );
-		result.append( ", units: " );
+		result.append( ", units: " ); //$NON-NLS-1$
 		result.append( units );
-		result.append( ", seriesThickness: " );
+		result.append( ", seriesThickness: " ); //$NON-NLS-1$
 		if ( seriesThicknessESet )
 			result.append( seriesThickness );
 		else
-			result.append( "<unset>" );
-		result.append( ", gridColumnCount: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", gridColumnCount: " ); //$NON-NLS-1$
 		if ( gridColumnCountESet )
 			result.append( gridColumnCount );
 		else
-			result.append( "<unset>" );
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
@@ -1263,7 +1263,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 		// 3. INITIALIZE THE CHART TITLE
 		Text txtChartTitle = tb.getLabel( ).getCaption( );
-		txtChartTitle.setValue( "Chart Title" );
+		txtChartTitle.setValue( "Chart Title" ); //$NON-NLS-1$
 		txtChartTitle.getFont( ).setSize( 24 );
 
 		// 4. SETUP OTHER BASIC PROPERTIES
@@ -1328,7 +1328,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 					.add( seriesBaseRuntime );
 
 			// Set sample series identifier
-			seriesBaseRuntime.setSeriesIdentifier( "Category 1" );
+			seriesBaseRuntime.setSeriesIdentifier( "Category 1" ); //$NON-NLS-1$
 
 			// Process Orthogonal SeriesDefinitions
 			Vector vOSD = getOrthogonalSeriesDefinitions( );
@@ -1377,11 +1377,11 @@ public class ChartImpl extends EObjectImpl implements Chart
 						seriesOrthogonalRuntime.getDataSet( ) ) );
 
 				// Set sample series identifiers
-				seriesOrthogonalRuntime.setSeriesIdentifier( "Series "
+				seriesOrthogonalRuntime.setSeriesIdentifier( "Series " //$NON-NLS-1$
 						+ ( sdTmp.getSeries( ).size( ) ) );
 
 				// Set sample data definition
-				Query q = QueryImpl.create( "Data "
+				Query q = QueryImpl.create( "Data " //$NON-NLS-1$
 						+ ( sdTmp.getSeries( ).size( ) ) );
 				seriesOrthogonalRuntime.getDataDefinition( ).add( q );
 

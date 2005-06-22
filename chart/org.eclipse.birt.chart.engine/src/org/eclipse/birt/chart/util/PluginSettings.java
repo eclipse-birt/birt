@@ -142,9 +142,9 @@ public final class PluginSettings
 	 */
 	private static final String[][] saAggregateFunctions = {
 			{
-					"Sum", "org.eclipse.birt.chart.aggregate.Sum"
+					"Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
 			}, {
-					"Average", "org.eclipse.birt.chart.aggregate.Average"
+					"Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 

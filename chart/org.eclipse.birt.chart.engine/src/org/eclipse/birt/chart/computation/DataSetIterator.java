@@ -227,7 +227,7 @@ public final class DataSetIterator implements Iterator
 							oContent, new Integer( iDataType )
 					} )
 
-			); // i18n_CONCATENATIONS_REMOVED
+			); 
 		}
 
 		if ( co != null )
@@ -327,7 +327,7 @@ public final class DataSetIterator implements Iterator
 							oContent, ds
 					} )
 
-			); // i18n_CONCATENATIONS_REMOVED
+			); 
 		}
 
 		if ( co != null )

@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.model.util;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.model.*;
-
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;

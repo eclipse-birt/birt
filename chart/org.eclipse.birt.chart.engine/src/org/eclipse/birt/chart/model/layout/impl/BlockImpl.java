@@ -1429,41 +1429,41 @@ public class BlockImpl extends EObjectImpl implements Block
 			return super.toString( );
 
 		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (anchor: " );
+		result.append( " (anchor: " ); //$NON-NLS-1$
 		if ( anchorESet )
 			result.append( anchor );
 		else
-			result.append( "<unset>" );
-		result.append( ", stretch: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", stretch: " ); //$NON-NLS-1$
 		if ( stretchESet )
 			result.append( stretch );
 		else
-			result.append( "<unset>" );
-		result.append( ", row: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", row: " ); //$NON-NLS-1$
 		if ( rowESet )
 			result.append( row );
 		else
-			result.append( "<unset>" );
-		result.append( ", column: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", column: " ); //$NON-NLS-1$
 		if ( columnESet )
 			result.append( column );
 		else
-			result.append( "<unset>" );
-		result.append( ", rowspan: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", rowspan: " ); //$NON-NLS-1$
 		if ( rowspanESet )
 			result.append( rowspan );
 		else
-			result.append( "<unset>" );
-		result.append( ", columnspan: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", columnspan: " ); //$NON-NLS-1$
 		if ( columnspanESet )
 			result.append( columnspan );
 		else
-			result.append( "<unset>" );
-		result.append( ", visible: " );
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", visible: " ); //$NON-NLS-1$
 		if ( visibleESet )
 			result.append( visible );
 		else
-			result.append( "<unset>" );
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}

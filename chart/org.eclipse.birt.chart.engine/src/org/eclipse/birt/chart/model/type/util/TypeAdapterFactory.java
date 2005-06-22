@@ -12,8 +12,6 @@
 package org.eclipse.birt.chart.model.type.util;
 
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.type.*;
-
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;

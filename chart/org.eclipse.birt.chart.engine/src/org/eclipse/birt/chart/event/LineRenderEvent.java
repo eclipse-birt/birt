@@ -20,28 +20,19 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * LineRenderEvent
  */
 public final class LineRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 *  
-	 */
 	private Location loStart;
 
-	/**
-	 *  
-	 */
 	private Location loEnd;
 
-	/**
-	 *  
-	 */
 	private LineAttributes lia;
 
 	/**
-	 *  
+	 * @param oSource
 	 */
 	public LineRenderEvent( Object oSource )
 	{

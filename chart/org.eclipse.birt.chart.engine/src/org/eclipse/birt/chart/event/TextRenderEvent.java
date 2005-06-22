@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * @author Actuate Corporation
+ * TextRenderEvent
  */
 public final class TextRenderEvent extends PrimitiveRenderEvent
 {

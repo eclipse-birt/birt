@@ -355,7 +355,7 @@ public final class PlotWith2DAxes extends PlotContent
 						an, or
 				} )
 
-		); // i18n_CONCATENATIONS_REMOVED
+		); 
 	}
 
 	/**
@@ -381,7 +381,7 @@ public final class PlotWith2DAxes extends PlotContent
 				.getString( "exception.angle.range.transpose" ), //$NON-NLS-1$
 				new Object[]{
 					new Double( dOriginalAngle )
-				} ) ); // i18n_CONCATENATIONS_REMOVED
+				} ) ); 
 	}
 
 	/**
@@ -410,7 +410,7 @@ public final class PlotWith2DAxes extends PlotContent
 		}
 		throw new IllegalArgumentException( ResourceBundle.getBundle( Messages.ENGINE,
 				rtc.getLocale( ) )
-				.getString( "exception.angle.range.transpose" ) );
+				.getString( "exception.angle.range.transpose" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -465,7 +465,7 @@ public final class PlotWith2DAxes extends PlotContent
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
 						new Integer( iOriginalPosition )
-				} ) ); // i18n_CONCATENATIONS_REMOVED
+				} ) ); 
 	}
 
 	/**
@@ -513,7 +513,7 @@ public final class PlotWith2DAxes extends PlotContent
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
 						new Integer( iOriginalStyle )
-				} ) ); // i18n_CONCATENATIONS_REMOVED
+				} ) ); 
 	}
 
 	/**
@@ -535,7 +535,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		if ( !ax.getLabel( ).isSetVisible( ) )
@@ -547,7 +547,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		if ( !ax.getTitle( ).isSetVisible( ) )
@@ -559,7 +559,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		if ( !ax.isSetLabelPosition( ) && ax.getLabel( ).isVisible( ) )
@@ -571,7 +571,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		if ( !ax.isSetTitlePosition( ) && ax.getTitle( ).isVisible( ) )
@@ -583,7 +583,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
@@ -596,7 +596,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
@@ -609,7 +609,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ) ); 
 		}
 
 		final int iOrientation = ax.getOrientation( ).getValue( );
@@ -627,7 +627,7 @@ public final class PlotWith2DAxes extends PlotContent
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -641,7 +641,7 @@ public final class PlotWith2DAxes extends PlotContent
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 
@@ -657,7 +657,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -671,7 +671,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 			}
 		}
 		else if ( iOrientation == Orientation.HORIZONTAL )
@@ -688,7 +688,7 @@ public final class PlotWith2DAxes extends PlotContent
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -702,7 +702,7 @@ public final class PlotWith2DAxes extends PlotContent
 									ax.getTitlePosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 				}
 			}
 
@@ -718,7 +718,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
@@ -732,7 +732,7 @@ public final class PlotWith2DAxes extends PlotContent
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 			}
 		}
 	}
@@ -1036,7 +1036,7 @@ public final class PlotWith2DAxes extends PlotContent
 							.getString( "exception.unstackable.is.stacked" ), //$NON-NLS-1$
 							new Object[]{
 								sea[i]
-							} ) ); // i18n_CONCATENATIONS_REMOVED
+							} ) ); 
 				}
 			}
 
@@ -1128,7 +1128,7 @@ public final class PlotWith2DAxes extends PlotContent
 						.getString( "exception.stacked.datetime.axis.series" ), //$NON-NLS-1$
 						new Object[]{
 							ax
-						} ) ); // i18n_CONCATENATIONS_REMOVED
+						} ) ); 
 			}
 			Object oValue;
 			int iSeriesPerGroup;
@@ -1147,13 +1147,13 @@ public final class PlotWith2DAxes extends PlotContent
 							ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) ); 
 			}
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
 					Messages.getString( "info.processing.stacked.info", //$NON-NLS-1$
 							new Object[]{
 								ax
-							}, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, rtc.getLocale( ) ) ); 
 			int iSeriesIndex, iDataSetCount = ssl.getUnitCount( );
 
 			for ( int k = 0; k < iDataSetCount; k++ ) // PER UNIT
@@ -3298,7 +3298,7 @@ public final class PlotWith2DAxes extends PlotContent
 					new Object[]{
 						seOrthogonal
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
 		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
@@ -3356,7 +3356,7 @@ public final class PlotWith2DAxes extends PlotContent
 											new Integer( iBaseCount ),
 											new Integer( iOrthogonalCount )
 									},
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) ); 
 		}
 		else
 		{

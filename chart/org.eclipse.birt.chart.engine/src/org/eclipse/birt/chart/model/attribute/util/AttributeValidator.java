@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -28,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
@@ -37,6 +36,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Gradient;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -58,7 +58,6 @@ import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.RuleType;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
-import org.eclipse.birt.chart.model.attribute.SeriesHint;
 import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
@@ -71,6 +70,7 @@ import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EPackage;
@@ -103,7 +103,7 @@ public class AttributeValidator extends EObjectValidator
      * @see org.eclipse.emf.common.util.Diagnostic#getCode()
      * @generated
      */
-    public static final String DIAGNOSTIC_SOURCE = "org.eclipse.birt.chart.model.attribute";
+    public static final String DIAGNOSTIC_SOURCE = "org.eclipse.birt.chart.model.attribute"; //$NON-NLS-1$
 
     /**
      * A constant with a fixed name that can be used as the base value for additional hand written constants. <!--
@@ -1072,7 +1072,7 @@ public class AttributeValidator extends EObjectValidator
     {
         new PatternMatcher[]
         {
-            XMLTypeUtil.createPatternMatcher("[A-Z]")
+            XMLTypeUtil.createPatternMatcher("[A-Z]") //$NON-NLS-1$
         }
     };
 

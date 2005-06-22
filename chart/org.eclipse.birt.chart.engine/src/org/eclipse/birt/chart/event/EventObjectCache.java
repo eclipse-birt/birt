@@ -30,8 +30,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
  * An internal cache that provides reusable primitive (and block) rendering
  * event objects A local cache is created per generation sequence so issues with
  * multithreaded access shouldn't arise.
- * 
- * @author Actuate Corporation
+ *  
  */
 public class EventObjectCache
 {
@@ -120,7 +119,7 @@ public class EventObjectCache
 						oSource
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							Locale.getDefault( ) ) );
 		}
 
 		if ( !lia.isVisible( ) )

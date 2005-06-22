@@ -20,24 +20,15 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * RectangleRenderEvent
  */
 public final class RectangleRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 *  
-	 */
 	private Bounds _bo;
 
-	/**
-	 *  
-	 */
 	private LineAttributes _lia;
 
-	/**
-	 *  
-	 */
 	private Fill _ifBackground;
 
 	/**
