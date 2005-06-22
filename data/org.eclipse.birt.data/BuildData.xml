@@ -302,7 +302,7 @@
 				<fileset dir="${test.src}">
 					<include name="**/*Test.java" />
 					<exclude name="**/perf/*.java" /> 
-					<exclude name="**/regre/*.java" /> 
+					<exclude name="**/regre/db/*.java" /> 
 				</fileset>
 			</batchtest>
 		</junit>
