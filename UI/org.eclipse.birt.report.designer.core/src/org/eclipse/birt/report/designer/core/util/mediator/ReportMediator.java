@@ -28,7 +28,18 @@ public class ReportMediator
 	private List stack = new ArrayList( );
 	private int stackPointer = 0;
 	private ReportMediatorState currentState = new ReportMediatorState();
+	
+	//suport the globol colleague
+	private static List globalListener = new ArrayList();
 
+	
+	public void addGlobalColleague(IColleague colleague )
+	{
+		if ( !globalListener.contains( colleague ) )
+		{
+			globalListener.add( colleague );
+		}
+	}
 	/**
 	 * Add a colleague to mediator.
 	 * @param colleague
@@ -48,6 +59,15 @@ public class ReportMediator
 	public void removeColleague( IColleague colleague )
 	{
 		listeners.remove( colleague );
+	}
+	
+	/**
+	 * Remove colleagure from mediator.
+	 * @param colleague
+	 */
+	public void removeGlobalColleague( IColleague colleague )
+	{
+		globalListener.remove( colleague );
 	}
 
 	/**
@@ -70,6 +90,13 @@ public class ReportMediator
 			IColleague colleague = (IColleague) listeners.get( i );
 			colleague.performRequest( request );
 		}
+		
+		size = globalListener.size();
+		for ( int i = 0; i < size; i++ )
+		{
+			IColleague colleague = (IColleague) globalListener.get( i );
+			colleague.performRequest( request );
+		}
 		isDispatching = false;
 	}
 
@@ -84,7 +111,7 @@ public class ReportMediator
 	public void dispose( )
 	{
 		currentState = null ;
-		listeners = null;
+		listeners.clear();
 		stackPointer = 0;
 		stack = null;
 	}
@@ -96,7 +123,10 @@ public class ReportMediator
 	public void popState( )
 	{
 		stackPointer--;
-		restoreState( (ReportMediatorState) stack.get( stackPointer ) );
+		if (stackPointer != 0)
+		{
+			restoreState( (ReportMediatorState) stack.get( stackPointer ) );
+		}
 		if (stackPointer == 0)
 		{
 			stack.clear();
@@ -144,7 +174,7 @@ public class ReportMediator
 		return retValue;
 	}
 	
-	private ReportRequest cconvertStateToRequest(ReportMediatorState s)
+	private ReportRequest convertStateToRequest(ReportMediatorState s)
 	{
 		ReportRequest request = new ReportRequest();
 		request.setSource(s.getSource());
@@ -169,7 +199,7 @@ public class ReportMediator
 	protected void restoreState( ReportMediatorState s )
 	{
 		currentState.copyFrom(s);
-		ReportRequest request = cconvertStateToRequest(s);
+		ReportRequest request = convertStateToRequest(s);
 		notifyRequest(request);
 	}
 	

@@ -201,6 +201,10 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			return ( (ReportElementModel) model ).getElementHandle( );
 		}
+		else if (model instanceof SlotHandle)
+		{
+			return ((SlotHandle)model).getElementHandle( );
+		}
 		else if ( model instanceof ReportElementHandle )
 		{
 			ReportElementHandle handle = (ReportElementHandle) model;

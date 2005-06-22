@@ -289,7 +289,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
 			public void run( )
 			{
-				ReportRequest request = new ReportRequest();
+				ReportRequest request = new ReportRequest(DeferredGraphicalViewer.this);
 				List list = new ArrayList();
 				if(getSelection() instanceof IStructuredSelection)
 				{
@@ -299,10 +299,11 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				request.setType(ReportRequest.SELECTION);
 				
 				request.setRequestConvert(new EditorReportRequestConvert());
+				//SessionHandleAdapter.getInstance().getMediator().pushState();
 				SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
-				SessionHandleAdapter.getInstance().getMediator().pushState();
+				
 				DeferredGraphicalViewer.super.fireSelectionChanged( );
-				SessionHandleAdapter.getInstance().getMediator().popState();
+				//SessionHandleAdapter.getInstance().getMediator().popState();
 			}
 			
 		});

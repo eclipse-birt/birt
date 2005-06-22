@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
-import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 
 /**
  * Selection provider for editor.
@@ -22,14 +21,6 @@ import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 
 public interface EditorSelectionProvider
 {
-
-	/**
-	 * Returns the selection synchorizer.
-	 * 
-	 * @return
-	 */
-	SelectionSynchronizer getSelectionSynchronizer( );
-
 	/**
 	 * Updates current editor actions.
 	 */

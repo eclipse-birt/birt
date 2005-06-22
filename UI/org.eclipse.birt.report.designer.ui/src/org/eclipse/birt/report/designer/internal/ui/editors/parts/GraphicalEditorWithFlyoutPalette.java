@@ -16,19 +16,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportSelectionSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.editors.notification.DeferredRefreshManager;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportDesigner;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.NonGEFSynchronizer;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
@@ -72,7 +76,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -98,7 +101,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.10 $ $Date: 2005/05/11 07:59:49 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/24 06:30:26 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -448,13 +451,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage(
 					(ReportDesignHandle) ( (MultiEditorProvider) getMultiPageEditor( ) )
 							.getModel( ) );
-			if ( this instanceof ReportDesigner )
-			{
-				( (ReportSelectionSynchronizer) ( (ReportDesigner) this )
-						.getSelectionSynchronizer( ) )
-						.add( (NonGEFSynchronizer) page
-								.getAdapter( NonGEFSynchronizer.class ) );
-			}
 			return page;
 		}
 
@@ -546,30 +542,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 	}
 
-	/**
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#getSelectionSynchronizer()
-	 */
-	public SelectionSynchronizer getSelectionSynchronizer( )
-	{
-		if ( synchronizer == null )
-			synchronizer = new ReportSelectionSynchronizer(
-					getGraphicalViewer( ) );
-		return synchronizer;
-	}
-
-	/**
-	 * Fires selection change event when part was changed.
-	 */
-	public void editActivate( )
-	{
-		SelectionChangedEvent event = new SelectionChangedEvent(
-				(ReportSelectionSynchronizer) getSelectionSynchronizer( ),
-				new StructuredSelection( this.getGraphicalViewer( )
-						.getSelectedEditParts( ) ) );
-		( (ReportSelectionSynchronizer) getSelectionSynchronizer( ) )
-				.selectionChanged( event );
-
-	}
 
 	/**
 	 * @return the DeferredRefreshManager
@@ -798,7 +770,83 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 */
 	protected void handleSelectionChange( ReportRequest request )
 	{
-
+		List select = convertEventToGFE(request);
+		if (select == null)
+		{
+			return ;
+		}
+		getGraphicalViewer().setSelection(new StructuredSelection( select ));
+		
+		if (select.size() > 0)
+			getGraphicalViewer().reveal((EditPart)select.get(select.size() - 1));
 	}
+	
+	/**
+	 * Returns the created event if the given event is editpart event
+	 * 
+	 * @param event
+	 *            the selection changed event
+	 * @return the created event
+	 */
+	private List convertEventToGFE( ReportRequest event )
+	{
+		if ( event.getSource() == getGraphicalViewer() )
+		{
+			return null;
+		}
+		ArrayList tempList = new ArrayList( );
+		List list = event.getSelectionModelList();
+		int size = list.size( );
+	
+		if ( size == 1 && list.get( 0 ) instanceof RowHandle )
+		{
+			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( list.get( 0 ) );
+			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+					.get( adapter.getTableParent( ) );
+			if ( part != null )
+			{
+				part.selectRow( new int[]{
+					adapter.getRowNumber( )
+				} );
+			}
+			return null;
+		}
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof EditPart )
+			{
+				tempList.add( obj );
+			}
+			else
+			{
+				Object part = null;
+				if ( obj instanceof ReportElementModel )
+				{
+					obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
+					part = getGraphicalViewer( ).getEditPartRegistry( )
+							.get( new ListBandProxy( (SlotHandle) obj ) );
+				}
+				else
+				{
+					part = getGraphicalViewer( ).getEditPartRegistry( )
+							.get( obj );
+				}
+				if ( part instanceof EditPart )
+				{
+					tempList.add( part );
+				}
+			}
+		}
+
+		if ( tempList.isEmpty( ) )
+		{
+			return null;
+		}
+	
+		return   tempList;
+	}
+	
 
 }
