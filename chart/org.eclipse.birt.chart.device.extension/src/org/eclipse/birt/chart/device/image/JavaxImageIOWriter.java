@@ -108,7 +108,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		if ( !_bImageExternallySpecified )
 		{
 			if ( _bo == null ) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING
-							   // BEGINS
+			// BEGINS
 			{
 				throw new ChartException( ChartException.RENDERING,
 						"exception.no.bounds", //$NON-NLS-1$
@@ -159,7 +159,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								getClass( ).getName( )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) ); 
 			}
 			it = ImageIO.getImageWritersByMIMEType( s );
 			if ( !it.hasNext( ) )
@@ -170,14 +170,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							getMimeType( )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) );
 			}
 		}
 		final ImageWriter iw = (ImageWriter) it.next( );
-		DefaultLoggerImpl.instance( )
-				.log( ILogger.INFORMATION,
-						Messages.getString( "info.using.imagewriter", getLocale( ) ) + getFormat( ) + iw.getClass( ).getName( ) ); // i18n_CONCATENATIONS_REMOVED
-																																   // //$NON-NLS-1$
+		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				Messages.getString( "info.using.imagewriter", getLocale( ) )
+						+ getFormat( )
+						+ iw.getClass( ).getName( ) ); //$NON-NLS-1$
 
 		// WRITE TO SPECIFIC FILE FORMAT
 		final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
@@ -186,11 +186,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			final ImageOutputStream ios = ImageIO.createImageOutputStream( o );
 			updateWriterParameters( iw.getDefaultWriteParam( ) ); // SET ANY
-																  // OUTPUT
-																  // FORMAT
-																  // SPECIFIC
-																  // PARAMETERS
-																  // IF NEEDED
+			// OUTPUT
+			// FORMAT
+			// SPECIFIC
+			// PARAMETERS
+			// IF NEEDED
 			iw.setOutput( ios );
 			iw.write( (BufferedImage) _img );
 			ios.close( );
@@ -283,8 +283,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		_g2d.setClip( 20, 20, d.width - 40, d.height - 40 );
 		int x = 25, y = 20 + fm.getHeight( );
 		_g2d.drawString( Messages.getString( "exception.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
-		x += fm.stringWidth( Messages.getString( "exception.caption", getLocale( ) ) ) + 5; // i18n_CONCATENATIONS_REMOVED
-																							// //$NON-NLS-1$
+		x += fm.stringWidth( Messages.getString( "exception.caption",//$NON-NLS-1$
+				getLocale( ) ) ) + 5;
 		_g2d.setColor( Color.RED );
 		_g2d.drawString( sException, x, y );
 		x = 25;
@@ -293,8 +293,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		{
 			_g2d.setColor( Color.BLACK );
 			_g2d.drawString( Messages.getString( "wrapped.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
-			x += fm.stringWidth( Messages.getString( "wrapped.caption", getLocale( ) ) ) + 5; // i18n_CONCATENATIONS_REMOVED
-																							  // //$NON-NLS-1$
+			x += fm.stringWidth( Messages.getString( "wrapped.caption",//$NON-NLS-1$
+					getLocale( ) ) ) + 5;
 			_g2d.setColor( Color.RED );
 			_g2d.drawString( sWrappedException, x, y );
 			x = 25;
@@ -303,8 +303,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		_g2d.setColor( Color.BLACK );
 		y += 10;
 		_g2d.drawString( Messages.getString( "message.caption", getLocale( ) ), x, y ); //$NON-NLS-1$
-		x += fm.stringWidth( Messages.getString( "message.caption", getLocale( ) ) ) + 5; // i18n_CONCATENATIONS_REMOVED
-																						  // //$NON-NLS-1$
+		x += fm.stringWidth( Messages.getString( "message.caption", getLocale( ) ) ) + 5; //$NON-NLS-1$
 		_g2d.setColor( Color.BLUE );
 		_g2d.drawString( sMessage, x, y );
 		x = 25;

@@ -179,7 +179,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					Messages.getString( "info.using.graphics.context", //$NON-NLS-1$
 							new Object[]{
 								_g2d
-							}, getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, getLocale( ) ) );
 		}
 	}
 
@@ -335,7 +335,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -534,7 +534,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) ); 
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -737,7 +737,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) ); 
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -985,7 +985,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) ); 
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1344,7 +1344,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getLocale( ) ) ); 
 			}
 
 			Point2D.Double p2dStart, p2dEnd;

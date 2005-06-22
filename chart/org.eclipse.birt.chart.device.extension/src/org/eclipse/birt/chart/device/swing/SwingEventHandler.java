@@ -143,25 +143,24 @@ public final class SwingEventHandler implements
 				{
 					case ActionType.URL_REDIRECT :
 						final URLValue uv = (URLValue) ac.getValue( );
-						DefaultLoggerImpl.instance( )
-								.log( ILogger.INFORMATION,
-										Messages.getString( "info.redirect.url", lcl ) + uv.getBaseUrl( ) ); // i18n_CONCATENATIONS_REMOVED
-																											 // //$NON-NLS-1$
+						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+								Messages.getString( "info.redirect.url", lcl )
+										+ uv.getBaseUrl( ) ); //$NON-NLS-1$
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
 						final Series seRT = (Series) sa.getSource( );
-						DefaultLoggerImpl.instance( )
-								.log( ILogger.INFORMATION,
-										Messages.getString( "info.toggle.visibility", lcl ) + seRT ); // i18n_CONCATENATIONS_REMOVED
-																									  // //$NON-NLS-1$
+						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+								Messages.getString( "info.toggle.visibility",
+										lcl )
+										+ seRT ); //$NON-NLS-1$
 						Series seDT = null;
 						try
 						{
 							seDT = findDesignTimeSeries( seRT ); // LOCATE THE
-																 // CORRESPONDING
-																 // DESIGN-TIME
-																 // SERIES
+							// CORRESPONDING
+							// DESIGN-TIME
+							// SERIES
 						}
 						catch ( ChartException oosx )
 						{
@@ -234,7 +233,7 @@ public final class SwingEventHandler implements
 					new Object[]{
 						seRT
 					},
-					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION, lcl ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION, lcl ) );
 		}
 
 		// MAP TO INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN DESIGN TIME MODEL

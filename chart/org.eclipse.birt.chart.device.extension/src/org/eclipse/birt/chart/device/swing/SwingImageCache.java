@@ -71,7 +71,7 @@ public final class SwingImageCache
 					Messages.getString( "info.using.swing.cached.image",//$NON-NLS-1$
 							new Object[]{
 								url
-							}, idsSWING.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, idsSWING.getLocale( ) ) );
 		}
 		else
 		{
@@ -79,7 +79,7 @@ public final class SwingImageCache
 					Messages.getString( "info.loading.swing.image",//$NON-NLS-1$
 							new Object[]{
 								url
-							}, idsSWING.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, idsSWING.getLocale( ) ) );
 			img = ( new ImageIcon( url ) ).getImage( );
 			try
 			{
@@ -107,7 +107,7 @@ public final class SwingImageCache
 								sb.toString( )
 							},
 							ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-									idsSWING.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									idsSWING.getLocale( ) ) );
 				}
 			}
 			catch ( InterruptedException ex )
@@ -141,7 +141,7 @@ public final class SwingImageCache
 				Messages.getString( "info.flushed.swing.images",//$NON-NLS-1$
 						new Object[]{
 							new Integer( n )
-						}, idsSWING.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+						}, idsSWING.getLocale( ) ) );
 	}
 
 	/**
