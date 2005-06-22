@@ -108,8 +108,6 @@ public class LineWidthChooserComposite extends Composite implements SelectionLis
         glContentOuter.marginWidth = 0;
         glContentOuter.numColumns = 1;
         cmpContentOuter.setLayout(glContentOuter);
-        GridData gdContentOuter = new GridData(GridData.FILL_HORIZONTAL);
-        cmpContentOuter.setLayoutData(gdContentOuter);
 
         // THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
         // THE CANVAS + BUTTON)

@@ -102,8 +102,6 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         gl.marginWidth = 0;
         gl.numColumns = 1;
         cmpContentOuter.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        cmpContentOuter.setLayoutData(gd);
 
         // THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
         // THE CANVAS + BUTTON)
@@ -115,7 +113,7 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
         gl.marginWidth = 0;
         gl.numColumns = 2;
         cmpContentInner.setLayout(gl);
-        gd = new GridData(GridData.FILL_HORIZONTAL);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         cmpContentInner.setLayoutData(gd);
 
         txtValue = new TextEditorComposite(cmpContentInner, SWT.BORDER);

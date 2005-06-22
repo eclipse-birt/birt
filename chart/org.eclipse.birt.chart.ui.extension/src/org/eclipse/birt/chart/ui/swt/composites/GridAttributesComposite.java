@@ -151,8 +151,6 @@ public class GridAttributesComposite extends Composite implements
 				true,
 				true,
 				true );
-		GridData gdLIACLines = new GridData( GridData.FILL_BOTH );
-		liacLines.setLayoutData( gdLIACLines );
 		liacLines.addListener( this );
 
 		// Ticks group
