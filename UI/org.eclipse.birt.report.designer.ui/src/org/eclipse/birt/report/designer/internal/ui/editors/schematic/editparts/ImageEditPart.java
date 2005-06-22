@@ -84,7 +84,16 @@ public class ImageEditPart extends ReportElementEditPart
 	protected void createEditPolicies( )
 	{
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+				new ReportComponentEditPolicy( ) {
+
+					public boolean understandsRequest( Request request )
+					{
+						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
+							return true;
+						return super.understandsRequest( request );
+					}
+				} );
 	}
 
 	/*
@@ -159,8 +168,8 @@ public class ImageEditPart extends ReportElementEditPart
 		}
 
 		refreshBackgroundColor( (DesignElementHandle) getModel( ) );
-		
-		refreshMargin();
+
+		refreshMargin( );
 
 		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
 				getFigure( ),
@@ -203,7 +212,7 @@ public class ImageEditPart extends ReportElementEditPart
 				.getActiveShell( ) );
 		dialog.setInput( getModel( ) );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack();
+				.getCommandStack( );
 		stack.startTrans( IMG_TRANS_MSG );
 		if ( dialog.open( ) == Window.OK )
 		{
@@ -214,17 +223,19 @@ public class ImageEditPart extends ReportElementEditPart
 			stack.rollback( );
 		}
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#markDirty(boolean, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#markDirty(boolean,
+	 *      boolean)
 	 */
 	public void markDirty( boolean bool, boolean notifyParent )
 	{
 		super.markDirty( bool, notifyParent );
-		if (bool)
+		if ( bool )
 		{
-			refreshVisuals();
+			refreshVisuals( );
 		}
 	}
 }

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Sp
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ImageEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
@@ -226,21 +227,26 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
 
-			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1
-					&& ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof LabelEditPart )
+			if ( ( (IStructuredSelection) getSelection( ) ).size( ) == 1 )
 			{
-				IAction action = getAction( GEFActionConstants.DIRECT_EDIT );
-				action.setAccelerator( SWT.F2 );
-				if ( ( (IStructuredSelection) getSelection( ) ).getFirstElement( ) instanceof DataEditPart )
+				Object element = ( (IStructuredSelection) getSelection( ) ).getFirstElement( );
+
+				if ( element instanceof LabelEditPart
+						|| element instanceof ImageEditPart )
 				{
-					action.setText( Messages.getString("SchematicContextMenuProvider.ActionText.editData") ); //$NON-NLS-1$
+					IAction action = getAction( GEFActionConstants.DIRECT_EDIT );
+					action.setAccelerator( SWT.F2 );
+					if ( element instanceof DataEditPart )
+					{
+						action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editData" ) ); //$NON-NLS-1$
+					}
+					else
+					{
+						action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
+					}
+					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
 				}
-				else
-				{
-					action.setText( Messages.getString( "SchematicContextMenuProvider.ActionText.editLabel" ) ); //$NON-NLS-1$
-				}
-				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-						action );
 			}
 
 			if ( firstSelectedElement instanceof RowHandle )
@@ -418,19 +424,20 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		/*
 		 * Extended Items insert actions
 		 */
-		
-		List points = ExtensionPointManager.getInstance().getExtendedElementPoints();
-		for (Iterator iter = points.iterator(); iter.hasNext() ; )
+
+		List points = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
 		{
-		    ExtendedElementUIPoint point = (ExtendedElementUIPoint)iter.next();
-		    action = getAction( point.getExtensionName( ) );
+			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
+			action = getAction( point.getExtensionName( ) );
 			if ( action != null )
 			{
-			    action.setText( point.getExtensionName( ) );
-			    subMenu.add( action );
+				action.setText( point.getExtensionName( ) );
+				subMenu.add( action );
 			}
 		}
-		
+
 		menuManager.appendToGroup( group_name, subMenu );
 	}
 
