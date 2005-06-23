@@ -27,6 +27,8 @@ import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
 import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -53,7 +55,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.16 $ $Date: 2005/06/22 02:48:16 $
  */
 public class ReportExecutor
 {
@@ -175,7 +177,10 @@ public class ReportExecutor
 			StringBuffer errHtmlMsg = new StringBuffer(
 					"<hr style=\"color:red\"/>" );//$NON-NLS-1$
 			errHtmlMsg
-					.append( "<div style=\"color:red\"><div>There are errors on the report page:</div>"  );//$NON-NLS-1$
+					.append( "<div style=\"color:red\"><div>" + 
+							EngineResourceHandle.getInstance().
+								getMessage( MessageConstants.ERRORS_ON_REPORT_PAGE ) + "</div>"  );//$NON-NLS-1$
+						
 			HashMap errLst = context.getMsgLst();
 			Iterator it = errLst.values().iterator();
 			int index = 0; 
