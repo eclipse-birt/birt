@@ -642,20 +642,5 @@ public class UIUtil
 			}
 		}
 		return part;
-	}
-
-	public static DesignElementHandle createElement( String elementType )
-	{
-		return createElement( elementType, null );
-	}
-
-	public static DesignElementHandle createElement( String elementType,
-			String name )
-	{
-		DesignElementHandle newElement = getElementFactory( ).newElement( elementType,
-				name );
-		return newElement;
-	}
-	
-	
+	}	
 }

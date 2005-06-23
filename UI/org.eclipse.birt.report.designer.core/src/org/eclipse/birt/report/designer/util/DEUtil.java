@@ -61,7 +61,6 @@ import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Font;
@@ -88,12 +87,6 @@ public class DEUtil
 	 * Property name for element labelContent.
 	 */
 	public static final String ELEMENT_LABELCONTENT_PROPERTY = "labelContent"; //$NON-NLS-1$
-
-	/**
-	 * A default quick button height which if different in win32 from other OS.
-	 */
-	public static final int QUICK_BUTTON_HEIGHT = Platform.getOS( )
-			.equals( Platform.OS_WIN32 ) ? 20 : 22;
 
 	private static HashMap propertiesMap = new HashMap( );
 
