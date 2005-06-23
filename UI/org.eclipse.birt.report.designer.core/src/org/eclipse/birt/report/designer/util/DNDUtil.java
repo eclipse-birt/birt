@@ -61,15 +61,15 @@ public class DNDUtil
 	public static final String TYPE_CUT = "CUT"; //$NON-NLS-1$
 
 	public static final String TYPE_COPY = "COPY"; //$NON-NLS-1$
-
+	
 	/** Target can't contain source */
-	public static final int CONTAIN_NO = DEUtil.CONTAIN_NO;
+	public static final int CONTAIN_NO = 0;
 
 	/** Target can contain source */
-	public static final int CONTAIN_THIS = DEUtil.CONTAIN_THIS;
+	public static final int CONTAIN_THIS = 1;
 
 	/** Target's parent can contain source */
-	public static final int CONTAIN_PARENT = DEUtil.CONTAIN_PARENT;
+	public static final int CONTAIN_PARENT = 2;
 
 	/**
 	 * Moves elements. Like paste, but transfer data will be deleted.Includes

@@ -22,15 +22,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnBandData;
-import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -48,13 +41,10 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -63,7 +53,6 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
@@ -74,15 +63,6 @@ import org.eclipse.swt.graphics.RGB;
  */
 public class DEUtil
 {
-
-	/** Target can't contain source */
-	public static final int CONTAIN_NO = 0;
-
-	/** Target can contain source */
-	public static final int CONTAIN_THIS = 1;
-
-	/** Target's parent can contain source */
-	public static final int CONTAIN_PARENT = 2;
 
 	/**
 	 * Property name for element labelContent.
