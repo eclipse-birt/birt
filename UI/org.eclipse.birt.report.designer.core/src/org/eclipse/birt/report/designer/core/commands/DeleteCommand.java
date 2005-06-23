@@ -12,12 +12,10 @@
 package org.eclipse.birt.report.designer.core.commands;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -33,9 +31,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
- * Deletes an object or multiple objects or do nothing.
+ * Deletes single, multiple objects or do nothing.
  * 
- *  
+ * 
  */
 
 public class DeleteCommand extends Command
@@ -69,7 +67,8 @@ public class DeleteCommand extends Command
 			dropSource( model );
 			if ( !embeddedImageList.isEmpty( ) )
 			{
-				SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+				SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
 						.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 						.removeItems( embeddedImageList );
 			}
@@ -82,6 +81,7 @@ public class DeleteCommand extends Command
 
 	protected void dropSource( Object source ) throws SemanticException
 	{
+		source = DNDUtil.unwrapToModel( source );
 		if ( source instanceof Object[] )
 		{
 			Object[] array = (Object[]) source;
@@ -98,24 +98,14 @@ public class DeleteCommand extends Command
 		{
 			dropSourceElementHandle( (DesignElementHandle) source );
 		}
-		else if ( source instanceof SlotHandle )
-		{
-			dropSourceSlotHandle( (SlotHandle) source );
-		}
-		else if ( source instanceof ReportElementModel )
-		{
-			dropSourceSlotHandle( ( (ReportElementModel) source )
-					.getSlotHandle( ) );
-		}
-		else if ( source instanceof ListBandProxy )
-		{
-			dropSourceSlotHandle( ( (ListBandProxy) source ).getSlotHandle( ) );
-		}
 		else if ( source instanceof EmbeddedImageHandle )
 		{
 			dropEmbeddedImageHandle( (EmbeddedImageHandle) ( source ) );
 		}
-
+		else if ( source instanceof SlotHandle )
+		{
+			dropSourceSlotHandle( (SlotHandle) source );
+		}
 	}
 
 	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
@@ -167,54 +157,57 @@ public class DeleteCommand extends Command
 		return canDrop( model );
 	}
 
+	/**
+	 * Returns the object can be deleted. If the parent can be deleted, the
+	 * children will be skippedl
+	 * 
+	 * @param source
+	 *            single or multiple objects
+	 */
 	protected boolean canDrop( Object source )
 	{
 		if ( source == null )
 		{
 			return false;
 		}
-		else if ( source instanceof Object[] )
+		if ( source instanceof StructuredSelection )
 		{
-			return canDrop( new StructuredSelection( (Object[]) source ) );
+			return canDrop( ( (StructuredSelection) source ).toArray( ) );
 		}
-		else if ( source instanceof StructuredSelection )
+		if ( source instanceof Object[] )
 		{
-			StructuredSelection selection = (StructuredSelection) source;
-			if ( selection.isEmpty( ) )
+			Object[] array = (Object[]) source;
+			if ( array.length == 0 )
 			{
 				return false;
 			}
-			Iterator iterator = selection.iterator( );
-			while ( iterator.hasNext( ) )
+			// If the container can drop, the children will be skipped
+			for ( int i = 0; i < array.length; i++ )
 			{
-				if ( !canDrop( iterator.next( ) ) )
-				{
+				if ( DNDUtil.checkContainerExists( array[i], array ) )
+					continue;
+				if ( !canDrop( array[i] ) )
 					return false;
-				}
 			}
 			return true;
 		}
-		else if ( source instanceof ReportElementModel )
-		{
-			return canDrop( ( (ReportElementModel) source ).getSlotHandle( ) );
-		}
-		else if ( source instanceof ListBandProxy )
-		{
-			return canDrop( ( (ListBandProxy) source ).getSlotHandle( ) );
-		}
-		else if ( source instanceof SlotHandle )
+		source = DNDUtil.unwrapToModel( source );
+		if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
 			return slot.getElementHandle( ) instanceof ListHandle
 					&& slot.getContents( ).size( ) > 0;
 		}
-		else if ( source instanceof EmbeddedImageHandle )
+		if ( source instanceof EmbeddedImageHandle )
 		{
 			return true;
 		}
-		return source instanceof ReportElementHandle && !(source instanceof CellHandle)
-				&& !( source instanceof MasterPageHandle )  ||
-				source instanceof CellHandle
-				&& ( (CellHandle) source ).getContent( ).getContents().size()>0;
+		if ( source instanceof CellHandle )
+		{
+			// CellHandle is subclass of ReportElementHandle
+			return ( (CellHandle) source ).getContent( ).getContents( ).size( ) > 0;
+		}
+		return source instanceof ReportElementHandle
+				&& !( source instanceof MasterPageHandle );
 	}
 }

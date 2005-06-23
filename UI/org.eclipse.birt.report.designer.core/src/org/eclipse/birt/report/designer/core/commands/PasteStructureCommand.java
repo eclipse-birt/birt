@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.core.commands;
 
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
-import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -42,7 +42,7 @@ public class PasteStructureCommand extends Command
 	 */
 	public boolean canExecute( )
 	{
-		return DEUtil.handleValidateTargetCanContain( container,
+		return DNDUtil.handleValidateTargetCanContain( container,
 				copyData );
 	}
 

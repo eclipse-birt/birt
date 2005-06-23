@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.core.commands;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -274,7 +275,7 @@ public class PasteCommand extends Command
 			childHandle = cloneElement.getHandle( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ).getDesign() );
 		}
-		return DEUtil.handleValidateTargetCanContain( newContainer, childHandle )
-				&& DEUtil.handleValidateTargetCanContainMore( newContainer, 1 );
+		return DNDUtil.handleValidateTargetCanContain( newContainer, childHandle )
+				&& DNDUtil.handleValidateTargetCanContainMore( newContainer, 1 );
 	}
 }
