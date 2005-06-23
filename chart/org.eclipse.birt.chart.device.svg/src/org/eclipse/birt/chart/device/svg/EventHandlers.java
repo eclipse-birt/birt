@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.device.svg;
 
+import org.eclipse.birt.chart.device.svg.i18n.Messages;
+
 /**
  * This class provides javascript helper functions to enable user interactions such
  * as tooltip support.  Defines default styles for svg elements.
@@ -18,135 +20,135 @@ package org.eclipse.birt.chart.device.svg;
 public final class EventHandlers {
 
 	public static StringBuffer styles = new StringBuffer()
-		.append(".tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}");
+		.append(".tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}"); //$NON-NLS-1$
 	
 	public static StringBuffer content = new StringBuffer()
-.append("function BuildHelper(tag, attrList, text) {\n")
-.append("	this.tag = tag;\n")
-.append("	this.attrList = attrList;\n")
-.append("	this.text       = text;\n")
-.append("	this.element  = null;\n")
-.append("	this.textNode = null;\n")
-.append("	}	\n")
-.append("		\n")
-.append("	BuildHelper.prototype.addToParent= function(parent) {	\n")
-.append("	if (!parent) return;	\n")
-.append("	var svgDocument = parent.ownerDocument;\n")
-.append("	this.element = svgDocument.createElementNS(\"http://www.w3.org/2000/svg\",this.tag);\n")
-.append("		\n")
-.append("	for (var attribute in this.attrList){\n")
-.append("	if (attribute == 'classType')	\n")
-.append("		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);\n")
-.append("	else	\n")
-.append("		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);\n")
-.append("	}	\n")
-.append("		\n")
-.append("	if (this.text) {\n")
-.append("		this.textNode = svgDocument.createTextNode(this.text);\n")
-.append("		this.element.appendChild(this.textNode);\n")
-.append("	}\n")
-.append("		\n")
-.append("	parent.appendChild(this.element);\n")
-.append("	};	\n")
-.append("		\n")
-.append("BuildHelper.prototype.insertBefore = function(parent, before) {\n")
-.append("	if (typeof parent == 'undefined') return;	\n")
-.append("	var svgDocument = parent.ownerDocument;\n")
-.append("	this.element = svgDocument.createElementNS(\"http://www.w3.org/2000/svg\",this.tag);\n")
-.append("		\n")
-.append("	for (var attribute in this.attrList){\n")
-.append("	if (attribute == 'classType')	\n")
-.append("		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);\n")
-.append("	else	\n")
-.append("		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);\n")
-.append("	}	\n")
-.append("		\n")
-.append("	if (this.text) {\n")
-.append("		this.textNode = svgDocument.createTextNode(this.text);\n")
-.append("		this.element.appendChild(textNode);\n")
-.append("	}\n")
-.append("		\n")
-.append("	parent.insertBefore(this.element, before);\n")
-.append("	};	\n")
-.append("		\n")
-.append("		\n")
-.append("	BuildHelper.prototype.removeNode = function() {	\n")
-.append("	if (this.element) this.element.parentNode.removeChild(this.element);\n")
-.append("	this.tag = \"\";\n")
-.append("	this.attrList = null;\n")
-.append("	this.text = null;\n")
-.append("	this.element = null;\n")
-.append("	this.textNode = null;\n")
-.append("	};	\n")
-	.append("	function TM(){	\n")
-	.append("	}	\n")
-	.append("		\n")
-	.append("TM.setParent = function TooltipManager_setParent(parent, mainSvg){\n")
-	.append("	this.parent = parent;	\n")
-	.append("	this.mainSvg = mainSvg	\n")
-	.append("	}	\n")
-	.append("		\n")
-	.append("	TM.remove = function TooltipManager_removeTooltip(){	\n")
-	.append("	if (typeof this.group != 'undefined'){	\n")
-	.append("	  this.group.removeNode();\n")
-	.append("	  this.group = undefined;\n")
-	.append("	}	\n")
-	.append("	}	\n")
-	.append("		\n")
-	.append("	TM.show = function TooltiplManager_showTooltip(evt){	\n")
-	.append("	var text = TM.getText(TM.getTitleElement(evt));	\n")
-	.append("	x = evt.clientX;	\n")
-	.append("	y = evt.clientY;	\n")
-	.append("	if (typeof this.group == 'undefined'){	\n")
-	.append("	this.height = 15;	\n")
-	.append("	this.xPadding = 5;	\n")
-	.append("	   this.yPadding = -20;\n")
-	.append("	   var mainSvg = evt.target.ownerDocument.documentElement;\n")
-	.append("	   var off = mainSvg.currentTranslate;\n")
-	.append("	   var scl = mainSvg.currentScale;\n")
-	.append("	   this.group = new BuildHelper(\"g\",\n")
-	.append("	     {\n")
-	.append("	     transform:\"translate(\"+(((x+20))/scl)+\",\"+(((y+20))/scl)+\")\"\n")
-	.append("	 } );\n")
-	.append("	   this.group.addToParent(mainSvg);\n")
-	.append("	   this.rectangle = new BuildHelper(\"rect\",\n")
-	.append("	     {id:\"test\",\n")
-	.append("	      x: 0,\n")
-	.append("	      y: this.yPadding,\n")
-	.append("	      height: this.height,\n")
-	.append("	      classType: \"tooltip\"\n")
-	.append("	 } );\n")
-	.append("	   this.rectangle.addToParent(this.group.element);\n")
-	.append("	   var textObj = new BuildHelper(\"text\",\n")
-	.append("	     {id:\"tooltip\",\n")
-	.append("	      x: this.xPadding,\n")
-	.append("	      y: (this.height/2+4+this.yPadding),\n")
-	.append("	      classType: \"tooltip text\"\n")
-	.append("	 },text);\n")
-	.append("	   textObj.addToParent(this.group.element);\n")
-	.append("	   var itemlength = textObj.element.getComputedTextLength();\n")
-	.append("	   this.rectangle.element.setAttributeNS(null, \"width\", (itemlength+2*this.xPadding));\n")
-	.append("	  }\n")
-	.append("	}\n")
-	.append("		\n")
-	.append("		\n")
-	.append("	TM.getTitleElement = function TM_getTitleElement(evt){\n")
-	.append("	    var elem = evt.currentTarget;\n")
-	.append("	if (elem == null ) return;	\n")
-	.append("	    var childs = elem.childNodes;\n")
-	.append("	    for (var x=0; x<childs.length; x++){\n")
-	.append("		if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == \"title\")\n")
-	.append("		    return childs.item(x);\n")
-	.append("	    }\n")
-	.append("	    return null;\n")
-	.append("	}\n")
-	.append("		\n")
-	.append("	TM.getText = function TM_getText(elem){\n")
-	.append("	   var childs = elem ? elem.childNodes : null;\n")
-	.append("	   for (var x = 0;  childs && x < childs.length; x++)\n")
-	.append("	      if (childs.item(x).nodeType == 3)\n")
-	.append("		  return childs.item(x).nodeValue;\n")
-	.append("	   return \"\";\n")
-	.append("	}\n")
-	.append("		\n");
+.append("function BuildHelper(tag, attrList, text) {\n") //$NON-NLS-1$
+.append("	this.tag = tag;\n") //$NON-NLS-1$
+.append("	this.attrList = attrList;\n") //$NON-NLS-1$
+.append("	this.text       = text;\n") //$NON-NLS-1$
+.append("	this.element  = null;\n") //$NON-NLS-1$
+.append("	this.textNode = null;\n") //$NON-NLS-1$
+.append("	}	\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	BuildHelper.prototype.addToParent= function(parent) {	\n") //$NON-NLS-1$
+.append("	if (!parent) return;	\n") //$NON-NLS-1$
+.append("	var svgDocument = parent.ownerDocument;\n") //$NON-NLS-1$
+.append("	this.element = svgDocument.createElementNS(\"http://www.w3.org/2000/svg\",this.tag);\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	for (var attribute in this.attrList){\n") //$NON-NLS-1$
+.append("	if (attribute == 'classType')	\n") //$NON-NLS-1$
+.append("		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);\n") //$NON-NLS-1$
+.append("	else	\n") //$NON-NLS-1$
+.append("		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);\n") //$NON-NLS-1$
+.append("	}	\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	if (this.text) {\n") //$NON-NLS-1$
+.append("		this.textNode = svgDocument.createTextNode(this.text);\n") //$NON-NLS-1$
+.append("		this.element.appendChild(this.textNode);\n") //$NON-NLS-1$
+.append("	}\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	parent.appendChild(this.element);\n") //$NON-NLS-1$
+.append("	};	\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("BuildHelper.prototype.insertBefore = function(parent, before) {\n") //$NON-NLS-1$
+.append("	if (typeof parent == 'undefined') return;	\n") //$NON-NLS-1$
+.append("	var svgDocument = parent.ownerDocument;\n") //$NON-NLS-1$
+.append("	this.element = svgDocument.createElementNS(\"http://www.w3.org/2000/svg\",this.tag);\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	for (var attribute in this.attrList){\n") //$NON-NLS-1$
+.append("	if (attribute == 'classType')	\n") //$NON-NLS-1$
+.append("		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);\n") //$NON-NLS-1$
+.append("	else	\n") //$NON-NLS-1$
+.append("		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);\n") //$NON-NLS-1$
+.append("	}	\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	if (this.text) {\n") //$NON-NLS-1$
+.append("		this.textNode = svgDocument.createTextNode(this.text);\n") //$NON-NLS-1$
+.append("		this.element.appendChild(textNode);\n") //$NON-NLS-1$
+.append("	}\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	parent.insertBefore(this.element, before);\n") //$NON-NLS-1$
+.append("	};	\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("		\n") //$NON-NLS-1$
+.append("	BuildHelper.prototype.removeNode = function() {	\n") //$NON-NLS-1$
+.append("	if (this.element) this.element.parentNode.removeChild(this.element);\n") //$NON-NLS-1$
+.append("	this.tag = \"\";\n") //$NON-NLS-1$
+.append("	this.attrList = null;\n") //$NON-NLS-1$
+.append("	this.text = null;\n") //$NON-NLS-1$
+.append("	this.element = null;\n") //$NON-NLS-1$
+.append("	this.textNode = null;\n") //$NON-NLS-1$
+.append("	};	\n") //$NON-NLS-1$
+	.append("	function TM(){	\n") //$NON-NLS-1$
+	.append("	}	\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("TM.setParent = function TooltipManager_setParent(parent, mainSvg){\n") //$NON-NLS-1$
+	.append("	this.parent = parent;	\n") //$NON-NLS-1$
+	.append("	this.mainSvg = mainSvg	\n") //$NON-NLS-1$
+	.append("	}	\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("	TM.remove = function TooltipManager_removeTooltip(){	\n") //$NON-NLS-1$
+	.append("	if (typeof this.group != 'undefined'){	\n") //$NON-NLS-1$
+	.append("	  this.group.removeNode();\n") //$NON-NLS-1$
+	.append("	  this.group = undefined;\n") //$NON-NLS-1$
+	.append("	}	\n") //$NON-NLS-1$
+	.append("	}	\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("	TM.show = function TooltiplManager_showTooltip(evt){	\n") //$NON-NLS-1$
+	.append("	var text = TM.getText(TM.getTitleElement(evt));	\n") //$NON-NLS-1$
+	.append("	x = evt.clientX;	\n") //$NON-NLS-1$
+	.append("	y = evt.clientY;	\n") //$NON-NLS-1$
+	.append("	if (typeof this.group == 'undefined'){	\n") //$NON-NLS-1$
+	.append("	this.height = 15;	\n") //$NON-NLS-1$
+	.append("	this.xPadding = 5;	\n") //$NON-NLS-1$
+	.append("	   this.yPadding = -20;\n") //$NON-NLS-1$
+	.append("	   var mainSvg = evt.target.ownerDocument.documentElement;\n") //$NON-NLS-1$
+	.append("	   var off = mainSvg.currentTranslate;\n") //$NON-NLS-1$
+	.append("	   var scl = mainSvg.currentScale;\n") //$NON-NLS-1$
+	.append("	   this.group = new BuildHelper(\"g\",\n") //$NON-NLS-1$
+	.append("	     {\n") //$NON-NLS-1$
+	.append("	     transform:\"translate(\"+(((x+20))/scl)+\",\"+(((y+20))/scl)+\")\"\n") //$NON-NLS-1$
+	.append("	 } );\n") //$NON-NLS-1$
+	.append("	   this.group.addToParent(mainSvg);\n") //$NON-NLS-1$
+	.append("	   this.rectangle = new BuildHelper(\"rect\",\n") //$NON-NLS-1$
+	.append("	     {id:\"test\",\n") //$NON-NLS-1$
+	.append("	      x: 0,\n") //$NON-NLS-1$
+	.append("	      y: this.yPadding,\n") //$NON-NLS-1$
+	.append("	      height: this.height,\n") //$NON-NLS-1$
+	.append("	      classType: \"tooltip\"\n") //$NON-NLS-1$
+	.append("	 } );\n") //$NON-NLS-1$
+	.append("	   this.rectangle.addToParent(this.group.element);\n") //$NON-NLS-1$
+	.append("	   var textObj = new BuildHelper(\"text\",\n") //$NON-NLS-1$
+	.append("	     {id:\"tooltip\",\n") //$NON-NLS-1$
+	.append("	      x: this.xPadding,\n") //$NON-NLS-1$
+	.append("	      y: (this.height/2+4+this.yPadding),\n") //$NON-NLS-1$
+	.append("	      classType: \"tooltip text\"\n") //$NON-NLS-1$
+	.append("	 },text);\n") //$NON-NLS-1$
+	.append("	   textObj.addToParent(this.group.element);\n") //$NON-NLS-1$
+	.append("	   var itemlength = textObj.element.getComputedTextLength();\n") //$NON-NLS-1$
+	.append("	   this.rectangle.element.setAttributeNS(null, \"width\", (itemlength+2*this.xPadding));\n") //$NON-NLS-1$
+	.append("	  }\n") //$NON-NLS-1$
+	.append("	}\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("	TM.getTitleElement = function TM_getTitleElement(evt){\n") //$NON-NLS-1$
+	.append("	    var elem = evt.currentTarget;\n") //$NON-NLS-1$
+	.append("	if (elem == null ) return;	\n") //$NON-NLS-1$
+	.append("	    var childs = elem.childNodes;\n") //$NON-NLS-1$
+	.append("	    for (var x=0; x<childs.length; x++){\n") //$NON-NLS-1$
+	.append("		if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == \"title\")\n") //$NON-NLS-1$
+	.append("		    return childs.item(x);\n") //$NON-NLS-1$
+	.append("	    }\n") //$NON-NLS-1$
+	.append("	    return null;\n") //$NON-NLS-1$
+	.append("	}\n") //$NON-NLS-1$
+	.append("		\n") //$NON-NLS-1$
+	.append("	TM.getText = function TM_getText(elem){\n") //$NON-NLS-1$
+	.append("	   var childs = elem ? elem.childNodes : null;\n") //$NON-NLS-1$
+	.append("	   for (var x = 0;  childs && x < childs.length; x++)\n") //$NON-NLS-1$
+	.append("	      if (childs.item(x).nodeType == 3)\n") //$NON-NLS-1$
+	.append("		  return childs.item(x).nodeValue;\n") //$NON-NLS-1$
+	.append("	   return \"\";\n") //$NON-NLS-1$
+	.append("	}\n") //$NON-NLS-1$
+	.append("		\n"); //$NON-NLS-1$
 }

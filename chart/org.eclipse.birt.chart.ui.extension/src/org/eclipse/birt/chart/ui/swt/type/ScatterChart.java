@@ -463,7 +463,7 @@ public class ScatterChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("'"))
+            if (sElement.startsWith("'")) //$NON-NLS-1$
             {
                 sElement = sElement.substring(1, sElement.length() - 1);
             }

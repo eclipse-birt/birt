@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
@@ -57,7 +58,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public SVGRendererImpl( )
 	{
-		if ( System.getProperty( "STANDALONE" ) == null )
+		if ( System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
 		{
 			final PluginSettings ps = PluginSettings.instance( );
 			try
@@ -75,13 +76,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 	/**
 	 * The SVG version is "-//W3C//DTD SVG 1.0//EN".
 	 */
-	static private final String SVG_VERSION = "-//W3C//DTD SVG 1.0//EN";
+	static private final String SVG_VERSION = "-//W3C//DTD SVG 1.0//EN"; //$NON-NLS-1$
 
 	/**
 	 * The SVG DTD is
 	 * "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd".
 	 */
-	static private final String SVG_DTD = "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd";
+	static private final String SVG_DTD = "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"; //$NON-NLS-1$
 	/**
 	 *  
 	 */
@@ -156,8 +157,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 		else
 		{
 			throw new ChartException( ChartException.RENDERING,
-					"Unable to write chart image to GIF output handle defined by "
-							+ oOutputIdentifier,
+					"SVGRendererImpl.exception.UnableToWriteChartImage", //$NON-NLS-1$
+					new Object[]{
+						oOutputIdentifier
+					},
 					null );
 		}
 	}
@@ -176,7 +179,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			OutputStreamWriter writer = null;
 
-			writer = new OutputStreamWriter( outputStream, "UTF-8" );
+			writer = new OutputStreamWriter( outputStream, "UTF-8" ); //$NON-NLS-1$
 
 			DOMSource source = new DOMSource( svgDocument );
 			StreamResult result = new StreamResult( writer );
@@ -203,10 +206,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 		builder = factory.newDocumentBuilder( );
 		DOMImplementation domImpl = builder.getDOMImplementation( );
-		DocumentType dType = domImpl.createDocumentType( "svg",
+		DocumentType dType = domImpl.createDocumentType( "svg", //$NON-NLS-1$
 				SVG_VERSION,
 				SVG_DTD );
-		Document svgDocument = domImpl.createDocument( null, "svg", dType );
+		Document svgDocument = domImpl.createDocument( null, "svg", dType ); //$NON-NLS-1$
 		return svgDocument;
 	}
 
@@ -214,9 +217,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 			throws Exception
 	{
 		Document svgDocument = createSvgDocument( );
-		svgDocument.getDocumentElement( ).setAttribute( "width",
+		svgDocument.getDocumentElement( ).setAttribute( "width", //$NON-NLS-1$
 				Double.toString( width ) );
-		svgDocument.getDocumentElement( ).setAttribute( "height",
+		svgDocument.getDocumentElement( ).setAttribute( "height", //$NON-NLS-1$
 				Double.toString( height ) );
 		return svgDocument;
 	}
@@ -256,38 +259,38 @@ public class SVGRendererImpl extends SwingRendererImpl
 	{
 		if ( block instanceof TitleBlock )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "title" );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "title" ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 		else if ( block instanceof Legend )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "legend" );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "legend" ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 		else if ( block instanceof Plot )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "plot" );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "plot" ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 		else if ( block instanceof LabelBlock )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "label" );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "label" ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 		else if ( block instanceof Series )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "series" );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "series" ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 		else if ( block instanceof DataPointHints )
 		{
-			Element group = svggc.dom.createElement( "g" );
-			group.setAttribute( "id", "dp" + block.hashCode( ) );
+			Element group = svggc.dom.createElement( "g" ); //$NON-NLS-1$
+			group.setAttribute( "id", "dp" + block.hashCode( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			svggc.pushParent( group );
 		}
 	}
@@ -310,11 +313,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
 			{
 				svggc.getCurrentParent( )
-						.setAttribute( "onmousedown",
-								"parent.location='"
+						.setAttribute( "onmousedown", //$NON-NLS-1$
+								"parent.location='" //$NON-NLS-1$
 										+ ( (URLValue) tg.getAction( )
 												.getValue( ) ).getBaseUrl( )
-										+ "'" );
+										+ "'" ); //$NON-NLS-1$
 			}
 		}
 	}

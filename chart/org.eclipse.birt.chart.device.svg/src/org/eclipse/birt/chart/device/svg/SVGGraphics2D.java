@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,7 +68,7 @@ public class SVGGraphics2D extends Graphics2D {
 	protected List paints = new ArrayList();
 	protected Element definitions;
 	
-	protected static final String defaultStyles= "fill:none;stroke:none";
+	protected static final String defaultStyles= "fill:none;stroke:none"; //$NON-NLS-1$
 	
 	public SVGGraphics2D(Document dom){
 		this.dom = dom;
@@ -76,10 +77,10 @@ public class SVGGraphics2D extends Graphics2D {
 		parentStack.push(currentElement);
 		currentParent = currentElement;
 		//add default styles
-		currentElement = dom.createElement("g");
-		definitions = dom.createElement("defs");
+		currentElement = dom.createElement("g"); //$NON-NLS-1$
+		definitions = dom.createElement("defs"); //$NON-NLS-1$
 		currentElement.appendChild(definitions);
-		currentElement.setAttribute("style", defaultStyles);
+		currentElement.setAttribute("style", defaultStyles); //$NON-NLS-1$
 		pushParent(currentElement);
 		
 		transforms = new AffineTransform();
@@ -115,7 +116,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public boolean drawImage(Image arg0, AffineTransform arg1,
 			ImageObserver arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer -drawImage(Image arg0, AffineTransform arg1, ImageObserver arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawImage.image"))); //$NON-NLS-1$
 		return false;
 	}
 
@@ -124,7 +125,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public void drawImage(BufferedImage arg0, BufferedImageOp arg1, int arg2,
 			int arg3) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer -drawImage(BufferedImage arg0, BufferedImageOp arg1, int arg2,	int arg3) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawImage.buffer"))); //$NON-NLS-1$
 
 	}
 
@@ -132,14 +133,14 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#drawRenderedImage(java.awt.image.RenderedImage, java.awt.geom.AffineTransform)
 	 */
 	public void drawRenderedImage(RenderedImage arg0, AffineTransform arg1) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer -drawRenderedImage(RenderedImage arg0, AffineTransform arg1) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawRenderImage.RenderImage"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics2D#drawRenderableImage(java.awt.image.renderable.RenderableImage, java.awt.geom.AffineTransform)
 	 */
 	public void drawRenderableImage(RenderableImage arg0, AffineTransform arg1) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawRenderableImage(RenderableImage arg0, AffineTransform arg1) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawRenderableImage.RenderableImage"))); //$NON-NLS-1$
 
 	}
 
@@ -147,7 +148,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#drawString(java.lang.String, int, int)
 	 */
 	public void drawString(String arg0, int arg1, int arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawString(String arg0, int arg1, int arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawString.StringInt"))); //$NON-NLS-1$
 
 	}
 
@@ -155,14 +156,14 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#drawString(java.lang.String, float, float)
 	 */
 	public void drawString(String arg0, float arg1, float arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawString(String arg0, float arg1, float arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawString.StringFloat"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics#drawString(java.text.AttributedCharacterIterator, int, int)
 	 */
 	public void drawString(AttributedCharacterIterator arg0, int arg1, int arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawString(AttributedCharacterIterator arg0, int arg1, int arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawString.AttributeInt"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -170,7 +171,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public void drawString(AttributedCharacterIterator arg0, float arg1,
 			float arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawString(AttributedCharacterIterator arg0, float arg1, float arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawString.AttributeFloat"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -178,7 +179,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public void drawGlyphVector(GlyphVector glyph, float x, float y) {
 		translate(x, y);
-		currentElement = createElement("g");
+		currentElement = createElement("g"); //$NON-NLS-1$
 		
 		setFillColor(currentElement);
 		for (int idx = 0; idx < glyph.getNumGlyphs(); idx++){
@@ -202,7 +203,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#hit(java.awt.Rectangle, java.awt.Shape, boolean)
 	 */
 	public boolean hit(Rectangle arg0, Shape arg1, boolean arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - hit(Rectangle arg0, Shape arg1, boolean arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.hit.Rectangle"))); //$NON-NLS-1$
 		return false;
 	}
 
@@ -210,7 +211,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#getDeviceConfiguration()
 	 */
 	public GraphicsConfiguration getDeviceConfiguration() {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - GraphicsConfiguration getDeviceConfiguration() - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getDeviceConfig"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -218,7 +219,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#setComposite(java.awt.Composite)
 	 */
 	public void setComposite(Composite arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - setComposite(Composite arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.setComposite"))); //$NON-NLS-1$
 	}
 
 
@@ -232,7 +233,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#getRenderingHint(java.awt.RenderingHints.Key)
 	 */
 	public Object getRenderingHint(Key arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - getRenderingHint(Key arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getRenderingHint.Key"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -240,21 +241,21 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#setRenderingHints(java.util.Map)
 	 */
 	public void setRenderingHints(Map arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - setRenderingHints(Map arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.setRenderingHints.Map"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics2D#addRenderingHints(java.util.Map)
 	 */
 	public void addRenderingHints(Map arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - ddRenderingHints(Map arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.ddRenderingHints.Map"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics2D#getRenderingHints()
 	 */
 	public RenderingHints getRenderingHints() {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - getRenderingHints() - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getRenderingHints"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -262,9 +263,9 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#translate(int, int)
 	 */
 	public void translate(int arg0, int arg1) {
-		String transform = currentElement.getAttribute("transform");
-		if (transform == null) transform = "";
-		currentElement.setAttribute("transform", transform + " translate("+arg0+" "+arg1+")");
+		String transform = currentElement.getAttribute("transform"); //$NON-NLS-1$
+		if (transform == null) transform = ""; //$NON-NLS-1$
+		currentElement.setAttribute("transform", transform + " translate("+arg0+" "+arg1+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/* (non-Javadoc)
@@ -307,21 +308,21 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#transform(java.awt.geom.AffineTransform)
 	 */
 	public void transform(AffineTransform arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - transform(AffineTransform arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.transform.AffineTransform"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics2D#setTransform(java.awt.geom.AffineTransform)
 	 */
 	public void setTransform(AffineTransform arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - setTransform(AffineTransform arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.setTransform.Affine"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics2D#getTransform()
 	 */
 	public AffineTransform getTransform() {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - AffineTransform getTransform() - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getTransform"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -336,7 +337,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics2D#getComposite()
 	 */
 	public Composite getComposite() {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - Composite getComposite() - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getComposite"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -366,14 +367,14 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#setPaintMode()
 	 */
 	public void setPaintMode() {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - setPaintMode() - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.setPaintMode"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.Graphics#setXORMode(java.awt.Color)
 	 */
 	public void setXORMode(Color arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - setXORMode(Color arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.setXORModel.Color"))); //$NON-NLS-1$
 	}
 
 
@@ -381,7 +382,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#getFontMetrics(java.awt.Font)
 	 */
 	public FontMetrics getFontMetrics(Font arg0) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - FontMetrics getFontMetrics(Font arg0) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.getFontMetrics.Font"))); //$NON-NLS-1$
 		return null;
 	}
 
@@ -414,7 +415,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public void copyArea(int arg0, int arg1, int arg2, int arg3, int arg4,
 			int arg5) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - CcopyArea(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.CopyArea.Int"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -456,7 +457,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#clearRect(int, int, int, int)
 	 */
 	public void clearRect(int arg0, int arg1, int arg2, int arg3) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - clearRect(int arg0, int arg1, int arg2, int arg3)  - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.clearRect.Int"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -520,58 +521,58 @@ public class SVGGraphics2D extends Graphics2D {
 	}
 	
 	protected void setStrokeStyle(Element currentElement){
-		String style = currentElement.getAttribute("style");
-		if (style == null) style="";
+		String style = currentElement.getAttribute("style"); //$NON-NLS-1$
+		if (style == null) style=""; //$NON-NLS-1$
 		if (color != null){
-			style+="stroke:"+serializeToString(color)+";";
+			style+="stroke:"+serializeToString(color)+";"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ((stroke != null) && (stroke instanceof BasicStroke)){
 			BasicStroke bs = (BasicStroke)stroke;
 			if (bs.getLineWidth() > 0)
-				style+="stroke-width:"+bs.getLineWidth()+";";
+				style+="stroke-width:"+bs.getLineWidth()+";"; //$NON-NLS-1$ //$NON-NLS-2$
 			if (bs.getDashArray() != null){
-				String dashArrayStr = "";
+				String dashArrayStr = ""; //$NON-NLS-1$
 				for (int  x = 0; x< bs.getDashArray().length; x++){
-					dashArrayStr += " " +bs.getDashArray()[x];
+					dashArrayStr += " " +bs.getDashArray()[x]; //$NON-NLS-1$
 				}
-				if (!(dashArrayStr.equals("")))
-					style+="stroke-dasharray:"+dashArrayStr+";";
+				if (!(dashArrayStr.equals(""))) //$NON-NLS-1$
+					style+="stroke-dasharray:"+dashArrayStr+";"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			style+="stroke-miterlimit:"+bs.getMiterLimit()+";";
+			style+="stroke-miterlimit:"+bs.getMiterLimit()+";"; //$NON-NLS-1$ //$NON-NLS-2$
 			switch (bs.getLineJoin()){
 				case BasicStroke.JOIN_BEVEL:
-					style+="stroke-linejoin:bevel;";
+					style+="stroke-linejoin:bevel;"; //$NON-NLS-1$
 					break;
 				case BasicStroke.JOIN_ROUND:
-					style+="stroke-linejoin:round;";
+					style+="stroke-linejoin:round;"; //$NON-NLS-1$
 					break;
 			}
 			switch (bs.getEndCap()){
 			case BasicStroke.CAP_ROUND:
-				style+="stroke-linecap:round;";
+				style+="stroke-linecap:round;"; //$NON-NLS-1$
 				break;
 			case BasicStroke.CAP_SQUARE:
-				style+="stroke-linecap:square;";
+				style+="stroke-linecap:square;"; //$NON-NLS-1$
 				break;
 		}
 			
 		}
-		currentElement.setAttribute("style", style);
+		currentElement.setAttribute("style", style); //$NON-NLS-1$
 	}
 	
 	protected void setFillColor(Element currentElement){
-		String style = currentElement.getAttribute("style");
-		if (style == null) style="";
+		String style = currentElement.getAttribute("style"); //$NON-NLS-1$
+		if (style == null) style=""; //$NON-NLS-1$
 		if (paint == null){
 			if (color == null) return;
 			String alpha = alphaToString(color);
 			if (alpha != null)
-				style+="fill-opacity:"+alpha+";";
-			currentElement.setAttribute("style", style+"fill:"+serializeToString(color)+";");			
+				style+="fill-opacity:"+alpha+";"; //$NON-NLS-1$ //$NON-NLS-2$
+			currentElement.setAttribute("style", style+"fill:"+serializeToString(color)+";");			 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else{
 			if (paint instanceof SVGGradientPaint)
-				currentElement.setAttribute("style", style+"fill:url(#"+((SVGGradientPaint)paint).getId()+");");
+				currentElement.setAttribute("style", style+"fill:url(#"+((SVGGradientPaint)paint).getId()+");"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 	   /**
@@ -584,13 +585,13 @@ public class SVGGraphics2D extends Graphics2D {
 	   protected String serializeToString(Color color) {
 	   
 	      String r = Integer.toHexString(color.getRed());
-	      if (color.getRed()<=0xF) r = "0" + r;
+	      if (color.getRed()<=0xF) r = "0" + r; //$NON-NLS-1$
 	      String g = Integer.toHexString(color.getGreen());
-	      if (color.getGreen()<=0xF) g = "0" + g;
+	      if (color.getGreen()<=0xF) g = "0" + g; //$NON-NLS-1$
 	      String b = Integer.toHexString(color.getBlue());
-	      if (color.getBlue()<=0xF) b = "0" + b;
+	      if (color.getBlue()<=0xF) b = "0" + b; //$NON-NLS-1$
 	      
-	      String ret = "#" + r + g + b;
+	      String ret = "#" + r + g + b; //$NON-NLS-1$
 	      return ret;
 	   }
 	   
@@ -622,7 +623,7 @@ public class SVGGraphics2D extends Graphics2D {
 	 * @see java.awt.Graphics#drawPolyline(int[], int[], int)
 	 */
 	public void drawPolyline(int[] arg0, int[] arg1, int arg2) {
-        DefaultLoggerImpl.instance().log(new Exception("SVG Renderer - drawPolyline(int[] arg0, int[] arg1, int arg2) - unsupported"));
+        DefaultLoggerImpl.instance().log(new Exception(Messages.getString("SVGGraphics2D.drawPolyline.Int"))); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
@@ -648,14 +649,14 @@ public class SVGGraphics2D extends Graphics2D {
 	 */
 	public boolean drawImage(Image arg0, int arg1, int arg2, ImageObserver arg3) {
 		SVGImage image = (SVGImage)arg0;
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm());
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", "100%");
-		currentElement.setAttribute("height", "100%");
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm()); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
+		currentElement.setAttribute("height", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 		appendChild(currentElement);
 		
@@ -668,14 +669,14 @@ public class SVGGraphics2D extends Graphics2D {
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3,
 			int arg4, ImageObserver arg5) {
 		SVGImage image = (SVGImage)arg0;
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm());
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", Double.toString(arg3));
-		currentElement.setAttribute("height", Double.toString(arg4));
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm()); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", Double.toString(arg3)); //$NON-NLS-1$
+		currentElement.setAttribute("height", Double.toString(arg4)); //$NON-NLS-1$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild(currentElement);
 		
 		return true;
@@ -688,14 +689,14 @@ public class SVGGraphics2D extends Graphics2D {
 			ImageObserver arg4) {
 		SVGImage image = (SVGImage)arg0;
 		image.getUrl().toExternalForm();
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", "100%");
-		currentElement.setAttribute("height", "100%");
-		currentElement.setAttribute("fill", serializeToString(arg3));
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
+		currentElement.setAttribute("height", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
+		currentElement.setAttribute("fill", serializeToString(arg3)); //$NON-NLS-1$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild(currentElement);
 		
 		return true;
@@ -707,15 +708,15 @@ public class SVGGraphics2D extends Graphics2D {
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3,
 			int arg4, Color arg5, ImageObserver arg6) {
 		SVGImage image = (SVGImage)arg0;
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm());
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", Double.toString(arg3));
-		currentElement.setAttribute("height", Double.toString(arg4));
-		currentElement.setAttribute("fill", serializeToString(arg5));
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm()); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", Double.toString(arg3)); //$NON-NLS-1$
+		currentElement.setAttribute("height", Double.toString(arg4)); //$NON-NLS-1$
+		currentElement.setAttribute("fill", serializeToString(arg5)); //$NON-NLS-1$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild(currentElement);
 		
 		return true;
@@ -727,14 +728,14 @@ public class SVGGraphics2D extends Graphics2D {
 	public boolean drawImage(Image arg0, int arg1, int arg2, int arg3,
 			int arg4, int arg5, int arg6, int arg7, int arg8, ImageObserver arg9) {
 		SVGImage image = (SVGImage)arg0;
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm());
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", Double.toString(arg3));
-		currentElement.setAttribute("height", Double.toString(arg4));
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm()); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", Double.toString(arg3)); //$NON-NLS-1$
+		currentElement.setAttribute("height", Double.toString(arg4)); //$NON-NLS-1$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild(currentElement);
 		
 		return true;
@@ -747,15 +748,15 @@ public class SVGGraphics2D extends Graphics2D {
 			int arg4, int arg5, int arg6, int arg7, int arg8, Color arg9,
 			ImageObserver arg10) {
 		SVGImage image = (SVGImage)arg0;
-		Element currentElement = createElement("image");
-		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm());
-		currentElement.setAttribute("x", Double.toString(arg1));
-		currentElement.setAttribute("y", Double.toString(arg2));
-		currentElement.setAttribute("width", Double.toString(arg3));
-		currentElement.setAttribute("height", Double.toString(arg4));
-		currentElement.setAttribute("fill", serializeToString(arg9));
+		Element currentElement = createElement("image"); //$NON-NLS-1$
+		currentElement.setAttribute("xlink:href", image.getUrl().toExternalForm()); //$NON-NLS-1$
+		currentElement.setAttribute("x", Double.toString(arg1)); //$NON-NLS-1$
+		currentElement.setAttribute("y", Double.toString(arg2)); //$NON-NLS-1$
+		currentElement.setAttribute("width", Double.toString(arg3)); //$NON-NLS-1$
+		currentElement.setAttribute("height", Double.toString(arg4)); //$NON-NLS-1$
+		currentElement.setAttribute("fill", serializeToString(arg9)); //$NON-NLS-1$
 		if (clip != null)
-			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")");
+			currentElement.setAttribute("clip-rule","url(clip"+clip.hashCode()+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild(currentElement);
 		
 		return true;
@@ -792,8 +793,8 @@ public class SVGGraphics2D extends Graphics2D {
 	public void setClip(Shape clip) {
 		this.clip = clip;
 		if (clip != null){
-		Element clipPath = dom.createElement("clipPath");
-		clipPath.setAttribute("id", "clip"+clip.hashCode());		
+		Element clipPath = dom.createElement("clipPath"); //$NON-NLS-1$
+		clipPath.setAttribute("id", "clip"+clip.hashCode());		 //$NON-NLS-1$ //$NON-NLS-2$
 		clipPath.appendChild(createGeneralPath(clip));
 		appendChild(clipPath);
 		}
@@ -860,61 +861,61 @@ public class SVGGraphics2D extends Graphics2D {
 	 * Factory Methods
 	 *****************************************/
 	protected Element createGradientPaint(SVGGradientPaint paint){
-		Element elem = dom.createElement("linearGradient");
-		elem.setAttribute("id", paint.getId());
-		elem.setAttribute("x1", Double.toString(paint.getPoint1().getX()));
-		elem.setAttribute("y1", Double.toString(paint.getPoint1().getY()));
-		elem.setAttribute("x2", Double.toString(paint.getPoint2().getX()));
-		elem.setAttribute("y2", Double.toString(paint.getPoint2().getY()));
-		elem.setAttribute("gradientUnits", "userSpaceOnUse");
+		Element elem = dom.createElement("linearGradient"); //$NON-NLS-1$
+		elem.setAttribute("id", paint.getId()); //$NON-NLS-1$
+		elem.setAttribute("x1", Double.toString(paint.getPoint1().getX())); //$NON-NLS-1$
+		elem.setAttribute("y1", Double.toString(paint.getPoint1().getY())); //$NON-NLS-1$
+		elem.setAttribute("x2", Double.toString(paint.getPoint2().getX())); //$NON-NLS-1$
+		elem.setAttribute("y2", Double.toString(paint.getPoint2().getY())); //$NON-NLS-1$
+		elem.setAttribute("gradientUnits", "userSpaceOnUse"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (paint.isCyclic())
-			elem.setAttribute("spreadMethod", "repeat");
-		Element startColor = dom.createElement("stop");
-		startColor.setAttribute("offset", "0%");
-		startColor.setAttribute("stop-color", serializeToString(paint.getColor1()));
+			elem.setAttribute("spreadMethod", "repeat"); //$NON-NLS-1$ //$NON-NLS-2$
+		Element startColor = dom.createElement("stop"); //$NON-NLS-1$
+		startColor.setAttribute("offset", "0%"); //$NON-NLS-1$ //$NON-NLS-2$
+		startColor.setAttribute("stop-color", serializeToString(paint.getColor1())); //$NON-NLS-1$
 		elem.appendChild(startColor);
-		Element endColor = dom.createElement("stop");
-		endColor.setAttribute("offset", "100%");
-		endColor.setAttribute("stop-color", serializeToString(paint.getColor2()));
+		Element endColor = dom.createElement("stop"); //$NON-NLS-1$
+		endColor.setAttribute("offset", "100%"); //$NON-NLS-1$ //$NON-NLS-2$
+		endColor.setAttribute("stop-color", serializeToString(paint.getColor2())); //$NON-NLS-1$
 		elem.appendChild(endColor);
 		return elem;		
 	}
 	protected Element createLine(double arg0, double arg1, double arg2, double arg3) {
-		Element elem = createElement("line");
-		elem.setAttribute("x1", Double.toString(arg0));
-		elem.setAttribute("y1", Double.toString(arg1));
-		elem.setAttribute("x2", Double.toString(arg2));
-		elem.setAttribute("y2", Double.toString(arg3));
+		Element elem = createElement("line"); //$NON-NLS-1$
+		elem.setAttribute("x1", Double.toString(arg0)); //$NON-NLS-1$
+		elem.setAttribute("y1", Double.toString(arg1)); //$NON-NLS-1$
+		elem.setAttribute("x2", Double.toString(arg2)); //$NON-NLS-1$
+		elem.setAttribute("y2", Double.toString(arg3)); //$NON-NLS-1$
 		return elem;
 	}
 	
 	protected Element createShape(Shape shape){
 		PathIterator pathIter = shape.getPathIterator(null);
-		String pathStr = "";
+		String pathStr = ""; //$NON-NLS-1$
 		while (!pathIter.isDone()){
 			double[] points = new double[6];
 			int TYPE = pathIter.currentSegment(points);
 			switch (TYPE){
 				case PathIterator.SEG_CLOSE:
-					pathStr += " Z";
+					pathStr += " Z"; //$NON-NLS-1$
 					break;
 				case PathIterator.SEG_LINETO:
-					pathStr += " L"+points[0]+" "+points[1];
+					pathStr += " L"+points[0]+" "+points[1]; //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 				case PathIterator.SEG_QUADTO:
-					pathStr += " Q"+points[0]+" "+points[1]+" " +points[2]+" "+points[3];
+					pathStr += " Q"+points[0]+" "+points[1]+" " +points[2]+" "+points[3]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				break;
 				case PathIterator.SEG_CUBICTO:
-					pathStr += " C"+points[0]+" "+points[1]+" " +points[2]+" "+points[3]+" " +points[4]+" "+points[5];
+					pathStr += " C"+points[0]+" "+points[1]+" " +points[2]+" "+points[3]+" " +points[4]+" "+points[5]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 				break;
 				case PathIterator.SEG_MOVETO:
-					pathStr += " M"+points[0]+" "+points[1];
+					pathStr += " M"+points[0]+" "+points[1]; //$NON-NLS-1$ //$NON-NLS-2$
 				break;
 			}
 			pathIter.next();			
 		}
-		Element elem = dom.createElement("path");
-		elem.setAttribute("d", pathStr);
+		Element elem = dom.createElement("path"); //$NON-NLS-1$
+		elem.setAttribute("d", pathStr); //$NON-NLS-1$
 		return elem;
 	}
 	
@@ -923,67 +924,67 @@ public class SVGGraphics2D extends Graphics2D {
 		if (transforms.getType() != AffineTransform.TYPE_IDENTITY){
 			double[] matrix = new double[6];
 			transforms.getMatrix(matrix);
-			elem.setAttribute("transform", "matrix("+matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]+","+matrix[4]+","+matrix[5]+")");
+			elem.setAttribute("transform", "matrix("+matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]+","+matrix[4]+","+matrix[5]+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
 		return elem;
 	}
 	
 	protected Element createRect(double arg0, double arg1, double arg2, double arg3) {
-		Element elem = createElement("rect");
-		elem.setAttribute("x", Double.toString(arg0));
-		elem.setAttribute("y", Double.toString(arg1));
-		elem.setAttribute("width", Double.toString(arg2));
-		elem.setAttribute("height", Double.toString(arg3));
+		Element elem = createElement("rect"); //$NON-NLS-1$
+		elem.setAttribute("x", Double.toString(arg0)); //$NON-NLS-1$
+		elem.setAttribute("y", Double.toString(arg1)); //$NON-NLS-1$
+		elem.setAttribute("width", Double.toString(arg2)); //$NON-NLS-1$
+		elem.setAttribute("height", Double.toString(arg3)); //$NON-NLS-1$
 		return elem;
 	}
 	protected Element createRoundRect(double arg0, double arg1, double arg2, double arg3, double arg4,
 			double arg5) {
-		Element elem = createElement("rect");
-		elem.setAttribute("x", Double.toString(arg0));
-		elem.setAttribute("y", Double.toString(arg1));
-		elem.setAttribute("width", Double.toString(arg2));
-		elem.setAttribute("height", Double.toString(arg3));
-		elem.setAttribute("rx", Double.toString(arg2));
-		elem.setAttribute("ry", Double.toString(arg3));
+		Element elem = createElement("rect"); //$NON-NLS-1$
+		elem.setAttribute("x", Double.toString(arg0)); //$NON-NLS-1$
+		elem.setAttribute("y", Double.toString(arg1)); //$NON-NLS-1$
+		elem.setAttribute("width", Double.toString(arg2)); //$NON-NLS-1$
+		elem.setAttribute("height", Double.toString(arg3)); //$NON-NLS-1$
+		elem.setAttribute("rx", Double.toString(arg2)); //$NON-NLS-1$
+		elem.setAttribute("ry", Double.toString(arg3)); //$NON-NLS-1$
 		return elem;
 	}
 	protected Element createOval(double arg0, double arg1, double arg2, double arg3) {
-		Element elem = createElement("ellipse");
-		elem.setAttribute("cx", Double.toString(arg0));
-		elem.setAttribute("cy", Double.toString(arg1));
-		elem.setAttribute("rx", Double.toString(arg2));
-		elem.setAttribute("ry", Double.toString(arg3));
+		Element elem = createElement("ellipse"); //$NON-NLS-1$
+		elem.setAttribute("cx", Double.toString(arg0)); //$NON-NLS-1$
+		elem.setAttribute("cy", Double.toString(arg1)); //$NON-NLS-1$
+		elem.setAttribute("rx", Double.toString(arg2)); //$NON-NLS-1$
+		elem.setAttribute("ry", Double.toString(arg3)); //$NON-NLS-1$
 		return elem;
 	}
 	
 	protected Element createArc(double x, double y, double width, double height, double startAngle,
 			double arcAngle) {
-		Element elem = createElement("path");
+		Element elem = createElement("path"); //$NON-NLS-1$
 		double startX = x*Math.cos(startAngle);
 		double startY = y*Math.sin(startAngle);
 		double endX = x*Math.cos(startAngle+arcAngle);
 		double endY = y*Math.sin(startAngle+arcAngle);
 		int sweepFlag = (arcAngle < 0) ?0:1;
-		elem.setAttribute("d", "M"+startX + ","+ startY+" a"+width/2 +","+height/2+ " " + Math.abs(arcAngle)+ " 0 " + sweepFlag+" " +endX + " " + endY);
+		elem.setAttribute("d", "M"+startX + ","+ startY+" a"+width/2 +","+height/2+ " " + Math.abs(arcAngle)+ " 0 " + sweepFlag+" " +endX + " " + endY); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$
 		return elem;
 	}
 	
 	public Element createPolygon(int[] arg0, int[] arg1, int arg2) {
-		Element elem = createElement("polygon");
+		Element elem = createElement("polygon"); //$NON-NLS-1$
 		StringBuffer pointsStr = new StringBuffer();;
 		for (int x = 0; x < arg2; x++){
-			pointsStr.append(arg0[x]).append(",").append(arg1[x]).append(" ");
+			pointsStr.append(arg0[x]).append(",").append(arg1[x]).append(" "); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		elem.setAttribute("points", pointsStr.toString());
+		elem.setAttribute("points", pointsStr.toString()); //$NON-NLS-1$
 		return elem;
 	}
 	
 	protected void initializeScriptStyles(){
-		Element codeScript = dom.createElement("script");
+		Element codeScript = dom.createElement("script"); //$NON-NLS-1$
 		codeScript.appendChild(dom.createCDATASection(EventHandlers.content.toString()));
 		appendChild(codeScript);		
-		Element styles = dom.createElement("style");
-		styles.setAttribute("type","text/css");
+		Element styles = dom.createElement("style"); //$NON-NLS-1$
+		styles.setAttribute("type","text/css"); //$NON-NLS-1$ //$NON-NLS-2$
 		styles.appendChild(dom.createCDATASection(EventHandlers.styles.toString()));
 		appendChild(styles);		
 		
@@ -993,18 +994,18 @@ public class SVGGraphics2D extends Graphics2D {
 		if (transforms.getType() != AffineTransform.TYPE_IDENTITY){
 			double[] matrix = new double[6];
 			transforms.getMatrix(matrix);
-			elem.setAttribute("transform", "matrix("+matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]+","+matrix[4]+","+matrix[5]+")");
+			elem.setAttribute("transform", "matrix("+matrix[0]+","+matrix[1]+","+matrix[2]+","+matrix[3]+","+matrix[4]+","+matrix[5]+")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
 		return elem;
 		
 	}
 	
 	public void drawTooltip(String tooltip){
-		Element title = dom.createElement("title");
+		Element title = dom.createElement("title"); //$NON-NLS-1$
 		title.appendChild(dom.createTextNode(tooltip));
 		appendChild(title);
-		currentParent.setAttribute("onmouseout", "TM.remove()");
-		currentParent.setAttribute("onmouseover", "TM.show(evt)");
+		currentParent.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
+		currentParent.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	/**

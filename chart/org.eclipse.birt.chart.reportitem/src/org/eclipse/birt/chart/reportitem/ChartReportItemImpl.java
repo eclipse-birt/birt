@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
@@ -70,11 +71,11 @@ public final class ChartReportItemImpl extends ReportItem
         {
             sName = ((Position) it.next()).getName();
             sLowercaseName = sName.toLowerCase(Locale.US);
-            if (sLowercaseName.equals("outside")) // DISALLOWED FOR LEGEND POSITION
+            if (sLowercaseName.equals("outside")) // DISALLOWED FOR LEGEND POSITION //$NON-NLS-1$
             {
                 continue;
             }
-            icd = new ChartChoiceDefinitionImpl("choice.legend.position." + sLowercaseName, sName, null);
+            icd = new ChartChoiceDefinitionImpl("choice.legend.position." + sLowercaseName, sName, null); //$NON-NLS-1$
             liLegendPositions.add(icd);
         }
 
@@ -85,7 +86,7 @@ public final class ChartReportItemImpl extends ReportItem
         {
             sName = ((Anchor) it.next()).getName();
             sLowercaseName = sName.toLowerCase(Locale.US);
-            icd = new ChartChoiceDefinitionImpl("choice.legend.anchor." + sLowercaseName, sName, null);
+            icd = new ChartChoiceDefinitionImpl("choice.legend.anchor." + sLowercaseName, sName, null); //$NON-NLS-1$
             liLegendAnchors.add(icd);
         }
 
@@ -96,7 +97,7 @@ public final class ChartReportItemImpl extends ReportItem
         {
             sName = ((ChartDimension) it.next()).getName();
             sLowercaseName = sName.toLowerCase(Locale.US);
-            icd = new ChartChoiceDefinitionImpl("choice.chart.dimension." + sLowercaseName, sName, null);
+            icd = new ChartChoiceDefinitionImpl("choice.chart.dimension." + sLowercaseName, sName, null); //$NON-NLS-1$
             liChartDimensions.add(icd);
         }
     };
@@ -155,7 +156,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public ByteArrayOutputStream serialize(String propName)
     {
-        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
+        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation")) //$NON-NLS-1$
         {
             try
             {
@@ -178,7 +179,7 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException
     {
-        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation"))
+        if (propName != null && propName.equalsIgnoreCase("xmlRepresentation")) //$NON-NLS-1$
         {
             try
             {
@@ -203,7 +204,7 @@ public final class ChartReportItemImpl extends ReportItem
         if (cm == null)
         {
             DefaultLoggerImpl.instance().log(ILogger.WARNING,
-                "Request for property definitions recieved before model was created.");
+                Messages.getString("ChartReportItemImpl.log.RequestForPropertyDefn")); //$NON-NLS-1$
             return null;
         }
         final boolean bTransposed = (cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false;
@@ -211,10 +212,10 @@ public final class ChartReportItemImpl extends ReportItem
         return new IPropertyDefinition[]
         {
 
-            new ChartPropertyDefinitionImpl(null, "title.value", "property.title.value", false,
+            new ChartPropertyDefinitionImpl(null, "title.value", "property.title.value", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.STRING_TYPE, null, null, cm.getTitle().getLabel().getCaption().getValue()),
 
-            new ChartPropertyDefinitionImpl(null, "title.font.rotation", "property.title.font.rotation", false,
+            new ChartPropertyDefinitionImpl(null, "title.font.rotation", "property.title.font.rotation", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.FLOAT_TYPE, null, null, new Double(cm.getTitle().getLabel().getCaption().getFont()
                     .getRotation())),
 
@@ -223,16 +224,16 @@ public final class ChartReportItemImpl extends ReportItem
              * PropertyType.COLOR_TYPE, null, null, cm.getTitle().getLabel().getCaption().getColor()),
              */
 
-            new ChartPropertyDefinitionImpl(null, "legend.position", "property.legend.position", false,
+            new ChartPropertyDefinitionImpl(null, "legend.position", "property.legend.position", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.CHOICE_TYPE, liLegendPositions, null, null),
 
-            new ChartPropertyDefinitionImpl(null, "legend.anchor", "property.legend.anchor", false,
+            new ChartPropertyDefinitionImpl(null, "legend.anchor", "property.legend.anchor", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.CHOICE_TYPE, liLegendAnchors, null, null),
 
-            new ChartPropertyDefinitionImpl(null, "chart.dimension", "property.chart.dimension", false,
+            new ChartPropertyDefinitionImpl(null, "chart.dimension", "property.chart.dimension", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.CHOICE_TYPE, liChartDimensions, null, null),
 
-            new ChartPropertyDefinitionImpl(null, "plot.transposed", "property.chart.plot.transposed", false,
+            new ChartPropertyDefinitionImpl(null, "plot.transposed", "property.chart.plot.transposed", false, //$NON-NLS-1$ //$NON-NLS-2$
                 PropertyType.BOOLEAN_TYPE, null, null, new Boolean(bTransposed)),
         };
     }
@@ -244,32 +245,32 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public final Object getProperty(String propName)
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "getProperty(...) - " + propName);
-        if (propName.equals("title.value"))
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("ChartReportItemImpl.log.getProperty") + propName); //$NON-NLS-1$
+        if (propName.equals("title.value")) //$NON-NLS-1$
         {
             return cm.getTitle().getLabel().getCaption().getValue();
         }
-        else if (propName.equals("title.font.rotation"))
+        else if (propName.equals("title.font.rotation")) //$NON-NLS-1$
         {
             return new Double(cm.getTitle().getLabel().getCaption().getFont().getRotation());
         }
-        else if (propName.equals("legend.position"))
+        else if (propName.equals("legend.position")) //$NON-NLS-1$
         {
             return cm.getLegend().getPosition().getName();
         }
-        else if (propName.equals("legend.anchor"))
+        else if (propName.equals("legend.anchor")) //$NON-NLS-1$
         {
             return cm.getLegend().getAnchor().getName();
         }
-        else if (propName.equals("chart.dimension"))
+        else if (propName.equals("chart.dimension")) //$NON-NLS-1$
         {
             return cm.getDimension().getName();
         }
-        else if (propName.equals("plot.transposed"))
+        else if (propName.equals("plot.transposed")) //$NON-NLS-1$
         {
             return new Boolean((cm instanceof ChartWithAxes) ? ((ChartWithAxes) cm).isTransposed() : false);
         }
-        else if (propName.equals("chart.instance"))
+        else if (propName.equals("chart.instance")) //$NON-NLS-1$
         {
             return cm;
         }
@@ -283,9 +284,10 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void checkProperty(String propName, Object value) throws ExtendedElementException
     {
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-            "checkProperty(...) - " + propName + " with value " + value);
-    }
+		DefaultLoggerImpl.instance( )
+				.log( ILogger.INFORMATION,
+						Messages.getString( "ChartReportItemImpl.log.checkProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
+	}
 
     /*
      * (non-Javadoc)
@@ -294,30 +296,31 @@ public final class ChartReportItemImpl extends ReportItem
      */
     public void setProperty(String propName, Object value)
     {
-        System.out.println("ChartReportItem's setProperty called with property name " + propName);
-        DefaultLoggerImpl.instance()
-            .log(ILogger.INFORMATION, "setProperty(...) - " + propName + " with value " + value);
-        if (propName.equals("title.value"))
+//        System.out.println("ChartReportItem's setProperty called with property name" + propName); 
+        DefaultLoggerImpl.instance( )
+				.log( ILogger.INFORMATION,
+						Messages.getString( "ChartReportItemImpl.log.setProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
+        if (propName.equals("title.value")) //$NON-NLS-1$
         {
             cm.getTitle().getLabel().getCaption().setValue((String) value);
         }
-        else if (propName.equals("title.font.rotation"))
+        else if (propName.equals("title.font.rotation")) //$NON-NLS-1$
         {
             cm.getTitle().getLabel().getCaption().getFont().setRotation(((Double) value).doubleValue());
         }
-        else if (propName.equals("legend.position"))
+        else if (propName.equals("legend.position")) //$NON-NLS-1$
         {
             cm.getLegend().setPosition(Position.get((String) value));
         }
-        else if (propName.equals("legend.anchor"))
+        else if (propName.equals("legend.anchor")) //$NON-NLS-1$
         {
             cm.getLegend().setAnchor(Anchor.get((String) value));
         }
-        else if (propName.equals("chart.dimension"))
+        else if (propName.equals("chart.dimension")) //$NON-NLS-1$
         {
             cm.setDimension(ChartDimension.get((String) value));
         }
-        else if (propName.equals("plot.transposed"))
+        else if (propName.equals("plot.transposed")) //$NON-NLS-1$
         {
             if (cm instanceof ChartWithAxes)
             {
@@ -326,10 +329,10 @@ public final class ChartReportItemImpl extends ReportItem
             else
             {
                 DefaultLoggerImpl.instance()
-                    .log(ILogger.ERROR, "Cannot set 'transposed' state on a chart without axes");
+                    .log(ILogger.ERROR, Messages.getString("ChartReportItemImpl.log.CannotSetState")); //$NON-NLS-1$
             }
         }
-        else if (propName.equals("chart.instance"))
+        else if (propName.equals("chart.instance")) //$NON-NLS-1$
         {
             this.cm = (Chart) value;
         }
@@ -360,7 +363,7 @@ public final class ChartReportItemImpl extends ReportItem
     public final IReportItem copy()
     {
         final ChartReportItemImpl crii = new ChartReportItemImpl(handle);
-        crii.setProperty("chart.instance", EcoreUtil.copy(cm));
+        crii.setProperty("chart.instance", EcoreUtil.copy(cm)); //$NON-NLS-1$
         return crii;
     }
 
@@ -384,7 +387,7 @@ public final class ChartReportItemImpl extends ReportItem
         final int iLastDot = sName.lastIndexOf('.');
         if (iLastDot == -1 || sName.length() == 0)
         {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, "Unexpected choice name found: " + sName);
+            DefaultLoggerImpl.instance().log(ILogger.ERROR, Messages.getString("ChartReportItemImpl.log.UnexpectedChoiceName") + sName); //$NON-NLS-1$
             return sName;
         }
         final StringBuffer sb = new StringBuffer(sName.substring(iLastDot + 1));
@@ -393,7 +396,7 @@ public final class ChartReportItemImpl extends ReportItem
         int i = 1, iSlash;
         do
         {
-            iSlash = sb.indexOf("_", i);
+            iSlash = sb.indexOf("_", i); //$NON-NLS-1$
             if (iSlash >= 0 && iSlash < sb.length() - 1)
             {
                 c = sb.charAt(iSlash + 1);

@@ -118,6 +118,6 @@ public class SVGGradientPaint extends GradientPaint {
 	 * @return Returns the id.
 	 */
 	public String getId() {
-		return "gp"+hashCode();
+		return "gp"+hashCode(); //$NON-NLS-1$
 	}
 }

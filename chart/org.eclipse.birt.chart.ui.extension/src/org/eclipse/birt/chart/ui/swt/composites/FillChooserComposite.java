@@ -334,7 +334,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
                 srTransparency.setEnabled(false);
             }
         }
-        lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity"))
+        lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")) //$NON-NLS-1$
             .format(new Object[]
             {
                 new Integer(srTransparency.getSelection())
@@ -540,7 +540,7 @@ public class FillChooserComposite extends Composite implements SelectionListener
         else if (oSource.equals(srTransparency))
         {
             iTransparency = srTransparency.getSelection();
-            lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity"))
+            lblTransparency.setText(new MessageFormat(Messages.getString("FillChooserComposite.Lbl.Opacity")) //$NON-NLS-1$
                 .format(new Object[]
                 {
                     new Integer(iTransparency)

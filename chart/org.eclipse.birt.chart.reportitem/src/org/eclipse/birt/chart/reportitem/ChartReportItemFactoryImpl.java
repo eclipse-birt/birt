@@ -62,16 +62,16 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements IMe
 
         // TEMP LOOKUP ALGORITHM - TO BE CHANGED TO LOOKUP A RESOURCEBUNDLE
         final StringBuffer sb = new StringBuffer(key);
-        final int iFirstDot = sb.indexOf(".");
+        final int iFirstDot = sb.indexOf("."); //$NON-NLS-1$
         if (iFirstDot == -1)
-            return key + "_value";
+            return key + "_value"; //$NON-NLS-1$
         sb.delete(0, iFirstDot + 1);
         int i = 0, iDot;
         char c = sb.charAt(0);
         sb.setCharAt(0, Character.toUpperCase(c));
         do
         {
-            iDot = sb.indexOf(".", i);
+            iDot = sb.indexOf(".", i); //$NON-NLS-1$
             if (iDot >= 0 && iDot < sb.length() - 1)
             {
                 sb.setCharAt(iDot, ' ');

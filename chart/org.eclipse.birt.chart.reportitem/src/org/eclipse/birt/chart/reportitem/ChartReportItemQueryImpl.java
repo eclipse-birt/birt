@@ -7,6 +7,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
@@ -60,11 +61,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
             if (item == null)
             {
                 DefaultLoggerImpl.instance()
-                    .log(ILogger.ERROR, "Unable to locate report item wrapper for chart object");
+                    .log(ILogger.ERROR, Messages.getString("ChartReportItemQueryImpl.log.UnableToLocate")); //$NON-NLS-1$
                 return;
             }
         }
-        cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance");
+        cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance"); //$NON-NLS-1$
         this.eih = eih;
     }
 
@@ -76,7 +77,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
     public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition ibqdParent) throws BirtException
     {
         DefaultLoggerImpl.instance()
-            .log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - start");
+            .log(ILogger.INFORMATION, Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.start")); //$NON-NLS-1$
 
         // BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
         RunTimeContext rtc = new RunTimeContext();
@@ -90,10 +91,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
         {
             DefaultLoggerImpl.instance().log(gex);
             DefaultLoggerImpl.instance().log(ILogger.INFORMATION,
-                "ChartReportItemQueryImpl: getReportQueries(...) - exception");
-            throw new BirtException("getReportQueries", gex);
+                Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.exception")); //$NON-NLS-1$
+            throw new BirtException(Messages.getString("ChartReportItemQueryImpl.exception.getReportQueries"), gex); //$NON-NLS-1$
         }
-        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, "ChartReportItemQueryImpl: getReportQueries(...) - end");
+        DefaultLoggerImpl.instance().log(ILogger.INFORMATION, Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.end")); //$NON-NLS-1$
         return new IBaseQueryDefinition[]
         {
             ibqd

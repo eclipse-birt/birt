@@ -99,7 +99,7 @@ public class ChartElementCommandImpl implements IElementCommand
      */
     public String getLabel( )
     {
-        return Messages.getString( "ChartElementCommandImpl.editChart" ) ; 
+        return Messages.getString( "ChartElementCommandImpl.editChart" ) ;  //$NON-NLS-1$
    }
 
     /* (non-Javadoc)

@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  */
 public final class Messages
 {
-    public static final String ENGINE_EXTENSION = "org.eclipse.birt.chart.engine.extension.i18n.messages";
+    public static final String ENGINE_EXTENSION = "org.eclipse.birt.chart.engine.extension.i18n.messages"; //$NON-NLS-1$
     
     private Messages()
     {

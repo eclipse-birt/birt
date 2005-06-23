@@ -117,11 +117,11 @@ public final class ChartReportItemPresentationImpl extends
 			{
 				DefaultLoggerImpl.instance( )
 						.log( ILogger.ERROR,
-								"Unable to locate report item wrapper for chart object" );
+								Messages.getString("ChartReportItemPresentationImpl.log.UnableToLocateWrapper") ); //$NON-NLS-1$
 				return;
 			}
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" );
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -152,13 +152,13 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public void setOutputFormat( String sOutputFormat )
 	{
-		if ( sOutputFormat.equalsIgnoreCase( "HTML" ) )
+		if ( sOutputFormat.equalsIgnoreCase( "HTML" ) ) //$NON-NLS-1$
 		{
-			sExtension = "PNG";
+			sExtension = "PNG"; //$NON-NLS-1$
 		}
-		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) )
+		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
 		{
-			sExtension = "JPEG";
+			sExtension = "JPEG"; //$NON-NLS-1$
 		}
 		else
 		{
@@ -231,13 +231,13 @@ public final class ChartReportItemPresentationImpl extends
 		{
 			//  Data rows are empty
 			throw new ChartException( ChartException.GENERATION,
-					"ChartReportItemPresentationImpl.error.NoData",
+					"ChartReportItemPresentationImpl.error.NoData", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.REPORT_ITEM,
 							rtc.getLocale( ) ) );
 		}
 
 		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-				"ChartReportItemGenerationImpl: onRowSets(...) - start" );
+				Messages.getString("ChartReportItemPresentationImpl.log.onRowSetsStart") ); //$NON-NLS-1$
 
 		try
 		{
@@ -256,25 +256,25 @@ public final class ChartReportItemPresentationImpl extends
 
 			DefaultLoggerImpl.instance( )
 					.log( ILogger.INFORMATION,
-							"ChartReportItemPresentationImpl: onRowSets(...) - building chart" );
+							Messages.getString("ChartReportItemPresentationImpl.log.onRowSetsBuilding") ); //$NON-NLS-1$
 			// SETUP A TEMP FILE FOR STREAMING
 			try
 			{
-				fChartImage = File.createTempFile( "chart", "." + sExtension );
+				fChartImage = File.createTempFile( "chart", "." + sExtension ); //$NON-NLS-1$ //$NON-NLS-2$
 				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-						"Writing to "
+						Messages.getString("ChartReportItemPresentationImpl.log.WritingTo") //$NON-NLS-1$
 								+ sExtension
-								+ " file at "
+								+ Messages.getString("ChartReportItemPresentationImpl.log.FileAt") //$NON-NLS-1$
 								+ fChartImage.getPath( ) );
 			}
 			catch ( IOException ioex )
 			{
-				throw new BirtException( "tmp png file creation", ioex );
+				throw new BirtException( Messages.getString("ChartReportItemPresentationImpl.exception.tmpPngFileCreation"), ioex ); //$NON-NLS-1$
 			}
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
 			IDeviceRenderer idr = null;
-			idr = PluginSettings.instance( ).getDevice( "dv."
+			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
 			// BUILD THE CHART
@@ -283,7 +283,7 @@ public final class ChartReportItemPresentationImpl extends
 			final Bounds bo = (Bounds) EcoreUtil.copy( cm.getBlock( )
 					.getBounds( ) );
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-					"Presentation uses bounds bo=" + bo );
+					Messages.getString("ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo") + bo ); //$NON-NLS-1$
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
 			gcs = gr.build( idr.getDisplayServer( ), cm, null, bo, rtc );
@@ -291,7 +291,7 @@ public final class ChartReportItemPresentationImpl extends
 			// WRITE TO THE IMAGE FILE
 			DefaultLoggerImpl.instance( )
 					.log( ILogger.INFORMATION,
-							"ChartReportItemPresentationImpl: onRowSets(...) - rendering chart" );
+							Messages.getString("ChartReportItemPresentationImpl.log.onRowSetsRendering") ); //$NON-NLS-1$
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER,
 					fChartImage.getPath( ) );
 
@@ -304,26 +304,26 @@ public final class ChartReportItemPresentationImpl extends
 			}
 			catch ( IOException ioex )
 			{
-				throw new BirtException( "input stream creation", ioex );
+				throw new BirtException( Messages.getString("ChartReportItemPresentationImpl.exception.inputStreamCreation"), ioex ); //$NON-NLS-1$
 			}
 		}
 		catch ( BirtException ex )
 		{
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-					"ChartReportItemPresentationImpl: onRowSets(...) - failed" );
+					Messages.getString("ChartReportItemPresentationImpl.log.onRowSetsFailed") ); //$NON-NLS-1$
 			DefaultLoggerImpl.instance( ).log( ex );
 			throw ex;
 		}
 		catch ( RuntimeException ex )
 		{
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-					"ChartReportItemPresentationImpl: onRowSets(...) - failed" );
+					Messages.getString("ChartReportItemPresentationImpl.log.onRowSetsFailed") ); //$NON-NLS-1$
 			DefaultLoggerImpl.instance( ).log( ex );
-			throw new BirtException( "Unexpected error", ex );
+			throw new BirtException( Messages.getString("ChartReportItemPresentationImpl.exception.UnexpectedError"), ex ); //$NON-NLS-1$
 		}
 
 		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-				"ChartReportItemPresentationImpl: onRowSets(...) - end" );
+				Messages.getString("ChartReportItemPresentationImpl.onRowSetsEnd") ); //$NON-NLS-1$
 		return fis;
 	}
 
@@ -337,13 +337,13 @@ public final class ChartReportItemPresentationImpl extends
 		if ( cm != null )
 		{
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-					"ChartReportItemPresentationImpl: getSize(...) - start" );
+					Messages.getString("ChartReportItemPresentationImpl.log.getSizeStart") ); //$NON-NLS-1$
 			final Size sz = new Size( );
 			sz.setWidth( (float) cm.getBlock( ).getBounds( ).getWidth( ) );
 			sz.setHeight( (float) cm.getBlock( ).getBounds( ).getHeight( ) );
 			sz.setUnit( Size.UNITS_PT );
 			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-					"ChartReportItemPresentationImpl: getSize(...) - end" );
+					Messages.getString("ChartReportItemPresentationImpl.log.getSizeEnd") ); //$NON-NLS-1$
 			return sz;
 		}
 		return super.getSize( );
@@ -357,7 +357,7 @@ public final class ChartReportItemPresentationImpl extends
 	public void finish( )
 	{
 		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-				"ChartReportItemPresentationImpl: finish(...) - start" );
+				Messages.getString("ChartReportItemPresentationImpl.log.finishStart") ); //$NON-NLS-1$
 
 		// CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
 		try
@@ -376,22 +376,22 @@ public final class ChartReportItemPresentationImpl extends
 			if ( !fChartImage.delete( ) )
 			{
 				DefaultLoggerImpl.instance( ).log( ILogger.ERROR,
-						"Could not delete temporary "
+						Messages.getString("ChartReportItemPresentationImpl.log.CouldNotDeleteTemp") //$NON-NLS-1$
 								+ sExtension
-								+ " file created at "
+								+ Messages.getString("ChartReportItemPresentationImpl.log.fileCreatedAt") //$NON-NLS-1$
 								+ fChartImage.getPath( ) );
 			}
 			else
 			{
 				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-						"Successfully deleted temporary "
+						Messages.getString("ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp") //$NON-NLS-1$
 								+ sExtension
-								+ " file created at "
+								+ Messages.getString("ChartReportItemPresentationImpl.log.fileCreatedAt") //$NON-NLS-1$
 								+ fChartImage.getPath( ) );
 			}
 		}
 		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-				"ChartReportItemPresentationImpl: finish(...) - end" );
+				Messages.getString("ChartReportItemPresentationImpl.log.finishEnd") ); //$NON-NLS-1$
 	}
 
 }

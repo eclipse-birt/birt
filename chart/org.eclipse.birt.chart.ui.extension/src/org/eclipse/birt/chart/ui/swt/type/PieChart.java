@@ -405,7 +405,7 @@ public class PieChart extends DefaultChartTypeImpl
         while (strtok.hasMoreTokens())
         {
             String sElement = strtok.nextToken().trim();
-            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT
+            if (sElement.startsWith("H")) // Orthogonal sample data is for a stock chart (Orthogonal sample data CANNOT //$NON-NLS-1$
                                           // //$NON-NLS-1$
             // be text
             {
