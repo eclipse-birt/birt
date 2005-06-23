@@ -44,6 +44,15 @@ public abstract class DataType
 			"Blob"
 	};
 	
+	public static final String ANY_TYPE_NAME = names[0];
+	public static final String BOOLEAN_TYPE_NAME = names[1];
+	public static final String INTEGER_TYPE_NAME = names[2];
+	public static final String DOUBLE_TYPE_NAME = names[3];
+	public static final String DECIMAL_TYPE_NAME = names[4];
+	public static final String STRING_TYPE_NAME = names[5];
+	public static final String DATE_TYPE_NAME = names[6];
+	public static final String BLOB_TYPE_NAME = names[7];
+	
 	private static final Class[] classes = 
 	{ 
 			AnyType.class,
