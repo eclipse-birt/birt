@@ -12,10 +12,14 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -47,6 +51,12 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	private Button preStyle;
 
 	private Button cusStyle;
+
+	private int selectedType = -1;
+
+	private static final int TYPE_PREDEFINED = 0;
+
+	private static final int TYPE_CUSTOM = 1;
 
 	/**
 	 * Default constructor.
@@ -101,7 +111,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		nameComp.setLayout( new GridLayout( 2, false ) );
 
 		preStyle = new Button( nameComp, SWT.RADIO );
-		preStyle.setText( Messages.getString("GeneralPreferencePage.label.predefinedStyle") ); //$NON-NLS-1$
+		preStyle.setText( Messages.getString( "GeneralPreferencePage.label.predefinedStyle" ) ); //$NON-NLS-1$
 		preStyle.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -116,6 +126,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				{
 					preName.select( 0 );
 				}
+				selectedType = TYPE_PREDEFINED;
 			}
 		} );
 		preName = new Combo( nameComp, SWT.NULL | SWT.READ_ONLY );
@@ -124,7 +135,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		preName.setItems( getPredefinedStyeNames( ) );
 
 		cusStyle = new Button( nameComp, SWT.RADIO );
-		cusStyle.setText( Messages.getString("GeneralPreferencePage.label.customStyle") ); //$NON-NLS-1$
+		cusStyle.setText( Messages.getString( "GeneralPreferencePage.label.customStyle" ) ); //$NON-NLS-1$
 		cusStyle.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -135,6 +146,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			{
 				setPredefinedStyle( false );
 				cusName.setFocus( );
+				selectedType = TYPE_CUSTOM;
 			}
 		} );
 
@@ -219,9 +231,39 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 		( (StylePreferenceStore) ps ).clearError( );
 
+		if ( !checkName( getName( ) ) )
+		{
+			return false;
+		}
+
 		getPreferenceStore( ).setValue( StyleHandle.NAME_PROP, getName( ) );
 
 		return !( (StylePreferenceStore) ps ).hasError( );
+	}
+
+	private boolean checkName( String name )
+	{
+		if ( ( (StyleHandle) model ).isPredefined( )
+				&& selectedType == TYPE_CUSTOM )
+		{
+			Iterator iterator = DEUtil.getStyles( );
+			while ( iterator.hasNext( ) )
+			{
+				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
+
+				if ( handle.getName( ).equals( name ) )
+				{
+					ExceptionHandler.openErrorMessageBox( Messages.getString( "GeneralPreferencePage.errorMsg.duplicate.styleName" ), //$NON-NLS-1$
+							Messages.getString( "GeneralPreferencePage.label.styleName" ) //$NON-NLS-1$
+									+ ": \"" //$NON-NLS-1$
+									+ name
+									+ "\" " //$NON-NLS-1$
+									+ Messages.getString( "GeneralPreferencePage.label.choose.different.name" ) ); //$NON-NLS-1$
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private String getName( )
