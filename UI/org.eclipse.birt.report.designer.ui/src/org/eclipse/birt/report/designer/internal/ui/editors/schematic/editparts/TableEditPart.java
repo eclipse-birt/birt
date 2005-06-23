@@ -1237,7 +1237,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 */
 	public boolean canMerge( )
 	{
-		if ( isDelete( ) || getParent( ) == null )
+		if ( !isActive() || isDelete( ) || getParent( ) == null )
 		{
 			return false;
 		}
