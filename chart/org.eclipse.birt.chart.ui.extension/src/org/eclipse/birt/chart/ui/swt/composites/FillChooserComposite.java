@@ -59,8 +59,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 
 /**
- * @author Actuate Corporation
- *  
+ * FillChooserComposite
  */
 public class FillChooserComposite extends Composite implements
 		SelectionListener,
@@ -168,8 +167,6 @@ public class FillChooserComposite extends Composite implements
 		glContentOuter.marginWidth = 0;
 		glContentOuter.numColumns = 1;
 		cmpContentOuter.setLayout( glContentOuter );
-		GridData gdContentOuter = new GridData( GridData.FILL_HORIZONTAL );
-		cmpContentOuter.setLayoutData( gdContentOuter );
 
 		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
 		// THE CANVAS + BUTTON)
