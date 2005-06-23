@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
@@ -40,11 +41,13 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.ui.actions.CopyTemplateAction;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.EditorPartAction;
@@ -101,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.11 $ $Date: 2005/05/24 06:30:26 $
+ * @version $Revision: 1.12 $ $Date: 2005/06/22 06:19:49 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -360,7 +363,27 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	{
 		addStackAction( new UndoAction( this ) );
 		addStackAction( new RedoAction( this ) );
-		addEditPartAction( new DeleteAction( (IWorkbenchPart) this ) );
+		addEditPartAction( new DeleteAction( (IWorkbenchPart) this ) {
+
+			public Command createDeleteCommand( List objects )
+			{
+				if ( objects.isEmpty( ) )
+					return null;
+				if ( !( objects.get( 0 ) instanceof EditPart ) )
+					return null;
+
+				GroupRequest deleteReq = new GroupRequest( RequestConstants.REQ_DELETE );
+				deleteReq.setEditParts( objects );
+
+				List list = new ArrayList( );
+				for ( int i = 0; i < objects.size( ); i++ )
+				{
+					EditPart object = (EditPart) objects.get( i );
+					list.add( object.getModel( ) );
+				}
+				return new DeleteCommand( list.toArray( ) );
+			}
+		} );
 
 		SaveAction saveAction = new SaveAction( this );
 		saveAction.setLazyEnablementCalculation( true );

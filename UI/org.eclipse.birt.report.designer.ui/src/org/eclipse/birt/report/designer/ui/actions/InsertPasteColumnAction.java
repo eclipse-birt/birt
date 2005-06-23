@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.ColumnBandData;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.gef.ui.actions.Clipboard;
@@ -43,7 +42,7 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	{
 		return getClipBoardContents( ) instanceof ColumnBandData
 				&& getSelection( ) instanceof ColumnHandle
-				&& DEUtil.handleValidateContainColumnPaste( (ColumnHandle) getSelection( ),
+				&& DNDUtil.handleValidateContainColumnPaste( (ColumnHandle) getSelection( ),
 						(ColumnBandData) getClipBoardContents( ),
 						true );
 	}

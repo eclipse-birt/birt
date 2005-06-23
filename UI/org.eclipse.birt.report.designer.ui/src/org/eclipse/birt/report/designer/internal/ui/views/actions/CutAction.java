@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;

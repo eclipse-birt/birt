@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
@@ -108,7 +108,7 @@ public class ApplyStyleAction extends DynamicItemAction
 	protected List getElementHandles( )
 	{
 		if ( selectionHandles == null )
-			selectionHandles = DNDUtil.editPart2Model( getSelection( ) )
+			selectionHandles = InsertInLayoutUtil.editPart2Model( getSelection( ) )
 					.toList( );
 		return selectionHandles;
 	}

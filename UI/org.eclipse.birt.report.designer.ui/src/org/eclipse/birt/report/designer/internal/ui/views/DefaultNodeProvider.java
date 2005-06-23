@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -39,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.PageSetAction.CodePageAction;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;

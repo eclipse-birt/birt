@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -67,7 +67,7 @@ public abstract class WrapperSelectionAction extends SelectionAction
 	 */
 	protected void handleSelectionChanged( )
 	{
-		ISelection model = DNDUtil.editPart2Model( getSelection( ) );
+		ISelection model = InsertInLayoutUtil.editPart2Model( getSelection( ) );
 		if ( model.isEmpty( ) )
 		{
 			actionHandler = null;

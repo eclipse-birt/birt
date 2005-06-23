@@ -11,14 +11,20 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -40,7 +46,9 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * Utility for creation from data view to layout
@@ -877,5 +885,35 @@ public class InsertInLayoutUtil
 	protected static boolean isHandleValid( DesignElementHandle handle )
 	{
 		return handle.isValid( ) && handle.getValidationErrors( ).isEmpty( );
+	}
+	
+	/**
+	 * Converts edit part selection into model selection.
+	 * 
+	 * @param selection
+	 *            edit part
+	 * @return model, return Collections.EMPTY_LIST if selection is null or
+	 *         empty.
+	 */
+	public static IStructuredSelection editPart2Model( ISelection selection )
+	{
+		if ( selection == null || !( selection instanceof IStructuredSelection ) )
+			return new StructuredSelection( Collections.EMPTY_LIST );
+		List list = ( (IStructuredSelection) selection ).toList( );
+		List resultList = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof ReportElementEditPart )
+			{
+				Object model = ( (ReportElementEditPart) obj ).getModel( );
+				if ( model instanceof ListBandProxy )
+				{
+					model = ( (ListBandProxy) model ).getSlotHandle( );
+				}
+				resultList.add( model );
+			}
+		}
+		return new StructuredSelection( resultList );
 	}
 }

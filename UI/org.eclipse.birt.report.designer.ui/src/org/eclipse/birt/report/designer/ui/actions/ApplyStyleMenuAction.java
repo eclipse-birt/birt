@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ApplyStyleAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -78,7 +78,7 @@ public class ApplyStyleMenuAction extends MenuUpdateAction
 
 	private StyleHandle getStyleHandle( )
 	{
-		IStructuredSelection selection = DNDUtil.editPart2Model( getSelection( ) );
+		IStructuredSelection selection = InsertInLayoutUtil.editPart2Model( getSelection( ) );
 		if ( !selection.isEmpty( )
 				&& selection.getFirstElement( ) instanceof DesignElementHandle )
 		{

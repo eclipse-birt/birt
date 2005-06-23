@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtil;
+import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -78,9 +79,9 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	protected boolean calculateEnabled( )
 	{
 		slotHandle = getDefaultSlotHandle( insertType );
-		return DEUtil.handleValidateTargetCanContainType( slotHandle,
+		return DNDUtil.handleValidateTargetCanContainType( slotHandle,
 				insertType )
-				&& DEUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
+				&& DNDUtil.handleValidateTargetCanContainMore( slotHandle, 0 );
 	}
 
 	/**
@@ -89,7 +90,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	 */
 	private SlotHandle getDefaultSlotHandle( String insertType )
 	{
-		IStructuredSelection models = DNDUtil.editPart2Model( getSelection( ) );
+		IStructuredSelection models = InsertInLayoutUtil.editPart2Model( getSelection( ) );
 		if ( models.isEmpty( ) )
 		{
 			return null;
