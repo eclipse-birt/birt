@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -293,6 +294,13 @@ public class UIUtil
 		return shell;
 	}
 
+	public static ElementFactory getElementFactory( )
+	{
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getElementFactory( );
+	}
+
 	/**
 	 * Creates a new group under the given parent
 	 * 
@@ -542,7 +550,7 @@ public class UIUtil
 		}
 		return ( c.getStyle( ) & SWT.WRAP ) != 0;
 	}
-	
+
 	/**
 	 * Gets table editpart.
 	 * 
@@ -581,7 +589,8 @@ public class UIUtil
 			}
 			//Check if select only one table
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
@@ -591,7 +600,7 @@ public class UIUtil
 			return null;
 		return part;
 	}
-	
+
 	/**
 	 * Gets list editpart.
 	 * 
@@ -626,7 +635,8 @@ public class UIUtil
 			}
 			//Check if select only one list
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
@@ -634,4 +644,18 @@ public class UIUtil
 		return part;
 	}
 
+	public static DesignElementHandle createElement( String elementType )
+	{
+		return createElement( elementType, null );
+	}
+
+	public static DesignElementHandle createElement( String elementType,
+			String name )
+	{
+		DesignElementHandle newElement = getElementFactory( ).newElement( elementType,
+				name );
+		return newElement;
+	}
+	
+	
 }
