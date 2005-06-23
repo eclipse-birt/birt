@@ -24,6 +24,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class OvalRenderEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -6716453650694010927L;
+
 	private Bounds _bo = null;
 
 	private LineAttributes _lia;

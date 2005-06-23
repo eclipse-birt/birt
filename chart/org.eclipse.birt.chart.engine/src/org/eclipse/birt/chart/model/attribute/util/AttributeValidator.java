@@ -111,7 +111,7 @@ public class AttributeValidator extends EObjectValidator
      * 
      * @generated
      */
-    private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
+    //private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
     /**
      * The cached base package validator. <!-- begin-user-doc --> <!-- end-user-doc -->

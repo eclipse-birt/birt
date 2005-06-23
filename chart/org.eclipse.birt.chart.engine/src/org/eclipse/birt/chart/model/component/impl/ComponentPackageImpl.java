@@ -2130,215 +2130,215 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
 		addAnnotation( axisEClass, source, new String[]{
-				"name", "Axis", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Axis", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Title( ), source, new String[]{
-				"kind", "element", "name", "Title"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_SubTitle( ), source, new String[]{
-				"kind", "element", "name", "SubTitle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "SubTitle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_TitlePosition( ), source, new String[]{
-				"kind", "element", "name", "TitlePosition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_AssociatedAxes( ), source, new String[]{
-				"kind", "element", "name", "AssociatedAxes"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "AssociatedAxes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_SeriesDefinitions( ), source, new String[]{
-				"kind", "element", "name", "SeriesDefinitions"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_GapWidth( ), source, new String[]{
-				"kind", "element", "name", "GapWidth"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "GapWidth" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Orientation( ), source, new String[]{
-				"kind", "element", "name", "Orientation"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Label( ), source, new String[]{
-				"kind", "element", "name", "Label"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_LabelPosition( ), source, new String[]{
-				"kind", "element", "name", "LabelPosition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Staggered( ), source, new String[]{
-				"kind", "element", "name", "Staggered"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Staggered" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_MarkerLines( ), source, new String[]{
-				"kind", "element", "name", "MarkerLines"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "MarkerLines" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_MarkerRanges( ), source, new String[]{
-				"kind", "element", "name", "MarkerRanges"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "MarkerRanges" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_MajorGrid( ), source, new String[]{
-				"kind", "element", "name", "MajorGrid"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "MajorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_MinorGrid( ), source, new String[]{
-				"kind", "element", "name", "MinorGrid"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "MinorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Scale( ), source, new String[]{
-				"kind", "element", "name", "Scale"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Origin( ), source, new String[]{
-				"kind", "element", "name", "Origin"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Origin" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_PrimaryAxis( ), source, new String[]{
-				"kind", "element", "name", "PrimaryAxis"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "PrimaryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_CategoryAxis( ), source, new String[]{
-				"kind", "element", "name", "CategoryAxis"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "CategoryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxis_Percent( ), source, new String[]{
-				"kind", "element", "name", "Percent"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Percent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( chartPreferencesEClass, source, new String[]{
-				"name", "ChartPreferences", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartPreferences", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getChartPreferences_Labels( ), source, new String[]{
-				"kind", "element", "name", "Labels"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getChartPreferences_Blocks( ), source, new String[]{
-				"kind", "element", "name", "Blocks"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Blocks" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( gridEClass, source, new String[]{
-				"name", "Grid", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Grid", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGrid_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGrid_TickStyle( ), source, new String[]{
-				"kind", "element", "name", "TickStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGrid_TickAttributes( ), source, new String[]{
-				"kind", "element", "name", "TickAttributes"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "TickAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGrid_TickSize( ), source, new String[]{
-				"kind", "element", "name", "TickSize"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "TickSize" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGrid_TickCount( ), source, new String[]{
-				"kind", "element", "name", "TickCount"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "TickCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( labelEClass, source, new String[]{
-				"name", "Label", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Label", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_Caption( ), source, new String[]{
-				"kind", "element", "name", "Caption"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Caption" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_Background( ), source, new String[]{
-				"kind", "element", "name", "Background"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Background" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_ShadowColor( ), source, new String[]{
-				"kind", "element", "name", "ShadowColor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_Insets( ), source, new String[]{
-				"kind", "element", "name", "Insets"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLabel_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( markerLineEClass, source, new String[]{
-				"name", "MarkerLine", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "MarkerLine", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerLine_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerLine_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerLine_Label( ), source, new String[]{
-				"kind", "element", "name", "Label"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerLine_LabelAnchor( ), source, new String[]{
-				"kind", "element", "name", "LabelAnchor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerLine_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( markerRangeEClass, source, new String[]{
-				"name", "MarkerRange", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "MarkerRange", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_Fill( ), source, new String[]{
-				"kind", "element", "name", "Fill"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_StartValue( ), source, new String[]{
-				"kind", "element", "name", "StartValue"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "StartValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_EndValue( ), source, new String[]{
-				"kind", "element", "name", "EndValue"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "EndValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_Label( ), source, new String[]{
-				"kind", "element", "name", "Label"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_LabelAnchor( ), source, new String[]{
-				"kind", "element", "name", "LabelAnchor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarkerRange_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( scaleEClass, source, new String[]{
-				"name", "Scale", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Scale", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScale_Min( ), source, new String[]{
-				"kind", "element", "name", "Min"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Min" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScale_Max( ), source, new String[]{
-				"kind", "element", "name", "Max"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Max" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScale_Step( ), source, new String[]{
-				"kind", "element", "name", "Step"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Step" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScale_Unit( ), source, new String[]{
-				"kind", "element", "name", "Unit"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Unit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScale_MinorGridsPerUnit( ), source, new String[]{
-				"kind", "element", "name", "MinorGridsPerUnit"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "MinorGridsPerUnit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( seriesEClass, source, new String[]{
-				"name", "Series", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Series", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_Label( ), source, new String[]{
-				"kind", "element", "name", "Label"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_DataDefinition( ), source, new String[]{
-				"kind", "element", "name", "DataDefinition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "DataDefinition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_SeriesIdentifier( ), source, new String[]{
-				"kind", "element", "name", "SeriesIdentifier"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "SeriesIdentifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_DataPoint( ), source, new String[]{
-				"kind", "element", "name", "DataPoint"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "DataPoint" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_DataSet( ), source, new String[]{
-				"kind", "element", "name", "DataSet"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "DataSet" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_LabelPosition( ), source, new String[]{
-				"kind", "element", "name", "LabelPosition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_Stacked( ), source, new String[]{
-				"kind", "element", "name", "Stacked"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Stacked" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_Triggers( ), source, new String[]{
-				"kind", "element", "name", "Triggers"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeries_Translucent( ), source, new String[]{
-				"kind", "element", "name", "Translucent"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Translucent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 	}
 
 } //ComponentPackageImpl

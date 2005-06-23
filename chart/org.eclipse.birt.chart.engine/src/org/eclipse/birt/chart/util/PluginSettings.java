@@ -600,55 +600,55 @@ public final class PluginSettings
 		}
 	}
 
-	/**
-	 * Attempts to walk through the schema tree as defined in an extension point
-	 * schema and retrieve the value for a given element name.
-	 * 
-	 * @param sXsdListName
-	 * @param sXsdComplexName
-	 * @param sXsdElementName
-	 * @param sXsdElementValue
-	 * @param sLookupName
-	 * 
-	 * @return The text value representation associated with the given element
-	 *         name
-	 */
-	private static final String getPluginXmlValue( String sXsdListName,
-			String sXsdComplexName, String sXsdElementName,
-			String sXsdElementValue, String sLookupName ) throws ChartException
-	{
-		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
-		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
-		if ( iep == null )
-		{
-			throw new ChartException( ChartException.PLUGIN,
-					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
-					new Object[]{
-							sLookupName, sXsdElementName, sXsdElementValue
-					},
-					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
-		}
-		final IExtension[] iea = iep.getExtensions( );
-		IConfigurationElement[] icea;
-
-		for ( int i = 0; i < iea.length; i++ )
-		{
-			icea = iea[i].getConfigurationElements( );
-			for ( int j = 0; j < icea.length; j++ )
-			{
-				if ( icea[j].getName( ).equals( sXsdComplexName ) )
-				{
-					if ( icea[j].getAttribute( sXsdElementName )
-							.equals( sLookupName ) )
-					{
-						return icea[j].getAttribute( sXsdElementValue );
-					}
-				}
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Attempts to walk through the schema tree as defined in an extension point
+//	 * schema and retrieve the value for a given element name.
+//	 * 
+//	 * @param sXsdListName
+//	 * @param sXsdComplexName
+//	 * @param sXsdElementName
+//	 * @param sXsdElementValue
+//	 * @param sLookupName
+//	 * 
+//	 * @return The text value representation associated with the given element
+//	 *         name
+//	 */
+//	private static final String getPluginXmlValue( String sXsdListName,
+//			String sXsdComplexName, String sXsdElementName,
+//			String sXsdElementValue, String sLookupName ) throws ChartException
+//	{
+//		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+//		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
+//		if ( iep == null )
+//		{
+//			throw new ChartException( ChartException.PLUGIN,
+//					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
+//					new Object[]{
+//							sLookupName, sXsdElementName, sXsdElementValue
+//					},
+//					ResourceBundle.getBundle( Messages.ENGINE,
+//							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+//		}
+//		final IExtension[] iea = iep.getExtensions( );
+//		IConfigurationElement[] icea;
+//
+//		for ( int i = 0; i < iea.length; i++ )
+//		{
+//			icea = iea[i].getConfigurationElements( );
+//			for ( int j = 0; j < icea.length; j++ )
+//			{
+//				if ( icea[j].getName( ).equals( sXsdComplexName ) )
+//				{
+//					if ( icea[j].getAttribute( sXsdElementName )
+//							.equals( sLookupName ) )
+//					{
+//						return icea[j].getAttribute( sXsdElementValue );
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Attempts to walk through the schema tree as defined in an extension point

@@ -377,34 +377,29 @@ public final class ChartReportItemImpl extends ReportItem
         return false;
     }
 
-    /**
-     * 
-     * @param sName
-     * @return
-     */
-    private final String choiceNameToValue(String sName)
-    {
-        final int iLastDot = sName.lastIndexOf('.');
-        if (iLastDot == -1 || sName.length() == 0)
-        {
-            DefaultLoggerImpl.instance().log(ILogger.ERROR, Messages.getString("ChartReportItemImpl.log.UnexpectedChoiceName") + sName); //$NON-NLS-1$
-            return sName;
-        }
-        final StringBuffer sb = new StringBuffer(sName.substring(iLastDot + 1));
-        char c = sb.charAt(0);
-        sb.setCharAt(0, Character.toUpperCase(c));
-        int i = 1, iSlash;
-        do
-        {
-            iSlash = sb.indexOf("_", i); //$NON-NLS-1$
-            if (iSlash >= 0 && iSlash < sb.length() - 1)
-            {
-                c = sb.charAt(iSlash + 1);
-                sb.setCharAt(iSlash + 1, Character.toUpperCase(c));
-                i = iSlash + 1;
-            }
-        }
-        while (i < sb.length() && iSlash != -1);
-        return sb.toString();
-    }
+//    private final String choiceNameToValue(String sName)
+//    {
+//        final int iLastDot = sName.lastIndexOf('.');
+//        if (iLastDot == -1 || sName.length() == 0)
+//        {
+//            DefaultLoggerImpl.instance().log(ILogger.ERROR, Messages.getString("ChartReportItemImpl.log.UnexpectedChoiceName") + sName); //$NON-NLS-1$
+//            return sName;
+//        }
+//        final StringBuffer sb = new StringBuffer(sName.substring(iLastDot + 1));
+//        char c = sb.charAt(0);
+//        sb.setCharAt(0, Character.toUpperCase(c));
+//        int i = 1, iSlash;
+//        do
+//        {
+//            iSlash = sb.indexOf("_", i); //$NON-NLS-1$
+//            if (iSlash >= 0 && iSlash < sb.length() - 1)
+//            {
+//                c = sb.charAt(iSlash + 1);
+//                sb.setCharAt(iSlash + 1, Character.toUpperCase(c));
+//                i = iSlash + 1;
+//            }
+//        }
+//        while (i < sb.length() && iSlash != -1);
+//        return sb.toString();
+//    }
 }

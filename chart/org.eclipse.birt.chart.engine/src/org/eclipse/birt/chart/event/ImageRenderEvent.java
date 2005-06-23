@@ -18,6 +18,11 @@ public final class ImageRenderEvent extends PrimitiveRenderEvent
 {
 
     /**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -5467310111862210812L;
+
+	/**
      * @param oSource
      */
     public ImageRenderEvent(Object oSource)

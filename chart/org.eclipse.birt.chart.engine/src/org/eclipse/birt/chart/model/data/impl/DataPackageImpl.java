@@ -1492,163 +1492,163 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
 		addAnnotation( actionEClass, source, new String[]{
-				"name", "Action", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Action", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getAction_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getAction_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( baseSampleDataEClass, source, new String[]{
-				"name", "BaseSampleData", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "BaseSampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getBaseSampleData_DataSetRepresentation( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "DataSetRepresentation"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( dataElementEClass, source, new String[]{
-				"name", "DataElement", "kind", "empty"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataElement", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( dataSetEClass, source, new String[]{
-				"name", "DataSet", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getDataSet_Values( ), source, new String[]{
-				"kind", "element", "name", "Values"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Values" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( dateTimeDataElementEClass, source, new String[]{
-				"name", "DateTimeDataElement", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateTimeDataElement", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getDateTimeDataElement_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( dateTimeDataSetEClass, source, new String[]{
-				"name", "DateTimeDataSet", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateTimeDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( numberDataElementEClass, source, new String[]{
-				"name", "NumberDataElement", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "NumberDataElement", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getNumberDataElement_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( numberDataSetEClass, source, new String[]{
-				"name", "NumberDataSet", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "NumberDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( orthogonalSampleDataEClass, source, new String[]{
-				"name", "OrthogonalSampleData", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "OrthogonalSampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getOrthogonalSampleData_DataSetRepresentation( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "DataSetRepresentation"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getOrthogonalSampleData_SeriesDefinitionIndex( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesDefinitionIndex"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "SeriesDefinitionIndex" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( queryEClass, source, new String[]{
-				"name", "Query", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Query", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getQuery_Definition( ), source, new String[]{
-				"kind", "element", "name", "Definition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Definition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getQuery_Rules( ), source, new String[]{
-				"kind", "element", "name", "Rules"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Rules" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( ruleEClass, source, new String[]{
-				"name", "Rule", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Rule", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getRule_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getRule_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( sampleDataEClass, source, new String[]{
-				"name", "SampleData", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSampleData_BaseSampleData( ), source, new String[]{
-				"kind", "element", "name", "BaseSampleData"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "BaseSampleData" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSampleData_OrthogonalSampleData( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "OrthogonalSampleData"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "OrthogonalSampleData" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( seriesDefinitionEClass, source, new String[]{
-				"name", "SeriesDefinition", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SeriesDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesDefinition_Query( ), source, new String[]{
-				"kind", "element", "name", "Query"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Query" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesDefinition_SeriesPalette( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesPalette"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "SeriesPalette" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getSeriesDefinition_SeriesDefinitions( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesDefinitions"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getSeriesDefinition_FormatSpecifier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FormatSpecifier"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getSeriesDefinition_Series( ), source, new String[]{
-				"kind", "element", "name", "Series"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Series" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesDefinition_Grouping( ), source, new String[]{
-				"kind", "element", "name", "Grouping"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Grouping" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesDefinition_Sorting( ), source, new String[]{
-				"kind", "element", "name", "Sorting"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Sorting" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( seriesGroupingEClass, source, new String[]{
-				"name", "SeriesGrouping", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SeriesGrouping", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesGrouping_Enabled( ), source, new String[]{
-				"kind", "element", "name", "Enabled"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Enabled" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesGrouping_GroupingUnit( ), source, new String[]{
-				"kind", "element", "name", "GroupingUnit"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "GroupingUnit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesGrouping_GroupingOrigin( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "GroupingOrigin"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "GroupingOrigin" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getSeriesGrouping_GroupingInterval( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "GroupingInterval"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "GroupingInterval" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getSeriesGrouping_GroupType( ), source, new String[]{
-				"kind", "element", "name", "GroupType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "GroupType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getSeriesGrouping_AggregateExpression( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "AggregateExpression"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "AggregateExpression" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( stockDataSetEClass, source, new String[]{
-				"name", "StockDataSet", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "StockDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( textDataSetEClass, source, new String[]{
-				"name", "TextDataSet", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TextDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( triggerEClass, source, new String[]{
-				"name", "Trigger", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Trigger", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getTrigger_Condition( ), source, new String[]{
-				"kind", "element", "name", "Condition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Condition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getTrigger_Action( ), source, new String[]{
-				"kind", "element", "name", "Action"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Action" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 	}
 
 } //DataPackageImpl

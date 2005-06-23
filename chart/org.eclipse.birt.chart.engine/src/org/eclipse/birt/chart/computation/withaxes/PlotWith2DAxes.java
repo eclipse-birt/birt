@@ -114,10 +114,7 @@ public final class PlotWith2DAxes extends PlotContent
 	 */
 	private final RunTimeContext rtc;
 
-	/**
-	 *  
-	 */
-	private Series seBaseRuntime = null;
+	//private Series seBaseRuntime = null;
 
 	/**
 	 * The default constructor
@@ -766,20 +763,20 @@ public final class PlotWith2DAxes extends PlotContent
 				.scaledInstance( dPointToPixel ) ); // CONVERSION
 		insCA = aax.getInsets( );
 
-		SeriesDefinition sdBase = null;
-		// ONLY SUPPORT 1 BASE AXIS
-		if ( !axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
-		{
-			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-			sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-					.get( 0 );
-			final ArrayList alRuntimeBaseSeries = sdBase.getRunTimeSeries( );
-			if ( alRuntimeBaseSeries != null )
-			{
-				// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-				seBaseRuntime = (Series) sdBase.getRunTimeSeries( ).get( 0 );
-			}
-		}
+//		SeriesDefinition sdBase = null;
+//		// ONLY SUPPORT 1 BASE AXIS
+//		if ( !axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
+//		{
+//			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+//			sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
+//					.get( 0 );
+//			final ArrayList alRuntimeBaseSeries = sdBase.getRunTimeSeries( );
+//			if ( alRuntimeBaseSeries != null )
+//			{
+//				// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+//				seBaseRuntime = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+//			}
+//		}
 
 		aax.swapAxes( cwa.isTransposed( ) );
 

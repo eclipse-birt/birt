@@ -57,7 +57,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
     /**
      *  
      */
-    private Object oDefaultValue = null;
+    //private Object oDefaultValue = null;
 
     /**
      * 
@@ -80,7 +80,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
         this.iType = iType;
         this.liChoices = liChoices;
         this.liMembers = liMembers;
-        this.oDefaultValue = oDefaultValue;
+        //this.oDefaultValue = oDefaultValue;
     }
 
     /*

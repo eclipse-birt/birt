@@ -26,19 +26,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class AreaRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 *  
-	 */
+	private static final long serialVersionUID = 4924819106091024348L;
+
 	private final ArrayList alLinesAndArcs = new ArrayList( );
 
-	/**
-	 *  
-	 */
 	private Fill fill;
 
-	/**
-	 *  
-	 */
 	private LineAttributes lia;
 
 	/**

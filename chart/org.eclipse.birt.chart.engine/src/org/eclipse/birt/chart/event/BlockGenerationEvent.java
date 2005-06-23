@@ -22,6 +22,11 @@ public class BlockGenerationEvent extends EventObject
 {
 
     /**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 5869588499778117671L;
+
+	/**
      * @param oSource
      */
     public BlockGenerationEvent(Object oSource)

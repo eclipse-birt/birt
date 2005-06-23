@@ -26,6 +26,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class PolygonRenderEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 7825900630615976817L;
+
 	private Location[] _loa;
 
 	private LineAttributes _lia;

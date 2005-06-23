@@ -56,7 +56,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
 
     private transient Button btnCancel = null;
 
-    private transient boolean bWasCancelled = true;
+    //private transient boolean bWasCancelled = true;
 
     private transient List keys = null;
 
@@ -324,7 +324,7 @@ public class ExternalizedTextEditorDialog extends Dialog implements SelectionLis
     {
         if (e.getSource().equals(btnAccept))
         {
-            bWasCancelled = false;
+            //bWasCancelled = false;
             sResult = buildString();
             shell.dispose();
         }

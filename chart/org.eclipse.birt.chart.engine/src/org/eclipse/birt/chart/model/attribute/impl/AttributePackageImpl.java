@@ -4639,582 +4639,582 @@ public class AttributePackageImpl extends EPackageImpl implements
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";//$NON-NLS-1$
 		addAnnotation( actionTypeEEnum, source, new String[]{
-				"name", "ActionType"
-		} );//$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( actionTypeObjectEDataType, source, new String[]{
-				"name", "ActionType:Object", "baseType", "ActionType"
-		} );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ActionType:Object", "baseType", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( actionValueEClass, source, new String[]{
-				"name", "ActionValue", "kind", "empty"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ActionValue", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( anchorEEnum, source, new String[]{
-				"name", "Anchor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( anchorObjectEDataType, source, new String[]{
-				"name", "Anchor:Object", "baseType", "Anchor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Anchor:Object", "baseType", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( axisOriginEClass, source, new String[]{
-				"name", "AxisOrigin", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "AxisOrigin", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getAxisOrigin_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getAxisOrigin_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( axisTypeEEnum, source, new String[]{
-				"name", "AxisType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AxisType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( axisTypeObjectEDataType, source, new String[]{
-				"name", "AxisType:Object", "baseType", "AxisType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "AxisType:Object", "baseType", "AxisType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( boundsEClass, source, new String[]{
-				"name", "Bounds", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Bounds", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getBounds_Left( ), source, new String[]{
-				"kind", "element", "name", "Left"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Left" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getBounds_Top( ), source, new String[]{
-				"kind", "element", "name", "Top"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Top" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getBounds_Width( ), source, new String[]{
-				"kind", "element", "name", "Width"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Width" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getBounds_Height( ), source, new String[]{
-				"kind", "element", "name", "Height"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Height" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( chartDimensionEEnum, source, new String[]{
-				"name", "ChartDimension"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( chartDimensionObjectEDataType, source, new String[]{
-				"name", "ChartDimension:Object", "baseType", "ChartDimension"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartDimension:Object", "baseType", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( chartTypeEEnum, source, new String[]{
-				"name", "ChartType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ChartType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( chartTypeObjectEDataType, source, new String[]{
-				"name", "ChartType:Object", "baseType", "ChartType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartType:Object", "baseType", "ChartType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( colorDefinitionEClass, source, new String[]{
-				"name", "ColorDefinition", "kind", "elementOnly"
+				"name", "ColorDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		addAnnotation( getColorDefinition_Transparency( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Transparency"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getColorDefinition_Red( ), source, new String[]{
-				"kind", "element", "name", "Red"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Red" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getColorDefinition_Green( ), source, new String[]{
-				"kind", "element", "name", "Green"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Green" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getColorDefinition_Blue( ), source, new String[]{
-				"kind", "element", "name", "Blue"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Blue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( dataPointEClass, source, new String[]{
-				"name", "DataPoint", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataPoint", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPoint_Components( ), source, new String[]{
-				"kind", "element", "name", "Components"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Components" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPoint_Prefix( ), source, new String[]{
-				"kind", "element", "name", "Prefix"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPoint_Suffix( ), source, new String[]{
-				"kind", "element", "name", "Suffix"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPoint_Separator( ), source, new String[]{
-				"kind", "element", "name", "Separator"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Separator" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( dataPointComponentEClass, source, new String[]{
-				"name", "DataPointComponent", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataPointComponent", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPointComponent_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getDataPointComponent_FormatSpecifier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FormatSpecifier"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( dataPointComponentTypeEEnum, source, new String[]{
-				"name", "DataPointComponentType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataPointComponentType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( dataPointComponentTypeObjectEDataType,
 				source,
 				new String[]{
-						"name",
-						"DataPointComponentType:Object",
-						"baseType",
-						"DataPointComponentType"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"name", //$NON-NLS-1$
+						"DataPointComponentType:Object", //$NON-NLS-1$
+						"baseType", //$NON-NLS-1$
+						"DataPointComponentType" //$NON-NLS-1$
+				} ); 
 		addAnnotation( dataTypeEEnum, source, new String[]{
-				"name", "DataType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( dataTypeObjectEDataType, source, new String[]{
-				"name", "DataType:Object", "baseType", "DataType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataType:Object", "baseType", "DataType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( dateFormatDetailEEnum, source, new String[]{
-				"name", "DateFormatDetail"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DateFormatDetail" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( dateFormatDetailObjectEDataType, source, new String[]{
-				"name",
-				"DateFormatDetail:Object",
-				"baseType",
-				"DateFormatDetail"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", //$NON-NLS-1$
+				"DateFormatDetail:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"DateFormatDetail" //$NON-NLS-1$
+		} );
 		addAnnotation( dateFormatSpecifierEClass, source, new String[]{
-				"name", "DateFormatSpecifier", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getDateFormatSpecifier_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getDateFormatSpecifier_Detail( ), source, new String[]{
-				"kind", "element", "name", "Detail"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Detail" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( dateFormatTypeEEnum, source, new String[]{
-				"name", "DateFormatType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DateFormatType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( dateFormatTypeObjectEDataType, source, new String[]{
-				"name", "DateFormatType:Object", "baseType", "DateFormatType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateFormatType:Object", "baseType", "DateFormatType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( directionEEnum, source, new String[]{
-				"name", "Direction"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( directionObjectEDataType, source, new String[]{
-				"name", "Direction:Object", "baseType", "Direction"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Direction:Object", "baseType", "Direction" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( extendedPropertyEClass, source, new String[]{
-				"name", "ExtendedProperty", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ExtendedProperty", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getExtendedProperty_Name( ), source, new String[]{
-				"kind", "element", "name", "Name"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getExtendedProperty_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( fillEClass, source, new String[]{
-				"name", "Fill", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Fill", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFill_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( fontDefinitionEClass, source, new String[]{
-				"name", "FontDefinition", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "FontDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Name( ), source, new String[]{
-				"kind", "element", "name", "Name"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Size( ), source, new String[]{
-				"kind", "element", "name", "Size"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Size" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Bold( ), source, new String[]{
-				"kind", "element", "name", "Bold"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Bold" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Italic( ), source, new String[]{
-				"kind", "element", "name", "Italic"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Italic" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Strikethrough( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Strikethrough"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Strikethrough" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getFontDefinition_Underline( ), source, new String[]{
-				"kind", "element", "name", "Underline"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Underline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_WordWrap( ), source, new String[]{
-				"kind", "element", "name", "WordWrap"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "WordWrap" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Alignment( ), source, new String[]{
-				"kind", "element", "name", "Alignment"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Alignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getFontDefinition_Rotation( ), source, new String[]{
-				"kind", "element", "name", "Rotation"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( formatSpecifierEClass, source, new String[]{
-				"name", "FormatSpecifier", "kind", "empty"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "FormatSpecifier", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( gradientEClass, source, new String[]{
-				"name", "Gradient", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Gradient", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGradient_StartColor( ), source, new String[]{
-				"kind", "element", "name", "StartColor"
+				"kind", "element", "name", "StartColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
 		addAnnotation( getGradient_EndColor( ), source, new String[]{
-				"kind", "element", "name", "EndColor"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "EndColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGradient_Direction( ), source, new String[]{
-				"kind", "element", "name", "Direction"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGradient_Cyclic( ), source, new String[]{
-				"kind", "element", "name", "Cyclic"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Cyclic" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getGradient_Transparency( ), source, new String[]{
-				"kind", "element", "name", "Transparency"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( groupingUnitTypeEEnum, source, new String[]{
-				"name", "GroupingUnitType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "GroupingUnitType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( groupingUnitTypeObjectEDataType, source, new String[]{
-				"name",
-				"GroupingUnitType:Object",
-				"baseType",
-				"GroupingUnitType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", //$NON-NLS-1$
+				"GroupingUnitType:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"GroupingUnitType" //$NON-NLS-1$
+		} ); 
 		addAnnotation( horizontalAlignmentEEnum, source, new String[]{
-				"name", "HorizontalAlignment"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "HorizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( horizontalAlignmentObjectEDataType,
 				source,
 				new String[]{
-						"name",
-						"HorizontalAlignment:Object",
-						"baseType",
-						"HorizontalAlignment"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"name", //$NON-NLS-1$
+						"HorizontalAlignment:Object", //$NON-NLS-1$
+						"baseType", //$NON-NLS-1$
+						"HorizontalAlignment" //$NON-NLS-1$
+				} ); 
 		addAnnotation( idEDataType, source, new String[]{
-				"name",
-				"ID",
-				"baseType",
-				"http://www.eclipse.org/emf/2003/XMLType#string",
-				"pattern",
-				"[A-Z]"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+				"name", //$NON-NLS-1$
+				"ID", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"http://www.eclipse.org/emf/2003/XMLType#string", //$NON-NLS-1$
+				"pattern", //$NON-NLS-1$
+				"[A-Z]" //$NON-NLS-1$
+		} ); 
 		addAnnotation( imageEClass, source, new String[]{
-				"name", "Image", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Image", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getImage_URL( ), source, new String[]{
-				"kind", "element", "name", "URL"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "URL" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( insetsEClass, source, new String[]{
-				"name", "Insets", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Insets", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getInsets_Top( ), source, new String[]{
-				"kind", "element", "name", "Top"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Top" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getInsets_Left( ), source, new String[]{
-				"kind", "element", "name", "Left"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Left" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getInsets_Bottom( ), source, new String[]{
-				"kind", "element", "name", "Bottom"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Bottom" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getInsets_Right( ), source, new String[]{
-				"kind", "element", "name", "Right"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Right" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( intersectionTypeEEnum, source, new String[]{
-				"name", "IntersectionType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "IntersectionType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( intersectionTypeObjectEDataType, source, new String[]{
-				"name",
-				"IntersectionType:Object",
-				"baseType",
-				"IntersectionType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name",  //$NON-NLS-1$
+				"IntersectionType:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"IntersectionType" //$NON-NLS-1$
+		} ); 
 		addAnnotation( javaDateFormatSpecifierEClass, source, new String[]{
-				"name", "JavaDateFormatSpecifier", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "JavaDateFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( getJavaDateFormatSpecifier_Pattern( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Pattern"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( javaNumberFormatSpecifierEClass, source, new String[]{
-				"name", "JavaNumberFormatSpecifier", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "JavaNumberFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getJavaNumberFormatSpecifier_Pattern( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Pattern"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getJavaNumberFormatSpecifier_Multiplier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Multiplier"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( leaderLineStyleEEnum, source, new String[]{
-				"name", "LeaderLineStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( leaderLineStyleObjectEDataType, source, new String[]{
-				"name", "LeaderLineStyle:Object", "baseType", "LeaderLineStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LeaderLineStyle:Object", "baseType", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( legendItemTypeEEnum, source, new String[]{
-				"name", "LegendItemType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( legendItemTypeObjectEDataType, source, new String[]{
-				"name", "LegendItemType:Object", "baseType", "LegendItemType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LegendItemType:Object", "baseType", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( lineAttributesEClass, source, new String[]{
-				"name", "LineAttributes", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LineAttributes", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLineAttributes_Style( ), source, new String[]{
-				"kind", "element", "name", "Style"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Style" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLineAttributes_Thickness( ), source, new String[]{
-				"kind", "element", "name", "Thickness"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Thickness" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLineAttributes_Color( ), source, new String[]{
-				"kind", "element", "name", "Color"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Color" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLineAttributes_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( lineStyleEEnum, source, new String[]{
-				"name", "LineStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( lineStyleObjectEDataType, source, new String[]{
-				"name", "LineStyle:Object", "baseType", "LineStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LineStyle:Object", "baseType", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( locationEClass, source, new String[]{
-				"name", "Location", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Location", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLocation_X( ), source, new String[]{
-				"kind", "element", "name", "x"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "x" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getLocation_Y( ), source, new String[]{
-				"kind", "element", "name", "y"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "y" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( markerEClass, source, new String[]{
-				"name", "Marker", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Marker", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarker_Type( ), source, new String[]{
-				"kind", "element", "name", "Type"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarker_Size( ), source, new String[]{
-				"kind", "element", "name", "Size"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Size" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getMarker_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( markerTypeEEnum, source, new String[]{
-				"name", "MarkerType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( markerTypeObjectEDataType, source, new String[]{
-				"name", "MarkerType:Object", "baseType", "MarkerType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "MarkerType:Object", "baseType", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( numberFormatSpecifierEClass, source, new String[]{
-				"name", "NumberFormatSpecifier", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "NumberFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getNumberFormatSpecifier_Prefix( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Prefix"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getNumberFormatSpecifier_Suffix( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Suffix"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getNumberFormatSpecifier_Multiplier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Multiplier"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getNumberFormatSpecifier_FractionDigits( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FractionDigits"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "FractionDigits" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( orientationEEnum, source, new String[]{
-				"name", "Orientation"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( orientationObjectEDataType, source, new String[]{
-				"name", "Orientation:Object", "baseType", "Orientation"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Orientation:Object", "baseType", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( paletteEClass, source, new String[]{
-				"name", "Palette", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Palette", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getPalette_Name( ), source, new String[]{
-				"kind", "element", "name", "Name"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getPalette_Entries( ), source, new String[]{
-				"kind", "element", "name", "Entries"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Entries" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( percentageEDataType, source, new String[]{
-				"name",
-				"Percentage",
-				"baseType",
-				"http://www.eclipse.org/emf/2003/XMLType#double",
-				"minInclusive",
-				"0.0",
-				"maxInclusive",
-				"100.0"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+				"name", //$NON-NLS-1$
+				"Percentage", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"http://www.eclipse.org/emf/2003/XMLType#double", //$NON-NLS-1$
+				"minInclusive", //$NON-NLS-1$
+				"0.0", //$NON-NLS-1$
+				"maxInclusive", //$NON-NLS-1$
+				"100.0" //$NON-NLS-1$
+		} ); 
 		addAnnotation( percentageObjectEDataType, source, new String[]{
-				"name", "Percentage:Object", "baseType", "Percentage"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Percentage:Object", "baseType", "Percentage" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( positionEEnum, source, new String[]{
-				"name", "Position"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Position" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( positionObjectEDataType, source, new String[]{
-				"name", "Position:Object", "baseType", "Position"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Position:Object", "baseType", "Position" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( rgbValueEDataType, source, new String[]{
-				"name",
-				"RGBValue",
-				"baseType",
-				"http://www.eclipse.org/emf/2003/XMLType#int",
-				"minInclusive",
-				"0",
-				"maxInclusive",
-				"255"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+				"name", //$NON-NLS-1$
+				"RGBValue", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"http://www.eclipse.org/emf/2003/XMLType#int", //$NON-NLS-1$
+				"minInclusive", //$NON-NLS-1$
+				"0", //$NON-NLS-1$
+				"maxInclusive", //$NON-NLS-1$
+				"255" //$NON-NLS-1$
+		} ); 
 		addAnnotation( rgbValueObjectEDataType, source, new String[]{
-				"name", "RGBValue:Object", "baseType", "RGBValue"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "RGBValue:Object", "baseType", "RGBValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( riserTypeEEnum, source, new String[]{
-				"name", "RiserType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( riserTypeObjectEDataType, source, new String[]{
-				"name", "RiserType:Object", "baseType", "RiserType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "RiserType:Object", "baseType", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( ruleTypeEEnum, source, new String[]{
-				"name", "RuleType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( ruleTypeObjectEDataType, source, new String[]{
-				"name", "RuleType:Object", "baseType", "RuleType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "RuleType:Object", "baseType", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( scaleUnitTypeEEnum, source, new String[]{
-				"name", "ScaleUnitType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ScaleUnitType" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( scaleUnitTypeObjectEDataType, source, new String[]{
-				"name", "ScaleUnitType:Object", "baseType", "ScaleUnitType"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ScaleUnitType:Object", "baseType", "ScaleUnitType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( scriptValueEClass, source, new String[]{
-				"name", "ScriptValue", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ScriptValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getScriptValue_Script( ), source, new String[]{
-				"kind", "element", "name", "Script"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Script" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( seriesValueEClass, source, new String[]{
-				"name", "SeriesValue", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SeriesValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSeriesValue_Name( ), source, new String[]{
-				"kind", "element", "name", "Name"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( sizeEClass, source, new String[]{
-				"name", "Size", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Size", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSize_Height( ), source, new String[]{
-				"kind", "element", "name", "Height"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Height" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getSize_Width( ), source, new String[]{
-				"kind", "element", "name", "Width"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Width" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( sortOptionEEnum, source, new String[]{
-				"name", "SortOption"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SortOption" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( sortOptionObjectEDataType, source, new String[]{
-				"name", "SortOption:Object", "baseType", "SortOption"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SortOption:Object", "baseType", "SortOption" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( stretchEEnum, source, new String[]{
-				"name", "Stretch"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( stretchObjectEDataType, source, new String[]{
-				"name", "Stretch:Object", "baseType", "Stretch"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Stretch:Object", "baseType", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( styledComponentEEnum, source, new String[]{
-				"name", "StyledComponent"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( styledComponentObjectEDataType, source, new String[]{
-				"name", "StyledComponent:Object", "baseType", "StyledComponent"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "StyledComponent:Object", "baseType", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( styleMapEClass, source, new String[]{
-				"name", "StyleMap", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "StyleMap", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getStyleMap_ComponentName( ), source, new String[]{
-				"kind", "element", "name", "ComponentName"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "ComponentName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getStyleMap_Style( ), source, new String[]{
-				"kind", "element", "name", "Style"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Style" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( textEClass, source, new String[]{
-				"name", "Text", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Text", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getText_Value( ), source, new String[]{
-				"kind", "element", "name", "Value"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getText_Font( ), source, new String[]{
-				"kind", "element", "name", "Font"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Font" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getText_Color( ), source, new String[]{
-				"kind", "element", "name", "Color"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Color" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( textAlignmentEClass, source, new String[]{
-				"name", "TextAlignment", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TextAlignment", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getTextAlignment_HorizontalAlignment( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "horizontalAlignment"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "horizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( getTextAlignment_VerticalAlignment( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "verticalAlignment"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "verticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( tickStyleEEnum, source, new String[]{
-				"name", "TickStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( tickStyleObjectEDataType, source, new String[]{
-				"name", "TickStyle:Object", "baseType", "TickStyle"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TickStyle:Object", "baseType", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( tooltipValueEClass, source, new String[]{
-				"name", "TooltipValue", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TooltipValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getTooltipValue_Text( ), source, new String[]{
-				"kind", "element", "name", "Text"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Text" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getTooltipValue_Delay( ), source, new String[]{
-				"kind", "element", "name", "Delay"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Delay" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( triggerConditionEEnum, source, new String[]{
-				"name", "TriggerCondition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TriggerCondition" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( triggerConditionObjectEDataType, source, new String[]{
-				"name",
-				"TriggerCondition:Object",
-				"baseType",
-				"TriggerCondition"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", //$NON-NLS-1$
+				"TriggerCondition:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"TriggerCondition" //$NON-NLS-1$
+		} ); 
 		addAnnotation( unitsOfMeasurementEEnum, source, new String[]{
-				"name", "UnitsOfMeasurement"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "UnitsOfMeasurement" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( unitsOfMeasurementObjectEDataType, source, new String[]{
-				"name",
-				"UnitsOfMeasurement:Object",
-				"baseType",
-				"UnitsOfMeasurement"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", //$NON-NLS-1$
+				"UnitsOfMeasurement:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"UnitsOfMeasurement" //$NON-NLS-1$
+		} ); 
 		addAnnotation( urlValueEClass, source, new String[]{
-				"name", "URLValue", "kind", "elementOnly"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "URLValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getURLValue_BaseUrl( ), source, new String[]{
-				"kind", "element", "name", "BaseUrl"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "BaseUrl" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getURLValue_Target( ), source, new String[]{
-				"kind", "element", "name", "Target"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "Target" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getURLValue_BaseParameterName( ), source, new String[]{
-				"kind", "element", "name", "BaseParameterName"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "BaseParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getURLValue_ValueParameterName( ), source, new String[]{
-				"kind", "element", "name", "ValueParameterName"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", "name", "ValueParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} ); 
 		addAnnotation( getURLValue_SeriesParameterName( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesParameterName"
-				} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", "name", "SeriesParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} ); 
 		addAnnotation( verticalAlignmentEEnum, source, new String[]{
-				"name", "VerticalAlignment"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+		} ); 
 		addAnnotation( verticalAlignmentObjectEDataType, source, new String[]{
-				"name",
-				"VerticalAlignment:Object",
-				"baseType",
-				"VerticalAlignment"
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", //$NON-NLS-1$
+				"VerticalAlignment:Object", //$NON-NLS-1$
+				"baseType", //$NON-NLS-1$
+				"VerticalAlignment" //$NON-NLS-1$
+		} ); 
 	}
 
 } //AttributePackageImpl

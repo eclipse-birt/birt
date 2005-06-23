@@ -29,6 +29,11 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 1683131722588162319L;
+
+	/**
 	 * An undefined action that will result in an error
 	 */
 	public static final int UNDEFINED = 0;

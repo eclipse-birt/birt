@@ -25,6 +25,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class LineRenderEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 7216549683820618553L;
+
 	private Location loStart;
 
 	private Location loEnd;

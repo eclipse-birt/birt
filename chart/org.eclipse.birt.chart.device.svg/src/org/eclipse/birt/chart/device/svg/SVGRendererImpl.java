@@ -24,7 +24,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.svg.i18n.Messages;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
@@ -54,7 +53,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	public SVGRendererImpl( )
 	{
@@ -84,7 +83,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	static private final String SVG_DTD = "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"; //$NON-NLS-1$
 	/**
-	 *  
+	 * 
 	 */
 	private Object oOutputIdentifier = null;
 
@@ -207,8 +206,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		builder = factory.newDocumentBuilder( );
 		DOMImplementation domImpl = builder.getDOMImplementation( );
 		DocumentType dType = domImpl.createDocumentType( "svg", //$NON-NLS-1$
-				SVG_VERSION,
-				SVG_DTD );
+				SVG_VERSION, SVG_DTD );
 		Document svgDocument = domImpl.createDocument( null, "svg", dType ); //$NON-NLS-1$
 		return svgDocument;
 	}

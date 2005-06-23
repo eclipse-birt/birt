@@ -21,6 +21,11 @@ import org.eclipse.birt.chart.model.attribute.Location;
 public final class ClipRenderEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -1609479639743164885L;
+	
 	private Location[] _loa;
 
 	/**

@@ -19,6 +19,11 @@ import org.eclipse.birt.chart.computation.IConstants;
 public final class TransformationEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -2322114654814388838L;
+
 	public static final int UNDEFINED = IConstants.UNDEFINED;
 
 	public static final int SCALE = 1;

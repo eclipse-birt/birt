@@ -25,6 +25,11 @@ import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 public final class InteractionEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -3554746649816942383L;
+
 	private PrimitiveRenderEvent _pre = null;
 
 	private final LinkedHashMap _lhmTriggers = new LinkedHashMap( );

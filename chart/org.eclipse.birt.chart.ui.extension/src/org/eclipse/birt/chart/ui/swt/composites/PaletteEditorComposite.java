@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
-import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -127,7 +126,7 @@ public final class PaletteEditorComposite extends Composite implements
 	/**
 	 *  
 	 */
-	private IDisplayServer idsSWT = null;
+	//private IDisplayServer idsSWT = null;
 
 	/**
 	 * The constructor expects a default palette
@@ -193,7 +192,7 @@ public final class PaletteEditorComposite extends Composite implements
 		try
 		{
 			idrSWT = ps.getDevice( "dv.SWT" ); //$NON-NLS-1$
-			idsSWT = idrSWT.getDisplayServer( );
+			idrSWT.getDisplayServer( );
 		}
 		catch ( ChartException pex )
 		{

@@ -175,9 +175,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		final ImageWriter iw = (ImageWriter) it.next( );
 		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-				Messages.getString( "info.using.imagewriter", getLocale( ) )
+				Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
 						+ getFormat( )
-						+ iw.getClass( ).getName( ) ); //$NON-NLS-1$
+						+ iw.getClass( ).getName( ) );
 
 		// WRITE TO SPECIFIC FILE FORMAT
 		final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )

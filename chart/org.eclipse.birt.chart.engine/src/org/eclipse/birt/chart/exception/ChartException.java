@@ -23,6 +23,8 @@ import org.eclipse.birt.core.exception.BirtException;
 public class ChartException extends BirtException
 {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final int MAX_VALUE = 20;
 
 	/**

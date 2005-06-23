@@ -144,16 +144,16 @@ public final class SwingEventHandler implements
 					case ActionType.URL_REDIRECT :
 						final URLValue uv = (URLValue) ac.getValue( );
 						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-								Messages.getString( "info.redirect.url", lcl )
-										+ uv.getBaseUrl( ) ); //$NON-NLS-1$
+								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
+										+ uv.getBaseUrl( ) );
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
 						final Series seRT = (Series) sa.getSource( );
 						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.visibility",
+								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
 										lcl )
-										+ seRT ); //$NON-NLS-1$
+										+ seRT );
 						Series seDT = null;
 						try
 						{

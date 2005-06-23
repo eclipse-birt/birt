@@ -25,6 +25,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class RectangleRenderEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -2020892672024222905L;
+
 	private Bounds _bo;
 
 	private LineAttributes _lia;

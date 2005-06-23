@@ -23,6 +23,8 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
  */
 public final class ArcRenderEvent extends PrimitiveRenderEvent
 {
+	
+	private static final long serialVersionUID = -8516218845415390970L;
 
 	private Location loTopLeft = null;
 

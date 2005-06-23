@@ -17,6 +17,11 @@ package org.eclipse.birt.chart.event;
 public final class StructureChangeEvent extends PrimitiveRenderEvent
 {
 
+	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = -8897456257858266632L;
+
 	public static final int UNDEFINED = 0;
 
 	public static final int BEFORE = 1;
