@@ -453,7 +453,7 @@ public class FillChooserComposite extends Composite implements
 
 	private void toggleDropDown( )
 	{
-		// fix for linux, since it not send the event correctly to other than
+		// fix for lInux, since it not send the event correctly to other than
 		// current shell.
 		if ( bJustFocusLost )
 		{
