@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -297,6 +299,46 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		return p;
 	}
 
+	/**
+	 * Shift the list content from tail to head.
+	 * 
+	 * @param lst
+	 * @param pos
+	 */
+	private static final void shiftList( final List lst, int pos )
+	{
+		int size = lst.size( );
+
+		if ( pos < 1 )
+		{
+			pos = 0;
+		}
+
+		if ( pos >= size )
+		{
+			pos = pos % size;
+		}
+
+		if ( pos == 0 )
+		{
+			return;
+		}
+
+		Object[] array = lst.toArray( new Object[0] );
+
+		lst.clear( );
+
+		for ( int i = pos; i < array.length; i++ )
+		{
+			lst.add( array[i] );
+		}
+
+		for ( int i = 0; i < pos; i++ )
+		{
+			lst.add( array[i] );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -306,7 +348,26 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	{
 		final EList el = getEntries( );
 		el.clear( );
-		if ( iIndex == 0 )
+		if ( iIndex < 0 )
+		{
+			// a rotation version of palette-0, rataion pos is the negatvie
+			// index.
+			ArrayList al = new ArrayList( );
+
+			al.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
+			al.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
+			al.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
+			al.add( ColorDefinitionImpl.create( 255, 255, 0 ) );
+			al.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
+			al.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
+			al.add( ColorDefinitionImpl.create( 170, 85, 85 ) );
+			al.add( ColorDefinitionImpl.create( 128, 128, 0 ) );
+
+			shiftList( al, -iIndex );
+
+			el.addAll( al );
+		}
+		else if ( iIndex == 0 )
 		{
 			el.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
 			el.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
@@ -351,4 +412,4 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		el.add( f );
 	}
 
-} //PaletteImpl
+} // PaletteImpl

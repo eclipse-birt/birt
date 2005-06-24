@@ -164,6 +164,7 @@ public class PieChart extends DefaultChartTypeImpl
         newChart.getTitle().getLabel().getCaption().setValue(Messages.getString("PieChart.Txt.DefaultPieChartTitle")); //$NON-NLS-1$
 
         SeriesDefinition sdX = SeriesDefinitionImpl.create();
+        sdX.getSeriesPalette().update(0);
         Series categorySeries = SeriesImpl.create();
         sdX.getSeries().add(categorySeries);
         sdX.getQuery().setDefinition("Base Series"); //$NON-NLS-1$
