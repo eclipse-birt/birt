@@ -17,11 +17,8 @@ import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -184,39 +181,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 
 	private Object getTableParent( )
 	{
-		DesignElementHandle item = getCellHandle( ).getContainer( )
-		.getContainer( );
-		if ( item instanceof TableGroupHandle )
-		{
-			item = item.getContainer( );
-		}
-		return item;
-	}
-	
-	/**
-	 * Returns if the object is in the same column
-	 * 
-	 * @param obj
-	 *            the other object
-	 */
-	public boolean isSameColumn( Object obj )
-	{
-		if ( obj instanceof ColumnHandle )
-		{
-			ColumnHandle column = (ColumnHandle) obj;
-			ColumnHandleAdapter columnAdapter = HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( column );
-			return DNDUtil.getTableParent( column ) == getTableParent( )
-					&& columnAdapter.getColumnNumber( ) == getColumnNumber( );
-		}
-		if ( obj instanceof CellHandle )
-		{
-			CellHandle cell = (CellHandle) obj;
-			CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
-					.getCellHandleAdapter( cell );
-			return cellAdapter.getTableParent( ) == this.getTableParent( )
-					&& cellAdapter.getColumnNumber( ) == this.getColumnNumber( );
-		}
-		return false;
+		return DNDUtil.getTableParent( getHandle( ) );
 	}
 }

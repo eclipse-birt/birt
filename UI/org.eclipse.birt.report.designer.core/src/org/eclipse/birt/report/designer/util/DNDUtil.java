@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
@@ -713,9 +715,9 @@ public class DNDUtil
 					if ( child instanceof CellHandle
 							&& handles[i] instanceof ColumnHandle )
 					{
-						if ( HandleAdapterFactory.getInstance( )
-								.getCellHandleAdapter( child )
-								.isSameColumn( handles[i] ) )
+						if ( isInSameColumn( new Object[]{
+								child, handles[i]
+						} ) )
 						{
 							return true;
 						}
@@ -1155,12 +1157,12 @@ public class DNDUtil
 	}
 
 	/**
-	 * Returns the table parent
+	 * Returns the table or grid parent
 	 * 
 	 * @param handle
-	 *            the child of the table
+	 *            the child of the table or grid
 	 */
-	public static TableHandle getTableParent( DesignElementHandle handle )
+	public static Object getTableParent( DesignElementHandle handle )
 	{
 		while ( handle != null )
 		{
@@ -1168,8 +1170,62 @@ public class DNDUtil
 			{
 				return ( (TableHandle) handle );
 			}
+			if ( handle instanceof GridHandle )
+			{
+				return ( (GridHandle) handle );
+			}
 			handle = handle.getContainer( );
 		}
 		return null;
+	}
+	
+	/**
+	 * Returns if all objects are in the same column
+	 * 
+	 * @param objs
+	 *            the array of the object
+	 */
+	public static boolean isInSameColumn( Object[] objs )
+	{
+		assert objs != null && objs.length > 1;
+		final class ColumnPosition
+		{
+
+			int columnNumber;
+			Object parent;
+
+			ColumnPosition( Object obj )
+			{
+				if ( obj instanceof ColumnHandle )
+				{
+					ColumnHandleAdapter columnAdapter = HandleAdapterFactory.getInstance( )
+							.getColumnHandleAdapter( obj );
+					columnNumber = columnAdapter.getColumnNumber( );
+					parent = getTableParent( (DesignElementHandle) obj );
+				}
+				else if ( obj instanceof CellHandle )
+				{
+					CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
+							.getCellHandleAdapter( obj );
+					columnNumber = cellAdapter.getColumnNumber( );
+					parent = getTableParent( (DesignElementHandle) obj );
+				}
+			}
+		}
+		ColumnPosition position = null;
+		for ( int i = 0; i < objs.length; i++ )
+		{
+			ColumnPosition newPosi = new ColumnPosition( objs[i] );
+			if ( position == null )
+			{
+				position = newPosi;
+			}
+			else if ( position.columnNumber != newPosi.columnNumber
+					|| position.parent != newPosi.parent )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

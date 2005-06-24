@@ -236,7 +236,14 @@ public class HandleAdapterFactory
 		TableHandleAdapter retValue = (TableHandleAdapter) map.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new TableHandleAdapter( (TableHandle) obj, mark );
+			if ( obj instanceof GridHandle )
+			{
+				retValue = new GridHandleAdapter( (GridHandle) obj, mark );
+			}
+			else
+			{
+				retValue = new TableHandleAdapter( (TableHandle) obj, mark );
+			}
 			map.put( obj, retValue );
 		}
 		return retValue;
