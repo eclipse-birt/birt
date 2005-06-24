@@ -38,8 +38,10 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -642,5 +644,46 @@ public class UIUtil
 			}
 		}
 		return part;
-	}	
+	}
+
+	public static boolean containElement( AbstractTreeViewer treeViewer, Object element )
+	{
+		ITreeContentProvider provider = (ITreeContentProvider) treeViewer.getContentProvider( );
+		Object input = treeViewer.getInput( );
+		if ( input instanceof Object[] )
+		{
+			Object[] inputs = (Object[]) input;
+			for ( int i = 0; i < inputs.length; i++ )
+			{
+				if ( containElement( inputs[i], provider, element ) )
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		return containElement( input, provider, element );
+	}
+
+	private static boolean containElement( Object parent,
+			ITreeContentProvider provider, Object element )
+	{
+		if ( parent == null )
+		{
+			return false;
+		}
+		if ( parent == element || parent.equals( element ) )
+		{
+			return true;
+		}
+		Object[] childrens = provider.getChildren( parent );
+		for ( int i = 0; i < childrens.length; i++ )
+		{
+			if ( containElement( childrens[i], provider, element ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
