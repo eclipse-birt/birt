@@ -184,7 +184,13 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 
 	private Object getTableParent( )
 	{
-		return DNDUtil.getTableParent( getHandle( ) );
+		DesignElementHandle item = getCellHandle( ).getContainer( )
+		.getContainer( );
+		if ( item instanceof TableGroupHandle )
+		{
+			item = item.getContainer( );
+		}
+		return item;
 	}
 	
 	/**
