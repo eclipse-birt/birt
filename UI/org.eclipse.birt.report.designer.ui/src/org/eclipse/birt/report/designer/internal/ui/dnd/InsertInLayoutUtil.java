@@ -400,6 +400,11 @@ public class InsertInLayoutUtil
 		{
 			return performInsertParameter( (ScalarParameterHandle) insertObj );
 		}
+		else if ( insertObj instanceof String )
+		{
+			//Such as invalid group key
+			return performInsertString( (String) insertObj, target );
+		}
 		else if ( insertObj instanceof Object[] )
 		{
 			return performMultiInsert( (Object[]) insertObj,
@@ -550,6 +555,39 @@ public class InsertInLayoutUtil
 		if ( rule.canInsert( ) )
 		{
 			rule.insert( model );
+		}
+
+		return dataHandle;
+	}
+	
+	/**
+	 * Inserts invalid column string into the target. Add label if possible
+	 * 
+	 * @param expression
+	 *            invalid column or other expression
+	 * @param target
+	 *            insert target like cell or ListBandProxy
+	 * @return to be inserted data item
+	 * @throws SemanticException
+	 */
+	protected static DesignElementHandle performInsertString( String expression,
+			Object target ) throws SemanticException
+	{
+		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getElementFactory( )
+				.newDataItem( null );
+		dataHandle.setValueExpr( expression );
+
+		InsertInLayoutRule rule = new LabelAddRule( target );
+		if ( rule.canInsert( ) )
+		{
+			LabelHandle label = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getElementFactory( )
+					.newLabel( null );
+			label.setText( expression );
+			rule.insert( label );
 		}
 
 		return dataHandle;
