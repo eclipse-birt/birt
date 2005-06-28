@@ -353,7 +353,7 @@ public class PropertyCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
-		MemberRecord record = new MemberRecord( element, ref, value );
+		MemberRecord record = new MemberRecord( design, element, ref, value );
 		stack.execute( record );
 		stack.commit( );
 	}
@@ -857,7 +857,7 @@ public class PropertyCommand extends AbstractElementCommand
 			return list;
 
 		list = new ArrayList( );
-		MemberRecord memberRecord = new MemberRecord( element, ref, list );
+		MemberRecord memberRecord = new MemberRecord( design, element, ref, list );
 		getActivityStack( ).execute( memberRecord );
 		return list;
 	}

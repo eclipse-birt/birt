@@ -18,13 +18,14 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Records setting the value of a structure member.
- * 
+ *  
  */
 
 public class MemberRecord extends SimpleRecord
@@ -36,6 +37,12 @@ public class MemberRecord extends SimpleRecord
 	 */
 
 	protected DesignElement element;
+
+	/**
+	 * The report design of the element to be changed.
+	 */
+
+	protected ReportDesign design;
 
 	/**
 	 * Reference to the member.
@@ -64,6 +71,8 @@ public class MemberRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
+	 * @param design
+	 *            the report design
 	 * @param obj
 	 *            the element that contains the property that contains the
 	 *            structure that contains the member.
@@ -73,13 +82,15 @@ public class MemberRecord extends SimpleRecord
 	 *            new value for the member
 	 */
 
-	public MemberRecord( DesignElement obj, MemberRef ref, Object value )
+	public MemberRecord( ReportDesign design, DesignElement obj, MemberRef ref,
+			Object value )
 	{
 		element = obj;
 		memberRef = ref;
 		newValue = value;
-		structure = memberRef.getStructure( null, element );
-		oldValue = memberRef.getValue( null, element );
+		assert design != null;
+		structure = memberRef.getStructure( design, element );
+		oldValue = memberRef.getValue( design, element );
 
 		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,
