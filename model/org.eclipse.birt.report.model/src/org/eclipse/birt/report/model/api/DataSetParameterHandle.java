@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -343,7 +344,10 @@ public class DataSetParameterHandle extends StructureHandle
 		if ( memberDefn == null )
 			return null;
 
-		return new NameMemberHandle( this, memberDefn );
+		if ( DesignSchemaConstants.NAME_ATTRIB.equalsIgnoreCase( memberName ) )
+			return new NameMemberHandle( this, memberDefn );
+		else
+			return new MemberHandle( this, memberDefn );
 	}
 
 	/**
