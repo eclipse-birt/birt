@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -325,6 +326,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				provider );
 
 		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
+	
+		builder.setDesignHandle( (DesignElementHandle) model );
 
 		if ( builder.open( ) == Window.OK )
 		{
@@ -352,6 +355,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 
 			builder.updateHandle( handle, fTableViewer.getTable( )
 					.getItemCount( ) );
+
+			builder.setDesignHandle( (DesignElementHandle) model );
 
 			if ( builder.open( ) == Window.OK )
 			{
