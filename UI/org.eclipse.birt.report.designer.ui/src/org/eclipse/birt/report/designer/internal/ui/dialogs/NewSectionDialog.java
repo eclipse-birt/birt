@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -95,11 +95,19 @@ public class NewSectionDialog extends SelectionDialog
 		layout.numColumns = 1;
 		Label preLabel = new Label( compo, SWT.NONE );
 		list = new List( compo, SWT.SINGLE | SWT.BORDER );
-		list.addSelectionListener( new SelectionAdapter( ) {
+		list.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				getOkButton( ).setEnabled( list.getSelectionCount( ) > 0 );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				if ( list.getSelectionCount( ) > 0 )
+				{
+					okPressed( );
+				}
 			}
 
 		} );
@@ -157,9 +165,9 @@ public class NewSectionDialog extends SelectionDialog
 	{
 		assert cons != null;
 		this.contents = cons;
-		
+
 		//Temporarily disabled
-		contents.remove( DesignEngine.getMetaDataDictionary()
+		contents.remove( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 }
