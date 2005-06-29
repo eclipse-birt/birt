@@ -280,6 +280,8 @@ public class ReportPlatformUIImages
 				ICONS_PATH + "property.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER,
 				ICONS_PATH + "static_property.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_BUILDER,
+				ICONS_PATH + "expression.gif" ); //$NON-NLS-1$
 
 		//data wizards
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASOURCE,
@@ -373,6 +375,10 @@ public class ReportPlatformUIImages
 		//Data editor dialog icons
 		declareImage(IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER, ICONS_PATH
 				+ "prop_dialog_title.gif" ); //$NON-NLS-1$
+		
+		//Open file icon
+		declareImage( IReportGraphicConstants.ICON_OPEN_FILE,
+				ICONS_PATH + "open_file.gif" ); //$NON-NLS-1$
 
 		
 

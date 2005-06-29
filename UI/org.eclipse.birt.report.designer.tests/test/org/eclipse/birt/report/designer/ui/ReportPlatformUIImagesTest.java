@@ -116,7 +116,8 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD,
 				IReportGraphicConstants.ICON_EXPRESSION_MEMBER,
 				IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER,
-
+				IReportGraphicConstants.ICON_EXPRESSION_BUILDER,
+				
 				//data wizards
 				IReportGraphicConstants.ICON_WIZARD_DATASOURCE,
 				IReportGraphicConstants.ICON_WIZARD_DATASET,
@@ -147,6 +148,8 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_PREVIEW_REFRESH,
 				
 				IReportGraphicConstants.ICON_DEFAULT,
+				
+				IReportGraphicConstants.ICON_OPEN_FILE,
 		};
 		for ( int i = 0; i < iconName.length; i++ )
 		{

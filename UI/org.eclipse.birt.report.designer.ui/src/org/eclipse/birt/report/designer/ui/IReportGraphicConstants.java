@@ -166,6 +166,9 @@ public interface IReportGraphicConstants
 	public final static String ICON_AUTOTEXT_CONFIDENTIAL_PAGE = "ConfidentalPage";//$NON-NLS-1$
 
 	//expression builder icons
+	
+	public final static String ICON_EXPRESSION_BUILDER = "Expression Builder";//$NON-NLS-1$
+
 	public final static String ICON_EXPRESSION_DATA_TABLE = "DataTable";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_OPERATOR = "Operator";//$NON-NLS-1$
@@ -236,4 +239,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
 
 	public static final String ICON_DATAEDIT_DLG_TITLE_BANNER = "org.eclipse.birt.report.designer.property"; //$NON-NLS-1$
+	
+	// Open file flag image
+	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
+
 }
