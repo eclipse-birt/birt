@@ -18,14 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
-import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
-import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -36,20 +31,15 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.RenameAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.PageSetAction.CodePageAction;
-import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.Action;
@@ -57,7 +47,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -65,9 +54,8 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Default node provider. This class is the base class for other providers
- * 
- *  
  */
+
 public class DefaultNodeProvider implements INodeProvider
 {
 
@@ -80,7 +68,7 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String DATASETS = Messages.getString( "DefaultNodeProvider.Tree.DataSets" ); //$NON-NLS-1$
 
 	public static final String STYLES = Messages.getString( "DefaultNodeProvider.Tree.Styles" ); //$NON-NLS-1$
-	
+
 	public static final String IMAGES = Messages.getString( "DefaultNodeProvider.Tree.Images" ); //$NON-NLS-1$
 
 	public static final String PARAMETERS = Messages.getString( "DefaultNodeProvider.Tree.Parameters" ); //$NON-NLS-1$
@@ -155,7 +143,7 @@ public class DefaultNodeProvider implements INodeProvider
 		Action action = new CodePageAction( object );
 		if ( action.isEnabled( ) )
 			menu.add( action );
-			
+
 		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
 				+ "-end" ) );//$NON-NLS-1$		
 	}
@@ -185,9 +173,9 @@ public class DefaultNodeProvider implements INodeProvider
 			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
 			{
 				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
-				if(comparator !=null)
+				if ( comparator != null )
 				{
-					Arrays.sort(children,comparator);
+					Arrays.sort( children, comparator );
 				}
 				return children;
 			}
@@ -201,9 +189,9 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			return ( (ReportElementModel) model ).getElementHandle( );
 		}
-		else if (model instanceof SlotHandle)
+		else if ( model instanceof SlotHandle )
 		{
-			return ((SlotHandle)model).getElementHandle( );
+			return ( (SlotHandle) model ).getElementHandle( );
 		}
 		else if ( model instanceof ReportElementHandle )
 		{
@@ -237,8 +225,9 @@ public class DefaultNodeProvider implements INodeProvider
 		Image icon = null;
 		String iconName = getIconName( model );
 
-		if(model instanceof DesignElementHandle &&
-				((DesignElementHandle)model).getValidationErrors().size()>0)
+		if ( model instanceof DesignElementHandle
+				&& ( (DesignElementHandle) model ).getValidationErrors( )
+						.size( ) > 0 )
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
@@ -321,69 +310,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	protected DesignElementHandle createElement( String type ) throws Exception
 	{
-		ElementFactory factory = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( );
-		if ( ReportDesignConstants.TABLE_ITEM.equals( type ) )
-		{
-			TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
-					true );
-			if ( dlg.open( ) == Window.OK && dlg.getResult( ) instanceof int[] )
-			{
-				int[] data = (int[]) dlg.getResult( );
-				TableHandle table = factory.newTableItem( null,
-						data[1],
-						1,
-						data[0],
-						1 );
-				InsertInLayoutUtil.setInitWidth( table );
-				return table;
-			}
-			return null;
-		}
-		else if ( ReportDesignConstants.GRID_ITEM.equals( type ) )
-		{
-			TableOptionDialog dlg = new TableOptionDialog( UIUtil.getDefaultShell( ),
-					false );
-			if ( dlg.open( ) == Window.OK && dlg.getResult( ) instanceof int[] )
-			{
-				int[] data = (int[]) dlg.getResult( );
-				GridHandle grid = factory.newGridItem( null, data[1], data[0] );
-				InsertInLayoutUtil.setInitWidth( grid );
-				return grid;
-			}
-			return null;
-		}
-		else if ( ReportDesignConstants.IMAGE_ITEM.equals( type ) )
-		{
-			ImageBuilderDialog dialog = new ImageBuilderDialog( UIUtil.getDefaultShell( ) );
-			if ( dialog.open( ) == Dialog.OK )
-			{
-				return (DesignElementHandle) dialog.getResult( );
-			}
-			return null;
-		}
-		DesignElementHandle handle = factory.newElement( type, null );
-		if ( handle == null )
-		{
-		    handle = factory.newExtendedItem( null, type );
-		    if ( handle != null )
-            {
-                IReportItemBuilderUI builder = ExtensionPointManager
-                        .getInstance().getExtendedElementPoint( type )
-                        .getReportItemBuilderUI();
-                
-                if ( builder != null )
-                {
-                    //Open the builder for new element
-                    if ( builder.open( (ExtendedItemHandle)handle ) == Window.CANCEL )
-                    {
-                        return null;
-                    }
-                }
-            }
-		}
-		return handle;
+		return ElementProcessorFactory.createProcessor( type )
+				.createElement( null );
 	}
 
 	protected DesignElementHandle createElement( SlotHandle slotHandle,
@@ -467,14 +395,14 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		return getChildren( object ).length > 0;
 	}
-	
+
 	/**
 	 * Set comparator to control the order of children.
+	 * 
 	 * @param comparator
 	 */
-	public void setSorter(Comparator comparator)
+	public void setSorter( Comparator comparator )
 	{
 		this.comparator = comparator;
 	}
 }
-

@@ -218,6 +218,26 @@ public class DEUtil
 	}
 
 	/**
+	 * Gets the definition for the element with the specified name
+	 * 
+	 * @param elementName
+	 *            the name of the element
+	 * 
+	 * @return Returns the definition, or null if the element is not defined.
+	 */
+	public static IElementDefn getElementDefn( String elementName )
+	{
+		IElementDefn defn = DesignEngine.getMetaDataDictionary( )
+				.getElement( elementName );
+		if ( defn == null )
+		{
+			defn = DesignEngine.getMetaDataDictionary( )
+					.getExtension( elementName );
+		}
+		return defn;
+	}
+
+	/**
 	 * Get display label of report element
 	 * 
 	 * @param obj
@@ -741,7 +761,7 @@ public class DEUtil
 			{
 				colName = ( (DataSetItemModel) model ).getName( );
 			}
-			
+
 			return /*
 				    * Roll back because engine hasn't support full path yet
 				    * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
@@ -956,41 +976,42 @@ public class DEUtil
 				.getName( )
 				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
 	}
-	
-	
+
 	/**
 	 * @return Alphabetically sortted styles list.
 	 */
-	public static Iterator getStyles()
+	public static Iterator getStyles( )
 	{
-		return getStyles(new AlphabeticallyComparator());
+		return getStyles( new AlphabeticallyComparator( ) );
 	}
-	
+
 	/**
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
-	public static Iterator getStyles(Comparator comparator)
+	public static Iterator getStyles( Comparator comparator )
 	{
-		SlotHandle styles = SessionHandleAdapter.getInstance().getReportDesignHandle().getStyles();
-		
-		if(styles ==null) 
+		SlotHandle styles = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getStyles( );
+
+		if ( styles == null )
 		{
 			return null;
 		}
-		
-		Object[] stylesArray = new Object[styles.getCount()];
-		
-		int i =0;
-		for(Iterator it= styles.iterator();it.hasNext();)
+
+		Object[] stylesArray = new Object[styles.getCount( )];
+
+		int i = 0;
+		for ( Iterator it = styles.iterator( ); it.hasNext( ); )
 		{
-			stylesArray[i++] = it.next();
+			stylesArray[i++] = it.next( );
 		}
-		
-		if(comparator!=null)
+
+		if ( comparator != null )
 		{
-			Arrays.sort(stylesArray,comparator);
+			Arrays.sort( stylesArray, comparator );
 		}
-		return Arrays.asList(stylesArray).iterator();
+		return Arrays.asList( stylesArray ).iterator( );
 	}
 }
