@@ -248,7 +248,11 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 				.getCaption( )
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		setLabel( lb.getLabel( ) );
-		setBlockBounds( lb.getBounds( ).scaledInstance( dScale ) );
+		
+		Bounds bo = lb.getBounds( ).scaledInstance( dScale );
+		bo = bo.adjustedInstance(lb.getInsets().scaledInstance(dScale));
+		
+		setBlockBounds( bo );
 		setBlockAlignment( null );
 		setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 		return sPreviousValue;

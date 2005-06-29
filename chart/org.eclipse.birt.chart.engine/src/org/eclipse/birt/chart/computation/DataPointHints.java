@@ -297,7 +297,7 @@ public final class DataPointHints
 			}
 			else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
 			{
-				sb.append( getOrthogonalDisplayValue( ) );
+				sb.append( getSeriesDisplayValue( ) );
 			}
 
 			if ( i < el.size( ) - 1 )
