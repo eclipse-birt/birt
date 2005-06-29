@@ -13,6 +13,10 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -48,6 +52,18 @@ class ExpressionState extends PropertyState
 			state.setName( TextDataItem.CONTENT_TYPE_PROP );
 			return state;
 		}
+
+		if ( ( ( element instanceof StyleElement )
+				|| ( element instanceof DataItem ) || ( element instanceof TableItem ) )
+				&& "highlightTestExpr".equalsIgnoreCase( name ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			if ( handler.isVersion( "0" ) || handler.isVersion( "1" ) ) //$NON-NLS-1$//$NON-NLS-2$
+				return new CompatibleTestExpreState( handler, element, Style.HIGHLIGHT_RULES_PROP);
+		}
+		if ( ( ( element instanceof StyleElement )
+				|| ( element instanceof DataItem ) || ( element instanceof TableItem ) )
+				&& ( "mapTestExpr".equalsIgnoreCase( name ) ) ) //$NON-NLS-1$
+			return new CompatibleTestExpreState( handler, element, Style.MAP_RULES_PROP );
 
 		return super.jumpTo( );
 	}

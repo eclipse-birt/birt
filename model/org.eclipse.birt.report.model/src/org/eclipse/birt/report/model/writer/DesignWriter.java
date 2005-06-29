@@ -1043,8 +1043,7 @@ public class DesignWriter extends ElementVisitor
 		property( obj, Style.CAN_SHRINK_PROP );
 
 		// Highlight
-		property( obj, Style.HIGHLIGHT_TEST_EXPR_PROP );
-
+	
 		List list = (ArrayList) obj.getLocalProperty( design,
 				Style.HIGHLIGHT_RULES_PROP );
 		if ( list != null && list.size( ) > 0 )
@@ -1100,8 +1099,10 @@ public class DesignWriter extends ElementVisitor
 				writeStructure( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
 				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
+				property( rule,HighlightRule.TEST_EXPR_PROP);
 				property( rule, HighlightRule.VALUE1_MEMBER );
 				property( rule, HighlightRule.VALUE2_MEMBER );
+				
 
 				writer.endElement( );
 			}
@@ -1109,7 +1110,7 @@ public class DesignWriter extends ElementVisitor
 		}
 
 		// Map
-		property( obj, Style.MAP_TEST_EXPR_PROP );
+		
 
 		list = (ArrayList) obj.getLocalProperty( design, Style.MAP_RULES_PROP );
 		if ( list != null && list.size( ) > 0 )
@@ -1122,7 +1123,8 @@ public class DesignWriter extends ElementVisitor
 			{
 				MapRule rule = (MapRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-
+				
+				property( rule, MapRule.TEST_EXPR_PROP );
 				property( rule, MapRule.OPERATOR_MEMBER );
 				property( rule, MapRule.VALUE1_MEMBER );
 				property( rule, MapRule.VALUE2_MEMBER );

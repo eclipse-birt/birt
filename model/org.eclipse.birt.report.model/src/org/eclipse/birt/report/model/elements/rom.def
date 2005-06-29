@@ -1348,6 +1348,7 @@
     <Member detailType="mapOperator" displayNameID="Structure.MapRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
     </Member>
+    <Member displayNameID="Structure.MapRule.testExpr" isIntrinsic="true" name="testExpr" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.MapRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.MapRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.MapRule.display" isIntrinsic="true" name="display" since="1.0" type="string"/>
@@ -1357,37 +1358,38 @@
     <Member detailType="mapOperator" displayNameID="Structure.HighlightRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
     </Member>
-    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
-    <Member displayNameID="Structure.HighlightRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.top.color" name="borderTopColor" since="1.0" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.left.style" name="borderLeftStyle" since="1.0" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.left.width" name="borderLeftWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.left.color" name="borderLeftColor" since="1.0" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.bottom.style" name="borderBottomStyle" since="1.0" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.bottom.width" name="borderBottomWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.bottom.color" name="borderBottomColor" since="1.0" type="color"/>
-    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.right.style" name="borderRightStyle" since="1.0" type="choice"/>
-    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-    <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" since="1.0" type="color"/>
-    <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" since="1.0" type="color"/>
-    <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" since="1.0" type="structure"/>
-    <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" since="1.0" type="structure"/>
-    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" since="1.0" type="choice"/>
-    <Member detailType="StringFormatValue" displayNameID="Structure.HighlightRule.format.string" name="stringFormat" since="1.0" type="structure"/>
-    <Member detailType="fontFamily" displayNameID="Structure.HighlightRule.font.family" name="fontFamily" since="1.0" type="string"/>
-    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator"/>
-    <Member detailType="fontStyle" displayNameID="Structure.HighlightRule.font.style" name="fontStyle" since="1.0" type="choice"/>
-    <Member detailType="fontWeight" displayNameID="Structure.HighlightRule.font.weight" name="fontWeight" since="1.0" type="choice"/>
-    <Member detailType="fontVariant" displayNameID="Structure.HighlightRule.font.variant" name="fontVariant" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.HighlightRule.font.color" name="color" since="1.0" type="color"/>
-    <Member detailType="textUnderline" displayNameID="Structure.HighlightRule.font.textUnderline" name="textUnderline" since="1.0" type="choice"/>
-    <Member detailType="textOverline" displayNameID="Structure.HighlightRule.font.textOverline" name="textOverline" since="1.0" type="choice"/>
-    <Member detailType="textLineThrough" displayNameID="Structure.HighlightRule.font.textLineThrough" name="textLineThrough" since="1.0" type="choice"/>
-    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
-    <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.testExpr" isIntrinsic="true" name="testExpr" returnType="any" type="expression"/>
+    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" type="expression"/>
+    <Member displayNameID="Structure.HighlightRule.value2" isIntrinsic="true" name="value2" returnType="any" type="expression"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.top.style" name="borderTopStyle" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.top.width" name="borderTopWidth" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.top.color" name="borderTopColor" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.left.style" name="borderLeftStyle" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.left.width" name="borderLeftWidth" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.left.color" name="borderLeftColor" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.bottom.style" name="borderBottomStyle" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.bottom.width" name="borderBottomWidth" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.bottom.color" name="borderBottomColor" type="color"/>
+    <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.right.style" name="borderRightStyle" type="choice"/>
+    <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" type="dimension" validator="NonNegativeValueValidator"/>
+    <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" type="color"/>
+    <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" type="color"/>
+    <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" type="structure"/>
+    <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" type="structure"/>
+    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" type="choice"/>
+    <Member detailType="StringFormatValue" displayNameID="Structure.HighlightRule.format.string" name="stringFormat" type="structure"/>
+    <Member detailType="fontFamily" displayNameID="Structure.HighlightRule.font.family" name="fontFamily" type="string"/>
+    <Member detailType="fontSize" displayNameID="Structure.HighlightRule.font.size" name="fontSize" type="dimension" validator="PositiveValueValidator"/>
+    <Member detailType="fontStyle" displayNameID="Structure.HighlightRule.font.style" name="fontStyle" type="choice"/>
+    <Member detailType="fontWeight" displayNameID="Structure.HighlightRule.font.weight" name="fontWeight" type="choice"/>
+    <Member detailType="fontVariant" displayNameID="Structure.HighlightRule.font.variant" name="fontVariant" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.font.color" name="color" type="color"/>
+    <Member detailType="textUnderline" displayNameID="Structure.HighlightRule.font.textUnderline" name="textUnderline" type="choice"/>
+    <Member detailType="textOverline" displayNameID="Structure.HighlightRule.font.textOverline" name="textOverline" type="choice"/>
+    <Member detailType="textLineThrough" displayNameID="Structure.HighlightRule.font.textLineThrough" name="textLineThrough" type="choice"/>
+    <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" type="choice"/>
+    <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" type="dimension"/>
+    <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" type="choice"/>
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
@@ -1932,9 +1934,7 @@
     <Property displayNameID="Element.Style.canShrink" isStyleProperty="true" name="canShrink" since="reserved" type="boolean">
       <Default>true</Default>
     </Property>
-    <Property displayNameID="Element.Style.map.testExpr" isStyleProperty="true" name="mapTestExpr" returnType="any" since="1.0" type="expression"/>
     <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
-    <Property displayNameID="Element.Style.highlight.testExpr" isStyleProperty="true" name="highlightTestExpr" returnType="any" since="1.0" type="expression"/>
     <Property detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>
     <PropertyVisibility name="backgroundAttachment" visibility="hide"/>          
     <PropertyVisibility name="backgroundImage" visibility="hide"/>      
@@ -2159,11 +2159,9 @@
     <StyleProperty name="fontWeight"/>
     <StyleProperty name="fontStyle"/>
     <StyleProperty name="fontVariant"/>
-    <StyleProperty name="highlightTestExpr"/>
     <StyleProperty name="highlightRules"/>
     <StyleProperty name="letterSpacing"/>
     <StyleProperty name="lineHeight"/>
-    <StyleProperty name="mapTestExpr"/>
     <StyleProperty name="mapRules"/>
     <StyleProperty name="marginTop"/>
     <StyleProperty name="marginBottom"/>
@@ -2436,9 +2434,7 @@
     <StyleProperty name="numberAlign"/>
     <StyleProperty name="stringFormat"/>
     <StyleProperty name="canShrink"/>
-    <StyleProperty name="mapTestExpr"/>
     <StyleProperty name="mapRules"/>
-    <StyleProperty name="highlightTestExpr"/>
     <StyleProperty name="highlightRules"/>
     <StyleProperty name="marginTop"/>
     <StyleProperty name="marginBottom"/>

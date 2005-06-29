@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.Date;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -45,6 +46,7 @@ public abstract class AbstractParseState
 	 */
 
 	protected StringBuffer text = new StringBuffer( );
+	
 
 	/**
 	 * Sets the element name.
@@ -131,6 +133,7 @@ public abstract class AbstractParseState
 	 * 
 	 * @throws SAXException
 	 *             if the SAX exception is encountered.
+	 * @throws 
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement
 	 */
 

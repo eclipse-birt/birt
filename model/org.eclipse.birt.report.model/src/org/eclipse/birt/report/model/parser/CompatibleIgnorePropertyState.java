@@ -41,8 +41,5 @@ public class CompatibleIgnorePropertyState extends PropertyState
 
 	public void end( )
 	{
-
-		return;
-
 	}
 }

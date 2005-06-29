@@ -81,4 +81,28 @@ public class MapRuleHandle extends StyleRuleHandle
 	{
         setPropertySilently( MapRule.DISPLAY_ID_MEMBER, displayID );
 	}
+	
+	/**
+	 * sets the expression for this map rule.
+	 * 
+	 * @param expression
+	 * 			the expression
+	 */
+	
+	public void setTestExpr(String expression){
+		
+		setPropertySilently(MapRule.TEST_EXPR_PROP, expression);		
+	}
+	
+	/**
+	 * sets the test expression for this map rule.
+	 * 
+	 * @return
+	 * 		the expression
+	 */
+	public String getTestExpr(){
+		
+		return getStringProperty(MapRule.TEST_EXPR_PROP);
+		
+	}
 }

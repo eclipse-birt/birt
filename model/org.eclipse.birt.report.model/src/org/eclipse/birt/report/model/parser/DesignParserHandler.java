@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -44,6 +45,11 @@ public class DesignParserHandler extends XMLParserHandler
 	 */
 
 	protected ReportDesign design = null;
+	
+	/**
+	 * The temperate value for parser compatible.
+	 */
+	protected HashMap tempValue = new HashMap();
 
 	/**
 	 * The version of the design file this handle is parsing.

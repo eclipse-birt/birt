@@ -11,7 +11,14 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.Iterator;
+
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
+import org.eclipse.birt.report.model.api.PrivateStyleHandle;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -21,7 +28,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses the Table (table item) tag.
- *  
+ * 
  */
 
 public class TableItemState extends ListingItemState
@@ -79,6 +86,7 @@ public class TableItemState extends ListingItemState
 		return super.startElement( tagName );
 	}
 
+	
 	/**
 	 * Parses the contents of the list of TableGroup.
 	 */

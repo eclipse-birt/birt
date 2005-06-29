@@ -56,10 +56,9 @@ public interface IStyleModel
 	public static final String TEXT_UNDERLINE_PROP = "textUnderline"; //$NON-NLS-1$
 	public static final String TEXT_OVERLINE_PROP = "textOverline"; //$NON-NLS-1$
 	public static final String TEXT_LINE_THROUGH_PROP = "textLineThrough"; //$NON-NLS-1$
-	public static final String HIGHLIGHT_TEST_EXPR_PROP = "highlightTestExpr"; //$NON-NLS-1$
+	//public static final String HIGHLIGHT_TEST_EXPR_PROP = "highlightTestExpr"; //$NON-NLS-1$
 	public static final String HIGHLIGHT_RULES_PROP = "highlightRules"; //$NON-NLS-1$
 	public static final String MAP_RULES_PROP = "mapRules"; //$NON-NLS-1$
-	public static final String MAP_TEST_EXPR_PROP = "mapTestExpr"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_PROP = "numberFormat"; //$NON-NLS-1$
 	public static final String NUMBER_ALIGN_PROP = "numberAlign"; //$NON-NLS-1$
 	public static final String DISPLAY_PROP = "display"; //$NON-NLS-1$

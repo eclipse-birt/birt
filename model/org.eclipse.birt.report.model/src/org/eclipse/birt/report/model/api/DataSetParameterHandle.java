@@ -348,6 +348,7 @@ public class DataSetParameterHandle extends StructureHandle
 			return new NameMemberHandle( this, memberDefn );
 		else
 			return new MemberHandle( this, memberDefn );
+
 	}
 
 	/**

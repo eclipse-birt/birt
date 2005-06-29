@@ -353,6 +353,28 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	}
 
 	/**
+	 * gets the expression for this highlight rule.
+	 * 
+	 * @return the expression value
+	 */
+	public String getHighlighTestExpression( )
+	{
+		return getStringProperty( HighlightRule.TEST_EXPR_PROP );
+	}
+
+	/**
+	 * sets the test expression for this hilghtlight rule.
+	 * 
+	 * @param expression
+	 * 				the expression 
+	 * @throws SemanticException
+	 */
+	public void setTestExpression( String expression ) throws SemanticException
+	{
+		setProperty( HighlightRule.TEST_EXPR_PROP, expression );
+	}
+
+	/**
 	 * Returns the value of the underline property. The returned value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>
@@ -837,7 +859,8 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER</code>
-	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
+	 * <li>
+	 * <code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
 	 * 
 	 * @param category

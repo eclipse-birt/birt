@@ -1312,11 +1312,12 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the test expression for the map.
 	 * 
 	 * @return the map test expression
+	 * @deprecated
 	 */
 
 	public String getMapTestExpr( )
 	{
-		return getStringProperty( Style.MAP_TEST_EXPR_PROP );
+		return null;
 	}
 
 	/**
@@ -1326,10 +1327,10 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new map test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
+	 *  @deprecated
 	 */
 	public void setMapTestExpr( String value ) throws SemanticException
 	{
-		setProperty( Style.MAP_TEST_EXPR_PROP, value );
 	}
 
 	/**
@@ -1353,11 +1354,13 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * Returns the test expression for the highlight.
 	 * 
 	 * @return the highlight test expression
+	 * 
+	 * @deprecated
 	 */
 
 	public String getHighlightTestExpr( )
 	{
-		return getStringProperty( Style.HIGHLIGHT_TEST_EXPR_PROP );
+		return null;
 	}
 
 	/**
@@ -1367,11 +1370,13 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new highlight test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
+	 *             
+	 * @deprecated
 	 */
 
 	public void setHighlightTestExpr( String value ) throws SemanticException
 	{
-		setProperty( Style.HIGHLIGHT_TEST_EXPR_PROP, value );
+		return;
 	}
 
 	/**
