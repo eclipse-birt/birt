@@ -164,7 +164,7 @@
          point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
       <jdbcDriver
             driverClass="sun.jdbc.odbc.JdbcOdbcDriver"
-            urlTemplate="jdbc:odbc:ODBC_DATA_SOURCE[;ATTRIBUTE=VALUE]*"
+            urlTemplate="jdbc:odbc:&lt;data source name&gt;"
             name="Sun JDBC-ODBC Bridge Driver"/>
       <jdbcDriver
             driverClass="org.apache.derby.jdbc.EmbeddedDriver"
