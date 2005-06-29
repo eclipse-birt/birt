@@ -66,6 +66,8 @@ public class ResourceEditDialog extends BaseDialog
 
 	private Text keyText, valueText;
 
+	private Button btnDelete;
+
 	private String baseName;
 
 	private String folderName;
@@ -79,9 +81,8 @@ public class ResourceEditDialog extends BaseDialog
 	/**
 	 * PropertyLabelProvider
 	 */
-	static class PropertyLabelProvider extends LabelProvider
-			implements
-				ITableLabelProvider
+	static class PropertyLabelProvider extends LabelProvider implements
+			ITableLabelProvider
 	{
 
 		/*
@@ -171,8 +172,7 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			else
 			{
-				IBaseLabelProvider prov = ( (ContentViewer) viewer )
-						.getLabelProvider( );
+				IBaseLabelProvider prov = ( (ContentViewer) viewer ).getLabelProvider( );
 				if ( prov instanceof ITableLabelProvider )
 				{
 					ITableLabelProvider lprov = (ITableLabelProvider) prov;
@@ -240,8 +240,11 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		super( parentShell, title );
 
-		setShellStyle( SWT.CLOSE | SWT.TITLE | SWT.BORDER
-				| SWT.APPLICATION_MODAL | SWT.RESIZE );
+		setShellStyle( SWT.CLOSE
+				| SWT.TITLE
+				| SWT.BORDER
+				| SWT.APPLICATION_MODAL
+				| SWT.RESIZE );
 
 	}
 
@@ -291,7 +294,8 @@ public class ResourceEditDialog extends BaseDialog
 			return;
 		}
 
-		Locale lc = SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		Locale lc = SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
 				.getLocale( );
 
 		String fullBaseName = folderName + File.separator + baseName + "_" //$NON-NLS-1$
@@ -310,11 +314,11 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			catch ( FileNotFoundException e )
 			{
-				//ignore.
+				// ignore.
 			}
 			catch ( IOException e )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 
@@ -334,11 +338,11 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			catch ( FileNotFoundException e )
 			{
-				//ignore.
+				// ignore.
 			}
 			catch ( IOException e )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 
@@ -357,11 +361,11 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			catch ( FileNotFoundException e )
 			{
-				//ignore.
+				// ignore.
 			}
 			catch ( IOException e )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 
@@ -388,11 +392,11 @@ public class ResourceEditDialog extends BaseDialog
 			}
 			catch ( FileNotFoundException e )
 			{
-				//ignore.
+				// ignore.
 			}
 			catch ( IOException e )
 			{
-				//ignore.
+				// ignore.
 			}
 		}
 	}
@@ -406,13 +410,10 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		loadMessage( );
 
-		final Composite innerParent = (Composite) super
-				.createDialogArea( parent );
+		final Composite innerParent = (Composite) super.createDialogArea( parent );
 
 		nameLabel = new Label( innerParent, SWT.NONE );
-		nameLabel
-				.setText( Messages
-						.getString( "ResourceEditDialog.message.ResourceFile" ) + propFileName ); //$NON-NLS-1$
+		nameLabel.setText( Messages.getString( "ResourceEditDialog.message.ResourceFile" ) + propFileName ); //$NON-NLS-1$
 		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		final Table table = new Table( innerParent, SWT.BORDER
@@ -514,7 +515,7 @@ public class ResourceEditDialog extends BaseDialog
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		gp.setLayout( new GridLayout( 3, false ) );
+		gp.setLayout( new GridLayout( 4, false ) );
 
 		Label lb = new Label( gp, 0 );
 		lb.setText( Messages.getString( "ResourceEditDialog.text.Key" ) ); //$NON-NLS-1$
@@ -522,6 +523,7 @@ public class ResourceEditDialog extends BaseDialog
 		lb = new Label( gp, 0 );
 		lb.setText( Messages.getString( "ResourceEditDialog.text.Value" ) ); //$NON-NLS-1$
 
+		lb = new Label( gp, 0 );
 		lb = new Label( gp, 0 );
 
 		keyText = new Text( gp, SWT.BORDER | SWT.SINGLE );
@@ -532,14 +534,21 @@ public class ResourceEditDialog extends BaseDialog
 
 		Button btn = new Button( gp, SWT.PUSH );
 		btn.setText( Messages.getString( "ResourceEditDialog.text.Add" ) ); //$NON-NLS-1$
-		GridData gdata = new GridData( );
-		gdata.widthHint = 60;
-		btn.setLayoutData( gdata );
 		btn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				addSelection( );
+			}
+		} );
+
+		btnDelete = new Button( gp, SWT.PUSH );
+		btnDelete.setText( Messages.getString( "ResourceEditDialog.text.Delete" ) ); //$NON-NLS-1$
+		btnDelete.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				deleteSelection( );
 			}
 		} );
 
@@ -556,10 +565,8 @@ public class ResourceEditDialog extends BaseDialog
 	{
 		if ( viewer.getTable( ).getSelectionCount( ) > 0 )
 		{
-			keyText
-					.setText( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
-			valueText.setText( viewer.getTable( ).getSelection( )[0]
-					.getText( 1 ) );
+			keyText.setText( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+			valueText.setText( viewer.getTable( ).getSelection( )[0].getText( 1 ) );
 		}
 
 		updateButtonState( );
@@ -575,12 +582,30 @@ public class ResourceEditDialog extends BaseDialog
 			content.put( key, val );
 
 			viewer.setInput( content );
+
+			updateSelection( );
+		}
+	}
+
+	private void deleteSelection( )
+	{
+		if ( viewer.getTable( ).getSelectionIndex( ) != -1 )
+		{
+			String key = keyText.getText( );
+
+			content.remove( key );
+
+			viewer.getTable( ).remove( viewer.getTable( ).getSelectionIndex( ) );
+
+			updateSelection( );
 		}
 	}
 
 	private void updateButtonState( )
 	{
 		getOkButton( ).setEnabled( viewer.getTable( ).getSelectionCount( ) > 0 );
+
+		btnDelete.setEnabled( viewer.getTable( ).getSelectionIndex( ) != -1 );
 	}
 
 	/*
