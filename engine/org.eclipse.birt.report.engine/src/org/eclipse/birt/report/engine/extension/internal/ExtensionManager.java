@@ -221,7 +221,7 @@ public class ExtensionManager
 			for (int j = 0; j < configs.length; j++)
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
-				generationExtensions.put(itemName, configs[i]);
+				generationExtensions.put(itemName, configs[j]);
 			}
 		}
 	}
@@ -243,7 +243,7 @@ public class ExtensionManager
 			for (int j = 0; j < configs.length; j++)
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
-				presentationExtensions.put(itemName, configs[i]);
+				presentationExtensions.put(itemName, configs[j]);
 			}
 		}
 	}
@@ -265,7 +265,7 @@ public class ExtensionManager
 			for (int j = 0; j < configs.length; j++)
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
-				queryExtensions.put(itemName, configs[i]);
+				queryExtensions.put(itemName, configs[j]);
 			}
 		}
 	}
