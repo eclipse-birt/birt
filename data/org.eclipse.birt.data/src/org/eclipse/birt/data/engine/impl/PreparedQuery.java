@@ -749,6 +749,9 @@ abstract class PreparedQuery
 							scope,  rowObject );
 			    	odiQuery.addOnFetchEvent( objectEvent );
 			    }
+			    
+				// specify max rows the query should fetch
+			    odiQuery.setMaxRows( queryDefn.getMaxRows() );
 			}
 			finally
 			{
