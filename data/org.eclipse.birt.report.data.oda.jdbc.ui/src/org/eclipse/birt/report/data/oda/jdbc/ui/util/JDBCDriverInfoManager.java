@@ -59,15 +59,16 @@ public class JDBCDriverInfoManager
 	 * @param driverClass
 	 * @return
 	 */
-	private static JDBCDriverInformation newJdbcDriverInfo( IConfigurationElement configElement )
+	private static JDBCDriverInformation newJdbcDriverInfo(
+			IConfigurationElement configElement )
 	{
-		JDBCDriverInformation driverInfo = new JDBCDriverInformation();
-		driverInfo.setDriverClassName( configElement.getAttribute( 
-					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_DRIVERCLASS ) );
-		driverInfo.setDisplayName( configElement.getAttribute( 
-					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_NAME ) );
-		driverInfo.setUrlFormat( configElement.getAttribute( 
-					OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
+		JDBCDriverInformation driverInfo = JDBCDriverInformation.newInstance( 
+				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_DRIVERCLASS ) );
+		driverInfo.setDisplayName( 
+				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_NAME ) );
+		driverInfo.setUrlFormat( 
+				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
 		return driverInfo;
 	}
+	
 }

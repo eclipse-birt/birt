@@ -22,7 +22,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/25 10:25:38 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/26 01:21:28 $
  */
 public final class JDBCDriverInformation
 {    
@@ -31,16 +31,21 @@ public final class JDBCDriverInformation
     private int minorVersion = 0;
     private String urlFormat = null;
     private String driverDisplayName = null;
-
-    static JDBCDriverInformation newInstance( Class driverClass )
+    
+    /**
+     * Since factory methods are provided, it is recommended to make
+     * construction method private.
+     */
+    private JDBCDriverInformation(){}
+    
+    public static JDBCDriverInformation newInstance( Class driverClass )
 	{
 		try
 		{
 			Driver d = (Driver) driverClass.newInstance( );
 			if ( d != null )
 			{
-				JDBCDriverInformation info = new JDBCDriverInformation();
-				info.setDriverClassName( driverClass.getName( ) );
+				JDBCDriverInformation info = newInstance( driverClass.getName( ) );
 				info.setMajorVersion( d.getMajorVersion( ) );
 				info.setMinorVersion( d.getMinorVersion( ) );
 				return info;
@@ -51,6 +56,13 @@ public final class JDBCDriverInformation
 		}
 		
 		return null;
+	}
+    
+    public static JDBCDriverInformation newInstance( String driverClassName )
+	{
+		JDBCDriverInformation info = new JDBCDriverInformation( );
+		info.setDriverClassName( driverClassName );
+		return info;
 	}
   
     /**

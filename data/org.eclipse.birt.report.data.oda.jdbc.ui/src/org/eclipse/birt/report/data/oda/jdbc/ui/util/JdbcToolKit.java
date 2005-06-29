@@ -63,6 +63,9 @@ public class JdbcToolKit
 		// Get drivers from drivers subdirectory
 		addDriversFromFiles( );
 
+		final String ODBCJDBCDriverName = "sun.jdbc.odbc.JdbcOdbcDriver";
+		JDBCDriverInformation ODBCJDBCInfo = null; 
+		
 		// Merge drivers from the driverInfo extension point
 		JDBCDriverInformation driverInfos[] = JDBCDriverInfoManager.getDrivers();
 		for (int i = 0; i < driverInfos.length; i++)
@@ -73,6 +76,12 @@ public class JdbcToolKit
 					(JDBCDriverInformation)	driverNameMap.get( newInfo.getDriverClassName());
 			if ( existing == null )
 			{
+				if ( newInfo.getDriverClassName( )
+						.equalsIgnoreCase( ODBCJDBCDriverName ) )
+				{
+					ODBCJDBCInfo = newInfo;
+					continue;
+				}
 				jdbcDriverInfos.add( newInfo );
 				driverNameMap.put( newInfo.getDriverClassName(), newInfo);
 			}
@@ -82,7 +91,14 @@ public class JdbcToolKit
 				existing.setUrlFormat( newInfo.getUrlFormat());
 			}
 		}
-			
+		
+		// Put ODBC-JDBC driver to the last posistion of list
+		if ( ODBCJDBCInfo != null )
+		{
+			jdbcDriverInfos.add( ODBCJDBCInfo );
+			driverNameMap.put( ODBCJDBCInfo.getDriverClassName( ), ODBCJDBCInfo );
+		}
+		
 		// Read user setting from the preference store and update
 		Map preferenceMap = JdbcDriverManagerDialog.getPreferenceDriverInfo( );
 
