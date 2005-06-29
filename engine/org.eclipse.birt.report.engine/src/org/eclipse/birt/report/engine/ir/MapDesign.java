@@ -15,37 +15,20 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class MapDesign
 {
 
-	/**
-	 * test expression
-	 */
-	protected String testExpression;
+
 
 	/**
 	 * rules defined in this map
 	 */
 	protected ArrayList rules = new ArrayList( );
 
-	/**
-	 * @return Returns the textExpression.
-	 */
-	public String getTestExpression( )
-	{
-		return testExpression;
-	}
 
-	/**
-	 * @param textExpression
-	 *            The textExpression to set.
-	 */
-	public void setTestExpression( String textExpression )
-	{
-		this.testExpression = textExpression;
-	}
+
 
 	/**
 	 * get the rule count.

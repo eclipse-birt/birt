@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class MapRuleDesign extends RuleDesign
 {
@@ -26,6 +26,7 @@ public class MapRuleDesign extends RuleDesign
 	 * display text
 	 */
 	protected String displayText;
+	
 
 	/**
 	 * @param displayKey
@@ -52,4 +53,5 @@ public class MapRuleDesign extends RuleDesign
 	{
 		return displayKey;
 	}
+
 }

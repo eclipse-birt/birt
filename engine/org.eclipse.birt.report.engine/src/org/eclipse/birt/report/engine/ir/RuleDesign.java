@@ -16,10 +16,11 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public abstract class RuleDesign
 {
+	protected String testExpression = null;
 
 	protected String value1;
 	protected String value2;
@@ -65,5 +66,18 @@ public abstract class RuleDesign
 	public String getValue2( )
 	{
 		return value2;
+	}
+	
+	/**
+	 * @return Returns the testExpression.
+	 */
+	public String getTestExpression() {
+		return testExpression;
+	}
+	/**
+	 * @param testExpression The testExpression to set.
+	 */
+	public void setTestExpression(String testExpression) {
+		this.testExpression = testExpression;
 	}
 }

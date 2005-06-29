@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.43 $ $Date: 2005/05/27 08:13:34 $
+ * @version $Revision: 1.44 $ $Date: 2005/06/15 05:17:56 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1248,7 +1248,7 @@ class EngineIRVisitor extends DesignVisitor
 	 * @return rule design, null if exist any error.
 	 */
 	protected HighlightRuleDesign createHighlightRule(
-			StructureHandle ruleHandle )
+			StructureHandle ruleHandle, String defaultStr )
 	{
 		HighlightRuleDesign rule = new HighlightRuleDesign( );
 
@@ -1267,6 +1267,7 @@ class EngineIRVisitor extends DesignVisitor
 		String oper = null;
 		String value1 = null;
 		String value2 = null;
+		String testExpr = null;
 
 		while ( propIter.hasNext( ) )
 		{
@@ -1289,6 +1290,10 @@ class EngineIRVisitor extends DesignVisitor
 				{
 					value2 = propValue;
 				}
+				else if(HighlightRule.TEST_EXPR_PROP.equals(propName))
+				{
+					testExpr = propValue;
+				}
 				else
 				{
 					setStyleProperty( style, propName, propValue );
@@ -1296,6 +1301,19 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		rule.setExpression( oper, value1, value2 );
+		if(testExpr!=null && testExpr.length()>0)
+		{
+			rule.setTestExpression(testExpr);
+		}
+		else if((defaultStr !=null)&& defaultStr.length()>0)
+		{
+			rule.setTestExpression(defaultStr);
+		}
+		else
+		{
+			//test expression is null
+			return null;
+		}
 
 		//this rule is empty, so we can drop it safely.
 		if ( style.entrySet( ).isEmpty( ) )
@@ -1303,6 +1321,11 @@ class EngineIRVisitor extends DesignVisitor
 			return null;
 		}
 		rule.setStyle( style );
+		ConditionalExpression condExpr = new ConditionalExpression(
+				rule.getTestExpression( ),
+				toDteFilterOperator( rule.getOperator( ) ), rule
+						.getValue1( ), rule.getValue2( ) );
+		rule.setConditionExpr( condExpr );
 		return rule;
 	}
 
@@ -1325,7 +1348,6 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		//		 hightlight Rules
 		Iterator iter = handle.highlightRulesIterator( );
-		String expr = handle.getHighlightTestExpr( );
 
 		if ( iter == null )
 		{
@@ -1333,37 +1355,17 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		HighlightDesign highlight = new HighlightDesign( );
 
-		if ( expr != null && ( !"".equals( expr ) ) ) //$NON-NLS-1$
-		{
-			highlight.setTestExpression( expr );
-		}
-		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) ) //$NON-NLS-1$
-		{
-			highlight.setTestExpression( defaultStr );
-		}
-		else
-		{
-			item.setHighlight( null );
-			return;
-		}
 
 		while ( iter.hasNext( ) )
 		{
 			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter.next( );
-			highlight.addRule( createHighlightRule( ruleHandle ) );
-		}
-		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
-		{
-			HighlightRuleDesign rule = highlight.getRule( i );
-			if ( rule != null )
+			HighlightRuleDesign rule = createHighlightRule( ruleHandle, defaultStr );
+			if(rule!=null)
 			{
-				ConditionalExpression condExpr = new ConditionalExpression(
-						highlight.getTestExpression( ),
-						toDteFilterOperator( rule.getOperator( ) ), rule
-								.getValue1( ), rule.getValue2( ) );
-				rule.setConditionExpr( condExpr );
+				highlight.addRule( rule );
 			}
 		}
+		
 		if ( highlight.getRuleCount( ) > 0 )
 		{
 			item.setHighlight( highlight );
@@ -1394,38 +1396,17 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		MapDesign map = new MapDesign( );
 
-		String expr = handle.getMapTestExpr( );
-		if ( expr != null && ( !"".equals( expr ) ) ) //$NON-NLS-1$
-		{
-			map.setTestExpression( expr );
-		}
-		else if ( defaultStr != null && ( !"".equals( defaultStr ) ) ) //$NON-NLS-1$
-		{
-			map.setTestExpression( defaultStr );
-		}
-		else
-		{
-			item.setMap( null );
-			return;
-		}
-
 		while ( iter.hasNext( ) )
 		{
 			MapRuleHandle ruleHandle = (MapRuleHandle) iter.next( );
-			map.addRule( createMapRule( ruleHandle ) );
-		}
-
-		for ( int i = 0; i < map.getRuleCount( ); i++ )
-		{
-			MapRuleDesign rule = map.getRule( i );
-			if ( rule != null )
+			MapRuleDesign rule = createMapRule( ruleHandle, defaultStr );
+			if(rule!=null)
 			{
-				ConditionalExpression condExpr = new ConditionalExpression( map
-						.getTestExpression( ), toDteFilterOperator( rule
-						.getOperator( ) ), rule.getValue1( ), rule.getValue2( ) );
-				rule.setConditionExpr( condExpr );
+				map.addRule( rule );
 			}
 		}
+
+		
 		if ( map.getRuleCount( ) > 0 )
 		{
 			item.setMap( map );
@@ -1440,12 +1421,33 @@ class EngineIRVisitor extends DesignVisitor
 	 *            map rule in DE.
 	 * @return map rule in ENGINE.
 	 */
-	protected MapRuleDesign createMapRule( MapRuleHandle handle )
+	protected MapRuleDesign createMapRule( MapRuleHandle handle, String defaultStr )
 	{
 		MapRuleDesign rule = new MapRuleDesign( );
 		rule.setExpression( handle.getOperator( ), handle.getValue1( ), handle
 				.getValue2( ) );
 		rule.setDisplayText( handle.getDisplayKey( ), handle.getDisplay( ) );
+		
+		String testExpr = handle.getTestExpr();
+		if(testExpr!=null && testExpr.length()>0)
+		{
+			rule.setTestExpression(testExpr);
+		}
+		else if((defaultStr !=null)&& defaultStr.length()>0)
+		{
+			rule.setTestExpression(defaultStr);
+		}
+		else
+		{
+			//test expression is null
+			return null;
+		}
+		
+		ConditionalExpression condExpr = new ConditionalExpression( rule.getTestExpression(),
+				toDteFilterOperator( rule
+				.getOperator( ) ), rule.getValue1( ), rule.getValue2( ) );
+		rule.setConditionExpr( condExpr );
+		
 		return rule;
 	}
 
