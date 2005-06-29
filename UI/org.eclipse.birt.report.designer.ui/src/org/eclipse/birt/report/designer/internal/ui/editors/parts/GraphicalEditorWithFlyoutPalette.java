@@ -73,7 +73,6 @@ import org.eclipse.gef.ui.palette.SettingsAction;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.customize.PaletteSettingsDialog;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
-import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.gef.ui.views.palette.PaletteViewerPage;
 import org.eclipse.jface.action.IAction;
@@ -105,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.13 $ $Date: 2005/06/23 07:34:34 $
+ * @version $Revision: 1.14 $ $Date: 2005/06/29 03:05:28 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -116,8 +115,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
-	private SelectionSynchronizer synchronizer;
-
 	private ButtonPaneComposite bPane;
 
 	/**
