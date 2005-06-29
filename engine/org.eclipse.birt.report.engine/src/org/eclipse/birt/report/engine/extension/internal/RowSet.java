@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  *
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/11 11:59:31 $
  */
 public class RowSet implements IRowSet
 {
@@ -107,6 +107,31 @@ public class RowSet implements IRowSet
 	public Object getValue(String columnName)
 	{
 		throw new UnsupportedOperationException();
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getEndingGroupLevel()
+	 */
+	public int getEndingGroupLevel( )
+	{
+		if (rset != null)
+		{
+			return rset.getEndingGroupLevel();
+		}
+		return 0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getStartingGroupLevel()
+	 */
+	public int getStartingGroupLevel( )
+	{
+		if (rset != null)
+		{
+			return rset.getStartingGroupLevel();
+		}
+		return 0;
 	}
 	
 	public void close()

@@ -41,6 +41,40 @@ public interface IRowSet {
 	boolean next();
 	
 	/**
+     * Returns the 1-based index of the outermost group
+     * in which the current row is the last row. 
+     * For example, if a query contain N groups 
+     * (group with index 1 being the outermost group, and group with 
+     * index N being the innermost group),
+     * and this function returns a value M, it indicates that the 
+     * current row is the last row in groups with 
+     * indexes (M, M+1, ..., N ). 
+     * -1 represents current row is a detail row.
+     * 0 represents the end of whole resultset 
+     * @return	1-based index of the outermost group in which 
+     * 			the current row is the first row;
+     * 			(N+1) if the current row is not at the start of any group;
+     * 			0 if the result set has no groups.
+     */
+	int getStartingGroupLevel();
+	
+	/**
+     * Returns the 1-based index of the outermost group
+     * in which the current row is the first row. 
+     * For example, if a query contain N groups 
+     * (group with index 1 being the outermost group, and group with 
+     * index N being the innermost group),
+     * and this function returns a value M, it indicates that the 
+     * current row is the first row in groups with 
+     * indexes (M, M+1, ..., N ).
+     * @return	1-based index of the outermost group in which 
+     * 			the current row is the first row;
+     * 			(N+1) if the current row is not at the start of any group;
+     * 			0 if the result set has no groups.
+     */
+	int getEndingGroupLevel();
+	
+	/**
 	 * evaluate the expression using current row.
 	 * @param expr expression, must be prepared in DTE.prepared().
 	 * @return result of the expression.
