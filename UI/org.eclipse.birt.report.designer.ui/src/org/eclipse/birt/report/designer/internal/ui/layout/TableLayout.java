@@ -192,8 +192,11 @@ public class TableLayout extends XYLayout
 
 				public void run( )
 				{
-					getOwner( ).getViewer( )
-							.setSelection( new StructuredSelection( list ) );
+					if (getOwner( ).getViewer( ).getControl().isVisible())
+					{
+						getOwner( ).getViewer( )
+								.setSelection( new StructuredSelection( list ) );
+					}
 				}
 			} );
 		}
