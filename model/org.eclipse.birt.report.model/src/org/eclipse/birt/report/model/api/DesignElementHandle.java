@@ -45,8 +45,6 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.metadata.ColorPropertyType;
-import org.eclipse.birt.report.model.metadata.DimensionPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -160,7 +158,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public Object getProperty( String propName )
 	{
 		// Must be attached to use this method.
-
+		
 		DesignElement element = getElement( );
 		Object value = element.getProperty( design, propName );
 

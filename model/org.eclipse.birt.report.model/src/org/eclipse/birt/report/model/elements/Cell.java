@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * need not specify a cell for each column; Columns without cells are presumed
  * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to
  * change the properties.
- *  
+ * 
  */
 
 public class Cell extends StyledElement implements ICellModel
@@ -71,7 +71,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * 
 	 * @return the retrieved slot.
 	 * 
-	 *  
+	 * 
 	 */
 
 	public ContainerSlot getSlot( int slot )
@@ -96,7 +96,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * name for this element.
 	 * 
 	 * @return the cell element's name.
-	 *  
+	 * 
 	 */
 
 	public String getElementName( )
@@ -176,49 +176,6 @@ public class Cell extends StyledElement implements ICellModel
 	}
 
 	/**
-	 * Gets a property value given its definition. If <code>prop</code> is a
-	 * style property definition, also check style values defined on the Table
-	 * columns.
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromElement(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-	 */
-
-//	public Object getPropertyFromElement( ReportDesign design,
-//			ElementPropertyDefn prop )
-//	{
-//		// Get property from cell itself.
-//
-//		Object value = super.getPropertyFromElement( design, prop );
-//		if ( value != null )
-//			return value;
-//
-//		if ( !prop.canInherit( ) || !prop.isStyleProperty( ) )
-//			return null; 
-//
-//		// Get property from the container of this cell. If the container
-//		// has column, get property from column.
-//
-//		DesignElement e = getContainer( );
-//		while ( e != null )
-//		{
-//			value = e.getPropertyFromElement( design, prop );
-//			if ( value != null )
-//				return value;
-//
-//			// check property values on the columns.
-//
-//			if ( e.getContainer( ) instanceof TableItem
-//					|| e.getContainer( ) instanceof GridItem )
-//				return getColumnProperty( design, e.getContainer( ), this, prop );
-//
-//			e = e.getContainer( );
-//		}
-//
-//		return null;
-//	}
-//
-	/**
 	 * Gets a property value on the container column with the given definition.
 	 * If <code>prop</code> is a style property definition, also check style
 	 * values defined on the Table/Grid columns.
@@ -252,16 +209,16 @@ public class Cell extends StyledElement implements ICellModel
 
 		return value;
 	}
-	
-	
-	/* 
+
+	/*
 	 * Gets a property value given its definition. If <code>prop</code> is a
 	 * style property definition, also check style values defined on the Table
 	 * columns.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	
+
 	protected Object getPropertyRelatedToContainer( ReportDesign design,
 			ElementPropertyDefn prop )
 	{
@@ -285,5 +242,26 @@ public class Cell extends StyledElement implements ICellModel
 		}
 
 		return super.getPropertyRelatedToContainer( design, prop );
+	}
+
+	/**
+	 * Tests if the property of a cell is inheritable in the context.
+	 * <p>
+	 * If the cell resides in the row and the property is "vertical-align",
+	 * return <code>true</code>. Otherwise, return the value from its super
+	 * class.
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected boolean isInheritableProperty( ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		if ( Style.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
+				&& getContainer( ) instanceof TableRow )
+			return true;
+
+		return super.isInheritableProperty( prop );
 	}
 }

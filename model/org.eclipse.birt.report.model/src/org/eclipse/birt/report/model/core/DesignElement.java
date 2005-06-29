@@ -880,6 +880,22 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Tests if the property is inheritable in the context.
+	 * 
+	 * @param prop
+	 *            definition of the property to test
+	 * @return <code>true</code> if the property is inheritable in the
+	 *         context, otherwise, <code>false</code>.
+	 */
+
+	protected boolean isInheritableProperty( ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		return prop.canInherit( );
+	}
+
+	/**
 	 * Gets a property value given its definition. This version does the
 	 * property search as defined by the given derived component. That is, it
 	 * gets the "effective" property value. The definition can be for a system
@@ -908,7 +924,7 @@ public abstract class DesignElement
 
 		// Can we search the parent element ?
 
-		if ( prop.canInherit( ) )
+		if ( isInheritableProperty( prop ) )
 		{
 			// Does the parent provide the value of this property?
 
@@ -975,7 +991,8 @@ public abstract class DesignElement
 			if ( value != null )
 				return value;
 
-			if ( !prop.canInherit( ) || !prop.isStyleProperty( ) || isStyle( ) )
+			if ( !e.isInheritableProperty( prop ) || !prop.isStyleProperty( )
+					|| isStyle( ) )
 				return getDefaultValue( design, prop );
 
 			// Check if the container/slot predefined style provides
@@ -1524,7 +1541,7 @@ public abstract class DesignElement
 		{
 			cachedDefn = MetaDataDictionary.getInstance( ).getElement(
 					getElementName( ) );
-			
+
 			assert cachedDefn != null;
 		}
 
@@ -1881,7 +1898,7 @@ public abstract class DesignElement
 			return;
 		if ( oldExtends != null )
 			oldExtends.dropDerived( this );
-		
+
 		if ( base == null )
 		{
 			extendsRef = null;
@@ -2116,8 +2133,8 @@ public abstract class DesignElement
 	 * @param element
 	 *            The potential container.
 	 * @return True if this element is contained in the container either
-	 *         directly or indirectly. False if this element is not contained. If the given
-	 *         element is this element itself, return true.
+	 *         directly or indirectly. False if this element is not contained.
+	 *         If the given element is this element itself, return true.
 	 */
 
 	public boolean isContentOf( DesignElement element )
@@ -2439,7 +2456,7 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return 0;
-		
+
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
@@ -2496,7 +2513,7 @@ public abstract class DesignElement
 
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
-		
+
 		Object value = getProperty( design, propName );
 		return ( (BooleanPropertyType) type ).toBoolean( design, value );
 	}
@@ -3143,9 +3160,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be ¡°elided¡± to a length of 30 characters.
-	 * To elide the text, find the first white-space before the limit, truncate
-	 * the string after that point, and append three dots: ¡°¡­¡±
+	 * All descriptive text should be ¡°elided¡± to a length of 30 characters. To
+	 * elide the text, find the first white-space before the limit, truncate the
+	 * string after that point, and append three dots: ¡°¡­¡±
 	 * <p>
 	 * 
 	 * @param displayLabel
@@ -3186,7 +3203,7 @@ public abstract class DesignElement
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 *  
+	 * 
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException
