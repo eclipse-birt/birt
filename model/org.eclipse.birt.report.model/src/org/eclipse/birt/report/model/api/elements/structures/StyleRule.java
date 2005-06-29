@@ -98,20 +98,18 @@ public abstract class StyleRule extends PropertyStructure
 	{
 		if ( OPERATOR_MEMBER.equals( propName ) )
 			return operator;
-		if ( VALUE1_MEMBER.equals( propName ) )
+		else if ( VALUE1_MEMBER.equals( propName ) )
 			return value1;
-		if ( VALUE2_MEMBER.equals( propName ) )
+		else if ( VALUE2_MEMBER.equals( propName ) )
 			return value2;
 
 		return super.getIntrinsicProperty( propName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
-	 */
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(java.lang.String,
+		 *      java.lang.Object)
+		 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
@@ -127,8 +125,8 @@ public abstract class StyleRule extends PropertyStructure
 
 	/**
 	 * Returns the operator. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -156,8 +154,8 @@ public abstract class StyleRule extends PropertyStructure
 
 	/**
 	 * Sets the operator. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -194,18 +192,18 @@ public abstract class StyleRule extends PropertyStructure
 	{
 		return (String) getProperty( null, VALUE1_MEMBER );
 	}
-    
-    
-    /**
-     * Set expression for the first operand.
-     * 
-     * @param value the first operand expression.
-     */
-    
-    public void setValue1( String value )
-    {
-    	setProperty( VALUE1_MEMBER, value );
-    }
+
+	/**
+	 * Set expression for the first operand.
+	 * 
+	 * @param value
+	 *            the first operand expression.
+	 */
+
+	public void setValue1( String value )
+	{
+		setProperty( VALUE1_MEMBER, value );
+	}
 
 	/**
 	 * Returns the expression for the second operand.
@@ -217,16 +215,17 @@ public abstract class StyleRule extends PropertyStructure
 	{
 		return (String) getProperty( null, VALUE2_MEMBER );
 	}
-    
-    /**
-     * Set expression for the second operand.
-     * 
-     * @param value the second operand expression.
-     */
-    
-    public void setValue2( String value )
-    {
-        setProperty( VALUE2_MEMBER, value );
-    }
+
+	/**
+	 * Set expression for the second operand.
+	 * 
+	 * @param value
+	 *            the second operand expression.
+	 */
+
+	public void setValue2( String value )
+	{
+		setProperty( VALUE2_MEMBER, value );
+	}
 
 }

@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * defined on the style. Each rule has an expression that matches a set of
  * values, and a set of font and border instructions for how to format the data
  * item when the rule "fires."
- *  
+ * 
  */
 
 public class HighlightRule extends StyleRule
@@ -67,6 +67,14 @@ public class HighlightRule extends StyleRule
 	public static final String STRUCTURE_NAME = "HighlightRule"; //$NON-NLS-1$
 
 	/**
+	 * The expression for this rule.
+	 */
+	public static final String TEST_EXPR_PROP = "testExpr"; //$NON-NLS-1$
+/**
+*/
+	protected String testExpression = null;
+
+	/**
 	 * Default Constructor.
 	 */
 
@@ -89,9 +97,11 @@ public class HighlightRule extends StyleRule
 	 *            arguments (between)
 	 */
 
-	public HighlightRule( String op, String v1, String v2 )
+	public HighlightRule( String op, String v1, String v2, String testExpr )
 	{
 		super( op, v1, v2 );
+		testExpression = testExpr;
+
 	}
 
 	/*
@@ -125,5 +135,34 @@ public class HighlightRule extends StyleRule
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
 		return new HighlightRuleHandle( valueHandle, index );
+	}
+
+	public void setTestExpression( String value )
+	{
+
+		testExpression = value;
+	}
+
+	public String getTestExpression( )
+	{
+
+		return testExpression;
+	}
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( TEST_EXPR_PROP.equals( propName ) )
+			testExpression = (String) value;
+
+		else
+			super.setIntrinsicProperty( propName, value );
+	}
+
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( TEST_EXPR_PROP.equals( propName ) )
+			return testExpression;
+
+		return super.getIntrinsicProperty( propName );
 	}
 }

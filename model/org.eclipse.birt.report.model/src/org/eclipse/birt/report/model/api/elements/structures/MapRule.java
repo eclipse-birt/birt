@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
@@ -50,6 +50,12 @@ public class MapRule extends StyleRule
 	public static final String STRUCTURE_NAME = "MapRule"; //$NON-NLS-1$
 
 	/**
+	 * The test expression for map rule
+	 */
+
+	public static final String TEST_EXPR_PROP = "testExpr"; //$NON-NLS-1$
+
+	/**
 	 * The non-localized text to display when the rule "fires.".
 	 */
 
@@ -60,6 +66,12 @@ public class MapRule extends StyleRule
 	 */
 
 	protected String displayKey = null;
+
+	/**
+	 * The test expression
+	 */
+
+	protected String testExpr = null;
 
 	/**
 	 * Default constructor.
@@ -89,11 +101,13 @@ public class MapRule extends StyleRule
 	 *            the display text if the value is not localized
 	 */
 
-	public MapRule( String op, String v1, String v2, String id, String disp )
+	public MapRule( String op, String v1, String v2, String id, String disp,
+			String testExpression )
 	{
 		super( op, v1, v2 );
 		displayKey = id;
 		display = disp;
+		testExpr = testExpression;
 	}
 
 	/*
@@ -117,8 +131,10 @@ public class MapRule extends StyleRule
 	{
 		if ( DISPLAY_MEMBER.equals( propName ) )
 			return display;
-		if ( DISPLAY_ID_MEMBER.equals( propName ) )
+		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
 			return displayKey;
+		else if ( TEST_EXPR_PROP.equals( propName ) )
+			return testExpr;
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -131,10 +147,12 @@ public class MapRule extends StyleRule
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( DISPLAY_MEMBER.equals( propName ))
+		if ( DISPLAY_MEMBER.equals( propName ) )
 			display = (String) value;
-		else if ( DISPLAY_ID_MEMBER.equals( propName ))
+		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
 			displayKey = (String) value;
+		else if ( TEST_EXPR_PROP.equals( propName ) )
+			testExpr = (String) value;
 		else
 			super.setIntrinsicProperty( propName, value );
 	}
@@ -147,23 +165,22 @@ public class MapRule extends StyleRule
 
 	public String getDisplayKey( )
 	{
-        return (String)getProperty( null, DISPLAY_ID_MEMBER );
+		return (String) getProperty( null, DISPLAY_ID_MEMBER );
 	}
 
-    
-    /**
-     * Set the message ID for the text, the text is to be displayed when
-     * this rule applies.
-     * 
-     * @param displayKey the message ID for the text.
-     */
-    
-    public void setDisplayKey( String displayKey )
-    {
-        setProperty( DISPLAY_ID_MEMBER, displayKey );
-    }
-    
-    
+	/**
+	 * Set the message ID for the text, the text is to be displayed when this
+	 * rule applies.
+	 * 
+	 * @param displayKey
+	 *            the message ID for the text.
+	 */
+
+	public void setDisplayKey( String displayKey )
+	{
+		setProperty( DISPLAY_ID_MEMBER, displayKey );
+	}
+
 	/**
 	 * Returns the non-localized display text.
 	 * 
@@ -172,23 +189,46 @@ public class MapRule extends StyleRule
 
 	public String getDisplay( )
 	{
-        return (String)getProperty( null, DISPLAY_MEMBER );
+		return (String) getProperty( null, DISPLAY_MEMBER );
 	}
 
-    
-    /**
-     * Set the non-localized display text, the text is to be displayed when
-     * this rule applies.
-     * 
-     * @param text the non-localized display text
-     */
-    
-    public void setDisplay( String text )
-    {
-        setProperty( DISPLAY_MEMBER, text );
-    }
-    
-    
+	/**
+	 * Set the non-localized display text, the text is to be displayed when this
+	 * rule applies.
+	 * 
+	 * @param text
+	 *            the non-localized display text
+	 */
+
+	public void setDisplay( String text )
+	{
+		setProperty( DISPLAY_MEMBER, text );
+	}
+
+	/**
+	 * gets the test expression value for this map rule.
+	 * 
+	 * @return the test expression value.
+	 */
+
+	public String getTestExpression( )
+	{
+
+		return (String) getProperty( null, TEST_EXPR_PROP );
+	}
+
+	/**
+	 * sets the test expression value for this map rule.
+	 * 
+	 * @param the
+	 *            expression
+	 * 
+	 */
+	public void setTestExpression( String value )
+	{
+		setProperty( TEST_EXPR_PROP, value );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -200,9 +240,11 @@ public class MapRule extends StyleRule
 		return MetaDataDictionary.getInstance( ).getStructure( STRUCTURE_NAME );
 	}
 
-    
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
+	 *      int)
 	 */
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
