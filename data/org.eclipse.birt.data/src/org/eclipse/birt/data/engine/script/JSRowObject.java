@@ -37,6 +37,7 @@ public class JSRowObject extends ScriptableObject
 {
 	static private final String DATA_SET = "dataSet";
 	static private final String COLUMN_MD = "columnDefns";
+	static public final String ROW_POSITION = "_rowPosition";
 	
 	private IResultObject resultObj;
     private IResultIterator resultSet;
@@ -104,14 +105,15 @@ public class JSRowObject extends ScriptableObject
     		columnCount = obj.getResultClass().getFieldCount(); 
     	}
 		// Each field can be accessed via index or name; hence 2 * 
-    	// We also have "dataSet", "columnMetadata" and "row[0]"
-    	int count = 3 + 2*columnCount;		
+    	// We also have "dataSet", "columnMetadata", "row[0]" and "_rowPosition"
+    	int count = 4 + 2*columnCount;		
 
     	int next = 0;
     	Object[] ids = new Object[count];
     	ids[next++] = DATA_SET;
     	ids[next++] = COLUMN_MD;
     	ids[next++] = new Integer(0);
+    	ids[next++] = ROW_POSITION;
     	if ( columnCount > 0 )
     	{
     		for ( int i = 1; i <= columnCount; i++ )
@@ -172,7 +174,10 @@ public class JSRowObject extends ScriptableObject
     public boolean has( String name, Scriptable start )
     {
 		logger.entering( JSRowObject.class.getName( ), "has", name );
-    	if ( name.equals(DATA_SET) || name.endsWith(COLUMN_MD) ){
+    	if ( name.equals( DATA_SET )
+				|| name.endsWith( COLUMN_MD ) 
+				|| name.equals( ROW_POSITION ) )
+		{
 			logger.exiting( JSRowObject.class.getName( ),
 					"has",
 					new Boolean( true ) );
@@ -266,6 +271,26 @@ public class JSRowObject extends ScriptableObject
 					getColumnMetadataScriptable( ) );
     		return getColumnMetadataScriptable();
     	}
+		else if ( name.equals( ROW_POSITION ) )
+		{
+			try
+			{
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.exiting( JSRowObject.class.getName( ),
+							"get",
+							new Integer( resultSet.getCurrentResultIndex( ) ) );
+				return new Integer( resultSet.getCurrentResultIndex( ) );
+			}
+			catch ( DataException e )
+			{
+				// Fall through and let super return not-found
+				logger.logp( Level.FINER,
+						JSColumnDefn.class.getName( ),
+						"get",
+						e.getMessage( ),
+						e );
+			}
+		}
     	
     	// Try column names
         try

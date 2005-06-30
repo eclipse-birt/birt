@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -190,8 +191,8 @@ class ResultIterator implements IResultIterator
 			    {
 			        int idx = colref.getColumnindex();
 			        // Special case: row[0] refers to internal rowID
-			        if (idx == 0)
-			        	return new Integer(odiResult.getCurrentResultIndex());
+			        if ( idx == 0 )
+						return new Integer( odiResult.getCurrentResultIndex( ) );
 					else if ( odiResult.getCurrentResult( ) != null )
 						return odiResult.getCurrentResult( ).getFieldValue( idx );
 					else
@@ -200,7 +201,10 @@ class ResultIterator implements IResultIterator
 			    else
 			    {
 			        String name = colref.getColumnName();
-			        if ( odiResult.getCurrentResult( ) != null )
+			        // Special case: row._rowPosition refers to internal rowID
+			        if ( JSRowObject.ROW_POSITION.equals( name ) )
+						return new Integer( odiResult.getCurrentResultIndex( ) );
+					else if ( odiResult.getCurrentResult( ) != null )
 						return odiResult.getCurrentResult( ).getFieldValue( name );
 					else
 						return null;
