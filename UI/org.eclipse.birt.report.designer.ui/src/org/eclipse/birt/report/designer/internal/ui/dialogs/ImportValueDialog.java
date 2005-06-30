@@ -301,7 +301,7 @@ public class ImportValueDialog extends BaseDialog
 				selectedList.add( selected[i] );
 			}
 		}
-		updateButtons( );
+		filteValues( );
 	}
 
 	private void addAll( )
@@ -314,7 +314,7 @@ public class ImportValueDialog extends BaseDialog
 				selectedList.add( values[i] );
 			}
 		}
-		updateButtons( );
+		filteValues( );
 	}
 
 	private void removeSelected( )
@@ -324,13 +324,13 @@ public class ImportValueDialog extends BaseDialog
 		{
 			selectedList.remove( selected[i] );
 		}
-		updateButtons( );
+		filteValues( );
 	}
 
 	private void removeAll( )
 	{
 		selectedList.removeAll( );
-		updateButtons( );
+		filteValues( );
 	}
 
 	protected boolean initDialog( )
@@ -488,7 +488,8 @@ public class ImportValueDialog extends BaseDialog
 			String value = (String) itor.next( );
 			try
 			{
-				if ( value.startsWith( valueEditor.getText( ) )
+				if ( selectedList.indexOf( value ) == -1
+						&& value.startsWith( valueEditor.getText( ) )
 						|| value.matches( valueEditor.getText( ) ) )
 				{
 					valueList.add( value );
