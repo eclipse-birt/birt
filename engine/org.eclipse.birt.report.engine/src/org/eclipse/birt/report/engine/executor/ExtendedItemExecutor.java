@@ -175,23 +175,21 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			try
 			{
 				rowSets = executeQueries( item );
-				if ( rowSets != null )
+				try
 				{
-					try
-					{
-						output = itemPresentation.onRowSets( rowSets );
-					}
-					catch ( BirtException ex )
-					{
-						logger.log( Level.SEVERE, ex.getMessage( ), ex );
-						
-						context.addException( new EngineException(
-								MessageConstants.EXTENDED_ITEM_RENDERING_ERROR,
-								new String[]{handle.getExtensionName( ), ( name != null ? " " + name : "" )}, ex ) );//$NON-NLS-1$ //$NON-NLS-2$
-						
-
-					}
+					output = itemPresentation.onRowSets( rowSets );
 				}
+				catch ( BirtException ex )
+				{
+					logger.log( Level.SEVERE, ex.getMessage( ), ex );
+					
+					context.addException( new EngineException(
+							MessageConstants.EXTENDED_ITEM_RENDERING_ERROR,
+							new String[]{handle.getExtensionName( ), ( name != null ? " " + name : "" )}, ex ) );//$NON-NLS-1$ //$NON-NLS-2$
+					
+
+				}
+
 				if ( output != null )
 				{
 					int type = itemPresentation.getOutputType( );
