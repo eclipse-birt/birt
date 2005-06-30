@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.ExternalEditorPreferenceManager;
@@ -75,6 +76,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -91,7 +93,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/23 09:31:06 $
+ * @version $Revision: 1.14 $ $Date: 2005/05/26 08:23:04 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -117,6 +119,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	protected ArrayList tableList;
 	
 	private ComboViewer filterComboViewer = null;
+	private Combo schemaCombo = null;
 	OdaDataSourceHandle prevDataSourceHandle = null;
 	Connection jdbcConnection = null;
 	boolean validConnection = false;
@@ -182,11 +185,14 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		splitter.setOrientation( SWT.HORIZONTAL );
 		splitter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		
-		createTableSelectionComposite(splitter);
 		initialize();
+		
+		initJdbcInfo();
+		
+		createTableSelectionComposite(splitter);
+	
 		// Populate the available Items
-		populateAvailableDbObjects();
-		   
+		populateAvailableDbObjects();		
 
 		createTextualQueryComposite(splitter);
 
@@ -277,6 +283,17 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			selectTableGroup.setLayoutData(data);
+		}
+		
+		if ( isSchemaSupported )
+		{
+			Label schemaLabel = new Label( selectTableGroup, SWT.LEFT );
+			schemaLabel.setText( JdbcPlugin.getResourceString("tablepage.label.schema") );
+
+			schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			schemaCombo.setLayoutData( gd );
 		}
 		
 		Label FilterLabel = new Label(selectTableGroup, SWT.LEFT);
@@ -410,13 +427,20 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		RemoveAllAvailableDbObjects();
 		
-		initJdbcInfo();
-		
 		setRootElement();
 		setRefreshInfo();
 		if ( isSchemaSupported )
 		{
 			getAvailableSchema();
+			// If the schemaCombo have not be initialized yet.
+			if ( schemaCombo.getItemCount() < 1)
+			{
+				schemaCombo.add( JdbcPlugin.getResourceString("tablepage.text.All") );
+				schemaCombo.select( 0 );
+				Iterator it = schemaList.iterator();
+				while ( it.hasNext() )
+					schemaCombo.add( it.next().toString() );
+			}
 			populateTableList();
 		}
 		else
@@ -500,15 +524,25 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 	    String catalogName = metaDataProvider.getCatalog();
 		ArrayList tableList = new ArrayList();
-		
-
+		ArrayList targetSchemaList = new ArrayList();		
+	
 		if (schemaList != null && schemaList.size() > 0)
 		{
+			if ( schemaCombo.getSelectionIndex() == 0)
+			{
+				targetSchemaList = schemaList;
+			}
+			else
+			{
+				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
+			}
+			
 			ResultSet tablesRs = null;
 			// For each schema Get  the List of Tables
 			int numTables = 0;
 			boolean maxRecordsDisplayed = false;
-			for( int i=0; i< schemaList.size(); i++)
+			//if ( schemaComboViewer.getSelection().)
+			for( int i=0; i< targetSchemaList.size(); i++)
 			{
 				if ( maxRecordsDisplayed ) 
 				{
@@ -516,7 +550,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}
 				
 				int count = 0;
-				String schemaName = (String)schemaList.get(i);
+				String schemaName = (String)targetSchemaList.get(i);
 				tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);
 				tableList = new ArrayList();
 				if( tablesRs == null )
@@ -530,19 +564,19 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 					ArrayList schema = new ArrayList();
 					TreeItem schemaTreeItem[] = null;
-					
 					Image image = tableImage;
+					
+					if( count == 0 )
+					{
+						schema.add(schemaName);
+						schemaTreeItem = Utility.createTreeItems(rootNode, schema, SWT.NONE, schemaImage);
+						//expand schema TreeItem
+						if( schemaTreeItem != null && schemaTreeItem.length > 0)
+							availableDbObjectsTree.showItem(schemaTreeItem[0]);
+					}
+					
 					while( tablesRs.next()) 
 					{
-						if( count == 0 )
-						{
-							schema.add(schemaName);
-							schemaTreeItem = Utility.createTreeItems(rootNode, schema, SWT.NONE, schemaImage);
-							//expand schema TreeItem
-							if( schemaTreeItem != null && schemaTreeItem.length > 0)
-								availableDbObjectsTree.showItem(schemaTreeItem[0]);
-						}
-						
 						count++;
 //						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
@@ -699,8 +733,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		if ( metaDataProvider == null )
 		{
-			metaDataProvider = new JdbcMetaDataProvider(null);
-			
+			metaDataProvider = new JdbcMetaDataProvider(null);		
 		}
 
 		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
