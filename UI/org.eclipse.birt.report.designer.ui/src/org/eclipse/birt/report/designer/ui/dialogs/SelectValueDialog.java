@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -41,7 +42,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/04/28 21:24:27 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/04 02:41:47 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -51,6 +52,8 @@ public class SelectValueDialog extends BaseDialog
 	private boolean multipleSelection = false;
 
 	private List selectValueList = null;
+
+	private ParamBindingHandle[] bindingParams = null;
 
 	/**
 	 * @param parentShell
@@ -76,6 +79,22 @@ public class SelectValueDialog extends BaseDialog
 	public void setDataSetHandle( DataSetHandle dataSetHandle )
 	{
 		this.dataSetHandle = dataSetHandle;
+	}
+
+	/**
+	 * @return Returns the paramBindingHandles.
+	 */
+	public ParamBindingHandle[] getBindingParams( )
+	{
+		return bindingParams;
+	}
+
+	/**
+	 *  
+	 */
+	public void setBindingParams( ParamBindingHandle[] handles )
+	{
+		this.bindingParams = handles;
 	}
 
 	/**
@@ -184,55 +203,64 @@ public class SelectValueDialog extends BaseDialog
 	{
 		try
 		{
-            this.okButton.setEnabled(false);
-            if(getExpression() != null && getExpression().trim().length() > 0)
-            {
-                //Execute the query and populate this list
-                BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
-                        .getPreparedQuery( getDataSetHandle( ), true, false)
-                        .getReportQueryDefn( );
-                ScriptExpression expression = new ScriptExpression( getExpression( ) );
-                GroupDefinition defn = new GroupDefinition( );
-                defn.setKeyExpression( getExpression( ) );
-                query.setUsesDetails( false );
-                query.addGroup( defn );
-                query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
+			this.okButton.setEnabled( false );
+			if ( getExpression( ) != null
+					&& getExpression( ).trim( ).length( ) > 0 )
+			{
+				//Execute the query and populate this list
+				//                BaseQueryDefinition query = (BaseQueryDefinition)
+				// DataSetManager.getCurrentInstance( )
+				//                        .getPreparedQuery( getDataSetHandle(
+				// ),true, false)
+				//                        .getReportQueryDefn( );
+				BaseQueryDefinition query = (BaseQueryDefinition) DataSetManager.getCurrentInstance( )
+						.getPreparedQuery( getDataSetHandle( ),
+								getBindingParams( ),
+								true,
+								false )
+						.getReportQueryDefn( );
+				ScriptExpression expression = new ScriptExpression( getExpression( ) );
+				GroupDefinition defn = new GroupDefinition( );
+				defn.setKeyExpression( getExpression( ) );
+				query.setUsesDetails( false );
+				query.addGroup( defn );
+				query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
 
-                IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-                        .getEngine( )
-                        .prepare( (IQueryDefinition) query );
-                IQueryResults results = preparedQuery.execute( null );
-                selectValueList.removeAll( );
-                
-                if ( results != null )
-                {
-                    IResultIterator iter = results.getResultIterator( );
-                    if ( iter != null )
-                    {
-                        while ( iter.next( ) )
-                        {
-                            String value = iter.getString( expression );
-                            if(value != null)
-                            {
-                                selectValueList.add( value );
-                            }
-                        }
-                    }
+				IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
+						.getEngine( )
+						.prepare( (IQueryDefinition) query );
+				IQueryResults results = preparedQuery.execute( null );
+				selectValueList.removeAll( );
 
-                    results.close( );
-                }
-            }
-            else
-            {
-                selectValueList.removeAll( );
-                ExceptionHandler.openErrorMessageBox(Messages.getString("SelectValueDialog.errorRetrievinglist"), Messages.getString("SelectValueDialog.noExpressionSet")); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-            if(selectValueList.getItemCount() > 0)
-            {
-                selectValueList.select(0);
-                this.okButton.setEnabled(true);
-            }
-            
+				if ( results != null )
+				{
+					IResultIterator iter = results.getResultIterator( );
+					if ( iter != null )
+					{
+						while ( iter.next( ) )
+						{
+							String value = iter.getString( expression );
+							if ( value != null )
+							{
+								selectValueList.add( value );
+							}
+						}
+					}
+
+					results.close( );
+				}
+			}
+			else
+			{
+				selectValueList.removeAll( );
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			if ( selectValueList.getItemCount( ) > 0 )
+			{
+				selectValueList.select( 0 );
+				this.okButton.setEnabled( true );
+			}
+
 		}
 		catch ( Exception e )
 		{
@@ -240,47 +268,49 @@ public class SelectValueDialog extends BaseDialog
 		}
 	}
 
-//	private void populateList1( )
-//	{
-//		try
-//		{
-//			//Execute the query and populate this list
-//			OdaDataSetDesign design = (OdaDataSetDesign) DataSetManager.getCurrentInstance( )
-//					.getDataSetDesign( getDataSetHandle( ), true, false );
-//			design.addComputedColumn( new ComputedColumn( "selectValue",
-//					getExpression( ) ) );
-//			QueryDefinition query = DataSetManager.getCurrentInstance( )
-//					.getQueryDefinition( design );
-//			ScriptExpression expression = new ScriptExpression( "row[\"selectValue\"]" );
-//
-//			GroupDefinition defn = new GroupDefinition( );
-//			defn.setKeyExpression( expression.getText( ) );
-//			query.setUsesDetails( false );
-//			query.addGroup( defn );
-//			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
-//
-//			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-//					.getPreparedQuery( query );
-//			IQueryResults results = preparedQuery.execute( null );
-//			selectValueList.removeAll( );
-//			if ( results != null )
-//			{
-//				IResultIterator iter = results.getResultIterator( );
-//				if ( iter != null )
-//				{
-//					while ( iter.next( ) )
-//					{
-//						selectValueList.add( iter.getString( expression ) );
-//					}
-//				}
-//
-//				results.close( );
-//			}
-//		}
-//		catch ( Exception e )
-//		{
-//			e.printStackTrace( );
-//			ExceptionHandler.handle( e );
-//		}
-//	}
+	//	private void populateList1( )
+	//	{
+	//		try
+	//		{
+	//			//Execute the query and populate this list
+	//			OdaDataSetDesign design = (OdaDataSetDesign)
+	// DataSetManager.getCurrentInstance( )
+	//					.getDataSetDesign( getDataSetHandle( ), true, false );
+	//			design.addComputedColumn( new ComputedColumn( "selectValue",
+	//					getExpression( ) ) );
+	//			QueryDefinition query = DataSetManager.getCurrentInstance( )
+	//					.getQueryDefinition( design );
+	//			ScriptExpression expression = new ScriptExpression(
+	// "row[\"selectValue\"]" );
+	//
+	//			GroupDefinition defn = new GroupDefinition( );
+	//			defn.setKeyExpression( expression.getText( ) );
+	//			query.setUsesDetails( false );
+	//			query.addGroup( defn );
+	//			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
+	//
+	//			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
+	//					.getPreparedQuery( query );
+	//			IQueryResults results = preparedQuery.execute( null );
+	//			selectValueList.removeAll( );
+	//			if ( results != null )
+	//			{
+	//				IResultIterator iter = results.getResultIterator( );
+	//				if ( iter != null )
+	//				{
+	//					while ( iter.next( ) )
+	//					{
+	//						selectValueList.add( iter.getString( expression ) );
+	//					}
+	//				}
+	//
+	//				results.close( );
+	//			}
+	//		}
+	//		catch ( Exception e )
+	//		{
+	//			e.printStackTrace( );
+	//			ExceptionHandler.handle( e );
+	//		}
+	//	}
 }
