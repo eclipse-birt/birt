@@ -48,8 +48,8 @@
  *
 -->
 
-<project name="Sample Database" default="Jar" basedir=".">
-	<description>BIRT Sample Database Plugin</description>
+<project name="Sample Database UI" default="Jar" basedir=".">
+	<description>BIRT Sample Database UI Plugin</description>
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script
 		     will pass on the value at runtime. Properties will have there default
@@ -64,14 +64,27 @@
 	<property file="../birt-build.properties" /> 
 	
 	<!-- ===== Default value for public properties ============= -->
-	<property name="module.name" value="org.eclipse.birt.report.data.oda.sampledb"/>
+	<property name="module.name" value="org.eclipse.birt.report.data.oda.sampledb.ui"/>
 
 	<path id="class.path">
+		<pathelement path="${dir.bin}" />
+		<fileset dir="${birt.core.dir}">
+			<include name="${birt.core.jar}"/>
+		</fileset>
 		<fileset dir="${oda.dir}">
 			<include name="${oda.jar}"/>
 		</fileset>
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
+		</fileset>
+		<fileset dir="${oda.jdbc.ui.dir}">
+			<include name="${oda.jdbc.ui.jar}"/>
+		</fileset>
+		<fileset dir="${designer.ui.dir}">
+			<include name="${designer.ui.jar}"/>
+		</fileset>
+		<fileset dir="${model.dir}">
+			<include name="${model.jar}"/>
 		</fileset>
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.swt*/**/swt.jar" /> 
@@ -126,7 +139,7 @@
 			encoding="Cp1252"
 			src="."
 			dest="."
-			includes=" plugin_es_ES.msg" ext=".properties"/>
+			includes="plugin_es_ES.msg" ext=".properties"/>
 		<native2ascii
 			encoding="Cp1252"
 			src="."
@@ -177,6 +190,30 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
+
+		<echo message="start call Jar task in ${model.dir}"/>
+		<ant dir="${model.dir}" antfile="BuildModel.xml" target="Jar" inheritAll="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>		
+		<echo message="end call Jar task in ${model.dir}"/>
+				
+		<echo message="start call Jar task in ${designer.ui.dir}"/>
+		<ant dir="${designer.ui.dir}" antfile="BuildDesignerUI.xml" target="Jar" inheritAll="false">
+		  <property name="eclipse.home" value="${eclipse.home}" /> 
+		</ant> 		
+		<echo message="end call Jar task in ${designer.ui.dir}"/>
+		
+		<echo message="start call Jar task in ${oda.jdbc.ui.dir}"/>
+		<ant dir="${oda.jdbc.ui.dir}" antfile="BuildOdaUI.xml" target="Jar" inheritAll="false">
+		  <property name="eclipse.home" value="${eclipse.home}" /> 
+		</ant>
+		<echo message="end call Jar task in ${oda.jdbc.ui.dir}"/>
+
+		<echo message="start call Jar task in ${sampledb.dir}"/>
+		<ant dir="${sampledb.dir}" antfile="BuildSampleDB.xml" target="Jar" inheritAll="false">
+		  <property name="eclipse.home" value="${eclipse.home}" /> 
+		</ant>
+		<echo message="end call Jar task in ${sampledb.dir}"/>
 	</target>
 	
 	<target name="compileSource" depends="buildDependency" description="compile the source ">

@@ -115,7 +115,7 @@ public class SampleDBDriver extends OdaJdbcDriver
 		}
 	}
 	
-	static String getUrl()
+	public static String getUrl()
 	{
 		return dbUrl;
 	}
