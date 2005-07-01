@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.chart.examples"
+   name="Examples Plug-in"
+   version="1.0.0"
+   provider-name=""
+   class="org.eclipse.birt.chart.examples.ExamplesPlugin">
+
+   <runtime>
+      <library name="examples.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
+
+</plugin>
