@@ -556,5 +556,10 @@ public class JDBCDriverManager
 		{
 			return this.driver.jdbcCompliant( );
 		}
+		
+		public String toString( )
+		{
+			return driverClass;
+		}
 	}
 }
