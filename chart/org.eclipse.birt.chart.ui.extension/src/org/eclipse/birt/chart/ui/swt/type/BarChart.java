@@ -87,7 +87,7 @@ public class BarChart extends DefaultChartTypeImpl
 
     public BarChart()
     {
-        imgIcon = UIHelper.getImage("images/barcharticon.gif"); //$NON-NLS-1$
+        imgIcon = UIHelper.getImage("icons/full/obj16/barcharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -133,15 +133,15 @@ public class BarChart extends DefaultChartTypeImpl
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStacked = UIHelper.getImage("images/stackedbarchartimage.gif"); //$NON-NLS-1$
-                imgPercentStacked = UIHelper.getImage("images/percentstackedbarchartimage.gif"); //$NON-NLS-1$
-                imgSideBySide = UIHelper.getImage("images/sidebysidebarchartimage.gif"); //$NON-NLS-1$
+                imgStacked = UIHelper.getImage("icons/full/wizban/stackedbarchartimage.gif"); //$NON-NLS-1$
+                imgPercentStacked = UIHelper.getImage("icons/full/wizban/percentstackedbarchartimage.gif"); //$NON-NLS-1$
+                imgSideBySide = UIHelper.getImage("icons/full/wizban/sidebysidebarchartimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                imgStacked = UIHelper.getImage("images/horizontalstackedbarchartimage.gif"); //$NON-NLS-1$
-                imgPercentStacked = UIHelper.getImage("images/horizontalpercentstackedbarchartimage.gif"); //$NON-NLS-1$
-                imgSideBySide = UIHelper.getImage("images/horizontalsidebysidebarchartimage.gif"); //$NON-NLS-1$
+                imgStacked = UIHelper.getImage("icons/full/wizban/horizontalstackedbarchartimage.gif"); //$NON-NLS-1$
+                imgPercentStacked = UIHelper.getImage("icons/full/wizban/horizontalpercentstackedbarchartimage.gif"); //$NON-NLS-1$
+                imgSideBySide = UIHelper.getImage("icons/full/wizban/horizontalsidebysidebarchartimage.gif"); //$NON-NLS-1$
             }
 
             vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStacked, sStackedDescription)); //$NON-NLS-1$
@@ -154,16 +154,16 @@ public class BarChart extends DefaultChartTypeImpl
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgStackedWithDepth = UIHelper.getImage("images/stackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
-                imgPercentStackedWithDepth = UIHelper.getImage("images/percentstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
-                imgSideBySideWithDepth = UIHelper.getImage("images/sidebysidebarchartwithdepthimage.gif"); //$NON-NLS-1$
+                imgStackedWithDepth = UIHelper.getImage("icons/full/wizban/stackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
+                imgPercentStackedWithDepth = UIHelper.getImage("icons/full/wizban/percentstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
+                imgSideBySideWithDepth = UIHelper.getImage("icons/full/wizban/sidebysidebarchartwithdepthimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                imgStackedWithDepth = UIHelper.getImage("images/horizontalstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
+                imgStackedWithDepth = UIHelper.getImage("icons/full/wizban/horizontalstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
                 imgPercentStackedWithDepth = UIHelper
-                    .getImage("images/horizontalpercentstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
-                imgSideBySideWithDepth = UIHelper.getImage("images/horizontalsidebysidebarchartwithdepthimage.gif"); //$NON-NLS-1$
+                    .getImage("icons/full/wizban/horizontalpercentstackedbarchartwithdepthimage.gif"); //$NON-NLS-1$
+                imgSideBySideWithDepth = UIHelper.getImage("icons/full/wizban/horizontalsidebysidebarchartwithdepthimage.gif"); //$NON-NLS-1$
             }
             vSubTypes.add(new DefaultChartSubTypeImpl("Stacked", imgStackedWithDepth, sStackedDescription)); //$NON-NLS-1$
             vSubTypes.add(new DefaultChartSubTypeImpl("Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
@@ -174,11 +174,11 @@ public class BarChart extends DefaultChartTypeImpl
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                imgSideBySide3D = UIHelper.getImage("images/sidebysidebarchart3dimage.gif"); //$NON-NLS-1$
+                imgSideBySide3D = UIHelper.getImage("icons/full/wizban/sidebysidebarchart3dimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                imgSideBySide3D = UIHelper.getImage("images/horizontalsidebysidebarchart3dimage.gif"); //$NON-NLS-1$
+                imgSideBySide3D = UIHelper.getImage("icons/full/wizban/horizontalsidebysidebarchart3dimage.gif"); //$NON-NLS-1$
             }
             vSubTypes.add(new DefaultChartSubTypeImpl("Side-by-side", imgSideBySide3D, sSideBySideDescription)); //$NON-NLS-1$
         }

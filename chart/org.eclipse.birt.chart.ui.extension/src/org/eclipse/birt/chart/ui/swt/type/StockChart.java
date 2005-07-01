@@ -77,7 +77,7 @@ public class StockChart extends DefaultChartTypeImpl
 
     public StockChart()
     {
-        imgIcon = UIHelper.getImage("images/stockcharticon.gif"); //$NON-NLS-1$
+        imgIcon = UIHelper.getImage("icons/full/obj16/stockcharticon.gif"); //$NON-NLS-1$
     }
 
     /*
@@ -123,11 +123,11 @@ public class StockChart extends DefaultChartTypeImpl
         {
             if (orientation.equals(Orientation.VERTICAL_LITERAL))
             {
-                img2D = UIHelper.getImage("images/stockchartimage.gif"); //$NON-NLS-1$
+                img2D = UIHelper.getImage("icons/full/wizban/stockchartimage.gif"); //$NON-NLS-1$
             }
             else
             {
-                img2D = UIHelper.getImage("images/horizontalstockchartimage.gif"); //$NON-NLS-1$
+                img2D = UIHelper.getImage("icons/full/wizban/horizontalstockchartimage.gif"); //$NON-NLS-1$
             }
             vSubTypes.add(new DefaultChartSubTypeImpl("Standard Stock Chart", img2D, sStandardDescription)); //$NON-NLS-1$
         }
