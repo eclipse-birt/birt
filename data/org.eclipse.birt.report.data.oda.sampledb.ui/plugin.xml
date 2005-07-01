@@ -8,7 +8,7 @@
    class="org.eclipse.birt.report.data.oda.sampledb.ui.UiPlugin">
 
    <runtime>
-      <library name="sampledb.jar">
+      <library name="sampledbui.jar">
          <export name="*"/>
       </library>
    </runtime>
