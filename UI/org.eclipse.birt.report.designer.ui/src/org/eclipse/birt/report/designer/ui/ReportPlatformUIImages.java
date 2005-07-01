@@ -46,7 +46,7 @@ public class ReportPlatformUIImages
 	public final static String OBJ16_PATH = "obj16/";//$NON-NLS-1$
 	public final static String PAL_PATH = "pal/";//$NON-NLS-1$
 	public final static String PROGRESS_PATH = "progress/";//$NON-NLS-1$
-	public final static String MISC_PATH = "misc16/";//$NON-NLS-1$
+	public final static String MISC_PATH = "misc/";//$NON-NLS-1$
 	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
 
 	static
