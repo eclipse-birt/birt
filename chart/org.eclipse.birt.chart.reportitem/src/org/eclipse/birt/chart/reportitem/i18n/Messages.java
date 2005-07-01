@@ -15,8 +15,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * @author Actuate Corporation
- *
+ * Messages
  */
 public class Messages
 {
