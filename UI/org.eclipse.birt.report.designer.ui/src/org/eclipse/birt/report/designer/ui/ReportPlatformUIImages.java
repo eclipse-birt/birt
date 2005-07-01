@@ -37,7 +37,17 @@ public class ReportPlatformUIImages
 	 * Declares Common paths
 	 */
 
-	public final static String ICONS_PATH = "icons/";//$NON-NLS-1$
+	public final static String ICONS_PATH = "icons/full/";//$NON-NLS-1$
+	
+	public final static String DOBJ16_PATH = "dobj16/";//$NON-NLS-1$
+	public final static String DTOOL16_PATH = "dtool16/";//$NON-NLS-1$
+	public final static String ETOOL16_PATH = "etool16/";//$NON-NLS-1$
+	public final static String EVIEW16_PATH = "eview16/";//$NON-NLS-1$
+	public final static String OBJ16_PATH = "obj16/";//$NON-NLS-1$
+	public final static String PAL_PATH = "pal/";//$NON-NLS-1$
+	public final static String PROGRESS_PATH = "progress16/";//$NON-NLS-1$
+	public final static String MISC_PATH = "misc16/";//$NON-NLS-1$
+	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
 
 	static
 	{
@@ -81,307 +91,302 @@ public class ReportPlatformUIImages
 
 		// common icons
 		declareImage( ISharedImages.IMG_OBJS_ERROR_TSK, ICONS_PATH
-				+ "error_tsk.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_OBJ_FOLDER, ICONS_PATH + "fldr_obj.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_COPY, ICONS_PATH + "copy_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_CUT, ICONS_PATH + "cut_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_UNDO, ICONS_PATH + "undo_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_REDO, ICONS_PATH + "redo_edit.gif" ); //$NON-NLS-1$
-		declareImage( ISharedImages.IMG_TOOL_PASTE, ICONS_PATH
-				+ "paste_edit.gif" ); //$NON-NLS-1$
+				+ PROGRESS_PATH + "error_tsk.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_OBJ_FOLDER, ICONS_PATH + OBJ16_PATH + "fldr_obj.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_COPY, ICONS_PATH + ETOOL16_PATH + "copy_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_CUT, ICONS_PATH + ETOOL16_PATH + "cut_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_UNDO, ICONS_PATH + ETOOL16_PATH + "undo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_REDO, ICONS_PATH + ETOOL16_PATH + "redo_edit.gif" ); //$NON-NLS-1$
+		declareImage( ISharedImages.IMG_TOOL_PASTE, ICONS_PATH 
+				+ ETOOL16_PATH + "paste_edit.gif" ); //$NON-NLS-1$
 		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH
-				+ "delete_edit.gif" ); //$NON-NLS-1$
+				+ ETOOL16_PATH + "delete_edit.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
-				+ "new_report.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "new_report.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_FILE, ICONS_PATH
-				+ "report.gif" ); //$NON-NLS-1$
+				+ EVIEW16_PATH + "report.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_QUIK_EDIT, ICONS_PATH
-				+ "quick_edit.gif" ); //$NON-NLS-1$
+				+ EVIEW16_PATH + "quick_edit.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_PERSPECTIVE,
-				ICONS_PATH + "report_perspective.gif" ); //$NON-NLS-1$
+				ICONS_PATH + EVIEW16_PATH + "report_perspective.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT, ICONS_PATH
-				+ "report_project.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "report_project.gif" ); //$NON-NLS-1$
 
 		//element icons
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_CELL, ICONS_PATH
-				+ "cell.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "cell.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA, ICONS_PATH
-				+ "data.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "data.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_SET, ICONS_PATH
-				+ "data_set.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_SOURCE,
-				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_source.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET,
-				ICONS_PATH + "data_set.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SOURCE,
-				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_source.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCRIPT_DATA_SET,
-				ICONS_PATH + "data_set.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_set.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCRIPT_DATA_SOURCE,
-				ICONS_PATH + "data_source.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_source.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH
-				+ "grid.gif" ); //$NON-NLS-1$
+				+ PAL_PATH + "grid.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GROUP, ICONS_PATH
-				+ "group.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_IMAGE, ICONS_PATH
-				+ "image.gif" ); //$NON-NLS-1$
+				+ PAL_PATH + "image.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LABEL, ICONS_PATH
-				+ "label.gif" ); //$NON-NLS-1$
+				+ PAL_PATH + "label.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LINE, ICONS_PATH
-				+ "line.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "line.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIST, ICONS_PATH
-				+ "list.gif" ); //$NON-NLS-1$
+				+ PAL_PATH + "list.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_LIST_GROUP,
-				ICONS_PATH + "list_group.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "list_group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_MASTERPAGE,
-				ICONS_PATH + "master_page.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_PARAMETER,
-				ICONS_PATH + "parameter.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP,
-				ICONS_PATH + "parameter_group.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "parameter_group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ROW, ICONS_PATH
-				+ "row.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "row.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_SCALAR_PARAMETER,
-				ICONS_PATH + "parameter.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "parameter.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMNET_SIMPLE_MASTERPAGE,
-				ICONS_PATH + "master_page.gif" ); //$NON-NLS-1$
+				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_STYLE, ICONS_PATH
 				+ "style.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TABLE, ICONS_PATH
-				+ "table.gif" ); //$NON-NLS-1$
+				+ PAL_PATH + "table.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TABLE_GROUP,
 				ICONS_PATH + "table_group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXT, ICONS_PATH
-				+ "text.gif" ); //$NON-NLS-1$		
+				+ PAL_PATH + "text.gif" ); //$NON-NLS-1$		
 
 		//outline icons
 		declareImage( IReportGraphicConstants.ICON_NODE_BODY, ICONS_PATH
-				+ "body_icon.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "body_icon.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_MASTERPAGES, ICONS_PATH
-				+ "master_pages.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "master_pages.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_STYLES, ICONS_PATH
-				+ "styles.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "styles.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_HEADER, ICONS_PATH
-				+ "header.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "header.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_DETAILS, ICONS_PATH
-				+ "details.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "details.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_FOOTER, ICONS_PATH
-				+ "footer.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "footer.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUPS, ICONS_PATH
-				+ "group.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUP_HEADER,
-				ICONS_PATH + "group_header.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "group_header.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_GROUP_FOOTER,
-				ICONS_PATH + "group_footer.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "group_footer.gif" ); //$NON-NLS-1$
 
 		// layout icons
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_NORMAL, ICONS_PATH
-				+ "normal_page.gif" ); //$NON-NLS-1$
+				+ EVIEW16_PATH + "normal_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_MASTERPAGE,
-				ICONS_PATH + "master_page.gif" ); //$NON-NLS-1$
+				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_LAYOUT_RULER, ICONS_PATH
-				+ "show_rulers.gif" ); //$NON-NLS-1$
+				+ EVIEW16_PATH + "show_rulers.gif" ); //$NON-NLS-1$
 
 		// border icons
 		declareImage( IReportGraphicConstants.ICON_BORDER_ALL, ICONS_PATH
-				+ "borders_frame.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "borders_frame.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_BORDER_BOTTOM, ICONS_PATH
-				+ "border_bottom.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "border_bottom.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_BORDER_TOP, ICONS_PATH
-				+ "border_top.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "border_top.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_BORDER_LEFT, ICONS_PATH
-				+ "border_left.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "border_left.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_BORDER_RIGHT, ICONS_PATH
-				+ "border_right.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "border_right.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_BORDER_NOBORDER, ICONS_PATH
-				+ "border_none.gif" ); //$NON-NLS-1$
-
-		// chart icons
-		declareImage( IReportGraphicConstants.ICON_CHART, ICONS_PATH
-				+ "chart_icon.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "border_none.gif" ); //$NON-NLS-1$
 
 		// missing image icons
 		declareImage( IReportGraphicConstants.ICON_MISSING_IMG, ICONS_PATH
-				+ "missing_image.gif" ); //$NON-NLS-1$
+				+ PROGRESS_PATH + "missing_image.gif" ); //$NON-NLS-1$
 
 		// data explore icons
 		declareImage( IReportGraphicConstants.ICON_DATA_EXPLORER_VIEW,
-				ICONS_PATH + "data_explore_view.gif" ); //$NON-NLS-1$
+				ICONS_PATH + EVIEW16_PATH + "data_explorer_view.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_DATA_SETS, ICONS_PATH
-				+ "data_set_folder.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "data_set_folder.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_DATA_SOURCES,
-				ICONS_PATH + "data_source_folder.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_source_folder.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NODE_PARAMETERS, ICONS_PATH
-				+ "parameter_folder.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "parameter_folder.gif" ); //$NON-NLS-1$
 
 		//**********************************************************
 		//expression icons
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_DATA_TABLE,
-				ICONS_PATH + "data_table.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "data_table.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_DATA_COLUMN, ICONS_PATH
-				+ "data_column.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "data_column.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
-				ICONS_PATH + "operator.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "operator.gif" ); //$NON-NLS-1$
 		
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL,
-				ICONS_PATH + "global.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "global.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD,
-				ICONS_PATH + "method.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "method.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD,
-				ICONS_PATH + "static_method.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "static_method.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER,
-				ICONS_PATH + "property.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "property.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER,
-				ICONS_PATH + "static_property.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "static_property.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_BUILDER,
-				ICONS_PATH + "expression.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "expression.gif" ); //$NON-NLS-1$
 
 		//data wizards
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASOURCE,
-				ICONS_PATH + "datasource_wizard.gif" ); //$NON-NLS-1$
+				ICONS_PATH + WIZBAN_PATH + "datasource_wizard.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASET, ICONS_PATH
-				+ "dataset_wizard.gif" ); //$NON-NLS-1$
+				+ WIZBAN_PATH + "dataset_wizard.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_WIZARDPAGE_DATASETSELECTION,
-				ICONS_PATH + "dataset_wizard_table.gif" ); //$NON-NLS-1$
+				ICONS_PATH + WIZBAN_PATH + "dataset_wizard_table.gif" ); //$NON-NLS-1$
 
 		/////////////////////attribute image
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH,
-				ICONS_PATH + "bold.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "bold.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_WIDTH
-				+ IReportGraphicConstants.DIS, ICONS_PATH + "bold_disabled.gif" ); //$NON-NLS-1$
+				+ IReportGraphicConstants.DIS, ICONS_PATH + DOBJ16_PATH + "bold_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_STYLE,
-				ICONS_PATH + "italic.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "italic.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_FONT_STYLE
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "italic_disabled.gif" ); //$NON-NLS-1$
+				+ DOBJ16_PATH + "italic_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_UNDERLINE,
-				ICONS_PATH + "underline.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "underline.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_UNDERLINE
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "underline_disabled.gif" ); //$NON-NLS-1$
+				+ DOBJ16_PATH + "underline_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_LINE_THROUGH,
-				ICONS_PATH + "lineSthrough.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "lineSthrough.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_LINE_THROUGH
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "lineSthrough_disabled.gif" ); //$NON-NLS-1$
+				+ DOBJ16_PATH + "lineSthrough_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_NONE,
-				ICONS_PATH + "border_none.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_none.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME,
-				ICONS_PATH + "border_frame.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_frame.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_LEFT,
-				ICONS_PATH + "border_left.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_left.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_RIGHT,
-				ICONS_PATH + "border_right.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_right.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_TOP,
-				ICONS_PATH + "border_top.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_top.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_BOTTOM,
-				ICONS_PATH + "border_bottom.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "border_bottom.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER,
-				ICONS_PATH + "center_align.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "center_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_CENTER
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "center_align_disabled.gif" ); //$NON-NLS-1$
+				+ DOBJ16_PATH + "center_align_disabled.gif" ); //$NON-NLS-1$
 		declareImage(
 				IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY,
-				ICONS_PATH + "justified_align.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "justified_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_JUSTIFY
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "justified_align_disabled.gif" ); //$NON-NLS-1$
+				+ DOBJ16_PATH + "justified_align_disabled.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_LEFT,
-				ICONS_PATH + "left_align.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "left_align.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_LEFT
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "left_align_disabled.gif" );//$NON-NLS-1$
+				+ DOBJ16_PATH + "left_align_disabled.gif" );//$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_RIGHT,
-				ICONS_PATH + "right_align.gif" );//$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "right_align.gif" );//$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TEXT_ALIGN_RIGHT
 				+ IReportGraphicConstants.DIS, ICONS_PATH
-				+ "right_align_disabled.gif" );//$NON-NLS-1$
+				+ DOBJ16_PATH + "right_align_disabled.gif" );//$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_TOP_MARGIN,
-				ICONS_PATH + "top_margin.gif" ); //$NON-NLS-1$
+				ICONS_PATH + MISC_PATH + "top_margin.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_BOTTOM_MARGIN,
-				ICONS_PATH + "bottom_margin.gif" ); //$NON-NLS-1$
+				ICONS_PATH + MISC_PATH + "bottom_margin.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_LEFT_MARGIN,
-				ICONS_PATH + "left_margin.gif" ); //$NON-NLS-1$
+				ICONS_PATH + MISC_PATH + "left_margin.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_ATTRIBUTE_RIGHT_MARGIN,
-				ICONS_PATH + "right_margin.gif" ); //$NON-NLS-1$
+				ICONS_PATH + MISC_PATH + "right_margin.gif" ); //$NON-NLS-1$
 
 		//**********************************************************
 		//Preview icons
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS,
-				ICONS_PATH + "params_ecl_show.gif" ); //$NON-NLS-1$
+				ICONS_PATH + PROGRESS_PATH + "params_ecl_show.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_PARAMETERS_HIDE,
-				ICONS_PATH + "params_ecl_hide.gif" ); //$NON-NLS-1$
+				ICONS_PATH + PROGRESS_PATH + "params_ecl_hide.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
-				+ "refresh.gif" ); //$NON-NLS-1$
+				+ ETOOL16_PATH + "refresh.gif" ); //$NON-NLS-1$
 
 		//Auto Text Icon
 		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH
-				+ "autotext.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "autotext.gif" ); //$NON-NLS-1$
 
 		//Parameter dialog icon
 		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
-				+ "default.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "default.gif" ); //$NON-NLS-1$
 		
 		//Data editor dialog icons
 		declareImage(IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER, ICONS_PATH
-				+ "prop_dialog_title.gif" ); //$NON-NLS-1$
-		
-		//Open file icon
+				+ OBJ16_PATH + "prop_dialog_title.gif" ); //$NON-NLS-1$
+				
+				//Open file icon
 		declareImage( IReportGraphicConstants.ICON_OPEN_FILE,
-				ICONS_PATH + "open_file.gif" ); //$NON-NLS-1$
-
+				ICONS_PATH + ETOOL16_PATH + "open_file.gif" ); //$NON-NLS-1$
 		
-
+		declareImage("TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$
 	}
 
 	/**

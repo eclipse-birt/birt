@@ -121,15 +121,15 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private void initCellCursor( )
 	{
-		ImageData source = ReportPlugin.getImageDescriptor( "icons/cellcursor.bmp" ) //$NON-NLS-1$
+		ImageData source = ReportPlugin.getImageDescriptor( "icons/full/point/cellcursor.bmp" ) //$NON-NLS-1$
 				.getImageData( );
-		ImageData mask = ReportPlugin.getImageDescriptor( "icons/cellcursormask.bmp" ) //$NON-NLS-1$
+		ImageData mask = ReportPlugin.getImageDescriptor( "icons/full/point/cellcursormask.bmp" ) //$NON-NLS-1$
 				.getImageData( );
 		cellLeftCursor = new Cursor( null, source, mask, 16, 16 );
 
-		source = ReportPlugin.getImageDescriptor( "icons/cellrightcursor.bmp" ) //$NON-NLS-1$
+		source = ReportPlugin.getImageDescriptor( "icons/full/point/cellrightcursor.bmp" ) //$NON-NLS-1$
 				.getImageData( );
-		mask = ReportPlugin.getImageDescriptor( "icons/cellrightcursormask.bmp" ) //$NON-NLS-1$
+		mask = ReportPlugin.getImageDescriptor( "icons/full/point/cellrightcursormask.bmp" ) //$NON-NLS-1$
 				.getImageData( );
 		cellRightCursor = new Cursor( null, source, mask, 16, 16 );
 	}
