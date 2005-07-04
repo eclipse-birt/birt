@@ -443,6 +443,22 @@ public class ScriptEvalUtil
 	private static boolean between( Object resultObject, Object resultOp1,
 			Object resultOp2 ) throws DataException
 	{
+		// For "Date between String and String
+		// First we should convert all operands to Date
+		if ( resultObject instanceof Date )
+		{
+			try
+			{
+				resultOp1 = DataTypeUtil.toDate( resultOp1 );
+				resultOp2 = DataTypeUtil.toDate( resultOp2 );
+			}
+			catch ( BirtException e )
+			{
+				throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+						e );
+			}
+		}
+		
 		Object min, max;
 		if ( compare( resultOp1, resultOp2 ) <= 0 )
 		{
