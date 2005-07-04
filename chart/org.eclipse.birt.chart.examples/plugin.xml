@@ -2,10 +2,10 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.chart.examples"
-   name="Examples Plug-in"
+   name="Test Plug-in"
    version="1.0.0"
    provider-name=""
-   class="org.eclipse.birt.chart.examples.ExamplesPlugin">
+   class="org.eclipse.birt.chart.examples.TestsPlugin">
 
    <runtime>
       <library name="examples.jar">
@@ -16,6 +16,15 @@
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.birt.chart.engine"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.chart.engine.extension"/>
    </requires>
-
+   <extension
+         point="org.eclipse.birt.chart.engine.displayservers">
+      <displayserver
+            server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"
+            name="ds.SVG"/>
+   </extension>
 </plugin>
