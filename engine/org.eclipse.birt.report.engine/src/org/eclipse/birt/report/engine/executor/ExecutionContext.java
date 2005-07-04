@@ -29,6 +29,9 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.script.BirtHashMap;
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
+import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -43,14 +46,17 @@ import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.script.ModelJavaScriptInitializer;
+import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
 import org.eclipse.birt.report.model.script.ReportDefinition;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.WrapFactory;
 
 /**
  * Captures the report execution context. This class is needed for accessing
@@ -59,13 +65,14 @@ import org.mozilla.javascript.Scriptable;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.27 $ $Date: 2005/06/01 07:57:46 $
+ * @version $Revision: 1.28 $ $Date: 2005/06/22 02:48:16 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
 
 	// for logging
-	protected static Logger log = Logger.getLogger( ExecutionContext.class.getName() );
+	protected static Logger log = Logger.getLogger( ExecutionContext.class
+			.getName( ) );
 
 	// The scripting context
 	protected ScriptContext scriptContext;
@@ -99,7 +106,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	// the report design
 	protected Report report;
-	
+
 	// the report content object
 	protected IReportContent reportContent;
 
@@ -108,29 +115,29 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	// A DOM Parser for parsing HTML
 	protected TextParser parser;
-	
+
 	protected IReportRunnable runnable;
-	
+
 	protected IRenderOption renderOption;
-	
 
 	protected Stack contentStack = new Stack( );
-	
+
 	/** Stores the error message during running the report */
 	protected HashMap errMsgLst = new HashMap( );
-	
-	/** the engine used to create this context */ 
+
+	/** the engine used to create this context */
 	private ReportEngine engine;
-	
+
 	private String taskIDString;
-	
+
 	protected NumberFormatter numberFormatter;
-	
+
 	protected StringFormatter stringFormatter;
-	
+
 	protected DateFormatter dateFormatter;
-	
+
 	protected Object designObj;
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
@@ -138,19 +145,20 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	{
 		this( null, taskID );
 	}
+
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
 	public ExecutionContext( ReportEngine engine, int taskID )
 	{
 		this.engine = engine;
-		
-		taskIDString = "Task" + new Integer(taskID).toString();	//$NON-NLS-1$
-		
+
+		taskIDString = "Task" + new Integer( taskID ).toString( ); //$NON-NLS-1$
+
 		parser = new TextParser( );
 
 		locale = Locale.getDefault( );
-		
+
 		if ( engine != null )
 		{
 			scriptContext = new ScriptContext( engine.getRootScope( ) );
@@ -160,12 +168,45 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			scriptContext = new ScriptContext( );
 		}
 
-		//create script context used to execute the script statements
-		//register the global variables in the script context
-		scriptContext.registerBean( "report", new ReportObject()); 
-		scriptContext.registerBean( "params", params ); 				//$NON-NLS-1$
-		scriptContext.registerBean( "config", configs ); 				//$NON-NLS-1$
+		initailizeScriptContext( scriptContext.getContext( ), scriptContext
+				.getScope( ) );
+		// create script context used to execute the script statements
+		// register the global variables in the script context
+		scriptContext.registerBean( "report", new ReportObject( ) );
+		scriptContext.registerBean( "params", params ); //$NON-NLS-1$
+		scriptContext.registerBean( "config", configs ); //$NON-NLS-1$
 		dataEngine = DataEngineFactory.getInstance( ).createDataEngine( this );
+	}
+
+	protected void initailizeScriptContext( Context cx, Scriptable scope )
+	{
+		scriptContext.getContext( ).setWrapFactory( new WrapFactory( ) {
+
+			protected IJavascriptWrapper modelWrapper = new ModelJavaScriptWrapper( );
+			protected IJavascriptWrapper coreWrapper = new CoreJavaScriptWrapper( );
+
+			/**
+			 * wrapper an java object to javascript object.
+			 */
+			public Object wrap( Context cx, Scriptable scope, Object obj,
+					Class staticType )
+			{
+				Object object = modelWrapper.wrap( cx, scope, obj, staticType );
+				if ( object != obj )
+				{
+					return object;
+				}
+				object = coreWrapper.wrap( cx, scope, obj, staticType );
+				if ( object != obj )
+				{
+					return object;
+				}
+				return super.wrap( cx, scope, obj, staticType );
+			}
+		} );
+
+		new ModelJavaScriptInitializer( ).initialize( cx, scope );
+		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 	}
 
 	/**
@@ -173,18 +214,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * 
 	 * @return taskID as string
 	 */
-	public String getTaskIDString()
+	public String getTaskIDString( )
 	{
 		return taskIDString;
-	}
-	
-	/**
-	 * @return whether the report item can define its own master page
-	 */
-	public boolean hasNewPage( )
-	{
-		assert !pageInfoStack.isEmpty( );
-		return ( (ReportItemContext) pageInfoStack.peek( ) ).canDefineMasterPage;
 	}
 
 	/**
@@ -211,20 +243,20 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		scriptContext.exitScope( );
 	}
 
-	
-	public void registerBeans(HashMap map)
+	public void registerBeans( HashMap map )
 	{
-		if(map != null)
+		if ( map != null )
 		{
-			Iterator iter = map.keySet().iterator();
-			while(iter.hasNext())
+			Iterator iter = map.keySet( ).iterator( );
+			while ( iter.hasNext( ) )
 			{
-				String key = (String)iter.next();
-				registerBean(key, map.get(key));
+				String key = (String) iter.next( );
+				registerBean( key, map.get( key ) );
 			}
-			
+
 		}
 	}
+
 	/**
 	 * declares a variable in the current scope. The variable is then accessible
 	 * through JavaScript.
@@ -249,12 +281,13 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * @see evaluate(String,String,int)
 	 */
 	public Object evaluate( String source )
-	{	
-		if(source==null)
+	{
+		if ( source == null )
 		{
-			EngineException e = new EngineException( "Failed to evaluate " + source);//$NON-NLS-1$
-			addException( e ); 
-			log.log( Level.SEVERE, e.getMessage(), e );
+			EngineException e = new EngineException(
+					"Failed to evaluate " + source );//$NON-NLS-1$
+			addException( e );
+			log.log( Level.SEVERE, e.getMessage( ), e );
 			return null;
 		}
 		try
@@ -263,8 +296,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( Exception e )
 		{
-			log.log( Level.SEVERE, e.getMessage(),  e );
-			addException( new EngineException( "Failed to evaluate " + source, e ) ); //$NON-NLS-1$
+			log.log( Level.SEVERE, e.getMessage( ), e );
+			addException( new EngineException(
+					"Failed to evaluate " + source, e ) ); //$NON-NLS-1$
 		}
 		return null;
 
@@ -294,11 +328,12 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public Object evaluate( String expr, String name, int lineNo )
 	{
-		if(expr==null)
+		if ( expr == null )
 		{
-			EngineException e =  new EngineException(MessageConstants.SCRIPT_EVALUATION_ERROR, expr);
-			addException( e ); 
-			log.log( Level.SEVERE, e.getMessage(), e );
+			EngineException e = new EngineException(
+					MessageConstants.SCRIPT_EVALUATION_ERROR, expr );
+			addException( e );
+			log.log( Level.SEVERE, e.getMessage( ), e );
 			return null;
 		}
 		try
@@ -309,8 +344,9 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		{
 			// TODO eval may throw RuntimeException, which may also need
 			// logging. May need to log more info.
-		    log.log( Level.SEVERE,e.getMessage(),  e );
-		    addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,  expr, e ) ); //$NON-NLS-1$
+			log.log( Level.SEVERE, e.getMessage( ), e );
+			addException( new EngineException(
+					MessageConstants.SCRIPT_EVALUATION_ERROR, expr, e ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -328,9 +364,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( Throwable t )
 		{
-			//May throw the run-time exception etc.
+			// May throw the run-time exception etc.
 			log.log( Level.SEVERE, t.getMessage( ), t );
-			addException( new EngineException(MessageConstants.INVALID_EXPRESSION_ERROR, expr, t ) ); //$NON-NLS-1$
+			addException( new EngineException(
+					MessageConstants.INVALID_EXPRESSION_ERROR, expr, t ) ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -400,56 +437,6 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	}
 
 	/**
-	 * 
-	 * inner class for report item context
-	 */
-	class ReportItemContext
-	{
-
-		/** refer to the design object for a report item */
-		ReportItemDesign item;
-
-		/** Is the item allowed to choose a different master page? */
-		boolean canDefineMasterPage = false;
-
-		/**
-		 * Are the children of the item allowed to choose different master
-		 * pages?
-		 */
-		boolean canChildrenDefineMasterPage = false;
-
-		/** The master page that this element should be rendered with */
-		String masterPage;
-
-		/**
-		 * Constructor
-		 * 
-		 * @param item
-		 *            the reference to the report item design
-		 */
-		ReportItemContext( ReportItemDesign item )
-		{
-			this.item = item;
-			//the top element in the stack as the default value
-			if ( item == null )
-			{
-				canDefineMasterPage = true;
-				canChildrenDefineMasterPage = true;
-				return;
-			}
-			if ( ( (ReportItemContext) pageInfoStack.peek( ) ).canChildrenDefineMasterPage
-					&& "block".equals( item.getStyle( ).getDisplay( ) ) ) //$NON-NLS-1$
-			{
-				canDefineMasterPage = true;
-				//				if ( item instanceof ListItemDesign )
-				//				{
-				//					allowChildrenPage = true;
-				//				}
-			}
-		}
-	}
-
-	/**
 	 * @return Returns the locale.
 	 */
 	public Locale getLocale( )
@@ -481,16 +468,15 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	{
 		return reportContent;
 	}
-	
+
 	/**
 	 * @param report
 	 *            The report to set.
 	 */
-	public void setReport(Report report)
+	public void setReport( Report report )
 	{
 		this.report = report;
 	}
-
 
 	/**
 	 * @return Returns the defaultMasterPage.
@@ -659,15 +645,15 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public void loadScript( String fileName )
 	{
-		//check if the script has been loaded.
+		// check if the script has been loaded.
 		if ( loadedScripts.contains( fileName ) )
 			return;
 
 		File script = new File( report.getBasePath( ), fileName );
-		//read the script in the file, and execution.
+		// read the script in the file, and execution.
 		try
 		{
-			
+
 			FileInputStream in = new FileInputStream( script );
 			byte[] buffer = new byte[in.available( )];
 			in.read( buffer );
@@ -677,10 +663,13 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 		catch ( IOException ex )
 		{
-		    log.log( Level.SEVERE, "loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
+			log.log( Level.SEVERE,
+					"loading external script file " + fileName + " failed.", //$NON-NLS-1$ //$NON-NLS-2$
 					ex );
-		    addException( new EngineException( MessageConstants.SCRIPT_FILE_LOAD_ERROR, script.getAbsolutePath(), ex ) ); //$NON-NLS-1$
-			//TODO This is a fatal error. Should throw an exception.
+			addException( new EngineException(
+					MessageConstants.SCRIPT_FILE_LOAD_ERROR, script
+							.getAbsolutePath( ), ex ) ); //$NON-NLS-1$
+			// TODO This is a fatal error. Should throw an exception.
 		}
 	}
 
@@ -693,7 +682,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	{
 		return scriptContext.getScope( );
 	}
-	
+
 	/**
 	 * @param obj
 	 */
@@ -715,53 +704,56 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public IReportElementContent getContentObject( )
 	{
-		if( contentStack.empty( ) )
+		if ( contentStack.empty( ) )
 		{
 			return null;
 		}
-		return ( IReportElementContent ) contentStack.peek( );
+		return (IReportElementContent) contentStack.peek( );
 	}
 
 	/**
-	 * Adds the exception 
+	 * Adds the exception
 	 * 
 	 * @param ex
 	 *            the Throwable instance
 	 */
 	public void addException( BirtException ex )
 	{
-		ReportElementHandle item = getItemDesign();
-		addException(item, ex);
+		ReportElementHandle item = getItemDesign( );
+		addException( item, ex );
 	}
-	
-	public void addException(ReportElementHandle element, BirtException ex)
+
+	public void addException( ReportElementHandle element, BirtException ex )
 	{
-		if(errMsgLst.containsKey(element))
+		if ( errMsgLst.containsKey( element ) )
 		{
-			ElementExceptionInfo exInfo = (ElementExceptionInfo)errMsgLst.get(element);
-			exInfo.addException(ex);
+			ElementExceptionInfo exInfo = (ElementExceptionInfo) errMsgLst
+					.get( element );
+			exInfo.addException( ex );
 		}
 		else
 		{
-			ElementExceptionInfo info = new ElementExceptionInfo(element);
-			info.addException(ex);
-			errMsgLst.put(element, info);
+			ElementExceptionInfo info = new ElementExceptionInfo( element );
+			info.addException( ex );
+			errMsgLst.put( element, info );
 		}
 	}
+
 	/**
 	 * 
 	 * @return Returns the error message list
 	 */
 	public HashMap getMsgLst( )
-	{		
+	{
 		return this.errMsgLst;
 	}
+
 	/**
 	 * report object is the script object used in the script context.
 	 * 
 	 * All infos can get from this object.
 	 * 
-	 *  
+	 * 
 	 */
 	private class ReportObject
 	{
@@ -795,7 +787,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 			return params;
 		}
 
-		//TODO DTE should return the datasets and datasources.
+		// TODO DTE should return the datasets and datasources.
 		/**
 		 * @return a set of data sets
 		 */
@@ -824,115 +816,127 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	/**
 	 * @return Returns the runnable.
 	 */
-	public IReportRunnable getRunnable()
+	public IReportRunnable getRunnable( )
 	{
 		return runnable;
 	}
+
 	/**
-	 * @param runnable The runnable to set.
+	 * @param runnable
+	 *            The runnable to set.
 	 */
-	public void setRunnable(IReportRunnable runnable)
+	public void setRunnable( IReportRunnable runnable )
 	{
 		this.runnable = runnable;
-		ReportDefinition designDefn = new ReportDefinition((ReportDesignHandle)runnable.getDesignHandle());
-		scriptContext.registerBean("design", designDefn);
-		this.designObj = scriptContext.eval("design");
+		ReportDefinition designDefn = new ReportDefinition(
+				(ReportDesignHandle) runnable.getDesignHandle( ) );
+		scriptContext.registerBean( "design", designDefn );
+		this.designObj = scriptContext.eval( "design" );
 	}
+
 	/**
 	 * @return Returns the renderOption.
 	 */
-	public IRenderOption getRenderOption()
+	public IRenderOption getRenderOption( )
 	{
 		return renderOption;
 	}
+
 	/**
-	 * @param renderOption The renderOption to set.
+	 * @param renderOption
+	 *            The renderOption to set.
 	 */
-	public void setRenderOption(IRenderOption renderOption)
+	public void setRenderOption( IRenderOption renderOption )
 	{
 		this.renderOption = renderOption;
 	}
-	
+
 	public NumberFormatter createNumberFormatter( String format )
 	{
-		if( numberFormatter == null )
+		if ( numberFormatter == null )
 		{
 			numberFormatter = new NumberFormatter( locale );
 		}
-		
+
 		numberFormatter.applyPattern( format );
 		return numberFormatter;
 	}
-	
+
 	public DateFormatter createDateFormatter( String format )
 	{
-		if( dateFormatter == null )
+		if ( dateFormatter == null )
 		{
 			dateFormatter = new DateFormatter( locale );
 		}
-		
+
 		dateFormatter.applyPattern( format );
 		return dateFormatter;
 	}
-	
+
 	public StringFormatter createStringFormatter( String format )
 	{
-		if( stringFormatter == null )
+		if ( stringFormatter == null )
 		{
 			stringFormatter = new StringFormatter( locale );
 		}
-		
+
 		stringFormatter.applyPattern( format );
 		return stringFormatter;
 	}
-	
+
 	protected class ElementExceptionInfo
 	{
+
 		ReportElementHandle element;
-		ArrayList exList = new ArrayList();
-		ArrayList countList = new ArrayList();
-		
-		public ElementExceptionInfo(ReportElementHandle element)
+		ArrayList exList = new ArrayList( );
+		ArrayList countList = new ArrayList( );
+
+		public ElementExceptionInfo( ReportElementHandle element )
 		{
 			this.element = element;
 		}
-		public void addException(BirtException e)
+
+		public void addException( BirtException e )
 		{
-			for(int i=0; i<exList.size(); i++)
+			for ( int i = 0; i < exList.size( ); i++ )
 			{
-				BirtException err = (BirtException)exList.get(i);
-				if(e.getErrorCode()!=null && e.getErrorCode().equals(err.getErrorCode())
-					&& e.getLocalizedMessage()!=null && e.getLocalizedMessage().equals(err.getLocalizedMessage()))
+				BirtException err = (BirtException) exList.get( i );
+				if ( e.getErrorCode( ) != null
+						&& e.getErrorCode( ).equals( err.getErrorCode( ) )
+						&& e.getLocalizedMessage( ) != null
+						&& e.getLocalizedMessage( ).equals(
+								err.getLocalizedMessage( ) ) )
 				{
-					countList.set(i, new Integer(((Integer)countList.get(i)).intValue() + 1)); 
+					countList.set( i, new Integer( ( (Integer) countList
+							.get( i ) ).intValue( ) + 1 ) );
 					return;
 				}
 			}
-			exList.add(e);
-			countList.add(new Integer(1));
+			exList.add( e );
+			countList.add( new Integer( 1 ) );
 
 		}
-		public String getType()
+
+		public String getType( )
 		{
-			return element.getDefn().getName();
+			return element.getDefn( ).getName( );
 		}
-		public String getElementInfo()
+
+		public String getElementInfo( )
 		{
-			return element.getName();
+			return element.getName( );
 		}
-		public ArrayList getErrorList()
+
+		public ArrayList getErrorList( )
 		{
 			return exList;
 		}
-		
-		public ArrayList getCountList()
+
+		public ArrayList getCountList( )
 		{
 			return countList;
 		}
-		
-		
-		
+
 	}
-	
-	
+
 }

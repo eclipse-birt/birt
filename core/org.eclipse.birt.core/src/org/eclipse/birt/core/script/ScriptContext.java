@@ -11,24 +11,22 @@
 
 package org.eclipse.birt.core.script;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.WrapFactory;
 
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.15 $ $Date: 2005/06/01 07:57:57 $
+ * @version $Revision: 1.16 $ $Date: 2005/06/01 10:53:44 $
  */
 public class ScriptContext
 {
@@ -49,6 +47,13 @@ public class ScriptContext
 	 */
 	protected Scriptable scope;
 
+
+	/**
+	 * a cache used to store the precompiled scripts
+	 * the key is the source code and the value is the compiled script.
+	 */
+	protected HashMap compiledScripts = new HashMap();
+	
 	/**
 	 * for BIRT globel varible "params"
 	 */
@@ -67,22 +72,13 @@ public class ScriptContext
 		try
 		{
 			this.context = Context.enter( );
-			if ( root == null )
+			ImporterTopLevel global = new ImporterTopLevel();
+			if (root != null)
 			{
-				this.scope = this.context.initStandardObjects( );
+				global.setPrototype( root );
 			}
-			else
-			{
-				this.scope = this.context.newObject( root );
-				this.scope.setParentScope( root );
-			}
-
-			//set the wrapper factory
-			context.setWrapFactory( new BIRTWrapper( ) );
-
-			//register BIRT defined static objects into script context
-
-			new BIRTInitializer( ).intialize( context, scope );
+			global.initStandardObjects(context, true);
+			this.scope = global;
 		}
 		catch ( Exception ex )
 		{
@@ -118,6 +114,7 @@ public class ScriptContext
 		{
 			Context.exit( );
 			context = null;
+			compiledScripts.clear();
 		}
 	}
 
@@ -129,11 +126,25 @@ public class ScriptContext
 		return enterScope( null );
 	}
 
+	/**
+	 * Use a new scope in the script context.
+	 * The following script is evaluated in the new scope. You must
+	 * call exitScope to return to the parent scope.
+	 * The new scope is created automatically if the newScope is null.
+	 * @param newScope, scope used for following evaluation. null means create a scope automatically.
+	 * @return the scope used for following evaluation.
+	 */
 	public Scriptable enterScope( Scriptable newScope )
 	{
-		if ( newScope == null )
+		if ( newScope == null)
 		{
 			newScope = context.newObject( scope );
+		}
+		else if (newScope instanceof NativeJavaObject)
+		{
+			Scriptable dynScope = context.newObject(scope);
+			dynScope.setPrototype(newScope);
+			newScope = dynScope;
 		}
 		newScope.setParentScope( scope );
 		scope = newScope;
@@ -141,7 +152,8 @@ public class ScriptContext
 	}
 
 	/**
-	 * exits from the current scripting scope
+	 * exits from the current scripting scope.
+	 * Must couple with the enterScope.
 	 */
 	public void exitScope( )
 	{
@@ -193,8 +205,13 @@ public class ScriptContext
 	public Object eval( String source, String name, int lineNo ) 
 	{
 		assert ( this.context != null );
-		Object value = context.evaluateString( scope, source, name, lineNo,
-				null );
+		Script script = (Script)compiledScripts.get(source);
+		if (script == null)
+		{
+			script = context.compileString(source, name, lineNo, null);
+			compiledScripts.put(source, script);
+		}
+		Object value = script.exec(context, scope);
 		return jsToJava( value );
 	}
 
@@ -231,22 +248,17 @@ public class ScriptContext
 	}
 
 	/**
-	 * the registed intializers.
-	 */
-	protected static ArrayList initializers = new ArrayList( );
-
-	/**
 	 * register a intializer which is called when construct a new script
 	 * context. You can't reigster the same initializer more than once,
 	 * otherwise the initailzier will be called multiple times.
 	 * 
 	 * @param initializer
 	 *            initializer.
+	 * @deprecated BIRT 1.0.1
 	 */
 	public static synchronized void registerInitializer(
 			IJavascriptInitializer initializer )
 	{
-		initializers.add( initializer );
 	}
 
 	/**
@@ -254,27 +266,22 @@ public class ScriptContext
 	 * 
 	 * @param initializer
 	 *            to be removed.
+	 * @deprecated BIRT 1.0.1
 	 */
 	public static synchronized void unregisterInitializer(
 			IJavascriptInitializer initializer )
 	{
-		initializers.remove( initializer );
 	}
-
-	/**
-	 * any wapper instance.
-	 */
-	protected static ArrayList wrappers = new ArrayList( );
 
 	/**
 	 * register a wrapper which should be called in WapperFactory.
 	 * 
 	 * @param wrapper
 	 *            new wrapper.
+	 * @deprecated BIRT 1.0.1
 	 */
 	public static synchronized void registerWrapper( IJavascriptWrapper wrapper )
 	{
-		wrappers.add( wrapper );
 	}
 
 	/**
@@ -282,84 +289,11 @@ public class ScriptContext
 	 * 
 	 * @param wrapper
 	 *            to be removed.
+	 * @deprecated BIRT 1.0.1
 	 */
 	public static synchronized void unregisterWrapper(
 			IJavascriptWrapper wrapper )
 	{
-		wrappers.remove( wrapper );
 	}
-
-	/**
-	 * wapper factory to wrap the java object to java script object.
-	 * 
-	 * In this wapper factory, it calls registed wapper one by one to see if any
-	 * wapper can handle the object. If no wapper is used, the default wapper is
-	 * used.
-	 * 
-	 * @version $Revision: 1.15 $ $Date: 2005/06/01 07:57:57 $
-	 */
-	private class BIRTWrapper extends WrapFactory
-	{
-
-		/**
-		 * wrapper an java object to javascript object.
-		 */
-		public Object wrap( Context cx, Scriptable scope, Object obj,
-				Class staticType )
-		{
-			int wrapperCount = wrappers.size( );
-			for ( int i = 0; i < wrapperCount; i++ )
-			{
-				IJavascriptWrapper wrapper = (IJavascriptWrapper) wrappers
-						.get( i );
-				if ( wrapper != null )
-				{
-					Object object = wrapper.wrap( cx, scope, obj, staticType );
-					if ( object != obj )
-					{
-						return object;
-					}
-				}
-			}
-			if ( obj instanceof LinkedHashMap )
-			{
-				return new NativeJavaLinkedHashMap( scope, obj, staticType );
-			}
-			if ( obj instanceof BirtHashMap )
-			{
-				return new NativeJavaMap( scope, obj, staticType );
-			}
-			if ( obj instanceof List )
-			{
-				return new NativeJavaList( scope, obj, staticType );
-			}
-			return super.wrap( cx, scope, obj, staticType );
-		}
-	}
-
-	/**
-	 * initailzier used to initalize the script context.
-	 * 
-	 * @version $Revision: 1.15 $ $Date: 2005/06/01 07:57:57 $
-	 */
-	private class BIRTInitializer
-	{
-
-		void intialize( Context cx, Scriptable scope ) throws Exception
-		{
-			int initializerCount = initializers.size( );
-			for ( int i = 0; i < initializerCount; i++ )
-			{
-				IJavascriptInitializer initalizer = (IJavascriptInitializer) initializers
-						.get( i );
-				if ( initalizer != null )
-				{
-					initalizer.initialize( cx, scope );
-				}
-			}
-			ScriptableObject.defineClass( scope, NativeFinance.class );
-			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
-		}
-	}
-
+	
 }
