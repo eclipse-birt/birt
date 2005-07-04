@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
+import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
 
@@ -486,7 +487,10 @@ public class ScriptEvalUtil
 		Object result = null;
 		try
 		{
-			result = cx.evaluateString(scope, scriptText, source, lineNo, null);
+			Script compiledScript = ScriptUtil.getCompiledScript( scriptText,
+					source,
+					lineNo );
+			result = compiledScript.exec( cx, scope );
 			// It seems Rhino 1.6 has changed its way to process incorrect expression.
 			// When there is an error, exception will not be thrown, but rather an Undefined
 			// instance will be returned. Here its return value is changed to null.
