@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -42,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/04 02:41:47 $
+ * @version $Revision: 1.11 $ $Date: 2005/06/30 02:31:48 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -52,6 +56,9 @@ public class SelectValueDialog extends BaseDialog
 	private boolean multipleSelection = false;
 
 	private List selectValueList = null;
+	private int[] selectedIndices = null;
+	private java.util.List modelValueList = new ArrayList( );
+	private java.util.List viewerValueList = new ArrayList( );
 
 	private ParamBindingHandle[] bindingParams = null;
 
@@ -183,6 +190,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
+		selectedIndices = selectValueList.getSelectionIndices();
 		setResult( selectValueList.getSelection( ) );
 		super.okPressed( );
 	}
@@ -199,6 +207,39 @@ public class SelectValueDialog extends BaseDialog
 		return ( result != null && result.length > 0 ) ? result : null;
 	}
 
+	/**
+	 * Return expression string value as expression required format.
+	 * For example
+	 * 	number type:
+	 * 		Integer value 1 to String value "1"
+	 * 	other types:
+	 * 		String value "abc" to String value "\"abc\""
+	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
+	 * @return expression value
+	 */
+	public String getSelectedExprValue( )
+	{
+		String exprValue = null;
+		if ( selectedIndices != null && selectedIndices.length > 0 )
+		{
+			int firstIndex = selectedIndices[0];
+			Object modelValue = modelValueList.get( firstIndex );
+			String viewerValue = (String) viewerValueList.get( firstIndex );
+
+			if ( modelValue instanceof Integer
+					|| modelValue instanceof Double
+					|| modelValue instanceof BigDecimal )
+			{
+				exprValue = viewerValue;
+			}
+			else
+			{
+				exprValue = "\"" + viewerValue + "\"";
+			}
+		}
+		return exprValue;
+	}
+	
 	private void populateList( )
 	{
 		try
@@ -231,7 +272,9 @@ public class SelectValueDialog extends BaseDialog
 						.prepare( (IQueryDefinition) query );
 				IQueryResults results = preparedQuery.execute( null );
 				selectValueList.removeAll( );
-
+				modelValueList.clear();
+				viewerValueList.clear();
+				
 				if ( results != null )
 				{
 					IResultIterator iter = results.getResultIterator( );
@@ -239,10 +282,14 @@ public class SelectValueDialog extends BaseDialog
 					{
 						while ( iter.next( ) )
 						{
-							String value = iter.getString( expression );
-							if ( value != null )
+							Object candiateValue = iter.getValue( expression );
+							if ( candiateValue != null )
 							{
-								selectValueList.add( value );
+								modelValueList.add( candiateValue );
+								
+								String displayCandiateValue = DataTypeUtil.toString( candiateValue );								
+								viewerValueList.add( displayCandiateValue );
+								selectValueList.add( displayCandiateValue );
 							}
 						}
 					}
@@ -253,6 +300,8 @@ public class SelectValueDialog extends BaseDialog
 			else
 			{
 				selectValueList.removeAll( );
+				modelValueList.clear();
+				viewerValueList.clear();
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if ( selectValueList.getItemCount( ) > 0 )
