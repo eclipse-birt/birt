@@ -55,7 +55,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.17 $ $Date: 2005/06/23 02:51:26 $
  */
 public class ReportExecutor
 {
@@ -98,6 +98,9 @@ public class ReportExecutor
 		context.pushContentObject( reportContent );
 		context.setReport( report );
 
+		// Set up report parameters
+		setParameters( paramValues );
+
 		// Exceute scripts defined in included libraries. For each library,
 		// executes
 		// first the included scripts, then the initialize method.
@@ -106,7 +109,6 @@ public class ReportExecutor
 		// handle global libraries in the future
 
 		// execute scripts defined in include-script element of this report
-		// Parameters are not available at this stage
 		Iterator iter = report.getIncludeScripts( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -115,15 +117,12 @@ public class ReportExecutor
 		}
 		
 		// DE needs to support getInitialize() method
-		// context.execute(report.getInitialize());
+		 context.execute(report.getInitialize());
 
 		// call methods associated with report
 		context.execute( report.getBeforeFactory( ) );
 
 		// beforeRender is not supported for now
-
-		// Set up report parameters
-		setParameters( paramValues );
 
 		timer.stop();
 		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare to run report");	// $NON-NLS-1$

@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.15 $ $Date: 2005/05/20 03:39:29 $
  */
 public class Report
 {
@@ -443,6 +443,11 @@ public class Report
 			}
 		}
 		return includes;
+	}
+	
+	public String getInitialize()
+	{
+		return reportDesign.handle().getInitialize();
 	}
 
 	/**
