@@ -91,10 +91,10 @@ public final class DriverLoader
 				if ( !conn.isClosed( ) )
 					conn.close( );
 			}		
-			Enumeration enum = DriverManager.getDrivers( );
-			while ( enum.hasMoreElements( ) )
+			Enumeration enumeration = DriverManager.getDrivers( );
+			while ( enumeration.hasMoreElements( ) )
 			{
-				Driver driver = (Driver) enum.nextElement( );
+				Driver driver = (Driver) enumeration.nextElement( );
 					if ( driver.acceptsURL( connectionString ) )
 					{
 						// The driver might be a wrapped driver. The toString() method of a wrapped driver is overriden 
