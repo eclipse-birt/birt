@@ -127,9 +127,6 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_BORDER_TOP = "Top border"; //$NON-NLS-1$
 
-	// add image constants for chart
-	public final static String ICON_CHART = "Chart icon"; //$NON-NLS-1$
-
 	// missing image icon
 	public final static String ICON_MISSING_IMG = "Missing image"; //$NON-NLS-1$
 

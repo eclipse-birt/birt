@@ -86,9 +86,6 @@ public class ReportPlatformUIImagesTest extends TestCase
 				IReportGraphicConstants.ICON_BORDER_RIGHT,
 				IReportGraphicConstants.ICON_BORDER_TOP,
 
-				// add image constants for chart
-				IReportGraphicConstants.ICON_CHART,
-
 				// add image constants for data explore
 				IReportGraphicConstants.ICON_DATA_EXPLORER_VIEW,
 				IReportGraphicConstants.ICON_NODE_DATA_SETS,
