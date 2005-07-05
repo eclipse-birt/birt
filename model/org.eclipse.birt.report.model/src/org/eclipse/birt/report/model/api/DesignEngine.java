@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import java.io.InputStream;
 import java.util.Locale;
 
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
@@ -24,8 +23,6 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
-import org.eclipse.birt.report.model.script.ModelJavaScriptInitializer;
-import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
 
 /**
  * Represents the BIRT design engine as a whole. Used to create new designs or
@@ -132,11 +129,6 @@ public final class DesignEngine
 
 	public static SessionHandle newSession( Locale locale )
 	{
-        // Initialize model script system.
-        
-    	ScriptContext.registerInitializer( new ModelJavaScriptInitializer() );
-        ScriptContext.registerWrapper( new ModelJavaScriptWrapper() );
-
 		// meta-data ready.
 
 		if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
