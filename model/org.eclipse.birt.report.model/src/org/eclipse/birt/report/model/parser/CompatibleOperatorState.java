@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.xml.sax.SAXException;
@@ -64,6 +65,8 @@ class CompatibleOperatorState extends PropertyState
 	public void end( ) throws SAXException
 	{
 		String value = text.toString( );
+		if ( StringUtil.isBlank( value ) )
+			return;
 
 		assert struct != null;
 
