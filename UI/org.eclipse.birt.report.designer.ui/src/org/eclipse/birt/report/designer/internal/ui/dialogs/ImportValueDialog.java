@@ -288,6 +288,9 @@ public class ImportValueDialog extends BaseDialog
 	private void addSelected( )
 	{
 		String[] selected = valueList.getSelection( );
+		int selectedIndex = valueList.getSelectionIndex( );
+		int oldListSize = valueList.getItemCount( );
+
 		if ( selected.length == 0 )
 		{
 			selected = new String[]{
@@ -302,6 +305,20 @@ public class ImportValueDialog extends BaseDialog
 			}
 		}
 		filteValues( );
+
+		if ( selected.length == 1 )
+		{
+			int nextSelected = ( ( selectedIndex + 1 ) < oldListSize ) ? selectedIndex
+					: ( selectedIndex - 1 );
+			valueList.select( nextSelected );
+		}
+		else if ( ( selected.length > 1 ) && ( valueList.getItemCount( ) > 0 ) )
+		{
+			valueList.select( 0 );
+		}
+
+		updateButtons( );
+
 	}
 
 	private void addAll( )
