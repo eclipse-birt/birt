@@ -183,7 +183,7 @@
 	-->
 	<target name="Export">
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="ui.jar,about.html,plugin.xml,lib/**,schema/**,images/**"/>
+	        <fileset dir="." includes="ui.jar,about.html,plugin.xml,lib/**,schema/**,icons/**"/>
 	    </copy>
 	</target>
 	
