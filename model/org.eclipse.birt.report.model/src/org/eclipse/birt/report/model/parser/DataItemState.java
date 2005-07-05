@@ -11,13 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -78,42 +73,6 @@ public class DataItemState extends ReportItemState
 
 	public void end( )
 	{
-
-		// the compatible code for highlight rule move from element to
-		// highlightRule structure
-		if ( handler.tempValue.get( Style.HIGHLIGHT_RULES_PROP ) != null )
-		{
-			List highlightRules = element.getListProperty(
-					handler.getDesign( ), Style.HIGHLIGHT_RULES_PROP );
-			if ( highlightRules != null )
-			{
-
-				for ( int i = 0; i < highlightRules.size( ); i++ )
-				{
-					HighlightRule highlightRule = (HighlightRule) highlightRules
-							.get( i );
-					highlightRule.setTestExpression( (String) handler.tempValue
-							.get( Style.HIGHLIGHT_RULES_PROP ) );
-				}
-			}
-			handler.tempValue.remove( Style.HIGHLIGHT_RULES_PROP );
-		}
-		if ( handler.tempValue.get( Style.MAP_RULES_PROP ) != null )
-		{
-			List mapRules = element.getListProperty( handler.getDesign( ),
-					Style.MAP_RULES_PROP );
-			if ( mapRules != null )
-			{
-
-				for ( int i = 0; i < mapRules.size( ); i++ )
-				{
-					MapRule mapRule = (MapRule) mapRules.get( i );
-					mapRule.setTestExpression( (String) handler.tempValue
-							.get( Style.MAP_RULES_PROP ) );
-				}
-			}
-			handler.tempValue.remove( Style.MAP_RULES_PROP );
-
-		}
+		makeTestExpressionCompatible( );
 	}
 }

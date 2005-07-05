@@ -50,12 +50,6 @@ public class MapRule extends StyleRule
 	public static final String STRUCTURE_NAME = "MapRule"; //$NON-NLS-1$
 
 	/**
-	 * The test expression for map rule
-	 */
-
-	public static final String TEST_EXPR_PROP = "testExpr"; //$NON-NLS-1$
-
-	/**
 	 * The non-localized text to display when the rule "fires.".
 	 */
 
@@ -66,12 +60,6 @@ public class MapRule extends StyleRule
 	 */
 
 	protected String displayKey = null;
-
-	/**
-	 * The test expression
-	 */
-
-	protected String testExpr = null;
 
 	/**
 	 * Default constructor.
@@ -101,13 +89,13 @@ public class MapRule extends StyleRule
 	 *            the display text if the value is not localized
 	 */
 
-	public MapRule( String op, String v1, String v2, String id, String disp,
-			String testExpression )
+	public MapRule( String op, String v1, String v2, String testExpre,
+			String id, String disp )
 	{
-		super( op, v1, v2 );
+		super( op, v1, v2, testExpre );
 		displayKey = id;
 		display = disp;
-		testExpr = testExpression;
+
 	}
 
 	/*
@@ -133,8 +121,7 @@ public class MapRule extends StyleRule
 			return display;
 		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
 			return displayKey;
-		else if ( TEST_EXPR_PROP.equals( propName ) )
-			return testExpr;
+
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -151,8 +138,6 @@ public class MapRule extends StyleRule
 			display = (String) value;
 		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
 			displayKey = (String) value;
-		else if ( TEST_EXPR_PROP.equals( propName ) )
-			testExpr = (String) value;
 		else
 			super.setIntrinsicProperty( propName, value );
 	}
@@ -203,30 +188,6 @@ public class MapRule extends StyleRule
 	public void setDisplay( String text )
 	{
 		setProperty( DISPLAY_MEMBER, text );
-	}
-
-	/**
-	 * gets the test expression value for this map rule.
-	 * 
-	 * @return the test expression value.
-	 */
-
-	public String getTestExpression( )
-	{
-
-		return (String) getProperty( null, TEST_EXPR_PROP );
-	}
-
-	/**
-	 * sets the test expression value for this map rule.
-	 * 
-	 * @param the
-	 *            expression
-	 * 
-	 */
-	public void setTestExpression( String value )
-	{
-		setProperty( TEST_EXPR_PROP, value );
 	}
 
 	/*

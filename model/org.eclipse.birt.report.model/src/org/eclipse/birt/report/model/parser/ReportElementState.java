@@ -11,16 +11,21 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.RootElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -317,5 +322,59 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		setProperty( IExtendedItemModel.EXTENSION_NAME_PROP, extensionName );
+	}
+
+	/**
+	 * handles the compatible issue for test expression of
+	 * <code>HilightRule</code> and <code>MapRule</code> in design file. The
+	 * property <code>highlightTestExpre</code> and <code>MapTestExpre</code>
+	 * were existed on <code>Style</code> element. Because of the schema
+	 * change, they were moved into <code>HilightRule</code> and
+	 * <code>MapRule</code> structure as a member property, which was renamed
+	 * to <code>TestExpression</code>.
+	 * 
+	 * 
+	 */
+	protected void makeTestExpressionCompatible( )
+	{
+
+		DesignElement element = getElement( );
+
+		// check whether the value of "highlightTestExpre" is in tempt map.
+		if ( handler.tempValue.get( Style.HIGHLIGHT_RULES_PROP ) != null )
+		{
+			List highlightRules = element.getListProperty(
+					handler.getDesign( ), Style.HIGHLIGHT_RULES_PROP );
+			if ( highlightRules != null )
+			{
+
+				for ( int i = 0; i < highlightRules.size( ); i++ )
+				{
+					HighlightRule highlightRule = (HighlightRule) highlightRules
+							.get( i );
+					highlightRule.setTestExpression( (String) handler.tempValue
+							.get( Style.HIGHLIGHT_RULES_PROP ) );
+				}
+			}
+			handler.tempValue.remove( Style.HIGHLIGHT_RULES_PROP );
+		}
+		// check whether the value of "mapTestExpre" is in tempt map.
+		if ( handler.tempValue.get( Style.MAP_RULES_PROP ) != null )
+		{
+			List mapRules = element.getListProperty( handler.getDesign( ),
+					Style.MAP_RULES_PROP );
+			if ( mapRules != null )
+			{
+
+				for ( int i = 0; i < mapRules.size( ); i++ )
+				{
+					MapRule mapRule = (MapRule) mapRules.get( i );
+					mapRule.setTestExpression( (String) handler.tempValue
+							.get( Style.MAP_RULES_PROP ) );
+				}
+			}
+			handler.tempValue.remove( Style.MAP_RULES_PROP );
+		}
+
 	}
 }

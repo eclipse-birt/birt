@@ -1099,7 +1099,7 @@ public class DesignWriter extends ElementVisitor
 				writeStructure( rule, HighlightRule.NUMBER_FORMAT_MEMBER );
 				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
-				property( rule,HighlightRule.TEST_EXPR_PROP);
+				property( rule,HighlightRule.TEST_EXPR_MEMBER);
 				property( rule, HighlightRule.VALUE1_MEMBER );
 				property( rule, HighlightRule.VALUE2_MEMBER );
 				
@@ -1124,7 +1124,7 @@ public class DesignWriter extends ElementVisitor
 				MapRule rule = (MapRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 				
-				property( rule, MapRule.TEST_EXPR_PROP );
+				property( rule, MapRule.TEST_EXPR_MEMBER );
 				property( rule, MapRule.OPERATOR_MEMBER );
 				property( rule, MapRule.VALUE1_MEMBER );
 				property( rule, MapRule.VALUE2_MEMBER );

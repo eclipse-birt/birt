@@ -66,13 +66,7 @@ public class HighlightRule extends StyleRule
 
 	public static final String STRUCTURE_NAME = "HighlightRule"; //$NON-NLS-1$
 
-	/**
-	 * The expression for this rule.
-	 */
-	public static final String TEST_EXPR_PROP = "testExpr"; //$NON-NLS-1$
-/**
-*/
-	protected String testExpression = null;
+
 
 	/**
 	 * Default Constructor.
@@ -97,11 +91,9 @@ public class HighlightRule extends StyleRule
 	 *            arguments (between)
 	 */
 
-	public HighlightRule( String op, String v1, String v2, String testExpr )
+	public HighlightRule( String op, String v1, String v2, String testExpre )
 	{
-		super( op, v1, v2 );
-		testExpression = testExpr;
-
+		super( op, v1, v2, testExpre );
 	}
 
 	/*
@@ -137,32 +129,6 @@ public class HighlightRule extends StyleRule
 		return new HighlightRuleHandle( valueHandle, index );
 	}
 
-	public void setTestExpression( String value )
-	{
 
-		testExpression = value;
-	}
 
-	public String getTestExpression( )
-	{
-
-		return testExpression;
-	}
-
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( TEST_EXPR_PROP.equals( propName ) )
-			testExpression = (String) value;
-
-		else
-			super.setIntrinsicProperty( propName, value );
-	}
-
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( TEST_EXPR_PROP.equals( propName ) )
-			return testExpression;
-
-		return super.getIntrinsicProperty( propName );
-	}
 }

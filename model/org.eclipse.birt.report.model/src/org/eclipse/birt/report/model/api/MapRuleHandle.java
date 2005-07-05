@@ -89,9 +89,9 @@ public class MapRuleHandle extends StyleRuleHandle
 	 * 			the expression
 	 */
 	
-	public void setTestExpr(String expression){
+	public void setTestExpression(String expression){
 		
-		setPropertySilently(MapRule.TEST_EXPR_PROP, expression);		
+		setPropertySilently(MapRule.TEST_EXPR_MEMBER, expression);		
 	}
 	
 	/**
@@ -100,9 +100,9 @@ public class MapRuleHandle extends StyleRuleHandle
 	 * @return
 	 * 		the expression
 	 */
-	public String getTestExpr(){
+	public String getTestExpression(){
 		
-		return getStringProperty(MapRule.TEST_EXPR_PROP);
+		return getStringProperty(MapRule.TEST_EXPR_MEMBER);
 		
 	}
 }

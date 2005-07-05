@@ -45,6 +45,11 @@ public abstract class StyleRule extends PropertyStructure
 	public static final String VALUE2_MEMBER = "value2"; //$NON-NLS-1$
 
 	/**
+	 * The expression for this rule.
+	 */
+	public static final String TEST_EXPR_MEMBER = "testExpr"; //$NON-NLS-1$
+
+	/**
 	 * The comparison operator. Default value is <code>MAP_OPERATOR_EQ</code>
 	 */
 
@@ -61,6 +66,11 @@ public abstract class StyleRule extends PropertyStructure
 	 */
 
 	protected String value2 = null;
+
+	/**
+	 * the test expression for this highlight rule.
+	 */
+	protected String testExpression = null;
 
 	/**
 	 * Default constructor.
@@ -81,11 +91,12 @@ public abstract class StyleRule extends PropertyStructure
 	 *            expression for the second operand
 	 */
 
-	public StyleRule( String op, String v1, String v2 )
+	public StyleRule( String op, String v1, String v2, String testExpr )
 	{
 		operator = op;
 		value1 = v1;
 		value2 = v2;
+		testExpression = testExpr;
 	}
 
 	/*
@@ -102,7 +113,9 @@ public abstract class StyleRule extends PropertyStructure
 			return value1;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			return value2;
-
+		else if ( TEST_EXPR_MEMBER.equals( propName ) )
+			return testExpression;
+		
 		return super.getIntrinsicProperty( propName );
 	} /*
 		 * (non-Javadoc)
@@ -119,6 +132,8 @@ public abstract class StyleRule extends PropertyStructure
 			value1 = (String) value;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
+		else if ( TEST_EXPR_MEMBER.equals( propName ) )
+			testExpression = (String) value;
 		else
 			super.setIntrinsicProperty( propName, value );
 	}
@@ -226,6 +241,29 @@ public abstract class StyleRule extends PropertyStructure
 	public void setValue2( String value )
 	{
 		setProperty( VALUE2_MEMBER, value );
+	}
+
+	/**
+	 * sets the test expression for the rule.
+	 * 
+	 * @param value
+	 *			the expression value 
+	 *
+	 */
+	public void setTestExpression( String expression )
+	{
+		setProperty( TEST_EXPR_MEMBER, expression );
+	}
+
+	/**
+	 * gets the test expression value of this rule.
+	 * 
+	 * @return
+	 * 		the expression
+	 */
+	public String getTestExpression( )
+	{
+		return testExpression;
 	}
 
 }
