@@ -84,6 +84,19 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public void setSelection( ISelection newSelection )
 	{
+		setSelection(newSelection,true);
+
+	}
+	
+	/**
+	 * Sets the selection to the given selection and fires selection changed.
+	 * The ISelection should be an {@link IStructuredSelection}or it will be
+	 * ignored.
+	 * 
+	 * @see ISelectionProvider#setSelection(ISelection)
+	 */
+	public void setSelection( ISelection newSelection,boolean dispatch )
+	{
 		if ( !( newSelection instanceof IStructuredSelection ) )
 			return;
 
@@ -109,8 +122,11 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				part.setSelected( EditPart.SELECTED );
 
 		}
-
-		fireSelectionChanged( );
+		
+		if(dispatch)
+		{
+			fireSelectionChanged( );
+		}
 	}
 
 	/**

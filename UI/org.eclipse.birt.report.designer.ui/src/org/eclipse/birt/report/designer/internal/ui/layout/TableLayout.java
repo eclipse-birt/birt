@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
@@ -123,12 +124,10 @@ public class TableLayout extends XYLayout
 	 */
 	public void layout( IFigure container )
 	{
-		if ( data != null
-				&& data.columnWidths != null
+		if ( data != null && data.columnWidths != null
 				&& data.columnWidths.length == getColumnCount( )
 				&& data.rowHeights != null
-				&& data.rowHeights.length == getRowCount( )
-				&& !needlayout
+				&& data.rowHeights.length == getRowCount( ) && !needlayout
 				|| !owner.isActive( ) )
 		{
 			return;
@@ -192,10 +191,12 @@ public class TableLayout extends XYLayout
 
 				public void run( )
 				{
-					if (getOwner( ).getViewer( ).getControl().isVisible())
+					if ( getOwner( ).getViewer( ).getControl( ).isVisible( ) )
 					{
-						getOwner( ).getViewer( )
-								.setSelection( new StructuredSelection( list ) );
+						if ( getOwner( ).getViewer( ) instanceof DeferredGraphicalViewer )
+							( (DeferredGraphicalViewer) getOwner( ).getViewer( ) )
+									.setSelection( new StructuredSelection(
+											list ), false );
 					}
 				}
 			} );
@@ -225,9 +226,7 @@ public class TableLayout extends XYLayout
 
 			cellPart.markDirty( true, false );
 
-			setBoundsOfChild( container, figure, new Rectangle( x,
-					y,
-					width,
+			setBoundsOfChild( container, figure, new Rectangle( x, y, width,
 					height ) );
 		}
 	}
@@ -283,8 +282,10 @@ public class TableLayout extends XYLayout
 			rowHeights[i - 1].isForce = adapt.isCustomHeight( );
 
 			//add to handle percentage case.
-			DimensionHandle dim = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
-			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) )
+			DimensionHandle dim = ( (RowHandle) adapt.getHandle( ) )
+					.getHeight( );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE
+					.equals( dim.getUnits( ) )
 					&& dim.getMeasure( ) > 0 )
 			{
 				rowHeights[i - 1].isPercentage = true;
@@ -298,7 +299,8 @@ public class TableLayout extends XYLayout
 			}
 
 			//add by gao 2004.11.22
-			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage ) ? rowHeights[i - 1].height
+			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage )
+					? rowHeights[i - 1].height
 					: rowHeights[i - 1].minRowHeight;
 
 		}
@@ -321,7 +323,8 @@ public class TableLayout extends XYLayout
 			int rowSpan = cellPart.getRowSpan( );
 
 			TableLayoutData.RowData rowData = data.findRowData( rowNumber );
-			TableLayoutData.ColumnData columnData = data.findColumnData( columnNumber );
+			TableLayoutData.ColumnData columnData = data
+					.findColumnData( columnNumber );
 
 			int colWidth = columnData.width;
 
@@ -329,8 +332,8 @@ public class TableLayout extends XYLayout
 			{
 				for ( int k = 1; k < columnSpan; k++ )
 				{
-					TableLayoutData.ColumnData cData = data.findColumnData( columnNumber
-							+ k );
+					TableLayoutData.ColumnData cData = data
+							.findColumnData( columnNumber + k );
 
 					if ( cData != null )
 					{
@@ -409,9 +412,9 @@ public class TableLayout extends XYLayout
 			TableCellEditPart cellPart = (TableCellEditPart) map.get( figure );
 			int rowNumber = cellPart.getRowNumber( );
 			int rowSpan = cellPart.getRowSpan( );
-			
-			Dimension minSize = figure.getMinimumSize( data.findColumnData( cellPart.getColumnNumber( ) ).width,
-					-1 );
+
+			Dimension minSize = figure.getMinimumSize( data
+					.findColumnData( cellPart.getColumnNumber( ) ).width, -1 );
 
 			int samMin = 0;
 			int trueSamMin = 0;
@@ -448,9 +451,7 @@ public class TableLayout extends XYLayout
 				if ( j == adjustCount - 1 )
 				{
 					temp = value / adjustCount + value % adjustCount;
-					trueTemp = trueValue
-							/ adjustCount
-							+ trueValue
+					trueTemp = trueValue / adjustCount + trueValue
 							% adjustCount;
 				}
 				else
@@ -458,7 +459,8 @@ public class TableLayout extends XYLayout
 					temp = value / adjustCount;
 					trueTemp = trueValue / adjustCount;
 				}
-				TableLayoutData.RowData rowData = data.findRowData( adjustNumber[j] );
+				TableLayoutData.RowData rowData = data
+						.findRowData( adjustNumber[j] );
 				temp = Math.max( temp, rowData.minRowHeight );
 				trueTemp = Math.max( trueTemp, rowData.trueMinRowHeight );
 
@@ -473,7 +475,8 @@ public class TableLayout extends XYLayout
 
 		if ( adjustMaxNumber > 0 )
 		{
-			TableLayoutData.RowData rowData = data.findRowData( adjustMaxNumber );
+			TableLayoutData.RowData rowData = data
+					.findRowData( adjustMaxNumber );
 			rowData.minRowHeight = adjustMax;
 			rowData.trueMinRowHeight = trueAdjustMax;
 			adjust.remove( new Integer( adjustMaxNumber ) );
@@ -544,24 +547,23 @@ public class TableLayout extends XYLayout
 		 */
 		size = data.columnWidths.length;
 
-		int containerWidth = getOwner( ).getFigure( )
-				.getParent( )
-				.getClientArea( )
-				.getSize( ).width;
+		int containerWidth = getOwner( ).getFigure( ).getParent( )
+				.getClientArea( ).getSize( ).width;
 
-		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) ).getWidth( );
+		containerWidth -= getFigureMargin( getOwner( ).getFigure( ) )
+				.getWidth( );
 
 		TableHandleAdapter tadp = null;
 
 		if ( getOwner( ) instanceof GridEditPart )
 		{
-			tadp = HandleAdapterFactory.getInstance( )
-					.getGridHandleAdapter( getOwner( ).getModel( ) );
+			tadp = HandleAdapterFactory.getInstance( ).getGridHandleAdapter(
+					getOwner( ).getModel( ) );
 		}
 		else
 		{
-			tadp = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getOwner( ).getModel( ) );
+			tadp = HandleAdapterFactory.getInstance( ).getTableHandleAdapter(
+					getOwner( ).getModel( ) );
 		}
 
 		if ( tadp != null )
@@ -571,10 +573,8 @@ public class TableLayout extends XYLayout
 			containerWidth = getDefinedWidth( ww, containerWidth );
 		}
 
-		int padding = getOwner( ).getFigure( )
-				.getBorder( )
-				.getInsets( getOwner( ).getFigure( ) )
-				.getWidth( );
+		int padding = getOwner( ).getFigure( ).getBorder( ).getInsets(
+				getOwner( ).getFigure( ) ).getWidth( );
 
 		containerWidth -= padding;
 
@@ -595,8 +595,7 @@ public class TableLayout extends XYLayout
 		calculator.setDefinedColWidth( definedWidth );
 
 		TableLayoutHelper.calculateColumnWidth( data.columnWidths,
-				containerWidth,
-				calculator );
+				containerWidth, calculator );
 	}
 
 	private Insets getFigureMargin( IFigure f )
@@ -655,7 +654,8 @@ public class TableLayout extends XYLayout
 			Dimension dim = figure.getMinimumSize( );
 
 			TableLayoutData.RowData rowData = data.findRowData( rowNumber );
-			TableLayoutData.ColumnData columnData = data.findColumnData( columnNumber );
+			TableLayoutData.ColumnData columnData = data
+					.findColumnData( columnNumber );
 
 			if ( dim.height > rowData.minRowHeight && rowSpan == 1 )
 			{
@@ -750,8 +750,8 @@ public class TableLayout extends XYLayout
 			int rowNumber = cellPart.getRowNumber( );
 			int rowSpan = cellPart.getRowSpan( );
 
-			Dimension minSize = figure.getMinimumSize( data.findColumnData( cellPart.getColumnNumber( ) ).width,
-					-1 );
+			Dimension minSize = figure.getMinimumSize( data
+					.findColumnData( cellPart.getColumnNumber( ) ).width, -1 );
 			int samMin = 0;
 			int trueSamMin = 0;
 
@@ -790,9 +790,7 @@ public class TableLayout extends XYLayout
 				if ( j == adjustCount - 1 )
 				{
 					temp = value / adjustCount + value % adjustCount;
-					trueTemp = trueValue
-							/ adjustCount
-							+ trueValue
+					trueTemp = trueValue / adjustCount + trueValue
 							% adjustCount;
 				}
 				else
@@ -800,7 +798,8 @@ public class TableLayout extends XYLayout
 					temp = value / adjustCount;
 					trueTemp = trueValue / adjustCount;
 				}
-				TableLayoutData.RowData rowData = data.findRowData( adjustNumber[j] );
+				TableLayoutData.RowData rowData = data
+						.findRowData( adjustNumber[j] );
 				temp = Math.max( temp, rowData.minRowHeight );
 				trueTemp = Math.max( trueTemp, rowData.trueMinRowHeight );
 
@@ -815,7 +814,8 @@ public class TableLayout extends XYLayout
 
 		if ( adjustMaxNumber > 0 )
 		{
-			TableLayoutData.RowData rowData = data.findRowData( adjustMaxNumber );
+			TableLayoutData.RowData rowData = data
+					.findRowData( adjustMaxNumber );
 			rowData.minRowHeight = adjustMax;
 			rowData.trueMinRowHeight = trueAdjustMax;
 			adjust.remove( new Integer( adjustMaxNumber ) );
@@ -884,9 +884,7 @@ public class TableLayout extends XYLayout
 				if ( j == adjustCount - 1 )
 				{
 					temp = value / adjustCount + value % adjustCount;
-					trueTemp = trueValue
-							/ adjustCount
-							+ trueValue
+					trueTemp = trueValue / adjustCount + trueValue
 							% adjustCount;
 				}
 				else
@@ -895,7 +893,8 @@ public class TableLayout extends XYLayout
 					trueTemp = trueValue / adjustCount;
 				}
 
-				TableLayoutData.ColumnData columnData = data.findColumnData( adjustNumber[j] );
+				TableLayoutData.ColumnData columnData = data
+						.findColumnData( adjustNumber[j] );
 				temp = Math.max( temp, columnData.minColumnWidth );
 				trueTemp = Math.max( trueTemp, columnData.trueMinColumnWidth );
 
@@ -910,7 +909,8 @@ public class TableLayout extends XYLayout
 
 		if ( adjustMaxNumber > 0 )
 		{
-			TableLayoutData.ColumnData columnData = data.findColumnData( adjustMaxNumber );
+			TableLayoutData.ColumnData columnData = data
+					.findColumnData( adjustMaxNumber );
 			columnData.minColumnWidth = adjustMax;
 			columnData.trueMinColumnWidth = trueAdjustMax;
 			adjust.remove( new Integer( adjustMaxNumber ) );
@@ -935,8 +935,10 @@ public class TableLayout extends XYLayout
 			rowHeights[i - 1].isForce = adapt.isCustomHeight( );
 
 			//add to handle percentage case.
-			DimensionHandle dim = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
-			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) )
+			DimensionHandle dim = ( (RowHandle) adapt.getHandle( ) )
+					.getHeight( );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE
+					.equals( dim.getUnits( ) )
 					&& dim.getMeasure( ) > 0 )
 			{
 				rowHeights[i - 1].isPercentage = true;
@@ -950,7 +952,8 @@ public class TableLayout extends XYLayout
 			}
 
 			//add by gao 2004.11.22
-			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage ) ? rowHeights[i - 1].height
+			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce && !rowHeights[i - 1].isPercentage )
+					? rowHeights[i - 1].height
 					: rowHeights[i - 1].minRowHeight;
 
 		}
@@ -967,8 +970,10 @@ public class TableLayout extends XYLayout
 			columnWidths[i - 1].isForce = adapt.isCustomWidth( );
 
 			//add to handle percentage case.
-			DimensionHandle dim = ( (ColumnHandle) adapt.getHandle( ) ).getWidth( );
-			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) )
+			DimensionHandle dim = ( (ColumnHandle) adapt.getHandle( ) )
+					.getWidth( );
+			if ( DesignChoiceConstants.UNITS_PERCENTAGE
+					.equals( dim.getUnits( ) )
 					&& dim.getMeasure( ) > 0 )
 			{
 				columnWidths[i - 1].isPercentage = true;
@@ -982,7 +987,8 @@ public class TableLayout extends XYLayout
 			}
 
 			//added by gao 2004.11.22
-			columnWidths[i - 1].trueMinColumnWidth = ( columnWidths[i - 1].isForce && !columnWidths[i - 1].isPercentage ) ? columnWidths[i - 1].width
+			columnWidths[i - 1].trueMinColumnWidth = ( columnWidths[i - 1].isForce && !columnWidths[i - 1].isPercentage )
+					? columnWidths[i - 1].width
 					: columnWidths[i - 1].minColumnWidth;
 		}
 
@@ -1086,21 +1092,20 @@ public class TableLayout extends XYLayout
 
 		if ( getOwner( ) instanceof GridEditPart )
 		{
-			tadp = HandleAdapterFactory.getInstance( )
-					.getGridHandleAdapter( getOwner( ).getModel( ) );
+			tadp = HandleAdapterFactory.getInstance( ).getGridHandleAdapter(
+					getOwner( ).getModel( ) );
 		}
 		else
 		{
-			tadp = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getOwner( ).getModel( ) );
+			tadp = HandleAdapterFactory.getInstance( ).getTableHandleAdapter(
+					getOwner( ).getModel( ) );
 		}
 
 		if ( tadp != null )
 		{
 			String ww = tadp.getDefinedWidth( );
 
-			if ( ww != null
-					&& ww.length( ) > 0
+			if ( ww != null && ww.length( ) > 0
 					&& !ww.endsWith( DesignChoiceConstants.UNITS_PERCENTAGE ) )
 			{
 				try
