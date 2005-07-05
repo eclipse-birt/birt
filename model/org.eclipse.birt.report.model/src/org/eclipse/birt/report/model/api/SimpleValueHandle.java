@@ -140,6 +140,18 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		return null;
 	}
+	
+	/**
+	 * gets the localized value of the property.
+	 * 
+	 * @return
+	 * 		the localized value
+	 */
+	public String getDisplayValue( )
+	{
+		return ( (PropertyDefn) getDefn( ) ).getDisplayValue( getDesign( ),
+				getValue( ) );
+	}
 
 	/**
 	 * Returns the the nth entry in a list property or member. Use this method
@@ -520,8 +532,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 			return getDesign( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;
-	}
-
+	}	
+	
 	/**
 	 * Checks whether a value is visible in the property sheet.
 	 * 

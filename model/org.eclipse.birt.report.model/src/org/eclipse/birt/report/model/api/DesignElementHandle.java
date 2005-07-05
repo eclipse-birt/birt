@@ -158,7 +158,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public Object getProperty( String propName )
 	{
 		// Must be attached to use this method.
-		
+
 		DesignElement element = getElement( );
 		Object value = element.getProperty( design, propName );
 
@@ -171,7 +171,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns the value of a property as a localized string.
+	 * Returns the value of a property as a string which is locale independent.
 	 * 
 	 * @param propName
 	 *            the name of the property
@@ -1403,14 +1403,16 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					targetHandle.setProperty( propDefn.getName( ), refValue
 							.getName( ) );
 				break;
-				
+
 			case PropertyType.STRUCT_REF_TYPE :
 				StructRefValue structRefValue = (StructRefValue) value;
-			 
+
 				if ( structRefValue.isResolved( ) )
-					targetHandle.setProperty( propDefn.getName( ), structRefValue.getStructure( ) );
-				else 
-					targetHandle.setProperty( propDefn.getName( ), structRefValue.getName( ) );
+					targetHandle.setProperty( propDefn.getName( ),
+							structRefValue.getStructure( ) );
+				else
+					targetHandle.setProperty( propDefn.getName( ),
+							structRefValue.getName( ) );
 				break;
 
 			case PropertyType.STRUCT_TYPE :

@@ -134,6 +134,30 @@ public class GroupPropertyHandle
 		return ( (DesignElementHandle) elements.get( 0 ) )
 				.getStringProperty( propDefn.getName( ) );
 	}
+	
+	/**
+	 * Value will be returned as string only if all values of this property are
+	 * equal within the collection of elements. The value return are localized.
+	 * 
+	 * @return The localized value as string if all the element values for the property
+	 *         are equal. Return null, if elements have different value for the
+	 *         property.
+	 * @see SimpleValueHandle#getDisplayValue()
+	 */
+
+	public String getDisplayValue( )
+	{
+		if ( !shareSameValue( ) )
+			return null;
+
+		// List must contain at least one element.
+		// return the property value from the first element.
+
+		List elements = handle.getElements( );
+
+		return ( (DesignElementHandle) elements.get( 0 ) )
+				.getDisplayProperty( propDefn.getName( ) );
+	}
 
 	/**
 	 * Set the object value on a group of elements. This operation will be
