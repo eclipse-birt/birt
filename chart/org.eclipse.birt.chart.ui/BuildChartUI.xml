@@ -108,11 +108,15 @@
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="${eclipse.ui.workbench.dir}_*/workbench.jar"/>
+			<include name="org.eclipse.ui.workbench*.jar"/>
 			<include name="${eclipse.osgi.dir}_*/*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
+			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
 
 		<fileset dir="${core.dir}/lib">
