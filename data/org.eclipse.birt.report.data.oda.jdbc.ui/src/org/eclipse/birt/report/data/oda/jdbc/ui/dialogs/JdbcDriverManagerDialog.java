@@ -816,7 +816,7 @@ public class JdbcDriverManagerDialog extends Dialog
 	{
 		FileDialog dlg = new FileDialog( getShell( ) );
 		dlg.setFilterExtensions( new String[]{
-			"*.jar" //$NON-NLS-1$
+			"*.jar", "*.zip" //$NON-NLS-1$, $NON-NLS-2$
 			} );
 
 		if ( dlg.open( ) != null )
