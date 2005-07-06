@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.mozilla.javascript.Context;
@@ -73,6 +74,9 @@ public class ReportEngine
 		timer.start( );
 
 		this.config = config;
+		
+		// Explicitly initialize Platform with the ServletContext (could be null).
+		Platform.initialize( config.context );
 		this.helper = new ReportEngineHelper( this );
 		setupLogging( );
 		setupScriptScope( );

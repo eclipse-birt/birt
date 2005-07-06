@@ -28,6 +28,8 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.IPlatformContext;
+import org.eclipse.birt.report.engine.api.impl.EngineFileContext;
 
 /**
  * Defines a standalone reporting application that uses <code>StandaloneReportEngine</code> 
@@ -36,7 +38,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/15 05:53:18 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/20 19:17:55 $
  */
 public class ReportRunner
 {
@@ -66,7 +68,10 @@ public class ReportRunner
 	{
 		this.args = args;
 		commandlineHandler = new ReportRunnerCommandlineHandler( );
-		engine = new ReportEngine(new EngineConfig());
+		EngineConfig config = new EngineConfig();
+		IPlatformContext context = new EngineFileContext();
+		config.setEngineContext( context );
+		engine = new ReportEngine( config );
 		
 		// JRE default level is INFO, which may reveal too much internal logging information.
 		engine.changeLogLevel(Level.WARNING);	

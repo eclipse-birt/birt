@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+  <!DOCTYPE weblogic-web-app 
+    PUBLIC "-//BEA Systems, Inc.//DTD Web Application 7.0//EN" 
+    "http://www.bea.com/servers/wls700/dtd/weblogic700-web-jar.dtd" >
+<weblogic-web-app>
+
+	<container-descriptor>
+		<prefer-web-inf-classes>true</prefer-web-inf-classes>
+	</container-descriptor>
+
+</weblogic-web-app>

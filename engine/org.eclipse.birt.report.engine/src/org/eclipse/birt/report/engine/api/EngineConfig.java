@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.api;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.framework.IPlatformContext;
+
 /**
  * Wraps around configuration settings for report engine. Allows developers to 
  * specify where to look for engine plugins, data drivers, and where to write
@@ -47,6 +49,11 @@ public class EngineConfig {
 	 * default status handler
 	 */
 	protected IStatusHandler statusHandler = new DefaultStatusHandler(); 
+	
+	/**
+	 * the context that the platform is running. It could be a file based context or resource based context.
+	 */
+	protected IPlatformContext context = null;	
 	
 	/**
 	 * constructor
@@ -183,5 +190,15 @@ public class EngineConfig {
 	public String getTempDir( )
 	{
 		return (String)configObjects.get(TEMP_DIR);
+	}
+	
+	public void setEngineContext( IPlatformContext context )
+	{
+		this.context = context;
+	}
+	
+	public IPlatformContext getServletContext()
+	{
+		return context;
 	}
 }

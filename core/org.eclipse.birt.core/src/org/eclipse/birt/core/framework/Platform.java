@@ -16,6 +16,7 @@ import java.net.URL;
 
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.framework.server.ServerPlatform;
+import org.eclipse.core.runtime.IPath;
 
 
 /**
@@ -44,7 +45,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
  * exportA(pluginA), exportB(plugin B), exportC(plugin B).
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:07:16 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/08 06:58:29 $
  */
 public class Platform
 {
@@ -60,8 +61,9 @@ public class Platform
 	
 	/**
 	 * creates the appropriate platform object based on the platform type 
+	 * If not running from Eclipse, this functions must be called before calling other functions.
 	 */
-	synchronized static protected void initialize()
+	synchronized static public void initialize( IPlatformContext context )
 	{
 		if (platform == null)
 		{
@@ -72,7 +74,7 @@ public class Platform
 			}
 			else
 			{
-				platform = new ServerPlatform();
+				platform = new ServerPlatform( context );
 				platformType = SERVER_PLATFORM;
 			}
 		}
@@ -83,23 +85,38 @@ public class Platform
 	 */
 	public static IExtensionRegistry getExtensionRegistry()
 	{
-	    if (platform == null)
-	    {
-	        initialize();
-	        assert platform != null;
-	    }
+		if ( runningEclipse() &&
+			 (platform == null) )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
 	    
 		return platform.getExtensionRegistry();
 	}
 	
 	public static IBundle getBundle (String symbolicName)
 	{
-		if (platform == null)
-		{
-			initialize();
-			assert platform != null;
-		}
+		if ( runningEclipse() &&
+			 (platform == null) )
+		{ 
+	        initialize( null );
+		}		
+	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+
 		return platform.getBundle(symbolicName);
+	}
+	
+	public static URL find(IBundle bundle, IPath path)
+	{
+		if ( runningEclipse() &&
+			 (platform == null) )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    
+		return platform.find( bundle, path );
 	}
 	
 	/**
@@ -108,23 +125,25 @@ public class Platform
 	 */
 	public static int getPlatformType()
 	{
-	    if (platform == null)
-	    {
-	        initialize();
-	        assert platform != null;
-	    }
+		if ( runningEclipse() &&
+			 (platform == null) )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
 	    
 		return platformType;
 	}
 	
 	public static URL asLocalURL(URL url) throws IOException
 	{
-	    if (platform == null)
-	    {
-	        initialize();
-	        assert platform != null;
-	    }
-	    
+		if ( runningEclipse() &&
+			 (platform == null) )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+
 		return platform.asLocalURL(url);
 	}
 	/**
