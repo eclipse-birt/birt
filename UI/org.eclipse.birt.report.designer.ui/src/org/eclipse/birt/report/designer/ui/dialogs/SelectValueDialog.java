@@ -46,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.11 $ $Date: 2005/06/30 02:31:48 $
+ * @version $Revision: 1.12 $ $Date: 2005/07/05 07:29:42 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -212,6 +212,8 @@ public class SelectValueDialog extends BaseDialog
 	 * For example
 	 * 	number type:
 	 * 		Integer value 1 to String value "1"
+	 *  Boolean type:
+	 *      Boolean value true to String value "true"
 	 * 	other types:
 	 * 		String value "abc" to String value "\"abc\""
 	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
@@ -226,7 +228,8 @@ public class SelectValueDialog extends BaseDialog
 			Object modelValue = modelValueList.get( firstIndex );
 			String viewerValue = (String) viewerValueList.get( firstIndex );
 
-			if ( modelValue instanceof Integer
+			if ( modelValue instanceof Boolean
+					|| modelValue instanceof Integer
 					|| modelValue instanceof Double
 					|| modelValue instanceof BigDecimal )
 			{
