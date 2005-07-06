@@ -182,13 +182,13 @@ public class ReportPlatformUIImages
 				ICONS_PATH + EVIEW16_PATH + "master_page.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_STYLE, ICONS_PATH
-				+ "style.gif" ); //$NON-NLS-1$
+				+ OBJ16_PATH + "style.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TABLE, ICONS_PATH
 				+ PAL_PATH + "table.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TABLE_GROUP,
-				ICONS_PATH + "table_group.gif" ); //$NON-NLS-1$
+				ICONS_PATH + OBJ16_PATH + "table_group.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXT, ICONS_PATH
 				+ PAL_PATH + "text.gif" ); //$NON-NLS-1$		
