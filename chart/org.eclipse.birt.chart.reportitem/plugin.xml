@@ -35,16 +35,16 @@
       <reportItemFigureUI
       	 	class="org.eclipse.birt.chart.reportitem.ChartReportItemUIImpl"/>
       <builder
-         	class="org.eclipse.birt.chart.reportitem.ChartReportItemBuilderImpl"/> <outline icon="icon/cell.gif"/>
+         	class="org.eclipse.birt.chart.reportitem.ChartReportItemBuilderImpl"/> <outline icon="icons/full/obj16/cell.gif"/>
       <palette
-               icon="icons/palette_icon.gif"
+               icon="icons/full/pal/palette_icon.gif"
                category="Content"/>
       <editor
                showInMasterPage="false"
                canResize="false"
                showInDesigner="true"/>
       <outline
-      		   icon="icons/palette_icon.gif"/>
+      		   icon="icons/full/pal/palette_icon.gif"/>
    </extension>
    <extension
          id="chart"
