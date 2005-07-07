@@ -47,7 +47,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.35 $ $Date: 2005/05/27 08:13:25 $
+ * @version $Revision: 1.36 $ $Date: 2005/06/22 02:47:37 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -344,8 +344,8 @@ public class HTMLReportEmitter implements IReportEmitter
 		writer.style( "*", "text-decoration: none; vertical-align: baseline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		writer.style(
 				"table", "border-collapse: collapse; empty-cells: show;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
-		writer.style(
-				":link, :visited", "text-decoration: underline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
+		//writer.style(
+		//		":link, :visited", "text-decoration: underline;", true ); //$NON-NLS-1$ //$NON-NLS-2$ 
 		
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );

@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.Choice;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 07:00:43 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/23 08:39:40 $
  */
 public class AttributeBuilder
 {
@@ -252,7 +252,27 @@ public class AttributeBuilder
 
 		buildProperty( content, HTMLTags.ATTR_FONT_SIZE, style.getFontSize( ) );
 	}
+	
+	public static void checkHyperlinkTextDecoration( IStyle style, StringBuffer content )
+	{
+		String linethrough = style.getTextLineThrough();
+		String overline = style.getTextOverline();
 
+		content.append( " text-decoration:" ); //$NON-NLS-1$
+
+		if( overline != null && "none".equalsIgnoreCase( overline)) //$NON-NLS-1$
+		{
+			addPropValue( content, overline );
+		}
+		
+		if ( linethrough != null && !"none".equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
+		{
+			addPropValue( content, linethrough );
+		}
+		
+		content.append( " underline;" );
+	}
+	
 	/**
 	 * Build the Text-Decoration style string.
 	 * 
