@@ -38,7 +38,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
@@ -84,7 +83,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -93,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.14 $ $Date: 2005/05/26 08:23:04 $
+ * @version $Revision: 1.15 $ $Date: 2005/06/30 03:31:16 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -105,6 +103,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     private TreeItem rootNode = null;
     private Text searchTxt = null;
     private boolean isSchemaSupported = false;
+    private boolean expandDbObjectsTree = false;
     private Tree availableDbObjectsTree = null;
     private JdbcMetaDataProvider metaDataProvider = null;
     private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
@@ -540,15 +539,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			ResultSet tablesRs = null;
 			// For each schema Get  the List of Tables
 			int numTables = 0;
-			boolean maxRecordsDisplayed = false;
 			//if ( schemaComboViewer.getSelection().)
+	
 			for( int i=0; i< targetSchemaList.size(); i++)
 			{
-				if ( maxRecordsDisplayed ) 
-				{
-					break;
-				}
-				
 				int count = 0;
 				String schemaName = (String)targetSchemaList.get(i);
 				tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);
@@ -604,20 +598,20 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						tableList.add(dbObject);
 						numTables ++;
 						
-						if ( numTables == DbType.MAX_ITEMS_DISPLAY_COUNT )
-						{
-							maxRecordsDisplayed = true;
-							break;
-						}
-
 					}
 					
-					if( schemaTreeItem != null && schemaTreeItem.length > 0)
+					if ( schemaTreeItem != null 
+							&& schemaTreeItem.length > 0 ) 
 					{
-						TreeItem item[] = Utility.createTreeItems(schemaTreeItem[0], tableList, SWT.NONE, null);
+						TreeItem item[] = Utility.createTreeItems( schemaTreeItem[0],
+								tableList,
+								SWT.NONE,
+								null );
 						//expand table TreeItem
-						if( item != null && item.length > 0)
-							availableDbObjectsTree.showItem(item[0]);
+						if ( expandDbObjectsTree && item != null && item.length > 0 )
+						{
+							availableDbObjectsTree.showItem( item[0] );
+						}
 					}
 					
 					
@@ -627,9 +621,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					e.printStackTrace();
 				}
 			}
-			
-			checkForMaxRecordsDisplayed(maxRecordsDisplayed, tablesRs);
-
 		}
 		else
 		{
@@ -639,15 +630,12 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			{
 				return;
 			}
-			int count = 0;
-			boolean maxRecordsDisplayed = false;
 			try
 			{
 				Image image = tableImage;
 				while( tablesRs.next())
 				{
-					count ++;
-//					String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+	//				String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
 					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
 					int dbType = DbObject.TABLE_TYPE;
@@ -665,13 +653,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					
 					DbObject dbObject = new DbObject(tableName, tableName,dbType, image);
 					tableList.add(dbObject);
-					
-					if ( count == DbType.MAX_ITEMS_DISPLAY_COUNT  )
-					{
-						maxRecordsDisplayed = true;
-						break;
-					}
-
 				}
 				
 				TreeItem item[] = Utility.createTreeItems(rootNode, tableList, SWT.NONE, null);
@@ -681,7 +662,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					availableDbObjectsTree.showItem(item[0]);
 				
 				// Add listener to display the column names when expanded
-				checkForMaxRecordsDisplayed(maxRecordsDisplayed, tablesRs);
 			}
 			catch(Exception e)
 			{
@@ -878,41 +858,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		return type;
 	}
-
-	private void checkForMaxRecordsDisplayed(boolean maxRecordsDisplayed, ResultSet tablesRs)
-	{
-		if( ! maxRecordsDisplayed || tablesRs == null )
-		{
-			return;
-		}
-		
-		try {
-			if( maxRecordsDisplayed && tablesRs.next())
-			{
-				displayMaxSizeWarningMessage();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	
-	}
-	
-	/**
-	 * Display a message when the number of available items to be displayed 
-	 * are greater than the  Max allowed items
-	 */
-	private void displayMaxSizeWarningMessage()
-	{
-	
-		String maxRecords = new Integer(DbType.MAX_ITEMS_DISPLAY_COUNT).toString();
-		Shell shell = new Shell();
-	  	MessageDialog.openInformation(shell,
-				"",
-				JdbcPlugin.getFormattedString("tablePage.message.maxdisplayeditems", new String[]{ maxRecords, maxRecords } ));
-
-	}
-
-	
 
 	/**
 	* @param item A tree Item which has to be tested
@@ -1368,6 +1313,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 	}
 
+	/**
+	 * Whether should the DatabaseObjectTree should be expanded.
+	 * 
+	 * @param expand True if the expanding is expected. Otherwise false.
+	 */
+	public void setDatabaseObjectTreeExpansion( boolean expand )
+	{
+		this.expandDbObjectsTree = expand;
+	}
     /*
 	 * (non-Javadoc)
 	 * 
