@@ -43,55 +43,40 @@ import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.Direction;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * Presents the selector for a various of charts in a Swing JPanel
+ * The selector of charts in Swing JPanel.
  * 
- * @author Actuate Corporation
  */
 public final class SwingChartViewerSelector extends JPanel implements IUpdateNotifier, ComponentListener
 {
-    /**
-     * 
-     */
+
     private boolean bNeedsGeneration = true;
-    
-    /**
-     * 
-     */
+
     private GeneratedChartState gcs = null;
 
-    /**
-     * 
-     */
     private Chart cm = null;
     
-    /**
-     * 
-     */
     private IDeviceRenderer idr = null;
     
     /**
+     * Contructs the layout with a container for displaying chart and a control panel for selecting
+     * chart attributes.
      * 
      * @param args
      */
     public static void main(String[] args)
     {
         SwingChartViewerSelector scv = new SwingChartViewerSelector();
+        
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jf.addComponentListener(scv);
@@ -100,11 +85,13 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
         co.setLayout(new BorderLayout());
         co.add(scv, BorderLayout.CENTER);
         
-        // CENTER WINDOW ON SCREEN
+        // The Viewer Selector will appear in the center of the window
         Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension dApp = new Dimension(800, 700);
         jf.setSize(dApp);
         jf.setLocation((dScreen.width - dApp.width)/2, (dScreen.height - dApp.height) / 2);
+        
+        //Get the name of relevant chart from createXXXChart()
         jf.setTitle(scv.getClass().getName() + " [device="+scv.idr.getClass().getName()+"]");
 
         ControlPanel cp = scv.new ControlPanel(scv);
@@ -114,7 +101,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
     }
     
     /**
-     * 
+     * Get the connection with SWING device to render the graphics.
      */
     SwingChartViewerSelector()
     {
@@ -125,7 +112,8 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
         {
             DefaultLoggerImpl.instance().log(ex);
         }
-        cm = PrimitiveCharts.createNumericScatterChartMarker();
+        //The default chart displayed in the container is the simple bar chart.
+        cm = PrimitiveCharts.createBarChart();
     }
     
 
@@ -173,20 +161,22 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
         return gcs.getChartModel();
     }
     
-    /**
-     * 
-     */
     public void paint(Graphics g)
     {
         super.paint(g);
+        
         Graphics2D g2d = (Graphics2D) g;
         idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
         idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER, this);
+        
         Dimension d = getSize();
         Bounds bo = BoundsImpl.create(0, 0, d.width, d.height);
-        bo.scale(72d/idr.getDisplayServer().getDpiResolution()); // BOUNDS MUST BE SPECIFIED IN POINTS
+        //Bounds have to be specified in points
+        bo.scale(72d/idr.getDisplayServer().getDpiResolution()); 
         
         Generator gr = Generator.instance();
+        
+        //When the update button has been pushed, build a chart offscreen.
         if (bNeedsGeneration)
         {
             bNeedsGeneration = false;
@@ -203,6 +193,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 	        }
         }
         
+        //Draw the previous built chart on screen.
         try {
             gr.render(
                 idr,
@@ -215,7 +206,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
     }
     
     /**
-     * 
+     * Presents the Exceptions if the chart cannot be displayed properly.
      * @param g2d
      * @param ex
      */
@@ -322,7 +313,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
     }
     
     /**
-     * 
+     * An inner class: Control Panel, which provides the interactive interface with the user.
      */
     private final class ControlPanel extends JPanel implements ActionListener
     {
@@ -332,11 +323,6 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
         private JCheckBox jcbTransposed = null;
         private JCheckBox jcbPercent = null;
         private JCheckBox jcbLogarithmic = null;
-        private JComboBox jcbLegendType = null;
-        private JComboBox jcbLegendOrientation = null;
-        private JComboBox jcbLegendDirection = null;
-        private JComboBox jcbLegendLocation = null;
-        private JComboBox jcbLegendAnchor = null;
         
         private final SwingChartViewerSelector scv;
         
@@ -351,38 +337,23 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
 
             jp1.add(new JLabel("Choose:"));
             jcbModels = new JComboBox();
-            jcbModels.addItem("Empty Chart w/Axes");
-            jcbModels.addItem("Simple Bar");
-            jcbModels.addItem("Simple Bar (2 Series)");
-            jcbModels.addItem("Simple Pie");
-            jcbModels.addItem("Simple Line");
-            jcbModels.addItem("Percent Stackable");
-            jcbModels.addItem("Bar/Line Stacked");
-            jcbModels.addItem("Numeric Scatter");
-            jcbModels.addItem("Date Scatter");
+
+            jcbModels.addItem("Bar Chart");
+            jcbModels.addItem("Bar Chart(2 Series)");
+            jcbModels.addItem("Pie Chart");
+            jcbModels.addItem("Pie Chart(4 Series)");
+            jcbModels.addItem("Line Chart");
+            jcbModels.addItem("Bar/Line Stacked Chart");
+            jcbModels.addItem("Scatter Chart");
             jcbModels.addItem("Stock Chart");
-            jcbModels.addItem("Multiple Pie Series");
-            jcbModels.addItem("Complex Combination");
-            jcbModels.addItem("Bar Stacked Logarithmic");
-            jcbModels.addItem("Line Stacked Logarithmic");
-            jcbModels.addItem("DateValue Bar Chart containing Grid");
-            jcbModels.addItem("Grid");
-            jcbModels.addItem("Fill");
-            jcbModels.addItem("ImageFill");
-            jcbModels.addItem("Scale");
-            jcbModels.addItem("MakerLine1");
-            jcbModels.addItem("Makerline2");
-            jcbModels.addItem("MarkerRange");
-            jcbModels.addItem("DataPoint");
-            jcbModels.addItem("MarkerRange2");
-            jcbModels.addItem("LeaderLine and Explosion");
             
-            jcbModels.setSelectedIndex(1);
+            
+            jcbModels.setSelectedIndex(0);
             jp1.add(jcbModels);
 
             jcbDimensions = new JComboBox();
             jcbDimensions.addItem("2D");
-            jcbDimensions.addItem("2.5D");
+            jcbDimensions.addItem("2D with Depth");
             jp1.add(jcbDimensions);
             
             jcbTransposed = new JCheckBox("Transposed", false);
@@ -398,50 +369,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
             jbUpdate.addActionListener(this);
             jp1.add(jbUpdate);
             
-            add(jp1);
-
-            JPanel jp2 = new JPanel(); 
-            jp2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-            jp2.add(new JLabel("Legend attributes: "));
-            jcbLegendType = new JComboBox();
-            jcbLegendType.addItem("Group by Series");
-            jcbLegendType.addItem("Group by Categories");
-            jp2.add(jcbLegendType);
-            
-            jcbLegendOrientation = new JComboBox();
-            jcbLegendOrientation.addItem("Vertical");
-            jcbLegendOrientation.addItem("Horizontal");
-            jp2.add(jcbLegendOrientation);
-            
-            jcbLegendDirection = new JComboBox();
-            jcbLegendDirection.addItem("Top => Bottom");
-            jcbLegendDirection.addItem("Left => Right");
-            jp2.add(jcbLegendDirection);
-            
-            jcbLegendLocation = new JComboBox();
-            jcbLegendLocation.addItem("Above");
-            jcbLegendLocation.addItem("Below");
-            jcbLegendLocation.addItem("Left");
-            jcbLegendLocation.addItem("Right");
-            jcbLegendLocation.addItem("Inside");
-            jcbLegendLocation.setSelectedIndex(3);
-            jp2.add(jcbLegendLocation);
-            
-            jcbLegendAnchor = new JComboBox();
-            jcbLegendAnchor.addItem("North");
-            jcbLegendAnchor.addItem("NorthEast");
-            jcbLegendAnchor.addItem("NorthWest");
-            jcbLegendAnchor.addItem("South");
-            jcbLegendAnchor.addItem("SouthEast");
-            jcbLegendAnchor.addItem("SouthWest");
-            jcbLegendAnchor.addItem("East");
-            jcbLegendAnchor.addItem("West");
-            jcbLegendAnchor.addItem("Center");
-            jcbLegendAnchor.setSelectedIndex(8);
-            jp2.add(jcbLegendAnchor);
-            
-            add(jp2);
-            
+            add(jp1);            
         }
         
         /* (non-Javadoc)
@@ -496,82 +424,29 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
             switch(i)
             {
 	        	case 0:
-	        	    cm = PrimitiveCharts.createSimplePieChartDataPoint();
+	        	    cm = PrimitiveCharts.createBarChart();
 	        	    break;
 	        	case 1:
-	        	    cm = PrimitiveCharts.createSimpleBarChart();
-	        	    break;
-	        	case 2:
 	        	    cm = PrimitiveCharts.createMultiBarChart();
 	        	    break;
-	        	case 3:
-	        	    cm = PrimitiveCharts.createSimplePieChart();
+	        	case 2:
+	        	    cm = PrimitiveCharts.createPieChart();
 	        	    break;
-	        	case 4:
-	        	    cm = PrimitiveCharts.createSimpleLineChart();
+	        	case 3:
+	        		cm = PrimitiveCharts.createMultiPieChart();
+	            	break;
+                case 4:
+	        	    cm = PrimitiveCharts.createLineChart();
 	        	    break;
             	case 5:
-            	    cm = PrimitiveCharts.createPercentStackedChart();
-            	    break;
-            	case 6:
             	    cm = PrimitiveCharts.createStackedChart();
             	    break;
+            	case 6:
+            		cm = PrimitiveCharts.createScatterChart();
+            	    break;
             	case 7:
-            	    cm = PrimitiveCharts.createNumericScatterChart();
-            	    break;
-            	case 8:
-            	    cm = PrimitiveCharts.createDateScatterChart();
-            	    break;
-            	case 9:
             	    cm = PrimitiveCharts.createStockChart();
-            	    break;
-            	case 10:
-            	    cm = PrimitiveCharts.createMultiPieChart();
-            	    break;
-            	case 11:
-            	    cm = PrimitiveCharts.createCombinationChart();
-            	    break;
-            	case 12:
-            	    cm = PrimitiveCharts.createLogarithmicStackedBarChart();
-            	    break;
-            	case 13:
-            	    cm = PrimitiveCharts.createLogarithmicStackedLineChart();
-            	    break;
-            	case 14:
-            	    cm = PrimitiveCharts.createDateValueBarChartGrid();
-            	    break;
-            	case 15:
-            	    cm = PrimitiveCharts.createDateValueBarChartFillImage();
-            	    break;
-            	case 16:
-            	    cm = PrimitiveCharts.createDateValueBarChartFill();
-            	    break;
-            	case 17:
-            	    cm = PrimitiveCharts.createLinearStackedLineChartScale();
-            	    break;
-            	case 18:
-            	    cm = PrimitiveCharts.createSimpleLineChartMarkerLine();
-            	    break;
-            	case 19:
-            	    cm = PrimitiveCharts.createDateValueBarChartMarkerLine();
-            	    break;
-            	case 20:
-            	    cm = PrimitiveCharts.createDateValueBarChartScaleType();
-            	    break;
-            	case 21:
-            	    cm = PrimitiveCharts.createSimplePieChartTitleLabel();
-            	    break;
-            	case 22:
-            	    cm = PrimitiveCharts.createSimplePieChartDataPoint();
-            	    break;
-            	case 23:
-            	    cm = PrimitiveCharts.createNumericScatterChartMarker();
-            	    break;
-            	case 24:
-            	    cm = PrimitiveCharts.createSimplePieChartExplosionLeaderLine();
-            	    break;
-            	         	            	                	    
-            	    
+            	    break;    
             }
             
             if (cm instanceof ChartWithAxes)
@@ -617,91 +492,6 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
             	    break;
             }
 
-            i = jcbLegendType.getSelectedIndex();
-            Legend lg = cm.getLegend();
-            switch(i)
-            {
-            	case 0:
-            	    lg.setItemType(LegendItemType.SERIES_LITERAL);
-            	    break;
-            	case 1:
-            	    lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
-            	    break;
-            }
-
-            i = jcbLegendOrientation.getSelectedIndex();
-            switch(i)
-            {
-            	case 0:
-            	    lg.setOrientation(Orientation.VERTICAL_LITERAL);
-            	    break;
-            	case 1:
-            	    lg.setOrientation(Orientation.HORIZONTAL_LITERAL);
-            	    break;
-            }
-
-            i = jcbLegendDirection.getSelectedIndex();
-            switch(i)
-            {
-            	case 0:
-            	    lg.setDirection(Direction.TOP_BOTTOM_LITERAL);
-            	    break;
-            	case 1:
-            	    lg.setDirection(Direction.LEFT_RIGHT_LITERAL);
-            	    break;
-            }
-            
-            i = jcbLegendLocation.getSelectedIndex();
-            switch(i)
-            {
-            	case 0:
-            	    lg.setPosition(Position.ABOVE_LITERAL);
-            	    break;
-            	case 1:
-            	    lg.setPosition(Position.BELOW_LITERAL);
-            	    break;
-            	case 2:
-            	    lg.setPosition(Position.LEFT_LITERAL);
-            	    break;
-            	case 3:
-            	    lg.setPosition(Position.RIGHT_LITERAL);
-            	    break;
-            	case 4:
-            	    lg.setPosition(Position.INSIDE_LITERAL);
-            	    break;
-            }
-            
-            i = jcbLegendAnchor.getSelectedIndex();
-            switch(i)
-            {
-            	case 0:
-            	    lg.setAnchor(Anchor.NORTH_LITERAL);
-            	    break;
-            	case 1:
-            	    lg.setAnchor(Anchor.NORTH_EAST_LITERAL);
-            	    break;
-            	case 2:
-            	    lg.setAnchor(Anchor.NORTH_WEST_LITERAL);
-            	    break;
-            	case 3:
-            	    lg.setAnchor(Anchor.SOUTH_LITERAL);
-            	    break;
-            	case 4:
-            	    lg.setAnchor(Anchor.SOUTH_EAST_LITERAL);
-            	    break;
-            	case 5:
-            	    lg.setAnchor(Anchor.SOUTH_WEST_LITERAL);
-            	    break;
-            	case 6:
-            	    lg.setAnchor(Anchor.EAST_LITERAL);
-            	    break;
-            	case 7:
-            	    lg.setAnchor(Anchor.WEST_LITERAL);
-            	    break;
-            	case 8:
-            	    lg.unsetAnchor();
-            	    break;
-            }
             bNeedsGeneration = true;
             scv.repaint();
         }

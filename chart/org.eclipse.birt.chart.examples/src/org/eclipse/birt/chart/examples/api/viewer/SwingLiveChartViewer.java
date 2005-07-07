@@ -164,17 +164,9 @@ public final class SwingLiveChartViewer extends JPanel
             {
 	            final Generator gr = Generator.instance();
 	            PrimitiveCharts.scrollData((ChartWithAxes) cm);
-	            //repaint();
 	            
-	            // REFRESH
-	            try {
-	                // RESIZE
-	                /*final Dimension d = getSize();
-	                Bounds bo = gcs.getBounds();
-	                bo.setWidth(d.width);
-	                bo.setHeight(d.height);
-	                bo.scale(72d/sri.getXServer().getDpiResolution());*/
-	                
+	            // Refresh
+	            try {	                
 	                gr.refresh(gcs);
 	            } catch (ChartException ex)
 	            {
@@ -182,7 +174,7 @@ public final class SwingLiveChartViewer extends JPanel
 	            }
 	            repaint();
 	            
-	            // DELAY
+	            // Delay
 	            try {
 	                Thread.sleep(500);
 	            } catch (InterruptedException iex)

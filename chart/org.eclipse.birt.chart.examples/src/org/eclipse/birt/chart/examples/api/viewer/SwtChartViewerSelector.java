@@ -8,7 +8,9 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.examples.api.viewer;
+
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -19,12 +21,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -48,50 +50,34 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Presents the selector for a various of charts in SWT.
+ * The selector of charts in SWT.
+ * 
  */
 public final class SwtChartViewerSelector implements PaintListener, SelectionListener
 {
-    /**
-     * 
-     */
+
     private IDeviceRenderer idr = null;
-    
-    /**
-     * 
-     */
+
     private Chart cm = null;
-    
-    /**
-     * 
-     */
+
     private Combo cb = null;
-    
-    /**
-     * 
-     */
+	
+	private Combo cbDimension = null;
+
     private Canvas ca = null;
     
-    /**
-     * 
-     */
-    private Button btn = null, cbPercent, cbLogarithmic, cbTransposed;
+    private Button cbPercent, cbLogarithmic, cbTransposed;   
     
     /**
-     * 
-     */
-    private Combo cbLegendType = null, cbDimension = null;
-    
-    
-    /**
-     * 
+     * main() method for constructing the selector layout.
      * @param args
      */
     public static void main(String[] args)
     {
         SwtChartViewerSelector scv = new SwtChartViewerSelector();
+        
         GridLayout gl = new GridLayout();
-        gl.numColumns = 1;
+        //gl.numColumns = 1;
         Display d = Display.getDefault();
         Shell sh = new Shell(d);
         sh.setSize(900, 700);
@@ -109,38 +95,23 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
         cBottom.setLayout(new RowLayout());
         
         Label la = new Label(cBottom, SWT.NONE);
+        
         la.setText("Choose: ");
         Combo cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-        cbType.add("Empty Chart w/Axes");
-        cbType.add("Simple Bar");
-        cbType.add("Simple Bar (Multiple Series)");
-        cbType.add("Simple Pie Chart");
-        cbType.add("Simple Line Chart");
-        cbType.add("Percent Stackable Chart");
-        cbType.add("Bar/Line Stacked Combination");
-        cbType.add("Numeric Scatter Chart");
-        cbType.add("Date Scatter Chart");
-        cbType.add("Stock Chart");
-        cbType.add("Multiple Pie Series");
-        cbType.add("Complex Combination Chart");
-        cbType.add("Bar Stacked Logarithmic Chart");
-        cbType.add("Line Stacked Logarithmic Chart");
-        cbType.add("DateValue Bar Chart containing Grid");
-        cbType.add("Grid");
-        cbType.add("Fill");
-        cbType.add("ImageFill");
-        cbType.add("Scale");
-        cbType.add("MakerLine1");
-        cbType.add("Makerline2");
-        cbType.add("MarkerRange");
-        cbType.add("DataPoint");
-        cbType.add("MarkerRange2");
-        cbType.add("LeaderLine and Explosion");
-        cbType.select(1);
+        cbType.add("Bar Chart");
+        cbType.add("Bar Chart(2 Series)");
+        cbType.add("Pie Chart");
+        cbType.add("Pie Chart(4 Series)");
+        cbType.add("Line Chart");
+        cbType.add("Bar/Line Stacked Chart");       
+        cbType.add("Scatter Chart");
+        cbType.add("Stock Chart");       
+
+        cbType.select(0);
         
         Combo cbDimension = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
         cbDimension.add("2D");
-        cbDimension.add("2D with depth");
+        cbDimension.add("2D with Depth");
         cbDimension.select(0);
         
         Button cbTransposed = new Button(cBottom, SWT.CHECK);
@@ -151,24 +122,18 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
         
         Button cbLogarithmic = new Button(cBottom, SWT.CHECK);
         cbLogarithmic.setText("Logarithmic");
-        
-        Combo cbLegendType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
-        cbLegendType.add("Legend @ Series");
-        cbLegendType.add("Legend @ Categories");
-        cbLegendType.select(0);
 
         Button btn = new Button(cBottom, SWT.NONE);
         btn.setText("Update");
         btn.addSelectionListener(scv);
+        
         scv.cb = cbType;
         scv.ca = cCenter;
-        scv.btn = btn;
         
         scv.cbDimension = cbDimension;
         scv.cbTransposed = cbTransposed;
         scv.cbPercent = cbPercent;
         scv.cbLogarithmic = cbLogarithmic;
-        scv.cbLegendType = cbLegendType;
         
         sh.open();
         
@@ -182,7 +147,7 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
     }
     
     /**
-     *
+     *Get the connection with SWT device to render the graphics.
      */
     SwtChartViewerSelector()
     {
@@ -193,11 +158,9 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
         {
             DefaultLoggerImpl.instance().log(ex);
         }
-//        cm = SampleCharts.createSimplePieChartLabelShadow();
-        cm = PrimitiveCharts.createSimplePieChart();
+        cm = PrimitiveCharts.createBarChart();
         
-    }
-    
+    }   
 
     /* (non-Javadoc)
      * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
@@ -237,80 +200,29 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
         switch(iSelection)
         {
 	    	case 0:
-	    	    cm = PrimitiveCharts.createSimplePieChartDataPoint();
+	    	    cm = PrimitiveCharts.createBarChart();
 	    	    break;
 	    	case 1:
-	    	    cm = PrimitiveCharts.createSimpleBarChart();
-	    	    break;
-	    	case 2:
 	    	    cm = PrimitiveCharts.createMultiBarChart();
 	    	    break;
+	    	case 2:
+	    	    cm = PrimitiveCharts.createPieChart();
+	    	    break;
 	    	case 3:
-	    	    cm = PrimitiveCharts.createSimplePieChart();
-	    	    break;
-	    	case 4:
-	    	    cm = PrimitiveCharts.createSimpleLineChart();
-	    	    break;
-	    	case 5:
-	    	    cm = PrimitiveCharts.createPercentStackedChart();
-	    	    break;
-	    	case 6:
-	    	    cm = PrimitiveCharts.createStackedChart();
-	    	    break;
-	    	case 7:
-	    	    cm = PrimitiveCharts.createNumericScatterChart();
-	    	    break;
-	    	case 8:
-	    	    cm = PrimitiveCharts.createDateScatterChart();
-	    	    break;
-	    	case 9:
-	    	    cm = PrimitiveCharts.createStockChart();
-	    	    break;
-	    	case 10:
 	    	    cm = PrimitiveCharts.createMultiPieChart();
 	    	    break;
-	    	case 11:
-	    	    cm = PrimitiveCharts.createCombinationChart();
+	    	case 4:
+	    	    cm = PrimitiveCharts.createLineChart();
 	    	    break;
-	    	case 12:
-	    	    cm = PrimitiveCharts.createLogarithmicStackedBarChart();
+	    	case 5:
+	    	    cm = PrimitiveCharts.createStackedChart();
+	    	    break;	    	    
+	    	case 6:
+	    	    cm = PrimitiveCharts.createScatterChart();
 	    	    break;
-	    	case 13:
-	    	    cm = PrimitiveCharts.createLogarithmicStackedLineChart();
+	    	case 7:
+	    	    cm = PrimitiveCharts.createStockChart();
 	    	    break;
-	    	case 14:
-        	    cm = PrimitiveCharts.createDateValueBarChartGrid();
-        	    break;
-	    	case 15:
-        	    cm = PrimitiveCharts.createDateValueBarChartFillImage();
-        	    break;
-        	case 16:
-        	    cm = PrimitiveCharts.createDateValueBarChartFill();
-        	    break;
-        	case 17:
-        	    cm = PrimitiveCharts.createLinearStackedLineChartScale();
-        	    break;
-        	case 18:
-        	    cm = PrimitiveCharts.createSimpleLineChartMarkerLine();
-        	    break;
-        	case 19:
-        	    cm = PrimitiveCharts.createDateValueBarChartMarkerLine();
-        	    break;
-        	case 20:
-        	    cm = PrimitiveCharts.createDateValueBarChartScaleType();
-        	    break;
-        	case 21:
-        	    cm = PrimitiveCharts.createSimplePieChartTitleLabel();
-        	    break;
-        	case 22:
-        	    cm = PrimitiveCharts.createSimplePieChartDataPoint();
-        	    break;
-        	case 23:
-        	    cm = PrimitiveCharts.createNumericScatterChartMarker();
-        	    break;
-        	case 24:
-        	    cm = PrimitiveCharts.createSimplePieChartExplosionLeaderLine();
-        	    break;
         }
 
         if (cm instanceof ChartWithAxes)
@@ -353,17 +265,6 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
         	    break;
         	case 1:
         	    cm.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
-        	    break;
-        }
-
-        iSelection = cbLegendType.getSelectionIndex();
-        switch(iSelection)
-        {
-        	case 0:
-        	    cm.getLegend().setItemType(LegendItemType.SERIES_LITERAL);
-        	    break;
-        	case 1:
-        	    cm.getLegend().setItemType(LegendItemType.CATEGORIES_LITERAL);
         	    break;
         }
         
