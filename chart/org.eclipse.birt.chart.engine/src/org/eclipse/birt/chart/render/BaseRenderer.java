@@ -576,6 +576,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.drawRectangle( rre );
 		lia = (LineAttributes) EcoreUtil.copy( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
+		
+		//TODO render client area shadow.
 
 		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
 
@@ -1316,7 +1318,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
 			ipr.drawRectangle( rre );
-
+			
 			if ( !ca.getOutline( ).isSetVisible( ) )
 			{
 				throw new ChartException( ChartException.RENDERING,

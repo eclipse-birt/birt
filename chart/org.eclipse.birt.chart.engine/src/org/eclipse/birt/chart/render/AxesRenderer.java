@@ -93,12 +93,12 @@ public abstract class AxesRenderer extends BaseRenderer
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private Axis ax;
 
 	/**
-	 *  
+	 * 
 	 */
 	public AxesRenderer( )
 	{
@@ -123,8 +123,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 
 		if ( bFirstInSequence ) // SEQUENCE OF MULTIPLE SERIES RENDERERS
-								// (POSSIBLY PARTICIPATING IN A COMBINATION
-								// CHART)
+		// (POSSIBLY PARTICIPATING IN A COMBINATION
+		// CHART)
 		{
 			// SETUP A TIMER
 			lTimer = System.currentTimeMillis( );
@@ -166,7 +166,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					if ( !bLastInSequence )
 					{
 						break; // STOP AT THE PLOT IF NOT ALSO THE LAST IN THE
-							   // SEQUENCE
+						// SEQUENCE
 					}
 				}
 				else if ( bl instanceof TitleBlock )
@@ -415,8 +415,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	 */
 	private static final TextAlignment anchorToAlignment( Anchor anc )
 	{
-		final TextAlignment ta = TextAlignmentImpl.create( ); // SET AS CENTERED
-															  // HORZ/VERT
+		final TextAlignment ta = TextAlignmentImpl.create( ); // SET AS
+		// CENTERED
+		// HORZ/VERT
 		if ( anc == null )
 		{
 			return ta;
@@ -715,7 +716,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					idr.drawText( tre );
 
 					if ( bTransposed ) // RESTORE ORIGINAL FONT ANGLE IF
-									   // TRANSPOSED
+					// TRANSPOSED
 					{
 						la.getCaption( )
 								.getFont( )
@@ -1182,7 +1183,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
 				getSeries( ) );
 		renderSeries( ipr, p, srh ); // CALLS THE APPROPRIATE SUBCLASS FOR
-									 // GRAPHIC ELEMENT RENDERING
+		// GRAPHIC ELEMENT RENDERING
 		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_DRAW_SERIES,
 				getSeries( ),
@@ -1197,7 +1198,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				getDeferredCache( ).flush( ); // FLUSH DEFERRED CACHE
 			}
 			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
-										// BEING THROWN
+			// BEING THROWN
 			{
 				throw new ChartException( ChartException.RENDERING, ex );
 			}
@@ -1612,7 +1613,15 @@ public abstract class AxesRenderer extends BaseRenderer
 		double[] daMinor = sc.getMinorCoordinates( ax.getGrid( )
 				.getMinorCountPerMajor( ) );
 		String sText = null;
-		boolean bLabelShadowEnabled = ( ax.getLabel( ).getShadowColor( ) != null );
+		
+		// COMMENT OUT: when render label inLocation/inBlocklabel,
+		// label will render the shadow itself.
+		// =============================================================================================
+		// boolean bLabelShadowEnabled = ( ax.getLabel( ).getShadowColor( ) !=
+		// null && ax.getLabel( )
+		// .getShadowColor( )
+		// .getTransparency( ) != 0 );
+		
 		int iDimension = pwa.getDimension( );
 		double dSeriesThickness = pwa.getSeriesThickness( );
 		final NumberDataElement nde = NumberDataElementImpl.create( 0 );
@@ -1721,71 +1730,78 @@ public abstract class AxesRenderer extends BaseRenderer
 					dOffset = -dUnitSize / 2;
 				}
 
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
-							: dXTick2 + 1;
-					dsi.reset( );
-					for ( int i = 0; i < da.length - 1; i++ )
-					{
-						la.getCaption( )
-								.setValue( sc.formatCategoryValue( sc.getType( ),
-										dsi.next( ),
-										iDateTimeUnit ) );
-						itmText.reuse( la ); // RECYCLED
-						dH = itmText.getFullHeight( );
-						dW = itmText.getFullWidth( );
-						dHCosTheta = dH * dCosTheta;
-						if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-						{
-							if ( iLabelLocation == IConstants.LEFT )
-							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dW
-										* dSineTheta;
-							}
-							else if ( iLabelLocation == IConstants.RIGHT )
-							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dHCosTheta;
-							}
-						}
-						else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-						{
-							if ( iLabelLocation == IConstants.LEFT )
-							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dHCosTheta;
-							}
-							else if ( iLabelLocation == IConstants.RIGHT )
-							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dW
-										* dSineTheta;
-							}
-						}
-						else if ( dAngleInDegrees == 0
-								|| dAngleInDegrees == 90
-								|| dAngleInDegrees == -90 )
-						{
-							dOffset = -dUnitSize / 2;
-						}
-						y = (int) da[i];
-						if ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS
-								&& la.isVisible( ) )
-						{
-							lo.set( x, y + dOffset );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE
+				// CORRECT
+				// // Z-ORDERING
+				// double x = ( iLabelLocation == IConstants.LEFT ) ?
+				// dXTick1 - 1
+				// : dXTick2 + 1;
+				// dsi.reset( );
+				// for ( int i = 0; i < da.length - 1; i++ )
+				// {
+				// la.getCaption( )
+				// .setValue( sc.formatCategoryValue( sc.getType( ),
+				// dsi.next( ),
+				// iDateTimeUnit ) );
+				// itmText.reuse( la ); // RECYCLED
+				// dH = itmText.getFullHeight( );
+				// dW = itmText.getFullWidth( );
+				// dHCosTheta = dH * dCosTheta;
+				// if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				// {
+				// if ( iLabelLocation == IConstants.LEFT )
+				// {
+				// dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+				// / 2
+				// - dW
+				// * dSineTheta;
+				// }
+				// else if ( iLabelLocation == IConstants.RIGHT )
+				// {
+				// dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+				// / 2
+				// - dHCosTheta;
+				// }
+				// }
+				// else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				// {
+				// if ( iLabelLocation == IConstants.LEFT )
+				// {
+				// dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+				// / 2
+				// - dHCosTheta;
+				// }
+				// else if ( iLabelLocation == IConstants.RIGHT )
+				// {
+				// dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+				// / 2
+				// - dW
+				// * dSineTheta;
+				// }
+				// }
+				// else if ( dAngleInDegrees == 0
+				// || dAngleInDegrees == 90
+				// || dAngleInDegrees == -90 )
+				// {
+				// dOffset = -dUnitSize / 2;
+				// }
+				// y = (int) da[i];
+				// if ( ( iWhatToDraw & IConstants.LABELS ) ==
+				// IConstants.LABELS
+				// && la.isVisible( ) )
+				// {
+				// lo.set( x, y + dOffset );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION
+				// );
+				// ipr.drawText( tre );
+				// }
+				// }
+				// }
 
 				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
 						: dXTick2 + 1;
@@ -1793,7 +1809,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				for ( int i = 0; i < da.length - 1; i++ )
 				{
 					if ( bRenderAxisLabels ) // PERFORM COMPUTATIONS ONLY IF
-											 // AXIS LABEL IS VISIBLE
+					// AXIS LABEL IS VISIBLE
 					{
 						la.getCaption( )
 								.setValue( sc.formatCategoryValue( sc.getType( ),
@@ -1898,7 +1914,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					if ( bRenderAxisLabels ) // RENDER AXIS LABELS ONLY IF
-											 // REQUESTED
+					// REQUESTED
 					{
 						lo.set( x, y + dOffset );
 						tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -1938,45 +1954,53 @@ public abstract class AxesRenderer extends BaseRenderer
 				final double dAxisStep = Methods.asDouble( sc.getStep( ) )
 						.doubleValue( );
 
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS
-							&& la.isVisible( ) )
-					{
-						double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
-								: dXTick2 + 1;
-
-						for ( int i = 0; i < da.length; i++ )
-						{
-							if ( fs == null )
-							{
-								df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
-							}
-							nde.setValue( dAxisValue );
-							try
-							{
-								sText = ValueFormatter.format( nde,
-										ax.getFormatSpecifier( ),
-										ax.getRunTimeContext( ).getLocale( ),
-										df );
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-							y = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							dAxisValue *= dAxisStep;
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE
+				// CORRECT
+				// // Z-ORDERING
+				// if ( ( iWhatToDraw & IConstants.LABELS ) ==
+				// IConstants.LABELS
+				// && la.isVisible( ) )
+				// {
+				// double x = ( iLabelLocation == IConstants.LEFT ) ?
+				// dXTick1 - 1
+				// : dXTick2 + 1;
+				//
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// if ( fs == null )
+				// {
+				// df = new DecimalFormat( sc.getNumericPattern( dAxisValue
+				// ) );
+				// }
+				// nde.setValue( dAxisValue );
+				// try
+				// {
+				// sText = ValueFormatter.format( nde,
+				// ax.getFormatSpecifier( ),
+				// ax.getRunTimeContext( ).getLocale( ),
+				// df );
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				// y = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				//
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION
+				// );
+				// ipr.drawText( tre );
+				// dAxisValue *= dAxisStep;
+				// }
+				// }
+				// }
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
@@ -1984,7 +2008,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				for ( int i = 0; i < da.length; i++ )
 				{
 					if ( bRenderAxisLabels ) // PERFORM COMPUTATIONS ONLY IF
-											 // AXIS LABEL IS VISIBLE
+					// AXIS LABEL IS VISIBLE
 					{
 						if ( fs == null )
 						{
@@ -2055,7 +2079,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // RENDER LABELS ONLY IF REQUESTED
+					if ( bRenderAxisLabels ) // RENDER LABELS ONLY IF
+					// REQUESTED
 					{
 						lo.set( x, y );
 						la.getCaption( ).setValue( sText );
@@ -2088,40 +2113,44 @@ public abstract class AxesRenderer extends BaseRenderer
 					df = new DecimalFormat( sc.getNumericPattern( ) );
 				}
 
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels )
-					{
-						double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
-								: dXTick2 + 1;
-						for ( int i = 0; i < da.length; i++ )
-						{
-							nde.setValue( dAxisValue );
-							try
-							{
-								sText = ValueFormatter.format( nde,
-										fs,
-										null,
-										df ); // TBD: SET LOCALE CORRECTLY
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-
-							y = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							dAxisValue += dAxisStep;
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels )
+				// {
+				// double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 -
+				// 1
+				// : dXTick2 + 1;
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// nde.setValue( dAxisValue );
+				// try
+				// {
+				// sText = ValueFormatter.format( nde,
+				// fs,
+				// null,
+				// df ); // TBD: SET LOCALE CORRECTLY
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				//
+				// y = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				//
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// dAxisValue += dAxisStep;
+				// }
+				// }
+				// }
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
@@ -2226,40 +2255,45 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				cdt = cdtAxisValue;
 
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels )
-					{
-						double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
-								: dXTick2 + 1;
-						for ( int i = 0; i < da.length; i++ )
-						{
-							try
-							{
-								sText = ValueFormatter.format( cdt,
-										ax.getFormatSpecifier( ),
-										ax.getRunTimeContext( ).getLocale( ),
-										sdf );
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-							y = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-																					// W.R.T
-																					// START
-																					// VALUE
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels )
+				// {
+				// double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 -
+				// 1
+				// : dXTick2 + 1;
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// try
+				// {
+				// sText = ValueFormatter.format( cdt,
+				// ax.getFormatSpecifier( ),
+				// ax.getRunTimeContext( ).getLocale( ),
+				// sdf );
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				// y = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); //
+				// ALWAYS
+				// // W.R.T
+				// // START
+				// // VALUE
+				// }
+				// }
+				// }
 
 				double x = ( iLabelLocation == IConstants.LEFT ) ? dXTick1 - 1
 						: dXTick2 + 1;
@@ -2346,9 +2380,9 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-																			// W.R.T
-																			// START
-																			// VALUE
+					// W.R.T
+					// START
+					// VALUE
 				}
 			}
 
@@ -2475,75 +2509,80 @@ public abstract class AxesRenderer extends BaseRenderer
 					dOffset = dUnitSize / 2;
 				}
 
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels ) // ONLY PROCESS IF AXES LABELS ARE
-											 // VISIBLE OR REQUESTED FOR
-					{
-						double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-								: dYTick2 + 1;
-						dsi.reset( );
-						for ( int i = 0; i < da.length - 1; i++ )
-						{
-							la.getCaption( )
-									.setValue( sc.formatCategoryValue( sc.getType( ),
-											dsi.next( ),
-											iDateTimeUnit ) );
-							itmText.reuse( la );// RECYCLED
-							dH = itmText.getFullHeight( );
-							dW = itmText.getFullWidth( );
-							dHSineTheta = dH * dSineTheta;
-							if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-							{
-								if ( iLabelLocation == IConstants.ABOVE )
-								{
-									dOffset = dUnitSize
-											/ 2
-											- ( dW * dCosTheta + dHSineTheta )
-											/ 2
-											+ dHSineTheta;
-								}
-								else if ( iLabelLocation == IConstants.BELOW )
-								{
-									dOffset = dUnitSize
-											+ dHSineTheta
-											- ( dUnitSize - dW * dCosTheta + dHSineTheta )
-											/ 2
-											- dHSineTheta;
-								}
-							}
-							else if ( dAngleInDegrees < 0
-									&& dAngleInDegrees > -90 )
-							{
-								if ( iLabelLocation == IConstants.ABOVE )
-								{
-									dOffset = dUnitSize
-											/ 2
-											- dHSineTheta
-											/ 2
-											+ ( dW * dCosTheta + dHSineTheta )
-											/ 2;
-								}
-								else if ( iLabelLocation == IConstants.BELOW )
-								{
-									dOffset = ( dUnitSize - dW * dCosTheta + dHSineTheta ) / 2;
-								}
-							}
-							else if ( dAngleInDegrees == 0
-									|| dAngleInDegrees == 90
-									|| dAngleInDegrees == -90 )
-							{
-								dOffset = dUnitSize / 2;
-							}
-							x = (int) da[i];
-							lo.set( x + dOffset, y );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels ) // ONLY PROCESS IF AXES LABELS
+				// // ARE
+				// // VISIBLE OR REQUESTED FOR
+				// {
+				// double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 -
+				// 1
+				// : dYTick2 + 1;
+				// dsi.reset( );
+				// for ( int i = 0; i < da.length - 1; i++ )
+				// {
+				// la.getCaption( )
+				// .setValue( sc.formatCategoryValue( sc.getType( ),
+				// dsi.next( ),
+				// iDateTimeUnit ) );
+				// itmText.reuse( la );// RECYCLED
+				// dH = itmText.getFullHeight( );
+				// dW = itmText.getFullWidth( );
+				// dHSineTheta = dH * dSineTheta;
+				// if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				// {
+				// if ( iLabelLocation == IConstants.ABOVE )
+				// {
+				// dOffset = dUnitSize
+				// / 2
+				// - ( dW * dCosTheta + dHSineTheta )
+				// / 2
+				// + dHSineTheta;
+				// }
+				// else if ( iLabelLocation == IConstants.BELOW )
+				// {
+				// dOffset = dUnitSize
+				// + dHSineTheta
+				// - ( dUnitSize - dW * dCosTheta + dHSineTheta )
+				// / 2
+				// - dHSineTheta;
+				// }
+				// }
+				// else if ( dAngleInDegrees < 0
+				// && dAngleInDegrees > -90 )
+				// {
+				// if ( iLabelLocation == IConstants.ABOVE )
+				// {
+				// dOffset = dUnitSize
+				// / 2
+				// - dHSineTheta
+				// / 2
+				// + ( dW * dCosTheta + dHSineTheta )
+				// / 2;
+				// }
+				// else if ( iLabelLocation == IConstants.BELOW )
+				// {
+				// dOffset = ( dUnitSize - dW * dCosTheta + dHSineTheta ) / 2;
+				// }
+				// }
+				// else if ( dAngleInDegrees == 0
+				// || dAngleInDegrees == 90
+				// || dAngleInDegrees == -90 )
+				// {
+				// dOffset = dUnitSize / 2;
+				// }
+				// x = (int) da[i];
+				// lo.set( x + dOffset, y );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// }
+				// }
+				// }
 
 				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
 						: dYTick2 + 1;
@@ -2597,9 +2636,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
+					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					// AXES
+					// LABELS ARE VISIBLE OR REQUESTED
+					// FOR
 					{
 						la.getCaption( )
 								.setValue( sc.formatCategoryValue( sc.getType( ),
@@ -2702,41 +2742,45 @@ public abstract class AxesRenderer extends BaseRenderer
 					df = new DecimalFormat( sc.getNumericPattern( ) );
 				}
 
-				// TODO: CACHE COMPUTED VALUES FOR REUSE IN 2ND LOOP
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
-					{
-						double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-								: dYTick2 + 1;
-						for ( int i = 0; i < da.length; i++ )
-						{
-							nde.setValue( dAxisValue );
-							try
-							{
-								sText = ValueFormatter.format( nde,
-										ax.getFormatSpecifier( ),
-										ax.getRunTimeContext( ).getLocale( ),
-										df );
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-							x = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							dAxisValue += dAxisStep;
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+				// // AXES
+				// // LABELS ARE VISIBLE OR REQUESTED
+				// // FOR
+				// {
+				// double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 -
+				// 1
+				// : dYTick2 + 1;
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// nde.setValue( dAxisValue );
+				// try
+				// {
+				// sText = ValueFormatter.format( nde,
+				// ax.getFormatSpecifier( ),
+				// ax.getRunTimeContext( ).getLocale( ),
+				// df );
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				// x = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// dAxisValue += dAxisStep;
+				// }
+				// }
+				// }
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
@@ -2790,9 +2834,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
+					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					// AXES
+					// LABELS ARE VISIBLE OR REQUESTED
+					// FOR
 					{
 						nde.setValue( dAxisValue );
 						try
@@ -2834,45 +2879,49 @@ public abstract class AxesRenderer extends BaseRenderer
 				final double dAxisStep = Methods.asDouble( sc.getStep( ) )
 						.doubleValue( );
 
-				// TODO: CACHE COMPUTED VALUES FOR REUSE IN 2ND LOOP
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
-					{
-						double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-								: dYTick2 + 1;
-						for ( int i = 0; i < da.length; i++ )
-						{
-							if ( fs == null )
-							{
-								df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
-							}
-							nde.setValue( dAxisValue );
-							try
-							{
-								sText = ValueFormatter.format( nde,
-										ax.getFormatSpecifier( ),
-										ax.getRunTimeContext( ).getLocale( ),
-										df );
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-							x = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							dAxisValue *= dAxisStep;
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+				// // AXES
+				// // LABELS ARE VISIBLE OR REQUESTED
+				// // FOR
+				// {
+				// double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 -
+				// 1
+				// : dYTick2 + 1;
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// if ( fs == null )
+				// {
+				// df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
+				// }
+				// nde.setValue( dAxisValue );
+				// try
+				// {
+				// sText = ValueFormatter.format( nde,
+				// ax.getFormatSpecifier( ),
+				// ax.getRunTimeContext( ).getLocale( ),
+				// df );
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				// x = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// dAxisValue *= dAxisStep;
+				// }
+				// }
+				// }
 
 				dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
@@ -2926,9 +2975,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
+					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					// AXES
+					// LABELS ARE VISIBLE OR REQUESTED
+					// FOR
 					{
 						if ( fs == null )
 						{
@@ -2980,43 +3030,48 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				cdt = cdtAxisValue;
 
-				// TODO: CACHE COMPUTED VALUES FOR REUSE IN 2ND LOOP
-				if ( bLabelShadowEnabled )
-				{
-					// MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
-					// Z-ORDERING
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
-					{
-						double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
-								: dYTick2 + 1;
-						for ( int i = 0; i < da.length; i++ )
-						{
-							try
-							{
-								sText = ValueFormatter.format( cdt,
-										ax.getFormatSpecifier( ),
-										ax.getRunTimeContext( ).getLocale( ),
-										sdf );
-							}
-							catch ( ChartException dfex )
-							{
-								DefaultLoggerImpl.instance( ).log( dfex );
-								sText = IConstants.NULL_STRING;
-							}
-							x = (int) da[i];
-							lo.set( x, y );
-							la.getCaption( ).setValue( sText );
-							tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
-							ipr.drawText( tre );
-							cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-																					// W.R.T
-																					// START
-																					// VALUE
-						}
-					}
-				}
+				// COMMENT OUT: when render label inLocation/inBlocklabel,
+				// label will render the shadow itself.
+				// =============================================================================================
+				// if ( bLabelShadowEnabled )
+				// {
+				// // MUST RENDER SHADOWS IN A PREVIOUS LOOP TO ENABLE CORRECT
+				// // Z-ORDERING
+				// if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+				// // AXES
+				// // LABELS ARE VISIBLE OR REQUESTED
+				// // FOR
+				// {
+				// double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 -
+				// 1
+				// : dYTick2 + 1;
+				// for ( int i = 0; i < da.length; i++ )
+				// {
+				// try
+				// {
+				// sText = ValueFormatter.format( cdt,
+				// ax.getFormatSpecifier( ),
+				// ax.getRunTimeContext( ).getLocale( ),
+				// sdf );
+				// }
+				// catch ( ChartException dfex )
+				// {
+				// DefaultLoggerImpl.instance( ).log( dfex );
+				// sText = IConstants.NULL_STRING;
+				// }
+				// x = (int) da[i];
+				// lo.set( x, y );
+				// la.getCaption( ).setValue( sText );
+				// tre.setAction( TextRenderEvent.RENDER_SHADOW_AT_LOCATION );
+				// ipr.drawText( tre );
+				// cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); //
+				// ALWAYS
+				// // W.R.T
+				// // START
+				// // VALUE
+				// }
+				// }
+				// }
 
 				double y = ( iLabelLocation == IConstants.ABOVE ) ? dYTick1 - 1
 						: dYTick2 + 1;
@@ -3069,9 +3124,10 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF AXES
-											 // LABELS ARE VISIBLE OR REQUESTED
-											 // FOR
+					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
+					// AXES
+					// LABELS ARE VISIBLE OR REQUESTED
+					// FOR
 					{
 						try
 						{
@@ -3104,9 +3160,9 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 
 					cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
-																			// W.R.T
-																			// START
-																			// VALUE
+					// W.R.T
+					// START
+					// VALUE
 				}
 			}
 
@@ -3167,7 +3223,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final void set( Chart _cm, Object _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )

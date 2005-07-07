@@ -23,14 +23,16 @@ import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- *  
+ * 
  */
 public class Methods implements IConstants
 {
@@ -187,7 +189,7 @@ public class Methods implements IConstants
 						sc
 					} )
 
-			); 
+			);
 		}
 		if ( oValue instanceof Double )
 		{
@@ -581,6 +583,87 @@ public class Methods implements IConstants
 	}
 
 	/**
+	 * @param xs
+	 * @param bbox
+	 * @param la
+	 * @param fullHeight
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public static final Location computeRotatedTopPoint( IDisplayServer xs,
+			BoundingBox bbox, Label la, double fullHeight )
+			throws IllegalArgumentException
+	{
+		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
+
+		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
+		{
+			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
+					xs.getLocale( ) )
+					.getString( "exception.illegal.rotation.angle.label" ), //$NON-NLS-1$
+					new Object[]{
+						la
+					} )
+
+			);
+		}
+
+		double dAngleInRadians = Math.toRadians( dAngleInDegrees );
+
+		Location loc = LocationImpl.create( bbox.getLeft( ), bbox.getTop( ) );
+
+		if ( dAngleInDegrees == 0 )
+		{
+			// does nothing.
+		}
+		else if ( dAngleInDegrees == 90 )
+		{
+			loc.setY( loc.getY( ) + bbox.getHeight( ) );
+		}
+		else if ( dAngleInDegrees == -90 )
+		{
+			loc.setX( loc.getX( ) + bbox.getWidth( ) );
+		}
+		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+		{
+			double A = bbox.getTop( )
+					+ bbox.getHeight( )
+					/ 2d
+					- ( bbox.getLeft( ) + bbox.getWidth( ) / 2d )
+					* Math.tan( dAngleInRadians );
+
+			double ny = 2
+					* ( bbox.getTop( ) + bbox.getHeight( ) / 2d )
+					- ( Math.tan( dAngleInRadians ) * bbox.getLeft( ) + A )
+					- fullHeight
+					/ 2d
+					/ Math.cos( dAngleInRadians );
+
+			loc.setY( ny );
+
+		}
+		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+		{
+			double A = bbox.getTop( )
+					+ bbox.getHeight( )
+					/ 2d
+					- ( bbox.getLeft( ) + bbox.getWidth( ) / 2d )
+					* Math.tan( dAngleInRadians );
+
+			double nx = 2
+					* ( bbox.getLeft( ) + bbox.getWidth( ) / 2d )
+					- ( ( bbox.getTop( ) - A ) / Math.tan( dAngleInRadians ) )
+					+ fullHeight
+					/ 2d
+					/ Math.abs( Math.sin( dAngleInRadians ) );
+
+			loc.setX( nx );
+		}
+
+		return loc;
+	}
+
+	/**
 	 * 
 	 * @param xs
 	 * @param iLabelLocation
@@ -604,7 +687,7 @@ public class Methods implements IConstants
 						la
 					} )
 
-			); 
+			);
 		}
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );

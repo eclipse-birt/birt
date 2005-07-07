@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * Provides convenience methods for rendering rotated text with configurable
@@ -51,17 +52,17 @@ final class SwingTextRenderer implements IConstants
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private static SwingTextRenderer _tr = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private SwingDisplayServer _sxs = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private SwingTextRenderer( )
 	{
@@ -164,18 +165,34 @@ final class SwingTextRenderer implements IConstants
 		switch ( iLabelPosition )
 		{
 			case ABOVE :
+				if ( ChartUtil.isShadowDefined( la ) )
+				{
+					showTopValue( ipr, lo, la, true );
+				}
 				showTopValue( ipr, lo, la, false );
 				break;
 
 			case BELOW :
+				if ( ChartUtil.isShadowDefined( la ) )
+				{
+					showBottomValue( ipr, lo, la, true );
+				}
 				showBottomValue( ipr, lo, la, false );
 				break;
 
 			case LEFT :
+				if ( ChartUtil.isShadowDefined( la ) )
+				{
+					showLeftValue( ipr, lo, la, true );
+				}
 				showLeftValue( ipr, lo, la, false );
 				break;
 
 			case RIGHT :
+				if ( ChartUtil.isShadowDefined( la ) )
+				{
+					showRightValue( ipr, lo, la, true );
+				}
 				showRightValue( ipr, lo, la, false );
 				break;
 		}
@@ -261,7 +278,7 @@ final class SwingTextRenderer implements IConstants
 		}
 
 		bb.setLeft( bb.getLeft( ) + bb.getHotPoint( ) );
-		if ( la.getShadowColor( ) != null )
+		if ( ChartUtil.isShadowDefined( la ) )
 		{
 			showTopValue( idr, LocationImpl.create( bb.getLeft( ), bb.getTop( )
 					+ bb.getHeight( ) ), la, true );
@@ -637,7 +654,7 @@ final class SwingTextRenderer implements IConstants
 		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
 		Color clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
 
-		//dX += 2;
+		// dX += 2;
 		dY += 1;
 
 		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
@@ -713,7 +730,7 @@ final class SwingTextRenderer implements IConstants
 									+ ins.getTop( )
 									+ dH
 									* ( i + 1 ) - dD )
-					//(float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH/2))
+					// (float)(((dY - dD) - ((iLC - i) * dH - (iLC + 1) * dH/2))
 							// + ins.getTop())
 							);
 				}
@@ -783,7 +800,7 @@ final class SwingTextRenderer implements IConstants
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, iRotateX - dDeltaX, iRotateY
 					+ dDeltaY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// DRAW NEGATIVE ANGLE (< 0)
@@ -843,7 +860,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, iRotateX, iRotateY + dDeltaY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// VERTICALLY UP
@@ -903,7 +920,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// VERTICALLY DOWN
@@ -963,7 +980,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 		itm.dispose( );
 	}
@@ -983,7 +1000,7 @@ final class SwingTextRenderer implements IConstants
 		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
-		//Color clrShadow = bShadow ? (Color)
+		// Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
 		double dAngleInDegrees = fd.getRotation( );
 		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
@@ -1059,7 +1076,7 @@ final class SwingTextRenderer implements IConstants
 				// RENDER THE OUTLINE/BORDER
 				renderOutline( ipr, la.getOutline( ), r2d );
 			}
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// DRAW IT AT A POSITIVE ANGLE
@@ -1240,7 +1257,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// VERTICALLY DOWN
@@ -1325,7 +1342,7 @@ final class SwingTextRenderer implements IConstants
 		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 		double dX = lo.getX( ), dY = lo.getY( );
 		final FontDefinition fd = la.getCaption( ).getFont( );
-		//final Color clrShadow = bShadow ? (Color)
+		// final Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
 		final double dAngleInDegrees = fd.getRotation( );
 		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
@@ -1387,7 +1404,7 @@ final class SwingTextRenderer implements IConstants
 
 				for ( int i = 0; i < itm.getLineCount( ); i++ )
 				{
-					//tl = new TextLayout(itm.getLine(iLC - i - 1),
+					// tl = new TextLayout(itm.getLine(iLC - i - 1),
 					// g2d.getFont(), g2d.getFontRenderContext());
 					tl = ( (SwingTextMetrics) itm ).getLayout( iLC - i - 1 );
 
@@ -1409,7 +1426,7 @@ final class SwingTextRenderer implements IConstants
 				// RENDER THE OUTLINE/BORDER
 				renderOutline( ipr, la.getOutline( ), r2d );
 			}
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// DRAW IT AT A POSITIVE ANGLE
@@ -1474,7 +1491,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// DRAW IT AT A NEGATIVE ANGLE
@@ -1541,7 +1558,7 @@ final class SwingTextRenderer implements IConstants
 			 * final BoundingBox bb = computeBox(IConstants.ABOVE, la,
 			 * lo.getX(), lo.getY()); renderBox(g2d, bb, Color.black, null);
 			 */
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// VERTICALLY UP
@@ -1602,7 +1619,7 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		// VERTICALLY DOWN
@@ -1665,25 +1682,25 @@ final class SwingTextRenderer implements IConstants
 
 			// UNDO THE 'ROTATED' STATE OF THE GRAPHICS CONTEXT
 			g2d.rotate( -dAngleInRadians, dX, dY );
-			//crossHairs(g2d, (int)dX, (int)dY);
+			// crossHairs(g2d, (int)dX, (int)dY);
 		}
 
 		itm.dispose( );
 	}
 
-	//    private static final void renderBox(Graphics2D g2d, BoundingBox bb, Color
+	// private static final void renderBox(Graphics2D g2d, BoundingBox bb, Color
 	// cFG, Color cBG)
-	//    {
-	//        if (cBG != null)
-	//        {
-	//            g2d.setColor(cBG);
-	//            g2d.fillRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(),
+	// {
+	// if (cBG != null)
+	// {
+	// g2d.setColor(cBG);
+	// g2d.fillRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(),
 	// (int) bb.getHeight());
-	//        }
-	//        g2d.setColor(cFG);
-	//        g2d.drawRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(),
+	// }
+	// g2d.setColor(cFG);
+	// g2d.drawRect((int) bb.getLeft(), (int) bb.getTop(), (int) bb.getWidth(),
 	// (int) bb.getHeight());
-	//    }
+	// }
 
 	private final void renderOutline( IPrimitiveRenderer ipr,
 			LineAttributes lia, Rectangle2D.Double r2d )
