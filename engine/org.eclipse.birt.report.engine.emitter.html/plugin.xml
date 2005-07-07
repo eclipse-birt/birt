@@ -19,7 +19,6 @@
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.report.engine"/>
-      <import plugin="org.junit"/>
    </requires>
    <extension 
 	 	point="org.eclipse.birt.report.engine.emitters"
