@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataParserException;
  * file or the building the meta-data description.
  */
 
-public class MetaDataReaderException extends BirtException
+public class MetaDataReaderException extends ModelException
 {
 	private MetaDataParserException e = null;
 	
@@ -39,7 +39,7 @@ public class MetaDataReaderException extends BirtException
 	public MetaDataReaderException( String errCode,
 			MetaDataParserException cause )
 	{
-		super( errCode, null, null, cause );
+		super( errCode, null, cause );
 		assert cause != null;
 		this.e = cause;
 	}

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class DesignParserException extends BirtException
+public class DesignParserException extends ModelException
 {
 
 	/**
@@ -122,28 +122,10 @@ public class DesignParserException extends BirtException
 	public static final String DESIGN_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE;
 
 	/**
-	 * The property is not a expression.
-	 */
-
-	public static final String DESIGN_EXCEPTION_WRONG_EXPRESSION_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXPRESSION_TYPE;
-
-	/**
-	 * The property is not an XML.
-	 */
-
-	public static final String DESIGN_EXCEPTION_WRONG_XML_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_XML_TYPE;
-
-	/**
 	 * The property is not an extended property.
 	 */
 
 	public static final String DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE;
-
-	/**
-	 * Both query text and script exist.
-	 */
-
-	public static final String DESIGN_EXCEPTION_QUERY_CONFLICT = MessageConstants.DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT;
 
 	/**
 	 * The structure name is invalid.
@@ -191,7 +173,7 @@ public class DesignParserException extends BirtException
 
 	public DesignParserException( String errCode )
 	{
-		super( errCode, null );
+		super( errCode );
 	}
 
 	/**
@@ -206,7 +188,7 @@ public class DesignParserException extends BirtException
 
 	public DesignParserException( String name, String errCode )
 	{
-		super( errCode, null );
+		super( errCode );
 		fileName = name;
 	}
 
@@ -222,7 +204,7 @@ public class DesignParserException extends BirtException
 
 	public DesignParserException( Exception e, String errCode )
 	{
-		super( errCode, null, null, e );
+		super( errCode, null, e );
 	}
 
 	/**
@@ -239,7 +221,7 @@ public class DesignParserException extends BirtException
 
 	public DesignParserException( String name, String[] values, String errCode )
 	{
-		super( errCode, values, null, null );
+		super( errCode, values, null );
 		fileName = name;
 	}
 

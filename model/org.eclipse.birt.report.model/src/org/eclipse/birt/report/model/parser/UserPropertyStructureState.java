@@ -91,7 +91,7 @@ public class UserPropertyStructureState extends StructureState
 	{
 		try
 		{
-			( (UserPropertyDefn) struct ).checkUserPropertyDefn( element );
+			( (UserPropertyDefn) struct ).checkUserPropertyDefn( handler.getDesign( ), element );
 			element.addUserPropertyDefn( (UserPropertyDefn) struct );
 		}
 		catch ( UserPropertyException e )

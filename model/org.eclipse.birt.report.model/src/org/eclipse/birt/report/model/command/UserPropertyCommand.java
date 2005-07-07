@@ -362,7 +362,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 					throw new UserPropertyException(
 							element,
 							name,
-							UserPropertyException.DESIGN_EXCEPTION_NAME_REQUIRED );
+							UserPropertyException.DESIGN_EXCEPTION_CHOICE_NAME_REQUIRED );
 				}
 				if ( value == null )
 					throw new UserPropertyException(

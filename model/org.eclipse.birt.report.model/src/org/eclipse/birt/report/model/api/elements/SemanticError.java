@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.elements;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -52,14 +53,7 @@ public class SemanticError extends SemanticException
 	 * to overlap other cells.
 	 */
 
-	public static final String DESIGN_EXCEPTION_OVERLAPPING_TABLE_CELLS = MessageConstants.SEMANTIC_ERROR_OVERLAPPING_TABLE_CELLS;
-
-	/**
-	 * Error code indicating the grid has overlapping cells. Cell is forbidden
-	 * to overlap other cells.
-	 */
-
-	public static final String DESIGN_EXCEPTION_OVERLAPPING_GRID_CELLS = MessageConstants.SEMANTIC_ERROR_OVERLAPPING_GRID_CELLS;
+	public static final String DESIGN_EXCEPTION_OVERLAPPING_CELLS = MessageConstants.SEMANTIC_ERROR_OVERLAPPING_CELLS;
 
 	/**
 	 * Error code indicating the table has a conflict among dropping cells in
@@ -131,7 +125,7 @@ public class SemanticError extends SemanticException
 	public static final String DESIGN_EXCEPTION_MISSING_DATA_SET = MessageConstants.SEMANTIC_ERROR_MISSING_DATA_SET;
 
 	/**
-	 * Error code indicating the image file is not found. 
+	 * Error code indicating the image file is not found.
 	 * 
 	 * @deprecated
 	 */
@@ -347,6 +341,19 @@ public class SemanticError extends SemanticException
 
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{(String) oaMessageArguments[0]} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_OVERLAPPING_CELLS )
+		{
+			assert oaMessageArguments != null;
+			if ( oaMessageArguments[1] == null
+					|| StringUtil.isBlank( oaMessageArguments[1].toString( ) ) )
+			{
+				return ModelMessages.getMessage( sResourceKey,
+						new String[]{(String) oaMessageArguments[0]} );
+			}
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{(String) oaMessageArguments[0]
+							+ " \"" + (String) oaMessageArguments[1] + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		return ModelMessages.getMessage( sResourceKey, new String[]{element

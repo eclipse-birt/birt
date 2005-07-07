@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.model.api.core;
 
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -144,7 +146,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			if ( value == null )
 				displayName = null;
 			else
-				displayName = value.toString( ); 
+				displayName = value.toString( );
 		}
 		else if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
 		{
@@ -356,8 +358,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * Checks whether the element can take the given user property definition
 	 * and the definition is valid.
 	 * 
+	 * @param design
+	 *            the report design
 	 * @param element
 	 *            the design element that holds the user-defined property
+	 * 
 	 * @throws UserPropertyException
 	 *             if the element is not allowed to have user property or the
 	 *             user property definition is invalid.
@@ -365,8 +370,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 *             if the user property definition is inconsistent.
 	 */
 
-	public void checkUserPropertyDefn( DesignElement element )
-			throws UserPropertyException, MetaDataException
+	public void checkUserPropertyDefn( ReportDesign design,
+			DesignElement element ) throws UserPropertyException,
+			MetaDataException
 	{
 		// Does the element allow user properties?
 
@@ -395,6 +401,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			throw new UserPropertyException( element, name,
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 
+		// TODO: Check the display name or id.
+
+
 		// Ensure choices exist if this is a choice typeCode.
 
 		if ( getTypeCode( ) == PropertyType.CHOICE_TYPE )
@@ -404,16 +413,61 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				throw new UserPropertyException( element, name,
 						UserPropertyException.DESIGN_EXCEPTION_MISSING_CHOICES );
 		}
+		
+		// if the user-defined property has choices and its type is not
+		// "choice", validate the value of the user choice according to the
+		// type.
+
+		if ( hasChoices( ) )
+		{
+			IChoiceSet choiceSet = getChoices( );
+			IChoice[] choices = choiceSet.getChoices( );
+			for ( int i = 0; i < choices.length; i++ )
+			{
+				UserChoice choice = (UserChoice) choices[i];
+				Object value = choice.getValue( );
+				if ( StringUtil.isBlank( choice.getName( ) ) )
+				{
+					throw new UserPropertyException(
+							element,
+							name,
+							UserPropertyException.DESIGN_EXCEPTION_CHOICE_NAME_REQUIRED );
+				}
+				if ( value == null )
+					throw new UserPropertyException(
+							element,
+							name,
+							UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED );
+				if ( getTypeCode( ) != PropertyType.CHOICE_TYPE )
+				{
+					try
+					{
+						value = validateValue( design, value );
+					}
+					catch ( PropertyValueException e )
+					{
+						throw new UserPropertyException(
+								element,
+								name,
+								UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE );
+					}
+				}
+			}
+		}
+
 
 		// Build the cached semantic data.
 
 		this.build( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.PropertyDefn)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
-	
+
 	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
 	{
 		assert propDefn != null;
@@ -429,11 +483,13 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
 	 */
 	public boolean isReferencable( )
 	{
 		return false;
-	}	
+	}
 }

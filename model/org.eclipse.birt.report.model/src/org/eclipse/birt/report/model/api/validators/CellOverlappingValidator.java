@@ -19,7 +19,10 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -122,8 +125,27 @@ public class CellOverlappingValidator extends AbstractElementValidator
 		}
 
 		if ( !ok )
-			list.add( new SemanticError( toValidate,
-					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_TABLE_CELLS ) );
+		{
+			DesignElement container = toValidate.getContainer( );
+
+			// The container of the row can be TableGroup, table and grid
+
+			if ( container instanceof TableGroup )
+			{
+				// get the table containing the table group
+				
+				container = container.getContainer( );
+			}
+			else
+			{
+				assert container instanceof TableItem
+						|| container instanceof GridItem;				
+			}
+			list.add( new SemanticError( toValidate, new String[]{
+					container.getElementName( ),
+					container.getName( )},
+					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		}
 
 		return list;
 	}

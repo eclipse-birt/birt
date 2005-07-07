@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api.activity;
 
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  *  
  */
 
-public class SemanticException extends BirtException
+public class SemanticException extends ModelException
 {
 	/**
 	 * The element with semantic error.
@@ -39,7 +39,7 @@ public class SemanticException extends BirtException
 
 	protected SemanticException( String errCode )
 	{
-		super( errCode, null );
+		super( errCode );
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class SemanticException extends BirtException
 
 	public SemanticException( DesignElement element, String errCode )
 	{
-		super( errCode, null );
+		super( errCode );
 		this.element = element;
 	}
 
@@ -71,7 +71,7 @@ public class SemanticException extends BirtException
 	public SemanticException( DesignElement element, String errCode,
 			Throwable cause )
 	{
-		super( errCode, null, null, cause );
+		super( errCode, null, cause );
 		this.element = element;
 	}
 
@@ -89,7 +89,7 @@ public class SemanticException extends BirtException
 	public SemanticException( DesignElement element, String[] values,
 			String errCode )
 	{
-		super( errCode, values, null, null );
+		super( errCode, values, null );
 		this.element = element;
 	}
 

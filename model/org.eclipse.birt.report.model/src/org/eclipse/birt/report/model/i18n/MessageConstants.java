@@ -90,11 +90,9 @@ public interface MessageConstants
 
 	// NameException
 	public static final String NAME_EXCEPTION_NAME_REQUIRED = "Error.NameException.NAME_REQUIRED"; //$NON-NLS-1$
-
 	public static final String NAME_EXCEPTION_NAME_FORBIDDEN = "Error.NameException.NAME_FORBIDDEN"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_DUPLICATE = "Error.NameException.DUPLICATE"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_HAS_REFERENCES = "Error.NameException.HAS_REFERENCES"; //$NON-NLS-1$
-	public static final String NAME_EXCEPTION_MEMBER_NOT_FOUND = "Error.NameException.MEMBER_NOT_FOUND"; //$NON-NLS-1$
 
 	// PropertyNameException
 	public static final String PROPERTY_NAME_EXCEPTION_PROPERTY_NOT_VALID = "Error.PropertyNameException.PROPERTY_NOT_VALID"; //$NON-NLS-1$
@@ -118,10 +116,9 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_NON_POSITIVE_VALUE = "Error.PropertyValueException.NON_POSITIVE_VALUE"; //$NON-NLS-1$
 
 	// SemanticError
-	public static final String SEMANTIC_ERROR_INVALID_COL_SPAN = "Error.SemanticError.INVALID_COL_SPAN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSITENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_OVERLAPPING_TABLE_CELLS = "Error.SemanticError.OVERLAPPING_TABLE_CELLS"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_OVERLAPPING_CELLS = "Error.SemanticError.OVERLAPPING_CELLS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_DROP_HEADINGS = "Error.SemanticError.INCONSITENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$	
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_SIZE = "Error.SemanticError.INVALID_PAGE_SIZE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_MARGINS = "Error.SemanticError.INVALID_PAGE_MARGINS"; //$NON-NLS-1$
@@ -129,9 +126,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_MISSING_MASTER_PAGE = "Error.SemanticError.MISSING_MASTER_PAGE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_MULTI_COLUMN = "Error.SemanticError.INVALID_MULTI_COLUMN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSITENT_GRID_COL_COUNT = "Error.SemanticError.INCONSITENT_GRID_COL_COUNT"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_OVERLAPPING_GRID_CELLS = "Error.SemanticError.OVERLAPPING_GRID_CELLS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_ELEMENT_REF = "Error.SemanticError.INVALID_ELEMENT_REF"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_INVALID_ROW_SPAN = "Error.SemanticError.INVALID_ROW_SPAN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_SQL_STMT = "Error.SemanticError.MISSING_SQL_STMT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_IMAGE_SCALE_VALUE = "Error.SemanticError.INVALID_IMAGE_SCALE_VALUE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_PAGE_SIZE = "Error.SemanticError.CANNOT_SPECIFY_PAGE_SIZE"; //$NON-NLS-1$
@@ -176,16 +171,12 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_CHOICE_RESTRICTION_VIOLATION = "Error.DesignParserException.CHOICE_RESTRICTION_VIOLATION"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_MESSAGE_KEY_REQUIRED = "Error.DesignParserException.MESSAGE_KEY_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE = "Error.DesignParserException.DUPLICATE_TRANSLATION_LOCALE"; //$NON-NLS-1$
-	public static final String DESIGN_PARSER_EXCEPTION_METHOD_NAME_REQUIRED = "Error.DesignParserException.METHOD_NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_NAME_REQUIRED = "Error.DesignParserException.NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_WRONG_STRUCTURE_LIST_TYPE = "Error.DesignParserException.WRONG_STRUCTURE_LIST_TYPE"; //$NON-NLS-1$
-	public static final String DESIGN_PARSER_EXCEPTION_WRONG_EXPRESSION_TYPE = "Error.DesignParserException.WRONG_EXPRESSION_TYPE"; //$NON-NLS-1$
-	public static final String DESIGN_PARSER_EXCEPTION_WRONG_XML_TYPE = "Error.DesignParserException.WRONG_XML_TYPE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE = "Error.DesignParserException.WRONG_EXTENDED_PROPERTY_TYPE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_STRUCTURE_NAME = "Error.DesignParserException.INVALID_STRUCTURE_NAME"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_PROPERTY_SYNTAX = "Error.DesignParserException.INVALID_PROPERTY_SYNTAX"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY = "Error.DesignParserException.UNDEFINED_PROPERTY"; //$NON-NLS-1$
-	public static final String DESIGN_PARSER_EXCEPTION_QUERY_CONFLICT = "Error.DesignParserException.QUERY_CONFLICT"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING = "Error.DesignParserException.UNSUPPORTED_ENCODING"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = "Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION = "Error.DesignParserException.UNSUPPORTED_VERSION"; //$NON-NLS-1$

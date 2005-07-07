@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Properties;
 
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.model.api.ModelException;
 
 /**
  * Indicates that the data in the meta-data file does not match the data in the
@@ -27,7 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * keyed by its error code.
  */
 
-public class MetaDataException extends BirtException
+public class MetaDataException extends ModelException
 {
 	/**
 	 * Holds the metadata error informations.
@@ -410,7 +410,7 @@ public class MetaDataException extends BirtException
 
 	public MetaDataException( String[] params, String errCode )
 	{
-		super( errCode, params, null, null );
+		super( errCode, params, null );
 
 		if ( props == null )
 		{

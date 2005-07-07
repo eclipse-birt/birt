@@ -172,12 +172,12 @@ public class PropertyCommand extends AbstractElementCommand
 					|| extendedItem.isExtensionXMLProperty( prop.getName( ) ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
-				
+
 				assert extElement != null;
 
 				extElement.checkProperty( prop.getName( ), value );
 				extElement.setProperty( prop.getName( ), value );
-		
+
 				return;
 			}
 		}
@@ -348,11 +348,12 @@ public class PropertyCommand extends AbstractElementCommand
 		// The values differ. Make the change.
 
 		ActivityStack stack = getActivityStack( );
-		String label = ModelMessages.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
-        stack.startTrans( label );
+		String label = ModelMessages
+				.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
+		stack.startTrans( label );
 
-        makeLocalCompositeValue( ref );
-        
+		makeLocalCompositeValue( ref );
+
 		MemberRecord record = new MemberRecord( design, element, ref, value );
 		stack.execute( record );
 		stack.commit( );
@@ -404,19 +405,20 @@ public class PropertyCommand extends AbstractElementCommand
 		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
 
-        makeLocalCompositeValue( ref );
-        list = ref.getList( design, element );
-        if( null == list )
-        {
-            list = new ArrayList();
-            MemberRecord memberRecord = new MemberRecord( design, element, ref, list );
-            stack.execute( memberRecord );
-        }
-        
-        MemberRef insertRef = new MemberRef( ref, list.size( ) );
-        PropertyListRecord record = new PropertyListRecord( element, insertRef,
-                list, item );
-        stack.execute( record );
+		makeLocalCompositeValue( ref );
+		list = ref.getList( design, element );
+		if ( null == list )
+		{
+			list = new ArrayList( );
+			MemberRecord memberRecord = new MemberRecord( design, element, ref,
+					list );
+			stack.execute( memberRecord );
+		}
+
+		MemberRef insertRef = new MemberRef( ref, list.size( ) );
+		PropertyListRecord record = new PropertyListRecord( element, insertRef,
+				list, item );
+		stack.execute( record );
 		stack.commit( );
 	}
 
@@ -470,15 +472,16 @@ public class PropertyCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.INSERT_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
-        list = ref.getList( design, element );
-        if( null == list )
-        {
-            list = new ArrayList();
-            MemberRecord memberRecord = new MemberRecord( design, element, ref, list );
-            stack.execute( memberRecord );
-        }
-        
-        if ( posn < 0 || posn > list.size( ) )
+		list = ref.getList( design, element );
+		if ( null == list )
+		{
+			list = new ArrayList( );
+			MemberRecord memberRecord = new MemberRecord( design, element, ref,
+					list );
+			stack.execute( memberRecord );
+		}
+
+		if ( posn < 0 || posn > list.size( ) )
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
@@ -591,23 +594,23 @@ public class PropertyCommand extends AbstractElementCommand
 
 	private void doRemoveItem( MemberRef structRef )
 	{
-        String label = ModelMessages
-		.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
+		String label = ModelMessages
+				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
 
 		ActivityStack stack = design.getActivityStack( );
 		stack.startTrans( label );
 
-        makeLocalCompositeValue( structRef );
-        List list = structRef.getList( design, element );
-        assert list != null;
-        
+		makeLocalCompositeValue( structRef );
+		List list = structRef.getList( design, element );
+		assert list != null;
+
 		Structure struct = structRef.getStructure( design, element );
 		if ( struct.isReferencable( ) )
 			adjustReferenceClients( (ReferencableStructure) struct );
-        
+
 		PropertyListRecord record = new PropertyListRecord( element, structRef,
 				list );
-		getActivityStack( ).execute( record );		
+		getActivityStack( ).execute( record );
 		stack.commit( );
 	}
 
@@ -697,11 +700,11 @@ public class PropertyCommand extends AbstractElementCommand
 
 		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
-        
-        makeLocalCompositeValue( ref );
-        list = ref.getList( design, element );
-        assert list != null;
-        
+
+		makeLocalCompositeValue( ref );
+		list = ref.getList( design, element );
+		assert list != null;
+
 		int index = list.indexOf( oldItem );
 		if ( index == -1 )
 			throw new PropertyValueException( element, ref.getPropDefn( )
@@ -817,10 +820,10 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( from < to )
 			to -= 1;
 
-        makeLocalCompositeValue( ref );
-        list = ref.getList( design, element );
-        assert list != null;
-        
+		makeLocalCompositeValue( ref );
+		list = ref.getList( design, element );
+		assert list != null;
+
 		MoveListItemRecord record = new MoveListItemRecord( element, ref, list,
 				from, to );
 
@@ -828,7 +831,7 @@ public class PropertyCommand extends AbstractElementCommand
 		stack.commit( );
 	}
 
-    /**
+	/**
 	 * The top level element property referenced by a member reference can be a
 	 * list property or a structure property.
 	 * <p>
@@ -864,57 +867,52 @@ public class PropertyCommand extends AbstractElementCommand
 			ArrayList list = (ArrayList) element.getLocalProperty( design,
 					propDefn );
 
-            if ( list != null )
-                return;
-                // Make a local copy of the inherited list value.
-                
-    			ArrayList inherited = (ArrayList) element.getProperty( design,
-    					propDefn );
-    
-    			list = new ArrayList( );
-    			if ( inherited != null )
-    			{
-    				for ( int i = 0; i < inherited.size( ); i++ )
-    					list.add( ( (IStructure) inherited.get( i ) ).copy( ) );
-    			}
-    
-    			// Set the list value on the element itself.
-    
-    			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
-    					list );
-    			getActivityStack( ).execute( propRecord );
-            
-		}
-		else
-        {
-    		// Top level property is a structure.
-    
-    		Structure struct = (Structure) element.getLocalProperty( design,
-    				propDefn );
-    		
-            if ( struct != null )
-                return;
-            
-                 // Make a local copy of the inherited list value.
-                
-        		Structure inherited = (Structure) element
-        				.getProperty( design, propDefn );
-        
-        		if ( inherited != null )
-        		{
-        			IStructure copy = inherited.copy( );
-        			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
-        					copy );
-        			getActivityStack( ).execute( propRecord );
-        		}
-            
-        }
+			if ( list != null )
+				return;
+			// Make a local copy of the inherited list value.
 
-		assert false;
-        return;
+			ArrayList inherited = (ArrayList) element.getProperty( design,
+					propDefn );
+
+			list = new ArrayList( );
+			if ( inherited != null )
+			{
+				for ( int i = 0; i < inherited.size( ); i++ )
+					list.add( ( (IStructure) inherited.get( i ) ).copy( ) );
+			}
+
+			// Set the list value on the element itself.
+
+			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
+					list );
+			getActivityStack( ).execute( propRecord );
+			return;
+		}
+
+		// Top level property is a structure.
+
+		Structure struct = (Structure) element.getLocalProperty( design,
+				propDefn );
+
+		if ( struct != null )
+			return;
+
+		// Make a local copy of the inherited list value.
+
+		Structure inherited = (Structure) element
+				.getProperty( design, propDefn );
+
+		if ( inherited != null )
+		{
+			IStructure copy = inherited.copy( );
+			PropertyRecord propRecord = new PropertyRecord( element, propDefn,
+					copy );
+			getActivityStack( ).execute( propRecord );
+		}
+
+		return;
 	}
-    
-	
+
 	/**
 	 * Check to see whether the reference points to a list.
 	 * 

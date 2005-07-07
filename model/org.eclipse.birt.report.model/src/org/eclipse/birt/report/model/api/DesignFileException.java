@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -37,7 +36,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * @see ErrorDetail
  */
 
-public class DesignFileException extends BirtException
+public class DesignFileException extends ModelException
 {
 
 	/**
@@ -102,7 +101,7 @@ public class DesignFileException extends BirtException
 
 	public DesignFileException( String fileName, Exception e )
 	{
-		super( DESIGN_EXCEPTION_INVALID_XML, null );
+		super( DESIGN_EXCEPTION_INVALID_XML );
 		this.fileName = fileName;
 		this.e = e;
 		errorList.add( new ErrorDetail( e ) );
@@ -118,7 +117,7 @@ public class DesignFileException extends BirtException
 
 	public DesignFileException( String fileName )
 	{
-		super( DESIGN_EXCEPTION_FILE_NOT_FOUND, null );
+		super( DESIGN_EXCEPTION_FILE_NOT_FOUND );
 		this.fileName = fileName;
 	}
 
@@ -135,7 +134,7 @@ public class DesignFileException extends BirtException
 
 	public DesignFileException( String fileName, List errList )
 	{
-		super( DESIGN_EXCEPTION_SYNTAX_ERROR, null );
+		super( DESIGN_EXCEPTION_SYNTAX_ERROR );
 		this.fileName = fileName;
 
 		Iterator iter = errList.iterator( );
@@ -164,7 +163,7 @@ public class DesignFileException extends BirtException
 
 	public DesignFileException( String fileName, List errList, Exception ex )
 	{
-		super( DESIGN_EXCEPTION_INVALID_XML, null );
+		super( DESIGN_EXCEPTION_INVALID_XML );
 		this.fileName = fileName;
 
 		Iterator iter = errList.iterator( );
