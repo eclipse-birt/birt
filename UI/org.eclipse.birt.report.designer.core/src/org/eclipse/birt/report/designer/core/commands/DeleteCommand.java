@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -27,13 +28,14 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * Deletes single, multiple objects or do nothing.
  * 
- * 
+ *  
  */
 
 public class DeleteCommand extends Command
@@ -60,26 +62,34 @@ public class DeleteCommand extends Command
 	 * not executable.
 	 */
 
-	public void execute( )
+public void execute( )
 	{
 		try
 		{
 			dropSource( model );
 			if ( !embeddedImageList.isEmpty( ) )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
-						.removeItems( embeddedImageList );
+				for ( int i = 0; i < embeddedImageList.size( ); i++ )
+				{
+					IStructure item = ((EmbeddedImageHandle)embeddedImageList.get( i )).getStructure();
+					String name = ((EmbeddedImageHandle)embeddedImageList.get( i )).getName();
+					SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getPropertyHandle( ReportDesignHandle.IMAGES_PROP ).
+					removeItem( item );
+					
+					//remove cached image
+					String key=ImageManager.getInstance().generateKey(SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ),name);
+					ImageManager.getInstance().removeCachedImage(key);
+				}
 			}
 		}
 		catch ( SemanticException e )
 		{
 			e.printStackTrace( );
 		}
-	}
-
-	protected void dropSource( Object source ) throws SemanticException
+	}	protected void dropSource( Object source ) throws SemanticException
 	{
 		source = DNDUtil.unwrapToModel( source );
 		if ( source instanceof Object[] )

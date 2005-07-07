@@ -126,11 +126,11 @@ public class ImageManager
 	 */
 	public Image getImage( ReportDesignHandle handle, String name )
 	{
-		String key = handle.hashCode( ) + EMBEDDED_SUFFIX + name;
+		String key = generateKey(handle,name);
 		EmbeddedImage embeddedImage = handle.findImage( name );
 		if ( embeddedImage == null )
 		{
-			getImageRegistry( ).remove( key );
+			removeCachedImage(key);
 			return null;
 		}
 		Image image = getImageRegistry( ).get( key );
@@ -145,6 +145,16 @@ public class ImageManager
 			getImageRegistry( ).put( key, image );
 		}
 		return image;
+	}
+
+	/**
+	 * Remove cached image from map
+	 * @param key The key of map.
+	 */
+	public void removeCachedImage( String key )
+	{
+		getImageRegistry( ).remove( key );
+		
 	}
 
 	/**
@@ -233,6 +243,17 @@ public class ImageManager
 			}
 			return URI.create( uri ).toURL( );
 		}
+	}
+
+	/**
+	 * Generate hash key.
+	 * @param reportDesignHandle
+	 * @param name
+	 * @return key string
+	 */
+	public String generateKey( ReportDesignHandle reportDesignHandle, String name )
+	{
+		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name ;
 	}
 
 }
