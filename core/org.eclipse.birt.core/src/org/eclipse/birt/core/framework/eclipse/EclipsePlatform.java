@@ -20,14 +20,14 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.birt.core.framework.IPlatformPath;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.7 $ $Date: 2005/07/06 01:55:29 $
  */
 public class EclipsePlatform implements IPlatform
 {
@@ -53,11 +53,12 @@ public class EclipsePlatform implements IPlatform
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.framework.IPlatform#find(org.eclipse.birt.core.framework.IBundle, org.eclipse.core.runtime.IPath)
 	 */
-	public URL find(IBundle bundle, IPath path) 
+	public URL find(IBundle bundle, IPlatformPath path) 
 	{
-		if ( bundle instanceof Bundle )
+		if ( (bundle instanceof EclipseBundle) &&
+			 (path instanceof EclipsePath) )
 		{
-			return Platform.find( (Bundle)bundle, path );
+			return Platform.find( ((EclipseBundle)bundle).bundle, ((EclipsePath)path).path );
 		}
 		
 		return null;

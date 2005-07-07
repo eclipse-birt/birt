@@ -16,7 +16,6 @@ import java.net.URL;
 
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.framework.server.ServerPlatform;
-import org.eclipse.core.runtime.IPath;
 
 
 /**
@@ -45,7 +44,7 @@ import org.eclipse.core.runtime.IPath;
  * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
  * exportA(pluginA), exportB(plugin B), exportC(plugin B).
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.8 $ $Date: 2005/07/06 01:55:28 $
  */
 public class Platform
 {
@@ -74,6 +73,9 @@ public class Platform
 			}
 			else
 			{
+				if ( context == null )
+					context = new PlatformFileContext();
+
 				platform = new ServerPlatform( context );
 				platformType = SERVER_PLATFORM;
 			}
@@ -107,7 +109,7 @@ public class Platform
 		return platform.getBundle(symbolicName);
 	}
 	
-	public static URL find(IBundle bundle, IPath path)
+	public static URL find(IBundle bundle, IPlatformPath path)
 	{
 		if ( runningEclipse() &&
 			 (platform == null) )

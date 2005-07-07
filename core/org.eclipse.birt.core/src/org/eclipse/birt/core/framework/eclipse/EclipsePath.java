@@ -1,0 +1,28 @@
+/*
+ * Created on 2005-3-25
+ *
+ * TODO To change the template for this generated file go to
+ * Window - Preferences - Java - Code Style - Code Templates
+ */
+package org.eclipse.birt.core.framework.eclipse;
+
+import org.eclipse.birt.core.framework.IPlatformPath;
+import org.eclipse.core.runtime.IPath;
+
+/**
+ *
+ * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
+ */
+public class EclipsePath implements IPlatformPath
+{
+	protected IPath path;
+	public EclipsePath(IPath path)
+	{
+		this.path = path;
+	}
+	
+	public String toString()
+	{
+		return path.toString();
+	}
+}

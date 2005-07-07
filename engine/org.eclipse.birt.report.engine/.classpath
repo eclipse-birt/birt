@@ -7,6 +7,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
-	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

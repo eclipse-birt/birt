@@ -19,6 +19,9 @@
       <library name="core.jar">
          <export name="*"/>
       </library>
+      <library name="lib/servlet.jar">
+         <export name="*"/>
+      </library>
    </runtime>
    
    <requires>

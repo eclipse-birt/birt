@@ -29,7 +29,7 @@ import org.apache.commons.cli.Options;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
-import org.eclipse.birt.report.engine.api.impl.EngineFileContext;
+import org.eclipse.birt.core.framework.PlatformFileContext;
 
 /**
  * Defines a standalone reporting application that uses <code>StandaloneReportEngine</code> 
@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.api.impl.EngineFileContext;
  * Report parameters are handled as command line parameters. Currently, only scalar parameters 
  * are handled.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/20 19:17:55 $
+ * @version $Revision: 1.6 $ $Date: 2005/07/06 01:58:49 $
  */
 public class ReportRunner
 {
@@ -69,7 +69,7 @@ public class ReportRunner
 		this.args = args;
 		commandlineHandler = new ReportRunnerCommandlineHandler( );
 		EngineConfig config = new EngineConfig();
-		IPlatformContext context = new EngineFileContext();
+		IPlatformContext context = new PlatformFileContext();
 		config.setEngineContext( context );
 		engine = new ReportEngine( config );
 		
