@@ -35,10 +35,12 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -51,7 +53,7 @@ import org.eclipse.birt.report.model.metadata.SlotDefn;
  * command verifies that the move can be done before starting the action. If you
  * instead do a drop followed by an add, you'll end up with the element deleted
  * if it cannot be added into its new location.
- *  
+ * 
  */
 
 public class ContentCommand extends AbstractElementCommand
@@ -433,8 +435,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( unresolveReference )
 			{
-				BackRefRecord record = new ElementBackRefRecord( design, referred,
-						client, ref.propName );
+				BackRefRecord record = new ElementBackRefRecord( design,
+						referred, client, ref.propName );
 				getActivityStack( ).execute( record );
 			}
 			else
@@ -461,7 +463,7 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param element
 	 *            the element to be deleted
-	 *  
+	 * 
 	 */
 
 	private void adjustReferredClients( DesignElement element )
@@ -489,18 +491,22 @@ public class ContentCommand extends AbstractElementCommand
 
 				if ( value != null )
 				{
-					try
+					if ( ( value instanceof StructRefValue )
+							|| ( (ElementRefValue) value ).isResolved( ) )
 					{
-						// Clear all element reference property for dropped
-						// element
+						try
+						{
+							// Clear all element reference property for dropped
+							// element
 
-						PropertyCommand cmd = new PropertyCommand( design,
-								element );
-						cmd.setProperty( propDefn.getName( ), null );
-					}
-					catch ( SemanticException e )
-					{
-						assert false;
+							PropertyCommand cmd = new PropertyCommand( design,
+									element );
+							cmd.setProperty( propDefn.getName( ), null );
+						}
+						catch ( SemanticException e )
+						{
+							assert false;
+						}
 					}
 				}
 			}
