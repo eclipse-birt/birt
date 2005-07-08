@@ -96,14 +96,21 @@ public interface IQuery
      */
     public static class SortSpec
     {
+    	private int index = -1;
         private String field;
         private boolean ascendingOrder;
         
-        public SortSpec( String field, boolean ascendingOrder )
+        public SortSpec( int index, String field, boolean ascendingOrder )
         {
+        	this.index = index;
             this.field = field;
             this.ascendingOrder = ascendingOrder;
         }
+        
+        public int getIndex( )
+		{
+			return index;
+		}
         
         public String getField()
         {
@@ -182,6 +189,7 @@ public interface IQuery
     	public static final int SORT_DESC = 1;		// Sort descending
         
         private String keyColumn;
+        private int keyIndex;
         private String name;
     	private int sortDirection = NO_SORT;        
         private int interval = NO_INTERVAL;
@@ -194,14 +202,37 @@ public interface IQuery
     	 * @param groupKeyColumn The column name as the group key.
     	 */
         public GroupSpec( String groupKeyColumn )
-        {
-    		keyColumn = groupKeyColumn;
-        }
-
+		{
+			keyIndex = -1;
+			keyColumn = groupKeyColumn;
+		}
+        
     	/**
-    	 * Gets the name of the column that defines the group key.
-    	 * @return 	The column name of the group key.
+    	 * Instantiates a groupSpec defining a column name
+    	 * as its required group key.
+    	 * @param groupKeyColumn The column name as the group key.
     	 */
+        public GroupSpec( int groupKeyIndex, String groupKeyColumn )
+		{
+			keyIndex = groupKeyIndex;
+			keyColumn = groupKeyColumn;
+		}
+        
+    	/**
+		 * Gets the index of the column that defines the group key.
+		 * 
+		 * @return The column name of the group key.
+		 */
+		public int getKeyIndex( )
+		{
+			return keyIndex;
+		}
+    	
+    	/**
+		 * Gets the name of the column that defines the group key.
+		 * 
+		 * @return The column name of the group key.
+		 */
     	public String getKeyColumn( )
     	{
     		return keyColumn;

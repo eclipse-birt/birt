@@ -175,16 +175,19 @@ abstract class PreparedQuery
 	
 	// Common code to extract the name of a column from a JS expression which is 
 	// in the form of "row.col". If expression is not in expected format, returns null
-	private String getColNameFromJSExpr( Context cx, String expr )
+	private ColumnInfo getColInfoFromJSExpr( Context cx, String expr )
 	{
-	    String colName = null;
-		ExpressionCompiler compiler = engine.getExpressionCompiler();
+		int colIndex = -1;
+		String colName = null;
+		ExpressionCompiler compiler = engine.getExpressionCompiler( );
 		CompiledExpression ce = compiler.compile( expr, null, cx );
 		if ( ce instanceof ColumnReferenceExpression )
 		{
-			colName = ( (ColumnReferenceExpression) ce ).getColumnName( );
+			ColumnReferenceExpression cre = ( (ColumnReferenceExpression) ce );
+			colIndex = cre.getColumnindex( );
+			colName = cre.getColumnName( );
 		}
-	    return colName;
+		return new ColumnInfo( colIndex, colName );
 	}
 	
 	private void prepareGroup( IBaseTransform trans, int groupLevel, Context cx )
@@ -264,20 +267,24 @@ abstract class PreparedQuery
 	 */
 	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src ) throws DataException
 	{
+		int groupIndex = -1;
 		String groupKey = src.getKeyColumn();
 		if ( groupKey == null || groupKey.length() == 0 )
 		{
 			// Group key expressed as expression; convert it to column name
 			// TODO support key expression in the future by creating implicit
 			// computed columns
-			groupKey = getColNameFromJSExpr( cx, src.getKeyExpression() );
+			ColumnInfo groupKeyInfo = getColInfoFromJSExpr( cx,
+					src.getKeyExpression( ) );
+			groupIndex = groupKeyInfo.getColumnIndex( );
+			groupKey = groupKeyInfo.getColumnName();
 		}
-		if ( groupKey == null )
+		if ( groupKey == null && groupIndex < 0 )
 		{
 			throw new DataException( ResourceConstants.INVALID_GROUP_EXPR, src.getKeyExpression() );
 		}
 		
-		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupKey );
+		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupIndex, groupKey );
 		dest.setName( src.getName() );
 		dest.setInterval( src.getInterval());
 		dest.setIntervalRange( src.getIntervalRange());
@@ -687,16 +694,27 @@ abstract class PreparedQuery
 					for ( int i = 0; it.hasNext(); i++ )
 					{
 						ISortDefinition src = (ISortDefinition) it.next();
+						int sortIndex = -1;
 						String sortKey = src.getColumn();
 						if ( sortKey == null || sortKey.length() == 0 )
 						{
 							// Group key expressed as expression; convert it to column name
 							// TODO support key expression in the future by creating implicit
 							// computed columns
-							sortKey = getColNameFromJSExpr( cx, src.getExpression() );
+							ColumnInfo columnInfo = getColInfoFromJSExpr( cx,
+									src.getExpression( ) );
+							sortIndex = columnInfo.getColumnIndex(); 
+							sortKey = columnInfo.getColumnName( );
 						}
-						IQuery.SortSpec dest = 	new IQuery.SortSpec( sortKey, 
-									src.getSortDirection() == ISortDefinition.SORT_ASC );
+						if ( sortKey == null && sortIndex < 0 )
+						{
+							throw new DataException( ResourceConstants.INVALID_SORT_EXPR,
+									src.getColumn( ) );
+						}
+						
+						IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
+								sortKey,
+								src.getSortDirection( ) == ISortDefinition.SORT_ASC );
 						sortSpecs[i] = dest;
 					}
 					odiQuery.setOrdering( Arrays.asList( sortSpecs));
@@ -759,4 +777,31 @@ abstract class PreparedQuery
 			}
 		}
 	}
+	
+	/**
+	 * Simple wrapper of colum information, including
+	 * column index and column name.
+	 */
+	private static class ColumnInfo
+	{
+		private int columnIndex;
+		private String columnName;
+		
+		ColumnInfo(int columnIndex, String columnName)
+		{
+			this.columnIndex = columnIndex;
+			this.columnName = columnName;
+		}
+		
+		public int getColumnIndex()
+		{
+			return columnIndex;
+		}
+		
+		public String getColumnName()
+		{
+			return columnName;
+		}
+	}
+	
 }
