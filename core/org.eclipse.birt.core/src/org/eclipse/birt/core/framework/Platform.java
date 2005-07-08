@@ -44,7 +44,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
  * exportA(pluginA), exportB(plugin B), exportC(plugin B).
  * 
- * @version $Revision: 1.8 $ $Date: 2005/07/06 01:55:28 $
+ * @version $Revision: 1.9 $ $Date: 2005/07/07 00:26:36 $
  */
 public class Platform
 {
@@ -87,8 +87,7 @@ public class Platform
 	 */
 	public static IExtensionRegistry getExtensionRegistry()
 	{
-		if ( runningEclipse() &&
-			 (platform == null) )
+		if ( platform == null )
 		{
 	        initialize( null );
 		}		
@@ -99,8 +98,7 @@ public class Platform
 	
 	public static IBundle getBundle (String symbolicName)
 	{
-		if ( runningEclipse() &&
-			 (platform == null) )
+		if ( platform == null )
 		{ 
 	        initialize( null );
 		}		
@@ -111,8 +109,7 @@ public class Platform
 	
 	public static URL find(IBundle bundle, IPlatformPath path)
 	{
-		if ( runningEclipse() &&
-			 (platform == null) )
+		if ( platform == null )
 		{
 	        initialize( null );
 		}		
@@ -127,8 +124,7 @@ public class Platform
 	 */
 	public static int getPlatformType()
 	{
-		if ( runningEclipse() &&
-			 (platform == null) )
+		if ( platform == null)
 		{
 	        initialize( null );
 		}		
@@ -139,8 +135,7 @@ public class Platform
 	
 	public static URL asLocalURL(URL url) throws IOException
 	{
-		if ( runningEclipse() &&
-			 (platform == null) )
+		if ( platform == null )
 		{
 	        initialize( null );
 		}		

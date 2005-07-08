@@ -46,13 +46,16 @@ public class PlatformFileContext implements IPlatformContext
 				
 		// Get all folders in the directory
 		File[] files = directory.listFiles( );	
-		// Put all folders (absolute paths) into folderList
-		for ( int i = 0; i < files.length; i++ )
+		if (files != null)
 		{
-			if ( (files[i] != null) && 
-					files[i].isDirectory() )
+			// Put all folders (absolute paths) into folderList
+			for ( int i = 0; i < files.length; i++ )
 			{
-				folderList.add( files[i].getAbsolutePath() );
+				if ( (files[i] != null) && 
+						files[i].isDirectory() )
+				{
+					folderList.add( files[i].getAbsolutePath() );
+				}
 			}
 		}
 
