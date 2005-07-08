@@ -117,9 +117,6 @@ public class ExpressionTreeSupport
 					Messages.getString( "ExpressionBuidler.Operator.NotEqual" ) //$NON-NLS-1$ 
 			},
 			{
-					"=", Messages.getString( "ExpressionBuidler.Operator.SingleEquals" ) //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
 					">", Messages.getString( "ExpressionBuidler.Operator.Greater" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
