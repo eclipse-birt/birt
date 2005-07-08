@@ -4,7 +4,7 @@
    id="org.eclipse.birt.chart.device.svg"
    name="org.eclipse.birt.chart.device.svg"
    version="1.0.0"
-   provider-name="eclipse.org">
+   provider-name="Eclipse.org">
 
    <runtime>
       <library name="device-svg.jar">

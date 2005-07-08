@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.util;
 
+import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Label;
 
@@ -88,6 +89,19 @@ public class ChartUtil
 	public static final boolean mathGT( double lv, double rv )
 	{
 		return ( lv - rv ) > EPS;
+	}
+
+	/**
+	 * Convert pixel value to points.
+	 * 
+	 * @param idsSWT
+	 * @param dOriginalHeight
+	 * @return
+	 */
+	public static final double convertPixelsToPoints(
+			final IDisplayServer idsSWT, double dOriginalHeight )
+	{
+		return ( dOriginalHeight * 72d ) / idsSWT.getDpiResolution( );
 	}
 
 }

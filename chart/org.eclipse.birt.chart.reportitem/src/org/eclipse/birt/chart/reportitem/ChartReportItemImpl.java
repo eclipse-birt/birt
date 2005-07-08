@@ -121,6 +121,22 @@ public final class ChartReportItemImpl extends ReportItem
 	}
 
 	/**
+	 * Returns the design element handle.
+	 */
+	public DesignElementHandle getHandle( )
+	{
+		return this.handle;
+	}
+	
+	/**
+	 * Sets the design element handle.
+	 */
+	public void setHandle(DesignElementHandle handle)
+	{
+		this.handle = handle;
+	}
+
+	/**
 	 * Set the new chart through a command for command stack integration
 	 */
 	public void executeSetModelCommand( ExtendedItemHandle eih, Chart oldChart,
