@@ -1,0 +1,3 @@
+org.eclipse.birt.report.emitter.html/debug=false
+org.eclipse.birt.report.emitter.html/HTMLBaseEmitter=false
+org.eclipse.birt.report.emitter.fo/HTMLReportEmitter=false

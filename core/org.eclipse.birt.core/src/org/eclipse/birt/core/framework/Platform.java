@@ -44,7 +44,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
  * exportA(pluginA), exportB(plugin B), exportC(plugin B).
  * 
- * @version $Revision: 1.9 $ $Date: 2005/07/07 00:26:36 $
+ * @version $Revision: 1.10 $ $Date: 2005/07/08 05:44:07 $
  */
 public class Platform
 {
@@ -91,7 +91,7 @@ public class Platform
 		{
 	        initialize( null );
 		}		
-	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    assert platform != null;
 	    
 		return platform.getExtensionRegistry();
 	}
@@ -102,7 +102,7 @@ public class Platform
 		{ 
 	        initialize( null );
 		}		
-	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    assert platform != null;
 
 		return platform.getBundle(symbolicName);
 	}
@@ -113,7 +113,7 @@ public class Platform
 		{
 	        initialize( null );
 		}		
-	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    assert platform != null; 
 	    
 		return platform.find( bundle, path );
 	}
@@ -128,7 +128,7 @@ public class Platform
 		{
 	        initialize( null );
 		}		
-	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    assert platform != null;
 	    
 		return platformType;
 	}
@@ -139,7 +139,7 @@ public class Platform
 		{
 	        initialize( null );
 		}		
-	    assert platform != null; // Note: If not runningEclipse, initialize function must be called explicitly before other functions get called.
+	    assert platform != null;
 
 		return platform.asLocalURL(url);
 	}
@@ -165,4 +165,28 @@ public class Platform
 		}
 		return false;
 	}
+	
+	public static void intializeTracing(String pluginName)
+	{
+		if ( platform == null )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null; 
+
+		platform.initializeTracing(pluginName);
+	}
+	
+	public static String getDebugOption(String name)
+	{
+		if ( platform == null )
+		{
+	        initialize( null );
+		}		
+	    assert platform != null;
+
+		return platform.getDebugOption(name);
+	}
+	
+	
 }

@@ -4,7 +4,8 @@
    id="org.eclipse.birt.report.engine"
    name="BIRT Engine"
    version="1.0.0"
-   provider-name="Eclipse.org">
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.engine.plugin.EnginePlugin">
    <runtime>
       <library name="engine.jar">
          <export name="*"/>
@@ -17,6 +18,7 @@
       </library>
    </runtime>
    <requires>
+      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.report.model"/>
       <import plugin="org.eclipse.birt.data"/>

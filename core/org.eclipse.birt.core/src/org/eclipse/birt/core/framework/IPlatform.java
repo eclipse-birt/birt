@@ -18,7 +18,7 @@ import java.net.URL;
  * Defines the Platform interface that allows BIRT to be run in Eclipse and 
  * server environments 
  * 
- * @version $Revision: 1.7 $ $Date: 2005/07/06 01:55:28 $
+ * @version $Revision: 1.8 $ $Date: 2005/07/07 00:26:36 $
  */
 public interface IPlatform
 {
@@ -29,4 +29,6 @@ public interface IPlatform
 	IBundle getBundle(String symblicName);
 	URL find(IBundle bundle, IPlatformPath path);
 	URL asLocalURL(URL url) throws IOException;
+	String getDebugOption(String name);
+	void initializeTracing(String pluginName);
 }
