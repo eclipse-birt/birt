@@ -99,6 +99,9 @@
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="${emf.ecore.xmi.dir}_*/runtime/ecore.xmi.jar"/>
+			<include name="org.eclipse.emf.common_*.jar"/>
+			<include name="org.eclipse.emf.ecore_*.jar"/>
+			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
 		</fileset>
 		
 		<fileset dir="${core.dir}/lib">
@@ -246,6 +249,11 @@
 					<pathelement path="${eclipse.home}/plugins/${emf.ecore.dir}_${emf.version}/runtime/ecore.jar"/>
 					<pathelement path="${eclipse.home}/plugins/${emf.common.dir}_${emf.version}/runtime/common.jar"/>
 					<pathelement path="${eclipse.home}/plugins/${emf.ecore.xmi.dir}_${emf.version}/runtime/ecore.xmi.jar"/>
+					<pathelement path="org.eclipse.osgi*.jar"/>
+					<pathelement path="org.eclipse.core.runtime_*.jar"/>
+					<pathelement path="org.eclipse.emf.common_*.jar"/>
+					<pathelement path="org.eclipse.emf.ecore_*.jar"/>
+					<pathelement path="org.eclipse.emf.ecore.xmi_*.jar"/>
 					<fileset dir="${core.dir}/lib">
 							<include name="**/*.jar"/>
 					</fileset>

@@ -115,6 +115,8 @@
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
+			<include name="org.eclipse.emf.common_*.jar"/>
+			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
