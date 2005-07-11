@@ -42,7 +42,7 @@ public class DateTimePropertyType extends PropertyType
 	 */
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
+			"yyyy-MM-dd HH:mm:ss", Locale.ENGLISH ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -163,61 +163,30 @@ public class DateTimePropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateInputString( value, ThreadResources.getLocale( ) );
-	}
-
-	/**
-	 * Validates the locale-dependent value for the date time type, validate the
-	 * <code>value</code> in the locale-dependent way and convert the
-	 * <code>value</code> into a Date object.
-	 * 
-	 * @param value
-	 *            the value to validate
-	 * @param locale
-	 *            the locale information
-	 * @return object of type Date or null if <code>value</code> is null.
-	 * @throws PropertyValueException
-	 */
-
-	public Object validateInputString( String value, Locale locale )
-			throws PropertyValueException
-	{
 		if ( StringUtil.isBlank( value ) )
-			return null;
+            return null;
 
-		// Parse the input in locale-dependent way.
-		DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
-				locale );
-		try
-		{
-			return formatter.parse( value );
-		}
-		catch ( ParseException e )
-		{
-			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					DATE_TIME_TYPE );
-		}
+        // Parse the input in locale-dependent way.
+        
+        DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
+                ThreadResources.getLocale( ) );
+        try
+        {
+            return formatter.parse( value );
+        }
+        catch ( ParseException e )
+        {
+            throw new PropertyValueException( value,
+                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+                    DATE_TIME_TYPE );
+        }
 	}
 
-	/**
-	 * Converts the Date object into a string presentation in a fixed xml format
-	 * "yyyy-MM-dd HH:mm:ss".
-	 *  
-	 */
-
-	public String toXml( ReportDesign design, PropertyDefn defn, Object value )
-	{
-		if ( value == null )
-			return null;
-
-		return formatter.format( (Date) value );
-	}
-
-	/**
-	 * Converts the Date object into a string presentation in a locale
-	 * independent format.
-	 */
+	
+    /**
+     * Converts the Date object into a string presentation in a fixed xml format
+     * "yyyy-MM-dd HH:mm:ss".
+     */
 
 	public String toString( ReportDesign design, PropertyDefn defn, Object value )
 	{

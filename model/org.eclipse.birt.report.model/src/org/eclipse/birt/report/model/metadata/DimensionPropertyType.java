@@ -199,7 +199,16 @@ public class DimensionPropertyType extends PropertyType
 	public Object validateXml( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateInputString( design, defn, value );
+		DimensionValue dim = DimensionValue.parse( value );
+        if ( dim == null )
+            return null;
+        
+        validateUnits( design, defn, dim );
+        if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+            return dim;
+        return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+                defn ) );
+
 	}
 
 	/**
@@ -273,7 +282,7 @@ public class DimensionPropertyType extends PropertyType
 	{
 		assert value != null;
 		String unit = value.getUnits( );
-		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( value.getUnits( ) ) )
+		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( unit ) )
 		{
 			unit = getDefaultUnit( design, defn );
 		}
@@ -317,7 +326,7 @@ public class DimensionPropertyType extends PropertyType
 	 * Converts the dimension property value to a locale-independent string. The
 	 * string will be converted into a format like "#.###", there is no group
 	 * separator and remains at most 3 digits after the decimal separator. e.g:
-	 * "12,000,000.12345cm" will be converted into "12000000.123"
+	 * "12,000,000.12345cm" will be converted into "12000000.123cm"
 	 */
 
 	public String toString( ReportDesign design, PropertyDefn defn, Object value )

@@ -166,19 +166,6 @@ public class ChoicePropertyType extends PropertyType
 		return value.toString( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toXml(org.eclipse.birt.report.model.design.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.design.metadata.PropertyDefn,
-	 *      java.lang.Object)
-	 */
-
-	public String toXml( ReportDesign design, PropertyDefn defn, Object value )
-	{
-		return toString( design, defn, value );
-	}
-
 	/**
 	 * Returns a localized choice display name according to its internal name.
 	 * 

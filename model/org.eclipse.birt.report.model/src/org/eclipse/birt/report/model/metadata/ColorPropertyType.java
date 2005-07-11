@@ -523,7 +523,7 @@ public class ColorPropertyType extends PropertyType
 	 *  
 	 */
 
-	public Object validateColor( ReportDesign design, String value )
+	private Object validateColor( ReportDesign design, String value )
 			throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )

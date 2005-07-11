@@ -29,13 +29,19 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 public class NumberPropertyType extends PropertyType
 {
-
+	
 	/**
 	 * Display name key.
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.number"; //$NON-NLS-1$
 
+    /**
+     * A default fixed-locale number formatter.
+     */
+    
+    private static final NumberFormat formatter = NumberFormat.getInstance( Locale.ENGLISH );
+    
 	/**
 	 * Constructor.
 	 */
@@ -76,10 +82,9 @@ public class NumberPropertyType extends PropertyType
 		if ( value instanceof Integer )
 			return new BigDecimal( ( (Integer) value ).intValue( ) );
 		if ( value instanceof String )
-		{
 			return validateInputString( design, defn, (String) value );
-		}
-		throw new PropertyValueException( value,
+
+        throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
 	}
 
@@ -104,13 +109,14 @@ public class NumberPropertyType extends PropertyType
 			return null;
 		try
 		{
-			return new BigDecimal( value );
+            return new BigDecimal( value );
+			
 		}
 		catch ( NumberFormatException e )
 		{
-			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
-		}
+            throw new PropertyValueException( value,
+                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
+    	}
 	}
 
 	/*
@@ -167,7 +173,6 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat.getNumberInstance( );
 		return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 	}
 
@@ -234,48 +239,29 @@ public class NumberPropertyType extends PropertyType
 	public Object validateInputString( ReportDesign design, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateInputString( value, ThreadResources.getLocale( ) );
-	}
-	
-	/**
-	 * Validates the locale-dependent value for the float type, validate the
-	 * <code>value</code> in the locale-dependent way and convert the
-	 * <code>value</code> into a Double object.
-	 * 
-	 * @param value
-	 *            the value to validate
-	 * @param locale
-	 *            the locale information
-	 * @return object of type Double or null if <code>value</code> is null.
-	 * @throws PropertyValueException
-	 */
-
-	public Object validateInputString( String value, Locale locale )
-			throws PropertyValueException
-	{
 		if( StringUtil.isBlank( value ) )
-			return null;
-		
-		NumberFormat formatter = NumberFormat
-				.getNumberInstance( locale );
-		Number number = null;
-		try
-		{
-			// Parse in locale-dependent way.
-			number = formatter.parse( value );
+            return null;
+        
+        NumberFormat formatter = NumberFormat
+                .getNumberInstance( ThreadResources.getLocale() );
+        Number number = null;
+        try
+        {
+            // Parse in locale-dependent way.
+            number = formatter.parse( value );
 
-			// TODO: current NumberFormat( even DecimalFormmater ) do not
-			// provide means to parse a
-			// input string in arbitrary-precision way. It does not express the
-			// accurate value.
+            // TODO: current NumberFormat( even DecimalFormmater ) do not
+            // provide means to parse a
+            // input string in arbitrary-precision way. It does not express the
+            // accurate value.
 
-		}
-		catch ( ParseException e )
-		{
-			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
-		}
+        }
+        catch ( ParseException e )
+        {
+            throw new PropertyValueException( value,
+                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
+        }
 
-		return new BigDecimal( number.doubleValue( ) );
+        return new BigDecimal( number.doubleValue( ) );
 	}
 }

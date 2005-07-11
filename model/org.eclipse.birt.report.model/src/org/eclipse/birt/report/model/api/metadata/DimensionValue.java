@@ -109,7 +109,8 @@ public class DimensionValue
 	}
 
 	/**
-	 * Parses a dimension string. The string must match the following:
+	 * Parses a dimension string in locale-independent way. The input string
+	 * must match the following:
 	 * <ul>
 	 * <li>null</li>
 	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
@@ -296,7 +297,7 @@ public class DimensionValue
 		// eliminate.
 
 		String value = StringUtil.doubleToString( measure, 3 );
-		
+
 		return value + units;
 	}
 
