@@ -57,17 +57,18 @@ import org.eclipse.swt.widgets.Display;
  */
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 {
+
 	private DomainEventDispatcher eventDispatcher;
-	private OriginStepData stepData = new OriginStepData();
+	private OriginStepData stepData = new OriginStepData( );
 	/**
 	 * The actual layout area size.
 	 */
 	public static final String LAYOUT_SIZE = "Layout Size"; //$NON-NLS-1$
-	
+
 	public static final String REPORT_SIZE = "Report Size"; //$NON-NLS-1$
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
-	
+
 	public void hookRefreshListener( DeferredRefreshManager refreshManager )
 	{
 		ReportDeferredUpdateManager updateManager = new ReportDeferredUpdateManager( );
@@ -84,10 +85,10 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public void setSelection( ISelection newSelection )
 	{
-		setSelection(newSelection,true);
+		setSelection( newSelection, true );
 
 	}
-	
+
 	/**
 	 * Sets the selection to the given selection and fires selection changed.
 	 * The ISelection should be an {@link IStructuredSelection}or it will be
@@ -95,7 +96,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 * 
 	 * @see ISelectionProvider#setSelection(ISelection)
 	 */
-	public void setSelection( ISelection newSelection,boolean dispatch )
+	public void setSelection( ISelection newSelection, boolean dispatch )
 	{
 		if ( !( newSelection instanceof IStructuredSelection ) )
 			return;
@@ -105,12 +106,11 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 		setFocus( null );
 		for ( int i = 0; i < selection.size( ); i++ )
-			( (EditPart) selection.get( i ) )
-					.setSelected( EditPart.SELECTED_NONE );
+			( (EditPart) selection.get( i ) ).setSelected( EditPart.SELECTED_NONE );
 		selection.clear( );
 
 		editparts = flitterEditpart( editparts );
-		//for create handle
+		// for create handle
 		selection.addAll( editparts );
 
 		for ( int i = 0; i < editparts.size( ); i++ )
@@ -122,8 +122,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				part.setSelected( EditPart.SELECTED );
 
 		}
-		
-		if(dispatch)
+
+		if ( dispatch )
 		{
 			fireSelectionChanged( );
 		}
@@ -141,7 +141,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		for ( int i = 0; i < size; i++ )
 		{
 			Object obj = ( (EditPart) editparts.get( i ) ).getModel( );
-			if ( obj instanceof CellHandle || obj instanceof RowHandle
+			if ( obj instanceof CellHandle
+					|| obj instanceof RowHandle
 					|| obj instanceof ColumnHandle )
 			{
 				hasCell = true;
@@ -159,7 +160,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				EditPart part = (EditPart) editparts.get( i );
 				Object obj = part.getModel( );
 
-				if ( obj instanceof CellHandle || obj instanceof RowHandle
+				if ( obj instanceof CellHandle
+						|| obj instanceof RowHandle
 						|| obj instanceof ColumnHandle )
 				{
 					copy.remove( part );
@@ -175,12 +177,11 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public Handle findHandleAt( Point p )
 	{
-		LayerManager layermanager = (LayerManager) getEditPartRegistry( ).get(
-				LayerManager.ID );
+		LayerManager layermanager = (LayerManager) getEditPartRegistry( ).get( LayerManager.ID );
 		if ( layermanager == null )
 			return null;
 		List list = new ArrayList( 3 );
-		//list.add(layermanager.getLayer(LayerConstants.PRIMARY_LAYER));
+		// list.add(layermanager.getLayer(LayerConstants.PRIMARY_LAYER));
 		list.add( layermanager.getLayer( LayerConstants.CONNECTION_LAYER ) );
 		list.add( layermanager.getLayer( LayerConstants.FEEDBACK_LAYER ) );
 		IFigure handle = getLightweightSystem( ).getRootFigure( )
@@ -209,7 +210,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	public void appendSelection( EditPart editpart )
 	{
-		if ( editpart != focusPart ) 
+		if ( editpart != focusPart )
 			setFocus( null );
 		List list = primGetSelectedEditParts( );
 		list.remove( editpart );
@@ -217,184 +218,208 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 		setSelection( new StructuredSelection( list ) );
 	}
-	
-	public void setEditDomain(EditDomain domain) 
+
+	public void setEditDomain( EditDomain domain )
 	{
-		super.setEditDomain(domain);
-		eventDispatcher = new ReportDomainEventDispatcher(domain, this);
-		eventDispatcher.setEnableKeyTraversal(true);
-		getLightweightSystem()
-		.setEventDispatcher(eventDispatcher);
-		
+		super.setEditDomain( domain );
+		eventDispatcher = new ReportDomainEventDispatcher( domain, this );
+		eventDispatcher.setEnableKeyTraversal( true );
+		getLightweightSystem( ).setEventDispatcher( eventDispatcher );
+
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerImpl#getEventDispatcher()
 	 */
 	protected DomainEventDispatcher getEventDispatcher( )
 	{
 		return eventDispatcher;
 	}
-	
-	// We override reveal to show the Handles of the selected EditPart when scrolling
-	public void reveal(EditPart part)
-	{
-	   
-		Viewport port = getFigureCanvas().getViewport();
-		IFigure target = ((GraphicalEditPart)part).getFigure();
 
-		Rectangle exposeRegion = target.getBounds().getCopy();
-		
+	// We override reveal to show the Handles of the selected EditPart when
+	// scrolling
+	public void reveal( EditPart part )
+	{
+
+		Viewport port = getFigureCanvas( ).getViewport( );
+		IFigure target = ( (GraphicalEditPart) part ).getFigure( );
+
+		Rectangle exposeRegion = target.getBounds( ).getCopy( );
+
 		// Get the primary editpolicy
-		EditPolicy policy = part.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
-		
+		EditPolicy policy = part.getEditPolicy( EditPolicy.PRIMARY_DRAG_ROLE );
+
 		// If the policy let us access the handles, proceed, otherwise
 		// default to original behaviour
-		if ( ! (policy instanceof ISelectionHandlesEditPolicy ))
-		{ 
-		    super.reveal(part);
-		    return;
+		if ( !( policy instanceof ISelectionHandlesEditPolicy ) )
+		{
+			super.reveal( part );
+			return;
 		}
 
 		// First translate exposeRegion to the root level
-		target = target.getParent();
-		while (target != null && target != port) {
-			target.translateToParent(exposeRegion);
-			target = target.getParent();
-		}
-		
-		//	Merge selection handles if any to the exposeRegion
-		List handles = ((TableResizeEditPolice)policy).getHandles();
-		for (Iterator iter = handles.iterator();iter.hasNext();)
+		target = target.getParent( );
+		while ( target != null && target != port )
 		{
-		    AbstractHandle handle = (AbstractHandle)iter.next();
-		    
-		    Locator locator = handle.getLocator();
-		    locator.relocate( handle );
-		    exposeRegion.union(handle.getBounds().getCopy());
+			target.translateToParent( exposeRegion );
+			target = target.getParent( );
 		}
-		
-		exposeRegion.getExpanded(5, 5);
-		
-		Dimension viewportSize = port.getClientArea().getSize();
 
-		Point topLeft = exposeRegion.getTopLeft();
-		Point bottomRight = exposeRegion.getBottomRight().translate(viewportSize.getNegated());
-		Point finalLocation = new Point();
-		if (viewportSize.width < exposeRegion.width)
-			finalLocation.x = Math.min(bottomRight.x, Math.max(topLeft.x, port.getViewLocation().x));
+		// Merge selection handles if any to the exposeRegion
+		List handles = ( (TableResizeEditPolice) policy ).getHandles( );
+		for ( Iterator iter = handles.iterator( ); iter.hasNext( ); )
+		{
+			AbstractHandle handle = (AbstractHandle) iter.next( );
+
+			Locator locator = handle.getLocator( );
+			locator.relocate( handle );
+			exposeRegion.union( handle.getBounds( ).getCopy( ) );
+		}
+
+		exposeRegion.getExpanded( 5, 5 );
+
+		Dimension viewportSize = port.getClientArea( ).getSize( );
+
+		Point topLeft = exposeRegion.getTopLeft( );
+		Point bottomRight = exposeRegion.getBottomRight( )
+				.translate( viewportSize.getNegated( ) );
+		Point finalLocation = new Point( );
+		if ( viewportSize.width < exposeRegion.width )
+			finalLocation.x = Math.min( bottomRight.x, Math.max( topLeft.x,
+					port.getViewLocation( ).x ) );
 		else
-			finalLocation.x = Math.min(topLeft.x, Math.max(bottomRight.x, port.getViewLocation().x));
+			finalLocation.x = Math.min( topLeft.x, Math.max( bottomRight.x,
+					port.getViewLocation( ).x ) );
 
-		if (viewportSize.height < exposeRegion.height)
-			finalLocation.y = Math.min(bottomRight.y, Math.max(topLeft.y, port.getViewLocation().y));
+		if ( viewportSize.height < exposeRegion.height )
+			finalLocation.y = Math.min( bottomRight.y, Math.max( topLeft.y,
+					port.getViewLocation( ).y ) );
 		else
-			finalLocation.y = Math.min(topLeft.y, Math.max(bottomRight.y, port.getViewLocation().y));
+			finalLocation.y = Math.min( topLeft.y, Math.max( bottomRight.y,
+					port.getViewLocation( ).y ) );
 
-		
-		getFigureCanvas().scrollSmoothTo(finalLocation.x, finalLocation.y);	
+		getFigureCanvas( ).scrollSmoothTo( finalLocation.x, finalLocation.y );
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#fireSelectionChanged()
 	 */
 	protected void fireSelectionChanged( )
-	{		
+	{
+
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
 			public void run( )
 			{
-				ReportRequest request = new ReportRequest(DeferredGraphicalViewer.this);
-				List list = new ArrayList();
-				if(getSelection() instanceof IStructuredSelection)
+				if ( DeferredGraphicalViewer.this.getControl( ) == null
+						|| DeferredGraphicalViewer.this.getControl( )
+								.isDisposed( ) )
 				{
-					list = ((IStructuredSelection)getSelection()).toList();
+					// If editor is closed, don't fire the event.
+					return;
 				}
-				request.setSelectionObject(list);
-				request.setType(ReportRequest.SELECTION);
 				
-				request.setRequestConvert(new EditorReportRequestConvert());
-				//SessionHandleAdapter.getInstance().getMediator().pushState();
-				SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
-				
+				ReportRequest request = new ReportRequest( DeferredGraphicalViewer.this );
+				List list = new ArrayList( );
+				if ( getSelection( ) instanceof IStructuredSelection )
+				{
+					list = ( (IStructuredSelection) getSelection( ) ).toList( );
+				}
+				request.setSelectionObject( list );
+				request.setType( ReportRequest.SELECTION );
+
+				request.setRequestConvert( new EditorReportRequestConvert( ) );
+				// SessionHandleAdapter.getInstance().getMediator().pushState();
+				SessionHandleAdapter.getInstance( )
+						.getMediator( )
+						.notifyRequest( request );
+
 				DeferredGraphicalViewer.super.fireSelectionChanged( );
-				//SessionHandleAdapter.getInstance().getMediator().popState();
+				// SessionHandleAdapter.getInstance().getMediator().popState();
 			}
-			
-		});
-		
+
+		} );
+
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void initStepDat()
+	public void initStepDat( )
 	{
-		Viewport port = ((FigureCanvas)getControl()).getViewport();
-		stepData.minX = port.getHorizontalRangeModel().getMinimum();
-		stepData.maxX = port.getHorizontalRangeModel().getMaximum();
-		stepData.valueX = port.getHorizontalRangeModel().getValue();
-		stepData.extendX = port.getHorizontalRangeModel().getExtent();
-			
-		stepData.minY = port.getVerticalRangeModel().getMinimum();
-		stepData.maxY = port.getVerticalRangeModel().getMaximum();
-		stepData.valueY = port.getVerticalRangeModel().getValue();
-		stepData.extendY = port.getVerticalRangeModel().getExtent();
+		Viewport port = ( (FigureCanvas) getControl( ) ).getViewport( );
+		stepData.minX = port.getHorizontalRangeModel( ).getMinimum( );
+		stepData.maxX = port.getHorizontalRangeModel( ).getMaximum( );
+		stepData.valueX = port.getHorizontalRangeModel( ).getValue( );
+		stepData.extendX = port.getHorizontalRangeModel( ).getExtent( );
+
+		stepData.minY = port.getVerticalRangeModel( ).getMinimum( );
+		stepData.maxY = port.getVerticalRangeModel( ).getMaximum( );
+		stepData.valueY = port.getVerticalRangeModel( ).getValue( );
+		stepData.extendY = port.getVerticalRangeModel( ).getExtent( );
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OriginStepData getOriginStepData()
+	public OriginStepData getOriginStepData( )
 	{
 		return stepData;
 	}
+
 	public static class OriginStepData
 	{
+
 		public int minX, maxX, valueX, extendX;
 		public int minY, maxY, valueY, extendY;
 	}
+
 	protected class EditorReportRequestConvert implements IRequestConvert
 	{
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#convertSelectionToModelLisr(java.util.List)
 		 */
 		public List convertSelectionToModelLisr( List list )
 		{
-			List retValue = new ArrayList();
-			int size = list.size();
+			List retValue = new ArrayList( );
+			int size = list.size( );
 			boolean isDummy = false;
-			for (int i=0; i<size; i++)
+			for ( int i = 0; i < size; i++ )
 			{
-				Object object = list.get(i);
-				if (! (object instanceof EditPart))
+				Object object = list.get( i );
+				if ( !( object instanceof EditPart ) )
 				{
 					continue;
 				}
-				EditPart part = (EditPart)object;
-				if (part instanceof DummyEditpart)
+				EditPart part = (EditPart) object;
+				if ( part instanceof DummyEditpart )
 				{
-					retValue.add(part.getModel());
+					retValue.add( part.getModel( ) );
 					isDummy = true;
 				}
-				else if (isDummy)
+				else if ( isDummy )
 				{
 					break;
 				}
-				else if (part.getModel() instanceof ListBandProxy)
+				else if ( part.getModel( ) instanceof ListBandProxy )
 				{
-					retValue.add(((ListBandProxy)part.getModel()).getSlotHandle());
+					retValue.add( ( (ListBandProxy) part.getModel( ) ).getSlotHandle( ) );
 				}
 				else
 				{
-					retValue.add(part.getModel());
+					retValue.add( part.getModel( ) );
 				}
 			}
-			
+
 			return retValue;
 		}
-		
+
 	}
 }
