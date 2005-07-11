@@ -20,6 +20,7 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 {
 	protected boolean isHidden;
 
+
 	/**
 	 * @param isHidden
 	 */
@@ -33,10 +34,5 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 		return isHidden;
 	}
 	
-	/**
-	 * Returns the parameter data type. See the ColumnDefn class for the valid
-	 * data type constants.
-	 * 
-	 * @return the parameter data type
-	 */
+
 }

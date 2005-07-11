@@ -14,13 +14,13 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 
 /**
  * Captures the need for scripting at factory time. 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public interface IFactoryContext
 {
@@ -43,5 +43,5 @@ public interface IFactoryContext
 	/**
 	 * @return the read-only report item handle
 	 */
-	public ReportItemHandle getItemDesign();
+	public ReportElementHandle getItemDesign();
 }

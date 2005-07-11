@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.45 $ $Date: 2005/06/29 05:41:18 $
+ * @version $Revision: 1.46 $ $Date: 2005/07/05 06:43:33 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -446,6 +446,7 @@ class EngineIRVisitor extends DesignVisitor
 	public void visitParameterGroup( ParameterGroupHandle handle )
 	{
 		ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+		paramGroup.setHandle(handle);
 		paramGroup.setParameterType(IParameterDefnBase.PARAMETER_GROUP);
 		paramGroup.setName(handle.getName());
 		paramGroup.setDisplayName( handle.getDisplayName( ) );
@@ -477,6 +478,7 @@ class EngineIRVisitor extends DesignVisitor
 		assert ( handle.getName( ) != null );
 		// Create Parameter
 		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
+		scalarParameter.setHandle(handle);
 		scalarParameter.setParameterType(IParameterDefnBase.SCALAR_PARAMETER);
 		scalarParameter.setName(handle.getName());
 		

@@ -170,6 +170,7 @@ public abstract class EngineTask implements IEngineTask
 				}
 				else if (pBase instanceof ParameterGroupDefn)
 				{
+					executionContext.pushReportItem(((ParameterGroupDefn) pBase).getHandle());
 					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
 					while (iter2.hasNext())
 					{
@@ -180,6 +181,8 @@ public abstract class EngineTask implements IEngineTask
 								values.put(pBase.getName(), val);
 							}
 					}
+					
+					executionContext.popReportItem();
 				}
 			}
 		}
@@ -192,6 +195,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	private Object evaluateDefault(ScalarParameterDefn p, String expr)
 	{
+		executionContext.pushReportItem(p.getHandle());
 		Object value = null;
 		int type = p.getDataType();
 		
@@ -232,7 +236,7 @@ public abstract class EngineTask implements IEngineTask
 				value = null;
 			}
 		}
-		
+		executionContext.popReportItem();
 		return value;
 	}
 }

@@ -49,7 +49,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.script.ModelJavaScriptInitializer;
 import org.eclipse.birt.report.model.script.ModelJavaScriptWrapper;
@@ -65,7 +64,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.28 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.29 $ $Date: 2005/07/04 09:06:16 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -569,10 +568,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.IFactoryContext#getItemDesign()
 	 */
-	public ReportItemHandle getItemDesign( )
+	public ReportElementHandle getItemDesign( )
 	{
 		assert !reportItems.isEmpty( );
-		return (ReportItemHandle) reportItems.peek( );
+		return (ReportElementHandle) reportItems.peek( );
 	}
 
 	/*
@@ -612,7 +611,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 * @param handle
 	 *            the report item design handle
 	 */
-	public void pushReportItem( ReportItemHandle handle )
+	public void pushReportItem( ReportElementHandle handle )
 	{
 		reportItems.push( handle );
 		scriptContext.registerBean( "itemDesign", handle ); //$NON-NLS-1$

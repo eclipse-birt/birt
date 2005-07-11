@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -42,6 +43,8 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	
 	protected ReportDesign 	reportDesign;
 	protected Locale 		locale = null;
+	
+	protected ReportElementHandle handle = null;
 	
 	/**
 	 * @param reportDesign The reportDesign to set.
@@ -210,5 +213,19 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	public void addUserProperty(String name, Object value)
 	{
 		customProperties.put(name, value);
+	}
+	
+	/**
+	 * @return Returns the handle.
+	 */
+	public ReportElementHandle getHandle() {
+		return handle;
+	}
+
+	/**
+	 * @param handle The handle to set.
+	 */
+	public void setHandle(ReportElementHandle handle) {
+		this.handle = handle;
 	}
 }
