@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -35,7 +36,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 /**
  * Deletes single, multiple objects or do nothing.
  * 
- *  
+ * 
  */
 
 public class DeleteCommand extends Command
@@ -62,7 +63,7 @@ public class DeleteCommand extends Command
 	 * not executable.
 	 */
 
-public void execute( )
+	public void execute( )
 	{
 		try
 		{
@@ -71,17 +72,19 @@ public void execute( )
 			{
 				for ( int i = 0; i < embeddedImageList.size( ); i++ )
 				{
-					IStructure item = ((EmbeddedImageHandle)embeddedImageList.get( i )).getStructure();
-					String name = ((EmbeddedImageHandle)embeddedImageList.get( i )).getName();
+					IStructure item = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getStructure( );
+					String name = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getName( );
 					SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getPropertyHandle( ReportDesignHandle.IMAGES_PROP ).
-					removeItem( item );
-					
-					//remove cached image
-					String key=ImageManager.getInstance().generateKey(SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),name);
-					ImageManager.getInstance().removeCachedImage(key);
+							.getReportDesignHandle( )
+							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
+							.removeItem( item );
+
+					// remove cached image
+					String key = ImageManager.getInstance( )
+							.generateKey( SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( ),
+									name );
+					ImageManager.getInstance( ).removeCachedImage( key );
 				}
 			}
 		}
@@ -89,7 +92,9 @@ public void execute( )
 		{
 			e.printStackTrace( );
 		}
-	}	protected void dropSource( Object source ) throws SemanticException
+	}
+
+	protected void dropSource( Object source ) throws SemanticException
 	{
 		source = DNDUtil.unwrapToModel( source );
 		if ( source instanceof Object[] )
@@ -205,8 +210,9 @@ public void execute( )
 		if ( source instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) source;
-			return slot.getElementHandle( ) instanceof ListHandle
-					&& slot.getContents( ).size( ) > 0;
+			DesignElementHandle handle = slot.getElementHandle( );
+			return slot.getContents( ).size( ) > 0
+					&& ( handle instanceof ListHandle || handle instanceof ListGroupHandle );
 		}
 		if ( source instanceof EmbeddedImageHandle )
 		{

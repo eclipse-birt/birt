@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -63,7 +64,7 @@ public class DNDUtil
 	public static final String TYPE_CUT = "CUT"; //$NON-NLS-1$
 
 	public static final String TYPE_COPY = "COPY"; //$NON-NLS-1$
-	
+
 	/** Target can't contain source */
 	public static final int CONTAIN_NO = 0;
 
@@ -490,8 +491,9 @@ public class DNDUtil
 		if ( selection instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) selection;
-			return slot.getElementHandle( ) instanceof ListHandle
-					&& slot.getCount( ) > 0;
+			DesignElementHandle handle = slot.getElementHandle( );
+			return slot.getContents( ).size( ) > 0
+					&& ( handle instanceof ListHandle || handle instanceof ListGroupHandle );
 		}
 		if ( selection instanceof ColumnHandle )
 		{
@@ -696,22 +698,41 @@ public class DNDUtil
 	/**
 	 * Checks whether child's container exists in handle array
 	 * 
-	 * @param child
+	 * @param content
 	 *            child handle
 	 * @param handles
 	 *            handle array
 	 * @return if exists
 	 */
-	public static boolean checkContainerExists( Object child, Object[] handles )
+	public static boolean checkContainerExists( Object content, Object[] handles )
 	{
-		child = unwrapToModel( child );
-		if ( child instanceof DesignElementHandle )
+		content = unwrapToModel( content );
+		DesignElementHandle child = null;
+		if ( content instanceof SlotHandle )
+		{
+			child = ( (SlotHandle) content ).getElementHandle( );
+		}
+		else if ( content instanceof DesignElementHandle )
+		{
+			child = (DesignElementHandle) content;
+		}
+		if ( child != null )
 		{
 			for ( int i = 0; i < handles.length; i++ )
 			{
-				if ( handles[i] instanceof DesignElementHandle
-						&& child != handles[i] )
+				if ( content == handles[i] )
 				{
+					continue;
+				}
+
+				// Test slot's elementhandle is the container
+				if ( child == handles[i] )
+				{
+					return true;
+				}
+				if ( handles[i] instanceof DesignElementHandle )
+				{
+					// Consider special case: columnhandle
 					if ( child instanceof CellHandle
 							&& handles[i] instanceof ColumnHandle )
 					{
@@ -723,7 +744,9 @@ public class DNDUtil
 						}
 						continue;
 					}
-					DesignElementHandle container = ( (DesignElementHandle) child ).getContainer( );
+
+					// Test parent or grandparent is some elementhandle
+					DesignElementHandle container = child.getContainer( );
 					while ( container != null )
 					{
 						if ( container.equals( handles[i] ) )
@@ -733,16 +756,10 @@ public class DNDUtil
 						container = container.getContainer( );
 					}
 				}
-			}
-		}
-		else if ( child instanceof SlotHandle )
-		{
-			for ( int i = 0; i < handles.length; i++ )
-			{
-				if ( handles[i] instanceof DesignElementHandle )
+				else if ( handles[i] instanceof SlotHandle )
 				{
-					DesignElementHandle container = ( (SlotHandle) child ).getElementHandle( );
-					if ( container == handles[i] )
+					// Test container is slothandle
+					if ( child.getContainerSlotHandle( ) == handles[i] )
 					{
 						return true;
 					}
@@ -1178,7 +1195,7 @@ public class DNDUtil
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns if all objects are in the same column
 	 * 
