@@ -26,12 +26,13 @@ public class AllCoreTests
 	public static Test suite( )
 	{
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.core" );
-		//$JUnit-BEGIN$
+		// $JUnit-BEGIN$
 		suite.addTestSuite( BaseTest.class );
 		suite.addTestSuite( ErrorStatusTest.class );
 		suite.addTest( org.eclipse.birt.report.designer.core.model.schematic.AllTests.suite( ) );
+		suite.addTest( org.eclipse.birt.report.designer.core.commands.AllCommandTests.suite( ) );
 		suite.addTest( org.eclipse.birt.report.designer.nls.AllTests.suite( ) );
-		//$JUnit-END$
+		// $JUnit-END$
 		return suite;
 	}
 }
