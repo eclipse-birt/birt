@@ -534,7 +534,7 @@ public class BirtException extends Exception
 	 *            <code>INFO</code>,<code>WARNING</code>, or
 	 *            <code>CANCEL</code>
 	 */
-	protected void setSeverity( int severity )
+	public void setSeverity( int severity )
 	{
 		assert ( severity == OK
 				|| severity == ERROR
