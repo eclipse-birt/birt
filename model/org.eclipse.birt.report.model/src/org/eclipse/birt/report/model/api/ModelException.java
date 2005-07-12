@@ -25,7 +25,6 @@ public class ModelException extends BirtException
 	 */
 
 	public static final String PLUGIN_ID = "org.eclipse.birt.report.model"; //$NON-NLS-1$
-	String pluginId = null;
 
 	/**
 	 * Constructs a new model exception with the error code.
@@ -37,8 +36,7 @@ public class ModelException extends BirtException
 
 	public ModelException( String errCode )
 	{
-		super( errCode, null );
-		this.pluginId = PLUGIN_ID;
+		super( PLUGIN_ID, errCode, null );
 	}
 
 	/**
@@ -56,7 +54,6 @@ public class ModelException extends BirtException
 
 	public ModelException( String errCode, String[] args, Throwable cause )
 	{
-		super( errCode, args, null, cause );
-		this.pluginId = PLUGIN_ID;
+		super( PLUGIN_ID, errCode, args, null, cause );
 	}
 }
