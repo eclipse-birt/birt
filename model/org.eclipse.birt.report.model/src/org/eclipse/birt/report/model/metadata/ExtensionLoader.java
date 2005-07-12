@@ -18,6 +18,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
@@ -213,10 +214,12 @@ public abstract class ExtensionLoader
 		 *             instanced.
 		 */
 
-		void loadChoice( IConfigurationElement choiceTag, ExtensionChoice choice )
+		void loadChoice( IConfigurationElement choiceTag,
+				ExtensionChoice choice, PropertyDefn propDefn )
 				throws ExtensionException
 		{
 			String name = choiceTag.getAttribute( NAME_ATTRIB );
+
 			String value = choiceTag.getAttribute( VALUE_ATTRIB );
 			String displayNameID = choiceTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
@@ -226,7 +229,23 @@ public abstract class ExtensionLoader
 			checkRequiredAttribute( NAME_ATTRIB, name );
 
 			choice.setName( name );
-			choice.setValue( value );
+			if ( propDefn.getTypeCode( ) != PropertyType.CHOICE_TYPE )
+			{
+				try
+				{
+					Object validateValue = propDefn.validateXml( null, value );
+					choice.setValue( validateValue );
+				}
+				catch ( PropertyValueException e )
+				{
+					throw new ExtensionException(
+							new String[]{value, propDefn.getName()},
+							ExtensionException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE);
+				}
+			}
+			else
+				choice.setValue( value );
+
 			choice.setDisplayNameKey( displayNameID );
 			choice.setDefaultDisplayName( defaultDisplayName );
 		}

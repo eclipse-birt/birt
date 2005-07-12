@@ -19,6 +19,7 @@ import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
@@ -39,7 +40,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 	/**
 	 * Constructs the extension loader for peer extension.
 	 */
-	
+
 	public PeerExtensionLoader( )
 	{
 		super( EXTENSION_POINT );
@@ -84,7 +85,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		private static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		private static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		private static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
-	
+
 		PeerExtensionElementLoader( IExtension extension )
 		{
 			super( extension );
@@ -113,7 +114,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( EXTENSION_NAME_ATTRIB );
 			String displayNameID = elementTag
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-		
+
 			String defaultStyle = elementTag
 					.getAttribute( DEFAULT_STYLE_ATTRIB );
 			String isNameRequired = elementTag
@@ -180,7 +181,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			}
 			catch ( FrameworkException e )
 			{
-				throw new ExtensionException( new String[]{className},
+				throw new ExtensionException(
+						new String[]{className},
 						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE );
 			}
 			elementDefn.extensionPoint = EXTENSION_POINT;
@@ -211,10 +213,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String type = propTag.getAttribute( TYPE_ATTRIB );
 			String canInherit = propTag.getAttribute( CAN_INHERIT_ATTRIB );
-		
+
 			String defaultValue = propTag.getAttribute( DEFAULT_VALUE_ATTRIB );
 			String isEncrypted = propTag.getAttribute( IS_ENCRYPTABLE_ATTRIB );
-			String defaultDisplayName = propTag.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
+			String defaultDisplayName = propTag
+					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
 
 			checkRequiredAttribute( NAME_ATTRIB, name );
 			checkRequiredAttribute( TYPE_ATTRIB, type );
@@ -233,8 +236,18 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setExtended( true );
 			extPropDefn.setName( name ); //$NON-NLS-1$
 			extPropDefn.setDisplayNameID( displayNameID );
-			extPropDefn.setDefault( defaultValue );
 			extPropDefn.setType( propType );
+			try
+			{
+				Object value = extPropDefn.validateXml( null, defaultValue );
+				extPropDefn.setDefault( value );
+			}
+			catch ( PropertyValueException e )
+			{
+				throw new ExtensionException(
+						new String[]{defaultValue},
+						ExtensionException.DESIGN_EXCEPTION_INVALID_DEFAULT_VALUE );
+			}				
 			extPropDefn.setIntrinsic( false );
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
@@ -247,7 +260,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 				extPropDefn.setIsEncryptable( Boolean.valueOf( isEncrypted )
 						.booleanValue( ) );
 
-
 			List choiceList = new ArrayList( );
 
 			IConfigurationElement[] elements = propTag.getChildren( );
@@ -258,7 +270,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					ExtensionChoice choiceDefn = new ExtensionChoice(
 							( (PeerExtensionElementDefn) elementDefn )
 									.getReportItemFactory( ).getMessages( ) );
-					loadChoice( elements[k], choiceDefn );
+					loadChoice( elements[k], choiceDefn, extPropDefn );
 					choiceList.add( choiceDefn );
 				}
 			}

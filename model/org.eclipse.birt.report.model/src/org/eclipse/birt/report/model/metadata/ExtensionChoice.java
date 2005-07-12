@@ -47,7 +47,7 @@ public class ExtensionChoice extends Choice
 	 * The value of this choice.
 	 */
 
-	String value = null;
+	Object value = null;
 
 	/**
 	 * The default display name, which is used when the localized string is not
@@ -188,7 +188,7 @@ public class ExtensionChoice extends Choice
 	 *            the value to set
 	 */
 
-	public void setValue( String value )
+	public void setValue( Object value )
 	{
 		this.value = value;
 	}
