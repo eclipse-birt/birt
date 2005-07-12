@@ -30,12 +30,15 @@ public class DataException extends BirtException
 	/** static ResourceHandle */
 	private static DataResourceHandle resourceHandle = new DataResourceHandle( Locale.getDefault( ) );
 	
+	/** pluginId, probably this value should be obtained externally */
+	private final static String _pluginId = "org.eclipse.birt.data";
+	
 	/*
 	 * @see BirtException(errorCode)
 	 */
 	public DataException( String errorCode )
 	{
-		super( errorCode, resourceHandle.getResourceBundle( ) );
+		super( _pluginId, errorCode, resourceHandle.getResourceBundle( ) );
 	}
 	
 	/**
@@ -45,7 +48,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv )
 	{
-		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
+		super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ) );
 		this.argv = new Object[]{
 			argv
 		};
@@ -58,7 +61,7 @@ public class DataException extends BirtException
 	 */
 	public DataException( String errorCode, Object argv[] )
 	{
-		super( errorCode, argv, resourceHandle.getResourceBundle( ) );
+		super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ) );
 		this.argv = argv;
 	}
     
@@ -67,12 +70,12 @@ public class DataException extends BirtException
      */
     public DataException( String errorCode, Throwable cause )
     {
-    	super( errorCode, resourceHandle.getResourceBundle( ), cause );
+    	super( _pluginId, errorCode, resourceHandle.getResourceBundle( ), cause );
     }
     
     public DataException( String errorCode, Throwable cause, Object argv )
     {
-    	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause);
+    	super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ), cause);
 		this.argv = new Object[]{
 				argv
 			};
@@ -80,7 +83,7 @@ public class DataException extends BirtException
     
     public DataException( String errorCode, Throwable cause, Object argv[] )
     {
-    	super( errorCode, argv, resourceHandle.getResourceBundle( ), cause );
+    	super( _pluginId, errorCode, argv, resourceHandle.getResourceBundle( ), cause );
     	this.argv = argv;
     }
     
@@ -115,6 +118,14 @@ public class DataException extends BirtException
 				msg += "\n" + extraMsg; 
 		}
 		return msg;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.core.exception.BirtException#getPluginId()
+	 */
+	public String getPluginId( )
+	{
+		return _pluginId;
 	}
 	
 }
