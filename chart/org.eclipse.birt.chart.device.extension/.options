@@ -1,0 +1,10 @@
+#<comments>
+org.eclipse.birt.chart.device.extension/debug=false
+
+org.eclipse.birt.chart.device.extension/trace=false
+
+org.eclipse.birt.chart.device.extension/extension.i18n=false
+org.eclipse.birt.chart.device.extension/image=false
+org.eclipse.birt.chart.device.extension/plugin=false
+org.eclipse.birt.chart.device.extension/swing=false
+org.eclipse.birt.chart.device.extension/swt=false

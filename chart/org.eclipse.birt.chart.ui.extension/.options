@@ -1,0 +1,14 @@
+#<comments>
+org.eclipse.birt.chart.ui.extension/debug=false
+
+org.eclipse.birt.chart.ui.extension/trace=false
+org.eclipse.birt.chart.ui.extension/event=false
+org.eclipse.birt.chart.ui.extension/extension.i18n=false
+org.eclipse.birt.chart.ui.extension/plugin=false
+org.eclipse.birt.chart.ui.extension/swt=false
+org.eclipse.birt.chart.ui.extension/swt.attribute=false
+org.eclipse.birt.chart.ui.extension/swt.composites=false
+org.eclipse.birt.chart.ui.extension/swt.data=false
+org.eclipse.birt.chart.ui.extension/swt.general=false
+org.eclipse.birt.chart.ui.extension/swt.series=false
+org.eclipse.birt.chart.ui.extension/swt.type=false
