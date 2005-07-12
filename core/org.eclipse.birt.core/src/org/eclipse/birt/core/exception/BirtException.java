@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  * 
  * Note that the resource key (or error code), message arguments and resource
  * bundle are immutable.
- *  
+ * 
  */
 public class BirtException extends Exception
 {
@@ -115,10 +115,8 @@ public class BirtException extends Exception
 	 */
 	public static final int CANCEL = 0x08;
 
-	
 	/**
-	 * @deprecated
-	 * Constructs a new Birt exception with no cause object.
+	 * @deprecated Constructs a new Birt exception with no cause object.
 	 * 
 	 * @param errorCode
 	 *            used to retrieve a piece of externalized message displayed to
@@ -288,6 +286,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle )
 	{
 		super( );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = null;
@@ -309,6 +308,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle, Throwable cause )
 	{
 		super( cause );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = null;
@@ -330,6 +330,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle, Throwable cause )
 	{
 		super( cause );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = bundle;
@@ -353,6 +354,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle, Throwable cause )
 	{
 		super( cause );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 
@@ -377,6 +379,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle )
 	{
 		super( );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = bundle;
@@ -400,6 +403,7 @@ public class BirtException extends Exception
 			ResourceBundle bundle )
 	{
 		super( );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = new Object[]{
@@ -421,6 +425,7 @@ public class BirtException extends Exception
 	public BirtException( String pluginId, String errorCode, Object arg0 )
 	{
 		super( );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = new Object[]{
 			arg0
@@ -441,6 +446,7 @@ public class BirtException extends Exception
 			Throwable cause )
 	{
 		super( cause );
+		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = null;
