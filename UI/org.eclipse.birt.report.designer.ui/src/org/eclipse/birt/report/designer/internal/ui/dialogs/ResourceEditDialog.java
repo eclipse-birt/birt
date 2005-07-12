@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ContentViewer;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -577,13 +578,19 @@ public class ResourceEditDialog extends BaseDialog
 		String key = keyText.getText( );
 		String val = valueText.getText( );
 
-		if ( key != null )
+		if ( key != null && key.trim().length( ) > 0 )
 		{
 			content.put( key, val );
 
 			viewer.setInput( content );
 
 			updateSelection( );
+		}
+		else
+		{
+			MessageDialog.openWarning( getShell( ),
+					Messages.getString( "ResourceEditDialog.text.AddWarningTitle" ), //$NON-NLS-1$
+					Messages.getString( "ResourceEditDialog.text.AddWarningMsg" ) ); //$NON-NLS-1$
 		}
 	}
 
