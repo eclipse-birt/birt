@@ -24,13 +24,14 @@ public class EngineException extends BirtException {
 	
 	static protected ResourceBundle rb = new EngineResourceHandle(Locale.getDefault()).getResourceBundle();
 	
+	protected static final String pluginId = "org.eclipse.birt.report.engine"; //$NON-NLS-1$
 	/**
 	 * @param errorCode erroe code for the exception
 	 * @param arg0 message argument
 	 */
 	public EngineException( String errorCode, Object arg0 )
 	{
-		super( errorCode, arg0, rb);
+		super(pluginId,  errorCode, arg0, rb);
 	}
 	
 	/**
@@ -41,7 +42,7 @@ public class EngineException extends BirtException {
 	public EngineException( String errorCode, Object arg0,
 			Throwable cause )
 	{
-		super( errorCode, arg0, rb, cause );
+		super( pluginId, errorCode, arg0, rb, cause );
 	}
 	
 	/**
@@ -50,7 +51,7 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode, Object[] args)
 	{
-		super( errorCode, args, rb );
+		super( pluginId, errorCode, args, rb );
 	}
 	
 	/**
@@ -61,7 +62,7 @@ public class EngineException extends BirtException {
 	public EngineException( String errorCode, Object[] args,
 			Throwable cause )
 	{
-		super( errorCode, args, rb, cause );
+		super( pluginId, errorCode, args, rb, cause );
 	}
 	
 	/**
@@ -69,7 +70,7 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode)
 	{
-		super( errorCode, rb );
+		super( pluginId, errorCode, rb );
 	}
 	
 	/**
@@ -78,6 +79,6 @@ public class EngineException extends BirtException {
 	 */
 	public EngineException( String errorCode,Throwable cause )
 	{
-		super( errorCode, rb, cause );
+		super( pluginId, errorCode, rb, cause );
 	}
 }
