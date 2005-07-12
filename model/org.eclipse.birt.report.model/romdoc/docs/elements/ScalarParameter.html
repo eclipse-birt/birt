@@ -135,8 +135,8 @@ and the unformatted value presented, when the user edits the parameter value.</p
 default the UI should use the following rules:</p>
 
 <ul>
-  <li>Text – No formatting.</li>
-  <li>Number, Float, Date-Time – Default locale formatting.</li>
+  <li>Text ? No formatting.</li>
+  <li>Number, Float, Date-Time ? Default locale formatting.</li>
 </ul>
 
 <p>The format string must be one of the valid BIRT format strings (see the Style 
@@ -167,9 +167,9 @@ displaying the parameter.</p>
 default depends on the parameter properties:</p>
 
 <ul>
-  <li>text-box – Default for non-Boolean values when no choices are available.</li>
-  <li>list-box – Default for parameters with choices.</li>
-  <li>check-box – Default for Boolean values.</li>
+  <li>text-box ? Default for non-Boolean values when no choices are available.</li>
+  <li>list-box ? Default for parameters with choices.</li>
+  <li>check-box ? Default for Boolean values.</li>
 </ul>
 
 <p>The list-box control is rendered in the UI depending on the value of the 
@@ -213,7 +213,7 @@ list of values from which the user can choose.</p>
 <p>The parameter selection list provides a developer-defined list of choices. 
 Every choice has two parts: a choice and a label. The label can be externalized 
 and appears in the UI. The choice is the value passed to the report. For 
-example, labels may be “Open” and “Closed”, while the values are “0” and “1”.</p>
+example, labels may be “Open? and “Closed?, while the values are ?0? and ?1?.</p>
 <p>The items in the list are of the type given by the parameter data type.</p>
 
 <h3>See Also</h3>
@@ -255,7 +255,7 @@ defined.</p>
 
 <p><code>dynamicList</code> property</p>
 
-<h2 class="property">dataSet</h2>
+<h2 class="property">dataSetName</h2>
 
 <p>The name of the data set to execute to obtain a selection list dynamically.</p>
 
@@ -273,8 +273,8 @@ the fixedOrder property is false.)</p>
 also contain a column that returns the labels for the values. All other columns 
 are ignored. The choice is that passed to the report when run. The optional 
 display value is shown to the user in the UI. For example, the display values 
-might be “Residential”, “Commercial”, and “Government” while the corresponding 
-parameter values are “R”, “C”, and “G”.</p>
+might be “Residential?, “Commercial?, and “Government? while the corresponding 
+parameter values are “R?, “C?, and “G?.</p>
 
 <h3>See Also</h3>
 

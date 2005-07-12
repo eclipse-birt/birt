@@ -37,7 +37,7 @@ public class DocParser extends HtmlDocReader
 		docObj = e;
 		String dir = e.isElement( ) ? "element" : "struct";
 		
-		String fileName = "docs/" + dir + "s/" + docObj.getName( ) + ".html";
+		String fileName = "romdoc/docs/" + dir + "s/" + docObj.getName( ) + ".html";
 		try
 		{
 			parser.open( fileName );
