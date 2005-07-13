@@ -215,6 +215,7 @@ public class ExtensionManager
 			return;
 
 		IExtension[] exts = extPoint.getExtensions();
+		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_GENERATION); //$NON-NLS-1$
 		for (int i = 0; i < exts.length; i++)
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -222,6 +223,7 @@ public class ExtensionManager
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
 				generationExtensions.put(itemName, configs[j]);
+				logger.log(Level.FINE, "Load generation extension: {0}", itemName); //$NON-NLS-1$
 			}
 		}
 	}
@@ -237,6 +239,7 @@ public class ExtensionManager
 			return;
 
 		IExtension[] exts = extPoint.getExtensions();
+		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_PRESENTATION); //$NON-NLS-1$
 		for (int i = 0; i < exts.length; i++)
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -244,6 +247,7 @@ public class ExtensionManager
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
 				presentationExtensions.put(itemName, configs[j]);
+				logger.log(Level.FINE, "Load prsentation extension: {0}", itemName); //$NON-NLS-1$
 			}
 		}
 	}
@@ -259,6 +263,7 @@ public class ExtensionManager
 			return;
 
 		IExtension[] exts = extPoint.getExtensions();
+		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_QUERY); //$NON-NLS-1$
 		for (int i = 0; i < exts.length; i++)
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -266,6 +271,7 @@ public class ExtensionManager
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
 				queryExtensions.put(itemName, configs[j]);
+				logger.log(Level.FINE, "Load query extension: {0}", itemName); //$NON-NLS-1$
 			}
 		}
 	}
@@ -281,6 +287,7 @@ public class ExtensionManager
 			return;
 
 		IExtension[] exts = extPoint.getExtensions();
+		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_EMITTERS); //$NON-NLS-1$
 		for (int i = 0; i < exts.length; i++)	// loop at emitters level, i.e., fo or html
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -292,7 +299,9 @@ public class ExtensionManager
 				{
 					emitterExtensions.put(format, configs[j]);
 					mimeTypes.put(format, mimeType);
+					logger.log(Level.FINE, "Load {0} emitter", format); //$NON-NLS-1$
 				}
+				
 			}
 		}
 	}
