@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.util.FileUtil;
-
 /**
  * Default implementation for writing images in a form that is used in a
  * web-application.
@@ -152,42 +150,19 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 			}
 		}
 		String ret = null;
-		boolean returnRelativePath = true; 
 		if (context != null
 				&& (context instanceof HTMLRenderContext))
 		{
 			HTMLRenderContext myContext = (HTMLRenderContext) context;
 			String imageURL = myContext.getBaseImageURL();
 			String imageDir = myContext.getImageDirectory();
-			String reportName = (String)image.getRenderOption().getOutputSetting().get(RenderOptionBase.OUTPUT_FILE_NAME);
-			String reportBase = null;
-			if(reportName != null)
+			if(imageURL==null || imageURL.length()==0
+					|| imageDir==null || imageDir.length()==0)
 			{
-				reportBase = new File(new File(reportName).getAbsolutePath()).getParent();
+				log.log(Level.SEVERE, "imageURL or ImageDIR is not set!"); //$NON-NLS-1$
+				return null;
 			}
-			else
-			{
-				reportBase = new File(".").getAbsolutePath();
-			}
-			String imageAbsoluteDir = null;
-			if (imageDir == null)
-			{
-				imageAbsoluteDir = reportBase;
-				imageURL = null;//return file path
-				imageDir = "."; //$NON-NLS-1$
-			}
-			else
-			{
-				if(!FileUtil.isRelativePath(imageDir))
-				{
-					returnRelativePath = false;
-					imageAbsoluteDir = imageDir;
-				}
-				else
-				{
-					imageAbsoluteDir = reportBase + "/" + imageDir; //$NON-NLS-1$
-				}
-			}
+			
 			String fileName; 
 			File file;
 			synchronized (HTMLCompleteImageHandler.class)
@@ -195,13 +170,13 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 				String extension = image.getExtension();
 				if(extension!=null && extension.length()>0)
 				{
-					fileName = createUniqueFileName(imageAbsoluteDir, prefix, extension); //$NON-NLS-1$
+					fileName = createUniqueFileName(imageDir, prefix, extension); //$NON-NLS-1$
 				}
 				else
 				{
-					fileName = createUniqueFileName(imageAbsoluteDir, prefix); 
+					fileName = createUniqueFileName(imageDir, prefix); 
 				}
-				file = new File(imageAbsoluteDir, fileName); //$NON-NLS-1$
+				file = new File(imageDir, fileName); //$NON-NLS-1$
 				try
 				{
 					image.writeImage(file);
@@ -211,20 +186,18 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 					log.log(Level.SEVERE,e.getMessage(),e);
 				}
 			}
-			if (imageURL != null)
+			//servlet mode
+			if(imageURL.indexOf("?")>0) //$NON-NLS-1$
 			{
-				ret = imageURL + "/" + fileName; //$NON-NLS-1$
+				ret = imageURL + fileName;
+			}
+			else if(imageURL.endsWith("/")) //$NON-NLS-1$
+			{
+				ret = imageURL + fileName;
 			}
 			else
 			{
-				if(returnRelativePath)
-				{
-					ret = imageDir + "/" + fileName; //$NON-NLS-1$
-				}
-				else
-				{
-					ret = file.getAbsolutePath(); //$NON-NLS-1$
-				}
+				ret = imageURL + "/" + fileName; //$NON-NLS-1$
 			}
 			
 			if(needMap)
