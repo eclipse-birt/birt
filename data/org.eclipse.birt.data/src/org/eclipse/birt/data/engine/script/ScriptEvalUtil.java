@@ -491,6 +491,12 @@ public class ScriptEvalUtil
 					source,
 					lineNo );
 			result = compiledScript.exec( cx, scope );
+			
+			// the result might be a DataExceptionMocker.
+			if ( result instanceof DataExceptionMocker )
+			{
+				throw ( (DataExceptionMocker) result ).getCause( );
+			}
 			// It seems Rhino 1.6 has changed its way to process incorrect expression.
 			// When there is an error, exception will not be thrown, but rather an Undefined
 			// instance will be returned. Here its return value is changed to null.
@@ -498,6 +504,7 @@ public class ScriptEvalUtil
 			{
 				//throw new Exception( scriptText + " is not valid expression." );
 				return null;
+		
 			}
 		}
 		catch ( RhinoException e)
