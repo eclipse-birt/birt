@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
@@ -24,7 +23,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transposer;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
-
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -458,7 +456,11 @@ public class EditorRulerFigure extends Figure
 					// the exact position of the major mark
 					//					graphics.drawLine(y, clippedBounds.x, y, clippedBounds.x
 					// + clippedBounds.width);
-					graphics.drawText( num, textLocation );
+					
+					if (canDrawNumber(num, textLocation, graphics))
+					{
+						graphics.drawText( num, textLocation );
+					}
 				}
 				else
 				{
@@ -478,7 +480,11 @@ public class EditorRulerFigure extends Figure
 											? 1
 											: 0 ) );
 					graphics.fillRectangle( forbiddenZone );
-					graphics.drawImage( numImage, textLocation );
+					
+					if (canDrawNumber(num, new Point(textLocation.x, textLocation.y+getScaleLeftSpace().y - numImage.getBounds( ).height), graphics))
+					{
+						graphics.drawImage( numImage, textLocation );
+					}
 					numImage.dispose( );
 				}
 			}
@@ -522,7 +528,7 @@ public class EditorRulerFigure extends Figure
 				.getBottomRight( ).translate( -1, -1 ) ) );
 		Color c = Display.getCurrent( ).getSystemColor(
 				SWT.COLOR_WIDGET_BACKGROUND );
-		graphics.setBackgroundColor( ReportColorConstants.greyFillColor );
+		
 		graphics.setBackgroundColor( c );
 		Rectangle rect = new Rectangle( 0, 0, clippedBounds.height,
 				leftMargin - 2 );
@@ -567,6 +573,36 @@ public class EditorRulerFigure extends Figure
 		return retValue;
 	}
 
+	
+	private boolean canDrawNumber(String num, Point startPoint ,Graphics g)
+	{
+		if (Integer.valueOf(num).intValue() > 750)
+		{
+			int i = 0;
+		}
+		Transposer transposer = new Transposer();
+		transposer.setEnabled( !isHorizontal() );
+		Rectangle rect =  transposer.t( g.getClip( Rectangle.SINGLETON ));
+		Dimension strSize = FigureUtilities.getStringExtents(num, getFont());
+		startPoint = transposer.t(startPoint);
+		
+		if (strSize.width + startPoint.x > rect.x  +  rect.width)
+		{
+			return false;
+		}
+		rect = transposer.t( getEndRect( g
+				.getClip( Rectangle.SINGLETON ) ));
+		
+		if (rect.width == 0)
+		{
+			return true;
+		}
+		if (strSize.width + startPoint.x > rect.x)
+		{
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * @param drawFocus
 	 */
