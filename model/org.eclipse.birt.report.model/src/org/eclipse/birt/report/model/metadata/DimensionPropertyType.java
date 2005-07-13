@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -77,6 +79,13 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 
 public class DimensionPropertyType extends PropertyType
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( DimensionPropertyType.class.getName( ) );
 
 	/**
 	 * Display name key.
@@ -200,14 +209,14 @@ public class DimensionPropertyType extends PropertyType
 			String value ) throws PropertyValueException
 	{
 		DimensionValue dim = DimensionValue.parse( value );
-        if ( dim == null )
-            return null;
-        
-        validateUnits( design, defn, dim );
-        if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
-            return dim;
-        return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
-                defn ) );
+		if ( dim == null )
+			return null;
+
+		validateUnits( design, defn, dim );
+		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+			return dim;
+		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+				defn ) );
 
 	}
 
@@ -237,8 +246,12 @@ public class DimensionPropertyType extends PropertyType
 		validateUnits( design, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim;
-		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+        
+		dim = new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
 				defn ) );
+        
+        logger.log( Level.INFO, "Read in dimension value: " + dim.toString() ); //$NON-NLS-1$
+        return dim;
 	}
 
 	/**
@@ -277,8 +290,7 @@ public class DimensionPropertyType extends PropertyType
 	 */
 
 	private void validateUnits( ReportDesign design, PropertyDefn defn,
-			DimensionValue value )
-			throws PropertyValueException
+			DimensionValue value ) throws PropertyValueException
 	{
 		assert value != null;
 		String unit = value.getUnits( );
