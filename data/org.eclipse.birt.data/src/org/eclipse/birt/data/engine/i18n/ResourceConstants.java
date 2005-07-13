@@ -70,6 +70,8 @@ public class ResourceConstants
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
 	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
 	public final static String BAD_GROUP_KEY_TYPE = "data.engine.BadGroupKeyType";
+	public final static String BAD_GROUP_INTERVAL_TYPE = "data.engine.group.interval";
+	public final static String BAD_GROUP_INTERVAL_TYPE_ROWID = "data.engine.group.interval.Rowid";
 	public final static String UNSUPPORTED_FILTER_ON_GROUP="data.engine.NoSupportFilterOnGroup";
 	
 	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";
