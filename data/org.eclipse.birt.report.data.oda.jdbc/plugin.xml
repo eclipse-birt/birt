@@ -5,7 +5,7 @@
    name="BIRT ODA-JDBC Bridge Driver"
    version="1.0.0"
    provider-name="Eclipse.org"
-   >
+   class="org.eclipse.birt.report.data.oda.plugin.OdaJdbcPlugin">
    <runtime>
       <library name="oda-jdbc.jar">
          <export name="*"/>
