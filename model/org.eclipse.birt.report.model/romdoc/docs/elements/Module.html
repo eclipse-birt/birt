@@ -120,6 +120,26 @@ at runtime, it is purely documentation for the report developer.</p>
 <code>description</code> properties for a way to provide 
 information for the users of the report.</p>
 
+<h2 class="property">configVars</h2>
+
+<p>List of configuration variables.</p>
+
+<h3>Description</h3>
+
+<p>Reports frequently have deployment-specific dependencies. For example,
+developers often use a test database during development, but target a production
+database once the report is deployed. Or, an OEM may use a different company
+name in report titles for each of their customers. BIRT provides configuration
+variables to support such cases. A configuration variable is a name/value pair.</p>
+
+<h3>See Also</h3>
+
+<p>See the <code>helpGuide</code> and the
+<code>description</code> properties for a way to provide 
+information for the users of the report.</p>
+
+<p>&nbsp;</p>
+
 <h2 class="property">createdBy</h2>
 
 <p>Name of the tool that created the design.</p>
@@ -148,6 +168,19 @@ this property is determined by the application UI.</p>
 
 <p><code>title</code> property</p>
 <p><code>helpGuide</code> property</p>
+
+<h2 class="property">descriptionID</h2>
+
+<p>The resource key for the description.</p>
+
+<h3>Description</h3>
+
+<p>Localization resource key for the description presented to the end user of report.</p>
+
+<h3>See Also</h3>
+
+<p> description property</p>
+<p>&nbsp;</p>
 
 <h2 class="property">helpGuide</h2>
 
@@ -210,6 +243,19 @@ string depends on the application UI used at deployment.</p>
 <p><code>helpGuide</code> property</p>
 <p><code>title</code> property</p>
 
+<h2 class="property">titleID</h2>
+
+<p>The resource key for the title</p>
+
+<h3>Description</h3>
+
+<p>Localization resource key for the title</p>
+
+<h3>See Also</h3>
+<p><code>title</code> property</p>
+
+<p>&nbsp;</p>
+
 <h2 class="property">images</h2>
 
 <p>A list of images embedded in this report.</p>
@@ -231,6 +277,12 @@ image from the images array:</p>
 <h3>See Also</h3>
 
 <p>Image item</p>
+
+<h2 class="property">units</h2>
+
+<p>Default units to be used for the report design.</p>
+
+<p>&nbsp;</p>
 
 <h2 class="method">initialize</h2>
 
