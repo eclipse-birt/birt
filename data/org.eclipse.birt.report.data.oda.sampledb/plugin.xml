@@ -4,7 +4,8 @@
    id="org.eclipse.birt.report.data.oda.sampledb"
    name="BIRT Sample Database"
    version="1.0.0"
-   provider-name="Eclipse.org">
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.data.oda.sampledb.plugin.SampledbPlugin">
 
    <runtime>
       <library name="sampledb.jar">
@@ -15,6 +16,7 @@
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc"/>
    </requires>

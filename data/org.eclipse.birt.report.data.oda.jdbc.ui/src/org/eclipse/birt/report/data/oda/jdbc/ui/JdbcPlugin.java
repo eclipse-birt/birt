@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaDataManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -48,6 +49,10 @@ public class JdbcPlugin extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+		if (isDebugging())
+		{
+			Platform.intializeTracing( getBundle( ).getSymbolicName( ) );
+		}
 	}
 
 	/**
