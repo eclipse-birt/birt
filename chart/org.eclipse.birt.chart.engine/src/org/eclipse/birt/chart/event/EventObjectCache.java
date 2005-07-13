@@ -20,28 +20,31 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * An internal cache that provides reusable primitive (and block) rendering
  * event objects A local cache is created per generation sequence so issues with
  * multithreaded access shouldn't arise.
- *  
+ * 
  */
 public class EventObjectCache
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient Hashtable _htEvents;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
+
 	/**
-	 *  
+	 * 
 	 */
 	public EventObjectCache( )
 	{
@@ -62,7 +65,6 @@ public class EventObjectCache
 		PrimitiveRenderEvent pre = (PrimitiveRenderEvent) _htEvents.get( cType );
 		if ( pre == null )
 		{
-			final ILogger il = DefaultLoggerImpl.instance( );
 			try
 			{
 				final Constructor co = cType.getConstructor( new Class[]{
@@ -75,19 +77,19 @@ public class EventObjectCache
 			}
 			catch ( NoSuchMethodException nsmex )
 			{
-				il.log( nsmex );
+				logger.log( nsmex );
 			}
 			catch ( InvocationTargetException itex )
 			{
-				il.log( itex );
+				logger.log( itex );
 			}
 			catch ( IllegalAccessException iaex )
 			{
-				il.log( iaex );
+				logger.log( iaex );
 			}
 			catch ( InstantiationException iex )
 			{
-				il.log( iex );
+				logger.log( iex );
 			}
 		}
 		else
@@ -113,7 +115,8 @@ public class EventObjectCache
 		}
 		if ( !lia.isSetVisible( ) )
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
 					"exception.unset.line.visibility", //$NON-NLS-1$ 
 					new Object[]{
 						oSource

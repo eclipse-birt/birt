@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
@@ -34,67 +35,67 @@ public final class DataSetIterator implements Iterator
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private double[] da = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Double[] dda = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Calendar[] ca = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private long[] la = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private String[] sa = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Collection co = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iDataType = IConstants.UNDEFINED;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iContentType = IConstants.UNDEFINED;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iCursor = 0;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Iterator it = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iRowCount = 0;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Calendar cReused = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object[] oa = null;
 
@@ -227,7 +228,7 @@ public final class DataSetIterator implements Iterator
 							oContent, new Integer( iDataType )
 					} )
 
-			); 
+			);
 		}
 
 		if ( co != null )
@@ -327,7 +328,7 @@ public final class DataSetIterator implements Iterator
 							oContent, ds
 					} )
 
-			); 
+			);
 		}
 
 		if ( co != null )
@@ -480,7 +481,8 @@ public final class DataSetIterator implements Iterator
 	{
 		if ( iCursor >= iRowCount )
 		{
-			throw new RuntimeException( new ChartException( ChartException.COMPUTATION,
+			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
+					ChartException.COMPUTATION,
 					"exception.out.of.bounds", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE,
 							Locale.getDefault( ) // LOCALE?
@@ -548,7 +550,7 @@ public final class DataSetIterator implements Iterator
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final void reset( )
 	{
@@ -598,7 +600,7 @@ public final class DataSetIterator implements Iterator
 		sa = null;
 		if ( co != null )
 		{
-			//co.clear();
+			// co.clear();
 			co = null;
 		}
 		iContentType = IConstants.UNDEFINED;
@@ -610,7 +612,7 @@ public final class DataSetIterator implements Iterator
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final void notifyDataUpdate( )
 	{
@@ -619,7 +621,7 @@ public final class DataSetIterator implements Iterator
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	final void updateDateTimeValues( )
 	{
@@ -634,7 +636,7 @@ public final class DataSetIterator implements Iterator
 			cdta[i++] = ( cValue == null ) ? null : new CDateTime( cValue );
 		}
 
-		final int iUnit = CDateTime.computeUnit( cdta ); //CDateTime.getDifference(
+		final int iUnit = CDateTime.computeUnit( cdta ); // CDateTime.getDifference(
 		// new CDateTime( caMin
 		// ), new
 		// CDateTime( caMax ) );

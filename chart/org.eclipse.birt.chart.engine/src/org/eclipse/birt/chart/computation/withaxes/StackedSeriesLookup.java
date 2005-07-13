@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -35,22 +36,22 @@ public final class StackedSeriesLookup
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private final Hashtable htAxisToStackGroups;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final Hashtable htSeriesToStackGroup;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iCachedUnitCount = 0;
 
 	/**
-	 *  
+	 * 
 	 */
 	StackedSeriesLookup( RunTimeContext rtc )
 	{
@@ -164,7 +165,7 @@ public final class StackedSeriesLookup
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final void resetSubUnits( )
 	{
@@ -261,7 +262,8 @@ public final class StackedSeriesLookup
 						{
 							if ( !se.isSetStacked( ) )
 							{
-								throw new ChartException( ChartException.UNDEFINED_VALUE,
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.UNDEFINED_VALUE,
 										"exception.unset.series.stacked.property", //$NON-NLS-1$
 										new Object[]{
 											se
@@ -427,7 +429,8 @@ public final class StackedSeriesLookup
 										iSharedUnitCount++;
 									}
 									ssl.htSeriesToStackGroup.put( se, sgSingle );
-									sgSingle.addSeries( se ); // REQUIRE REVERSE
+									sgSingle.addSeries( se ); // REQUIRE
+																// REVERSE
 									// LOOKUP
 								}
 								else
@@ -478,7 +481,7 @@ public final class StackedSeriesLookup
 			for ( int j = 0; j < alSGCopies.size( ); j++ )
 			{
 				sg = (StackGroup) alSGCopies.get( j );
-				//if (sg.getSharedIndex() >= 0)
+				// if (sg.getSharedIndex() >= 0)
 				{
 					sg.updateCount( iSharedUnitCount );
 				}

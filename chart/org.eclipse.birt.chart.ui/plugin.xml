@@ -5,7 +5,7 @@
    name="BIRT Chart Library UI Plug-in"
    version="1.0.0"
    provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.ui.swt.plugin.ChartUIPluginClass">
+   class="org.eclipse.birt.chart.ui.plugin.ChartUIPlugin">
 
    <runtime>
       <library name="ui.jar">

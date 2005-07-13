@@ -26,15 +26,16 @@ import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
- *  
+ * 
  */
 public final class ValueFormatter
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private static final String sNegativeZero = "-0."; //$NON-NLS-1$
 
@@ -156,12 +157,13 @@ public final class ValueFormatter
 		{
 			return ( (NumberDataElement) o ).getValue( );
 		}
-		throw new ChartException( ChartException.DATA_FORMAT,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.DATA_FORMAT,
 				"exception.convert.double", //$NON-NLS-1$
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); 
+				ResourceBundle.getBundle( Messages.ENGINE, lcl ) );
 	}
 
 	private static final Calendar asCalendar( Object o, Locale lcl )
@@ -175,12 +177,13 @@ public final class ValueFormatter
 		{
 			return ( (DateTimeDataElement) o ).getValueAsCalendar( );
 		}
-		throw new ChartException( ChartException.DATA_FORMAT,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.DATA_FORMAT,
 				"exception.convert.calendar", //$NON-NLS-1$
 				new Object[]{
 					o
 				},
-				ResourceBundle.getBundle( Messages.ENGINE, lcl ) ); 
+				ResourceBundle.getBundle( Messages.ENGINE, lcl ) );
 	}
 
 	/**

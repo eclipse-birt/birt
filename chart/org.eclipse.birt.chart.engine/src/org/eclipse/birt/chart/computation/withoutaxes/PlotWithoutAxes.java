@@ -20,8 +20,8 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
@@ -34,48 +34,51 @@ import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
- *  
+ * 
  */
 public final class PlotWithoutAxes
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private final ChartWithoutAxes cwoa;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final RunTimeContext rtc;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient double dPointToPixel = 0;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient Size szCell = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient int iRows = 0, iColumns = 0, iSeries = 0;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient Bounds boPlot = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient Insets insCA = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withoutaxes" ); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -96,10 +99,10 @@ public final class PlotWithoutAxes
 	 */
 	public final void compute( Bounds bo )
 	{
-		//bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
+		// bo.adjustDueToInsets(cwoa.getPlot().getInsets()); // INSETS DEFINED
 		// IN POINTS: ALREADY COMPENSATED IN GENERATOR!
 		boPlot = bo.scaledInstance( dPointToPixel ); // CONVERSION TO PIXELS
-		//final Series[] sea = cwoa.getRunTimeSeries();
+		// final Series[] sea = cwoa.getRunTimeSeries();
 
 		EList el = cwoa.getSeriesDefinitions( );
 		ArrayList al = new ArrayList( );
@@ -185,7 +188,8 @@ public final class PlotWithoutAxes
 		final EList elCategories = cwoa.getSeriesDefinitions( );
 		if ( elCategories.size( ) != 1 )
 		{
-			throw new ChartException( ChartException.DATA_FORMAT,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
 					"exception.cwoa.single.series.definition", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
@@ -193,7 +197,8 @@ public final class PlotWithoutAxes
 		final ArrayList al = sd.getRunTimeSeries( );
 		if ( al.size( ) != 1 )
 		{
-			throw new ChartException( ChartException.DATA_FORMAT,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
 					"exception.cwoa.single.runtime.series", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
@@ -203,19 +208,19 @@ public final class PlotWithoutAxes
 		DataPointHints[] dpha = null;
 
 		if ( dsiBaseValues.size( ) != dsiOrthogonalValues.size( ) ) // DO NOT
-																	// COMPUTE
-																	// DATA
-																	// POINT
-																	// HINTS FOR
-																	// OUT-OF-SYNC
-																	// DATA
+		// COMPUTE
+		// DATA
+		// POINT
+		// HINTS FOR
+		// OUT-OF-SYNC
+		// DATA
 		{
-			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "exception.data.outofsync", //$NON-NLS-1$
 							new Object[]{
 									new Integer( dsiBaseValues.size( ) ),
 									new Integer( dsiOrthogonalValues.size( ) )
-							}, rtc.getLocale( ) ) ); 
+							}, rtc.getLocale( ) ) );
 		}
 		else
 		{

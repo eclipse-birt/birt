@@ -15,7 +15,8 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -123,6 +124,8 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	private IDeviceRenderer idrSWT = null;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
+
 	/**
 	 *  
 	 */
@@ -196,7 +199,7 @@ public final class PaletteEditorComposite extends Composite implements
 		}
 		catch ( ChartException pex )
 		{
-			DefaultLoggerImpl.instance( ).log( pex );
+			logger.log( pex );
 			return;
 		}
 	}
@@ -260,7 +263,7 @@ public final class PaletteEditorComposite extends Composite implements
 			}
 			catch ( ChartException rex )
 			{
-				DefaultLoggerImpl.instance( ).log( rex );
+				logger.log( rex );
 			}
 			if ( i == iSelectedIndex )
 			{

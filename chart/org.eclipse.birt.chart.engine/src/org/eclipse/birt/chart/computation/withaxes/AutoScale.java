@@ -28,13 +28,15 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
@@ -45,62 +47,62 @@ public final class AutoScale extends Methods implements Cloneable
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private final int iType;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object oMinimum;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object oMaximum;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object oStep;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object oUnit;
 
 	/**
-	 *  
+	 * 
 	 */
 	private double dStartShift;
 
 	/**
-	 *  
+	 * 
 	 */
 	private double dEndShift;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient double dStart, dEnd;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient double[] daTickCoordinates;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient DataSetIterator dsiData;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient boolean bCategoryScale = false;
 
 	/**
-	 *  
+	 * 
 	 */
 	private RunTimeContext rtc;;
 
@@ -120,7 +122,7 @@ public final class AutoScale extends Methods implements Cloneable
 	/**
 	 * Quick static lookup for logarithmic scaling
 	 */
-	//private static int[] iaLogarithmicDeltas = { 2, 4, 5, 10 };
+	// private static int[] iaLogarithmicDeltas = { 2, 4, 5, 10 };
 	private static int[] iaLogarithmicDeltas = {
 		10
 	};
@@ -138,42 +140,42 @@ public final class AutoScale extends Methods implements Cloneable
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[] iaSecondDeltas = {
 			1, 5, 10, 15, 20, 30
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[] iaMinuteDeltas = {
 			1, 5, 10, 15, 20, 30
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[] iaHourDeltas = {
 			1, 2, 3, 4, 12
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[] iaDayDeltas = {
 			1, 7, 14
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[] iaMonthDeltas = {
 			1, 2, 3, 4, 6
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private static int[][] iaCalendarDeltas = {
 			iaSecondDeltas,
@@ -185,29 +187,31 @@ public final class AutoScale extends Methods implements Cloneable
 	};
 
 	/**
-	 *  
+	 * 
 	 */
 	private boolean bIntegralZoom = true;
 
 	/**
-	 *  
+	 * 
 	 */
 	private boolean bMinimumFixed = false;
 
 	/**
-	 *  
+	 * 
 	 */
 	private boolean bMaximumFixed = false;
 
 	/**
-	 *  
+	 * 
 	 */
 	private boolean bStepFixed = false;
 
 	/**
-	 *  
+	 * 
 	 */
 	FormatSpecifier fs = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -259,7 +263,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final Object clone( )
 	{
@@ -483,13 +487,14 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					if ( i == n )
 					{
-						throw new RuntimeException( new ChartException( ChartException.COMPUTATION,
+						throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
+								ChartException.COMPUTATION,
 								"exception.step.zoom.out", //$NON-NLS-1$
 								new Object[]{
 									new Double( dStep )
 								},
 								ResourceBundle.getBundle( Messages.ENGINE,
-										rtc.getLocale( ) ) ) ); 
+										rtc.getLocale( ) ) ) );
 					}
 					oStep = new Double( dStep );
 				}
@@ -540,7 +545,8 @@ public final class AutoScale extends Methods implements Cloneable
 							}
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
-						oStep = new Integer( ia[i + 1] ); // RETURN NEXT STEP IN
+						oStep = new Integer( ia[i + 1] ); // RETURN NEXT STEP
+						// IN
 						// DELTAS ARRAY
 						break;
 					}
@@ -559,7 +565,8 @@ public final class AutoScale extends Methods implements Cloneable
 	public final String getNumericPattern( double dValue )
 	{
 
-		if ( dValue - (int) dValue == 0 ) // IF MANTISSA IS INSIGNIFICANT, SHOW
+		if ( dValue - (int) dValue == 0 ) // IF MANTISSA IS INSIGNIFICANT,
+		// SHOW
 		// LABELS AS INTEGERS
 		{
 			return sNumericPattern;
@@ -568,12 +575,12 @@ public final class AutoScale extends Methods implements Cloneable
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
 		final String sMinimum = String.valueOf( dValue );
 		final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) ); // THIS
-																					 // RELIES
-																					 // ON
-																					 // THE
-																					 // FACT
-																					 // THAT
-																					 // IN
+		// RELIES
+		// ON
+		// THE
+		// FACT
+		// THAT
+		// IN
 		// ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
@@ -652,7 +659,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		if ( dMinValue - (int) dMinValue == 0 // IF MANTISSA IS INSIGNIFICANT,
-											  // SHOW LABELS AS INTEGERS
+				// SHOW LABELS AS INTEGERS
 				&& dStep - (int) dStep == 0 )
 		{
 			return sNumericPattern;
@@ -734,7 +741,8 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( da != null && da.length == 1 )
 		{
-			throw new RuntimeException( new ChartException( ChartException.COMPUTATION,
+			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
+					ChartException.COMPUTATION,
 					"exception.tick.computations", //$NON-NLS-1$ 
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ) );
 		}
@@ -865,7 +873,8 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( daTickCoordinates == null )
 		{
-			throw new RuntimeException( new ChartException( ChartException.COMPUTATION,
+			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
+					ChartException.COMPUTATION,
 					"exception.unit.size.failure", //$NON-NLS-1$ 
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ) );
 		}
@@ -992,7 +1001,8 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		catch ( ClassCastException ex )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.invalid.axis.data.type", //$NON-NLS-1$
 					new Object[]{
 						oValue
@@ -1194,7 +1204,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sText = NULL_STRING;
 				}
 
@@ -1214,7 +1224,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
@@ -1252,7 +1264,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sText = NULL_STRING;
 				}
 
@@ -1272,7 +1284,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
@@ -1312,7 +1326,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
@@ -1333,7 +1349,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	final void resetShifts( )
 	{
@@ -1468,14 +1484,15 @@ public final class AutoScale extends Methods implements Cloneable
 				 */
 				else
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.invalid.minimum.scale.value", //$NON-NLS-1$
 							new Object[]{
 									sc.oMinimum,
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -1494,14 +1511,15 @@ public final class AutoScale extends Methods implements Cloneable
 				 */
 				else
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.invalid.maximum.scale.value", //$NON-NLS-1$
 							new Object[]{
 									sc.oMaximum,
 									ax.getModelAxis( ).getType( ).getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 				sc.bMaximumFixed = true;
 			}
@@ -1515,13 +1533,14 @@ public final class AutoScale extends Methods implements Cloneable
 				// VALIDATE OVERRIDDEN STEP
 				if ( ( (Double) sc.oStep ).doubleValue( ) <= 0 )
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.invalid.step.value", //$NON-NLS-1$
 							new Object[]{
 								oStep
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 
@@ -1530,13 +1549,14 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				if ( ( (Double) sc.oMinimum ).doubleValue( ) > ( (Double) sc.oMaximum ).doubleValue( ) )
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.min.largerthan.max", //$NON-NLS-1$ 
 							new Object[]{
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 
@@ -1673,7 +1693,7 @@ public final class AutoScale extends Methods implements Cloneable
 			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
 			boolean bFits = bFirstFit;
 			boolean bZoomSuccess = false;
-			//sc.oDebug = String.valueOf(bFirstFit);
+			// sc.oDebug = String.valueOf(bFirstFit);
 
 			while ( bFits == bFirstFit )
 			{
@@ -1789,7 +1809,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.invalid.minimum.scale.value", //$NON-NLS-1$ 
 							new Object[]{
 								sc.oMinimum
@@ -1798,7 +1819,7 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 				sc.bMinimumFixed = true;
 			}
@@ -1812,7 +1833,8 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				else
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.invalid.maximum.scale.value", //$NON-NLS-1$
 							new Object[]{
 								sc.oMaximum
@@ -1821,18 +1843,18 @@ public final class AutoScale extends Methods implements Cloneable
 												.getName( )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 				sc.bMaximumFixed = true;
 			}
 
 			// OVERRIDE STEP IF SPECIFIED
 			/*
-			 * if (oStep != null) { sc.oStep = oStep; sc.bStepFixed = true;
-			 *  // VALIDATE OVERRIDDEN STEP if (((Double)
-			 * sc.oStep).doubleValue() <= 0) { throw new
-			 * GenerationException("Invalid 'step({0}) <= 0' specified for axis
-			 * scale" + oStep ); // i18n_CONCATENATIONS_REMOVED } }
+			 * if (oStep != null) { sc.oStep = oStep; sc.bStepFixed = true; //
+			 * VALIDATE OVERRIDDEN STEP if (((Double) sc.oStep).doubleValue() <=
+			 * 0) { throw new GenerationException("Invalid 'step({0}) <= 0'
+			 * specified for axis scale" + oStep ); //
+			 * i18n_CONCATENATIONS_REMOVED } }
 			 */
 
 			// VALIDATE OVERRIDDEN MIN/MAX
@@ -1840,13 +1862,14 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				if ( ( (CDateTime) sc.oMinimum ).after( ( (CDateTime) sc.oMaximum ) ) )
 				{
-					throw new ChartException( ChartException.GENERATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
 							"exception.min.largerthan.max", //$NON-NLS-1$
 							new Object[]{
 									sc.oMinimum, sc.oMaximum
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 
@@ -1962,7 +1985,8 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		else
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
@@ -2005,7 +2029,7 @@ public final class AutoScale extends Methods implements Cloneable
 			final Calendar ca = (Calendar) oValue;
 			SimpleDateFormat sdf = null;
 			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-							  // ISN'T DEFINED
+			// ISN'T DEFINED
 			{
 				sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iDateTimeUnit ) );
 			}
@@ -2017,7 +2041,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( ChartException dfex )
 			{
-				DefaultLoggerImpl.instance( ).log( dfex );
+				logger.log( dfex );
 				return IConstants.NULL_STRING;
 			}
 		}
@@ -2025,7 +2049,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			DecimalFormat df = null;
 			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-							  // ISN'T DEFINED
+			// ISN'T DEFINED
 			{
 				df = new DecimalFormat( getNumericPattern( ) );
 			}
@@ -2035,7 +2059,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( ChartException dfex )
 			{
-				DefaultLoggerImpl.instance( ).log( dfex );
+				logger.log( dfex );
 				return IConstants.NULL_STRING;
 			}
 		}
@@ -2084,10 +2108,11 @@ public final class AutoScale extends Methods implements Cloneable
 			catch ( ClassCastException e )
 			{
 				// Happens when data in dsi is not of DateTime format
-				throw new ChartException( ChartException.GENERATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
 						"exception.dataset.non.datetime", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 
 			}
 
@@ -2102,7 +2127,9 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
@@ -2127,7 +2154,9 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
@@ -2148,8 +2177,9 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// ADJUST THE START POSITION
 				DecimalFormat df = null;
-				if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-								  // ISN'T DEFINED
+				if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
+				// SPECIFIER
+				// ISN'T DEFINED
 				{
 					df = new DecimalFormat( getNumericPattern( ) );
 				}
@@ -2163,7 +2193,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
@@ -2174,7 +2204,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
@@ -2196,7 +2228,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
@@ -2206,7 +2238,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
@@ -2224,8 +2258,9 @@ public final class AutoScale extends Methods implements Cloneable
 				// ADJUST THE START POSITION
 				final double dMinimum = asDouble( getMinimum( ) ).doubleValue( );
 				DecimalFormat df = null;
-				if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-								  // ISN'T DEFINED
+				if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
+				// SPECIFIER
+				// ISN'T DEFINED
 				{
 					df = new DecimalFormat( getNumericPattern( dMinimum ) );
 				}
@@ -2239,7 +2274,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
@@ -2250,7 +2285,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 				{
@@ -2265,7 +2302,7 @@ public final class AutoScale extends Methods implements Cloneable
 				// ADJUST THE END POSITION
 				final double dMaximum = asDouble( getMaximum( ) ).doubleValue( );
 				if ( fs == null ) // ONLY COMPUTE INTERNALLY (DIFFERENT FROM
-								  // MINIMUM) IF FORMAT SPECIFIER ISN'T DEFINED
+				// MINIMUM) IF FORMAT SPECIFIER ISN'T DEFINED
 				{
 					df = new DecimalFormat( getNumericPattern( dMaximum ) );
 				}
@@ -2278,7 +2315,7 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( ChartException dfex )
 				{
-					DefaultLoggerImpl.instance( ).log( dfex );
+					logger.log( dfex );
 					sValue = IConstants.NULL_STRING;
 				}
 				la.getCaption( ).setValue( sValue );
@@ -2288,7 +2325,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.GENERATION, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
 				}
 
 				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
@@ -2313,7 +2352,7 @@ public final class AutoScale extends Methods implements Cloneable
 			String sText = null;
 
 			if ( fs != null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-							  // ISN'T DEFINED
+			// ISN'T DEFINED
 			{
 				sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
 			}
@@ -2325,7 +2364,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( ChartException dfex )
 			{
-				DefaultLoggerImpl.instance( ).log( dfex );
+				logger.log( dfex );
 				sText = IConstants.NULL_STRING;
 			}
 			la.getCaption( ).setValue( sText );
@@ -2337,7 +2376,9 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
@@ -2357,7 +2398,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( ChartException dfex )
 			{
-				DefaultLoggerImpl.instance( ).log( dfex );
+				logger.log( dfex );
 				sText = IConstants.NULL_STRING;
 			}
 			la.getCaption( ).setValue( sText );
@@ -2367,7 +2408,9 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			if ( iOrientation == VERTICAL ) // VERTICAL AXIS
 			{
@@ -2386,12 +2429,13 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( !la.isSetVisible( ) )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.unset.label.visibility", //$NON-NLS-1$
 					new Object[]{
 						la.getCaption( ).getValue( )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 
 		if ( !la.isVisible( ) )
@@ -2443,7 +2487,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
@@ -2475,7 +2519,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
@@ -2506,7 +2550,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
@@ -2562,7 +2606,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
@@ -2594,7 +2638,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
@@ -2625,7 +2669,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );

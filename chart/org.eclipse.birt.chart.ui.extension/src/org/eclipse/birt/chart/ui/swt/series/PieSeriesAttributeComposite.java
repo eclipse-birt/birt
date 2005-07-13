@@ -12,7 +12,8 @@
 package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -20,6 +21,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -37,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
 public class PieSeriesAttributeComposite extends Composite implements
 		Listener,
@@ -60,6 +62,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private static final int MAX_LEADER_LENGTH = 200;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
+
 	/**
 	 * @param parent
 	 * @param style
@@ -72,12 +76,13 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			try
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartUIExtensionPlugin.ID,
+						ChartException.VALIDATION,
 						"PieSeriesAttributeComposite.Exception.IllegalArgument", new Object[]{series.getClass( ).getName( )}, Messages.getResourceBundle( ) ); //$NON-NLS-1$
 			}
 			catch ( ChartException e )
 			{
-				DefaultLoggerImpl.instance( ).log( e );
+				logger.log( e );
 				e.printStackTrace( );
 			}
 		}
@@ -268,8 +273,6 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 }

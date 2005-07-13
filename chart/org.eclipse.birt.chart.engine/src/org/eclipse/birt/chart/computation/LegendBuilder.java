@@ -36,31 +36,32 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * 
  */
 public final class LegendBuilder
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dHorizontalSpacing = 4;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dVerticalSpacing = 4;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Size sz;
 
 	/**
-	 *  
+	 * 
 	 */
 	public LegendBuilder( )
 	{
@@ -85,13 +86,15 @@ public final class LegendBuilder
 		Legend lg = cm.getLegend( );
 		if ( !lg.isSetOrientation( ) )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.legend.orientation.horzvert", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
 		}
 		if ( !lg.isSetDirection( ) )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.legend.direction.tblr", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
 		}
@@ -130,19 +133,19 @@ public final class LegendBuilder
 				if ( cm instanceof ChartWithAxes )
 				{
 					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
-																						 // SUPPORT
-																						 // 1
-																						 // BASE
-																						 // AXIS
-																						 // FOR
-																						 // NOW
+					// SUPPORT
+					// 1
+					// BASE
+					// AXIS
+					// FOR
+					// NOW
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
 						return SizeImpl.create( 0, 0 );
 					}
 					sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
 							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
-									   // DEFINITION EXISTS
+					// DEFINITION EXISTS
 				}
 				else if ( cm instanceof ChartWithoutAxes )
 				{
@@ -153,15 +156,15 @@ public final class LegendBuilder
 					}
 					sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 							.get( 0 ); // OK TO ASSUME THAT 1 BASE SERIES
-									   // DEFINITION EXISTS
+					// DEFINITION EXISTS
 				}
 				seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 ); // OK TO
-																	   // ASSUME
-																	   // THAT 1
-																	   // BASE
-																	   // RUNTIME
-																	   // SERIES
-																	   // EXISTS
+				// ASSUME
+				// THAT 1
+				// BASE
+				// RUNTIME
+				// SERIES
+				// EXISTS
 
 				DataSetIterator dsiBase = null;
 				try
@@ -170,7 +173,9 @@ public final class LegendBuilder
 				}
 				catch ( Exception ex )
 				{
-					throw new ChartException( ChartException.GENERATION, ex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							ex );
 				}
 
 				while ( dsiBase.hasNext( ) )
@@ -190,7 +195,7 @@ public final class LegendBuilder
 						+ insCA.getRight( );
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM ) // (VERTICAL =>
-															  // TB)
+			// TB)
 			{
 				dSeparatorThickness += dVerticalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
@@ -201,8 +206,8 @@ public final class LegendBuilder
 						se = (Series) al.get( i );
 						la.getCaption( )
 								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-																						 // APPLY
-																						 // FORMAT
+						// APPLY
+						// FORMAT
 						// SPECIFIER
 						itm.reuse( la );
 						dW = itm.getFullWidth( );
@@ -232,7 +237,7 @@ public final class LegendBuilder
 						+ insCA.getRight( );
 			}
 			else if ( d.getValue( ) == Direction.LEFT_RIGHT ) // (VERTICAL =>
-															  // LR)
+			// LR)
 			{
 				double dMaxH = 0;
 				dSeparatorThickness += dHorizontalSpacing;
@@ -244,8 +249,8 @@ public final class LegendBuilder
 						se = (Series) al.get( i );
 						la.getCaption( )
 								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-																						 // APPLY
-																						 // FORMAT
+						// APPLY
+						// FORMAT
 						// SPECIFIER
 						itm.reuse( la );
 						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
@@ -276,13 +281,14 @@ public final class LegendBuilder
 			}
 			else
 			{
-				throw new ChartException( ChartException.GENERATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
 						"exception.illegal.rendering.direction", //$NON-NLS-1$
 						new Object[]{
 							d.getName( )
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) ); 
+								xs.getLocale( ) ) );
 			}
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
@@ -293,15 +299,16 @@ public final class LegendBuilder
 				if ( cm instanceof ChartWithAxes )
 				{
 					final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0]; // ONLY
-																						 // SUPPORT
-																						 // 1
-																						 // BASE
-																						 // AXIS
-																						 // FOR
+					// SUPPORT
+					// 1
+					// BASE
+					// AXIS
+					// FOR
 					// NOW
 					if ( axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
 					{
-						throw new ChartException( ChartException.GENERATION,
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.GENERATION,
 								"exception.base.axis.no.series.definitions", //$NON-NLS-1$ 
 								ResourceBundle.getBundle( Messages.ENGINE,
 										xs.getLocale( ) ) ); //$NON-NLS-1$
@@ -318,7 +325,8 @@ public final class LegendBuilder
 					if ( ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
 							.isEmpty( ) )
 					{
-						throw new ChartException( ChartException.GENERATION,
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.GENERATION,
 								"exception.base.axis.no.series.definitions", //$NON-NLS-1$
 								ResourceBundle.getBundle( Messages.ENGINE,
 										xs.getLocale( ) ) );
@@ -345,7 +353,9 @@ public final class LegendBuilder
 				}
 				catch ( Exception ex )
 				{
-					throw new ChartException( ChartException.GENERATION, ex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							ex );
 				}
 
 				double dMaxHeight = 0;
@@ -364,7 +374,8 @@ public final class LegendBuilder
 								/ 2
 								+ dHorizontalSpacing + insCA.getRight( ) );
 			}
-			else if ( d.getValue( ) == Direction.TOP_BOTTOM ) // (HORIZONTAL =>
+			else if ( d.getValue( ) == Direction.TOP_BOTTOM ) // (HORIZONTAL
+			// =>
 			// TB)
 			{
 				double dMaxW = 0;
@@ -378,8 +389,8 @@ public final class LegendBuilder
 						se = (Series) al.get( i );
 						la.getCaption( )
 								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-																						 // APPLY
-																						 // FORMAT
+						// APPLY
+						// FORMAT
 						// SPECIFIER
 						itm.reuse( la );
 
@@ -405,7 +416,8 @@ public final class LegendBuilder
 				}
 				dWidth = dMaxW;
 			}
-			else if ( d.getValue( ) == Direction.LEFT_RIGHT ) // (HORIZONTAL =>
+			else if ( d.getValue( ) == Direction.LEFT_RIGHT ) // (HORIZONTAL
+			// =>
 			// LR)
 			{
 				dSeparatorThickness += dHorizontalSpacing;
@@ -417,8 +429,8 @@ public final class LegendBuilder
 						se = (Series) al.get( i );
 						la.getCaption( )
 								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-																						 // APPLY
-																						 // FORMAT
+						// APPLY
+						// FORMAT
 						// SPECIFIER
 						itm.reuse( la );
 
@@ -442,23 +454,25 @@ public final class LegendBuilder
 			}
 			else
 			{
-				throw new ChartException( ChartException.GENERATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
 						"exception.illegal.rendering.direction", //$NON-NLS-1$
 						new Object[]{
 							d
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								xs.getLocale( ) ) ); 
+								xs.getLocale( ) ) );
 			}
 		}
 		else
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.illegal.rendering.orientation", //$NON-NLS-1$
 					new Object[]{
 						o
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) ); 
+					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE

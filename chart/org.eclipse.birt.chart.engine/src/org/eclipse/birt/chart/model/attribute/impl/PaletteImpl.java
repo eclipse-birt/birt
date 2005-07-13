@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -83,6 +83,8 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	 * @ordered
 	 */
 	protected EList entries = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model.attribute.impl" ); //$NON-NLS-1$
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -391,7 +393,7 @@ public class PaletteImpl extends EObjectImpl implements Palette
 		}
 		else
 		{
-			DefaultLoggerImpl.instance( ).log( ILogger.WARNING,
+			logger.log( ILogger.WARNING,
 					Messages.getString( "error.unknown.palette", //$NON-NLS-1$ 
 							new Object[]{
 								new Integer( iIndex )

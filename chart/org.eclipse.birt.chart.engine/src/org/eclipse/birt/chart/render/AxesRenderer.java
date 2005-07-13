@@ -44,8 +44,8 @@ import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ScriptHandler;
@@ -80,6 +80,7 @@ import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.util.EList;
 
@@ -91,6 +92,8 @@ import org.eclipse.emf.common.util.EList;
  */
 public abstract class AxesRenderer extends BaseRenderer
 {
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -116,7 +119,6 @@ public abstract class AxesRenderer extends BaseRenderer
 	{
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
-		final ILogger il = DefaultLoggerImpl.instance( );
 		long lTimer = System.currentTimeMillis( );
 		final Chart cm = getModel( );
 		final IDeviceRenderer idr = getDevice( );
@@ -345,7 +347,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		{
 			final PlotWith2DAxes pw2da = (PlotWith2DAxes) getComputations( );
 			pw2da.getStackedSeriesLookup( ).resetSubUnits( );
-			il.log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.elapsed.time.render", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
@@ -380,14 +382,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 			else if ( de1 instanceof TextDataElement )
 			{
-				throw new ChartException( ChartException.DATA_FORMAT,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_FORMAT,
 						"exception.unsupported.compare.text", //$NON-NLS-1$ 
 						ResourceBundle.getBundle( Messages.ENGINE,
 								getRunTimeContext( ).getLocale( ) ) );
 			}
 			else
 			{
-				throw new ChartException( ChartException.DATA_FORMAT,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_FORMAT,
 						"exception.unsupported.compare.unknown.objects", //$NON-NLS-1$
 						new Object[]{
 								de1, de2
@@ -398,7 +402,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 		else
 		{
-			throw new ChartException( ChartException.DATA_FORMAT,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
 					"exception.unsupported.compare.different.objects", //$NON-NLS-1$
 					new Object[]{
 							de1, de2
@@ -525,7 +530,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( ChartException dfex )
 				{
-					throw new ChartException( ChartException.RENDERING, dfex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							dfex );
 				}
 
 				// IF OUT OF ORDER, SWAP
@@ -546,13 +553,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( Exception ex )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( ILogger.WARNING,
-									Messages.getString( "exception.cannot.locate.start.marker.range", //$NON-NLS-1$
-											new Object[]{
-													deStart, mr
-											},
-											getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					logger.log( ILogger.WARNING,
+							Messages.getString( "exception.cannot.locate.start.marker.range", //$NON-NLS-1$
+									new Object[]{
+											deStart, mr
+									},
+									getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -566,13 +572,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( Exception ex )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( ILogger.WARNING,
-									Messages.getString( "exception.cannot.locate.end.marker.range", //$NON-NLS-1$
-											new Object[]{
-													deEnd, mr
-											},
-											getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					logger.log( ILogger.WARNING,
+							Messages.getString( "exception.cannot.locate.end.marker.range", //$NON-NLS-1$
+									new Object[]{
+											deEnd, mr
+									},
+									getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -662,7 +667,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					catch ( ChartException dfex )
 					{
-						throw new ChartException( ChartException.RENDERING,
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
 								dfex );
 					}
 
@@ -684,7 +690,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( IllegalArgumentException uiex )
 						{
-							throw new ChartException( ChartException.RENDERING,
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
 									uiex );
 						}
 					}
@@ -700,7 +707,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					catch ( IllegalArgumentException uiex )
 					{
-						throw new ChartException( ChartException.RENDERING,
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
 								uiex );
 					}
 
@@ -878,7 +886,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			if ( iCount <= 0 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
 						"exception.cannot.split.major", //$NON-NLS-1$
 						new Object[]{
 							new Integer( iCount )
@@ -1173,7 +1182,9 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 		catch ( Exception ex )
 		{
-			throw new ChartException( ChartException.RENDERING, ex );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
+					ex );
 		}
 
 		ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
@@ -1200,7 +1211,9 @@ public abstract class AxesRenderer extends BaseRenderer
 			catch ( ChartException ex ) // NOTE: RENDERING EXCEPTION ALREADY
 			// BEING THROWN
 			{
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
 
 			// SETUP AXIS ARRAY
@@ -1286,7 +1299,8 @@ public abstract class AxesRenderer extends BaseRenderer
 				deValue = (DataElement) ml.getValue( );
 				if ( deValue == null )
 				{
-					throw new ChartException( ChartException.RENDERING,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
 							"exception.marker.line.null.value", //$NON-NLS-1$
 							new Object[]{
 								ml
@@ -1306,7 +1320,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( ChartException dfex )
 				{
-					throw new ChartException( ChartException.RENDERING, dfex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							dfex );
 				}
 
 				// COMPUTE THE LOCATION
@@ -1316,13 +1332,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( Exception ex )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( ILogger.WARNING,
-									Messages.getString( "exception.cannot.locate.value.marker.line", //$NON-NLS-1$
-											new Object[]{
-													deValue, ml
-											},
-											getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					logger.log( ILogger.WARNING,
+							Messages.getString( "exception.cannot.locate.value.marker.line", //$NON-NLS-1$
+									new Object[]{
+											deValue, ml
+									},
+									getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 					continue; // TRY NEXT MARKER RANGE
 				}
 
@@ -1411,7 +1426,8 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( IllegalArgumentException uiex )
 						{
-							throw new ChartException( ChartException.RENDERING,
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
 									uiex );
 						}
 					}
@@ -1427,7 +1443,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					catch ( IllegalArgumentException uiex )
 					{
-						throw new ChartException( ChartException.RENDERING,
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
 								uiex );
 					}
 					boText.set( 0, 0, bb.getWidth( ), bb.getHeight( ) );
@@ -1613,7 +1630,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		double[] daMinor = sc.getMinorCoordinates( ax.getGrid( )
 				.getMinorCountPerMajor( ) );
 		String sText = null;
-		
+
 		// COMMENT OUT: when render label inLocation/inBlocklabel,
 		// label will render the shadow itself.
 		// =============================================================================================
@@ -1621,7 +1638,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		// null && ax.getLabel( )
 		// .getShadowColor( )
 		// .getTransparency( ) != 0 );
-		
+
 		int iDimension = pwa.getDimension( );
 		double dSeriesThickness = pwa.getSeriesThickness( );
 		final NumberDataElement nde = NumberDataElementImpl.create( 0 );
@@ -1637,7 +1654,8 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( !lia.isSetVisible( ) )
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
 					"exception.unset.axis.visibility", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE,
 							getRunTimeContext( ).getLocale( ) ) );
@@ -1987,7 +2005,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				// y = (int) da[i];
@@ -2024,7 +2042,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( ChartException dfex )
 						{
-							DefaultLoggerImpl.instance( ).log( dfex );
+							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
 					}
@@ -2137,7 +2155,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				//
@@ -2167,7 +2185,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					y = (int) da[i];
@@ -2278,7 +2296,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				// y = (int) da[i];
@@ -2308,7 +2326,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					catch ( ChartException dfex )
 					{
-						DefaultLoggerImpl.instance( ).log( dfex );
+						logger.log( dfex );
 						sText = IConstants.NULL_STRING;
 					}
 					y = (int) da[i];
@@ -2409,7 +2427,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.RENDERING, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							uiex );
 				}
 				final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
 						daEndPoints[1],
@@ -2769,7 +2789,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				// x = (int) da[i];
@@ -2849,7 +2869,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( ChartException dfex )
 						{
-							DefaultLoggerImpl.instance( ).log( dfex );
+							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
 						lo.set( x, y );
@@ -2910,7 +2930,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				// x = (int) da[i];
@@ -2994,7 +3014,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( ChartException dfex )
 						{
-							DefaultLoggerImpl.instance( ).log( dfex );
+							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
 						lo.set( x, y );
@@ -3056,7 +3076,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				// }
 				// catch ( ChartException dfex )
 				// {
-				// DefaultLoggerImpl.instance( ).log( dfex );
+				// logger.log( dfex );
 				// sText = IConstants.NULL_STRING;
 				// }
 				// x = (int) da[i];
@@ -3138,7 +3158,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						catch ( ChartException dfex )
 						{
-							DefaultLoggerImpl.instance( ).log( dfex );
+							logger.log( dfex );
 							sText = IConstants.NULL_STRING;
 						}
 						lo.set( x, y );
@@ -3190,7 +3210,9 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				catch ( IllegalArgumentException uiex )
 				{
-					throw new ChartException( ChartException.RENDERING, uiex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							uiex );
 				}
 				final Bounds bo = BoundsImpl.create( daEndPoints[0],
 						ax.getTitleCoordinate( ),

@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
@@ -57,8 +58,8 @@ import org.eclipse.birt.chart.event.RectangleRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -85,36 +86,38 @@ public class SwingRendererImpl extends DeviceAdapter
 	private final LinkedHashMap _lhmAllTriggers = new LinkedHashMap( );
 
 	/**
-	 *  
+	 * 
 	 */
 	private final Hashtable _htLineStyles = new Hashtable( );
 
 	/**
-	 *  
+	 * 
 	 */
 	protected Graphics2D _g2d;
 
 	/**
-	 *  
+	 * 
 	 */
-	//private FontRenderContext _frc = null;
+	// private FontRenderContext _frc = null;
 	/**
-	 *  
+	 * 
 	 */
 	protected IDisplayServer _ids;
 
 	/**
-	 *  
+	 * 
 	 */
 	private IUpdateNotifier _iun = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private SwingEventHandler _eh = null;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
+
 	/**
-	 *  
+	 * 
 	 */
 	public SwingRendererImpl( )
 	{
@@ -125,7 +128,7 @@ public class SwingRendererImpl extends DeviceAdapter
 		}
 		catch ( ChartException pex )
 		{
-			DefaultLoggerImpl.instance( ).log( pex );
+			logger.log( pex );
 		}
 	}
 
@@ -174,8 +177,8 @@ public class SwingRendererImpl extends DeviceAdapter
 					RenderingHints.VALUE_ANTIALIAS_ON );
 			_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
 					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-			//_frc = new FontRenderContext(new AffineTransform(), true, false);
-			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+			// _frc = new FontRenderContext(new AffineTransform(), true, false);
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.using.graphics.context", //$NON-NLS-1$
 							new Object[]{
 								_g2d
@@ -318,10 +321,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			//boolean bCyclic = g.isCyclic();
+			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			//int iAlpha = g.getTransparency();
+			// int iAlpha = g.getTransparency();
 
 			/*
 			 * if (bCyclic) { }
@@ -329,7 +332,8 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
@@ -391,11 +395,15 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 			catch ( ChartException ilex )
 			{
-				throw new ChartException( ChartException.RENDERING, ilex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
 			}
 			catch ( MalformedURLException muex )
 			{
-				throw new ChartException( ChartException.RENDERING, muex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
 			}
 
 			final Shape shClip = _g2d.getClip( );
@@ -417,7 +425,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			//img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
+			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
 	}
@@ -512,10 +520,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			//final boolean bRadial = g.isCyclic();
+			// final boolean bRadial = g.isCyclic();
 			final double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			//final int iAlpha = g.getTransparency();
+			// final int iAlpha = g.getTransparency();
 
 			final double dMinX = BaseRenderer.getX( loa, IConstants.MIN );
 			final double dMaxX = BaseRenderer.getX( loa, IConstants.MAX );
@@ -528,13 +536,14 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); 
+								getLocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -583,11 +592,15 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 			catch ( ChartException ilex )
 			{
-				throw new ChartException( ChartException.RENDERING, ilex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
 			}
 			catch ( MalformedURLException muex )
 			{
-				throw new ChartException( ChartException.RENDERING, muex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
 			}
 			final Shape shClip = _g2d.getClip( );
 			_g2d.setClip( new Polygon( i2a[0], i2a[1], loa.length ) );
@@ -614,7 +627,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			//img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
+			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
 
@@ -719,10 +732,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			//boolean bCyclic = g.isCyclic();
+			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			//int iAlpha = g.getTransparency();
+			// int iAlpha = g.getTransparency();
 			Bounds bo = are.getBounds( );
 
 			/*
@@ -731,13 +744,14 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); 
+								getLocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -819,11 +833,15 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 			catch ( ChartException ilex )
 			{
-				throw new ChartException( ChartException.RENDERING, ilex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
 			}
 			catch ( MalformedURLException muex )
 			{
-				throw new ChartException( ChartException.RENDERING, muex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
 			}
 
 			// REPLICATE THE IMAGE AS NEEDED
@@ -841,7 +859,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							io );
 				}
 			}
-			//img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
+			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shPreviousClip ); // RESTORE
 		}
 	}
@@ -967,10 +985,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			//boolean bCyclic = g.isCyclic();
+			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			//int iAlpha = g.getTransparency();
+			// int iAlpha = g.getTransparency();
 			Bounds bo = are.getBounds( );
 
 			/*
@@ -979,13 +997,14 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); 
+								getLocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1048,7 +1067,8 @@ public class SwingRendererImpl extends DeviceAdapter
 		switch ( tre.getAction( ) )
 		{
 			case TextRenderEvent.UNDEFINED :
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.missing.text.render.action", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 								getLocale( ) ) );
@@ -1085,9 +1105,8 @@ public class SwingRendererImpl extends DeviceAdapter
 	{
 		if ( _iun == null )
 		{
-			DefaultLoggerImpl.instance( )
-					.log( ILogger.WARNING,
-							Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+			logger.log( ILogger.WARNING,
+					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
 			return;
 		}
 
@@ -1327,10 +1346,10 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			//boolean bCyclic = g.isCyclic();
+			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			//int iAlpha = g.getTransparency();
+			// int iAlpha = g.getTransparency();
 
 			/*
 			 * if (bCyclic) { }
@@ -1338,13 +1357,14 @@ public class SwingRendererImpl extends DeviceAdapter
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.gradient.angle",//$NON-NLS-1$
 						new Object[]{
 							new Double( dAngleInDegrees )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); 
+								getLocale( ) ) );
 			}
 
 			Point2D.Double p2dStart, p2dEnd;
@@ -1400,11 +1420,15 @@ public class SwingRendererImpl extends DeviceAdapter
 			}
 			catch ( ChartException ilex )
 			{
-				throw new ChartException( ChartException.RENDERING, ilex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ilex );
 			}
 			catch ( MalformedURLException muex )
 			{
-				throw new ChartException( ChartException.RENDERING, muex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
+						muex );
 			}
 
 			final Shape shClip = _g2d.getClip( );
@@ -1426,7 +1450,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				}
 			}
 
-			//img.flush(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
+			// img.flush(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
 			_g2d.setClip( shClip ); // RESTORE
 		}
 	}

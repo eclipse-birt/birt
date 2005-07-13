@@ -15,7 +15,6 @@ package org.eclipse.birt.chart.examples.api.viewer;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -26,7 +25,6 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -156,7 +154,7 @@ public final class SwtChartViewerSelector implements PaintListener, SelectionLis
             idr = ps.getDevice("dv.SWT");
         } catch (ChartException ex)
         {
-            DefaultLoggerImpl.instance().log(ex);
+            ex.printStackTrace();
         }
         cm = PrimitiveCharts.createBarChart();
         

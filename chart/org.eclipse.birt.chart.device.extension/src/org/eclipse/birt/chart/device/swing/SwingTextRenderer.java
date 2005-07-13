@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -105,7 +106,8 @@ final class SwingTextRenderer implements IConstants
 		final ColorDefinition cdShadow = la.getShadowColor( );
 		if ( cdShadow == null )
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
 					"exception.undefined.shadow.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
@@ -152,7 +154,8 @@ final class SwingTextRenderer implements IConstants
 		final ColorDefinition cdText = la.getCaption( ).getColor( );
 		if ( cdText == null )
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
 					"exception.undefined.text.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
@@ -215,7 +218,8 @@ final class SwingTextRenderer implements IConstants
 		ColorDefinition cdText = t.getColor( );
 		if ( cdText == null )
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
 					"exception.undefined.text.color", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 							_sxs.getLocale( ) ) );
@@ -232,7 +236,9 @@ final class SwingTextRenderer implements IConstants
 		}
 		catch ( IllegalArgumentException uiex )
 		{
-			throw new ChartException( ChartException.RENDERING, uiex );
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
+					uiex );
 		}
 		if ( taBlock == null )
 		{

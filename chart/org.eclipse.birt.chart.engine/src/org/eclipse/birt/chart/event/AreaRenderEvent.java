@@ -14,14 +14,15 @@ package org.eclipse.birt.chart.event;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * 
  */
 public final class AreaRenderEvent extends PrimitiveRenderEvent
 {
@@ -34,6 +35,8 @@ public final class AreaRenderEvent extends PrimitiveRenderEvent
 
 	private LineAttributes lia;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
+
 	/**
 	 * @param oSource
 	 */
@@ -43,7 +46,7 @@ public final class AreaRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final void clear( )
 	{
@@ -150,7 +153,7 @@ public final class AreaRenderEvent extends PrimitiveRenderEvent
 			}
 			catch ( ChartException ufex )
 			{
-				DefaultLoggerImpl.instance( ).log( ufex );
+				logger.log( ufex );
 			}
 		}
 		return boFull;

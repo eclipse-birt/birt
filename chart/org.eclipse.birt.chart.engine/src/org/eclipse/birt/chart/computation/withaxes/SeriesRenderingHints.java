@@ -23,77 +23,78 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- *  
+ * 
  */
 public final class SeriesRenderingHints implements ISeriesRenderingHints
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iDataSetStructure = UNDEFINED;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dAxisLocation;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dZeroLocation;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dSeriesThickness;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double dPlotBaseLocation;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final double[] daTickCoordinates;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataPointHints[] dpa;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final AutoScale scBase;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final AutoScale scOrthogonal;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final StackedSeriesLookup ssl;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final PlotWith2DAxes pwa;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataSetIterator dsiBase;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataSetIterator dsiOrthogonal;
 
@@ -171,7 +172,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 *            for
 	 * @return The co-ordinate on the scale that corresponds to the requested
 	 *         value
-	 *  
+	 * 
 	 */
 	public final double getLocationOnOrthogonal( Object oValue )
 			throws ChartException, IllegalArgumentException
@@ -249,7 +250,8 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	{
 		if ( !se.isSetLabelPosition( ) )
 		{
-			throw new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.UNDEFINED_VALUE,
 					"exception.undefined.data.label.position", //$NON-NLS-1$
 					new Object[]{
 						se

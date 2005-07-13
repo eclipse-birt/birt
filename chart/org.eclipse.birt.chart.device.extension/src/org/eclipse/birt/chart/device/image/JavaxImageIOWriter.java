@@ -29,37 +29,38 @@ import javax.imageio.stream.ImageOutputStream;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 /**
- *  
+ * 
  */
 public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		IIOWriteWarningListener
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private Image _img = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object _oOutputIdentifier = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Bounds _bo = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient boolean _bImageExternallySpecified = false;
 
@@ -83,6 +84,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	{
 		// OPTIONALLY IMPLEMENTED BY SUBCLASS
 	}
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
 
 	/**
 	 * @return
@@ -110,7 +113,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			if ( _bo == null ) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING
 			// BEGINS
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.no.bounds", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 								getLocale( ) ) );
@@ -151,7 +155,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			s = getMimeType( );
 			if ( s == null )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
 						new Object[]{
 								getMimeType( ),
@@ -159,12 +164,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								getClass( ).getName( )
 						},
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
-								getLocale( ) ) ); 
+								getLocale( ) ) );
 			}
 			it = ImageIO.getImageWritersByMIMEType( s );
 			if ( !it.hasNext( ) )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.RENDERING,
 						"exception.no.imagewriter.mimetype", //$NON-NLS-1$
 						new Object[]{
 							getMimeType( )
@@ -174,10 +180,10 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			}
 		}
 		final ImageWriter iw = (ImageWriter) it.next( );
-		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+
+		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.using.imagewriter", getLocale( ) ) //$NON-NLS-1$
-						+ getFormat( )
-						+ iw.getClass( ).getName( ) );
+						+ getFormat( ) + iw.getClass( ).getName( ) );
 
 		// WRITE TO SPECIFIC FILE FORMAT
 		final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
@@ -197,7 +203,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		catch ( Exception ex )
 		{
-			throw new ChartException( ChartException.RENDERING, ex );
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
+					ex );
 		}
 
 		// FLUSH AND RESTORE STATE OF INTERNALLY CREATED IMAGE
@@ -244,7 +252,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	public void warningOccurred( ImageWriter source, int imageIndex,
 			String warning )
 	{
-		DefaultLoggerImpl.instance( ).log( ILogger.WARNING, warning );
+		logger.log( ILogger.WARNING, warning );
 	}
 
 	/*

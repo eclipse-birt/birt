@@ -25,8 +25,8 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
@@ -114,7 +115,9 @@ public final class PlotWith2DAxes extends PlotContent
 	 */
 	private final RunTimeContext rtc;
 
-	//private Series seBaseRuntime = null;
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
+
+	// private Series seBaseRuntime = null;
 
 	/**
 	 * The default constructor
@@ -352,7 +355,7 @@ public final class PlotWith2DAxes extends PlotContent
 						an, or
 				} )
 
-		); 
+		);
 	}
 
 	/**
@@ -378,7 +381,7 @@ public final class PlotWith2DAxes extends PlotContent
 				.getString( "exception.angle.range.transpose" ), //$NON-NLS-1$
 				new Object[]{
 					new Double( dOriginalAngle )
-				} ) ); 
+				} ) );
 	}
 
 	/**
@@ -462,7 +465,7 @@ public final class PlotWith2DAxes extends PlotContent
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
 						new Integer( iOriginalPosition )
-				} ) ); 
+				} ) );
 	}
 
 	/**
@@ -510,7 +513,7 @@ public final class PlotWith2DAxes extends PlotContent
 				new Object[]{
 						new Integer( iBaseOrOrthogonal ),
 						new Integer( iOriginalStyle )
-				} ) ); 
+				} ) );
 	}
 
 	/**
@@ -525,88 +528,102 @@ public final class PlotWith2DAxes extends PlotContent
 	{
 		if ( !ax.isSetType( ) ) // AXIS TYPE UNDEFINED
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.data.type", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		if ( !ax.getLabel( ).isSetVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.label.visibility", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		if ( !ax.getTitle( ).isSetVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.title.visibility", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		if ( !ax.isSetLabelPosition( ) && ax.getLabel( ).isVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.label.position", //$NON-NLS-1$ 
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		if ( !ax.isSetTitlePosition( ) && ax.getTitle( ).isVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.title.position", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		LineAttributes liaTicks = ax.getMajorGrid( ).getTickAttributes( );
 		if ( !ax.getMajorGrid( ).isSetTickStyle( ) && liaTicks.isVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.major.tick.style", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		liaTicks = ax.getMinorGrid( ).getTickAttributes( );
 		if ( !ax.getMinorGrid( ).isSetTickStyle( ) && liaTicks.isVisible( ) )
 		{
-			throw new ChartException( ChartException.VALIDATION,
-					new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNDEFINED_VALUE,
 							"exception.undefined.axis.minor.tick.style", //$NON-NLS-1$
 							new Object[]{
 								ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) ); 
+									rtc.getLocale( ) ) ) );
 		}
 
 		final int iOrientation = ax.getOrientation( ).getValue( );
@@ -618,13 +635,14 @@ public final class PlotWith2DAxes extends PlotContent
 				iPosition = ax.getLabelPosition( ).getValue( );
 				if ( iPosition != Position.LEFT && iPosition != Position.RIGHT )
 				{
-					throw new ChartException( ChartException.VALIDATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.VALIDATION,
 							"exception.illegal.vaxis.label.position", //$NON-NLS-1$
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -632,13 +650,14 @@ public final class PlotWith2DAxes extends PlotContent
 				iPosition = ax.getTitlePosition( ).getValue( );
 				if ( iPosition != Position.LEFT && iPosition != Position.RIGHT )
 				{
-					throw new ChartException( ChartException.VALIDATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.VALIDATION,
 							"exception.illegal.vaxis.title.position", //$NON-NLS-1$
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 
@@ -647,28 +666,30 @@ public final class PlotWith2DAxes extends PlotContent
 					&& iTickStyle != TickStyle.LEFT
 					&& iTickStyle != TickStyle.RIGHT )
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.VALIDATION,
 						"exception.illegal.vaxis.major.tick.style", //$NON-NLS-1$
 						new Object[]{
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
 					&& iTickStyle != TickStyle.LEFT
 					&& iTickStyle != TickStyle.RIGHT )
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.VALIDATION,
 						"exception.illegal.vaxis.minor.tick.style", //$NON-NLS-1$
 						new Object[]{
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 			}
 		}
 		else if ( iOrientation == Orientation.HORIZONTAL )
@@ -679,13 +700,14 @@ public final class PlotWith2DAxes extends PlotContent
 				iPosition = ax.getLabelPosition( ).getValue( );
 				if ( iPosition != Position.ABOVE && iPosition != Position.BELOW )
 				{
-					throw new ChartException( ChartException.VALIDATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.VALIDATION,
 							"exception.illegal.haxis.label.position", //$NON-NLS-1$
 							new Object[]{
 									ax.getLabelPosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 			if ( ax.getTitle( ).isVisible( ) ) // LABEL POSITION (IF VISIBLE)
@@ -693,13 +715,14 @@ public final class PlotWith2DAxes extends PlotContent
 				iPosition = ax.getTitlePosition( ).getValue( );
 				if ( iPosition != Position.ABOVE && iPosition != Position.BELOW )
 				{
-					throw new ChartException( ChartException.VALIDATION,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.VALIDATION,
 							"exception.illegal.haxis.title.position", //$NON-NLS-1$ 
 							new Object[]{
 									ax.getTitlePosition( ).getName( ), ax
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); 
+									rtc.getLocale( ) ) );
 				}
 			}
 
@@ -708,28 +731,30 @@ public final class PlotWith2DAxes extends PlotContent
 					&& iTickStyle != TickStyle.ABOVE
 					&& iTickStyle != TickStyle.BELOW )
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.VALIDATION,
 						"exception.illegal.haxis.major.tick.style", //$NON-NLS-1$
 						new Object[]{
 								ax.getMajorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 			}
 			iTickStyle = ax.getMinorGrid( ).getTickStyle( ).getValue( );
 			if ( iTickStyle != TickStyle.ACROSS
 					&& iTickStyle != TickStyle.ABOVE
 					&& iTickStyle != TickStyle.BELOW )
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.VALIDATION,
 						"exception.illegal.haxis.minor.tick.style", //$NON-NLS-1$
 						new Object[]{
 								ax.getMinorGrid( ).getTickStyle( ).getName( ),
 								ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 			}
 		}
 	}
@@ -763,20 +788,20 @@ public final class PlotWith2DAxes extends PlotContent
 				.scaledInstance( dPointToPixel ) ); // CONVERSION
 		insCA = aax.getInsets( );
 
-//		SeriesDefinition sdBase = null;
-//		// ONLY SUPPORT 1 BASE AXIS
-//		if ( !axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
-//		{
-//			// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
-//			sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
-//					.get( 0 );
-//			final ArrayList alRuntimeBaseSeries = sdBase.getRunTimeSeries( );
-//			if ( alRuntimeBaseSeries != null )
-//			{
-//				// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
-//				seBaseRuntime = (Series) sdBase.getRunTimeSeries( ).get( 0 );
-//			}
-//		}
+		// SeriesDefinition sdBase = null;
+		// // ONLY SUPPORT 1 BASE AXIS
+		// if ( !axPrimaryBase.getSeriesDefinitions( ).isEmpty( ) )
+		// {
+		// // OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+		// sdBase = (SeriesDefinition) axPrimaryBase.getSeriesDefinitions( )
+		// .get( 0 );
+		// final ArrayList alRuntimeBaseSeries = sdBase.getRunTimeSeries( );
+		// if ( alRuntimeBaseSeries != null )
+		// {
+		// // OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
+		// seBaseRuntime = (Series) sdBase.getRunTimeSeries( ).get( 0 );
+		// }
+		// }
 
 		aax.swapAxes( cwa.isTransposed( ) );
 
@@ -815,7 +840,8 @@ public final class PlotWith2DAxes extends PlotContent
 					.setRotation( transposeAngle( laAxisTitle.getCaption( )
 							.getFont( )
 							.getRotation( ) ) );
-			oaxPrimaryBase.set( laAxisLabels, laAxisTitle ); // ASSOCIATE FONT,
+			oaxPrimaryBase.set( laAxisLabels, laAxisTitle ); // ASSOCIATE
+			// FONT,
 			// ETC
 		}
 		else
@@ -1014,7 +1040,8 @@ public final class PlotWith2DAxes extends PlotContent
 
 		PluginSettings ps = PluginSettings.instance( );
 		IDataSetProcessor iDSP = null;
-		boolean bAnyStacked = false; // ANY STACKED SERIES ASSOCIATED WITH AXIS
+		boolean bAnyStacked = false; // ANY STACKED SERIES ASSOCIATED WITH
+		// AXIS
 		// 'ax'
 
 		for ( int i = 0; i < iSeriesCount; i++ )
@@ -1033,7 +1060,7 @@ public final class PlotWith2DAxes extends PlotContent
 							.getString( "exception.unstackable.is.stacked" ), //$NON-NLS-1$
 							new Object[]{
 								sea[i]
-							} ) ); 
+							} ) );
 				}
 			}
 
@@ -1125,7 +1152,7 @@ public final class PlotWith2DAxes extends PlotContent
 						.getString( "exception.stacked.datetime.axis.series" ), //$NON-NLS-1$
 						new Object[]{
 							ax
-						} ) ); 
+						} ) );
 			}
 			Object oValue;
 			int iSeriesPerGroup;
@@ -1138,19 +1165,20 @@ public final class PlotWith2DAxes extends PlotContent
 
 			if ( alSeriesGroupsPerAxis == null )
 			{
-				throw new ChartException( ChartException.DATA_SET,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
 						"exception.internal.stack.series.setup", //$NON-NLS-1$
 						new Object[]{
 							ax
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); 
+								rtc.getLocale( ) ) );
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.processing.stacked.info", //$NON-NLS-1$
 							new Object[]{
 								ax
-							}, rtc.getLocale( ) ) ); 
+							}, rtc.getLocale( ) ) );
 			int iSeriesIndex, iDataSetCount = ssl.getUnitCount( );
 
 			for ( int k = 0; k < iDataSetCount; k++ ) // PER UNIT
@@ -1172,13 +1200,15 @@ public final class PlotWith2DAxes extends PlotContent
 							dsi[iSeriesIndex] = new DataSetIterator( ds );
 							if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 							{
-								throw new ChartException( ChartException.DATA_SET,
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.DATA_SET,
 										"exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
 										ResourceBundle.getBundle( Messages.ENGINE,
 												rtc.getLocale( ) ) );
 							}
 						}
-						iDataSetCount = dsi[iSeriesIndex].size( ); // ALL SERIES
+						iDataSetCount = dsi[iSeriesIndex].size( ); // ALL
+						// SERIES
 						// MUST HAVE
 						// THE SAME
 						// DATASET
@@ -1204,7 +1234,8 @@ public final class PlotWith2DAxes extends PlotContent
 									dsi[iSeriesIndex] = new DataSetIterator( ds );
 									if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 									{
-										throw new ChartException( ChartException.DATA_SET,
+										throw new ChartException( ChartEnginePlugin.ID,
+												ChartException.DATA_SET,
 												"exception.percent.stacked.non.numerical", //$NON-NLS-1$ 
 												ResourceBundle.getBundle( Messages.ENGINE,
 														rtc.getLocale( ) ) );
@@ -1323,7 +1354,7 @@ public final class PlotWith2DAxes extends PlotContent
 	 * re-compute without 'rebuilding axes'.
 	 * 
 	 * @param bo
-	 *  
+	 * 
 	 */
 	public final void compute( Bounds bo ) throws ChartException,
 			IllegalArgumentException
@@ -1429,7 +1460,8 @@ public final class PlotWith2DAxes extends PlotContent
 		}
 		else
 		{
-			throw new ChartException( ChartException.DATA_FORMAT,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
 					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
@@ -1479,7 +1511,7 @@ public final class PlotWith2DAxes extends PlotContent
 		updateOverlayAxes( aax );
 		growBaseAxis( aax, bo );
 
-		//dXAxisLocation = getLocation(scY,
+		// dXAxisLocation = getLocation(scY,
 		// oaxPrimaryOrthogonal.getIntersectionValue()); // UPDATE FOR OVERLAYS
 		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
 				: aax.getPrimaryBase( );
@@ -1518,7 +1550,7 @@ public final class PlotWith2DAxes extends PlotContent
 	private final void growBaseAxis( AllAxes aax, Bounds bo )
 			throws ChartException
 	{
-		//if (true) return;
+		// if (true) return;
 		OneAxis oaxBase = aax.getPrimaryBase( );
 		OneAxis oaxOrthogonal = aax.getPrimaryOrthogonal( );
 		AutoScale scBase = oaxBase.getScale( );
@@ -1940,7 +1972,8 @@ public final class PlotWith2DAxes extends PlotContent
 				// SPACING)
 				// y2 = LOWER EDGE OF X-AXIS (DUE TO AXIS LABELS, TICKS,
 				// SPACING)
-				if ( iv.getType( ) == IntersectionValue.MAX ) // ABOVE THE PLOT
+				if ( iv.getType( ) == IntersectionValue.MAX ) // ABOVE THE
+				// PLOT
 				{
 					dY = dBlockStart;
 					dY -= dAppliedXAxisPlotSpacing;
@@ -2229,7 +2262,9 @@ public final class PlotWith2DAxes extends PlotContent
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			finally
 			{
@@ -2266,7 +2301,8 @@ public final class PlotWith2DAxes extends PlotContent
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += Math.max( // IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
+				dX2 += Math.max( // IF LABELS ARE RIGHT, THEN RIGHT SPACING
+						// IS
 						// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS,
 						// HORZ_SPACING)
 						( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness,
@@ -2510,7 +2546,7 @@ public final class PlotWith2DAxes extends PlotContent
 					// ENSURE THAT THE START POINT OF THE X-AXIS SCALE IS
 					// SUITABLY POSITIONED
 
-					//computeTicks(g2d, fm, iXLabelLocation, iXRotation,
+					// computeTicks(g2d, fm, iXLabelLocation, iXRotation,
 					// HORIZONTAL, scX.dStart, scX.dEnd, scX, true);
 					do
 					{
@@ -2688,7 +2724,8 @@ public final class PlotWith2DAxes extends PlotContent
 							}
 						}
 						dX = getLocation( scX, iv );
-						dX2 = dX + dDeltaX2; // RE-CALCULATE X-AXIS BAND RIGHT
+						dX2 = dX + dDeltaX2; // RE-CALCULATE X-AXIS BAND
+						// RIGHT
 						// EDGE
 					} while ( Math.abs( dX2 - ( dBlockX + dBlockWidth ) ) > 1
 							&& !bForceBreak );
@@ -2786,7 +2823,9 @@ public final class PlotWith2DAxes extends PlotContent
 			}
 			catch ( IllegalArgumentException uiex )
 			{
-				throw new ChartException( ChartException.GENERATION, uiex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
 			finally
 			{
@@ -3108,9 +3147,11 @@ public final class PlotWith2DAxes extends PlotContent
 						}
 
 						dY = getLocation( scY, iv );
-						dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND UPPER
+						dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND
+						// UPPER
 						// EDGE
-						dY2 = dY + dDeltaY2; // REDUNDANT: RE-CALCULATE X-AXIS
+						dY2 = dY + dDeltaY2; // REDUNDANT: RE-CALCULATE
+						// X-AXIS
 						// BAND LOWER EDGE
 					} while ( Math.abs( dY1 - dBlockY ) > 1 && !bForceBreak );
 				}
@@ -3202,9 +3243,11 @@ public final class PlotWith2DAxes extends PlotContent
 						}
 
 						dY = getLocation( scY, iv );
-						dY2 = dY + dDeltaY2; // RE-CALCULATE X-AXIS BAND LOWER
+						dY2 = dY + dDeltaY2; // RE-CALCULATE X-AXIS BAND
+						// LOWER
 						// EDGE
-						dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND LOWER
+						dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND
+						// LOWER
 						// EDGE
 					} while ( Math.abs( dY2 - ( dBlockY + dBlockHeight ) ) > 1
 							&& !bForceBreak );
@@ -3265,7 +3308,8 @@ public final class PlotWith2DAxes extends PlotContent
 			{
 				if ( sea[j] == se )
 				{
-					if ( i == 0 ) // FIRST ONE IS ALWAYS THE PRIMARY ORTHOGONAL
+					if ( i == 0 ) // FIRST ONE IS ALWAYS THE PRIMARY
+					// ORTHOGONAL
 					{
 						return aax.getPrimaryOrthogonal( );
 					}
@@ -3281,7 +3325,8 @@ public final class PlotWith2DAxes extends PlotContent
 			throws ChartException, IllegalArgumentException
 	{
 		if ( seOrthogonal == null
-				|| seOrthogonal.getClass( ) == SeriesImpl.class ) // EMPTY PLOT
+				|| seOrthogonal.getClass( ) == SeriesImpl.class ) // EMPTY
+		// PLOT
 		// RENDERING
 		// TECHNIQUE
 		{
@@ -3290,12 +3335,13 @@ public final class PlotWith2DAxes extends PlotContent
 		OneAxis oaxOrthogonal = findOrthogonalAxis( seOrthogonal );
 		if ( oaxOrthogonal == null )
 		{
-			throw new ChartException( ChartException.NOT_FOUND,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.NOT_FOUND,
 					"exception.axis.series.link.broken", //$NON-NLS-1$
 					new Object[]{
 						seOrthogonal
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 		final OneAxis oaxBase = aax.getPrimaryBase( );
 		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
@@ -3343,17 +3389,17 @@ public final class PlotWith2DAxes extends PlotContent
 		final int iOrthogonalCount = dsiDataOrthogonal.size( );
 		DataPointHints[] dpa = null;
 
-		if ( iBaseCount != iOrthogonalCount ) // DO NOT COMPUTE DATA POINT HINTS
+		if ( iBaseCount != iOrthogonalCount ) // DO NOT COMPUTE DATA POINT
+		// HINTS
 		// FOR OUT-OF-SYNC DATA
 		{
-			DefaultLoggerImpl.instance( )
-					.log( ILogger.INFORMATION,
-							Messages.getString( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
-									new Object[]{
-											new Integer( iBaseCount ),
-											new Integer( iOrthogonalCount )
-									},
-									rtc.getLocale( ) ) ); 
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+							new Object[]{
+									new Integer( iBaseCount ),
+									new Integer( iOrthogonalCount )
+							},
+							rtc.getLocale( ) ) );
 		}
 		else
 		{

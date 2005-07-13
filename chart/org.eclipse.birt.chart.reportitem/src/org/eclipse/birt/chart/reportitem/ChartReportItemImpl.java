@@ -19,8 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -58,6 +58,8 @@ public final class ChartReportItemImpl extends ReportItem
 	private static final List liChartDimensions = new LinkedList( );
 
 	private transient DesignElementHandle handle = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	static
 	{
@@ -189,7 +191,6 @@ public final class ChartReportItemImpl extends ReportItem
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace( );
 				return new ByteArrayOutputStream( );
 			}
@@ -215,7 +216,6 @@ public final class ChartReportItemImpl extends ReportItem
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace( );
 				cm = null;
 			}
@@ -231,7 +231,7 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		if ( cm == null )
 		{
-			DefaultLoggerImpl.instance( )
+			logger
 					.log( ILogger.WARNING,
 							Messages.getString( "ChartReportItemImpl.log.RequestForPropertyDefn" ) ); //$NON-NLS-1$
 			return null;
@@ -303,7 +303,7 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public final Object getProperty( String propName )
 	{
-		DefaultLoggerImpl.instance( )
+		logger
 				.log( ILogger.INFORMATION,
 						Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
@@ -351,7 +351,7 @@ public final class ChartReportItemImpl extends ReportItem
 	public void checkProperty( String propName, Object value )
 			throws ExtendedElementException
 	{
-		DefaultLoggerImpl.instance( )
+		logger
 				.log( ILogger.INFORMATION,
 						Messages.getString( "ChartReportItemImpl.log.checkProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
 	}
@@ -364,9 +364,7 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public void setProperty( String propName, Object value )
 	{
-		// System.out.println("ChartReportItem's setProperty called with
-		// property name" + propName);
-		DefaultLoggerImpl.instance( )
+		logger
 				.log( ILogger.INFORMATION,
 						Messages.getString( "ChartReportItemImpl.log.setProperty", new Object[]{propName, value} ) ); //$NON-NLS-1$ 
 		if ( propName.equals( "title.value" ) ) //$NON-NLS-1$
@@ -401,7 +399,7 @@ public final class ChartReportItemImpl extends ReportItem
 			}
 			else
 			{
-				DefaultLoggerImpl.instance( )
+				logger
 						.log( ILogger.ERROR,
 								Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
@@ -425,7 +423,6 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public void validate( ) throws ExtendedElementException
 	{
-		// TODO Auto-generated method stub
 
 	}
 

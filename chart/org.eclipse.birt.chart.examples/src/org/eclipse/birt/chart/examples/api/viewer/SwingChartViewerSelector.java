@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -110,7 +109,7 @@ public final class SwingChartViewerSelector extends JPanel implements IUpdateNot
             idr = ps.getDevice("dv.SWING");
         } catch (ChartException ex)
         {
-            DefaultLoggerImpl.instance().log(ex);
+            ex.printStackTrace();
         }
         //The default chart displayed in the container is the simple bar chart.
         cm = PrimitiveCharts.createBarChart();

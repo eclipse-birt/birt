@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.eclipse.birt.chart.ui.swt.plugin.ChartUIPluginClass;
+import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -90,7 +90,7 @@ public final class UIHelper
         {
             try
             {
-                url = new URL(ChartUIPluginClass.getDefault().getBundle().getEntry("/"), sPluginRelativePath); //$NON-NLS-1$
+                url = new URL(ChartUIPlugin.getDefault().getBundle().getEntry("/"), sPluginRelativePath); //$NON-NLS-1$
             }
             catch (MalformedURLException e )
             {

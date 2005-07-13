@@ -13,8 +13,8 @@ package org.eclipse.birt.chart.exception;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
@@ -68,7 +68,7 @@ public class ChartException extends BirtException
 	 */
 	public static final int OVERLAP = 9;
 	/**
-	 * Exception type for Plugin error.
+	 * Exception type for PlugIn error.
 	 */
 	public static final int PLUGIN = 10;
 	/**
@@ -98,10 +98,14 @@ public class ChartException extends BirtException
 
 	final int type;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/exception" ); //$NON-NLS-1$
+
 	/**
 	 * The constructor.
 	 * 
 	 * @param cause
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, Throwable cause )
 	{
@@ -122,6 +126,8 @@ public class ChartException extends BirtException
 	 * The constructor.
 	 * 
 	 * @param cause
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, String errorMsg )
 	{
@@ -140,6 +146,8 @@ public class ChartException extends BirtException
 	 * 
 	 * @param sResourceKey
 	 * @param rb
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			ResourceBundle rb )
@@ -160,6 +168,8 @@ public class ChartException extends BirtException
 	 * @param sResourceKey
 	 * @param oaArgs
 	 * @param rb
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			Object[] oaArgs, ResourceBundle rb )
@@ -180,6 +190,8 @@ public class ChartException extends BirtException
 	 * @param sResourceKey
 	 * @param rb
 	 * @param thCause
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			ResourceBundle rb, Throwable thCause )
@@ -201,11 +213,132 @@ public class ChartException extends BirtException
 	 * @param oaArgs
 	 * @param rb
 	 * @param thCause
+	 * 
+	 * @deprecated please use the version with plugIn ID.
 	 */
 	public ChartException( final int type, String sResourceKey,
 			Object[] oaArgs, ResourceBundle rb, Throwable thCause )
 	{
 		super( sResourceKey, oaArgs, rb, thCause );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param cause
+	 */
+	public ChartException( String pluginId, final int type, Throwable cause )
+	{
+		super( pluginId,
+				getResourceKey( cause ),
+				getArguments( cause ),
+				getResourceBundle( cause ),
+				cause );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param cause
+	 */
+	public ChartException( String pluginId, final int type, String errorMsg )
+	{
+		super( pluginId, errorMsg, null );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param rb
+	 */
+	public ChartException( String pluginId, final int type,
+			String sResourceKey, ResourceBundle rb )
+	{
+		super( pluginId, sResourceKey, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param oaArgs
+	 * @param rb
+	 */
+	public ChartException( String pluginId, final int type,
+			String sResourceKey, Object[] oaArgs, ResourceBundle rb )
+	{
+		super( pluginId, sResourceKey, oaArgs, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param rb
+	 * @param thCause
+	 */
+	public ChartException( String pluginId, final int type,
+			String sResourceKey, ResourceBundle rb, Throwable thCause )
+	{
+		super( pluginId, sResourceKey, rb );
+
+		if ( type < 0 || type > MAX_VALUE )
+		{
+			throw new IllegalArgumentException( );
+		}
+		this.type = type;
+		logThis( );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param sResourceKey
+	 * @param oaArgs
+	 * @param rb
+	 * @param thCause
+	 */
+	public ChartException( String pluginId, final int type,
+			String sResourceKey, Object[] oaArgs, ResourceBundle rb,
+			Throwable thCause )
+	{
+		super( pluginId, sResourceKey, oaArgs, rb, thCause );
 
 		if ( type < 0 || type > MAX_VALUE )
 		{
@@ -253,8 +386,7 @@ public class ChartException extends BirtException
 
 	private final void logThis( )
 	{
-		ILogger il = DefaultLoggerImpl.instance( );
-		il.log( this );
+		logger.log( this );
 	}
 
 	/**

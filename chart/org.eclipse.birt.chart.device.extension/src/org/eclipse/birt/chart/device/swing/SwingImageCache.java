@@ -22,33 +22,36 @@ import javax.swing.ImageIcon;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 
 /**
- *  
+ * 
  */
 public final class SwingImageCache
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private final java.awt.Panel p = new java.awt.Panel( ); // NEEDED FOR IMAGE
 
 	/**
-	 *  
+	 * 
 	 */
 	private final Hashtable htCache;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final IDisplayServer idsSWING;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
+
 	/**
-	 *  
+	 * 
 	 */
 	SwingImageCache( IDisplayServer idsSWING )
 	{
@@ -67,7 +70,7 @@ public final class SwingImageCache
 		Image img = (Image) htCache.get( url );
 		if ( img != null )
 		{
-			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.using.swing.cached.image",//$NON-NLS-1$
 							new Object[]{
 								url
@@ -75,7 +78,7 @@ public final class SwingImageCache
 		}
 		else
 		{
-			DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.loading.swing.image",//$NON-NLS-1$
 							new Object[]{
 								url
@@ -101,7 +104,8 @@ public final class SwingImageCache
 						}
 					}
 					sb.append( ']' );
-					throw new ChartException( ChartException.IMAGE_LOADING,
+					throw new ChartException( ChartDeviceExtensionPlugin.ID,
+							ChartException.IMAGE_LOADING,
 							"exception.media.tracker", //$NON-NLS-1$
 							new Object[]{
 								sb.toString( )
@@ -112,7 +116,9 @@ public final class SwingImageCache
 			}
 			catch ( InterruptedException ex )
 			{
-				throw new ChartException( ChartException.IMAGE_LOADING, ex );
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.IMAGE_LOADING,
+						ex );
 			}
 			htCache.put( url, img );
 		}
@@ -120,7 +126,7 @@ public final class SwingImageCache
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	final void flush( )
 	{
@@ -137,7 +143,7 @@ public final class SwingImageCache
 			img.flush( );
 		}
 		htCache.clear( );
-		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.flushed.swing.images",//$NON-NLS-1$
 						new Object[]{
 							new Integer( n )

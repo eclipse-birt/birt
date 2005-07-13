@@ -42,8 +42,8 @@ import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -86,6 +86,7 @@ import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -101,22 +102,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 
 	/**
-	 *  
+	 * 
 	 */
 	ISeriesRenderingHints srh;
 
 	/**
-	 *  
+	 * 
 	 */
 	private IDisplayServer xs;
 
 	/**
-	 *  
+	 * 
 	 */
 	private IDeviceRenderer ir;
 
 	/**
-	 *  
+	 * 
 	 */
 	private DeferredCache dc;
 
@@ -126,7 +127,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	private Chart cm;
 
 	/**
-	 *  
+	 * 
 	 */
 	private Object oComputations;
 
@@ -136,7 +137,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	private Series se;
 
 	/**
-	 *  
+	 * 
 	 */
 	private SeriesDefinition sd;
 
@@ -183,9 +184,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			127 );
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient RunTimeContext rtc = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	/**
 	 * The internal constructor that must be defined as public
@@ -198,7 +201,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public void set( Chart _cm, Object _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )
@@ -316,7 +319,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 		boolean bStarted = bFirstInSequence;
 
-		final ILogger il = DefaultLoggerImpl.instance( );
 		long lTimer = System.currentTimeMillis( );
 
 		Block bl = cm.getBlock( );
@@ -446,9 +448,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			// EXCEPTION ALREADY BEING
 			// THROWN
 			{
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
-			il.log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
@@ -489,7 +493,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
 			sz.scale( dScale );
 
@@ -576,8 +582,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.drawRectangle( rre );
 		lia = (LineAttributes) EcoreUtil.copy( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
-		
-		//TODO render client area shadow.
+
+		// TODO render client area shadow.
 
 		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
 
@@ -653,7 +659,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 				catch ( Exception ex )
 				{
-					throw new ChartException( ChartException.RENDERING, ex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							ex );
 				}
 
 				if ( sdBase != null )
@@ -678,7 +686,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						catch ( ChartException e )
 						{
-							//ignore, use original text.
+							// ignore, use original text.
 						}
 					}
 					la.getCaption( ).setValue( lgtext );
@@ -732,7 +740,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 							catch ( ChartException e )
 							{
-								//ignore, use original text.
+								// ignore, use original text.
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
@@ -799,7 +807,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 							catch ( ChartException e )
 							{
-								//ignore, use original text.
+								// ignore, use original text.
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
@@ -848,7 +856,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
 						"exception.illegal.legend.direction", //$NON-NLS-1$
 						new Object[]{
 							d.getName( )
@@ -906,7 +915,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				}
 				catch ( Exception ex )
 				{
-					throw new ChartException( ChartException.RENDERING, ex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							ex );
 				}
 
 				if ( sdBase != null )
@@ -932,7 +943,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						catch ( ChartException e )
 						{
-							//ignore, use original text.
+							// ignore, use original text.
 						}
 					}
 					la.getCaption( ).setValue( lgtext );
@@ -990,7 +1001,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 							catch ( ChartException e )
 							{
-								//ignore, use original text.
+								// ignore, use original text.
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
@@ -1068,7 +1079,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							}
 							catch ( ChartException e )
 							{
-								//ignore, use original text.
+								// ignore, use original text.
 							}
 						}
 						la.getCaption( ).setValue( lgtext );
@@ -1115,7 +1126,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
 						"exception.illegal.legend.direction", //$NON-NLS-1$
 						new Object[]{
 							d.getName( )
@@ -1126,7 +1138,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
 					"exception.illegal.legend.orientation", //$NON-NLS-1$ 
 					new Object[]{
 						o.getName( )
@@ -1318,10 +1331,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
 			ipr.drawRectangle( rre );
-			
+
 			if ( !ca.getOutline( ).isSetVisible( ) )
 			{
-				throw new ChartException( ChartException.RENDERING,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
 						"exception.client.area.outline.visibility", //$NON-NLS-1$ 
 						ResourceBundle.getBundle( Messages.ENGINE,
 								rtc.getLocale( ) ) );
@@ -1470,7 +1484,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			ArrayList al = new ArrayList( ), alRunTimeSeries;
 			EList elBase, elOrthogonal;
 			SeriesDefinition sd = null;
-			//final int iSeriesCount =
+			// final int iSeriesCount =
 			// ((ChartWithAxes)cm).getSeries(IConstants.ORTHOGONAL).length;
 
 			int iSI = 0; // SERIES INDEX COUNTER
@@ -1567,7 +1581,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				if ( alRuntimeSeries.size( ) != 1 ) // CHECK FOR A SINGLE BASE
 				// SERIES ONLY
 				{
-					throw new ChartException( ChartException.PLUGIN,
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.PLUGIN,
 							"exception.illegal.base.runtime.series.count", //$NON-NLS-1$
 							new Object[]{
 								new Integer( alRuntimeSeries.size( ) )
@@ -1702,13 +1717,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			if ( fDarker instanceof ColorDefinition )
 			{
 				fDarker = ( (ColorDefinition) fDarker ).darker( );
-				/*
-				 * ColorDefinition cdD = (ColorDefinition) fDarker;
-				 * System.out.println("darker Creating color {0}" + + //
-				 * i18n_CONCATENATIONS_REMOVED "{0}, {1}, {2}" + cdD.getRed() +
-				 * cdD.getGreen() + cdD.getBlue()); //
-				 * i18n_CONCATENATIONS_REMOVED
-				 */
 			}
 			fBrighter = f;
 			if ( fBrighter instanceof ColorDefinition )
@@ -2056,7 +2064,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		if ( ( isrh.getDataSetStructure( ) & ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC ) == ISeriesRenderingHints.BASE_ORTHOGONAL_OUT_OF_SYNC )
 		{
-			throw new ChartException( ChartException.VALIDATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
 					"exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
 					new Object[]{
 							new Integer( isrh.getBaseDataSet( ).size( ) ),

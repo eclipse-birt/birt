@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * PrimitiveRenderEvent
@@ -52,7 +53,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	 */
 	public Bounds getBounds( ) throws ChartException
 	{
-		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.UNSUPPORTED_FEATURE,
 				"exception.unsupported.bounds", //$NON-NLS-1$ 
 				new Object[]{
 					this
@@ -69,7 +71,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	 */
 	public PrimitiveRenderEvent copy( ) throws ChartException
 	{
-		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.UNSUPPORTED_FEATURE,
 				"exception.unsupported.copy", //$NON-NLS-1$ 
 				new Object[]{
 					this
@@ -191,7 +194,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 		}
 		else
 		{
-			throw new RuntimeException( new ChartException( ChartException.UNSUPPORTED_FEATURE,
+			throw new RuntimeException( new ChartException( ChartEnginePlugin.ID,
+					ChartException.UNSUPPORTED_FEATURE,
 					"exception.unsupported.comparison", //$NON-NLS-1$ 
 					new Object[]{
 						o
@@ -225,7 +229,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	 */
 	public void draw( IDeviceRenderer idr ) throws ChartException
 	{
-		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.UNSUPPORTED_FEATURE,
 				"exception.unsupported.internal.draw", //$NON-NLS-1$ 
 				new Object[]{
 					this
@@ -241,7 +246,8 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	 */
 	public void fill( IDeviceRenderer idr ) throws ChartException
 	{
-		throw new ChartException( ChartException.UNSUPPORTED_FEATURE,
+		throw new ChartException( ChartEnginePlugin.ID,
+				ChartException.UNSUPPORTED_FEATURE,
 				"exception.unsupported.internal.fill", //$NON-NLS-1$ 
 				new Object[]{
 					this

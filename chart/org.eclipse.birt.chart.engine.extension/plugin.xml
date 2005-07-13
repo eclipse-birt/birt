@@ -5,7 +5,7 @@
    name="BIRT Chart Engine Extension"
    version="1.0.0"
    provider-name="Eclipse.org"
-   >
+   class="org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin">
 
    <runtime>
       <library name="engine-extension.jar">

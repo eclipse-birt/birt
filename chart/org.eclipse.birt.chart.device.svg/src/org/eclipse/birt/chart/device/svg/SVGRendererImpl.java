@@ -24,11 +24,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -52,6 +54,8 @@ import org.w3c.dom.Element;
 public class SVGRendererImpl extends SwingRendererImpl
 {
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
+
 	/**
 	 * 
 	 */
@@ -66,7 +70,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 			}
 			catch ( ChartException pex )
 			{
-				DefaultLoggerImpl.instance( ).log( pex );
+				logger.log( pex );
 			}
 		}
 		else
@@ -136,7 +140,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartDeviceSVGPlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
 		}
 		else if ( oOutputIdentifier instanceof String )
@@ -150,12 +156,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartDeviceSVGPlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
 		}
 		else
 		{
-			throw new ChartException( ChartException.RENDERING,
+			throw new ChartException( ChartDeviceSVGPlugin.ID,
+					ChartException.RENDERING,
 					"SVGRendererImpl.exception.UnableToWriteChartImage", //$NON-NLS-1$
 					new Object[]{
 						oOutputIdentifier

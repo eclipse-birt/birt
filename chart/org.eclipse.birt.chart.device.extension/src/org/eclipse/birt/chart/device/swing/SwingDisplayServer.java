@@ -29,8 +29,8 @@ import org.eclipse.birt.chart.device.DisplayAdapter;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Size;
@@ -38,37 +38,37 @@ import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- *  
+ * 
  */
 public class SwingDisplayServer extends DisplayAdapter
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient BufferedImage _bi = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient Graphics2D _g2d = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private transient SwingImageCache _simc = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private double dScale = 1;
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iDpiResolution = 0;
 
-	// LOADING
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
 	/**
 	 * 
@@ -76,7 +76,6 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public SwingDisplayServer( )
 	{
-		final ILogger il = DefaultLoggerImpl.instance( );
 		_bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
 		_g2d = (Graphics2D) _bi.getGraphics( );
 		_g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -87,7 +86,8 @@ public class SwingDisplayServer extends DisplayAdapter
 				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
 		dScale = getDpiResolution( ) / 72d;
 		_g2d.scale( dScale, dScale );
-		il.log( ILogger.INFORMATION,
+		
+		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.display.server", //$NON-NLS-1$ 
 						new Object[]{
 								System.getProperty( "java.vendor" ), System.getProperty( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
@@ -125,7 +125,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final Object getColor( ColorDefinition cd )
 	{

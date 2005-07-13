@@ -22,9 +22,10 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -50,7 +51,7 @@ public final class PluginSettings
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private static final String PLUGIN = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$
 
@@ -159,6 +160,8 @@ public final class PluginSettings
 	 */
 	private boolean bStandalone = false;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/util" ); //$NON-NLS-1$
+
 	/**
 	 * A non-instantiable constructor
 	 */
@@ -204,7 +207,7 @@ public final class PluginSettings
 
 			if ( oDSP != null )
 			{
-				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				logger.log( ILogger.INFORMATION,
 						Messages.getString( "info.eclenv.creating.dsp", //$NON-NLS-1$
 								new Object[]{
 									oDSP.getClass( ).getName( )
@@ -212,7 +215,7 @@ public final class PluginSettings
 								) ); // i18n_CONCATENATIONS_REMOVED
 				return (IDataSetProcessor) oDSP;
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.dsp", //$NON-NLS-1$
 							new Object[]{
 								sFQClassName
@@ -225,7 +228,7 @@ public final class PluginSettings
 			{
 				if ( sFQClassName.equals( saSeries[i] ) )
 				{
-					DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+					logger.log( ILogger.INFORMATION,
 							Messages.getString( "info.stdenv.creating.dsp", //$NON-NLS-1$
 									new Object[]{
 										saDataSetProcessors[i]
@@ -234,7 +237,7 @@ public final class PluginSettings
 					return (IDataSetProcessor) newInstance( saDataSetProcessors[i] );
 				}
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.stdenv.cannot.find.dsp", //$NON-NLS-1$ 
 							new Object[]{
 								sFQClassName
@@ -266,25 +269,22 @@ public final class PluginSettings
 					sFQClassName );
 			if ( oSeriesRenderer != null )
 			{
-				DefaultLoggerImpl.instance( )
-						.log( ILogger.INFORMATION,
-								Messages.getString( "info.eclenv.creating.series.renderer", //$NON-NLS-1$
-										new Object[]{
-											oSeriesRenderer.getClass( )
-													.getName( )
-										},
-										Locale.getDefault( ) // LOCALE?
-										) ); // i18n_CONCATENATIONS_REMOVED
+				logger.log( ILogger.INFORMATION,
+						Messages.getString( "info.eclenv.creating.series.renderer", //$NON-NLS-1$
+								new Object[]{
+									oSeriesRenderer.getClass( ).getName( )
+								},
+								Locale.getDefault( ) // LOCALE?
+								) ); // i18n_CONCATENATIONS_REMOVED
 				return (BaseRenderer) oSeriesRenderer;
 			}
-			DefaultLoggerImpl.instance( )
-					.log( ILogger.ERROR,
-							Messages.getString( "error.eclenv.cannot.find.series.renderer", //$NON-NLS-1$
-									new Object[]{
-										sFQClassName
-									},
-									Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
+			logger.log( ILogger.ERROR,
+					Messages.getString( "error.eclenv.cannot.find.series.renderer", //$NON-NLS-1$
+							new Object[]{
+								sFQClassName
+							},
+							Locale.getDefault( ) // LOCALE?
+							) ); // i18n_CONCATENATIONS_REMOVED
 		}
 		else
 		{
@@ -296,25 +296,23 @@ public final class PluginSettings
 					{
 						break;
 					}
-					DefaultLoggerImpl.instance( )
-							.log( ILogger.INFORMATION,
-									Messages.getString( "info.stdenv.creating.series.renderer", //$NON-NLS-1$
-											new Object[]{
-												saRenderers[i]
-											},
-											Locale.getDefault( ) // LOCALE?
-											) ); // i18n_CONCATENATIONS_REMOVED
-					return (BaseRenderer) newInstance( saRenderers[i] );
-				}
-			}
-			DefaultLoggerImpl.instance( )
-					.log( ILogger.ERROR,
-							Messages.getString( "error.stdenv.cannot.find.series.renderer", //$NON-NLS-1$
+					logger.log( ILogger.INFORMATION,
+							Messages.getString( "info.stdenv.creating.series.renderer", //$NON-NLS-1$
 									new Object[]{
-										sFQClassName
+										saRenderers[i]
 									},
 									Locale.getDefault( ) // LOCALE?
 									) ); // i18n_CONCATENATIONS_REMOVED
+					return (BaseRenderer) newInstance( saRenderers[i] );
+				}
+			}
+			logger.log( ILogger.ERROR,
+					Messages.getString( "error.stdenv.cannot.find.series.renderer", //$NON-NLS-1$
+							new Object[]{
+								sFQClassName
+							},
+							Locale.getDefault( ) // LOCALE?
+							) ); // i18n_CONCATENATIONS_REMOVED
 		}
 		return null;
 	}
@@ -341,7 +339,7 @@ public final class PluginSettings
 					sName );
 			if ( oDeviceRenderer != null )
 			{
-				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				logger.log( ILogger.INFORMATION,
 						Messages.getString( "info.eclenv.creating.device", //$NON-NLS-1$
 								new Object[]{
 										sName,
@@ -350,7 +348,7 @@ public final class PluginSettings
 								) ); // i18n_CONCATENATIONS_REMOVED
 				return (IDeviceRenderer) oDeviceRenderer;
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.device", //$NON-NLS-1$
 							new Object[]{
 								sName
@@ -363,7 +361,7 @@ public final class PluginSettings
 			{
 				if ( saDevices[i][0].equalsIgnoreCase( sName ) )
 				{
-					DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+					logger.log( ILogger.INFORMATION,
 							Messages.getString( "info.stdenv.creating.device", //$NON-NLS-1$
 									new Object[]{
 											sName, saDevices[i][1]
@@ -372,7 +370,7 @@ public final class PluginSettings
 					return (IDeviceRenderer) newInstance( saDevices[i][1] );
 				}
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.stdenv.cannot.find.device", //$NON-NLS-1$
 							new Object[]{
 								sName
@@ -402,7 +400,7 @@ public final class PluginSettings
 			final Object oDisplayServer = getPluginXmlObject( "displayservers", "displayserver", "name", "server", sName ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			if ( oDisplayServer != null )
 			{
-				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				logger.log( ILogger.INFORMATION,
 						Messages.getString( "info.eclenv.creating.display", //$NON-NLS-1$
 								new Object[]{
 										sName,
@@ -411,7 +409,7 @@ public final class PluginSettings
 								) ); // i18n_CONCATENATIONS_REMOVED
 				return (IDisplayServer) oDisplayServer;
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.display", //$NON-NLS-1$
 							new Object[]{
 								sName
@@ -424,7 +422,7 @@ public final class PluginSettings
 			{
 				if ( saDisplayServers[i][0].equalsIgnoreCase( sName ) )
 				{
-					DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+					logger.log( ILogger.INFORMATION,
 							Messages.getString( "info.stdenv.creating.display", //$NON-NLS-1$
 									new Object[]{
 											sName, saDisplayServers[i][1]
@@ -433,7 +431,7 @@ public final class PluginSettings
 					return (IDisplayServer) newInstance( saDisplayServers[i][1] );
 				}
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.stdenv.cannot.find.display", //$NON-NLS-1$
 							new Object[]{
 								sName
@@ -464,7 +462,7 @@ public final class PluginSettings
 					sName );
 			if ( oAggregateFunction != null )
 			{
-				DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+				logger.log( ILogger.INFORMATION,
 						Messages.getString( "info.eclenv.creating.function", //$NON-NLS-1$
 								new Object[]{
 										sName,
@@ -474,12 +472,12 @@ public final class PluginSettings
 								) ); // i18n_CONCATENATIONS_REMOVED
 				return (IAggregateFunction) oAggregateFunction;
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.eclenv.cannot.find.function", //$NON-NLS-1$
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		else
 		{
@@ -487,19 +485,17 @@ public final class PluginSettings
 			{
 				if ( saAggregateFunctions[i][0].equalsIgnoreCase( sName ) )
 				{
-					DefaultLoggerImpl.instance( )
-							.log( ILogger.INFORMATION,
-									Messages.getString( "info.stdenv.creating.function", //$NON-NLS-1$
-											new Object[]{
-													sName,
-													saAggregateFunctions[i][1]
-											},
-											Locale.getDefault( ) // LOCALE?
-											) ); // i18n_CONCATENATIONS_REMOVED
+					logger.log( ILogger.INFORMATION,
+							Messages.getString( "info.stdenv.creating.function", //$NON-NLS-1$
+									new Object[]{
+											sName, saAggregateFunctions[i][1]
+									},
+									Locale.getDefault( ) // LOCALE?
+									) ); // i18n_CONCATENATIONS_REMOVED
 					return (IAggregateFunction) newInstance( saAggregateFunctions[i][1] );
 				}
 			}
-			DefaultLoggerImpl.instance( ).log( ILogger.FATAL,
+			logger.log( ILogger.FATAL,
 					Messages.getString( "error.stdenv.cannot.find.function", //$NON-NLS-1$
 							new Object[]{
 								sName
@@ -596,59 +592,63 @@ public final class PluginSettings
 		}
 		catch ( Exception ex )
 		{
-			throw new ChartException( ChartException.PLUGIN, ex );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.PLUGIN,
+					ex );
 		}
 	}
 
-//	/**
-//	 * Attempts to walk through the schema tree as defined in an extension point
-//	 * schema and retrieve the value for a given element name.
-//	 * 
-//	 * @param sXsdListName
-//	 * @param sXsdComplexName
-//	 * @param sXsdElementName
-//	 * @param sXsdElementValue
-//	 * @param sLookupName
-//	 * 
-//	 * @return The text value representation associated with the given element
-//	 *         name
-//	 */
-//	private static final String getPluginXmlValue( String sXsdListName,
-//			String sXsdComplexName, String sXsdElementName,
-//			String sXsdElementValue, String sLookupName ) throws ChartException
-//	{
-//		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
-//		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
-//		if ( iep == null )
-//		{
-//			throw new ChartException( ChartException.PLUGIN,
-//					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
-//					new Object[]{
-//							sLookupName, sXsdElementName, sXsdElementValue
-//					},
-//					ResourceBundle.getBundle( Messages.ENGINE,
-//							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
-//		}
-//		final IExtension[] iea = iep.getExtensions( );
-//		IConfigurationElement[] icea;
-//
-//		for ( int i = 0; i < iea.length; i++ )
-//		{
-//			icea = iea[i].getConfigurationElements( );
-//			for ( int j = 0; j < icea.length; j++ )
-//			{
-//				if ( icea[j].getName( ).equals( sXsdComplexName ) )
-//				{
-//					if ( icea[j].getAttribute( sXsdElementName )
-//							.equals( sLookupName ) )
-//					{
-//						return icea[j].getAttribute( sXsdElementValue );
-//					}
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	// /**
+	// * Attempts to walk through the schema tree as defined in an extension
+	// point
+	// * schema and retrieve the value for a given element name.
+	// *
+	// * @param sXsdListName
+	// * @param sXsdComplexName
+	// * @param sXsdElementName
+	// * @param sXsdElementValue
+	// * @param sLookupName
+	// *
+	// * @return The text value representation associated with the given element
+	// * name
+	// */
+	// private static final String getPluginXmlValue( String sXsdListName,
+	// String sXsdComplexName, String sXsdElementName,
+	// String sXsdElementValue, String sLookupName ) throws ChartException
+	// {
+	// final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+	// final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName
+	// );
+	// if ( iep == null )
+	// {
+	// throw new ChartException( ChartException.PLUGIN,
+	// "exception.cannot.find.plugin.entry", //$NON-NLS-1$
+	// new Object[]{
+	// sLookupName, sXsdElementName, sXsdElementValue
+	// },
+	// ResourceBundle.getBundle( Messages.ENGINE,
+	// Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+	// }
+	// final IExtension[] iea = iep.getExtensions( );
+	// IConfigurationElement[] icea;
+	//
+	// for ( int i = 0; i < iea.length; i++ )
+	// {
+	// icea = iea[i].getConfigurationElements( );
+	// for ( int j = 0; j < icea.length; j++ )
+	// {
+	// if ( icea[j].getName( ).equals( sXsdComplexName ) )
+	// {
+	// if ( icea[j].getAttribute( sXsdElementName )
+	// .equals( sLookupName ) )
+	// {
+	// return icea[j].getAttribute( sXsdElementValue );
+	// }
+	// }
+	// }
+	// }
+	// return null;
+	// }
 
 	/**
 	 * Attempts to walk through the schema tree as defined in an extension point
@@ -672,7 +672,8 @@ public final class PluginSettings
 		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
 		if ( iep == null )
 		{
-			throw new ChartException( ChartException.PLUGIN,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.PLUGIN,
 					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
 					new Object[]{
 							sLookupName, sXsdElementName, sXsdElementValue
@@ -699,7 +700,8 @@ public final class PluginSettings
 						}
 						catch ( FrameworkException cex )
 						{
-							throw new ChartException( ChartException.PLUGIN,
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.PLUGIN,
 									cex );
 						}
 					}

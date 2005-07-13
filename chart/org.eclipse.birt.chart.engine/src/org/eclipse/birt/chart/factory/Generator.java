@@ -24,8 +24,8 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutManager;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
@@ -76,6 +77,8 @@ public final class Generator
 	 * The internal singleton Generator reference created lazily.
 	 */
 	private static Generator g = null;
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
 
 	/**
 	 * A private constructor.
@@ -126,7 +129,8 @@ public final class Generator
 	{
 		if ( ids == null || cmDesignTime == null || bo == null )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.illegal.null.value", //$NON-NLS-1$ 
 					ResourceBundle.getBundle( Messages.ENGINE,
 							Locale.getDefault( ) // LOCALE?
@@ -149,8 +153,10 @@ public final class Generator
 		// 3D CHARTS ARE NOT YET SUPPORTED
 		if ( cmDesignTime.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 		{
-			throw new ChartException( ChartException.GENERATION,
-					new ChartException( ChartException.UNSUPPORTED_FEATURE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					new ChartException( ChartEnginePlugin.ID,
+							ChartException.UNSUPPORTED_FEATURE,
 							"exception.no3d.support", //$NON-NLS-1$ 
 							ResourceBundle.getBundle( Messages.ENGINE,
 									rtc.getLocale( ) ) ) );
@@ -172,7 +178,9 @@ public final class Generator
 			}
 			catch ( ChartException sx )
 			{
-				throw new ChartException( ChartException.GENERATION, sx );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						sx );
 			}
 		}
 		else if ( sh != null ) // COPY SCRIPTS FROM DESIGNTIME TO RUNTIME
@@ -199,7 +207,9 @@ public final class Generator
 			}
 			catch ( Exception e )
 			{
-				throw new ChartException( ChartException.GENERATION, e );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						e );
 			}
 		}
 		else if ( cmRunTime instanceof ChartWithoutAxes )
@@ -212,16 +222,16 @@ public final class Generator
 
 		if ( oComputations == null )
 		{
-			throw new ChartException( ChartException.GENERATION,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
 					"exception.unsupported.chart.model", //$NON-NLS-1$
 					new Object[]{
 						cmRunTime
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); 
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 
 		// OBTAIN THE RENDERERS
-		final ILogger il = DefaultLoggerImpl.instance( );
 		final LinkedHashMap lhmRenderers = new LinkedHashMap( );
 		BaseRenderer[] brna = null;
 		try
@@ -237,7 +247,9 @@ public final class Generator
 		catch ( Exception ex )
 		{
 			ex.printStackTrace( );
-			throw new ChartException( ChartException.GENERATION, ex );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					ex );
 		}
 
 		// PERFORM THE BLOCKS' LAYOUT
@@ -250,7 +262,9 @@ public final class Generator
 		}
 		catch ( ChartException oex )
 		{
-			throw new ChartException( ChartException.GENERATION, oex );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					oex );
 		}
 		ScriptHandler.callFunction( sh, ScriptHandler.AFTER_LAYOUT, cmRunTime );
 
@@ -273,7 +287,9 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.GENERATION, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						ex );
 			}
 		}
 		else if ( iChartType == WITHOUT_AXES )
@@ -285,7 +301,9 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.GENERATION, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						ex );
 			}
 		}
 		ScriptHandler.callFunction( sh,
@@ -327,14 +345,16 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.GENERATION, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						ex );
 			}
 		}
-		il.log( ILogger.INFORMATION,
+		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 						new Object[]{
 							new Long( System.currentTimeMillis( ) - lTimer )
-						}, rtc.getLocale( ) ) ); 
+						}, rtc.getLocale( ) ) );
 
 		final GeneratedChartState gcs = new GeneratedChartState( ids,
 				cmRunTime,
@@ -377,7 +397,6 @@ public final class Generator
 		Insets insPlot = cm.getPlot( ).getInsets( );
 		boPlot = boPlot.adjustedInstance( insPlot );
 
-		final ILogger il = DefaultLoggerImpl.instance( );
 		if ( iChartType == WITH_AXES )
 		{
 			PlotWith2DAxes pwa = (PlotWith2DAxes) gcs.getComputations( );
@@ -387,13 +406,15 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.GENERATION, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						ex );
 			}
-			il.log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.compute.elapsed.time.with.axes", //$NON-NLS-1$
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
-							}, gcs.getRunTimeContext( ).getLocale( ) ) ); 
+							}, gcs.getRunTimeContext( ).getLocale( ) ) );
 		}
 		else if ( iChartType == WITHOUT_AXES )
 		{
@@ -404,14 +425,16 @@ public final class Generator
 			}
 			catch ( Exception ex )
 			{
-				throw new ChartException( ChartException.GENERATION, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						ex );
 			}
-			il.log( ILogger.INFORMATION,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "info.compute.elapsed.time.without.axes", //$NON-NLS-1$
 							new Object[]{
 								new Long( System.currentTimeMillis( ) - lTimer )
 							},
-							gcs.getRunTimeContext( ).getLocale( ) ) ); 
+							gcs.getRunTimeContext( ).getLocale( ) ) );
 		}
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
@@ -456,7 +479,9 @@ public final class Generator
 				}
 				catch ( ChartException gex )
 				{
-					throw new ChartException( ChartException.RENDERING, gex );
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							gex );
 				}
 			}
 		}
@@ -500,7 +525,9 @@ public final class Generator
 			catch ( Exception ex )
 			{
 				ex.printStackTrace( );
-				throw new ChartException( ChartException.RENDERING, ex );
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						ex );
 			}
 		}
 		idr.after( ); // ANY CLEANUP AFTER THE CHART HAS BEEN RENDERED

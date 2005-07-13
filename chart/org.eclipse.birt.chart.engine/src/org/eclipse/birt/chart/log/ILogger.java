@@ -19,6 +19,16 @@ public interface ILogger
 {
 
 	/**
+	 * All message type.
+	 */
+	public static final int ALL = -1;
+
+	/**
+	 * All message type.
+	 */
+	public static final int TRACE = 0;
+
+	/**
 	 * An informational message type.
 	 */
 	public static final int INFORMATION = 1;

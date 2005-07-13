@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -241,7 +242,8 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	{
 		if ( !isSetType( ) )
 		{
-			throw new ChartException( ChartException.UNDEFINED_VALUE,
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.UNDEFINED_VALUE,
 					Messages.getString( "error.type.not.set", Locale.getDefault( ) ) ); //$NON-NLS-1$
 		}
 		switch ( getType( ).getValue( ) )
@@ -403,4 +405,4 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return df.format( c.getTime( ) );
 	}
 
-} //DateFormatSpecifierImpl
+} // DateFormatSpecifierImpl

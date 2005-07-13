@@ -26,8 +26,6 @@ import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
-import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -67,7 +65,6 @@ public final class SwingLiveChartViewer extends JPanel
      */
     public static void main(String[] args)
     {
-        DefaultLoggerImpl.instance().setVerboseLevel(ILogger.ERROR | ILogger.FATAL);
         SwingLiveChartViewer scs = new SwingLiveChartViewer();
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -104,7 +101,7 @@ public final class SwingLiveChartViewer extends JPanel
             sri = ps.getDevice("dv.SWING");
         } catch (ChartException ex)
         {
-            DefaultLoggerImpl.instance().log(ex);
+            ex.printStackTrace();
         }
         cm = PrimitiveCharts.createLiveChart();
     }

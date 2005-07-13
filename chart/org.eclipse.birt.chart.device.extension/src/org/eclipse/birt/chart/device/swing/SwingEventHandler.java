@@ -30,9 +30,10 @@ import javax.swing.JComponent;
 
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -53,9 +54,8 @@ public final class SwingEventHandler implements
 		MouseMotionListener
 {
 
-	/**
-	 *  
-	 */
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
+
 	private static final BasicStroke bs = new BasicStroke( 5,
 			BasicStroke.CAP_ROUND,
 			BasicStroke.JOIN_ROUND,
@@ -66,32 +66,32 @@ public final class SwingEventHandler implements
 			0 );
 
 	/**
-	 *  
+	 * 
 	 */
 	private ShapedAction saTooltip = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private ShapedAction saHighlighted = null;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final LinkedHashMap lhmAllTriggers;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final IUpdateNotifier iun;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final Locale lcl;
 
 	/**
-	 *  
+	 * 
 	 */
 	SwingEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
 			Locale _lcl )
@@ -102,7 +102,7 @@ public final class SwingEventHandler implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private final boolean isLeftButton( MouseEvent e )
 	{
@@ -143,28 +143,28 @@ public final class SwingEventHandler implements
 				{
 					case ActionType.URL_REDIRECT :
 						final URLValue uv = (URLValue) ac.getValue( );
-						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
 										+ uv.getBaseUrl( ) );
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
 						final Series seRT = (Series) sa.getSource( );
-						DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										lcl )
-										+ seRT );
+										lcl ) + seRT );
 						Series seDT = null;
 						try
 						{
-							seDT = findDesignTimeSeries( seRT ); // LOCATE THE
+							seDT = findDesignTimeSeries( seRT ); // LOCATE
+							// THE
 							// CORRESPONDING
 							// DESIGN-TIME
 							// SERIES
 						}
 						catch ( ChartException oosx )
 						{
-							DefaultLoggerImpl.instance( ).log( oosx );
+							logger.log( oosx );
 							return;
 						}
 						seDT.setVisible( !seDT.isVisible( ) );
@@ -228,7 +228,8 @@ public final class SwingEventHandler implements
 
 		if ( !bFound )
 		{
-			throw new ChartException( ChartException.OUT_OF_SYNC,
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.OUT_OF_SYNC,
 					"info.cannot.find.series", //$NON-NLS-1$
 					new Object[]{
 						seRT
@@ -272,7 +273,7 @@ public final class SwingEventHandler implements
 
 	/**
 	 * 
-	 *  
+	 * 
 	 */
 	private final void hideTooltip( )
 	{

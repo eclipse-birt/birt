@@ -18,36 +18,37 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 
 /**
- *  
+ * 
  */
 public class SeriesRenderingHints implements ISeriesRenderingHints
 {
 
 	/**
-	 *  
+	 * 
 	 */
 	private int iDataSetStructure = UNDEFINED;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataSetIterator dsiBase;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataSetIterator dsiOrthogonal;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final DataPointHints[] dpha;
 
 	/**
-	 *  
+	 * 
 	 */
 	private final PlotWithoutAxes pwoa;
 
@@ -118,7 +119,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 			}
 			else
 			{
-				throw new ChartException( ChartException.DATA_FORMAT,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_FORMAT,
 						"exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
 						new Object[]{
 							o
@@ -154,7 +156,8 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 			}
 			else
 			{
-				throw new ChartException( ChartException.DATA_FORMAT,
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_FORMAT,
 						"exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
 						new Object[]{
 							o

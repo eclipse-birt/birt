@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.render;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -33,6 +33,8 @@ import org.eclipse.birt.chart.model.layout.Plot;
 public final class EmptyWithAxes extends AxesRenderer
 {
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,7 +46,7 @@ public final class EmptyWithAxes extends AxesRenderer
 			ISeriesRenderingHints isrh ) throws ChartException
 	{
 		// NOTE: NO-OP IMPL
-		DefaultLoggerImpl.instance( ).log( ILogger.INFORMATION,
+		logger.log( ILogger.INFORMATION,
 				Messages.getString( "info.render.series", //$NON-NLS-1$
 						new Object[]{
 								getClass( ).getName( ),

@@ -12,13 +12,15 @@
 package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.DefaultLoggerImpl;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.swt.SWT;
@@ -32,7 +34,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
 public class StockSeriesAttributeComposite extends Composite implements
 		Listener
@@ -46,6 +48,8 @@ public class StockSeriesAttributeComposite extends Composite implements
 
 	StockSeries series = null;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
+
 	/**
 	 * @param parent
 	 * @param style
@@ -58,12 +62,13 @@ public class StockSeriesAttributeComposite extends Composite implements
 		{
 			try
 			{
-				throw new ChartException( ChartException.VALIDATION,
+				throw new ChartException( ChartUIExtensionPlugin.ID,
+						ChartException.VALIDATION,
 						"StockSeriesAttributeComposite.Exception.IllegalArgument", new Object[]{series.getClass( ).getName( )}, Messages.getResourceBundle( ) ); //$NON-NLS-1$
 			}
 			catch ( ChartException e )
 			{
-				DefaultLoggerImpl.instance( ).log( e );
+				logger.log( e );
 				e.printStackTrace( );
 			}
 		}

@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -446,7 +447,9 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		}
 		catch ( IllegalArgumentException uiex )
 		{
-			throw new ChartException( ChartException.GENERATION, uiex );
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					uiex );
 		}
 		finally
 		{
@@ -460,4 +463,4 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		sz.scale( 72d / xs.getDpiResolution( ) );
 		return sz;
 	}
-} //LabelBlockImpl
+} // LabelBlockImpl
