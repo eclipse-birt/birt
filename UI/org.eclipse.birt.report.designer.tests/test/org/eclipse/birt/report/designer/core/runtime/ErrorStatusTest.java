@@ -13,12 +13,11 @@ package org.eclipse.birt.report.designer.core.runtime;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.IStatus;
 
 /**
- *  
+ * 
  */
 
 public class ErrorStatusTest extends TestCase
@@ -43,8 +42,22 @@ public class ErrorStatusTest extends TestCase
 		assertEquals( 1001, status.getErrorCode( ) );
 		assertEquals( EXCEPTION, status.getException( ) );
 		assertEquals( ReportPlugin.REPORT_UI, status.getPlugin( ) );
-		assertEquals( ITestConstants.PLUGIN_PROVIDER,
-				status.getPluginProvider( ) );
+	}
+
+	public void testAddStatus( )
+	{
+		status.addStatus( REASON + IStatus.INFO, IStatus.INFO );
+		assertEquals( REASON + IStatus.INFO,
+				status.getChildren( )[0].getMessage( ) );
+		assertEquals( IStatus.INFO, status.getSeverity( ) );
+		status.addStatus( REASON + IStatus.WARNING, IStatus.WARNING );
+		assertEquals( REASON + IStatus.WARNING,
+				status.getChildren( )[1].getMessage( ) );
+		assertEquals( IStatus.WARNING, status.getSeverity( ) );
+		status.addStatus( REASON + IStatus.ERROR, IStatus.ERROR );
+		assertEquals( REASON + IStatus.ERROR,
+				status.getChildren( )[2].getMessage( ) );
+		assertEquals( IStatus.ERROR, status.getSeverity( ) );
 	}
 
 	public void testAddWarning( )

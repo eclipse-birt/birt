@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
@@ -52,21 +52,23 @@ public class ExceptionHandler
 
 	private static final String MSG_PART_INIT_ERROR = Messages.getString( "ExceptionHandler.Message.PartInitError" ); //$NON-NLS-1$
 
-	private static final String MSG_BIRT_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Meesage.BirtExceptionOccur" ); //$NON-NLS-1$
+	private static final String MSG_BIRT_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Message.BirtExceptionOccur" ); //$NON-NLS-1$
 
-	private static final String MSG_OUT_OF_MEMORY = Messages.getString( "ExceptionHandler.Message.OutOfMemory" ); //$NON-NLS-1$
+	private static final String LABEL_PLUGIN_PROVIDER = Messages.getString( "ExceptionHandler.Label.PluginProvider" ); //$NON-NLS-1$
 
-	private static final String MSG_UNEXPECTED_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Meesage.UnexceptedExceptionOccur" ); //$NON-NLS-1$
+	private static final String LABEL_PLUGIN_NAME = Messages.getString( "ExceptionHandler.Label.PluginName" ); //$NON-NLS-1$
+
+	private static final String LABEL_PLUGIN_ID = Messages.getString( "ExceptionHandler.Label.PluginId" ); //$NON-NLS-1$
+
+	private static final String LABEL_PLUGIN_VERSION = Messages.getString( "ExceptionHandler.Label.PluginVersion" ); //$NON-NLS-1$
 
 	private static final String LABEL_ERROR_MESSAGE = Messages.getString( "ExceptionHandler.Label.ErrorMessage" ); //$NON-NLS-1$
 
 	private static final String LABEL_ERROR_CODE = Messages.getString( "ExceptionHandler.Label.ErrorCode" ); //$NON-NLS-1$
 
-	private static final String GUI_ERROR_CODE = "Error.GUIException.invokedByIOException"; //$NON-NLS-1$
+	private static final String UNKNOWN_PLUGIN = Messages.getString( "ExceptionHandler.Label.UnknownPlugin" ); //$NON-NLS-1$
 
 	private static List ExpectedExceptionList = new ArrayList( );
-
-	private static boolean isNeedLog = true;
 
 	static
 	{
@@ -78,7 +80,7 @@ public class ExceptionHandler
 	 * 
 	 * @param e
 	 *            the exception to be handled
-	 *  
+	 * 
 	 */
 	public static void handle( Throwable e )
 	{
@@ -112,18 +114,23 @@ public class ExceptionHandler
 	 *            the title of the error dialog
 	 * @param message
 	 *            the error message
-	 *  
+	 * 
 	 */
 	public static void handle( Throwable e, String dialogTitle, String message )
 	{
+		if ( !( e instanceof BirtException ) )
+		{
+			e = GUIException.createGUIException( ReportPlugin.REPORT_UI, e );
+		}
 		ErrorStatus status = createErrorStatus( e );
 		if ( status != null )
 		{
 			ErrorDialog.openError( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getActiveShell( ), dialogTitle, message, status );
-			if ( status.getException( ) != null )
+			if ( !needNotLog( e ) )
 			{
+				status.setException( e );
 				ReportPlugin.getDefault( ).getLog( ).log( status );
 			}
 		}
@@ -135,84 +142,71 @@ public class ExceptionHandler
 
 	private static ErrorStatus createErrorStatus( Throwable e )
 	{
-		Throwable exception = null;
 		String reason = null;
 		String[] detail = null;
-		if ( !needNotLog( e ) && isNeedLog )
-		{
-			exception = e;
-		}
+		BirtException birtException = (BirtException) e;
 		if ( e instanceof DesignFileException )
 		{
 			detail = e.toString( ).split( "\n" ); //$NON-NLS-1$			
-			reason = detail[0];
-		}
-		else if ( e instanceof BirtException )
-		{
-			BirtException birtException = (BirtException) e;
-			detail = new String[]{
-					LABEL_ERROR_CODE + ":" + birtException.getErrorCode( ), //$NON-NLS-1$
-					LABEL_ERROR_MESSAGE + ":" //$NON-NLS-1$
-							+ birtException.getLocalizedMessage( ),
-			};
-			reason = MSG_BIRT_EXCEPTION_OCURR;
+			reason = new String( detail[0] );
+			detail[0] = LABEL_ERROR_MESSAGE + ":" + detail[0]; //$NON-NLS-1$
 		}
 		else
 		{
-			if ( e instanceof IOException )
+			if ( e instanceof GUIException )
 			{
-				return createErrorStatus( new GUIException( GUI_ERROR_CODE, e ) );
-			}
-			else if ( e instanceof OutOfMemoryError )
-			{
-				reason = MSG_OUT_OF_MEMORY;
+				reason = ( (GUIException) e ).getReason( );
 			}
 			else
 			{
-				reason = MSG_UNEXPECTED_EXCEPTION_OCURR;
+				reason = MSG_BIRT_EXCEPTION_OCURR;
 			}
-			detail = new String[1];
-			if ( e.getLocalizedMessage( ) != null )
-			{
-				if ( e instanceof FileNotFoundException )
-				{
-					detail[0] = MSG_FILE_NOT_FOUND_PREFIX + ":" //$NON-NLS-1$
-							+ e.getLocalizedMessage( );
-				}
-				else
-				{
-					detail[0] = e.getLocalizedMessage( );
-				}
-
-			}
-			else
-			{
-				detail[0] = e.getClass( ).getName( );
-			}
+			detail = new String[]{
+				LABEL_ERROR_MESSAGE + ":" //$NON-NLS-1$
+						+ birtException.getLocalizedMessage( ),
+			};
 		}
-		ErrorStatus status = new ErrorStatus( ReportPlugin.REPORT_UI,
-				1001,
-				reason,
-				exception );
+		String id = birtException.getPluginId( );
+		if ( id == null )
+		{
+			id = UNKNOWN_PLUGIN;
+		}
+		ErrorStatus status = new ErrorStatus( id, 1001, reason, null );
+		if ( !UNKNOWN_PLUGIN.equals( id ) )
+		{
+			status.addInformation( LABEL_PLUGIN_PROVIDER
+					+ UIUtil.getPluginProvider( id ) );
+			status.addInformation( LABEL_PLUGIN_NAME
+					+ UIUtil.getPluginName( id ) );
+			status.addInformation( LABEL_PLUGIN_ID + id );
+			status.addInformation( LABEL_PLUGIN_VERSION
+					+ UIUtil.getPluginVersion( id ) );
+		}
+		int severity = birtException.getSeverity( );
+		if ( severity == ( BirtException.INFO | BirtException.ERROR ) )
+		{
+			severity = IStatus.ERROR;
+		}
+		status.addStatus( LABEL_ERROR_CODE + ":" + birtException.getErrorCode( ), severity ); //$NON-NLS-1$
 		for ( int i = 0; i < detail.length; i++ )
 		{
-			status.addError( detail[i] );
-		}
-		for ( Throwable cause = e.getCause( ); cause != null; cause = cause.getCause( ) )
-		{
-			status.addCause( cause );
+			status.addStatus( detail[i], severity );
 		}
 		return status;
 	}
 
 	private static boolean needNotLog( Throwable e )
 	{
-		for ( Iterator itor = ExpectedExceptionList.iterator( ); itor.hasNext( ); )
+		for ( Iterator iter = ExpectedExceptionList.iterator( ); iter.hasNext( ); )
 		{
-			if ( ( (Class) itor.next( ) ).isInstance( e ) )
+			if ( ( (Class) iter.next( ) ).isInstance( e ) )
 			{
 				return true;
 			}
+		}
+		if ( e instanceof BirtException )
+		{
+			return ( ( (BirtException) e ).getSeverity( ) ^ BirtException.INFO ) == BirtException.ERROR;
 		}
 		return false;
 	}
@@ -249,8 +243,4 @@ public class ExceptionHandler
 		openMessageBox( title, errorMessage, SWT.ICON_ERROR );
 	}
 
-	public static void setNeedLog( boolean isNeedLog )
-	{
-		ExceptionHandler.isNeedLog = isNeedLog;
-	}
 }

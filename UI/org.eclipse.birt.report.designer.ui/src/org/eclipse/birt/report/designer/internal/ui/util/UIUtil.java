@@ -35,6 +35,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.util.Assert;
@@ -61,6 +62,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
 import org.eclipse.ui.part.FileEditorInput;
+import org.osgi.framework.Bundle;
 
 /**
  * Utility class for UI related routines.
@@ -72,7 +74,7 @@ public class UIUtil
 	/**
 	 * Returns if current active editor is reportEditor.
 	 * 
-	 * @return Returns if current active editor is reportEditor.
+	 * @return true if current active editor is reportEditor, or false else.
 	 */
 	public static boolean isReportEditorActivated( )
 	{
@@ -83,8 +85,8 @@ public class UIUtil
 	 * Returns the current active report editor. The same as getActiveEditor(
 	 * true ).
 	 * 
-	 * @return Returns the current active report editor, or null if no report
-	 *         editor is active.
+	 * @return the current active report editor, or null if no report editor is
+	 *         active.
 	 */
 	public static ReportEditor getActiveReportEditor( )
 	{
@@ -99,8 +101,8 @@ public class UIUtil
 	 *            If this is true, only search the current active page, or will
 	 *            search all pages in current workbench, returns the first
 	 *            active report or null if not found.
-	 * @return Returns the current active report editor, or null if no report
-	 *         editor is active.
+	 * @return the current active report editor, or null if no report editor is
+	 *         active.
 	 */
 	public static ReportEditor getActiveReportEditor( boolean activePageOnly )
 	{
@@ -164,8 +166,8 @@ public class UIUtil
 	 *            If this is true, only search the current active page, or will
 	 *            search all pages in current workbench, returns the first
 	 *            active editor part or null if not found.
-	 * @return Returns the current active editor part, or null if no editor part
-	 *         is active.
+	 * @return the current active editor part, or null if no editor part is
+	 *         active.
 	 */
 	public static IEditorPart getActiveEditor( boolean activePageOnly )
 	{
@@ -215,7 +217,7 @@ public class UIUtil
 	 * is not working, get the first accessible project in the current workspace
 	 * and return it. 4. If none is accessible, returns null.
 	 * 
-	 * @return Returns the default project according to current selection.
+	 * @return the default project according to current selection.
 	 */
 	public static IProject getDefaultProject( )
 	{
@@ -267,7 +269,7 @@ public class UIUtil
 	/**
 	 * Returns the default shell used by dialogs
 	 * 
-	 * @return Returns the active shell of the current display
+	 * @return the active shell of the current display
 	 */
 	public static Shell getDefaultShell( )
 	{
@@ -309,8 +311,8 @@ public class UIUtil
 	 * @param parent
 	 *            The parent of the new group, it should be a table or a list
 	 *            and should not be null.
-	 * @return Returns true if the group created successfully, false if the
-	 *         creation is cancelled or some error occurred.
+	 * @return true if the group created successfully, false if the creation is
+	 *         cancelled or some error occurred.
 	 */
 	public static boolean createGroup( DesignElementHandle parent )
 	{
@@ -334,8 +336,8 @@ public class UIUtil
 	 *            and should not be null.
 	 * @param position
 	 *            insert position
-	 * @return Returns true if the group created successfully, false if the
-	 *         creation is cancelled or some error occurred.
+	 * @return true if the group created successfully, false if the creation is
+	 *         cancelled or some error occurred.
 	 */
 	public static boolean createGroup( DesignElementHandle parent, int position )
 	{
@@ -375,12 +377,12 @@ public class UIUtil
 		{
 			slotHandle.add( groupHandle, position );
 			if ( !DEUtil.getDataSetList( parent ).isEmpty( ) )
-			{//If data set can be found or a blank group will be inserted.
+			{// If data set can be found or a blank group will be inserted.
 				GroupDialog dialog = new GroupDialog( getDefaultShell( ) );
 				dialog.setDataSetList( DEUtil.getDataSetList( parent ) );
 				dialog.setInput( groupHandle );
 				if ( dialog.open( ) == Window.CANCEL )
-				{//Cancel the action
+				{// Cancel the action
 					return false;
 				}
 			}
@@ -409,7 +411,7 @@ public class UIUtil
 	/**
 	 * Gets EditPartViewer in layout editor.
 	 * 
-	 * @return EditPartViewer in layout editor. Return null if not found.
+	 * @return the EditPartViewer in layout editor, or null if not found.
 	 */
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
@@ -428,7 +430,7 @@ public class UIUtil
 	/**
 	 * Creates a new grid layout without margins by default
 	 * 
-	 * @return Returns the layout created
+	 * @return the layout created
 	 */
 	public static GridLayout createGridLayoutWithoutMargin( )
 	{
@@ -447,7 +449,7 @@ public class UIUtil
 	 * @param makeColumnsEqualWidth
 	 *            whether or not the columns will have equal width
 	 * 
-	 * @return Returns the layout created
+	 * @return the layout created
 	 */
 	public static GridLayout createGridLayoutWithoutMargin( int numsColumn,
 			boolean makeColumnsEqualWidth )
@@ -462,7 +464,7 @@ public class UIUtil
 	 * 
 	 * @param string
 	 *            the string to convert
-	 * @return Returns the string, or an empty string for null
+	 * @return the string, or an empty string for null
 	 */
 	public static String convertToGUIString( String string )
 	{
@@ -480,7 +482,7 @@ public class UIUtil
 	 *            the string to convert
 	 * @param trim
 	 *            specify if the string needs to be trimmed
-	 * @return Returns the string, or null for an empty string
+	 * @return the string, or null for an empty string
 	 */
 	public static String convertToModelString( String string, boolean trim )
 	{
@@ -503,7 +505,11 @@ public class UIUtil
 	 * Returns the width hint for the given control.
 	 * 
 	 * @param wHint
+	 *            the width hint
 	 * @param c
+	 *            the control
+	 * 
+	 * @return the width hint
 	 */
 	public static int getWidthHint( int wHint, Control c )
 	{
@@ -515,7 +521,11 @@ public class UIUtil
 	 * Returns the height hint for the given control.
 	 * 
 	 * @param hHint
+	 *            the width hint
 	 * @param c
+	 *            the control
+	 * 
+	 * @return the height hint
 	 */
 	public static int getHeightHint( int hHint, Control c )
 	{
@@ -554,11 +564,11 @@ public class UIUtil
 	}
 
 	/**
-	 * Gets table editpart.
+	 * Returns table editpart.
 	 * 
 	 * @param editParts
 	 *            a list of editpart
-	 * @return The current selected table editpart, null if no table editpart,
+	 * @return the current selected table editpart, null if no table editpart,
 	 *         more than one table, or other non-table editpart. Cell editpart
 	 *         is also a type of table editpart.
 	 */
@@ -589,7 +599,7 @@ public class UIUtil
 			{
 				part = currentEditPart;
 			}
-			//Check if select only one table
+			// Check if select only one table
 			if ( currentEditPart == null
 					|| currentEditPart != null
 					&& part != currentEditPart )
@@ -597,18 +607,18 @@ public class UIUtil
 				return null;
 			}
 		}
-		//Only table permitted
+		// Only table permitted
 		if ( part instanceof GridEditPart )
 			return null;
 		return part;
 	}
 
 	/**
-	 * Gets list editpart.
+	 * Returns list editpart.
 	 * 
 	 * @param editParts
 	 *            a list of editpart
-	 * @return The current selected list editpart, null if no list editpart,
+	 * @return the current selected list editpart, null if no list editpart,
 	 *         more than one list, or other list editpart. List band editpart is
 	 *         also a type of list editpart.
 	 */
@@ -635,7 +645,7 @@ public class UIUtil
 			{
 				part = currentEditPart;
 			}
-			//Check if select only one list
+			// Check if select only one list
 			if ( currentEditPart == null
 					|| currentEditPart != null
 					&& part != currentEditPart )
@@ -646,7 +656,18 @@ public class UIUtil
 		return part;
 	}
 
-	public static boolean containElement( AbstractTreeViewer treeViewer, Object element )
+	/**
+	 * Tests if the specified element is on the given tree viewer
+	 * 
+	 * @param treeViewer
+	 *            the tree viewer
+	 * @param element
+	 *            the element
+	 * 
+	 * @return true if the element is on the tree, or false else.
+	 */
+	public static boolean containElement( AbstractTreeViewer treeViewer,
+			Object element )
 	{
 		ITreeContentProvider provider = (ITreeContentProvider) treeViewer.getContentProvider( );
 		Object input = treeViewer.getInput( );
@@ -686,4 +707,58 @@ public class UIUtil
 		}
 		return false;
 	}
+
+	/**
+	 * Returns the plug-in provider
+	 * 
+	 * @param pluginId
+	 *            the identify of the plugin
+	 * 
+	 * @return the plug-in provider, or null if the plug-in is not found
+	 */
+	public static String getPluginProvider( String pluginId )
+	{
+		return getBundleValue( pluginId,
+				org.osgi.framework.Constants.BUNDLE_VENDOR );
+	}
+
+	/**
+	 * Returns the plug-in name
+	 * 
+	 * @param pluginId
+	 *            the identify of the plugin
+	 * 
+	 * @return the plug-in name, or null if the plug-in is not found
+	 */
+	public static String getPluginName( String pluginId )
+	{
+		return getBundleValue( pluginId,
+				org.osgi.framework.Constants.BUNDLE_NAME );
+	}
+
+	/**
+	 * Returns the plug-in version
+	 * 
+	 * @param pluginId
+	 *            the identify of the plugin
+	 * 
+	 * @return the plug-in version, or null if the plug-in is not found
+	 */
+	public static String getPluginVersion( String pluginId )
+	{
+		return getBundleValue( pluginId,
+				org.osgi.framework.Constants.BUNDLE_VERSION );
+	}
+
+	private static String getBundleValue( String pluginId, String key )
+	{
+		Assert.isNotNull( pluginId );
+		Bundle bundle = Platform.getBundle( pluginId );
+		if ( bundle != null )
+		{
+			return (String) bundle.getHeaders( ).get( key );
+		}
+		return null;
+	}
+
 }

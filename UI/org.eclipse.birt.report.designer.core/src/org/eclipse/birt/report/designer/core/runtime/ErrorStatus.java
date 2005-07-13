@@ -13,9 +13,7 @@ package org.eclipse.birt.report.designer.core.runtime;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.osgi.framework.Bundle;
 
 /**
  * The multi-status to store the information about error.The class contains the
@@ -46,6 +44,20 @@ public class ErrorStatus extends MultiStatus
 	}
 
 	/**
+	 * Add a status with given message and severity
+	 * 
+	 * @param message
+	 *            the status message
+	 * @param severity
+	 *            the status severity
+	 */
+
+	public void addStatus( String message, int severity )
+	{
+		merge( new Status( severity, getPlugin( ), getCode( ), message, null ) );
+	}
+
+	/**
 	 * Add a warning status with given message
 	 * 
 	 * @param message
@@ -53,11 +65,7 @@ public class ErrorStatus extends MultiStatus
 	 */
 	public void addWarning( String message )
 	{
-		merge( new Status( IStatus.WARNING,
-				getPlugin( ),
-				getCode( ),
-				message,
-				getException( ) ) );
+		addStatus( message, IStatus.WARNING );
 	}
 
 	/**
@@ -68,11 +76,7 @@ public class ErrorStatus extends MultiStatus
 	 */
 	public void addError( String message )
 	{
-		merge( new Status( IStatus.ERROR,
-				getPlugin( ),
-				getCode( ),
-				message,
-				getException( ) ) );
+		addStatus( message, IStatus.ERROR );
 	}
 
 	/**
@@ -83,15 +87,12 @@ public class ErrorStatus extends MultiStatus
 	 */
 	public void addInformation( String message )
 	{
-		merge( new Status( IStatus.INFO,
-				getPlugin( ),
-				getCode( ),
-				message,
-				getException( ) ) );
+		addStatus( message, IStatus.INFO );
 	}
 
 	/**
 	 * Add cause of error.
+	 * 
 	 * @param e
 	 */
 	public void addCause( Throwable e )
@@ -105,29 +106,13 @@ public class ErrorStatus extends MultiStatus
 	}
 
 	/**
-	 * Gets the error code
+	 * Returns the error code
 	 * 
-	 * @return Returns the error code
+	 * @return the error code
 	 */
 	public int getErrorCode( )
 	{
 		return getCode( );
-	}
-
-	/**
-	 * Gets the plug-in provider
-	 * 
-	 * @return Returns the plug-in provider, or null if the plug-in is not found
-	 */
-	public String getPluginProvider( )
-	{
-		Bundle bundle = Platform.getBundle( getPlugin( ) );
-		if ( bundle != null )
-		{
-			return (String) bundle.getHeaders( )
-					.get( org.osgi.framework.Constants.BUNDLE_VENDOR );
-		}
-		return null;
 	}
 
 	/*
@@ -138,9 +123,19 @@ public class ErrorStatus extends MultiStatus
 	public int getSeverity( )
 	{
 		if ( getChildren( ).length == 0 )
-		{//Default value
+		{// Default value
 			return IStatus.ERROR;
 		}
 		return super.getSeverity( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.Status#setException(java.lang.Throwable)
+	 */
+	public void setException( Throwable exception )
+	{
+		super.setException( exception );
 	}
 }
