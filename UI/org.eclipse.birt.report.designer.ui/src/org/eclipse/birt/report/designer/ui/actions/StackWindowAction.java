@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -137,6 +138,10 @@ public abstract class StackWindowAction
 	 */
 	public void run( IAction action )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Stack window action >> Run ..." ); //$NON-NLS-1$
+		}
 		if ( canDo( ) )
 		{
 			doStack( );

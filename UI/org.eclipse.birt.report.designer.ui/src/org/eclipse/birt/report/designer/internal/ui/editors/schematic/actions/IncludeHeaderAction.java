@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -66,6 +67,10 @@ public class IncludeHeaderAction extends InsertRowAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Include table header action >> Run ..." ); //$NON-NLS-1$
+		}
 		getTableEditPart( ).includeSlotHandle( true, TableHandleAdapter.HEADER );
 	}
 

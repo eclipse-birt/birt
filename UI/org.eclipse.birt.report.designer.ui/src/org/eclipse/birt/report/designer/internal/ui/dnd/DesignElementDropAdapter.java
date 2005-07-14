@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
@@ -37,7 +38,7 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 
 	/**
 	 * @see ViewerDropAdapter#dragOver(DropTargetEvent)
-	 *  
+	 * 
 	 */
 	public void dragOver( DropTargetEvent event )
 	{
@@ -47,7 +48,13 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 		if ( !validateTarget( getCurrentTarget( ) )
 				|| !validateTarget( getCurrentTarget( ),
 						TemplateTransfer.getInstance( ).getTemplate( ) ) )
+		{
 			event.detail = DND.DROP_NONE;
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Drag over " + event.getSource( ) ); //$NON-NLS-1$
+			}
+		}
 	}
 
 	/**
@@ -56,9 +63,23 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	public boolean performDrop( Object data )
 	{
 		if ( getCurrentOperation( ) == DND.DROP_MOVE )
+		{
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Dropped. Operation: Copy, Target: " //$NON-NLS-1$
+						+ getCurrentTarget( ) );
+			}
 			return moveData( data, getCurrentTarget( ) );
+		}
 		else if ( getCurrentOperation( ) == DND.DROP_COPY )
+		{
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Dropped. Operation: Move, Target: " //$NON-NLS-1$
+						+ getCurrentTarget( ) );
+			}
 			return copyData( data, getCurrentTarget( ) );
+		}
 		return false;
 	}
 

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -33,7 +34,7 @@ public class CutAction extends AbstractViewAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public CutAction( Object selectedObject )
 	{
@@ -76,6 +77,10 @@ public class CutAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Cut action >> Cut " + getSelection( ) ); //$NON-NLS-1$
+		}
 		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
 		DeleteAction action = createDeleteAction( getSelection( ) );
 		action.run( );

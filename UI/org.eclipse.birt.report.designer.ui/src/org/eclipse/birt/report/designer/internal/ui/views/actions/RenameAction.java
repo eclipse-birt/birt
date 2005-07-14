@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInlineTool;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -39,7 +41,7 @@ public class RenameAction extends AbstractViewerAction
 	 * 
 	 * @param sourceViewer
 	 *            the source viewer
-	 *  
+	 * 
 	 */
 	public RenameAction( TreeViewer sourceViewer )
 	{
@@ -72,12 +74,12 @@ public class RenameAction extends AbstractViewerAction
 	public boolean isEnabled( )
 	{
 		if ( getSelectedObjects( ).size( ) != 1 )
-		{//multiple selection or no selection
+		{// multiple selection or no selection
 			return false;
 		}
 		Object obj = super.getSelectedObjects( ).getFirstElement( );
-		
-		if(obj instanceof EmbeddedImageHandle)
+
+		if ( obj instanceof EmbeddedImageHandle )
 		{
 			return true;
 		}
@@ -89,7 +91,7 @@ public class RenameAction extends AbstractViewerAction
 			}
 			return ( (ReportElementHandle) obj ).getDefn( ).getNameOption( ) != MetaDataConstants.NO_NAME;
 		}
-		//No report element selected
+		// No report element selected
 		return false;
 	}
 
@@ -100,6 +102,10 @@ public class RenameAction extends AbstractViewerAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Rename action >> Runs with " + DEUtil.getDisplayLabel( getSelectedObjects( ).getFirstElement( ) ) ); //$NON-NLS-1$
+		}
 		if ( tool != null )
 		{
 			tool.doRename( );

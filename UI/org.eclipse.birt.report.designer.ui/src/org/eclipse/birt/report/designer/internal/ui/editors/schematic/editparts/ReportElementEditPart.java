@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IR
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -77,7 +78,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	private DesignElementHandleAdapter peer;
 	private AbstractGuideHandle guideHandle = null;
 
-	//private static boolean canDeleteGuide = true;
+	// private static boolean canDeleteGuide = true;
 
 	/**
 	 * Constructor
@@ -87,6 +88,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	public ReportElementEditPart( Object model )
 	{
 		super( );
+		if ( Policy.TRACING_EDITPART_CREATE )
+		{
+			String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
+			System.out.println( result[result.length - 1]
+					+ " >> Created for " //$NON-NLS-1$
+					+ model );
+		}
 		setModel( model );
 	}
 
@@ -116,7 +124,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	/**
 	 * Adds the guide handle to the handle layer.
-	 *  
+	 * 
 	 */
 	public void addGuideFeedBack( )
 	{
@@ -341,17 +349,18 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public DragTracker getDragTracker( Request req )
 	{
-		DragEditPartsTracker track = new DragEditPartsTracker(this)
-		{
-			
-			/* (non-Javadoc)
+		DragEditPartsTracker track = new DragEditPartsTracker( this ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
 			 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
 			 */
 			protected boolean handleButtonDown( int button )
 			{
-				if (getCurrentViewer() instanceof DeferredGraphicalViewer)
+				if ( getCurrentViewer( ) instanceof DeferredGraphicalViewer )
 				{
-					((DeferredGraphicalViewer)getCurrentViewer()).initStepDat();
+					( (DeferredGraphicalViewer) getCurrentViewer( ) ).initStepDat( );
 				}
 				return super.handleButtonDown( button );
 			}
@@ -471,7 +480,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		String fontWeight = styleHandle.getFontWeight( );
 		String style = styleHandle.getFontStyle( );
 
-		//Eclipse does not distinct ITALIC and OBLIQUE, so we treat OBLIQUE as
+		// Eclipse does not distinct ITALIC and OBLIQUE, so we treat OBLIQUE as
 		// ITATIC. And if font weight >= 700, deal with BOLD.
 		if ( fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLD )
 				|| fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_BOLDER )
@@ -533,7 +542,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 *  
+	 * 
 	 */
 	protected void refreshBackground( DesignElementHandle handle )
 	{
@@ -543,7 +552,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 *  
+	 * 
 	 */
 	protected void refreshBackgroundColor( DesignElementHandle handle )
 	{
@@ -576,7 +585,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 *  
+	 * 
 	 */
 	protected void refreshBackgroundImage( DesignElementHandle handle )
 	{
@@ -599,7 +608,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			}
 			catch ( SWTException e )
 			{
-				//Should not be ExceptionHandler.handle(e), see SCR#73730
+				// Should not be ExceptionHandler.handle(e), see SCR#73730
 				image = null;
 			}
 
@@ -615,19 +624,19 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 			if ( backGroundPosition instanceof int[] )
 			{
-				//left, center, right, top, bottom
+				// left, center, right, top, bottom
 				figure.setAlignment( ( (int[]) backGroundPosition )[0]
 						| ( (int[]) backGroundPosition )[1] );
 				figure.setPosition( new Point( -1, -1 ) );
 			}
 			else if ( backGroundPosition instanceof Point )
 			{
-				//{1cm, 1cm}
+				// {1cm, 1cm}
 				figure.setPosition( (Point) backGroundPosition );
 			}
 			else if ( backGroundPosition instanceof DimensionValue[] )
 			{
-				//{0%, 0%}
+				// {0%, 0%}
 				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0].getMeasure( );
 				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1].getMeasure( );
 				Rectangle area = getFigure( ).getClientArea( );
@@ -842,7 +851,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		}
 		SelectionRequest selctionRequest = (SelectionRequest) request;
 		Point p = selctionRequest.getLocation( );
-		//getFigure().translateToAbsolute(p);
+		// getFigure().translateToAbsolute(p);
 		getFigure( ).translateToRelative( p );
 		Point center = getFigure( ).getBounds( ).getCenter( );
 		return center.x >= p.x;

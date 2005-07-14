@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -18,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.2 $ $Date: 2005/03/23 03:30:24 $
+ * @version $Revision: 1.3 $ $Date: 2005/04/20 02:57:25 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -57,6 +58,10 @@ public class InsertColumnAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Insert column action >> Run ..." ); //$NON-NLS-1$
+		}
 		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
 		{
 			getTableEditPart( ).insertColumn( getColumnNumber( getColumnHandles( ).get( 0 ) ) );

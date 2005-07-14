@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.ui.IWorkbenchPart;
@@ -54,6 +55,10 @@ public class DeleteTableGroupAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Delete table action >> Run ..." ); //$NON-NLS-1$
+		}
 		if ( getTableGroup( ) != null && getTableEditPart( ) != null )
 		{
 			TableEditPart part = getTableEditPart( );

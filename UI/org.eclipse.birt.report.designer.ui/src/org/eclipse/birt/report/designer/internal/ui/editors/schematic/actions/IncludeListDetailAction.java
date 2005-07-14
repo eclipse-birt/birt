@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.schematic.ListHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
@@ -75,6 +76,10 @@ public class IncludeListDetailAction extends SelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Include list detail action >> Run ..." ); //$NON-NLS-1$
+		}
 		getListEditpart( ).includeSlotHandle( isChecked( ),
 				ListHandleAdapter.DETAIL );
 	}

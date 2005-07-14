@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -61,6 +62,10 @@ public class MergeAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Merge action >> Run ..." ); //$NON-NLS-1$
+		}
 		TableEditPart part = getTableEditPart( );
 		if ( part != null && part.canMerge( ) )
 		{

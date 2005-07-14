@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -29,7 +30,7 @@ public class RefreshAction extends AbstractViewerAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public RefreshAction( TreeViewer sourceViewer )
 	{
@@ -49,7 +50,9 @@ public class RefreshAction extends AbstractViewerAction
 		super( sourceViewer, text );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
 	public boolean isEnabled( )
@@ -62,11 +65,17 @@ public class RefreshAction extends AbstractViewerAction
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Refresh action >> Refresh " + getSourceViewer( ) ); //$NON-NLS-1$
+		}
 		if ( isEnabled( ) )
 		{
 			DataSetHandle handle = (DataSetHandle) getSelectedObjects( ).getFirstElement( );

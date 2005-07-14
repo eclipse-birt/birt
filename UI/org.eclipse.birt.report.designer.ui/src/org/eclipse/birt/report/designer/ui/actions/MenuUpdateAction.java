@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
@@ -88,6 +89,10 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Action [" + getClass() + "] >> Run ..." ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 		if ( menu != null )
 		{
 			actionItems = getItems( );

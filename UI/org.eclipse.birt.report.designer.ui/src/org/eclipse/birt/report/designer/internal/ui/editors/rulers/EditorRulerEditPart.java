@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
@@ -29,7 +30,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Editor ruler editPart.
- *  
+ * 
  */
 public class EditorRulerEditPart extends AbstractGraphicalEditPart
 {
@@ -37,8 +38,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	protected GraphicalViewer diagramViewer;
 	private RulerProvider rulerProvider;
 	private boolean horizontal;
-	private RulerChangeListener listener = new RulerChangeListener.Stub( )
-	{
+	private RulerChangeListener listener = new RulerChangeListener.Stub( ) {
 
 		public void notifyGuideReparented( Object guide )
 		{
@@ -71,6 +71,10 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 		getRulerProvider( ).addRulerChangeListener( listener );
 		getRulerFigure( ).setZoomManager( getZoomManager( ) );
 		super.activate( );
+		if ( Policy.TRACING_RULER )
+		{
+			System.out.println( "Ruler >> Activated" ); //$NON-NLS-1$
+		}
 	}
 
 	/*
@@ -116,9 +120,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	public void handleUnitsChanged( int newUnit )
 	{
 		getRulerFigure( ).setUnit( newUnit );
-		( (EditorRulerFigure) getFigure( ) )
-				.setLeftSpace( ( (EditorRulerProvider) getRulerProvider( ) )
-						.getLeftSpace( ) );
+		( (EditorRulerFigure) getFigure( ) ).setLeftSpace( ( (EditorRulerProvider) getRulerProvider( ) ).getLeftSpace( ) );
 	}
 
 	/*
@@ -132,6 +134,10 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 		getRulerProvider( ).removeRulerChangeListener( listener );
 		rulerProvider = null;
 		getRulerFigure( ).setZoomManager( null );
+		if ( Policy.TRACING_RULER )
+		{
+			System.out.println( "Ruler >> Dectivated" ); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -207,8 +213,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 */
 	public ZoomManager getZoomManager( )
 	{
-		return (ZoomManager) diagramViewer.getProperty( ZoomManager.class
-				.toString( ) );
+		return (ZoomManager) diagramViewer.getProperty( ZoomManager.class.toString( ) );
 	}
 
 	/**
@@ -243,10 +248,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 		super.setParent( parent );
 		if ( getParent( ) != null && diagramViewer == null )
 		{
-			diagramViewer = (GraphicalViewer) getViewer( ).getProperty(
-					GraphicalViewer.class.toString( ) );
-			RulerProvider hProvider = (RulerProvider) diagramViewer
-					.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER );
+			diagramViewer = (GraphicalViewer) getViewer( ).getProperty( GraphicalViewer.class.toString( ) );
+			RulerProvider hProvider = (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER );
 			if ( hProvider != null && hProvider.getRuler( ) == getModel( ) )
 			{
 				rulerProvider = hProvider;
@@ -254,8 +257,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 			}
 			else
 			{
-				rulerProvider = (RulerProvider) diagramViewer
-						.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER );
+				rulerProvider = (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER );
 			}
 		}
 	}

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.model.api.CommandStack;
 
 /**
@@ -49,17 +50,39 @@ public abstract class AbstractElementAction extends AbstractViewAction
 		stack.startTrans( getTransactionLabel( ) );
 		try
 		{
+			if ( Policy.TRACING_ACTIONS )
+			{
+				String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
+				System.out.println( "Element Actions >> " //$NON-NLS-1$
+						+ result[result.length - 1] + " runs with " //$NON-NLS-1$
+						+ getSelection( ) + " selected" ); //$NON-NLS-1$
+			}
 			if ( doAction( ) )
 			{
+				if ( Policy.TRACING_ACTIONS )
+				{
+					System.out.println( "Element  Actions >> " //$NON-NLS-1$
+							+ this.getClass( ).getName( ) + " finished " ); //$NON-NLS-1$
+				}
 				stack.commit( );
 			}
 			else
 			{
+				if ( Policy.TRACING_ACTIONS )
+				{
+					System.out.println( "Element Actions >> " //$NON-NLS-1$
+							+ this.getClass( ).getName( ) + " cancelled " ); //$NON-NLS-1$
+				}
 				stack.rollbackAll( );
 			}
 		}
 		catch ( Exception e )
 		{
+			if ( Policy.TRACING_ACTIONS )
+			{
+				System.out.println( " Actions >> " //$NON-NLS-1$
+						+ this.getClass( ).getName( ) + " failed " ); //$NON-NLS-1$
+			}
 			stack.rollbackAll( );
 			handleException( e );
 		}
@@ -73,7 +96,7 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	 */
 	protected CommandStack getCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack();
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
 	/**

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -43,7 +44,13 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 	public void dragFinished( DragSourceEvent event )
 	{
 		if ( event.doit )
+		{
 			TemplateTransfer.getInstance( ).setTemplate( null );
+			if ( Policy.TRACING_DND_DRAG )
+			{
+				System.out.println( "DND >> Drag finished." ); //$NON-NLS-1$
+			}
+		}
 	}
 
 	/**
@@ -83,6 +90,10 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 				TemplateTransfer.getInstance( ).setTemplate( objects );
 		}
 		event.doit = doit;
+		if ( Policy.TRACING_DND_DRAG && doit )
+		{
+			System.out.println( "DND >> Drag starts." ); //$NON-NLS-1$
+		}
 	}
 
 	/**

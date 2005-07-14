@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.gef.ui.actions.Clipboard;
@@ -32,7 +33,7 @@ public class PasteAction extends AbstractViewAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public PasteAction( Object selectedObject )
 	{
@@ -64,6 +65,10 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Paste action >> Paste " + getClipBoardContents( ) ); //$NON-NLS-1$
+		}
 		DNDUtil.copyHandles( getClipBoardContents( ), getSelection( ) );
 	}
 

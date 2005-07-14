@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.gef.ui.actions.Clipboard;
@@ -31,7 +32,7 @@ public class CopyAction extends AbstractViewAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public CopyAction( Object selectedObject )
 	{
@@ -63,6 +64,10 @@ public class CopyAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Copy action >> Copy " + getSelection( ) ); //$NON-NLS-1$
+		}
 		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
 		Clipboard.getDefault( ).setContents( cloneElements );
 	}

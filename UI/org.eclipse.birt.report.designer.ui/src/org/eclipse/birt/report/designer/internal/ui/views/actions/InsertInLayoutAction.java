@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -110,6 +111,10 @@ public class InsertInLayoutAction extends AbstractViewAction
 		stack.startTrans( DISPLAY_TEXT );
 		try
 		{
+			if ( Policy.TRACING_ACTIONS )
+			{
+				System.out.println( "Insert layout action >> Runs ..." ); //$NON-NLS-1$
+			}
 			Object newElement = InsertInLayoutUtil.performInsert( getSelection( ),
 					getTargetEditPart( ) );
 			if ( newElement != null )

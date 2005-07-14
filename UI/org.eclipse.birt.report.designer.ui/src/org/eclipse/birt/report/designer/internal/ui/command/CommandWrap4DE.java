@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Provides a wrapper of DE command for GEF framework's call back needs GEF command. 
+ * Provides a wrapper of DE command for GEF framework's call back needs GEF
+ * command.
  */
 public class CommandWrap4DE extends Command
 {
@@ -58,7 +60,13 @@ public class CommandWrap4DE extends Command
 	public void execute( )
 	{
 		if ( command != null )
+		{
+			if ( Policy.TRACING_COMMANDS )
+			{
+				System.out.println( "GuiCommand >> Excute " + getLabel( ) ); //$NON-NLS-1$
+			}
 			command.execute( );
+		}
 	}
 
 	/*
@@ -79,7 +87,13 @@ public class CommandWrap4DE extends Command
 	public void redo( )
 	{
 		if ( command != null )
+		{
+			if ( Policy.TRACING_COMMANDS )
+			{
+				System.out.println( "GuiCommand >> Redo " + getLabel( ) ); //$NON-NLS-1$
+			}
 			command.redo( );
+		}
 	}
 
 	/*
@@ -90,7 +104,13 @@ public class CommandWrap4DE extends Command
 	public void undo( )
 	{
 		if ( command != null )
+		{
+			if ( Policy.TRACING_COMMANDS )
+			{
+				System.out.println( "GuiCommand >> Undo " + getLabel( ) ); //$NON-NLS-1$
+			}
 			command.undo( );
+		}
 	}
 
 	public IActivityRecord unwrap( )

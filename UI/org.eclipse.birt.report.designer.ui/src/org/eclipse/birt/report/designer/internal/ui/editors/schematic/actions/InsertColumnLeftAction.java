@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -54,6 +55,10 @@ public class InsertColumnLeftAction extends InsertColumnAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Insert column to left action >> Run ..." ); //$NON-NLS-1$
+		}
 		if ( getTableEditPart( ) != null && !getColumnHandles( ).isEmpty( ) )
 		{
 			// has combined two behavior into one.

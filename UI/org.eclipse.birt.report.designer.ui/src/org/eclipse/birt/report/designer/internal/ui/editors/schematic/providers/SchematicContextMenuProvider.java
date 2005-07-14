@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -208,10 +209,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 						GEFActionConstants.GROUP_EDIT );
 			}
 			createStyleMenu( menuManager, GEFActionConstants.GROUP_REST );
-
+			if ( Policy.TRACING_MENU_SHOW )
+			{
+				System.out.println( "Menu(for Editor) >> Shows for multi-selcetion." ); //$NON-NLS-1$
+			}
 		}
 
-		//-----------------------------------------------------------------
+		// -----------------------------------------------------------------
 		else if ( firstSelectedElement instanceof DesignElementHandle )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
@@ -315,6 +319,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						new DeleteAction( selectedElements ) );
 			}
+			if ( Policy.TRACING_MENU_SHOW )
+			{
+				System.out.println( "Menu(for Editor) >> Shows for " //$NON-NLS-1$
+						+ ( (DesignElementHandle) firstSelectedElement ).getDefn( )
+								.getDisplayName( ) );
+			}
 		}
 		else if ( firstSelectedElement instanceof SlotHandle )
 		{
@@ -332,6 +342,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					new DeleteAction( selectedElements ) );
 
 			createInsertElementMenu( menuManager, GEFActionConstants.GROUP_EDIT );
+			if ( Policy.TRACING_MENU_SHOW )
+			{
+				System.out.println( "Menu(for Editor) >> Shows for the slot " //$NON-NLS-1$
+						+ ( (SlotHandle) firstSelectedElement ).getSlotID( )
+						+ " of " //$NON-NLS-1$
+						+ ( (SlotHandle) firstSelectedElement ).getElementHandle( )
+								.getDefn( )
+								.getDisplayName( ) );
+			}
 		}
 		else
 		{
@@ -490,7 +509,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private void createEditGroupMenu( IMenuManager menuManager,
 			String group_name )
 	{
-		//If select on Group, no need to provide cascade menu
+		// If select on Group, no need to provide cascade menu
 		if ( getFirstElement( ) instanceof RowHandle )
 		{
 			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );

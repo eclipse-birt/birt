@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -97,7 +98,7 @@ public abstract class BaseDialog extends Dialog
 	{
 		super( parentShell );
 		this.title = title;
-		//Disables help button
+		// Disables help button
 		helpAvailable = false;
 	}
 
@@ -135,6 +136,12 @@ public abstract class BaseDialog extends Dialog
 		}
 		if ( initDialog( ) )
 		{
+			if ( Policy.TRACING_DIALOGS )
+			{
+				String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
+				System.out.println( "Dialog >> Open " //$NON-NLS-1$
+						+ result[result.length - 1] );
+			}
 			return super.open( );
 		}
 
@@ -205,7 +212,7 @@ public abstract class BaseDialog extends Dialog
 	 *         failed
 	 */
 	protected boolean initDialog( )
-	{//Do nothing
+	{// Do nothing
 		return true;
 	}
 
@@ -294,7 +301,7 @@ public abstract class BaseDialog extends Dialog
 	 * </p>
 	 */
 	protected void helpPressed( )
-	{//Do nothing
+	{// Do nothing
 	}
 
 	/**

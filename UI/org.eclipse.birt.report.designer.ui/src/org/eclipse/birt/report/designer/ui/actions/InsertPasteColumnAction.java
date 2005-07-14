@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -74,6 +75,10 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Insert paste column action >> Run ..." ); //$NON-NLS-1$
+		}
 		DNDUtil.insertPasteColumn( getClipBoardContents( ), getSelection( ) );
 	}
 }

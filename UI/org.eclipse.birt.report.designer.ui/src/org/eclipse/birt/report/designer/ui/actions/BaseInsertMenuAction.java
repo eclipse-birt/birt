@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
@@ -183,6 +184,10 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Insert action >> Run ..." ); //$NON-NLS-1$
+		}
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		stack.startTrans( STACK_MSG_INSERT_ELEMENT );

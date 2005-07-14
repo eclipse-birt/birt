@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.Action;
@@ -46,6 +47,10 @@ public class ChangeRulerUnitAction extends Action
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Change ruler unit action >> Run ..." ); //$NON-NLS-1$
+		}
 		try
 		{
 			getReportDesignHandle( ).setDefaultUnits( value );

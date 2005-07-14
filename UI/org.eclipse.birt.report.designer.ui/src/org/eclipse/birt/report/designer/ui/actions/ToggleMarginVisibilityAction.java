@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
@@ -73,6 +74,10 @@ public class ToggleMarginVisibilityAction extends Action
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Toggle margin action >> Run ..." ); //$NON-NLS-1$
+		}
 		diagramViewer.setProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY,
 				new Boolean( !isChecked( ) ) );
 	}
