@@ -14,7 +14,9 @@ package org.eclipse.birt.report.designer.core.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -65,6 +67,10 @@ public class DeleteCommand extends Command
 
 	public void execute( )
 	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "DeleteCommand >> Starts ... " );
+		}
 		try
 		{
 			dropSource( model );
@@ -78,7 +84,12 @@ public class DeleteCommand extends Command
 							.getReportDesignHandle( )
 							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 							.removeItem( item );
-
+					if ( DesignerConstants.TRACING_COMMANDS )
+					{
+						System.out.println( "DeleteCommand >> Dropping embedded image "
+								+ item.getStructName( ) );
+						;
+					}
 					// remove cached image
 					String key = ImageManager.getInstance( )
 							.generateKey( SessionHandleAdapter.getInstance( )
@@ -87,9 +98,17 @@ public class DeleteCommand extends Command
 					ImageManager.getInstance( ).removeCachedImage( key );
 				}
 			}
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "DeleteCommand >> Finished. " );
+			}
 		}
 		catch ( SemanticException e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "DeleteCommand >> Failed. " );
+			}
 			e.printStackTrace( );
 		}
 	}
@@ -133,6 +152,11 @@ public class DeleteCommand extends Command
 	{
 		if ( handle.getContainer( ) != null )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "DeleteCommand >> Dropping "
+						+ DEUtil.getDisplayLabel( handle ) );
+			}
 			if ( handle instanceof CellHandle )
 			{
 				dropSourceSlotHandle( ( (CellHandle) handle ).getContent( ) );
@@ -155,6 +179,13 @@ public class DeleteCommand extends Command
 	protected void dropSourceSlotHandle( SlotHandle slot )
 			throws SemanticException
 	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "DeleteCommand >> Dropping slot "
+					+ slot.getSlotID( )
+					+ " of "
+					+ DEUtil.getDisplayLabel( slot.getElementHandle( ) ) );
+		}
 		List list = slot.getContents( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{

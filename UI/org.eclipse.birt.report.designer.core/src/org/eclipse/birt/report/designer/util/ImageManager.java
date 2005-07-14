@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -126,11 +127,11 @@ public class ImageManager
 	 */
 	public Image getImage( ReportDesignHandle handle, String name )
 	{
-		String key = generateKey(handle,name);
+		String key = generateKey( handle, name );
 		EmbeddedImage embeddedImage = handle.findImage( name );
 		if ( embeddedImage == null )
 		{
-			removeCachedImage(key);
+			removeCachedImage( key );
 			return null;
 		}
 		Image image = getImageRegistry( ).get( key );
@@ -143,18 +144,27 @@ public class ImageManager
 		if ( image != null )
 		{
 			getImageRegistry( ).put( key, image );
+			if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_ADD )
+			{
+				System.out.println( "Image Manager >> " + key + " added" );
+			}
 		}
 		return image;
 	}
 
 	/**
 	 * Remove cached image from map
-	 * @param key The key of map.
+	 * 
+	 * @param key
+	 *            The key of map.
 	 */
 	public void removeCachedImage( String key )
 	{
 		getImageRegistry( ).remove( key );
-		
+		if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_REMOVE )
+		{
+			System.out.println( "Image Manager >> " + key + " removed" );
+		}
 	}
 
 	/**
@@ -178,13 +188,13 @@ public class ImageManager
 	private Image loadImage( URL url ) throws IOException
 	{
 		String key = url.toString( );
-		Image image = getImageRegistry().get(key);
-		if (image != null)
+		Image image = getImageRegistry( ).get( key );
+		if ( image != null )
 		{
 			return image;
 		}
 		InputStream in = null;
-		
+
 		try
 		{
 			in = url.openStream( );
@@ -247,13 +257,15 @@ public class ImageManager
 
 	/**
 	 * Generate hash key.
+	 * 
 	 * @param reportDesignHandle
 	 * @param name
 	 * @return key string
 	 */
-	public String generateKey( ReportDesignHandle reportDesignHandle, String name )
+	public String generateKey( ReportDesignHandle reportDesignHandle,
+			String name )
 	{
-		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name ;
+		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name;
 	}
 
 }

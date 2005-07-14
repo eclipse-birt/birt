@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -29,7 +31,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * This command sets the constraint on an element to resize it.
  * 
- *  
+ * 
  */
 
 public class SetConstraintCommand extends Command
@@ -59,12 +61,22 @@ public class SetConstraintCommand extends Command
 
 	public void execute( )
 	{
-		CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
-		//start trans
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		// start trans
 		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT ); //$NON-NLS-1$
 
 		try
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "SetConstraintCommand >>  Starts. Target: "
+						+ DEUtil.getDisplayLabel( model )
+						+ ",New size: "
+						+ newSize.width
+						+ ","
+						+ newSize.height );
+			}
 			if ( model instanceof TableHandle || model instanceof GridHandle )
 			{
 				HandleAdapterFactory.getInstance( )
@@ -108,15 +120,21 @@ public class SetConstraintCommand extends Command
 				model.setHeight( String.valueOf( height )
 						+ DesignChoiceConstants.UNITS_IN );
 			}
+			stack.commit( );
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "SetConstraintCommand >> Finised." );
+			}
 		}
 		catch ( SemanticException e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "SetConstraintCommand >> Failed." );
+			}
 			e.printStackTrace( );
 			stack.rollback( );
 		}
-
-		stack.commit( );
-
 	}
 
 	/**

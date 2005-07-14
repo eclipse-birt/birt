@@ -24,7 +24,7 @@ import org.eclipse.gef.commands.Command;
  * This command adds an object to the model. The object is not created by this
  * command, but simply attached to the parent object.
  * 
- *  
+ * 
  */
 
 public class CreateCommand extends Command
@@ -53,6 +53,10 @@ public class CreateCommand extends Command
 	public void execute( )
 	{
 		DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "CreateCommand >> Starts ... " );
+		}
 		try
 		{
 			// For all virtual model node keep the SlotHandle
@@ -91,10 +95,19 @@ public class CreateCommand extends Command
 							DEUtil.getDefaultSlotID( parent ) );
 				}
 			}
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "CreateCommand >> Finished. "
+						+ DEUtil.getDisplayLabel( newObject )
+						+ " created" );
+			}
 		}
 		catch ( SemanticException e )
 		{
-			// TODO Auto-generated catch block
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "CreateCommand >> Failed" );
+			}
 			e.printStackTrace( );
 		}
 	}

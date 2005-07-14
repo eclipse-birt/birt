@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
@@ -24,7 +25,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * This command moves a child inside a SlotHandle
  * 
- *  
+ * 
  */
 
 public class FlowMoveChildCommand extends Command
@@ -40,6 +41,7 @@ public class FlowMoveChildCommand extends Command
 
 	/**
 	 * Constructor
+	 * 
 	 * @param container
 	 * @param model
 	 * @param model2
@@ -58,6 +60,10 @@ public class FlowMoveChildCommand extends Command
 
 	public void execute( )
 	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "FlowMoveChildCommand >> Starts ... " );
+		}
 		try
 		{
 
@@ -96,7 +102,8 @@ public class FlowMoveChildCommand extends Command
 
 			DesignElementHandle handle = (DesignElementHandle) child;
 
-			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
 
 			stack.startTrans( TRANS_LABEL_MOVE_ELEMENT );
 
@@ -104,9 +111,24 @@ public class FlowMoveChildCommand extends Command
 			containerHandle.getSlot( slotID ).shift( handle, pos );
 
 			stack.commit( );
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "FlowMoveChildCommand >> Finished. Moved "
+						+ DEUtil.getDisplayLabel( handle )
+						+ " to the slot "
+						+ slotID
+						+ " of "
+						+ DEUtil.getDisplayLabel( containerHandle )
+						+ ",Position: "
+						+ pos );
+			}
 		}
 		catch ( ContentException e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "FlowMoveChildCommand >> Failed" );
+			}
 			e.printStackTrace( );
 		}
 	}

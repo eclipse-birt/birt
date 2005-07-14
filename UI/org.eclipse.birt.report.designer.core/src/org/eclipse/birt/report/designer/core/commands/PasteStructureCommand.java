@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -42,8 +44,7 @@ public class PasteStructureCommand extends Command
 	 */
 	public boolean canExecute( )
 	{
-		return DNDUtil.handleValidateTargetCanContain( container,
-				copyData );
+		return DNDUtil.handleValidateTargetCanContain( container, copyData );
 	}
 
 	/*
@@ -59,10 +60,25 @@ public class PasteStructureCommand extends Command
 		}
 		try
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "PasteStructureCommand >>  Starts. Source: "
+						+ copyData.getStructName( )
+						+ ",Target: "
+						+ DEUtil.getDisplayLabel( container ) );
+			}
 			( (ReportDesignHandle) container ).addImage( (EmbeddedImage) copyData.copy( ) );
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "PasteStructureCommand >>  Finished" );
+			}
 		}
 		catch ( SemanticException e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "PasteStructureCommand >>  Failed" );
+			}
 			e.printStackTrace( );
 		}
 	}

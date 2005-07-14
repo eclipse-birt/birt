@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * This class collects commonly-used choice constants. These constants define
@@ -39,11 +40,11 @@ public class DesignerConstants
 	public static final String TABLE_ROW_NUMBER = "rowNumber"; //$NON-NLS-1$
 
 	public static final String TABLE_COLUMN_NUMBER = "columnNumber"; //$NON-NLS-1$
-	
+
 	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
-	
+
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
-	
+
 	public static final String DATA_SOURCE_FLATFILE = "org.eclipse.birt.report.data.oda.flatfile"; //$NON-NLS-1$
 
 	/**
@@ -102,5 +103,33 @@ public class DesignerConstants
 		{
 			fontMap.put( fontSizes[i][0], fontSizes[i][1] );
 		}
+	}
+
+	public static final boolean DEBUG = CorePlugin.getDefault( ).isDebugging( );
+
+	public static final boolean TRACING_COMMANDS = getDebugOption( "commands" );
+
+	public static final boolean TRACING_MEDIATOR_COLLEAGUE_ADD = getDebugOption( "mediator.addColleague" );
+	public static final boolean TRACING_MEDIATOR_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeColleague" );
+	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_ADD = getDebugOption( "mediator.addGlobalColleague" );
+	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeGlobalColleague" );		
+	public static final boolean TRACING_MEDIATOR_NOTIFY = getDebugOption( "mediator.notifyRequest" );
+	public static final boolean TRACING_MEDIATOR_STATE_POP = getDebugOption( "mediator.popState" );
+	public static final boolean TRACING_MEDIATOR_STATE_PUSH = getDebugOption( "mediator.pushState" );
+	public static final boolean TRACING_MEDIATOR_STATE_RESTORE = getDebugOption( "mediator.restoreState" );
+	public static final boolean TRACING_MEDIATOR_DISPOSE = getDebugOption( "mediator.dispose" );
+
+	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_ADD = getDebugOption( "imageManger.addImage" );
+	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_REMOVE = getDebugOption( "imageManger.removeImage" );
+
+	public static boolean getDebugOption( String id )
+	{
+		boolean option = false;
+		if ( DEBUG )
+		{
+			option = "true".equalsIgnoreCase( Platform.getDebugOption( "org.eclipse.birt.report.designer.core/tracing/"
+					+ id ) );
+		}
+		return option;
 	}
 }

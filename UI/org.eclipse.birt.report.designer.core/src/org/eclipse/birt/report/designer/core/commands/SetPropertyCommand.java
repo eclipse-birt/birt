@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -24,7 +25,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * This command set a generic property on a model object
  * 
- *  
+ * 
  */
 
 public class SetPropertyCommand extends Command
@@ -47,6 +48,10 @@ public class SetPropertyCommand extends Command
 
 	public void execute( )
 	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "SetPropertyCommand >> Starts ..." );
+		}
 		try
 		{
 			DesignElementHandle handle = (DesignElementHandle) model;
@@ -58,12 +63,29 @@ public class SetPropertyCommand extends Command
 				Object value = null;
 				if ( ( value = extendsData.get( DEUtil.getGUIPropertyKey( key ) ) ) != null )
 				{
+					if ( DesignerConstants.TRACING_COMMANDS )
+					{
+						System.out.println( "SetPropertyCommand >>  Target: "
+								+ DEUtil.getDisplayLabel( handle )
+								+ ",Property: "
+								+ key
+								+ ",Value: "
+								+ value );
+					}
 					handle.setProperty( key, value );
 				}
+			}
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "SetPropertyCommand >> Finished" );
 			}
 		}
 		catch ( SemanticException e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "SetPropertyCommand >> Failed" );
+			}
 			e.printStackTrace( );
 		}
 	}

@@ -14,11 +14,12 @@ package org.eclipse.birt.report.designer.core.util.mediator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 
 /**
- * Mediator calss to control the interactive between different views.
- * This class is used for selection sychronization and other tasks.
+ * Mediator calss to control the interactive between different views. This class
+ * is used for selection sychronization and other tasks.
  */
 public class ReportMediator
 {
@@ -27,62 +28,91 @@ public class ReportMediator
 	private List listeners = new ArrayList( );
 	private List stack = new ArrayList( );
 	private int stackPointer = 0;
-	private ReportMediatorState currentState = new ReportMediatorState();
-	
-	//suport the globol colleague
-	private static List globalListener = new ArrayList();
+	private ReportMediatorState currentState = new ReportMediatorState( );
 
-	
-	public void addGlobalColleague(IColleague colleague )
+	// suport the globol colleague
+	private static List globalListener = new ArrayList( );
+
+	public void addGlobalColleague( IColleague colleague )
 	{
 		if ( !globalListener.contains( colleague ) )
 		{
+			if ( DesignerConstants.TRACING_MEDIATOR_GLOBAL_COLLEAGUE_ADD )
+			{
+				System.out.println( "ReportMediator >> Add a new global colleage: "
+						+ colleague );
+			}
 			globalListener.add( colleague );
 		}
 	}
+
 	/**
 	 * Add a colleague to mediator.
+	 * 
 	 * @param colleague
 	 */
 	public void addColleague( IColleague colleague )
 	{
 		if ( !listeners.contains( colleague ) )
 		{
+			if ( DesignerConstants.TRACING_MEDIATOR_COLLEAGUE_ADD )
+			{
+				System.out.println( "ReportMediator >> Add a new colleage: " + colleague );
+			}
 			listeners.add( colleague );
 		}
 	}
 
 	/**
 	 * Remove colleagure from mediator.
+	 * 
 	 * @param colleague
 	 */
 	public void removeColleague( IColleague colleague )
 	{
+		if ( DesignerConstants.TRACING_MEDIATOR_COLLEAGUE_REMOVE )
+		{
+			System.out.println( "ReportMediator >> Remove a colleage: " + colleague );
+		}
 		listeners.remove( colleague );
 	}
-	
+
 	/**
 	 * Remove colleagure from mediator.
+	 * 
 	 * @param colleague
 	 */
 	public void removeGlobalColleague( IColleague colleague )
 	{
+		if ( DesignerConstants.TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE )
+		{
+			System.out.println( "ReportMediator >> Remove a global colleage: "
+					+ colleague );
+		}
 		globalListener.remove( colleague );
 	}
 
 	/**
-	 * Send a request to mediator. 
-	 * Mediator handle and dispatch this request to colleaues. 
+	 * Send a request to mediator. Mediator handle and dispatch this request to
+	 * colleaues.
+	 * 
 	 * @param request
 	 */
 	public void notifyRequest( ReportRequest request )
 	{
 		if ( isDispatching )
 			return;
-		isDispatching = true;
-		if (isInterestRequest(request))
+		if ( DesignerConstants.TRACING_MEDIATOR_NOTIFY )
 		{
-			currentState.copyFrom(convertRequestToState(request));
+			System.out.println( "ReportMediator >> Notify a "
+					+ request.getType( )
+					+ "request from "
+					+ request.getSource( ) );
+		}
+		isDispatching = true;
+		if ( isInterestRequest( request ) )
+		{
+			currentState.copyFrom( convertRequestToState( request ) );
 		}
 		int size = listeners.size( );
 		for ( int i = 0; i < size; i++ )
@@ -90,8 +120,8 @@ public class ReportMediator
 			IColleague colleague = (IColleague) listeners.get( i );
 			colleague.performRequest( request );
 		}
-		
-		size = globalListener.size();
+
+		size = globalListener.size( );
 		for ( int i = 0; i < size; i++ )
 		{
 			IColleague colleague = (IColleague) globalListener.get( i );
@@ -100,51 +130,73 @@ public class ReportMediator
 		isDispatching = false;
 	}
 
-	private boolean isInterestRequest(ReportRequest request)
+	private boolean isInterestRequest( ReportRequest request )
 	{
-		return ReportRequest.SELECTION.equals(request.getType());
+		return ReportRequest.SELECTION.equals( request.getType( ) );
 	}
-	
+
 	/**
-	 * Dispose mediator. 
+	 * Dispose mediator.
 	 */
 	public void dispose( )
 	{
-		currentState = null ;
-		listeners.clear();
+		if ( DesignerConstants.TRACING_MEDIATOR_DISPOSE )
+		{
+			System.out.println( "ReportMediator >> Disposing ..." );
+		}
+		currentState = null;
+		listeners.clear( );
 		stackPointer = 0;
 		stack = null;
+		if ( DesignerConstants.TRACING_MEDIATOR_DISPOSE )
+		{
+			System.out.println( "ReportMediator >> Disposed" );
+		}
 	}
 
-	
 	/**
 	 * Return top state in stack.
 	 */
 	public void popState( )
 	{
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_POP )
+		{
+			System.out.println( "ReportMediator >> Poping state . . ." );
+		}
 		stackPointer--;
-		if (stackPointer != 0)
+		if ( stackPointer != 0 )
 		{
 			restoreState( (ReportMediatorState) stack.get( stackPointer ) );
 		}
-		if (stackPointer == 0)
+		if ( stackPointer == 0 )
 		{
-			stack.clear();
+			stack.clear( );
+		}
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_POP )
+		{
+			System.out.println( "ReportMediator >> Poping finished" );
 		}
 	}
 
-	/**Gets the current state
+	/**
+	 * Gets the current state
+	 * 
 	 * @return
 	 */
-	public IMediatorState getCurrentState()
+	public IMediatorState getCurrentState( )
 	{
 		return currentState;
 	}
+
 	/**
 	 * Push state of colleague, which send the notification, into stack.
 	 */
 	public void pushState( )
 	{
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
+		{
+			System.out.print( "ReportMediator >> Pushing state . . ." );
+		}
 		try
 		{
 			ReportMediatorState s;
@@ -161,26 +213,34 @@ public class ReportMediator
 		}
 		catch ( CloneNotSupportedException e )
 		{
+			if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
+			{
+				System.out.println( "ReportMediator >> Pushing failed" );
+			}
 			throw new RuntimeException( e.getMessage( ) );
+		}
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
+		{
+			System.out.println( "ReportMediator >> Pushing finished" );
 		}
 	}
 
-	
-	private ReportMediatorState convertRequestToState(ReportRequest request)
+	private ReportMediatorState convertRequestToState( ReportRequest request )
 	{
-		ReportMediatorState retValue = new ReportMediatorState();
-		retValue.setSource(request.getSource());
-		retValue.setSelectiobObject(request.getSelectionModelList());
+		ReportMediatorState retValue = new ReportMediatorState( );
+		retValue.setSource( request.getSource( ) );
+		retValue.setSelectiobObject( request.getSelectionModelList( ) );
 		return retValue;
 	}
-	
-	private ReportRequest convertStateToRequest(ReportMediatorState s)
+
+	private ReportRequest convertStateToRequest( ReportMediatorState s )
 	{
-		ReportRequest request = new ReportRequest();
-		request.setSource(s.getSource());
-		request.setSelectionObject(s.getSelectionObject());
+		ReportRequest request = new ReportRequest( );
+		request.setSource( s.getSource( ) );
+		request.setSelectionObject( s.getSelectionObject( ) );
 		return request;
 	}
+
 	/**
 	 * Restore previous state and discard the top one.
 	 */
@@ -198,15 +258,23 @@ public class ReportMediator
 	 */
 	protected void restoreState( ReportMediatorState s )
 	{
-		currentState.copyFrom(s);
-		ReportRequest request = convertStateToRequest(s);
-		notifyRequest(request);
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_RESTORE )
+		{
+			System.out.println( "ReportMediator >> Restoring state ..." );
+		}
+		currentState.copyFrom( s );
+		ReportRequest request = convertStateToRequest( s );
+		notifyRequest( request );
+		if ( DesignerConstants.TRACING_MEDIATOR_STATE_RESTORE )
+		{
+			System.out.println( "ReportMediator >> Restoring finised." );
+		}
 	}
-	
-	
 
 	/** Contains the state variables of this SWTGraphics object * */
-	protected static class ReportMediatorState implements Cloneable, IMediatorState
+	protected static class ReportMediatorState implements
+			Cloneable,
+			IMediatorState
 	{
 
 		private List selectiobObject = new ArrayList( );
@@ -229,7 +297,7 @@ public class ReportMediator
 		protected void copyFrom( ReportMediatorState state )
 		{
 			setSelectiobObject( state.getSelectionObject( ) );
-			setSource(state.getSource());
+			setSource( state.getSource( ) );
 		}
 
 		/**

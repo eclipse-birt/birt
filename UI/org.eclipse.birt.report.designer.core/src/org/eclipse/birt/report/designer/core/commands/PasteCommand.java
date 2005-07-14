@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -26,7 +27,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Paste Command
- *  
+ * 
  */
 
 public class PasteCommand extends Command
@@ -147,6 +148,10 @@ public class PasteCommand extends Command
 	 */
 	public void execute( )
 	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "PasteCommand >> Starts ..." );
+		}
 		try
 		{
 			if ( !isCut
@@ -158,20 +163,24 @@ public class PasteCommand extends Command
 
 			calculatePositionAndSlotId( );
 
-			//Drops old source handle if operation is cut
+			// Drops old source handle if operation is cut
 			dropSourceHandle( sourceHandle );
 
-			//Gets new handle
+			// Gets new handle
 			ReportDesignHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			DesignElementHandle newHandle = copyNewHandle( cloneElement,
 					currentDesignHandle );
 
-			//Adds new handle to report
+			// Adds new handle to report
 			addHandleToReport( newHandle );
 		}
 		catch ( Exception e )
 		{
+			if ( DesignerConstants.TRACING_COMMANDS )
+			{
+				System.out.println( "PasteCommand >> Failed." );
+			}
 			e.printStackTrace( );
 		}
 	}
@@ -179,20 +188,33 @@ public class PasteCommand extends Command
 	private void addHandleToReport( DesignElementHandle newHandle )
 			throws ContentException, NameException
 	{
+
+		SlotHandle slotHandle = null;
 		if ( newContainer instanceof DesignElementHandle )
 		{
-			( (DesignElementHandle) newContainer ).getSlot( slotID )
-					.paste( newHandle, position );
+			slotHandle = ( (DesignElementHandle) newContainer ).getSlot( slotID );
 		}
 		else if ( newContainer instanceof SlotHandle )
 		{
-			( (SlotHandle) newContainer ).paste( newHandle, position );
+			slotHandle = (SlotHandle) newContainer;
 		}
 		else if ( newContainer instanceof ReportElementModel )
 		{
-			( (ReportElementModel) newContainer ).getElementHandle( )
-					.getSlot( slotID )
-					.paste( newHandle, position );
+			slotHandle = ( (ReportElementModel) newContainer ).getElementHandle( )
+					.getSlot( slotID );
+
+		}
+		slotHandle.paste( newHandle, position );
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "PasteCommand >>  Finished. Paste "
+					+ DEUtil.getDisplayLabel( newHandle )
+					+ " to the slot "
+					+ slotHandle.getSlotID( )
+					+ " of "
+					+ DEUtil.getDisplayLabel( slotHandle.getElementHandle( ) )
+					+ ",Position: "
+					+ position );
 		}
 	}
 
@@ -254,7 +276,7 @@ public class PasteCommand extends Command
 			throws CloneNotSupportedException
 	{
 		IDesignElement newElement = isCloned ? element
-				:  (IDesignElement) element.clone( );
+				: (IDesignElement) element.clone( );
 		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getDesign( ) );
 		currentDesignHandle.rename( handle );
 		return handle;
@@ -273,9 +295,11 @@ public class PasteCommand extends Command
 		if ( childHandle == null )
 		{
 			childHandle = cloneElement.getHandle( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ).getDesign() );
+					.getReportDesignHandle( )
+					.getDesign( ) );
 		}
-		return DNDUtil.handleValidateTargetCanContain( newContainer, childHandle )
+		return DNDUtil.handleValidateTargetCanContain( newContainer,
+				childHandle )
 				&& DNDUtil.handleValidateTargetCanContainMore( newContainer, 1 );
 	}
 }
