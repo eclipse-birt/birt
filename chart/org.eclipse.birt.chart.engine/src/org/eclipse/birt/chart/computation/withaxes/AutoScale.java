@@ -519,6 +519,7 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( ia == null ) // HANDLE YEARS SEPARATELY
 					{
 						iStep++; // NO UPPER LIMIT FOR YEARS
+						oStep = new Integer( iStep );
 					}
 					else
 					// HANDLE SECONDS, MINUTES, HOURS, DAYS, MONTHS
@@ -1942,7 +1943,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param bConsiderStartEndLabels
 	 * @param aax
 	 */
-	final void computeTicks( IDisplayServer xs, Label la, int iLabelLocation,
+	final int computeTicks( IDisplayServer xs, Label la, int iLabelLocation,
 			int iOrientation, double dStart, double dEnd,
 			boolean bConsiderStartEndLabels, AllAxes aax )
 			throws ChartException
@@ -2004,6 +2005,8 @@ public final class AutoScale extends Methods implements Cloneable
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( da );
+
+		return nTicks;
 	}
 
 	/**

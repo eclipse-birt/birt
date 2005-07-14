@@ -1427,6 +1427,7 @@ public final class PlotWith2DAxes extends PlotContent
 		{
 			oaData = getMinMax( axPrimaryBase, iAxisType );
 		}
+
 		DataSetIterator dsi = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
 				: new DataSetIterator( oaData, iAxisType );
 		oaData = null;
@@ -2367,14 +2368,16 @@ public final class PlotWith2DAxes extends PlotContent
 					dEnd,
 					true,
 					aax );
+
 			if ( !scX.isStepFixed( ) )
 			{
 				final Object[] oaMinMax = scX.getMinMax( );
+
 				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
 					scX.zoomOut( );
 					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-					scX.computeTicks( ids,
+					int tickCount = scX.computeTicks( ids,
 							laXAxisLabels,
 							iXLabelLocation,
 							HORIZONTAL,
@@ -2382,6 +2385,11 @@ public final class PlotWith2DAxes extends PlotContent
 							dEnd,
 							true,
 							aax );
+					if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
+					}
 				}
 			}
 
