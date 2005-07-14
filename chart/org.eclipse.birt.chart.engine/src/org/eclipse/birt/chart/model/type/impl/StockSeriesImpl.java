@@ -589,7 +589,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	{
 		StringTokenizer strtok = new StringTokenizer( sOldRepresentation, "," ); //$NON-NLS-1$
 		StringBuffer sbNewRepresentation = new StringBuffer( "" ); //$NON-NLS-1$
-		SimpleDateFormat sdf = new SimpleDateFormat( "mm/dd/yyyy", //$NON-NLS-1$
+		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy", //$NON-NLS-1$
 				Locale.getDefault( ) );
 		int iValueCount = 0;
 		while ( strtok.hasMoreTokens( ) )

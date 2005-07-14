@@ -446,7 +446,7 @@ public class StockChart extends DefaultChartTypeImpl
     {
         StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
         StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()); //$NON-NLS-1$
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()); //$NON-NLS-1$
         int iValueCount = 0;
         while (strtok.hasMoreTokens())
         {
