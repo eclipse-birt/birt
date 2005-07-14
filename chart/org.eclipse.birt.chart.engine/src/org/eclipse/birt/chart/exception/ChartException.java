@@ -92,6 +92,14 @@ public class ChartException extends BirtException
 	 */
 	public static final int COMPUTATION = 15;
 	/**
+	 * Exception type for ZeroDataset error.
+	 */
+	public static final int ZERO_DATASET = 16;
+	/**
+	 * Exception type for NullDataset error.
+	 */
+	public static final int NULL_DATASET = 17;
+	/**
 	 * Exception type for Validation error.
 	 */
 	public static final int VALIDATION = MAX_VALUE;

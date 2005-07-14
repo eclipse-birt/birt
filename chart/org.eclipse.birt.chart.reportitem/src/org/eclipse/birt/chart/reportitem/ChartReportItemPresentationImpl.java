@@ -231,12 +231,14 @@ public final class ChartReportItemPresentationImpl extends
 				|| ibqda.length != 1
 				|| irsa[0] == null )
 		{
-			// Data rows are empty
-			throw new ChartException( ChartReportItemPlugin.ID,
+			// if the Data rows are null/empty, just log the error and returns
+			// null gracefully.
+			logger.log( new ChartException( ChartReportItemPlugin.ID,
 					ChartException.GENERATION,
 					"ChartReportItemPresentationImpl.error.NoData", //$NON-NLS-1$
 					ResourceBundle.getBundle( Messages.REPORT_ITEM,
-							rtc.getLocale( ) ) );
+							rtc.getLocale( ) ) ) );
+			return null;
 		}
 
 		logger.log( ILogger.INFORMATION,
@@ -314,14 +316,23 @@ public final class ChartReportItemPresentationImpl extends
 		}
 		catch ( BirtException ex )
 		{
-			logger.log( ILogger.INFORMATION,
+			if ( ex.getCause() instanceof ChartException
+					&& ( (ChartException) ex.getCause() ).getType( ) == ChartException.ZERO_DATASET )
+			{
+				// if the Data set has zero lines, just log the error and
+				// returns null gracefully.
+				logger.log( ex );
+				return null;
+			}
+
+			logger.log( ILogger.ERROR,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
 			logger.log( ex );
 			throw ex;
 		}
 		catch ( RuntimeException ex )
 		{
-			logger.log( ILogger.INFORMATION,
+			logger.log( ILogger.ERROR,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
 			logger.log( ex );
 			throw new ChartException( ChartReportItemPlugin.ID,
