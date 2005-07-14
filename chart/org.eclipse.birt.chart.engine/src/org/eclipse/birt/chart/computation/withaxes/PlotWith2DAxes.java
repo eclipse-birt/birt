@@ -2233,7 +2233,7 @@ public final class PlotWith2DAxes extends PlotContent
 			{
 				scY.zoomOut( );
 				scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-				scY.computeTicks( ids,
+				int tickCount = scY.computeTicks( ids,
 						laYAxisLabels,
 						iYLabelLocation,
 						VERTICAL,
@@ -2241,6 +2241,11 @@ public final class PlotWith2DAxes extends PlotContent
 						dEnd,
 						true,
 						aax );
+				if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+						&& tickCount <= 3 )
+				{
+					break;
+				}
 			}
 		}
 
@@ -2497,7 +2502,7 @@ public final class PlotWith2DAxes extends PlotContent
 				{
 					scX.zoomOut( );
 					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-					scX.computeTicks( ids,
+					int tickCount = scX.computeTicks( ids,
 							laXAxisLabels,
 							iXLabelLocation,
 							HORIZONTAL,
@@ -2505,6 +2510,11 @@ public final class PlotWith2DAxes extends PlotContent
 							dEnd,
 							true,
 							aax );
+					if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
+					}
 				}
 			}
 
@@ -2600,7 +2610,7 @@ public final class PlotWith2DAxes extends PlotContent
 						{
 							scX.zoomOut( );
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-							scX.computeTicks( ids,
+							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
 									iXLabelLocation,
 									HORIZONTAL,
@@ -2608,6 +2618,11 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
+							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
 						}
 
 						dX = getLocation( scX, iv );
@@ -2639,7 +2654,7 @@ public final class PlotWith2DAxes extends PlotContent
 						{
 							scX.zoomOut( );
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-							scX.computeTicks( ids,
+							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
 									iXLabelLocation,
 									HORIZONTAL,
@@ -2647,6 +2662,11 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
+							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
 						}
 					}
 					dX = getLocation( scX, iv );
@@ -2721,7 +2741,7 @@ public final class PlotWith2DAxes extends PlotContent
 							{
 								scX.zoomOut( );
 								scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-								scX.computeTicks( ids,
+								int tickCount = scX.computeTicks( ids,
 										laXAxisLabels,
 										iXLabelLocation,
 										HORIZONTAL,
@@ -2729,6 +2749,11 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
+								if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									break;
+								}
 							}
 						}
 						dX = getLocation( scX, iv );
@@ -2762,7 +2787,7 @@ public final class PlotWith2DAxes extends PlotContent
 						{
 							scX.zoomOut( );
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-							scX.computeTicks( ids,
+							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
 									iXLabelLocation,
 									HORIZONTAL,
@@ -2770,6 +2795,11 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
+							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
 						}
 					}
 					dX = getLocation( scX, iv );
@@ -2946,7 +2976,7 @@ public final class PlotWith2DAxes extends PlotContent
 					{
 						scY.zoomOut( );
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-						scY.computeTicks( ids,
+						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
 								iYLabelLocation,
 								VERTICAL,
@@ -2954,6 +2984,11 @@ public final class PlotWith2DAxes extends PlotContent
 								dEnd,
 								true,
 								aax );
+						if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
 					}
 				}
 			}
@@ -3048,7 +3083,7 @@ public final class PlotWith2DAxes extends PlotContent
 					{
 						scY.zoomOut( );
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-						scY.computeTicks( ids,
+						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
 								iYLabelLocation,
 								VERTICAL,
@@ -3056,6 +3091,11 @@ public final class PlotWith2DAxes extends PlotContent
 								dEnd,
 								true,
 								aax );
+						if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								&& tickCount <= 3 )
+						{
+							break;
+						}
 					}
 				}
 			}
@@ -3143,7 +3183,7 @@ public final class PlotWith2DAxes extends PlotContent
 							{
 								scY.zoomOut( );
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-								scY.computeTicks( ids,
+								int tickCount = scY.computeTicks( ids,
 										laYAxisLabels,
 										iYLabelLocation,
 										VERTICAL,
@@ -3151,6 +3191,11 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
+								if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									break;
+								}
 							}
 						}
 
@@ -3239,7 +3284,7 @@ public final class PlotWith2DAxes extends PlotContent
 							{
 								scY.zoomOut( );
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
-								scY.computeTicks( ids,
+								int tickCount = scY.computeTicks( ids,
 										laYAxisLabels,
 										iYLabelLocation,
 										VERTICAL,
@@ -3247,6 +3292,11 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
+								if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									break;
+								}
 							}
 						}
 
