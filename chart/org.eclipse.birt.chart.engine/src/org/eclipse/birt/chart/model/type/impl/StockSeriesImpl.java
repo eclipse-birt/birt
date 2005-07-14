@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
@@ -346,7 +347,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 				getDataDefinition( ).addAll( (Collection) newValue );
 				return;
 			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER :
-				setSeriesIdentifier( (Object) newValue );
+				setSeriesIdentifier( newValue );
 				return;
 			case TypePackage.STOCK_SERIES__DATA_POINT :
 				setDataPoint( (DataPoint) newValue );
@@ -504,6 +505,14 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
 		{
 			this.getDataDefinition( ).addAll( series.getDataDefinition( ) );
+			//Add blank definition if old series' is less than expected
+			if ( !( series instanceof StockSeries ) )
+			{
+				for ( int length = this.getDataDefinition( ).size( ); length < 4; length++ )
+				{
+					this.getDataDefinition( ).add( QueryImpl.create( "" ) ); //$NON-NLS-1$
+				}
+			}
 		}
 
 		// Copy series specific properties
@@ -678,7 +687,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 * A convenience method to create an initialized 'Series' instance NOTE:
 	 * Manually written
 	 * 
-	 * @return
 	 */
 	public static final Series create( )
 	{
