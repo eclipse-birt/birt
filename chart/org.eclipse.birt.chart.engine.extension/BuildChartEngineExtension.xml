@@ -89,6 +89,8 @@
 		<pathelement path="${dir.bin}"/>
 		
 		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
