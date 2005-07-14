@@ -50,7 +50,7 @@ public class SetPropertyCommand extends Command
 	{
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "SetPropertyCommand >> Starts ..." );
+			System.out.println( "SetPropertyCommand >> Starts ..." ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -65,11 +65,11 @@ public class SetPropertyCommand extends Command
 				{
 					if ( DesignerConstants.TRACING_COMMANDS )
 					{
-						System.out.println( "SetPropertyCommand >>  Target: "
+						System.out.println( "SetPropertyCommand >>  Target: " //$NON-NLS-1$
 								+ DEUtil.getDisplayLabel( handle )
-								+ ",Property: "
+								+ ",Property: " //$NON-NLS-1$
 								+ key
-								+ ",Value: "
+								+ ",Value: " //$NON-NLS-1$
 								+ value );
 					}
 					handle.setProperty( key, value );
@@ -77,14 +77,14 @@ public class SetPropertyCommand extends Command
 			}
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "SetPropertyCommand >> Finished" );
+				System.out.println( "SetPropertyCommand >> Finished" ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "SetPropertyCommand >> Failed" );
+				System.out.println( "SetPropertyCommand >> Failed" ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}

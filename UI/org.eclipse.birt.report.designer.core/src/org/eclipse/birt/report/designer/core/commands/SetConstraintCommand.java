@@ -70,11 +70,11 @@ public class SetConstraintCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "SetConstraintCommand >>  Starts. Target: "
+				System.out.println( "SetConstraintCommand >>  Starts. Target: " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( model )
-						+ ",New size: "
+						+ ",New size: " //$NON-NLS-1$
 						+ newSize.width
-						+ ","
+						+ "," //$NON-NLS-1$
 						+ newSize.height );
 			}
 			if ( model instanceof TableHandle || model instanceof GridHandle )
@@ -123,14 +123,14 @@ public class SetConstraintCommand extends Command
 			stack.commit( );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "SetConstraintCommand >> Finised." );
+				System.out.println( "SetConstraintCommand >> Finised." ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "SetConstraintCommand >> Failed." );
+				System.out.println( "SetConstraintCommand >> Failed." ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 			stack.rollback( );

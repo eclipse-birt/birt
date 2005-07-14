@@ -62,11 +62,11 @@ public class MoveGuideCommand extends Command
 
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "MoveGuideCommand >>  Starts. Target: "
+			System.out.println( "MoveGuideCommand >>  Starts. Target: " //$NON-NLS-1$
 					+ page.getDisplayLabel( )
-					+ ",Property: "
+					+ ",Property: " //$NON-NLS-1$
 					+ propertyName
-					+ ",Value: "
+					+ ",Value: " //$NON-NLS-1$
 					+ dim.toDisplayString( ) );
 		}
 		try
@@ -74,14 +74,14 @@ public class MoveGuideCommand extends Command
 			page.setProperty( propertyName, dim );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "MoveGuideCommand >> Finished." );
+				System.out.println( "MoveGuideCommand >> Finished." ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "MoveGuideCommand >> Failed." );
+				System.out.println( "MoveGuideCommand >> Failed." ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}

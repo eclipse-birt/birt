@@ -56,7 +56,7 @@ public class DeleteColumnCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "DeleteColumnCommand >> Starts. Target: "
+				System.out.println( "DeleteColumnCommand >> Starts. Target: " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( getTableParent( ) ) );
 			}
 			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance( )
@@ -73,14 +73,14 @@ public class DeleteColumnCommand extends Command
 				} );
 				if ( DesignerConstants.TRACING_COMMANDS )
 				{
-					System.out.println( "DeleteColumnCommand >> Finished. " );					
+					System.out.println( "DeleteColumnCommand >> Finished. " );					 //$NON-NLS-1$
 				}
 			}
 			catch ( SemanticException e )
 			{
 				if ( DesignerConstants.TRACING_COMMANDS )
 				{
-					System.out.println( "DeleteColumnCommand >> Failed. " );
+					System.out.println( "DeleteColumnCommand >> Failed. " ); //$NON-NLS-1$
 				}
 			}
 		}

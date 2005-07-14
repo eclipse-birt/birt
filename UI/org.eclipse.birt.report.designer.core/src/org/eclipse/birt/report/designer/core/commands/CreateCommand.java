@@ -55,7 +55,7 @@ public class CreateCommand extends Command
 		DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "CreateCommand >> Starts ... " );
+			System.out.println( "CreateCommand >> Starts ... " ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -97,16 +97,16 @@ public class CreateCommand extends Command
 			}
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "CreateCommand >> Finished. "
+				System.out.println( "CreateCommand >> Finished. " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( newObject )
-						+ " created" );
+						+ " created" ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "CreateCommand >> Failed" );
+				System.out.println( "CreateCommand >> Failed" ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}

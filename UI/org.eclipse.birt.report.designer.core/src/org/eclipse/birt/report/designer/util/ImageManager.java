@@ -146,7 +146,7 @@ public class ImageManager
 			getImageRegistry( ).put( key, image );
 			if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_ADD )
 			{
-				System.out.println( "Image Manager >> " + key + " added" );
+				System.out.println( "Image Manager >> " + key + " added" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		return image;
@@ -163,7 +163,7 @@ public class ImageManager
 		getImageRegistry( ).remove( key );
 		if ( DesignerConstants.TRACING_IMAGE_MANAGER_IMAGE_REMOVE )
 		{
-			System.out.println( "Image Manager >> " + key + " removed" );
+			System.out.println( "Image Manager >> " + key + " removed" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

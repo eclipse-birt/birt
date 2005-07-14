@@ -62,7 +62,7 @@ public class FlowMoveChildCommand extends Command
 	{
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "FlowMoveChildCommand >> Starts ... " );
+			System.out.println( "FlowMoveChildCommand >> Starts ... " ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -113,13 +113,13 @@ public class FlowMoveChildCommand extends Command
 			stack.commit( );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "FlowMoveChildCommand >> Finished. Moved "
+				System.out.println( "FlowMoveChildCommand >> Finished. Moved " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( handle )
-						+ " to the slot "
+						+ " to the slot " //$NON-NLS-1$
 						+ slotID
-						+ " of "
+						+ " of " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( containerHandle )
-						+ ",Position: "
+						+ ",Position: " //$NON-NLS-1$
 						+ pos );
 			}
 		}
@@ -127,7 +127,7 @@ public class FlowMoveChildCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "FlowMoveChildCommand >> Failed" );
+				System.out.println( "FlowMoveChildCommand >> Failed" ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}

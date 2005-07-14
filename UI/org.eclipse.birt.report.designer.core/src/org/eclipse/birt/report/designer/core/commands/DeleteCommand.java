@@ -69,7 +69,7 @@ public class DeleteCommand extends Command
 	{
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "DeleteCommand >> Starts ... " );
+			System.out.println( "DeleteCommand >> Starts ... " ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -86,7 +86,7 @@ public class DeleteCommand extends Command
 							.removeItem( item );
 					if ( DesignerConstants.TRACING_COMMANDS )
 					{
-						System.out.println( "DeleteCommand >> Dropping embedded image "
+						System.out.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
 								+ item.getStructName( ) );
 						;
 					}
@@ -100,14 +100,14 @@ public class DeleteCommand extends Command
 			}
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "DeleteCommand >> Finished. " );
+				System.out.println( "DeleteCommand >> Finished. " ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "DeleteCommand >> Failed. " );
+				System.out.println( "DeleteCommand >> Failed. " ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}
@@ -154,7 +154,7 @@ public class DeleteCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "DeleteCommand >> Dropping "
+				System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( handle ) );
 			}
 			if ( handle instanceof CellHandle )
@@ -181,9 +181,9 @@ public class DeleteCommand extends Command
 	{
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "DeleteCommand >> Dropping slot "
+			System.out.println( "DeleteCommand >> Dropping slot " //$NON-NLS-1$
 					+ slot.getSlotID( )
-					+ " of "
+					+ " of " //$NON-NLS-1$
 					+ DEUtil.getDisplayLabel( slot.getElementHandle( ) ) );
 		}
 		List list = slot.getContents( );

@@ -62,22 +62,22 @@ public class PasteStructureCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "PasteStructureCommand >>  Starts. Source: "
+				System.out.println( "PasteStructureCommand >>  Starts. Source: " //$NON-NLS-1$
 						+ copyData.getStructName( )
-						+ ",Target: "
+						+ ",Target: " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( container ) );
 			}
 			( (ReportDesignHandle) container ).addImage( (EmbeddedImage) copyData.copy( ) );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "PasteStructureCommand >>  Finished" );
+				System.out.println( "PasteStructureCommand >>  Finished" ); //$NON-NLS-1$
 			}
 		}
 		catch ( SemanticException e )
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "PasteStructureCommand >>  Failed" );
+				System.out.println( "PasteStructureCommand >>  Failed" ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}

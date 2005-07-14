@@ -107,27 +107,34 @@ public class DesignerConstants
 
 	public static final boolean DEBUG = CorePlugin.getDefault( ).isDebugging( );
 
-	public static final boolean TRACING_COMMANDS = getDebugOption( "commands" );
+	public static final boolean TRACING_COMMANDS = getDebugOption( "commands" ); //$NON-NLS-1$
 
-	public static final boolean TRACING_MEDIATOR_COLLEAGUE_ADD = getDebugOption( "mediator.addColleague" );
-	public static final boolean TRACING_MEDIATOR_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeColleague" );
-	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_ADD = getDebugOption( "mediator.addGlobalColleague" );
-	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeGlobalColleague" );		
-	public static final boolean TRACING_MEDIATOR_NOTIFY = getDebugOption( "mediator.notifyRequest" );
-	public static final boolean TRACING_MEDIATOR_STATE_POP = getDebugOption( "mediator.popState" );
-	public static final boolean TRACING_MEDIATOR_STATE_PUSH = getDebugOption( "mediator.pushState" );
-	public static final boolean TRACING_MEDIATOR_STATE_RESTORE = getDebugOption( "mediator.restoreState" );
-	public static final boolean TRACING_MEDIATOR_DISPOSE = getDebugOption( "mediator.dispose" );
+	public static final boolean TRACING_MEDIATOR_COLLEAGUE_ADD = getDebugOption( "mediator.addColleague" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeColleague" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_ADD = getDebugOption( "mediator.addGlobalColleague" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE = getDebugOption( "mediator.removeGlobalColleague" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_NOTIFY = getDebugOption( "mediator.notifyRequest" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_STATE_POP = getDebugOption( "mediator.popState" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_STATE_PUSH = getDebugOption( "mediator.pushState" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_STATE_RESTORE = getDebugOption( "mediator.restoreState" ); //$NON-NLS-1$
+	public static final boolean TRACING_MEDIATOR_DISPOSE = getDebugOption( "mediator.dispose" ); //$NON-NLS-1$
 
-	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_ADD = getDebugOption( "imageManger.addImage" );
-	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_REMOVE = getDebugOption( "imageManger.removeImage" );
+	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_ADD = getDebugOption( "imageManger.addImage" ); //$NON-NLS-1$
+	public static final boolean TRACING_IMAGE_MANAGER_IMAGE_REMOVE = getDebugOption( "imageManger.removeImage" ); //$NON-NLS-1$
 
+	/**
+	 * Returns the debug option with the given id
+	 * 
+	 * @param id
+	 *            the id of the debug option
+	 * @return the debug option,or false if the id doesn't exist.
+	 */
 	public static boolean getDebugOption( String id )
 	{
 		boolean option = false;
 		if ( DEBUG )
 		{
-			option = "true".equalsIgnoreCase( Platform.getDebugOption( "org.eclipse.birt.report.designer.core/tracing/"
+			option = "true".equalsIgnoreCase( Platform.getDebugOption( "org.eclipse.birt.report.designer.core/tracing/" //$NON-NLS-1$ //$NON-NLS-2$
 					+ id ) );
 		}
 		return option;

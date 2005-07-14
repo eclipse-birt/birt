@@ -39,7 +39,7 @@ public class ReportMediator
 		{
 			if ( DesignerConstants.TRACING_MEDIATOR_GLOBAL_COLLEAGUE_ADD )
 			{
-				System.out.println( "ReportMediator >> Add a new global colleage: "
+				System.out.println( "ReportMediator >> Add a new global colleage: " //$NON-NLS-1$
 						+ colleague );
 			}
 			globalListener.add( colleague );
@@ -57,7 +57,7 @@ public class ReportMediator
 		{
 			if ( DesignerConstants.TRACING_MEDIATOR_COLLEAGUE_ADD )
 			{
-				System.out.println( "ReportMediator >> Add a new colleage: " + colleague );
+				System.out.println( "ReportMediator >> Add a new colleage: " + colleague ); //$NON-NLS-1$
 			}
 			listeners.add( colleague );
 		}
@@ -72,7 +72,7 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_COLLEAGUE_REMOVE )
 		{
-			System.out.println( "ReportMediator >> Remove a colleage: " + colleague );
+			System.out.println( "ReportMediator >> Remove a colleage: " + colleague ); //$NON-NLS-1$
 		}
 		listeners.remove( colleague );
 	}
@@ -86,7 +86,7 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE )
 		{
-			System.out.println( "ReportMediator >> Remove a global colleage: "
+			System.out.println( "ReportMediator >> Remove a global colleage: " //$NON-NLS-1$
 					+ colleague );
 		}
 		globalListener.remove( colleague );
@@ -104,9 +104,9 @@ public class ReportMediator
 			return;
 		if ( DesignerConstants.TRACING_MEDIATOR_NOTIFY )
 		{
-			System.out.println( "ReportMediator >> Notify a "
+			System.out.println( "ReportMediator >> Notify a " //$NON-NLS-1$
 					+ request.getType( )
-					+ "request from "
+					+ "request from " //$NON-NLS-1$
 					+ request.getSource( ) );
 		}
 		isDispatching = true;
@@ -142,7 +142,7 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_DISPOSE )
 		{
-			System.out.println( "ReportMediator >> Disposing ..." );
+			System.out.println( "ReportMediator >> Disposing ..." ); //$NON-NLS-1$
 		}
 		currentState = null;
 		listeners.clear( );
@@ -150,7 +150,7 @@ public class ReportMediator
 		stack = null;
 		if ( DesignerConstants.TRACING_MEDIATOR_DISPOSE )
 		{
-			System.out.println( "ReportMediator >> Disposed" );
+			System.out.println( "ReportMediator >> Disposed" ); //$NON-NLS-1$
 		}
 	}
 
@@ -161,7 +161,7 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_POP )
 		{
-			System.out.println( "ReportMediator >> Poping state . . ." );
+			System.out.println( "ReportMediator >> Poping state . . ." ); //$NON-NLS-1$
 		}
 		stackPointer--;
 		if ( stackPointer != 0 )
@@ -174,7 +174,7 @@ public class ReportMediator
 		}
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_POP )
 		{
-			System.out.println( "ReportMediator >> Poping finished" );
+			System.out.println( "ReportMediator >> Poping finished" ); //$NON-NLS-1$
 		}
 	}
 
@@ -195,7 +195,7 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
 		{
-			System.out.print( "ReportMediator >> Pushing state . . ." );
+			System.out.print( "ReportMediator >> Pushing state . . ." ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -215,13 +215,13 @@ public class ReportMediator
 		{
 			if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
 			{
-				System.out.println( "ReportMediator >> Pushing failed" );
+				System.out.println( "ReportMediator >> Pushing failed" ); //$NON-NLS-1$
 			}
 			throw new RuntimeException( e.getMessage( ) );
 		}
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_PUSH )
 		{
-			System.out.println( "ReportMediator >> Pushing finished" );
+			System.out.println( "ReportMediator >> Pushing finished" ); //$NON-NLS-1$
 		}
 	}
 
@@ -260,14 +260,14 @@ public class ReportMediator
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_RESTORE )
 		{
-			System.out.println( "ReportMediator >> Restoring state ..." );
+			System.out.println( "ReportMediator >> Restoring state ..." ); //$NON-NLS-1$
 		}
 		currentState.copyFrom( s );
 		ReportRequest request = convertStateToRequest( s );
 		notifyRequest( request );
 		if ( DesignerConstants.TRACING_MEDIATOR_STATE_RESTORE )
 		{
-			System.out.println( "ReportMediator >> Restoring finised." );
+			System.out.println( "ReportMediator >> Restoring finised." ); //$NON-NLS-1$
 		}
 	}
 

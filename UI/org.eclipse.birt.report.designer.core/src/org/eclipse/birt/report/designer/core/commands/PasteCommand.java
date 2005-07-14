@@ -150,7 +150,7 @@ public class PasteCommand extends Command
 	{
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "PasteCommand >> Starts ..." );
+			System.out.println( "PasteCommand >> Starts ..." ); //$NON-NLS-1$
 		}
 		try
 		{
@@ -179,7 +179,7 @@ public class PasteCommand extends Command
 		{
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
-				System.out.println( "PasteCommand >> Failed." );
+				System.out.println( "PasteCommand >> Failed." ); //$NON-NLS-1$
 			}
 			e.printStackTrace( );
 		}
@@ -207,13 +207,13 @@ public class PasteCommand extends Command
 		slotHandle.paste( newHandle, position );
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
-			System.out.println( "PasteCommand >>  Finished. Paste "
+			System.out.println( "PasteCommand >>  Finished. Paste " //$NON-NLS-1$
 					+ DEUtil.getDisplayLabel( newHandle )
-					+ " to the slot "
+					+ " to the slot " //$NON-NLS-1$
 					+ slotHandle.getSlotID( )
-					+ " of "
+					+ " of " //$NON-NLS-1$
 					+ DEUtil.getDisplayLabel( slotHandle.getElementHandle( ) )
-					+ ",Position: "
+					+ ",Position: " //$NON-NLS-1$
 					+ position );
 		}
 	}
