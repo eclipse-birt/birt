@@ -2047,7 +2047,7 @@
     </PropertyGroup>
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
     <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip"/>
-    <Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip"/>
+    <!-- Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip"/ -->
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
     <PropertyVisibility name="bookmark" visibility="hide"/>         
     <PropertyVisibility name="toc" visibility="hide"/>           

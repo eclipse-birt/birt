@@ -37,7 +37,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 
 public abstract class ReportItemHandle extends ReportElementHandle
 		implements
-			IReportItemModel, IStyledElementModel
+			IReportItemModel,
+			IStyledElementModel
 {
 
 	/**
@@ -343,11 +344,12 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the Presentation engine.
 	 * 
 	 * @return the script that executes
+	 * @deprecated onRender is not supported temporarily.
 	 */
 
 	public String getOnRender( )
 	{
-		return getStringProperty( ReportItem.ON_RENDER_METHOD );
+		return null;
 	}
 
 	/**
@@ -358,11 +360,12 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * @deprecated onRender is not supported temporarily.
 	 */
 
 	public void setOnRender( String value ) throws SemanticException
 	{
-		setProperty( ReportItem.ON_RENDER_METHOD, value );
+		return;
 	}
 
 	/**
