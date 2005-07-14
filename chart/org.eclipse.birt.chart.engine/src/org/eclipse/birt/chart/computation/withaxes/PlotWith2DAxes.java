@@ -2241,7 +2241,8 @@ public final class PlotWith2DAxes extends PlotContent
 						dEnd,
 						true,
 						aax );
-				if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+				if ( scY.getUnit( ) != null
+						&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 						&& tickCount <= 3 )
 				{
 					break;
@@ -2390,7 +2391,8 @@ public final class PlotWith2DAxes extends PlotContent
 							dEnd,
 							true,
 							aax );
-					if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+					if ( scX.getUnit( ) != null
+							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 							&& tickCount <= 3 )
 					{
 						break;
@@ -2510,7 +2512,8 @@ public final class PlotWith2DAxes extends PlotContent
 							dEnd,
 							true,
 							aax );
-					if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+					if ( scX.getUnit( ) != null
+							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 							&& tickCount <= 3 )
 					{
 						break;
@@ -2618,7 +2621,8 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
-							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							if ( scX.getUnit( ) != null
+									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 									&& tickCount <= 3 )
 							{
 								break;
@@ -2662,7 +2666,8 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
-							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							if ( scX.getUnit( ) != null
+									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 									&& tickCount <= 3 )
 							{
 								break;
@@ -2749,7 +2754,8 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
-								if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+								if ( scX.getUnit( ) != null
+										&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
 									break;
@@ -2795,7 +2801,8 @@ public final class PlotWith2DAxes extends PlotContent
 									dEnd,
 									true,
 									aax );
-							if ( asInteger( scX.getUnit( ) ) == Calendar.YEAR
+							if ( scX.getUnit( ) != null
+									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 									&& tickCount <= 3 )
 							{
 								break;
@@ -2984,7 +2991,8 @@ public final class PlotWith2DAxes extends PlotContent
 								dEnd,
 								true,
 								aax );
-						if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+						if ( scY.getUnit( ) != null
+								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 								&& tickCount <= 3 )
 						{
 							break;
@@ -3091,7 +3099,8 @@ public final class PlotWith2DAxes extends PlotContent
 								dEnd,
 								true,
 								aax );
-						if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+						if ( scY.getUnit( ) != null
+								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 								&& tickCount <= 3 )
 						{
 							break;
@@ -3191,7 +3200,8 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
-								if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								if ( scY.getUnit( ) != null
+										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
 									break;
@@ -3292,7 +3302,8 @@ public final class PlotWith2DAxes extends PlotContent
 										dEnd,
 										true,
 										aax );
-								if ( asInteger( scY.getUnit( ) ) == Calendar.YEAR
+								if ( scY.getUnit( ) != null
+										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
 									break;
