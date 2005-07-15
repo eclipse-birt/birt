@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * is not.
  */
 
-public class Choice implements Cloneable, IChoice
+public class Choice implements Cloneable, IChoice, Comparable
 {
 
 	/**
@@ -152,4 +152,15 @@ public class Choice implements Cloneable, IChoice
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+    
+	public int compareTo( Object o )
+	{
+        assert name != null;
+
+        Choice choice = (Choice)o;
+		return name.compareTo( choice.getName() );
+	}
 }

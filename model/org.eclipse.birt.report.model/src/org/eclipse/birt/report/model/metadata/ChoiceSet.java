@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -142,12 +144,31 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 
 	public IChoice[] getChoices( )
 	{
+        if( choices == null )
+            return null;
+        
 		Choice[] retChoices = new Choice[choices.size( )];
 		choices.toArray( retChoices );
 
 		return retChoices;
 	}
 
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.model.api.metadata.IChoiceSet#getChoices(java.util.Comparator)
+     */
+    
+    public IChoice[] getChoices( Comparator c )
+    {
+        if( choices == null )
+            return null;
+        
+        Choice[] retChoices = new Choice[choices.size( )];
+        choices.toArray( retChoices );
+        
+        Arrays.sort( retChoices, c );
+        return retChoices;
+    }
+    
 	/**
 	 * Finds a Choice in the <code>ChoiceSet</code> for the given choice name.
 	 * 
