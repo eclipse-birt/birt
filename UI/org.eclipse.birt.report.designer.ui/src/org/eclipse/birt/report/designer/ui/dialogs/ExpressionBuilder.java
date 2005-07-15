@@ -44,6 +44,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -418,6 +419,38 @@ public class ExpressionBuilder extends BaseDialog
 		expressionViewer.setDocument( document );
 		text.setFont( JFaceResources.getTextFont( ) );
 
+		text.addKeyListener(new KeyListener()
+				{
+
+					public void keyPressed( KeyEvent e )
+					{
+						if (isUndoKeyPress(e))
+						{
+							expressionViewer.doOperation( ITextOperationTarget.UNDO );
+						}
+						else if (isRedoKeyPress(e))
+						{
+							expressionViewer.doOperation( ITextOperationTarget.REDO );
+						}
+					}
+
+					public void keyReleased( KeyEvent e )
+					{
+						// do nothing
+					}
+					
+					private boolean isUndoKeyPress(KeyEvent e)
+					{
+						return ((e.stateMask & SWT.CONTROL) > 0 ) && ((e.keyCode == 'z')  || (e.keyCode == 'Z') );
+					}
+					
+					private boolean isRedoKeyPress(KeyEvent e)
+					{
+						return ((e.stateMask & SWT.CONTROL) > 0 ) && ((e.keyCode == 'y')  || (e.keyCode == 'Y') );
+					}
+					
+				});
+		
 		//create actions for context menu and short cut keys
 		ResourceBundle bundle = ResourceBundle.getBundle( "org.eclipse.ui.texteditor.EditorMessages" );//$NON-NLS-1$
 		final TextEditorAction undoAction = new EBTextAction( bundle,
