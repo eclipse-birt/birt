@@ -359,7 +359,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
-			createInsertGroupMenu( menuManager );
+			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteTableGroupAction.ID ) );
 			if ( getTableEditParts( ).size( ) == 1 )
@@ -374,7 +374,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		if ( !getListEditParts( ).isEmpty( ) )
 		{
-			createInsertGroupMenu( menuManager );
+			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
 					getAction( DeleteListGroupAction.ID ) );
 			if ( getListEditParts( ).size( ) == 1 )
@@ -387,15 +387,53 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	/**
 	 * @param menuManager
 	 */
-	private void createInsertGroupMenu( IMenuManager menuManager )
+	private void createInsertGroupMenu( IMenuManager menuManager,
+			String group_name )
 	{
+		if ( getFirstElement( ) instanceof CellHandle
+				|| getFirstElement( ) instanceof RowHandle )
+		{
+			RowHandle row;
+			if ( getFirstElement( ) instanceof CellHandle )
+			{
+				row = (RowHandle) ( (CellHandle) getFirstElement( ) ).getContainer( );
+			}
+			else
+			{
+				row = (RowHandle) getFirstElement( );
+			}
+			if ( !( row.getContainer( ) instanceof TableGroupHandle ) )
+			{
+				int slotID = row.getContainerSlotHandle( ).getSlotID( );
+				menuManager.appendToGroup( group_name,
+						InsertGroupActionFactory.createInsertGroupAction( slotID,
+								getSelectedObjects( ) ) );
+				return;
+			}
+
+		}
+
+		if ( getFirstElement( ) instanceof SlotHandle )
+		{
+			DesignElementHandle container = ( (SlotHandle) getFirstElement( ) ).getElementHandle( );
+			if ( !( container instanceof ListGroupHandle ) )
+			{
+				int slotID = ( (SlotHandle) getFirstElement( ) ).getSlotID( );
+				menuManager.appendToGroup( group_name,
+						InsertGroupActionFactory.createInsertGroupAction( slotID,
+								getSelectedObjects( ) ) );
+				return;
+			}
+		}
+
 		MenuManager subMenu = new MenuManager( Messages.getString( "InsertGroupAction.actionMsg.group" ) ); //$NON-NLS-1$
 		Action[] actions = InsertGroupActionFactory.getInsertGroupActions( getSelectedObjects( ) );
 		for ( int i = 0; i < actions.length; i++ )
 		{
 			subMenu.add( actions[i] );
 		}
-		menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, subMenu );
+		menuManager.appendToGroup( group_name, subMenu );
+		return;
 	}
 
 	/**
@@ -518,7 +556,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				Action action = new EditGroupAction( null,
 						(TableGroupHandle) container );
 				action.setText( EDIT_GROUP_MENU_ITEM_TEXT );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, action );
+				menuManager.appendToGroup( group_name, action );
 				return;
 			}
 		}
@@ -531,7 +569,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				Action action = new EditGroupAction( null,
 						(ListGroupHandle) container );
 				action.setText( EDIT_GROUP_MENU_ITEM_TEXT );
-				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD, action );
+				menuManager.appendToGroup( group_name, action );
 				return;
 			}
 		}

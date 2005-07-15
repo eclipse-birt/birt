@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -46,9 +47,40 @@ public class InsertGroupActionFactory
 					Messages.getString( "InsertPositionGroupAction.Label.Above" ) ), //$NON-NLS-1$
 			new InsertBelowGroupAction( null,
 					Messages.getString( "InsertPositionGroupAction.Label.Below" ) ), //$NON-NLS-1$
-//			new InsertIntoGroupAction( null,
-//					Messages.getString( "InsertPositionGroupAction.Label.Into" ) ) //$NON-NLS-1$
+	// new InsertIntoGroupAction( null,
+	// Messages.getString( "InsertPositionGroupAction.Label.Into" ) )
+	// //$NON-NLS-1$
 	};
+
+	/**
+	 * Creates a insert group action, given slotid and selection list.
+	 * 
+	 * @param slotID
+	 *            slotid
+	 * @param selection
+	 *            selected editparts
+	 * @return action
+	 */
+	public static Action createInsertGroupAction( int slotID, List selection )
+	{
+		if ( slotID == TableHandle.HEADER_SLOT
+				|| slotID == ListHandle.HEADER_SLOT )
+		{
+			return new InsertAboveGroupAction( selection,
+					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+		}
+		else if ( slotID == TableHandle.DETAIL_SLOT
+				|| slotID == ListHandle.DETAIL_SLOT )
+		{
+			return new InsertBelowGroupAction( selection,
+					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+		}
+		else
+		{
+			return new InsertBelowGroupAction( selection,
+					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+		}
+	}
 
 	/**
 	 * Gets actions array
@@ -109,10 +141,14 @@ abstract class InsertPositionGroupAction extends Action
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
 	public void run( )
 	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Insert group action >> Run ..." ); //$NON-NLS-1$
+		}
 		CommandStack stack = getActiveCommandStack( );
 		stack.startTrans( STACK_MSG_ADD_GROUP );
 		boolean retValue = false;
@@ -154,34 +190,35 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	protected boolean isNotReverse( )
 	{
-		if ( currentModel != null )
-		{
-			if ( isGroup( ) )
-			{
-				if ( getRowHandle( ) != null )
-				{
-					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != GroupHandle.FOOTER_SLOT;
-				}
-				else if ( getListBandProxy( ) != null )
-				{
-					return getListBandProxy( ).getSlotId( ) != GroupHandle.FOOTER_SLOT;
-				}
-			}
-			else
-			{
-				if ( getRowHandle( ) != null )
-				{
-					return getRowHandle( ).getContainerSlotHandle( )
-							.getSlotID( ) != TableHandle.FOOTER_SLOT;
-				}
-				else if ( getListBandProxy( ) != null )
-				{
-					return getListBandProxy( ).getSlotId( ) != ListHandle.FOOTER_SLOT;
-				}
-			}
-		}
 		return true;
+//		if ( currentModel != null )
+//		{
+//			if ( isGroup( ) )
+//			{
+//				if ( getRowHandle( ) != null )
+//				{
+//					return getRowHandle( ).getContainerSlotHandle( )
+//							.getSlotID( ) != GroupHandle.FOOTER_SLOT;
+//				}
+//				else if ( getListBandProxy( ) != null )
+//				{
+//					return getListBandProxy( ).getSlotId( ) != GroupHandle.FOOTER_SLOT;
+//				}
+//			}
+//			else
+//			{
+//				if ( getRowHandle( ) != null )
+//				{
+//					return getRowHandle( ).getContainerSlotHandle( )
+//							.getSlotID( ) != TableHandle.FOOTER_SLOT;
+//				}
+//				else if ( getListBandProxy( ) != null )
+//				{
+//					return getListBandProxy( ).getSlotId( ) != ListHandle.FOOTER_SLOT;
+//				}
+//			}
+//		}
+//		return true;
 	}
 
 	/**
@@ -222,14 +259,15 @@ abstract class InsertPositionGroupAction extends Action
 			{
 				part = currentEditPart;
 			}
-			//Check if select only one table
+			// Check if select only one table
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
 		}
-		//Only table permitted
+		// Only table permitted
 		if ( part instanceof GridEditPart )
 			return null;
 		return part;
@@ -269,9 +307,10 @@ abstract class InsertPositionGroupAction extends Action
 			{
 				part = currentEditPart;
 			}
-			//Check if select only one list
+			// Check if select only one list
 			if ( currentEditPart == null
-					|| currentEditPart != null && part != currentEditPart )
+					|| currentEditPart != null
+					&& part != currentEditPart )
 			{
 				return null;
 			}
@@ -313,7 +352,7 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	protected CommandStack getActiveCommandStack( )
 	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack();
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
 	/**
