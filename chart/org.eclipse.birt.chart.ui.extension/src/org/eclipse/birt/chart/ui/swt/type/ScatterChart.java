@@ -369,17 +369,22 @@ public class ScatterChart extends DefaultChartTypeImpl
         }
         ScatterSeries scatterseries = (ScatterSeries) ScatterSeriesImpl.create();
         scatterseries.getLineAttributes().setVisible(false);
-        if (!(series instanceof LineSeries))
-        {
+        if ( series instanceof LineSeries )
+		{
+			scatterseries.setMarker( ( (LineSeries) series ).getMarker( ) );
+		}
+		else if ( series instanceof BarSeries
+				|| series instanceof PieSeries || series instanceof StockSeries )
+		{
+			// Use the default marker
+		}
+		else
+		{
             Marker marker = AttributeFactory.eINSTANCE.createMarker();
             marker.setSize(5);
             marker.setType(MarkerType.BOX_LITERAL);
             marker.setVisible(true);
             scatterseries.setMarker(marker);
-        }
-        else
-        {
-            scatterseries.setMarker(((LineSeries) series).getMarker());
         }
 
         // Copy generic series properties
