@@ -43,6 +43,8 @@ public final class DataTypeUtil
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( Locale
 			.getDefault( ) ) ).getResourceBundle( );
 
+	private final static String pluginId = "org.eclipse.birt.core";
+	
 	/**
 	 * convert an object to given type
 	 * Types supported:
@@ -78,7 +80,7 @@ public final class DataTypeUtil
 			case DataType.BLOB_TYPE :
 				return toBlob( source );
 			default :
-				throw new BirtException( ResourceConstants.INVALID_TYPE,
+				throw new BirtException( pluginId, ResourceConstants.INVALID_TYPE,
 						resourceBundle );
 		}
 	}
@@ -116,7 +118,7 @@ public final class DataTypeUtil
 		if ( toTypeClass == Blob.class )
 			return toBlob( source );
 		
-		throw new BirtException( ResourceConstants.INVALID_TYPE,
+		throw new BirtException( pluginId, ResourceConstants.INVALID_TYPE,
 				resourceBundle );
 	}
 
@@ -287,7 +289,7 @@ public final class DataTypeUtil
 			else if ( ( (String) source ).equalsIgnoreCase( "false" ) )
 				return Boolean.valueOf( "false" );
 			else
-				throw new BirtException( ResourceConstants.CONVERT_FAILS,
+				throw new BirtException( pluginId, ResourceConstants.CONVERT_FAILS,
 						"Boolean" );
 		}
 		else

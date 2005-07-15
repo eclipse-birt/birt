@@ -12,6 +12,7 @@ package org.eclipse.birt.core.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 
 /**
  * Date util class, which is used to check whether String can be correctly
@@ -19,6 +20,11 @@ import java.text.SimpleDateFormat;
  */
 public class DateUtil
 {
+	private final static int[] DAYS_MONTH = new int[]{
+			31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+	};
+	
+	private static GregorianCalendar calendarInstance = null;
 	
 	/**
 	 * All possible split char in differnt Locales.
@@ -119,41 +125,56 @@ public class DateUtil
 		assert dateStr != null;
 		assert patternStr != null;
 		
-		boolean result = true;
-		
+		int year = -1;
+		int month = -1;
+		int day = -1;
 		for ( int i = 0; i < dateStr.length; i++ )
 		{
 			int value = Integer.valueOf( dateStr[i] ).intValue( );
 			if ( patternStr[i].startsWith( "y" )
 					|| patternStr[i].startsWith( "Y" ) )
-			{
-				if ( value < 0 )
-				{
-					result = false;
-					break;
-				}
-			}
+				year = value;
 			else if ( patternStr[i].startsWith( "M" )
 					|| patternStr[i].startsWith( "m" ) )
-			{
-				if ( value < 1 || value > 12 )
-				{
-					result = false;
-					break;
-				}
-			}
+				month = value;
 			else if ( patternStr[i].startsWith( "d" )
 					|| patternStr[i].startsWith( "D" ) )
-			{
-				if ( value < 1 || value > 31 )
-				{
-					result = false;
-					break;
-				}
-			}
+				day = value;
+		}
+		
+		boolean result = true;
+		if ( ( year < 0 )
+				|| ( month < 1 || month > 12 )
+				|| ( isInvalidDay( day, year, month ) ) )
+			result = false;
+		
+		return result;
+	}
+	
+	/**
+	 * Check whether day is invalid day based on its year and month
+	 * @param day needs to be checked
+	 * @param year valid year
+	 * @param month valid month
+	 * @return true invalid day
+	 */
+	private static boolean isInvalidDay( int day, int year, int month )
+	{
+		if ( calendarInstance == null )
+		{
+			calendarInstance = new GregorianCalendar( );
 		}
 
-		return result;
+		int dayOfMonth = DAYS_MONTH[month - 1];
+		if ( month == 2 )
+		{
+			if ( calendarInstance.isLeapYear( year ) )
+				dayOfMonth = 29;
+			else
+				dayOfMonth = 28;
+		}
+
+		return day < 1 || day > dayOfMonth;
 	}
 	
 }
