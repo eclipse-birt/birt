@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.birt.model" id="reportItemModel" name="BIRT Report Item Extension Point"/>
       </appInfo>
       <documentation>
-         This extension point is used to support the extension of a report item.
+         Report Item extension point allows the user to specify how the new report item should be represented and persisted in the ROM
       </documentation>
    </annotation>
 
@@ -63,21 +63,21 @@
          <attribute name="defaultStyle" type="string">
             <annotation>
                <documentation>
-                  
+                  Predefined style to be used for the Report Item.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="isNameRequired" type="boolean">
             <annotation>
                <documentation>
-                  
+                  Field to indicate if the ReportItem instance name is required.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  Name of the java class, that implements the IROMExtension interface.
+                  Name of the java class, that implements the IReportItemFactory interface.
                </documentation>
             </annotation>
          </attribute>
@@ -459,7 +459,7 @@ In order to acheive this, the report item extension must implement some of the i
 The classes/interfaces to be extend/implement are:&lt;br&gt;
 - ReportItem ( required )&lt;br&gt;
 - ReportItemFactory ( required )&lt;br&gt;
-- ElementCommand ( optional, extend this class to suport undo/redo operation ).	Extend ElementCommand class and integrate with the command stack in the	 IReportItem::setProperty() method implementation&lt;br&gt;
+- ElementCommand ( optional, extend this class to suport undo/redo operation ). Extend ElementCommand class and integrate with the command stack in the  IReportItem::setProperty() method implementation&lt;br&gt;
 - IPropertyDefinition, IChoiceDefinition ( optional, implement this class to integrate with the generic property sheet in the designer )&lt;br&gt;
 - IMessages ( optional, implement this class to support externalized strings )&lt;br&gt;
       </documentation>
