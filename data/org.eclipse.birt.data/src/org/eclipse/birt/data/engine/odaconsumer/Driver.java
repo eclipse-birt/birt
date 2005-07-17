@@ -14,9 +14,13 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Types;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.framework.IBundle;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.manager.OdaDriver;
@@ -37,6 +41,7 @@ class Driver
 {
 	private String m_dataSourceDriverId;
 	private ExtensionManifest m_extensionConfig;
+    private IDriver m_driverHelper;
 
     // trace logging variables
 	private static String sm_className = Driver.class.getName();
@@ -74,19 +79,22 @@ class Driver
 		}
 	}
 	
-	// gets the connection factory for this driver
-	IDriver getConnectionFactory() throws DataException
+	// gets the consumer manager helper for this driver
+	IDriver getDriverHelper() throws DataException
 	{	
-		String methodName = "getConnectionFactory";
-		
+		String methodName = "getDriverHelper";
+		if( m_driverHelper != null )
+            return m_driverHelper;
+        
 		try
 		{		
-			return new OdaDriver( getExtensionConfig() );
+            m_driverHelper = new OdaDriver( getExtensionConfig() );
+            return m_driverHelper;
 		}
 		catch( OdaException ex )
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName,
-					"Cannot get ODA data source driver factory.", ex );
+					"Cannot get ODA data source driver helper.", ex );
 			throw new DataException( ResourceConstants.INIT_ENTRY_CANNOT_BE_FOUND, ex, 
                                      new Object[] { m_dataSourceDriverId } );
 		}
@@ -149,57 +157,269 @@ class Driver
 		}
 	}
 	
-	void setLogConfiguration( IDriver odaDriver )
+    /**
+     * Passes the trace logging configuration values to the
+     * ODA driver and its consumer helper.
+     */
+	void setLogConfiguration() 
 	{
 		String methodName = "setLogConfiguration";
-	    assert( odaDriver != null );
-	    
-	    ExtensionManifest config;
-	    try
-	    {
-	        config = getExtensionConfig();
-	        assert( config != null );
-	    }
-	    catch( DataException ex )
-	    {
-	        // not able to set log configuration
-			sm_logger.logp( Level.WARNING, sm_className, methodName,
-					"Cannot set data source extension's log configuration.", ex );
-	        return;
-	    }
-	    
-	    // use the data source extension's data source element id 
-	    String dataSourceId = m_dataSourceDriverId;
-	    
-	    TraceLogging logConfig = config.getTraceLogging();
-	    if ( logConfig == null )
+	            
+        // get log configuration values
+        LogConfiguration logConfigSpec = newLogSettings();
+	    if( logConfigSpec == null )
 	    {
 			sm_logger.logp( Level.INFO, sm_className, methodName,
-					"ODA driver does not have trace logging defined." );
+					"ODA driver does not have valid trace logging defined in the plug-in .options or plugin.xml file." );
 	        return;		// no log configuration, nothing to set
 	    }
-	    
-	    // set default configuration values
-	    String logFilenamePrefix = logConfig.getLogFileNamePrefix();
-	    if ( logFilenamePrefix == null || logFilenamePrefix.length() == 0 )
-	        logFilenamePrefix = m_dataSourceDriverId;
-	    String logDest = logConfig.getLogDirectory();
-	    // TODO post release 1 - set default log destination to that used by the ODA consumer application
-	    
-	    LogConfiguration logConfigSpec =
-	        new LogConfiguration( dataSourceId, 
-		            		logConfig.getLogLevel(),
-		            		logDest,
-			                logFilenamePrefix,
-			                logConfig.getLogFormatterClass() );
-	    try
+	            
+        // get the ODA consumer helper to set the log configuration
+        IDriver driverHelper;
+        try
+        {
+            driverHelper = getDriverHelper();
+        }
+        catch( DataException ex )
+        {
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Cannot get ODA consumer manager's driver helper to set up logging.", ex );
+            return;
+        }
+
+        try
 	    {
-	        odaDriver.setLogConfiguration( logConfigSpec );
+	        driverHelper.setLogConfiguration( logConfigSpec );
 	    }
 	    catch( OdaException e1 )
 	    {
+            // log exception and continue
 			sm_logger.logp( Level.WARNING, sm_className, methodName,
 					"Cannot set ODA data source log configuration.", e1 );
 	    }
 	}
+    
+    /*
+     * Gets the driver's trace logging element in plug-in manifest.
+     */ 
+	private TraceLogging getLoggingElement()
+    {
+        String methodName = "getLoggingElement";
+        
+        ExtensionManifest config;
+        try
+        {
+            config = getExtensionConfig();
+        }
+        catch( DataException ex )
+        {
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Cannot get ODA driver plug-in manifest.", ex );
+            return null;
+        }
+        
+        assert( config != null );
+        return config.getTraceLogging();
+    }
+    
+    /*
+     * Gets the plug-in trace logging configuration from 
+     * the .options file if set to debugging; otherwise,  
+     * from the plugin.xml traceLogging element.
+     */ 
+	private LogConfiguration newLogSettings()
+    {
+        // get log configuration specified in plug-in .options file
+        LogConfiguration logOptions = newTraceOptions();
+        if( logOptions != null )
+            return logOptions;  // done
+
+        // no trace options are set for ODA driver;
+        // get the driver's trace logging element in plug-in manifest        
+        TraceLogging logManifest = getLoggingElement();
+        if( logManifest == null )
+            return null;    // none found
+        
+        // convert trace logging element to returned object
+        return newLogSettings( logManifest );
+    }
+    
+    /* 
+     * Gets the plug-in trace logging configuration  
+     * from the PDE .options file 
+     */
+    private LogConfiguration newTraceOptions()
+    {
+        String pluginId;
+        try
+        {
+            pluginId = getExtensionConfig().getNamespace();
+        }
+        catch( DataException e )
+        {
+            // try use the driver's data source element id
+            pluginId = m_dataSourceDriverId;
+        }
+        
+        String debugOption = pluginId + "/debug";
+        String debugOptionValue = Platform.getDebugOption( debugOption );
+        Boolean isDebug = Boolean.valueOf( debugOptionValue );
+        if( isDebug == Boolean.FALSE )
+            return null;    // not found or not debugging
+        
+        String logLevelOption = pluginId + "/traceLogging/logLevel";
+        int logLevel = TraceLogging.toLogLevelNumber( 
+                			Platform.getDebugOption( logLevelOption ) );
+        
+        String logFormatterOption = pluginId + "/traceLogging/logFormatterClass";
+        String logFilePrefixOption = pluginId + "/traceLogging/logFileNamePrefix";
+        String logDirOption = pluginId + "/traceLogging/logDirectory";
+        
+        // set default configuration values if not specified
+        String logFilenamePrefix = Platform.getDebugOption( logFilePrefixOption );
+        String logDest = Platform.getDebugOption( logDirOption );
+        
+        // if either log file attribute has value, ensure
+        // both attributes have values, using default value as needed
+        if( isNotEmpty( logFilenamePrefix ) || isNotEmpty( logDest ) )
+        {
+	        logFilenamePrefix = getDefaultLogFilenamePrefix( logFilenamePrefix );
+	        logDest = getDefaultLogDirectory( logDest );
+        }
+
+        // instantiate object with log configuration values
+        return new LogConfiguration( m_dataSourceDriverId, 
+                            logLevel,
+                            logDest,
+                            logFilenamePrefix,
+                            Platform.getDebugOption( logFormatterOption ) );
+    }
+    
+    /*
+     * Gets the plug-in trace logging configuration settings 
+     * from the plugin.xml traceLogging element
+     */
+    private LogConfiguration newLogSettings( TraceLogging logManifest )
+    {
+        assert( logManifest != null );
+        
+        // set default configuration values if not specified
+        String logFilenamePrefix = logManifest.getLogFileNamePrefix();
+        String logDest = logManifest.getLogDirectory();
+        
+        // if either log file attribute has value, ensure
+        // both attributes have values, using default value as needed
+        if( isNotEmpty( logFilenamePrefix ) || isNotEmpty( logDest ) )
+        {
+	        logFilenamePrefix = getDefaultLogFilenamePrefix( logFilenamePrefix );
+	        logDest = getDefaultLogDirectory( logDest );
+        }
+
+        // instantiate object with log configuration values
+        return new LogConfiguration( m_dataSourceDriverId, 
+                            logManifest.getLogLevel(),
+                            logDest,
+                            logFilenamePrefix,
+                            logManifest.getLogFormatterClass() );
+    }
+
+    /*
+     * Returns the default configuration value if 
+     * the given log filename prefix is not specified
+     */
+    private String getDefaultLogFilenamePrefix( String prefix )
+    {
+        if( isNotEmpty( prefix ) )
+            return prefix;	// already specified, use as is
+        return m_dataSourceDriverId;
+    }
+    
+    /*
+     * Returns the default configuration value if 
+     * the given log directory is not specified
+     */
+    private String getDefaultLogDirectory( String logDir )
+    {
+        String methodName = "getDefaultLogDirectory( String logDir )";
+        
+        if( isNotEmpty( logDir ) )
+            return logDir;	// already specified, use as is
+        
+        // set default log directory to that used by the ODA consumer application
+        try
+        {
+            logDir = getDefaultLogDirectory();
+        }
+        catch( DataException ex )
+        {
+            // ignore error; leave null/empty log directory
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Not able to determine ODA driver's default log directory.", ex );
+        }
+        return logDir;		// may be null or empty
+    }
+    
+    /*
+     * Returns the default log directory of the driver
+     */
+    private String getDefaultLogDirectory() throws DataException
+    {
+        String methodName = "getDefaultLogDirectory";
+        
+        String defaultLogDir = null;
+        ExtensionManifest driverManifest = getExtensionConfig();
+        try
+        {
+            defaultLogDir = driverManifest.getDriverLocation().getPath();
+        }
+        catch( IOException ex )
+        {
+            // no driver directory info is available; ignore
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Not able to get ODA driver plugin directory.", ex );
+        }
+
+        if( defaultLogDir != null )
+            return defaultLogDir;
+        
+        // use the data engine installation directory as driver log destination
+                
+        IBundle dataBundle = Platform.getBundle( "org.eclipse.birt.data" );
+        if( dataBundle != null )
+        {
+            URL url = dataBundle.getEntry( "/" );
+            try
+            {
+                if( url != null )
+                    defaultLogDir = Platform.asLocalURL( url ).getPath();
+            }
+            catch( IOException ex )
+            {
+                sm_logger.logp( Level.WARNING, sm_className, methodName,
+                        "Not able to get Data Engine plugin directory.", ex );
+                throw new DataException( ex.getLocalizedMessage(), ex );
+            }
+        }
+
+        if( defaultLogDir == null )
+        {
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Not able to determine ODA consumer default log directory." );
+            throw new DataException( "" );    // no log directory
+       }
+
+        return defaultLogDir;
+    }
+ 
+    private boolean isNullOrEmpty( String value )
+    {
+        return ( value == null || value.length() == 0 );
+    }
+    
+    
+    private boolean isNotEmpty( String value )
+    {
+        return ! isNullOrEmpty( value );
+    }
+
 }

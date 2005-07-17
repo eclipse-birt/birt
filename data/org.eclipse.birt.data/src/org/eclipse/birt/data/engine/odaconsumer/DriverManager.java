@@ -60,14 +60,14 @@ class DriverManager
 	 * @param dataSourceElementId	the name of the driver.
 	 * @return	an <code>IDriver</code> instance.
 	 */
-	IDriver getDriverConnectionFactory( String dataSourceElementId )
+	IDriver getDriverHelper( String dataSourceElementId )
 		throws DataException
 	{
-		String methodName = "getDriverConnectionFactory";
+		String methodName = "getDriverHelper";
 		sm_logger.entering( sm_className, methodName, dataSourceElementId );
 
 		Driver driver = getDriver( dataSourceElementId );
-		IDriver ret = driver.getConnectionFactory();
+		IDriver ret = driver.getDriverHelper();
 		
 		sm_logger.exiting( sm_className, methodName, ret );
 		return ret;
@@ -95,19 +95,18 @@ class DriverManager
 		return ret;
 	}
 	
-	void setDriverLogConfiguration( String dataSourceElementId, 
-	        						IDriver dataSourceDriver )
+	void setDriverLogConfiguration( String dataSourceElementId )
 	{
 		String methodName = "setDriverLogConfiguration";
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
-		        				new Object[] { dataSourceElementId, dataSourceDriver } );
+		        				new Object[] { dataSourceElementId } );
 
-	    assert( dataSourceElementId != null && dataSourceDriver != null );
+	    assert( dataSourceElementId != null );
 	    
 		Driver driver = getDriver( dataSourceElementId );
 		assert( driver != null );
-        driver.setLogConfiguration( dataSourceDriver );
+        driver.setLogConfiguration();
 
 		sm_logger.exiting( sm_className, methodName );
 	}

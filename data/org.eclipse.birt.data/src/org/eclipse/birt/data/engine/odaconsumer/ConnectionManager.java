@@ -81,11 +81,18 @@ public class ConnectionManager
 		
 		try
 		{
-			IDriver factory = 
-				DriverManager.getInstance().getDriverConnectionFactory( dataSourceElementId );
+            DriverManager driverMgr = DriverManager.getInstance();
+
+            // passes ODA framework's trace logging configuration settings 
+            // to the ODA consumer helper and driver itself
+            driverMgr.setDriverLogConfiguration( dataSourceElementId );
+
+            // gets the driver's connection to open
+            IDriver driverHelper = 
+                driverMgr.getDriverHelper( dataSourceElementId );
 			String dataSourceId = 
-				DriverManager.getInstance().getExtensionDataSourceId( dataSourceElementId );
-			IConnection connection = factory.getConnection( dataSourceId );
+                driverMgr.getExtensionDataSourceId( dataSourceElementId );          
+			IConnection connection = driverHelper.getConnection( dataSourceId );
 			connection.open( connectionProperties );
 			
 			Connection ret = ( new Connection( connection, dataSourceElementId ) );
@@ -125,10 +132,10 @@ public class ConnectionManager
 		int maxConnections = 0;  	// default to unknown limit
 		try
 		{
-			IDriver factory = 
-				DriverManager.getInstance().getDriverConnectionFactory( driverName );
-			if ( factory != null )
-			    maxConnections = factory.getMaxConnections();
+			IDriver driverHelper = 
+				DriverManager.getInstance().getDriverHelper( driverName );
+			if ( driverHelper != null )
+			    maxConnections = driverHelper.getMaxConnections();
 		}
 		catch( OdaException ex )
 		{
