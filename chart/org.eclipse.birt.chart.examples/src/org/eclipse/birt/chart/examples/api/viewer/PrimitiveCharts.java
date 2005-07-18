@@ -19,13 +19,11 @@ import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
@@ -93,13 +91,13 @@ public final class PrimitiveCharts {
 		p.getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
 		p.getOutline().setVisible(false);
+		
+		//Title
 		cwaBar.getTitle().getLabel().getCaption().setValue("Bar Chart");
 
 		//Legend
 		Legend lg = cwaBar.getLegend();
 		lg.getText().getFont().setSize(16);
-		lg.getInsets().set(10, 5, 0, 0);
-		lg.setAnchor(Anchor.NORTH_LITERAL);
 		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 		
 		//X-Axis
@@ -170,13 +168,13 @@ public final class PrimitiveCharts {
 				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
 						ColorDefinitionImpl.create(255, 255, 225), -35, false));
 		p.getOutline().setVisible(true);
+		
+		//Title
 		cwaBar.getTitle().getLabel().getCaption().setValue("2-Series Bar Chart");
 
 		//Legend
 		Legend lg = cwaBar.getLegend();
 		lg.getText().getFont().setSize(16);
-		lg.getInsets().set(10, 5, 0, 0);
-		lg.setAnchor(Anchor.NORTH_LITERAL);
 
 		//X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
@@ -252,6 +250,8 @@ public final class PrimitiveCharts {
 		Plot p = cwaLine.getPlot();
 		p.getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
+		
+		//Title
 		cwaLine.getTitle().getLabel().getCaption().setValue("Line Chart");
 
 		//Legend
@@ -324,11 +324,7 @@ public final class PrimitiveCharts {
 
 		//Legend
 		Legend lg = cwoaPie.getLegend();
-		LineAttributes lia = lg.getOutline();
 		lg.getText().getFont().setSize(16);
-		lia.setStyle(LineStyle.SOLID_LITERAL);
-		lg.getInsets().setLeft(10);
-		lg.getInsets().setRight(10);
 		lg.setBackground(null);
 		lg.getOutline().setVisible(true);
 
@@ -385,11 +381,7 @@ public final class PrimitiveCharts {
 
 		//Legend
 		Legend lg = cwoaPie.getLegend();
-		LineAttributes lia = lg.getOutline();
 		lg.getText().getFont().setSize(16);
-		lia.setStyle(LineStyle.SOLID_LITERAL);
-		lg.getInsets().setLeft(10);
-		lg.getInsets().setRight(10);
 		lg.setBackground(null);
 		lg.getOutline().setVisible(true);
 
@@ -480,16 +472,11 @@ public final class PrimitiveCharts {
 
 		//Legend
 		Legend lg = cwaCombination.getLegend();
-		LineAttributes lia = lg.getOutline();
 		lg.setBackground(ColorDefinitionImpl.YELLOW());
-		lg.getText().getFont().setSize(16);
-		lia.setStyle(LineStyle.SOLID_LITERAL);
-		lg.getInsets().set(12, 5, 0, 0);
 		lg.getOutline().setVisible(true);
-		lg.setAnchor(Anchor.NORTH_LITERAL);
 
 		//Title
-		cwaCombination.getTitle().getLabel().getCaption().setValue("Projected Sales");
+		cwaCombination.getTitle().getLabel().getCaption().setValue("Project Sales");
 
 		//X-Axis
 		Axis xAxisPrimary = cwaCombination.getPrimaryBaseAxes()[0];
