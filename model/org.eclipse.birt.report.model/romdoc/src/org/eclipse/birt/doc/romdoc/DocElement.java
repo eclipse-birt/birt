@@ -87,9 +87,9 @@ public class DocElement extends DocComposite
 
 	public String getExtends( )
 	{
-		if ( getElementDefn( ).getExtends( ) == null )
-			return makeElementLink( "DesignElement", "elements" );
-		return makeElementLink( getElementDefn( ).getExtends( ), "elements" );
+		if ( getElementDefn( ).getExtends( ) != null )
+			return makeElementLink( getElementDefn( ).getExtends( ), "elements" );//$NON-NLS-1$
+        return "None";
 	}
 
 	public String getExtendable( )
