@@ -893,9 +893,26 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( )
 	{
+		return getSystemFontNames(null);
+	}
+
+	/**
+	 * Returns all font names for current system.
+	 * NOTES: Java 1.4 only support true type fonts.
+	 * @param comparator Sort comparator.
+	 * @return font names.
+	 */
+	public static String[] getSystemFontNames( Comparator comparator)
+	{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 
-		return ge.getAvailableFontFamilyNames( );
+		String [] fontNames = ge.getAvailableFontFamilyNames( );
+		
+		if(comparator !=null)
+		{
+			Arrays.sort(fontNames,comparator);
+		}
+		return fontNames;
 	}
 
 	/**

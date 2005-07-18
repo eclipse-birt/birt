@@ -13,6 +13,7 @@ import java.text.Collator;
 import java.util.Comparator;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 
@@ -44,6 +45,21 @@ public class AlphabeticallyComparator implements Comparator
 			if ( name2 == null )
 			{
 				name2 = ( (DesignElementHandle) o2 ).getName( );
+			}
+
+		}
+		if ( o1 instanceof IChoice
+				&& o2 instanceof IChoice) 
+		{
+			name1 = ( (IChoice) o1 ).getDisplayName();
+			name2 = ( (IChoice) o2 ).getDisplayName( );
+			if ( name1 == null )
+			{
+				name1 = ( (IChoice) o1 ).getName( );
+			}
+			if ( name2 == null )
+			{
+				name2 = ( (IChoice) o2 ).getName( );
 			}
 
 		}
