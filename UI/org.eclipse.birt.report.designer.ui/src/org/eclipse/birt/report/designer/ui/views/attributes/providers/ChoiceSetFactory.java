@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.views.attributes.providers;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -37,18 +38,18 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 
-
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
  * on given property.
  */
 
-public class ChoiceSetFactory
-{
+public class ChoiceSetFactory {
 
-	public static final String CHOICE_NONE = Messages.getString( "ChoiceSetFactory.choice.None" ); //$NON-NLS-1$
+	public static final String CHOICE_NONE = Messages
+			.getString("ChoiceSetFactory.choice.None"); //$NON-NLS-1$
 
-	public static final String CHOICE_AUTO = Messages.getString( "ChoiceSetFactory.choice.Auto" ); //$NON-NLS-1$
+	public static final String CHOICE_AUTO = Messages
+			.getString("ChoiceSetFactory.choice.Auto"); //$NON-NLS-1$
 
 	/**
 	 * Gets the collection that given property value can selected from them.
@@ -59,78 +60,44 @@ public class ChoiceSetFactory
 	 * @deprecated Use getDEChoiceSet( String property ,String elementName)
 	 *             instead
 	 */
-	public static IChoiceSet getDEChoiceSet( String property )
-	{
+	public static IChoiceSet getDEChoiceSet(String property) {
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
-		if ( AttributeConstant.BACKGROUND_COLOR.equals( property ) )
-		{
+		if (AttributeConstant.BACKGROUND_COLOR.equals(property)) {
 			unitKey = IColorConstants.COLORS_CHOICE_SET;
-		}
-		else if ( AttributeConstant.FONT_COLOR.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_COLOR.equals(property)) {
 			unitKey = IColorConstants.COLORS_CHOICE_SET;
-		}
-		else if ( AttributeConstant.FONT_SIZE.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_SIZE.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FONT_SIZE;
-		}
-		else if ( AttributeConstant.FONT_FAMILY.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_FAMILY.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FONT_FAMILY;
-		}
-		else if ( AttributeConstant.TEXT_FORMAT.equals( property ) )
-		{
+		} else if (AttributeConstant.TEXT_FORMAT.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_CONTENT_TYPE;
-		}
-		else if ( AttributeConstant.BORDER_STYLE.equals( property ) )
-		{
+		} else if (AttributeConstant.BORDER_STYLE.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_LINE_STYLE;
-		}
-		else if ( AttributeConstant.BORDER_WIDTH.equals( property ) )
-		{
+		} else if (AttributeConstant.BORDER_WIDTH.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_LINE_WIDTH;
-		}
-		else if ( SortKey.DIRECTION_MEMBER.equals( property ) )
-		{
+		} else if (SortKey.DIRECTION_MEMBER.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_SORT_DIRECTION;
-		}
-		else if ( FilterCondition.OPERATOR_MEMBER.equals( property ) )
-		{
+		} else if (FilterCondition.OPERATOR_MEMBER.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FILTER_OPERATOR;
-		}
-		else if ( StyleHandle.VERTICAL_ALIGN_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.VERTICAL_ALIGN_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_VERTICAL_ALIGN;
-		}
-		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.TEXT_ALIGN_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_ALIGN;
-		}
-		else if ( MasterPageHandle.ORIENTATION_PROP.equals( property ) )
-		{
+		} else if (MasterPageHandle.ORIENTATION_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_ORIENTATION;
-		}
-		else if ( MasterPageHandle.TYPE_PROP.equals( property ) )
-		{
+		} else if (MasterPageHandle.TYPE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
-		}
-		else if ( GroupHandle.INTERVAL_PROP.equals( property ) )
-		{
+		} else if (GroupHandle.INTERVAL_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
-		}
-		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_BEFORE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
-		}
-		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_AFTER_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
-		}
-		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_INSIDE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
 		}
-		return DesignEngine.getMetaDataDictionary( ).getChoiceSet( unitKey );
+		return DesignEngine.getMetaDataDictionary().getChoiceSet(unitKey);
 
 	}
 
@@ -144,18 +111,16 @@ public class ChoiceSetFactory
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
 
-	public static IChoiceSet getElementChoiceSet( String elementName,
-			String property )
-	{
-		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
-				.getElement( elementName )
-				.getProperty( property );
-		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
-				&& propertyDefn.getChoices( ) != null )
-		{
-			return propertyDefn.getChoices( );
+	public static IChoiceSet getElementChoiceSet(String elementName,
+			String property) {
+		IElementPropertyDefn propertyDefn = DesignEngine
+				.getMetaDataDictionary().getElement(elementName).getProperty(
+						property);
+		if (propertyDefn.getTypeCode() == IPropertyType.DIMENSION_TYPE
+				&& propertyDefn.getChoices() != null) {
+			return propertyDefn.getChoices();
 		}
-		return propertyDefn.getAllowedChoices( );
+		return propertyDefn.getAllowedChoices();
 	}
 
 	/**
@@ -168,15 +133,13 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static IChoiceSet getDimensionChoiceSet( String elementName,
-			String property )
-	{
-		IElementPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
-				.getElement( elementName )
-				.getProperty( property );
-		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
-		{
-			return propertyDefn.getAllowedChoices( );
+	public static IChoiceSet getDimensionChoiceSet(String elementName,
+			String property) {
+		IElementPropertyDefn propertyDefn = DesignEngine
+				.getMetaDataDictionary().getElement(elementName).getProperty(
+						property);
+		if (propertyDefn.getTypeCode() == IPropertyType.DIMENSION_TYPE) {
+			return propertyDefn.getAllowedChoices();
 		}
 		return null;
 	}
@@ -191,13 +154,11 @@ public class ChoiceSetFactory
 	 *            DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static IChoiceSet getStructChoiceSet( String structName,
-			String property )
-	{
-		IPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary( )
-				.getStructure( structName )
-				.findProperty( property );
-		return propertyDefn.getChoices( );
+	public static IChoiceSet getStructChoiceSet(String structName,
+			String property) {
+		IPropertyDefn propertyDefn = DesignEngine.getMetaDataDictionary()
+				.getStructure(structName).findProperty(property);
+		return propertyDefn.getChoices();
 	}
 
 	/**
@@ -207,24 +168,38 @@ public class ChoiceSetFactory
 	 *            The ChoiceSet instance.
 	 * @return A String array contains displayNames.
 	 */
-	public static String[] getDisplayNamefromChoiceSet( IChoiceSet choiceSet )
-	{
+	public static String[] getDisplayNamefromChoiceSet(IChoiceSet choiceSet) {
+		return getDisplayNamefromChoiceSet(choiceSet, null);
+	}
+
+	/**
+	 * Gets all displayNames that a given ChoiceSet instance contained.
+	 * 
+	 * @param choiceSet
+	 *            The ChoiceSet instance.
+	 * @param comparator
+	 *            The sort comparator.           
+	 * @return A String array contains displayNames.
+	 */
+	public static String[] getDisplayNamefromChoiceSet(IChoiceSet choiceSet,
+			Comparator comparator) {
 		String[] displayNames = new String[0];
-		if ( choiceSet == null )
+		if (choiceSet == null)
+		{
 			return displayNames;
-		IChoice[] choices = choiceSet.getChoices( );
-		if ( choices == null )
+		}
+		IChoice[] choices = choiceSet.getChoices(comparator);
+
+		if (choices == null)
 			return displayNames;
 
 		displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getDisplayName( );
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getDisplayName();
 		}
 		return displayNames;
 	}
 
-	
 	/**
 	 * Gets all names that a given ChoiceSet instance contained.
 	 * 
@@ -232,23 +207,21 @@ public class ChoiceSetFactory
 	 *            The ChoiceSet instance.
 	 * @return A String array contains names.
 	 */
-	public static String[] getNamefromChoiceSet( IChoiceSet choiceSet )
-	{
+	public static String[] getNamefromChoiceSet(IChoiceSet choiceSet) {
 		String[] names = new String[0];
-		if ( choiceSet == null )
+		if (choiceSet == null)
 			return names;
-		IChoice[] choices = choiceSet.getChoices( );
-		if ( choices == null )
+		IChoice[] choices = choiceSet.getChoices();
+		if (choices == null)
 			return names;
 
 		names = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			names[i] = choices[i].getName( );
+		for (int i = 0; i < choices.length; i++) {
+			names[i] = choices[i].getName();
 		}
 		return names;
 	}
-	
+
 	/**
 	 * Gets property 's display names given element name and the property name.
 	 * 
@@ -258,11 +231,10 @@ public class ChoiceSetFactory
 	 *            The property name.
 	 * @return The given property 's display names
 	 */
-	public static String[] getPropertyDisplayNames( String elementName,
-			String property )
-	{
-		IChoiceSet choiceSet = getElementChoiceSet( elementName, property );
-		return getDisplayNamefromChoiceSet( choiceSet );
+	public static String[] getPropertyDisplayNames(String elementName,
+			String property) {
+		IChoiceSet choiceSet = getElementChoiceSet(elementName, property);
+		return getDisplayNamefromChoiceSet(choiceSet);
 	}
 
 	/**
@@ -277,11 +249,10 @@ public class ChoiceSetFactory
 	 *            The property 's value.
 	 * @return The given property 's display name
 	 */
-	public static String getPropDisplayName( String elementName,
-			String property, String value )
-	{
-		IChoiceSet set = getElementChoiceSet( elementName, property );
-		return getDisplayNameFromChoiceSet( value, set );
+	public static String getPropDisplayName(String elementName,
+			String property, String value) {
+		IChoiceSet set = getElementChoiceSet(elementName, property);
+		return getDisplayNameFromChoiceSet(value, set);
 	}
 
 	/**
@@ -297,11 +268,10 @@ public class ChoiceSetFactory
 	 * @return The given property 's display name
 	 */
 
-	public static String getStructDisplayName( String structName,
-			String memberName, String value )
-	{
-		IChoiceSet set = getStructChoiceSet( structName, memberName );
-		return getDisplayNameFromChoiceSet( value, set );
+	public static String getStructDisplayName(String structName,
+			String memberName, String value) {
+		IChoiceSet set = getStructChoiceSet(structName, memberName);
+		return getDisplayNameFromChoiceSet(value, set);
 	}
 
 	/**
@@ -316,11 +286,10 @@ public class ChoiceSetFactory
 	 *            The property 's display name.
 	 * @return The given property 's value
 	 */
-	public static String getPropValue( String elementName, String property,
-			String displayName )
-	{
-		IChoiceSet set = getElementChoiceSet( elementName, property );
-		return getValueFromChoiceSet( displayName, set );
+	public static String getPropValue(String elementName, String property,
+			String displayName) {
+		IChoiceSet set = getElementChoiceSet(elementName, property);
+		return getValueFromChoiceSet(displayName, set);
 	}
 
 	/**
@@ -335,11 +304,10 @@ public class ChoiceSetFactory
 	 *            The property 's display name.
 	 * @return The given property 's value
 	 */
-	public static String getStructPropValue( String structName,
-			String memberName, String displayName )
-	{
-		IChoiceSet set = getStructChoiceSet( structName, memberName );
-		return getValueFromChoiceSet( displayName, set );
+	public static String getStructPropValue(String structName,
+			String memberName, String displayName) {
+		IChoiceSet set = getStructChoiceSet(structName, memberName);
+		return getValueFromChoiceSet(displayName, set);
 	}
 
 	/**
@@ -352,24 +320,19 @@ public class ChoiceSetFactory
 	 *            The choice set name from which to get display name.
 	 * @return The display name of the given value
 	 */
-	public static String getDisplayNameFromChoiceSet( String value,
-			IChoiceSet set )
-	{
+	public static String getDisplayNameFromChoiceSet(String value,
+			IChoiceSet set) {
 		String name = value;
-		if ( set == null )
-		{
+		if (set == null) {
 			return name;
 		}
-		IChoice[] choices = set.getChoices( );
-		if ( choices == null )
-		{
+		IChoice[] choices = set.getChoices();
+		if (choices == null) {
 			return name;
 		}
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			if ( choices[i].getName( ).equals( value ) )
-			{
-				return choices[i].getDisplayName( );
+		for (int i = 0; i < choices.length; i++) {
+			if (choices[i].getName().equals(value)) {
+				return choices[i].getDisplayName();
 			}
 		}
 		return name;
@@ -385,24 +348,19 @@ public class ChoiceSetFactory
 	 *            The choice set name from which to get property value.
 	 * @return The value of the given UI display name.
 	 */
-	public static String getValueFromChoiceSet( String displayName,
-			IChoiceSet set )
-	{
+	public static String getValueFromChoiceSet(String displayName,
+			IChoiceSet set) {
 		String value = displayName;
-		if ( set == null )
-		{
+		if (set == null) {
 			return value;
 		}
-		IChoice[] choices = set.getChoices( );
-		if ( choices == null )
-		{
+		IChoice[] choices = set.getChoices();
+		if (choices == null) {
 			return value;
 		}
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			if ( choices[i].getDisplayName( ).equals( displayName ) )
-			{
-				return choices[i].getName( );
+		for (int i = 0; i < choices.length; i++) {
+			if (choices[i].getDisplayName().equals(displayName)) {
+				return choices[i].getName();
 			}
 		}
 		return value;
@@ -418,84 +376,49 @@ public class ChoiceSetFactory
 	 *             instead
 	 */
 
-	public static Object[] getChoiceSet( String property )
-	{
-		//The dataSet has different access method.
-		if ( AttributeConstant.DATASET.equals( property ) )
-		{
-			return getDataSets( );
+	public static Object[] getChoiceSet(String property) {
+		// The dataSet has different access method.
+		if (AttributeConstant.DATASET.equals(property)) {
+			return getDataSets();
 		}
 
 		String unitKey = DesignChoiceConstants.CHOICE_UNITS;
-		if ( AttributeConstant.BACKGROUND_COLOR.equals( property ) )
-		{
+		if (AttributeConstant.BACKGROUND_COLOR.equals(property)) {
 			unitKey = IColorConstants.COLORS_CHOICE_SET;
-		}
-		else if ( AttributeConstant.FONT_COLOR.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_COLOR.equals(property)) {
 			unitKey = IColorConstants.COLORS_CHOICE_SET;
-		}
-		else if ( AttributeConstant.FONT_SIZE.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_SIZE.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FONT_SIZE;
-		}
-		else if ( AttributeConstant.FONT_FAMILY.equals( property ) )
-		{
+		} else if (AttributeConstant.FONT_FAMILY.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FONT_FAMILY;
-		}
-		else if ( AttributeConstant.TEXT_FORMAT.equals( property ) )
-		{
+		} else if (AttributeConstant.TEXT_FORMAT.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_CONTENT_TYPE;
-		}
-		else if ( AttributeConstant.BORDER_STYLE.equals( property ) )
-		{
+		} else if (AttributeConstant.BORDER_STYLE.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_LINE_STYLE;
-		}
-		else if ( AttributeConstant.BORDER_WIDTH.equals( property ) )
-		{
+		} else if (AttributeConstant.BORDER_WIDTH.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_LINE_WIDTH;
-		}
-		else if ( SortKey.DIRECTION_MEMBER.equals( property ) )
-		{
+		} else if (SortKey.DIRECTION_MEMBER.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_SORT_DIRECTION;
-		}
-		else if ( FilterCondition.OPERATOR_MEMBER.equals( property ) )
-		{
+		} else if (FilterCondition.OPERATOR_MEMBER.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_FILTER_OPERATOR;
-		}
-		else if ( StyleHandle.VERTICAL_ALIGN_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.VERTICAL_ALIGN_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_VERTICAL_ALIGN;
-		}
-		else if ( StyleHandle.TEXT_ALIGN_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.TEXT_ALIGN_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_TEXT_ALIGN;
-		}
-		else if ( MasterPageHandle.ORIENTATION_PROP.equals( property ) )
-		{
+		} else if (MasterPageHandle.ORIENTATION_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_ORIENTATION;
-		}
-		else if ( MasterPageHandle.TYPE_PROP.equals( property ) )
-		{
+		} else if (MasterPageHandle.TYPE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_SIZE;
-		}
-		else if ( GroupHandle.INTERVAL_PROP.equals( property ) )
-		{
+		} else if (GroupHandle.INTERVAL_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_INTERVAL;
-		}
-		else if ( StyleHandle.PAGE_BREAK_BEFORE_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_BEFORE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
-		}
-		else if ( StyleHandle.PAGE_BREAK_AFTER_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_AFTER_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK;
-		}
-		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
-		{
+		} else if (StyleHandle.PAGE_BREAK_INSIDE_PROP.equals(property)) {
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
 		}
-		return getUnitChoiceSet( unitKey );
+		return getUnitChoiceSet(unitKey);
 	}
 
 	/**
@@ -506,20 +429,17 @@ public class ChoiceSetFactory
 	 * @return A String array contains all the allowed values.
 	 */
 
-	private static Object[] getUnitChoiceSet( String unitKey )
-	{
-		ArrayList list = new ArrayList( );
-		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
-				.getChoiceSet( unitKey );
-		if ( choiceSet != null )
-		{
-			IChoice[] choices = choiceSet.getChoices( );
-			for ( int i = 0; i < choices.length; i++ )
-			{
-				list.add( choices[i] );
+	private static Object[] getUnitChoiceSet(String unitKey) {
+		ArrayList list = new ArrayList();
+		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary()
+				.getChoiceSet(unitKey);
+		if (choiceSet != null) {
+			IChoice[] choices = choiceSet.getChoices();
+			for (int i = 0; i < choices.length; i++) {
+				list.add(choices[i]);
 			}
 		}
-		return list.toArray( new IChoice[0] );
+		return list.toArray(new IChoice[0]);
 	}
 
 	/**
@@ -527,24 +447,21 @@ public class ChoiceSetFactory
 	 * 
 	 * @return A String array contains all the DataSets.
 	 */
-	public static String[] getDataSets( )
-	{
-		ArrayList list = new ArrayList( );
+	public static String[] getDataSets() {
+		ArrayList list = new ArrayList();
 
-		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance()
+				.getReportDesignHandle();
 
-		SlotHandle dataSets = handle.getDataSets( );
-		if ( dataSets != null )
-		{
-			Iterator iterator = dataSets.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
-				list.add( DataSetHandle.getName( ) );
+		SlotHandle dataSets = handle.getDataSets();
+		if (dataSets != null) {
+			Iterator iterator = dataSets.iterator();
+			while (iterator.hasNext()) {
+				DataSetHandle DataSetHandle = (DataSetHandle) iterator.next();
+				list.add(DataSetHandle.getName());
 			}
 		}
-		return (String[]) list.toArray( new String[0] );
+		return (String[]) list.toArray(new String[0]);
 	}
 
 	/**
@@ -552,22 +469,20 @@ public class ChoiceSetFactory
 	 * 
 	 * @return A String array contains all the MasterPages.
 	 */
-	public static String[] getMasterPages( )
-	{
-		ArrayList list = new ArrayList( );
-		ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		SlotHandle pages = handle.getMasterPages( );
-		if ( pages != null )
-		{
-			Iterator iterator = pages.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+	public static String[] getMasterPages() {
+		ArrayList list = new ArrayList();
+		ReportDesignHandle handle = SessionHandleAdapter.getInstance()
+				.getReportDesignHandle();
+		SlotHandle pages = handle.getMasterPages();
+		if (pages != null) {
+			Iterator iterator = pages.iterator();
+			while (iterator.hasNext()) {
+				ReportElementHandle elementHandle = (ReportElementHandle) iterator
+						.next();
+				list.add(elementHandle.getName());
 			}
 		}
-		return (String[]) list.toArray( new String[0] );
+		return (String[]) list.toArray(new String[0]);
 	}
 
 	/**
@@ -575,22 +490,20 @@ public class ChoiceSetFactory
 	 * 
 	 * @return A String array contains all the Styles.
 	 */
-	public static String[] getStyles( )
-	{
-		ArrayList list = new ArrayList( );
-		list.add( CHOICE_NONE );
+	public static String[] getStyles() {
+		ArrayList list = new ArrayList();
+		list.add(CHOICE_NONE);
 
 		Iterator iterator = DEUtil.getStyles();
-		
-		if(iterator !=null)
-		{
-			while ( iterator.hasNext( ) )
-			{
-				ReportElementHandle elementHandle = (ReportElementHandle) iterator.next( );
-				list.add( elementHandle.getName( ) );
+
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				ReportElementHandle elementHandle = (ReportElementHandle) iterator
+						.next();
+				list.add(elementHandle.getName());
 			}
 		}
-		return (String[]) list.toArray( new String[0] );
+		return (String[]) list.toArray(new String[0]);
 	}
 
 	/**
@@ -601,15 +514,14 @@ public class ChoiceSetFactory
 	 * @return formatValue = new String[2]. The default format value, String[0]:
 	 *         default category; String[1]: default pattern.
 	 */
-	public static String[] getDefaultFormatValue( String structName )
-	{
+	public static String[] getDefaultFormatValue(String structName) {
 		String[] formatValue = new String[2];
-		IStructureDefn def = DesignEngine.getMetaDataDictionary( )
-				.getStructure( structName );
-		formatValue[0] = (String) def.getMember( FormatValue.CATEGORY_MEMBER )
-				.getDefault( );
-		formatValue[1] = (String) def.getMember( FormatValue.PATTERN_MEMBER )
-				.getDefault( );
+		IStructureDefn def = DesignEngine.getMetaDataDictionary().getStructure(
+				structName);
+		formatValue[0] = (String) def.getMember(FormatValue.CATEGORY_MEMBER)
+				.getDefault();
+		formatValue[1] = (String) def.getMember(FormatValue.PATTERN_MEMBER)
+				.getDefault();
 		return formatValue;
 	}
 }

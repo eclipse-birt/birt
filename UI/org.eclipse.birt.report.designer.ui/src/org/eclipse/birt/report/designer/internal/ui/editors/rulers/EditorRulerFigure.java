@@ -576,10 +576,6 @@ public class EditorRulerFigure extends Figure
 	
 	private boolean canDrawNumber(String num, Point startPoint ,Graphics g)
 	{
-		if (Integer.valueOf(num).intValue() > 750)
-		{
-			int i = 0;
-		}
 		Transposer transposer = new Transposer();
 		transposer.setEnabled( !isHorizontal() );
 		Rectangle rect =  transposer.t( g.getClip( Rectangle.SINGLETON ));
