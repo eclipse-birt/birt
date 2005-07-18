@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.15 $ $Date: 2005/06/30 03:31:16 $
+ * @version $Revision: 1.16 $ $Date: 2005/07/07 03:35:17 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -119,6 +119,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	
 	private ComboViewer filterComboViewer = null;
 	private Combo schemaCombo = null;
+	private Label schemaLabel = null;
 	OdaDataSourceHandle prevDataSourceHandle = null;
 	Connection jdbcConnection = null;
 	boolean validConnection = false;
@@ -284,17 +285,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			selectTableGroup.setLayoutData(data);
 		}
 		
-		if ( isSchemaSupported )
-		{
-			Label schemaLabel = new Label( selectTableGroup, SWT.LEFT );
-			schemaLabel.setText( JdbcPlugin.getResourceString("tablepage.label.schema") );
+		schemaLabel = new Label( selectTableGroup, SWT.LEFT );
+		schemaLabel.setText( JdbcPlugin.getResourceString("tablepage.label.schema") );
 
-			schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
-			schemaCombo.setLayoutData( gd );
-		}
-		
+		schemaCombo = new Combo( selectTableGroup, SWT.READ_ONLY );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		schemaCombo.setLayoutData( gd );
+		enableSchemaComponent( isSchemaSupported );
+	
 		Label FilterLabel = new Label(selectTableGroup, SWT.LEFT);
 		FilterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
 		
@@ -351,6 +350,21 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 	}
 	
+	private void enableSchemaComponent( boolean b )
+	{
+		if ( b )
+		{
+			this.schemaCombo.setEnabled( true );
+			this.schemaLabel.setEnabled( true );
+		}
+		else
+		{
+			this.schemaCombo.removeAll( );
+			this.schemaCombo.setEnabled( false );
+			this.schemaLabel.setEnabled( false );
+		}
+	}
+
 	private void setFilterComboContents(ComboViewer filterComboViewer)
 	{
 		if( filterComboViewer == null )
@@ -883,10 +897,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		if( curDataSourceHandle != prevDataSourceHandle )
 		{
-						
-
 			RemoveAllAvailableDbObjects();
 			resetJdbcInfo(curDataSourceHandle);
+			enableSchemaComponent( isSchemaSupported );
 			setRootElement();
             sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceHandle);
 			prevDataSourceHandle = curDataSourceHandle;
