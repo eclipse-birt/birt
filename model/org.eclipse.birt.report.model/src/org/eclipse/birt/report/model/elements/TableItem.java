@@ -18,11 +18,12 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
-import org.eclipse.birt.report.model.api.validators.TableDroppingValidator;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.table.LayoutHelper;
+import org.eclipse.birt.report.model.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -37,6 +38,12 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 public class TableItem extends ListingElement implements ITableItemModel
 {
+
+	/**
+	 * The table model.
+	 */
+
+	private LayoutTable table = null;
 
 	/**
 	 * Default constructor.
@@ -142,23 +149,8 @@ public class TableItem extends ListingElement implements ITableItemModel
 
 	public int findMaxCols( ReportDesign design )
 	{
-		int maxCols = 0;
-		maxCols = findMaxCols( design, this, HEADER_SLOT, maxCols );
-		maxCols = DroppingHelper.findMaxColsOfDropping( design, this, maxCols );
-		maxCols = findMaxCols( design, this, FOOTER_SLOT, maxCols );
-
-		ContainerSlot groups = getSlot( GROUP_SLOT );
-		int groupCount = groups.getCount( );
-		for ( int i = 0; i < groupCount; i++ )
-		{
-			TableGroup group = (TableGroup) groups.getContent( i );
-			maxCols = findMaxCols( design, group, TableGroup.HEADER_SLOT,
-					maxCols );
-			maxCols = findMaxCols( design, group, TableGroup.FOOTER_SLOT,
-					maxCols );
-		}
-
-		return maxCols;
+		refreshRenderModel( design );
+		return table.getColumnCount( );
 	}
 
 	/**
@@ -180,35 +172,6 @@ public class TableItem extends ListingElement implements ITableItemModel
 			colCount += col.getIntProperty( design, TableColumn.REPEAT_PROP );
 		}
 		return colCount;
-	}
-
-	/**
-	 * Finds the maximum column width for a band.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @param element
-	 *            the design element to compute
-	 * @param slot
-	 *            the slot to check
-	 * @param maxCols
-	 *            the current maximum number of columns
-	 * @return the updated maximum number of columns
-	 */
-
-	private int findMaxCols( ReportDesign design, DesignElement element,
-			int slot, int maxCols )
-	{
-		ContainerSlot band = element.getSlot( slot );
-		int count = band.getCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			TableRow row = (TableRow) band.getContent( i );
-			int cols = row.getColumnCount( design );
-			if ( cols > maxCols )
-				maxCols = cols;
-		}
-		return maxCols;
 	}
 
 	/**
@@ -236,9 +199,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 
 		int columnNum = target.getColumn( design );
 		if ( columnNum == 0 )
-		{
-			columnNum = DroppingHelper.findCellColumn( design, this, target );
-		}
+			columnNum = getColumnPosition4Cell( design, target );
 
 		assert columnNum > 0;
 		TableColumn column = ColumnHelper.findColumn( design,
@@ -248,6 +209,39 @@ public class TableItem extends ListingElement implements ITableItemModel
 			return column.getPropertyFromElement( design, prop );
 
 		return null;
+	}
+
+	/**
+	 * Returns the column number with a specified <code>Cell</code>.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @param target
+	 *            the cell to find
+	 * @return 1-based the column number
+	 */
+
+	public int getColumnPosition4Cell( ReportDesign design, Cell target )
+	{
+		if ( target == null )
+			return 0;
+
+		int slotId = target.getContainer( ).getContainerSlot( );
+
+		TableRow row = (TableRow) target.getContainer( );
+		DesignElement grandPa = row.getContainer( );
+		int rowId = grandPa.getSlot( slotId ).findPosn( row );
+
+		if ( grandPa instanceof TableItem )
+		{
+			assert grandPa == this;
+			refreshRenderModel( design );
+
+			return table.getColumnPos( slotId, rowId, target );
+		}
+
+		return table.getColumnPos( ( (TableGroup) grandPa ).getGroupLevel( ),
+				slotId, rowId, target );
 	}
 
 	public List validate( ReportDesign design )
@@ -266,13 +260,41 @@ public class TableItem extends ListingElement implements ITableItemModel
 		list.addAll( TableHeaderContextContainmentValidator.getInstance( )
 				.validate( design, this ) );
 
-		// check whether there is any overlapping cells with drop properties in
-		// the group headers.
-
-		list.addAll( TableDroppingValidator.getInstance( ).validate( design,
-				this ) );
-
 		return list;
+	}
+
+	/**
+	 * Returns the table model of <code>TableItem</code>. This model is
+	 * different from the natural of <code>TableItem</code> since "colSpan",
+	 * "rowSpan" and "dropping cells" are applied. Mainly uses this model to
+	 * render the <code>TableItem</code>.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @return the table model for rendering
+	 */
+
+	public LayoutTable getRenderModel( ReportDesign design )
+	{
+		if ( table == null )
+			table = LayoutHelper.applyLayout( design, this );
+		
+		return table;
+	}
+
+	/**
+	 * Refreshes the table model of <code>TableItem</code>.
+	 * 
+	 * @param design
+	 *            the report design
+	 * @return the table model for rendering
+	 * 
+	 * @see {@link #getRenderModel(ReportDesign)}
+	 */
+
+	public void refreshRenderModel( ReportDesign design )
+	{
+		table = LayoutHelper.applyLayout( design, this );
 	}
 
 	/*

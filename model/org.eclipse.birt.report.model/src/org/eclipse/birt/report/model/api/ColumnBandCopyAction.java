@@ -296,17 +296,24 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	{
 		int[] retValue = new int[copiedRowSpans.length];
 
-		int copiedRowCount = 0;
-		int originalRowCount = 0;
+		int copiedIndex = 0;
+		int originalIndex = 0;
 
-		for ( int i = 0, j = -1; i < copiedRowSpans.length; i++ )
+		while ( copiedIndex < copiedRowSpans.length )
 		{
-			int copiedRowSpan = copiedRowSpans[i];
-			copiedRowCount += copiedRowSpan;
+			int copiedRowSpan = copiedRowSpans[copiedIndex];
+			assert originalIndex < originalRowSpans.length;
 
-			while ( originalRowCount < copiedRowCount )
-				originalRowCount += originalRowSpans[++j];
-			retValue[i] = originalPositions[j];
+			retValue[copiedIndex] = originalPositions[originalIndex];
+
+			int originalRowSpan = originalRowSpans[originalIndex];
+			while ( copiedRowSpan < originalRowSpan )
+			{
+				copiedIndex++;
+				copiedRowSpan += copiedRowSpans[copiedIndex];
+				originalIndex++;
+			}
+			copiedIndex++;
 		}
 
 		return retValue;
@@ -321,17 +328,17 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	 *            the column number
 	 * @return a new column instance
 	 */
-	
+
 	protected TableColumn copyColumn( SlotHandle columns, int columnIndex )
 	{
 		TableColumn column = ColumnHelper.findColumn( adapter.getDesign( ),
 				columns.getSlot( ), columnIndex );
-	
+
 		if ( column == null )
 			return null;
-	
+
 		TableColumn clonedColumn = null;
-	
+
 		try
 		{
 			clonedColumn = (TableColumn) column.clone( );
@@ -342,7 +349,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		{
 			assert false;
 		}
-	
+
 		return clonedColumn;
 	}
 

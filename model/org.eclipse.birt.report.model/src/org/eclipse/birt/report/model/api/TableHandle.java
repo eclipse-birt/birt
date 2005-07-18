@@ -172,19 +172,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		}
 
 		return true;
-
-		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
-		//
-		// try
-		// {
-		// adapter.copyColumn( this, columnIndex );
-		// }
-		// catch ( SemanticException e )
-		// {
-		// return false;
-		// }
-		//
-		// return true;
 	}
 
 	/**
@@ -213,10 +200,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 				new TableColumnBandAdapter( this ) );
 
 		return pasteAction.canPaste( columnIndex, inForce, data );
-
-		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		//
-		// return adapter.canPaste( this, columnIndex, inForce );
 	}
 
 	/**
@@ -232,9 +215,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public ColumnBandData copyColumn( int columnIndex )
 			throws SemanticException
 	{
-		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( );
-		// return adapter.copyColumn( this, columnIndex );
-
 		ColumnBandPasteAction pasteAction = new ColumnBandPasteAction(
 				new TableColumnBandAdapter( this ) );
 
@@ -264,9 +244,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 				new TableColumnBandAdapter( this ) );
 
 		pasteAction.pasteColumnBand( columnNumber, inForce, data );
-
-		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		// adapter.pasteColumnBand( this, columnNumber, inForce );
 	}
 
 	/**
@@ -289,9 +266,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 				new TableColumnBandAdapter( this ) );
 
 		insertAction.insertAndPasteColumnBand( columnNumber, data );
-
-		// TableColumnBandAdapter adapter = new TableColumnBandAdapter( data );
-		// adapter.insertAndPasteColumnBand( this, columnNumber );
 	}
 
 	/**

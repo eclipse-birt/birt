@@ -1326,7 +1326,6 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator" name="MasterPageSizeValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator" name="MasterPageTypeValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureListValidator" name="StructureListValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TableDroppingValidator" name="TableDroppingValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator" name="TableHeaderContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator" name="UnsupportedElementValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" name="ValueRequiredValidator"/>
@@ -2362,7 +2361,6 @@
     <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
       <Type name="TableGroup"/>
       <Trigger validator="GroupNameValidator"/>
-      <Trigger validator="TableDroppingValidator"/>
     </Slot>
     <Slot displayNameID="Element.Table.slot.detail" multipleCardinality="true" name="detail" selector="table-detail" since="1.0" xmlName="detail">
       <Type name="Row"/>
@@ -2381,7 +2379,6 @@
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
-      <Trigger targetElement="Table" validator="TableDroppingValidator"/>
     </Slot>
     <Slot displayNameID="Element.TableGroup.slot.footer" multipleCardinality="true" name="footer" selector="table-group-footer" since="1.0" xmlName="footer">
       <Type name="Row"/>
@@ -2480,7 +2477,6 @@
     </Property>
     <Property detailType="dropType" displayNameID="Element.Cell.drop" name="drop" runtimeSettable="false" since="1.0" type="choice">
       <Default>none</Default>
-      <Trigger targetElement="Table" validator="TableDroppingValidator"/>
     </Property>
     <Property displayNameID="Element.Cell.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>

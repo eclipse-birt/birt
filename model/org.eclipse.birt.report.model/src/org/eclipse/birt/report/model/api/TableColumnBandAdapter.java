@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.DroppingHelper;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 
@@ -104,8 +103,12 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 
 	protected int getCellPosition( CellHandle cell )
 	{
-		return DroppingHelper.findCellColumn( getDesign( ), (TableItem) element
-				.getElement( ), (Cell) cell.getElement( ) );
+		assert cell != null;
+
+		TableItem table = (TableItem) element.getElement( );
+
+		return table.getColumnPosition4Cell( getDesign( ), (Cell) cell
+				.getElement( ) );
 	}
 
 	/*
