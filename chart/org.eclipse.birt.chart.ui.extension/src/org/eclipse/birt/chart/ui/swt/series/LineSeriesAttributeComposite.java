@@ -168,6 +168,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 		GridData gdCMBMarkerTypes = new GridData( GridData.FILL_HORIZONTAL );
 		cmbMarkerTypes.setLayoutData( gdCMBMarkerTypes );
 		cmbMarkerTypes.addSelectionListener( this );
+		cmbMarkerTypes.setEnabled( btnMarkerVisible.getSelection( ) );
 
 		Label lblSize = new Label( grpMarker, SWT.NONE );
 		GridData gdLBLSize = new GridData( );
@@ -182,6 +183,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 		iscMarkerSize.setMinimum( 0 );
 		iscMarkerSize.setMaximum( 100 );
 		iscMarkerSize.addListener( this );
+		iscMarkerSize.setEnabled( btnMarkerVisible.getSelection( ) );
 
 		grpLine = new Group( this, SWT.NONE );
 		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
@@ -239,6 +241,8 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			( (LineSeries) series ).getMarker( )
 					.setVisible( btnMarkerVisible.getSelection( ) );
+			cmbMarkerTypes.setEnabled( btnMarkerVisible.getSelection( ) );
+			iscMarkerSize.setEnabled( btnMarkerVisible.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
 		{

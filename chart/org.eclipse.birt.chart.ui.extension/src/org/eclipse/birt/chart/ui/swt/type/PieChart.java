@@ -54,7 +54,10 @@ import org.eclipse.swt.graphics.Image;
 public class PieChart extends DefaultChartTypeImpl
 {
 
-	private static final String sType = "Pie Chart"; //$NON-NLS-1$
+	/**
+	 * Comment for <code>TYPE_LITERAL</code>
+	 */
+	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -65,7 +68,7 @@ public class PieChart extends DefaultChartTypeImpl
 	private transient Image img2DWithDepth = null;
 
 	private static final String[] saDimensions = new String[]{
-			"2D", "2D With Depth" //$NON-NLS-1$ //$NON-NLS-2$
+			TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
 	};
 
 	public PieChart( )
@@ -80,7 +83,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public String getName( )
 	{
-		return sType;
+		return TYPE_LITERAL;
 	}
 
 	/*
@@ -100,7 +103,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public IHelpContent getHelp( )
 	{
-		return new HelpContentImpl( "Pie Chart", //$NON-NLS-1$
+		return new HelpContentImpl( TYPE_LITERAL,
 				Messages.getString( "PieChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
@@ -118,13 +121,14 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			return vSubTypes;
 		}
-		if ( sDimension.equals( "2D" ) || sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) ) //$NON-NLS-1$
+		if ( sDimension.equals( TWO_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
 			img2D = UIHelper.getImage( "icons/full/wizban/piechartimage.gif" ); //$NON-NLS-1$
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Pie Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
-		else if ( sDimension.equals( "2D With Depth" ) //$NON-NLS-1$
+		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
 			img2DWithDepth = UIHelper.getImage( "icons/full/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
@@ -155,7 +159,7 @@ public class PieChart extends DefaultChartTypeImpl
 			}
 		}
 		newChart = ChartWithoutAxesImpl.create( );
-		newChart.setType( sType );
+		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
@@ -233,7 +237,7 @@ public class PieChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
-			currentChart.setType( sType );
+			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
@@ -241,7 +245,8 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.setBlock( helperModel.getBlock( ) );
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
-			if ( !currentChart.getType( ).equals( "Line Chart" ) && !currentChart.getType( ).equals( "Bar Chart" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
@@ -293,7 +298,7 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.CATEGORIES_LITERAL );
 		}
-		else if ( currentChart.getType( ).equals( sType ) )
+		else if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 		{
 			currentChart.setSubType( sNewSubType );
 			if ( !currentChart.isSetSeriesThickness( ) )
@@ -493,7 +498,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 	private ChartDimension getDimensionFor( String sDimension )
 	{
-		if ( sDimension == null || sDimension.equals( "2D" ) ) //$NON-NLS-1$
+		if ( sDimension == null || sDimension.equals( TWO_DIMENSION_TYPE ) )
 		{
 			return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 		}

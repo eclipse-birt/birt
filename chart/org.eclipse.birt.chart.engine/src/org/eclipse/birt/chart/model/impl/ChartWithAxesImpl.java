@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
@@ -869,7 +870,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		// SETUP A BASE AXIS
 		Axis xAxisBase = AxisImpl.create( Axis.BASE );
 		xAxisBase.setTitlePosition( Position.BELOW_LITERAL );
-		xAxisBase.getTitle( ).getCaption( ).setValue( "X-Axis Title" ); //$NON-NLS-1$
+		xAxisBase.getTitle( )
+				.getCaption( )
+				.setValue( Messages.getString( "ChartWithAxesImpl.X_Axis.title" ) ); //$NON-NLS-1$
 		xAxisBase.getTitle( ).setVisible( true );
 		xAxisBase.setPrimaryAxis( true );
 		xAxisBase.setLabelPosition( Position.BELOW_LITERAL );
@@ -882,7 +885,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		// SETUP AN ORTHOGONAL AXIS
 		Axis yAxisOrthogonal = AxisImpl.create( Axis.ORTHOGONAL );
 		yAxisOrthogonal.setTitlePosition( Position.LEFT_LITERAL );
-		yAxisOrthogonal.getTitle( ).getCaption( ).setValue( "Y-Axis Title" ); //$NON-NLS-1$
+		yAxisOrthogonal.getTitle( )
+				.getCaption( )
+				.setValue( Messages.getString( "ChartWithAxesImpl.Y_Axis.title" ) ); //$NON-NLS-1$
 		yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
 		yAxisOrthogonal.getTitle( ).setVisible( true );
 		yAxisOrthogonal.setPrimaryAxis( true );
@@ -894,9 +899,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		yAxisOrthogonal.setType( AxisType.LINEAR_LITERAL );
 
 		xAxisBase.getAssociatedAxes( ).add( yAxisOrthogonal ); // ADD THE
-															   // ORTHOGONAL
-															   // AXIS TO THE
-															   // BASE AXIS
+		// ORTHOGONAL
+		// AXIS TO THE
+		// BASE AXIS
 		getAxes( ).add( xAxisBase ); // ADD THE BASE AXIS TO THE CHART
 	}
 

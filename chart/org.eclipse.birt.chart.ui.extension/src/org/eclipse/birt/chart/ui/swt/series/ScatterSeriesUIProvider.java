@@ -36,7 +36,6 @@ public class ScatterSeriesUIProvider implements ISeriesUIProvider
     public ScatterSeriesUIProvider()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /*
