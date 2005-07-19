@@ -232,11 +232,10 @@ public class TableItem extends ListingElement implements ITableItemModel
 		DesignElement grandPa = row.getContainer( );
 		int rowId = grandPa.getSlot( slotId ).findPosn( row );
 
+		refreshRenderModel( design );
 		if ( grandPa instanceof TableItem )
 		{
 			assert grandPa == this;
-			refreshRenderModel( design );
-
 			return table.getColumnPos( slotId, rowId, target );
 		}
 
