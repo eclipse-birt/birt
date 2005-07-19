@@ -30,17 +30,13 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * A session can also provides the mechanism for specified file searching
  * algorithm. After get an new instance of SessionHandle, an algorithm of how to
  * search a file should be set by calling
- * <code>{@link #setFileLocator(IFileLocator)}</code> if the default search
- * algorithm is not the expected one.
+ * <code>{@link #setResourceLocator(IResourceLocator)}</code> if the default
+ * resource locator is not the expected one.
  * <p>
- * The default algorithm will search the file specified by file name in the
- * 'base' folder of the design. If the 'base' property of the design is not set,
- * the folder where the design locates will be searched instead.
+ * The default resource locator will search in the folder where the design file
+ * is located.
  * 
- * 
- * @see DesignSession
- * 
- * @see DefaultFileLocator
+ * @see org.eclipse.birt.report.model.api.DefaultResourceLocator
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
 
@@ -319,39 +315,38 @@ public class SessionHandle
 	}
 
 	/**
-	 * Sets the file search algorithm for the specified file searching
-	 * algorithm.
+	 * Sets the resource locator for the specified file searching algorithm.
 	 * 
-	 * @param algorithm
-	 *            the algorithm to be set.
+	 * @param locator
+	 *            the resource locator to be set.
 	 */
 
-	public void setFileLocator( IFileLocator algorithm )
+	public void setResourceLocator( IResourceLocator locator )
 	{
 		// this algorithm is actually set on
 		// DesignSession so the ReportDesign can
 		// access it
 
-		session.setFileLocator( algorithm );
+		session.setResourceLocator( locator );
 	}
 
 	/**
-	 * Returns the installed file search algorithm.
+	 * Returns the installed resource locator.
 	 * 
-	 * @return the file search algorithm.
+	 * @return the resource locator.
 	 */
 
-	public IFileLocator getFileLocator( )
+	public IResourceLocator getResourceLocator( )
 	{
-		return session.getFileLocator( );
+		return session.getResourceLocator( );
 	}
 
 	/**
 	 * Returns the locale of the current session.
-	 *  
+	 * 
 	 * @return the locale of the current session
 	 */
-	
+
 	public Locale getLocale( )
 	{
 		return session.getLocale( );

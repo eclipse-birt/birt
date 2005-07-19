@@ -17,10 +17,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.eclipse.birt.report.model.api.DefaultFileLocator;
+import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.IFileLocator;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -42,29 +42,11 @@ import org.eclipse.birt.report.model.parser.DesignReader;
  * application units and so on. Also provides methods for opening and creating
  * designs.
  * <p>
- * <code>DesignSession</code> has an algorithm of how to search a file. This
- * algorithm must be set before opening any <code>ReportDesign</code>, so for
- * example, when encountering a library tag in the design file, the parser needs
- * to know where to get the library file by this search algorithm, the code in
- * the parser might be like the following.
- * 
- * <pre>
- * 
- * ISearchFileAlgorithm algorithm = reportDesign.getSession( )
- * 		.getSearchFileAlgorithm( );
- * <p>
- * 
- * //Get the absolute library file path.
- * String absoluteFilePath = algorithm.findFile( libraryFileName );
- * </pre>
- * 
- * To set this algorithm, the Java client needs to do the following when
- * starting the system.
- * 
- * <pre>
- * SessionHandle handle = DesignEngine.newSessionHandle( );
- * handle.setSearchFileAlgorithm( algorithm );
- * </pre>
+ * <code>DesignSession</code> allows to specify customized resource locator to
+ * search a file. This resource locator must be set before opening any
+ * <code>ReportDesign</code>, so for example, when encountering a library tag
+ * in the design file, the parser needs to know where to get the library file by
+ * this resource locator, the code in the parser might be like the following.
  * 
  * @see org.eclipse.birt.report.model.api.SessionHandle
  */
@@ -75,11 +57,12 @@ public class DesignSession
 	/**
 	 * The algorithm of how to search a file.
 	 */
-	protected IFileLocator fileLocator = new DefaultFileLocator( );
+
+	protected IResourceLocator resourceLocator = new DefaultResourceLocator( );
 
 	/**
 	 * The algorithm of how to provide the absolute dimension value for the
-	 * predefined absoute font size.
+	 * predefined absolute font size.
 	 */
 
 	protected IAbsoluteFontSizeValueProvider fontSizeProvider = DefaultAbsoluteFontSizeValueProvider
@@ -435,10 +418,10 @@ public class DesignSession
 	 *            the algorithm to be set.
 	 */
 
-	public void setFileLocator( IFileLocator algorithm )
+	public void setResourceLocator( IResourceLocator algorithm )
 	{
 		assert algorithm != null;
-		fileLocator = algorithm;
+		resourceLocator = algorithm;
 	}
 
 	/**
@@ -448,10 +431,10 @@ public class DesignSession
 	 * @return the installed search file algorithm.
 	 */
 
-	public IFileLocator getFileLocator( )
+	public IResourceLocator getResourceLocator( )
 	{
-		assert fileLocator != null;
-		return fileLocator;
+		assert resourceLocator != null;
+		return resourceLocator;
 	}
 
 	/**
@@ -490,13 +473,13 @@ public class DesignSession
 
 	/**
 	 * Returns the locale of the current session.
-	 *  
+	 * 
 	 * @return the locale of the current session
 	 */
-	
+
 	public Locale getLocale( )
 	{
 		return locale;
 	}
-	
+
 }

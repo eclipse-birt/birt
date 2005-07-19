@@ -69,8 +69,7 @@ public class EncryptedPropertyState extends PropertyState
 
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{name},
+			DesignParserException e = new DesignParserException( new String[]{name},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 
@@ -81,7 +80,6 @@ public class EncryptedPropertyState extends PropertyState
 		if ( !propDefn.isEncryptable( ) )
 		{
 			DesignParserException e = new DesignParserException(
-					null,
 					new String[]{propDefn.getName( )},
 					DesignParserException.DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE );
 			handler.semanticError( e );

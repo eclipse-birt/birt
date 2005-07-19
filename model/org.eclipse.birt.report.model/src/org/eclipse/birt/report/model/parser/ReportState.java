@@ -123,7 +123,6 @@ public class ReportState extends DesignParseState
 				// The format of version string is invalid.
 				
 				DesignParserException e = new DesignParserException(
-						null,
 						new String[]{version},
 						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
 				throw new XMLParserException( e );
@@ -132,7 +131,6 @@ public class ReportState extends DesignParseState
 			if ( result < 0 )
 			{
 				DesignParserException e = new DesignParserException(
-						null,
 						new String[]{version},
 						DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
 				throw new XMLParserException( e );

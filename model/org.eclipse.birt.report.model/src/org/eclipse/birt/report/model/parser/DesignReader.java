@@ -16,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -35,7 +37,7 @@ import org.xml.sax.SAXException;
  * <code>DesignFileException</code> will be thrown if fatal error occurs, such
  * as file not found, syntax error or invalid xml file. Semantic error is along
  * with the design.
- * 
+ *  
  */
 
 public final class DesignReader
@@ -139,7 +141,12 @@ public final class DesignReader
 		}
 		catch ( FileNotFoundException e )
 		{
-			throw new DesignFileException( fileName );
+			DesignParserException ex = new DesignParserException(
+					new String[]{fileName},
+					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
+			List exceptionList = new ArrayList( );
+			exceptionList.add( ex );
+			throw new DesignFileException( fileName, exceptionList );
 		}
 
 		assert inputStream.markSupported( );

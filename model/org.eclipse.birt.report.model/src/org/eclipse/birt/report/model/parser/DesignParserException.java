@@ -18,17 +18,17 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 /**
  * This class describes a parse error. Many errors are reported using the same
  * exceptions used for API operations.
- * 
+ *  
  */
 
 public class DesignParserException extends ModelException
 {
 
 	/**
-	 * The file name with the error.
+	 * The design/library file was not found.
 	 */
 
-	protected String fileName = null;
+	public static final String DESIGN_EXCEPTION_FILE_NOT_FOUND = MessageConstants.DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND;
 
 	/**
 	 * A custom color did not have a correct RGB value.
@@ -161,7 +161,7 @@ public class DesignParserException extends ModelException
 	/**
 	 * The report version is invalid.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_VERSION;
 
 	/**
@@ -177,64 +177,17 @@ public class DesignParserException extends ModelException
 	}
 
 	/**
-	 * Constructs the design parser exception with the file name and the error
-	 * code.
-	 * 
-	 * @param name
-	 *            the input file name
-	 * @param errCode
-	 *            the error condition
-	 */
-
-	public DesignParserException( String name, String errCode )
-	{
-		super( errCode );
-		fileName = name;
-	}
-
-	/**
-	 * Constructs the design parser exception with the exception instance and
-	 * the error code.
-	 * 
-	 * @param e
-	 *            exception that provides additional detail
-	 * @param errCode
-	 *            the error condition
-	 */
-
-	public DesignParserException( Exception e, String errCode )
-	{
-		super( errCode, null, e );
-	}
-
-	/**
 	 * Constructs the design parser exception with the file name, the property
 	 * name and the error code.
-	 * 
-	 * @param name
-	 *            the input file name
 	 * @param values
 	 *            the values for message
 	 * @param errCode
 	 *            the error condition
 	 */
 
-	public DesignParserException( String name, String[] values, String errCode )
+	public DesignParserException( String[] values, String errCode )
 	{
 		super( errCode, values, null );
-		fileName = name;
-	}
-
-	/**
-	 * Sets the input file name.
-	 * 
-	 * @param name
-	 *            input file name
-	 */
-
-	public void setFileName( String name )
-	{
-		fileName = name;
 	}
 
 	/*
@@ -245,7 +198,8 @@ public class DesignParserException extends ModelException
 
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
+		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
 				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION )
 		{

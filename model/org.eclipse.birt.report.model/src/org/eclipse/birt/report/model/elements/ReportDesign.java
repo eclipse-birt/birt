@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.elements;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -174,8 +176,8 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 		}
 		design.translations = (TranslationTable) translations.clone( );
 		design.fileName = null;
-		
-		NameSpace.rebuildNamespace(design);
+
+		NameSpace.rebuildNamespace( design );
 
 		return design;
 	}
@@ -950,21 +952,73 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 	}
 
 	/**
-	 * Checks if the <code>fileName</code> exists. If <code>fileName</code>
-	 * does not exist, then it will be checked against the 'base' property of
-	 * the design; if the base property is not set either, then the 'filename'
-	 * property of the design will be the 'base' directory for checking the
-	 * <code>filename</code>
+	 * Checks if the file with <code>fileName</code> exists. The search steps
+	 * are described in {@link #findResource(String, int)}.
 	 * 
 	 * @param fileName
-	 *            the file name to be checked.
+	 *            the file name to check
+	 * @param fileType
+	 *            the file type
 	 * @return true if the file exists, false otherwise.
 	 */
 
-	public boolean isFileExist( String fileName )
+	public boolean isFileExist( String fileName, int fileType )
 	{
-		return getSession( ).getFileLocator( ).findFile(
-				( (ReportDesignHandle) this.getHandle( this ) ), fileName ) != null;
+		URL url = findResource( fileName, fileType );
+
+		return url != null;
+	}
+
+	/**
+	 * Returns the <code>URL</code> object if the file with
+	 * <code>fileName</code> exists. This method takes the following search
+	 * steps:
+	 * <ul>
+	 * <li>Search file taking <code>fileName</code> as absolute file name;
+	 * <li>Search file taking <code>fileName</code> as relative file name and
+	 * basing "base" property of report design;
+	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
+	 * in session.
+	 * </ul>
+	 * 
+	 * @param fileName
+	 *            file name to search
+	 * @param fileType
+	 *            file type. The value should be one of:
+	 *            <ul>
+	 *            <li><code>IResourceLocator.IMAGE</code>
+	 *            <li><code>IResourceLocator.LIBRARY</code>
+	 *            </ul>
+	 *            Any invalid value will be treated as
+	 *            <code>IResourceLocator.IMAGE</code>.
+	 * @return the <code>URL</code> object if the file with
+	 *         <code>fileName</code> is found, or null otherwise.
+	 */
+
+	public URL findResource( String fileName, int fileType )
+	{
+		try
+		{
+			File f = new File( fileName );
+			if ( f.isAbsolute( ) )
+				return f.exists( ) ? f.toURL( ) : null;
+
+			String base = getStringProperty( this, BASE_PROP );
+			if ( base != null )
+			{
+				f = new File( base, fileName );
+				if ( f.exists( ) )
+					return f.toURL( );
+			}
+		}
+		catch ( MalformedURLException e )
+		{
+			return null;
+		}
+
+		URL url = getSession( ).getResourceLocator( ).findResource( handle( ),
+				fileName, fileType );
+		return url;
 	}
 
 	/**

@@ -25,13 +25,14 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * <p>
  * Four types of error are defined:
  * <dl>
- * <dn><code>FILE_NOT_FOUND</code></dn>
- * <dd>Design file is not found. <dn><code>INVALID_XML</code></dn>
- * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code></dn>
+ * <dd>Design file is not found. <dn><code>INVALID_XML</code> </dn>
+ * <dd>Design file is not a valid xml file. <dn><code>SYNTAX_ERROR</code>
+ * </dn>
  * <dd>Design file has something conflicting MetaData definition. <dn>
- * <code>SEMANTIC_ERROR</code></dn>
+ * <code>SEMANTIC_ERROR</code> </dn>
  * <dd>Design file is opened with semantic error.
- * <ul></ul>
+ * <ul>
+ * </ul>
  * 
  * @see ErrorDetail
  */
@@ -56,12 +57,6 @@ public class DesignFileException extends ModelException
 	 */
 
 	protected Exception e = null;
-
-	/**
-	 * The input file was not found.
-	 */
-
-	public static final String DESIGN_EXCEPTION_FILE_NOT_FOUND = MessageConstants.DESIGN_FILE_EXCEPTION_FILE_NOT_FOUND;
 
 	/**
 	 * The syntax error, when design file doesn't conform metadata definition.
@@ -105,20 +100,6 @@ public class DesignFileException extends ModelException
 		this.fileName = fileName;
 		this.e = e;
 		errorList.add( new ErrorDetail( e ) );
-	}
-
-	/**
-	 * Constructs a <code>DesignFileException</code> with the given design
-	 * filename. Used when design file is not found.
-	 * 
-	 * @param fileName
-	 *            design file name.
-	 */
-
-	public DesignFileException( String fileName )
-	{
-		super( DESIGN_EXCEPTION_FILE_NOT_FOUND );
-		this.fileName = fileName;
 	}
 
 	/**
@@ -175,7 +156,7 @@ public class DesignFileException extends ModelException
 		}
 		this.errorList.add( new ErrorDetail( ex ) );
 	}
-	
+
 	/**
 	 * Returns the error list. Each item in the list is an instance of
 	 * <code>ErrorDetail</code>.
@@ -202,7 +183,7 @@ public class DesignFileException extends ModelException
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Throwable#getLocalizedMessage()
+	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
 
 	public String getLocalizedMessage( )
@@ -210,20 +191,16 @@ public class DesignFileException extends ModelException
 		if ( sResourceKey == null )
 			return ""; //$NON-NLS-1$
 
-		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{fileName} );
-		}
-
 		return ModelMessages.getMessage( sResourceKey );
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
-	
+
 	public String getMessage( )
 	{
 		return getLocalizedMessage( );
@@ -276,13 +253,8 @@ public class DesignFileException extends ModelException
 
 		sb.append( sResourceKey );
 		sb.append( " - " ); //$NON-NLS-1$
-		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND )
-		{
-			sb.append( "The design file (" ); //$NON-NLS-1$
-			sb.append( fileName );
-			sb.append( ") is not found ! \n" ); //$NON-NLS-1$
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR || sResourceKey == DESIGN_EXCEPTION_INVALID_XML )
+		if ( sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_XML )
 		{
 			if ( errorList != null )
 			{

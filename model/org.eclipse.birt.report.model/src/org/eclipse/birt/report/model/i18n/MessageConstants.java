@@ -159,6 +159,7 @@ public interface MessageConstants
 	public static final String STYLE_EXCEPTION_NOT_FOUND = "Error.StyleException.NOT_FOUND"; //$NON-NLS-1$
 
 	// DesignParserException
+	public static final String DESIGN_PARSER_EXCEPTION_FILE_NOT_FOUND = "Error.DesignParserException.FILE_NOT_FOUND"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_RGB_REQUIRED = "Error.DesignParserException.RGB_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_COLOR_NAME_REQUIRED = "Error.DesignParserException.COLOR_NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_ILLEGAL_EXTENDS = "Error.DesignParserException.ILLEGAL_EXTENDS"; //$NON-NLS-1$
@@ -184,7 +185,6 @@ public interface MessageConstants
 
 
 	// DesignFileException
-	public static final String DESIGN_FILE_EXCEPTION_FILE_NOT_FOUND = "Error.DesignFileException.FILE_NOT_FOUND"; //$NON-NLS-1$
 	public static final String DESIGN_FILE_EXCEPTION_SYNTAX_ERROR = "Error.DesignFileException.SYNTAX_ERROR"; //$NON-NLS-1$
 	public static final String DESIGN_FILE_EXCEPTION_SEMANTIC_ERROR = "Error.DesignFileException.SEMANTIC_ERROR"; //$NON-NLS-1$
 	public static final String DESIGN_FILE_EXCEPTION_INVALID_XML = "Error.DesignFileException.INVALID_XML"; //$NON-NLS-1$

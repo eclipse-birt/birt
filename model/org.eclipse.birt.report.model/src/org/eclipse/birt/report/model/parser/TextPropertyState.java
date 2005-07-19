@@ -88,8 +88,7 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{name},
+			DesignParserException e = new DesignParserException( new String[]{name},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
@@ -97,8 +96,7 @@ public class TextPropertyState extends AbstractPropertyState
 		}
 		if ( keyPropDefn == null )
 		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{keyName},
+			DesignParserException e = new DesignParserException( new String[]{keyName},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;

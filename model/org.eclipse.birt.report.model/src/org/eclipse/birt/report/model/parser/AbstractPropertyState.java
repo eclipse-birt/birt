@@ -172,8 +172,7 @@ public class AbstractPropertyState extends AbstractParseState
 				.getMember( member );
 		if ( memberDefn == null )
 		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{member},
+			DesignParserException e = new DesignParserException( new String[]{member},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 
@@ -243,8 +242,7 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( null,
-					new String[]{propName},
+			DesignParserException e = new DesignParserException( new String[]{propName},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
