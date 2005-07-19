@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +24,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.URIUtil;
@@ -234,22 +234,9 @@ public class ImageManager
 			String path = URIUtil.getLocalPath( uri );
 			if ( path != null )
 			{
-				String fullPath = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.getFileLocator( )
-						.findFile( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( ),
-								path );
-				if ( fullPath == null )
-				{
-					return null;
-				}
-				File file = new File( fullPath );
-				if ( file.exists( ) )
-				{
-					return file.toURL( );
-				}
-				return null;
+				ReportDesignHandle designHandle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ); 
+				return designHandle.findResource( path, IResourceLocator.IMAGE );
 			}
 			return URI.create( uri ).toURL( );
 		}
