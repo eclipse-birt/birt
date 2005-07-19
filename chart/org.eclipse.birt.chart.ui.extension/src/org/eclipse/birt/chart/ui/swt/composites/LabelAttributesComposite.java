@@ -288,8 +288,8 @@ public class LabelAttributesComposite extends Composite implements
 		fccBackground = new FillChooserComposite( cmpGeneral,
 				SWT.NONE,
 				fBackground,
-				true,
-				true );
+				false,
+				false );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		gdFCCBackground.heightHint = fccBackground.getPreferredSize( ).y;
 		fccBackground.setLayoutData( gdFCCBackground );

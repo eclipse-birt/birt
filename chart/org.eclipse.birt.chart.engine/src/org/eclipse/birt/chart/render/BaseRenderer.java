@@ -2057,6 +2057,39 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * @param dphs
+	 */
+	protected void validateNullDatapoint( DataPointHints[] dphs )
+			throws ChartException
+	{
+		boolean valid = true;
+
+		if ( dphs == null )
+		{
+			valid = false;
+		}
+		else
+		{
+			for ( int i = 0; i < dphs.length; i++ )
+			{
+				if ( dphs[i].getOrthogonalValue( ) == null )
+				{
+					valid = false;
+					break;
+				}
+			}
+		}
+
+		if ( !valid )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.VALIDATION,
+					"exception.base.orthogonal.null.datapoint", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+		}
+	}
+
+	/**
 	 * @param isrh
 	 */
 	protected void validateDataSetCount( ISeriesRenderingHints isrh )
