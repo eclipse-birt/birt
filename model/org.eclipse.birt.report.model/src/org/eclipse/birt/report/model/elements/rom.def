@@ -1529,7 +1529,7 @@
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="reserved">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="reserved">
     <Property canInherit="false" displayNameID="Element.ReportDesign.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
     <Property canInherit="false" displayNameID="Element.ReportDesign.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
@@ -2242,7 +2242,7 @@
     <StyleProperty name="whiteSpace"/>
     <StyleProperty name="wordSpacing"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ListingGroup" hasStyle="false" isAbstract="true" name="ListingGroup" nameSpace="none" >
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListingGroup" hasStyle="false" isAbstract="true" name="ListingGroup" nameSpace="none" >
     <Property displayNameID="Element.ListingGroup.keyExpr" name="keyExpr" returnType="any" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
@@ -2319,7 +2319,7 @@
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ListGroup" name="ListGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.ListGroup.slot.header" multipleCardinality="true" name="header" selector="list-group-header" since="1.0" xmlName="header">
       <Type name="FreeForm"/>
       <Type name="Text"/>
@@ -2375,7 +2375,7 @@
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
@@ -2385,7 +2385,7 @@
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Column" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableColumn" name="Column" nameSpace="none" since="1.0" xmlName="column">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Column" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableColumn" name="Column" nameSpace="none" since="1.0" xmlName="column">
     <Property displayNameID="Element.Column.repeat" name="repeat" runtimeSettable="false" since="1.0" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
       <Trigger targetElement="Table" validator="InconsistentColumnsValidator"/>
@@ -2438,7 +2438,7 @@
     <StyleProperty name="marginLeft"/>
     <StyleProperty name="marginRight"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Row" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableRow" name="Row" nameSpace="none" since="1.0" xmlName="row">
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>    
@@ -2460,7 +2460,7 @@
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Cell" hasStyle="true" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Cell" name="Cell" nameSpace="none" since="1.0" xmlName="cell">
     <Property displayNameID="Element.Cell.column" name="column" runtimeSettable="false" since="1.0" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
       <Trigger targetElement="Row" validator="CellOverlappingValidator"/>
