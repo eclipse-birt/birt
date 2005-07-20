@@ -40,8 +40,8 @@ import org.eclipse.birt.data.oda.util.manifest.ManifestExplorer;
  */
 public class OdaJdbcDriver implements IDriver
 {
-	private static Logger logger = Logger.getLogger( OdaJdbcDriver.class.getName( ) );	
-	private static String className = OdaJdbcDriver.class.getName();
+    private static String className = OdaJdbcDriver.class.getName();
+	private static Logger logger = Logger.getLogger( className );	
 
 	public static final class Constants
 	{
@@ -73,7 +73,7 @@ public class OdaJdbcDriver implements IDriver
 		logger.logp( java.util.logging.Level.FINE,
 		        className,
 				"getConnection",
-				"JDBCConnectionFactory.getConnection( ) connectionClassName=" +connectionClassName);
+				"JDBCConnectionFactory.getConnection( ) connectionClassName=" + connectionClassName);
 		return new Connection( );
 	}
 
@@ -94,7 +94,7 @@ public class OdaJdbcDriver implements IDriver
 	public void setLogConfiguration( LogConfiguration logConfig )
 			throws OdaException
 	{
-		String methodName = "setLogConfiguration";
+		final String methodName = "setLogConfiguration";
 		
 	    // Get logger for this driver package
 		Logger pkgLogger = Logger.getLogger( OdaJdbcDriver.class.getPackage().getName() );
@@ -137,7 +137,7 @@ public class OdaJdbcDriver implements IDriver
             else
             	// preserve the existing log level
                 logger.logp( java.util.logging.Level.WARNING, className,
-                    methodName, "No valid log level specified." );
+                    methodName, logConfig.getLogLevel() + " is not a valid log level." );
             break;
         	}
         }
@@ -250,7 +250,7 @@ public class OdaJdbcDriver implements IDriver
 	 */
 	private static Handler setLogHandler( Logger pkgLogger, LogConfiguration logConfig )
 	{
-	    String methodName = "setLogHandler";
+	    final String methodName = "setLogHandler";
 	    
 	    Handler handler = null;
         Handler[] handlers = pkgLogger.getHandlers();
