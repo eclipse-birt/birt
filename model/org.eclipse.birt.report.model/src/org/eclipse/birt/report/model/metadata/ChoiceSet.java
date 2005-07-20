@@ -18,6 +18,7 @@ import java.util.Comparator;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -260,5 +261,16 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 		}
 
 		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 }

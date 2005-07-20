@@ -215,4 +215,15 @@ public class SemanticTriggerDefn
 
 		return validationID;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getValidatorName( ) ) )
+			return getValidatorName( );
+		return super.toString( );
+	}
 }

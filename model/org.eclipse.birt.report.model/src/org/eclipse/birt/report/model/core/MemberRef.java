@@ -617,6 +617,76 @@ public class MemberRef
 			}
 		}
 	}
+	
+	/**
+	 * Gets the local value of the referenced property, structure, or member.
+	 * 
+	 * @param design
+	 *            the report design
+	 * 
+	 * @param element
+	 *            the element for which to retrieve the value
+	 * @return the retrieved value, which may be null
+	 */
+
+	public Object getLocalValue( ReportDesign design, DesignElement element )
+	{
+		Structure struct = getStructure( design, element );
+		if ( struct == null )
+			return null;
+		if ( propDefn.isList( ) )
+		{
+			// property
+			// property.list[n]
+			// property.list[n].member
+			// property.list[n].member.list[n]
+			// property.list[n].member.list[n].member
+			// property.list[n].member.member
+
+			switch ( refType )
+			{
+				case PROPERTY :
+					return getList( design, element );
+				case PROPERTY_LISTn :
+				case PROPERTY_LISTn_MEMBER_LISTn :
+					return struct;
+				case PROPERTY_LISTn_MEMBER : // reference the list itself.
+					return struct.getLocalProperty( design, member[0] );
+				case PROPERTY_LISTn_MEMBER_MEMBER :
+				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
+					return struct.getLocalProperty( design, member[1] );
+				default :
+				{
+					assert false;
+					return null;
+				}
+			}
+		}
+
+		// property
+
+		// property.member
+		// property.member.member
+		// property.member.list[n]
+		// property.member.list[n].member
+
+		switch ( refType )
+		{
+			case PROPERTY :
+			case PROPERTY_MEMBER_LISTn :
+				return struct;
+			case PROPERTY_MEMBER :
+				return struct.getLocalProperty( design, member[0] );
+			case PROPERTY_MEMBER_MEMBER :
+			case PROPERTY_MEMBER_LISTn_MEMBER :
+				return struct.getLocalProperty( design, member[1] );
+			default :
+			{
+				assert false;
+				return null;
+			}
+		}
+	}
 
 	/**
 	 * Returns the definition of the property portion of the reference.

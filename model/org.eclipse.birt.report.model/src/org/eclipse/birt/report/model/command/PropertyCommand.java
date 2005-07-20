@@ -339,7 +339,7 @@ public class PropertyCommand extends AbstractElementCommand
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
 
-		Object oldValue = ref.getValue( design, element );
+		Object oldValue = ref.getLocalValue( design, element );
 		if ( oldValue == null && value == null )
 			return;
 		if ( oldValue != null && value != null && oldValue.equals( value ) )

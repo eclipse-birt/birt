@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
@@ -436,6 +437,17 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	public void setXmlName( String value )
 	{
 		xmlName = value;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 
 }

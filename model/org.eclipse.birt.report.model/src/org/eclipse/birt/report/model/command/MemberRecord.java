@@ -90,7 +90,7 @@ public class MemberRecord extends SimpleRecord
 		newValue = value;
 		assert design != null;
 		structure = memberRef.getStructure( design, element );
-		oldValue = memberRef.getValue( design, element );
+		oldValue = memberRef.getLocalValue( design, element );
 
 		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,

@@ -235,4 +235,15 @@ public class ObjectDefn implements IObjectDefn
 	{
 		return since;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
+	}
 }

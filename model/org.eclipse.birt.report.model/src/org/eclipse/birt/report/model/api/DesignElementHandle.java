@@ -706,7 +706,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public SharedStyleHandle getStyle( )
 	{
-		DesignElement style = getElement( ).getLocalStyle( design );
+		DesignElement style = getElement( ).getStyle( design );
 		if ( style == null )
 			return null;
 		return (SharedStyleHandle) style.getHandle( design );

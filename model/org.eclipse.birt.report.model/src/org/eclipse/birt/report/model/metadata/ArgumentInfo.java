@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -123,5 +124,16 @@ public class ArgumentInfo implements IArgumentInfo
 	void setType( String type )
 	{
 		this.type = type;
+	}	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 }

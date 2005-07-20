@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -162,5 +163,16 @@ public class Choice implements Cloneable, IChoice, Comparable
 
         Choice choice = (Choice)o;
 		return name.compareTo( choice.getName() );
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 }

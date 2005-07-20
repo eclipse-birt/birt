@@ -334,7 +334,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			// Drop the style...
 
-			if ( content.getLocalStyle( design ) != null )
+			if ( content.getStyle( design ) != null )
 			{
 				StyleCommand styleCmd = new StyleCommand( design, content );
 				styleCmd.setStyle( null );

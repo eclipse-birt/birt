@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -351,6 +352,17 @@ public abstract class PropertyType implements IPropertyType
 	public boolean toBoolean( ReportDesign design, Object value )
 	{
 		return toInteger( design, value ) != 0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 
 }

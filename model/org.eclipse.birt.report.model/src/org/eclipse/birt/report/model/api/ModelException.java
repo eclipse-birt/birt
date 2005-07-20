@@ -17,7 +17,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * Implementation of BirtException in model project.
  */
 
-public class ModelException extends BirtException
+public abstract class ModelException extends BirtException
 {
 
 	/**

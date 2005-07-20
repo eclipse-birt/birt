@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -137,5 +138,16 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 			return ModelMessages.getMessage( toolTipKey );
 		
 		return ""; //$NON-NLS-1$
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 }

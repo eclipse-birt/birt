@@ -868,7 +868,7 @@ public abstract class DesignElement
 
 		// 2). Does the style provide the value of this property ?
 
-		StyleElement style = getLocalStyle( design );
+		StyleElement style = getStyle( design );
 		if ( style != null )
 		{
 			value = style.getLocalProperty( design, prop );
@@ -1809,9 +1809,8 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the shared style referenced by this element. Returns the
-	 * reference for this element itself; does not search up the inheritance
-	 * hierarchy.
+	 * Returns the shared style referenced by this element. This method will try
+	 * to resolve the style element if the value is un-resolved.
 	 * <p>
 	 * Part of: Style system.
 	 * 
@@ -1821,19 +1820,19 @@ public abstract class DesignElement
 	 *         reference a shared style.
 	 */
 
-	public StyleElement getLocalStyle( ReportDesign design )
+	public StyleElement getStyle( ReportDesign design )
 	{
 		return null;
 	}
 
 	/**
-	 * Returns the style, if any, associated with this element or one of the
-	 * elements that this element extends.
+	 * Returns the shared style referenced by this element. This method will not try
+	 * to resolve the style element if the value is un-resolved. 
 	 * <p>
 	 * Part of: Style system.
 	 * 
 	 * @return the shared style, or null if this element does not explicitly
-	 *         reference a shared style, or inherit such a reference
+	 *         reference a shared style, or the value is un-resolved
 	 */
 
 	public StyleElement getStyle( )
@@ -3203,7 +3202,7 @@ public abstract class DesignElement
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 * 
+	 *  
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException

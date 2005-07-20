@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 /**
  * Base class for all report elements with a style. Implements operations that
  * are specific to styled elements.
- * 
+ *  
  */
 
 public abstract class StyledElement extends DesignElement
@@ -83,20 +83,24 @@ public abstract class StyledElement extends DesignElement
 	}
 
 	/**
-	 * Gets the style which defined on this element itself.
+	 * Gets the style which defined on this element itself. This method will try
+	 * to resolve the style.
 	 * 
+	 * @param design
+	 *            the report design
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 * 
+	 *  
 	 */
-	public StyleElement getLocalStyle( ReportDesign design )
+
+	public StyleElement getStyle( ReportDesign design )
 	{
 		if ( style == null )
 			return null;
-		
-		if ( style.isResolved())
+
+		if ( style.isResolved( ) )
 			return (StyleElement) style.getElement( );
-		
+
 		NameSpace ns = design.getNameSpace( RootElement.STYLE_NAME_SPACE );
 		StyleElement target = (StyleElement) ns.getElement( style.getName( ) );
 		if ( target != null )
@@ -104,7 +108,7 @@ public abstract class StyledElement extends DesignElement
 			style.resolve( target );
 			target.addClient( this, STYLE_PROP );
 		}
-		
+
 		return target;
 	}
 
@@ -127,18 +131,13 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. null if this element didn't define a style on it.
 	 * 
-	 * 
+	 *  
 	 */
 	public StyleElement getStyle( )
 	{
-		StyledElement e = this;
-		while ( e != null )
-		{
-			if ( e.style != null && e.style.isResolved( ) )
-				return (StyleElement) e.style.getElement( );
-			e = (StyledElement) e.getExtendsElement( );
-		}
-		return null;
+		if ( style == null )
+			return null;
+		return (StyleElement) style.getElement( );
 	}
 
 	/**
@@ -153,8 +152,14 @@ public abstract class StyledElement extends DesignElement
 		StyleElement oldStyle = null;
 		if ( style != null )
 			oldStyle = (StyleElement) style.getElement( );
-		if ( oldStyle == newStyle )
+
+		// if the style is null and new style is null, return
+		// if the style is resolved and the resolved element equals to the new
+		// style, return
+		
+		if ( oldStyle == newStyle && ( style == null || style.isResolved( ) ) )
 			return;
+
 		if ( oldStyle != null )
 			oldStyle.dropClient( this );
 		if ( newStyle != null )
@@ -182,8 +187,8 @@ public abstract class StyledElement extends DesignElement
 		if ( style == null && theName == null )
 			return;
 		setStyle( null );
-		if ( style == null )
-			style = new ElementRefValue( );
+		assert style == null;
+		style = new ElementRefValue( );
 		style.unresolved( theName );
 	}
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.report.model.api.util.StringUtil;
+
 
 /**
  * BIRT defines a fixed set of predefined styles. These style correspond to
@@ -98,5 +100,16 @@ public class PredefinedStyle
 	void setName( String theName )
 	{
 		name = theName;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	
+	public String toString( )
+	{
+		if ( !StringUtil.isBlank( getName( ) ) )
+			return getName( );
+		return super.toString( );
 	}
 }
