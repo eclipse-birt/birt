@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.16 $ $Date: 2005/07/07 03:35:17 $
+ * @version $Revision: 1.17 $ $Date: 2005/07/18 08:41:28 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -585,6 +585,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					
 					while( tablesRs.next()) 
 					{
+						if ( tablesRs.getString("TABLE_TYPE").equalsIgnoreCase("SYSTEM TABLE"))
+							continue;
 						count++;
 //						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
@@ -649,6 +651,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				Image image = tableImage;
 				while( tablesRs.next())
 				{
+					if ( tablesRs.getString("TABLE_TYPE").equalsIgnoreCase("SYSTEM TABLE"))
+						continue;
 	//				String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
 					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
@@ -767,6 +771,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			// Clear the Table list and the schema List
 			tableList = null;
 			schemaList = null;
+			schemaCombo.removeAll();
 		}
 		
 		try
@@ -826,9 +831,31 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		try
 		{
+			ResultSet rs = null;
 			while( schemaRs.next())
 			{
-				schemas.add(schemaRs.getString("TABLE_SCHEM"));//$NON-NLS-1$
+				rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
+						schemaRs.getString( "TABLE_SCHEM" ),
+						"%",
+						new String[]{
+								"TABLE", "VIEW"
+						} );				
+				boolean hasNonSystemTable = false;				
+				if ( rs != null )
+				{
+					while ( rs.next( ) )
+					{
+						if ( !"SYSTEM TABLE".equalsIgnoreCase( rs.getString( "TABLE_TYPE" ) ) )
+						{
+							hasNonSystemTable = true;
+							break;
+						}
+					}
+				}				
+				if ( hasNonSystemTable )
+				{
+					schemas.add(schemaRs.getString("TABLE_SCHEM"));//$NON-NLS-1$					
+				}
 			}
 		}
 		catch( SQLException e)
@@ -955,10 +982,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}
 				Utility.createTreeItems(item, columnList, SWT.NONE, columnImage);
 			}
-
-			
 		});
-		
 	}
 	
 
@@ -1004,7 +1028,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	public void addDropSupportToViewer( )
 	{
-
 		final StyledText text = viewer.getTextWidget( );
 		DropTarget dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
 		dropTarget.setTransfer( new Transfer[]{TextTransfer.getInstance( )} );
