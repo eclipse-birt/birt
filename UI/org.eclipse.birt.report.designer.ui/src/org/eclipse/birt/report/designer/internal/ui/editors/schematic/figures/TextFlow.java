@@ -15,16 +15,18 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.FlowBoxWrapper;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.text.FlowBox;
 import org.eclipse.draw2d.text.TextFragmentBox;
 
 /**
  * An enhanced TextFlow inherited from org.eclipse.draw2d.text.TextFlow. Adds
  * supports for horizontal-alignment, line-through, underline styles.
- *  
+ * 
  */
 public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 {
@@ -82,10 +84,12 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			 * change of that class.
 			 */
 
-			Field ellipsis = org.eclipse.draw2d.text.TextFlow.class.getDeclaredField( "ELLIPSIS" ); //$NON-NLS-1$
+			Field ellipsis = org.eclipse.draw2d.text.TextFlow.class
+					.getDeclaredField( "ELLIPSIS" ); //$NON-NLS-1$
 			ellipsis.setAccessible( true );
 
-			ELLIPSIS = (String) ellipsis.get( new org.eclipse.draw2d.text.TextFlow( ) );
+			ELLIPSIS = (String) ellipsis
+					.get( new org.eclipse.draw2d.text.TextFlow( ) );
 		}
 		catch ( SecurityException e )
 		{
@@ -152,8 +156,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		 * Calculates the actual drawing line width according to the Font size.
 		 */
 		int lineWidth = this.getFont( ).getFontData( )[0].getHeight( )
-				/ LINE_FACTOR
-				+ 1;
+				/ LINE_FACTOR + 1;
 
 		/**
 		 * Get the total fragments height first
@@ -162,13 +165,16 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
-			totalHeight += ( (TextFragmentBox) fragments.get( i ) ).getHeight( );
+			FlowBoxWrapper wrapper = new FlowBoxWrapper( (FlowBox) fragments
+					.get( i ) );
+			totalHeight += wrapper.getHeight( );
 		}
 
 		for ( int i = 0; i < fragments.size( ); i++ )
 		{
 			frag = (TextFragmentBox) fragments.get( i );
 
+			FlowBoxWrapper wrapper = new FlowBoxWrapper( frag );
 			String draw = null;
 
 			try
@@ -205,8 +211,8 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			int left = calculateLeft( this.getSize( ).width, frag.getWidth( ) );
 			int top = calculateTop( this.getSize( ).height, totalHeight );
 
-			int realX = frag.x + left + xoff;
-			int realY = frag.y + top + yoff;
+			int realX = wrapper.getX( ) + left + xoff;
+			int realY = wrapper.getY( ) + top + yoff;
 
 			if ( !isEnabled( ) )
 			{
@@ -231,32 +237,33 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 				/**
 				 * Processes the underline style.
 				 */
-				if ( textUnderline.equals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE ) )
+				if ( textUnderline
+						.equals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE ) )
 				{
-					g.drawLine( realX, realY + frag.getHeight( ) - 1, realX
-							+ frag.getWidth( ), realY + frag.getHeight( ) - 1 );
+					g.drawLine( realX, realY + wrapper.getHeight( ) - 1, realX
+							+ frag.getWidth( ), realY + wrapper.getHeight( )
+							- 1 );
 				}
 
 				/**
 				 * Processes the line-through style.
 				 */
-				if ( textLineThrough.equals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH ) )
+				if ( textLineThrough
+						.equals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH ) )
 				{
 					g.drawLine( realX, realY
-							+ ( frag.getHeight( ) - lineWidth )
-							/ 2, realX + frag.getWidth( ), realY
-							+ ( frag.getHeight( ) - lineWidth )
-							/ 2 );
+							+ ( wrapper.getHeight( ) - lineWidth ) / 2, realX
+							+ frag.getWidth( ), realY
+							+ ( wrapper.getHeight( ) - lineWidth ) / 2 );
 				}
 
 				/**
 				 * Processes the over-line style.
 				 */
-				if ( textOverline.equals( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE ) )
+				if ( textOverline
+						.equals( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE ) )
 				{
-					g.drawLine( realX,
-							realY + 1,
-							realX + frag.getWidth( ),
+					g.drawLine( realX, realY + 1, realX + frag.getWidth( ),
 							realY + 1 );
 				}
 
@@ -323,15 +330,18 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 		int rlt = 0;
 
 		if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_TOP )
-				|| verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_BASELINE ) )
+				|| verticalAlign
+						.equals( DesignChoiceConstants.VERTICAL_ALIGN_BASELINE ) )
 		{
 			rlt = 0;
 		}
-		else if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE ) )
+		else if ( verticalAlign
+				.equals( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE ) )
 		{
 			rlt = ( compHeight - textHeight ) / 2;
 		}
-		else if ( verticalAlign.equals( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM ) )
+		else if ( verticalAlign
+				.equals( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM ) )
 		{
 			rlt = ( compHeight - textHeight );
 		}

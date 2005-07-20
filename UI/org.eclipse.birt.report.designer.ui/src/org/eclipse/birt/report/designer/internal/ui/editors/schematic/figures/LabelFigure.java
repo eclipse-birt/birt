@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.FlowBoxWrapper;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
@@ -81,9 +82,10 @@ public class LabelFigure extends ReportElementFigure
 					for ( int i = 0; i < list.size( ); i++ )
 					{
 						box = (FlowBox) list.get( i );
-						left = Math.min( left, box.x );
-						top = Math.min( top, box.y );
-						bottom = Math.max( bottom, box.y + box.getHeight( ) );
+						FlowBoxWrapper wrapper = new FlowBoxWrapper(box);
+						left = Math.min( left, wrapper.getX() );
+						top = Math.min( top, wrapper.getY() );
+						bottom = Math.max( bottom, wrapper.getY() + wrapper.getHeight( ) );
 					}
 
 					setBounds( new Rectangle( left,
