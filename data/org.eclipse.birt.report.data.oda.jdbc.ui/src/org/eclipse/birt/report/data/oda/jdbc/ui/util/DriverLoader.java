@@ -10,12 +10,11 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.StringCharacterIterator;
-import java.util.Enumeration;
 
+
+import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 
@@ -72,46 +71,13 @@ public final class DriverLoader
 	 * @param userId the user id
 	 * @param password the pass word
 	 * @return boolean whether could the connection being created
+	 * @throws OdaException 
 	 */
 	public static boolean testConnection( String driverClassName,
 			String connectionString, String userId,
-			String password ) 
+			String password ) throws OdaException 
 	{
-		try
-		{
-			Connection conn = JDBCDriverManager.getInstance().getConnection( 
-					driverClassName, connectionString, userId, password);
-			if ( conn == null )
-			{
-				return false;
-			}
-			else
-			{
-				
-				if ( !conn.isClosed( ) )
-					conn.close( );
-			}		
-			Enumeration enumeration = DriverManager.getDrivers( );
-			while ( enumeration.hasMoreElements( ) )
-			{
-				Driver driver = (Driver) enumeration.nextElement( );
-					if ( driver.acceptsURL( connectionString ) )
-					{
-						// The driver might be a wrapped driver. The toString() method of a wrapped driver is overriden 
-						// so that the name of driver being wrapped is returned.
-						if ( driver.toString( ).equalsIgnoreCase( driverClassName )
-								|| driver.getClass( )
-										.getName( )
-										.equalsIgnoreCase( driverClassName ) )
-							return true;
-					}
-			}
-		
-		}
-		catch ( Exception e)
-		{
-		}
-		return false;
+		return JDBCDriverManager.getInstance().testConnection( driverClassName, connectionString, userId,password);
 	}
 }
 
