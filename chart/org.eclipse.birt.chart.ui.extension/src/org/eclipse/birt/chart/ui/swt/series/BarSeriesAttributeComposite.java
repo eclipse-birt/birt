@@ -21,6 +21,8 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -127,19 +129,10 @@ public class BarSeriesAttributeComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		Object[] oRisers = RiserType.VALUES.toArray( );
-		for ( int i = 0; i < oRisers.length; i++ )
-		{
-			this.cmbRiserTypes.add( ( (RiserType) oRisers[i] ).getName( ) );
-			if ( oRisers[i].equals( ( (BarSeries) series ).getRiser( ) ) )
-			{
-				cmbRiserTypes.select( i );
-			}
-		}
-		if ( cmbRiserTypes.getSelectionIndex( ) == -1 )
-		{
-			cmbRiserTypes.select( 0 );
-		}
+		NameSet ns = LiteralHelper.riserTypeSet;
+		cmbRiserTypes.setItems( ns.getDisplayNames( ) );
+		cmbRiserTypes.select( ns.getSafeNameIndex( ( (BarSeries) series ).getRiser( )
+				.getName( ) ) );
 	}
 
 	public Point getPreferredSize( )
@@ -156,7 +149,7 @@ public class BarSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( cmbRiserTypes ) )
 		{
-			( (BarSeries) series ).setRiser( RiserType.get( cmbRiserTypes.getText( ) ) );
+			( (BarSeries) series ).setRiser( RiserType.get( LiteralHelper.riserTypeSet.getNameByDisplayName( cmbRiserTypes.getText( ) ) ) );
 		}
 	}
 

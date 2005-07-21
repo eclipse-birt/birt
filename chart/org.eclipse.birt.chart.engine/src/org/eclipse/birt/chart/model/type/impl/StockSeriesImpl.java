@@ -505,7 +505,7 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
 		{
 			this.getDataDefinition( ).addAll( series.getDataDefinition( ) );
-			//Add blank definition if old series' is less than expected
+			// Add blank definition if old series' is less than expected
 			if ( !( series instanceof StockSeries ) )
 			{
 				for ( int length = this.getDataDefinition( ).size( ); length < 4; length++ )
@@ -717,6 +717,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	 */
 	public String getDisplayName( )
 	{
-		return "Stock Series"; //$NON-NLS-1$
+		return Messages.getString( "StockSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
-} //StockSeriesImpl
+} // StockSeriesImpl

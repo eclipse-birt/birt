@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -205,20 +207,11 @@ public class LineSeriesAttributeComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		Object[] oMarkers = MarkerType.VALUES.toArray( );
-		for ( int i = 0; i < oMarkers.length; i++ )
-		{
-			cmbMarkerTypes.add( ( (MarkerType) oMarkers[i] ).getName( ) );
-			if ( oMarkers[i].equals( ( (LineSeries) series ).getMarker( )
-					.getType( ) ) )
-			{
-				cmbMarkerTypes.select( i );
-			}
-		}
-		if ( cmbMarkerTypes.getSelectionIndex( ) == -1 )
-		{
-			cmbMarkerTypes.select( 0 );
-		}
+		NameSet ns = LiteralHelper.markerTypeSet;
+		cmbMarkerTypes.setItems( ns.getDisplayNames( ) );
+		cmbMarkerTypes.select( ns.getSafeNameIndex( ( (LineSeries) series ).getMarker( )
+				.getType( )
+				.getName( ) ) );
 	}
 
 	public Point getPreferredSize( )
@@ -247,7 +240,7 @@ public class LineSeriesAttributeComposite extends Composite implements
 		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
 		{
 			( (LineSeries) series ).getMarker( )
-					.setType( MarkerType.get( cmbMarkerTypes.getText( ) ) );
+					.setType( MarkerType.get( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) ) );
 		}
 	}
 

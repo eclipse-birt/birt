@@ -25,6 +25,8 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -195,19 +197,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		Object[] oArr = LeaderLineStyle.VALUES.toArray( );
-		for ( int i = 0; i < oArr.length; i++ )
-		{
-			cmbLeaderLine.add( ( (LeaderLineStyle) oArr[i] ).getName( ) );
-			if ( ( (LeaderLineStyle) oArr[i] ).equals( series.getLeaderLineStyle( ) ) )
-			{
-				cmbLeaderLine.select( i );
-			}
-		}
-		if ( cmbLeaderLine.getSelectionIndex( ) == -1 )
-		{
-			cmbLeaderLine.select( 0 );
-		}
+		NameSet ns = LiteralHelper.leaderLineStyleSet;
+		cmbLeaderLine.setItems( ns.getDisplayNames( ) );
+		cmbLeaderLine.select( ns.getSafeNameIndex( series.getLeaderLineStyle( )
+				.getName( ) ) );
 	}
 
 	/*
@@ -262,7 +255,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( cmbLeaderLine ) )
 		{
-			series.setLeaderLineStyle( LeaderLineStyle.get( cmbLeaderLine.getText( ) ) );
+			series.setLeaderLineStyle( LeaderLineStyle.get( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ) );
 		}
 	}
 

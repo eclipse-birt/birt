@@ -26,6 +26,8 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
@@ -254,7 +256,7 @@ public class FormatSpecifierComposite extends Composite implements
 		lblPrefix.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Prefix" ) ); //$NON-NLS-1$
 
 		txtPrefix = new Text( cmpNumberStandard, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL);
+		GridData gdTXTPrefix = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTPrefix.widthHint = 60;
 		txtPrefix.setLayoutData( gdTXTPrefix );
 		txtPrefix.addModifyListener( this );
@@ -276,7 +278,7 @@ public class FormatSpecifierComposite extends Composite implements
 		lblMultiplier.setText( Messages.getString( "FormatSpecifierComposite.Lbl.Multiplier" ) ); //$NON-NLS-1$
 
 		txtMultiplier = new Text( cmpNumberStandard, SWT.BORDER | SWT.SINGLE );
-		GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL);
+		GridData gdTXTMultiplier = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTMultiplier.widthHint = 60;
 		txtMultiplier.setLayoutData( gdTXTMultiplier );
 		txtMultiplier.addModifyListener( this );
@@ -289,7 +291,7 @@ public class FormatSpecifierComposite extends Composite implements
 		iscFractionDigits = new IntegerSpinControl( cmpNumberStandard,
 				SWT.NONE,
 				2 );
-		GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL);
+		GridData gdISCFractionDigits = new GridData( GridData.FILL_HORIZONTAL );
 		gdISCFractionDigits.widthHint = 60;
 		iscFractionDigits.setLayoutData( gdISCFractionDigits );
 		iscFractionDigits.addListener( this );
@@ -444,16 +446,12 @@ public class FormatSpecifierComposite extends Composite implements
 		updateUIState( );
 
 		// Populate Date Types
-		Object[] oArrDT = DateFormatType.VALUES.toArray( );
-		for ( int iDT = 0; iDT < oArrDT.length; iDT++ )
+		NameSet ns = LiteralHelper.dateFormatTypeSet;
+		cmbDateType.setItems( ns.getDisplayNames( ) );
+		if ( formatspecifier instanceof DateFormatSpecifier )
 		{
-			cmbDateType.add( ( (DateFormatType) oArrDT[iDT] ).getName( ) );
-			if ( formatspecifier instanceof DateFormatSpecifier
-					&& ( (DateFormatSpecifier) formatspecifier ).getType( )
-							.equals( oArrDT[iDT] ) )
-			{
-				cmbDateType.select( iDT );
-			}
+			cmbDateType.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getType( )
+					.getName( ) ) );
 		}
 		if ( cmbDateType.getSelectionIndex( ) == -1 )
 		{
@@ -461,21 +459,18 @@ public class FormatSpecifierComposite extends Composite implements
 		}
 
 		// Populate Date Details
-		Object[] oArrDD = DateFormatDetail.VALUES.toArray( );
-		for ( int iDD = 0; iDD < oArrDD.length; iDD++ )
+		ns = LiteralHelper.dateFormatDetailSet;
+		cmbDateForm.setItems( ns.getDisplayNames( ) );
+		if ( formatspecifier instanceof DateFormatSpecifier )
 		{
-			cmbDateForm.add( ( (DateFormatDetail) oArrDD[iDD] ).getName( ) );
-			if ( formatspecifier instanceof DateFormatSpecifier
-					&& ( (DateFormatSpecifier) formatspecifier ).getDetail( )
-							.equals( oArrDD[iDD] ) )
-			{
-				cmbDateForm.select( iDD );
-			}
+			cmbDateForm.select( ns.getSafeNameIndex( ( (DateFormatSpecifier) formatspecifier ).getDetail( )
+					.getName( ) ) );
 		}
 		if ( cmbDateForm.getSelectionIndex( ) == -1 )
 		{
 			cmbDateForm.select( 0 );
 		}
+
 		String str = ""; //$NON-NLS-1$
 		if ( formatspecifier instanceof JavaDateFormatSpecifier )
 		{
@@ -565,8 +560,8 @@ public class FormatSpecifierComposite extends Composite implements
 			else if ( this.btnStandard.getSelection( ) )
 			{
 				fs = AttributeFactory.eINSTANCE.createDateFormatSpecifier( );
-				( (DateFormatSpecifier) fs ).setType( DateFormatType.get( cmbDateType.getText( ) ) );
-				( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.get( cmbDateForm.getText( ) ) );
+				( (DateFormatSpecifier) fs ).setType( DateFormatType.get( LiteralHelper.dateFormatTypeSet.getNameByDisplayName( cmbDateType.getText( ) ) ) );
+				( (DateFormatSpecifier) fs ).setDetail( DateFormatDetail.get( LiteralHelper.dateFormatDetailSet.getNameByDisplayName( cmbDateForm.getText( ) ) ) );
 			}
 		}
 		else

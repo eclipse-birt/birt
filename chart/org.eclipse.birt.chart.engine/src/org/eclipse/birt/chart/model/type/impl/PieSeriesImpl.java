@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
@@ -1037,6 +1038,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 */
 	public String getDisplayName( )
 	{
-		return "Pie Series"; //$NON-NLS-1$
+		return Messages.getString( "PieSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
-} //PieSeriesImpl
+} // PieSeriesImpl

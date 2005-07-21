@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -34,7 +35,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
 public class GridAttributesComposite extends Composite implements
 		SelectionListener,
@@ -90,7 +91,7 @@ public class GridAttributesComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void init( Grid grid )
 	{
@@ -101,7 +102,7 @@ public class GridAttributesComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void placeComponents( )
 	{
@@ -193,17 +194,13 @@ public class GridAttributesComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		this.cmbTickStyle.add( TickStyle.ACROSS_LITERAL.getName( ) );
-
 		if ( orientation == Orientation.HORIZONTAL )
 		{
-			this.cmbTickStyle.add( TickStyle.ABOVE_LITERAL.getName( ) );
-			this.cmbTickStyle.add( TickStyle.BELOW_LITERAL.getName( ) );
+			cmbTickStyle.setItems( LiteralHelper.horizontalTickStyleSet.getDisplayNames( ) );
 		}
 		else if ( orientation == Orientation.VERTICAL )
 		{
-			this.cmbTickStyle.add( TickStyle.LEFT_LITERAL.getName( ) );
-			this.cmbTickStyle.add( TickStyle.RIGHT_LITERAL.getName( ) );
+			cmbTickStyle.setItems( LiteralHelper.verticalTickStyleSet.getDisplayNames( ) );
 		}
 	}
 
@@ -214,13 +211,16 @@ public class GridAttributesComposite extends Composite implements
 			cmbTickStyle.select( 0 );
 			return;
 		}
-		String sTickStyle = grid.getTickStyle( ).getName( );
-		for ( int iC = 0; iC < cmbTickStyle.getItemCount( ); iC++ )
+
+		if ( orientation == Orientation.HORIZONTAL )
 		{
-			if ( cmbTickStyle.getItem( iC ).equals( sTickStyle ) )
-			{
-				cmbTickStyle.select( iC );
-			}
+			cmbTickStyle.select( LiteralHelper.horizontalTickStyleSet.getSafeNameIndex( grid.getTickStyle( )
+					.getName( ) ) );
+		}
+		else if ( orientation == Orientation.VERTICAL )
+		{
+			cmbTickStyle.select( LiteralHelper.verticalTickStyleSet.getSafeNameIndex( grid.getTickStyle( )
+					.getName( ) ) );
 		}
 	}
 
@@ -241,7 +241,7 @@ public class GridAttributesComposite extends Composite implements
 			Event eGrid = new Event( );
 			eGrid.widget = this;
 			eGrid.type = TICK_STYLE_CHANGED_EVENT;
-			TickStyle tsGrid = TickStyle.get( cmbTickStyle.getText( ) );
+			TickStyle tsGrid = TickStyle.get( LiteralHelper.fullTickStyleSet.getNameByDisplayName( cmbTickStyle.getText( ) ) );
 			eGrid.data = tsGrid;
 			fireEvent( eGrid );
 		}
@@ -276,26 +276,26 @@ public class GridAttributesComposite extends Composite implements
 			{
 				eGrid.type = LINE_STYLE_CHANGED_EVENT;
 				eGrid.data = event.data;
-				//				grid.getStyle().setStyle((LineStyle) event.data);
+				// grid.getStyle().setStyle((LineStyle) event.data);
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
 				eGrid.type = LINE_WIDTH_CHANGED_EVENT;
 				eGrid.data = event.data;
-				//				grid.getStyle().setThickness(((Integer)
+				// grid.getStyle().setThickness(((Integer)
 				// event.data).intValue());
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
 				eGrid.type = LINE_COLOR_CHANGED_EVENT;
 				eGrid.data = event.data;
-				//				grid.getStyle().setColor((ColorDefinition) event.data);
+				// grid.getStyle().setColor((ColorDefinition) event.data);
 			}
 			else
 			{
 				eGrid.type = LINE_VISIBILITY_CHANGED_EVENT;
 				eGrid.data = event.data;
-				//				grid.getStyle().setVisible(((Boolean)
+				// grid.getStyle().setVisible(((Boolean)
 				// event.data).booleanValue());
 			}
 		}

@@ -872,6 +872,6 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 */
 	public String getDisplayName( )
 	{
-		return "Line Series"; //$NON-NLS-1$
+		return Messages.getString( "LineSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
-} //LineSeriesImpl
+} // LineSeriesImpl

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -348,6 +349,6 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 */
 	public String getDisplayName( )
 	{
-		return "Scatter Series"; //$NON-NLS-1$
+		return Messages.getString( "ScatterSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
-} //ScatterSeriesImpl
+} // ScatterSeriesImpl

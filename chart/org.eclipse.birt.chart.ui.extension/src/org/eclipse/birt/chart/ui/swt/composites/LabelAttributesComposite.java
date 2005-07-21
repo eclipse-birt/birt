@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -381,13 +382,10 @@ public class LabelAttributesComposite extends Composite implements
 		{
 			if ( positionScope == ALLOW_ALL_POSITION )
 			{
-				for ( int iC = 0; iC < Position.VALUES.size( ); iC++ )
+				cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
+				if ( lpCurrent != null )
 				{
-					cmbPosition.add( Position.get( iC ).getName( ) );
-					if ( Position.get( iC ).equals( lpCurrent ) )
-					{
-						cmbPosition.select( iC );
-					}
+					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
 				}
 			}
 			else
@@ -395,30 +393,39 @@ public class LabelAttributesComposite extends Composite implements
 				// check vertical
 				if ( ( positionScope & ALLOW_VERTICAL_POSITION ) != 0 )
 				{
-					cmbPosition.add( Position.ABOVE_LITERAL.getName( ) );
-					cmbPosition.add( Position.BELOW_LITERAL.getName( ) );
+					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 				// check horizontal
 				if ( ( positionScope & ALLOW_HORIZONTAL_POSITION ) != 0 )
 				{
-					cmbPosition.add( Position.LEFT_LITERAL.getName( ) );
-					cmbPosition.add( Position.RIGHT_LITERAL.getName( ) );
+					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 				// check inout
 				if ( ( positionScope & ALLOW_INOUT_POSITION ) != 0 )
 				{
-					cmbPosition.add( Position.INSIDE_LITERAL.getName( ) );
-					cmbPosition.add( Position.OUTSIDE_LITERAL.getName( ) );
+					String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
+					for ( int i = 0; i < ns.length; i++ )
+					{
+						cmbPosition.add( ns[i] );
+					}
 				}
 
 				if ( lpCurrent != null )
 				{
-					for ( int iC = 0; iC < cmbPosition.getItemCount( ); iC++ )
+					for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
 					{
 						if ( lpCurrent.getName( )
-								.equals( cmbPosition.getItem( iC ) ) )
+								.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
 						{
-							cmbPosition.select( iC );
+							cmbPosition.select( i );
 						}
 					}
 				}
@@ -458,7 +465,7 @@ public class LabelAttributesComposite extends Composite implements
 		this.lpCurrent = pos;
 		if ( this.bPositionEnabled )
 		{
-			this.cmbPosition.setText( lpCurrent.getName( ) );
+			this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
 		}
 	}
 
@@ -486,7 +493,7 @@ public class LabelAttributesComposite extends Composite implements
 		eLabel.widget = this;
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			eLabel.data = Position.get( cmbPosition.getText( ) );
+			eLabel.data = Position.get( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
 			eLabel.type = POSITION_CHANGED_EVENT;
 		}
 		else if ( e.getSource( ).equals( cbVisible ) )
@@ -520,8 +527,6 @@ public class LabelAttributesComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public Point getPreferredSize( )

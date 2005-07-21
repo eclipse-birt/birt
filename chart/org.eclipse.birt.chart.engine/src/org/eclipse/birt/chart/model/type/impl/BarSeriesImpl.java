@@ -485,7 +485,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final boolean canParticipateInCombination( )
 	{
@@ -493,7 +493,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public boolean canShareAxisUnit( )
 	{
@@ -657,6 +657,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	 */
 	public String getDisplayName( )
 	{
-		return "Bar Series"; //$NON-NLS-1$
+		return Messages.getString( "BarSeriesImpl.displayName" ); //$NON-NLS-1$
 	}
-} //BarSeriesImpl
+} // BarSeriesImpl
