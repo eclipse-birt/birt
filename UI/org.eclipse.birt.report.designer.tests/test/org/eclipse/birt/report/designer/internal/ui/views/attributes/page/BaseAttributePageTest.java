@@ -58,6 +58,11 @@ public class BaseAttributePageTest extends TestCase
 			{
 				return null;
 			}
+
+			public String getCategoryByIndex( int index )
+			{
+				return null;
+			}
 		} );
 		assertEquals( labels.length, page.categoryList.getItemCount( ) );
 		assertEquals( 0, page.categoryList.getSelectionIndex( ) );
