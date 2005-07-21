@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
+import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -31,7 +32,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Undo/Redo action for contribution of toolbar or menu.
@@ -177,7 +177,7 @@ public abstract class StackWindowAction
 				IEditorPart editor = refs[j].getEditor( false );
 
 				if ( editor != null
-						&& editor.getEditorInput( ) instanceof FileEditorInput )
+						&& editor.getEditorInput( ) instanceof ReportEditorInput )
 				{
 					if ( editor instanceof ReportEditor )
 					{

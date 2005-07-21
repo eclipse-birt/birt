@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
+import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -61,7 +62,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ILayoutExtension;
-import org.eclipse.ui.part.FileEditorInput;
 import org.osgi.framework.Bundle;
 
 /**
@@ -120,7 +120,7 @@ public class UIUtil
 					IEditorPart editor = pg.getActiveEditor( );
 
 					if ( editor != null
-							&& editor.getEditorInput( ) instanceof FileEditorInput )
+							&& editor.getEditorInput( ) instanceof ReportEditorInput )
 					{
 						if ( editor instanceof ReportEditor )
 						{
@@ -142,7 +142,7 @@ public class UIUtil
 						IEditorPart editor = pg.getActiveEditor( );
 
 						if ( editor != null
-								&& editor.getEditorInput( ) instanceof FileEditorInput )
+								&& editor.getEditorInput( ) instanceof ReportEditorInput )
 						{
 							if ( editor instanceof ReportEditor )
 							{
