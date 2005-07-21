@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.18 $ $Date: 2005/07/20 08:28:29 $
+ * @version $Revision: 1.19 $ $Date: 2005/07/21 02:57:13 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -829,14 +829,22 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 		
 		ArrayList schemas = new ArrayList();
-		
+		ArrayList allSchemas = new ArrayList();
 		try
 		{
-			ResultSet rs = null;
-			while( schemaRs.next())
+			while( schemaRs.next() )
 			{
+				allSchemas.add( schemaRs.getString("TABLE_SCHEM") );
+			}
+			
+			ResultSet rs = null;
+			Iterator it = allSchemas.iterator();
+			
+			while( it.hasNext())
+			{
+				String schema = it.next().toString();
 				rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
-						schemaRs.getString( "TABLE_SCHEM" ),
+						schema,
 						"%",
 						new String[]{
 								"TABLE", "VIEW"
@@ -855,7 +863,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}				
 				if ( hasNonSystemTable )
 				{
-					schemas.add(schemaRs.getString("TABLE_SCHEM"));//$NON-NLS-1$					
+					schemas.add( schema );//$NON-NLS-1$					
 				}
 			}
 		}
