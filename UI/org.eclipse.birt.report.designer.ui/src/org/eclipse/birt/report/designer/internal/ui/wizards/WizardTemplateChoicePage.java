@@ -68,14 +68,14 @@ public class WizardTemplateChoicePage extends WizardPage
 
 	private Label description;
 
-	protected class Template
+	public class Template
 	{
 
 		public Template( String name, String description, String reportPath,
 				String picturePath, String cheatSheetId )
 		{
 			this.name = name;
-			this.description = description;
+			this.templateDescription = description;
 			this.reportPath = reportPath;
 			this.picturePath = picturePath;
 			this.cheatSheetId = cheatSheetId;
@@ -83,7 +83,7 @@ public class WizardTemplateChoicePage extends WizardPage
 
 		public String name;
 
-		public String description;
+		public String templateDescription;
 
 		public String reportPath;
 
@@ -290,7 +290,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		{
 			//change description/image
 			selectedIndex = templateList.getSelectionIndex( );
-			description.setText( templates[selectedIndex].description );
+			description.setText( templates[selectedIndex].templateDescription );
 			// we need to relayout if the new text has different number of lines
 			previewPane.layout();
 			String key = templates[selectedIndex].picturePath;
