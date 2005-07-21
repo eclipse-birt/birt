@@ -1,9 +1,14 @@
-/*
- * Created on May 10, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.doc.romdoc;
 
 import java.io.File;
@@ -29,12 +34,6 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 
-/**
- * @author Paul Rogers
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 public class Generator
 {
     ArrayList elements = new ArrayList( );
@@ -144,8 +143,8 @@ public class Generator
             }
             catch ( ParseException e )
             {
-                System.err.println( "Parse of document file for element " +
-                                    element.getName( ) + " failed." );
+                System.err.println( "Parse of document file for element " + //$NON-NLS-1$
+                                    element.getName( ) + " failed." ); //$NON-NLS-1$
             }
         }
     }

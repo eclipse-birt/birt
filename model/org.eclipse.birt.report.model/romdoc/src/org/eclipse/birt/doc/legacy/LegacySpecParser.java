@@ -1,9 +1,14 @@
-/*
- * Created on May 7, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.doc.legacy;
 
 import java.io.FileNotFoundException;
@@ -11,12 +16,7 @@ import java.io.FileNotFoundException;
 import org.eclipse.birt.doc.util.HTMLParser;
 import org.eclipse.birt.doc.util.HtmlDocReader;
 
-/**
- * @author Paul Rogers
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+
 public class LegacySpecParser extends HtmlDocReader
 {
 	protected SpecElement element = new SpecElement( );

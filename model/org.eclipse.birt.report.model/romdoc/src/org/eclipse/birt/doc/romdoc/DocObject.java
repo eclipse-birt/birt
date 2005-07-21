@@ -1,20 +1,19 @@
-/*
- * Created on May 10, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.doc.romdoc;
 
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
-/**
- * @author Paul Rogers
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 public abstract class DocObject
 {
 	protected String description;
@@ -26,50 +25,50 @@ public abstract class DocObject
 	public String makeElementLink( String elementName, String dir )
 	{
 		StringBuffer link = new StringBuffer( );
-		link.append( "<a href=\"" );
+		link.append( "<a href=\"" ); //$NON-NLS-1$
 		if ( dir == null )
-			link.append( "elements/" );
-		else if ( ! dir.equals( "elements" ) )
-			link.append( "../elements/" );
+			link.append( "elements/" ); //$NON-NLS-1$
+		else if ( ! dir.equals( "elements" ) ) //$NON-NLS-1$
+			link.append( "../elements/" ); //$NON-NLS-1$
 		link.append( elementName );
-		link.append( ".html\">" );
+		link.append( ".html\">" ); //$NON-NLS-1$
 		link.append( elementName );
-		link.append( "</a>" );
+		link.append( "</a>" ); //$NON-NLS-1$
 		return link.toString( );
 	}
 	
 	public String makeStructureLink( IStructureDefn struct, String dir )
 	{
 		StringBuffer link = new StringBuffer( );
-		link.append( "<a href=\"" );
+		link.append( "<a href=\"" ); //$NON-NLS-1$
 		if ( dir == null )
-			link.append( "structs/" );
-		else if ( ! dir.equals( "structs" ) )
-			link.append( "../structs/" );
+			link.append( "structs/" ); //$NON-NLS-1$
+		else if ( ! dir.equals( "structs" ) ) //$NON-NLS-1$
+			link.append( "../structs/" ); //$NON-NLS-1$
 		link.append( struct.getName( ) );
-		link.append( ".html\">" );
+		link.append( ".html\">" ); //$NON-NLS-1$
 		link.append( struct.getName( ) );
-		link.append( "</a>" );
+		link.append( "</a>" );    //$NON-NLS-1$
 		return link.toString( );
 	}
 	
 	public String makeTypeLink( PropertyType type, String dir )
 	{
 		StringBuffer link = new StringBuffer( );
-		link.append( "<a href=\"" );
+		link.append( "<a href=\"" ); //$NON-NLS-1$
 		if ( dir != null )
-			link.append( "../" );
-		link.append( "types.html#" );
+			link.append( "../" ); //$NON-NLS-1$
+		link.append( "types.html#" ); //$NON-NLS-1$
 		link.append( type.getName( ) );
-		link.append( "\">" );
+		link.append( "\">" ); //$NON-NLS-1$
 		link.append( type.getName( ) );
-		link.append( "</a>" );
+		link.append( "</a>" ); //$NON-NLS-1$
 		return link.toString( );
 	}
 	
 	public String yesNo( boolean flag )
 	{
-		return flag ? "Yes" : "No";
+		return flag ? "Yes" : "No";  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	public String getDescription( )

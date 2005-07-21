@@ -1,9 +1,14 @@
-/*
- * Created on May 10, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.doc.romdoc;
 
 import java.util.AbstractList;
@@ -16,12 +21,6 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
-/**
- * @author Paul Rogers
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 public class DocProperty extends DocObject
 {
 	PropertyDefn defn;
@@ -52,23 +51,23 @@ public class DocProperty extends DocObject
 		String type;
 		if ( defn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
 		{
-			type = makeStructureLink( defn.getStructDefn( ), "element" ) +
-			       " Structure";
+			type = makeStructureLink( defn.getStructDefn( ), "element" ) + //$NON-NLS-1$
+			       " Structure"; //$NON-NLS-1$
 		}
 		else if ( defn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
 		{
-			type = makeElementLink( defn.getTargetElementType( ).getName( ), "element" ) +
-				   " Reference";
+			type = makeElementLink( defn.getTargetElementType( ).getName( ), "element" ) + //$NON-NLS-1$
+				   " Reference"; //$NON-NLS-1$
 		}
 		else if ( defn.getTypeCode( ) == PropertyType.CHOICE_TYPE )
 		{
-			type = makeTypeLink( defn.getType( ), "element" ) +
-			       " (" + defn.getChoices( ).getName( ) + ")";
+			type = makeTypeLink( defn.getType( ), "element" ) + //$NON-NLS-1$
+			       " (" + defn.getChoices( ).getName( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else
-			type = makeTypeLink( defn.getType( ), "element" );
+			type = makeTypeLink( defn.getType( ), "element" ); //$NON-NLS-1$
 		if ( defn.isList( ) )
-			type = "List of " + type + "s";
+			type = "List of " + type + "s";  //$NON-NLS-1$//$NON-NLS-2$
 		return type;
 	}
 
@@ -76,8 +75,8 @@ public class DocProperty extends DocObject
 	{
 		// Style is special
 		
-		if ( defn.getName( ).equals( "style" ) )
-			return "1.0";
+		if ( defn.getName( ).equals( "style" ) ) //$NON-NLS-1$
+			return "1.0"; //$NON-NLS-1$
 		
 		return defn.getSince( );
 	}
@@ -100,13 +99,13 @@ public class DocProperty extends DocObject
 
 	public String getDefaultValue( )
 	{
-		String note = getNote( "Default value" );
+		String note = getNote( "Default value" ); //$NON-NLS-1$
 		if ( note != null )
 			return note;
 		Object value = defn.getDefault( );
 		if ( value != null )
 			return value.toString( );
-		return "None";
+		return "None"; //$NON-NLS-1$
 	}
 
 	public String getInherited( )
@@ -127,17 +126,17 @@ public class DocProperty extends DocObject
 	public String getVisibility( DocElement element )
 	{
 		if ( element.getElementDefn( ).isPropertyReadOnly( defn.getName( ) ) )
-			return "Read-only";
+			return "Read-only"; //$NON-NLS-1$
 		if ( element.getElementDefn( ).isPropertyVisible( defn.getName( ) ) )
-			return "Visible";
-		return "Hidden";
+			return "Visible"; //$NON-NLS-1$
+		return "Hidden"; //$NON-NLS-1$
 	}
 
 	public String getGroup( )
 	{
 		String group = ((ElementPropertyDefn) defn).getGroupName( );
 		if ( group == null )
-			return "Top";
+			return "Top"; //$NON-NLS-1$
 		return group;
 	}
 	
