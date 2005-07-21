@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.17 $ $Date: 2005/07/18 08:41:28 $
+ * @version $Revision: 1.18 $ $Date: 2005/07/20 08:28:29 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -585,12 +585,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					
 					while( tablesRs.next()) 
 					{
-						if ( tablesRs.getString("TABLE_TYPE").equalsIgnoreCase("SYSTEM TABLE"))
+						String type = tablesRs.getString("TABLE_TYPE");
+						if ( type.equalsIgnoreCase("SYSTEM TABLE"))
 							continue;
 						count++;
 //						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
-						String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
+						//$NON-NLS-1$
 						
 						int dbType = DbObject.TABLE_TYPE;
 				
@@ -651,11 +652,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				Image image = tableImage;
 				while( tablesRs.next())
 				{
-					if ( tablesRs.getString("TABLE_TYPE").equalsIgnoreCase("SYSTEM TABLE"))
+					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
+					if ( type.equalsIgnoreCase("SYSTEM TABLE"))
 						continue;
 	//				String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
 					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
-					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
 					int dbType = DbObject.TABLE_TYPE;
 								
 					if(type.equalsIgnoreCase("TABLE"))
