@@ -101,6 +101,9 @@ public class JdbcDriverManagerDialog extends Dialog
 
 	private static final String ODA_FILE_NOT_EXIST_TOKEN = "x"; //$NON-NLS-1$
 
+	private static final int btnWidth = 90;
+	private static final int btnHeight = 24;
+	
 	/**
 	 * The constructor.
 	 * 
@@ -643,8 +646,8 @@ public class JdbcDriverManagerDialog extends Dialog
 		addButton = new Button( buttons, SWT.PUSH );
 		addButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Add" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		data.widthHint = 60;
-		data.heightHint = 24;
+		data.widthHint = btnWidth;
+		data.heightHint = btnHeight;
 		addButton.setLayoutData( data );
 		addButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -657,8 +660,8 @@ public class JdbcDriverManagerDialog extends Dialog
 		restoreButton = new Button( buttons, SWT.PUSH );
 		restoreButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Restore" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		data.widthHint = 60;
-		data.heightHint = 24;
+		data.widthHint = btnWidth;
+		data.heightHint = btnHeight;
 		restoreButton.setLayoutData( data );
 		restoreButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -671,8 +674,8 @@ public class JdbcDriverManagerDialog extends Dialog
 		deleteButton = new Button( buttons, SWT.PUSH );
 		deleteButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Delete" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		data.widthHint = 60;
-		data.heightHint = 24;
+		data.widthHint = btnWidth;
+		data.heightHint = btnHeight;
 		deleteButton.setLayoutData( data );
 		deleteButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -774,8 +777,8 @@ public class JdbcDriverManagerDialog extends Dialog
 		editButton = new Button( buttons, SWT.PUSH );
 		editButton.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Edit" ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		data.widthHint = 60;
-		data.heightHint = 24;
+		data.widthHint = btnWidth;
+		data.heightHint = btnHeight;
 		editButton.setLayoutData( data );
 		editButton.addSelectionListener( new SelectionAdapter( ) {
 
