@@ -9,6 +9,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.FORenderOption;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -128,6 +129,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			renderOption.setOutputFormat( "html" );	// $NON-NLS-1
 			format = "html"; // $NON-NLS-1
+		}
+		else if ( renderOption != null
+				&& format.equalsIgnoreCase( "fo" ) // $NON-NLS-1
+				&& ( ( FORenderOption )renderOption ).getTailoredForFOP( ) )
+		{
+			format = "fop"; // $NON-NLS-1
 		}
 		
 		if (!ExtensionManager.getInstance().getEmitterExtensions().containsKey(format))
