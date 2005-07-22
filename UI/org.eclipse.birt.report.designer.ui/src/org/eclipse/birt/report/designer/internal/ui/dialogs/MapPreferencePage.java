@@ -334,6 +334,14 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		{
 			fTableViewer.add( builder.getHandle( ) );
 
+			int itemCount = fTableViewer.getTable().getItemCount();
+			
+			fTableViewer.getTable().deselectAll();
+
+			fTableViewer.getTable().select(itemCount -1);
+			
+			fTableViewer.getTable( ).setFocus( );
+
 			updateButtons( );
 
 			refreshTableItemView( );
