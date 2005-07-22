@@ -90,12 +90,16 @@ class ProjectedColumns
 			if( columnHintAlias != null )
 				validateNewNameOrAlias( columnHintAlias, driverIndex );
 			
-			String columnName = column.getName();
-			if( columnName == null || columnName.length() == 0 )
+			// since the given hint includes a column position to 
+			// cross-reference its corresponding column from
+			// the runtime metadata,
+			// it is ok to override the meta-data column name with 
+			// an user-defined name specified in the hint
+			String newColumnName = columnHint.getName( );
+			if ( newColumnName != null && newColumnName.length( ) > 0 )
 			{
-				String columnHintName = columnHint.getName();
-				validateNewNameOrAlias( columnHintName, driverIndex );
-				column.setName( columnHintName );
+				validateNewNameOrAlias( newColumnName, driverIndex );
+				column.setName( newColumnName );
 			}
 			
 			updateDataTypeAndAlias( column, columnHintAlias, 

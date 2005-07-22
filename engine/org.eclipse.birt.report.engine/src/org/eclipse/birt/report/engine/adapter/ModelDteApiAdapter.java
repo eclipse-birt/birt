@@ -343,34 +343,39 @@ public class ModelDteApiAdapter
             }
         }
 
-        // merging result set column and column hints into DtE columnDefn;
-        // first create new columnDefn based on model's column hints
- 
-        elmtIter = modelDataSet.columnHintsIterator();
-        if ( elmtIter != null )
-        {
-            while ( elmtIter.hasNext() )
-            {
-                ColumnHintHandle modelColumnHint = (ColumnHintHandle) elmtIter.next();
-                dteDataSet.addResultSetHint( newColumnDefn( modelColumnHint ) );
-            }
-        }
-
+        // merge ResultSetHints and ColumnHints, the order is important.
+        // ResultSetHints will give each column a unique name, and 
+        // column hints should base on the result of ResultSet hint.
+        // So in ResultSetHint list, the order of items should be 
+        // ResultSetColumn and then ColumnHint.
+        
         // now merge model's result set column info into existing columnDefn 
         // with same column name, otherwise create new columnDefn
-        // based on the model's result set column
-        List columnDefns = dteDataSet.getResultSetHints();
+        // based on the model's result set column        
         elmtIter = modelDataSet.resultSetIterator();
         if ( elmtIter != null )
         {
             while ( elmtIter.hasNext() )
             {
                 ResultSetColumnHandle modelColumn = (ResultSetColumnHandle) elmtIter.next();
-                ColumnDefinition existDefn = findColumnDefn( columnDefns, modelColumn.getColumnName() );
+                dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
+            }
+        }
+        
+        // merging result set column and column hints into DtE columnDefn;
+        // first create new columnDefn based on model's column hints
+        elmtIter = modelDataSet.columnHintsIterator();
+        if ( elmtIter != null )
+        {
+        	List columnDefns = dteDataSet.getResultSetHints();
+            while ( elmtIter.hasNext() )
+            {
+                ColumnHintHandle modelColumnHint = (ColumnHintHandle) elmtIter.next();
+                ColumnDefinition existDefn = findColumnDefn( columnDefns, modelColumnHint.getColumnName() );
                 if ( existDefn != null )
-                    updateColumnDefn( existDefn, modelColumn );
+                    updateColumnDefn( existDefn, modelColumnHint );
                 else
-                    dteDataSet.addResultSetHint( newColumnDefn( modelColumn ) );
+                    dteDataSet.addResultSetHint( newColumnDefn( modelColumnHint ) );
             }
         }
 
@@ -457,25 +462,19 @@ public class ModelDteApiAdapter
         			column, dteOpr, operand1, operand2 ));
     }
     
-    IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
+    private IColumnDefinition newColumnDefn( ResultSetColumnHandle modelColumn )
     {
-        ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName() );
-        updateColumnDefn( newColumn, modelColumn );
-        return newColumn;
+        ColumnDefinition newColumn = new ColumnDefinition( modelColumn.getColumnName( ) );
+		if ( modelColumn.getPosition( ) != null )
+			newColumn.setColumnPosition( modelColumn.getPosition( ).intValue( ) );
+		newColumn.setDataType( toDteDataType( modelColumn.getDataType( ) ) );
+		return newColumn;
     }
         
-    void updateColumnDefn( ColumnDefinition dteColumn, ResultSetColumnHandle modelColumn )
+    private void updateColumnDefn( ColumnDefinition dteColumn, ColumnHintHandle modelColumnHint )
     {
-        assert dteColumn.getColumnName().equals( modelColumn.getColumnName() );
-        if ( modelColumn.getPosition() != null )
-            dteColumn.setColumnPosition( modelColumn.getPosition().intValue() );
-        dteColumn.setDataType( toDteDataType( modelColumn.getDataType() ) );
-    }
-    
-    IColumnDefinition newColumnDefn( ColumnHintHandle modelColumnHint )
-    {
-        ColumnDefinition newColumn = new ColumnDefinition( modelColumnHint.getColumnName() );
-        newColumn.setAlias( modelColumnHint.getAlias() );
+        assert dteColumn.getColumnName().equals( modelColumnHint.getColumnName() );
+        dteColumn.setAlias( modelColumnHint.getAlias() );
         
         String exportConstant = modelColumnHint.getExport();
         if ( exportConstant != null )
@@ -488,7 +487,7 @@ public class ModelDteApiAdapter
             else 
                 assert exportConstant.equals( DesignChoiceConstants.EXPORT_TYPE_NONE );
 
-            newColumn.setExportHint( exportHint );
+            dteColumn.setExportHint( exportHint );
         }
 
         String searchConstant = modelColumnHint.getSearching();
@@ -502,15 +501,23 @@ public class ModelDteApiAdapter
         	else
         	    assert searchConstant.equals( DesignChoiceConstants.SEARCH_TYPE_NONE );
 
-        	newColumn.setSearchHint( searchHint );
+        	dteColumn.setSearchHint( searchHint );
         }
 
-        return newColumn;
-    }
+        
+        }
+    
+    private IColumnDefinition newColumnDefn( ColumnHintHandle modelColumnHint )
+	{
+		ColumnDefinition newColumn = new ColumnDefinition( modelColumnHint.getColumnName( ) );
+		updateColumnDefn( newColumn, modelColumnHint );
+		return newColumn;
+	}
 
-    /** Find the DtE columnDefn from the given list of columnDefns
-     * that matches the given columnName.
-     */
+    /**
+	 * Find the DtE columnDefn from the given list of columnDefns that matches
+	 * the given columnName.
+	 */
     private ColumnDefinition findColumnDefn( List columnDefns, String columnName )
     {
         assert columnName != null;
