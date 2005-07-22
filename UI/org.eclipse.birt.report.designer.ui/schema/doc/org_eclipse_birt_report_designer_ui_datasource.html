@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Data Source UI Extension point</title>
+<style>@import url("file:/f:/eclipse3.1/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
+<style>@import url("file:/f:/eclipse3.1/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+</HEAD>
+<BODY>
+<H1><CENTER>Data Source UI Extension point</CENTER></H1>
+<p></p>
+<h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.report.designer.ui.odadatasource<p></p>
+<h6 class=CaptionFigColumn id=header>Since: </h6>1.0
+<p></p>
+
+<p>
+<h6 class=CaptionFigColumn id=header>Description: </h6>The data source extension allows providers to add their own type of data source support to the BIRT designer.<br/>
+The extension can optionally provide the following implementations for the data source.<br/>
+1) A wizard for creating the data source<br/>
+2) A set of pages for editing the data source<br/>
+3) A list of data sets that this data source supports<br/><br/>
+
+For each data set that is defined, it can optionally provide <br/>
+1) A wizard for creating the data set.<br/>
+2) A set of pages for editing the data set.<br/></p>
+<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.odaDataSourceUI">odaDataSourceUI</a> , <a href="#e.odaDataSetUI">odaDataSetUI</a>+)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST extension</p>
+<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+Data Source Extension point</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.odaDataSourceUI">odaDataSourceUI</a> (<a href="#e.newDataSourceWizard">newDataSourceWizard</a>? , <a href="#e.dataSourceEditorPage">dataSourceEditorPage</a>*)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST odaDataSourceUI</p>
+<p class=code id=dtdAttlist>id&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This extension allows providers to add support for a new data source.
+It defines child elements for the data source wizard, one or more editor pages and for data sets that this data source supports.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>id</b> - The fully qualified name of this data source type.<br/>
+This has to be the same as defined in the ODA extension for the same driver.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.newDataSourceWizard">newDataSourceWizard</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST newDataSourceWizard</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This element provides the wizard class that will allow a BIRT user to create a data source object of this type.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - A fully quailfied class name which provides a wizard for creating a new data Source<br/>
+This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSourceConnectionWizard</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.dataSourceEditorPage">dataSourceEditorPage</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST dataSourceEditorPage</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayName&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This element identifies an editor page that is to be added to the editor dialog for this data source. The pages are added to the dialog in the order they are defined.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>name</b> - A unique name for this page.<br/>
+This identifier should be unique within the dialog. It doesn't need to be globally unique.</li>
+<li><b>path</b> - The path within the dialog to which this page should be added.<br/>
+If it is to be added to the root node then this should just be "/". If it is to be added as a child of some other node then the full path starting with the / and separated by / should be provided.<br/>
+For e.g. If the dialog has a node with the id "one" and you wish to add a page with the id "two" under this, then you need to enter the path as "/one". This will add the page with the id "two" under the page with the id "one".<br/>
+Note: The page with the id "one" should already have been added before attempting to add page "two".</li>
+<li><b>class</b> - The fully qualified class name of this editor page. The class should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. It can also extend the abstract class org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.</li>
+<li><b>displayName</b> - The display name of this page. This is what will be displayed in the dialog.</li>
+<li><b>image</b> - An image to be shown before the name if any.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.odaDataSetUI">odaDataSetUI</a> (<a href="#e.newDataSetWizard">newDataSetWizard</a>? , <a href="#e.dataSetEditorPage">dataSetEditorPage</a>*)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST odaDataSetUI</p>
+<p class=code id=dtdAttlist>id&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This element identifies a data set type that is supported by this data source.
+It provides the New data set wizard and a set of one or more editor pages.
+A data source can have one or more data sets.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>id</b> - The fully qualified name of this data set.<br/>
+This has to be the same as the ODA Data Set extension name for the same driver.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.newDataSetWizard">newDataSetWizard</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST newDataSetWizard</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This element provides the wizard class that will allow a BIRT user to create a data set object of this type.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - A fully quailfied class name which provides a wizard for Creating a new data set.<br/>
+                     This class should be an extension of org.eclipse.birt.report.designer.ui.views.data.wizards.AbstractDataSetWizard</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.dataSetEditorPage">dataSetEditorPage</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST dataSetEditorPage</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>displayName&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>initFocus&nbsp;&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This element identifies an editor page that is to be added to the editor dialog for this data set. The pages are added to the dialog in the order they are defined.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>name</b> - A unique name for this page.<br/>
+This identifier should be unique within the dialog. It doesn't need to be globally unique.</li>
+<li><b>path</b> - The path within the dialog to which this page should be added.<br/>
+If it is to be added to the root node then this should just be "/". If it is to be added as a child of some other node then the full path starting with the / and separated by / should be provided.<br/>
+For e.g. If the dialog has a node with the id "one" and you wish to add a page with the id "two" under this, then you need to enter the path as "/one". This will add the page with the id "two" under the page with the id "one".<br/>
+Note: The page with the id "one" should already have been added before attempting to add page "two".</li>
+<li><b>class</b> - The fully qualified class name of this editor page. The class should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. It can also extend the abstract class org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.</li>
+<li><b>displayName</b> - The display name of this page. This is what will be displayed in the dialog.</li>
+<li><b>image</b> - An image to be shown before the name if any.</li>
+<li><b>initFocus</b> - An boolean string indicates whether this page needs to be focused.</li>
+</ul>
+<br><h6 class=CaptionFigColumn id=header>Examples: </h6>The following is an example of the JDBC data source extension.
+<p>
+<pre>
+
+<p class=code id=tag>&lt;extension point=<p class=code id=cstring>&quot;org.eclipse.birt.report.designer.ui.odadatasource&quot;</p><p class=code id=tag>&gt;</p>
+  <p class=code id=tag>&lt;odaDataSourceUI id=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc&quot;</p><p class=code id=tag>&gt;</p>
+    <p class=code id=tag>&lt;newDataSourceWizard class=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourceWizard&quot;</p><p class=code id=tag>/&gt;</p>
+      <p class=code id=tag>&lt;dataSourceEditorPage
+            class=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.ui.wizards.JdbcDataSourcePage&quot;</p><p class=code id=tag>
+            path=<p class=code id=cstring>&quot;/&quot;</p><p class=code id=tag>
+            displayName=<p class=code id=cstring>&quot;%datasource.editor.page.connection&quot;</p><p class=code id=tag>
+            name=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-source-editor.connection&quot;</p><p class=code id=tag>/&gt;</p>
+  <p class=code id=tag>&lt;/odaDataSourceUI&gt;</p>
+  <p class=code id=tag>&lt;odaDataSetUI id=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet&quot;</p><p class=code id=tag>&gt;</p>
+    <p class=code id=tag>&lt;dataSetEditorPage
+            class=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage&quot;</p><p class=code id=tag>
+            path=<p class=code id=cstring>&quot;/&quot;</p><p class=code id=tag>
+            displayName=<p class=code id=cstring>&quot;%dataset.editor.page.query&quot;</p><p class=code id=tag>
+            name=<p class=code id=cstring>&quot;org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1&quot;</p><p class=code id=tag>/&gt;</p>
+  <p class=code id=tag>&lt;/odaDataSetUI&gt;</p>
+<p class=code id=tag>&lt;/extension&gt;</p>
+
+</pre>
+</p>
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>API Information: </h6>The new data source wizard should extend the org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSourceConnectionWizard class.<br/><br/>
+
+The new data set wizard should extend the org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSetWizard class<br/><br/>
+
+The editor pages should be an implementation of org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage. They can also extend from the abstract class  org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage.<br/><br/>
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>An abstract implementation of <samp>org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage</samp> is provided as <samp>org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage</samp>. This class contains get and set methods for the name, the image and the container.
+<br/><br/>
+A default JDBC data source implementation plugin is also provided
+<p></p>
+
+<br>
+<p class=note id=copyright>
+Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html<br/><br/>
+
+Contributors: Actuate Corporation - initial API and implementation
+<p></p>
+
+</p>
+</BODY>
+</HTML>

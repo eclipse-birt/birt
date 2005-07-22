@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Report Item UI Extension Point</title>
+<style>@import url("file:/f:/eclipse3.1/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
+<style>@import url("file:/f:/eclipse3.1/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+</HEAD>
+<BODY>
+<H1><CENTER>Report Item UI Extension Point</CENTER></H1>
+<p></p>
+<h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.report.designer.ui.reportitemUI<p></p>
+<h6 class=CaptionFigColumn id=header>Since: </h6>1.0
+<p></p>
+
+<p>
+<h6 class=CaptionFigColumn id=header>Description: </h6>This extension point is used in conjunction with the Report Item extension point defined in the model. It is used to register the GUI to be used for the Extended report item.</p>
+<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> ((<a href="#e.reportItemFigureUI">reportItemFigureUI</a> | <a href="#e.reportItemLabelUI">reportItemLabelUI</a> | <a href="#e.reportItemImageUI">reportItemImageUI</a>) , <a href="#e.model">model</a> , <a href="#e.builder">builder</a>? , <a href="#e.propertyPage">propertyPage</a>? , <a href="#e.palette">palette</a>? , <a href="#e.editor">editor</a>? , <a href="#e.outline">outline</a>? , <a href="#e.description">description</a>?)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST extension</p>
+<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.model">model</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST model</p>
+<p class=code id=dtdAttlist>extensionName&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>extensionName</b> - The ROM Report Item Extension name that maps to this UI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItemFigureUI">reportItemFigureUI</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST reportItemFigureUI</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureUI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItemLabelUI">reportItemLabelUI</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST reportItemLabelUI</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemLabelUI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.reportItemImageUI">reportItemImageUI</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST reportItemImageUI</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemImageUI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.builder">builder</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST builder</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+Optional Builder for the element inside the Editor. Instantiated when a new item is dragged from the palette inside the editor.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.propertyPage">propertyPage</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST propertyPage</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+Optional Property Edit Page for the item to be used in the Property Edit View</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extension.IReportItemPropertyEditUI</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.palette">palette</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST palette</p>
+<p class=code id=dtdAttlist>icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>category&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>categoryDisplayName&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>icon</b> - The icon to show in the Palette</li>
+<li><b>category</b> - Indicates in which category the icon should appear in the Palette. If it is an non-existing category, a new one will be created for this report item.</li>
+<li><b>categoryDisplayName</b> - Display name of the category if this category does not exist in BIRT. If it does already exist, this will be ignored.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.editor">editor</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST editor</p>
+<p class=code id=dtdAttlist>showInMasterPage&nbsp;(true | false) "true"<p class=code id=dtdAttlist>showInDesigner&nbsp;&nbsp;&nbsp;(true | false) "true"<p class=code id=dtdAttlist>canResize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true | false) "true"&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>showInMasterPage</b> - True if the element UI is to be shown in the MasterPage and MasterPage's Palette</li>
+<li><b>showInDesigner</b> - True if the element UI is to be shown in the Designer and the Designer's Palette</li>
+<li><b>canResize</b> - Boolean indicating if the element can be resized inside the editor area</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.outline">outline</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST outline</p>
+<p class=code id=dtdAttlist>icon&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>icon</b> - The icon to show in the Outline View</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.description">description</a> (#PCDATA)&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+an optional subelement whose body contains a short text describing what the UI extension will do</p>
+<br><br>
+<h6 class=CaptionFigColumn id=header>Examples: </h6>The following is an example of the extented element UI extension point:
+<p><pre>
+
+<p class=code id=tag>&lt;extension point=<p class=code id=cstring>&quot;org.eclipse.birt.report.designer.reportitemUI&quot;</p><p class=code id=tag>&gt;</p>
+ <p class=code id=tag>&lt;model extensionName=<p class=code id=cstring>&quot;chart&quot;</p><p class=code id=tag>/&gt;</p>
+ <p class=code id=tag>&lt;reportItemFigureUI  class==<p class=code id=cstring>&quot;org.eclipse.birt.chart.ChartAdapterUI&quot;</p><p class=code id=tag>/&gt;</p>
+ <p class=code id=tag>&lt;palette icon=<p class=code id=cstring>&quot;/icons/paletteimage.gif&quot;</p><p class=code id=tag> category=<p class=code id=cstring>&quot;main&quot;</p><p class=code id=tag>/&gt;</p>
+ <p class=code id=tag>&lt;editor showInMasterPage=<p class=code id=cstring>&quot;false&quot;</p><p class=code id=tag>/&gt;</p>
+ <p class=code id=tag>&lt;outline icon=<p class=code id=cstring>&quot;/icons/outlineimage.gif&quot;</p><p class=code id=tag>/&gt;</p>
+<p class=code id=tag>&lt;/extension&gt;</p>
+
+</pre></p>
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>API Information: </h6>The report item UI extension may implement the interfaces defined in the <i>org.eclipse.birt.report.designer.ui.extensions</i> package. See the package's JavaDoc documentation and API interfaces for more information.
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>The plugin <i>org.eclipse.birt.chart.reportitem</i>, supplied with the BIRT installation, provides a good example for implementing a report item UI extension.
+<br>
+<p></p>
+
+<br>
+<p class=note id=copyright>
+Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+
+Contributors: Actuate Corporation - initial API and implementation
+<p></p>
+
+</p>
+</BODY>
+</HTML>
