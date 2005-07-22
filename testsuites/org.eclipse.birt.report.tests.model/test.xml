@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+
+<project name="testsuite" default="run" basedir=".">
+  <!-- The property ${eclipse-home} should be passed into this script -->
+  <!-- Set a meaningful default value for when it is not. -->
+  <property name="eclipse-home" value="d:/eclipse"/>
+  <property name="axlan-home" value="c:/xalan-j_2_6_0"/>
+  <!-- sets the properties eclipse-home, and library-file -->
+  <property name="plugin-name" value="org.eclipse.birt.report.tests.model"/>
+  <property name="library-file"
+            value="${eclipse-home}/plugins/org.eclipse.test/library.xml"/>
+  <property name="JAVA_HOME" value="C:/j2sdk1.4.2_05" />
+  <property name="test.build.dir" value="./bin" />
+  <property name="test.src.dir" value="./src" />
+  <property name="test.doc.dir" value="./doc" />
+  <property name="eclipse.plugin.tests" value="${eclipse-home}/plugins/org.eclipse.birt.report.tests.model" />
+  <property name="arch" value="x86" />
+  <!-- set platform related properties-->
+  <property name="nl" value="zh_CN" />	
+  <condition property="ws" value="win32">
+    <os family="windows"/>
+  </condition>
+  <condition property="ws" value="gtk">
+       <not>
+			<os family="windows"/>
+		</not>
+	</condition>
+
+  <condition property="os" value="win32">
+	 <os family="windows"/>
+  </condition>
+	<condition property="os" value="linux">
+		<not>
+			<os family="windows"/>
+		</not>
+	</condition>
+  <!-- This target holds all initialization code that needs to be done for -->
+  <!-- all tests that are to be run. Initialization for individual tests -->
+  <!-- should be done within the body of the suite target. -->
+  <target name="init">
+    <tstamp/>
+    <delete quiet="true">
+      <fileset dir="${eclipse-home}" includes="org*.xml"/>
+    </delete>
+  </target>
+
+  <!-- This target defines the tests that need to be run. -->
+  <target name="suite">
+    <echo message="${library-file}"  />
+    <property name="birt-model-folder" 
+              value="${eclipse-home}/birt-model-folder"/>
+          
+    <delete dir="${birt-model-folder}" quiet="true"/>
+    
+    
+    
+    <ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
+      <property name="data-dir" value="${birt-model-folder}"/>
+      <property name="plugin-name" value="${plugin-name}"/>
+      <property name="classname" 
+                value="org.eclipse.birt.report.tests.model.api.Tests"/>
+      <property name="os" value="${os}" />
+      <property name="ws" value="${ws}" />
+      <property name="arch" value="${arch}" />
+      <property name="nl" value="${nl}" />
+      <property name="vmargs" value="-DBIRT_HOME='${eclipse-home}'"/>
+      <property name="vmargs" value="-Declipse.home='${eclipse-home}'"/>
+     </ant>
+    
+  </target>
+  
+  <target name="compileTest">
+    <mkdir dir="${test.build.dir}" />
+    <mkdir dir="${test.doc.dir}" />
+		<!-- Copy resource files into build -->
+		<copy todir="${test.build.dir}">
+			<fileset dir="${test.src.dir}">
+				<include name="**/input/*.*" />
+				<include name="**/golden/*.*" />
+				<include name="**/output/*.*" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+
+		<!-- Compile API Test Source Files -->
+		
+		<echo message="${JAVA_HOME}" />
+		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" executable="${JAVA_HOME}/bin/javac"  source="1.4" target="1.4" debug="true" encoding="gb2312" failonerror="true">
+			<classpath>
+			  <fileset dir="${basedir}/lib/">
+				    <include name="*.jar" />
+			  </fileset>
+		  </classpath>
+		</javac>
+</target>
+ 
+
+  <target name="jar" depends="compileTest">
+		<jar destfile="test.jar" >
+			<fileset dir="./bin">
+				<exclude name="**/*Test.class"/>
+			</fileset>
+		</jar>
+		
+		<delete quiet="true">
+		<fileset dir="${eclipse.plugin.tests}" includes="**/*.*"/>
+		</delete>
+		
+		<javadoc packagenames="${plugin-name}.*"
+           sourcepath="${test.src.dir}"
+           defaultexcludes="yes"
+           destdir="${test.doc.dir}"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="BIRT API Test---DTE" >
+           <classpath>
+			  <fileset dir="${basedir}/lib/">
+				    <include name="*.jar" />
+			  </fileset>
+		  </classpath>
+		</javadoc>
+		
+		<mkdir dir="${eclipse.plugin.tests}" />
+		<copy todir="${eclipse.plugin.tests}">
+		  <fileset dir="${basedir}">
+		    <include name="**/bin/**/*.*" />
+		    <include name="*.*" />
+		    <include name="**/lib/*.jar" />
+		  </fileset>
+		
+		
+		</copy>
+		
+		
+	</target>
+  
+  <target name="report">
+   <junitreport todir="${eclipse-home}">
+			<fileset dir="${eclipse-home}">
+				<include name="*.xml" />
+				<exclude name="*TestSuites.xml" />
+			</fileset>
+			
+			<report format="frames" todir="${basedir}/report/" />
+
+  </junitreport>
+    </target>
+
+  <!-- This target holds code to cleanup the testing environment after -->
+  <!-- after all of the tests have been run. You can use this target to -->
+  <!-- delete temporary files that have been created. -->
+  <target name="cleanup">
+  </target>
+  
+
+  
+  <!-- This target runs the test suite. Any actions that need to happen -->
+  <!-- after all the tests have been run should go here. -->
+  <target name="run" depends="init,jar,suite,report,cleanup">
+    <ant target="collect" antfile="${library-file}" dir="${eclipse-home}">
+      <property name="includes" value="org*.xml"/>
+      <property name="output-file" value="${plugin-name}.xml"/>
+    </ant>
+  </target>
+
+
+</project>

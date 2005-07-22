@@ -1,0 +1,5 @@
+CustomerID,  Name, Address, CurrentBalance
+INT,STRING,STRING,DOUBLE
+1,'Bill','NY',100.0
+2,'Alan','SH',10.5
+3,'Mary','SH',20.5
