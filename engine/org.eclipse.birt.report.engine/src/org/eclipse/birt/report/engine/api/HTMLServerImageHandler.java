@@ -9,10 +9,15 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**
  * Default implementation for writing images in a form that is used in a
@@ -222,5 +227,57 @@ public class HTMLServerImageHandler implements IHTMLImageHandler
 			return image.getReportRunnable().hashCode() + image.getID();
 		}
 		return image.getID();
+	}
+	
+	/**
+	 * get image
+	 * @param out the output stream of image
+	 * @param imageDir the image directory
+	 * @param imageID id of image
+	 * @throws IOException
+	 */
+	public void getImage(OutputStream out, String imageDir, String imageID) throws EngineException
+	{
+		File image = new File(imageDir, imageID);
+		if(!image.exists())
+		{
+			throw new EngineException(MessageConstants.MISSING_IMAGE_FILE_ERROR); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		InputStream in = null;
+		try
+		{
+			in = new FileInputStream(image);
+			byte[] buffer = new byte[1024];
+			int size = 0;
+			do
+			{
+				size = in.read( buffer );
+				if ( size > 0 )
+				{
+					out.write( buffer, 0, size );
+				}
+			
+			}while ( size > 0 );
+			in.close();
+		}
+		catch(IOException ex)
+		{
+			throw new EngineException(MessageConstants.ERROR, ex);
+		}
+		finally
+		{
+			try
+			{
+				if(in!=null)
+				{
+					in.close();
+				}
+			}
+			catch(IOException er)
+			{
+				
+			}
+		}
+		
 	}
 }
