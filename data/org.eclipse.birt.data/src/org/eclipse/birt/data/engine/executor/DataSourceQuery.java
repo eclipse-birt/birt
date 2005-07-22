@@ -405,7 +405,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			odaStatement.addParameterHint( parameterHint );
 			
 			//If the parameter is input parameter then add it to input value list.
-			if(parameterHint.isInputMode())
+			if ( parameterHint.isInputMode( )
+					&& paramDef.getDefaultInputValue( ) != null )
 			{
 				Object inputValue = convertToValue( paramDef.getDefaultInputValue( ),
 						paramDef.getType( ) );
