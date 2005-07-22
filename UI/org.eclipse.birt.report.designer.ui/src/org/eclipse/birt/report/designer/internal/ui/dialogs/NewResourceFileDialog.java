@@ -11,16 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -50,14 +47,13 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 public class NewResourceFileDialog extends ElementTreeSelectionDialog
 {
-
 	private Text text;
-
-	private IContainer container = null;
 
 	private ISelectionStatusValidator fValidator = null;
 
 	private String fileName;
+
+	private String parentPath;
 
 	/**
 	 * The constructor.
@@ -180,11 +176,6 @@ public class NewResourceFileDialog extends ElementTreeSelectionDialog
 		updateStatus( fCurrStatus );
 	}
 
-	public void setContainer( IContainer parentContainer )
-	{
-		this.container = parentContainer;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -194,22 +185,24 @@ public class NewResourceFileDialog extends ElementTreeSelectionDialog
 	{
 		int rt = super.open( );
 
-		if ( rt == Window.OK && container != null )
+		if ( rt == Window.OK && parentPath != null )
 		{
-			IFile file = container.getFile( new Path( fileName ) );
-
+			File file = new File(parentPath + File.separator + fileName);
 			try
 			{
-				file.create( new ByteArrayInputStream( new byte[0] ),
-						true,
-						null );
+				file.createNewFile();
 			}
-			catch ( CoreException e )
+			catch ( IOException e )
 			{
-				ExceptionHandler.handle( e );
+				ExceptionHandler.handle(e);
 			}
 		}
 
 		return rt;
+	}
+
+	public void setParentPath( String path )
+	{
+		this.parentPath = path;
 	}
 }
