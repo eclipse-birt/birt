@@ -13,6 +13,8 @@ package org.eclipse.birt.core.framework;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.birt.core.framework.server.ServerPlatform;
@@ -44,7 +46,7 @@ import org.eclipse.birt.core.framework.server.ServerPlatform;
  * If the dependcy order of plugin A is: B, C, then we can only access classes in plugin A:
  * exportA(pluginA), exportB(plugin B), exportC(plugin B).
  * 
- * @version $Revision: 1.10 $ $Date: 2005/07/08 05:44:07 $
+ * @version $Revision: 1.11 $ $Date: 2005/07/09 06:52:17 $
  */
 public class Platform
 {
@@ -58,6 +60,8 @@ public class Platform
 	protected static int platformType = UNKNOWN_PLATFORM;
 	protected static IPlatform platform = null;
 	
+    protected static Logger log = Logger.getLogger(Platform.class.getName());
+	
 	/**
 	 * creates the appropriate platform object based on the platform type 
 	 * If not running from Eclipse, this functions must be called before calling other functions.
@@ -68,11 +72,13 @@ public class Platform
 		{
 			if (runningEclipse())
 			{
+				log.log(Level.FINE, "initialize eclipse framework");
 				platform = new EclipsePlatform(); 
 				platformType = ECLIPSE_PLATFORM;
 			}
 			else
 			{
+				log.log(Level.FINE, "initialize server side framework");
 				if ( context == null )
 					context = new PlatformFileContext();
 

@@ -8,6 +8,7 @@
 
 package org.eclipse.birt.core.framework;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletContext;
-
-import org.eclipse.birt.core.framework.IPlatformContext;
 
 /**
  * An platform context that is based on resource operations instead of file operations.
@@ -30,6 +31,8 @@ public class PlatformServletContext implements IPlatformContext
 	public ServletContext context = null;	// the ServletContext.  
 	public String urlLeadingString = null;	// The URLLeadingString (e.g. http://localhost:7001/birt).
 	private static final String directorySeparator = "/"; //$NON-NLS-1$ // Refer to getResourcePaths in http://java.sun.com/j2ee/sdk_1.3/techdocs/api/javax/servlet/ServletContext.html#getResourcePaths(java.lang.String)
+	
+	static protected Logger log = Logger.getLogger(PlatformServletContext.class.getName());
 
 	public PlatformServletContext( ServletContext context, String urlLeadingString )
 	{
@@ -47,7 +50,13 @@ public class PlatformServletContext implements IPlatformContext
 		String folderString = homeFolder;
 		if ( (subFolder != null) && 
 			 (subFolder.length() > 0) )
-			 folderString += directorySeparator + subFolder;
+		{
+		     if (folderString.endsWith(directorySeparator))
+		     {
+		     	folderString += directorySeparator;
+		     }
+			 folderString +=  subFolder;
+		}
 		
 		Set files = context.getResourcePaths( folderString );		
 		if ( (files != null) &&
@@ -104,7 +113,17 @@ public class PlatformServletContext implements IPlatformContext
 
 		try 
 		{
-			url = new URL( urlLeadingString + folder + fileName );
+			String realPath = context.getRealPath(folder + fileName);
+			if (realPath == null)
+			{
+				url = context.getResource(folder + fileName);
+				log.log(Level.FINE, "getResource({0}, {1}) returns {2}", new Object[]{ folder , fileName, realPath});
+			}
+			else
+			{
+				url = new File(realPath).toURL();
+				log.log(Level.FINE, "getRealPath({0}, {1}) returns {2}", new Object[]{folder , fileName, realPath});
+			}
 		} 
 		catch (MalformedURLException e) 
 		{
