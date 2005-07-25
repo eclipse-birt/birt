@@ -1,8 +1,14 @@
-/*
- * Created on Jul 13, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Test HTMLServerImageHandlerTest
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.BufferedInputStream;
@@ -19,11 +25,7 @@ import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-/**
- * @author lchen
- *
- * Test HTMLServerImageHandlerTest
- */
+
 public class HTMLServerImageHandlerTest extends EngineCase {
 
 	/**

@@ -1,8 +1,14 @@
-/*
- * Created on 2005-7-11
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Test HTMLRenderContext class
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import junit.framework.Test;
@@ -11,11 +17,7 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-/**
- * @author lchen
- *
- * Test HTMLRenderContext class
- */
+
 public class HTMLRenderContextTest extends EngineCase {
 
 	/**

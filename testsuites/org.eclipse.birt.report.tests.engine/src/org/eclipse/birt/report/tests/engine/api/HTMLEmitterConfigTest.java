@@ -1,8 +1,14 @@
-/*
- * Created on Jul 5, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Test HTMLEmitterConfig class
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import junit.framework.Test;
@@ -13,11 +19,7 @@ import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-/**
- * @author lchen
- *
- * Test HTMLEmitterConfig class
- */
+
 public class HTMLEmitterConfigTest extends EngineCase {
 
 	private HTMLEmitterConfig htmlEmitterConfig=new HTMLEmitterConfig();

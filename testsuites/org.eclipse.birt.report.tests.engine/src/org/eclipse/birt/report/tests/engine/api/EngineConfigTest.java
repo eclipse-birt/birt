@@ -1,9 +1,14 @@
-/*
- * Created on 2005-7-1
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Test EngineConfig
- * 
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.logging.Level;
@@ -16,12 +21,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-/**
- * @author lchen
- *
- * Test EngineConfig
- * 
- */
+
 public class EngineConfigTest extends EngineCase {
 
 	public static Test suite(){

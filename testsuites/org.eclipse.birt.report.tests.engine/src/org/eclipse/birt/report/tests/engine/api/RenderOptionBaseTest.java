@@ -1,8 +1,14 @@
-/*
- * Created on Jul 5, 2005
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * Test RenderOptionBase class
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.ByteArrayOutputStream;
@@ -12,11 +18,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
-/**
- * @author lchen
- *
- * Test RenderOptionBase class
- */
+
 public class RenderOptionBaseTest extends EngineCase {
 
 	private TestRenderOptionBase optionBase=new TestRenderOptionBase();

@@ -1,9 +1,14 @@
-/*
- * Created on 2005-6-27
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.tests.engine;
 
 import java.util.ResourceBundle;
@@ -13,13 +18,10 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.api.*;
 
+
 import org.eclipse.core.runtime.Platform;
 
-/**
- *  Put your comments  
- *
- * @ @version $Revision: 1.1.1.1 $Date: 2005-6-27 
- */
+
 public abstract class EngineCase extends TestCase {
 
 	private String caseName;
@@ -33,7 +35,9 @@ public abstract class EngineCase extends TestCase {
 	 *  The plugin location   
 	 */
 	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
-	protected static final String PLUGIN_PATH = PLUGINLOC.substring(PLUGINLOC.indexOf("/")+1) +"/";
+	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "\\plugins\\" 
+                                                    +PLUGINLOC.substring(
+ 		                                                   PLUGINLOC.indexOf("/")+1);
 	
 	public static void main(String[] args) {
 		junit.awtui.TestRunner.run(EngineCase.class);
