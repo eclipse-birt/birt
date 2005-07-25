@@ -36,7 +36,7 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/12 07:18:53 $
  */
 public class HTMLTextParser
 {
@@ -185,6 +185,31 @@ public class HTMLTextParser
 		return null;
 	}
 
+	private void copyValueOf(Node srcNode, Node destNode) {
+		assert "value-of".equals(srcNode.getNodeName());
+		assert "value-of".equals(destNode.getNodeName());
+
+		StringBuffer buffer = new StringBuffer();
+		extractTextValue(srcNode, buffer);
+		Text txtNode = destNode.getOwnerDocument().createTextNode(
+				buffer.toString());
+		destNode.appendChild(txtNode);
+	}
+
+	private void extractTextValue(Node srcNode, StringBuffer buffer) {
+		assert srcNode != null && buffer != null;
+
+		if (srcNode.getNodeType() == Node.TEXT_NODE
+				|| srcNode.getNodeType() == Node.CDATA_SECTION_NODE) {
+			buffer.append(srcNode.getNodeValue());
+		} else {
+			for (Node child = srcNode.getFirstChild(); child != null; child = child
+					.getNextSibling()) {
+				extractTextValue(child, buffer);
+			}
+		}
+	}
+
 	/**
 	 * Remove the unsupported tags and convert the JTidy DOM tree to W3C DOM
 	 * tree recursively.
@@ -243,12 +268,14 @@ public class HTMLTextParser
 								.getNodeValue( ) );
 					}
 
-					desNode.appendChild( ele );
-					copyNode( child, ele );
-				}
-				else
-				{
-					copyNode( child, desNode );
+					desNode.appendChild(ele);
+					if ("value-of".equals(child.getNodeName())) {
+						copyValueOf(child, ele);
+					} else {
+						copyNode(child, ele);
+					}
+				} else {
+					copyNode(child, desNode);
 				}
 			}
 		}
