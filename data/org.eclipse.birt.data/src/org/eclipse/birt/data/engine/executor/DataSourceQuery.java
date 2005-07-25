@@ -330,8 +330,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     				(IDataSourceQuery.ResultFieldHint) it.next();
     		ColumnHint colHint = new ColumnHint( hint.getName() );
     		colHint.setAlias( hint.getAlias() );
-    		colHint.setDataType( DataType.getClass(hint.getDataType()));
-    		if ( hint.getPosition() > 0 )
+    		if ( hint.getDataType( ) == DataType.ANY_TYPE )
+				colHint.setDataType( null );
+			else
+				colHint.setDataType( DataType.getClass( hint.getDataType( ) ) );
+			if ( hint.getPosition() > 0 )
     			colHint.setPosition( hint.getPosition());
 
    			stmt.addColumnHint( colHint );
