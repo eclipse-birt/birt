@@ -21,6 +21,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
@@ -47,6 +48,9 @@ public class JDBCDriverManager
 {
 	// Driver classes that we have registered with JDBC DriverManager
 	private  HashSet registeredDrivers = new HashSet();
+	
+	//
+	private HashMap cachedDriversMap = new HashMap();
 	
 	// A HashMap of driverinfo extensions which provides IConnectionFactory implementation
 	// Map is from driverClass (String) to either IConfigurationElement or IConnectionFactory 
@@ -274,59 +278,96 @@ public class JDBCDriverManager
 			String connectionString, String userId, String password )
 			throws OdaException
 	{
+		
+		boolean canConnect = false;
 		try
 		{
-			// Create a connection; note that the connection can be 
-			// provided by either DriverManager or by a DriverInfo
-			// extension
-			Connection testConn = this.getConnection( driverClassName, 
-						connectionString, userId, password );
-			if ( testConn == null )
-				// Shouldn't get here really
-				return false;
-			testConn.close();
-
-			// Connection successful; if the connection was provided
-			// by a DriverInfo extension, we are done; otherwise we need
-			// to make sure that it is driverClassName that's actually
-			// providing the connection
-			if ( getDriverConnectionFactory (driverClassName ) != null )
+			//	If connection is provided by driverInfo extension, use it to create connection
+			if ( getDriverConnectionFactory( driverClassName ) != null )
 			{
-				// connection provided by DriverInfo extension
+				tryCreateConnection( driverClassName, connectionString, userId, password);
 				return true;
-			}
-
-			// Ask DriverManager for actual Driver providing 
-			// the connection
-			Driver driver = DriverManager.getDriver( connectionString );
-			if ( driver == null )
-			{
-				throw new JDBCException( ResourceConstants.CANNOT_PARSE_URL,
-						null );
 			}
 			
-			if ( isExpectedDriver(driver, driverClassName) )
-				return true;
+			loadAndRegisterDriver( driverClassName );
+
+			// If the connections built upon the given driver has been tested
+			// once,
+			// it will be add to cachedDrivers hashmap so that next time we can
+			// directly
+			// test the connection using specific driver rather than iterate all
+			// available
+			// drivers in DriverManager
+
+			if ( cachedDriversMap.get( driverClassName ) == null )
+			{
+				Enumeration enumeration = DriverManager.getDrivers( );
+				while ( enumeration.hasMoreElements( ) )
+				{
+					Driver driver = (Driver) enumeration.nextElement( );
+
+					// The driver might be a wrapped driver. The toString()
+					// method
+					// of a wrapped driver is overriden
+					// so that the name of driver being wrapped is returned.
+					if ( isExpectedDriver( driver, driverClassName ) )
+					{
+						if ( driver.acceptsURL( connectionString ) )
+						{
+							cachedDriversMap.put( driverClassName, driver );
+							// if connection can be built then the test
+							// connection
+							// succeed. Otherwise Exception would be thrown. The
+							// source
+							// of the exception is
+							tryCreateConnection( driverClassName,
+									connectionString,
+									userId,
+									password );
+							canConnect = true;
+							break;
+						}
+					}
+				}
+				// If the test url can be accepted by DriverManager (because the
+				// driver which can pass
+				// that url has been registered.) but a connection
+				// cannot be built using driver whose name is given, throw a
+				// exception.
+				if ( !canConnect )
+					throw new JDBCException( ResourceConstants.CANNOT_PARSE_URL,
+							null );
+			}
 			else
-				throw new JDBCException( ResourceConstants.NO_SUITABLE_DRIVER, null );
+			{
+				if ( ( (Driver) this.cachedDriversMap.get( driverClassName ) ).acceptsURL( connectionString ) )
+				{
+					tryCreateConnection( driverClassName,
+							connectionString,
+							userId,
+							password );
+					canConnect = true;
+				}
+			}
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( e.getLocalizedMessage( ), null );
 		}
+		// If the given url cannot be parsed.
+		if ( canConnect == false )
+			throw new JDBCException( ResourceConstants.NO_SUITABLE_DRIVER, null );
+
+		return true;
 	}
 	
 	private boolean isExpectedDriver( Driver driver, String className )
 	{
 		String actual;
 		if ( driver instanceof WrappedDriver )
-		{
 			actual = driver.toString();
-		}
 		else
-		{
 			actual = driver.getClass( ).getName( );
-		}
 		return isExpectedDriverClass( actual, className); 
 	}
 	
@@ -345,6 +386,24 @@ public class JDBCDriverManager
 		return actualPkg.equals( expectedPkg );
 	}
 	
+	/**
+	 * Try to create a connection based on given connection properties.
+	 * @param driverClassName
+	 * @param connectionString
+	 * @param userId
+	 * @param password
+	 * @throws SQLException
+	 * @throws OdaException
+	 */
+	private void tryCreateConnection( String driverClassName,
+			String connectionString, String userId, String password )
+			throws SQLException, OdaException
+	{
+		Connection testConn = this.getConnection( driverClassName, 
+				connectionString, userId, password );
+		assert ( testConn != null );
+		testConn.close();
+	}
 	
 	private  void loadAndRegisterDriver( String className ) 
 		throws OdaException
