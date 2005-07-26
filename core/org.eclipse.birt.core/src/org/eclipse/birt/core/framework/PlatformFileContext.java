@@ -29,13 +29,15 @@ public class PlatformFileContext implements IPlatformContext
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.framework.IPlatformContext#getFolderList( String homeFolder, String subFolder )
 	 */
-	public List getFolderList( String homeFolder, String subFolder ) 
+	public List getFileList( String homeFolder, String subFolder, boolean includingFiles, boolean relativeFileList ) 
 	{
 		List folderList = new ArrayList();
+		String directoryAbsolutePath = new File(homeFolder).getAbsolutePath();
 		
 		File directory = null;
 		if ( (subFolder != null) &&
-			 (subFolder.length() >0) )
+			 (subFolder.length() >0) &&
+			 !subFolder.equals("/") )
 		{
 			directory = new File( homeFolder, subFolder ); 
 		}
@@ -51,10 +53,16 @@ public class PlatformFileContext implements IPlatformContext
 			// Put all folders (absolute paths) into folderList
 			for ( int i = 0; i < files.length; i++ )
 			{
-				if ( (files[i] != null) && 
-						files[i].isDirectory() )
+				if ( (files[i] != null) &&
+					 (includingFiles || files[i].isDirectory()) )
 				{
-					folderList.add( files[i].getAbsolutePath() );
+					String pathString = files[i].getAbsolutePath();
+					if ( relativeFileList )
+					{
+						// We assume the first part of the pathString is directoryAbsolutePath.
+						pathString = pathString.substring( directoryAbsolutePath.length() );
+					}
+					folderList.add( pathString );
 				}
 			}
 		}

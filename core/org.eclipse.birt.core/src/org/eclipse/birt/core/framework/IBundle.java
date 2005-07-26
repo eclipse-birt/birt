@@ -7,14 +7,16 @@
 package org.eclipse.birt.core.framework;
 
 import java.net.URL;
+import java.util.Enumeration;
 
 
 /**
  *
- * @version $Revision: 1.1 $ $Date: 2005/03/25 02:33:15 $
+ * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
  */
 public interface IBundle
 {
 	 Class loadClass(String name) throws ClassNotFoundException;
 	 URL getEntry(String name);
+	 Enumeration getEntryPaths(String path);
 }

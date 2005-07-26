@@ -26,7 +26,7 @@ public interface IPlatformContext
 	 * @param subFolder - a subFolder name under home folder
 	 * @return string list of all of the folders in homeFolder\subFolder. 
 	 */
-	public List getFolderList( String homeFolder, String subFolder );
+	public List getFileList( String homeFolder, String subFolder, boolean includingFiles, boolean relativeFileList );
 	
 	/**
 	 * @param pluginFolder - the folder that contains the file.

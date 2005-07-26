@@ -43,15 +43,16 @@ public class PlatformServletContext implements IPlatformContext
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.framework.IPlatformContext#getFolderList( String homeFolder, String subFolder )
 	 */
-	public List getFolderList( String homeFolder, String subFolder )
+	public List getFileList( String homeFolder, String subFolder, boolean includingFiles, boolean relativeFileList )
 	{
 		List folderList = new ArrayList();
 		
 		String folderString = homeFolder;
 		if ( (subFolder != null) && 
-			 (subFolder.length() > 0) )
+			 (subFolder.length() > 0) &&
+			 !subFolder.equals("/") )
 		{
-		     if (folderString.endsWith(directorySeparator))
+		     if (!folderString.endsWith(directorySeparator))
 		     {
 		     	folderString += directorySeparator;
 		     }
@@ -69,9 +70,16 @@ public class PlatformServletContext implements IPlatformContext
 					continue;
 				
 				String pluginPath = (String)obj;
-				if ( hasChildren(pluginPath) )		// Simulate File.isDirectory()
+				if ( includingFiles ||
+					 hasChildren(pluginPath) )		// Simulate File.isDirectory()
 				{
-					folderList.add( pluginPath );
+					String pathString = pluginPath;
+					if ( relativeFileList )
+					{
+						// We assume the first part of pathString is homeFolder.
+						pathString = pathString.substring( homeFolder.length() );
+					}
+					folderList.add( pathString );
 				}
 			}
 		}

@@ -7,6 +7,7 @@
 package org.eclipse.birt.core.framework.eclipse;
 
 import java.net.URL;
+import java.util.Enumeration;
 
 import org.eclipse.birt.core.framework.IBundle;
 import org.osgi.framework.Bundle;
@@ -14,7 +15,7 @@ import org.osgi.framework.Bundle;
 
 /**
  *
- * @version $Revision: 1.1 $ $Date: 2005/03/25 02:33:15 $
+ * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
  */
 public class EclipseBundle implements IBundle
 {
@@ -35,6 +36,13 @@ public class EclipseBundle implements IBundle
 	public URL getEntry (String name)
 	{
 		return bundle.getEntry(name);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.framework.IBundle#getEntryPaths(java.lang.String)
+	 */
+	public Enumeration getEntryPaths(String path) {
+		return bundle.getEntryPaths(path);
 	}
 
 }
