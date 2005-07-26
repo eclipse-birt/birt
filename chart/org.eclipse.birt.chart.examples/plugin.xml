@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.chart.examples"
    name="Chart Example(s) Plug-in"
-   version="1.0.0"
+   version="1.0.1"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.chart.examples.TestsPlugin">
 
@@ -22,6 +22,8 @@
       <import plugin="org.eclipse.birt.chart.engine.extension"/>
       <import plugin="org.eclipse.birt.chart.device.extension"/>
       <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.chart.reportitem"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
    </requires>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">
