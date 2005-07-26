@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -29,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
@@ -523,17 +521,24 @@ public class JDBCDriverManager
 	
 	private static class DriverClassLoader extends URLClassLoader
 	{
-		private File driverHomeDir = null;
-		
-		//The list of file names which are used to construct the URL search list of URLClassLoader
-		private static HashSet fileNameList = new HashSet();
+		private IBundle bundle;
+		private HashSet fileSet = new HashSet();
 		
 		public DriverClassLoader( ) 
 		{
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
-			getDriverHomeDir();
-			refreshURLs();
+			
+			bundle = Platform.getBundle( "org.eclipse.birt.report.data.oda.jdbc" );
+			if ( bundle == null )
+			{
+				// Shoudn't happen
+				logger.severe( "Failed to get Bundle object" );
+			}
+			else
+			{
+				refreshURLs();
+			}
 		}
 		
 		/**
@@ -543,107 +548,35 @@ public class JDBCDriverManager
 		 */
 		public boolean refreshURLs()
 		{
-			String[] newJARFiles = getNewJARFiles( );
-			if ( newJARFiles == null || newJARFiles.length == 0 )
-				return false;
+			if ( bundle == null )
+				return false;			// init failed
 			
-			for(int i = 0; i < newJARFiles.length; i++)
+			// List all files under "drivers" directory
+			boolean foundNew = false;
+			Enumeration files = bundle.getEntryPaths( 
+					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
+			while ( files.hasMoreElements() )
 			{
-				URL fileUrl = constructURL(newJARFiles[i]); 
-				addURL( fileUrl );
-				fileNameList.add( newJARFiles[i]);
-				logger.info("JDBCDriverManager: found JAR file " + 
-						newJARFiles[i] + ". URL=" + fileUrl );
+				String fileName = (String) files.nextElement();
+				if ( OdaJdbcDriver.isDriverFile( fileName ) )
+				{
+					if ( ! fileSet.contains( fileName ))
+					{
+						// This is a new file not previously added to URL list
+						foundNew = true;
+						fileSet.add( fileName );
+						URL fileURL = bundle.getEntry( fileName );
+						addURL( fileURL );
+						logger.info("JDBCDriverManager: found JAR file " + 
+								fileName + ". URL=" + fileURL );
+					}
+				}
 			}
-			return true;
-		}
-		
-		/**
-		 * Construct a URL using given file name.
-		 * @param filename the name of file the constructed URL linked to 
-		 * @return URL constructed based on the given file name
-		 */
-		private URL constructURL(String filename)
-		{
-			URL url = null;
-			try 
-			{
-				url = new URL("file", null, -1, new File(driverHomeDir, filename)
-						.getAbsolutePath());
-			} catch (MalformedURLException e) 
-			{
-				logger.log( Level.WARNING, "Failed to construct URL for " + filename, e);
-				// should not get here
-				assert(false);
-			}
-			return url;
-		}
-		
-		/**
-		 * Return array of "jar" file names freshly added (other than ones exist in fileNameList under given directory
-		 * @param absoluteDriverDir
-		 * @return
-		 */
-		private String[] getNewJARFiles()
-		{
-			return driverHomeDir.list( 
-						new NewDriverFileFilter(fileNameList) );
-		}
-				
-		/**
-		 * Get the absolute path of "driver" directory in plug-in path. If there is no
-		 * driver directory found in plug-in path, return absolute path of "driver" directory whose
-		 * parent is current path. 
-		 * @return absolute path of "driver" directory
-		 * @throws OdaException
-		 */
-		private void getDriverHomeDir()  
-		{
-			assert driverHomeDir == null;
-			try 
-			{
-				driverHomeDir = OdaJdbcDriver.getDriverDirectory();
-			}
-			catch ( Exception e) 
-			{
-				logger.log( Level.WARNING, "JDBCDriverManager: cannot find plugin drivers directory: ", e);
-			}
-				
-			if ( driverHomeDir == null )
-			{
-				//if cannot find driver directory in plugin path, try to find it in
-				// current path
-				driverHomeDir = new File( OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
-			}
-			
-			logger.info( "JDBCDriverManager: drivers directory location: " + driverHomeDir );
-		}
-	}
-	
-	/**
-	 * File name filter to discover "new" JAR files. 
-	 * Accepts a file true if it is a JAR, and was not previously seen
-	 */
-	private static class NewDriverFileFilter implements FilenameFilter
-	{
-		private HashSet knownFiles = null;
-		
-		NewDriverFileFilter( HashSet knownFiles )
-		{
-			this.knownFiles = knownFiles;
-		}
-		
-		public boolean accept( File dir,String name )
-		{
-			if( OdaJdbcDriver.isDriverFile(name) && 
-					! knownFiles.contains (name) )
-				return true;
-			else
-				return false;
+			return foundNew;
 		}
 		
 	}
-
+	
 //	The classloader of a driver (jtds driver, etc.) is
 //	 ��java.net.FactoryURLClassLoader��, whose parent is
 //	 ��sun.misc.Launcher$AppClassLoader��.
