@@ -3,6 +3,6 @@
 <plugin
    id="org.eclipse.birt"
    name="Business Intelligence and Reporting Tools"
-   version="1.0.0"
+   version="1.0.1"
    provider-name="Eclipse.org">
 </plugin>

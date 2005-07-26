@@ -68,7 +68,7 @@
 
 	<property name="eclipse.home" location="." />
 	<property name="module.name" value="org.eclipse.birt" />
-	<property name="plugin.version" value="1.0.0" />
+	<property name="plugin.version" value="1.0.1" />
 
 	<!-- Generate zip for this project.
 		 Input parameters:
