@@ -388,20 +388,20 @@
       </topic>
     <topic label="Placing a chart in a report" href="birt/birt-14-7.html" />
     <topic label="Tutorial 4:  Creating a report chart" href="birt/birt-14-8.html" >
-      <topic label="Task 14:  Create a new report" href="birt/birt-14-8.html#wp193866" />
-      <topic label="Task 15:  Build a data source" href="birt/birt-14-8.html#wp193892" />
-      <topic label="Task 16:  Build a data set" href="birt/birt-14-8.html#wp193911" />
-      <topic label="Task 17:  Insert a chart element" href="birt/birt-14-8.html#wp193959" />
-      <topic label="Task 18:  Select a chart type" href="birt/birt-14-8.html#wp193968" />
-      <topic label="Task 19:  Link the chart to a data set" href="birt/birt-14-8.html#wp193982" />
-      <topic label="Task 20:  Set up the chart data expressions" href="birt/birt-14-8.html#wp193993" />
-      <topic label="Task 21:  Preview the chart" href="birt/birt-14-8.html#wp194028" />
-      <topic label="Task 22:  Modify the chart title" href="birt/birt-14-8.html#wp194037" />
-      <topic label="Task 23:  Remove the pie title" href="birt/birt-14-8.html#wp194049" />
-      <topic label="Task 24:  Specify series colors" href="birt/birt-14-8.html#wp194070" />
-      <topic label="Task 25:  Remove the chart legend" href="birt/birt-14-8.html#wp194106" />
-      <topic label="Task 26:  Modify the sector labels" href="birt/birt-14-8.html#wp194125" />
-      <topic label="Task 27:  Add space between the labels and the label lines" href="birt/birt-14-8.html#wp194158" />
+      <topic label="Task 1:  Create a new report" href="birt/birt-14-8.html#wp193866" />
+      <topic label="Task 2:  Build a data source" href="birt/birt-14-8.html#wp193892" />
+      <topic label="Task 3:  Build a data set" href="birt/birt-14-8.html#wp193911" />
+      <topic label="Task 4:  Insert a chart element" href="birt/birt-14-8.html#wp193959" />
+      <topic label="Task 5:  Select a chart type" href="birt/birt-14-8.html#wp193968" />
+      <topic label="Task 6:  Link the chart to a data set" href="birt/birt-14-8.html#wp193982" />
+      <topic label="Task 7:  Set up the chart data expressions" href="birt/birt-14-8.html#wp193993" />
+      <topic label="Task 8:  Preview the chart" href="birt/birt-14-8.html#wp194028" />
+      <topic label="Task 9:  Modify the chart title" href="birt/birt-14-8.html#wp194037" />
+      <topic label="Task 10:  Remove the pie title" href="birt/birt-14-8.html#wp194049" />
+      <topic label="Task 11:  Specify series colors" href="birt/birt-14-8.html#wp194070" />
+      <topic label="Task 12:  Remove the chart legend" href="birt/birt-14-8.html#wp194106" />
+      <topic label="Task 13:  Modify the sector labels" href="birt/birt-14-8.html#wp194125" />
+      <topic label="Task 14:  Add space between the labels and the label lines" href="birt/birt-14-8.html#wp194158" />
       <topic label="Next steps" href="birt/birt-14-8.html#wp194174" />
       </topic>
       </topic>
