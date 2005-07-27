@@ -111,6 +111,7 @@
 			<include name="${eclipse.ui.workbench.dir}_*/workbench.jar"/>
 			<include name="org.eclipse.ui.workbench*.jar"/>
 			<include name="${eclipse.draw2d.dir}_*/draw2d.jar"/>
+			<include name="org.eclipse.draw2d*.jar"/>
 			<include name="${eclipse.osgi.dir}_*/*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 			<include name="${eclipse.jface.dir}_*/jface.jar"/>
