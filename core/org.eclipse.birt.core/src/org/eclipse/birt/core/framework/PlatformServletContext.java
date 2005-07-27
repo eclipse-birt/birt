@@ -52,15 +52,7 @@ public class PlatformServletContext implements IPlatformContext
 			 (subFolder.length() > 0) &&
 			 !subFolder.equals("/") )
 		{
-		     if (!folderString.endsWith(directorySeparator))
-		     {
-		     	folderString += directorySeparator;
-		     }
-		     if ( subFolder.startsWith(directorySeparator) )
-		     {
-		     	subFolder = subFolder.substring(1);
-		     }
-			 folderString +=  subFolder;
+			folderString = concatFolderString( folderString, subFolder );
 		}
 		
 		Set files = context.getResourcePaths( folderString );		
@@ -112,7 +104,7 @@ public class PlatformServletContext implements IPlatformContext
 	{
 		InputStream in = null;		
 
-		String file =  folder + fileName;
+		String file =  concatFolderString( folder, fileName );
 		in = context.getResourceAsStream( file );
 	
 		return in;
@@ -127,7 +119,8 @@ public class PlatformServletContext implements IPlatformContext
 
 		try 
 		{
-			String realPath = context.getRealPath(folder + fileName);
+			String fullFileString = concatFolderString(folder, fileName);
+			String realPath = context.getRealPath( fullFileString );		
 			if (realPath == null)
 			{
 				/* We can not use context.getResource, because,
@@ -139,7 +132,8 @@ public class PlatformServletContext implements IPlatformContext
 				 * The first part (http://localhost:7001/birt) will be provided by viewer and passed into the engine. 
 				 * The engine will append the second part to make it a full valid URL.
 				 */				 
-				url = new URL( urlLeadingString + folder + fileName );
+				url = new URL( urlLeadingString + fullFileString );
+				
 				log.log(Level.FINE, "getResource({0}, {1}) returns {2}", new Object[]{ folder , fileName, realPath});
 			}
 			else
@@ -157,4 +151,22 @@ public class PlatformServletContext implements IPlatformContext
 		return url;
 	}
 
+	private String concatFolderString( String parentString, String childString )
+	{
+		if ( parentString == null )
+			return childString;
+		else if ( childString == null )
+			return parentString;
+		
+		if ( !parentString.endsWith(directorySeparator) )
+		{
+		 	parentString += directorySeparator;
+		}
+		if ( childString.startsWith(directorySeparator) )
+		{
+		 	childString = childString.substring(1);
+		}
+	     
+	    return parentString + childString; 
+	}
 }
