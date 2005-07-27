@@ -141,7 +141,7 @@
 	-->
 	<target name="Export">
 	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="device-extension.jar,plugin.xml,about.html,{dir.lib}/**"/>
+	        <fileset dir="." includes="device-extension.jar,plugin.xml,about.html,.options,{dir.lib}/**"/>
 	    </copy>
 	</target>
 	
