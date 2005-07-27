@@ -166,6 +166,7 @@
 			<fileset dir=".">
 				<exclude name="plugin*.properties"/>
 	 			<include name="${jar.name}"/>
+	 			<include name=".options"/>
  				<include name="plugin*.*"/>
  				<include name="lib\*.jar"/>
 				<include name="icons\**"/>
