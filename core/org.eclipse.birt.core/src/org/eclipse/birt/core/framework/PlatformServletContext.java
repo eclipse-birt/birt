@@ -56,6 +56,10 @@ public class PlatformServletContext implements IPlatformContext
 		     {
 		     	folderString += directorySeparator;
 		     }
+		     if ( subFolder.startsWith(directorySeparator) )
+		     {
+		     	subFolder = subFolder.substring(1);
+		     }
 			 folderString +=  subFolder;
 		}
 		
@@ -78,6 +82,8 @@ public class PlatformServletContext implements IPlatformContext
 					{
 						// We assume the first part of pathString is homeFolder.
 						pathString = pathString.substring( homeFolder.length() );
+						if ( !pathString.startsWith(directorySeparator) )
+							pathString = directorySeparator + pathString; 
 					}
 					folderList.add( pathString );
 				}
@@ -124,7 +130,16 @@ public class PlatformServletContext implements IPlatformContext
 			String realPath = context.getRealPath(folder + fileName);
 			if (realPath == null)
 			{
-				url = context.getResource(folder + fileName);
+				/* We can not use context.getResource, because,
+				 * although ServletContext.getResource can return a URL, in WAR deployment, 
+				 * the URL (e.g. zip:D:/bea8.1/user_projects/domains/mydomain/myserver/upload/birt.war!/WEB-INF/plugins/org.eclipse.birt.report.engine.emitter.html/htmlEmitter.jar) 
+				 * can not be recognized by URLClassLoader. So we decided to use the full URL path like 
+				 * http://localhost:7001/birt/plugins/org.eclipse.birt.report.engine.emitter.html/htmlEmitter.jar instead,
+				 * which can be used by URLClassLoader can load the class. 
+				 * The first part (http://localhost:7001/birt) will be provided by viewer and passed into the engine. 
+				 * The engine will append the second part to make it a full valid URL.
+				 */				 
+				url = new URL( urlLeadingString + folder + fileName );
 				log.log(Level.FINE, "getResource({0}, {1}) returns {2}", new Object[]{ folder , fileName, realPath});
 			}
 			else
