@@ -66,7 +66,7 @@
 		     plugin.version 
 		-->
 	<property name="javadoc.dir" location="docs/api" />
-	<property name="plugin.version" value="1.0.0" />		
+	<property name="plugin.version" value="1.0.1" />		
 	<property name="eclipse.home" location="." />
 	
 	<!--properties -->
