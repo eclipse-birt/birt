@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.1 $Date: 2005-6-27 
+ * @ @version $Revision: 1.2 $Date: 2005-6-27 
  */
 public class AllTests {
 
@@ -44,7 +44,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(DefaultStatusHandlerTest.class);
 		suite.addTestSuite(EngineConfigTest.class);
-		//suite.addTestSuite(FORenderOptionTest.class);
+		suite.addTestSuite(FORenderOptionTest.class);
 		suite.addTestSuite(HTMLActionHandlerTest.class);
 		suite.addTestSuite(HTMLCompleteImageHandlerTest.class);
 		suite.addTestSuite(HTMLEmitterConfigTest.class);

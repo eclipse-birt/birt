@@ -15,7 +15,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ResourceBundle;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
