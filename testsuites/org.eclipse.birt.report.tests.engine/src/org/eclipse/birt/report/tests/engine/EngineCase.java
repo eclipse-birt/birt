@@ -35,9 +35,12 @@ public abstract class EngineCase extends TestCase {
 	 *  The plugin location   
 	 */
 	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
+	/* old
 	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "\\plugins\\" 
                                                     +PLUGINLOC.substring(
  		                                                   PLUGINLOC.indexOf("/")+1);
+	*/
+	protected static final String PLUGIN_PATH =PLUGINLOC.substring(PLUGINLOC.indexOf("/")+1);
 	
 	public static void main(String[] args) {
 		junit.awtui.TestRunner.run(EngineCase.class);
