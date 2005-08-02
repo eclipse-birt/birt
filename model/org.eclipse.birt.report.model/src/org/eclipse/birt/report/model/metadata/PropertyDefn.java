@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
-import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
@@ -59,30 +58,22 @@ public abstract class PropertyDefn
 	public static final int USER_PROPERTY = 1;
 
 	/**
-	 * Type code for a property defined in XML file with the
-	 * ReportItemExtensionPoint.
+	 * Type code for a structure member.
 	 */
 
-	public static final int EXTENSION_PROPERTY = 2;
+	public static final int STRUCT_PROPERTY = 2;
 
 	/**
-	 * Type code for a property defined by an extension implementation of
-	 * ReportItemExtensionPoint.
+	 * Type code for an extension property.
 	 */
 
-	public static final int EXTENSION_MODEL_PROPERTY = 3;
-
-	/**
-	 * Type code for a property defined by a ODA extension.
-	 */
-
-	public static final int ODA_PROPERTY = 4;
+	public static final int EXTENSION_PROPERTY = 3;
 
 	/**
 	 * Where the property is defined.
 	 */
-
-	protected ObjectDefn definedBy = null;
+	
+	protected ObjectDefn definedBy = null; 
 
 	/**
 	 * The cached property type.
@@ -102,6 +93,14 @@ public abstract class PropertyDefn
 	 */
 
 	protected String displayNameID = null;
+
+	/**
+	 * True if the property definition is extended, which is defined by the
+	 * extended element, false if the property is the BIRT system-defined or
+	 * user-defined.
+	 */
+
+	protected boolean isExtended = false;
 
 	/**
 	 * Default unit of the dimension property. Some properties have special
@@ -198,28 +197,28 @@ public abstract class PropertyDefn
 	/**
 	 * The BIRT release when this property was introduced.
 	 */
-
+	
 	protected String since;
-
+	
 	/**
-	 * Whether the property can be set in the Factory or Presentation engine. If
-	 * false, the property is read-only at runtime.
+	 * Whether the property can be set in the Factory or Presentation
+	 * engine. If false, the property is read-only at runtime.
 	 */
-
+	
 	protected boolean runtimeSettable;
 
 	/**
 	 * The context for a method.
 	 */
-
+	
 	protected String context;
-
+	
 	/**
 	 * The return type for an expression or method.
 	 */
-
+	
 	protected String returnType;
-
+	
 	/**
 	 * Constructs a Property Definition.
 	 */
@@ -228,12 +227,12 @@ public abstract class PropertyDefn
 	{
 		since = "none"; //$NON-NLS-1$
 	}
-
+	
 	public void setOwner( ObjectDefn owner )
 	{
 		definedBy = owner;
 	}
-
+	
 	public ObjectDefn definedBy( )
 	{
 		return definedBy;
@@ -309,7 +308,7 @@ public abstract class PropertyDefn
 					triggerDefn.setValidator( validator );
 					getTriggerDefnSet( ).add( triggerDefn );
 				}
-				else
+                else
 				{
 					StructureValidator validator = StructureValidator
 							.getInstance( );
@@ -396,7 +395,7 @@ public abstract class PropertyDefn
 					throw new MetaDataException(
 							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN );
-
+				
 				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 						StructureReferenceValidator.NAME );
 				triggerDefn.setPropertyName( getName( ) );
@@ -413,15 +412,6 @@ public abstract class PropertyDefn
 					ValueRequiredValidator.NAME );
 			triggerDefn.setPropertyName( getName( ) );
 			triggerDefn.setValidator( ValueRequiredValidator.getInstance( ) );
-			getTriggerDefnSet( ).add( triggerDefn );
-		}
-		
-		if ( getValueType( ) == EXTENSION_MODEL_PROPERTY || getValueType( ) == EXTENSION_PROPERTY )
-		{
-			SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
-					ExtensionValidator.NAME );
-			triggerDefn.setPropertyName( getName( ) );
-			triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
 			getTriggerDefnSet( ).add( triggerDefn );
 		}
 
@@ -497,6 +487,18 @@ public abstract class PropertyDefn
 	}
 
 	/**
+	 * Determines whether this is an extension-defined property. Must be
+	 * overridden by derived classes.
+	 * 
+	 * @return true if it is an extension-defined property, otherwise false
+	 */
+
+	public boolean isExtensionProperty( )
+	{
+		return getValueType( ) == EXTENSION_PROPERTY;
+	}
+
+	/**
 	 * Determines whether this is a user-defined property.
 	 * 
 	 * @return True if a user-defined property
@@ -508,16 +510,14 @@ public abstract class PropertyDefn
 	}
 
 	/**
-	 * Determines whether this is a structure member. The subclass will override
-	 * this method if necessary.
+	 * Determines whether this is a structure member.
 	 * 
-	 * @return true if a structure member, otherwise false
-	 * @see StructPropertyDefn
+	 * @return true if a structure member
 	 */
 
 	public boolean isStructureMember( )
 	{
-		return false;
+		return getValueType( ) == STRUCT_PROPERTY;
 	}
 
 	/**
@@ -812,9 +812,7 @@ public abstract class PropertyDefn
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null
-				? getType( ).toXml( design, this, value )
-				: retValue;
+		return retValue == null ? getType( ).toXml( design, this, value ) : retValue;
 	}
 
 	/**
@@ -1095,7 +1093,20 @@ public abstract class PropertyDefn
 
 	public boolean isExtended( )
 	{
-		return getValueType( ) == EXTENSION_MODEL_PROPERTY || getValueType( ) == EXTENSION_PROPERTY;
+		return this.isExtended;
+	}
+
+	/**
+	 * Sets the property as extended.
+	 * 
+	 * @param isExtended
+	 *            true if the property is defined by the extended element, false
+	 *            if the property is BIRT system-defined or user-defined
+	 */
+
+	void setExtended( boolean isExtended )
+	{
+		this.isExtended = isExtended;
 	}
 
 	/**
@@ -1213,49 +1224,46 @@ public abstract class PropertyDefn
 	{
 		this.isEncryptable = isEncryptable;
 	}
-
+	
 	/**
 	 * Set the release in which this object was introduced.
 	 * 
-	 * @param value
-	 *            the release value
+	 * @param value the release value
 	 */
-
+	
 	public void setSince( String value )
 	{
-		if ( !StringUtil.isBlank( value ) )
+		if ( ! StringUtil.isBlank( value ) )
 			since = value;
 	}
-
+	
 	/**
-	 * @return the release in which this object was introduced. A value of
-	 *         "none" means that the feature is experimental and is not yet
-	 *         released.
+	 * @return the release in which this object was introduced. A value of "none"
+	 * means that the feature is experimental and is not yet released.
 	 */
-
+	
 	public String getSince( )
 	{
 		return since;
 	}
-
+	
 	/**
 	 * Set the indication of whether this property can be set at runtime.
 	 * 
-	 * @param flag
-	 *            true if it can be set, false if it is read-only
+	 * @param flag true if it can be set, false if it is read-only
 	 */
-
+	
 	public void setRuntimeSettable( boolean flag )
 	{
 		runtimeSettable = flag;
 	}
-
+	
 	/**
 	 * Indicates whether this property can be set at runtime.
 	 * 
 	 * @return true if it can be set, false if it is read-only
 	 */
-
+	
 	public boolean isRuntimeSettable( )
 	{
 		return runtimeSettable;
@@ -1264,10 +1272,9 @@ public abstract class PropertyDefn
 	/**
 	 * Set the context for a method or expression.
 	 * 
-	 * @param value
-	 *            the context to set
+	 * @param value the context to set
 	 */
-
+	
 	public void setContext( String value )
 	{
 		context = value;
@@ -1278,43 +1285,40 @@ public abstract class PropertyDefn
 	 * 
 	 * @return the expression or method context
 	 */
-
+	
 	public String getContext( )
 	{
 		return context;
 	}
-
+	
 	/**
 	 * Sets the return type of an expression or method.
 	 * 
-	 * @param type
-	 *            the return type to set
+	 * @param type the return type to set
 	 */
-
+	
 	public void setReturnType( String type )
 	{
 		returnType = type;
 	}
-
+	
 	/**
-	 * Returns the return type of an expression or method. A null type for an
-	 * expression means that return type is any type. A null type for a method
-	 * means that the method does not return anything.
+	 * Returns the return type of an expression or method. A null type for
+	 * an expression means that return type is any type. A null type for a
+	 * method means that the method does not return anything.
 	 * 
 	 * @return the method or property return type
 	 */
-
+	
 	public String getReturnType( )
 	{
 		return returnType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-
+	
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )

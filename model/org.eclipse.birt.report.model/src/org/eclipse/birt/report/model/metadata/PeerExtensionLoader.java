@@ -233,6 +233,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					( (PeerExtensionElementDefn) elementDefn )
 							.getReportItemFactory( ).getMessages( ) );
 
+			extPropDefn.setExtended( true );
 			extPropDefn.setName( name ); //$NON-NLS-1$
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setType( propType );

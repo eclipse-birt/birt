@@ -2664,9 +2664,7 @@
     <StyleProperty name="wordSpacing"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ExtendedItem" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ExtendedItem" name="ExtendedItem" since="1.0" selector="extended-item">
-    <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string">
-		<Trigger validator="ExtensionValidator"/>
-	</Property>
+    <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string"/>
 	<PropertyVisibility name="extensionName" visibility="hide"/>
   </Element>
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />

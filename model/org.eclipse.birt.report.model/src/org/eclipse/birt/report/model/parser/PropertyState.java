@@ -104,17 +104,6 @@ class PropertyState extends AbstractPropertyState
 
 		if ( StyledElement.STYLE_PROP.equalsIgnoreCase( name ) )
 		{
-			// Ensure that the element can have a style.
-
-			if ( !element.getDefn( ).hasStyle( ) )
-			{
-				DesignParserException e = new DesignParserException(
-						new String[]{name},
-						DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-				RecoverableError.dealUndefinedProperty( handler, e );
-				return;
-			}
-
 			( (StyledElement) element ).setStyleName( value );
 		}
 
