@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 public class SemanticException extends ModelException
 {
+
 	/**
 	 * The element with semantic error.
 	 */
@@ -67,7 +68,7 @@ public class SemanticException extends ModelException
 	 * @param cause
 	 *            the nested exception
 	 */
-	
+
 	public SemanticException( DesignElement element, String errCode,
 			Throwable cause )
 	{
@@ -90,6 +91,26 @@ public class SemanticException extends ModelException
 			String errCode )
 	{
 		super( errCode, values, null );
+		this.element = element;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param element
+	 *            the element which has errors
+	 * @param values
+	 *            value array used for error message
+	 * @param errCode
+	 *            the error code
+	 * @param cause
+	 *            the nested exception
+	 */
+
+	public SemanticException( DesignElement element, String[] values,
+			String errCode, Throwable cause )
+	{
+		super( errCode, values, cause );
 		this.element = element;
 	}
 

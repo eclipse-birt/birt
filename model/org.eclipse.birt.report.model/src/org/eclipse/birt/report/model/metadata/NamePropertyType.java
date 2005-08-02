@@ -74,7 +74,7 @@ public class NamePropertyType extends TextualPropertyType
 		assert defn != null;
 		if ( value == null )
 		{
-			if ( defn.getValueType( ) == PropertyDefn.STRUCT_PROPERTY )
+			if ( defn.isStructureMember( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
 						NAME_TYPE );
@@ -83,7 +83,7 @@ public class NamePropertyType extends TextualPropertyType
 		if ( value instanceof String )
 		{
 			if ( StringUtil.isBlank( (String) value )
-					&& defn.getValueType( ) == PropertyDefn.STRUCT_PROPERTY )
+					&& defn.isStructureMember( ) )
 				throw new PropertyValueException( value,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 						NAME_TYPE );

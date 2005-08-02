@@ -80,11 +80,11 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	HashMap extensionPropValues = new HashMap( );
 
 	/**
-	 * Constructs the peer extensibility provider with the extendable element
+	 * Constructs the peer extensibility provider with the extensible element
 	 * and the extension name.
 	 * 
 	 * @param element
-	 *            the extendable element
+	 *            the extensible element
 	 * @param extensionName
 	 *            the extension name
 	 */

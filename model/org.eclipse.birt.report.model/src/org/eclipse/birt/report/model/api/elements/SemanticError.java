@@ -355,6 +355,15 @@ public class SemanticError extends SemanticException
 					new String[]{(String) oaMessageArguments[0]
 							+ " \"" + (String) oaMessageArguments[1] + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_DATA_SET )
+		{
+			String name = element.getName( );
+			if ( StringUtil.isBlank( name ) )
+			{
+				return ModelMessages.getMessage( sResourceKey, new String[]{"The " + element.getElementName( )} );  //$NON-NLS-1$//$NON-NLS-2$
+			}
+			return ModelMessages.getMessage( sResourceKey, new String[]{"The " + element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
 
 		return ModelMessages.getMessage( sResourceKey, new String[]{element
 				.getName( )} );

@@ -75,7 +75,7 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 
 	public int getValueType( )
 	{
-		return EXTENSION_PROPERTY;
+		return EXTENSION_MODEL_PROPERTY;
 	}
 
 	/*
@@ -446,16 +446,5 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 	public void setType( PropertyType typeDefn )
 	{
 		assert false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#isExtended()
-	 */
-
-	public boolean isExtended( )
-	{
-		return true;
 	}
 }

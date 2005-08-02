@@ -54,7 +54,14 @@ public class StructPropertyDefn extends PropertyDefn
 
 	public int getValueType( )
 	{
-		return STRUCT_PROPERTY;
-	}
+		return SYSTEM_PROPERTY;
+	}	
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#isStructureMember()
+	 */
+	public boolean isStructureMember( )
+	{
+		return true;
+	}
 }

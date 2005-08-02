@@ -36,6 +36,12 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 public class ExtensionValidator extends AbstractElementValidator
 {
 
+	/**
+	 * Name of this validator.
+	 */
+
+	public final static String NAME = "ExtensionValidator"; //$NON-NLS-1$
+	
 	private final static ExtensionValidator instance = new ExtensionValidator( );
 
 	/**
