@@ -74,20 +74,23 @@
 	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
 	<property name="module.name" value = "org.eclipse.birt.doc" />
-	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
-	<property name="engine.javadoc.dir" value="engine/api" />
-	<property name="data.dir" value="../org.eclipse.birt.data" />
-	<property name="data.javadoc.dir" value="data/api" />
-	<property name="oda.dir" value="../org.eclipse.birt.data.oda" />
-	<property name="oda.javadoc.dir" value="oda/api" />
-	<property name="designerui.dir" value="../org.eclipse.birt.report.designer.ui" />
-	<property name="model.dir" value="../org.eclipse.birt.report.model" />
-	<property name="model.javadoc.dir" value="model/api" />
+
 	<property name="chartengine.dir" value="../org.eclipse.birt.chart.engine" />
 	<property name="chartengine.javadoc.dir" value="chart/api" />
+	<property name="chartexamples.dir" value="../org.eclipse.birt.chart.examples" />
 	<property name="chartui.dir" value="../org.eclipse.birt.chart.ui" />
 	<property name="chartui.javadoc.dir" value="chartui/api" />
-	
+	<property name="data.dir" value="../org.eclipse.birt.data" />
+	<property name="data.javadoc.dir" value="data/api" />
+	<property name="designerui.dir" value="../org.eclipse.birt.report.designer.ui" />
+	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
+	<property name="engine.javadoc.dir" value="engine/api" />
+	<property name="model.dir" value="../org.eclipse.birt.report.model" />
+	<property name="model.javadoc.dir" value="model/api" />
+	<property name="oda.dir" value="../org.eclipse.birt.data.oda" />
+	<property name="oda.javadoc.dir" value="oda/api" />
+	<property name="rotatedtextitem.dir" value="../org.eclipse.birt.sample.reportitem.rotatedtext" />
+
 	<!-- Generate zip for this project.
 		 Input parameters:
 		 	eclipse.home
@@ -113,9 +116,17 @@
 			 		- ${plugin.version} the version of plugin exported
 	-->
 	<target name="Export">
-	  	<copy todir="${export.dir}/${module.name}_${plugin.version}">
-	        <fileset dir="." includes="plugin.xml,.project,*Toc.xml,doc.zip,about.html,notices.html"/>
-	    </copy>
+	  <copy todir="${export.dir}/${module.name}_${plugin.version}">
+	    <fileset dir="." includes="plugin.xml,.project,*Toc.xml,doc.zip,about.html,notices.html"/>
+	  </copy>
+	  <!-- Copy the BIRT examples plugins.
+	   -->
+    <copy todir="${export.dir}/${module.name}_${plugin.version}/Samples/org.eclipse.birt.chart.examples" failonerror="false">
+      <fileset dir="${chartexamples.dir}"/>
+    </copy>
+    <copy todir="${export.dir}/${module.name}_${plugin.version}/Samples/org.eclipse.birt.sample.reportitem.rotatedtext" failonerror="false">
+      <fileset dir="${rotatedtextitem.dir}"/>
+    </copy>
 	</target>
 
 	<!-- Run Unit test.
@@ -226,7 +237,7 @@
     <copy todir="./ref/ext" failonerror="false">
       <fileset dir="${chartui.dir}/schema/doc"/>
     </copy>
-	</target>
+  </target>
 	
 </project>
 
