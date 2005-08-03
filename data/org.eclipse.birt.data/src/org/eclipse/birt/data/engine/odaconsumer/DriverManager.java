@@ -149,7 +149,7 @@ class DriverManager
 		return driver;
 	}
 	
-	private Hashtable getLoadedDrivers()
+	Hashtable getLoadedDrivers()
 	{
 		if( m_loadedDrivers == null )
 			m_loadedDrivers = new Hashtable();
