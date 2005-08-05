@@ -91,7 +91,7 @@ public class LineChart extends DefaultChartTypeImpl
 
 	public LineChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/full/obj16/linecharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/linecharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -139,15 +139,15 @@ public class LineChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStacked = UIHelper.getImage( "icons/full/wizban/stackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/full/wizban/percentstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/full/wizban/sidebysidelinechartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/stackedlinechartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedlinechartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysidelinechartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStacked = UIHelper.getImage( "icons/full/wizban/horizontalstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/full/wizban/horizontalpercentstackedlinechartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/full/wizban/horizontalsidebysidelinechartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedlinechartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedlinechartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidelinechartimage.gif" ); //$NON-NLS-1$
 			}
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStacked, sStackedDescription ) ); //$NON-NLS-1$
@@ -159,15 +159,15 @@ public class LineChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/full/wizban/stackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/full/wizban/percentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/full/wizban/sidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalpercentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalsidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
 
 			}
 
@@ -179,7 +179,7 @@ public class LineChart extends DefaultChartTypeImpl
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			imgSideBySide3D = UIHelper.getImage( "icons/full/wizban/sidebysidelinechart3dimage.gif" ); //$NON-NLS-1$
+			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidelinechart3dimage.gif" ); //$NON-NLS-1$
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
 		}

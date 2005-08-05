@@ -201,21 +201,21 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnBold = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBBold = new GridData(GridData.FILL_HORIZONTAL);
         btnBold.setLayoutData(gdBBold);
-        btnBold.setImage(UIHelper.getImage("icons/full/obj16/fnt_style_bold.gif")); //$NON-NLS-1$
+        btnBold.setImage(UIHelper.getImage("icons/obj28/fnt_style_bold.gif")); //$NON-NLS-1$
         btnBold.addSelectionListener(this);
         btnBold.setSelection(fdCurrent.isBold());
 
         btnItalic = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBItalic = new GridData(GridData.FILL_HORIZONTAL);
         btnItalic.setLayoutData(gdBItalic);
-        btnItalic.setImage(UIHelper.getImage("icons/full/obj16/fnt_style_italic.gif")); //$NON-NLS-1$
+        btnItalic.setImage(UIHelper.getImage("icons/obj28/fnt_style_italic.gif")); //$NON-NLS-1$
         btnItalic.addSelectionListener(this);
         btnItalic.setSelection(fdCurrent.isItalic());
 
         btnUnderline = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBUnderline = new GridData(GridData.FILL_HORIZONTAL);
         btnUnderline.setLayoutData(gdBUnderline);
-        btnUnderline.setImage(UIHelper.getImage("icons/full/obj16/fnt_style_underline.gif")); //$NON-NLS-1$
+        btnUnderline.setImage(UIHelper.getImage("icons/obj28/fnt_style_underline.gif")); //$NON-NLS-1$
         btnUnderline.addSelectionListener(this);
         btnUnderline.setSelection(fdCurrent.isUnderline());
 
@@ -288,7 +288,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopLeft = new GridData(GridData.FILL_BOTH);
         btnATopLeft.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignTopLeft")); //$NON-NLS-1$
-        btnATopLeft.setImage(UIHelper.getImage("icons/full/obj16/alignmenttopleft.gif")); //$NON-NLS-1$
+        btnATopLeft.setImage(UIHelper.getImage("icons/obj28/alignmenttopleft.gif")); //$NON-NLS-1$
         btnATopLeft.setLayoutData(gdBATopLeft);
         btnATopLeft.addSelectionListener(this);
         btnATopLeft.getImage().setBackground(btnATopLeft.getBackground());
@@ -296,7 +296,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopCenter = new GridData(GridData.FILL_BOTH);
         btnATopCenter.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignTopCenter")); //$NON-NLS-1$
-        btnATopCenter.setImage(UIHelper.getImage("icons/full/obj16/alignmenttopcenter.gif")); //$NON-NLS-1$
+        btnATopCenter.setImage(UIHelper.getImage("icons/obj28/alignmenttopcenter.gif")); //$NON-NLS-1$
         btnATopCenter.setLayoutData(gdBATopCenter);
         btnATopCenter.addSelectionListener(this);
         btnATopCenter.getImage().setBackground(btnATopCenter.getBackground());
@@ -304,7 +304,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnATopRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBATopRight = new GridData(GridData.FILL_BOTH);
         btnATopRight.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignTopRight")); //$NON-NLS-1$
-        btnATopRight.setImage(UIHelper.getImage("icons/full/obj16/alignmenttopright.gif")); //$NON-NLS-1$
+        btnATopRight.setImage(UIHelper.getImage("icons/obj28/alignmenttopright.gif")); //$NON-NLS-1$
         btnATopRight.setLayoutData(gdBATopRight);
         btnATopRight.addSelectionListener(this);
         btnATopRight.getImage().setBackground(btnATopRight.getBackground());
@@ -312,7 +312,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenterLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterLeft = new GridData(GridData.FILL_BOTH);
         btnACenterLeft.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignCenterLeft")); //$NON-NLS-1$
-        btnACenterLeft.setImage(UIHelper.getImage("icons/full/obj16/alignmentcenterleft.gif")); //$NON-NLS-1$
+        btnACenterLeft.setImage(UIHelper.getImage("icons/obj28/alignmentcenterleft.gif")); //$NON-NLS-1$
         btnACenterLeft.setLayoutData(gdBACenterLeft);
         btnACenterLeft.addSelectionListener(this);
         btnACenterLeft.getImage().setBackground(btnACenterLeft.getBackground());
@@ -320,7 +320,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenter = new GridData(GridData.FILL_BOTH);
         btnACenter.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignCenter")); //$NON-NLS-1$
-        btnACenter.setImage(UIHelper.getImage("icons/full/obj16/alignmentcenter.gif")); //$NON-NLS-1$
+        btnACenter.setImage(UIHelper.getImage("icons/obj28/alignmentcenter.gif")); //$NON-NLS-1$
         btnACenter.setLayoutData(gdBACenter);
         btnACenter.addSelectionListener(this);
         btnACenter.getImage().setBackground(btnACenter.getBackground());
@@ -328,7 +328,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnACenterRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBACenterRight = new GridData(GridData.FILL_BOTH);
         btnACenterRight.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignCenterRight")); //$NON-NLS-1$
-        btnACenterRight.setImage(UIHelper.getImage("icons/full/obj16/alignmentcenterright.gif")); //$NON-NLS-1$
+        btnACenterRight.setImage(UIHelper.getImage("icons/obj28/alignmentcenterright.gif")); //$NON-NLS-1$
         btnACenterRight.setLayoutData(gdBACenterRight);
         btnACenterRight.addSelectionListener(this);
         btnACenterRight.getImage().setBackground(btnACenterRight.getBackground());
@@ -336,7 +336,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomLeft = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomLeft = new GridData(GridData.FILL_BOTH);
         btnABottomLeft.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignBottomLeft")); //$NON-NLS-1$
-        btnABottomLeft.setImage(UIHelper.getImage("icons/full/obj16/alignmentbottomleft.gif")); //$NON-NLS-1$
+        btnABottomLeft.setImage(UIHelper.getImage("icons/obj28/alignmentbottomleft.gif")); //$NON-NLS-1$
         btnABottomLeft.setLayoutData(gdBABottomLeft);
         btnABottomLeft.addSelectionListener(this);
         btnABottomLeft.getImage().setBackground(btnABottomLeft.getBackground());
@@ -344,7 +344,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomCenter = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomCenter = new GridData(GridData.FILL_BOTH);
         btnABottomCenter.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignBottomCenter")); //$NON-NLS-1$
-        btnABottomCenter.setImage(UIHelper.getImage("icons/full/obj16/alignmentbottomcenter.gif")); //$NON-NLS-1$
+        btnABottomCenter.setImage(UIHelper.getImage("icons/obj28/alignmentbottomcenter.gif")); //$NON-NLS-1$
         btnABottomCenter.setLayoutData(gdBABottomCenter);
         btnABottomCenter.addSelectionListener(this);
         btnABottomCenter.getImage().setBackground(btnABottomCenter.getBackground());
@@ -352,7 +352,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnABottomRight = new Button(cmpAlignment, SWT.RADIO);
         GridData gdBABottomRight = new GridData(GridData.FILL_BOTH);
         btnABottomRight.setToolTipText(Messages.getString("FontDefinitionDialog.Tooltip.AlignBottomRight")); //$NON-NLS-1$
-        btnABottomRight.setImage(UIHelper.getImage("icons/full/obj16/alignmentbottomright.gif")); //$NON-NLS-1$
+        btnABottomRight.setImage(UIHelper.getImage("icons/obj28/alignmentbottomright.gif")); //$NON-NLS-1$
         btnABottomRight.setLayoutData(gdBABottomRight);
         btnABottomRight.addSelectionListener(this);
         btnABottomRight.getImage().setBackground(btnABottomRight.getBackground());

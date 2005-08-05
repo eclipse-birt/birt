@@ -73,7 +73,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 	public PieChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/full/obj16/piecharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/piecharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -124,14 +124,14 @@ public class PieChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			img2D = UIHelper.getImage( "icons/full/wizban/piechartimage.gif" ); //$NON-NLS-1$
+			img2D = UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Pie Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
-			img2DWithDepth = UIHelper.getImage( "icons/full/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
+			img2DWithDepth = UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Pie Chart", img2DWithDepth, sStandardDescription ) ); //$NON-NLS-1$
 		}

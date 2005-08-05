@@ -37,7 +37,7 @@ public class ReportPlatformUIImages
 	 * Declares Common paths
 	 */
 
-	public final static String ICONS_PATH = "icons/full/";//$NON-NLS-1$
+	public final static String ICONS_PATH = "icons/";//$NON-NLS-1$
 	
 	public final static String DOBJ16_PATH = "dobj16/";//$NON-NLS-1$
 	public final static String DTOOL16_PATH = "dtool16/";//$NON-NLS-1$

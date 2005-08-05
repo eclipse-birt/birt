@@ -78,7 +78,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 
 	public ScatterChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/full/obj16/scattercharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/scattercharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -126,11 +126,11 @@ public class ScatterChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				img2D = UIHelper.getImage( "icons/full/wizban/scatterchartimage.gif" ); //$NON-NLS-1$
+				img2D = UIHelper.getImage( "icons/wizban/scatterchartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				img2D = UIHelper.getImage( "icons/full/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
+				img2D = UIHelper.getImage( "icons/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
 			}
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Scatter Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$

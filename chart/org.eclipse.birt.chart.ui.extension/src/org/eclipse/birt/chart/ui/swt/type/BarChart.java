@@ -88,7 +88,7 @@ public class BarChart extends DefaultChartTypeImpl
 
 	public BarChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/full/obj16/barcharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/barcharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -136,15 +136,15 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStacked = UIHelper.getImage( "icons/full/wizban/stackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/full/wizban/percentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/full/wizban/sidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/stackedbarchartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedbarchartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysidebarchartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStacked = UIHelper.getImage( "icons/full/wizban/horizontalstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/full/wizban/horizontalpercentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/full/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
 			}
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStacked, sStackedDescription ) ); //$NON-NLS-1$
@@ -156,15 +156,15 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/full/wizban/stackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/full/wizban/percentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/full/wizban/sidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/full/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStackedWithDepth, sStackedDescription ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
@@ -176,11 +176,11 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgSideBySide3D = UIHelper.getImage( "icons/full/wizban/sidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
+				imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgSideBySide3D = UIHelper.getImage( "icons/full/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
+				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sSideBySideDescription ) ); //$NON-NLS-1$
 		}
