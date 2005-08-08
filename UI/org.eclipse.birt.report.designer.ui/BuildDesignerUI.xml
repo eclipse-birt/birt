@@ -172,6 +172,7 @@
 				<include name="icons\**"/>
 				<include name="templates\**"/>
 				<include name="schema\*.exsd"/>
+				<include name="schema\doc\*.*"/>
 				<include name="About.html"/>
 				<include name="nl\**\*"/> 
 			</fileset>
