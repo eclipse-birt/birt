@@ -64,7 +64,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.29 $ $Date: 2005/07/04 09:06:16 $
+ * @version $Revision: 1.30 $ $Date: 2005/07/11 05:55:42 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -570,7 +570,10 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	 */
 	public ReportElementHandle getItemDesign( )
 	{
-		assert !reportItems.isEmpty( );
+		if(reportItems.empty())
+		{
+			return null;
+		}
 		return (ReportElementHandle) reportItems.peek( );
 	}
 
@@ -918,11 +921,19 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 		public String getType( )
 		{
+			if(element==null)
+			{
+				return "report";
+			}
 			return element.getDefn( ).getName( );
 		}
 
 		public String getElementInfo( )
 		{
+			if(element==null)
+			{
+				return "report";
+			}
 			return element.getName( );
 		}
 
