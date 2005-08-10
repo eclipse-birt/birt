@@ -11,15 +11,15 @@
        <topic label="Chart User Interface API Reference" href="chartui/api/index.html"/>
     </topic>
     <topic label="Extension Points Reference" >
-      <topic label="org_eclipse_birt_chart_engine_aggregatefunctions" href="ref/ext/org_eclipse_birt_chart_engine_aggregatefunctions.htm" />
-      <topic label="org_eclipse_birt_chart_engine_datasetprocessors" href="ref/ext/org_eclipse_birt_chart_engine_datasetprocessors.htm" />
-      <topic label="org_eclipse_birt_chart_engine_devicerenderers" href="ref/ext/org_eclipse_birt_chart_engine_devicerenderers.htm" />
-      <topic label="org_eclipse_birt_chart_engine_renderers" href="ref/ext/org_eclipse_birt_chart_engine_renderers.htm" />
-      <topic label="org_eclipse_birt_chart_engine_xservers" href="ref/ext/org_eclipse_birt_chart_engine_xservers.htm" />
-      <topic label="org_eclipse_birt_chart_ui_changelisteners" href="ref/ext/org_eclipse_birt_chart_ui_changelisteners.htm" />
-      <topic label="org_eclipse_birt_chart_ui_seriescomposites" href="ref/ext/org_eclipse_birt_chart_ui_seriescomposites.htm" />
-      <topic label="org_eclipse_birt_chart_ui_types" href="ref/ext/org_eclipse_birt_chart_ui_types.htm" />
-      <topic label="org_eclipse_birt_chart_ui_uisheets" href="ref/ext/org_eclipse_birt_chart_ui_uisheets.htm" />
+      <topic label="org_eclipse_birt_chart_engine_aggregatefunctions" href="ref/ext/org.eclipse.birt.chart.engine.aggregatefunctions.html" />
+      <topic label="org_eclipse_birt_chart_engine_datasetprocessors" href="ref/ext/org.eclipse.birt.chart.engine.datasetprocessors.html" />
+      <topic label="org_eclipse_birt_chart_engine_devicerenderers" href="ref/ext/org.eclipse.birt.chart.engine.devicerenderers.html" />
+      <topic label="org_eclipse_birt_chart_engine_renderers" href="ref/ext/org.eclipse.birt.chart.engine.renderers.html" />
+      <topic label="org_eclipse_birt_chart_engine_xservers" href="ref/ext/org.eclipse.birt.chart.engine.xservers.html" />
+      <topic label="org_eclipse_birt_chart_ui_changelisteners" href="ref/ext/org.eclipse.birt.chart.ui.changelisteners.html" />
+      <topic label="org_eclipse_birt_chart_ui_seriescomposites" href="ref/ext/org.eclipse.birt.chart.ui.seriescomposites.html" />
+      <topic label="org_eclipse_birt_chart_ui_types" href="ref/ext/org.eclipse.birt.chart.ui.types.html" />
+      <topic label="org_eclipse_birt_chart_ui_uisheets" href="ref/ext/org.eclipse.birt.chart.ui.uisheets.html" />
       <topic label="org_eclipse_birt_data_oda_dataSource" href="ref/ext/org_eclipse_birt_data_oda_datasource.html" />
       <topic label="org_eclipse_birt_report_designer_ui_datasource" href="ref/ext/org_eclipse_birt_report_designer_ui_datasource.html" />
       <topic label="org_eclipse_birt_report_designer_ui_reportitemUI" href="ref/ext/org_eclipse_birt_report_designer_ui_reportitemUI.html" />
@@ -27,8 +27,8 @@
       <topic label="org_eclipse_birt_report_engine_reportitemGeneration" href="ref/ext/org_eclipse_birt_report_engine_reportitemGeneration.html" />
       <topic label="org_eclipse_birt_report_engine_reportitemPresentation" href="ref/ext/org_eclipse_birt_report_engine_reportitemPresentation.html" />
       <topic label="org_eclipse_birt_report_engine_reportitemQuery" href="ref/ext/org_eclipse_birt_report_engine_reportitemQuery.html" />
-      <topic label="org_eclipse_birt_report_model_encryptionHelper" href="ref/ext/org_eclipse_birt_report_model_encryptionHelper.htm" />
-      <topic label="org_eclipse_birt_report_model_reportItemModel" href="ref/ext/org_eclipse_birt_report_model_reportItemModel.htm" />
+      <topic label="org_eclipse_birt_report_model_encryptionHelper" href="ref/ext/org_eclipse_birt_report_model_encryptionHelper.html" />
+      <topic label="org_eclipse_birt_report_model_reportItemModel" href="ref/ext/org_eclipse_birt_report_model_reportItem.html" />
     </topic>
   </topic>
 </toc>

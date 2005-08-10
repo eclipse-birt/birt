@@ -232,6 +232,9 @@
       <fileset dir="${engine.dir}/schema/doc"/>
     </copy>
     <copy todir="./ref/ext" failonerror="false">
+      <fileset dir="${model.dir}/schema/doc"/>
+    </copy>
+    <copy todir="./ref/ext" failonerror="false">
       <fileset dir="${chartengine.dir}/schema/doc"/>
     </copy>
     <copy todir="./ref/ext" failonerror="false">
