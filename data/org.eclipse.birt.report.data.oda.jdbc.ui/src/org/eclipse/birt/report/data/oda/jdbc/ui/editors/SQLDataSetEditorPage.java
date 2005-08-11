@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.20 $ $Date: 2005/07/21 10:30:02 $
+ * @version $Revision: 1.21 $ $Date: 2005/08/11 06:10:55 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -196,12 +196,35 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 		createTextualQueryComposite(splitter);
 
-		splitter.setWeights( new int[]{
-				35,65
-		} );
-
+		setSplitterWeights( splitter );
 			
 		return splitter;
+	}
+	
+	/**
+	 * Sets Splitter Weights.
+	 * In Eclipse 3.0.1, the comptuersize of splitter is not correct,
+	 * so set weights with default value 40,60.  
+	 * @param splitter
+	 */
+	private void setSplitterWeights(Splitter splitter) {
+		int leftWidth = splitter.getChildren( )[0].computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x;
+		int totalWidth = splitter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		if ( (double) leftWidth / (double) totalWidth > 0.4 )
+		{
+			//if left side is too wide, set it to default value 40:60
+			splitter.setWeights( new int[]{
+					40, 60
+			} );
+		}
+		else
+		{
+			splitter.setWeights( new int[]{
+					leftWidth, totalWidth - leftWidth
+			} );
+		}
+		
 	}
 	
 	/**
