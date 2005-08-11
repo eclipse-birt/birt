@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.eclipse.birt.report.designer.ui.ide"
+   name="BIRT Designer UI for IDE"
+   version="2.0.0"
+   provider-name="Eclipse.org"
+   >
+
+   <runtime>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+   </requires>
+   
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.birt.report.designer.ui.editors.IDEReportEditor"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
+            contributorClass="org.eclipse.birt.report.designer.ui.actions.DesignerActionBarContributor"
+            name="%ReportEditor"
+            id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
+            extensions="rptdesign"/>  
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report_perspective.gif"
+            class="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            name="%ReportPerspective"
+            id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+      </perspectiveExtension>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="%WizardCategoryName"
+            id="org.eclipse.birt.report.designer.ui.wizard.category"/>
+      <wizard
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report.gif"
+            class="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="false"
+            name="%ReportWizard"
+            id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard">
+      <description>%ReportWizardDescription</description>
+      </wizard>
+      <wizard
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            class="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportProjectWizard"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report_project.gif"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="true"
+            name="%ReportProjectWizard"
+            id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportProjectWizard">
+      <description>%ReportProjectWizardDescription</description>
+      </wizard>
+   </extension>              
+
+</plugin>

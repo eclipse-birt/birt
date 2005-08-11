@@ -17,8 +17,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
-import org.eclipse.birt.report.designer.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -177,7 +177,7 @@ public abstract class StackWindowAction
 				IEditorPart editor = refs[j].getEditor( false );
 
 				if ( editor != null
-						&& editor.getEditorInput( ) instanceof ReportEditorInput )
+						&& editor.getEditorInput( ) instanceof IReportEditorInput )
 				{
 					if ( editor instanceof ReportEditor )
 					{
