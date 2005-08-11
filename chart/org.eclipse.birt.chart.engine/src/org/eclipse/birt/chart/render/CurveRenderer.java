@@ -34,7 +34,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 /**
  * CurveRenderer
  */
-final class CurveRenderer
+public final class CurveRenderer
 {
 
 	/**
@@ -143,7 +143,7 @@ final class CurveRenderer
 	 * @param _faX
 	 * @param _faY
 	 */
-	CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
+	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
 			LineAttributes _lia, float[] _faX, float[] _faY,
 			boolean _bShowAsTape, boolean _bDeferred, boolean _bKeepState )
 	{
@@ -169,7 +169,7 @@ final class CurveRenderer
 	 * @param _faY
 	 * @param _bShowAsTape
 	 */
-	CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
+	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
 			LineAttributes _lia, float[] _faX, float[] _faY,
 			float _zeroLocation, boolean _bShowAsTape, boolean _bFillArea,
 			boolean _bTranslucent, boolean _bUseLastState, boolean _bDeferred,
