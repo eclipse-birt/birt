@@ -452,29 +452,29 @@ public class ExpressionBuilder extends BaseDialog
 				});
 		
 		//create actions for context menu and short cut keys
-		ResourceBundle bundle = ResourceBundle.getBundle( "org.eclipse.ui.texteditor.EditorMessages" );//$NON-NLS-1$
+		ResourceBundle bundle = ResourceBundle.getBundle( "org.eclipse.birt.report.designer.nls.messages" );//$NON-NLS-1$
 		final TextEditorAction undoAction = new EBTextAction( bundle,
-				"Editor.Undo.",//$NON-NLS-1$
+				"TextAreaContextMenu.Undo.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.UNDO );
 		final TextEditorAction redoAction = new EBTextAction( bundle,
-				"Editor.Redo.",//$NON-NLS-1$
+				"TextAreaContextMenu.Redo.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.REDO );
 		final TextEditorAction cutAction = new EBTextAction( bundle,
-				"Editor.Cut.",//$NON-NLS-1$
+				"TextAreaContextMenu.Cut.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.CUT );
 		final TextEditorAction copyAction = new EBTextAction( bundle,
-				"Editor.Copy.",//$NON-NLS-1$
+				"TextAreaContextMenu.Copy.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.COPY );
 		final TextEditorAction pasteAction = new EBTextAction( bundle,
-				"Editor.Paste.",//$NON-NLS-1$
+				"TextAreaContextMenu.Paste.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.PASTE );
 		final TextEditorAction selectAllAction = new EBTextAction( bundle,
-				"Editor.SelectAll.",//$NON-NLS-1$
+				"TextAreaContextMenu.SelectAll.",//$NON-NLS-1$
 				expressionViewer,
 				ITextOperationTarget.SELECT_ALL );
 
