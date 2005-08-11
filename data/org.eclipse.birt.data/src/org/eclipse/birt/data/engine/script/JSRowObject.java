@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -355,6 +356,7 @@ public class JSRowObject extends ScriptableObject
     		// these two are not updatable
     		return;
     	
+    	value = getRealValue( value );
         try
 		{
         	IResultObject obj = this.getResultObject( );
@@ -393,6 +395,8 @@ public class JSRowObject extends ScriptableObject
 		logger.entering( JSRowObject.class.getName( ),
 				"put",
 				new Integer( index ) );
+		
+		value = getRealValue( value );
         try
 		{
         	IResultObject obj = this.getResultObject( );    	
@@ -417,6 +421,21 @@ public class JSRowObject extends ScriptableObject
 		}
 		logger.exiting( JSRowObject.class.getName( ), "put" );
     }
+    
+    /**
+	 * Value may be wrapped by NativeJavaObject, if so, the real value
+	 * behind it needs to be unwrapped from it.
+	 * 
+	 * @param value
+	 * @return real value
+	 */
+    private static Object getRealValue( Object value )
+	{
+		if ( value instanceof NativeJavaObject )
+			return ( (NativeJavaObject) value ).unwrap( );
+		else
+			return value;
+	}
     
     /** 
      * Sets the value of a custom field

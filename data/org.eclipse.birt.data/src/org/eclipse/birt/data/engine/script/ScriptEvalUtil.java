@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -324,7 +325,10 @@ public class ScriptEvalUtil
 			}
 			else
 			{
-				return Context.toType( inputObj, Object.class );
+		    	if ( inputObj instanceof NativeJavaObject )
+		    		inputObj = ( (NativeJavaObject) inputObj ).unwrap( );
+		    	else
+		    		return Context.toType( inputObj, Object.class );
 			}
 		}
 		else if ( inputObj!= null && inputObj.toString().equalsIgnoreCase("NaN") )
