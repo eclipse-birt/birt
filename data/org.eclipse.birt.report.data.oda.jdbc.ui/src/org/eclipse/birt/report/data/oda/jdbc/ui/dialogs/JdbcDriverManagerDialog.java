@@ -21,6 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -171,10 +174,32 @@ public class JdbcDriverManagerDialog extends Dialog
 					.getBundle( ) );
 			if ( resBundle != null )
 			{
-				String driverPath = viewerBundle.getLocation( ).substring( 7 )
+				String viewerLocation = null;
+				try
+				{
+					URL url = Platform.asLocalURL( viewerBundle.getEntry( "/" ) );
+					try
+					{
+						URI uri = new URI( url.toString( ) );
+						viewerLocation = uri.getPath( );
+					}
+					catch ( URISyntaxException e )
+					{
+						viewerLocation = url.getFile( );
+					}
+				}
+				catch ( Exception e )
+				{
+					viewerLocation = viewerBundle.getLocation( ).substring( 7 );
+				}
+				String driverPath = viewerLocation
 						+ resBundle.getString( VIEWER_DRIVER_PATH_KEY );
-
-				return new File( driverPath );
+				
+				File driverLoc = new File( driverPath );
+				if ( driverLoc.exists( ) == false )
+					driverLoc.mkdir( );
+				
+				return driverLoc;
 			}
 		}
 		return null;
