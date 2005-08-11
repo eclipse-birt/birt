@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.report.data.oda.sampledb.ui"
-   name="BIRT Sample database Ui Plug-in"
+   name="BIRT Sample Database UI Plug-in"
    version="1.0.1"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.report.data.oda.sampledb.ui.plugin.SampledbUIPlugin">
