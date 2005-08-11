@@ -177,7 +177,7 @@ public final class SwingTextMetrics extends TextAdapter
 			 */
 			return Math.max( 0, dMaxWidth );
 		}
-		else
+		else if ( iLineCount == 1 )
 		{
 			double w = tla[0].getBounds( ).getWidth( );
 
@@ -187,6 +187,8 @@ public final class SwingTextMetrics extends TextAdapter
 			 */
 			return Math.max( 0, w );
 		}
+
+		return 0;
 	}
 
 	final double pointsToPixels( )
@@ -245,7 +247,11 @@ public final class SwingTextMetrics extends TextAdapter
 			j = s.indexOf( '\n', i );
 			if ( j == -1 )
 				j = s.length( );
-			al.add( s.substring( i, j ) );
+			String ss = s.substring( i, j ).trim( );
+			if ( ss != null && ss.length( ) > 0 )
+			{
+				al.add( ss );
+			}
 			i = j + 1;
 		} while ( j != -1 && j < s.length( ) );
 

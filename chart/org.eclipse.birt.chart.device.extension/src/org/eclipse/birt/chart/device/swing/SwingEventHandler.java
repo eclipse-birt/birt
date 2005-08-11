@@ -303,8 +303,6 @@ public final class SwingEventHandler implements
 	 */
 	public void mouseExited( MouseEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -314,8 +312,6 @@ public final class SwingEventHandler implements
 	 */
 	public void mousePressed( MouseEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -325,8 +321,6 @@ public final class SwingEventHandler implements
 	 */
 	public void mouseReleased( MouseEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -336,8 +330,6 @@ public final class SwingEventHandler implements
 	 */
 	public void mouseDragged( MouseEvent e )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/*

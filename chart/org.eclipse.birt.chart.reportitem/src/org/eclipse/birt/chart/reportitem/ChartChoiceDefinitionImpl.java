@@ -52,7 +52,6 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
      */
     public String getDisplayNameID()
     {
-        // TODO Auto-generated method stub
         return sDisplayNameID;
     }
 
@@ -63,7 +62,6 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
      */
     public String getName()
     {
-        // TODO Auto-generated method stub
         return sName;
     }
 
@@ -74,7 +72,6 @@ public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
      */
     public Object getValue()
     {
-        // TODO Auto-generated method stub
         return oValue;
     }
 

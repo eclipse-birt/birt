@@ -47,12 +47,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	/**
 	 * 
 	 */
-	private Image _img = null;
+	protected Image _img = null;
 
 	/**
 	 * 
 	 */
-	private Object _oOutputIdentifier = null;
+	protected Object _oOutputIdentifier = null;
 
 	/**
 	 * 
@@ -96,12 +96,50 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		return null;
 	}
 
+	/**
+	 * Returns if the given format type or MIME type is supported by the
+	 * registered JavaxImageIO writers.
+	 * 
+	 * @return
+	 */
+	protected boolean isSupportedByJavaxImageIO( )
+	{
+		boolean supported = false;
+
+		// Search for writers using format type.
+		String s = getFormat( );
+		if ( s != null )
+		{
+			Iterator it = ImageIO.getImageWritersByFormatName( s );
+			if ( it.hasNext( ) )
+			{
+				supported = true;
+			}
+		}
+
+		// Search for writers using MIME type.
+		if ( !supported )
+		{
+			s = getMimeType( );
+			if ( s != null )
+			{
+				Iterator it = ImageIO.getImageWritersByMIMEType( s );
+				if ( it.hasNext( ) )
+				{
+					supported = true;
+				}
+			}
+		}
+
+		return supported;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#before()
 	 */
-	public final void before( ) throws ChartException
+	public void before( ) throws ChartException
 	{
 		super.before( );
 		_bImageExternallySpecified = ( _img != null );
@@ -133,7 +171,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
-	public final void after( ) throws ChartException
+	public void after( ) throws ChartException
 	{
 		super.after( );
 
