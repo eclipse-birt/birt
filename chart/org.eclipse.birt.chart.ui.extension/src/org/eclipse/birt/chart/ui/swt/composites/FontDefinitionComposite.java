@@ -167,7 +167,7 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
         Object oSource = e.getSource();
         if (oSource.equals(btnEllipsis))
         {
-            // TODO: Launch the font selection dialog
+            // Launch the font selection dialog
             FontDefinitionDialog fontDlg = new FontDefinitionDialog(this.getShell(), fdCurrent, cdCurrent);
             fdCurrent = fontDlg.getFontDefinition();
             cdCurrent = fontDlg.getFontColor();
@@ -184,8 +184,6 @@ public class FontDefinitionComposite extends Composite implements SelectionListe
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 
     private void fireEvent()

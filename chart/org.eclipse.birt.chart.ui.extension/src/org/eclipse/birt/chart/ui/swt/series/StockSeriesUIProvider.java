@@ -32,7 +32,6 @@ public class StockSeriesUIProvider implements ISeriesUIProvider
     public StockSeriesUIProvider()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /*

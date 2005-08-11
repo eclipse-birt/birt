@@ -151,7 +151,5 @@ public class FormatSpecifierDialog implements SelectionListener
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 }

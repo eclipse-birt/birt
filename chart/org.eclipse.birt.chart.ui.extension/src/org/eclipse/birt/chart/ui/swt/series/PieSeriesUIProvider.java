@@ -36,7 +36,6 @@ public class PieSeriesUIProvider implements ISeriesUIProvider
     public PieSeriesUIProvider()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /*

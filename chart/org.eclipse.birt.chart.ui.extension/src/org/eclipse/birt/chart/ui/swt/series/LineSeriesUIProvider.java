@@ -36,7 +36,6 @@ public class LineSeriesUIProvider implements ISeriesUIProvider
     public LineSeriesUIProvider()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /*

@@ -233,8 +233,6 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 
     /*

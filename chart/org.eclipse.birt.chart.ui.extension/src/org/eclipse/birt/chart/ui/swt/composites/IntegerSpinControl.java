@@ -259,8 +259,6 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 
     public Point getPreferredSize()

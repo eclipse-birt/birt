@@ -654,8 +654,6 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 
     /*

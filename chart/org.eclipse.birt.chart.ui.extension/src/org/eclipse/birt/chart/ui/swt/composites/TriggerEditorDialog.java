@@ -144,7 +144,5 @@ public class TriggerEditorDialog implements SelectionListener
      */
     public void widgetDefaultSelected(SelectionEvent e)
     {
-        // TODO Auto-generated method stub
-
     }
 }
