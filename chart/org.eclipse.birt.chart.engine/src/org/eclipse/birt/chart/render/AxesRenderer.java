@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.render;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -57,6 +59,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
@@ -64,6 +67,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
@@ -82,7 +86,10 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.Lowess;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Provides a base framework for custom series rendering extensions that are
@@ -441,22 +448,358 @@ public abstract class AxesRenderer extends BaseRenderer
 			case Anchor.SOUTH_WEST :
 				ta.setVerticalAlignment( VerticalAlignment.BOTTOM_LITERAL );
 				break;
+			default :
+				ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
 		}
 
 		// SETUP HORIZONTAL ALIGNMENT
 		switch ( anc.getValue( ) )
 		{
+			case Anchor.EAST :
 			case Anchor.NORTH_EAST :
 			case Anchor.SOUTH_EAST :
 				ta.setHorizontalAlignment( HorizontalAlignment.RIGHT_LITERAL );
 				break;
+			case Anchor.WEST :
 			case Anchor.NORTH_WEST :
 			case Anchor.SOUTH_WEST :
 				ta.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
 				break;
+			default :
+				ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 		}
 
 		return ta;
+	}
+
+	private void sort( float[] a, float[] b, final boolean sortFirstArray )
+	{
+		float[][] sa = new float[a.length][2];
+
+		for ( int i = 0; i < a.length; i++ )
+		{
+			float[] ca = new float[2];
+
+			ca[0] = a[i];
+			ca[1] = b[i];
+
+			sa[i] = ca;
+		}
+
+		Arrays.sort( sa, new Comparator( ) {
+
+			public int compare( Object o1, Object o2 )
+			{
+				float[] l1 = (float[]) o1;
+				float[] l2 = (float[]) o2;
+
+				if ( sortFirstArray )
+				{
+					if ( l1[0] == l2[0] )
+					{
+						return 0;
+					}
+
+					if ( l1[0] < l2[0] )
+					{
+						return -1;
+					}
+				}
+				else
+				{
+					if ( l1[1] == l2[1] )
+					{
+						return 0;
+					}
+
+					if ( l1[1] < l2[1] )
+					{
+						return -1;
+					}
+				}
+
+				return 1;
+			}
+		} );
+
+		for ( int i = 0; i < a.length; i++ )
+		{
+			a[i] = sa[i][0];
+			b[i] = sa[i][1];
+		}
+
+	}
+
+	/**
+	 * Renders the FittingCurve if defined for supported series.
+	 * 
+	 * @param ipr
+	 * @param points
+	 * @param curve
+	 * @param bDeferred
+	 * @throws ChartException
+	 */
+	protected final void renderFittingCurve( IPrimitiveRenderer ipr,
+			Location[] points, CurveFitting curve, boolean bShowAsTape,
+			boolean bDeferred ) throws ChartException
+	{
+		if ( !curve.getLineAttributes( ).isSetVisible( ) )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.RENDERING,
+					"exception.curve.line.visibility.not.defined", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE,
+							getRunTimeContext( ).getLocale( ) ) );
+		}
+
+		boolean isTransposed = ( (ChartWithAxes) getModel( ) ).isTransposed( );
+
+		if ( curve.getLineAttributes( ).isVisible( ) )
+		{
+			// Render curve.
+			float[] xArray = new float[points.length];
+			float[] yArray = new float[points.length];
+
+			for ( int i = 0; i < xArray.length; i++ )
+			{
+				xArray[i] = (float) points[i].getX( );
+				yArray[i] = (float) points[i].getY( );
+			}
+
+			sort( xArray, yArray, !isTransposed );
+
+			float[] baseArray = xArray, orthogonalArray = yArray;
+
+			if ( isTransposed )
+			{
+				baseArray = yArray;
+				orthogonalArray = xArray;
+			}
+
+			Lowess ls = new Lowess( baseArray, orthogonalArray, 0.33f );
+
+			float[] fitYarray = ls.getYEst( );
+
+			orthogonalArray = fitYarray;
+
+			if ( isTransposed )
+			{
+				baseArray = fitYarray;
+				orthogonalArray = yArray;
+
+				sort( baseArray, orthogonalArray, false );
+			}
+
+			CurveRenderer crdr = new CurveRenderer( (ChartWithAxes) getModel( ),
+					this,
+					curve.getLineAttributes( ),
+					baseArray,
+					orthogonalArray,
+					bShowAsTape,
+					bDeferred,
+					false );
+			crdr.draw( ipr );
+
+			// Render curve label.
+			if ( curve.getLabel( ).isSetVisible( )
+					&& curve.getLabel( ).isVisible( ) )
+			{
+				Label lb = curve.getLabel( );
+
+				if ( isTransposed )
+				{
+					// transpose text angel.
+					lb = (Label) EcoreUtil.copy( lb );
+
+					double rot = lb.getCaption( ).getFont( ).getRotation( );
+
+					if ( rot >= 0 && rot <= 90 )
+					{
+						rot = -( 90 - rot );
+					}
+					else if ( rot < 0 && rot >= -90 )
+					{
+						rot = ( rot + 90 );
+					}
+
+					lb.getCaption( ).getFont( ).setRotation( rot );
+				}
+
+				BoundingBox bb = Methods.computeBox( getXServer( ),
+						IConstants.LEFT/* DONT-CARE */,
+						lb,
+						0,
+						0 );
+
+				Anchor lbPosition = curve.getLabelAnchor( );
+
+				if ( lbPosition == null )
+				{
+					lbPosition = Anchor.NORTH_LITERAL;
+				}
+
+				int horizontal = IConstants.CENTER;
+				int vertical = IConstants.ABOVE;
+
+				// convert anchor to position.
+				switch ( lbPosition.getValue( ) )
+				{
+					case Anchor.WEST :
+					case Anchor.NORTH_WEST :
+					case Anchor.SOUTH_WEST :
+						horizontal = IConstants.LEFT;
+						break;
+					case Anchor.NORTH :
+					case Anchor.SOUTH :
+						horizontal = IConstants.CENTER;
+						break;
+					case Anchor.EAST :
+					case Anchor.NORTH_EAST :
+					case Anchor.SOUTH_EAST :
+						horizontal = IConstants.RIGHT;
+						break;
+				}
+
+				switch ( lbPosition.getValue( ) )
+				{
+					case Anchor.NORTH :
+					case Anchor.NORTH_WEST :
+					case Anchor.NORTH_EAST :
+					case Anchor.WEST :
+					case Anchor.EAST :
+						vertical = IConstants.ABOVE;
+						break;
+					case Anchor.SOUTH :
+					case Anchor.SOUTH_WEST :
+					case Anchor.SOUTH_EAST :
+						vertical = IConstants.BELOW;
+						break;
+				}
+
+				double xc, yc;
+
+				if ( isTransposed )
+				{
+					if ( horizontal == IConstants.LEFT )
+					{
+						yc = orthogonalArray[orthogonalArray.length - 1]
+								- bb.getHeight( );
+					}
+					else if ( horizontal == IConstants.RIGHT )
+					{
+						yc = orthogonalArray[0] + bb.getHeight()/2d;
+					}
+					else
+					{
+						yc = orthogonalArray[0]
+								+ ( orthogonalArray[orthogonalArray.length - 1] - orthogonalArray[0] )
+								/ 2d;
+					}
+
+					xc = getFitYPosition( orthogonalArray,
+							baseArray,
+							yc,
+							bb.getHeight( ),
+							bb.getWidth( ),
+							vertical == IConstants.BELOW );
+				}
+				else
+				{
+					if ( horizontal == IConstants.LEFT )
+					{
+						xc = xArray[0];
+					}
+					else if ( horizontal == IConstants.RIGHT )
+					{
+						xc = xArray[xArray.length - 1] - bb.getWidth( );
+					}
+					else
+					{
+						xc = xArray[0]
+								+ ( xArray[xArray.length - 1] - xArray[0] )
+								/ 2d;
+					}
+
+					yc = getFitYPosition( xArray,
+							fitYarray,
+							xc,
+							bb.getWidth( ),
+							bb.getHeight( ),
+							vertical == IConstants.ABOVE );
+				}
+
+				bb.setLeft( xc );
+				bb.setTop( yc );
+
+				if ( ChartUtil.isShadowDefined( lb ) )
+				{
+					renderLabel( this,
+							TextRenderEvent.RENDER_SHADOW_AT_LOCATION,
+							lb,
+							Position.RIGHT_LITERAL,
+							LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
+							BoundsImpl.create( bb.getLeft( ),
+									bb.getTop( ),
+									bb.getWidth( ),
+									bb.getHeight( ) ) );
+				}
+
+				renderLabel( this,
+						TextRenderEvent.RENDER_TEXT_AT_LOCATION,
+						lb,
+						Position.RIGHT_LITERAL,
+						LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
+						BoundsImpl.create( bb.getLeft( ),
+								bb.getTop( ),
+								bb.getWidth( ),
+								bb.getHeight( ) ) );
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param xa
+	 *            xa must be sorted from smallest to largest.
+	 * @param ya
+	 * @param center
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	private double getFitYPosition( float[] xa, float[] ya, double center,
+			double width, double height, boolean above )
+	{
+		int gap = 10;
+		int startX = 0, endX = xa.length - 1;
+		for ( int i = 0; i < xa.length; i++ )
+		{
+			if ( xa[i] >= center - width / 2d )
+			{
+				startX = ( i > 0 ) ? ( i - 1 ) : 0;
+				break;
+			}
+		}
+
+		for ( int i = 0; i < xa.length; i++ )
+		{
+			if ( xa[i] >= center + width / 2d )
+			{
+				endX = i;
+				break;
+			}
+		}
+
+		double yc = above ? Double.MAX_VALUE : 0;
+		for ( int i = startX; i <= endX; i++ )
+		{
+			yc = above ? Math.min( yc, ya[i] ) : Math.max( yc, ya[i] );
+		}
+
+		return above ? ( yc - height - gap ) : ( yc + gap );
 	}
 
 	/**
@@ -893,7 +1236,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							new Integer( iCount )
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								getRunTimeContext( ).getLocale( ) ) );
 			}
 
 			AutoScale sc = oaxa[i].getScale( );
@@ -1165,6 +1508,11 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
+		if ( !p.isVisible( ) ) // CHECK VISIBILITY
+		{
+			return;
+		}
+
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 

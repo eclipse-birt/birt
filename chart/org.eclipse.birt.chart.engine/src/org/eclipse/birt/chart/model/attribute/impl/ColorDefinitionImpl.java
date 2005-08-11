@@ -773,11 +773,11 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		{
 			return ColorDefinitionImpl.create( i, i, i, a );
 		}
-		if ( r > 0 && r < i )
+		if ( r >= 0 && r < i )
 			r = i;
-		if ( g > 0 && g < i )
+		if ( g >= 0 && g < i )
 			g = i;
-		if ( b > 0 && b < i )
+		if ( b >= 0 && b < i )
 			b = i;
 
 		return ColorDefinitionImpl.create( Math.min( (int) ( r / FACTOR ), 255 ),

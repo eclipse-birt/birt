@@ -36,6 +36,9 @@
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Scatter"
             series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
+      <modelRenderer
+            renderer="org.eclipse.birt.chart.render.Area"
+            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.datasetprocessors">

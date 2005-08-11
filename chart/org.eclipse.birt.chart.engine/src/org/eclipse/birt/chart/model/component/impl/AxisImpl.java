@@ -54,72 +54,28 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubTitle <em>Sub Title</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubTitle <em>Sub Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
  * </ul>
  * </p>
  * 
@@ -209,9 +165,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean titlePositionESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getAssociatedAxes() <em>Associated Axes</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAssociatedAxes() <em>Associated Axes</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getAssociatedAxes()
 	 * @generated
@@ -220,9 +175,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList associatedAxes = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getSeriesDefinitions()
 	 * @generated
@@ -289,9 +243,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean orientationESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLineAttributes() <em>Line Attributes</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLineAttributes()
 	 * @generated
@@ -310,9 +263,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Label label = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getFormatSpecifier() <em>Format Specifier</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
@@ -391,9 +343,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList markerLines = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getMarkerRanges() <em>Marker Ranges</em>}' containment reference
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getMarkerRanges()
 	 * @generated
@@ -2280,4 +2231,4 @@ public class AxisImpl extends EObjectImpl implements Axis
 		return (Series[]) al.toArray( Series.EMPTY_ARRAY );
 	}
 
-} //AxisImpl
+} // AxisImpl

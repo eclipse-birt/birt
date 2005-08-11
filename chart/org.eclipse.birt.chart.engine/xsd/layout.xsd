@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelLayout" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:chart="http://www.birt.eclipse.org/ChartModel"
-xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
-xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
-xmlns:data="http://www.birt.eclipse.org/ChartModelData"
-xmlns="http://www.birt.eclipse.org/ChartModelLayout"
-xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelLayout" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
@@ -117,6 +110,20 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 							<xsd:documentation xml:lang="en">
 							The form rendering of series should take (by Series or by Categories).
 							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Title" type="component:Label" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>
+					A label instance to hold attributes for legend title.
+					</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="TitlePosition" type="attribute:Position" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>
+					Specifies where the title for the legend should be displayed.
+				</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>

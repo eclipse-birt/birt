@@ -15,7 +15,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.IConstants;
-import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -102,6 +103,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ChartImpl extends EObjectImpl implements Chart
 {
+
+	/**
+	 * logger for this class
+	 */
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model.impl" ); //$NON-NLS-1$
 
 	/**
 	 * The default value of the '{@link #getVersion() <em>Version</em>}'
@@ -1388,10 +1394,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 				sdTmp.getSeries( ).add( seriesOrthogonalRuntime );
 			}
 		}
-		catch ( ChartException e1 )
+		catch ( Exception e1 )
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace( );
+			logger.log( e1 );
 		}
 	}
 
@@ -1452,4 +1457,4 @@ public class ChartImpl extends EObjectImpl implements Chart
 		return vTmp;
 	}
 
-} //ChartImpl
+} // ChartImpl

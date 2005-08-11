@@ -18,7 +18,7 @@
     <eLiterals name="Toggle_Visibility" value="2"/>
     <eLiterals name="Invoke_Script" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ActionTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="ActionTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ActionType:Object"/>
       <details key="baseType" value="ActionType"/>
@@ -49,7 +49,7 @@
     <eLiterals name="West" value="6"/>
     <eLiterals name="North_West" value="7"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="AnchorObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="AnchorObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Anchor:Object"/>
       <details key="baseType" value="Anchor"/>
@@ -96,7 +96,7 @@
     <eLiterals name="Text" value="2"/>
     <eLiterals name="DateTime" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="AxisTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="AxisTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="AxisType:Object"/>
       <details key="baseType" value="AxisType"/>
@@ -163,7 +163,7 @@
     <eLiterals name="Two_Dimensional_With_Depth" value="1"/>
     <eLiterals name="Three_Dimensional" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ChartDimensionObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="ChartDimensionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartDimension:Object"/>
       <details key="baseType" value="ChartDimension"/>
@@ -183,7 +183,7 @@
     <eLiterals name="Scatter" value="4"/>
     <eLiterals name="Stock" value="5"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ChartTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="ChartTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ChartType:Object"/>
       <details key="baseType" value="ChartType"/>
@@ -328,7 +328,7 @@
     <eLiterals name="Orthogonal_Value" value="1"/>
     <eLiterals name="Series_Value" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DataPointComponentTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="DataPointComponentTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataPointComponentType:Object"/>
       <details key="baseType" value="DataPointComponentType"/>
@@ -345,7 +345,7 @@
     <eLiterals name="DateTime" value="1"/>
     <eLiterals name="Text" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DataTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="DataTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DataType:Object"/>
       <details key="baseType" value="DataType"/>
@@ -361,7 +361,7 @@
     <eLiterals name="Date"/>
     <eLiterals name="Date_Time" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DateFormatDetailObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="DateFormatDetailObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateFormatDetail:Object"/>
       <details key="baseType" value="DateFormatDetail"/>
@@ -408,7 +408,7 @@
     <eLiterals name="Medium" value="2"/>
     <eLiterals name="Full" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DateFormatTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="DateFormatTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="DateFormatType:Object"/>
       <details key="baseType" value="DateFormatType"/>
@@ -424,7 +424,7 @@
     <eLiterals name="Left_Right"/>
     <eLiterals name="Top_Bottom" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DirectionObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="DirectionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Direction:Object"/>
       <details key="baseType" value="Direction"/>
@@ -669,7 +669,7 @@
     <eLiterals name="Months" value="5"/>
     <eLiterals name="Years" value="6"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="GroupingUnitType:Object"/>
       <details key="baseType" value="GroupingUnitType"/>
@@ -686,7 +686,7 @@
     <eLiterals name="Center" value="1"/>
     <eLiterals name="Right" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="HorizontalAlignmentObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="HorizontalAlignmentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="HorizontalAlignment:Object"/>
       <details key="baseType" value="HorizontalAlignment"/>
@@ -782,7 +782,7 @@
     <eLiterals name="Max" value="1"/>
     <eLiterals name="Value" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="IntersectionTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="IntersectionTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="IntersectionType:Object"/>
       <details key="baseType" value="IntersectionType"/>
@@ -847,7 +847,7 @@
     <eLiterals name="Fixed_Length"/>
     <eLiterals name="Stretch_To_Side" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LeaderLineStyleObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="LeaderLineStyleObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LeaderLineStyle:Object"/>
       <details key="baseType" value="LeaderLineStyle"/>
@@ -863,7 +863,7 @@
     <eLiterals name="Series"/>
     <eLiterals name="Categories" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LegendItemTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="LegendItemTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LegendItemType:Object"/>
       <details key="baseType" value="LegendItemType"/>
@@ -932,7 +932,7 @@
     <eLiterals name="Dotted" value="2"/>
     <eLiterals name="Dash_Dotted" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="LineStyleObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="LineStyleObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LineStyle:Object"/>
       <details key="baseType" value="LineStyle"/>
@@ -1013,7 +1013,7 @@
     <eLiterals name="Box" value="2"/>
     <eLiterals name="Circle" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="MarkerTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="MarkerTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="MarkerType:Object"/>
       <details key="baseType" value="MarkerType"/>
@@ -1080,7 +1080,7 @@
     <eLiterals name="Horizontal"/>
     <eLiterals name="Vertical" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="OrientationObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="OrientationObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Orientation:Object"/>
       <details key="baseType" value="Orientation"/>
@@ -1146,7 +1146,7 @@
     <eLiterals name="Inside" value="4"/>
     <eLiterals name="Outside" value="5"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="PositionObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="PositionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Position:Object"/>
       <details key="baseType" value="Position"/>
@@ -1179,7 +1179,7 @@
     <eLiterals name="Rectangle"/>
     <eLiterals name="Triangle" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="RiserTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="RiserTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RiserType:Object"/>
       <details key="baseType" value="RiserType"/>
@@ -1196,7 +1196,7 @@
     <eLiterals name="Suppress" value="1"/>
     <eLiterals name="Link" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="RuleTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="RuleTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="RuleType:Object"/>
       <details key="baseType" value="RuleType"/>
@@ -1217,7 +1217,7 @@
     <eLiterals name="Months" value="5"/>
     <eLiterals name="Years" value="6"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="ScaleUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="ScaleUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ScaleUnitType:Object"/>
       <details key="baseType" value="ScaleUnitType"/>
@@ -1301,7 +1301,7 @@
     <eLiterals name="Ascending"/>
     <eLiterals name="Descending" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="SortOptionObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="SortOptionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SortOption:Object"/>
       <details key="baseType" value="SortOption"/>
@@ -1318,7 +1318,7 @@
     <eLiterals name="Vertical" value="1"/>
     <eLiterals name="Both" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="StretchObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="StretchObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="Stretch:Object"/>
       <details key="baseType" value="Stretch"/>
@@ -1343,7 +1343,7 @@
     <eLiterals name="Series_Title" value="9"/>
     <eLiterals name="Series_Label" value="10"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="StyledComponentObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="StyledComponentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StyledComponent:Object"/>
       <details key="baseType" value="StyledComponent"/>
@@ -1454,7 +1454,7 @@
     <eLiterals name="Below" value="3"/>
     <eLiterals name="Across" value="4"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="TickStyleObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="TickStyleObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TickStyle:Object"/>
       <details key="baseType" value="TickStyle"/>
@@ -1499,7 +1499,7 @@
     <eLiterals name="Mouse_Hover"/>
     <eLiterals name="Mouse_Click" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="TriggerConditionObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="TriggerConditionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition:Object"/>
       <details key="baseType" value="TriggerCondition"/>
@@ -1517,7 +1517,7 @@
     <eLiterals name="Inches" value="2"/>
     <eLiterals name="Centimeters" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="UnitsOfMeasurementObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="UnitsOfMeasurementObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="UnitsOfMeasurement:Object"/>
       <details key="baseType" value="UnitsOfMeasurement"/>
@@ -1593,7 +1593,7 @@
     <eLiterals name="Center" value="1"/>
     <eLiterals name="Bottom" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="VerticalAlignmentObject" instanceClassName="org.eclipse.emf.common.util.AbstractEnumerator">
+  <eClassifiers xsi:type="ecore:EDataType" name="VerticalAlignmentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="VerticalAlignment:Object"/>
       <details key="baseType" value="VerticalAlignment"/>

@@ -61,6 +61,7 @@ public final class PluginSettings
 	 */
 	private static String[] saSeries = {
 			"org.eclipse.birt.chart.model.component.impl.SeriesImpl", //$NON-NLS-1$
+			//"org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.BarSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.LineSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.PieSeriesImpl", //$NON-NLS-1$
@@ -74,8 +75,11 @@ public final class PluginSettings
 	 * series type list.
 	 */
 	private static String[] saDataSetProcessors = {
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", "org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ //$NON-NLS-2$
-			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", "org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ //$NON-NLS-2$
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			//"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.StockDataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 	};
@@ -87,8 +91,11 @@ public final class PluginSettings
 	 */
 	private static String[] saRenderers = {
 			null,
-			"org.eclipse.birt.chart.render.Bar", "org.eclipse.birt.chart.render.Line", //$NON-NLS-1$ //$NON-NLS-2$
-			"org.eclipse.birt.chart.render.Pie", "org.eclipse.birt.chart.render.Stock", //$NON-NLS-1$ //$NON-NLS-2$
+			//"org.eclipse.birt.chart.render.Area", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.render.Bar", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.render.Line", //$NON-NLS-1$
+			"org.eclipse.birt.chart.render.Pie", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.render.Stock", //$NON-NLS-1$
 			"org.eclipse.birt.chart.render.Scatter" //$NON-NLS-1$
 	};
 

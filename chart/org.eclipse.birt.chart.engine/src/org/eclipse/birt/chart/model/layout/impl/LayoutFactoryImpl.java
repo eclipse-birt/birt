@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
-import java.util.Locale;
-
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -36,7 +33,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 {
 
 	/**
-	 * Creates and instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
 	 * @generated
@@ -68,11 +65,9 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 			case LayoutPackage.TITLE_BLOCK :
 				return createTitleBlock( );
 			default :
-				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", //$NON-NLS-1$
-						new Object[]{
-							eClass.getName( )
-						},
-						Locale.getDefault( ) ) );
+				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
+						+ eClass.getName( )
+						+ "' is not a valid classifier" ); //$NON-NLS-1$
 		}
 	}
 
@@ -163,4 +158,4 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 		return LayoutPackage.eINSTANCE;
 	}
 
-} //LayoutFactoryImpl
+} // LayoutFactoryImpl

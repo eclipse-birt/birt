@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -62,6 +63,13 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass chartPreferencesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass curveFittingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -133,7 +141,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
+	 * Creates, registers, and initializes the <b>Package</b> for this model,
 	 * and for any others upon which it depends. Simple dependencies are
 	 * satisfied by calling this method on all dependent packages before doing
 	 * anything else. This method drives initialization for interdependent
@@ -168,32 +176,32 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		XMLTypePackageImpl.init( );
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackageImpl.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackageImpl.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackageImpl.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
-				: AttributePackageImpl.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackageImpl.eINSTANCE );
+				: DataPackage.eINSTANCE );
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+				: AttributePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theComponentPackage.createPackageContents( );
+		theDataPackage.createPackageContents( );
+		theAttributePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
-		theAttributePackage.createPackageContents( );
-		theDataPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theComponentPackage.initializePackageContents( );
+		theDataPackage.initializePackageContents( );
+		theAttributePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
-		theAttributePackage.initializePackageContents( );
-		theDataPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theComponentPackage.freeze( );
@@ -461,6 +469,49 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	{
 		return (EReference) chartPreferencesEClass.getEStructuralFeatures( )
 				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EClass getCurveFitting( )
+	{
+		return curveFittingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EReference getCurveFitting_LineAttributes( )
+	{
+		return (EReference) curveFittingEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EReference getCurveFitting_Label( )
+	{
+		return (EReference) curveFittingEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EAttribute getCurveFitting_LabelAnchor( )
+	{
+		return (EAttribute) curveFittingEClass.getEStructuralFeatures( )
+				.get( 2 );
 	}
 
 	/**
@@ -908,6 +959,16 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 * 
 	 * @generated
 	 */
+	public EReference getSeries_CurveFitting( )
+	{
+		return (EReference) seriesEClass.getEStructuralFeatures( ).get( 10 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public ComponentFactory getComponentFactory( )
 	{
 		return (ComponentFactory) getEFactoryInstance( );
@@ -962,6 +1023,11 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__LABELS );
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__BLOCKS );
 
+		curveFittingEClass = createEClass( CURVE_FITTING );
+		createEReference( curveFittingEClass, CURVE_FITTING__LINE_ATTRIBUTES );
+		createEReference( curveFittingEClass, CURVE_FITTING__LABEL );
+		createEAttribute( curveFittingEClass, CURVE_FITTING__LABEL_ANCHOR );
+
 		gridEClass = createEClass( GRID );
 		createEReference( gridEClass, GRID__LINE_ATTRIBUTES );
 		createEAttribute( gridEClass, GRID__TICK_STYLE );
@@ -1011,6 +1077,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( seriesEClass, SERIES__STACKED );
 		createEReference( seriesEClass, SERIES__TRIGGERS );
 		createEAttribute( seriesEClass, SERIES__TRANSLUCENT );
+		createEReference( seriesEClass, SERIES__CURVE_FITTING );
 	}
 
 	/**
@@ -1448,6 +1515,62 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				!IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE,
 				IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+
+		initEClass( curveFittingEClass,
+				CurveFitting.class,
+				"CurveFitting", //$NON-NLS-1$
+				!IS_ABSTRACT,
+				!IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS );
+		initEReference( getCurveFitting_LineAttributes( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"lineAttributes", //$NON-NLS-1$
+				null,
+				1,
+				1,
+				CurveFitting.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE,
+				IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEReference( getCurveFitting_Label( ),
+				this.getLabel( ),
+				null,
+				"label", //$NON-NLS-1$
+				null,
+				1,
+				1,
+				CurveFitting.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE,
+				IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEAttribute( getCurveFitting_LabelAnchor( ),
+				theAttributePackage.getAnchor( ),
+				"labelAnchor", //$NON-NLS-1$
+				"North", //$NON-NLS-1$
+				0,
+				1,
+				CurveFitting.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
 				!IS_DERIVED,
 				IS_ORDERED );
 
@@ -2110,6 +2233,23 @@ public class ComponentPackageImpl extends EPackageImpl implements
 				!IS_UNIQUE,
 				!IS_DERIVED,
 				IS_ORDERED );
+		initEReference( getSeries_CurveFitting( ),
+				this.getCurveFitting( ),
+				null,
+				"curveFitting", //$NON-NLS-1$
+				null,
+				0,
+				1,
+				Series.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE,
+				IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
 
 		// Create resource
 		createResource( eNS_URI );
@@ -2131,214 +2271,229 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
 		addAnnotation( axisEClass, source, new String[]{
 				"name", "Axis", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Type( ), source, new String[]{
 				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Title( ), source, new String[]{
 				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_SubTitle( ), source, new String[]{
 				"kind", "element", "name", "SubTitle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_TitlePosition( ), source, new String[]{
 				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_AssociatedAxes( ), source, new String[]{
 				"kind", "element", "name", "AssociatedAxes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_SeriesDefinitions( ), source, new String[]{
 				"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_GapWidth( ), source, new String[]{
 				"kind", "element", "name", "GapWidth" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Orientation( ), source, new String[]{
 				"kind", "element", "name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_LineAttributes( ), source, new String[]{
 				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Label( ), source, new String[]{
 				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_FormatSpecifier( ), source, new String[]{
 				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_LabelPosition( ), source, new String[]{
 				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Staggered( ), source, new String[]{
 				"kind", "element", "name", "Staggered" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_MarkerLines( ), source, new String[]{
 				"kind", "element", "name", "MarkerLines" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_MarkerRanges( ), source, new String[]{
 				"kind", "element", "name", "MarkerRanges" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_MajorGrid( ), source, new String[]{
 				"kind", "element", "name", "MajorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_MinorGrid( ), source, new String[]{
 				"kind", "element", "name", "MinorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Scale( ), source, new String[]{
 				"kind", "element", "name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Origin( ), source, new String[]{
 				"kind", "element", "name", "Origin" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_PrimaryAxis( ), source, new String[]{
 				"kind", "element", "name", "PrimaryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_CategoryAxis( ), source, new String[]{
 				"kind", "element", "name", "CategoryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getAxis_Percent( ), source, new String[]{
 				"kind", "element", "name", "Percent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
 				"name", "ChartPreferences", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getChartPreferences_Labels( ), source, new String[]{
 				"kind", "element", "name", "Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getChartPreferences_Blocks( ), source, new String[]{
 				"kind", "element", "name", "Blocks" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
+		addAnnotation( curveFittingEClass, source, new String[]{
+				"name", "CurveFitting", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getCurveFitting_LineAttributes( ), source, new String[]{
+				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getCurveFitting_Label( ), source, new String[]{
+				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getCurveFitting_LabelAnchor( ), source, new String[]{
+				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( gridEClass, source, new String[]{
 				"name", "Grid", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getGrid_LineAttributes( ), source, new String[]{
 				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getGrid_TickStyle( ), source, new String[]{
 				"kind", "element", "name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getGrid_TickAttributes( ), source, new String[]{
 				"kind", "element", "name", "TickAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getGrid_TickSize( ), source, new String[]{
 				"kind", "element", "name", "TickSize" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getGrid_TickCount( ), source, new String[]{
 				"kind", "element", "name", "TickCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( labelEClass, source, new String[]{
 				"name", "Label", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_Caption( ), source, new String[]{
 				"kind", "element", "name", "Caption" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_Background( ), source, new String[]{
 				"kind", "element", "name", "Background" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_Outline( ), source, new String[]{
 				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_ShadowColor( ), source, new String[]{
 				"kind", "element", "name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_Insets( ), source, new String[]{
 				"kind", "element", "name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getLabel_Visible( ), source, new String[]{
 				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( markerLineEClass, source, new String[]{
 				"name", "MarkerLine", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerLine_LineAttributes( ), source, new String[]{
 				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerLine_Value( ), source, new String[]{
 				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerLine_Label( ), source, new String[]{
 				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerLine_LabelAnchor( ), source, new String[]{
 				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerLine_FormatSpecifier( ), source, new String[]{
 				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( markerRangeEClass, source, new String[]{
 				"name", "MarkerRange", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_Outline( ), source, new String[]{
 				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_Fill( ), source, new String[]{
 				"kind", "element", "name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_StartValue( ), source, new String[]{
 				"kind", "element", "name", "StartValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_EndValue( ), source, new String[]{
 				"kind", "element", "name", "EndValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_Label( ), source, new String[]{
 				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_LabelAnchor( ), source, new String[]{
 				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getMarkerRange_FormatSpecifier( ), source, new String[]{
 				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( scaleEClass, source, new String[]{
 				"name", "Scale", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getScale_Min( ), source, new String[]{
 				"kind", "element", "name", "Min" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getScale_Max( ), source, new String[]{
 				"kind", "element", "name", "Max" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getScale_Step( ), source, new String[]{
 				"kind", "element", "name", "Step" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getScale_Unit( ), source, new String[]{
 				"kind", "element", "name", "Unit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getScale_MinorGridsPerUnit( ), source, new String[]{
 				"kind", "element", "name", "MinorGridsPerUnit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( seriesEClass, source, new String[]{
 				"name", "Series", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_Visible( ), source, new String[]{
 				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_Label( ), source, new String[]{
 				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_DataDefinition( ), source, new String[]{
 				"kind", "element", "name", "DataDefinition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_SeriesIdentifier( ), source, new String[]{
 				"kind", "element", "name", "SeriesIdentifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_DataPoint( ), source, new String[]{
 				"kind", "element", "name", "DataPoint" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_DataSet( ), source, new String[]{
 				"kind", "element", "name", "DataSet" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_LabelPosition( ), source, new String[]{
 				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_Stacked( ), source, new String[]{
 				"kind", "element", "name", "Stacked" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_Triggers( ), source, new String[]{
 				"kind", "element", "name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
 		addAnnotation( getSeries_Translucent( ), source, new String[]{
 				"kind", "element", "name", "Translucent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+		} );
+		addAnnotation( getSeries_CurveFitting( ), source, new String[]{
+				"kind", "element", "name", "CurveFitting" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 	}
 
-} //ComponentPackageImpl
+} // ComponentPackageImpl

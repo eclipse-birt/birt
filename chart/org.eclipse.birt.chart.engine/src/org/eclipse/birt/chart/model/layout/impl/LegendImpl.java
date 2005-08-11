@@ -25,11 +25,17 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
@@ -53,33 +59,17 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
  * </ul>
  * </p>
  * 
@@ -89,9 +79,8 @@ public class LegendImpl extends BlockImpl implements Legend
 {
 
 	/**
-	 * The default value of the '
-	 * {@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
@@ -100,9 +89,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
@@ -295,6 +283,45 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @ordered
 	 */
 	protected boolean itemTypeESet = false;
+
+	/**
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getTitle()
+	 * @generated
+	 * @ordered
+	 */
+	protected Label title = null;
+
+	/**
+	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getTitlePosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
+
+	/**
+	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getTitlePosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected Position titlePosition = TITLE_POSITION_EDEFAULT;
+
+	/**
+	 * This is true if the Title Position attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean titlePositionESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -886,6 +913,134 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * @generated
 	 */
+	public Label getTitle( )
+	{
+		return title;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetTitle( Label newTitle,
+			NotificationChain msgs )
+	{
+		Label oldTitle = title;
+		title = newTitle;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__TITLE,
+					oldTitle,
+					newTitle );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setTitle( Label newTitle )
+	{
+		if ( newTitle != title )
+		{
+			NotificationChain msgs = null;
+			if ( title != null )
+				msgs = ( (InternalEObject) title ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE,
+						null,
+						msgs );
+			if ( newTitle != null )
+				msgs = ( (InternalEObject) newTitle ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE,
+						null,
+						msgs );
+			msgs = basicSetTitle( newTitle, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__TITLE,
+					newTitle,
+					newTitle ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public Position getTitlePosition( )
+	{
+		return titlePosition;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setTitlePosition( Position newTitlePosition )
+	{
+		Position oldTitlePosition = titlePosition;
+		titlePosition = newTitlePosition == null ? TITLE_POSITION_EDEFAULT
+				: newTitlePosition;
+		boolean oldTitlePositionESet = titlePositionESet;
+		titlePositionESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.LEGEND__TITLE_POSITION,
+					oldTitlePosition,
+					titlePosition,
+					!oldTitlePositionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void unsetTitlePosition( )
+	{
+		Position oldTitlePosition = titlePosition;
+		boolean oldTitlePositionESet = titlePositionESet;
+		titlePosition = TITLE_POSITION_EDEFAULT;
+		titlePositionESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.LEGEND__TITLE_POSITION,
+					oldTitlePosition,
+					TITLE_POSITION_EDEFAULT,
+					oldTitlePositionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean isSetTitlePosition( )
+	{
+		return titlePositionESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs )
 	{
@@ -915,6 +1070,8 @@ public class LegendImpl extends BlockImpl implements Legend
 					return basicSetText( null, msgs );
 				case LayoutPackage.LEGEND__SEPARATOR :
 					return basicSetSeparator( null, msgs );
+				case LayoutPackage.LEGEND__TITLE :
+					return basicSetTitle( null, msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -980,6 +1137,10 @@ public class LegendImpl extends BlockImpl implements Legend
 				return getPosition( );
 			case LayoutPackage.LEGEND__ITEM_TYPE :
 				return getItemType( );
+			case LayoutPackage.LEGEND__TITLE :
+				return getTitle( );
+			case LayoutPackage.LEGEND__TITLE_POSITION :
+				return getTitlePosition( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -1064,6 +1225,12 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__ITEM_TYPE :
 				setItemType( (LegendItemType) newValue );
 				return;
+			case LayoutPackage.LEGEND__TITLE :
+				setTitle( (Label) newValue );
+				return;
+			case LayoutPackage.LEGEND__TITLE_POSITION :
+				setTitlePosition( (Position) newValue );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -1146,6 +1313,12 @@ public class LegendImpl extends BlockImpl implements Legend
 			case LayoutPackage.LEGEND__ITEM_TYPE :
 				unsetItemType( );
 				return;
+			case LayoutPackage.LEGEND__TITLE :
+				setTitle( (Label) null );
+				return;
+			case LayoutPackage.LEGEND__TITLE_POSITION :
+				unsetTitlePosition( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -1205,6 +1378,10 @@ public class LegendImpl extends BlockImpl implements Legend
 				return isSetPosition( );
 			case LayoutPackage.LEGEND__ITEM_TYPE :
 				return isSetItemType( );
+			case LayoutPackage.LEGEND__TITLE :
+				return title != null;
+			case LayoutPackage.LEGEND__TITLE_POSITION :
+				return isSetTitlePosition( );
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -1248,6 +1425,11 @@ public class LegendImpl extends BlockImpl implements Legend
 		result.append( ", itemType: " ); //$NON-NLS-1$
 		if ( itemTypeESet )
 			result.append( itemType );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", titlePosition: " ); //$NON-NLS-1$
+		if ( titlePositionESet )
+			result.append( titlePosition );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -1325,6 +1507,16 @@ public class LegendImpl extends BlockImpl implements Legend
 		setDirection( Direction.TOP_BOTTOM_LITERAL );
 		setItemType( LegendItemType.SERIES_LITERAL );
 
+		Label la = LabelImpl.create( );
+		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		lia.setVisible( false );
+		la.setOutline( lia );
+		la.setVisible( false );
+		setTitle( la );
+		setTitlePosition( Position.ABOVE_LITERAL );
+
 		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
 		( (ClientAreaImpl) ca ).initialize( );
 		ca.getInsets( ).set( 2, 2, 2, 2 );
@@ -1362,4 +1554,4 @@ public class LegendImpl extends BlockImpl implements Legend
 		}
 	}
 
-} //LegendImpl
+} // LegendImpl

@@ -23,48 +23,46 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Axis</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the basic elements that are expected in any axis. This can further be extended for special axis
- * types.
- * 
+ * 			This type defines the basic elements that are expected in any axis. This can further be extended for special axis types.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitlePosition <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getAssociatedAxes <em>Associated Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getSeriesDefinitions <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getAssociatedAxes <em>Associated Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerLines <em>Marker Lines</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMarkerRanges <em>Marker Ranges</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis()
- * @model
+ * @model extendedMetaData="name='Axis' kind='elementOnly'"
  * @generated
  */
-public interface Axis extends EObject
-{
+public interface Axis extends EObject{
     /**
      *  
      */
@@ -107,41 +105,37 @@ public interface Axis extends EObject
      */
     AxisType getType();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Type</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.AxisType
-     * @see #isSetType()
-     * @see #unsetType()
-     * @see #getType()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.AxisType
+	 * @see #isSetType()
+	 * @see #unsetType()
+	 * @see #getType()
+	 * @generated
+	 */
     void setType(AxisType value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetType()
-     * @see #getType()
-     * @see #setType(AxisType)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetType()
+	 * @see #getType()
+	 * @see #setType(AxisType)
+	 * @generated
+	 */
     void unsetType();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Type</em>' attribute is set.
-     * @see #unsetType()
-     * @see #getType()
-     * @see #setType(AxisType)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getType <em>Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Type</em>' attribute is set.
+	 * @see #unsetType()
+	 * @see #getType()
+	 * @see #setType(AxisType)
+	 * @generated
+	 */
     boolean isSetType();
 
     /**
@@ -160,15 +154,13 @@ public interface Axis extends EObject
      */
     Label getTitle();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Title</em>' containment reference.
-     * @see #getTitle()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getTitle <em>Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Title</em>' containment reference.
+	 * @see #getTitle()
+	 * @generated
+	 */
     void setTitle(Label value);
 
     /**
@@ -187,15 +179,13 @@ public interface Axis extends EObject
      */
     Label getSubTitle();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Sub Title</em>' containment reference.
-     * @see #getSubTitle()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getSubTitle <em>Sub Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sub Title</em>' containment reference.
+	 * @see #getSubTitle()
+	 * @generated
+	 */
     void setSubTitle(Label value);
 
     /**
@@ -246,17 +236,15 @@ public interface Axis extends EObject
      */
     void unsetTitlePosition();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getTitlePosition <em>Title Position</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Title Position</em>' attribute is set.
-     * @see #unsetTitlePosition()
-     * @see #getTitlePosition()
-     * @see #setTitlePosition(Position)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getTitlePosition <em>Title Position</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Title Position</em>' attribute is set.
+	 * @see #unsetTitlePosition()
+	 * @see #getTitlePosition()
+	 * @see #setTitlePosition(Position)
+	 * @generated
+	 */
     boolean isSetTitlePosition();
 
     /**
@@ -312,28 +300,25 @@ public interface Axis extends EObject
      */
     double getGapWidth();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Gap Width</em>' attribute.
-     * @see #isSetGapWidth()
-     * @see #unsetGapWidth()
-     * @see #getGapWidth()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Gap Width</em>' attribute.
+	 * @see #isSetGapWidth()
+	 * @see #unsetGapWidth()
+	 * @see #getGapWidth()
+	 * @generated
+	 */
     void setGapWidth(double value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetGapWidth()
-     * @see #getGapWidth()
-     * @see #setGapWidth(double)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getGapWidth <em>Gap Width</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetGapWidth()
+	 * @see #getGapWidth()
+	 * @see #setGapWidth(double)
+	 * @generated
+	 */
     void unsetGapWidth();
 
     /**
@@ -371,29 +356,26 @@ public interface Axis extends EObject
      */
     Orientation getOrientation();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Orientation</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.Orientation
-     * @see #isSetOrientation()
-     * @see #unsetOrientation()
-     * @see #getOrientation()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Orientation</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.Orientation
+	 * @see #isSetOrientation()
+	 * @see #unsetOrientation()
+	 * @see #getOrientation()
+	 * @generated
+	 */
     void setOrientation(Orientation value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetOrientation()
-     * @see #getOrientation()
-     * @see #setOrientation(Orientation)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrientation <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetOrientation()
+	 * @see #getOrientation()
+	 * @see #setOrientation(Orientation)
+	 * @generated
+	 */
     void unsetOrientation();
 
     /**
@@ -425,16 +407,13 @@ public interface Axis extends EObject
      */
     LineAttributes getLineAttributes();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getLineAttributes <em>Line Attributes</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Line Attributes</em>' containment reference.
-     * @see #getLineAttributes()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
+	 * @see #getLineAttributes()
+	 * @generated
+	 */
     void setLineAttributes(LineAttributes value);
 
     /**
@@ -454,15 +433,13 @@ public interface Axis extends EObject
      */
     Label getLabel();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Label</em>' containment reference.
-     * @see #getLabel()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' containment reference.
+	 * @see #getLabel()
+	 * @generated
+	 */
     void setLabel(Label value);
 
     /**
@@ -481,16 +458,13 @@ public interface Axis extends EObject
      */
     FormatSpecifier getFormatSpecifier();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Format Specifier</em>' containment reference.
-     * @see #getFormatSpecifier()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getFormatSpecifier <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Format Specifier</em>' containment reference.
+	 * @see #getFormatSpecifier()
+	 * @generated
+	 */
     void setFormatSpecifier(FormatSpecifier value);
 
     /**
@@ -541,17 +515,15 @@ public interface Axis extends EObject
      */
     void unsetLabelPosition();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Label Position</em>' attribute is set.
-     * @see #unsetLabelPosition()
-     * @see #getLabelPosition()
-     * @see #setLabelPosition(Position)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getLabelPosition <em>Label Position</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Label Position</em>' attribute is set.
+	 * @see #unsetLabelPosition()
+	 * @see #getLabelPosition()
+	 * @see #setLabelPosition(Position)
+	 * @generated
+	 */
     boolean isSetLabelPosition();
 
     /**
@@ -572,28 +544,25 @@ public interface Axis extends EObject
      */
     boolean isStaggered();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Staggered</em>' attribute.
-     * @see #isSetStaggered()
-     * @see #unsetStaggered()
-     * @see #isStaggered()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Staggered</em>' attribute.
+	 * @see #isSetStaggered()
+	 * @see #unsetStaggered()
+	 * @see #isStaggered()
+	 * @generated
+	 */
     void setStaggered(boolean value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetStaggered()
-     * @see #isStaggered()
-     * @see #setStaggered(boolean)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isStaggered <em>Staggered</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetStaggered()
+	 * @see #isStaggered()
+	 * @see #setStaggered(boolean)
+	 * @generated
+	 */
     void unsetStaggered();
 
     /**
@@ -609,20 +578,21 @@ public interface Axis extends EObject
      */
     boolean isSetStaggered();
 
-    /**
-     * Returns the value of the '<em><b>Marker Lines</b></em>' containment reference list. The list contents are of
-     * type {@link org.eclipse.birt.chart.model.component.MarkerLine}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Marker Lines</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLines()
-     * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true" resolveProxies="false"
-     * @generated
-     */
+	/**
+	 * Returns the value of the '<em><b>Marker Lines</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.component.MarkerLine}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Defines a set of markers for positions on the axis scale displayed as lines across the plot at those locations.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Marker Lines</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLines()
+	 * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='MarkerLines'"
+	 * @generated
+	 */
     EList getMarkerLines();
 
     /**
@@ -658,15 +628,13 @@ public interface Axis extends EObject
      */
     Grid getMajorGrid();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Major Grid</em>' containment reference.
-     * @see #getMajorGrid()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getMajorGrid <em>Major Grid</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Major Grid</em>' containment reference.
+	 * @see #getMajorGrid()
+	 * @generated
+	 */
     void setMajorGrid(Grid value);
 
     /**
@@ -685,15 +653,13 @@ public interface Axis extends EObject
      */
     Grid getMinorGrid();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Minor Grid</em>' containment reference.
-     * @see #getMinorGrid()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getMinorGrid <em>Minor Grid</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Minor Grid</em>' containment reference.
+	 * @see #getMinorGrid()
+	 * @generated
+	 */
     void setMinorGrid(Grid value);
 
     /**
@@ -712,15 +678,13 @@ public interface Axis extends EObject
      */
     Scale getScale();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Scale</em>' containment reference.
-     * @see #getScale()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getScale <em>Scale</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Scale</em>' containment reference.
+	 * @see #getScale()
+	 * @generated
+	 */
     void setScale(Scale value);
 
     /**
@@ -739,15 +703,13 @@ public interface Axis extends EObject
      */
     AxisOrigin getOrigin();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Origin</em>' containment reference.
-     * @see #getOrigin()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#getOrigin <em>Origin</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Origin</em>' containment reference.
+	 * @see #getOrigin()
+	 * @generated
+	 */
     void setOrigin(AxisOrigin value);
 
     /**
@@ -768,28 +730,25 @@ public interface Axis extends EObject
      */
     boolean isPrimaryAxis();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Primary Axis</em>' attribute.
-     * @see #isSetPrimaryAxis()
-     * @see #unsetPrimaryAxis()
-     * @see #isPrimaryAxis()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Primary Axis</em>' attribute.
+	 * @see #isSetPrimaryAxis()
+	 * @see #unsetPrimaryAxis()
+	 * @see #isPrimaryAxis()
+	 * @generated
+	 */
     void setPrimaryAxis(boolean value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetPrimaryAxis()
-     * @see #isPrimaryAxis()
-     * @see #setPrimaryAxis(boolean)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetPrimaryAxis()
+	 * @see #isPrimaryAxis()
+	 * @see #setPrimaryAxis(boolean)
+	 * @generated
+	 */
     void unsetPrimaryAxis();
 
     /**
@@ -823,17 +782,15 @@ public interface Axis extends EObject
      */
     boolean isCategoryAxis();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Category Axis</em>' attribute.
-     * @see #isSetCategoryAxis()
-     * @see #unsetCategoryAxis()
-     * @see #isCategoryAxis()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Category Axis</em>' attribute.
+	 * @see #isSetCategoryAxis()
+	 * @see #unsetCategoryAxis()
+	 * @see #isCategoryAxis()
+	 * @generated
+	 */
     void setCategoryAxis(boolean value);
 
     /**
@@ -848,71 +805,66 @@ public interface Axis extends EObject
      */
     void unsetCategoryAxis();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Category Axis</em>' attribute is set.
-     * @see #unsetCategoryAxis()
-     * @see #isCategoryAxis()
-     * @see #setCategoryAxis(boolean)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Category Axis</em>' attribute is set.
+	 * @see #unsetCategoryAxis()
+	 * @see #isCategoryAxis()
+	 * @see #setCategoryAxis(boolean)
+	 * @generated
+	 */
     boolean isSetCategoryAxis();
 
-    /**
-     * Returns the value of the '<em><b>Percent</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Specifies whether or not this is a percentage axis.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Percent</em>' attribute.
-     * @see #isSetPercent()
-     * @see #unsetPercent()
-     * @see #setPercent(boolean)
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Percent()
-     * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
-     * @generated
-     */
+	/**
+	 * Returns the value of the '<em><b>Percent</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Specifies whether or not this is a percentage axis.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Percent</em>' attribute.
+	 * @see #isSetPercent()
+	 * @see #unsetPercent()
+	 * @see #setPercent(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Percent()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='Percent'"
+	 * @generated
+	 */
     boolean isPercent();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Percent</em>' attribute.
-     * @see #isSetPercent()
-     * @see #unsetPercent()
-     * @see #isPercent()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Percent</em>' attribute.
+	 * @see #isSetPercent()
+	 * @see #unsetPercent()
+	 * @see #isPercent()
+	 * @generated
+	 */
     void setPercent(boolean value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetPercent()
-     * @see #isPercent()
-     * @see #setPercent(boolean)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetPercent()
+	 * @see #isPercent()
+	 * @see #setPercent(boolean)
+	 * @generated
+	 */
     void unsetPercent();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Percent</em>' attribute is set.
-     * @see #unsetPercent()
-     * @see #isPercent()
-     * @see #setPercent(boolean)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Percent</em>' attribute is set.
+	 * @see #unsetPercent()
+	 * @see #isPercent()
+	 * @see #setPercent(boolean)
+	 * @generated
+	 */
     boolean isSetPercent();
 
     /**

@@ -20,33 +20,32 @@ import org.eclipse.birt.chart.model.component.Series;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Pie Series</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This is a Series type that holds data for Pie Charts.
- * 
+ * 			This is a Series type that holds data for Pie Charts.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}
- * </li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosionExpression <em>Explosion Expression</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries()
- * @model
+ * @model extendedMetaData="name='PieSeries' kind='elementOnly'"
  * @generated
  */
-public interface PieSeries extends Series
-{
+public interface PieSeries extends Series{
 
     /**
      * Returns the value of the '<em><b>Explosion</b></em>' attribute. <!-- begin-user-doc --> Get the explosion
@@ -67,28 +66,25 @@ public interface PieSeries extends Series
      */
     int getExplosion();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Explosion</em>' attribute.
-     * @see #isSetExplosion()
-     * @see #unsetExplosion()
-     * @see #getExplosion()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Explosion</em>' attribute.
+	 * @see #isSetExplosion()
+	 * @see #unsetExplosion()
+	 * @see #getExplosion()
+	 * @generated
+	 */
     void setExplosion(int value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetExplosion()
-     * @see #getExplosion()
-     * @see #setExplosion(int)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion <em>Explosion</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetExplosion()
+	 * @see #getExplosion()
+	 * @see #setExplosion(int)
+	 * @generated
+	 */
     void unsetExplosion();
 
     /**
@@ -103,6 +99,59 @@ public interface PieSeries extends Series
      * @generated
      */
     boolean isSetExplosion();
+
+	/**
+	 * Returns the value of the '<em><b>Explosion Expression</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies an expression to determine if the explosion will be applied to each slice.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Explosion Expression</em>' attribute.
+	 * @see #isSetExplosionExpression()
+	 * @see #unsetExplosionExpression()
+	 * @see #setExplosionExpression(String)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_ExplosionExpression()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='element' name='ExplosionExpression'"
+	 * @generated
+	 */
+	String getExplosionExpression();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosionExpression <em>Explosion Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Explosion Expression</em>' attribute.
+	 * @see #isSetExplosionExpression()
+	 * @see #unsetExplosionExpression()
+	 * @see #getExplosionExpression()
+	 * @generated
+	 */
+	void setExplosionExpression(String value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosionExpression <em>Explosion Expression</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetExplosionExpression()
+	 * @see #getExplosionExpression()
+	 * @see #setExplosionExpression(String)
+	 * @generated
+	 */
+	void unsetExplosionExpression();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosionExpression <em>Explosion Expression</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Explosion Expression</em>' attribute is set.
+	 * @see #unsetExplosionExpression()
+	 * @see #getExplosionExpression()
+	 * @see #setExplosionExpression(String)
+	 * @generated
+	 */
+	boolean isSetExplosionExpression();
 
     /**
      * Returns the value of the '<em><b>Title</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -120,15 +169,13 @@ public interface PieSeries extends Series
      */
     Label getTitle();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Title</em>' containment reference.
-     * @see #getTitle()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Title</em>' containment reference.
+	 * @see #getTitle()
+	 * @generated
+	 */
     void setTitle(Label value);
 
     /**
@@ -179,17 +226,15 @@ public interface PieSeries extends Series
      */
     void unsetTitlePosition();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title Position</em>}' attribute is set.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Title Position</em>' attribute is set.
-     * @see #unsetTitlePosition()
-     * @see #getTitlePosition()
-     * @see #setTitlePosition(Position)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title Position</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Title Position</em>' attribute is set.
+	 * @see #unsetTitlePosition()
+	 * @see #getTitlePosition()
+	 * @see #setTitlePosition(Position)
+	 * @generated
+	 */
     boolean isSetTitlePosition();
 
     /**
@@ -208,77 +253,68 @@ public interface PieSeries extends Series
      */
     LineAttributes getLeaderLineAttributes();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Leader Line Attributes</em>' containment reference.
-     * @see #getLeaderLineAttributes()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes <em>Leader Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leader Line Attributes</em>' containment reference.
+	 * @see #getLeaderLineAttributes()
+	 * @generated
+	 */
     void setLeaderLineAttributes(LineAttributes value);
 
-    /**
-     * Returns the value of the '<em><b>Leader Line Style</b></em>' attribute. The default value is
-     * <code>"Fixed_Length"</code>. The literals are from the enumeration
-     * {@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle}. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Specifies how the leader lines are to be shown.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Leader Line Style</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
-     * @see #isSetLeaderLineStyle()
-     * @see #unsetLeaderLineStyle()
-     * @see #setLeaderLineStyle(LeaderLineStyle)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_LeaderLineStyle()
-     * @model default="Fixed_Length" unique="false" unsettable="true" required="true"
-     * @generated
-     */
+	/**
+	 * Returns the value of the '<em><b>Leader Line Style</b></em>' attribute.
+	 * The default value is <code>"Fixed_Length"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 							Specifies how the leader lines are to be shown.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Leader Line Style</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
+	 * @see #isSetLeaderLineStyle()
+	 * @see #unsetLeaderLineStyle()
+	 * @see #setLeaderLineStyle(LeaderLineStyle)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_LeaderLineStyle()
+	 * @model default="Fixed_Length" unique="false" unsettable="true" required="true"
+	 *        extendedMetaData="kind='element' name='LeaderLineStyle'"
+	 * @generated
+	 */
     LeaderLineStyle getLeaderLineStyle();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Leader Line Style</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
-     * @see #isSetLeaderLineStyle()
-     * @see #unsetLeaderLineStyle()
-     * @see #getLeaderLineStyle()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leader Line Style</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
+	 * @see #isSetLeaderLineStyle()
+	 * @see #unsetLeaderLineStyle()
+	 * @see #getLeaderLineStyle()
+	 * @generated
+	 */
     void setLeaderLineStyle(LeaderLineStyle value);
 
-    /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetLeaderLineStyle()
-     * @see #getLeaderLineStyle()
-     * @see #setLeaderLineStyle(LeaderLineStyle)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetLeaderLineStyle()
+	 * @see #getLeaderLineStyle()
+	 * @see #setLeaderLineStyle(LeaderLineStyle)
+	 * @generated
+	 */
     void unsetLeaderLineStyle();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute is
-     * set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Leader Line Style</em>' attribute is set.
-     * @see #unsetLeaderLineStyle()
-     * @see #getLeaderLineStyle()
-     * @see #setLeaderLineStyle(LeaderLineStyle)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Leader Line Style</em>' attribute is set.
+	 * @see #unsetLeaderLineStyle()
+	 * @see #getLeaderLineStyle()
+	 * @see #setLeaderLineStyle(LeaderLineStyle)
+	 * @generated
+	 */
     boolean isSetLeaderLineStyle();
 
     /**
@@ -300,43 +336,36 @@ public interface PieSeries extends Series
      */
     double getLeaderLineLength();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Leader Line Length</em>' attribute.
-     * @see #isSetLeaderLineLength()
-     * @see #unsetLeaderLineLength()
-     * @see #getLeaderLineLength()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Leader Line Length</em>' attribute.
+	 * @see #isSetLeaderLineLength()
+	 * @see #unsetLeaderLineLength()
+	 * @see #getLeaderLineLength()
+	 * @generated
+	 */
     void setLeaderLineLength(double value);
 
-    /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetLeaderLineLength()
-     * @see #getLeaderLineLength()
-     * @see #setLeaderLineLength(double)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetLeaderLineLength()
+	 * @see #getLeaderLineLength()
+	 * @see #setLeaderLineLength(double)
+	 * @generated
+	 */
     void unsetLeaderLineLength();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute
-     * is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Leader Line Length</em>' attribute is set.
-     * @see #unsetLeaderLineLength()
-     * @see #getLeaderLineLength()
-     * @see #setLeaderLineLength(double)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Leader Line Length</em>' attribute is set.
+	 * @see #unsetLeaderLineLength()
+	 * @see #getLeaderLineLength()
+	 * @see #setLeaderLineLength(double)
+	 * @generated
+	 */
     boolean isSetLeaderLineLength();
 
     /**
@@ -355,16 +384,13 @@ public interface PieSeries extends Series
      */
     ColorDefinition getSliceOutline();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Slice Outline</em>' containment reference.
-     * @see #getSliceOutline()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Slice Outline</em>' containment reference.
+	 * @see #getSliceOutline()
+	 * @generated
+	 */
     void setSliceOutline(ColorDefinition value);
 
 } // PieSeries

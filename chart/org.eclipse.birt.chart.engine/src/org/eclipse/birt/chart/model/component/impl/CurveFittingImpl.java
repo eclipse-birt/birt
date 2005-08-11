@@ -12,18 +12,14 @@
 package org.eclipse.birt.chart.model.component.impl;
 
 import org.eclipse.birt.chart.model.attribute.Anchor;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
-import org.eclipse.birt.chart.model.component.MarkerLine;
-import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -31,25 +27,22 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Marker Line</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Curve Fitting</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getValue <em>Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabelAnchor <em>Label Anchor</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabelAnchor <em>Label Anchor</em>}</li>
  * </ul>
  * </p>
  * 
  * @generated
  */
-public class MarkerLineImpl extends EObjectImpl implements MarkerLine
+public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 {
 
 	/**
@@ -63,16 +56,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected DataElement value = null;
-
-	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -83,9 +66,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected Label label = null;
 
 	/**
-	 * The default value of the '
-	 * {@link #getLabelAnchor() <em>Label Anchor</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLabelAnchor()
 	 * @generated
@@ -113,23 +95,25 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected boolean labelAnchorESet = false;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @see #getFormatSpecifier()
-	 * @generated
-	 * @ordered
-	 */
-	protected FormatSpecifier formatSpecifier = null;
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected MarkerLineImpl( )
+	protected CurveFittingImpl( )
 	{
 		super( );
+	}
+
+	/**
+	 * Returns a curveFitting instance.
+	 * 
+	 * @return
+	 */
+	public static CurveFitting create( )
+	{
+		final CurveFitting cf = ComponentFactory.eINSTANCE.createCurveFitting( );
+		( (CurveFittingImpl) cf ).initialize( );
+		return cf;
 	}
 
 	/**
@@ -139,7 +123,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 */
 	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getMarkerLine( );
+		return ComponentPackage.eINSTANCE.getCurveFitting( );
 	}
 
 	/**
@@ -166,7 +150,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		{
 			ENotificationImpl notification = new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+					ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES,
 					oldLineAttributes,
 					newLineAttributes );
 			if ( msgs == null )
@@ -190,13 +174,13 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			if ( lineAttributes != null )
 				msgs = ( (InternalEObject) lineAttributes ).eInverseRemove( this,
 						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+								- ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES,
 						null,
 						msgs );
 			if ( newLineAttributes != null )
 				msgs = ( (InternalEObject) newLineAttributes ).eInverseAdd( this,
 						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+								- ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES,
 						null,
 						msgs );
 			msgs = basicSetLineAttributes( newLineAttributes, msgs );
@@ -206,78 +190,9 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		else if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES,
+					ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES,
 					newLineAttributes,
 					newLineAttributes ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public DataElement getValue( )
-	{
-		return value;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public NotificationChain basicSetValue( DataElement newValue,
-			NotificationChain msgs )
-	{
-		DataElement oldValue = value;
-		value = newValue;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.MARKER_LINE__VALUE,
-					oldValue,
-					newValue );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void setValue( DataElement newValue )
-	{
-		if ( newValue != value )
-		{
-			NotificationChain msgs = null;
-			if ( value != null )
-				msgs = ( (InternalEObject) value ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__VALUE,
-						null,
-						msgs );
-			if ( newValue != null )
-				msgs = ( (InternalEObject) newValue ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__VALUE,
-						null,
-						msgs );
-			msgs = basicSetValue( newValue, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.MARKER_LINE__VALUE,
-					newValue,
-					newValue ) );
 	}
 
 	/**
@@ -304,7 +219,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		{
 			ENotificationImpl notification = new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.MARKER_LINE__LABEL,
+					ComponentPackage.CURVE_FITTING__LABEL,
 					oldLabel,
 					newLabel );
 			if ( msgs == null )
@@ -328,13 +243,13 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			if ( label != null )
 				msgs = ( (InternalEObject) label ).eInverseRemove( this,
 						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__LABEL,
+								- ComponentPackage.CURVE_FITTING__LABEL,
 						null,
 						msgs );
 			if ( newLabel != null )
 				msgs = ( (InternalEObject) newLabel ).eInverseAdd( this,
 						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__LABEL,
+								- ComponentPackage.CURVE_FITTING__LABEL,
 						null,
 						msgs );
 			msgs = basicSetLabel( newLabel, msgs );
@@ -344,7 +259,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		else if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.MARKER_LINE__LABEL,
+					ComponentPackage.CURVE_FITTING__LABEL,
 					newLabel,
 					newLabel ) );
 	}
@@ -374,7 +289,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
-					ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+					ComponentPackage.CURVE_FITTING__LABEL_ANCHOR,
 					oldLabelAnchor,
 					labelAnchor,
 					!oldLabelAnchorESet ) );
@@ -394,7 +309,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.UNSET,
-					ComponentPackage.MARKER_LINE__LABEL_ANCHOR,
+					ComponentPackage.CURVE_FITTING__LABEL_ANCHOR,
 					oldLabelAnchor,
 					LABEL_ANCHOR_EDEFAULT,
 					oldLabelAnchorESet ) );
@@ -415,75 +330,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	 * 
 	 * @generated
 	 */
-	public FormatSpecifier getFormatSpecifier( )
-	{
-		return formatSpecifier;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public NotificationChain basicSetFormatSpecifier(
-			FormatSpecifier newFormatSpecifier, NotificationChain msgs )
-	{
-		FormatSpecifier oldFormatSpecifier = formatSpecifier;
-		formatSpecifier = newFormatSpecifier;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
-					oldFormatSpecifier,
-					newFormatSpecifier );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
-	{
-		if ( newFormatSpecifier != formatSpecifier )
-		{
-			NotificationChain msgs = null;
-			if ( formatSpecifier != null )
-				msgs = ( (InternalEObject) formatSpecifier ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
-						null,
-						msgs );
-			if ( newFormatSpecifier != null )
-				msgs = ( (InternalEObject) newFormatSpecifier ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
-						null,
-						msgs );
-			msgs = basicSetFormatSpecifier( newFormatSpecifier, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER,
-					newFormatSpecifier,
-					newFormatSpecifier ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs )
 	{
@@ -491,14 +337,10 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		{
 			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
 			{
-				case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES :
+				case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 					return basicSetLineAttributes( null, msgs );
-				case ComponentPackage.MARKER_LINE__VALUE :
-					return basicSetValue( null, msgs );
-				case ComponentPackage.MARKER_LINE__LABEL :
+				case ComponentPackage.CURVE_FITTING__LABEL :
 					return basicSetLabel( null, msgs );
-				case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
-					return basicSetFormatSpecifier( null, msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -518,16 +360,12 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	{
 		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES :
+			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				return getLineAttributes( );
-			case ComponentPackage.MARKER_LINE__VALUE :
-				return getValue( );
-			case ComponentPackage.MARKER_LINE__LABEL :
+			case ComponentPackage.CURVE_FITTING__LABEL :
 				return getLabel( );
-			case ComponentPackage.MARKER_LINE__LABEL_ANCHOR :
+			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				return getLabelAnchor( );
-			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
-				return getFormatSpecifier( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -541,20 +379,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	{
 		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES :
+			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) newValue );
 				return;
-			case ComponentPackage.MARKER_LINE__VALUE :
-				setValue( (DataElement) newValue );
-				return;
-			case ComponentPackage.MARKER_LINE__LABEL :
+			case ComponentPackage.CURVE_FITTING__LABEL :
 				setLabel( (Label) newValue );
 				return;
-			case ComponentPackage.MARKER_LINE__LABEL_ANCHOR :
+			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				setLabelAnchor( (Anchor) newValue );
-				return;
-			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
-				setFormatSpecifier( (FormatSpecifier) newValue );
 				return;
 		}
 		eDynamicSet( eFeature, newValue );
@@ -569,20 +401,14 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	{
 		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES :
+			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) null );
 				return;
-			case ComponentPackage.MARKER_LINE__VALUE :
-				setValue( (DataElement) null );
-				return;
-			case ComponentPackage.MARKER_LINE__LABEL :
+			case ComponentPackage.CURVE_FITTING__LABEL :
 				setLabel( (Label) null );
 				return;
-			case ComponentPackage.MARKER_LINE__LABEL_ANCHOR :
+			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				unsetLabelAnchor( );
-				return;
-			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
-				setFormatSpecifier( (FormatSpecifier) null );
 				return;
 		}
 		eDynamicUnset( eFeature );
@@ -597,16 +423,12 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	{
 		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.MARKER_LINE__LINE_ATTRIBUTES :
+			case ComponentPackage.CURVE_FITTING__LINE_ATTRIBUTES :
 				return lineAttributes != null;
-			case ComponentPackage.MARKER_LINE__VALUE :
-				return value != null;
-			case ComponentPackage.MARKER_LINE__LABEL :
+			case ComponentPackage.CURVE_FITTING__LABEL :
 				return label != null;
-			case ComponentPackage.MARKER_LINE__LABEL_ANCHOR :
+			case ComponentPackage.CURVE_FITTING__LABEL_ANCHOR :
 				return isSetLabelAnchor( );
-			case ComponentPackage.MARKER_LINE__FORMAT_SPECIFIER :
-				return formatSpecifier != null;
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -632,33 +454,25 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	}
 
 	/**
-	 * A convenience method provided to add a marker line instance to an axis
-	 * 
-	 * @param ax
-	 * @param de
+	 * Initialize the curve setting.
 	 */
-	public static final MarkerLine create( Axis ax, DataElement de )
+	protected void initialize( )
 	{
-		final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine( );
-		ml.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl.RED( ),
-				LineStyle.DASHED_LITERAL,
-				1 ) );
-		ml.setValue( de );
-		ml.setLabel( LabelImpl.create( ) );
-		ml.setLabelAnchor( ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ? Anchor.NORTH_WEST_LITERAL
-				: Anchor.NORTH_EAST_LITERAL );
+		final Label la = LabelImpl.create( );
+		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		lia.setVisible( false );
+		la.setOutline( lia );
+		la.setVisible( false );
+		setLabel( la );
+		setLabelAnchor( Anchor.NORTH_LITERAL );
 
-		if ( ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL )
-		{
-			ml.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
-		}
-
-		ax.getMarkerLines( ).add( ml );
-		if ( ax.getFormatSpecifier( ) != null )
-		{
-			ml.setFormatSpecifier( (FormatSpecifier) EcoreUtil.copy( ax.getFormatSpecifier( ) ) );
-		}
-		return ml;
+		lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		lia.setVisible( true );
+		setLineAttributes( lia );
 	}
 
-} // MarkerLineImpl
+} // CurveFittingImpl

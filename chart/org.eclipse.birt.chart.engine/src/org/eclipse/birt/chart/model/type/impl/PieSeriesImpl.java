@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Label;
@@ -44,27 +45,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosion <em>Explosion</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitle <em>Title</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitlePosition <em>Title Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineAttributes <em>Leader Line Attributes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineStyle <em>Leader Line Style</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosion <em>Explosion</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosionExpression <em>Explosion Expression</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitle <em>Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitlePosition <em>Title Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineAttributes <em>Leader Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineStyle <em>Leader Line Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
  * </ul>
  * </p>
  * 
@@ -101,6 +89,35 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @ordered
 	 */
 	protected boolean explosionESet = false;
+
+	/**
+	 * The default value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getExplosionExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String EXPLOSION_EXPRESSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getExplosionExpression()
+	 * @generated
+	 * @ordered
+	 */
+	protected String explosionExpression = EXPLOSION_EXPRESSION_EDEFAULT;
+
+	/**
+	 * This is true if the Explosion Expression attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean explosionExpressionESet = false;
 
 	/**
 	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
@@ -144,8 +161,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean titlePositionESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLeaderLineAttributes() <em>Leader Line Attributes</em>}'
+	 * The cached value of the '{@link #getLeaderLineAttributes() <em>Leader Line Attributes</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLeaderLineAttributes()
@@ -155,9 +171,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected LineAttributes leaderLineAttributes = null;
 
 	/**
-	 * The default value of the '
-	 * {@link #getLeaderLineStyle() <em>Leader Line Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLeaderLineStyle()
 	 * @generated
@@ -166,9 +181,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final LeaderLineStyle LEADER_LINE_STYLE_EDEFAULT = LeaderLineStyle.FIXED_LENGTH_LITERAL;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLeaderLineStyle() <em>Leader Line Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLeaderLineStyle()
 	 * @generated
@@ -186,9 +200,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean leaderLineStyleESet = false;
 
 	/**
-	 * The default value of the '
-	 * {@link #getLeaderLineLength() <em>Leader Line Length</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLeaderLineLength()
 	 * @generated
@@ -197,9 +210,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final double LEADER_LINE_LENGTH_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLeaderLineLength() <em>Leader Line Length</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLeaderLineLength()
 	 * @generated
@@ -217,9 +229,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean leaderLineLengthESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSliceOutline() <em>Slice Outline</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSliceOutline() <em>Slice Outline</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getSliceOutline()
 	 * @generated
@@ -305,6 +316,66 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	public boolean isSetExplosion( )
 	{
 		return explosionESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public String getExplosionExpression( )
+	{
+		return explosionExpression;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setExplosionExpression( String newExplosionExpression )
+	{
+		String oldExplosionExpression = explosionExpression;
+		explosionExpression = newExplosionExpression;
+		boolean oldExplosionExpressionESet = explosionExpressionESet;
+		explosionExpressionESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION,
+					oldExplosionExpression,
+					explosionExpression,
+					!oldExplosionExpressionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void unsetExplosionExpression( )
+	{
+		String oldExplosionExpression = explosionExpression;
+		boolean oldExplosionExpressionESet = explosionExpressionESet;
+		explosionExpression = EXPLOSION_EXPRESSION_EDEFAULT;
+		explosionExpressionESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION,
+					oldExplosionExpression,
+					EXPLOSION_EXPRESSION_EDEFAULT,
+					oldExplosionExpressionESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean isSetExplosionExpression( )
+	{
+		return explosionExpressionESet;
 	}
 
 	/**
@@ -718,6 +789,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				case TypePackage.PIE_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
+				case TypePackage.PIE_SERIES__CURVE_FITTING :
+					return basicSetCurveFitting( null, msgs );
 				case TypePackage.PIE_SERIES__TITLE :
 					return basicSetTitle( null, msgs );
 				case TypePackage.PIE_SERIES__LEADER_LINE_ATTRIBUTES :
@@ -763,8 +836,12 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return getTriggers( );
 			case TypePackage.PIE_SERIES__TRANSLUCENT :
 				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.PIE_SERIES__CURVE_FITTING :
+				return getCurveFitting( );
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return new Integer( getExplosion( ) );
+			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
+				return getExplosionExpression( );
 			case TypePackage.PIE_SERIES__TITLE :
 				return getTitle( );
 			case TypePackage.PIE_SERIES__TITLE_POSITION :
@@ -822,8 +899,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__TRANSLUCENT :
 				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case TypePackage.PIE_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) newValue );
+				return;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				setExplosion( ( (Integer) newValue ).intValue( ) );
+				return;
+			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
+				setExplosionExpression( (String) newValue );
 				return;
 			case TypePackage.PIE_SERIES__TITLE :
 				setTitle( (Label) newValue );
@@ -886,8 +969,14 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__TRANSLUCENT :
 				unsetTranslucent( );
 				return;
+			case TypePackage.PIE_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) null );
+				return;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				unsetExplosion( );
+				return;
+			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
+				unsetExplosionExpression( );
 				return;
 			case TypePackage.PIE_SERIES__TITLE :
 				setTitle( (Label) null );
@@ -941,8 +1030,12 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return triggers != null && !triggers.isEmpty( );
 			case TypePackage.PIE_SERIES__TRANSLUCENT :
 				return isSetTranslucent( );
+			case TypePackage.PIE_SERIES__CURVE_FITTING :
+				return curveFitting != null;
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return isSetExplosion( );
+			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
+				return isSetExplosionExpression( );
 			case TypePackage.PIE_SERIES__TITLE :
 				return title != null;
 			case TypePackage.PIE_SERIES__TITLE_POSITION :
@@ -973,6 +1066,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		result.append( " (explosion: " ); //$NON-NLS-1$
 		if ( explosionESet )
 			result.append( explosion );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", explosionExpression: " ); //$NON-NLS-1$
+		if ( explosionExpressionESet )
+			result.append( explosionExpression );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", titlePosition: " ); //$NON-NLS-1$

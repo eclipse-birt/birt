@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:chart="http://www.birt.eclipse.org/ChartModel"
-xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
-xmlns="http://www.birt.eclipse.org/ChartModelComponent"
-xmlns:data="http://www.birt.eclipse.org/ChartModelData"
-xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
-xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -251,6 +244,11 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 					<xsd:documentation xml:lang="en">
 					Specifies whether the series elements are to be rendered translucent. This setting is only applicable for elements with solid color fills.
 					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CurveFitting" type="CurveFitting" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the curve fitting attributes for the series.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>
@@ -514,6 +512,32 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					A collection of blocks holding preferences for the different blocks used in a chart.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CurveFitting">
+		<xsd:annotation>
+			<xsd:documentation>			This type defines the curve fitting element.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation>
+					Specifies the formatting information for the curve.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Label" type="Label">
+				<xsd:annotation>
+					<xsd:documentation>					A label instance to hold attributes for curve labels.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LabelAnchor" type="attribute:Anchor" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies where the labels for the curve should be displayed.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>

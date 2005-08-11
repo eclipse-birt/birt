@@ -116,7 +116,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
+	 * Creates, registers, and initializes the <b>Package</b> for this model,
 	 * and for any others upon which it depends. Simple dependencies are
 	 * satisfied by calling this method on all dependent packages before doing
 	 * anything else. This method drives initialization for interdependent
@@ -152,31 +152,31 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 		// Obtain or create and register interdependencies
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackageImpl.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackageImpl.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackageImpl.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
-				: AttributePackageImpl.eINSTANCE );
+				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackageImpl.eINSTANCE );
+				: DataPackage.eINSTANCE );
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+				: AttributePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theLayoutPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
-		theTypePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
-		theAttributePackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
+		theAttributePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
+		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theLayoutPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
-		theTypePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
-		theAttributePackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
+		theAttributePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
+		theTypePackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theLayoutPackage.freeze( );
@@ -509,6 +509,26 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	 * 
 	 * @generated
 	 */
+	public EReference getLegend_Title( )
+	{
+		return (EReference) legendEClass.getEStructuralFeatures( ).get( 9 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EAttribute getLegend_TitlePosition( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 10 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public EClass getPlot( )
 	{
 		return plotEClass;
@@ -620,6 +640,8 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( legendEClass, LEGEND__SEPARATOR );
 		createEAttribute( legendEClass, LEGEND__POSITION );
 		createEAttribute( legendEClass, LEGEND__ITEM_TYPE );
+		createEReference( legendEClass, LEGEND__TITLE );
+		createEAttribute( legendEClass, LEGEND__TITLE_POSITION );
 
 		plotEClass = createEClass( PLOT );
 		createEAttribute( plotEClass, PLOT__HORIZONTAL_SPACING );
@@ -1144,6 +1166,38 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				!IS_UNIQUE,
 				!IS_DERIVED,
 				IS_ORDERED );
+		initEReference( getLegend_Title( ),
+				theComponentPackage.getLabel( ),
+				null,
+				"title", //$NON-NLS-1$
+				null,
+				0,
+				1,
+				Legend.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE,
+				IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEAttribute( getLegend_TitlePosition( ),
+				theAttributePackage.getPosition( ),
+				"titlePosition", //$NON-NLS-1$
+				"Above", //$NON-NLS-1$
+				0,
+				1,
+				Legend.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
 
 		initEClass( plotEClass,
 				Plot.class,
@@ -1320,6 +1374,12 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( getLegend_ItemType( ), source, new String[]{
 				"kind", "element", "name", "ItemType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
+		addAnnotation( getLegend_Title( ), source, new String[]{
+				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getLegend_TitlePosition( ), source, new String[]{
+				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( plotEClass, source, new String[]{
 				"name", "Plot", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
@@ -1337,4 +1397,4 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		} );
 	}
 
-} //LayoutPackageImpl
+} // LayoutPackageImpl

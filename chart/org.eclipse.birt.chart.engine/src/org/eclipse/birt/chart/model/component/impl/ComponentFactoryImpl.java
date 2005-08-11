@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
-import java.util.Locale;
-
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -39,7 +37,7 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 {
 
 	/**
-	 * Creates and instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
 	 * @generated
@@ -62,6 +60,8 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createAxis( );
 			case ComponentPackage.CHART_PREFERENCES :
 				return createChartPreferences( );
+			case ComponentPackage.CURVE_FITTING :
+				return createCurveFitting( );
 			case ComponentPackage.GRID :
 				return createGrid( );
 			case ComponentPackage.LABEL :
@@ -75,11 +75,9 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 			case ComponentPackage.SERIES :
 				return createSeries( );
 			default :
-				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", //$NON-NLS-1$
-						new Object[]{
-							eClass.getName( )
-						},
-						Locale.getDefault( ) ) );
+				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
+						+ eClass.getName( )
+						+ "' is not a valid classifier" ); //$NON-NLS-1$
 		}
 	}
 
@@ -103,6 +101,17 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	{
 		ChartPreferencesImpl chartPreferences = new ChartPreferencesImpl( );
 		return chartPreferences;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public CurveFitting createCurveFitting( )
+	{
+		CurveFittingImpl curveFitting = new CurveFittingImpl( );
+		return curveFitting;
 	}
 
 	/**
@@ -192,4 +201,4 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 		return ComponentPackage.eINSTANCE;
 	}
 
-} //ComponentFactoryImpl
+} // ComponentFactoryImpl

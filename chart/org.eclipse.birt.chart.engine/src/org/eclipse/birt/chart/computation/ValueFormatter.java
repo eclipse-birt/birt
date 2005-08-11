@@ -149,9 +149,9 @@ public final class ValueFormatter
 	private static final double asPrimitiveDouble( Object o, Locale lcl )
 			throws ChartException
 	{
-		if ( o instanceof Double )
+		if ( o instanceof Number )
 		{
-			return ( (Double) o ).doubleValue( );
+			return ( (Number) o ).doubleValue( );
 		}
 		else if ( o instanceof NumberDataElement )
 		{

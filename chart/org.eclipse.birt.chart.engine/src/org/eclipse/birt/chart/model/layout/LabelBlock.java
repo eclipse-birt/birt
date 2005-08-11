@@ -34,8 +34,7 @@ import org.eclipse.birt.chart.model.component.Label;
  * @model
  * @generated
  */
-public interface LabelBlock extends Block
-{
+public interface LabelBlock extends Block{
 
     /**
      * Returns the value of the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -53,15 +52,13 @@ public interface LabelBlock extends Block
      */
     Label getLabel();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Label</em>' containment reference.
-     * @see #getLabel()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' containment reference.
+	 * @see #getLabel()
+	 * @generated
+	 */
     void setLabel(Label value);
 
 } // LabelBlock

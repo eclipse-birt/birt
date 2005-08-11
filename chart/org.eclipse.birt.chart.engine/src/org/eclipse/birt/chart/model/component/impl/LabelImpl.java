@@ -39,24 +39,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
  * 
@@ -754,10 +742,10 @@ public class LabelImpl extends EObjectImpl implements Label
 
 		setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
 
-		//final FormatSpecifier fs =
+		// final FormatSpecifier fs =
 		// AttributeFactory.eINSTANCE.createFormatSpecifier();
-		//((FormatSpecifierImpl) fs).initialize();
-		//setFormatSpecifier(fs);
+		// ((FormatSpecifierImpl) fs).initialize();
+		// setFormatSpecifier(fs);
 
 		final Insets ins = AttributeFactory.eINSTANCE.createInsets( );
 		( (InsetsImpl) ins ).set( 0, 2, 0, 3 );
@@ -772,4 +760,4 @@ public class LabelImpl extends EObjectImpl implements Label
 		setVisible( true );
 	}
 
-} //LabelImpl
+} // LabelImpl

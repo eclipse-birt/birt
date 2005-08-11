@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
@@ -50,12 +51,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser <em>Riser</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline <em>Riser Outline</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser <em>Riser</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline <em>Riser Outline</em>}</li>
  * </ul>
  * </p>
  * 
@@ -94,9 +91,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	protected boolean riserESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getRiserOutline() <em>Riser Outline</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getRiserOutline()
 	 * @generated
@@ -277,6 +273,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				case TypePackage.BAR_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
+				case TypePackage.BAR_SERIES__CURVE_FITTING :
+					return basicSetCurveFitting( null, msgs );
 				case TypePackage.BAR_SERIES__RISER_OUTLINE :
 					return basicSetRiserOutline( null, msgs );
 				default :
@@ -318,6 +316,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				return getTriggers( );
 			case TypePackage.BAR_SERIES__TRANSLUCENT :
 				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.BAR_SERIES__CURVE_FITTING :
+				return getCurveFitting( );
 			case TypePackage.BAR_SERIES__RISER :
 				return getRiser( );
 			case TypePackage.BAR_SERIES__RISER_OUTLINE :
@@ -366,6 +366,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				return;
 			case TypePackage.BAR_SERIES__TRANSLUCENT :
 				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case TypePackage.BAR_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) newValue );
 				return;
 			case TypePackage.BAR_SERIES__RISER :
 				setRiser( (RiserType) newValue );
@@ -416,6 +419,9 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 			case TypePackage.BAR_SERIES__TRANSLUCENT :
 				unsetTranslucent( );
 				return;
+			case TypePackage.BAR_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) null );
+				return;
 			case TypePackage.BAR_SERIES__RISER :
 				unsetRiser( );
 				return;
@@ -456,6 +462,8 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 				return triggers != null && !triggers.isEmpty( );
 			case TypePackage.BAR_SERIES__TRANSLUCENT :
 				return isSetTranslucent( );
+			case TypePackage.BAR_SERIES__CURVE_FITTING :
+				return curveFitting != null;
 			case TypePackage.BAR_SERIES__RISER :
 				return isSetRiser( );
 			case TypePackage.BAR_SERIES__RISER_OUTLINE :

@@ -1012,7 +1012,48 @@ public final class PlotWith2DAxes extends PlotContent
 	private final DataSetIterator getTypedDataSet( Series se, int iType )
 			throws ChartException, IllegalArgumentException
 	{
-		return new DataSetIterator( se.getDataSet( ) );
+		DataSetIterator dsi = new DataSetIterator( se.getDataSet( ) );
+
+		if ( ( dsi.getDataType( ) & TEXT ) == TEXT )
+		{
+			if ( ( iType & LINEAR ) == LINEAR
+					|| ( iType & LOGARITHMIC ) == LOGARITHMIC
+					|| ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.text.data.numerical.datetime.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+			}
+		}
+
+		if ( ( dsi.getDataType( ) & NUMERICAL ) == NUMERICAL )
+		{
+			if ( ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+			}
+		}
+
+		if ( ( dsi.getDataType( ) & DATE_TIME ) == DATE_TIME )
+		{
+			if ( ( iType & LINEAR ) == LINEAR
+					|| ( iType & LOGARITHMIC ) == LOGARITHMIC )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+			}
+		}
+
+		return dsi;
 	}
 
 	/**
@@ -1334,16 +1375,39 @@ public final class PlotWith2DAxes extends PlotContent
 
 		if ( iType == DATE_TIME )
 		{
-			return new Calendar[]{
-					asDateTime( oMin ), asDateTime( oMax )
-			};
+			try
+			{
+				return new Calendar[]{
+						asDateTime( oMin ), asDateTime( oMax )
+				};
+			}
+			catch ( ClassCastException ex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+
+			}
 		}
 		else if ( ( iType & NUMERICAL ) == NUMERICAL )
 		{
-			return new double[]{
-					asDouble( oMin ).doubleValue( ),
-					asDouble( oMax ).doubleValue( )
-			};
+			try
+			{
+				return new double[]{
+						asDouble( oMin ).doubleValue( ),
+						asDouble( oMax ).doubleValue( )
+				};
+			}
+			catch ( ClassCastException ex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+			}
 		}
 		return null;
 	}

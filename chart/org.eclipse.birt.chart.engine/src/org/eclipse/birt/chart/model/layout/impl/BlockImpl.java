@@ -54,48 +54,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
  * </ul>
  * </p>
  * 
@@ -1624,9 +1596,9 @@ public class BlockImpl extends EObjectImpl implements Block
 		setColumn( -1 );
 		setRowspan( -1 );
 		setColumnspan( -1 );
-		//setStretch(Stretch.NONE_LITERAL);
+		// setStretch(Stretch.NONE_LITERAL);
 
 		setVisible( true );
 	}
 
-} //BlockImpl
+} // BlockImpl

@@ -40,15 +40,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
  * </ul>
  * </p>
  * 
@@ -58,9 +52,8 @@ public class PlotImpl extends BlockImpl implements Plot
 {
 
 	/**
-	 * The default value of the '
-	 * {@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
@@ -69,9 +62,8 @@ public class PlotImpl extends BlockImpl implements Plot
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getHorizontalSpacing()
 	 * @generated
@@ -679,4 +671,4 @@ public class PlotImpl extends BlockImpl implements Plot
 		setVerticalSpacing( 5 );
 	}
 
-} //PlotImpl
+} // PlotImpl

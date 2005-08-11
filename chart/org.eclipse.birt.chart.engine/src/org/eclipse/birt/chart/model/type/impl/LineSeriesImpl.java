@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -56,18 +57,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarker <em>Marker</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getLineAttributes <em>Line Attributes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarker <em>Marker</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
  * </ul>
  * </p>
  * 
@@ -87,9 +80,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	protected Marker marker = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLineAttributes() <em>Line Attributes</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLineAttributes()
 	 * @generated
@@ -447,6 +439,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				case TypePackage.LINE_SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
+				case TypePackage.LINE_SERIES__CURVE_FITTING :
+					return basicSetCurveFitting( null, msgs );
 				case TypePackage.LINE_SERIES__MARKER :
 					return basicSetMarker( null, msgs );
 				case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
@@ -492,6 +486,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return getTriggers( );
 			case TypePackage.LINE_SERIES__TRANSLUCENT :
 				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.LINE_SERIES__CURVE_FITTING :
+				return getCurveFitting( );
 			case TypePackage.LINE_SERIES__MARKER :
 				return getMarker( );
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
@@ -544,6 +540,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return;
 			case TypePackage.LINE_SERIES__TRANSLUCENT :
 				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case TypePackage.LINE_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) newValue );
 				return;
 			case TypePackage.LINE_SERIES__MARKER :
 				setMarker( (Marker) newValue );
@@ -600,6 +599,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			case TypePackage.LINE_SERIES__TRANSLUCENT :
 				unsetTranslucent( );
 				return;
+			case TypePackage.LINE_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) null );
+				return;
 			case TypePackage.LINE_SERIES__MARKER :
 				setMarker( (Marker) null );
 				return;
@@ -646,6 +648,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return triggers != null && !triggers.isEmpty( );
 			case TypePackage.LINE_SERIES__TRANSLUCENT :
 				return isSetTranslucent( );
+			case TypePackage.LINE_SERIES__CURVE_FITTING :
+				return curveFitting != null;
 			case TypePackage.LINE_SERIES__MARKER :
 				return marker != null;
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :

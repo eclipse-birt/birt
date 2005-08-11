@@ -128,7 +128,7 @@ public final class DataSetIterator implements Iterator
 	 * 
 	 * @param sa
 	 */
-	public DataSetIterator( Calendar[] ca )
+	public DataSetIterator( Calendar[] ca ) throws ChartException
 	{
 		this.ca = ca;
 		iDataType = IConstants.DATE_TIME;
@@ -143,7 +143,7 @@ public final class DataSetIterator implements Iterator
 	 * @throws UnexpectedInputException
 	 */
 	public DataSetIterator( Object oContent, int iDataType )
-			throws IllegalArgumentException
+			throws IllegalArgumentException, ChartException
 	{
 		if ( ( iDataType & IConstants.LINEAR ) == IConstants.LINEAR
 				|| ( iDataType & IConstants.LOGARITHMIC ) == IConstants.LOGARITHMIC )
@@ -244,7 +244,7 @@ public final class DataSetIterator implements Iterator
 	 * @param ds
 	 * @throws UnexpectedInputException
 	 */
-	public DataSetIterator( DataSet ds ) throws IllegalArgumentException
+	public DataSetIterator( DataSet ds ) throws IllegalArgumentException, ChartException
 	{
 		Object oContent = ds.getValues( );
 		if ( ds instanceof NumberDataSet )
@@ -536,8 +536,7 @@ public final class DataSetIterator implements Iterator
 	 */
 	public void remove( )
 	{
-		// TODO Auto-generated method stub
-
+		// TODO Add remove operation support.
 	}
 
 	/**
@@ -623,7 +622,7 @@ public final class DataSetIterator implements Iterator
 	/**
 	 * 
 	 */
-	final void updateDateTimeValues( )
+	final void updateDateTimeValues( ) throws ChartException
 	{
 		iRowCount = getRowCountInternal( );
 		Calendar cValue;

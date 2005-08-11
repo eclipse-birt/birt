@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelType" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns:chart="http://www.birt.eclipse.org/ChartModel"
-xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
-xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
-xmlns:data="http://www.birt.eclipse.org/ChartModelData"
-xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
-xmlns="http://www.birt.eclipse.org/ChartModelType" 
->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns="http://www.birt.eclipse.org/ChartModelType">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
@@ -56,6 +49,11 @@ xmlns="http://www.birt.eclipse.org/ChartModelType"
 							<xsd:documentation xml:lang="en">
 							Specifies the 'Explosion' value to be used while displaying the pie slices.
 							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ExplosionExpression" type="xsd:string" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies an expression to determine if the explosion will be applied to each slice.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Title" type="component:Label">
@@ -183,6 +181,17 @@ xmlns="http://www.birt.eclipse.org/ChartModelType"
 					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Area Series	-->
+	<xsd:complexType name="AreaSeries">
+		<xsd:annotation>
+			<xsd:documentation>
+			This is a Series type that holds data for Area Charts.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="LineSeries"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 </xsd:schema>

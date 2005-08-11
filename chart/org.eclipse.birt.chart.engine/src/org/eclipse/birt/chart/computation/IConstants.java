@@ -79,6 +79,8 @@ public interface IConstants
 
     public final int RIGHT = 2;
 
+    public final int CENTER = 3;
+
     public final int TOP = 3;
 
     public final int BOTTOM = 4;

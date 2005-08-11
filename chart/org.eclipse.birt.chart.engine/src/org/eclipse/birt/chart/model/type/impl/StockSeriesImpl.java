@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -62,24 +63,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class StockSeriesImpl extends SeriesImpl implements StockSeries
 {
 
 	/**
-	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -87,10 +83,8 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	protected Fill fill = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLineAttributes() <em>Line Attributes</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -99,27 +93,24 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected StockSeriesImpl( )
+	protected StockSeriesImpl()
 	{
-		super( );
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected EClass eStaticClass( )
+	protected EClass eStaticClass()
 	{
-		return TypePackage.eINSTANCE.getStockSeries( );
+		return TypePackage.eINSTANCE.getStockSeries();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getFill( )
@@ -129,63 +120,42 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetFill( Fill newFill, NotificationChain msgs )
+	public NotificationChain basicSetFill(Fill newFill, NotificationChain msgs)
 	{
 		Fill oldFill = fill;
 		fill = newFill;
-		if ( eNotificationRequired( ) )
+		if (eNotificationRequired())
 		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.STOCK_SERIES__FILL,
-					oldFill,
-					newFill );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__FILL, oldFill, newFill);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setFill( Fill newFill )
+	public void setFill(Fill newFill)
 	{
-		if ( newFill != fill )
+		if (newFill != fill)
 		{
 			NotificationChain msgs = null;
-			if ( fill != null )
-				msgs = ( (InternalEObject) fill ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL,
-						null,
-						msgs );
-			if ( newFill != null )
-				msgs = ( (InternalEObject) newFill ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL,
-						null,
-						msgs );
-			msgs = basicSetFill( newFill, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
+			if (fill != null)
+				msgs = ((InternalEObject)fill).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
+			if (newFill != null)
+				msgs = ((InternalEObject)newFill).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__FILL, null, msgs);
+			msgs = basicSetFill(newFill, msgs);
+			if (msgs != null) msgs.dispatch();
 		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.STOCK_SERIES__FILL,
-					newFill,
-					newFill ) );
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__FILL, newFill, newFill));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -195,274 +165,251 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLineAttributes(
-			LineAttributes newLineAttributes, NotificationChain msgs )
+	public NotificationChain basicSetLineAttributes(LineAttributes newLineAttributes, NotificationChain msgs)
 	{
 		LineAttributes oldLineAttributes = lineAttributes;
 		lineAttributes = newLineAttributes;
-		if ( eNotificationRequired( ) )
+		if (eNotificationRequired())
 		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
-					oldLineAttributes,
-					newLineAttributes );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, oldLineAttributes, newLineAttributes);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setLineAttributes( LineAttributes newLineAttributes )
+	public void setLineAttributes(LineAttributes newLineAttributes)
 	{
-		if ( newLineAttributes != lineAttributes )
+		if (newLineAttributes != lineAttributes)
 		{
 			NotificationChain msgs = null;
-			if ( lineAttributes != null )
-				msgs = ( (InternalEObject) lineAttributes ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
-						null,
-						msgs );
-			if ( newLineAttributes != null )
-				msgs = ( (InternalEObject) newLineAttributes ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
-						null,
-						msgs );
-			msgs = basicSetLineAttributes( newLineAttributes, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
+			if (lineAttributes != null)
+				msgs = ((InternalEObject)lineAttributes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
+			if (newLineAttributes != null)
+				msgs = ((InternalEObject)newLineAttributes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, null, msgs);
+			msgs = basicSetLineAttributes(newLineAttributes, msgs);
+			if (msgs != null) msgs.dispatch();
 		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.STOCK_SERIES__LINE_ATTRIBUTES,
-					newLineAttributes,
-					newLineAttributes ) );
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.STOCK_SERIES__LINE_ATTRIBUTES, newLineAttributes, newLineAttributes));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
 	{
-		if ( featureID >= 0 )
+		if (featureID >= 0)
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
+			switch (eDerivedStructuralFeatureID(featureID, baseClass))
 			{
-				case TypePackage.STOCK_SERIES__LABEL :
-					return basicSetLabel( null, msgs );
-				case TypePackage.STOCK_SERIES__DATA_DEFINITION :
-					return ( (InternalEList) getDataDefinition( ) ).basicRemove( otherEnd,
-							msgs );
-				case TypePackage.STOCK_SERIES__DATA_POINT :
-					return basicSetDataPoint( null, msgs );
-				case TypePackage.STOCK_SERIES__DATA_SET :
-					return basicSetDataSet( null, msgs );
-				case TypePackage.STOCK_SERIES__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				case TypePackage.STOCK_SERIES__FILL :
-					return basicSetFill( null, msgs );
-				case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
-					return basicSetLineAttributes( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
+				case TypePackage.STOCK_SERIES__LABEL:
+					return basicSetLabel(null, msgs);
+				case TypePackage.STOCK_SERIES__DATA_DEFINITION:
+					return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
+				case TypePackage.STOCK_SERIES__DATA_POINT:
+					return basicSetDataPoint(null, msgs);
+				case TypePackage.STOCK_SERIES__DATA_SET:
+					return basicSetDataSet(null, msgs);
+				case TypePackage.STOCK_SERIES__TRIGGERS:
+					return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+				case TypePackage.STOCK_SERIES__CURVE_FITTING:
+					return basicSetCurveFitting(null, msgs);
+				case TypePackage.STOCK_SERIES__FILL:
+					return basicSetFill(null, msgs);
+				case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
+					return basicSetLineAttributes(null, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet(EStructuralFeature eFeature, boolean resolve)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case TypePackage.STOCK_SERIES__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.STOCK_SERIES__LABEL :
-				return getLabel( );
-			case TypePackage.STOCK_SERIES__DATA_DEFINITION :
-				return getDataDefinition( );
-			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER :
-				return getSeriesIdentifier( );
-			case TypePackage.STOCK_SERIES__DATA_POINT :
-				return getDataPoint( );
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				return getDataSet( );
-			case TypePackage.STOCK_SERIES__LABEL_POSITION :
-				return getLabelPosition( );
-			case TypePackage.STOCK_SERIES__STACKED :
-				return isStacked( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.STOCK_SERIES__TRIGGERS :
-				return getTriggers( );
-			case TypePackage.STOCK_SERIES__TRANSLUCENT :
-				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.STOCK_SERIES__FILL :
-				return getFill( );
-			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
-				return getLineAttributes( );
+			case TypePackage.STOCK_SERIES__VISIBLE:
+				return isVisible() ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.STOCK_SERIES__LABEL:
+				return getLabel();
+			case TypePackage.STOCK_SERIES__DATA_DEFINITION:
+				return getDataDefinition();
+			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
+				return getSeriesIdentifier();
+			case TypePackage.STOCK_SERIES__DATA_POINT:
+				return getDataPoint();
+			case TypePackage.STOCK_SERIES__DATA_SET:
+				return getDataSet();
+			case TypePackage.STOCK_SERIES__LABEL_POSITION:
+				return getLabelPosition();
+			case TypePackage.STOCK_SERIES__STACKED:
+				return isStacked() ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.STOCK_SERIES__TRIGGERS:
+				return getTriggers();
+			case TypePackage.STOCK_SERIES__TRANSLUCENT:
+				return isTranslucent() ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.STOCK_SERIES__CURVE_FITTING:
+				return getCurveFitting();
+			case TypePackage.STOCK_SERIES__FILL:
+				return getFill();
+			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
+				return getLineAttributes();
 		}
-		return eDynamicGet( eFeature, resolve );
+		return eDynamicGet(eFeature, resolve);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet(EStructuralFeature eFeature, Object newValue)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case TypePackage.STOCK_SERIES__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+			case TypePackage.STOCK_SERIES__VISIBLE:
+				setVisible(((Boolean)newValue).booleanValue());
 				return;
-			case TypePackage.STOCK_SERIES__LABEL :
-				setLabel( (Label) newValue );
+			case TypePackage.STOCK_SERIES__LABEL:
+				setLabel((Label)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__DATA_DEFINITION :
-				getDataDefinition( ).clear( );
-				getDataDefinition( ).addAll( (Collection) newValue );
+			case TypePackage.STOCK_SERIES__DATA_DEFINITION:
+				getDataDefinition().clear();
+				getDataDefinition().addAll((Collection)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER :
-				setSeriesIdentifier( newValue );
+			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
+				setSeriesIdentifier((Object)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__DATA_POINT :
-				setDataPoint( (DataPoint) newValue );
+			case TypePackage.STOCK_SERIES__DATA_POINT:
+				setDataPoint((DataPoint)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				setDataSet( (DataSet) newValue );
+			case TypePackage.STOCK_SERIES__DATA_SET:
+				setDataSet((DataSet)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__LABEL_POSITION :
-				setLabelPosition( (Position) newValue );
+			case TypePackage.STOCK_SERIES__LABEL_POSITION:
+				setLabelPosition((Position)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__STACKED :
-				setStacked( ( (Boolean) newValue ).booleanValue( ) );
+			case TypePackage.STOCK_SERIES__STACKED:
+				setStacked(((Boolean)newValue).booleanValue());
 				return;
-			case TypePackage.STOCK_SERIES__TRIGGERS :
-				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+			case TypePackage.STOCK_SERIES__TRIGGERS:
+				getTriggers().clear();
+				getTriggers().addAll((Collection)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__TRANSLUCENT :
-				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
+			case TypePackage.STOCK_SERIES__TRANSLUCENT:
+				setTranslucent(((Boolean)newValue).booleanValue());
 				return;
-			case TypePackage.STOCK_SERIES__FILL :
-				setFill( (Fill) newValue );
+			case TypePackage.STOCK_SERIES__CURVE_FITTING:
+				setCurveFitting((CurveFitting)newValue);
 				return;
-			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
-				setLineAttributes( (LineAttributes) newValue );
+			case TypePackage.STOCK_SERIES__FILL:
+				setFill((Fill)newValue);
 				return;
-		}
-		eDynamicSet( eFeature, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void eUnset( EStructuralFeature eFeature )
-	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
-		{
-			case TypePackage.STOCK_SERIES__VISIBLE :
-				unsetVisible( );
-				return;
-			case TypePackage.STOCK_SERIES__LABEL :
-				setLabel( (Label) null );
-				return;
-			case TypePackage.STOCK_SERIES__DATA_DEFINITION :
-				getDataDefinition( ).clear( );
-				return;
-			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER :
-				setSeriesIdentifier( SERIES_IDENTIFIER_EDEFAULT );
-				return;
-			case TypePackage.STOCK_SERIES__DATA_POINT :
-				setDataPoint( (DataPoint) null );
-				return;
-			case TypePackage.STOCK_SERIES__DATA_SET :
-				setDataSet( (DataSet) null );
-				return;
-			case TypePackage.STOCK_SERIES__LABEL_POSITION :
-				unsetLabelPosition( );
-				return;
-			case TypePackage.STOCK_SERIES__STACKED :
-				unsetStacked( );
-				return;
-			case TypePackage.STOCK_SERIES__TRIGGERS :
-				getTriggers( ).clear( );
-				return;
-			case TypePackage.STOCK_SERIES__TRANSLUCENT :
-				unsetTranslucent( );
-				return;
-			case TypePackage.STOCK_SERIES__FILL :
-				setFill( (Fill) null );
-				return;
-			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
-				setLineAttributes( (LineAttributes) null );
+			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
+				setLineAttributes((LineAttributes)newValue);
 				return;
 		}
-		eDynamicUnset( eFeature );
+		eDynamicSet(eFeature, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public void eUnset(EStructuralFeature eFeature)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case TypePackage.STOCK_SERIES__VISIBLE :
-				return isSetVisible( );
-			case TypePackage.STOCK_SERIES__LABEL :
+			case TypePackage.STOCK_SERIES__VISIBLE:
+				unsetVisible();
+				return;
+			case TypePackage.STOCK_SERIES__LABEL:
+				setLabel((Label)null);
+				return;
+			case TypePackage.STOCK_SERIES__DATA_DEFINITION:
+				getDataDefinition().clear();
+				return;
+			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
+				setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
+				return;
+			case TypePackage.STOCK_SERIES__DATA_POINT:
+				setDataPoint((DataPoint)null);
+				return;
+			case TypePackage.STOCK_SERIES__DATA_SET:
+				setDataSet((DataSet)null);
+				return;
+			case TypePackage.STOCK_SERIES__LABEL_POSITION:
+				unsetLabelPosition();
+				return;
+			case TypePackage.STOCK_SERIES__STACKED:
+				unsetStacked();
+				return;
+			case TypePackage.STOCK_SERIES__TRIGGERS:
+				getTriggers().clear();
+				return;
+			case TypePackage.STOCK_SERIES__TRANSLUCENT:
+				unsetTranslucent();
+				return;
+			case TypePackage.STOCK_SERIES__CURVE_FITTING:
+				setCurveFitting((CurveFitting)null);
+				return;
+			case TypePackage.STOCK_SERIES__FILL:
+				setFill((Fill)null);
+				return;
+			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
+				setLineAttributes((LineAttributes)null);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(EStructuralFeature eFeature)
+	{
+		switch (eDerivedStructuralFeatureID(eFeature))
+		{
+			case TypePackage.STOCK_SERIES__VISIBLE:
+				return isSetVisible();
+			case TypePackage.STOCK_SERIES__LABEL:
 				return label != null;
-			case TypePackage.STOCK_SERIES__DATA_DEFINITION :
-				return dataDefinition != null && !dataDefinition.isEmpty( );
-			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER :
-				return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null
-						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
-			case TypePackage.STOCK_SERIES__DATA_POINT :
+			case TypePackage.STOCK_SERIES__DATA_DEFINITION:
+				return dataDefinition != null && !dataDefinition.isEmpty();
+			case TypePackage.STOCK_SERIES__SERIES_IDENTIFIER:
+				return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
+			case TypePackage.STOCK_SERIES__DATA_POINT:
 				return dataPoint != null;
-			case TypePackage.STOCK_SERIES__DATA_SET :
+			case TypePackage.STOCK_SERIES__DATA_SET:
 				return dataSet != null;
-			case TypePackage.STOCK_SERIES__LABEL_POSITION :
-				return isSetLabelPosition( );
-			case TypePackage.STOCK_SERIES__STACKED :
-				return isSetStacked( );
-			case TypePackage.STOCK_SERIES__TRIGGERS :
-				return triggers != null && !triggers.isEmpty( );
-			case TypePackage.STOCK_SERIES__TRANSLUCENT :
-				return isSetTranslucent( );
-			case TypePackage.STOCK_SERIES__FILL :
+			case TypePackage.STOCK_SERIES__LABEL_POSITION:
+				return isSetLabelPosition();
+			case TypePackage.STOCK_SERIES__STACKED:
+				return isSetStacked();
+			case TypePackage.STOCK_SERIES__TRIGGERS:
+				return triggers != null && !triggers.isEmpty();
+			case TypePackage.STOCK_SERIES__TRANSLUCENT:
+				return isSetTranslucent();
+			case TypePackage.STOCK_SERIES__CURVE_FITTING:
+				return curveFitting != null;
+			case TypePackage.STOCK_SERIES__FILL:
 				return fill != null;
-			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES :
+			case TypePackage.STOCK_SERIES__LINE_ATTRIBUTES:
 				return lineAttributes != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return eDynamicIsSet(eFeature);
 	}
 
 	/*

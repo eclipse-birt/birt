@@ -49,21 +49,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl#getLabel <em>Label</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl#getLabel <em>Label</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class LabelBlockImpl extends BlockImpl implements LabelBlock
 {
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -72,27 +69,24 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected LabelBlockImpl( )
+	protected LabelBlockImpl()
 	{
-		super( );
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected EClass eStaticClass( )
+	protected EClass eStaticClass()
 	{
-		return LayoutPackage.eINSTANCE.getLabelBlock( );
+		return LayoutPackage.eINSTANCE.getLabelBlock();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -102,305 +96,271 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel( Label newLabel,
-			NotificationChain msgs )
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs)
 	{
 		Label oldLabel = label;
 		label = newLabel;
-		if ( eNotificationRequired( ) )
+		if (eNotificationRequired())
 		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LABEL_BLOCK__LABEL,
-					oldLabel,
-					newLabel );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, LayoutPackage.LABEL_BLOCK__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setLabel( Label newLabel )
+	public void setLabel(Label newLabel)
 	{
-		if ( newLabel != label )
+		if (newLabel != label)
 		{
 			NotificationChain msgs = null;
-			if ( label != null )
-				msgs = ( (InternalEObject) label ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LABEL_BLOCK__LABEL,
-						null,
-						msgs );
-			if ( newLabel != null )
-				msgs = ( (InternalEObject) newLabel ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LABEL_BLOCK__LABEL,
-						null,
-						msgs );
-			msgs = basicSetLabel( newLabel, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
+			if (label != null)
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LABEL_BLOCK__LABEL, null, msgs);
+			if (newLabel != null)
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - LayoutPackage.LABEL_BLOCK__LABEL, null, msgs);
+			msgs = basicSetLabel(newLabel, msgs);
+			if (msgs != null) msgs.dispatch();
 		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LABEL_BLOCK__LABEL,
-					newLabel,
-					newLabel ) );
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, LayoutPackage.LABEL_BLOCK__LABEL, newLabel, newLabel));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, Class baseClass, NotificationChain msgs )
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
 	{
-		if ( featureID >= 0 )
+		if (featureID >= 0)
 		{
-			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
+			switch (eDerivedStructuralFeatureID(featureID, baseClass))
 			{
-				case LayoutPackage.LABEL_BLOCK__CHILDREN :
-					return ( (InternalEList) getChildren( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.LABEL_BLOCK__BOUNDS :
-					return basicSetBounds( null, msgs );
-				case LayoutPackage.LABEL_BLOCK__INSETS :
-					return basicSetInsets( null, msgs );
-				case LayoutPackage.LABEL_BLOCK__MIN_SIZE :
-					return basicSetMinSize( null, msgs );
-				case LayoutPackage.LABEL_BLOCK__OUTLINE :
-					return basicSetOutline( null, msgs );
-				case LayoutPackage.LABEL_BLOCK__BACKGROUND :
-					return basicSetBackground( null, msgs );
-				case LayoutPackage.LABEL_BLOCK__TRIGGERS :
-					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
-							msgs );
-				case LayoutPackage.LABEL_BLOCK__LABEL :
-					return basicSetLabel( null, msgs );
-				default :
-					return eDynamicInverseRemove( otherEnd,
-							featureID,
-							baseClass,
-							msgs );
+				case LayoutPackage.LABEL_BLOCK__CHILDREN:
+					return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+				case LayoutPackage.LABEL_BLOCK__BOUNDS:
+					return basicSetBounds(null, msgs);
+				case LayoutPackage.LABEL_BLOCK__INSETS:
+					return basicSetInsets(null, msgs);
+				case LayoutPackage.LABEL_BLOCK__MIN_SIZE:
+					return basicSetMinSize(null, msgs);
+				case LayoutPackage.LABEL_BLOCK__OUTLINE:
+					return basicSetOutline(null, msgs);
+				case LayoutPackage.LABEL_BLOCK__BACKGROUND:
+					return basicSetBackground(null, msgs);
+				case LayoutPackage.LABEL_BLOCK__TRIGGERS:
+					return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
+				case LayoutPackage.LABEL_BLOCK__LABEL:
+					return basicSetLabel(null, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
 		}
-		return eBasicSetContainer( null, featureID, msgs );
+		return eBasicSetContainer(null, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Object eGet( EStructuralFeature eFeature, boolean resolve )
+	public Object eGet(EStructuralFeature eFeature, boolean resolve)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case LayoutPackage.LABEL_BLOCK__CHILDREN :
-				return getChildren( );
-			case LayoutPackage.LABEL_BLOCK__BOUNDS :
-				return getBounds( );
-			case LayoutPackage.LABEL_BLOCK__ANCHOR :
-				return getAnchor( );
-			case LayoutPackage.LABEL_BLOCK__STRETCH :
-				return getStretch( );
-			case LayoutPackage.LABEL_BLOCK__INSETS :
-				return getInsets( );
-			case LayoutPackage.LABEL_BLOCK__ROW :
-				return new Integer( getRow( ) );
-			case LayoutPackage.LABEL_BLOCK__COLUMN :
-				return new Integer( getColumn( ) );
-			case LayoutPackage.LABEL_BLOCK__ROWSPAN :
-				return new Integer( getRowspan( ) );
-			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN :
-				return new Integer( getColumnspan( ) );
-			case LayoutPackage.LABEL_BLOCK__MIN_SIZE :
-				return getMinSize( );
-			case LayoutPackage.LABEL_BLOCK__OUTLINE :
-				return getOutline( );
-			case LayoutPackage.LABEL_BLOCK__BACKGROUND :
-				return getBackground( );
-			case LayoutPackage.LABEL_BLOCK__VISIBLE :
-				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.LABEL_BLOCK__TRIGGERS :
-				return getTriggers( );
-			case LayoutPackage.LABEL_BLOCK__LABEL :
-				return getLabel( );
+			case LayoutPackage.LABEL_BLOCK__CHILDREN:
+				return getChildren();
+			case LayoutPackage.LABEL_BLOCK__BOUNDS:
+				return getBounds();
+			case LayoutPackage.LABEL_BLOCK__ANCHOR:
+				return getAnchor();
+			case LayoutPackage.LABEL_BLOCK__STRETCH:
+				return getStretch();
+			case LayoutPackage.LABEL_BLOCK__INSETS:
+				return getInsets();
+			case LayoutPackage.LABEL_BLOCK__ROW:
+				return new Integer(getRow());
+			case LayoutPackage.LABEL_BLOCK__COLUMN:
+				return new Integer(getColumn());
+			case LayoutPackage.LABEL_BLOCK__ROWSPAN:
+				return new Integer(getRowspan());
+			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN:
+				return new Integer(getColumnspan());
+			case LayoutPackage.LABEL_BLOCK__MIN_SIZE:
+				return getMinSize();
+			case LayoutPackage.LABEL_BLOCK__OUTLINE:
+				return getOutline();
+			case LayoutPackage.LABEL_BLOCK__BACKGROUND:
+				return getBackground();
+			case LayoutPackage.LABEL_BLOCK__VISIBLE:
+				return isVisible() ? Boolean.TRUE : Boolean.FALSE;
+			case LayoutPackage.LABEL_BLOCK__TRIGGERS:
+				return getTriggers();
+			case LayoutPackage.LABEL_BLOCK__LABEL:
+				return getLabel();
 		}
-		return eDynamicGet( eFeature, resolve );
+		return eDynamicGet(eFeature, resolve);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void eSet( EStructuralFeature eFeature, Object newValue )
+	public void eSet(EStructuralFeature eFeature, Object newValue)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case LayoutPackage.LABEL_BLOCK__CHILDREN :
-				getChildren( ).clear( );
-				getChildren( ).addAll( (Collection) newValue );
+			case LayoutPackage.LABEL_BLOCK__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__BOUNDS :
-				setBounds( (Bounds) newValue );
+			case LayoutPackage.LABEL_BLOCK__BOUNDS:
+				setBounds((Bounds)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__ANCHOR :
-				setAnchor( (Anchor) newValue );
+			case LayoutPackage.LABEL_BLOCK__ANCHOR:
+				setAnchor((Anchor)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__STRETCH :
-				setStretch( (Stretch) newValue );
+			case LayoutPackage.LABEL_BLOCK__STRETCH:
+				setStretch((Stretch)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__INSETS :
-				setInsets( (Insets) newValue );
+			case LayoutPackage.LABEL_BLOCK__INSETS:
+				setInsets((Insets)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__ROW :
-				setRow( ( (Integer) newValue ).intValue( ) );
+			case LayoutPackage.LABEL_BLOCK__ROW:
+				setRow(((Integer)newValue).intValue());
 				return;
-			case LayoutPackage.LABEL_BLOCK__COLUMN :
-				setColumn( ( (Integer) newValue ).intValue( ) );
+			case LayoutPackage.LABEL_BLOCK__COLUMN:
+				setColumn(((Integer)newValue).intValue());
 				return;
-			case LayoutPackage.LABEL_BLOCK__ROWSPAN :
-				setRowspan( ( (Integer) newValue ).intValue( ) );
+			case LayoutPackage.LABEL_BLOCK__ROWSPAN:
+				setRowspan(((Integer)newValue).intValue());
 				return;
-			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN :
-				setColumnspan( ( (Integer) newValue ).intValue( ) );
+			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN:
+				setColumnspan(((Integer)newValue).intValue());
 				return;
-			case LayoutPackage.LABEL_BLOCK__MIN_SIZE :
-				setMinSize( (Size) newValue );
+			case LayoutPackage.LABEL_BLOCK__MIN_SIZE:
+				setMinSize((Size)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__OUTLINE :
-				setOutline( (LineAttributes) newValue );
+			case LayoutPackage.LABEL_BLOCK__OUTLINE:
+				setOutline((LineAttributes)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__BACKGROUND :
-				setBackground( (Fill) newValue );
+			case LayoutPackage.LABEL_BLOCK__BACKGROUND:
+				setBackground((Fill)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__VISIBLE :
-				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+			case LayoutPackage.LABEL_BLOCK__VISIBLE:
+				setVisible(((Boolean)newValue).booleanValue());
 				return;
-			case LayoutPackage.LABEL_BLOCK__TRIGGERS :
-				getTriggers( ).clear( );
-				getTriggers( ).addAll( (Collection) newValue );
+			case LayoutPackage.LABEL_BLOCK__TRIGGERS:
+				getTriggers().clear();
+				getTriggers().addAll((Collection)newValue);
 				return;
-			case LayoutPackage.LABEL_BLOCK__LABEL :
-				setLabel( (Label) newValue );
+			case LayoutPackage.LABEL_BLOCK__LABEL:
+				setLabel((Label)newValue);
 				return;
 		}
-		eDynamicSet( eFeature, newValue );
+		eDynamicSet(eFeature, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void eUnset( EStructuralFeature eFeature )
+	public void eUnset(EStructuralFeature eFeature)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case LayoutPackage.LABEL_BLOCK__CHILDREN :
-				getChildren( ).clear( );
+			case LayoutPackage.LABEL_BLOCK__CHILDREN:
+				getChildren().clear();
 				return;
-			case LayoutPackage.LABEL_BLOCK__BOUNDS :
-				setBounds( (Bounds) null );
+			case LayoutPackage.LABEL_BLOCK__BOUNDS:
+				setBounds((Bounds)null);
 				return;
-			case LayoutPackage.LABEL_BLOCK__ANCHOR :
-				unsetAnchor( );
+			case LayoutPackage.LABEL_BLOCK__ANCHOR:
+				unsetAnchor();
 				return;
-			case LayoutPackage.LABEL_BLOCK__STRETCH :
-				unsetStretch( );
+			case LayoutPackage.LABEL_BLOCK__STRETCH:
+				unsetStretch();
 				return;
-			case LayoutPackage.LABEL_BLOCK__INSETS :
-				setInsets( (Insets) null );
+			case LayoutPackage.LABEL_BLOCK__INSETS:
+				setInsets((Insets)null);
 				return;
-			case LayoutPackage.LABEL_BLOCK__ROW :
-				unsetRow( );
+			case LayoutPackage.LABEL_BLOCK__ROW:
+				unsetRow();
 				return;
-			case LayoutPackage.LABEL_BLOCK__COLUMN :
-				unsetColumn( );
+			case LayoutPackage.LABEL_BLOCK__COLUMN:
+				unsetColumn();
 				return;
-			case LayoutPackage.LABEL_BLOCK__ROWSPAN :
-				unsetRowspan( );
+			case LayoutPackage.LABEL_BLOCK__ROWSPAN:
+				unsetRowspan();
 				return;
-			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN :
-				unsetColumnspan( );
+			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN:
+				unsetColumnspan();
 				return;
-			case LayoutPackage.LABEL_BLOCK__MIN_SIZE :
-				setMinSize( (Size) null );
+			case LayoutPackage.LABEL_BLOCK__MIN_SIZE:
+				setMinSize((Size)null);
 				return;
-			case LayoutPackage.LABEL_BLOCK__OUTLINE :
-				setOutline( (LineAttributes) null );
+			case LayoutPackage.LABEL_BLOCK__OUTLINE:
+				setOutline((LineAttributes)null);
 				return;
-			case LayoutPackage.LABEL_BLOCK__BACKGROUND :
-				setBackground( (Fill) null );
+			case LayoutPackage.LABEL_BLOCK__BACKGROUND:
+				setBackground((Fill)null);
 				return;
-			case LayoutPackage.LABEL_BLOCK__VISIBLE :
-				unsetVisible( );
+			case LayoutPackage.LABEL_BLOCK__VISIBLE:
+				unsetVisible();
 				return;
-			case LayoutPackage.LABEL_BLOCK__TRIGGERS :
-				getTriggers( ).clear( );
+			case LayoutPackage.LABEL_BLOCK__TRIGGERS:
+				getTriggers().clear();
 				return;
-			case LayoutPackage.LABEL_BLOCK__LABEL :
-				setLabel( (Label) null );
+			case LayoutPackage.LABEL_BLOCK__LABEL:
+				setLabel((Label)null);
 				return;
 		}
-		eDynamicUnset( eFeature );
+		eDynamicUnset(eFeature);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean eIsSet( EStructuralFeature eFeature )
+	public boolean eIsSet(EStructuralFeature eFeature)
 	{
-		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		switch (eDerivedStructuralFeatureID(eFeature))
 		{
-			case LayoutPackage.LABEL_BLOCK__CHILDREN :
-				return children != null && !children.isEmpty( );
-			case LayoutPackage.LABEL_BLOCK__BOUNDS :
+			case LayoutPackage.LABEL_BLOCK__CHILDREN:
+				return children != null && !children.isEmpty();
+			case LayoutPackage.LABEL_BLOCK__BOUNDS:
 				return bounds != null;
-			case LayoutPackage.LABEL_BLOCK__ANCHOR :
-				return isSetAnchor( );
-			case LayoutPackage.LABEL_BLOCK__STRETCH :
-				return isSetStretch( );
-			case LayoutPackage.LABEL_BLOCK__INSETS :
+			case LayoutPackage.LABEL_BLOCK__ANCHOR:
+				return isSetAnchor();
+			case LayoutPackage.LABEL_BLOCK__STRETCH:
+				return isSetStretch();
+			case LayoutPackage.LABEL_BLOCK__INSETS:
 				return insets != null;
-			case LayoutPackage.LABEL_BLOCK__ROW :
-				return isSetRow( );
-			case LayoutPackage.LABEL_BLOCK__COLUMN :
-				return isSetColumn( );
-			case LayoutPackage.LABEL_BLOCK__ROWSPAN :
-				return isSetRowspan( );
-			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN :
-				return isSetColumnspan( );
-			case LayoutPackage.LABEL_BLOCK__MIN_SIZE :
+			case LayoutPackage.LABEL_BLOCK__ROW:
+				return isSetRow();
+			case LayoutPackage.LABEL_BLOCK__COLUMN:
+				return isSetColumn();
+			case LayoutPackage.LABEL_BLOCK__ROWSPAN:
+				return isSetRowspan();
+			case LayoutPackage.LABEL_BLOCK__COLUMNSPAN:
+				return isSetColumnspan();
+			case LayoutPackage.LABEL_BLOCK__MIN_SIZE:
 				return minSize != null;
-			case LayoutPackage.LABEL_BLOCK__OUTLINE :
+			case LayoutPackage.LABEL_BLOCK__OUTLINE:
 				return outline != null;
-			case LayoutPackage.LABEL_BLOCK__BACKGROUND :
+			case LayoutPackage.LABEL_BLOCK__BACKGROUND:
 				return background != null;
-			case LayoutPackage.LABEL_BLOCK__VISIBLE :
-				return isSetVisible( );
-			case LayoutPackage.LABEL_BLOCK__TRIGGERS :
-				return triggers != null && !triggers.isEmpty( );
-			case LayoutPackage.LABEL_BLOCK__LABEL :
+			case LayoutPackage.LABEL_BLOCK__VISIBLE:
+				return isSetVisible();
+			case LayoutPackage.LABEL_BLOCK__TRIGGERS:
+				return triggers != null && !triggers.isEmpty();
+			case LayoutPackage.LABEL_BLOCK__LABEL:
 				return label != null;
 		}
-		return eDynamicIsSet( eFeature );
+		return eDynamicIsSet(eFeature);
 	}
 
 	/**

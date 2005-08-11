@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -46,36 +47,17 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getCurveFitting <em>Curve Fitting</em>}</li>
  * </ul>
  * </p>
  * 
@@ -124,9 +106,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected Label label = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getDataDefinition() <em>Data Definition</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDataDefinition() <em>Data Definition</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getDataDefinition()
 	 * @generated
@@ -135,9 +116,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected EList dataDefinition = null;
 
 	/**
-	 * The default value of the '
-	 * {@link #getSeriesIdentifier() <em>Series Identifier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getSeriesIdentifier()
 	 * @generated
@@ -146,9 +126,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected static final Object SERIES_IDENTIFIER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesIdentifier() <em>Series Identifier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getSeriesIdentifier()
 	 * @generated
@@ -274,6 +253,25 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 * @ordered
 	 */
 	protected boolean translucentESet = false;
+
+	/**
+	 * The cached value of the '{@link #getCurveFitting() <em>Curve Fitting</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getCurveFitting()
+	 * @generated
+	 * @ordered
+	 */
+	protected CurveFitting curveFitting = null;
+
+	/**
+	 * This is true if the Curve Fitting containment reference has been set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean curveFittingESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -805,6 +803,154 @@ public class SeriesImpl extends EObjectImpl implements Series
 	 * 
 	 * @generated
 	 */
+	public CurveFitting getCurveFitting( )
+	{
+		return curveFitting;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetCurveFitting(
+			CurveFitting newCurveFitting, NotificationChain msgs )
+	{
+		CurveFitting oldCurveFitting = curveFitting;
+		curveFitting = newCurveFitting;
+		boolean oldCurveFittingESet = curveFittingESet;
+		curveFittingESet = true;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SERIES__CURVE_FITTING,
+					oldCurveFitting,
+					newCurveFitting,
+					!oldCurveFittingESet );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setCurveFitting( CurveFitting newCurveFitting )
+	{
+		if ( newCurveFitting != curveFitting )
+		{
+			NotificationChain msgs = null;
+			if ( curveFitting != null )
+				msgs = ( (InternalEObject) curveFitting ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.SERIES__CURVE_FITTING,
+						null,
+						msgs );
+			if ( newCurveFitting != null )
+				msgs = ( (InternalEObject) newCurveFitting ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ComponentPackage.SERIES__CURVE_FITTING,
+						null,
+						msgs );
+			msgs = basicSetCurveFitting( newCurveFitting, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else
+		{
+			boolean oldCurveFittingESet = curveFittingESet;
+			curveFittingESet = true;
+			if ( eNotificationRequired( ) )
+				eNotify( new ENotificationImpl( this,
+						Notification.SET,
+						ComponentPackage.SERIES__CURVE_FITTING,
+						newCurveFitting,
+						newCurveFitting,
+						!oldCurveFittingESet ) );
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicUnsetCurveFitting( NotificationChain msgs )
+	{
+		CurveFitting oldCurveFitting = curveFitting;
+		curveFitting = null;
+		boolean oldCurveFittingESet = curveFittingESet;
+		curveFittingESet = false;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SERIES__CURVE_FITTING,
+					oldCurveFitting,
+					null,
+					oldCurveFittingESet );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void unsetCurveFitting( )
+	{
+		if ( curveFitting != null )
+		{
+			NotificationChain msgs = null;
+			msgs = ( (InternalEObject) curveFitting ).eInverseRemove( this,
+					EOPPOSITE_FEATURE_BASE
+							- ComponentPackage.SERIES__CURVE_FITTING,
+					null,
+					msgs );
+			msgs = basicUnsetCurveFitting( msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else
+		{
+			boolean oldCurveFittingESet = curveFittingESet;
+			curveFittingESet = false;
+			if ( eNotificationRequired( ) )
+				eNotify( new ENotificationImpl( this,
+						Notification.UNSET,
+						ComponentPackage.SERIES__CURVE_FITTING,
+						null,
+						null,
+						oldCurveFittingESet ) );
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean isSetCurveFitting( )
+	{
+		return curveFittingESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs )
 	{
@@ -824,6 +970,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 				case ComponentPackage.SERIES__TRIGGERS :
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
+				case ComponentPackage.SERIES__CURVE_FITTING :
+					return basicUnsetCurveFitting( msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -863,6 +1011,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 				return getTriggers( );
 			case ComponentPackage.SERIES__TRANSLUCENT :
 				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.SERIES__CURVE_FITTING :
+				return getCurveFitting( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -908,6 +1058,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__TRANSLUCENT :
 				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case ComponentPackage.SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) newValue );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -951,6 +1104,9 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__TRANSLUCENT :
 				unsetTranslucent( );
 				return;
+			case ComponentPackage.SERIES__CURVE_FITTING :
+				unsetCurveFitting( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -985,6 +1141,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 				return triggers != null && !triggers.isEmpty( );
 			case ComponentPackage.SERIES__TRANSLUCENT :
 				return isSetTranslucent( );
+			case ComponentPackage.SERIES__CURVE_FITTING :
+				return isSetCurveFitting( );
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -1063,7 +1221,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 				1 );
 		la.setOutline( lia );
 		lia.setVisible( false );
-		//la.setBackground(ColorDefinitionImpl.YELLOW());
+		// la.setBackground(ColorDefinitionImpl.YELLOW());
 		setLabel( la );
 		la.setVisible( false );
 		setLabelPosition( Position.OUTSIDE_LITERAL );
@@ -1112,4 +1270,4 @@ public class SeriesImpl extends EObjectImpl implements Series
 	{
 		return "Simple Series"; //$NON-NLS-1$
 	}
-} //SeriesImpl
+} // SeriesImpl

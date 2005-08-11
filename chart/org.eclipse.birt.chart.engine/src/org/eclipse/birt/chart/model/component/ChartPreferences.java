@@ -17,27 +17,26 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart Preferences</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the global chart preferences.
- * 
+ * 			This type defines the global chart preferences.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.ChartPreferences#getLabels <em>Labels</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.ChartPreferences#getBlocks <em>Blocks</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.ChartPreferences#getLabels <em>Labels</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.ChartPreferences#getBlocks <em>Blocks</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences()
- * @model
+ * @model extendedMetaData="name='ChartPreferences' kind='elementOnly'"
  * @generated
  */
-public interface ChartPreferences extends EObject
-{
+public interface ChartPreferences extends EObject{
 
     /**
      * Returns the value of the '<em><b>Labels</b></em>' containment reference list. The list contents are of type

@@ -29,21 +29,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}</li>
  * </ul>
  * </p>
  * 
@@ -53,9 +43,8 @@ public class GridImpl extends EObjectImpl implements Grid
 {
 
 	/**
-	 * The cached value of the '
-	 * {@link #getLineAttributes() <em>Line Attributes</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getLineAttributes()
 	 * @generated
@@ -93,9 +82,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected boolean tickStyleESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getTickAttributes() <em>Tick Attributes</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getTickAttributes() <em>Tick Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getTickAttributes()
 	 * @generated
@@ -657,4 +645,4 @@ public class GridImpl extends EObjectImpl implements Grid
 		return result.toString( );
 	}
 
-} //GridImpl
+} // GridImpl

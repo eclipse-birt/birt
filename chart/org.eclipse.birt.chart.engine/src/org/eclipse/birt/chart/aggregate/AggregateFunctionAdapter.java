@@ -46,7 +46,6 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 */
 	public Object getAggregatedValue( )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

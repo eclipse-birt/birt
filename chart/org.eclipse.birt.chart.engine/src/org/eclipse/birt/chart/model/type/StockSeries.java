@@ -37,8 +37,7 @@ import org.eclipse.birt.chart.model.component.Series;
  * @model
  * @generated
  */
-public interface StockSeries extends Series
-{
+public interface StockSeries extends Series{
 
     /**
      * Returns the value of the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
@@ -56,15 +55,13 @@ public interface StockSeries extends Series
      */
     Fill getFill();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Fill</em>' containment reference.
-     * @see #getFill()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Fill</em>' containment reference.
+	 * @see #getFill()
+	 * @generated
+	 */
     void setFill(Fill value);
 
     /**
@@ -83,16 +80,13 @@ public interface StockSeries extends Series
      */
     LineAttributes getLineAttributes();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes <em>Line Attributes</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Line Attributes</em>' containment reference.
-     * @see #getLineAttributes()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Line Attributes</em>' containment reference.
+	 * @see #getLineAttributes()
+	 * @generated
+	 */
     void setLineAttributes(LineAttributes value);
 
 } // StockSeries

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.factory;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
@@ -52,11 +53,57 @@ public final class RunTimeContext
 	private transient IStructureDefinitionListener isdl = null;
 
 	/**
+	 * A map to store user defined state object.
+	 */
+	private transient HashMap stateStore = null;
+
+	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
 	public RunTimeContext( )
 	{
+		stateStore = new HashMap( );
+	}
 
+	/**
+	 * Puts a state object to the store.
+	 * 
+	 * @param key
+	 * @param state
+	 */
+	public final void putState( Object key, Object state )
+	{
+		stateStore.put( key, state );
+	}
+
+	/**
+	 * Returns the state object from store by the key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public final Object getState( Object key )
+	{
+		return stateStore.get( key );
+	}
+
+	/**
+	 * Removes the state object by the key.
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public final Object removeState( Object key )
+	{
+		return stateStore.remove( key );
+	}
+
+	/**
+	 * Clears all the stored states.
+	 */
+	public final void clearState( )
+	{
+		stateStore.clear( );
 	}
 
 	/**

@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.data.impl.DataPackageImpl;
 import org.eclipse.birt.chart.model.impl.ModelPackageImpl;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -44,6 +45,13 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
  */
 public class TypePackageImpl extends EPackageImpl implements TypePackage
 {
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	private EClass areaSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -108,7 +116,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
+	 * Creates, registers, and initializes the <b>Package</b> for this model,
 	 * and for any others upon which it depends. Simple dependencies are
 	 * satisfied by calling this method on all dependent packages before doing
 	 * anything else. This method drives initialization for interdependent
@@ -143,37 +151,47 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		XMLTypePackageImpl.init( );
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackageImpl.eINSTANCE );
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackageImpl.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackageImpl.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
-				: AttributePackageImpl.eINSTANCE );
+				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackageImpl.eINSTANCE );
+				: DataPackage.eINSTANCE );
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+				: AttributePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theTypePackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
-		theAttributePackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
+		theAttributePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theTypePackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
-		theAttributePackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
+		theAttributePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theTypePackage.freeze( );
 
 		return theTypePackage;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EClass getAreaSeries( )
+	{
+		return areaSeriesEClass;
 	}
 
 	/**
@@ -281,9 +299,19 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * 
 	 * @generated
 	 */
+	public EAttribute getPieSeries_ExplosionExpression( )
+	{
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public EReference getPieSeries_Title( )
 	{
-		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 1 );
+		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 2 );
 	}
 
 	/**
@@ -293,7 +321,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EAttribute getPieSeries_TitlePosition( )
 	{
-		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 2 );
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 3 );
 	}
 
 	/**
@@ -303,7 +331,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EReference getPieSeries_LeaderLineAttributes( )
 	{
-		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 3 );
+		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 4 );
 	}
 
 	/**
@@ -313,7 +341,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EAttribute getPieSeries_LeaderLineStyle( )
 	{
-		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 4 );
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 5 );
 	}
 
 	/**
@@ -323,7 +351,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EAttribute getPieSeries_LeaderLineLength( )
 	{
-		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 5 );
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 6 );
 	}
 
 	/**
@@ -333,7 +361,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	public EReference getPieSeries_SliceOutline( )
 	{
-		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 6 );
+		return (EReference) pieSeriesEClass.getEStructuralFeatures( ).get( 7 );
 	}
 
 	/**
@@ -407,6 +435,8 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		isCreated = true;
 
 		// Create classes and their features
+		areaSeriesEClass = createEClass( AREA_SERIES );
+
 		barSeriesEClass = createEClass( BAR_SERIES );
 		createEAttribute( barSeriesEClass, BAR_SERIES__RISER );
 		createEReference( barSeriesEClass, BAR_SERIES__RISER_OUTLINE );
@@ -419,6 +449,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 		pieSeriesEClass = createEClass( PIE_SERIES );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__EXPLOSION );
+		createEAttribute( pieSeriesEClass, PIE_SERIES__EXPLOSION_EXPRESSION );
 		createEReference( pieSeriesEClass, PIE_SERIES__TITLE );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__TITLE_POSITION );
 		createEReference( pieSeriesEClass, PIE_SERIES__LEADER_LINE_ATTRIBUTES );
@@ -464,6 +495,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
 
 		// Add supertypes to classes
+		areaSeriesEClass.getESuperTypes( ).add( this.getLineSeries( ) );
 		barSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
 		lineSeriesEClass.getESuperTypes( )
@@ -475,6 +507,13 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				.add( theComponentPackage.getSeries( ) );
 
 		// Initialize classes and features; add operations and parameters
+		initEClass( areaSeriesEClass,
+				AreaSeries.class,
+				"AreaSeries", //$NON-NLS-1$
+				!IS_ABSTRACT,
+				!IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS );
+
 		initEClass( barSeriesEClass,
 				BarSeries.class,
 				"BarSeries", //$NON-NLS-1$
@@ -596,6 +635,21 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		initEAttribute( getPieSeries_Explosion( ),
 				theXMLTypePackage.getInt( ),
 				"explosion", //$NON-NLS-1$
+				null,
+				0,
+				1,
+				PieSeries.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEAttribute( getPieSeries_ExplosionExpression( ),
+				theXMLTypePackage.getString( ),
+				"explosionExpression", //$NON-NLS-1$
 				null,
 				0,
 				1,
@@ -771,6 +825,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	protected void createExtendedMetaDataAnnotations( )
 	{
 		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		addAnnotation( areaSeriesEClass, source, new String[]{
+				"name", "AreaSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
 		addAnnotation( barSeriesEClass, source, new String[]{
 				"name", "BarSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
@@ -801,6 +858,11 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getPieSeries_Explosion( ), source, new String[]{
 				"kind", "element", "name", "Explosion" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
+		addAnnotation( getPieSeries_ExplosionExpression( ),
+				source,
+				new String[]{
+						"kind", "element", "name", "ExplosionExpression" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 		addAnnotation( getPieSeries_Title( ), source, new String[]{
 				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
@@ -835,4 +897,4 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		} );
 	}
 
-} //TypePackageImpl
+} // TypePackageImpl

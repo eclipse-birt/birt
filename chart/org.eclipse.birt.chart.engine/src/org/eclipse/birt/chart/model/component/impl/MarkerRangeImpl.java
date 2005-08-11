@@ -39,24 +39,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getOutline <em>Outline</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFill <em>Fill</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getStartPosition <em>Start Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getEndPosition <em>End Position</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getAssociatedLabel <em>Associated Label</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabelPosition <em>Label Position</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getOutline <em>Outline</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFill <em>Fill</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getStartValue <em>Start Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getEndValue <em>End Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabelAnchor <em>Label Anchor</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
  * 
@@ -146,9 +135,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected boolean labelAnchorESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getFormatSpecifier() <em>Format Specifier</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
@@ -845,7 +833,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 		mr.setEndValue( deEnd );
 		mr.setLabel( LabelImpl.create( ) );
 
-		//mr.setLabelPosition(Position.INSIDE_LITERAL);
+		// mr.setLabelPosition(Position.INSIDE_LITERAL);
 		mr.setLabelAnchor( ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL
 				: Anchor.NORTH_WEST_LITERAL );
 
@@ -862,4 +850,4 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 		return mr;
 	}
 
-} //MarkerRangeImpl
+} // MarkerRangeImpl

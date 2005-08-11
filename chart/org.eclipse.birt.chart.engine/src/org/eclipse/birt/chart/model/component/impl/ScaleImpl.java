@@ -29,21 +29,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
  * </ul>
  * </p>
  * 
@@ -131,8 +121,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected boolean unitESet = false;
 
 	/**
-	 * The default value of the '
-	 * {@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
+	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getMinorGridsPerUnit()
@@ -142,8 +131,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
+	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getMinorGridsPerUnit()
@@ -653,4 +641,4 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		return result.toString( );
 	}
 
-} //ScaleImpl
+} // ScaleImpl

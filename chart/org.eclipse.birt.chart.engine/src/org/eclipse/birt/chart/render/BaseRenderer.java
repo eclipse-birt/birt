@@ -1278,6 +1278,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	public void renderPlot( IPrimitiveRenderer ipr, Plot p )
 			throws ChartException
 	{
+		if ( !p.isVisible( ) ) // CHECK VISIBILITY
+		{
+			return;
+		}
+
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 

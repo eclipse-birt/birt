@@ -17,30 +17,29 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Scale</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the scale associated with an axis.
- * 
+ * 			This type defines the scale associated with an axis.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale()
- * @model
+ * @model extendedMetaData="name='Scale' kind='elementOnly'"
  * @generated
  */
-public interface Scale extends EObject
-{
+public interface Scale extends EObject{
 
     /**
      * Returns the value of the '<em><b>Min</b></em>' containment reference. <!-- begin-user-doc --> Gets the
@@ -58,15 +57,13 @@ public interface Scale extends EObject
      */
     DataElement getMin();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Min</em>' containment reference.
-     * @see #getMin()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMin <em>Min</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Min</em>' containment reference.
+	 * @see #getMin()
+	 * @generated
+	 */
     void setMin(DataElement value);
 
     /**
@@ -85,15 +82,13 @@ public interface Scale extends EObject
      */
     DataElement getMax();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}' containment
-     * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Max</em>' containment reference.
-     * @see #getMax()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMax <em>Max</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Max</em>' containment reference.
+	 * @see #getMax()
+	 * @generated
+	 */
     void setMax(DataElement value);
 
     /**
@@ -114,40 +109,36 @@ public interface Scale extends EObject
      */
     double getStep();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Step</em>' attribute.
-     * @see #isSetStep()
-     * @see #unsetStep()
-     * @see #getStep()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Step</em>' attribute.
+	 * @see #isSetStep()
+	 * @see #unsetStep()
+	 * @see #getStep()
+	 * @generated
+	 */
     void setStep(double value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetStep()
-     * @see #getStep()
-     * @see #setStep(double)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetStep()
+	 * @see #getStep()
+	 * @see #setStep(double)
+	 * @generated
+	 */
     void unsetStep();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Step</em>' attribute is set.
-     * @see #unsetStep()
-     * @see #getStep()
-     * @see #setStep(double)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Step</em>' attribute is set.
+	 * @see #unsetStep()
+	 * @see #getStep()
+	 * @see #setStep(double)
+	 * @generated
+	 */
     boolean isSetStep();
 
     /**
@@ -170,41 +161,37 @@ public interface Scale extends EObject
      */
     ScaleUnitType getUnit();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Unit</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
-     * @see #isSetUnit()
-     * @see #unsetUnit()
-     * @see #getUnit()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Unit</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
+	 * @see #isSetUnit()
+	 * @see #unsetUnit()
+	 * @see #getUnit()
+	 * @generated
+	 */
     void setUnit(ScaleUnitType value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetUnit()
-     * @see #getUnit()
-     * @see #setUnit(ScaleUnitType)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetUnit()
+	 * @see #getUnit()
+	 * @see #setUnit(ScaleUnitType)
+	 * @generated
+	 */
     void unsetUnit();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Unit</em>' attribute is set.
-     * @see #unsetUnit()
-     * @see #getUnit()
-     * @see #setUnit(ScaleUnitType)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Unit</em>' attribute is set.
+	 * @see #unsetUnit()
+	 * @see #getUnit()
+	 * @see #setUnit(ScaleUnitType)
+	 * @generated
+	 */
     boolean isSetUnit();
 
     /**
@@ -225,43 +212,36 @@ public interface Scale extends EObject
      */
     int getMinorGridsPerUnit();
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Minor Grids Per Unit</em>' attribute.
-     * @see #isSetMinorGridsPerUnit()
-     * @see #unsetMinorGridsPerUnit()
-     * @see #getMinorGridsPerUnit()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Minor Grids Per Unit</em>' attribute.
+	 * @see #isSetMinorGridsPerUnit()
+	 * @see #unsetMinorGridsPerUnit()
+	 * @see #getMinorGridsPerUnit()
+	 * @generated
+	 */
     void setMinorGridsPerUnit(int value);
 
-    /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetMinorGridsPerUnit()
-     * @see #getMinorGridsPerUnit()
-     * @see #setMinorGridsPerUnit(int)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetMinorGridsPerUnit()
+	 * @see #getMinorGridsPerUnit()
+	 * @see #setMinorGridsPerUnit(int)
+	 * @generated
+	 */
     void unsetMinorGridsPerUnit();
 
-    /**
-     * Returns whether the value of the '
-     * {@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Minor Grids Per Unit</em>' attribute is set.
-     * @see #unsetMinorGridsPerUnit()
-     * @see #getMinorGridsPerUnit()
-     * @see #setMinorGridsPerUnit(int)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Minor Grids Per Unit</em>' attribute is set.
+	 * @see #unsetMinorGridsPerUnit()
+	 * @see #getMinorGridsPerUnit()
+	 * @see #setMinorGridsPerUnit(int)
+	 * @generated
+	 */
     boolean isSetMinorGridsPerUnit();
 
 } // Scale

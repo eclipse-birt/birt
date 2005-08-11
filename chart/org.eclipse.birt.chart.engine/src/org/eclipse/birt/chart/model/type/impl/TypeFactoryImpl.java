@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
-import java.util.Locale;
-
-import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
@@ -35,7 +33,7 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 {
 
 	/**
-	 * Creates and instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
 	 * @generated
@@ -54,6 +52,8 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 	{
 		switch ( eClass.getClassifierID( ) )
 		{
+			case TypePackage.AREA_SERIES :
+				return createAreaSeries( );
 			case TypePackage.BAR_SERIES :
 				return createBarSeries( );
 			case TypePackage.LINE_SERIES :
@@ -65,12 +65,21 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 			case TypePackage.STOCK_SERIES :
 				return createStockSeries( );
 			default :
-				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", //$NON-NLS-1$
-						new Object[]{
-							eClass.getName( )
-						},
-						Locale.getDefault( ) ) );
+				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
+						+ eClass.getName( )
+						+ "' is not a valid classifier" ); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public AreaSeries createAreaSeries( )
+	{
+		AreaSeriesImpl areaSeries = new AreaSeriesImpl( );
+		return areaSeries;
 	}
 
 	/**
@@ -149,4 +158,4 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 		return TypePackage.eINSTANCE;
 	}
 
-} //TypeFactoryImpl
+} // TypeFactoryImpl

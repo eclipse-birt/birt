@@ -165,7 +165,7 @@ public final class Generator
 		// INITIALIZE THE SCRIPT HANDLER
 		final String sScriptContent = cmRunTime.getScript( );
 		ScriptHandler sh = rtc.getScriptHandler( );
-		if ( sh == null && sScriptContent != null ) // NOT PREVIOUSLY DEFINED BY
+		if ( sh == null ) // NOT PREVIOUSLY DEFINED BY
 		// REPORTITEM ADAPTER
 		{
 			sh = new ScriptHandler( );
@@ -174,7 +174,11 @@ public final class Generator
 				sh.init( scParent );
 				sh.setRunTimeModel( cmRunTime );
 				rtc.setScriptHandler( sh );
-				sh.register( sScriptContent );
+
+				if ( sScriptContent != null )
+				{
+					sh.register( sScriptContent );
+				}
 			}
 			catch ( ChartException sx )
 			{
@@ -531,6 +535,10 @@ public final class Generator
 			}
 		}
 		idr.after( ); // ANY CLEANUP AFTER THE CHART HAS BEEN RENDERED
+
+		// CLEAN UP THE RENDERING STATES.
+		gcs.getRunTimeContext( ).clearState( );
+
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.FINISH_RENDERING,
 				gcs );
