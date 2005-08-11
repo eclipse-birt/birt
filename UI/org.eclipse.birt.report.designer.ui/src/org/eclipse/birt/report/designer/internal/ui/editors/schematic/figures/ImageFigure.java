@@ -119,8 +119,10 @@ public class ImageFigure extends ReportElementFigure
 		Image image = getImage( );
 
 		Rectangle area = getClientArea( );
-
-		g.drawImage( image, new Rectangle( image.getBounds( ) ), area );
+		if ( area.height > 0 && area.width > 0 )
+		{
+			g.drawImage( image, new Rectangle( image.getBounds( ) ), area );
+		}
 	}
 
 	/**
@@ -132,7 +134,8 @@ public class ImageFigure extends ReportElementFigure
 		{
 			if ( getBorder( ) instanceof BaseBorder )
 			{
-				graphics.fillRectangle( getBounds( ).getCopy().crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
+				graphics.fillRectangle( getBounds( ).getCopy( )
+						.crop( ( (BaseBorder) getBorder( ) ).getBorderInsets( ) ) );
 			}
 			else
 			{

@@ -117,7 +117,7 @@ public class ImportValueDialog extends BaseDialog
 		selectionArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		selectionArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		new Label( composite, SWT.NONE );//Dummy
+		new Label( composite, SWT.NONE );// Dummy
 
 		new Label( selectionArea, SWT.NONE ).setText( LABEL_SELECT_DATASET );
 		dataSetChooser = new Combo( selectionArea, SWT.DROP_DOWN
@@ -180,7 +180,7 @@ public class ImportValueDialog extends BaseDialog
 
 		GridData gd = new GridData( );
 		gd.horizontalSpan = 2;
-		new Label( selectionArea, SWT.NONE ).setLayoutData( gd ); //Dummy
+		new Label( selectionArea, SWT.NONE ).setLayoutData( gd ); // Dummy
 
 		valueList = new List( selectionArea, SWT.MULTI
 				| SWT.BORDER
@@ -201,9 +201,9 @@ public class ImportValueDialog extends BaseDialog
 		} );
 		Composite buttonBar = new Composite( selectionArea, SWT.NONE );
 		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( );
-		//layout.verticalSpacing = 10;
+		// layout.verticalSpacing = 10;
 		buttonBar.setLayout( layout );
-		//buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		// buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 
 		addAll = new Button( buttonBar, SWT.PUSH );
 		addAll.setText( ">>" ); //$NON-NLS-1$
@@ -506,8 +506,8 @@ public class ImportValueDialog extends BaseDialog
 			try
 			{
 				if ( selectedList.indexOf( value ) == -1
-						&& value.startsWith( valueEditor.getText( ) )
-						|| value.matches( valueEditor.getText( ) ) )
+						&& ( value.startsWith( valueEditor.getText( ).trim( ) ) || value.matches( valueEditor.getText( )
+								.trim( ) ) ) )
 				{
 					valueList.add( value );
 				}
@@ -522,7 +522,8 @@ public class ImportValueDialog extends BaseDialog
 	private void updateButtons( )
 	{
 		add.setEnabled( valueList.getSelectionCount( ) != 0
-				|| valueEditor.getText( ).trim( ).length( ) != 0 );
+				|| ( valueEditor.getText( ).trim( ).length( ) != 0 && selectedList.indexOf( valueEditor.getText( )
+						.trim( ) ) == -1 ) );
 		addAll.setEnabled( valueList.getItemCount( ) != 0 );
 		remove.setEnabled( selectedList.getSelectionCount( ) != 0 );
 		removeAll.setEnabled( selectedList.getItemCount( ) != 0 );
