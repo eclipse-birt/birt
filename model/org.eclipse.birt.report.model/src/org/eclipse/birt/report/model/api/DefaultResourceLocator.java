@@ -46,28 +46,24 @@ public class DefaultResourceLocator implements IResourceLocator
 	public URL findResource( ReportDesignHandle designHandle, String fileName,
 			int type )
 	{
+		assert designHandle != null;
 		if ( fileName == null )
 			return null;
-
+		
 		String base = designHandle.getFileName( );
 		if ( base != null )
 		{
-			base = base.replaceAll( "\\" + File.separator, "/" ); //$NON-NLS-1$ //$NON-NLS-2$
-			int index = base.lastIndexOf( '/' );
-			if ( index != -1 )
+			File baseFile = new File( base );
+			File f = new File( baseFile.getParent(), fileName );
+			if ( f.exists( ) && f.isFile( ) )
 			{
-				base = base.substring( 0, index );
-				File f = new File( base, fileName );
-				if ( f.exists( ) )
+				try
 				{
-					try
-					{
-						return f.toURL( );
-					}
-					catch ( MalformedURLException e )
-					{
-						return null;
-					}
+					return f.toURL( );
+				}
+				catch( MalformedURLException e )
+				{
+					return null;
 				}
 			}
 		}

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -61,13 +62,13 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 
 	public List validate( ReportDesign design, DesignElement element )
 	{
-		if ( !( element instanceof ListingElement ) )
+		if ( !( element instanceof ListingElement || element instanceof ExtendedItem ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (ListingElement) element );
+		return doValidate( design, element );
 	}
 
-	private List doValidate( ReportDesign design, ListingElement toValidate )
+	private List doValidate( ReportDesign design, DesignElement toValidate )
 	{
 		List list = new ArrayList( );
 
@@ -75,19 +76,44 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		int slot = toValidate.getContainerSlot( );
 
 		boolean dataSetFound = false;
-		while ( container.getContainer( ) != null && !dataSetFound )
+		if ( toValidate instanceof ExtendedItem )
 		{
-			if ( container instanceof ListingElement )
+			if ( ( (ExtendedItem) toValidate ).getDataSetElement( design ) != null )
+			{	
+				dataSetFound = true;				
+			}			
+			else
 			{
-				if ( ( (ListingElement) container ).getDataSetElement( design ) != null )
+				while ( container.getContainer( ) != null )
 				{
-					dataSetFound = true;
+					slot = container.getContainerSlot( );
+					container = container.getContainer( );
 				}
 			}
-
-			slot = container.getContainerSlot( );
-			container = container.getContainer( );
 		}
+		else if ( toValidate instanceof ListingElement )
+		{
+			while ( !dataSetFound && container.getContainer( ) != null )
+			{
+				if ( container instanceof ListingElement )
+				{
+					if ( ( (ListingElement) container ).getDataSetElement( design ) != null )
+					{
+						dataSetFound = true;
+						break;
+					}
+				}
+
+				slot = container.getContainerSlot( );
+				container = container.getContainer( );
+			}
+		}
+		else
+		{
+			// now the check is only employed to listing elements, extended items.
+			
+			assert false;
+		}		
 
 		// Since element in components slot is considered as incompletely
 		// defined, the data set is not required on table in components.
@@ -99,5 +125,4 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		}
 		return list;
 	}
-
 }

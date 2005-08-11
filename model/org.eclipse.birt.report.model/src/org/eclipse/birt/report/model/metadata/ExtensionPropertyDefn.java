@@ -138,6 +138,13 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 	public void setGroupDefauleDisplayName( String groupDefauleDisplayName )
 	{
 		this.groupDefauleDisplayName = groupDefauleDisplayName;
-	}
+	}	
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getValueType()
+	 */
+	public int getValueType( )
+	{
+		return EXTENSION_PROPERTY;
+	}
 }

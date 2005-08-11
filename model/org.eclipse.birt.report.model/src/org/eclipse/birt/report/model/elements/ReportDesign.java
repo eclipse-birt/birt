@@ -1007,7 +1007,7 @@ public class ReportDesign extends RootElement implements IReportDesignModel
 			if ( base != null )
 			{
 				f = new File( base, fileName );
-				if ( f.exists( ) )
+				if ( f.exists( ) && f.isFile( ) )
 					return f.toURL( );
 			}
 		}
