@@ -592,11 +592,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 
 		int x = TableUtil.caleX( this, minColumnnumber );
+		
 		Rectangle rect = new Rectangle( x,
 				0,
 				width,
-				getFigure( ).getBounds( ).height
-						- ( getFigure( ).getInsets( ).top + getFigure( ).getInsets( ).bottom ) );
+				TableUtil.getTableContentsHeight(this) );
 
 		setSelectRowAndColumnRect( rect );
 		getViewer( ).setSelection( new StructuredSelection( list ) );
@@ -678,11 +678,11 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 
 		int y = TableUtil.caleY( this, minRownumber );
+		
 		Rectangle rect = new Rectangle( 0,
 				y,
-				getFigure( ).getBounds( ).width
-						- ( getFigure( ).getInsets( ).left + getFigure( ).getInsets( ).right ),
-				height );
+				TableUtil.getTableContentsWidth(this),
+				height) ;
 
 		setSelectRowAndColumnRect( rect );
 		getViewer( ).setSelection( new StructuredSelection( list ) );

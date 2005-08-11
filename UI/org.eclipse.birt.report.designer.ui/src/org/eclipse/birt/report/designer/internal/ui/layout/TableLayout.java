@@ -20,12 +20,12 @@ import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -171,8 +171,14 @@ public class TableLayout extends XYLayout
 
 		setConstraint( container, data );
 		needlayout = false;
-		final List list = ( (StructuredSelection) getOwner( ).getViewer( )
-				.getSelection( ) ).toList( );
+		reselect();
+	}
+	
+	
+	private void reselect()
+	{
+		final List list = new ArrayList(( (StructuredSelection) getOwner( ).getViewer( )
+				.getSelection( ) ).toList( ));
 
 		boolean hasCell = false;
 		for ( int i = 0; i < list.size( ); i++ )
@@ -184,20 +190,13 @@ public class TableLayout extends XYLayout
 				break;
 			}
 		}
-
 		if ( hasCell )
 		{
 			Platform.run( new SafeRunnable( ) {
 
 				public void run( )
 				{
-					if ( getOwner( ).getViewer( ).getControl( ).isVisible( ) )
-					{
-						if ( getOwner( ).getViewer( ) instanceof DeferredGraphicalViewer )
-							( (DeferredGraphicalViewer) getOwner( ).getViewer( ) )
-									.setSelection( new StructuredSelection(
-											list ), false );
-					}
+					UIUtil.resetViewSelection(getOwner().getViewer(), false);
 				}
 			} );
 		}

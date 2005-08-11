@@ -316,4 +316,59 @@ public class TableUtil
 		}
 		return 0;
 	}
+	
+	/**Gets the table contents height
+	 * @param part
+	 * @return
+	 */
+	public static int getTableContentsHeight(TableEditPart part)
+	{
+		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
+				.getConstraint( figure );
+		if ( data == null )
+		{
+			return 0;
+		}
+		int height = 0;
+		if (data.rowHeights == null)
+		{
+			return height;
+		}
+		int len = data.rowHeights.length;
+		for (int i=0; i<len; i++)
+		{
+			height = height + data.rowHeights[i].height;
+		}
+		
+		return height;
+	}
+	
+	
+	/**Gets the table contents width
+	 * @param part
+	 * @return
+	 */
+	public static int getTableContentsWidth(TableEditPart part)
+	{
+		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
+				.getConstraint( figure );
+		if ( data == null )
+		{
+			return 0;
+		}
+		int width = 0;
+		if (data.columnWidths == null)
+		{
+			return width;
+		}
+		int len = data.columnWidths.length;
+		for (int i=0; i<len; i++)
+		{
+			width = width + data.columnWidths[i].width;
+		}
+		
+		return width;
+	}
 }

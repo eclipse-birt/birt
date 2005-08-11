@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
@@ -44,6 +46,7 @@ import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -241,18 +244,17 @@ public class UIUtil
 
 		if ( selection instanceof IAdaptable )
 		{
-			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
+			IResource resource = (IResource) ( (IAdaptable) selection )
+					.getAdapter( IResource.class );
 
-			if ( resource != null
-					&& resource.getProject( ) != null
+			if ( resource != null && resource.getProject( ) != null
 					&& resource.getProject( ).isAccessible( ) )
 			{
 				return resource.getProject( );
 			}
 		}
 
-		IProject[] pjs = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
+		IProject[] pjs = ResourcesPlugin.getWorkspace( ).getRoot( )
 				.getProjects( );
 
 		for ( int i = 0; i < pjs.length; i++ )
@@ -283,8 +285,7 @@ public class UIUtil
 			}
 			if ( shell == null )
 			{
-				shell = PlatformUI.getWorkbench( )
-						.getActiveWorkbenchWindow( )
+				shell = PlatformUI.getWorkbench( ).getActiveWorkbenchWindow( )
 						.getShell( );
 			}
 		}
@@ -300,8 +301,7 @@ public class UIUtil
 
 	public static ElementFactory getElementFactory( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
+		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
 				.getElementFactory( );
 	}
 
@@ -402,7 +402,8 @@ public class UIUtil
 		EditPartViewer viewer = getLayoutEditPartViewer( );
 		if ( viewer == null )
 			return null;
-		IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
+		IStructuredSelection targets = (IStructuredSelection) viewer
+				.getSelection( );
 		if ( targets.isEmpty( ) )
 			return null;
 		return (EditPart) targets.getFirstElement( );
@@ -416,15 +417,14 @@ public class UIUtil
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
 		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( )
-				.getActivePage( )
-				.getActiveEditor( );
+				.getActiveWorkbenchWindow( ).getActivePage( ).getActiveEditor( );
 		if ( reportEditor == null
 				|| !( reportEditor.getActiveEditor( ) instanceof GraphicalEditorWithFlyoutPalette ) )
 		{
 			return null;
 		}
-		return ( (GraphicalEditorWithFlyoutPalette) reportEditor.getActiveEditor( ) ).getGraphicalViewer( );
+		return ( (GraphicalEditorWithFlyoutPalette) reportEditor
+				.getActiveEditor( ) ).getGraphicalViewer( );
 	}
 
 	/**
@@ -589,7 +589,8 @@ public class UIUtil
 			}
 			else if ( obj instanceof TableCellEditPart )
 			{
-				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj )
+						.getParent( );
 			}
 			else if ( obj instanceof DummyEditpart )
 			{
@@ -600,8 +601,7 @@ public class UIUtil
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
+			if ( currentEditPart == null || currentEditPart != null
 					&& part != currentEditPart )
 			{
 				return null;
@@ -639,15 +639,15 @@ public class UIUtil
 			}
 			else if ( obj instanceof ListBandEditPart )
 			{
-				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj )
+						.getParent( );
 			}
 			if ( part == null )
 			{
 				part = currentEditPart;
 			}
 			// Check if select only one list
-			if ( currentEditPart == null
-					|| currentEditPart != null
+			if ( currentEditPart == null || currentEditPart != null
 					&& part != currentEditPart )
 			{
 				return null;
@@ -669,7 +669,8 @@ public class UIUtil
 	public static boolean containElement( AbstractTreeViewer treeViewer,
 			Object element )
 	{
-		ITreeContentProvider provider = (ITreeContentProvider) treeViewer.getContentProvider( );
+		ITreeContentProvider provider = (ITreeContentProvider) treeViewer
+				.getContentProvider( );
 		Object input = treeViewer.getInput( );
 		if ( input instanceof Object[] )
 		{
@@ -759,6 +760,88 @@ public class UIUtil
 			return (String) bundle.getHeaders( ).get( key );
 		}
 		return null;
+	}
+
+	public static void resetViewSelection( final EditPartViewer viewer,
+			final boolean notofyToMedia )
+	{
+		final List list = new ArrayList( ( (StructuredSelection) viewer
+				.getSelection( ) ).toList( ) );
+
+		boolean hasCell = false;
+		boolean hasColumnOrRow = false;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			if ( list.get( i ) instanceof TableEditPart.DummyRowEditPart
+					|| list.get( i ) instanceof TableEditPart.DummyColumnEditPart )
+			{
+				hasColumnOrRow = true;
+				break;
+			}
+		}
+
+		if ( hasColumnOrRow )
+		{
+			int selectionType = 0;//0 select row 1select colum
+			TableEditPart part = null;
+			int[] selectContents = new int[0];
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				Object obj = list.get( i );
+				int number = -1;
+				if ( obj instanceof TableEditPart.DummyRowEditPart )
+				{
+					selectionType = 0;//select row
+					number = ( (TableEditPart.DummyRowEditPart) obj )
+							.getRowNumber( );
+				}
+				else if ( obj instanceof TableEditPart.DummyColumnEditPart )
+				{
+					selectionType = 1;//select column
+					number = ( (TableEditPart.DummyColumnEditPart) obj )
+							.getColumnNumber( );
+				}
+				else if ( obj instanceof TableCellEditPart )
+				{
+					part = (TableEditPart) ( (TableCellEditPart) obj )
+							.getParent( );
+				}
+				if ( number != -1 )
+				{
+					int lenegth = selectContents.length;
+					int[] temp = new int[lenegth + 1];
+
+					System.arraycopy( selectContents, 0, temp, 0, lenegth );
+					temp[lenegth] = number;
+					selectContents = temp;
+				}
+			}
+			if ( part == null || selectContents.length == 0
+					|| !viewer.getControl( ).isVisible( ) )
+			{
+				return;
+			}
+
+			if ( selectionType == 0 )
+			{
+				part.selectRow( selectContents );
+			}
+			else if ( selectionType == 1 )
+			{
+				part.selectColumn( selectContents );
+			}
+
+		}
+		else
+		{
+			if ( viewer.getControl( ).isVisible( ) )
+			{
+				if ( viewer instanceof DeferredGraphicalViewer )
+					( (DeferredGraphicalViewer) viewer ).setSelection(
+							new StructuredSelection( list ), notofyToMedia );
+			}
+
+		}
 	}
 
 }
