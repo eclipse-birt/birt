@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
@@ -685,14 +686,12 @@ public final class DataTypeUtil
 	}
 
 	/**
-	 * format Date to String
-	 * e.g. Jan 12, 1952 3:30:32pm 
+	 * Call org.eclipse.birt.core.format.DateFormatter
 	 * @param source
 	 * @return
 	 */
 	private static String toString( Date source ){
-		DateFormat df = DateFormat.getDateTimeInstance( DEFAULT_DATE_STYLE,
-				DEFAULT_DATE_STYLE );
+		DateFormatter df = new DateFormatter( );
 		return df.format( (Date) source );
 	}
 }

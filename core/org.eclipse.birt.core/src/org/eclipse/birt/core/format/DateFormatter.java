@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:58:29 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/13 05:51:41 $
  */
 public class DateFormatter
 {
@@ -125,7 +125,7 @@ public class DateFormatter
 			{
 				formatPattern = "";
 				dateFormat = java.text.DateFormat.getDateTimeInstance(
-						java.text.DateFormat.SHORT, java.text.DateFormat.SHORT,
+						java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT,
 						locale );
 				return;
 
