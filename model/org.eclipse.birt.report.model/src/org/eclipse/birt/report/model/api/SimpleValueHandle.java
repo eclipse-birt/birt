@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -167,7 +168,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		if ( isList( ) )
 		{
-			MemberRef structRef = new MemberRef( getReference( ), n );
+			MemberRef structRef = new CachedMemberRef( getReference( ), n );
 			Structure struct = structRef.getStructure( getDesign( ),
 					getElement( ) );
 

@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 
 /**
@@ -128,7 +128,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	private ColorHandle doGetColorHandle( String memberName )
 	{
-		MemberRef memberRef = new MemberRef( structRef, memberName );
+		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
 		return new ColorHandle( getElementHandle( ), memberRef );
 	}
 
@@ -661,7 +661,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	private DimensionHandle doGetDimensionHandle( String memberName )
 	{
-		MemberRef memberRef = new MemberRef( structRef, memberName );
+		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
 		return new DimensionHandle( getElementHandle( ), memberRef );
 	}
 
@@ -673,7 +673,7 @@ public class HighlightRuleHandle extends StyleRuleHandle
 
 	public FontHandle getFontFamilyHandle( )
 	{
-		MemberRef memberRef = new MemberRef( structRef,
+		MemberRef memberRef = new CachedMemberRef( structRef,
 				HighlightRule.FONT_FAMILY_MEMBER );
 		return new FontHandle( getElementHandle( ), memberRef );
 

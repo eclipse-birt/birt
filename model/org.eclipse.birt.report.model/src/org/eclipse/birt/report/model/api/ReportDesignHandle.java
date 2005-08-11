@@ -33,9 +33,9 @@ import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -130,7 +130,8 @@ import org.eclipse.birt.report.model.writer.DesignWriter;
 
 public class ReportDesignHandle extends DesignElementHandle
 		implements
-			IReportDesignModel, IRootElementModel
+			IReportDesignModel,
+			IRootElementModel
 {
 
 	/**
@@ -866,7 +867,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		}
 
 		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
-		cmd.addItem( new MemberRef( propDefn ), configVar );
+		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
 	}
 
 	/**
@@ -997,7 +998,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
 		ElementPropertyDefn propDefn = design
 				.getPropertyDefn( ReportDesign.IMAGES_PROP );
-		cmd.addItem( new MemberRef( propDefn ), image );
+		cmd.addItem( new CachedMemberRef( propDefn ), image );
 	}
 
 	/**
@@ -1124,7 +1125,7 @@ public class ReportDesignHandle extends DesignElementHandle
 		ElementPropertyDefn propDefn = design.getPropertyDefn( propName );
 
 		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
-		cmd.replaceItem( new MemberRef( propDefn ), (Structure) oldVar,
+		cmd.replaceItem( new CachedMemberRef( propDefn ), (Structure) oldVar,
 				(Structure) newVar );
 	}
 
@@ -1581,7 +1582,6 @@ public class ReportDesignHandle extends DesignElementHandle
 		design.broadcastValidationEvent( design, event );
 	}
 
-    
 	/**
 	 * Set the base name of the customer-defined resource bundle. The name is a
 	 * common base name, e.g: "myMessage" without the Language_Country suffix,
@@ -1606,7 +1606,6 @@ public class ReportDesignHandle extends DesignElementHandle
 		}
 	}
 
-    
 	/**
 	 * Get the base name of the customer-defined resource bundle.
 	 * 
@@ -1618,7 +1617,6 @@ public class ReportDesignHandle extends DesignElementHandle
 		return getStringProperty( ReportDesign.INCLUDE_RESOURCE_PROP );
 	}
 
-    
 	/**
 	 * Finds user-defined messages for the given locale.
 	 * <p>
@@ -1698,7 +1696,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	{
 		return getDesign( ).removeValidationListener( listener );
 	}
-	
+
 	/**
 	 * Returns the <code>URL</code> object if the file with
 	 * <code>fileName</code> exists. This method takes the following search
@@ -1707,8 +1705,8 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * <li>Search file taking <code>fileName</code> as absolute file name;
 	 * <li>Search file taking <code>fileName</code> as relative file name and
 	 * basing "base" property of report design;
-	 * <li>Search file with the file locator (<code>IResourceLocator</code>) in
-	 * session.
+	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
+	 * in session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1724,7 +1722,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	 * @return the <code>URL</code> object if the file with
 	 *         <code>fileName</code> is found, or null otherwise.
 	 */
-			
+
 	public URL findResource( String fileName, int fileType )
 	{
 		return design.findResource( fileName, fileType );

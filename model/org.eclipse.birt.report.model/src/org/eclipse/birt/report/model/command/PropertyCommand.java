@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
@@ -415,7 +416,7 @@ public class PropertyCommand extends AbstractElementCommand
 			stack.execute( memberRecord );
 		}
 
-		MemberRef insertRef = new MemberRef( ref, list.size( ) );
+		MemberRef insertRef = new CachedMemberRef( ref, list.size( ) );
 		PropertyListRecord record = new PropertyListRecord( element, insertRef,
 				list, item );
 		stack.execute( record );
@@ -485,7 +486,7 @@ public class PropertyCommand extends AbstractElementCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		MemberRef insertRef = new MemberRef( ref, posn );
+		MemberRef insertRef = new CachedMemberRef( ref, posn );
 		PropertyListRecord record = new PropertyListRecord( element, insertRef,
 				list, item );
 
@@ -538,7 +539,7 @@ public class PropertyCommand extends AbstractElementCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		doRemoveItem( new MemberRef( ref, posn ) );
+		doRemoveItem( new CachedMemberRef( ref, posn ) );
 	}
 
 	/**
@@ -582,7 +583,7 @@ public class PropertyCommand extends AbstractElementCommand
 					.getName( ), null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
-		doRemoveItem( new MemberRef( ref, posn ) );
+		doRemoveItem( new CachedMemberRef( ref, posn ) );
 	}
 
 	/**

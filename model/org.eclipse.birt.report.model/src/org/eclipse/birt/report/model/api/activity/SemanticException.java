@@ -135,14 +135,7 @@ public class SemanticException extends ModelException
 
 	protected static String getElementName( DesignElement element )
 	{
-		String name = element.getElementName( );
-
-		if ( !StringUtil.isBlank( element.getName( ) ) )
-		{
-			name = element.getElementName( ) + " \"" + element.getName( ) //$NON-NLS-1$
-					+ "\""; //$NON-NLS-1$
-		}
-		return name;
+		return element.getIdentifier( );
 	}
 
 	/*

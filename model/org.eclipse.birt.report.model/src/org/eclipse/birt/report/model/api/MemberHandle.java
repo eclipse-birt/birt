@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -37,7 +38,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * The reference to the member itself.
 	 */
 
-	protected MemberRef memberRef;
+	protected CachedMemberRef memberRef;
 
 	/**
 	 * Constructs a member handle with the given element handle and the member
@@ -55,7 +56,11 @@ public class MemberHandle extends SimpleValueHandle
 	public MemberHandle( DesignElementHandle element, MemberRef ref )
 	{
 		super( element );
-		memberRef = ref;
+		memberRef = new CachedMemberRef( ref );
+		if ( !memberRef.checkOrCacheStructure( elementHandle.getDesign( ),
+				elementHandle.getElement( ) ) )
+			throw new RuntimeException(
+					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -72,7 +77,11 @@ public class MemberHandle extends SimpleValueHandle
 	public MemberHandle( StructureHandle structHandle, StructPropertyDefn member )
 	{
 		super( structHandle.getElementHandle( ) );
-		memberRef = new MemberRef( structHandle.getReference( ), member );
+		memberRef = new CachedMemberRef( structHandle.getReference( ), member );
+		if ( !memberRef.checkOrCacheStructure( elementHandle.getDesign( ),
+				elementHandle.getElement( ) ) )
+			throw new RuntimeException(
+					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
 
 	// Implementation of abstract method defined in base class.
@@ -133,7 +142,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
-	
+
 	public boolean isVisible( )
 	{
 		return true;

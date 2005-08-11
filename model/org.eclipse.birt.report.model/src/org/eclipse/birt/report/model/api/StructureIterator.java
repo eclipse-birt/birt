@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 
@@ -22,7 +23,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * Iterates over the structures within a property or member defined as a list of
  * structures. Each object returned by <code>getNext( )</code> is of type
  * <code>StructureHandle</code>.
- * 
+ *  
  */
 
 public class StructureIterator implements Iterator
@@ -105,7 +106,8 @@ public class StructureIterator implements Iterator
 		if ( !hasNext( ) )
 			return null;
 
-		MemberRef structRef = new MemberRef( valueHandle.getReference( ), index );
+		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ),
+				index );
 		Structure struct = structRef.getStructure( valueHandle.getDesign( ),
 				valueHandle.getElement( ) );
 

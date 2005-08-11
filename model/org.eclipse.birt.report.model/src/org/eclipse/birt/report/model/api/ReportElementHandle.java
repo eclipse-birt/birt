@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -202,7 +203,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		{
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new MemberRef( maskProp ), masks.indexOf( mask ) );
+			cmd.removeItem( new CachedMemberRef( maskProp ), masks
+					.indexOf( mask ) );
 		}
 		else
 		{
@@ -223,13 +225,13 @@ public abstract class ReportElementHandle extends DesignElementHandle
 				mask = new PropertyMask( );
 				mask.setProperty( maskDefn, value );
 				mask.setProperty( nameDefn, propName );
-				cmd.addItem( new MemberRef( maskProp ), mask );
+				cmd.addItem( new CachedMemberRef( maskProp ), mask );
 			}
 			else
 			{
 				// changes the mask value.
 
-				MemberRef memberRef = new MemberRef( maskProp, masks
+				MemberRef memberRef = new CachedMemberRef( maskProp, masks
 						.indexOf( mask ), PropertyMask.MASK_MEMBER );
 				cmd.setMember( memberRef, value );
 			}

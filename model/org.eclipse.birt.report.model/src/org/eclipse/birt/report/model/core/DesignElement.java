@@ -1826,8 +1826,8 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Returns the shared style referenced by this element. This method will not try
-	 * to resolve the style element if the value is un-resolved. 
+	 * Returns the shared style referenced by this element. This method will not
+	 * try to resolve the style element if the value is un-resolved.
 	 * <p>
 	 * Part of: Style system.
 	 * 
@@ -3159,9 +3159,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be ¡°elided¡± to a length of 30 characters. To
-	 * elide the text, find the first white-space before the limit, truncate the
-	 * string after that point, and append three dots: ¡°¡­¡±
+	 * All descriptive text should be ¡°elided¡± to a length of 30 characters.
+	 * To elide the text, find the first white-space before the limit, truncate
+	 * the string after that point, and append three dots: ¡°¡­¡±
 	 * <p>
 	 * 
 	 * @param displayLabel
@@ -3328,5 +3328,62 @@ public abstract class DesignElement
 			return new ArrayList( );
 
 		return errors;
+	}
+
+	/**
+	 * Returns the identifier for locating element to user. This identifier
+	 * string helps user locate this element in user interface. If this element
+	 * has name defined, the name and element type are returned with the form
+	 * "ElementType('Name')". Otherwise, locate the first container with name
+	 * and generate the containment path with the form,
+	 * "Container.Slot[Position]". If no container has name defined, "report" or
+	 * container element type will be used as container's identifier, depending
+	 * on whether this element is added into one report design.
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>report.body[0] - The first element in body slot
+	 * <li>table("myTable") - The table named myTable
+	 * <li>table("myTable").detail[0].cells[3] - The forth cell of the first
+	 * row in table
+	 * </ul>
+	 * <p>
+	 * Note: the localized name is used for element type and slot name.
+	 * 
+	 * @return the identifier of this element
+	 */
+
+	public String getIdentifier( )
+	{
+		if ( getName( ) != null )
+		{
+			StringBuffer sb = new StringBuffer( );
+			sb.append( getDefn( ).getDisplayName( ) );
+			sb.append( "(\"" ); //$NON-NLS-1$
+			sb.append( getName( ) );
+			sb.append( "\")" ); //$NON-NLS-1$
+
+			return sb.toString( );
+		}
+
+		if ( this instanceof ReportDesign )
+			return "report"; //$NON-NLS-1$
+
+		if ( getContainer( ) == null )
+			return getDefn( ).getName( ); //$NON-NLS-1$
+
+		ContainerSlot slot = getContainer( ).getSlot( getContainerSlot( ) );
+		ISlotDefn slotDefn = getContainer( ).getDefn( ).getSlot(
+				getContainerSlot( ) );
+
+		StringBuffer sb = new StringBuffer( );
+		sb.append( getContainer( ).getIdentifier( ) );
+		sb.append( "." ); //$NON-NLS-1$
+		sb.append( slotDefn.getDisplayName( ) );
+		sb.append( "[" ); //$NON-NLS-1$
+		sb.append( slot.findPosn( this ) );
+		sb.append( "]" ); //$NON-NLS-1$
+
+		return sb.toString( );
 	}
 }

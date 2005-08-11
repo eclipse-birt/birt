@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -116,7 +117,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public MemberRef getReference( )
 	{
-		return new MemberRef( propDefn );
+		return new CachedMemberRef( propDefn );
 	}
 
 	/**

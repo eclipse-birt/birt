@@ -92,6 +92,24 @@ public class MemberRef
 	protected final int depth;
 
 	/**
+	 * Constructs one member reference as same as the given one.
+	 * 
+	 * @param memberRef
+	 *            the member reference to copy
+	 */
+
+	MemberRef( MemberRef memberRef )
+	{
+		refType = memberRef.refType;
+		propDefn = memberRef.propDefn;
+		member[0] = memberRef.member[0];
+		member[1] = memberRef.member[1];
+		index[0] = memberRef.index[0];
+		index[1] = memberRef.index[1];
+		depth = memberRef.depth;
+	}
+
+	/**
 	 * Property (list, structure)
 	 * 
 	 * Reference to the top-level property list. Points to the first index
@@ -101,7 +119,7 @@ public class MemberRef
 	 *            the property definition
 	 */
 
-	public MemberRef( ElementPropertyDefn prop )
+	MemberRef( ElementPropertyDefn prop )
 	{
 		propDefn = prop;
 
@@ -124,7 +142,7 @@ public class MemberRef
 	 *            the list index
 	 */
 
-	public MemberRef( ElementPropertyDefn prop, int n )
+	MemberRef( ElementPropertyDefn prop, int n )
 	{
 		propDefn = prop;
 
@@ -150,7 +168,7 @@ public class MemberRef
 	 *            the structure member name of the element property definition
 	 */
 
-	public MemberRef( ElementPropertyDefn prop, String memberName )
+	MemberRef( ElementPropertyDefn prop, String memberName )
 	{
 		propDefn = prop;
 
@@ -181,7 +199,7 @@ public class MemberRef
 	 *            definition
 	 */
 
-	public MemberRef( ElementPropertyDefn prop, StructPropertyDefn memberDef )
+	MemberRef( ElementPropertyDefn prop, StructPropertyDefn memberDef )
 	{
 		propDefn = prop;
 
@@ -209,7 +227,7 @@ public class MemberRef
 	 *            the name of a member
 	 */
 
-	public MemberRef( ElementPropertyDefn prop, int n, String memberName )
+	MemberRef( ElementPropertyDefn prop, int n, String memberName )
 	{
 		propDefn = prop;
 
@@ -242,7 +260,7 @@ public class MemberRef
 	 *            the definition of the member
 	 */
 
-	public MemberRef( ElementPropertyDefn prop, int n,
+	MemberRef( ElementPropertyDefn prop, int n,
 			StructPropertyDefn memberDef )
 	{
 		propDefn = prop;
@@ -273,7 +291,7 @@ public class MemberRef
 	 *            the list index
 	 */
 
-	public MemberRef( MemberRef ref, int n )
+	MemberRef( MemberRef ref, int n )
 	{
 		propDefn = ref.propDefn;
 
@@ -337,7 +355,7 @@ public class MemberRef
 	 *            the definition of the member
 	 */
 
-	public MemberRef( MemberRef ref, int n, StructPropertyDefn memberDefn )
+	MemberRef( MemberRef ref, int n, StructPropertyDefn memberDefn )
 	{
 		propDefn = ref.propDefn;
 		assert propDefn != null;
@@ -410,7 +428,7 @@ public class MemberRef
 	 *            the name of a member
 	 */
 
-	public MemberRef( MemberRef ref, String memberName )
+	MemberRef( MemberRef ref, String memberName )
 	{
 		this( ref, (StructPropertyDefn) ref.getStructDefn( ).getMember(
 				memberName ) );
@@ -435,7 +453,7 @@ public class MemberRef
 	 *            the definition of the member
 	 */
 
-	public MemberRef( MemberRef ref, StructPropertyDefn memberDefn )
+	MemberRef( MemberRef ref, StructPropertyDefn memberDefn )
 	{
 		assert memberDefn != null;
 
@@ -536,7 +554,7 @@ public class MemberRef
 	/**
 	 * Returns a reference to the parent.
 	 * <p>
-	 * <strong>property.list[n].member.list[n][member]</strong>
+	 * <strong>property.list[n].member.list[n][member] </strong>
 	 * 
 	 * @return a reference to the parent member
 	 */
@@ -617,7 +635,7 @@ public class MemberRef
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the local value of the referenced property, structure, or member.
 	 * 
@@ -704,7 +722,7 @@ public class MemberRef
 	 * <p>
 	 * property. <strong>member </strong> <br>
 	 * property.member. <strong>member </strong> <br>
-	 * property.member.list[n]. <strong>member </strong><br>
+	 * property.member.list[n]. <strong>member </strong> <br>
 	 * 
 	 * property.list[n]. <strong>member </strong> <br>
 	 * property.list[n].member.list[n]. <strong>member </strong> <br>
@@ -748,10 +766,9 @@ public class MemberRef
 
 			if ( depth == 1 )
 			{
-				if ( index[0] < 0 || index[0] >= list.size( ) )
+				Structure struct = getStructure( list, 0 );
+				if ( struct == null )
 					return null;
-
-				Structure struct = (Structure) list.get( index[0] );
 
 				if ( member[1] == null )
 					return struct;
@@ -763,9 +780,7 @@ public class MemberRef
 			}
 			else if ( depth == 2 )
 			{
-				if ( index[1] < 0 || index[1] >= list.size( ) )
-					return null;
-				return (Structure) list.get( index[1] );
+				return getStructure( list, 1 );
 			}
 
 			return null;
@@ -783,9 +798,7 @@ public class MemberRef
 			assert member[0].isList( );
 			ArrayList list = (ArrayList) struct.getProperty( design, member[0] );
 
-			if ( index[0] < 0 || index[0] >= list.size( ) )
-				return null;
-			return (Structure) list.get( index[0] );
+			return getStructure( list, 0 );
 		}
 
 		if ( member[1] != null )
@@ -912,9 +925,9 @@ public class MemberRef
 				// If the top-level index is out of range, then there
 				// is no value.
 
-				if ( index[0] < 0 || index[0] >= list.size( ) )
+				Structure struct = getStructure( list, 0 );
+				if ( struct == null )
 					return null;
-				Structure struct = (Structure) list.get( index[0] );
 
 				// Check the second-level list if needed.
 
@@ -958,5 +971,27 @@ public class MemberRef
 				return false;
 		}
 
+	}
+
+	/**
+	 * Returns the structure at the given position in structure list.
+	 * 
+	 * @param list
+	 *            structure list
+	 * @param level
+	 *            the structure position in first index or second index
+	 * @return structure if the position is in list range, otherwise, return
+	 *         null.
+	 */
+
+	Structure getStructure( List list, int level )
+	{
+		assert level == 0 || level == 1;
+		
+		if ( list == null )
+			return null;
+		if ( index[level] < 0 || index[level] >= list.size( ) )
+			return null;
+		return (Structure) list.get( index[level] );
 	}
 }

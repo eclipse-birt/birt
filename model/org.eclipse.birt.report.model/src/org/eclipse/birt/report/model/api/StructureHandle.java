@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
@@ -35,7 +36,7 @@ public class StructureHandle extends ValueHandle
 	 * Reference to the structure.
 	 */
 
-	protected MemberRef structRef;
+	protected CachedMemberRef structRef;
 
 	/**
 	 * Constructs a handle for a structure within a list property of a given
@@ -50,7 +51,10 @@ public class StructureHandle extends ValueHandle
 	public StructureHandle( DesignElementHandle element, MemberRef ref )
 	{
 		super( element );
-		structRef = ref;
+		structRef = new CachedMemberRef( ref );
+		if (! structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+			throw new RuntimeException(
+					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -66,7 +70,11 @@ public class StructureHandle extends ValueHandle
 	public StructureHandle( SimpleValueHandle valueHandle, int index )
 	{
 		super( valueHandle.getElementHandle( ) );
-		structRef = new MemberRef( valueHandle.getReference( ), index );
+		structRef = new CachedMemberRef( new CachedMemberRef( valueHandle
+				.getReference( ), index ) );
+		if (! structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+			throw new RuntimeException(
+					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
 
 	// Implementation of abstract method defined in base class.
@@ -95,17 +103,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member is
-	 *         not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member
+	 *         is not set or is not found.
 	 */
 
 	protected Object getProperty( String memberName )
 	{
-        MemberHandle handle = getMember( memberName );
-        if( handle == null )
-            return null;
-        
-        return handle.getValue();
+		MemberHandle handle = getMember( memberName );
+		if ( handle == null )
+			return null;
+
+		return handle.getValue( );
 	}
 
 	/**
@@ -113,17 +121,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member is
-	 *         not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member
+	 *         is not set or is not found.
 	 */
 
 	protected String getStringProperty( String memberName )
 	{
-        MemberHandle handle = getMember( memberName );
-        if( handle == null )
-            return null;
-        
-        return handle.getStringValue(); 
+		MemberHandle handle = getMember( memberName );
+		if ( handle == null )
+			return null;
+
+		return handle.getStringValue( );
 	}
 
 	/**
@@ -201,7 +209,8 @@ public class StructureHandle extends ValueHandle
 
 	public MemberHandle getMember( String memberName )
 	{
-		StructPropertyDefn memberDefn = (StructPropertyDefn)getDefn( ).getMember( memberName );
+		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn( )
+				.getMember( memberName );
 		if ( memberDefn == null )
 			return null;
 

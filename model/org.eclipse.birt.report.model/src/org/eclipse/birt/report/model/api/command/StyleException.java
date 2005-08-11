@@ -85,7 +85,7 @@ public class StyleException extends SemanticException
 		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND )
 		{
 			return ModelMessages.getMessage( sResourceKey,
-					new String[]{styleName, element.getElementName( ), element.getName( )} );
+					new String[]{styleName, getElementName( element )} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );
