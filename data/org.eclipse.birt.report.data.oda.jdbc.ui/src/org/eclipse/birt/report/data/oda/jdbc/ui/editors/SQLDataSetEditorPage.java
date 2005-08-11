@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.19 $ $Date: 2005/07/21 02:57:13 $
+ * @version $Revision: 1.20 $ $Date: 2005/07/21 10:30:02 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -1250,38 +1250,60 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 * 		
 	 */
 	private void prepareUI()
-	{		
-		String queryText = ((OdaDataSetHandle) getContainer().getModel()).getQueryText();
+	{	
 		StyledText styledText = viewer.getTextWidget();
-		if (queryText == null || queryText.trim().length() == 0) {
-			String[] lines = getQueryPresetText();
-			if (lines != null && lines.length > 0)
-				styledText.setSelection(lines[0].length() + 1, lines[0].length() + 1);
+		String queryText = styledText.getText( );
+		if ( queryText != null
+				&& queryText.equalsIgnoreCase( getQueryPresetTextString( ) ) )
+		{
+			String[] lines = getQueryPresetTextArray( );
+			if ( lines != null && lines.length > 0 )
+				styledText.setSelection( lines[0].length( ) + 1,
+						lines[0].length( ) + 1 );
 		}
 		styledText.setFocus();
 	}
 	
-	// return the query text. If the query text is empty then return the pre-defined pattern
-	private String getQueryText()
+	/**
+	 * return the query text. If the query text is empty then return the pre-defined pattern
+	 * 
+	 * @return
+	 */
+	private String getQueryText( )
 	{
 		String queryText = ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getQueryText( );
-		if ( queryText != null && queryText.trim().length() > 0)
+		if ( queryText != null && queryText.trim( ).length( ) > 0 )
 			return queryText;
-		
-		String[] lines = getQueryPresetText();
+
+		return getQueryPresetTextString( );
+	}
+	
+	/**
+	 * Return pre-defined query text pattern with every element in a cell.
+	 * 
+	 * @return pre-defined query text
+	 */
+	private String getQueryPresetTextString( )
+	{
+		String[] lines = getQueryPresetTextArray( );
 		String result = "";
-		if( lines!= null && lines.length > 0 )
+		if ( lines != null && lines.length > 0 )
 		{
-			for (int i = 0; i < lines.length; i++)
+			for ( int i = 0; i < lines.length; i++ )
 			{
-				result = result + lines[i] + ( i == lines.length -1? " ":" \n");
+				result = result
+						+ lines[i] + ( i == lines.length - 1 ? " " : " \n" );
 			}
 		}
 		return result;
 	}
 	
-	// return pre-defined query text pattern with every element in a cell in an Array
-	private String[] getQueryPresetText()
+	/** 
+	 * Return pre-defined query text pattern with every element in a cell in an Array
+	 * 
+	 * @return pre-defined query text in an Array
+	 */
+	private String[] getQueryPresetTextArray()
 	{
 		// TODO: to be externalized
 		final String[] lines = new String[]{
