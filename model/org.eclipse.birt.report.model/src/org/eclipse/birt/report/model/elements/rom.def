@@ -1655,7 +1655,7 @@
     <PropertyVisibility name="extensionID" visibility="hide" />
     <PropertyVisibility name="privateDriverProperties" visibility="hide" />
   </Element>
-  <Element canExtend="false" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="ScriptDataSource">
+  <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="ScriptDataSource">
     <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" />
     <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip"/>
   </Element>
