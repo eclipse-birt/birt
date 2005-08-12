@@ -34,18 +34,17 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
  * Adapter class to adpat model handle. This adapter provides convenience
  * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
- *  
+ * 
  */
 
 public class SessionHandleAdapter
 {
-	//add field support mediator
-	private Map mediatorMap = new WeakHashMap();
-	
+
+	// add field support mediator
+	private Map mediatorMap = new WeakHashMap( );
 
 	/**
-	 * constructor
-	 * Mark it to private to avoid new opeartion.
+	 * constructor Mark it to private to avoid new opeartion.
 	 */
 	private SessionHandleAdapter( )
 	{
@@ -82,7 +81,7 @@ public class SessionHandleAdapter
 		if ( sessionHandle == null )
 		{
 			sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
-			IMetaDataDictionary metadata = DesignEngine.getMetaDataDictionary();
+			IMetaDataDictionary metadata = DesignEngine.getMetaDataDictionary( );
 			metadata.enableElementID( );
 		}
 		sessionHandle.activate( );
@@ -106,8 +105,8 @@ public class SessionHandleAdapter
 		{
 			ReportDesignHandle handle = getSessionHandle( ).openDesign( fileName,
 					input );
-			
-			postInit(handle);
+
+			postInit( handle );
 
 			designHandleAdapter = new ReportDesignHandleAdapter( handle );
 		}
@@ -133,11 +132,11 @@ public class SessionHandleAdapter
 			}
 			catch ( ContentException e )
 			{
-				new DesignFileException(handle.getFileName(),e);
+				new DesignFileException( handle.getFileName( ), e );
 			}
 			catch ( NameException e )
 			{
-				new DesignFileException(handle.getFileName(),e);
+				new DesignFileException( handle.getFileName( ), e );
 			}
 		}
 	}
@@ -168,14 +167,14 @@ public class SessionHandleAdapter
 	/**
 	 * Sets report design.
 	 * 
-	 * @param obj
+	 * @param handle
+	 *            the model
 	 */
 	public void setReportDesignHandle( ReportDesignHandle handle )
 	{
 
 		designHandleAdapter.setReportDesignHandle( handle );
 	}
-
 
 	/**
 	 * @return Command stack of current session.
@@ -189,11 +188,10 @@ public class SessionHandleAdapter
 
 		return null;
 	}
-	
+
 	/**
 	 * Gets the first MasterPageHandle
 	 * 
-	 * @return
 	 */
 	public MasterPageHandle getMasterPageHandle( )
 	{
@@ -201,28 +199,46 @@ public class SessionHandleAdapter
 		Iterator iter = slotHandle.iterator( );
 		return (MasterPageHandle) iter.next( );
 	}
-	
+
 	/**
 	 * 
 	 * @param handle
-	 * @return
+	 *            the model
+	 * @return get corresponding mediator
 	 */
-	public ReportMediator getMediator(ReportDesignHandle handle)
+	public ReportMediator getMediator( ReportDesignHandle handle )
 	{
-		ReportMediator mediator = (ReportMediator)mediatorMap.get(handle);
-		if (mediator == null)
+		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
+		if ( mediator == null )
 		{
-			mediator = new ReportMediator();
-			mediatorMap.put(handle, mediator);
+			mediator = new ReportMediator( );
+			mediatorMap.put( handle, mediator );
 		}
 		return mediator;
 	}
-	
+
 	/**
-	 * @return
+	 * @return the current mediator
 	 */
-	public ReportMediator getMediator()
+	public ReportMediator getMediator( )
 	{
-		return getMediator(getReportDesignHandle());
+		return getMediator( getReportDesignHandle( ) );
+	}
+
+	/**
+	 * @param oldObj
+	 *            old model
+	 * @param newObj
+	 *            new model
+	 */
+	public void resetReportDesign( Object oldObj, Object newObj )
+	{
+		ReportMediator mediator = (ReportMediator) mediatorMap.get( oldObj );
+		if ( mediator == null )
+		{
+			return;
+		}
+		mediatorMap.remove( oldObj );
+		mediatorMap.put( newObj, mediator );
 	}
 }

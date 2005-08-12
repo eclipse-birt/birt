@@ -700,10 +700,15 @@ public class UIUtil
 		{
 			return true;
 		}
-		Object[] childrens = provider.getChildren( parent );
-		for ( int i = 0; i < childrens.length; i++ )
+
+		if ( provider == null )
 		{
-			if ( containElement( childrens[i], provider, element ) )
+			return false;
+		}
+		Object[] children = provider.getChildren( parent );
+		for ( int i = 0; i < children.length; i++ )
+		{
+			if ( containElement( children[i], provider, element ) )
 			{
 				return true;
 			}
