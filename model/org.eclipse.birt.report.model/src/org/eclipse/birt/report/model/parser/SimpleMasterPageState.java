@@ -109,7 +109,9 @@ public class SimpleMasterPageState extends MasterPageState
 
 		public AbstractParseState startElement( String tagName )
 		{
-
+			// MasterPage slot can contain any report item is not variable size 
+			// or is bound to data, such as Data, Label, Text, Grid, Image.
+			
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
 				return new TextItemState( handler, element, page );
 			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
@@ -117,6 +119,12 @@ public class SimpleMasterPageState extends MasterPageState
 			else if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
 				return new FreeFormState( handler, element, page );
+			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
+				return new LabelState( handler, element, page );
+			else if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
+				return new ImageState( handler, element, page );
+			else if( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
+				return new DataItemState( handler, element, page );
 			return super.startElement( tagName );
 		}
 	}
