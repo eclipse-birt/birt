@@ -43,6 +43,8 @@ public final class SwingTextMetrics extends TextAdapter
 
 	private TextLayout[] tla = null;
 
+	private String[] fsa = null;
+
 	private transient Object bi = null;
 
 	private Label la = null;
@@ -105,16 +107,20 @@ public final class SwingTextMetrics extends TextAdapter
 			iLineCount = 1;
 			oText = s;
 			tla = new TextLayout[1];
+			fsa = new String[1];
 			tla[0] = new TextLayout( s, f.getAttributes( ), frc );
+			fsa[0] = s;
 		}
 		else
 		{
 			iLineCount = sa.length;
 			oText = sa;
 			tla = new TextLayout[iLineCount];
+			fsa = new String[iLineCount];
 			for ( int i = 0; i < iLineCount; i++ )
 			{
 				tla[i] = new TextLayout( sa[i], f.getAttributes( ), frc );
+				fsa[i] = sa[i];
 			}
 		}
 		ins = la.getInsets( ).scaledInstance( pointsToPixels( ) );
@@ -163,7 +169,14 @@ public final class SwingTextMetrics extends TextAdapter
 			double dWidth, dMaxWidth = 0;
 			for ( int i = 0; i < iLineCount; i++ )
 			{
-				r2d = tla[i].getBounds( );
+				/**
+				 * //r2d = tla[i].getBounds( );
+				 * 
+				 * Not use the textLayout.getBounds(), this is not correct when
+				 * the string contains full pitch characters.
+				 */
+				r2d = fm.getStringBounds( fsa[0], g2d );
+
 				dWidth = r2d.getWidth( );
 				if ( dWidth > dMaxWidth )
 				{
@@ -179,7 +192,13 @@ public final class SwingTextMetrics extends TextAdapter
 		}
 		else if ( iLineCount == 1 )
 		{
-			double w = tla[0].getBounds( ).getWidth( );
+			/**
+			 * // double w = tla[0].getBounds( ).getWidth( );
+			 * 
+			 * Not use the textLayout.getBounds(), this is not correct when the
+			 * string contains full pitch characters.
+			 */
+			double w = fm.getStringBounds( fsa[0], g2d ).getWidth( );
 
 			/**
 			 * Fixed for java.awt.font.TextLine.getBounds() bug, when string is
