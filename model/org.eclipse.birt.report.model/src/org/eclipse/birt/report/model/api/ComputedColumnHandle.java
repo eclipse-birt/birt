@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
@@ -108,5 +109,54 @@ public class ComputedColumnHandle extends StructureHandle
 	public void setExpression( String expression )
 	{
         setPropertySilently( ComputedColumn.EXPRESSION_MEMBER, expression );
+	}
+	
+	/**
+	 * Returns the data type of this column. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
+	 * are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @return the data type of this column.
+	 */
+
+	public String getDataType( )
+	{
+		return getStringProperty( ComputedColumn.DATA_TYPE_MEMBER );
+	}
+
+	/**
+	 * Sets the data type of this column. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
+	 * are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type to set
+	 * @throws SemanticException
+	 *             if the dataType is not in the choice list.
+	 */
+
+	public void setDataType( String dataType ) throws SemanticException
+	{
+		setProperty( ComputedColumn.DATA_TYPE_MEMBER, dataType );
 	}
 }

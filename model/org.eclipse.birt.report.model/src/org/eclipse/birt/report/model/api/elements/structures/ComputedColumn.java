@@ -73,6 +73,12 @@ public class ComputedColumn extends Structure
 	 */
 
 	public static final String EXPRESSION_MEMBER = "expression"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the data-type member.
+	 */
+	
+	public static final String DATA_TYPE_MEMBER = "dataType"; //$NON-NLS-1$
 
 	/**
 	 * The column name.
@@ -85,6 +91,12 @@ public class ComputedColumn extends Structure
 	 */
 
 	private String expression = null;
+	
+	/**
+	 * The data type of this column.
+	 */
+
+	private String dataType = null;
 
 	/*
 	 * (non-Javadoc)
@@ -109,6 +121,8 @@ public class ComputedColumn extends Structure
 			return columnName;
 		if ( EXPRESSION_MEMBER.equals( memberName ) )
 			return expression;
+		if ( DATA_TYPE_MEMBER.equals( memberName ) )
+			return dataType;
 
 		assert false;
 		return null;
@@ -128,6 +142,8 @@ public class ComputedColumn extends Structure
 			columnName = (String) value;
 		else if ( EXPRESSION_MEMBER.equals( propName ) )
 			expression = (String) value;
+		else if ( DATA_TYPE_MEMBER.equals( propName ) )
+			dataType = (String) value;
 		else
 			assert false;
 	}
@@ -243,4 +259,51 @@ public class ComputedColumn extends Structure
 
 		return list;
 	}
+	
+	/**
+	 * Returns the data type of this column. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
+	 * are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @return the data type of this column.
+	 */
+
+	public String getDataType( )
+	{
+		return (String) getProperty( null, DATA_TYPE_MEMBER );
+	}
+
+    /**
+     * Sets the data type of this column. The allowed values are defined in
+     * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and they
+     * are:
+     * <ul>
+     * <li>COLUMN_DATA_TYPE_ANY
+     * <li>COLUMN_DATA_TYPE_INTEGER
+     * <li>COLUMN_DATA_TYPE_STRING
+     * <li>COLUMN_DATA_TYPE_DATETIME
+     * <li>COLUMN_DATA_TYPE_DECIMAL
+     * <li>COLUMN_DATA_TYPE_FLOAT
+     * <li>COLUMN_DATA_TYPE_STRUCTURE
+     * <li>COLUMN_DATA_TYPE_TABLE
+     * </ul>
+     * 
+     * @param dataType
+     *            the data type to set
+     */
+
+    public void setDataType( String dataType )
+    {
+        setProperty( DATA_TYPE_MEMBER, dataType );
+    }
 }
