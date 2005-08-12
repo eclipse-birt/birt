@@ -201,21 +201,21 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         btnBold = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBBold = new GridData(GridData.FILL_HORIZONTAL);
         btnBold.setLayoutData(gdBBold);
-        btnBold.setImage(UIHelper.getImage("icons/obj28/fnt_style_bold.gif")); //$NON-NLS-1$
+        btnBold.setImage(UIHelper.getImage("icons/obj16/fnt_style_bold.gif")); //$NON-NLS-1$
         btnBold.addSelectionListener(this);
         btnBold.setSelection(fdCurrent.isBold());
 
         btnItalic = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBItalic = new GridData(GridData.FILL_HORIZONTAL);
         btnItalic.setLayoutData(gdBItalic);
-        btnItalic.setImage(UIHelper.getImage("icons/obj28/fnt_style_italic.gif")); //$NON-NLS-1$
+        btnItalic.setImage(UIHelper.getImage("icons/obj16/fnt_style_italic.gif")); //$NON-NLS-1$
         btnItalic.addSelectionListener(this);
         btnItalic.setSelection(fdCurrent.isItalic());
 
         btnUnderline = new Button(cmpContent, SWT.TOGGLE);
         GridData gdBUnderline = new GridData(GridData.FILL_HORIZONTAL);
         btnUnderline.setLayoutData(gdBUnderline);
-        btnUnderline.setImage(UIHelper.getImage("icons/obj28/fnt_style_underline.gif")); //$NON-NLS-1$
+        btnUnderline.setImage(UIHelper.getImage("icons/obj16/fnt_style_underline.gif")); //$NON-NLS-1$
         btnUnderline.addSelectionListener(this);
         btnUnderline.setSelection(fdCurrent.isUnderline());
 
