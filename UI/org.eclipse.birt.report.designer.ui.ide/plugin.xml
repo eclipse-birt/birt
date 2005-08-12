@@ -8,6 +8,9 @@
    >
 
    <runtime>
+      <library name="uiide.jar">
+         <export name="*"/>
+      </library>
    </runtime>
 
    <requires>
