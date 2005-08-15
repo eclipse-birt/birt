@@ -59,7 +59,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * design file, and deserialized from this XML-type extension property when
  * loading design file.
  * </ul>
- * 
+ *  
  */
 
 public class PeerExtensibilityProvider extends ModelExtensibilityProvider
@@ -337,12 +337,13 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
 			throw new ExtendedElementException(
-					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND );
+					ExtendedElementException.PLUGIN_ID,
+					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null );
 
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory( );
 		assert elementFactory != null;
 
-		reportItem = elementFactory.newReportItem( element.getHandle(design) );
+		reportItem = elementFactory.newReportItem( element.getHandle( design ) );
 
 		// if the item caches the property values of extension, transfer them
 		// and then clear the cached values

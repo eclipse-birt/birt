@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * to HTML, PDF or other formats.
  * </ul>
  * 
- * 
+ *  
  */
 
 public class ExtendedItem extends ReportItem
@@ -273,7 +273,8 @@ public class ExtendedItem extends ReportItem
 			provider.initializeReportItem( design );
 		else
 			throw new ExtendedElementException(
-					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION );
+					ExtendedElementException.PLUGIN_ID,
+					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
 
 	}
 
@@ -304,8 +305,8 @@ public class ExtendedItem extends ReportItem
 			extensionName = (String) value;
 			if ( extensionName != null )
 				provider = new PeerExtensibilityProvider( this, extensionName );
-			else 
-				provider = null;			
+			else
+				provider = null;
 		}
 		else
 		{

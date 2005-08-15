@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
+import java.util.ResourceBundle;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Base class for all peer-provided exceptions. The easiest implementation is to
@@ -27,85 +28,172 @@ public class ExtendedElementException extends SemanticException
 	 * Comment for <code>serialVersionUID</code>
 	 */
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 1L;	
+	
 	/**
-	 * Constructor.
+	 * Constructs a new model exception with no cause object.
 	 * 
-	 * @param errCode
-	 *            the error code
-	 *  
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
 	 */
 
-	public ExtendedElementException( String errCode )
+	public ExtendedElementException( String pluginId, String errorCode,
+			ResourceBundle bundle )
 	{
-		super( errCode );
+		super( pluginId, errorCode, bundle );
 	}
 
 	/**
-	 * Constructor.
+	 * Constructs a new model exception.
 	 * 
-	 * @param element
-	 *            the extended element which has errors
-	 * @param errCode
-	 *            the error code
-	 */
-
-	public ExtendedElementException( DesignElement element, String errCode )
-	{
-		super( element, errCode );
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param element
-	 *            the extended element which has errors
-	 * @param errCode
-	 *            the error code
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
 	 * @param cause
 	 *            the nested exception
 	 */
 
-	public ExtendedElementException( DesignElement element, String errCode,
+	public ExtendedElementException( String pluginId, String errorCode,
+			ResourceBundle bundle, Throwable cause )
+	{
+		super( pluginId, errorCode, bundle, cause );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
+	 * @param args
+	 *            string arguments used to format error messages
+	 * @param cause
+	 *            the nested exception
+	 */
+
+	public ExtendedElementException( String pluginId, String errorCode, Object[] args,
+			ResourceBundle bundle, Throwable cause )
+	{
+		super( pluginId, errorCode, args, bundle, cause );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
+	 * @param cause
+	 *            the nested exception
+	 * @param arg0
+	 *            first argument used to format error messages
+	 */
+
+	public ExtendedElementException( String pluginId, String errorCode, Object arg0,
+			ResourceBundle bundle, Throwable cause )
+	{
+		super( pluginId, errorCode, arg0, bundle, cause );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
+	 * @param args
+	 *            string arguments used to format error messages
+	 */
+
+	public ExtendedElementException( String pluginId, String errorCode, Object[] args,
+			ResourceBundle bundle )
+	{
+		super( pluginId, errorCode, args, bundle );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param bundle
+	 *            the resourceBundle used to translate the message.
+	 * @param arg0
+	 *            first argument used to format error messages
+	 */
+
+	public ExtendedElementException( String pluginId, String errorCode, Object arg0,
+			ResourceBundle bundle )
+	{
+		super( pluginId, errorCode, arg0, bundle );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param arg0
+	 *            first argument used to format error messages
+	 */
+
+	public ExtendedElementException( String pluginId, String errorCode, Object arg0 )
+	{
+		super( pluginId, errorCode, arg0 );
+	}
+
+	/**
+	 * Constructs a new model exception.
+	 * 
+	 * @param pluginId
+	 *            Returns the unique identifier of the plug-in associated with
+	 *            this exception
+	 * @param errorCode
+	 *            used to retrieve a piece of externalized message displayed to
+	 *            end user.
+	 * @param cause
+	 *            the nested exception
+	 * @param args
+	 *            string arguments used to format error messages
+	 */
+	
+	public ExtendedElementException( String pluginId, String errorCode, Object[] args,
 			Throwable cause )
 	{
-		super( element, errCode, cause );
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param element
-	 *            the extended element which has errors
-	 * @param args
-	 *            value array used for error message
-	 * @param errCode
-	 *            the error code
-	 */
-
-	public ExtendedElementException( DesignElement element, String[] args,
-			String errCode )
-	{
-		super( element, args, errCode );
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param element
-	 *            the extended element which has errors
-	 * @param args
-	 *            value array used for error message
-	 * @param errCode
-	 *            the error code
-	 * @param cause
-	 *            the nested exception
-	 */
-
-	public ExtendedElementException( DesignElement element, String[] args,
-			String errCode, Throwable cause )
-	{
-		super( element, args, errCode, cause );
+		super( pluginId, errorCode, args, cause );
 	}
 }

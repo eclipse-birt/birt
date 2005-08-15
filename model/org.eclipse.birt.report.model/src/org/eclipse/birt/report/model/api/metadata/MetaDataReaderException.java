@@ -39,7 +39,7 @@ public class MetaDataReaderException extends ModelException
 	public MetaDataReaderException( String errCode,
 			MetaDataParserException cause )
 	{
-		super( errCode, null, cause );
+		super( PLUGIN_ID, errCode, null, null, cause );
 		assert cause != null;
 		this.e = cause;
 	}
