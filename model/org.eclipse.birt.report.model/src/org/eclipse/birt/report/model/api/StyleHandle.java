@@ -124,20 +124,13 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new background image address
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
-	public void setBackgroundImage( String value )
+	public void setBackgroundImage( String value ) throws SemanticException
 	{
-		try
-		{
-			setStringProperty( Style.BACKGROUND_IMAGE_PROP, value );
-		}
-		catch ( SemanticException e )
-		{
-			// Should never occur.
-
-			assert false;
-		}
+		setStringProperty( Style.BACKGROUND_IMAGE_PROP, value );
 	}
 
 	/**
@@ -395,21 +388,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            <code>true</code> if can shrink, <code>false</code> not.
+	 * @throws SemanticException
+	 *             if the property is locked
 	 * @see #canShrink()
 	 */
 
-	public void setCanShrink( boolean value )
+	public void setCanShrink( boolean value ) throws SemanticException
 	{
-		try
-		{
-			setProperty( Style.CAN_SHRINK_PROP, Boolean.valueOf( value ) );
-		}
-		catch ( SemanticException e )
-		{
-			// Should never occur.
-
-			assert false;
-		}
+		setProperty( Style.CAN_SHRINK_PROP, Boolean.valueOf( value ) );
 	}
 
 	/**
@@ -451,21 +437,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param pattern
 	 *            the pattern of a string forma
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
-	public void setStringFormat( String pattern )
+	public void setStringFormat( String pattern ) throws SemanticException
 	{
-		try
-		{
-			setFormatValue( Style.STRING_FORMAT_PROP,
-					FormatValue.PATTERN_MEMBER, pattern );
-
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-
+		setFormatValue( Style.STRING_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
+				pattern );
 	}
 
 	/**
@@ -536,20 +515,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param pattern
 	 *            the pattern of a number format
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
-	public void setNumberFormat( String pattern )
+	public void setNumberFormat( String pattern ) throws SemanticException
 	{
-		try
-		{
-			setFormatValue( Style.NUMBER_FORMAT_PROP,
-					FormatValue.PATTERN_MEMBER, pattern );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-
+		setFormatValue( Style.NUMBER_FORMAT_PROP, FormatValue.PATTERN_MEMBER,
+				pattern );
 	}
 
 	/**
@@ -619,20 +592,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param pattern
 	 *            the pattern of a date time format
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
-	public void setDateTimeFormat( String pattern )
+	public void setDateTimeFormat( String pattern ) throws SemanticException
 	{
-		try
-		{
-			setFormatValue( Style.DATE_TIME_FORMAT_PROP,
-					FormatValue.PATTERN_MEMBER, pattern );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-
+		setFormatValue( Style.DATE_TIME_FORMAT_PROP,
+				FormatValue.PATTERN_MEMBER, pattern );
 	}
 
 	/**
@@ -681,12 +648,12 @@ public abstract class StyleHandle extends ReportElementHandle
 			String valueToSet ) throws SemanticException
 	{
 		DesignElement element = getElement( );
-		Object value = element.getLocalProperty( design, propName );			
+		Object value = element.getLocalProperty( design, propName );
 
 		if ( value == null )
 		{
 			FormatValue formatValueToSet = null;
-			
+
 			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
 			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
@@ -706,8 +673,8 @@ public abstract class StyleHandle extends ReportElementHandle
 			setProperty( propName, formatValueToSet );
 		}
 		else
-		{	
-			PropertyHandle propHandle = getPropertyHandle( propName );			
+		{
+			PropertyHandle propHandle = getPropertyHandle( propName );
 			FormatValue formatValueToSet = (FormatValue) value;
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
@@ -781,21 +748,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new master page name
+	 * @throws SemanticException
+	 *             if the property is locked
 	 * @see #getMasterPage()
 	 */
 
-	public void setMasterPage( String value )
+	public void setMasterPage( String value ) throws SemanticException
 	{
-		try
-		{
-			setProperty( Style.MASTER_PAGE_PROP, value );
-		}
-		catch ( SemanticException e )
-		{
-			// Should never occur.
-
-			assert false;
-		}
+		setProperty( Style.MASTER_PAGE_PROP, value );
 	}
 
 	/**
@@ -983,21 +943,14 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * @param value
 	 *            <code>true</code> if show the frame. <code>false</code>
 	 *            not.
+	 * @throws SemanticException
+	 *             if the property is locked
 	 * @see #showIfBlank()
 	 */
 
-	public void setShowIfBlank( boolean value )
+	public void setShowIfBlank( boolean value ) throws SemanticException
 	{
-		try
-		{
-			setProperty( Style.SHOW_IF_BLANK_PROP, Boolean.valueOf( value ) );
-		}
-		catch ( SemanticException e )
-		{
-			// Should never occur.
-
-			assert false;
-		}
+		setProperty( Style.SHOW_IF_BLANK_PROP, Boolean.valueOf( value ) );
 	}
 
 	/**
@@ -1327,7 +1280,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new map test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 *  @deprecated
+	 * @deprecated
 	 */
 	public void setMapTestExpr( String value ) throws SemanticException
 	{
@@ -1370,7 +1323,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new highlight test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 *             
+	 * 
 	 * @deprecated
 	 */
 
@@ -1903,7 +1856,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 		if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( getName( ) ) != null )
 			return true;
-		
+
 		return false;
 
 	}

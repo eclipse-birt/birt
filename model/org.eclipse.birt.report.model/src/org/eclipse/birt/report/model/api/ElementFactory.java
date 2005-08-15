@@ -700,7 +700,8 @@ public class ElementFactory
 	 * @param name
 	 *            the required oda data source name.
 	 * @return a handle to oda data source
-	 * @deprecated see <code>newOdaDataSource( String name, String extensionID )</code>
+	 * @deprecated see
+	 *             <code>newOdaDataSource( String name, String extensionID )</code>
 	 */
 
 	public OdaDataSourceHandle newOdaDataSource( String name )
@@ -746,7 +747,8 @@ public class ElementFactory
 	 * @param name
 	 *            the required oda data set name.
 	 * @return a handle to oda data set
-	 * @deprecated see <code>newOdaDataSet( String name, String extensionID )</code>
+	 * @deprecated see
+	 *             <code>newOdaDataSet( String name, String extensionID )</code>
 	 */
 
 	public OdaDataSetHandle newOdaDataSet( String name )

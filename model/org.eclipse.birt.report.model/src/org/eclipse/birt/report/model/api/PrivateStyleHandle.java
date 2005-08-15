@@ -66,7 +66,7 @@ public class PrivateStyleHandle extends StyleHandle
 	public void addUserPropertyDefn( UserPropertyDefn prop )
 			throws UserPropertyException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class PrivateStyleHandle extends StyleHandle
 
 	public void dropAndClear( ) throws SemanticException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -89,12 +89,12 @@ public class PrivateStyleHandle extends StyleHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
 	 */
-	
+
 	public void drop( ) throws SemanticException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
-	
+
 	/**
 	 * This method is not defined for private styles. It will raise an assertion
 	 * if called. To change the element that owns this private style, use
@@ -106,7 +106,7 @@ public class PrivateStyleHandle extends StyleHandle
 	public void dropUserPropertyDefn( String propName )
 			throws UserPropertyException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -119,8 +119,7 @@ public class PrivateStyleHandle extends StyleHandle
 
 	public int findContentSlot( DesignElementHandle content )
 	{
-		assert false;
-		return -1;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -133,8 +132,7 @@ public class PrivateStyleHandle extends StyleHandle
 
 	public DesignElementHandle getExtends( )
 	{
-		assert false;
-		return null;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -149,7 +147,7 @@ public class PrivateStyleHandle extends StyleHandle
 	public void moveTo( DesignElementHandle newContainer, int toSlot )
 			throws ContentException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -163,7 +161,7 @@ public class PrivateStyleHandle extends StyleHandle
 	public void setExtends( DesignElementHandle parent )
 			throws ExtendsException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -177,7 +175,7 @@ public class PrivateStyleHandle extends StyleHandle
 	public void setExtendsElement( DesignElement parent )
 			throws ExtendsException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -190,6 +188,6 @@ public class PrivateStyleHandle extends StyleHandle
 
 	public void setExtendsName( String name ) throws ExtendsException
 	{
-		assert false;
+		throw new IllegalOperationException( );
 	}
 }

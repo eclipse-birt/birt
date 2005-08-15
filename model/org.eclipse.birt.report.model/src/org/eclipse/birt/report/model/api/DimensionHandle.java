@@ -183,24 +183,17 @@ public class DimensionHandle extends ComplexValueHandle
 	 * 
 	 * @param value
 	 *            the new value in application units.
+	 * @throws SemanticException
+	 *             if the property is locked
 	 */
 
-	public void setAbsolute( double value )
+	public void setAbsolute( double value ) throws SemanticException
 	{
-		try
-		{
-			setValue( new Double( value ) );
-		}
-		catch ( SemanticException e )
-		{
-			// double value does not fail
-
-			assert false;
-		}
+		setValue( new Double( value ) );
 	}
 
 	/**
-	 * Returns the absolute dimension value with the following units. 
+	 * Returns the absolute dimension value with the following units.
 	 * <ul>
 	 * <li>UNITS_IN
 	 * <li>UNITS_CM
@@ -211,8 +204,8 @@ public class DimensionHandle extends ComplexValueHandle
 	 * </ul>
 	 * 
 	 * This method tries to get the absolute value for absolute font size
-	 * constants with {@link IAbsoluteFontSizeValueProvider}. Only the value of CSS
-	 * property of the element which is not style is handled here.
+	 * constants with {@link IAbsoluteFontSizeValueProvider}. Only the value of
+	 * CSS property of the element which is not style is handled here.
 	 * <code>null</code> is returned if this dimension is not CSS style
 	 * property.
 	 * 

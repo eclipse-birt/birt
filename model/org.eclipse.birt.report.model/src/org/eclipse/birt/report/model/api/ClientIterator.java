@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -20,9 +20,9 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Iterates over the clients of an element. A client is an element that
  * references another specified element. For example, if element B extends
- * element A, then element B is a client of element A.
- * Each call to <code>getNext( )</code>
- * returns a handle of type {@link DesignElementHandle}.
+ * element A, then element B is a client of element A. Each call to
+ * <code>getNext( )</code> returns a handle of type
+ * {@link DesignElementHandle}.
  * 
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
@@ -43,12 +43,11 @@ class ClientIterator implements Iterator
 	protected ReportDesign design;
 
 	/**
-	 * Constructs a iterator to return the clients of the given
-	 * element.
+	 * Constructs a iterator to return the clients of the given element.
 	 * 
 	 * @param elementHandle
-	 *            handle to the element for which clients are wanted.
-	 *            Must not be <code>null</code>.
+	 *            handle to the element for which clients are wanted. Must not
+	 *            be <code>null</code>.
 	 */
 
 	public ClientIterator( DesignElementHandle elementHandle )
@@ -57,7 +56,7 @@ class ClientIterator implements Iterator
 
 		this.design = elementHandle.getDesign( );
 		assert design != null;
-		
+
 		if ( elementHandle.getElement( ) instanceof ReferenceableElement )
 		{
 			ReferenceableElement element = (ReferenceableElement) elementHandle
@@ -71,8 +70,8 @@ class ClientIterator implements Iterator
 	}
 
 	/**
-	 * Inherited method that is disabled in this iterator; the caller
-	 * cannot remove clients using this class.
+	 * Inherited method that is disabled in this iterator; the caller cannot
+	 * remove clients using this class.
 	 * 
 	 * @see java.util.Iterator#remove()
 	 */
@@ -81,7 +80,7 @@ class ClientIterator implements Iterator
 	{
 		// This iterator can not be used to remove anything.
 
-		assert false;
+		throw new IllegalOperationException( );
 	}
 
 	/**
@@ -113,8 +112,7 @@ class ClientIterator implements Iterator
 	{
 		if ( iter != null )
 		{
-			BackRef client = (BackRef) iter
-					.next( );
+			BackRef client = (BackRef) iter.next( );
 			return client.element.getHandle( design );
 		}
 		return null;

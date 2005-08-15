@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 public class DimensionUtil
 {
 
+	private final static String ILLEGAL_UNIT = "must be one of the absolute units(CM, IN, MM, PT)."; //$NON-NLS-1$
+
 	/**
 	 * Conversion factor from inches to cm.
 	 */
@@ -82,7 +84,8 @@ public class DimensionUtil
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_INCH;
 			else
-				assert false;
+				throw new IllegalArgumentException(
+						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.UNITS_CM.equalsIgnoreCase( targetUnits ) )
 		{
@@ -98,7 +101,8 @@ public class DimensionUtil
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_CM;
 			else
-				assert false;
+				throw new IllegalArgumentException(
+						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.UNITS_MM.equalsIgnoreCase( targetUnits ) )
 		{
@@ -114,7 +118,8 @@ public class DimensionUtil
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA * 10 / POINTS_PER_CM;
 			else
-				assert false;
+				throw new IllegalArgumentException(
+						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( targetUnits ) )
 		{
@@ -130,7 +135,8 @@ public class DimensionUtil
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA;
 			else
-				assert false;
+				throw new IllegalArgumentException(
+						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( targetUnits ) )
 		{
@@ -146,10 +152,12 @@ public class DimensionUtil
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure / POINTS_PER_PICA;
 			else
-				assert false;
+				throw new IllegalArgumentException(
+						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 		}
 		else
-			assert false;
+			throw new IllegalArgumentException(
+					"\"targetUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
 
 		return new DimensionValue( targetMeasure, targetUnits );
 	}

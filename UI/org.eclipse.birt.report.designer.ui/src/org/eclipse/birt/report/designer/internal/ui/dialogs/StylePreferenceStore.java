@@ -195,7 +195,6 @@ public class StylePreferenceStore implements IPreferenceStore
 		return ( (StyleHandle) model ).getDateTimeFormat( );
 	}
 
-	
 	/**
 	 * Gets Date time format category.
 	 */
@@ -223,7 +222,7 @@ public class StylePreferenceStore implements IPreferenceStore
 	/**
 	 * Sets string format pattern.
 	 */
-	public void setStringFormat( String format )
+	public void setStringFormat( String format ) throws SemanticException
 	{
 		( (StyleHandle) model ).setStringFormat( format );
 	}
@@ -240,7 +239,7 @@ public class StylePreferenceStore implements IPreferenceStore
 	/**
 	 * Sets date time format pattern.
 	 */
-	public void setDateTimeFormat( String format )
+	public void setDateTimeFormat( String format ) throws SemanticException
 	{
 		( (StyleHandle) model ).setDateTimeFormat( format );
 	}
@@ -257,7 +256,7 @@ public class StylePreferenceStore implements IPreferenceStore
 	/**
 	 * Sets number format pattern.
 	 */
-	public void setNumberFormat( String format )
+	public void setNumberFormat( String format ) throws SemanticException
 	{
 		( (StyleHandle) model ).setNumberFormat( format );
 	}

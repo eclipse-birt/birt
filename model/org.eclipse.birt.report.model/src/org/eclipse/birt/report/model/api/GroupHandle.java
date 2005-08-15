@@ -153,6 +153,9 @@ public abstract class GroupHandle extends ReportElementHandle
 		}
 		catch ( SemanticException e )
 		{
+			// TODO: if the validation is called with the command, then
+			// some exception will be thrown about GroupNameValidator.
+
 			assert false;
 		}
 	}
@@ -425,7 +428,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
-	 * 
+	 *  
 	 */
 
 	public void setSortDirection( String direction ) throws SemanticException
@@ -437,7 +440,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group header slot is empty.
 	 * 
 	 * @return true is the header slot is not empty, otherwise, return false.
-	 * 
+	 *  
 	 */
 
 	public boolean hasHeader( )
@@ -449,7 +452,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group footer slot is empty.
 	 * 
 	 * @return true is the footer slot is not empty, otherwise, return false.
-	 * 
+	 *  
 	 */
 
 	public boolean hasFooter( )
