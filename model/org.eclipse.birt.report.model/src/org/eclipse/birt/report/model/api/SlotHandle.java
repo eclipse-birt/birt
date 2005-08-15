@@ -429,7 +429,8 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void dropAndClear( DesignElementHandle content ) throws SemanticException
+	public void dropAndClear( DesignElementHandle content )
+			throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getDesign( ), getElement( ) );
 		cmd.remove( content.getElement( ), slotID, false );
@@ -445,8 +446,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *             if the content is not within the slot
 	 */
 
-	public void drop( DesignElementHandle content )
-			throws SemanticException
+	public void drop( DesignElementHandle content ) throws SemanticException
 	{
 		ContentCommand cmd = new ContentCommand( getDesign( ), getElement( ) );
 		cmd.remove( content.getElement( ), slotID, true );
@@ -525,4 +525,35 @@ public class SlotHandle extends ElementDetailHandle
 		return slotID;
 	}
 
+	/**
+	 * Determines if the slot can contain an element with the type of
+	 * <code>type</code>.
+	 * 
+	 * @param type
+	 *            the name of the element type, like "Table", "List", etc.
+	 * @return <code>true</code> if the slot can contain the an element with
+	 *         <code>type</code> type, otherwise <code>false</code>.
+	 * 
+	 */
+
+	public boolean canContain( String type )
+	{
+		return getElementHandle( ).canContain( slotID, type );
+	}
+
+	/**
+	 * Determines if the given slot can contain the <code>content</code>.
+	 * 
+	 * @param content
+	 *            the design element handle to check
+	 * 
+	 * @return <code>true</code> if the slot with the given
+	 *         <code>slotId</code> can contain the <code>content</code>,
+	 *         otherwise <code>false</code>.
+	 */
+
+	public boolean canContain( DesignElementHandle content )
+	{
+		return getElementHandle( ).canContain( slotID, content );
+	}
 }

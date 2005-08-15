@@ -387,8 +387,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.api.activity.ActivityStack}
- * class triggers the notifications as it processes commands.</li>
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
+ * triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
  * <li>The sendEvent( ) method in turn calls
@@ -2701,7 +2701,8 @@ public abstract class DesignElement
 
 	/**
 	 * Checks whether a type of elements can reside in the given slot of the
-	 * current element.
+	 * current element. Besides the type check, it also checks the cardinality
+	 * of this slot.
 	 * 
 	 * @param slotId
 	 *            the slot id of the current element
@@ -2721,7 +2722,15 @@ public abstract class DesignElement
 		ISlotDefn slotDefn = getDefn( ).getSlot( slotId );
 		assert slotDefn != null;
 
-		return slotDefn.canContain( defn );
+		if ( !slotDefn.canContain( defn ) )
+			return false;
+
+		if ( getSlot( slotId ).getCount( ) > 0
+				&& !slotDefn.isMultipleCardinality( ) )
+			return false;
+
+		return true;
+
 	}
 
 	/**
@@ -3159,9 +3168,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be ¡°elided¡± to a length of 30 characters.
-	 * To elide the text, find the first white-space before the limit, truncate
-	 * the string after that point, and append three dots: ¡°¡­¡±
+	 * All descriptive text should be ¡°elided¡± to a length of 30 characters. To
+	 * elide the text, find the first white-space before the limit, truncate the
+	 * string after that point, and append three dots: ¡°¡­¡±
 	 * <p>
 	 * 
 	 * @param displayLabel
@@ -3202,7 +3211,7 @@ public abstract class DesignElement
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException
 	 *             if clone is not supported.
-	 *  
+	 * 
 	 */
 
 	public Object clone( ) throws CloneNotSupportedException

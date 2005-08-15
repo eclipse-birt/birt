@@ -1584,7 +1584,7 @@
     <Slot displayNameID="Element.ReportDesign.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
       <Type name="DataSet"/>
     </Slot>
-    <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
+    <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="false" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
 	  <Trigger validator="MasterPageRequiredValidator"/>
     </Slot>
@@ -1989,7 +1989,7 @@
       </Property>
     </PropertyGroup>
   </Element>
-  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="1.0" xmlName="graphic-master-page">
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.GraphicMasterPage" extends="MasterPage" hasStyle="true" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.GraphicMasterPage" name="GraphicMasterPage" selector="page" since="reserved" xmlName="graphic-master-page">
     <Property displayNameID="Element.GraphicMasterPage.columns" name="columns" since="1.0" type="integer" validator="PositiveValueValidator">
       <Default>1</Default>
       <Trigger validator="MasterPageMultiColumnValidator"/>
