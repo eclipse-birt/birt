@@ -34,11 +34,19 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceStatus;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.util.Assert;
@@ -848,6 +856,61 @@ public class UIUtil
 			}
 
 		}
+	}
+	
+    /**
+     * Creates a folder resource given the folder handle.
+     *
+     * @param folderHandle the folder handle to create a folder resource for
+     * @param monitor the progress monitor to show visual progress with
+     * @exception CoreException if the operation fails
+     * @exception OperationCanceledException if the operation is canceled
+     */
+    public static void createFolder( IFolder folderHandle, IProgressMonitor monitor )
+			throws CoreException
+	{
+		try
+		{
+			// Create the folder resource in the workspace
+			// Update: Recursive to create any folders which do not exist
+			// already
+			if ( !folderHandle.exists( ) )
+			{
+				IPath path = folderHandle.getFullPath( );
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
+				int numSegments = path.segmentCount( );
+				if ( numSegments > 2
+						&& !root.getFolder( path.removeLastSegments( 1 ) )
+								.exists( ) )
+				{
+					// If the direct parent of the path doesn't exist, try
+					// to create the
+					// necessary directories.
+					for ( int i = numSegments - 2; i > 0; i-- )
+					{
+						IFolder folder = root.getFolder( path.removeLastSegments( i ) );
+						if ( !folder.exists( ) )
+						{
+							folder.create( false, true, monitor );
+						}
+					}
+				}
+				folderHandle.create( false, true, monitor );
+			}
+		}
+		catch ( CoreException e )
+		{
+			// If the folder already existed locally, just refresh to get
+			// contents
+			if ( e.getStatus( ).getCode( ) == IResourceStatus.PATH_OCCUPIED )
+				folderHandle.refreshLocal( IResource.DEPTH_INFINITE,
+						new SubProgressMonitor( monitor, 500 ) );
+			else
+				throw e;
+		}
+
+		if ( monitor.isCanceled( ) )
+			throw new OperationCanceledException( );
 	}
 
 }
