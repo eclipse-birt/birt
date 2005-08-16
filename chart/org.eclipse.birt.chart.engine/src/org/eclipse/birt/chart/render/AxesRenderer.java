@@ -556,6 +556,12 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( curve.getLineAttributes( ).isVisible( ) )
 		{
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.BEFORE_DRAW_FITTING_CURVE,
+					curve );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_FITTING_CURVE,
+					curve );
+
 			// Render curve.
 			float[] xArray = new float[points.length];
 			float[] yArray = new float[points.length];
@@ -597,7 +603,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					orthogonalArray,
 					bShowAsTape,
 					bDeferred,
-					false );
+					false,
+					null );
 			crdr.draw( ipr );
 
 			// Render curve label.
@@ -687,7 +694,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					}
 					else if ( horizontal == IConstants.RIGHT )
 					{
-						yc = orthogonalArray[0] + bb.getHeight()/2d;
+						yc = orthogonalArray[0] + bb.getHeight( ) / 2d;
 					}
 					else
 					{
@@ -755,6 +762,12 @@ public abstract class AxesRenderer extends BaseRenderer
 								bb.getHeight( ) ) );
 
 			}
+
+			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
+					ScriptHandler.AFTER_DRAW_FITTING_CURVE,
+					curve );
+			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_FITTING_CURVE,
+					curve );
 
 		}
 

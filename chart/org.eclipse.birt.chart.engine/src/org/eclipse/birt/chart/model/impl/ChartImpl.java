@@ -60,42 +60,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion <em>Version</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription <em>Description</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock <em>Block</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension <em>Dimension</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion <em>Version</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock <em>Block</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension <em>Dimension</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
  * </ul>
  * </p>
  * 
@@ -299,9 +275,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected boolean seriesThicknessESet = false;
 
 	/**
-	 * The default value of the '
-	 * {@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getGridColumnCount()
 	 * @generated
@@ -310,9 +285,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final int GRID_COLUMN_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getGridColumnCount()
 	 * @generated
@@ -330,8 +304,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected boolean gridColumnCountESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getExtendedProperties() <em>Extended Properties</em>}'
+	 * The cached value of the '{@link #getExtendedProperties() <em>Extended Properties</em>}'
 	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see #getExtendedProperties()

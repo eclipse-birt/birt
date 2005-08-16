@@ -16,6 +16,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.IConstants;
@@ -56,6 +57,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -65,13 +67,16 @@ import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
@@ -563,6 +568,47 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			// SCALED
 		}
 
+		// consider legend title size.
+		Label lgTitle = lg.getTitle( );
+		double lgTitleWidth = 0, lgTitleHeight = 0;
+		double yOffset = 0, xOffset = 0, wOffset = 0, hOffset = 0;
+
+		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		{
+			BoundingBox bb = null;
+			try
+			{
+				bb = Methods.computeBox( xs, IConstants.ABOVE, lgTitle, 0, 0 );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						uiex );
+			}
+
+			lgTitleWidth = bb.getWidth();
+			lgTitleHeight = bb.getHeight();
+
+			switch ( lg.getTitlePosition( ).getValue( ) )
+			{
+				case Position.ABOVE :
+					yOffset = lgTitleHeight;
+					hOffset = -yOffset;
+					break;
+				case Position.BELOW :
+					hOffset = -lgTitleHeight;
+					break;
+				case Position.LEFT :
+					xOffset = lgTitleWidth;
+					wOffset = -xOffset;
+					break;
+				case Position.RIGHT :
+					wOffset = -lgTitleWidth;
+					break;
+			}
+		}
+
 		// RENDER THE LEGEND CLIENT AREA
 		final ClientArea ca = lg.getClientArea( );
 		LineAttributes lia = ca.getOutline( );
@@ -570,6 +616,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		bo = bo.adjustedInstance( lg.getInsets( ).scaledInstance( dScale ) ); // SHRINK
 		// BY
 		// INSETS
+		dX = bo.getLeft( );
+		dY = bo.getTop( );
+
+		// Adjust bounds.
+		bo.delta( xOffset, yOffset, wOffset, hOffset );
 		dX = bo.getLeft( );
 		dY = bo.getTop( );
 
@@ -612,6 +663,95 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final boolean bPaletteByCategory = ( cm.getLegend( )
 				.getItemType( )
 				.getValue( ) == LegendItemType.CATEGORIES );
+
+		// Calculate if minSlice applicable.
+		boolean bMinSliceDefined = false;
+		double dMinSlice = 0;
+		boolean bPercentageMinSlice = false;
+		String sMinSliceLabel = null;
+		boolean bMinSliceApplied = false;
+
+		if ( cm instanceof ChartWithoutAxes )
+		{
+			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
+			dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
+			bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
+			sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+		}
+
+		// calculate if need an extra legend item when minSlice defined.
+		if ( bMinSliceDefined
+				&& bPaletteByCategory
+				&& cm instanceof ChartWithoutAxes )
+		{
+			if ( !( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
+			{
+				// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+				SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 );
+
+				SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdBase.getSeriesDefinitions( )
+						.toArray( );
+
+				DataSetIterator dsiOrtho = null;
+				double dCurrentMinSlice = 0;
+
+				for ( int i = 0; i < sdOrtho.length && !bMinSliceApplied; i++ )
+				{
+					try
+					{
+						dsiOrtho = new DataSetIterator( ( (Series) sdOrtho[i].getRunTimeSeries( )
+								.get( 0 ) ).getDataSet( ) );
+					}
+					catch ( Exception ex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								ex );
+					}
+
+					// TODO Check dataset type, throw exception or ignore?.
+
+					if ( bPercentageMinSlice )
+					{
+						double total = 0;
+
+						while ( dsiOrtho.hasNext( ) )
+						{
+							Object obj = dsiOrtho.next( );
+
+							if ( obj instanceof Number )
+							{
+								total += ( (Number) obj ).doubleValue( );
+							}
+						}
+
+						dsiOrtho.reset( );
+
+						dCurrentMinSlice = total * dMinSlice / 100d;
+					}
+					else
+					{
+						dCurrentMinSlice = dMinSlice;
+					}
+
+					while ( dsiOrtho.hasNext( ) )
+					{
+						Object obj = dsiOrtho.next( );
+						if ( obj instanceof Number )
+						{
+							double val = ( (Number) obj ).doubleValue( );
+
+							if ( val < dCurrentMinSlice )
+							{
+								bMinSliceApplied = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( o.getValue( ) == Orientation.VERTICAL )
@@ -672,8 +812,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				int i = 0;
 				while ( dsiBase.hasNext( ) )
 				{
-					dY += insCA.getTop( );
 					Object obj = dsiBase.next( );
+
+					// TODO filter the not-used legend.
+
+					// render legend item.
+					dY += insCA.getTop( );
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -709,6 +853,32 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							lirh );
 					dY += itm.getFullHeight( ) + insCA.getBottom( );
 				}
+
+				// render the extra MinSlice legend item if applicable.
+				if ( bMinSliceDefined && bMinSliceApplied )
+				{
+					dY += insCA.getTop( );
+					la.getCaption( ).setValue( sMinSliceLabel );
+					itm.reuse( la ); // RECYCLED
+					fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
+							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
+					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+					renderLegendItem( ipr,
+							lg,
+							la,
+							dX,
+							dY,
+							itm.getFullWidth( ),
+							dItemHeight,
+							itm.getFullHeight( ),
+							insCA.getLeft( ),
+							dHorizontalSpacing,
+							seBase,
+							fPaletteEntry,
+							lirh );
+					dY += itm.getFullHeight( ) + insCA.getBottom( );
+				}
+
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM )
 			{
@@ -929,8 +1099,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				dY += insCA.getTop( );
 				while ( dsiBase.hasNext( ) )
 				{
-					dX += insCA.getLeft( );
 					Object obj = dsiBase.next( );
+
+					// TODO filter the not-used legend.
+
+					dX += insCA.getLeft( );
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -949,6 +1122,35 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la ); // RECYCLED
 					fPaletteEntry = (Fill) elPaletteEntries.get( i++
+							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
+					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
+					renderLegendItem( ipr,
+							lg,
+							la,
+							dX,
+							dY,
+							itm.getFullWidth( ),
+							dItemHeight,
+							itm.getFullHeight( ),
+							insCA.getLeft( ),
+							dHorizontalSpacing,
+							seBase,
+							fPaletteEntry,
+							lirh );
+					dX += itm.getFullWidth( )
+							+ ( 3 * dItemHeight )
+							/ 2
+							+ dHorizontalSpacing
+							+ insCA.getRight( );
+				}
+
+				// render the extra MinSlice legend item if applicable.
+				if ( bMinSliceDefined && bMinSliceApplied )
+				{
+					dX += insCA.getLeft( );
+					la.getCaption( ).setValue( sMinSliceLabel );
+					itm.reuse( la ); // RECYCLED
+					fPaletteEntry = (Fill) elPaletteEntries.get( dsiBase.size( )
 							% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 					lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 					renderLegendItem( ipr,
@@ -1146,6 +1348,52 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					},
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
 		}
+
+		// Render legend title if defined.
+		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		{
+			double lX = bo.getLeft( );
+			double lY = bo.getTop( );
+
+			switch ( lg.getTitlePosition( ).getValue( ) )
+			{
+				case Position.ABOVE :
+					lX = bo.getLeft( ) + ( bo.getWidth( ) - lgTitleWidth ) / 2d;
+					lY = bo.getTop( ) - lgTitleHeight;
+					break;
+				case Position.BELOW :
+					lX = bo.getLeft( ) + ( bo.getWidth( ) - lgTitleWidth ) / 2d;
+					lY = bo.getTop( ) + bo.getHeight( );
+					break;
+				case Position.LEFT :
+					lX = bo.getLeft( ) - lgTitleWidth;
+					lY = bo.getTop( )
+							+ ( bo.getHeight( ) - lgTitleHeight )
+							/ 2d;
+					break;
+				case Position.RIGHT :
+					lX = bo.getLeft( ) + bo.getWidth( );
+					lY = bo.getTop( )
+							+ ( bo.getHeight( ) - lgTitleHeight )
+							/ 2d;
+					break;
+			}
+
+			final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( lg,
+					TextRenderEvent.class );
+			tre.setBlockBounds( BoundsImpl.create( lX,
+					lY,
+					lgTitleWidth,
+					lgTitleHeight ) );
+			TextAlignment ta = TextAlignmentImpl.create( );
+			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+			tre.setBlockAlignment( ta );
+			tre.setLabel( lgTitle );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			ipr.drawText( tre );
+		}
+
 		itm.dispose( ); // DISPOSE RESOURCES AFTER USE
 	}
 

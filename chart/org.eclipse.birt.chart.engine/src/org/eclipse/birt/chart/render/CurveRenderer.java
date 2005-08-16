@@ -25,11 +25,13 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * CurveRenderer
@@ -70,7 +72,7 @@ public final class CurveRenderer
 	/**
 	 * 
 	 */
-	private final LineAttributes lia;
+	private LineAttributes lia;
 
 	/**
 	 * 
@@ -145,7 +147,8 @@ public final class CurveRenderer
 	 */
 	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
 			LineAttributes _lia, float[] _faX, float[] _faY,
-			boolean _bShowAsTape, boolean _bDeferred, boolean _bKeepState )
+			boolean _bShowAsTape, boolean _bDeferred, boolean _bKeepState,
+			Fill paletteEntry )
 	{
 		this( _cwa,
 				_render,
@@ -158,7 +161,8 @@ public final class CurveRenderer
 				false,
 				false,
 				_bDeferred,
-				_bKeepState );
+				_bKeepState,
+				paletteEntry );
 	}
 
 	/**
@@ -173,7 +177,7 @@ public final class CurveRenderer
 			LineAttributes _lia, float[] _faX, float[] _faY,
 			float _zeroLocation, boolean _bShowAsTape, boolean _bFillArea,
 			boolean _bTranslucent, boolean _bUseLastState, boolean _bDeferred,
-			boolean _bKeepState )
+			boolean _bKeepState, Fill paletteEntry )
 	{
 		bFillArea = _bFillArea;
 		bShowAsTape = _bShowAsTape;
@@ -202,6 +206,12 @@ public final class CurveRenderer
 
 		bUseLastState = _bUseLastState;
 		bKeepState = _bKeepState;
+		
+		if ( paletteEntry instanceof ColorDefinition )
+		{
+			lia = (LineAttributes) EcoreUtil.copy( lia );
+			lia.setColor( (ColorDefinition) EcoreUtil.copy( paletteEntry ) );
+		}
 
 		fillColor = lia.getColor( );
 		tapeColor = lia.getColor( ).brighter( );
@@ -387,7 +397,8 @@ public final class CurveRenderer
 
 		if ( bUseLastState )
 		{
-			Object obj = iRender.getRunTimeContext( ).getState( AreaSeries.class );
+			Object obj = iRender.getRunTimeContext( )
+					.getState( AreaSeries.class );
 			lastX = null;
 			lastY = null;
 
@@ -545,7 +556,7 @@ public final class CurveRenderer
 				{
 					// TODO user a single surface to draw the tape.
 					boolean drawSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 && bKeepState);
+							&& ( j == iNumberOfDivisions - 1 && bKeepState );
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,

@@ -259,7 +259,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * 
 	 * @generated
 	 */
-	public EAttribute getLineSeries_Curve( )
+	public EAttribute getLineSeries_PaletteLineColor( )
 	{
 		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 2 );
 	}
@@ -269,9 +269,19 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 * 
 	 * @generated
 	 */
+	public EAttribute getLineSeries_Curve( )
+	{
+		return (EAttribute) lineSeriesEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public EReference getLineSeries_ShadowColor( )
 	{
-		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 3 );
+		return (EReference) lineSeriesEClass.getEStructuralFeatures( ).get( 4 );
 	}
 
 	/**
@@ -444,6 +454,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		lineSeriesEClass = createEClass( LINE_SERIES );
 		createEReference( lineSeriesEClass, LINE_SERIES__MARKER );
 		createEReference( lineSeriesEClass, LINE_SERIES__LINE_ATTRIBUTES );
+		createEAttribute( lineSeriesEClass, LINE_SERIES__PALETTE_LINE_COLOR );
 		createEAttribute( lineSeriesEClass, LINE_SERIES__CURVE );
 		createEReference( lineSeriesEClass, LINE_SERIES__SHADOW_COLOR );
 
@@ -593,6 +604,21 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				IS_UNIQUE,
 				!IS_DERIVED,
 				IS_ORDERED );
+		initEAttribute( getLineSeries_PaletteLineColor( ),
+				theXMLTypePackage.getBoolean( ),
+				"paletteLineColor", //$NON-NLS-1$
+				null,
+				1,
+				1,
+				LineSeries.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
 		initEAttribute( getLineSeries_Curve( ),
 				theXMLTypePackage.getBoolean( ),
 				"curve", //$NON-NLS-1$
@@ -657,7 +683,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				!IS_TRANSIENT,
 				!IS_VOLATILE,
 				IS_CHANGEABLE,
-				IS_UNSETTABLE,
+				!IS_UNSETTABLE,
 				!IS_ID,
 				!IS_UNIQUE,
 				!IS_DERIVED,
@@ -845,6 +871,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		} );
 		addAnnotation( getLineSeries_LineAttributes( ), source, new String[]{
 				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getLineSeries_PaletteLineColor( ), source, new String[]{
+				"kind", "element", "name", "PaletteLineColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} );
 		addAnnotation( getLineSeries_Curve( ), source, new String[]{
 				"kind", "element", "name", "Curve" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$

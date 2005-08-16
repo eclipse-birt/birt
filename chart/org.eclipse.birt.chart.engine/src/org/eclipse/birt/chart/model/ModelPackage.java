@@ -34,43 +34,40 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.ModelFactory
  * @generated
  */
-public interface ModelPackage extends EPackage
-{
+public interface ModelPackage extends EPackage{
 
 	/**
-	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNAME = "model"; //$NON-NLS-1$
 
 	/**
-	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace URI.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_URI = "http://www.birt.eclipse.org/ChartModel"; //$NON-NLS-1$
 
 	/**
-	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_PREFIX = "model"; //$NON-NLS-1$
 
 	/**
-	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
+	 * The singleton instance of the package.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	ModelPackage eINSTANCE = org.eclipse.birt.chart.model.impl.ModelPackageImpl.init( );
+	ModelPackage eINSTANCE = org.eclipse.birt.chart.model.impl.ModelPackageImpl.init();
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.impl.ChartImpl <em>Chart</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartImpl <em>Chart</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.impl.ChartImpl
 	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getChart()
 	 * @generated
@@ -105,18 +102,16 @@ public interface ModelPackage extends EPackage
 	int CHART__SUB_TYPE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Description</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART__DESCRIPTION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Block</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Block</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -152,34 +147,30 @@ public interface ModelPackage extends EPackage
 	/**
 	 * The feature id for the '<em><b>Series Thickness</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CHART__SERIES_THICKNESS = 8;
 
 	/**
-	 * The feature id for the '<em><b>Grid Column Count</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grid Column Count</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART__GRID_COLUMN_COUNT = 9;
 
 	/**
-	 * The feature id for the '<em><b>Extended Properties</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART__EXTENDED_PROPERTIES = 10;
 
 	/**
-	 * The feature id for the '<em><b>Sample Data</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Sample Data</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -188,17 +179,14 @@ public interface ModelPackage extends EPackage
 	/**
 	 * The number of structural features of the the '<em>Chart</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_FEATURE_COUNT = 12;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.impl.ChartWithAxesImpl
 	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getChartWithAxes()
 	 * @generated
@@ -233,18 +221,16 @@ public interface ModelPackage extends EPackage
 	int CHART_WITH_AXES__SUB_TYPE = CHART__SUB_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Description</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__DESCRIPTION = CHART__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Block</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Block</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -280,61 +266,54 @@ public interface ModelPackage extends EPackage
 	/**
 	 * The feature id for the '<em><b>Series Thickness</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
 
 	/**
-	 * The feature id for the '<em><b>Grid Column Count</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grid Column Count</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__GRID_COLUMN_COUNT = CHART__GRID_COLUMN_COUNT;
 
 	/**
-	 * The feature id for the '<em><b>Extended Properties</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__EXTENDED_PROPERTIES = CHART__EXTENDED_PROPERTIES;
 
 	/**
-	 * The feature id for the '<em><b>Sample Data</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Sample Data</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
 
 	/**
-	 * The feature id for the '<em><b>Axes</b></em>' containment reference
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Axes</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__AXES = CHART_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Wall Fill</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Wall Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__WALL_FILL = CHART_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Floor Fill</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Floor Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -352,26 +331,22 @@ public interface ModelPackage extends EPackage
 	/**
 	 * The feature id for the '<em><b>Unit Spacing</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__UNIT_SPACING = CHART_FEATURE_COUNT + 4;
 
 	/**
-	 * The number of structural features of the the '<em>Chart With Axes</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Chart With Axes</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 5;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl <em>Chart Without Axes</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl <em>Chart Without Axes</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl
 	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getChartWithoutAxes()
 	 * @generated
@@ -406,18 +381,16 @@ public interface ModelPackage extends EPackage
 	int CHART_WITHOUT_AXES__SUB_TYPE = CHART__SUB_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Description</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Description</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__DESCRIPTION = CHART__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Block</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Block</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -453,57 +426,78 @@ public interface ModelPackage extends EPackage
 	/**
 	 * The feature id for the '<em><b>Series Thickness</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__SERIES_THICKNESS = CHART__SERIES_THICKNESS;
 
 	/**
-	 * The feature id for the '<em><b>Grid Column Count</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grid Column Count</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__GRID_COLUMN_COUNT = CHART__GRID_COLUMN_COUNT;
 
 	/**
-	 * The feature id for the '<em><b>Extended Properties</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__EXTENDED_PROPERTIES = CHART__EXTENDED_PROPERTIES;
 
 	/**
-	 * The feature id for the '<em><b>Sample Data</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Sample Data</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
 
 	/**
-	 * The feature id for the '<em><b>Series Definitions</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES__SERIES_DEFINITIONS = CHART_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '
-	 * <em>Chart Without Axes</em>' class. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Min Slice</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 1;
+	int CHART_WITHOUT_AXES__MIN_SLICE = CHART_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Min Slice Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES__MIN_SLICE_PERCENT = CHART_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Min Slice Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES__MIN_SLICE_LABEL = CHART_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the the '<em>Chart Without Axes</em>' class.
+	 * <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 4;
 
 	/**
 	 * Returns the meta object for class '
@@ -517,10 +511,8 @@ public interface ModelPackage extends EPackage
 	EClass getChart( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Version</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getVersion()
 	 * @see #getChart()
@@ -541,10 +533,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_Type( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Sub Type</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getSubType()
 	 * @see #getChart()
@@ -553,12 +543,9 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_SubType( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Description</em>'.
+	 * @return the meta object for the containment reference '<em>Description</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getDescription()
 	 * @see #getChart()
 	 * @generated
@@ -566,10 +553,8 @@ public interface ModelPackage extends EPackage
 	EReference getChart_Description( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference '<em>Block</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getBlock()
 	 * @see #getChart()
@@ -578,10 +563,8 @@ public interface ModelPackage extends EPackage
 	EReference getChart_Block( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Dimension</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getDimension()
 	 * @see #getChart()
@@ -590,10 +573,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_Dimension( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Script</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getScript()
 	 * @see #getChart()
@@ -602,10 +583,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_Script( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Units</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getUnits()
 	 * @see #getChart()
@@ -614,10 +593,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_Units( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Series Thickness</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getSeriesThickness()
 	 * @see #getChart()
@@ -626,10 +603,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_SeriesThickness( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Grid Column Count</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getGridColumnCount()
 	 * @see #getChart()
@@ -638,12 +613,9 @@ public interface ModelPackage extends EPackage
 	EAttribute getChart_GridColumnCount( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Extended Properties</em>'.
+	 * @return the meta object for the containment reference list '<em>Extended Properties</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getExtendedProperties()
 	 * @see #getChart()
 	 * @generated
@@ -651,12 +623,9 @@ public interface ModelPackage extends EPackage
 	EReference getChart_ExtendedProperties( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Sample Data</em>'.
+	 * @return the meta object for the containment reference '<em>Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.Chart#getSampleData()
 	 * @see #getChart()
 	 * @generated
@@ -664,10 +633,8 @@ public interface ModelPackage extends EPackage
 	EReference getChart_SampleData( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes <em>Chart With Axes</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithAxes <em>Chart With Axes</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Chart With Axes</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes
 	 * @generated
@@ -675,12 +642,9 @@ public interface ModelPackage extends EPackage
 	EClass getChartWithAxes( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes <em>Axes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.ChartWithAxes#getAxes <em>Axes</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Axes</em>'.
+	 * @return the meta object for the containment reference list '<em>Axes</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getAxes()
 	 * @see #getChartWithAxes()
 	 * @generated
@@ -688,12 +652,9 @@ public interface ModelPackage extends EPackage
 	EReference getChartWithAxes_Axes( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.ChartWithAxes#getWallFill <em>Wall Fill</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Wall Fill</em>'.
+	 * @return the meta object for the containment reference '<em>Wall Fill</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getWallFill()
 	 * @see #getChartWithAxes()
 	 * @generated
@@ -701,12 +662,9 @@ public interface ModelPackage extends EPackage
 	EReference getChartWithAxes_WallFill( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill <em>Floor Fill</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Floor Fill</em>'.
+	 * @return the meta object for the containment reference '<em>Floor Fill</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getFloorFill()
 	 * @see #getChartWithAxes()
 	 * @generated
@@ -714,10 +672,8 @@ public interface ModelPackage extends EPackage
 	EReference getChartWithAxes_FloorFill( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Orientation</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getOrientation()
 	 * @see #getChartWithAxes()
@@ -726,10 +682,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChartWithAxes_Orientation( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Unit Spacing</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing()
 	 * @see #getChartWithAxes()
@@ -738,10 +692,8 @@ public interface ModelPackage extends EPackage
 	EAttribute getChartWithAxes_UnitSpacing( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.ChartWithoutAxes <em>Chart Without Axes</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithoutAxes <em>Chart Without Axes</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Chart Without Axes</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes
 	 * @generated
@@ -749,17 +701,47 @@ public interface ModelPackage extends EPackage
 	EClass getChartWithoutAxes( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.ChartWithoutAxes#getSeriesDefinitions <em>Series Definitions</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getSeriesDefinitions <em>Series Definitions</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Series Definitions</em>'.
+	 * @return the meta object for the containment reference list '<em>Series Definitions</em>'.
 	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#getSeriesDefinitions()
 	 * @see #getChartWithoutAxes()
 	 * @generated
 	 */
 	EReference getChartWithoutAxes_SeriesDefinitions( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Min Slice</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice()
+	 * @see #getChartWithoutAxes()
+	 * @generated
+	 */
+	EAttribute getChartWithoutAxes_MinSlice();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Min Slice Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent()
+	 * @see #getChartWithoutAxes()
+	 * @generated
+	 */
+	EAttribute getChartWithoutAxes_MinSlicePercent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Min Slice Label</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel()
+	 * @see #getChartWithoutAxes()
+	 * @generated
+	 */
+	EAttribute getChartWithoutAxes_MinSliceLabel();
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--

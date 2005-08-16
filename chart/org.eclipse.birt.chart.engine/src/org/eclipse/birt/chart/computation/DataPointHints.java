@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
@@ -37,17 +38,17 @@ public final class DataPointHints
 	/**
 	 * 
 	 */
-	private final Object oBaseValue;
+	private Object oBaseValue;
 
 	/**
 	 * 
 	 */
-	private final Object oOrthogonalValue;
+	private Object oOrthogonalValue;
 
 	/**
 	 * 
 	 */
-	private final Object oSeriesValue;
+	private Object oSeriesValue;
 
 	/**
 	 * 
@@ -108,6 +109,112 @@ public final class DataPointHints
 		lo = _lo;
 		rtc = _rtc;
 		dSize = _dSize;
+	}
+
+	/**
+	 * Returns a copy of current DataPointHints object.
+	 * 
+	 * @return
+	 * @throws ChartException
+	 */
+	public DataPointHints getCopy( ) throws ChartException
+	{
+		return new DataPointHints( oBaseValue,
+				oOrthogonalValue,
+				oSeriesValue,
+				dp,
+				fsBase,
+				fsOrthogonal,
+				fsSeries,
+				lo,
+				dSize,
+				rtc );
+	}
+
+	public void accumulate( Object _oBaseValue, Object _oOrthogonalValue,
+			Object _oSeriesValue )
+	{
+		if ( oBaseValue instanceof Number )
+		{
+			if ( _oBaseValue instanceof Number )
+			{
+				oBaseValue = new Double( ( (Number) oBaseValue ).doubleValue( )
+						+ ( (Number) _oBaseValue ).doubleValue( ) );
+			}
+			else if ( _oBaseValue instanceof NumberDataElement )
+			{
+				oBaseValue = new Double( ( (Number) oBaseValue ).doubleValue( )
+						+ ( (NumberDataElement) _oBaseValue ).getValue( ) );
+			}
+		}
+		else if ( oBaseValue instanceof NumberDataElement )
+		{
+			if ( _oBaseValue instanceof Number )
+			{
+				( (NumberDataElement) oBaseValue ).setValue( ( (NumberDataElement) oBaseValue ).getValue( )
+						+ ( (Number) _oBaseValue ).doubleValue( ) );
+			}
+			else if ( _oBaseValue instanceof NumberDataElement )
+			{
+				( (NumberDataElement) oBaseValue ).setValue( ( (NumberDataElement) oBaseValue ).getValue( )
+						+ ( (NumberDataElement) _oBaseValue ).getValue( ) );
+			}
+		}
+
+		if ( oOrthogonalValue instanceof Number )
+		{
+			if ( _oOrthogonalValue instanceof Number )
+			{
+				oOrthogonalValue = new Double( ( (Number) oOrthogonalValue ).doubleValue( )
+						+ ( (Number) _oOrthogonalValue ).doubleValue( ) );
+			}
+			else if ( _oOrthogonalValue instanceof NumberDataElement )
+			{
+				oOrthogonalValue = new Double( ( (Number) oOrthogonalValue ).doubleValue( )
+						+ ( (NumberDataElement) _oOrthogonalValue ).getValue( ) );
+			}
+		}
+		else if ( oOrthogonalValue instanceof NumberDataElement )
+		{
+			if ( _oOrthogonalValue instanceof Number )
+			{
+				( (NumberDataElement) oOrthogonalValue ).setValue( ( (NumberDataElement) oOrthogonalValue ).getValue( )
+						+ ( (Number) _oOrthogonalValue ).doubleValue( ) );
+			}
+			else if ( _oOrthogonalValue instanceof NumberDataElement )
+			{
+				( (NumberDataElement) oOrthogonalValue ).setValue( ( (NumberDataElement) oOrthogonalValue ).getValue( )
+						+ ( (NumberDataElement) _oOrthogonalValue ).getValue( ) );
+			}
+		}
+
+		if ( oSeriesValue instanceof Number )
+		{
+			if ( _oSeriesValue instanceof Number )
+			{
+				oSeriesValue = new Double( ( (Number) oSeriesValue ).doubleValue( )
+						+ ( (Number) _oSeriesValue ).doubleValue( ) );
+			}
+			else if ( _oSeriesValue instanceof NumberDataElement )
+			{
+				oSeriesValue = new Double( ( (Number) oSeriesValue ).doubleValue( )
+						+ ( (NumberDataElement) _oSeriesValue ).getValue( ) );
+			}
+		}
+		else if ( oSeriesValue instanceof NumberDataElement )
+		{
+			if ( _oSeriesValue instanceof Number )
+			{
+				( (NumberDataElement) oSeriesValue ).setValue( ( (NumberDataElement) oSeriesValue ).getValue( )
+						+ ( (Number) _oSeriesValue ).doubleValue( ) );
+			}
+			else if ( _oSeriesValue instanceof NumberDataElement )
+			{
+				( (NumberDataElement) oSeriesValue ).setValue( ( (NumberDataElement) oSeriesValue ).getValue( )
+						+ ( (NumberDataElement) _oSeriesValue ).getValue( ) );
+			}
+		}
+
 	}
 
 	/**

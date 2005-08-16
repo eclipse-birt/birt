@@ -24,38 +24,36 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Chart</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This is the basic type from which all charts should be extended. It defines the basic elements that are expected to
- * be present for all charts.
- * 
+ * 			This is the basic type from which all charts should be extended. It defines the basic elements that are expected to be present for all charts.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getType <em>Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSubType <em>Sub Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getScript <em>Script</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getUnits <em>Units</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.ModelPackage#getChart()
- * @model
+ * @model extendedMetaData="name='Chart' kind='elementOnly'"
  * @generated
  */
-public interface Chart extends EObject
-{
+public interface Chart extends EObject{
 
     /**
      * Returns the value of the '<em><b>Version</b></em>' attribute. The default value is <code>"1.0.0"</code>.
@@ -89,27 +87,25 @@ public interface Chart extends EObject
      */
     void setVersion(String value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetVersion()
-     * @see #getVersion()
-     * @see #setVersion(String)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetVersion()
+	 * @see #getVersion()
+	 * @see #setVersion(String)
+	 * @generated
+	 */
     void unsetVersion();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Version</em>' attribute is set.
-     * @see #unsetVersion()
-     * @see #getVersion()
-     * @see #setVersion(String)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getVersion <em>Version</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Version</em>' attribute is set.
+	 * @see #unsetVersion()
+	 * @see #getVersion()
+	 * @see #setVersion(String)
+	 * @generated
+	 */
     boolean isSetVersion();
 
     /**
@@ -184,15 +180,13 @@ public interface Chart extends EObject
      */
     Text getDescription();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}'
-     * containment reference. <!-- begin-user-doc --> Sets the description string for the chart. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Description</em>' containment reference.
-     * @see #getDescription()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDescription <em>Description</em>}' containment reference.
+	 * <!-- begin-user-doc --> Sets the description string for the chart. <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Description</em>' containment reference.
+	 * @see #getDescription()
+	 * @generated
+	 */
     void setDescription(Text value);
 
     /**
@@ -213,16 +207,14 @@ public interface Chart extends EObject
      */
     Block getBlock();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}' containment
-     * reference. <!-- begin-user-doc --> Sets the {@link org.eclipse.birt.chart.model.layout.Block}instance
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getBlock <em>Block</em>}' containment reference.
+	 * <!-- begin-user-doc --> Sets the {@link org.eclipse.birt.chart.model.layout.Block}instance
      * representing the chart as a whole. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Block</em>' containment reference.
-     * @see #getBlock()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Block</em>' containment reference.
+	 * @see #getBlock()
+	 * @generated
+	 */
     void setBlock(Block value);
 
     /**
@@ -247,41 +239,37 @@ public interface Chart extends EObject
      */
     ChartDimension getDimension();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
-     * <!-- begin-user-doc --> Sets the dimensions for this chart. <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Dimension</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.ChartDimension
-     * @see #isSetDimension()
-     * @see #unsetDimension()
-     * @see #getDimension()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the dimensions for this chart. <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Dimension</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
+	 * @see #isSetDimension()
+	 * @see #unsetDimension()
+	 * @see #getDimension()
+	 * @generated
+	 */
     void setDimension(ChartDimension value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetDimension()
-     * @see #getDimension()
-     * @see #setDimension(ChartDimension)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetDimension()
+	 * @see #getDimension()
+	 * @see #setDimension(ChartDimension)
+	 * @generated
+	 */
     void unsetDimension();
 
-    /**
-     * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}'
-     * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return whether the value of the '<em>Dimension</em>' attribute is set.
-     * @see #unsetDimension()
-     * @see #getDimension()
-     * @see #setDimension(ChartDimension)
-     * @generated
-     */
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.Chart#getDimension <em>Dimension</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Dimension</em>' attribute is set.
+	 * @see #unsetDimension()
+	 * @see #getDimension()
+	 * @see #setDimension(ChartDimension)
+	 * @generated
+	 */
     boolean isSetDimension();
 
     /**
@@ -359,30 +347,27 @@ public interface Chart extends EObject
      */
     double getSeriesThickness();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}'
-     * attribute. <!-- begin-user-doc --> Sets the series thickness as a percentage. This is the thickness used to
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> Sets the series thickness as a percentage. This is the thickness used to
      * render the shape representing the series when the chart is rendered in 3D or 2D with Depth formats. <!--
      * end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Series Thickness</em>' attribute.
-     * @see #isSetSeriesThickness()
-     * @see #unsetSeriesThickness()
-     * @see #getSeriesThickness()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Series Thickness</em>' attribute.
+	 * @see #isSetSeriesThickness()
+	 * @see #unsetSeriesThickness()
+	 * @see #getSeriesThickness()
+	 * @generated
+	 */
     void setSeriesThickness(double value);
 
-    /**
-     * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetSeriesThickness()
-     * @see #getSeriesThickness()
-     * @see #setSeriesThickness(double)
-     * @generated
-     */
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSeriesThickness <em>Series Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetSeriesThickness()
+	 * @see #getSeriesThickness()
+	 * @see #setSeriesThickness(double)
+	 * @generated
+	 */
     void unsetSeriesThickness();
 
     /**
@@ -416,17 +401,15 @@ public interface Chart extends EObject
      */
     int getGridColumnCount();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Grid Column Count</em>' attribute.
-     * @see #isSetGridColumnCount()
-     * @see #unsetGridColumnCount()
-     * @see #getGridColumnCount()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Grid Column Count</em>' attribute.
+	 * @see #isSetGridColumnCount()
+	 * @see #unsetGridColumnCount()
+	 * @see #getGridColumnCount()
+	 * @generated
+	 */
     void setGridColumnCount(int value);
 
     /**
@@ -489,15 +472,13 @@ public interface Chart extends EObject
      */
     SampleData getSampleData();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}'
-     * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Sample Data</em>' containment reference.
-     * @see #getSampleData()
-     * @generated
-     */
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sample Data</em>' containment reference.
+	 * @see #getSampleData()
+	 * @generated
+	 */
     void setSampleData(SampleData value);
 
     /**

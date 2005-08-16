@@ -130,6 +130,8 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 				return getMarker();
 			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
 				return getLineAttributes();
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
+				return isPaletteLineColor() ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.AREA_SERIES__CURVE:
 				return isCurve() ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.AREA_SERIES__SHADOW_COLOR:
@@ -186,6 +188,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 				return;
 			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
 				setLineAttributes((LineAttributes)newValue);
+				return;
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
+				setPaletteLineColor(((Boolean)newValue).booleanValue());
 				return;
 			case TypePackage.AREA_SERIES__CURVE:
 				setCurve(((Boolean)newValue).booleanValue());
@@ -244,6 +249,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
 				setLineAttributes((LineAttributes)null);
 				return;
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
+				unsetPaletteLineColor();
+				return;
 			case TypePackage.AREA_SERIES__CURVE:
 				unsetCurve();
 				return;
@@ -288,6 +296,8 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 				return marker != null;
 			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
 				return lineAttributes != null;
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
+				return isSetPaletteLineColor();
 			case TypePackage.AREA_SERIES__CURVE:
 				return isSetCurve();
 			case TypePackage.AREA_SERIES__SHADOW_COLOR:

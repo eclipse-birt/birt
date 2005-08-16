@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModel" 
-xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-xmlns="http://www.birt.eclipse.org/ChartModel"
-xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute"
-xmlns:component="http://www.birt.eclipse.org/ChartModelComponent"
-xmlns:data="http://www.birt.eclipse.org/ChartModelData"
-xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout"
-xmlns:type="http://www.birt.eclipse.org/ChartModelType" 
->
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModel" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -121,7 +114,7 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 		<xsd:complexContent>
 			<xsd:extension base="Chart">
 				<xsd:sequence>
-					<xsd:element name="Axes" type="component:Axis" minOccurs="1" maxOccurs="unbounded">
+					<xsd:element name="Axes" type="component:Axis" maxOccurs="unbounded">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Holds all the base axes for the chart.
@@ -175,6 +168,21 @@ xmlns:type="http://www.birt.eclipse.org/ChartModelType"
 							<xsd:documentation xml:lang="en">
 							Defines the source of the series. 
 							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="MinSlice" type="xsd:double" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Defines the minimum value of a slice</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="MinSlicePercent" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>Defines if the MinSlice value is a percentage value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="MinSliceLabel" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Defines the label for MinSlice</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>

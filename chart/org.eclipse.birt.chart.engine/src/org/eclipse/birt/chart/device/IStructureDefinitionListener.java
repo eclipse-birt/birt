@@ -83,6 +83,16 @@ public interface IStructureDefinitionListener
     /**
      * 
      */
+    public static final String BEFORE_DRAW_FITTING_CURVE = ScriptHandler.BEFORE_DRAW_FITTING_CURVE;
+    
+    /**
+     * 
+     */
+    public static final String AFTER_DRAW_FITTING_CURVE = ScriptHandler.AFTER_DRAW_FITTING_CURVE;
+    
+    /**
+     * 
+     */
     public static final String BEFORE_DRAW_DATA_POINT = ScriptHandler.BEFORE_DRAW_DATA_POINT;
     
     /**

@@ -92,7 +92,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
+	 * Creates, registers, and initializes the <b>Package</b> for this model,
 	 * and for any others upon which it depends. Simple dependencies are
 	 * satisfied by calling this method on all dependent packages before doing
 	 * anything else. This method drives initialization for interdependent
@@ -127,32 +127,32 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		XMLTypePackageImpl.init( );
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackageImpl.eINSTANCE );
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackageImpl.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackageImpl.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
-				: AttributePackageImpl.eINSTANCE );
+				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackageImpl.eINSTANCE );
+				: DataPackage.eINSTANCE );
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+				: AttributePackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theModelPackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
-		theTypePackage.createPackageContents( );
-		theAttributePackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
+		theAttributePackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
+		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theModelPackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
-		theTypePackage.initializePackageContents( );
-		theAttributePackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
+		theAttributePackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
+		theTypePackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theModelPackage.freeze( );
@@ -381,6 +381,39 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 * 
 	 * @generated
 	 */
+	public EAttribute getChartWithoutAxes_MinSlice( )
+	{
+		return (EAttribute) chartWithoutAxesEClass.getEStructuralFeatures( )
+				.get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EAttribute getChartWithoutAxes_MinSlicePercent( )
+	{
+		return (EAttribute) chartWithoutAxesEClass.getEStructuralFeatures( )
+				.get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public EAttribute getChartWithoutAxes_MinSliceLabel( )
+	{
+		return (EAttribute) chartWithoutAxesEClass.getEStructuralFeatures( )
+				.get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public ModelFactory getModelFactory( )
 	{
 		return (ModelFactory) getEFactoryInstance( );
@@ -431,6 +464,11 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		chartWithoutAxesEClass = createEClass( CHART_WITHOUT_AXES );
 		createEReference( chartWithoutAxesEClass,
 				CHART_WITHOUT_AXES__SERIES_DEFINITIONS );
+		createEAttribute( chartWithoutAxesEClass, CHART_WITHOUT_AXES__MIN_SLICE );
+		createEAttribute( chartWithoutAxesEClass,
+				CHART_WITHOUT_AXES__MIN_SLICE_PERCENT );
+		createEAttribute( chartWithoutAxesEClass,
+				CHART_WITHOUT_AXES__MIN_SLICE_LABEL );
 	}
 
 	/**
@@ -470,8 +508,12 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		chartWithoutAxesEClass.getESuperTypes( ).add( this.getChart( ) );
 
 		// Initialize classes and features; add operations and parameters
-		initEClass( chartEClass, Chart.class, "Chart", //$NON-NLS-1$
-				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS );
+		initEClass( chartEClass,
+				Chart.class,
+				"Chart", //$NON-NLS-1$
+				!IS_ABSTRACT,
+				!IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS );
 		initEAttribute( getChart_Version( ),
 				theXMLTypePackage.getString( ),
 				"version", //$NON-NLS-1$
@@ -661,8 +703,12 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				!IS_DERIVED,
 				IS_ORDERED );
 
-		initEClass( chartWithAxesEClass, ChartWithAxes.class, "ChartWithAxes", //$NON-NLS-1$
-				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS );
+		initEClass( chartWithAxesEClass,
+				ChartWithAxes.class,
+				"ChartWithAxes", //$NON-NLS-1$
+				!IS_ABSTRACT,
+				!IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS );
 		initEReference( getChartWithAxes_Axes( ),
 				theComponentPackage.getAxis( ),
 				null,
@@ -768,6 +814,51 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				IS_UNIQUE,
 				!IS_DERIVED,
 				IS_ORDERED );
+		initEAttribute( getChartWithoutAxes_MinSlice( ),
+				theXMLTypePackage.getDouble( ),
+				"minSlice", //$NON-NLS-1$
+				null,
+				0,
+				1,
+				ChartWithoutAxes.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEAttribute( getChartWithoutAxes_MinSlicePercent( ),
+				theXMLTypePackage.getBoolean( ),
+				"minSlicePercent", //$NON-NLS-1$
+				null,
+				1,
+				1,
+				ChartWithoutAxes.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
+		initEAttribute( getChartWithoutAxes_MinSliceLabel( ),
+				theXMLTypePackage.getString( ),
+				"minSliceLabel", //$NON-NLS-1$
+				null,
+				1,
+				1,
+				ChartWithoutAxes.class,
+				!IS_TRANSIENT,
+				!IS_VOLATILE,
+				IS_CHANGEABLE,
+				!IS_UNSETTABLE,
+				!IS_ID,
+				!IS_UNIQUE,
+				!IS_DERIVED,
+				IS_ORDERED );
 
 		// Create resource
 		createResource( eNS_URI );
@@ -852,6 +943,19 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				new String[]{
 						"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				} );
+		addAnnotation( getChartWithoutAxes_MinSlice( ), source, new String[]{
+				"kind", "element", "name", "MinSlice" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		} );
+		addAnnotation( getChartWithoutAxes_MinSlicePercent( ),
+				source,
+				new String[]{
+						"kind", "element", "name", "MinSlicePercent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
+		addAnnotation( getChartWithoutAxes_MinSliceLabel( ),
+				source,
+				new String[]{
+						"kind", "element", "name", "MinSliceLabel" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				} );
 	}
 
-} //ModelPackageImpl
+} // ModelPackageImpl

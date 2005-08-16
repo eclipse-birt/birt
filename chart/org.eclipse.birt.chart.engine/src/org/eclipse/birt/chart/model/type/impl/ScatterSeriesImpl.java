@@ -131,6 +131,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 				return getMarker();
 			case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
 				return getLineAttributes();
+			case TypePackage.SCATTER_SERIES__PALETTE_LINE_COLOR:
+				return isPaletteLineColor() ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.SCATTER_SERIES__CURVE:
 				return isCurve() ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.SCATTER_SERIES__SHADOW_COLOR:
@@ -187,6 +189,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 				return;
 			case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
 				setLineAttributes((LineAttributes)newValue);
+				return;
+			case TypePackage.SCATTER_SERIES__PALETTE_LINE_COLOR:
+				setPaletteLineColor(((Boolean)newValue).booleanValue());
 				return;
 			case TypePackage.SCATTER_SERIES__CURVE:
 				setCurve(((Boolean)newValue).booleanValue());
@@ -245,6 +250,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 			case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
 				setLineAttributes((LineAttributes)null);
 				return;
+			case TypePackage.SCATTER_SERIES__PALETTE_LINE_COLOR:
+				unsetPaletteLineColor();
+				return;
 			case TypePackage.SCATTER_SERIES__CURVE:
 				unsetCurve();
 				return;
@@ -289,6 +297,8 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 				return marker != null;
 			case TypePackage.SCATTER_SERIES__LINE_ATTRIBUTES:
 				return lineAttributes != null;
+			case TypePackage.SCATTER_SERIES__PALETTE_LINE_COLOR:
+				return isSetPaletteLineColor();
 			case TypePackage.SCATTER_SERIES__CURVE:
 				return isSetCurve();
 			case TypePackage.SCATTER_SERIES__SHADOW_COLOR:

@@ -193,13 +193,22 @@ public interface TypePackage extends EPackage{
 	int LINE_SERIES__LINE_ATTRIBUTES = ComponentPackage.SERIES_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINE_SERIES__PALETTE_LINE_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Curve</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__CURVE = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+	int LINE_SERIES__CURVE = ComponentPackage.SERIES_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Shadow Color</b></em>' containment reference.
@@ -207,7 +216,7 @@ public interface TypePackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 3;
+	int LINE_SERIES__SHADOW_COLOR = ComponentPackage.SERIES_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the the '<em>Line Series</em>' class.
@@ -215,7 +224,7 @@ public interface TypePackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 4;
+	int LINE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl <em>Area Series</em>}' class.
@@ -343,6 +352,15 @@ public interface TypePackage extends EPackage{
 	 * @ordered
 	 */
 	int AREA_SERIES__LINE_ATTRIBUTES = LINE_SERIES__LINE_ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AREA_SERIES__PALETTE_LINE_COLOR = LINE_SERIES__PALETTE_LINE_COLOR;
 
 	/**
 	 * The feature id for the '<em><b>Curve</b></em>' attribute.
@@ -781,6 +799,15 @@ public interface TypePackage extends EPackage{
 	int SCATTER_SERIES__LINE_ATTRIBUTES = LINE_SERIES__LINE_ATTRIBUTES;
 
 	/**
+	 * The feature id for the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCATTER_SERIES__PALETTE_LINE_COLOR = LINE_SERIES__PALETTE_LINE_COLOR;
+
+	/**
 	 * The feature id for the '<em><b>Curve</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -997,6 +1024,17 @@ public interface TypePackage extends EPackage{
 	 * @generated
 	 */
 	EReference getLineSeries_LineAttributes( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Palette Line Color</em>'.
+	 * @see org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor()
+	 * @see #getLineSeries()
+	 * @generated
+	 */
+	EAttribute getLineSeries_PaletteLineColor();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'.

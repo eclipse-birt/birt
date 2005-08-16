@@ -93,6 +93,59 @@ public interface LineSeries extends Series{
     void setLineAttributes(LineAttributes value);
 
 	/**
+	 * Returns the value of the '<em><b>Palette Line Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates if use the series palette color to draw the line instead of the color in LineAttributes
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Palette Line Color</em>' attribute.
+	 * @see #isSetPaletteLineColor()
+	 * @see #unsetPaletteLineColor()
+	 * @see #setPaletteLineColor(boolean)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_PaletteLineColor()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='PaletteLineColor'"
+	 * @generated
+	 */
+	boolean isPaletteLineColor();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Palette Line Color</em>' attribute.
+	 * @see #isSetPaletteLineColor()
+	 * @see #unsetPaletteLineColor()
+	 * @see #isPaletteLineColor()
+	 * @generated
+	 */
+	void setPaletteLineColor(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetPaletteLineColor()
+	 * @see #isPaletteLineColor()
+	 * @see #setPaletteLineColor(boolean)
+	 * @generated
+	 */
+	void unsetPaletteLineColor();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Palette Line Color</em>' attribute is set.
+	 * @see #unsetPaletteLineColor()
+	 * @see #isPaletteLineColor()
+	 * @see #setPaletteLineColor(boolean)
+	 * @generated
+	 */
+	boolean isSetPaletteLineColor();
+
+	/**
 	 * Returns the value of the '<em><b>Curve</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->

@@ -16,50 +16,48 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory </b> for the model. It provides a create method for each non-abstract class of
  * the model. <!-- end-user-doc -->
- * 
  * @see org.eclipse.birt.chart.model.ModelPackage
  * @generated
  */
-public interface ModelFactory extends EFactory
-{
+public interface ModelFactory extends EFactory{
 
-    /**
-     * The singleton instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
+	/**
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
     ModelFactory eINSTANCE = new org.eclipse.birt.chart.model.impl.ModelFactoryImpl();
 
-    /**
-     * Returns a new object of class '<em>Chart</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Chart</em>'.
-     * @generated
-     */
+	/**
+	 * Returns a new object of class '<em>Chart</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Chart</em>'.
+	 * @generated
+	 */
     Chart createChart();
 
-    /**
-     * Returns a new object of class '<em>Chart With Axes</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Chart With Axes</em>'.
-     * @generated
-     */
+	/**
+	 * Returns a new object of class '<em>Chart With Axes</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Chart With Axes</em>'.
+	 * @generated
+	 */
     ChartWithAxes createChartWithAxes();
 
-    /**
-     * Returns a new object of class '<em>Chart Without Axes</em>'. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return a new object of class '<em>Chart Without Axes</em>'.
-     * @generated
-     */
+	/**
+	 * Returns a new object of class '<em>Chart Without Axes</em>'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return a new object of class '<em>Chart Without Axes</em>'.
+	 * @generated
+	 */
     ChartWithoutAxes createChartWithoutAxes();
 
-    /**
-     * Returns the package supported by this factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @return the package supported by this factory.
-     * @generated
-     */
+	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
     ModelPackage getModelPackage();
 
 } //ModelFactory

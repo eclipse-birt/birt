@@ -126,6 +126,11 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="PaletteLineColor" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>Indicates if use the series palette color to draw the line instead of the color in LineAttributes</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 					<xsd:element name="Curve" type="xsd:boolean">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">

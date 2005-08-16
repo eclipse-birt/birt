@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
@@ -123,6 +124,95 @@ public final class LegendBuilder
 
 		Series seBase;
 
+		// Calculate if minSlice applicable.
+		boolean bMinSliceDefined = false;
+		double dMinSlice = 0;
+		boolean bPercentageMinSlice = false;
+		String sMinSliceLabel = null;
+		boolean bMinSliceApplied = false;
+
+		if ( cm instanceof ChartWithoutAxes )
+		{
+			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
+			dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
+			bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
+			sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+		}
+
+		// calculate if need an extra legend item when minSlice defined.
+		if ( bMinSliceDefined
+				&& bPaletteByCategory
+				&& cm instanceof ChartWithoutAxes )
+		{
+			if ( !( (ChartWithoutAxes) cm ).getSeriesDefinitions( ).isEmpty( ) )
+			{
+				// OK TO ASSUME THAT 1 BASE SERIES DEFINITION EXISTS
+				SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 );
+
+				SeriesDefinition[] sdOrtho = (SeriesDefinition[]) sdBase.getSeriesDefinitions( )
+						.toArray( );
+
+				DataSetIterator dsiOrtho = null;
+				double dCurrentMinSlice = 0;
+
+				for ( int i = 0; i < sdOrtho.length && !bMinSliceApplied; i++ )
+				{
+					try
+					{
+						dsiOrtho = new DataSetIterator( ( (Series) sdOrtho[i].getRunTimeSeries( )
+								.get( 0 ) ).getDataSet( ) );
+					}
+					catch ( Exception ex )
+					{
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.RENDERING,
+								ex );
+					}
+
+					// TODO Check dataset type, throw exception or ignore?.
+
+					if ( bPercentageMinSlice )
+					{
+						double total = 0;
+
+						while ( dsiOrtho.hasNext( ) )
+						{
+							Object obj = dsiOrtho.next( );
+
+							if ( obj instanceof Number )
+							{
+								total += ( (Number) obj ).doubleValue( );
+							}
+						}
+
+						dsiOrtho.reset( );
+
+						dCurrentMinSlice = total * dMinSlice / 100d;
+					}
+					else
+					{
+						dCurrentMinSlice = dMinSlice;
+					}
+
+					while ( dsiOrtho.hasNext( ) )
+					{
+						Object obj = dsiOrtho.next( );
+						if ( obj instanceof Number )
+						{
+							double val = ( (Number) obj ).doubleValue( );
+
+							if ( val < dCurrentMinSlice )
+							{
+								bMinSliceApplied = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( o.getValue( ) == Orientation.VERTICAL )
 		{
@@ -180,6 +270,8 @@ public final class LegendBuilder
 
 				while ( dsiBase.hasNext( ) )
 				{
+					// TODO filter the not-used legend.
+
 					la.getCaption( )
 							.setValue( String.valueOf( dsiBase.next( ) ) );
 					itm.reuse( la );
@@ -188,6 +280,18 @@ public final class LegendBuilder
 							+ itm.getFullHeight( )
 							+ insCA.getBottom( );
 				}
+
+				// compute the extra MinSlice legend item if applicable.
+				if ( bMinSliceDefined && bMinSliceApplied )
+				{
+					la.getCaption( ).setValue( sMinSliceLabel );
+					itm.reuse( la );
+					dWidth = Math.max( itm.getFullWidth( ), dWidth );
+					dHeight += insCA.getTop( )
+							+ itm.getFullHeight( )
+							+ insCA.getBottom( );
+				}
+
 				dWidth += insCA.getLeft( )
 						+ ( 3 * dItemHeight )
 						/ 2
@@ -361,14 +465,27 @@ public final class LegendBuilder
 				double dMaxHeight = 0;
 				while ( dsiBase.hasNext( ) )
 				{
+					// TODO filter the not-used legend.
+
 					la.getCaption( )
 							.setValue( String.valueOf( dsiBase.next( ) ) );
 					itm.reuse( la );
 					dMaxHeight = Math.max( itm.getFullHeight( ), dMaxHeight );
 					dWidth += itm.getFullWidth( );
 				}
+
+				// compute the extra MinSlice legend item if applicable.
+				if ( bMinSliceDefined && bMinSliceApplied )
+				{
+					la.getCaption( ).setValue( sMinSliceLabel );
+					itm.reuse( la );
+					dMaxHeight = Math.max( itm.getFullHeight( ), dMaxHeight );
+					dWidth += itm.getFullWidth( );
+				}
+
 				dHeight = insCA.getTop( ) + dMaxHeight + insCA.getBottom( );
-				dWidth += dsiBase.size( )
+				dWidth += ( dsiBase.size( ) + ( ( bMinSliceDefined && bMinSliceApplied ) ? 1
+						: 0 ) )
 						* ( insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
@@ -473,6 +590,38 @@ public final class LegendBuilder
 						o
 					},
 					ResourceBundle.getBundle( Messages.ENGINE, xs.getLocale( ) ) );
+		}
+
+		// consider legend title size.
+		Label lgTitle = lg.getTitle( );
+
+		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		{
+			BoundingBox bb = null;
+			try
+			{
+				bb = Methods.computeBox( xs, IConstants.ABOVE, lgTitle, 0, 0 );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						uiex );
+			}
+
+			switch ( lg.getTitlePosition( ).getValue( ) )
+			{
+				case Position.ABOVE :
+				case Position.BELOW :
+					dHeight += bb.getHeight();
+					dWidth = Math.max( dWidth, bb.getWidth() );
+					break;
+				case Position.LEFT :
+				case Position.RIGHT :
+					dWidth += bb.getWidth();
+					dHeight = Math.max( dHeight, bb.getHeight() );
+					break;
+			}
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE

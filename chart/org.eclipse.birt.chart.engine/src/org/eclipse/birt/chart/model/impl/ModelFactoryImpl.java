@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.chart.model.impl;
 
-import java.util.Locale;
-
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -33,7 +30,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 {
 
 	/**
-	 * Creates and instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
 	 * @generated
@@ -59,11 +56,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 			case ModelPackage.CHART_WITHOUT_AXES :
 				return createChartWithoutAxes( );
 			default :
-				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier", //$NON-NLS-1$
-						new Object[]{
-							eClass.getName( )
-						},
-						Locale.getDefault( ) ) );
+				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
+						+ eClass.getName( )
+						+ "' is not a valid classifier" ); //$NON-NLS-1$
 		}
 	}
 
@@ -121,4 +116,4 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 		return ModelPackage.eINSTANCE;
 	}
 
-} //ModelFactoryImpl
+} // ModelFactoryImpl

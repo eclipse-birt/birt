@@ -59,6 +59,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getMarker <em>Marker</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isPaletteLineColor <em>Palette Line Color</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#isCurve <em>Curve</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.type.impl.LineSeriesImpl#getShadowColor <em>Shadow Color</em>}</li>
  * </ul>
@@ -88,6 +89,35 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	 * @ordered
 	 */
 	protected LineAttributes lineAttributes = null;
+
+	/**
+	 * The default value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #isPaletteLineColor()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean PALETTE_LINE_COLOR_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isPaletteLineColor() <em>Palette Line Color</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #isPaletteLineColor()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean paletteLineColor = PALETTE_LINE_COLOR_EDEFAULT;
+
+	/**
+	 * This is true if the Palette Line Color attribute has been set. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean paletteLineColorESet = false;
 
 	/**
 	 * The default value of the '{@link #isCurve() <em>Curve</em>}' attribute.
@@ -284,6 +314,66 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 					TypePackage.LINE_SERIES__LINE_ATTRIBUTES,
 					newLineAttributes,
 					newLineAttributes ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean isPaletteLineColor( )
+	{
+		return paletteLineColor;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setPaletteLineColor( boolean newPaletteLineColor )
+	{
+		boolean oldPaletteLineColor = paletteLineColor;
+		paletteLineColor = newPaletteLineColor;
+		boolean oldPaletteLineColorESet = paletteLineColorESet;
+		paletteLineColorESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.LINE_SERIES__PALETTE_LINE_COLOR,
+					oldPaletteLineColor,
+					paletteLineColor,
+					!oldPaletteLineColorESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void unsetPaletteLineColor( )
+	{
+		boolean oldPaletteLineColor = paletteLineColor;
+		boolean oldPaletteLineColorESet = paletteLineColorESet;
+		paletteLineColor = PALETTE_LINE_COLOR_EDEFAULT;
+		paletteLineColorESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.LINE_SERIES__PALETTE_LINE_COLOR,
+					oldPaletteLineColor,
+					PALETTE_LINE_COLOR_EDEFAULT,
+					oldPaletteLineColorESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public boolean isSetPaletteLineColor( )
+	{
+		return paletteLineColorESet;
 	}
 
 	/**
@@ -492,6 +582,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return getMarker( );
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
 				return getLineAttributes( );
+			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
+				return isPaletteLineColor( ) ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.LINE_SERIES__CURVE :
 				return isCurve( ) ? Boolean.TRUE : Boolean.FALSE;
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
@@ -549,6 +641,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return;
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) newValue );
+				return;
+			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
+				setPaletteLineColor( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 			case TypePackage.LINE_SERIES__CURVE :
 				setCurve( ( (Boolean) newValue ).booleanValue( ) );
@@ -608,6 +703,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
 				setLineAttributes( (LineAttributes) null );
 				return;
+			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
+				unsetPaletteLineColor( );
+				return;
 			case TypePackage.LINE_SERIES__CURVE :
 				unsetCurve( );
 				return;
@@ -654,6 +752,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 				return marker != null;
 			case TypePackage.LINE_SERIES__LINE_ATTRIBUTES :
 				return lineAttributes != null;
+			case TypePackage.LINE_SERIES__PALETTE_LINE_COLOR :
+				return isSetPaletteLineColor( );
 			case TypePackage.LINE_SERIES__CURVE :
 				return isSetCurve( );
 			case TypePackage.LINE_SERIES__SHADOW_COLOR :
@@ -673,7 +773,12 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 			return super.toString( );
 
 		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (curve: " ); //$NON-NLS-1$
+		result.append( " (paletteLineColor: " ); //$NON-NLS-1$
+		if ( paletteLineColorESet )
+			result.append( paletteLineColor );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", curve: " ); //$NON-NLS-1$
 		if ( curveESet )
 			result.append( curve );
 		else
