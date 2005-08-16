@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 
@@ -35,14 +35,14 @@ public class ScriptDataSetHandle extends DataSetHandle
 	/**
 	 * Constructs a handle for script data set.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the script data set element
 	 */
-	public ScriptDataSetHandle( ReportDesign design, DesignElement element )
+	public ScriptDataSetHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

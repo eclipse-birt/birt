@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -57,27 +57,27 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ScalarParameter ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (ScalarParameter) element );
+		return doValidate( module, (ScalarParameter) element );
 	}
 
-	private List doValidate( ReportDesign design, ScalarParameter toValidate )
+	private List doValidate( Module module, ScalarParameter toValidate )
 	{
 		List list = new ArrayList( );
 
-		String labelExpr = toValidate.getStringProperty( design,
+		String labelExpr = toValidate.getStringProperty( module,
 				ScalarParameter.LABEL_EXPR_PROP );
-		String valueExpr = toValidate.getStringProperty( design,
+		String valueExpr = toValidate.getStringProperty( module,
 				ScalarParameter.VALUE_EXPR_PROP );
 
 		if ( !StringUtil.isBlank( labelExpr )
 				|| !StringUtil.isBlank( valueExpr ) )
 		{
-			String dataSetName = toValidate.getStringProperty( design,
+			String dataSetName = toValidate.getStringProperty( module,
 					ScalarParameter.DATASET_NAME_PROP );
 
 			if ( StringUtil.isBlank( dataSetName ) )

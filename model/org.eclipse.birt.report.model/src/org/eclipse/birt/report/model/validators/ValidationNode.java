@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -78,16 +80,21 @@ public class ValidationNode
 	/**
 	 * Performs the validation of this node.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param sendEvent
 	 *            indicates whether to send event is needed
 	 * @return error list. Each one is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	final List perform( ReportDesign design, boolean sendEvent )
+	final List perform( Module module, boolean sendEvent )
 	{
+		AbstractSemanticValidator validator = triggerDefn.getValidator( );
+		if ( module instanceof ReportDesign && !validator.canApplyToDesign( )
+				|| module instanceof Library && !validator.canApplyToLibrary( ) )
+			return Collections.EMPTY_LIST;
+
 		// Locate the target element of validation.
 
 		DesignElement toValidate = element;
@@ -115,15 +122,14 @@ public class ValidationNode
 		// Perform validation.
 
 		List errors = null;
-		AbstractSemanticValidator validator = triggerDefn.getValidator( );
 		if ( validator instanceof AbstractPropertyValidator )
 		{
 			errors = ( (AbstractPropertyValidator) validator ).validate(
-					design, toValidate, triggerDefn.getPropertyName( ) );
+					module, toValidate, triggerDefn.getPropertyName( ) );
 		}
 		else if ( validator instanceof AbstractElementValidator )
 		{
-			errors = ( (AbstractElementValidator) validator ).validate( design,
+			errors = ( (AbstractElementValidator) validator ).validate( module,
 					toValidate );
 		}
 
@@ -148,7 +154,7 @@ public class ValidationNode
 			ValidationEvent event = new ValidationEvent( toValidate,
 					triggerDefn.getValidationID( ), errorDetailList );
 
-			design.broadcastValidationEvent( toValidate, event );
+			module.broadcastValidationEvent( toValidate, event );
 		}
 
 		return errors;

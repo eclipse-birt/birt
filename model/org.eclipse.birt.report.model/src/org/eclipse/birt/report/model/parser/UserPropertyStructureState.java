@@ -50,7 +50,7 @@ public class UserPropertyStructureState extends StructureState
 	 *            the list of user properties
 	 */
 
-	UserPropertyStructureState( DesignParserHandler theHandler,
+	UserPropertyStructureState( ModuleParserHandler theHandler,
 			DesignElement element, ArrayList theList )
 	{
 		super( theHandler, element );
@@ -91,7 +91,7 @@ public class UserPropertyStructureState extends StructureState
 	{
 		try
 		{
-			( (UserPropertyDefn) struct ).checkUserPropertyDefn( handler.getDesign( ), element );
+			( (UserPropertyDefn) struct ).checkUserPropertyDefn( handler.getModule( ), element );
 			element.addUserPropertyDefn( (UserPropertyDefn) struct );
 		}
 		catch ( UserPropertyException e )
@@ -129,7 +129,7 @@ public class UserPropertyStructureState extends StructureState
 	class ChoiceStructureListState extends PropertyListState
 	{
 
-		ChoiceStructureListState( DesignParserHandler theHandler,
+		ChoiceStructureListState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );
@@ -285,7 +285,7 @@ public class UserPropertyStructureState extends StructureState
 					try
 					{
 						objValue = propDefn.validateValue(
-								handler.getDesign( ), value );
+								handler.getModule( ), value );
 					}
 					catch ( PropertyValueException e )
 					{
@@ -361,7 +361,7 @@ public class UserPropertyStructureState extends StructureState
 	class UserPropertyState extends PropertyState
 	{
 
-		UserPropertyState( DesignParserHandler theHandler,
+		UserPropertyState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );

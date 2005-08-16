@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.validators.ISemanticTriggerDefnSetProvider;
 
@@ -81,8 +81,8 @@ public abstract class PropertyDefn
 	/**
 	 * Where the property is defined.
 	 */
-
-	protected ObjectDefn definedBy = null;
+	
+	protected ObjectDefn definedBy = null; 
 
 	/**
 	 * The cached property type.
@@ -198,28 +198,28 @@ public abstract class PropertyDefn
 	/**
 	 * The BIRT release when this property was introduced.
 	 */
-
+	
 	protected String since;
-
+	
 	/**
-	 * Whether the property can be set in the Factory or Presentation engine. If
-	 * false, the property is read-only at runtime.
+	 * Whether the property can be set in the Factory or Presentation
+	 * engine. If false, the property is read-only at runtime.
 	 */
-
+	
 	protected boolean runtimeSettable;
 
 	/**
 	 * The context for a method.
 	 */
-
+	
 	protected String context;
-
+	
 	/**
 	 * The return type for an expression or method.
 	 */
-
+	
 	protected String returnType;
-
+	
 	/**
 	 * Constructs a Property Definition.
 	 */
@@ -228,12 +228,12 @@ public abstract class PropertyDefn
 	{
 		since = "none"; //$NON-NLS-1$
 	}
-
+	
 	public void setOwner( ObjectDefn owner )
 	{
 		definedBy = owner;
 	}
-
+	
 	public ObjectDefn definedBy( )
 	{
 		return definedBy;
@@ -309,7 +309,7 @@ public abstract class PropertyDefn
 					triggerDefn.setValidator( validator );
 					getTriggerDefnSet( ).add( triggerDefn );
 				}
-				else
+                else
 				{
 					StructureValidator validator = StructureValidator
 							.getInstance( );
@@ -396,7 +396,7 @@ public abstract class PropertyDefn
 					throw new MetaDataException(
 							new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN );
-
+				
 				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
 						StructureReferenceValidator.NAME );
 				triggerDefn.setPropertyName( getName( ) );
@@ -584,14 +584,14 @@ public abstract class PropertyDefn
 	 * exists in the choice set, return the name of this choice. Otherwise,
 	 * return <code>null</code>.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param displayName
 	 *            the candidate display name
 	 * @return the choice name if found. Otherwise, return <code>null</code>.
 	 */
 
-	protected String validateExtendedChoicesByDisplayName( ReportDesign design,
+	protected String validateExtendedChoicesByDisplayName( Module module,
 			String displayName )
 	{
 		if ( displayName == null || hasChoices( ) == false )
@@ -611,7 +611,7 @@ public abstract class PropertyDefn
 	 * checks names of choice properties first. Then, checks display names of
 	 * choice properties. Then uses type to validate value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the candidate value
@@ -620,7 +620,7 @@ public abstract class PropertyDefn
 	 *             if the value is not valid
 	 */
 
-	public Object validateValue( ReportDesign design, Object value )
+	public Object validateValue( Module module, Object value )
 			throws PropertyValueException
 	{
 
@@ -633,7 +633,7 @@ public abstract class PropertyDefn
 			retValue = validateExtendedChoicesByName( value );
 
 			if ( retValue == null && value != null )
-				retValue = validateExtendedChoicesByDisplayName( design, value
+				retValue = validateExtendedChoicesByDisplayName( module, value
 						.toString( ) );
 
 			if ( retValue != null )
@@ -642,13 +642,13 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = getType( ).validateValue( design, this, value );
+		retValue = getType( ).validateValue( module, this, value );
 
 		// Per-property validations using a specific validator.
 
 		if ( valueValidator != null )
 			MetaDataDictionary.getInstance( )
-					.getValueValidator( valueValidator ).validate( design,
+					.getValueValidator( valueValidator ).validate( module,
 							this, retValue );
 
 		return retValue;
@@ -660,7 +660,7 @@ public abstract class PropertyDefn
 	 * to validate value. If the property definition has a validator, uses this
 	 * validator to validate the value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the candidate value
@@ -669,7 +669,7 @@ public abstract class PropertyDefn
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( ReportDesign design, String value )
+	public Object validateXml( Module module, String value )
 			throws PropertyValueException
 	{
 		Object retValue = null;
@@ -686,13 +686,13 @@ public abstract class PropertyDefn
 
 		// Property type validation
 
-		retValue = getType( ).validateXml( design, this, value );
+		retValue = getType( ).validateXml( module, this, value );
 
 		// Per-property validations using a specific validator.
 
 		if ( valueValidator != null )
 			MetaDataDictionary.getInstance( )
-					.getValueValidator( valueValidator ).validate( design,
+					.getValueValidator( valueValidator ).validate( module,
 							this, retValue );
 
 		return retValue;
@@ -799,22 +799,20 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the internal value
 	 * @return the XML value string
 	 */
 
-	public String getXmlValue( ReportDesign design, Object value )
+	public String getXmlValue( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null
-				? getType( ).toXml( design, this, value )
-				: retValue;
+		return retValue == null ? getType( ).toXml( module, this, value ) : retValue;
 	}
 
 	/**
@@ -823,21 +821,21 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the internal value
 	 * @return the XML value string
 	 */
 
-	public String getStringValue( ReportDesign design, Object value )
+	public String getStringValue( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
 		return retValue == null
-				? getType( ).toString( design, this, value )
+				? getType( ).toString( module, this, value )
 				: retValue;
 	}
 
@@ -847,20 +845,20 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param value
 	 *            the internal value
 	 * @return the value as <code>double</code>
 	 */
 
-	public double getFloatValue( ReportDesign design, Object value )
+	public double getFloatValue( Module module, Object value )
 	{
 		if ( value == null )
 			return 0.0;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toDouble( design, value ) : 0.0d;
+		return retValue == null ? getType( ).toDouble( module, value ) : 0.0d;
 	}
 
 	/**
@@ -869,20 +867,20 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param value
 	 *            the internal value
 	 * @return the value as <code>int</code>
 	 */
 
-	public int getIntValue( ReportDesign design, Object value )
+	public int getIntValue( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toInteger( design, value ) : 0;
+		return retValue == null ? getType( ).toInteger( module, value ) : 0;
 	}
 
 	/**
@@ -891,20 +889,20 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param value
 	 *            the internal value
 	 * @return the value as <code>BigDecimal</code>
 	 */
 
-	public BigDecimal getNumberValue( ReportDesign design, Object value )
+	public BigDecimal getNumberValue( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toNumber( design, value ) : null;
+		return retValue == null ? getType( ).toNumber( module, value ) : null;
 	}
 
 	/**
@@ -913,33 +911,33 @@ public abstract class PropertyDefn
 	 * This method checks the predefined choice properties first. If has not,
 	 * then uses type to return the value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param value
 	 *            the internal value
 	 * @return the value as <code>boolean</code>
 	 */
 
-	public boolean getBooleanValue( ReportDesign design, Object value )
+	public boolean getBooleanValue( Module module, Object value )
 	{
 		if ( value == null )
 			return false;
 
 		String retValue = validateExtendedChoicesByName( value );
-		return retValue == null ? getType( ).toBoolean( design, value ) : false;
+		return retValue == null ? getType( ).toBoolean( module, value ) : false;
 	}
 
 	/**
 	 * Returns the localized string value of a property.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the internal value
 	 * @return the property as a localized string
 	 */
 
-	public String getDisplayValue( ReportDesign design, Object value )
+	public String getDisplayValue( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -947,7 +945,7 @@ public abstract class PropertyDefn
 		String retValue = validateExtendedChoicesByName( value );
 
 		if ( retValue == null )
-			return getType( ).toDisplayString( design, this, value );
+			return getType( ).toDisplayString( module, this, value );
 
 		return getChoices( ).findChoice( value.toString( ) ).getDisplayName( );
 
@@ -1213,49 +1211,46 @@ public abstract class PropertyDefn
 	{
 		this.isEncryptable = isEncryptable;
 	}
-
+	
 	/**
 	 * Set the release in which this object was introduced.
 	 * 
-	 * @param value
-	 *            the release value
+	 * @param value the release value
 	 */
-
+	
 	public void setSince( String value )
 	{
-		if ( !StringUtil.isBlank( value ) )
+		if ( ! StringUtil.isBlank( value ) )
 			since = value;
 	}
-
+	
 	/**
-	 * @return the release in which this object was introduced. A value of
-	 *         "none" means that the feature is experimental and is not yet
-	 *         released.
+	 * @return the release in which this object was introduced. A value of "none"
+	 * means that the feature is experimental and is not yet released.
 	 */
-
+	
 	public String getSince( )
 	{
 		return since;
 	}
-
+	
 	/**
 	 * Set the indication of whether this property can be set at runtime.
 	 * 
-	 * @param flag
-	 *            true if it can be set, false if it is read-only
+	 * @param flag true if it can be set, false if it is read-only
 	 */
-
+	
 	public void setRuntimeSettable( boolean flag )
 	{
 		runtimeSettable = flag;
 	}
-
+	
 	/**
 	 * Indicates whether this property can be set at runtime.
 	 * 
 	 * @return true if it can be set, false if it is read-only
 	 */
-
+	
 	public boolean isRuntimeSettable( )
 	{
 		return runtimeSettable;
@@ -1264,10 +1259,9 @@ public abstract class PropertyDefn
 	/**
 	 * Set the context for a method or expression.
 	 * 
-	 * @param value
-	 *            the context to set
+	 * @param value the context to set
 	 */
-
+	
 	public void setContext( String value )
 	{
 		context = value;
@@ -1278,43 +1272,40 @@ public abstract class PropertyDefn
 	 * 
 	 * @return the expression or method context
 	 */
-
+	
 	public String getContext( )
 	{
 		return context;
 	}
-
+	
 	/**
 	 * Sets the return type of an expression or method.
 	 * 
-	 * @param type
-	 *            the return type to set
+	 * @param type the return type to set
 	 */
-
+	
 	public void setReturnType( String type )
 	{
 		returnType = type;
 	}
-
+	
 	/**
-	 * Returns the return type of an expression or method. A null type for an
-	 * expression means that return type is any type. A null type for a method
-	 * means that the method does not return anything.
+	 * Returns the return type of an expression or method. A null type for
+	 * an expression means that return type is any type. A null type for a
+	 * method means that the method does not return anything.
 	 * 
 	 * @return the method or property return type
 	 */
-
+	
 	public String getReturnType( )
 	{
 		return returnType;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-
+	
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )

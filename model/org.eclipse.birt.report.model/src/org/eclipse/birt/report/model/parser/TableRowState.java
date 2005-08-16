@@ -43,7 +43,7 @@ public class TableRowState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public TableRowState( DesignParserHandler handler,
+	public TableRowState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

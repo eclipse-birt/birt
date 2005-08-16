@@ -34,7 +34,7 @@ public abstract class ReportItemState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public ReportItemState( DesignParserHandler handler,
+	public ReportItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

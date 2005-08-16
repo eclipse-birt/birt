@@ -49,7 +49,7 @@ class CompatibleOperatorState extends PropertyState
 	 *            the structure
 	 */
 
-	public CompatibleOperatorState( DesignParserHandler theHandler,
+	public CompatibleOperatorState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );

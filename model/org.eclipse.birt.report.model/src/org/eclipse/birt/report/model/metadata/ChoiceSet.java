@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class represents a set of choices on a predefined or user defined
@@ -229,7 +229,7 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 * Finds a Choice in the <code>ChoiceSet</code> for its display name. For
 	 * a user defined choice, the display name can be <code>null</code>.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param name
 	 *            display name of a Choice.
@@ -237,14 +237,14 @@ public class ChoiceSet implements Cloneable, IChoiceSet
 	 *         choice is not found.
 	 */
 
-	public UserChoice findUserChoiceByDisplayName( ReportDesign design,
+	public UserChoice findUserChoiceByDisplayName( Module module,
 			String name )
 	{
 		UserChoice choice = null;
 		for ( int i = 0; i < choices.size( ); i++ )
 		{
 			choice = (UserChoice) choices.get( i );
-			String displayName = design
+			String displayName = module
 					.getMessage( choice.getDisplayNameKey( ) );
 
 			if ( ( displayName != null )

@@ -42,7 +42,7 @@ public class DataItemState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public DataItemState( DesignParserHandler handler,
+	public DataItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

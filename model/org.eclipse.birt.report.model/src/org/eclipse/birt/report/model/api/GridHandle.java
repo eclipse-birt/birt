@@ -13,10 +13,10 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
@@ -39,15 +39,15 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * The application generally does not create handles directly. Instead, it
 	 * uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public GridHandle( ReportDesign design, DesignElement element )
+	public GridHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 	public int getColumnCount( )
 	{
-		return ( (GridItem) getElement( ) ).getColumnCount( design );
+		return ( (GridItem) getElement( ) ).getColumnCount( module );
 	}
 
 	/**
@@ -99,12 +99,12 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 	public CellHandle getCell( int row, int column )
 	{
-		Cell cell = CellHelper.findCell( getDesign( ),
+		Cell cell = CellHelper.findCell( getModule( ),
 				(GridItem) getElement( ), row, column );
 
 		if ( cell == null )
 			return null;
-		return cell.handle( getDesign( ) );
+		return cell.handle( getModule( ) );
 	}
 
 	/**

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Element name property type. Represents the name of an element.
@@ -68,7 +68,7 @@ public class NamePropertyType extends TextualPropertyType
 	 *      java.lang.Object)
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		assert defn != null;
@@ -102,7 +102,7 @@ public class NamePropertyType extends TextualPropertyType
 	 *      java.lang.String)
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		if ( value == null )

@@ -29,13 +29,13 @@ import org.xml.sax.SAXException;
 public class EncryptedPropertyState extends PropertyState
 {
 
-	EncryptedPropertyState( DesignParserHandler theHandler,
+	EncryptedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );
 	}
 
-	EncryptedPropertyState( DesignParserHandler theHandler,
+	EncryptedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element );

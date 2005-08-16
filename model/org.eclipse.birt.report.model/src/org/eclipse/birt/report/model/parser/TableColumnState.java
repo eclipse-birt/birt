@@ -18,7 +18,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a column within a table or grid item.
- * 
+ *  
  */
 
 class TableColumnState extends ReportElementState
@@ -37,7 +37,7 @@ class TableColumnState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public TableColumnState( DesignParserHandler handler,
+	public TableColumnState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

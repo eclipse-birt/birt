@@ -16,8 +16,8 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 
 /**
@@ -42,15 +42,15 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * The application generally does not create handles directly. Instead, it
 	 * uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public GroupHandle( ReportDesign design, DesignElement element )
+	public GroupHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -428,7 +428,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * @throws SemanticException
 	 *             if the property is locked or the input value is not one of
 	 *             the above.
-	 *  
+	 * 
 	 */
 
 	public void setSortDirection( String direction ) throws SemanticException
@@ -440,7 +440,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group header slot is empty.
 	 * 
 	 * @return true is the header slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasHeader( )
@@ -452,7 +452,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Checks whether the group footer slot is empty.
 	 * 
 	 * @return true is the footer slot is not empty, otherwise, return false.
-	 *  
+	 * 
 	 */
 
 	public boolean hasFooter( )

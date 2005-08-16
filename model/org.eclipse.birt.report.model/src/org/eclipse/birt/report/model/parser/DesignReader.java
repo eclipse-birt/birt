@@ -73,7 +73,7 @@ public final class DesignReader
 		// set file name of the design file. Used to search relative path
 		// to the file.
 
-		ReportDesign design = handler.getDesign( );
+		ReportDesign design = (ReportDesign) handler.getModule( );
 		design.setFileName( fileName );
 
 		try
@@ -98,17 +98,17 @@ public final class DesignReader
 
 			// Invalid xml error is found
 
-			throw new DesignFileException( fileName, handler.getDesign( )
+			throw new DesignFileException( fileName, handler.getModule( )
 					.getAllErrors( ), e );
 		}
 		catch ( ParserConfigurationException e )
 		{
-			throw new DesignFileException( fileName, handler.getDesign( )
+			throw new DesignFileException( fileName, handler.getModule( )
 					.getAllErrors( ), e );
 		}
 		catch ( IOException e )
 		{
-			throw new DesignFileException( fileName, handler.getDesign( )
+			throw new DesignFileException( fileName, handler.getModule( )
 					.getAllErrors( ), e );
 		}
 

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 
@@ -70,24 +71,24 @@ public abstract class MasterPage extends StyledElement
 	 * sizes, then the height and width properties are ignored. Orientation
 	 * affects standard sizes, but is ignored for custom sizes.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the page size in application units
 	 */
 
-	public Point getSize( ReportDesign design )
+	public Point getSize( Module module )
 	{
 		// Determine height and width dimensions.
 
 		Point size = new Point( );
-		String type = getStringProperty( design, TYPE_PROP );
+		String type = getStringProperty( module, TYPE_PROP );
 		String height = null;
 		String width = null;
 
 		if ( type.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
 		{
-			height = getStringProperty( design, HEIGHT_PROP );
-			width = getStringProperty( design, WIDTH_PROP );
+			height = getStringProperty( module, HEIGHT_PROP );
+			width = getStringProperty( module, WIDTH_PROP );
 		}
 		else if ( type
 				.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_US_LETTER ) )
@@ -117,7 +118,7 @@ public abstract class MasterPage extends StyledElement
 		// Consider orientation for standard pages sizes, but not custom size.
 
 		if ( type.equalsIgnoreCase( DesignChoiceConstants.PAGE_SIZE_CUSTOM )
-				&& ( getStringProperty( design, ORIENTATION_PROP )
+				&& ( getStringProperty( module, ORIENTATION_PROP )
 						.equalsIgnoreCase( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE ) ) )
 		{
 			String temp = height;
@@ -128,7 +129,7 @@ public abstract class MasterPage extends StyledElement
 		// Convert to application units.
 		try
 		{
-			String sessionUnit = design.getSession( ).getUnits( );
+			String sessionUnit = module.getSession( ).getUnits( );
 			
 			if ( height != null )
 				size.y = DimensionUtil.convertTo( height, sessionUnit,
@@ -152,21 +153,21 @@ public abstract class MasterPage extends StyledElement
 	 * Returns the content area rectangle in application units. The content area
 	 * is the portion of the page after subtracting the four margins.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the content area rectangle in application units
 	 */
 
-	public Rectangle getContentArea( ReportDesign design )
+	public Rectangle getContentArea( Module module )
 	{
-		Point size = getSize( design );
+		Point size = getSize( module );
 		Rectangle margins = new Rectangle( );
-		margins.y = getFloatProperty( design, TOP_MARGIN_PROP );
-		margins.x = getFloatProperty( design, LEFT_MARGIN_PROP );
+		margins.y = getFloatProperty( module, TOP_MARGIN_PROP );
+		margins.x = getFloatProperty( module, LEFT_MARGIN_PROP );
 		margins.height = size.y - margins.y
-				- getFloatProperty( design, BOTTOM_MARGIN_PROP );
+				- getFloatProperty( module, BOTTOM_MARGIN_PROP );
 		margins.width = size.x - margins.x
-				- getFloatProperty( design, RIGHT_MARGIN_PROP );
+				- getFloatProperty( module, RIGHT_MARGIN_PROP );
 		return margins;
 	}
 
@@ -176,19 +177,19 @@ public abstract class MasterPage extends StyledElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
-				design, this );
+				module, this );
 		if ( !pageSizeErrors.isEmpty( ) )
 		{
 			list.addAll( pageSizeErrors );
 			return list;
 		}
 
-		list.addAll( MasterPageSizeValidator.getInstance( ).validate( design,
+		list.addAll( MasterPageSizeValidator.getInstance( ).validate( module,
 				this ) );
 
 		return list;

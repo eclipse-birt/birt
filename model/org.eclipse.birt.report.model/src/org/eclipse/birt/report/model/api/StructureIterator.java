@@ -106,9 +106,8 @@ public class StructureIterator implements Iterator
 		if ( !hasNext( ) )
 			return null;
 
-		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ),
-				index );
-		Structure struct = structRef.getStructure( valueHandle.getDesign( ),
+		MemberRef structRef = new CachedMemberRef( valueHandle.getReference( ), index );
+		Structure struct = structRef.getStructure( valueHandle.getModule( ),
 				valueHandle.getElement( ) );
 
 		return struct.getHandle( valueHandle, index++ );

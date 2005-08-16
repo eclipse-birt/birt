@@ -17,8 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataSet;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -53,28 +53,28 @@ public class DataSetResultSetValidator extends AbstractElementValidator
 	 * Validates whether the result set of the given data set has no column
 	 * defined.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the data set to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof DataSet ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (DataSet) element );
+		return doValidate( module, (DataSet) element );
 	}
 
-	private List doValidate( ReportDesign design, DataSet toValidate )
+	private List doValidate( Module module, DataSet toValidate )
 	{
 
 		List list = new ArrayList( );
 
-		List columns = (List) toValidate.getProperty( design,
+		List columns = (List) toValidate.getProperty( module,
 				DataSet.RESULT_SET_PROP );
 		if ( columns != null && columns.size( ) == 0 )
 		{

@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
 public class ExtendedPropertyState extends StructureState
 {
 
-	ExtendedPropertyState( DesignParserHandler theHandler,
+	ExtendedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, ArrayList list )
 	{
 		super( theHandler, element, propDefn, list );

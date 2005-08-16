@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -67,7 +67,7 @@ public class UnsupportedElementValidator extends AbstractElementValidator
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		// Check whether this element is unsupported element.
 

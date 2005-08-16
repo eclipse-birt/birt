@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Records a change to the back reference of an element.
@@ -39,16 +39,16 @@ abstract public class BackRefRecord extends SimpleRecord
 	protected String propName = null;
 
 	/**
-	 * Report design
+	 * Module
 	 */
 	
-	protected ReportDesign design = null;
+	protected Module module = null;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @param reference
 	 *            the element that refers to another element.
 	 * @param propName
@@ -58,10 +58,10 @@ abstract public class BackRefRecord extends SimpleRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( ReportDesign design, DesignElement reference,
+	public BackRefRecord( Module module, DesignElement reference,
 			String propName )
 	{
-		this.design = design;
+		this.module = module;
 		this.reference = reference;
 		this.propName = propName;
 	}

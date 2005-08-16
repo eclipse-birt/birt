@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,7 +44,7 @@ public class CompatibleOdaDataSetPropertyState extends PropertyState
 	final static String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
 	final static String FLAT_FILE_EXTENSION_ID = "org.eclipse.birt.report.data.oda.flatfile.dataSet"; //$NON-NLS-1$
 
-	CompatibleOdaDataSetPropertyState( DesignParserHandler theHandler,
+	CompatibleOdaDataSetPropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );

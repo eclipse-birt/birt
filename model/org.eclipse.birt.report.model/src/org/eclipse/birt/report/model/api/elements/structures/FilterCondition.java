@@ -19,9 +19,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents one filter in the filter list of List, Table or their Groups.
@@ -306,18 +305,18 @@ public class FilterCondition extends Structure
 	 * <li>The filter expression is required.</li>
 	 * </ul>
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List list = super.validate( design, element );
+		List list = super.validate( module, element );
 
 		if ( StringUtil.isBlank( getFilterExpr( ) ) )
 		{
 			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( EXPR_MEMBER ),
+					getDefn( ).getMember( EXPR_MEMBER ),
 					getFilterExpr( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

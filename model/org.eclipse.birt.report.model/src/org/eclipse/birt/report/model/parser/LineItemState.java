@@ -43,7 +43,7 @@ public class LineItemState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public LineItemState( DesignParserHandler handler,
+	public LineItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

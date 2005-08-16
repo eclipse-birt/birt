@@ -41,7 +41,7 @@ public class ExtendedItemState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public ExtendedItemState( DesignParserHandler handler,
+	public ExtendedItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

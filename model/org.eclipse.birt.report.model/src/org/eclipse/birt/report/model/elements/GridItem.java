@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -155,25 +156,25 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design for the grid
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public GridHandle handle( ReportDesign design )
+	public GridHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new GridHandle( design, this );
+			handle = new GridHandle( module, this );
 		}
 		return (GridHandle) handle;
 	}
@@ -194,33 +195,33 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * Computes the number of columns in the Grid. The number is defined as the
 	 * sum of columns describe in the Columns slot.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the number of columns in the Grid
 	 */
 
-	public int getColumnCount( ReportDesign design )
+	public int getColumnCount( Module module )
 	{
 		// Method 1: sum columns in the column slot.
 
-		int colCount = getColDefnCount( design );
+		int colCount = getColDefnCount( module );
 		if ( colCount != 0 )
 			return colCount;
 
 		// Method 2: find the widest row.
 
-		return findMaxCols( design );
+		return findMaxCols( module );
 	}
 
 	/**
 	 * Gets the number of columns described in the column definition section.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the number of columns described by column definitions
 	 */
 
-	public int getColDefnCount( ReportDesign design )
+	public int getColDefnCount( Module module )
 	{
 		int colCount = 0;
 		ContainerSlot cols = getSlot( COLUMN_SLOT );
@@ -228,7 +229,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 		for ( int i = 0; i < colDefnCount; i++ )
 		{
 			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( design, TableColumn.REPEAT_PROP );
+			colCount += col.getIntProperty( module, TableColumn.REPEAT_PROP );
 		}
 		return colCount;
 	}
@@ -236,12 +237,12 @@ public class GridItem extends ReportItem implements IGridItemModel
 	/**
 	 * Finds the maximum column width for this grid.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the maximum number of columns
 	 */
 
-	public int findMaxCols( ReportDesign design )
+	public int findMaxCols( Module module )
 	{
 		ContainerSlot rows = getSlot( ROW_SLOT );
 		int maxCols = 0;
@@ -249,7 +250,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 		for ( int i = 0; i < count; i++ )
 		{
 			TableRow row = (TableRow) rows.getContent( i );
-			int cols = row.getColumnCount( design );
+			int cols = row.getColumnCount( module );
 			if ( cols > maxCols )
 				maxCols = cols;
 		}
@@ -260,7 +261,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * Returns the style property defined on the column for the cell
 	 * <code>target</code>.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param target
 	 *            the target cell to search
@@ -270,7 +271,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * @return the value of a style property
 	 */
 
-	protected Object getPropertyFromColumn( ReportDesign design, Cell target,
+	protected Object getPropertyFromColumn( Module module, Cell target,
 			ElementPropertyDefn prop )
 	{
 		assert prop.isStyleProperty( );
@@ -279,14 +280,14 @@ public class GridItem extends ReportItem implements IGridItemModel
 		if ( columnSlot.getCount( ) == 0 )
 			return null;
 
-		int columnNum = getCellPositionInColumn( design, target );
+		int columnNum = getCellPositionInColumn( module, target );
 
 		assert columnNum > 0;
-		TableColumn column = ColumnHelper.findColumn( design,
+		TableColumn column = ColumnHelper.findColumn( module,
 				slots[COLUMN_SLOT], columnNum );
 
 		if ( column != null )
-			return column.getPropertyFromElement( design, prop );
+			return column.getPropertyFromElement( module, prop );
 
 		return null;
 	}
@@ -295,7 +296,7 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * Returns the column number for the cell that has no "column" property
 	 * defined.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param target
 	 *            the cell to find
@@ -303,9 +304,9 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * @return the column position
 	 */
 
-	public int getCellPositionInColumn( ReportDesign design, Cell target )
+	public int getCellPositionInColumn( Module module, Cell target )
 	{
-		int pos = target.getColumn( design );
+		int pos = target.getColumn( module );
 		if ( pos > 0 )
 			return pos;
 
@@ -319,14 +320,14 @@ public class GridItem extends ReportItem implements IGridItemModel
 		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
 		{
 			Cell cell = (Cell) iter.next( );
-			int cellPos = cell.getColumn( design );
+			int cellPos = cell.getColumn( module );
 			if ( cellPos > 0 )
 				pos = cellPos;
 
 			if ( cell == target )
 				return pos;
 
-			pos = pos + cell.getColSpan( design );
+			pos = pos + cell.getColSpan( module );
 
 		}
 
@@ -339,12 +340,12 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		list.addAll( InconsistentColumnsValidator.getInstance( ).validate(
-				design, this ) );
+				module, this ) );
 
 		return list;
 	}
@@ -356,12 +357,12 @@ public class GridItem extends ReportItem implements IGridItemModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			GridHandle handle = handle( design );
+			GridHandle handle = handle( module );
 			int rows = handle.getRows( ).getCount( );
 			int cols = handle.getColumns( ).getCount( );
 			displayLabel += "(" + rows + " x " + cols + ")"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$

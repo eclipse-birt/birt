@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator;
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 
@@ -67,29 +68,29 @@ public abstract class DataSet extends ReferenceableElement implements IDataSetMo
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		// Check the data source value is required
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
 				this, DATA_SOURCE_PROP ) );
 
 		// Check the element reference of dataSource property
 
-		list.addAll( ElementReferenceValidator.getInstance( ).validate( design,
+		list.addAll( ElementReferenceValidator.getInstance( ).validate( module,
 				this, DATA_SOURCE_PROP ) );
 
 		// Check input parameter structure list
 
-		list.addAll( validateStructureList( design, PARAMETERS_PROP ) );
-		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );
-		list.addAll( validateStructureList( design, COMPUTED_COLUMNS_PROP ) );
-		list.addAll( validateStructureList( design, COLUMN_HINTS_PROP ) );
-		list.addAll( validateStructureList( design, FILTER_PROP ) );
+		list.addAll( validateStructureList( module, PARAMETERS_PROP ) );
+		list.addAll( validateStructureList( module, PARAM_BINDINGS_PROP ) );
+		list.addAll( validateStructureList( module, COMPUTED_COLUMNS_PROP ) );
+		list.addAll( validateStructureList( module, COLUMN_HINTS_PROP ) );
+		list.addAll( validateStructureList( module, FILTER_PROP ) );
 
-		list.addAll( DataSetResultSetValidator.getInstance( ).validate( design,
+		list.addAll( DataSetResultSetValidator.getInstance( ).validate( module,
 				this ) );
 
 		return list;

@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * This class represents a configuration variable in the report's config
@@ -224,7 +224,7 @@ public class ConfigVariable extends ReferencableStructure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		ArrayList list = new ArrayList( );
 

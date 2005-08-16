@@ -53,9 +53,11 @@ public interface IResourceLocator
 	 * default searching steps are encouraged for unknown file type to improve
 	 * robustness.
 	 * 
-	 * @param designHandle
-	 *            The report design to tell the search context. This could be
-	 *            null if the search algorithm does not need the design.
+	 * @param moduleHandle
+	 *            The module to tell the search context. This could be null if
+	 *            the search algorithm does not need the design. It can be the
+	 *            instance of one of <code>ReportDesignHandle</code> and
+	 *            <code>LibraryHandle</code>.
 	 * @param filename
 	 *            The file name to be searched. This could be an absolute path
 	 *            or a relative path.
@@ -66,6 +68,6 @@ public interface IResourceLocator
 	 *         can not be found.
 	 */
 
-	public URL findResource( ReportDesignHandle designHandle, String filename,
+	public URL findResource( ModuleHandle moduleHandle, String filename,
 			int type );
 }

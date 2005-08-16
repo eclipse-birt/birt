@@ -13,9 +13,10 @@ package org.eclipse.birt.report.model.api;
 
 import java.lang.reflect.Constructor;
 
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
@@ -44,7 +44,6 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
-import org.eclipse.birt.report.model.metadata.AddOnExtensionLoader;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -64,21 +63,21 @@ public class ElementFactory
 {
 
 	/**
-	 * The report design.
+	 * The module.
 	 */
 
-	protected final ReportDesign design;
+	protected final Module module;
 
 	/**
-	 * Constructs a element factory with the given design.
+	 * Constructs a element factory with the given module.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 */
 
-	public ElementFactory( ReportDesign design )
+	public ElementFactory( Module module )
 	{
-		this.design = design;
+		this.module = module;
 	}
 
 	/**
@@ -119,14 +118,14 @@ public class ElementFactory
 						.getConstructor( new Class[]{String.class} );
 				element = (DesignElement) constructor
 						.newInstance( new String[]{name} );
-				design.makeUniqueName( element );
+				module.makeUniqueName( element );
 
-				return element.getHandle( design );
+				return element.getHandle( module );
 			}
 			catch ( NoSuchMethodException e1 )
 			{
 				element = (DesignElement) c.newInstance( );
-				return element.getHandle( design );
+				return element.getHandle( module );
 			}
 
 		}
@@ -165,17 +164,6 @@ public class ElementFactory
 				.equalsIgnoreCase( extensionPoint ) )
 			return newExtendedItem( name, elementTypeName );
 
-		else if ( AddOnExtensionLoader.EXTENSION_POINT
-				.equalsIgnoreCase( extensionPoint ) )
-		{
-			if ( ReportDesignConstants.ODA_DATA_SET.equalsIgnoreCase( extDefn
-					.getExtends( ) ) )
-				return newOdaDataSet( name, elementTypeName );
-			else if ( ReportDesignConstants.ODA_DATA_SOURCE
-					.equalsIgnoreCase( extDefn.getExtends( ) ) )
-				return newOdaDataSource( name, elementTypeName );
-		}
-
 		return null;
 	}
 
@@ -190,7 +178,7 @@ public class ElementFactory
 	public FreeFormHandle newFreeForm( String name )
 	{
 		FreeForm element = new FreeForm( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -204,7 +192,7 @@ public class ElementFactory
 	public DataItemHandle newDataItem( String name )
 	{
 		DataItem element = new DataItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -218,7 +206,7 @@ public class ElementFactory
 	public LabelHandle newLabel( String name )
 	{
 		Label element = new Label( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -232,7 +220,7 @@ public class ElementFactory
 	public ImageHandle newImage( String name )
 	{
 		ImageItem element = new ImageItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -244,7 +232,7 @@ public class ElementFactory
 	public ListGroupHandle newListGroup( )
 	{
 		ListGroup element = new ListGroup( );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -258,7 +246,7 @@ public class ElementFactory
 	public ListHandle newList( String name )
 	{
 		ListItem element = new ListItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -273,8 +261,8 @@ public class ElementFactory
 	public GraphicMasterPageHandle newGraphicMasterPage( String name )
 	{
 		GraphicMasterPage element = new GraphicMasterPage( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -289,8 +277,8 @@ public class ElementFactory
 	public SimpleMasterPageHandle newSimpleMasterPage( String name )
 	{
 		SimpleMasterPage element = new SimpleMasterPage( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -305,8 +293,8 @@ public class ElementFactory
 	public ParameterGroupHandle newParameterGroup( String name )
 	{
 		ParameterGroup element = new ParameterGroup( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -321,8 +309,8 @@ public class ElementFactory
 	public ScalarParameterHandle newScalarParameter( String name )
 	{
 		ScalarParameter element = new ScalarParameter( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -337,8 +325,8 @@ public class ElementFactory
 	public SharedStyleHandle newStyle( String name )
 	{
 		Style element = new Style( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -352,7 +340,7 @@ public class ElementFactory
 	public TextItemHandle newTextItem( String name )
 	{
 		TextItem element = new TextItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -366,7 +354,7 @@ public class ElementFactory
 	public TableHandle newTableItem( String name )
 	{
 		TableItem element = new TableItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -466,7 +454,7 @@ public class ElementFactory
 	public TableGroupHandle newTableGroup( )
 	{
 		TableGroup element = new TableGroup( );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -478,7 +466,7 @@ public class ElementFactory
 	public ColumnHandle newTableColumn( )
 	{
 		TableColumn element = new TableColumn( );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -490,7 +478,7 @@ public class ElementFactory
 	public RowHandle newTableRow( )
 	{
 		TableRow element = new TableRow( );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -528,7 +516,7 @@ public class ElementFactory
 	public CellHandle newCell( )
 	{
 		Cell element = new Cell( );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -542,7 +530,7 @@ public class ElementFactory
 	public GridHandle newGridItem( String name )
 	{
 		GridItem element = new GridItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -596,7 +584,7 @@ public class ElementFactory
 	public LineHandle newLineItem( String name )
 	{
 		LineItem element = new LineItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -610,7 +598,7 @@ public class ElementFactory
 	public RectangleHandle newRectangle( String name )
 	{
 		RectangleItem element = new RectangleItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -624,7 +612,7 @@ public class ElementFactory
 	public TextDataHandle newTextData( String name )
 	{
 		TextDataItem element = new TextDataItem( name );
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -647,7 +635,7 @@ public class ElementFactory
 			return null;
 		ExtendedItem element = new ExtendedItem( name );
 		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
-		ExtendedItemHandle handle = element.handle( design );
+		ExtendedItemHandle handle = element.handle( module );
 		try
 		{
 			handle.loadExtendedElement( );
@@ -673,8 +661,8 @@ public class ElementFactory
 	public ScriptDataSourceHandle newScriptDataSource( String name )
 	{
 		ScriptDataSource element = new ScriptDataSource( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -689,8 +677,8 @@ public class ElementFactory
 	public ScriptDataSetHandle newScriptDataSet( String name )
 	{
 		ScriptDataSet element = new ScriptDataSet( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -707,8 +695,8 @@ public class ElementFactory
 	public OdaDataSourceHandle newOdaDataSource( String name )
 	{
 		OdaDataSource element = new OdaDataSource( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -734,10 +722,10 @@ public class ElementFactory
 				return null;
 		}
 		OdaDataSource element = new OdaDataSource( name );
-		design.makeUniqueName( element );
+		module.makeUniqueName( element );
 		element.setProperty( OdaDataSource.EXTENSION_ID_PROP, extensionID );
 
-		return element.handle( design );
+		return element.handle( module );
 	}
 
 	/**
@@ -754,8 +742,8 @@ public class ElementFactory
 	public OdaDataSetHandle newOdaDataSet( String name )
 	{
 		OdaDataSet element = new OdaDataSet( name );
-		design.makeUniqueName( element );
-		return element.handle( design );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 
 	/**
@@ -781,9 +769,39 @@ public class ElementFactory
 				return null;
 		}
 		OdaDataSet element = new OdaDataSet( name );
-		design.makeUniqueName( element );
+		module.makeUniqueName( element );
 		element.setProperty( OdaDataSet.EXTENSION_ID_PROP, extensionID );
 
-		return element.handle( design );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates one new element based on the given element. The new element will
+	 * extends the given one. The element must be extendable.
+	 * 
+	 * @param element
+	 *            the base element.
+	 * @param name
+	 *            the optional new element name
+	 * @return the handle to the new element.
+	 */
+
+	public DesignElementHandle newElementFrom( DesignElementHandle element,
+			String name )
+	{
+		try
+		{
+			DesignElementHandle childElement = newElement( element.getElement( )
+					.getElementName( ), name );
+
+			childElement.setExtends( element );
+
+			return childElement;
+		}
+		catch ( ExtendsException e )
+		{
+			assert false;
+			return null;
+		}
 	}
 }

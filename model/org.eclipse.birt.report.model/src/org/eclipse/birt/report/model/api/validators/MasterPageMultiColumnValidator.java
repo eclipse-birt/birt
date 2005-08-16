@@ -19,8 +19,8 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -64,36 +64,36 @@ public class MasterPageMultiColumnValidator extends AbstractElementValidator
 	/**
 	 * Validates whether multiple columns and content width are consistent.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the graphic master page to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof GraphicMasterPage ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (GraphicMasterPage) element );
+		return doValidate( module, (GraphicMasterPage) element );
 	}
 
-	private List doValidate( ReportDesign design, GraphicMasterPage toValidate )
+	private List doValidate( Module module, GraphicMasterPage toValidate )
 	{
 		List list = new ArrayList( );
 
 		// Check margins. Must start on the page and not be of negative
 		// size.
-		Rectangle margins = toValidate.getContentArea( design );
-		Point size = toValidate.getSize( design );
+		Rectangle margins = toValidate.getContentArea( module );
+		Point size = toValidate.getSize( module );
 		if ( !( margins.x >= size.x || margins.y >= size.y
 				|| margins.height <= 0 || margins.width <= 0 ) )
 		{
-			int columns = toValidate.getIntProperty( design,
+			int columns = toValidate.getIntProperty( module,
 					GraphicMasterPage.COLUMNS_PROP );
-			double columnSpacing = toValidate.getFloatProperty( design,
+			double columnSpacing = toValidate.getFloatProperty( module,
 					GraphicMasterPage.COLUMN_SPACING_PROP );
 			if ( margins.width < ( columns - 1 ) * columnSpacing )
 			{

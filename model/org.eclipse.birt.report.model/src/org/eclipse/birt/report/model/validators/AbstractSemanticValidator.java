@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.validators;
 
-
 /**
  * Abstract class for semantic validator. It provides the validator name and the
  * target element on which the validation is performed.
@@ -21,17 +20,35 @@ public class AbstractSemanticValidator
 {
 
 	/**
+	 * Constant for indicating one validator can be applied to design.
+	 */
+
+	private final static String MODULE_DESIGN = "design"; //$NON-NLS-1$
+
+	/**
+	 * Constant for indicating one validator can be applied to library.
+	 */
+
+	private final static String MODULE_LIBRARY = "library"; //$NON-NLS-1$
+
+	/**
 	 * The internal name of the validator.
 	 */
 
 	protected String name = null;
 
 	/**
+	 * The modules that this validator can be applied on.
+	 */
+
+	protected String[] modules = new String[2];
+
+	/**
 	 * Returns the validator name.
 	 * 
 	 * @return the validator name
 	 */
-	
+
 	public String getName( )
 	{
 		return name;
@@ -52,4 +69,69 @@ public class AbstractSemanticValidator
 		this.name = name;
 	}
 
+	/**
+	 * Sets the modules which this validator can be applied to. The
+	 * <code>moduleNames</code> is the string seperated by commas.
+	 * <p>
+	 * For example, "design, library"
+	 * 
+	 * @param moduleNames
+	 *            the module names to set
+	 */
+
+	public void setModules( String moduleNames )
+	{
+		String[] splittedModuleNames = moduleNames.split( "," ); //$NON-NLS-1$
+		assert splittedModuleNames.length <= 2;
+
+		for ( int i = 0; i < splittedModuleNames.length; i++ )
+		{
+			modules[i] = splittedModuleNames[i].trim( );
+		}
+	}
+
+	/**
+	 * Returns whether this validator can be applied to design.
+	 * 
+	 * @return true if this validator can be applied to design; otherwise,
+	 *         return false.
+	 */
+
+	public boolean canApplyToDesign( )
+	{
+		return canApplyToModule( MODULE_DESIGN );
+	}
+
+	/**
+	 * Returns whether this validator can be applied to library.
+	 * 
+	 * @return true if this validator can be applied to library; otherwise,
+	 *         return false.
+	 */
+
+	public boolean canApplyToLibrary( )
+	{
+		return canApplyToModule( MODULE_LIBRARY );
+	}
+
+	/**
+	 * Returns whether this validator can be applied to the given module.
+	 * 
+	 * @param moduleName
+	 *            the module name.
+	 * @return true if this validator can be applied to the given module.
+	 */
+
+	private boolean canApplyToModule( String moduleName )
+	{
+		assert moduleName == MODULE_DESIGN || moduleName == MODULE_LIBRARY;
+
+		for ( int i = 0; i < modules.length; i++ )
+		{
+			if ( moduleName.equals( modules[i] ) )
+				return true;
+		}
+
+		return false;
+	}
 }

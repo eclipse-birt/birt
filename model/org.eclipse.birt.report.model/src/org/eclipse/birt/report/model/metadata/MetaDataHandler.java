@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -98,6 +98,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String XML_NAME_ATTRIB = "xmlName"; //$NON-NLS-1$
 	private static final String RUNTIME_SETTABLE_ATTRIB = "runtimeSettable"; //$NON-NLS-1$
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
+	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
 
 	private String groupNameID;
 
@@ -557,17 +558,17 @@ class MetaDataHandler extends XMLParserHandler
 				// Inherit default name space
 			}
 			else if ( ns.equalsIgnoreCase( STYLE_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.STYLE_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.STYLE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SET_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.DATA_SET_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.DATA_SOURCE_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.DATA_SOURCE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( ELEMENT_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.ELEMENT_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.ELEMENT_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( PARAMETER_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.PARAMETER_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.PARAMETER_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( MASTER_PAGE_NS_NAME ) )
-				elementDefn.setNameSpaceID( RootElement.PAGE_NAME_SPACE );
+				elementDefn.setNameSpaceID( Module.PAGE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NO_NS_NAME ) )
 				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
 			else
@@ -1062,6 +1063,7 @@ class MetaDataHandler extends XMLParserHandler
 		public void parseAttrs( Attributes attrs ) throws XMLParserException
 		{
 			String name = getAttrib( attrs, NAME_ATTRIB );
+			String modules = getAttrib( attrs, MODULES_ATTRIB );
 			String className = getAttrib( attrs, CLASS_ATTRIB );
 
 			if ( StringUtil.isBlank( name ) )
@@ -1084,6 +1086,7 @@ class MetaDataHandler extends XMLParserHandler
 				AbstractSemanticValidator validator = (AbstractSemanticValidator) m
 						.invoke( null, null );
 				validator.setName( name );
+				validator.setModules( modules );
 
 				try
 				{

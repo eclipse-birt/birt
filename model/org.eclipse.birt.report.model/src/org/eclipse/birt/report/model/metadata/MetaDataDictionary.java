@@ -71,7 +71,7 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <h2>Enabling Object IDs</h2>
  * The model may be used in the web environment in which it is necessary to
  * identify elements using a unique ID separate from their object pointer. The
- * {@link org.eclipse.birt.report.model.core.RootElement}class maintains the
+ * {@link org.eclipse.birt.report.model.core.Module}class maintains the
  * object ID counter, as well as an id-to-element map. Because the map is
  * costly, it is enabled only if ID support is enabled in the data dictionary
  * object.

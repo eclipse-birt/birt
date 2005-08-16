@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -43,7 +44,7 @@ class PropertyState extends AbstractPropertyState
 	 *      theHandler, DesignElement element, )
 	 */
 
-	PropertyState( DesignParserHandler theHandler, DesignElement element )
+	PropertyState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 	}
@@ -56,7 +57,7 @@ class PropertyState extends AbstractPropertyState
 	 *      struct)
 	 */
 
-	PropertyState( DesignParserHandler theHandler, DesignElement element,
+	PropertyState( ModuleParserHandler theHandler, DesignElement element,
 			PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element );
@@ -173,12 +174,13 @@ class PropertyState extends AbstractPropertyState
 				return state;
 			}
 		}
-		if ( "GraphicMasterPage" //$NON-NLS-1$
+		if ( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT
 				.equalsIgnoreCase( element.getDefn( ).getName( ) )
 				&& ( name.equalsIgnoreCase( "headerHeight" ) || name //$NON-NLS-1$
 						.equalsIgnoreCase( "footerHeight" ) ) ) //$NON-NLS-1$
 			return new CompatibleIgnorePropertyState( handler, element );
 
+		
 		return super.jumpTo( );
 	}
 }

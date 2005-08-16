@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.metadata.validators;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -34,8 +34,8 @@ public interface IValueValidator
 	/**
 	 * Validate a specific property.
 	 * 
-	 * @param report
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param defn
 	 *            definition of the property.
 	 * @param value
@@ -44,7 +44,7 @@ public interface IValueValidator
 	 *             if the property has any semantic error.
 	 */
 
-	public void validate( ReportDesign report, PropertyDefn defn, Object value )
+	public void validate( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException;
 
 }

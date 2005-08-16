@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
 /**
@@ -83,25 +84,25 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public TextDataHandle handle( ReportDesign design )
+	public TextDataHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new TextDataHandle( design, this );
+			handle = new TextDataHandle( module, this );
 		}
 		return (TextDataHandle) handle;
 	}
@@ -113,12 +114,12 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			String valueExpr = handle( design ).getValueExpr( );
+			String valueExpr = handle( module ).getValueExpr( );
 			if ( !StringUtil.isBlank( valueExpr ) )
 			{
 				valueExpr = limitStringLength( valueExpr );
@@ -134,11 +135,11 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		Object valueExpr = getProperty( design, VALUE_EXPR_PROP );
+		Object valueExpr = getProperty( module, VALUE_EXPR_PROP );
 		if ( valueExpr == null )
 		{
 			list.add( new PropertyValueException( this, VALUE_EXPR_PROP,

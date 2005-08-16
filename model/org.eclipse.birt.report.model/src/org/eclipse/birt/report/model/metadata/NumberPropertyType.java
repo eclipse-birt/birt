@@ -18,7 +18,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -29,19 +29,20 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 public class NumberPropertyType extends PropertyType
 {
-	
+
 	/**
 	 * Display name key.
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.number"; //$NON-NLS-1$
 
-    /**
-     * A default fixed-locale number formatter.
-     */
-    
-    private static final NumberFormat formatter = NumberFormat.getInstance( Locale.ENGLISH );
-    
+	/**
+	 * A default fixed-locale number formatter.
+	 */
+
+	private static final NumberFormat formatter = NumberFormat
+			.getInstance( Locale.ENGLISH );
+
 	/**
 	 * Constructor.
 	 */
@@ -70,8 +71,8 @@ public class NumberPropertyType extends PropertyType
 	 * @return object of type <code>BigDecimal</code> or null.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -82,10 +83,11 @@ public class NumberPropertyType extends PropertyType
 		if ( value instanceof Integer )
 			return new BigDecimal( ( (Integer) value ).intValue( ) );
 		if ( value instanceof String )
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 
-        throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
+		throw new PropertyValueException( value,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				NUMBER_TYPE );
 	}
 
 	/**
@@ -101,22 +103,22 @@ public class NumberPropertyType extends PropertyType
 	 * @see BigDecimal#BigDecimal(java.lang.String)
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
 			return null;
 		try
 		{
-            return new BigDecimal( value );
-			
+			return new BigDecimal( value );
 		}
 		catch ( NumberFormatException e )
 		{
-            throw new PropertyValueException( value,
-                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
-    	}
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					NUMBER_TYPE );
+		}
 	}
 
 	/*
@@ -147,10 +149,10 @@ public class NumberPropertyType extends PropertyType
 	 * 
 	 * @return double value of the input number property value. Return 0.0 if
 	 *         value is null;
-	 *  
+	 * 
 	 */
 
-	public double toDouble( ReportDesign design, Object value )
+	public double toDouble( Module module, Object value )
 	{
 		if ( value == null )
 			return 0.0;
@@ -168,11 +170,12 @@ public class NumberPropertyType extends PropertyType
 	 *         value. Return null if value is null.
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
 
+		NumberFormat formatter = NumberFormat.getNumberInstance( );
 		return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 	}
 
@@ -182,10 +185,10 @@ public class NumberPropertyType extends PropertyType
 	 * 
 	 * @return integer value of the input number property value. Return 0 if
 	 *         input value is null.
-	 *  
+	 * 
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;
@@ -199,7 +202,7 @@ public class NumberPropertyType extends PropertyType
 	 * @return return the number property value as a <code>BigDecimal</code>.
 	 */
 
-	public BigDecimal toNumber( ReportDesign design, Object value )
+	public BigDecimal toNumber( Module module, Object value )
 	{
 		return (BigDecimal) value;
 	}
@@ -214,7 +217,7 @@ public class NumberPropertyType extends PropertyType
 	 *         value. Return null if value is null.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )
@@ -236,32 +239,33 @@ public class NumberPropertyType extends PropertyType
 	 *             locale.
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		if( StringUtil.isBlank( value ) )
-            return null;
-        
-        NumberFormat formatter = NumberFormat
-                .getNumberInstance( ThreadResources.getLocale() );
-        Number number = null;
-        try
-        {
-            // Parse in locale-dependent way.
-            number = formatter.parse( value );
+		if ( StringUtil.isBlank( value ) )
+			return null;
 
-            // TODO: current NumberFormat( even DecimalFormmater ) do not
-            // provide means to parse a
-            // input string in arbitrary-precision way. It does not express the
-            // accurate value.
+		NumberFormat formatter = NumberFormat
+				.getNumberInstance( ThreadResources.getLocale( ) );
+		Number number = null;
+		try
+		{
+			// Parse in locale-dependent way.
+			number = formatter.parse( value );
 
-        }
-        catch ( ParseException e )
-        {
-            throw new PropertyValueException( value,
-                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, NUMBER_TYPE );
-        }
+			// TODO: current NumberFormat( even DecimalFormmater ) do not
+			// provide means to parse a
+			// input string in arbitrary-precision way. It does not express the
+			// accurate value.
 
-        return new BigDecimal( number.doubleValue( ) );
+		}
+		catch ( ParseException e )
+		{
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					NUMBER_TYPE );
+		}
+
+		return new BigDecimal( number.doubleValue( ) );
 	}
 }

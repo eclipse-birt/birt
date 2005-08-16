@@ -14,8 +14,9 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 
 /**
  * Represents a reference to an element. An element reference is different from
@@ -91,8 +92,8 @@ public class ElementRefPropertyType extends PropertyType
 	 *             one defined in the <code>defn</code>.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -100,12 +101,12 @@ public class ElementRefPropertyType extends PropertyType
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
-			return validateStringValue( design, targetDefn, (String) value );
+			return validateStringValue( module, targetDefn, (String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
 			DesignElement target = (DesignElement) value;
-			return validateElementValue( design, targetDefn, target );
+			return validateElementValue( module, targetDefn, target );
 		}
 
 		// Invalid property value.
@@ -118,7 +119,7 @@ public class ElementRefPropertyType extends PropertyType
 	/**
 	 * Validates the element name.
 	 * 
-	 * @param design
+	 * @param module
 	 *            report design
 	 * @param targetDefn
 	 *            definition of target element
@@ -130,20 +131,25 @@ public class ElementRefPropertyType extends PropertyType
 	 *             or the element with the given name is not in name space.
 	 */
 
-	private ElementRefValue validateStringValue( ReportDesign design,
+	private ElementRefValue validateStringValue( Module module,
 			ElementDefn targetDefn, String name ) throws PropertyValueException
 	{
 		name = StringUtil.trimString( name );
 		if ( name == null )
 			return null;
-		
-		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
-		DesignElement target = ns.getElement( name );
+
+		IModuleNameSpace elementResolver = module
+				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
+		ElementRefValue refValue = elementResolver.resolve( name );
+		assert refValue != null;
 
 		// Element is unresolved.
 
-		if ( target == null )
-			return new ElementRefValue( name );
+		if ( !refValue.isResolved( ) )
+			return refValue;
+
+		DesignElement target = refValue.getElement( );
+		assert target != null;
 
 		// Check type.
 
@@ -154,13 +160,13 @@ public class ElementRefPropertyType extends PropertyType
 
 		// Resolved reference.
 
-		return new ElementRefValue( target );
+		return refValue; // new ElementRefValue( target );
 	}
 
 	/**
 	 * Validates the element value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            report design
 	 * @param targetDefn
 	 *            definition of target element
@@ -171,10 +177,14 @@ public class ElementRefPropertyType extends PropertyType
 	 *             if the type of target element is not that target definition.
 	 */
 
-	private ElementRefValue validateElementValue( ReportDesign design,
+	private ElementRefValue validateElementValue( Module module,
 			ElementDefn targetDefn, DesignElement target )
 			throws PropertyValueException
 	{
+		IModuleNameSpace elementResolver = module
+				.getModuleNameSpace( targetDefn.getNameSpaceID( ) );
+		ElementRefValue refValue = elementResolver.resolve( target );
+
 		// Check type.
 
 		if ( !targetDefn.isKindOf( target.getDefn( ) ) )
@@ -184,7 +194,7 @@ public class ElementRefPropertyType extends PropertyType
 
 		// Resolved reference.
 
-		return new ElementRefValue( target );
+		return refValue;
 	}
 
 	/**
@@ -195,7 +205,7 @@ public class ElementRefPropertyType extends PropertyType
 	 *         <code>null</code> if value is null;
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -203,7 +213,14 @@ public class ElementRefPropertyType extends PropertyType
 		if ( value instanceof String )
 			return (String) value;
 
-		return ( (ElementRefValue) value ).getName( );
+		ElementRefValue refValue = (ElementRefValue) value;
+
+		if ( !StyledElement.STYLE_PROP.equals( defn.getName( ) ) )
+		{
+			return refValue.getQualifiedReference( );
+		}
+
+		return refValue.getQualifiedReference( );
 	}
 
 	/**
@@ -211,7 +228,7 @@ public class ElementRefPropertyType extends PropertyType
 	 * target element type. If the target is found, replace the element name
 	 * with the cached element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            the definition of the element ref property
@@ -219,14 +236,13 @@ public class ElementRefPropertyType extends PropertyType
 	 *            the element reference
 	 */
 
-	public void resolve( ReportDesign design, PropertyDefn defn,
-			ElementRefValue ref )
+	public void resolve( Module module, PropertyDefn defn, ElementRefValue ref )
 	{
 		if ( ref.isResolved( ) )
 			return;
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
-		NameSpace ns = design.getNameSpace( targetDefn.getNameSpaceID( ) );
-		DesignElement target = ns.getElement( ref.getName( ) );
+		DesignElement target = module.resolveElement( ref.getName( ),
+				targetDefn.getNameSpaceID( ) );
 		if ( target != null )
 			ref.resolve( target );
 	}

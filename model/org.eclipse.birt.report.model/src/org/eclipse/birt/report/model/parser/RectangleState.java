@@ -40,7 +40,7 @@ public class RectangleState extends ReportItemState
 	 * @param slot the slot in which this element appears
      */
 	
-    public RectangleState( DesignParserHandler handler, DesignElement theContainer, int slot )
+    public RectangleState( ModuleParserHandler handler, DesignElement theContainer, int slot )
     {
         super( handler, theContainer, slot );
     }

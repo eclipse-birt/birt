@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 
 /**
@@ -34,15 +34,15 @@ public class DataItemHandle extends ReportItemHandle implements IDataItemModel
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public DataItemHandle( ReportDesign design, DesignElement element )
+	public DataItemHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

@@ -18,7 +18,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignSession;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents the design state -- a session for a user. In the Eclipse
@@ -112,6 +112,23 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a library with the given the file name.
+	 * 
+	 * @param fileName
+	 *            name of the file to open
+	 * @return handle to the library
+	 * 
+	 * @throws DesignFileException
+	 *             if the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( String fileName )
+			throws DesignFileException
+	{
+		return session.openLibrary( fileName ).handle( );
+	}
+
+	/**
 	 * Creates a new design based on a template. The template name can be
 	 * <code>null</code> if no template is desired.
 	 * 
@@ -138,7 +155,18 @@ public class SessionHandle
 	}
 
 	/**
-	 * Saves all designs that need a save.
+	 * Creates a new empty library.
+	 * 
+	 * @return the handle of the new library.
+	 */
+
+	public LibraryHandle createLibrary( )
+	{
+		return session.createLibrary( ).handle( );
+	}
+
+	/**
+	 * Saves all designs and librariesthat need a save.
 	 * 
 	 * @throws IOException
 	 *             if a save error occurs
@@ -146,18 +174,18 @@ public class SessionHandle
 
 	public void saveAll( ) throws IOException
 	{
-		Iterator iter = session.getDesignIterator( );
+		Iterator iter = session.getModuleIterator( );
 		while ( iter.hasNext( ) )
 		{
-			ReportDesign design = (ReportDesign) iter.next( );
-			ReportDesignHandle handle = design.handle( );
+			Module module = (Module) iter.next( );
+			ModuleHandle handle = (ModuleHandle) module.getHandle( module );
 			if ( handle.needsSave( ) )
 				handle.save( );
 		}
 	}
 
 	/**
-	 * Closes all open designs.
+	 * Closes all open designs and libraires.
 	 * 
 	 * @param save
 	 *            <code>true</code> if designs are to be saved before closing
@@ -167,14 +195,11 @@ public class SessionHandle
 
 	public void closeAll( boolean save ) throws IOException
 	{
-		for ( ;; )
+		Iterator iter = session.getModuleIterator( );
+		while ( iter.hasNext( ) )
 		{
-			Iterator iter = session.getDesignIterator( );
-			if ( !iter.hasNext( ) )
-				break;
-
-			ReportDesign design = (ReportDesign) iter.next( );
-			ReportDesignHandle handle = design.handle( );
+			Module module = (Module) iter.next( );
+			ModuleHandle handle = (ModuleHandle) module.getHandle( module );
 			if ( save && handle.needsSave( ) )
 				handle.save( );
 			handle.close( );
@@ -323,8 +348,7 @@ public class SessionHandle
 
 	public void setResourceLocator( IResourceLocator locator )
 	{
-		// this algorithm is actually set on
-		// DesignSession so the ReportDesign can
+		// This file locator is actually set on DesignSession so the Module can
 		// access it
 
 		session.setResourceLocator( locator );

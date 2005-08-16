@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
@@ -56,8 +56,8 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 	/**
 	 * Validates whether value is set for the given required property.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element holding this required property
 	 * @param propName
@@ -66,12 +66,12 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element,
+	public List validate( Module module, DesignElement element,
 			String propName )
 	{
 		List list = new ArrayList( );
 
-		Object value = element.getProperty( design, propName );
+		Object value = element.getProperty( module, propName );
 		if ( value == null
 				|| ( value instanceof String && StringUtil
 						.isBlank( (String) value ) ) )

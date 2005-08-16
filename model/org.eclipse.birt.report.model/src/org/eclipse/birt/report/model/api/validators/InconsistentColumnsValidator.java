@@ -19,10 +19,10 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -61,7 +61,7 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 	/**
 	 * Validates whether the page size is invalid.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param element
 	 *            the master page to validate
@@ -70,7 +70,7 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		DesignElement toValidate = element;
 
@@ -78,10 +78,10 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 				&& !( toValidate instanceof TableItem ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, toValidate );
+		return doValidate( module, toValidate );
 	}
 
-	private List doValidate( ReportDesign design, DesignElement element )
+	private List doValidate( Module module, DesignElement element )
 	{
 		List list = new ArrayList( );
 
@@ -89,8 +89,8 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 		// number of columns actually used by the table. It is legal to
 		// have a table with zero columns.
 
-		int colDefnCount = getColDefnCount( design, element );
-		int maxCols = findMaxCols( design, element );
+		int colDefnCount = getColDefnCount( module, element );
+		int maxCols = findMaxCols( module, element );
 		if ( colDefnCount != maxCols && colDefnCount != 0 )
 		{
 			String errorCode = SemanticError.DESIGN_EXCEPTION_INCONSITENT_TABLE_COL_COUNT;
@@ -108,37 +108,37 @@ public class InconsistentColumnsValidator extends AbstractElementValidator
 	/**
 	 * Gets the number of columns described in the column definition section.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            grid or table
 	 * @return the number of columns described by column definitions
 	 */
 
-	private int getColDefnCount( ReportDesign design, DesignElement element )
+	private int getColDefnCount( Module module, DesignElement element )
 	{
 		if ( element instanceof GridItem )
-			return ( (GridItem) element ).getColDefnCount( design );
+			return ( (GridItem) element ).getColDefnCount( module );
 
-		return ( (TableItem) element ).getColDefnCount( design );
+		return ( (TableItem) element ).getColDefnCount( module );
 	}
 
 	/**
 	 * Finds the maximum column width for this grid/table.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param element
 	 *            grid or table
 	 * @return the maximum number of columns
 	 */
 
-	private int findMaxCols( ReportDesign design, DesignElement element )
+	private int findMaxCols( Module module, DesignElement element )
 	{
 		if ( element instanceof GridItem )
-			return ( (GridItem) element ).findMaxCols( design );
+			return ( (GridItem) element ).findMaxCols( module );
 
-		return ( (TableItem) element ).findMaxCols( design );
+		return ( (TableItem) element ).findMaxCols( module );
 	}
 
 	/**

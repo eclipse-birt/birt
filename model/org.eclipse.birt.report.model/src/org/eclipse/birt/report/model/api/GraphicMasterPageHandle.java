@@ -13,8 +13,8 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
 /**
@@ -41,15 +41,15 @@ public class GraphicMasterPageHandle extends MasterPageHandle
 	 * application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public GraphicMasterPageHandle( ReportDesign design, DesignElement element )
+	public GraphicMasterPageHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

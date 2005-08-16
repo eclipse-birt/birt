@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.api.command;
 
@@ -35,6 +35,12 @@ public class NameSpaceEvent extends NotificationEvent
 	public static final int REMOVE = 2;
 
 	/**
+	 * The element in namespace is renamed.
+	 */
+
+	public static final int ELEMENT_RENAMED = 3;
+
+	/**
 	 * The name space that changed.
 	 */
 
@@ -45,6 +51,8 @@ public class NameSpaceEvent extends NotificationEvent
 	 */
 
 	private int action;
+
+	private DesignElement element;
 
 	/**
 	 * Constructor.
@@ -61,6 +69,26 @@ public class NameSpaceEvent extends NotificationEvent
 	{
 		super( root );
 		nameSpaceID = id;
+		action = theAction;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param root
+	 *            the root element
+	 * @param id
+	 *            the id of the name space that changed
+	 * @param theAction
+	 *            the action causing this event
+	 */
+
+	public NameSpaceEvent( DesignElement root, int id, DesignElement element,
+			int theAction )
+	{
+		super( root );
+		nameSpaceID = id;
+		this.element = element;
 		action = theAction;
 	}
 
@@ -99,5 +127,17 @@ public class NameSpaceEvent extends NotificationEvent
 	public int getNameSpaceID( )
 	{
 		return nameSpaceID;
+	}
+
+	/**
+	 * Returns the element whose name is changed for
+	 * <code>ELEMENT_RENAMED</code>. Otherwise, return null.
+	 * 
+	 * @return Returns the element.
+	 */
+	
+	public DesignElement getElement( )
+	{
+		return element;
 	}
 }

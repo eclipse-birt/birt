@@ -17,8 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -58,23 +58,23 @@ public class ExtensionValidator extends AbstractElementValidator
 	/**
 	 * Validates whether any cell in the given row overlaps others.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the row to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ExtendedItem ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (ExtendedItem) element );
+		return doValidate( module, (ExtendedItem) element );
 	}
 
-	private List doValidate( ReportDesign design, ExtendedItem toValidate )
+	private List doValidate( Module module, ExtendedItem toValidate )
 	{
 		List list = new ArrayList( );
 

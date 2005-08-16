@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
@@ -83,25 +84,25 @@ public class Style extends StyleElement implements IStyleModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design of the style
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public SharedStyleHandle handle( ReportDesign design )
+	public SharedStyleHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new SharedStyleHandle( design, this );
+			handle = new SharedStyleHandle( module, this );
 		}
 		return (SharedStyleHandle) handle;
 	}
@@ -112,11 +113,11 @@ public class Style extends StyleElement implements IStyleModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		list.addAll( validateStyleProperties( design, this ) );
+		list.addAll( validateStyleProperties( module, this ) );
 
 		return list;
 	}
@@ -124,7 +125,7 @@ public class Style extends StyleElement implements IStyleModel
 	/**
 	 * Checks the style properties of style elements and styled elements.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design of the element
 	 * @param element
 	 *            the element to check
@@ -132,18 +133,18 @@ public class Style extends StyleElement implements IStyleModel
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public static List validateStyleProperties( ReportDesign design,
+	public static List validateStyleProperties( Module module,
 			DesignElement element )
 	{
 		List list = new ArrayList( );
 
-		List rules = element.getListProperty( design, HIGHLIGHT_RULES_PROP );
+		List rules = element.getListProperty( module, HIGHLIGHT_RULES_PROP );
 		if ( rules != null )
 		{
 			for ( int i = 0; i < rules.size( ); i++ )
 			{
 				list.addAll( ( (HighlightRule) rules.get( i ) ).validate(
-						design, element ) );
+						module, element ) );
 			}
 		}
 

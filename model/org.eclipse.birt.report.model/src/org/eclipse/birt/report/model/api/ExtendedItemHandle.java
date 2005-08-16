@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
@@ -45,15 +45,15 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * The application generally does not create handles directly. Instead, it
 	 * uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public ExtendedItemHandle( ReportDesign design, DesignElement element )
+	public ExtendedItemHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	public void loadExtendedElement( ) throws ExtendedElementException
 	{
-		( (ExtendedItem) getElement( ) ).initializeReportItem( design );
+		( (ExtendedItem) getElement( ) ).initializeReportItem( module );
 	}
 
 	/**

@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
@@ -39,8 +38,8 @@ public abstract class PropertyStructure extends Structure
 	/**
 	 * Gets the locale value of a property.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param propDefn
 	 *            definition of the property to get
@@ -48,7 +47,7 @@ public abstract class PropertyStructure extends Structure
 	 *         locally or is not found.
 	 */
 
-	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
+	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
 		if ( propDefn.isIntrinsic( ) )
 			return getIntrinsicProperty( propDefn.getName( ) );

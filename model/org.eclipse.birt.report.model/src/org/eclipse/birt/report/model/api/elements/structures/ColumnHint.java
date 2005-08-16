@@ -19,8 +19,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertyStructure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -200,17 +200,17 @@ public class ColumnHint extends PropertyStructure
 	 * <li>The column name is required.
 	 * </ul>
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List list = super.validate( design, element );
+		List list = super.validate( module, element );
 
 		PropertyDefn propDefn = (PropertyDefn) getDefn( ).getMember(
 				COLUMN_NAME_MEMBER );
-		String columnName = (String) getProperty( design, propDefn );
+		String columnName = (String) getProperty( module, propDefn );
 		if ( StringUtil.isBlank( columnName ) )
 		{
 			list.add( new PropertyValueException( element, propDefn,

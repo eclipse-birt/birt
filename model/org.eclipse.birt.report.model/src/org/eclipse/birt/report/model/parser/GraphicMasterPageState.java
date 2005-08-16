@@ -34,7 +34,7 @@ public class GraphicMasterPageState extends MasterPageState
 	 *            the design file parser handler
 	 */
 	
-	public GraphicMasterPageState( DesignParserHandler handler )
+	public GraphicMasterPageState( ModuleParserHandler handler )
 	{
 		super( handler );
 	}

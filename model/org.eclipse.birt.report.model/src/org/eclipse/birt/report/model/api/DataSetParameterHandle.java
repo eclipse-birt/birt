@@ -388,7 +388,7 @@ public class DataSetParameterHandle extends StructureHandle
 		{
 			String oldName = this.getStringValue( );
 
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -396,7 +396,7 @@ public class DataSetParameterHandle extends StructureHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -407,7 +407,7 @@ public class DataSetParameterHandle extends StructureHandle
 
 			propHandle.updateParamBindings( oldName, value.toString( ) );
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 
 		}
 	}

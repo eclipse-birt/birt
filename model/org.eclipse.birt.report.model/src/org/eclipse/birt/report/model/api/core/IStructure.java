@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api.core;
 
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.core.IPropertySet;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -56,8 +56,8 @@ public interface IStructure extends IPropertySet
 	/**
 	 * Gets the locale value of a property.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param propDefn
 	 *            definition of the property to get
@@ -65,7 +65,7 @@ public interface IStructure extends IPropertySet
 	 *         locally or is not found.
 	 */
 
-	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn );
+	public Object getLocalProperty( Module module, PropertyDefn propDefn );
 
 	/**
 	 * Justifies whether the structure can be referred by other design elements.

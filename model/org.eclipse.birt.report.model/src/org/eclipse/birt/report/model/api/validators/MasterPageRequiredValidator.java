@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -49,15 +50,15 @@ public class MasterPageRequiredValidator extends AbstractElementValidator
 	/**
 	 * Validates whether the given report has one master page.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the report to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ReportDesign ) )
 			return Collections.EMPTY_LIST;

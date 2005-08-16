@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -161,7 +161,7 @@ public abstract class PropertyType implements IPropertyType
 	 * The return value is what should be stored in the property list when
 	 * setting a property.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the design used to resolve expressions, names, unit
 	 *            conversions, custom colors, etc.
 	 * @param defn
@@ -174,7 +174,7 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	abstract public Object validateValue( ReportDesign design,
+	abstract public Object validateValue( Module module,
 			PropertyDefn defn, Object value ) throws PropertyValueException;
 
 	/**
@@ -184,7 +184,7 @@ public abstract class PropertyType implements IPropertyType
 	 * into a standard internal type. The return value is what the specific type
 	 * should be stored internally.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the design used to resolve expressions, names, unit
 	 *            conversions, custom colors, etc.
 	 * @param defn
@@ -195,10 +195,10 @@ public abstract class PropertyType implements IPropertyType
 	 * @return the validated value if the input value is valid.
 	 * @throws PropertyValueException
 	 */
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateValue( design, defn, value );
+		return validateValue( module, defn, value );
 	}
 
 	/**
@@ -209,7 +209,7 @@ public abstract class PropertyType implements IPropertyType
 	 * Derived type classes override this when XML-specific behavior is
 	 * required, especially for dates and numbers.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the design used to resolve expressions, names, unit
 	 *            conversions, custom colors, etc.
 	 * @param defn
@@ -222,17 +222,17 @@ public abstract class PropertyType implements IPropertyType
 	 *             if the value is not valid
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
-		return validateValue( design, defn, value );
+		return validateValue( module, defn, value );
 	}
 
 	/**
 	 * Converts a property of this type to a double value. If the value does not
 	 * convert to a double, return 0.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the value of a parameter of this type
@@ -240,16 +240,16 @@ public abstract class PropertyType implements IPropertyType
 	 *         double.
 	 */
 
-	public double toDouble( ReportDesign design, Object value )
+	public double toDouble( Module module, Object value )
 	{
-		return toInteger( design, value );
+		return toInteger( module, value );
 	}
 
 	/**
 	 * Converts a property of this type to a integer value. If the value does
 	 * not convert to a integer, return 0.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            The value of a parameter of this type.
@@ -257,7 +257,7 @@ public abstract class PropertyType implements IPropertyType
 	 *         integer
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		// Default implementation is for types that cannot
 		// be converted to integer.
@@ -271,7 +271,7 @@ public abstract class PropertyType implements IPropertyType
 	 * Use this form when providing an additional property-specific choice set
 	 * to use in the conversion.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            optional property definition that provides additional
@@ -281,9 +281,9 @@ public abstract class PropertyType implements IPropertyType
 	 * @return the XML representation of the property.
 	 */
 
-	public String toXml( ReportDesign design, PropertyDefn defn, Object value )
+	public String toXml( Module module, PropertyDefn defn, Object value )
 	{
-		return toString( design, defn, value );
+		return toString( module, defn, value );
 	}
 
 	/**
@@ -292,7 +292,7 @@ public abstract class PropertyType implements IPropertyType
 	 * Use this form when providing an additional property-specific choice set
 	 * to use in the conversion.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            optional property definition that provides additional
@@ -302,13 +302,13 @@ public abstract class PropertyType implements IPropertyType
 	 * @return the XML representation of the property.
 	 */
 
-	public abstract String toString( ReportDesign design, PropertyDefn defn,
+	public abstract String toString( Module module, PropertyDefn defn,
 			Object value );
 
 	/**
 	 * Returns the localized string value of a property.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            optional property definition that provides additional
@@ -318,40 +318,40 @@ public abstract class PropertyType implements IPropertyType
 	 * @return the property as a localized string
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
-		return toString( design, defn, value );
+		return toString( module, defn, value );
 	}
 
 	/**
 	 * Converts the property value to a number (<code>BigDecimal</code>).
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the property value. Must be valid.
 	 * @return the value of the property as a <code>BigDecimal</code>
 	 */
 
-	public BigDecimal toNumber( ReportDesign design, Object value )
+	public BigDecimal toNumber( Module module, Object value )
 	{
-		return new BigDecimal( toDouble( design, value ) );
+		return new BigDecimal( toDouble( module, value ) );
 	}
 
 	/**
 	 * Converts the property value to a Boolean.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param value
 	 *            the property value. Must be valid.
 	 * @return the value of the property as a Boolean
 	 */
 
-	public boolean toBoolean( ReportDesign design, Object value )
+	public boolean toBoolean( Module module, Object value )
 	{
-		return toInteger( design, value ) != 0;
+		return toInteger( module, value ) != 0;
 	}
 	
 	/* (non-Javadoc)

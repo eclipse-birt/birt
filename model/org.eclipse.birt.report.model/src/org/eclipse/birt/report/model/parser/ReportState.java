@@ -11,39 +11,20 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
-
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 /**
  * This class provides parser state for the top-level Report element.
  * 
  */
 
-public class ReportState extends DesignParseState
+public class ReportState extends ModuleState
 {
-
-	/**
-	 * The report design being built.
-	 */
-
-	protected ReportDesign design = null;
-
-	/**
-	 * Temporary copy of the list of custom colors. Used when parsing the custom
-	 * color list.
-	 */
-
-	protected ArrayList colorList;
 
 	/**
 	 * Constructs the report state with the design file parser handler.
@@ -55,18 +36,6 @@ public class ReportState extends DesignParseState
 	public ReportState( DesignParserHandler theHandler )
 	{
 		super( theHandler );
-		design = theHandler.getDesign( );
-	}
-
-	/**
-	 * Returns the design element being built.
-	 * 
-	 * @return the design element being built
-	 */
-
-	public DesignElement getElement( )
-	{
-		return design;
 	}
 
 	/*
@@ -143,246 +112,6 @@ public class ReportState extends DesignParseState
 	}
 
 	/**
-	 * Convenience class for the inner classes used to parse parts of the Report
-	 * tag.
-	 */
-
-	class InnerParseState extends AbstractParseState
-	{
-
-		public XMLParserHandler getHandler( )
-		{
-			return handler;
-		}
-	}
-
-	/**
-	 * Parses the contents of the list of styles.
-	 */
-
-	class StylesState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-				return new StyleState( handler );
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
-	 * Parses the contents of the list of data sources.
-	 */
-
-	class DataSourcesState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SOURCE_TAG ) )
-				return new ScriptDataSourceState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SOURCE_TAG )
-					|| tagName.equalsIgnoreCase( "extended-data-source" ) ) //$NON-NLS-1$
-			{
-				return new OdaDataSourceState( handler );
-			}
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
-	 * Parses the contents of the list of data sets.
-	 */
-
-	class DataSetsState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SCRIPT_DATA_SET_TAG ) )
-				return new ScriptDataSetState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ODA_DATA_SET_TAG )
-					|| tagName.equalsIgnoreCase( "extended-data-set" ) ) //$NON-NLS-1$
-			{
-				return new OdaDataSetState( handler );
-			}
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
-	 * Parse the contents of translations.
-	 */
-	class TranslationsState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RESOURCE_TAG ) )
-				return new ResourceState( );
-
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
-	 * Parse one user-defined Message.
-	 */
-	class ResourceState extends InnerParseState
-	{
-
-		private String key = null;
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-		 */
-
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			key = attrs.getValue( DesignSchemaConstants.KEY_ATTRIB );
-
-			if ( StringUtil.isEmpty( key ) )
-			{
-				handler
-						.semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
-				return;
-			}
-
-			super.parseAttrs( attrs );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TRANSLATION_TAG ) )
-				return new TranslationState( key );
-
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
-	 * Parse one entry for the user-defined Message.
-	 */
-	class TranslationState extends InnerParseState
-	{
-
-		private String resourceKey = null;
-
-		private String locale = null;
-
-		TranslationState( String key )
-		{
-			this.resourceKey = key;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-		 */
-
-		public void parseAttrs( Attributes attrs ) throws XMLParserException
-		{
-			locale = attrs.getValue( DesignSchemaConstants.LOCALE_ATTRIB );
-			locale = StringUtil.trimString( locale );
-
-			// TODO: text format of the locale should be checked.
-			// TODO: Should we define a ChoiceSet for the supported locales?
-			// Also see ReportDesign.locale
-
-			if ( design.findTranslation( resourceKey, locale ) != null )
-			{
-				handler
-						.semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
-				return;
-			}
-
-			super.parseAttrs( attrs );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
-		 */
-
-		public void end( ) throws SAXException
-		{
-			design.addTranslation( new Translation( resourceKey, locale, text
-					.toString( ) ) );
-			super.end( );
-		}
-	}
-
-	/**
-	 * Parses the contents of the page setup tag.
-	 */
-
-	class PageSetupState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.GRAPHIC_MASTER_PAGE_TAG ) )
-				return new GraphicMasterPageState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_MASTER_PAGE_TAG ) )
-				return new SimpleMasterPageState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.PAGE_SEQUENCE_TAG ) )
-				return new AnyElementState( handler );
-			return super.startElement( tagName );
-		}
-	}
-
-	/**
 	 * Parses the contents of the body tag that contains the list of top-level
 	 * sections.
 	 */
@@ -399,26 +128,26 @@ public class ReportState extends DesignParseState
 		public AbstractParseState startElement( String tagName )
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
-				return new TextItemState( handler, design,
+				return new TextItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
-				return new GridItemState( handler, design,
+				return new GridItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
-				return new FreeFormState( handler, design,
+				return new FreeFormState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
-				return new ListItemState( handler, design,
+				return new ListItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
-				return new TableItemState( handler, design,
+				return new TableItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
-				return new LabelState( handler, design, ReportDesign.BODY_SLOT );
+				return new LabelState( handler, module, ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
-				return new ImageState( handler, design, ReportDesign.BODY_SLOT );
+				return new ImageState( handler, module, ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
-				return new DataItemState( handler, design,
+				return new DataItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
 				return new AnyElementState( handler );
@@ -426,86 +155,17 @@ public class ReportState extends DesignParseState
 				return new AnyElementState( handler );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
-				return new ExtendedItemState( handler, design,
+				return new ExtendedItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
-				return new TextDataItemState( handler, design,
+				return new TextDataItemState( handler, module,
 						ReportDesign.BODY_SLOT );
 			return super.startElement( tagName );
 		}
 	}
 
-	/**
-	 * Parses the contents of the components tag that contains the list of
-	 * shared elements, which can be derived from.
-	 */
-
-	class SlotState extends InnerParseState
-	{
-
-		private int slotID;
-
-		/**
-		 * Constructor
-		 * 
-		 * @param slotID
-		 *            the slot ID of the element
-		 */
-
-		public SlotState( int slotID )
-		{
-			this.slotID = slotID;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.BROWSER_CONTROL_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FREE_FORM_TAG ) )
-				return new FreeFormState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_TAG ) )
-				return new DataItemState( handler, design, slotID );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXTENDED_ITEM_TAG ) )
-				return new ExtendedItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.GRID_TAG ) )
-				return new GridItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.IMAGE_TAG ) )
-				return new ImageState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.INCLUDE_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LABEL_TAG ) )
-				return new LabelState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
-				return new TextItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LINE_TAG ) )
-				return new LineItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_TAG ) )
-				return new ListItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.RECTANGLE_TAG ) )
-				return new RectangleState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABLE_TAG ) )
-				return new TableItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_TAG ) )
-				return new TextItemState( handler, design, slotID );
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TOC_TAG ) )
-				return new AnyElementState( handler );
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.MULTI_LINE_DATA_TAG )
-					|| tagName
-							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
-				return new TextDataItemState( handler, design, slotID );
-			return super.startElement( tagName );
-		}
-	}
+	
 }

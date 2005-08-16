@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.core;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 /**
  * Base class for all report elements with a style. Implements operations that
  * are specific to styled elements.
- *  
+ * 
  */
 
 public abstract class StyledElement extends DesignElement
@@ -72,11 +72,7 @@ public abstract class StyledElement extends DesignElement
 	{
 		StyledElement element = (StyledElement) super.clone( );
 		if ( style != null )
-		{
-			ElementRefValue newRefValue = new ElementRefValue( );
-			newRefValue.unresolved( style.getName( ) );
-			element.style = newRefValue;
-		}
+			element.style = new ElementRefValue( null, style.getName( ) );
 		else
 			element.style = null;
 		return element;
@@ -86,14 +82,13 @@ public abstract class StyledElement extends DesignElement
 	 * Gets the style which defined on this element itself. This method will try
 	 * to resolve the style.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
-	 *  
+	 * 
 	 */
-
-	public StyleElement getStyle( ReportDesign design )
+	public StyleElement getStyle( Module module )
 	{
 		if ( style == null )
 			return null;
@@ -101,10 +96,14 @@ public abstract class StyledElement extends DesignElement
 		if ( style.isResolved( ) )
 			return (StyleElement) style.getElement( );
 
-		NameSpace ns = design.getNameSpace( RootElement.STYLE_NAME_SPACE );
-		StyleElement target = (StyleElement) ns.getElement( style.getName( ) );
-		if ( target != null )
+		IModuleNameSpace resolver = module
+				.getModuleNameSpace( Module.STYLE_NAME_SPACE );
+		ElementRefValue refValue = resolver.resolve( style.getName( ) );
+		StyleElement target = null;
+		if ( refValue.isResolved( ) )
 		{
+			target = (StyleElement) refValue.getElement( );
+			
 			style.resolve( target );
 			target.addClient( this, STYLE_PROP );
 		}
@@ -131,7 +130,7 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * @return style element. null if this element didn't define a style on it.
 	 * 
-	 *  
+	 * 
 	 */
 	public StyleElement getStyle( )
 	{
@@ -165,8 +164,9 @@ public abstract class StyledElement extends DesignElement
 		if ( newStyle != null )
 		{
 			if ( style == null )
-				style = new ElementRefValue( );
-			style.resolve( newStyle );
+				style = new ElementRefValue( null, newStyle );
+			else
+				style.resolve( newStyle );
 			newStyle.addClient( this, STYLE_PROP );
 		}
 		else
@@ -188,8 +188,7 @@ public abstract class StyledElement extends DesignElement
 			return;
 		setStyle( null );
 		assert style == null;
-		style = new ElementRefValue( );
-		style.unresolved( theName );
+		style = new ElementRefValue( null, theName );
 	}
 
 	/**
@@ -212,19 +211,19 @@ public abstract class StyledElement extends DesignElement
 	 * If the style name is represented as a name, then attempts to resolve the
 	 * style name to obtain the referenced style.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(module)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		// Resolve style
 
-		list.addAll( StyleReferenceValidator.getInstance( ).validate( design,
+		list.addAll( StyleReferenceValidator.getInstance( ).validate( module,
 				this ) );
 
-		list.addAll( Style.validateStyleProperties( design, this ) );
+		list.addAll( Style.validateStyleProperties( module, this ) );
 
 		return list;
 	}
@@ -233,19 +232,18 @@ public abstract class StyledElement extends DesignElement
 	 * Gets a property value by its definition. The search will not search the
 	 * container element extends hierarchy.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            module
 	 * @param prop
 	 *            definition of the property to get
 	 * 
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getFactoryProperty( ReportDesign design,
-			ElementPropertyDefn prop )
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
 	{
 		if ( !prop.isStyleProperty( ) )
-			return getProperty( design, prop );
+			return getProperty( module, prop );
 
 		if ( prop.isIntrinsic( ) )
 		{
@@ -256,7 +254,7 @@ public abstract class StyledElement extends DesignElement
 
 		// Get the value from this element and its parent.
 
-		Object value = getPropertyFromElement( design, prop );
+		Object value = getPropertyFromElement( module, prop );
 		if ( value != null )
 			return value;
 

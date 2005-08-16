@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="ReportMetaData">
 		<xs:annotation>
@@ -424,6 +423,7 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:documentation>Definition of a semantic validator</xs:documentation>
 		</xs:annotation>
 		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="modules" type="xs:string"/>
 		<xs:attribute name="class" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="MemberType">

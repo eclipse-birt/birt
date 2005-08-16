@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -55,15 +56,15 @@ public abstract class ReportItem extends StyledElement
 	/**
 	 * Returns the data set element, if any, for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design of the report item
 	 * 
 	 * @return the data set element defined on this specific element
 	 */
 
-	public DesignElement getDataSetElement( ReportDesign design )
+	public DesignElement getDataSetElement( Module module )
 	{
-		ElementRefValue dataSetRef = (ElementRefValue) getProperty( design,
+		ElementRefValue dataSetRef = (ElementRefValue) getProperty( module,
 				DATA_SET_PROP );
 		if ( dataSetRef == null )
 			return null;
@@ -76,16 +77,16 @@ public abstract class ReportItem extends StyledElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		// Check the element reference of dataSet property
 
-		list.addAll( ElementReferenceValidator.getInstance( ).validate( design,
+		list.addAll( ElementReferenceValidator.getInstance( ).validate( module,
 				this, DATA_SET_PROP ) );
 
-		list.addAll( validateStructureList( design, PARAM_BINDINGS_PROP ) );
+		list.addAll( validateStructureList( module, PARAM_BINDINGS_PROP ) );
 
 		return list;
 	}

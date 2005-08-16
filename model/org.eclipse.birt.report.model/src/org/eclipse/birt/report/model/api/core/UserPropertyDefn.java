@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -103,17 +103,17 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	/**
 	 * Gets the value of property by the given property definition.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            definition of the property to get
 	 * 
 	 * @return value of the property.
 	 */
 
-	public Object getProperty( ReportDesign design, PropertyDefn prop )
+	public Object getProperty( Module module, PropertyDefn prop )
 	{
-		return getLocalProperty( design, prop );
+		return getLocalProperty( module, prop );
 	}
 
 	/**
@@ -146,7 +146,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			if ( value == null )
 				displayName = null;
 			else
-				displayName = value.toString( );
+				displayName = value.toString( ); 
 		}
 		else if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
 		{
@@ -296,21 +296,21 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * <code>displayName</code> exists in the choice set, return the name of
 	 * this choice. Otherwise, return <code>null</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param displayName
 	 *            the candidate display name
 	 * @return the choice name if found. Otherwise, return <code>null</code>.
 	 */
 
-	protected String validateExtendedChoicesByDisplayName( ReportDesign design,
+	protected String validateExtendedChoicesByDisplayName( Module module,
 			String displayName )
 	{
 		if ( displayName == null || hasChoices( ) == false )
 			return null;
 
 		IChoiceSet choiceSet = getChoices( );
-		UserChoice choice = choiceSet.findUserChoiceByDisplayName( design,
+		UserChoice choice = choiceSet.findUserChoiceByDisplayName( module,
 				displayName );
 
 		if ( choice != null )
@@ -358,8 +358,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * Checks whether the element can take the given user property definition
 	 * and the definition is valid.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the design element that holds the user-defined property
 	 * 
@@ -370,7 +370,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 *             if the user property definition is inconsistent.
 	 */
 
-	public void checkUserPropertyDefn( ReportDesign design,
+	public void checkUserPropertyDefn( Module module,
 			DesignElement element ) throws UserPropertyException,
 			MetaDataException
 	{
@@ -442,7 +442,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				{
 					try
 					{
-						value = validateValue( design, value );
+						value = validateValue( module, value );
 					}
 					catch ( PropertyValueException e )
 					{
@@ -467,8 +467,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 * @see org.eclipse.birt.report.model.core.IStructure#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
-
-	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
+	
+	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
 		assert propDefn != null;
 		String memberName = propDefn.getName( );
@@ -491,5 +491,5 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	public boolean isReferencable( )
 	{
 		return false;
-	}
+	}	
 }

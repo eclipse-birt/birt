@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.metadata.validators;
 
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -32,7 +32,7 @@ public class NonNegativeValueValidator extends SimpleValueValidator
 	 *      java.lang.Object)
 	 */
     
-	public void validate( ReportDesign report, PropertyDefn defn, Object value )
+	public void validate( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		if ( value == null )

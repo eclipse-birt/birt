@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
@@ -38,7 +38,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * The target report element.
 	 */
 
-	protected final DesignElement element;
+	protected DesignElement element;
 
 	/**
 	 * Constructs the handle for a report element with the given design and
@@ -46,15 +46,15 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public ReportElementHandle( ReportDesign design, DesignElement element )
+	public ReportElementHandle( Module module, DesignElement element )
 	{
-		super( design );
+		super( module );
 		assert element != null;
 		this.element = element;
 	}
@@ -127,7 +127,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		if ( prop == null )
 			return null;
 
-		return getElement( ).getPropertyMask( design, propName );
+		return getElement( ).getPropertyMask( module, propName );
 	}
 
 	/**
@@ -176,7 +176,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 			return;
 
 		ArrayList masks = (ArrayList) getElement( ).getLocalProperty(
-				getDesign( ), DesignElement.PROPERTY_MASKS_PROP );
+				getModule( ), DesignElement.PROPERTY_MASKS_PROP );
 
 		PropertyMask mask = null;
 
@@ -197,14 +197,13 @@ public abstract class ReportElementHandle extends DesignElementHandle
 			}
 		}
 
-		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( module, getElement( ) );
 
 		if ( maskValue == null && mask != null )
 		{
 			// maskValue is null, remove the item from the structure list.
 
-			cmd.removeItem( new CachedMemberRef( maskProp ), masks
-					.indexOf( mask ) );
+			cmd.removeItem( new CachedMemberRef( maskProp ), masks.indexOf( mask ) );
 		}
 		else
 		{
@@ -212,7 +211,7 @@ public abstract class ReportElementHandle extends DesignElementHandle
 					.getStructDefn( ).getMember( PropertyMask.MASK_MEMBER );
 			StructPropertyDefn nameDefn = (StructPropertyDefn) maskProp
 					.getStructDefn( ).getMember( PropertyMask.NAME_MEMBER );
-			String value = maskDefn.validateValue( getDesign( ), maskValue )
+			String value = maskDefn.validateValue( getModule( ), maskValue )
 					.toString( );
 
 			/*
@@ -341,4 +340,30 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	{
 		return getStringProperty( DesignElement.COMMENTS_PROP );
 	}
+
+	/**
+	 * Dupilicates the extended element of this design element.
+	 */
+
+	void duplicateExtendedElement( )
+	{
+		DesignElementHandle extendedElementHandle = getExtends( );
+		if ( extendedElementHandle == null )
+			return;
+
+		try
+		{
+			DesignElement cloned;
+			cloned = (DesignElement) extendedElementHandle.getElement( )
+					.clone( );
+			element = cloned;
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			// All elements support clone.
+
+			assert false;
+		}
+	}
+
 }

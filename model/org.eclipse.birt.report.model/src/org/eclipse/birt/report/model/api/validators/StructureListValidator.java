@@ -21,8 +21,8 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -93,15 +93,15 @@ public class StructureListValidator extends AbstractPropertyValidator
 		// List list = (List) element.getElement( ).getLocalProperty(
 		// element.getDesign( ), propDefn );
 
-		return doCheckStructureList( element.getDesign( ),
+		return doCheckStructureList( element.getModule( ),
 				element.getElement( ), propDefn, list, toAdd );
 	}
 
 	/**
 	 * Validates whether the list property specified by <code>propName</code>
 	 * is invalid.
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the master page to validate
 	 * @param propName
@@ -111,7 +111,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element,
+	public List validate( Module module, DesignElement element,
 			String propName )
 	{
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
@@ -119,17 +119,17 @@ public class StructureListValidator extends AbstractPropertyValidator
 		assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE
 				&& propDefn.isList( );
 
-		List list = (List) element.getLocalProperty( design, propDefn );
+		List list = (List) element.getLocalProperty( module, propDefn );
 
-		return doCheckStructureList( design, element, propDefn, list, null );
+		return doCheckStructureList( module, element, propDefn, list, null );
 
 	}
 
 	/**
 	 * Checks all structures in the specific property whose type is structure
 	 * list property type.
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the design element to validate
 	 * @param propDefn
@@ -143,7 +143,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 	 * @return the error list
 	 */
 
-	private List doCheckStructureList( ReportDesign design,
+	private List doCheckStructureList( Module module,
 			DesignElement element, IPropertyDefn propDefn, List list,
 			IStructure toAdd )
 	{
@@ -186,11 +186,11 @@ public class StructureListValidator extends AbstractPropertyValidator
 			Structure struct = (Structure) list.get( i );
 
 			if ( checkList )
-				errorList.addAll( struct.validate( design, element ) );
+				errorList.addAll( struct.validate( module, element ) );
 
 			if ( uniqueMember != null )
 			{
-				String value = (String) struct.getProperty( design,
+				String value = (String) struct.getProperty( module,
 						uniqueMember );
 				if ( values.contains( value ) )
 				{
@@ -215,7 +215,7 @@ public class StructureListValidator extends AbstractPropertyValidator
 
 		if ( uniqueMember != null && toAdd != null )
 		{
-			String value = (String) toAdd.getProperty( design, uniqueMember );
+			String value = (String) toAdd.getProperty( module, uniqueMember );
 			if ( values.contains( value ) )
 			{
 				errorList.add( new PropertyValueException( element, propDefn

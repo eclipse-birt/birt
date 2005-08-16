@@ -44,7 +44,7 @@ class CompatibleRenamedPropertyState extends PropertyState
 	 *            the name of the obsolete property.
 	 */
 
-	public CompatibleRenamedPropertyState( DesignParserHandler theHandler,
+	public CompatibleRenamedPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, String obsoletePropName )
 	{
 		super( theHandler, element );

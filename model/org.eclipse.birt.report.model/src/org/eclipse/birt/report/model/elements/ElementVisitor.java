@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 
 /**
@@ -265,6 +266,18 @@ public class ElementVisitor
 	}
 
 	/**
+	 * Visits the library element.
+	 * 
+	 * @param obj
+	 *            the library to traverse
+	 */
+
+	public void visitLibrary( Library obj )
+	{
+		visitModule( obj );
+	}
+
+	/**
 	 * Visits the line item element.
 	 * 
 	 * @param obj
@@ -333,7 +346,7 @@ public class ElementVisitor
 
 	public void visitReportDesign( ReportDesign obj )
 	{
-		visitDesignElement( obj );
+		visitModule( obj );
 	}
 
 	/**
@@ -471,5 +484,18 @@ public class ElementVisitor
 	{
 		visitDataSet( obj );
 	}
+	
+	/**
+	 * Visits the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse
+	 */
+	
+	public void visitModule( Module obj )
+	{
+		visitDesignElement( obj );
+	}
+	
 }
 

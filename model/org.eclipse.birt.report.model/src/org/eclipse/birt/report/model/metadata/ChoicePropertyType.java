@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Type for a property defined by a list of choices. The actual list of choices
@@ -55,7 +55,7 @@ public class ChoicePropertyType extends PropertyType
 	 *             choices, or it is not a valid localized choice name.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
@@ -63,7 +63,7 @@ public class ChoicePropertyType extends PropertyType
 
 		if ( value instanceof String )
 		{
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 		}
 
 		throw new PropertyValueException( value,
@@ -82,7 +82,7 @@ public class ChoicePropertyType extends PropertyType
 	 *             if this value is not found in the predefined choice list.
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
@@ -149,7 +149,7 @@ public class ChoicePropertyType extends PropertyType
 	 *         return null if the value is null;
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		IChoiceSet propChoices = defn.getChoices( );
 		assert propChoices != null;
@@ -172,7 +172,7 @@ public class ChoicePropertyType extends PropertyType
 	 * @return the display string for its internal value.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object name )
 	{
 		if ( name == null )
@@ -207,7 +207,7 @@ public class ChoicePropertyType extends PropertyType
 	 *             if the <code>name</code> is not valid.
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String name ) throws PropertyValueException
 	{
 		name = StringUtil.trimString( name );
@@ -233,7 +233,7 @@ public class ChoicePropertyType extends PropertyType
 		if ( !allowedChoices.isUserDefined( ) )
 			choice = allowedChoices.findChoiceByDisplayName( name );
 		else
-			choice = allowedChoices.findUserChoiceByDisplayName( design, name );
+			choice = allowedChoices.findUserChoiceByDisplayName( module, name );
 
 		if ( choice != null )
 			return choice.getName( );

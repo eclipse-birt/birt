@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
@@ -28,9 +27,9 @@ import org.xml.sax.SAXException;
 public class SimpleStructureListState extends PropertyListState
 {
 
-	private String memberName = null;
+	protected String memberName = null;
 
-	SimpleStructureListState( DesignParserHandler theHandler,
+	SimpleStructureListState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );
@@ -72,7 +71,7 @@ public class SimpleStructureListState extends PropertyListState
 	class SimpleStructureState extends StructureState
 	{
 
-		SimpleStructureState( DesignParserHandler theHandler,
+		SimpleStructureState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, ArrayList theList )
 		{
 			super( theHandler, element, propDefn, theList );

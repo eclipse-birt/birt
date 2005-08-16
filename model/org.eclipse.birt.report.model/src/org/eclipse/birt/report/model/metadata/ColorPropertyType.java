@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Color property type. Color properties are stored either as an integer or a
@@ -211,13 +211,13 @@ public class ColorPropertyType extends PropertyType
 	 *         design, or null if the value is null
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
 		if ( value instanceof String )
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 		if ( value instanceof Integer )
 		{
 			int intValue = ( (Integer) value ).intValue( );
@@ -231,21 +231,21 @@ public class ColorPropertyType extends PropertyType
 
 	/**
 	 * Validate a xml color property value. The possible valid values are the
-	 * same to {@link #validateValue(ReportDesign, PropertyDefn, Object)}except
+	 * same to {@link #validateValue(module, PropertyDefn, Object)}except
 	 * that the input <code>value</code> is a String, and it can not be a
 	 * localized color name.
 	 * 
-	 * @see #validateValue(ReportDesign, PropertyDefn, Object)
+	 * @see #validateValue(module, PropertyDefn, Object)
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
 			return null;
 
-		Object validValue = validateColor( design, value );
+		Object validValue = validateColor( module, value );
 		if ( validValue != null )
 			return validValue;
 
@@ -287,7 +287,7 @@ public class ColorPropertyType extends PropertyType
 	 *         RGB integer value.
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -318,7 +318,7 @@ public class ColorPropertyType extends PropertyType
 	 *  
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return -1;
@@ -338,9 +338,9 @@ public class ColorPropertyType extends PropertyType
 
 		// Check for a custom color.
 
-		if ( design != null )
+		if ( module != null )
 		{
-			CustomColor customColor = design.findColor( (String) value );
+			CustomColor customColor = module.findColor( (String) value );
 			if ( customColor != null )
 				return customColor.getRGB( );
 		}
@@ -355,8 +355,8 @@ public class ColorPropertyType extends PropertyType
 	 * Return the Cascading Style Sheet (CSS) value for this color. It is either
 	 * an RGB value in the form #RRGGBB, or a CSS-defined color name.
 	 * 
-	 * @param design
-	 *            the report design, provide informations about custom colors.
+	 * @param module
+	 *            the module, provide informations about custom colors.
 	 * @param value
 	 *            the property value
 	 * @return a String with either a CSS defined color name or an RGB color
@@ -364,7 +364,7 @@ public class ColorPropertyType extends PropertyType
 	 *         <code>null</code> or if a system color cannot be found.
 	 */
 
-	public String toCssColor( ReportDesign design, Object value )
+	public String toCssColor( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -384,9 +384,9 @@ public class ColorPropertyType extends PropertyType
 
 		// The name must be a custom color name. Return its RGB value.
 
-		if ( design != null )
+		if ( module != null )
 		{
-			CustomColor customColor = design.findColor( colorName );
+			CustomColor customColor = module.findColor( colorName );
 
 			// This color must be undefined: a semantic error that should have
 			// been previously caught.
@@ -411,7 +411,7 @@ public class ColorPropertyType extends PropertyType
 	 * @return the display string for the color.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )
@@ -436,21 +436,21 @@ public class ColorPropertyType extends PropertyType
 				}
 			}
 
-			assert design != null;
+			assert module != null;
 
 			// Find from customer color pallete.
 
-			CustomColor customColor = design.findColor( (String) value );
+			CustomColor customColor = module.findColor( (String) value );
 			if ( customColor != null )
 			{
-				return customColor.getDisplayName( design );
+				return customColor.getDisplayName( module );
 			}
 		}
 		else if ( value instanceof Integer )
 		{
 			// Return the default format set on the design session for RGB text.
 
-			return ColorUtil.format( ( (Integer) value ).intValue( ), design
+			return ColorUtil.format( ( (Integer) value ).intValue( ), module
 					.getSession( ).getColorFormat( ) );
 		}
 
@@ -463,20 +463,20 @@ public class ColorPropertyType extends PropertyType
 	/**
 	 * Validate a color value in locale-dependent way. The possible color valid
 	 * values are the same to
-	 * {@link #validateValue(ReportDesign, PropertyDefn, Object)}except that
+	 * {@link #validateValue(module, PropertyDefn, Object)}except that
 	 * the input <code>value</code> is a String.
 	 * 
-	 * @see #validateValue(ReportDesign, PropertyDefn, Object)
+	 * @see #validateValue(module, PropertyDefn, Object)
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
 			return null;
 
-		Object validValue = validateColor( design, value );
+		Object validValue = validateColor( module, value );
 		if ( validValue != null )
 			return validValue;
 
@@ -511,7 +511,7 @@ public class ColorPropertyType extends PropertyType
 	 * <li>A custom defined color.</li>
 	 * </ul>
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design, provide informations about custom colors.
 	 * @param value
 	 *            color value.
@@ -523,7 +523,7 @@ public class ColorPropertyType extends PropertyType
 	 *  
 	 */
 
-	private Object validateColor( ReportDesign design, String value )
+	private Object validateColor( Module module, String value )
 			throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
@@ -562,9 +562,9 @@ public class ColorPropertyType extends PropertyType
 
 		// 3. Checks in the customer color pallete.
 
-		if ( design != null )
+		if ( module != null )
 		{
-			CustomColor customColor = design.findColor( value );
+			CustomColor customColor = module.findColor( value );
 			if ( customColor != null )
 				return value;
 		}
@@ -576,8 +576,8 @@ public class ColorPropertyType extends PropertyType
 	 * Return a CSS-compatible color value. It is a CSS-defined color name, or a
 	 * CSS absolute RGB value( RGB(r,g,b) ).
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param value
 	 *            the property value
 	 * @return a CSS-compatible color value, return <code>null</code> if
@@ -585,7 +585,7 @@ public class ColorPropertyType extends PropertyType
 	 *  
 	 */
 
-	public String toCSSCompatibleColor( ReportDesign design, Object value )
+	public String toCSSCompatibleColor( Module module, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -602,9 +602,9 @@ public class ColorPropertyType extends PropertyType
 
 			// The name may be a custom color name, get its RGB value.
 
-			if ( design != null )
+			if ( module != null )
 			{
-				CustomColor customColor = design.findColor( (String) value );
+				CustomColor customColor = module.findColor( (String) value );
 
 				if ( customColor != null )
 					rgbValue = customColor.getRGB( );

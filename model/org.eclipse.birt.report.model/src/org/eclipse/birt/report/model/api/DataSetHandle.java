@@ -22,9 +22,9 @@ import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -60,34 +60,9 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  * <pre>
  * 
- *  
- *   
- *    
  *     
- *      
- *       
- *        
- *         
- *          
- *           
- *            
- *             
- *              
- *                       DataSetHandle dataHandle = designHandle
- *                           findDataSet( &quot;My First Data Set &quot; );
- *               
- *              
- *             
- *            
- *           
- *          
- *         
- *        
- *       
- *      
- *     
- *    
- *   
+ * 		DataSetHandle dataHandle = designHandle
+ *         findDataSet( &quot;My First Data Set &quot; );
  *  
  * </pre>
  * 
@@ -114,15 +89,15 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public DataSetHandle( ReportDesign design, DesignElement element )
+	public DataSetHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -515,7 +490,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			DataSetParameter param = (DataSetParameter) paramHandle
 					.getStructure( );
 
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -523,7 +498,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -537,7 +512,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/*
@@ -550,7 +525,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			DataSetParameter param = (DataSetParameter) item;
 
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -558,7 +533,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -572,7 +547,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/*
@@ -583,7 +558,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		public void removeItems( List items ) throws PropertyValueException
 		{
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -591,7 +566,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -605,7 +580,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/*
@@ -618,7 +593,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		public void replaceItem( IStructure oldItem, IStructure newItem )
 				throws SemanticException
 		{
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -626,7 +601,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -635,7 +610,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			updateParamBindings( ( (DataSetParameter) oldItem ).getName( ),
 					( (DataSetParameter) newItem ).getName( ) );
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/*
@@ -648,7 +623,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			List paramList = getListValue( );
 
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -656,7 +631,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -670,7 +645,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/*
@@ -683,7 +658,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 		{
 			List paramList = getListValue( );
 
-			getDesign( ).getActivityStack( ).startTrans( );
+			getModule( ).getActivityStack( ).startTrans( );
 
 			try
 			{
@@ -691,7 +666,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			}
 			catch ( PropertyValueException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 
@@ -705,7 +680,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 			{
 			}
 
-			getDesign( ).getActivityStack( ).commit( );
+			getModule( ).getActivityStack( ).commit( );
 		}
 
 		/**
@@ -888,10 +863,13 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		/**
 		 * Updates the parameter name in parameter binding.
-		 *  
-		 * @param paramBindingsPropHandle the parameter binding to update
-		 * @param oldParamName old parameter name
-		 * @param newParamName new parameter name
+		 * 
+		 * @param paramBindingsPropHandle
+		 *            the parameter binding to update
+		 * @param oldParamName
+		 *            old parameter name
+		 * @param newParamName
+		 *            new parameter name
 		 */
 
 		private static void updateParamBindings(

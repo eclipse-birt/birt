@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -135,14 +136,14 @@ public abstract class GroupElement extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		list.addAll( validateStructureList( design, SORT_PROP ) );
-		list.addAll( validateStructureList( design, FILTER_PROP ) );
+		list.addAll( validateStructureList( module, SORT_PROP ) );
+		list.addAll( validateStructureList( module, FILTER_PROP ) );
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
 				this, KEY_EXPR_PROP ) );
 
 		return list;

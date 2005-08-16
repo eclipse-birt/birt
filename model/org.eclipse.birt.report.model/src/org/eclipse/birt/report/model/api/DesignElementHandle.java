@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.command.ExtendsCommand;
 import org.eclipse.birt.report.model.command.NameCommand;
@@ -40,8 +41,10 @@ import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -73,11 +76,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 {
 
 	/**
-	 * The design provides overall information about the design, especially the
-	 * command stack.
+	 * Provides overall information about the module, especially the command
+	 * stack.
 	 */
 
-	protected final ReportDesign design;
+	protected final Module module;
 
 	/**
 	 * API slot handle array for all slots of this element.
@@ -86,37 +89,71 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	private SlotHandle[] slotHandles = null;
 
 	/**
-	 * Constructs a handle with the given design.
+	 * Constructs a handle with the given module.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 */
 
-	public DesignElementHandle( ReportDesign design )
+	public DesignElementHandle( Module module )
 	{
-		this.design = design;
+		this.module = module;
 	}
 
 	/**
-	 * Returns the report design.
+	 * Returns the report design only when the module is report design.
+	 * Otherwise, null is returned. So this method can also be used to check
+	 * whether this element is in report design or library.
 	 * 
-	 * @return the report design
+	 * @return the report design, or null if the module is not report design.
 	 */
 
 	public ReportDesign getDesign( )
 	{
-		return design;
+		if ( module instanceof ReportDesign )
+			return (ReportDesign) module;
+
+		return null;
 	}
 
 	/**
-	 * Returns the handle of report design.
+	 * Returns the module on which this handle is attached. The returned module
+	 * must be <code>ReportDesign</code> or <code>Library</code>.
 	 * 
-	 * @return the handle of report design
+	 * @return the module on which this handle is attached.
+	 */
+
+	public Module getModule( )
+	{
+		return module;
+	}
+
+	/**
+	 * Returns the handle of report design only when the module is report
+	 * design. Otherwise, null is returned.
+	 * 
+	 * @return the handle of report design, or null if the module is not report
+	 *         design.
 	 */
 
 	public ReportDesignHandle getDesignHandle( )
 	{
-		return (ReportDesignHandle) design.getHandle( design );
+		if ( getDesign( ) != null )
+			return (ReportDesignHandle) getDesign( ).getHandle( module );
+
+		return null;
+	}
+
+	/**
+	 * Returns the handle of module. The returned module must be
+	 * <code>ReportDesignHandle</code> or <code>LibraryHandle</code>.
+	 * 
+	 * @return the handle of module
+	 */
+
+	public ModuleHandle getModuleHandle( )
+	{
+		return (ModuleHandle) getModule( ).getHandle( getModule( ) );
 	}
 
 	/**
@@ -160,7 +197,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		// Must be attached to use this method.
 
 		DesignElement element = getElement( );
-		Object value = element.getProperty( design, propName );
+		Object value = element.getProperty( module, propName );
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
@@ -180,7 +217,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getStringProperty( String propName )
 	{
-		return getElement( ).getStringProperty( design, propName );
+		return getElement( ).getStringProperty( module, propName );
 	}
 
 	/**
@@ -196,7 +233,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayProperty( String propName )
 	{
-		return getElement( ).getDisplayProperty( design, propName );
+		return getElement( ).getDisplayProperty( module, propName );
 	}
 
 	/**
@@ -209,7 +246,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean getBooleanProperty( String propName )
 	{
-		return getElement( ).getBooleanProperty( design, propName );
+		return getElement( ).getBooleanProperty( module, propName );
 	}
 
 	/**
@@ -223,7 +260,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public int getIntProperty( String propName )
 	{
-		return getElement( ).getIntProperty( design, propName );
+		return getElement( ).getIntProperty( module, propName );
 	}
 
 	/**
@@ -237,7 +274,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public double getFloatProperty( String propName )
 	{
-		return getElement( ).getFloatProperty( design, propName );
+		return getElement( ).getFloatProperty( module, propName );
 	}
 
 	/**
@@ -251,7 +288,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public BigDecimal getNumberProperty( String propName )
 	{
-		return getElement( ).getNumberProperty( design, propName );
+		return getElement( ).getNumberProperty( module, propName );
 	}
 
 	/**
@@ -337,11 +374,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public DesignElementHandle getElementProperty( String propName )
 	{
-		DesignElement target = getElement( ).getReferenceProperty( design,
+		DesignElement target = getElement( ).getReferenceProperty( module,
 				propName );
 		if ( target == null )
 			return null;
-		return target.getHandle( design );
+		return target.getHandle( module );
 	}
 
 	/**
@@ -365,7 +402,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		// Must be attached to use this method.
 
 		DesignElement element = getElement( );
-		PropertyCommand cmd = new PropertyCommand( design, element );
+		PropertyCommand cmd = new PropertyCommand( module, element );
 		cmd.setProperty( propName, value );
 	}
 
@@ -503,7 +540,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws UserPropertyException
 	{
 		DesignElement element = getElement( );
-		UserPropertyCommand cmd = new UserPropertyCommand( design, element );
+		UserPropertyCommand cmd = new UserPropertyCommand( module, element );
 		cmd.addUserProperty( prop );
 	}
 
@@ -617,7 +654,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws UserPropertyException
 	{
 		DesignElement element = getElement( );
-		UserPropertyCommand cmd = new UserPropertyCommand( design, element );
+		UserPropertyCommand cmd = new UserPropertyCommand( module, element );
 		cmd.dropUserProperty( propName );
 	}
 
@@ -634,7 +671,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement parent = getElement( ).getExtendsElement( );
 		if ( parent == null )
 			return null;
-		return parent.getHandle( design );
+		return parent.getHandle( module );
 	}
 
 	/**
@@ -671,7 +708,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setExtendsName( String name ) throws ExtendsException
 	{
 		DesignElement element = getElement( );
-		ExtendsCommand cmd = new ExtendsCommand( design, element );
+		ExtendsCommand cmd = new ExtendsCommand( module, element );
 		cmd.setExtendsName( name );
 	}
 
@@ -687,7 +724,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setExtendsElement( DesignElement parent )
 			throws ExtendsException
 	{
-		ExtendsCommand cmd = new ExtendsCommand( design, getElement( ) );
+		ExtendsCommand cmd = new ExtendsCommand( module, getElement( ) );
 		cmd.setExtendsElement( parent );
 	}
 
@@ -706,10 +743,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public SharedStyleHandle getStyle( )
 	{
-		DesignElement style = getElement( ).getStyle( design );
+		DesignElement style = getElement( ).getStyle( module );
 		if ( style == null )
 			return null;
-		return (SharedStyleHandle) style.getHandle( design );
+		return (SharedStyleHandle) style.getHandle( module );
 	}
 
 	/**
@@ -728,7 +765,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setStyleName( String name ) throws StyleException
 	{
 		DesignElement element = getElement( );
-		StyleCommand cmd = new StyleCommand( design, element );
+		StyleCommand cmd = new StyleCommand( module, element );
 		cmd.setStyle( name );
 	}
 
@@ -746,7 +783,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void setStyleElement( StyleElement obj ) throws StyleException
 	{
 		DesignElement element = getElement( );
-		StyleCommand cmd = new StyleCommand( design, element );
+		StyleCommand cmd = new StyleCommand( module, element );
 		cmd.setStyleElement( obj );
 	}
 
@@ -788,7 +825,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public StyleHandle getPrivateStyle( )
 	{
 		if ( getDefn( ).hasStyle( ) )
-			return new PrivateStyleHandle( design, getElement( ) );
+			return new PrivateStyleHandle( module, getElement( ) );
 		return null;
 	}
 
@@ -807,6 +844,29 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Returns the qualified name of this element. The qualified name is the
+	 * name of this element if this element is in module user is editing.
+	 * 
+	 * @return the qualified name of thie element.
+	 */
+
+	public String getQualifiedName( )
+	{
+
+		if ( getElement( ).getName( ) == null )
+			return null;
+
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			return StringUtil.buildQualifiedReference( namespace, getElement( )
+					.getName( ) );
+		}
+
+		return getElement( ).getName( );
+	}
+
+	/**
 	 * Sets the name of this element. If the name is <code>null</code>, then
 	 * the name is cleared if this element does not require a name.
 	 * 
@@ -819,7 +879,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public void setName( String name ) throws NameException
 	{
-		NameCommand cmd = new NameCommand( design, getElement( ) );
+		NameCommand cmd = new NameCommand( module, getElement( ) );
 		cmd.setName( name );
 	}
 
@@ -852,7 +912,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public ElementFactory getElementFactory( )
 	{
-		return new ElementFactory( design );
+		return new ElementFactory( module );
 	}
 
 	/**
@@ -962,7 +1022,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( ).getContainer( );
 		if ( element == null )
 			return null;
-		return element.getHandle( design );
+		return element.getHandle( module );
 	}
 
 	/**
@@ -989,7 +1049,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 		int oldSlot = element.getContainerSlot( );
 		assert oldSlot != -1;
-		ContentCommand cmd = new ContentCommand( design, oldContainer );
+		ContentCommand cmd = new ContentCommand( module, oldContainer );
 		cmd.move( element, oldSlot, newContainer.getElement( ), toSlot );
 	}
 
@@ -1017,7 +1077,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
-		ContentCommand cmd = new ContentCommand( design, container );
+		ContentCommand cmd = new ContentCommand( module, container );
 		cmd.remove( element, slotID, false );
 	}
 
@@ -1045,7 +1105,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		int slotID = element.getContainerSlot( );
 		assert slotID != -1;
-		ContentCommand cmd = new ContentCommand( design, container );
+		ContentCommand cmd = new ContentCommand( module, container );
 		cmd.remove( element, slotID, true );
 	}
 
@@ -1104,6 +1164,14 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		}
 
 		assert 0 <= slotID && slotID < slotCount;
+
+		// The slot and contents information should be from parent element.
+
+		DesignElementHandle extendedElementHandle = getExtends( );
+		if ( extendedElementHandle != null )
+		{
+			return extendedElementHandle.getSlot( slotID );
+		}
 
 		if ( slotHandles == null )
 		{
@@ -1177,7 +1245,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public Iterator derivedIterator( )
 	{
-		return new DerivedElementIterator( design, this );
+		return new DerivedElementIterator( module, this );
 	}
 
 	/**
@@ -1266,7 +1334,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				|| level == DesignElement.SHORT_LABEL
 				|| level == DesignElement.FULL_LABEL;
 
-		return getElement( ).getDisplayLabel( design, level );
+		return getElement( ).getDisplayLabel( module, level );
 	}
 
 	/**
@@ -1353,9 +1421,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public void copyPropertyTo( String propName,
 			DesignElementHandle targetHandle ) throws SemanticException
 	{
-		assert ( targetHandle.getDesign( ) == getDesign( ) );
+		assert ( targetHandle.getModule( ) == getModule( ) );
 
-		if ( targetHandle.getDesign( ) != getDesign( ) )
+		if ( targetHandle.getModule( ) != getModule( ) )
 			throw new IllegalArgumentException(
 					"The target element should be in the same report !" ); //$NON-NLS-1$
 
@@ -1376,7 +1444,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new PropertyNameException( targetHandle.getElement( ),
 					propName );
 
-		Object value = getElement( ).getLocalProperty( design,
+		Object value = getElement( ).getLocalProperty( module,
 				propDefn.getName( ) );
 		if ( value == null )
 		{
@@ -1452,7 +1520,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		// Validate this element.
 
-		List exceptionList = getElement( ).validate( design );
+		List exceptionList = getElement( ).validate( module );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
@@ -1484,7 +1552,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( defn == null )
 			return false;
 
-		return getElement( ).canContain( getDesign( ), slotId, defn );
+		return getElement( ).canContain( getModule( ), slotId, defn );
 	}
 
 	/**
@@ -1507,7 +1575,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return false;
 
-		return getElement( ).canContain( getDesign( ), slotId,
+		return getElement( ).canContain( getModule( ), slotId,
 				content.getElement( ) );
 	}
 
@@ -1528,6 +1596,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		return ErrorDetail.getSemanticErrors( errorDetailList,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
+	}
+
+	/**
+	 * Returns the root container of this element. It must be Library or Report
+	 * Design.
+	 * 
+	 * @return the handle of the root container.
+	 */
+
+	public ModuleHandle getRoot( )
+	{
+		Module module = getElement( ).getRoot( );
+		if ( module != null )
+			return (ModuleHandle) module.getHandle( module );
+
+		return null;
 	}
 
 }

@@ -11,28 +11,34 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameSpaceEvent;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Records an insertion into, or deletion from a name space.
- *  
+ * 
  */
 
 public class NameSpaceRecord extends SimpleRecord
 {
 
 	/**
-	 * The root element that has the name space.
+	 * The module that has the name space.
 	 */
 
-	protected RootElement root = null;
+	protected Module root = null;
 
 	/**
 	 * The element to add or remove.
@@ -56,7 +62,7 @@ public class NameSpaceRecord extends SimpleRecord
 	 * Constructor.
 	 * 
 	 * @param theRoot
-	 *            the root element.
+	 *            the module.
 	 * @param ns
 	 *            the name space to use.
 	 * @param symbol
@@ -65,7 +71,7 @@ public class NameSpaceRecord extends SimpleRecord
 	 *            whether to add (true) or remove (false) the element.
 	 */
 
-	public NameSpaceRecord( RootElement theRoot, int ns, DesignElement symbol,
+	public NameSpaceRecord( Module theRoot, int ns, DesignElement symbol,
 			boolean isAdd )
 	{
 		root = theRoot;
@@ -99,9 +105,47 @@ public class NameSpaceRecord extends SimpleRecord
 	{
 		NameSpace ns = root.getNameSpace( nameSpaceID );
 		if ( add && !undo || !add && undo )
-			ns.insert( element );
+		{
+			if ( element instanceof ReferenceableElement )
+			{
+				ReferenceableElement originalElement = (ReferenceableElement) root
+						.resolveElement( element.getName( ), nameSpaceID );
+				ns.insert( element );
+				if ( originalElement != null )
+					updateAllElementReferences( originalElement );
+			}
+			else
+			{
+				ns.insert( element );
+			}
+		}
 		else
+		{
 			ns.remove( element );
+
+			if ( element instanceof ReferenceableElement )
+				updateAllElementReferences( (ReferenceableElement) element );
+		}
+	}
+
+	private void updateAllElementReferences( ReferenceableElement referred )
+	{
+		List clients = referred.getClientList( );
+		Iterator iter = clients.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			BackRef ref = (BackRef) iter.next( );
+			DesignElement client = ref.element;
+
+			ElementRefValue value = (ElementRefValue) client.getLocalProperty(
+					root, ref.propName );
+			value.unresolved( value.getName( ) );
+
+			referred.dropClient( client );
+
+			client.resolveElementReference( root, client
+					.getPropertyDefn( ref.propName ) );
+		}
 	}
 
 	/*

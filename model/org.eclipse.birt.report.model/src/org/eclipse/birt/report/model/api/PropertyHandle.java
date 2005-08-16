@@ -96,7 +96,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public Object getValue( )
 	{
-		Object value = getElement( ).getProperty( getDesign( ), propDefn );
+		Object value = getElement( ).getProperty( getModule( ), propDefn );
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
@@ -109,7 +109,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public void setValue( Object value ) throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.setProperty( propDefn, value );
 	}
 
@@ -148,7 +148,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isLocal( )
 	{
-		Object value = getElement( ).getLocalProperty( getDesign( ), propDefn );
+		Object value = getElement( ).getLocalProperty( getModule( ), propDefn );
 		return ( value != null );
 	}
 
@@ -190,20 +190,20 @@ public class PropertyHandle extends SimpleValueHandle
 		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
 		assert elementDefn != null;
 
-		ReportDesignHandle designHandle = ( (ReportDesignHandle) getDesign( )
-				.getHandle( getDesign( ) ) );
+		ModuleHandle moduleHandle = ( (ModuleHandle) getModule( )
+				.getHandle( getModule( ) ) );
 
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getDataSets( ).getContents( );
+			return moduleHandle.getDataSets( ).getContents( );
 
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getDataSources( ).getContents( );
+			return moduleHandle.getDataSources( ).getContents( );
 
 		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getStyles( ).getContents( );
+			return moduleHandle.getStyles( ).getContents( );
 
 		return list;
 

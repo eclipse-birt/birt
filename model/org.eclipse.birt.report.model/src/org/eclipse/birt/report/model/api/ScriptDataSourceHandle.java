@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
@@ -38,15 +38,15 @@ public class ScriptDataSourceHandle extends DataSourceHandle
 	/**
 	 * Constructs a handle for script data source.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the script data source element
 	 */
 
-	public ScriptDataSourceHandle( ReportDesign design, DesignElement element )
+	public ScriptDataSourceHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

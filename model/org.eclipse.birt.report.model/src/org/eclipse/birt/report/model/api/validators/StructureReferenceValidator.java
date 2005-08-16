@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -55,8 +55,8 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	/**
 	 * Validates the structure reference value can refer to an actual structure.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element holding the structure reference property
 	 * @param propName
@@ -65,14 +65,14 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element,
+	public List validate( Module module, DesignElement element,
 			String propName )
 	{
 		List list = new ArrayList( );
 
-		if ( !checkStructureReference( design, element, propName ) )
+		if ( !checkStructureReference( module, element, propName ) )
 		{
-			Object value = element.getLocalProperty( design, propName );
+			Object value = element.getLocalProperty( module, propName );
 
 			list.add( new SemanticError( element, new String[]{propName,
 					( (StructRefValue) value ).getName( )},
@@ -88,8 +88,8 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	 * reference is not resolved, attempt to resolve it. If it cannot be
 	 * resolved, return false.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element holding this structure reference property
 	 * @param propName
@@ -98,14 +98,14 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 	 *         <code>false</code> otherwise.
 	 */
 
-	private boolean checkStructureReference( ReportDesign design,
+	private boolean checkStructureReference( Module module,
 			DesignElement element, String propName )
 	{
 		assert !StringUtil.isBlank( propName );
 
 		// Is the value set?
 
-		Object value = element.getLocalProperty( design, propName );
+		Object value = element.getLocalProperty( module, propName );
 		if ( value == null )
 			return true;
 
@@ -117,7 +117,7 @@ public class StructureReferenceValidator extends AbstractPropertyValidator
 		// Attempt to resolve the reference.
 
 		StructRefValue ref = (StructRefValue) value;
-		ref = element.resolveStructReference( design, prop );
+		ref = element.resolveStructReference( module, prop );
 		return ref.isResolved( );
 	}
 }

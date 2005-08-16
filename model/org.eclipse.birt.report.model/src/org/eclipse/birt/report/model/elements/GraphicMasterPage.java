@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 
@@ -99,16 +100,16 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public GraphicMasterPageHandle handle( ReportDesign design )
+	public GraphicMasterPageHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new GraphicMasterPageHandle( design, this );
+			handle = new GraphicMasterPageHandle( module, this );
 		}
 		return (GraphicMasterPageHandle) handle;
 	}
@@ -130,16 +131,16 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		List pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
-				design, this );
+				module, this );
 		if ( pageSizeErrors.isEmpty( ) )
 		{
 			list.addAll( MasterPageMultiColumnValidator.getInstance( )
-					.validate( design, this ) );
+					.validate( module, this ) );
 		}
 		return list;
 	}
@@ -161,8 +162,8 @@ public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageMo
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 }

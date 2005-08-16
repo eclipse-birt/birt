@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * This class presents the parameter binding that bind data set input parameter
@@ -174,14 +173,14 @@ public class ParamBinding extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( getParamName( ) ) )
 		{
 			list.add( new PropertyValueException( element,
-					(PropertyDefn) getDefn( ).getMember( PARAM_NAME_MEMBER ),
+					getDefn( ).getMember( PARAM_NAME_MEMBER ),
 					getParamName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

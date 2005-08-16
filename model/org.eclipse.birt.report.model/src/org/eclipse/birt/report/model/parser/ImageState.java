@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -47,7 +47,7 @@ public class ImageState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public ImageState( DesignParserHandler handler, DesignElement theContainer,
+	public ImageState( ModuleParserHandler handler, DesignElement theContainer,
 			int slot )
 	{
 		super( handler, theContainer, slot );
@@ -85,9 +85,9 @@ public class ImageState extends ReportItemState
 	{
 
 		int type = 0;
-		ReportDesign design = handler.getDesign( );
+		Module module = handler.getModule( );
 
-		String uri = (String) image.getLocalProperty( design,
+		String uri = (String) image.getLocalProperty( module,
 				ImageItem.URI_PROP );
 		if ( !StringUtil.isEmpty( uri ) )
 		{
@@ -96,7 +96,7 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		StructRefValue imageName = (StructRefValue) image.getLocalProperty( design,
+		StructRefValue imageName = (StructRefValue) image.getLocalProperty( module,
 				ImageItem.IMAGE_NAME_PROP );
 		if ( imageName != null )
 		{
@@ -105,9 +105,9 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		String typeExpr = (String) image.getLocalProperty( design,
+		String typeExpr = (String) image.getLocalProperty( module,
 				ImageItem.TYPE_EXPR_PROP );
-		String valueExpr = (String) image.getLocalProperty( design,
+		String valueExpr = (String) image.getLocalProperty( module,
 				ImageItem.VALUE_EXPR_PROP );
 
 		if ( !StringUtil.isEmpty( typeExpr ) || !StringUtil.isEmpty( valueExpr ) )
@@ -131,19 +131,19 @@ public class ImageState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
-		ReportDesign design = handler.getDesign( );
+		Module module = handler.getModule( );
 
 		checkImageType( );
 
 		String refType = image
-				.getStringProperty( design, ImageItem.SOURCE_PROP );
+				.getStringProperty( module, ImageItem.SOURCE_PROP );
 
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( refType ) )
 		{
-			String typeExpr = image.getStringProperty( design,
+			String typeExpr = image.getStringProperty( module,
 					ImageItem.TYPE_EXPR_PROP );
-			String valueExpr = image.getStringProperty( design,
+			String valueExpr = image.getStringProperty( module,
 					ImageItem.VALUE_EXPR_PROP );
 			if ( StringUtil.isEmpty( typeExpr )
 					|| StringUtil.isEmpty( valueExpr ) )
@@ -158,7 +158,7 @@ public class ImageState extends ReportItemState
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( refType ) )
 		{
-			String uri = image.getStringProperty( design, ImageItem.URI_PROP );
+			String uri = image.getStringProperty( module, ImageItem.URI_PROP );
 			if ( StringUtil.isEmpty( uri ) )
 			{
 				handler
@@ -169,7 +169,7 @@ public class ImageState extends ReportItemState
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 				.equalsIgnoreCase( refType ) )
 		{
-			String name = image.getStringProperty( design,
+			String name = image.getStringProperty( module,
 					ImageItem.IMAGE_NAME_PROP );
 
 			if ( StringUtil.isEmpty( name ) )

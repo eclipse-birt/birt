@@ -22,13 +22,14 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -67,7 +68,7 @@ public abstract class ReportElementState extends DesignParseState
 	 *            the slot in which this element appears
 	 */
 
-	public ReportElementState( DesignParserHandler handler,
+	public ReportElementState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler );
@@ -81,7 +82,7 @@ public abstract class ReportElementState extends DesignParseState
 	 * @param theHandler
 	 *            SAX handler for the design file parser
 	 */
-	public ReportElementState( DesignParserHandler theHandler )
+	public ReportElementState( ModuleParserHandler theHandler )
 	{
 		super( theHandler );
 	}
@@ -144,11 +145,11 @@ public abstract class ReportElementState extends DesignParseState
 
 		// Disallow duplicate names.
 
-		ReportDesign design = handler.getDesign( );
+		Module module = handler.getModule( );
 		int id = contentDefn.getNameSpaceID( );
 		if ( id != MetaDataConstants.NO_NAME_SPACE )
 		{
-			NameSpace ns = design.getNameSpace( id );
+			NameSpace ns = module.getNameSpace( id );
 			if ( name == null
 					&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 			{
@@ -159,17 +160,19 @@ public abstract class ReportElementState extends DesignParseState
 
 			if ( name != null )
 			{
-				if ( ns.getElement( name ) != null )
+				if ( !module.getModuleNameSpace( id ).canContain( name ) )
+				// if ( module.resolveElement( name, id ) != null )
 				{
 					handler.semanticError( new NameException( container, name,
 							NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 					return false;
 				}
 				DesignElement parent = content.getExtendsElement( );
-				if ( id == RootElement.ELEMENT_NAME_SPACE && parent != null )
+				if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
 				{
-					if ( !design.getSlot( ReportDesign.COMPONENT_SLOT )
-							.contains( parent ) )
+					if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+					// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
+					// parent ) )
 					{
 						handler
 								.semanticError( new ExtendsException(
@@ -188,8 +191,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		if ( MetaDataDictionary.getInstance( ).useID( ) )
 		{
-			content.setID( design.getNextID( ) );
-			design.addElementID( content );
+			content.setID( module.getNextID( ) );
+			module.addElementID( content );
 		}
 
 		// Add the item to the container.
@@ -224,11 +227,17 @@ public abstract class ReportElementState extends DesignParseState
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 		}
 		else
+		{
 			element.setName( name );
+		}
+
 		if ( element.getDefn( ).canExtend( ) )
 		{
-			element.setExtendsName( attrs
-					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) );
+			String extendsName = attrs
+					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
+
+			element.setExtendsName( extendsName );
+			
 			resolveExtendsElement( );
 		}
 		else
@@ -242,6 +251,7 @@ public abstract class ReportElementState extends DesignParseState
 						.semanticError( new DesignParserException(
 								DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
+		
 		if ( !addToSlot( container, slotID, element ) )
 			return;
 
@@ -256,22 +266,23 @@ public abstract class ReportElementState extends DesignParseState
 	private void resolveExtendsElement( )
 	{
 		DesignElement element = getElement( );
-		ReportDesign design = handler.getDesign( );
+		Module module = handler.getModule( );
 		ElementDefn defn = (ElementDefn) element.getDefn( );
 
 		// Resolve extends
 
 		int id = defn.getNameSpaceID( );
 		assert id != MetaDataConstants.NO_NAME_SPACE;
-		NameSpace ns = design.getNameSpace( id );
 		String extendsName = element.getExtendsName( );
 		if ( StringUtil.isBlank( extendsName ) )
 			return;
-		DesignElement parent = ns.getElement( extendsName );
+		IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
+		ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
+		// DesignElement parent = module.resolveElement( extendsName, id );
 		try
 		{
-			element.checkExtends( parent );
-			element.setExtendsElement( parent );
+			element.checkExtends( refValue.getElement( ) );
+			element.setExtendsElement( refValue.getElement( ) );
 		}
 		catch ( ExtendsException ex )
 		{
@@ -344,7 +355,7 @@ public abstract class ReportElementState extends DesignParseState
 		if ( handler.tempValue.get( Style.HIGHLIGHT_RULES_PROP ) != null )
 		{
 			List highlightRules = element.getListProperty(
-					handler.getDesign( ), Style.HIGHLIGHT_RULES_PROP );
+					handler.getModule( ), Style.HIGHLIGHT_RULES_PROP );
 			if ( highlightRules != null )
 			{
 
@@ -361,7 +372,7 @@ public abstract class ReportElementState extends DesignParseState
 		// check whether the value of "mapTestExpre" is in tempt map.
 		if ( handler.tempValue.get( Style.MAP_RULES_PROP ) != null )
 		{
-			List mapRules = element.getListProperty( handler.getDesign( ),
+			List mapRules = element.getListProperty( handler.getModule( ),
 					Style.MAP_RULES_PROP );
 			if ( mapRules != null )
 			{

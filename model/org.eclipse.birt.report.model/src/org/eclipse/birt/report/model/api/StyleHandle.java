@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -61,15 +61,15 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public StyleHandle( ReportDesign design, DesignElement element )
+	public StyleHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -124,8 +124,6 @@ public abstract class StyleHandle extends ReportElementHandle
 	 * 
 	 * @param value
 	 *            the new background image address
-	 * @throws SemanticException
-	 *             if the property is locked
 	 */
 
 	public void setBackgroundImage( String value ) throws SemanticException
@@ -648,12 +646,12 @@ public abstract class StyleHandle extends ReportElementHandle
 			String valueToSet ) throws SemanticException
 	{
 		DesignElement element = getElement( );
-		Object value = element.getLocalProperty( design, propName );
+		Object value = element.getLocalProperty( module, propName );			
 
 		if ( value == null )
 		{
 			FormatValue formatValueToSet = null;
-
+			
 			if ( Style.DATE_TIME_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new DateTimeFormatValue( );
 			else if ( Style.NUMBER_FORMAT_PROP.equalsIgnoreCase( propName ) )
@@ -673,8 +671,8 @@ public abstract class StyleHandle extends ReportElementHandle
 			setProperty( propName, formatValueToSet );
 		}
 		else
-		{
-			PropertyHandle propHandle = getPropertyHandle( propName );
+		{	
+			PropertyHandle propHandle = getPropertyHandle( propName );			
 			FormatValue formatValueToSet = (FormatValue) value;
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
@@ -1280,7 +1278,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new map test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 * @deprecated
+	 *  @deprecated
 	 */
 	public void setMapTestExpr( String value ) throws SemanticException
 	{
@@ -1323,7 +1321,7 @@ public abstract class StyleHandle extends ReportElementHandle
 	 *            the value of new highlight test expression
 	 * @throws SemanticException
 	 *             if the expression is invalid.
-	 * 
+	 *             
 	 * @deprecated
 	 */
 
@@ -1856,7 +1854,7 @@ public abstract class StyleHandle extends ReportElementHandle
 
 		if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( getName( ) ) != null )
 			return true;
-
+		
 		return false;
 
 	}

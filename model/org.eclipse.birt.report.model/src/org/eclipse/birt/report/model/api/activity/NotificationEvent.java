@@ -96,10 +96,16 @@ public abstract class NotificationEvent
 	public static final int EXTENSION_PROPERTY_DEFINITION_EVENT = 9;
 
 	/**
-	 * The event type of VALIDATION_EVENT
+	 * The event type of ValidationEvent
 	 */
 
 	public static final int VALIDATION_EVENT = 10;
+	
+	/**
+	 * The event type of LibraryEvent
+	 */
+	
+	public static final int LIBRARY_EVENT = 11;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
@@ -280,7 +286,8 @@ public abstract class NotificationEvent
 	 * <li>USER_PROP_EVENT</li>
 	 * <li>CUSTOM_MSG_EVENT</li>
 	 * <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li>
-	 * <li>NOTIFICATION_EVENT</li>
+	 * <li>VALIDATION_EVENT</li>
+	 * <li>LIBRARY_EVENT</li>
 	 * </ul>
 	 * 
 	 * @return the event type.

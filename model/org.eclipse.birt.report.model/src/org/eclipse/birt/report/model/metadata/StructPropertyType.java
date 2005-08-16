@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 
 /**
@@ -73,7 +73,7 @@ public class StructPropertyType extends PropertyType
      *  
      */
 
-    public Object validateValue( ReportDesign design, PropertyDefn defn,
+    public Object validateValue( Module module, PropertyDefn defn,
             Object value ) throws PropertyValueException
     {
 
@@ -95,9 +95,9 @@ public class StructPropertyType extends PropertyType
                 PropertyDefn memberDefn = (PropertyDefn) iter.next( );
                 if( !memberDefn.isList() )
                 {
-                    Object propValue = ( (Structure) value ).getProperty( design,
+                    Object propValue = ( (Structure) value ).getProperty( module,
                         memberDefn );
-                    memberDefn.validateValue( design, propValue );
+                    memberDefn.validateValue( module, propValue );
                 }
             }
             
@@ -117,7 +117,7 @@ public class StructPropertyType extends PropertyType
      * @return the integer value of the structure list property type.
      */
 
-    public int toInteger( ReportDesign design, Object value )
+    public int toInteger( Module module, Object value )
     {
         // Return the list size as the int value.
 
@@ -132,7 +132,7 @@ public class StructPropertyType extends PropertyType
      *  
      */
 
-    public String toString( ReportDesign design, PropertyDefn defn, Object value )
+    public String toString( Module module, PropertyDefn defn, Object value )
     {
         // Cannot convert to string
 

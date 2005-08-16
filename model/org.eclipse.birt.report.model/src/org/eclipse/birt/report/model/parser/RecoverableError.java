@@ -35,7 +35,7 @@ class RecoverableError
 	 */
 
 	protected static void dealInvalidPropertyValue(
-			DesignParserHandler handler, PropertyValueException valueException )
+			ModuleParserHandler handler, PropertyValueException valueException )
 	{
 		Object retValue = valueException.getInvalidValue( );
 
@@ -60,7 +60,7 @@ class RecoverableError
 	 *            the member definition
 	 */
 
-	protected static void dealInvalidMemberValue( DesignParserHandler handler,
+	protected static void dealInvalidMemberValue( ModuleParserHandler handler,
 			PropertyValueException valueException, IStructure structre,
 			StructPropertyDefn memberDefn )
 	{
@@ -80,7 +80,7 @@ class RecoverableError
 	 *            the design parser exception to record
 	 */
 
-	protected static void dealUndefinedProperty( DesignParserHandler handler,
+	protected static void dealUndefinedProperty( ModuleParserHandler handler,
 			DesignParserException exception )
 	{
 		handler.semanticWarning( exception );
@@ -96,7 +96,7 @@ class RecoverableError
 	 */
 
 	protected static void dealMissingInvalidExtension(
-			DesignParserHandler handler, SemanticError exception )
+			ModuleParserHandler handler, SemanticError exception )
 	{
 		handler.semanticWarning( exception );
 	}

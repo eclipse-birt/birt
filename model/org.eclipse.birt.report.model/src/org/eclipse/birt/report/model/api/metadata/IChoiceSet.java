@@ -13,7 +13,8 @@ package org.eclipse.birt.report.model.api.metadata;
 
 import java.util.Comparator;
 
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
+
 
 /**
  * Represents a set of choices on a predefined or user defined property type or
@@ -103,15 +104,15 @@ public interface IChoiceSet
 	 * Finds a UserChoice in the <code>IChoiceSet</code> for its display name. For
 	 * a user defined choice, the display name can be <code>null</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param name
 	 *            display name of a UserChoice.
 	 * @return the instance of the UserChoice that matches or <code>null</code> if
 	 *         choice is not found.
 	 */
 
-	public UserChoice findUserChoiceByDisplayName( ReportDesign design,
+	public UserChoice findUserChoiceByDisplayName( Module module,
 			String name );
 
 }

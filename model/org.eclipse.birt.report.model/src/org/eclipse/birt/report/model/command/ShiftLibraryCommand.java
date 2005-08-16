@@ -1,0 +1,88 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.command;
+
+import java.util.List;
+
+import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+
+/**
+ * Command to shift library.
+ */
+
+public class ShiftLibraryCommand extends AbstractElementCommand
+{
+
+	/**
+	 * Constructs the command with the module containing the changing library.
+	 * 
+	 * @param module
+	 *            the module containing the changing library
+	 */
+
+	public ShiftLibraryCommand( Module module )
+	{
+		super( module, module );
+		assert module instanceof ReportDesign;
+	}
+
+	/**
+	 * Shifts the given library forwards or backwards.
+	 * 
+	 * @param library
+	 *            the libray to shift
+	 * @param newPosn
+	 *            the new position to shift
+	 * @throws SemanticException
+	 *             if failed to shift <code>IncludeLibrary</code> structure
+	 */
+
+	public void shiftLibrary( Library library, int newPosn )
+			throws SemanticException
+	{
+		List libraries = module.getLibraries( );
+		assert !libraries.isEmpty( );
+
+		if ( !libraries.contains( library ) )
+			throw new LibraryException( library,
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+
+		// Move the new position so that it is in range.
+
+		int oldPosn = libraries.indexOf( library );
+
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn,
+				libraries.size( ) );
+
+		if ( oldPosn == adjustedNewPosn )
+			return;
+
+		getActivityStack( ).startTrans( );
+
+		ShiftLibraryRecord record = new ShiftLibraryRecord( module, oldPosn,
+				adjustedNewPosn );
+		getActivityStack( ).execute( record );
+
+		PropertyCommand cmd = new PropertyCommand( module, module );
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
+		cmd.moveItem( new CachedMemberRef( propDefn ), oldPosn, newPosn );
+
+		getActivityStack( ).commit( );
+	}
+}

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.Date;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

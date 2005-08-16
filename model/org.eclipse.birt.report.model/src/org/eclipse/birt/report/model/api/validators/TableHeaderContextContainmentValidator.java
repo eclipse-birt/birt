@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -63,8 +63,8 @@ public class TableHeaderContextContainmentValidator
 	 * Validates whether the given element can recursively resides in the
 	 * specific slot of specific container type.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element to validate
 	 * 
@@ -72,20 +72,20 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ListingElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, element, DesignElement.NO_SLOT );
+		return doValidate( module, element, DesignElement.NO_SLOT );
 	}
 
 	/**
 	 * Checks whether the <code>toValidate</code> is or is in the table
 	 * element and its slotId is <code>TableItem.HEADER_SLOT</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param toValidate
 	 *            the element to validate
 	 * @param slotId
@@ -95,7 +95,7 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>TableItem.HEADER_SLOT</code>.
 	 */
 
-	private List doValidate( ReportDesign design, DesignElement toValidate,
+	private List doValidate( Module module, DesignElement toValidate,
 			int slotId )
 	{
 		List list = new ArrayList( );
@@ -135,8 +135,8 @@ public class TableHeaderContextContainmentValidator
 	 * Validates whether the given element can recursively resides in the
 	 * specific slot of specific container type when trying to add an element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the container element
 	 * @param slotId
@@ -148,13 +148,13 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( ReportDesign design, DesignElement element,
+	public List validateForAdding( Module module, DesignElement element,
 			int slotId, DesignElement toAdd )
 	{
 		if ( !containsListingElement( toAdd ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, element, slotId );
+		return doValidate( module, element, slotId );
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validateForAdding( ReportDesign design, DesignElement element,
+	public List validateForAdding( Module module, DesignElement element,
 			IElementDefn toAdd )
 	{
 		ElementDefn listingDefn = (ElementDefn) MetaDataDictionary
@@ -180,7 +180,7 @@ public class TableHeaderContextContainmentValidator
 		if ( !listingDefn.isKindOf( toAdd ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, element, DesignElement.NO_SLOT );
+		return doValidate( module, element, DesignElement.NO_SLOT );
 	}
 
 	/**

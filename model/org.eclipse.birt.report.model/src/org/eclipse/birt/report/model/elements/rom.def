@@ -1312,24 +1312,25 @@
   <Validators>
 	<ValueValidator class="org.eclipse.birt.report.model.metadata.validators.NonNegativeValueValidator" name="NonNegativeValueValidator"/>
 	<ValueValidator class="org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator" name="PositiveValueValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CellOverlappingValidator" name="CellOverlappingValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator" name="DataSetNameRequiredValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator" name="DataSetRequiredValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator" name="DataSetResultSetValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementReferenceValidator" name="ElementReferenceValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ExtensionValidator" name="ExtensionValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.GroupNameValidator" name="GroupNameValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator" name="InconsistentColumnsValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator" name="ImageFileExistingValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator" name="MasterPageMultiColumnValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator" name="MasterPageRequiredValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator" name="MasterPageSizeValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator" name="MasterPageTypeValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureListValidator" name="StructureListValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator" name="TableHeaderContextContainmentValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator" name="UnsupportedElementValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" name="ValueRequiredValidator"/>
-  	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" name="StructureReferenceValidator" />
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CellOverlappingValidator" modules="design, library" name="CellOverlappingValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator" modules="design, library" name="DataSetNameRequiredValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator" modules="design" name="DataSetRequiredValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator" modules="design, library" name="DataSetResultSetValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementReferenceValidator" modules="design, library" name="ElementReferenceValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ExtensionValidator" modules="design, library" name="ExtensionValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.GroupNameValidator" modules="design, library" name="GroupNameValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator" modules="design, library" name="InconsistentColumnsValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ImageFileExistingValidator" modules="design" name="ImageFileExistingValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator" modules="design, library" name="MasterPageMultiColumnValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator" modules="design" name="MasterPageRequiredValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator" modules="design, library" name="MasterPageSizeValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator" modules="design, library" name="MasterPageTypeValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureListValidator" modules="design, library" name="StructureListValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator" modules="design, library" name="TableHeaderContextContainmentValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator" modules="design, library" name="UnsupportedElementValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" modules="design, library" name="ValueRequiredValidator"/>
+  	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" modules="design, library" name="StructureReferenceValidator" />
+  	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1527,36 +1528,70 @@
   </Structure>
   <Structure displayNameID="Structure.IncludeLibrary" name="IncludeLibrary" since="1.0">
     <Member displayNameID="Structure.IncludeLibrary.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
+    <Member displayNameID="Structure.IncludeLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="reserved">
-    <Property canInherit="false" displayNameID="Element.ReportDesign.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
-    <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" since="1.0" type="choice">
-      <Allowed>in,cm,mm,pt,pc</Allowed>
-    </Property>
-	<Property canInherit="false" displayNameID="Element.ReportDesign.title" name="title" runtimeSettable="false" since="1.0" type="string"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.titleID" name="titleID" since="1.0" type="resourceKey"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.description" name="description" runtimeSettable="false" since="reserved" type="html"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.descriptionID" name="descriptionID" since="reserved" type="resourceKey"/>
-    <Property canInherit="false" displayNameID="Element.ReportDesign.comments" name="comments" since="1.0" type="html"/>
-    <Property canInherit="false" detailType="CustomColor" displayNameID="Element.ReportDesign.colorPalette" isList="true" name="colorPalette" runtimeSettable="false" since="reserved" type="structure"/>
-    <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.ReportDesign.configVars" isList="true" name="configVars" since="1.0" type="structure"/>
-    <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.ReportDesign.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
-    <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.ReportDesign.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
-    <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.ReportDesign.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
-    <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip"/>
+    <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
+    <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
+    <Property canInherit="false" displayNameID="Element.Module.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
+	<Property canInherit="false" displayNameID="Element.Module.title" name="title" runtimeSettable="false" since="1.0" type="string"/>
+    <Property canInherit="false" displayNameID="Element.Module.titleID" name="titleID" since="1.0" type="resourceKey"/>
+    <Property canInherit="false" displayNameID="Element.Module.description" name="description" runtimeSettable="false" since="reserved" type="html"/>
+    <Property canInherit="false" displayNameID="Element.Module.descriptionID" name="descriptionID" since="reserved" type="resourceKey"/>
+    <Property canInherit="false" displayNameID="Element.Module.comments" name="comments" since="1.0" type="html"/>
+    <Property canInherit="false" displayNameID="Element.Module.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
+    <Property canInherit="false" detailType="CustomColor" displayNameID="Element.Module.colorPalette" isList="true" name="colorPalette" runtimeSettable="false" since="reserved" type="structure"/>
+    <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.Module.configVars" isList="true" name="configVars" since="1.0" type="structure"/>
+    <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
+    <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.Module.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
+    <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
+    <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip"/>
+  </Element>
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
+    <Slot displayNameID="Element.Library.slot.styles" multipleCardinality="true" name="styles" since="1.0" xmlName="styles">
+      <Type name="Style"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.parameters" multipleCardinality="true" name="parameters" since="1.0" xmlName="parameters">
+      <Type name="Parameter"/>
+      <Type name="ParameterGroup"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.dataSources" multipleCardinality="true" name="dataSources" since="1.0" xmlName="data-sources">
+      <Type name="DataSource"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
+      <Type name="DataSet"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.pageSetup" multipleCardinality="true" name="pageSetup" since="1.0" xmlName="page-setup">
+      <Type name="MasterPage"/>
+	  <Trigger validator="MasterPageRequiredValidator"/>
+    </Slot>
+    <Slot displayNameID="Element.Library.slot.components" multipleCardinality="true" name="components" since="reserved" xmlName="components">
+      <Type name="FreeForm"/>
+      <Type name="Data"/>
+      <Type name="Grid"/>
+      <Type name="Image"/>
+      <Type name="Label"/>
+      <Type name="Line"/>
+      <Type name="List"/>
+      <Type name="Rectangle"/>
+      <Type name="Table"/>
+      <Type name="Text"/>
+      <Type name="ExtendedItem"/>
+      <Type name="TextData"/>
+    </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportDesign" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
     <Property canInherit="false" displayNameID="Element.ReportDesign.refreshRate" name="refreshRate" runtimeSettable="false" since="reserved" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
+    <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" since="1.0" type="choice">
+      <Allowed>in,cm,mm,pt,pc</Allowed>
+    </Property>
 	<Property canInherit="false" displayNameID="Element.ReportDesign.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
-    <Property canInherit="false" displayNameID="Element.ReportDesign.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="reserved" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip"/>

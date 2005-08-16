@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -31,15 +31,15 @@ public class NameCommand extends AbstractElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            the element to modify.
 	 */
 
-	public NameCommand( ReportDesign design, DesignElement obj )
+	public NameCommand( Module module, DesignElement obj )
 	{
-		super( design, obj );
+		super( module, obj );
 	}
 
 	/**
@@ -72,15 +72,14 @@ public class NameCommand extends AbstractElementCommand
 
 		// Drop the old name from the name space.
 
-		dropSymbol( );
-
 		// Change the name.
 
 		stack.execute( rename );
 
 		// Add the new name to the name space.
 
-		addSymbol( );
+		renameSymbolFrom( oldName );
+
 		stack.commit( );
 	}
 
@@ -108,16 +107,16 @@ public class NameCommand extends AbstractElementCommand
 
 	private void checkName( String name ) throws NameException
 	{
-		ElementDefn metaData = (ElementDefn)element.getDefn( );
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( name == null )
 		{
 			// Cannot clear the name when there are references. It would leave
 			// the dependents with no way to identify this element.
 
-			if ( element.hasDerived( ) || element.hasReferences( ))
+			if ( element.hasDerived( ) || element.hasReferences( ) )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_HAS_REFERENCES );
-			
+
 			// Cannot clear the name of an element when the name is required.
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
@@ -135,8 +134,10 @@ public class NameCommand extends AbstractElementCommand
 			// Ensure that the name is not a duplicate.
 
 			int ns = metaData.getNameSpaceID( );
-			if ( getRootElement( ).getNameSpace( ns ).getElement( name ) != null )
-				throw new NameException( element, name, NameException.DESIGN_EXCEPTION_DUPLICATE );
+			// if ( getModule( ).getNameSpace( ns ).getElement( name ) != null )
+			if ( !getModule( ).getModuleNameSpace( ns ).canContain( name ) )
+				throw new NameException( element, name,
+						NameException.DESIGN_EXCEPTION_DUPLICATE );
 		}
 	}
 
@@ -177,11 +178,9 @@ public class NameCommand extends AbstractElementCommand
 
 		if ( element.getContainer( ) != null )
 		{
-			int ns = ((ElementDefn)element.getDefn( )).getNameSpaceID( );
-			getActivityStack( )
-					.execute(
-							new NameSpaceRecord( getRootElement( ), ns,
-									element, true ) );
+			int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+			getActivityStack( ).execute(
+					new NameSpaceRecord( getModule( ), ns, element, true ) );
 		}
 	}
 
@@ -194,10 +193,20 @@ public class NameCommand extends AbstractElementCommand
 	{
 		if ( element.getName( ) == null )
 			return;
-		int ns = ((ElementDefn)element.getDefn( )).getNameSpaceID( );
-		if ( !design.getNameSpace( ns ).contains( element.getName( ) ) )
+		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
+		if ( !module.getNameSpace( ns ).contains( element.getName( ) ) )
 			return;
 		getActivityStack( ).execute(
-				new NameSpaceRecord( getRootElement( ), ns, element, false ) );
+				new NameSpaceRecord( getModule( ), ns, element, false ) );
+	}
+
+	private void renameSymbolFrom( String oldName )
+	{
+		if ( element.getContainer( ) != null )
+		{
+			RenameInNameSpaceRecord record = new RenameInNameSpaceRecord(
+					getModule( ), element, oldName, element.getName( ) );
+			getActivityStack( ).execute( record );
+		}
 	}
 }

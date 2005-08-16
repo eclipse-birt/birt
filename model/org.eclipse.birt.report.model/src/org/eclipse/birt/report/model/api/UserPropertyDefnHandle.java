@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Represents a top-level user-defined property of an element.
@@ -102,14 +101,14 @@ public class UserPropertyDefnHandle extends PropertyHandle
 	 *             not defined on this element, or the user property definition
 	 *             is inconsistent.
 	 * @throws PropertyValueException
-	 *             if the type changes, the value becomes invalid. 
+	 *             if the type changes, the value becomes invalid.
 	 */
 
 	public void setUserPropertyDefn( UserPropertyDefn prop )
 			throws UserPropertyException, PropertyValueException
 	{
-		ReportDesign design = elementHandle.getDesign( );
-		UserPropertyCommand cmd = new UserPropertyCommand( design, getElement( ) );
+		UserPropertyCommand cmd = new UserPropertyCommand( elementHandle
+				.getModule( ), getElement( ) );
 		cmd.setPropertyDefn( (UserPropertyDefn) getDefn( ), prop );
 	}
 

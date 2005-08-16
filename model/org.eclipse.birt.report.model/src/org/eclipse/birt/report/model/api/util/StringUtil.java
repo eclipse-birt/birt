@@ -92,6 +92,11 @@ public class StringUtil
 	/**
 	 * Reports if a string is blank. A string is considered blank either if it
 	 * is null, is an empty string, of consists entirely of white space.
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>null, "" and " " are blank strings
+	 * </ul>
 	 * 
 	 * @param str
 	 *            the string to check
@@ -106,6 +111,12 @@ public class StringUtil
 	/**
 	 * Reports if a string is empty. A string is considered empty either if it
 	 * is null, is an empty string.
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>Both null and "" are empty strings
+	 * <li>" " is not empty string.
+	 * </ul>
 	 * 
 	 * @param value
 	 *            the string to check
@@ -119,7 +130,7 @@ public class StringUtil
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns if the two string are null or equal. The
 	 * {@link java.lang.String#equals(String)}is used to compare two strings.
@@ -287,9 +298,8 @@ public class StringUtil
 				else if ( result < 0 )
 					return -1;
 			}
-			else
-				if ( numberA > 0 )
-					return 1;
+			else if ( numberA > 0 )
+				return 1;
 		}
 
 		if ( i < stringsB.length )
@@ -303,5 +313,110 @@ public class StringUtil
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Extract file name (without path and suffix) from file name with path and
+	 * suffix.
+	 * <p>
+	 * For example:
+	 * <p>
+	 * <ul>
+	 * <li>"c:\home\abc.xml" => "abc"
+	 * <li>"c:\home\abc" => "abc"
+	 * <li>"/home/user/abc.xml" => "abc"
+	 * <li>"/home/user/abc" => "abc"
+	 * </ul>
+	 * 
+	 * @param filePathName
+	 *            the file name with path and suffix
+	 * @return the file name without path and suffix
+	 */
+
+	public static String extractFileName( String filePathName )
+	{
+		int dotPos = filePathName.lastIndexOf( '.' );
+		int slashPos = filePathName.lastIndexOf( '\\' );
+		if ( slashPos == -1 )
+			slashPos = filePathName.lastIndexOf( '/' );
+
+		if ( dotPos > slashPos )
+		{
+			return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0,
+					dotPos );
+		}
+
+		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
+	}
+
+	/**
+	 * Extracts the libaray namespace from the given qualified reference value.
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>"LibA" is extracted from "LibA.style1"
+	 * <li>null is returned from "style1"
+	 * </ul>
+	 * 
+	 * @param qualifiedName
+	 *            the qualified reference value
+	 * @return the library namespace
+	 */
+
+	public static String extractNamespace( String qualifiedName )
+	{
+		int pos = qualifiedName.indexOf( '.' );
+		if ( pos == -1 )
+			return null;
+
+		return StringUtil.trimString( qualifiedName.substring( 0, pos ) );
+	}
+
+	/**
+	 * Extracts the name from the given qualified reference value.
+	 * 
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>"style1" is extracted from "LibA.style1"
+	 * <li>"style1" is returned from "style1"
+	 * </ul>
+	 * 
+	 * @param qualifiedName
+	 *            the qualified reference value
+	 * @return the name
+	 */
+	public static String extractName( String qualifiedName )
+	{
+		int pos = qualifiedName.indexOf( '.' );
+		if ( pos == -1 )
+			return qualifiedName;
+
+		return StringUtil.trimString( qualifiedName.substring( pos + 1 ) );
+	}
+
+	/**
+	 * Builds the qualified reference value. 
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>("LibA", "style1") => "LibA.style1"
+	 * <li>("  ", "style1) => "style1"
+	 * </ul>
+	 * 
+	 * @param namespace
+	 *            the library namespace to indicate which library the reference is
+	 *            using.
+	 * @param value
+	 *            the actual reference value
+	 * @return the qualified reference value
+	 */
+	
+	public static String buildQualifiedReference( String namespace, String value )
+	{
+		if ( StringUtil.isBlank( namespace ) )
+			return value;
+
+		return namespace + "." + value; //$NON-NLS-1$
 	}
 }

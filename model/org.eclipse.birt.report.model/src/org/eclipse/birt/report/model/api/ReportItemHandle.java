@@ -14,9 +14,10 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataSet;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -47,15 +48,15 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public ReportItemHandle( ReportDesign design, DesignElement element )
+	public ReportItemHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -67,13 +68,13 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public DataSetHandle getDataSet( )
 	{
 		DesignElement dataSet = ( (ReportItem) getElement( ) )
-				.getDataSetElement( design );
+				.getDataSetElement( module );
 		if ( dataSet == null )
 			return null;
 
 		assert dataSet instanceof DataSet;
 
-		return (DataSetHandle) dataSet.getHandle( design );
+		return (DataSetHandle) dataSet.getHandle( module );
 	}
 
 	/**
@@ -88,9 +89,20 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public void setDataSet( DataSetHandle handle ) throws SemanticException
 	{
-
-		setStringProperty( ReportItem.DATA_SET_PROP, handle != null ? handle
-				.getName( ) : null );
+		if ( handle == null )
+			setStringProperty( DATA_SET_PROP, null );
+		else
+		{
+			ModuleHandle moduleHandle = handle.getRoot( );
+			String valueToSet = handle.getName( );
+			if ( moduleHandle instanceof LibraryHandle )
+			{
+				String namespace = ( (LibraryHandle) moduleHandle ).getNamespace( );
+				valueToSet = StringUtil.buildQualifiedReference( namespace, handle
+						.getName( ) );
+			}
+			setStringProperty( ReportItem.DATA_SET_PROP, valueToSet );
+		}
 	}
 
 	/**

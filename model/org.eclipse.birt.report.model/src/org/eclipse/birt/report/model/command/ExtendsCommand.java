@@ -18,15 +18,18 @@ import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Sets the "extends" attribute of an element.
- *  
+ * 
  */
 
 public class ExtendsCommand extends AbstractElementCommand
@@ -35,15 +38,15 @@ public class ExtendsCommand extends AbstractElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            the element to modify.
 	 */
 
-	public ExtendsCommand( ReportDesign design, DesignElement obj )
+	public ExtendsCommand( Module module, DesignElement obj )
 	{
-		super( design, obj );
+		super( module, obj );
 	}
 
 	/**
@@ -62,7 +65,7 @@ public class ExtendsCommand extends AbstractElementCommand
 		base = StringUtil.trimString( base );
 
 		DesignElement parent = null;
-		ElementDefn metaData = (ElementDefn)element.getDefn( );
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		int ns = metaData.getNameSpaceID( );
 		if ( base == null )
 		{
@@ -73,18 +76,27 @@ public class ExtendsCommand extends AbstractElementCommand
 		{
 			// Verify that the symbol exists and is the right type.
 
-			RootElement root = getRootElement( );
+			Module root = getModule( );
 			if ( !metaData.canExtend( ) )
 				throw new ExtendsException( element, base,
 						ExtendsException.DESIGN_EXCEPTION_CANT_EXTEND );
-			parent = root.getNameSpace( ns ).getElement( base );
+			parent = root.resolveElement( base, ns );
 			element.checkExtends( parent );
 
-			if ( metaData.getNameSpaceID( ) == RootElement.ELEMENT_NAME_SPACE
-					&& ( parent.getContainer( ) != root || parent
-							.getContainerSlot( ) != ReportDesign.COMPONENT_SLOT ) )
-				throw new ExtendsException( element, base,
-						ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
+			if ( metaData.getNameSpaceID( ) == Module.ELEMENT_NAME_SPACE )
+			{
+				IElementDefn moduleDefn = MetaDataDictionary.getInstance( )
+						.getElement( ReportDesignConstants.MODULE_ELEMENT );
+
+				if ( parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
+						|| parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+				{
+					throw new ExtendsException(
+							element,
+							base,
+							ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT );
+				}
+			}
 		}
 
 		// Ignore if the setting is the same as current.
@@ -129,7 +141,7 @@ public class ExtendsCommand extends AbstractElementCommand
 				while ( iter.hasNext( ) )
 				{
 					UserPropertyDefn prop = (UserPropertyDefn) iter.next( );
-					if ( element.getLocalProperty( design, prop ) != null )
+					if ( element.getLocalProperty( module, prop ) != null )
 					{
 						PropertyRecord record = new PropertyRecord( element,
 								prop.getName( ), null );
@@ -162,6 +174,13 @@ public class ExtendsCommand extends AbstractElementCommand
 			if ( StringUtil.isBlank( name ) )
 				throw new ExtendsException( element, "", //$NON-NLS-1$
 						ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
+			
+			Module module = parent.getRoot();
+			if ( module instanceof Library )
+			{
+				String namespace  = ((Library) module).getNamespace();
+				name = StringUtil.buildQualifiedReference( namespace, name );
+			}
 		}
 		setExtendsName( name );
 	}

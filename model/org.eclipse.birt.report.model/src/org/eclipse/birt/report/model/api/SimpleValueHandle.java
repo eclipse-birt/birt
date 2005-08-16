@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 /**
  * Abstract base class that represents a handle for the value to either a
  * property or a structure member.
- *  
+ * 
  */
 
 public abstract class SimpleValueHandle extends ValueHandle
@@ -84,7 +84,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public int getIntValue( )
 	{
-		return ( (PropertyDefn) getDefn( ) ).getIntValue( getDesign( ),
+		return ( (PropertyDefn) getDefn( ) ).getIntValue( getModule( ),
 				getValue( ) );
 	}
 
@@ -96,7 +96,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public String getStringValue( )
 	{
-		return ( (PropertyDefn) getDefn( ) ).getStringValue( getDesign( ),
+		return ( (PropertyDefn) getDefn( ) ).getStringValue( getModule( ),
 				getValue( ) );
 	}
 
@@ -109,7 +109,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public double getFloatValue( )
 	{
-		return ( (PropertyDefn) getDefn( ) ).getFloatValue( getDesign( ),
+		return ( (PropertyDefn) getDefn( ) ).getFloatValue( getModule( ),
 				getValue( ) );
 	}
 
@@ -122,7 +122,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public BigDecimal getNumberValue( )
 	{
-		return ( (PropertyDefn) getDefn( ) ).getNumberValue( getDesign( ),
+		return ( (PropertyDefn) getDefn( ) ).getNumberValue( getModule( ),
 				getValue( ) );
 	}
 
@@ -141,16 +141,15 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 		return null;
 	}
-	
+
 	/**
 	 * gets the localized value of the property.
 	 * 
-	 * @return
-	 * 		the localized value
+	 * @return the localized value
 	 */
 	public String getDisplayValue( )
 	{
-		return ( (PropertyDefn) getDefn( ) ).getDisplayValue( getDesign( ),
+		return ( (PropertyDefn) getDefn( ) ).getDisplayValue( getModule( ),
 				getValue( ) );
 	}
 
@@ -169,7 +168,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( isList( ) )
 		{
 			MemberRef structRef = new CachedMemberRef( getReference( ), n );
-			Structure struct = structRef.getStructure( getDesign( ),
+			Structure struct = structRef.getStructure( getModule( ),
 					getElement( ) );
 
 			if ( struct != null )
@@ -323,7 +322,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void removeItem( int posn ) throws PropertyValueException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.removeItem( getReference( ), posn );
 	}
 
@@ -340,7 +339,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void removeItem( IStructure item ) throws PropertyValueException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.removeItem( getReference( ), item );
 	}
 
@@ -360,12 +359,11 @@ public abstract class SimpleValueHandle extends ValueHandle
 	{
 		if ( items == null )
 			return;
-		ActivityStack stack = getDesign( ).getActivityStack( );
+		ActivityStack stack = getModule( ).getActivityStack( );
 		List newItems = new ArrayList( );
 		for ( int i = 0; i < items.size( ); i++ )
 		{
-			newItems.add( ( (StructureHandle) items.get( i ) )
-					.getStructure( ) );
+			newItems.add( ( (StructureHandle) items.get( i ) ).getStructure( ) );
 		}
 		stack.startTrans( );
 		try
@@ -402,7 +400,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	public void replaceItem( IStructure oldItem, IStructure newItem )
 			throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.replaceItem( getReference( ), oldItem, newItem );
 	}
 
@@ -424,7 +422,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( item == null )
 			return null;
 
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( getReference( ), item );
 
 		return ( (Structure) item ).getHandle( this );
@@ -454,7 +452,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( item == null )
 			return null;
 
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.insertItem( this.getReference( ), item, posn );
 
 		return ( (Structure) item ).getHandle( this );
@@ -477,7 +475,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void moveItem( int from, int to ) throws PropertyValueException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.moveItem( getReference( ), from, to );
 	}
 
@@ -527,14 +525,17 @@ public abstract class SimpleValueHandle extends ValueHandle
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
-			unit = getDesign( ).getUnits( );
-			if ( !StringUtil.isBlank( unit ) )
-				return unit;
-			return getDesign( ).getSession( ).getUnits( );
+			if ( getDesign( ) != null )
+			{
+				unit = getDesign( ).getUnits( );
+				if ( !StringUtil.isBlank( unit ) )
+					return unit;
+				return getDesign( ).getSession( ).getUnits( );
+			}
 		}
 		return DimensionValue.DEFAULT_UNIT;
-	}	
-	
+	}
+
 	/**
 	 * Checks whether a value is visible in the property sheet.
 	 * 

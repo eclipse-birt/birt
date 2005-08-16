@@ -69,7 +69,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	{
 		super( element );
 		propDefn = prop;
-		value = element.getElement( ).getFactoryProperty( element.getDesign( ),
+		value = element.getElement( ).getFactoryProperty( element.getModule( ),
 				propDefn );
 	}
 
@@ -125,7 +125,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 			return formatValue.getPattern( );
 		}
 
-		return propDefn.getStringValue( getDesign( ), value );
+		return propDefn.getStringValue( getModule( ), value );
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public double getFloatValue( )
 	{
-		return propDefn.getFloatValue( getDesign( ), value );
+		return propDefn.getFloatValue( getModule( ), value );
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public BigDecimal getNumberValue( )
 	{
-		return propDefn.getNumberValue( getDesign( ), value );
+		return propDefn.getNumberValue( getModule( ), value );
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public boolean getBooleanValue( )
 	{
-		return propDefn.getBooleanValue( getDesign( ), value );
+		return propDefn.getBooleanValue( getModule( ), value );
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 		if ( type.getTypeCode( ) == PropertyType.COLOR_TYPE )
 			return ( (ColorPropertyType) type )
-					.toCssColor( getDesign( ), value );
+					.toCssColor( getModule( ), value );
 		return null;
 	}
 }

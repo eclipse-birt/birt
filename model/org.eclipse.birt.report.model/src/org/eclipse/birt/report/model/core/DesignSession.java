@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -35,6 +37,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
+import org.eclipse.birt.report.model.parser.LibraryReader;
 
 /**
  * Represents a design session for a user of the application based on the Design
@@ -72,7 +75,13 @@ public class DesignSession
 	 * The list of open designs for the user.
 	 */
 
-	protected ArrayList designs = new ArrayList( );
+	protected List designs = new ArrayList( );
+
+	/**
+	 * The list of open libraries for the user.
+	 */
+
+	protected List libraries = new ArrayList( );
 
 	/**
 	 * The user's locale.
@@ -146,7 +155,7 @@ public class DesignSession
 	 * 
 	 * @param fileName
 	 *            The name of the file to open.
-	 * @return A handle to the report design.
+	 * @return the opened report design.
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
 	 */
@@ -169,7 +178,7 @@ public class DesignSession
 	 *            file.
 	 * @param is
 	 *            stream to read the design
-	 * @return A handle to the report design.
+	 * @return the opened report design
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
 	 */
@@ -180,6 +189,23 @@ public class DesignSession
 		ReportDesign design = DesignReader.read( this, fileName, is );
 		designs.add( design );
 		return design;
+	}
+
+	/**
+	 * Opens a library with the given library file name.
+	 * 
+	 * @param fileName
+	 *            the file name of the library to open.
+	 * @return the opened library
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( String fileName ) throws DesignFileException
+	{
+		Library library = LibraryReader.read( this, fileName );
+		libraries.add( library );
+		return library;
 	}
 
 	/**
@@ -212,6 +238,20 @@ public class DesignSession
 	}
 
 	/**
+	 * Creates a new library.
+	 * 
+	 * @return the created library.
+	 */
+
+	public Library createLibrary( )
+	{
+		Library library = new Library( this );
+		library.setValid( true );
+		libraries.add( library );
+		return library;
+	}
+
+	/**
 	 * Returns an iterator over the open designs.
 	 * 
 	 * @return an iterator over the designs
@@ -223,16 +263,51 @@ public class DesignSession
 	}
 
 	/**
-	 * Removes a report design from the list of open report designs.
+	 * Returns an iterator over the open libraries.
 	 * 
-	 * @param root
-	 *            the report design to drop
+	 * @return an iterator over the libraries
 	 */
 
-	public void drop( RootElement root )
+	public Iterator getLibraryIterator( )
 	{
-		assert designs.contains( root );
-		designs.remove( root );
+		return libraries.iterator( );
+	}
+
+	/**
+	 * Returns an interator over the open libraries and designs.
+	 * 
+	 * @return an iterator over the open libraries and designs
+	 */
+
+	public Iterator getModuleIterator( )
+	{
+		List roots = new ArrayList( );
+
+		roots.addAll( designs );
+		roots.addAll( libraries );
+
+		return roots.iterator( );
+	}
+
+	/**
+	 * Removes a report design from the list of open report designs.
+	 * 
+	 * @param module
+	 *            the module to drop
+	 */
+
+	public void drop( Module module )
+	{
+		if ( module instanceof ReportDesign )
+		{
+			assert designs.contains( module );
+			designs.remove( module );
+		}
+		else if ( module instanceof Library )
+		{
+			assert libraries.contains( module );
+			libraries.remove( module );
+		}
 	}
 
 	/**

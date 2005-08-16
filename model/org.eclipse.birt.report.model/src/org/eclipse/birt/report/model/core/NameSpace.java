@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -94,25 +95,41 @@ public final class NameSpace implements Cloneable
 	 * an element with an optional name either obtains or drops its name.
 	 * 
 	 * @param element
-	 *            The renamed element.
+	 *            The element which is renamed or will be renamed.
 	 * @param oldName
 	 *            The previous name in the name space.
+	 * @param newName
+	 *            The new name in the name space.
 	 */
 
-	public void rename( DesignElement element, String oldName )
+	 public void rename( DesignElement element, String oldName, String newName )
 	{
 		if ( oldName != null )
 		{
 			assert names.get( oldName ) == element;
 			names.remove( oldName );
 		}
-		String newName = element.getName( );
 		if ( newName != null )
 		{
 			assert names.get( newName ) == null;
 			names.put( newName, element );
 		}
 	}
+
+	//	public void rename( DesignElement element, String oldName )
+//	{
+//		if ( oldName != null )
+//		{
+//			assert names.get( oldName ) == element;
+//			names.remove( oldName );
+//		}
+//		String newName = element.getName( );
+//		if ( newName != null )
+//		{
+//			assert names.get( newName ) == null;
+//			names.put( newName, element );
+//		}
+//	}
 
 	/**
 	 * Checks if the name appears within the name space.
@@ -141,18 +158,6 @@ public final class NameSpace implements Cloneable
 	}
 
 	/**
-	 * Obtains an iterator over the items in the name space. The items are
-	 * unsorted.
-	 * 
-	 * @return An iterator over the elements.
-	 */
-
-	public Iterator iterator( )
-	{
-		return names.values( ).iterator( );
-	}
-
-	/**
 	 * Returns the number of items in the name space.
 	 * 
 	 * @return The element count.
@@ -162,9 +167,21 @@ public final class NameSpace implements Cloneable
 	{
 		return names.size( );
 	}
-	
-	public Object clone() throws CloneNotSupportedException{
-		
+
+	/**
+	 * Returns the element list in this name space. The elements are unsorted.
+	 * 
+	 * @return the element list
+	 */
+
+	public List getElements( )
+	{
+		return new ArrayList( names.values( ) );
+	}
+
+	public Object clone( ) throws CloneNotSupportedException
+	{
+
 		NameSpace ns = (NameSpace) super.clone( );
 		ns.names = new HashMap( );
 
@@ -178,19 +195,21 @@ public final class NameSpace implements Cloneable
 	 *            the new cloned report design
 	 * @see java.lang.Object#clone()
 	 */
-	public static void rebuildNamespace( ReportDesign design ) throws CloneNotSupportedException
+	public static void rebuildNamespace( ReportDesign design )
+			throws CloneNotSupportedException
 	{
-	
+
 		for ( int i = 0; i < IReportDesignModel.SLOT_COUNT; i++ )
 		{
 			ContainerSlot slot = design.getSlot( i );
 			for ( int j = 0; j < slot.getCount( ); j++ )
 			{
 				DesignElement element = slot.getContent( j );
-				ElementDefn elementDefn = (ElementDefn)element.getDefn( );
-				int namespaceId = elementDefn.getNameSpaceID();
+				ElementDefn elementDefn = (ElementDefn) element.getDefn( );
+				int namespaceId = elementDefn.getNameSpaceID( );
 
-				design.getNameSpace( namespaceId ).names.put( element.name, element );	
+				design.getNameSpace( namespaceId ).names.put( element.name,
+						element );
 			}
 		}
 	}

@@ -15,8 +15,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 /**
@@ -53,15 +53,15 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	 * application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public ImageHandle( ReportDesign design, DesignElement element )
+	public ImageHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			design.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( );
 
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EMBED );
@@ -270,10 +270,10 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			design.getActivityStack( ).rollback( );
+			module.getActivityStack( ).rollback( );
 			throw e;
 		}
-		design.getActivityStack( ).commit( );
+		module.getActivityStack( ).commit( );
 	}
 
 	/**
@@ -293,17 +293,17 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 
 		try
 		{
-			design.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( );
 
 			setProperty( ImageItem.SOURCE_PROP, source );
 			setProperty( ImageItem.URI_PROP, uri );
 		}
 		catch ( SemanticException e )
 		{
-			design.getActivityStack( ).rollback( );
+			module.getActivityStack( ).rollback( );
 			throw e;
 		}
-		design.getActivityStack( ).commit( );
+		module.getActivityStack( ).commit( );
 	}
 
 	/**
@@ -359,7 +359,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			design.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( );
 
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -367,10 +367,10 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			design.getActivityStack( ).rollback( );
+			module.getActivityStack( ).rollback( );
 			throw e;
 		}
-		design.getActivityStack( ).commit( );
+		module.getActivityStack( ).commit( );
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	{
 		try
 		{
-			design.getActivityStack( ).startTrans( );
+			module.getActivityStack( ).startTrans( );
 
 			setProperty( ImageItem.SOURCE_PROP,
 					DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
@@ -395,10 +395,10 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		}
 		catch ( SemanticException e )
 		{
-			design.getActivityStack( ).rollback( );
+			module.getActivityStack( ).rollback( );
 			throw e;
 		}
-		design.getActivityStack( ).commit( );
+		module.getActivityStack( ).commit( );
 	}
 
 	/**

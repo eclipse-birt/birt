@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
@@ -127,12 +128,12 @@ public abstract class ListingElement extends ReportItem
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			String name = getStringProperty( design, ReportItem.DATA_SET_PROP );
+			String name = getStringProperty( module, ReportItem.DATA_SET_PROP );
 			name = limitStringLength( name );
 			if ( !StringUtil.isBlank( name ) )
 			{
@@ -148,26 +149,26 @@ public abstract class ListingElement extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		list.addAll( validateStructureList( design, SORT_PROP ) );
-		list.addAll( validateStructureList( design, FILTER_PROP ) );
+		list.addAll( validateStructureList( module, SORT_PROP ) );
+		list.addAll( validateStructureList( module, FILTER_PROP ) );
 
 		// Check whether this table/list has data set or its List/Table
 		// container has data set.
 
-		if ( getDataSetElement( design ) == null )
+		if ( getDataSetElement( module ) == null )
 		{
 			list.addAll( DataSetRequiredValidator.getInstance( ).validate(
-					design, this ) );
+					module, this ) );
 		}
 		else
 		{
 			// do the check of the group name
 
-			list.addAll( GroupNameValidator.getInstance( ).validate( design,
+			list.addAll( GroupNameValidator.getInstance( ).validate( module,
 					this ) );
 		}
 
@@ -182,10 +183,10 @@ public abstract class ListingElement extends ReportItem
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	protected List checkContent( ReportDesign design, DesignElement container,
+	protected List checkContent( Module module, DesignElement container,
 			int slotId, DesignElement content )
 	{
-		List errors = super.checkContent( design, container, slotId, content );
+		List errors = super.checkContent( module, container, slotId, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
@@ -193,14 +194,14 @@ public abstract class ListingElement extends ReportItem
 
 		if ( content instanceof GroupElement )
 		{
-			String checkedName = (String) content.getLocalProperty( design,
+			String checkedName = (String) content.getLocalProperty( module,
 					GroupElement.GROUP_NAME_PROP );
 			if ( StringUtil.isBlank( checkedName ) )
 				return errors;
 
 			errors.addAll( GroupNameValidator.getInstance( )
 					.validateForAddingGroup(
-							(ListingHandle) getHandle( design ), checkedName ) );
+							(ListingHandle) getHandle( module ), checkedName ) );
 		}
 
 		return errors;

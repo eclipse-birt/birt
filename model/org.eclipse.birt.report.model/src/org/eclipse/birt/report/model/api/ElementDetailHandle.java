@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
- * Abstract base class for property handles, slot handles, structure handles
- * an other handles that provide detail about a report element.
+ * Abstract base class for property handles, slot handles, structure handles an
+ * other handles that provide detail about a report element.
  */
 
 public abstract class ElementDetailHandle
@@ -49,6 +50,17 @@ public abstract class ElementDetailHandle
 	public ReportDesign getDesign( )
 	{
 		return elementHandle.getDesign( );
+	}
+
+	/**
+	 * Returns the module
+	 * 
+	 * @return the module
+	 */
+	
+	public Module getModule( )
+	{
+		return elementHandle.getModule( );
 	}
 
 	/**

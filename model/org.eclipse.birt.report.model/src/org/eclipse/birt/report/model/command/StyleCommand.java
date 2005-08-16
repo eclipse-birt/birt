@@ -15,13 +15,13 @@ import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Sets the style property of an element.
- *  
+ * 
  */
 
 public class StyleCommand extends AbstractElementCommand
@@ -30,15 +30,15 @@ public class StyleCommand extends AbstractElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            The element to modify.
 	 */
 
-	public StyleCommand( ReportDesign design, DesignElement obj )
+	public StyleCommand( Module module, DesignElement obj )
 	{
-		super( design, obj );
+		super( module, obj );
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class StyleCommand extends AbstractElementCommand
 		StyleElement oldValue = obj.getStyle( );
 		if ( name != null )
 		{
-			style = getRootElement( ).findStyle( name );
+			style = getModule( ).findStyle( name );
 			if ( style == null )
 			{
 				if ( !name.equals( obj.getStyleName( ) ) )

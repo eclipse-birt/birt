@@ -15,7 +15,10 @@ import java.io.UnsupportedEncodingException;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
+import org.eclipse.birt.report.model.elements.Library;
 
 /**
  * Represents the handle of an embedded image. The class gives the name and type
@@ -156,4 +159,27 @@ public class EmbeddedImageHandle extends StructureHandle
 	{
 		setProperty( EmbeddedImage.TYPE_MEMBER, type );
 	}
+	
+	/**
+	 * Returns the qualified name of this element. The qualified name is the 
+	 * name of this element if this element is in module user is editing.
+	 * 
+	 * @return the qualified name of thie element.
+	 */
+
+	public String getQualifiedName( )
+	{
+
+		if ( getName( ) == null )
+			return null;
+
+		Module module = getModule( );
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			return StringUtil.buildQualifiedReference( namespace, getName( ) );
+		}
+
+		return getName( );
+	}	
 }

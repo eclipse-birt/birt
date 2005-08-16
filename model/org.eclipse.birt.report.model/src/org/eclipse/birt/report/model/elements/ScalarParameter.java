@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 
 /**
@@ -80,24 +81,24 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public ScalarParameterHandle handle( ReportDesign design )
+	public ScalarParameterHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ScalarParameterHandle( design, this );
+			handle = new ScalarParameterHandle( module, this );
 		}
 		return (ScalarParameterHandle) handle;
 	}
@@ -107,15 +108,15 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 	 * list tag exists and this tag has attributes for value or label column, it
 	 * must have a property for the data set name.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(module)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		list.addAll( DataSetNameRequiredValidator.getInstance( ).validate(
-				design, this ) );
+				module, this ) );
 
 		return list;
 	}

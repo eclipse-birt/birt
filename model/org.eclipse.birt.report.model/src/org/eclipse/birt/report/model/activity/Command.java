@@ -1,19 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.activity;
 
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
-import org.eclipse.birt.report.model.core.RootElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class is the base class for commands that modify elements. Provides
@@ -30,10 +29,10 @@ public abstract class Command
 {
 
 	/**
-	 * The root element that provides access to the command stack.
+	 * The module that provides access to the command stack.
 	 */
 
-	protected ReportDesign design = null;
+	protected Module module = null;
 
 	/**
 	 * Optional UI hint. The sender identifies the UI that issued this command.
@@ -47,13 +46,13 @@ public abstract class Command
 	/**
 	 * Constructor.
 	 * 
-	 * @param theDesign
-	 *            the report design
+	 * @param module
+	 *            the module
 	 */
 
-	public Command( ReportDesign theDesign )
+	public Command( Module module )
 	{
-		design = theDesign;
+		this.module = module;
 	}
 
 	/**
@@ -64,18 +63,18 @@ public abstract class Command
 
 	public ActivityStack getActivityStack( )
 	{
-		return design.getActivityStack( );
+		return module.getActivityStack( );
 	}
 
 	/**
-	 * Returns the root element.
+	 * Returns the module.
 	 * 
-	 * @return the root element.
+	 * @return the module.
 	 */
 
-	public RootElement getRootElement( )
+	public Module getModule( )
 	{
-		return design;
+		return module;
 	}
 
 	/**

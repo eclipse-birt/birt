@@ -17,11 +17,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -62,23 +62,23 @@ public class StyleReferenceValidator extends AbstractElementValidator
 	/**
 	 * Validates the style reference value can refer to an actual style.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the styled element holding the style reference
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof StyledElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (StyledElement) element );
+		return doValidate( module, (StyledElement) element );
 	}
 
-	private List doValidate( ReportDesign design, StyledElement toValidate )
+	private List doValidate( Module module, StyledElement toValidate )
 	{
 		List list = new ArrayList( );
 
@@ -87,16 +87,19 @@ public class StyleReferenceValidator extends AbstractElementValidator
 
 		if ( styleName != null && style == null )
 		{
-			NameSpace ns = design.getNameSpace( RootElement.STYLE_NAME_SPACE );
-			StyleElement theStyle = (StyleElement) ns.getElement( styleName );
-			if ( theStyle == null )
+			IModuleNameSpace nameSpace = module.getModuleNameSpace( Module.STYLE_NAME_SPACE );
+			ElementRefValue refValue = nameSpace.resolve( styleName );
+//			StyleElement theStyle = (StyleElement) nameSpace.getElement( styleName );
+//			NameSpace ns = module.getNameSpace( Module.STYLE_NAME_SPACE );
+//			StyleElement theStyle = (StyleElement) ns.getElement( styleName );
+			if ( ! refValue.isResolved( ) )
 			{
 				list.add( new StyleException( toValidate, styleName,
 						StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
 			}
 			else
 			{
-				toValidate.setStyle( theStyle );
+				toValidate.setStyle( (StyleElement) refValue.getElement( ) );
 			}
 		}
 

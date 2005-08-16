@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Base class for parsing all kinds of parameter.
@@ -34,7 +34,7 @@ public abstract class ParameterState extends ReportElementState
 	 *            the slot ID of the slot where the parameter is stored.
 	 */
 	
-	public ParameterState( DesignParserHandler handler,
+	public ParameterState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
@@ -47,8 +47,8 @@ public abstract class ParameterState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	ParameterState( DesignParserHandler handler )
+	ParameterState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getDesign( ), ReportDesign.PARAMETER_SLOT );
+		super( handler, handler.getModule( ), Module.PARAMETER_SLOT );
 	}
 }

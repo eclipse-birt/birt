@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
@@ -58,7 +58,7 @@ public class StructureValidator extends AbstractPropertyValidator
 	 * @see org.eclipse.birt.report.model.validators.AbstractPropertyValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
     
-	public List validate( ReportDesign design, DesignElement element, String propName )
+	public List validate( Module module, DesignElement element, String propName )
 	{
         List errorList = new ArrayList( );
         ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
@@ -66,10 +66,10 @@ public class StructureValidator extends AbstractPropertyValidator
         assert propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE
                 && !propDefn.isList( );
         
-        Structure struct = (Structure) element.getLocalProperty( design, propDefn );
+        Structure struct = (Structure) element.getLocalProperty( module, propDefn );
         if( struct != null )
         {
-            errorList.addAll( struct.validate( design, element ) );
+            errorList.addAll( struct.validate( module, element ) );
         }
         
 		return errorList;

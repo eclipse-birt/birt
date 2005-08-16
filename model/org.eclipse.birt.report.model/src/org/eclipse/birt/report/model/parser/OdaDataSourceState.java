@@ -37,7 +37,7 @@ public class OdaDataSourceState extends DataSourceState
 	 *            the design file parser handler
 	 */
 
-	public OdaDataSourceState( DesignParserHandler handler )
+	public OdaDataSourceState( ModuleParserHandler handler )
 	{
 		super( handler );
 		element = new OdaDataSource( );

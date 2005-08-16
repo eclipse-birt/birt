@@ -95,7 +95,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 
 	public void setValue( Object value ) throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 
 		if ( memberRef == null )
 		{
@@ -118,12 +118,12 @@ public abstract class ComplexValueHandle extends ValueHandle
 		Object value = null;
 		if ( memberRef == null )
 		{
-			value = getElement( ).getProperty( getDesign( ), propDefn );
+			value = getElement( ).getProperty( getModule( ), propDefn );
 
 		}
 		else
 		{
-			value = memberRef.getValue( getDesign( ), getElement( ) );
+			value = memberRef.getValue( getModule( ), getElement( ) );
 		}
 
 		return value;
@@ -154,7 +154,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	{
 		PropertyDefn prop = memberRef == null ? propDefn : memberRef
 				.getMemberDefn( );
-		return prop.getStringValue( getDesign( ), getValue( ) );
+		return prop.getStringValue( getModule( ), getValue( ) );
 	}
 
 	/**
@@ -168,7 +168,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 	{
 		PropertyDefn prop = memberRef == null ? propDefn : memberRef
 				.getMemberDefn( );
-		return prop.getDisplayValue( getDesign( ), getValue( ) );
+		return prop.getDisplayValue( getModule( ), getValue( ) );
 	}
 
 	/*
@@ -236,7 +236,7 @@ public abstract class ComplexValueHandle extends ValueHandle
 			return handle.isSet( );
 		}
 
-		Object value = memberRef.getValue( getDesign( ), getElement( ) );
+		Object value = memberRef.getValue( getModule( ), getElement( ) );
 		return ( value != null );
 	}
 }

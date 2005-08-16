@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.core;
 
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -28,8 +27,8 @@ public interface IPropertySet extends Cloneable
 	 * Gets the value of a property. An assertion occurs if the member name is
 	 * not valid.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param prop
 	 *            definition of the property to get
@@ -37,7 +36,7 @@ public interface IPropertySet extends Cloneable
 	 *         is not found.
 	 */
 
-	Object getProperty( ReportDesign design, PropertyDefn prop );
+	Object getProperty( Module module, PropertyDefn prop );
 
 	/**
 	 * Sets the value of a property. An assertion occurs if the member name is

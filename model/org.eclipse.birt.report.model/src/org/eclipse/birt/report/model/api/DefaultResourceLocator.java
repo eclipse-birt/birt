@@ -39,18 +39,18 @@ public class DefaultResourceLocator implements IResourceLocator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.ISearchFileAlgorithm#findFile(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse.birt.report.model.api.ModuleHandle,
+	 *      java.lang.String, int)
 	 */
 
-	public URL findResource( ReportDesignHandle designHandle, String fileName,
+	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type )
 	{
-		assert designHandle != null;
+		assert moduleHandle != null;
 		if ( fileName == null )
 			return null;
-		
-		String base = designHandle.getFileName( );
+
+		String base = moduleHandle.getFileName( );
 		if ( base != null )
 		{
 			File baseFile = new File( base );

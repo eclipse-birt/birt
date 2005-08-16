@@ -22,9 +22,8 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * This class provides property masks of system or user defined properties. Name
@@ -200,14 +199,14 @@ public class PropertyMask extends Structure
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
 			list.add( new PropertyValueException( element,
-					 (PropertyDefn) getDefn( ) .getMember( MASK_MEMBER ),
+					 getDefn( ) .getMember( MASK_MEMBER ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

@@ -68,7 +68,7 @@ class ExpressionState extends PropertyState
 		return super.jumpTo( );
 	}
 
-	ExpressionState( DesignParserHandler theHandler, DesignElement element )
+	ExpressionState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 	}
@@ -81,7 +81,7 @@ class ExpressionState extends PropertyState
 	 *      struct)
 	 */
 
-	ExpressionState( DesignParserHandler theHandler, DesignElement element,
+	ExpressionState( ModuleParserHandler theHandler, DesignElement element,
 			PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );

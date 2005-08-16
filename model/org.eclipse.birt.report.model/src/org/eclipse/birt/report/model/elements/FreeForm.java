@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 
@@ -111,25 +112,25 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle()
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the design for the free form.
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public FreeFormHandle handle( ReportDesign design )
+	public FreeFormHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new FreeFormHandle( design, this );
+			handle = new FreeFormHandle( module, this );
 		}
 		return (FreeFormHandle) handle;
 	}

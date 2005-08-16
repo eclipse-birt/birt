@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 /**
@@ -102,24 +103,24 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public ImageHandle handle( ReportDesign design )
+	public ImageHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ImageHandle( design, this );
+			handle = new ImageHandle( module, this );
 		}
 		return (ImageHandle) handle;
 	}
@@ -157,33 +158,33 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
 			displayLabel += "("; //$NON-NLS-1$
 
-			String sourceType = getStringProperty( design, SOURCE_PROP );
+			String sourceType = getStringProperty( module, SOURCE_PROP );
 
 			if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 					.equalsIgnoreCase( sourceType )
 					|| DesignChoiceConstants.IMAGE_REF_TYPE_URL
 							.equalsIgnoreCase( sourceType ) )
 			{
-				displayLabel += limitStringLength( getStringProperty( design,
+				displayLabel += limitStringLength( getStringProperty( module,
 						URI_PROP ) );
 			}
 			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
 					.equalsIgnoreCase( sourceType ) )
 			{
-				displayLabel += limitStringLength( getStringProperty( design,
+				displayLabel += limitStringLength( getStringProperty( module,
 						IMAGE_NAME_PROP ) );
 			}
 			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 					.equalsIgnoreCase( sourceType ) )
 			{
-				displayLabel += limitStringLength( getStringProperty( design,
+				displayLabel += limitStringLength( getStringProperty( module,
 						VALUE_EXPR_PROP ) );
 			}
 

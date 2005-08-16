@@ -68,7 +68,7 @@ public class CompatibleOdaDataSourcePropertyState extends PropertyState
 	final static String SAMPLE_DB_EXTENSION_ID = "org.eclipse.birt.report.data.oda.sampledb"; //$NON-NLS-1$
 	final static String FLAT_FILE_EXTENSION_ID = "org.eclipse.birt.report.data.oda.flatfile"; //$NON-NLS-1$
 
-	CompatibleOdaDataSourcePropertyState( DesignParserHandler theHandler,
+	CompatibleOdaDataSourcePropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );

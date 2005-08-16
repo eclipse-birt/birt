@@ -39,7 +39,7 @@ public class GridItemState extends ReportItemState
 	 * @param slot the slot in which this element appears
 	 */
 	
-	public GridItemState( DesignParserHandler handler,
+	public GridItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

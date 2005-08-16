@@ -18,9 +18,9 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -56,15 +56,15 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	/**
 	 * Validates whether any cell in the given row overlaps others.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the row to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof TableRow ) )
 			return Collections.EMPTY_LIST;
@@ -72,10 +72,10 @@ public class CellOverlappingValidator extends AbstractElementValidator
 		if ( element.getContainer( ) == null )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (TableRow) element );
+		return doValidate( module, (TableRow) element );
 	}
 
-	private List doValidate( ReportDesign design, TableRow toValidate )
+	private List doValidate( Module module, TableRow toValidate )
 	{
 		List list = new ArrayList( );
 
@@ -86,7 +86,7 @@ public class CellOverlappingValidator extends AbstractElementValidator
 
 		// Verify that no cells overlap.
 
-		int colCount = toValidate.getColumnCount( design );
+		int colCount = toValidate.getColumnCount( module );
 
 		// if the column count is zero or negative, it means that the
 		// cells in the row may have some semantic errors. Since the check
@@ -106,9 +106,9 @@ public class CellOverlappingValidator extends AbstractElementValidator
 		for ( int i = 0; i < cellCount; i++ )
 		{
 			Cell cell = (Cell) toValidate.getContentsSlot( ).get( i );
-			int colPosn = cell.getColumn( design );
-			int colSpan = cell.getColSpan( design );
-			int rowSpan = cell.getRowSpan( design );
+			int colPosn = cell.getColumn( module );
+			int colSpan = cell.getColSpan( module );
+			int rowSpan = cell.getRowSpan( module );
 
 			if ( colPosn > 0 )
 				colPosn--;
@@ -117,7 +117,7 @@ public class CellOverlappingValidator extends AbstractElementValidator
 
 			// Check the horizontal and vertical cell span
 
-			if ( !checkColSpan( cols, cell, colPosn, colSpan )
+			if ( !checkColSpan( cols, colPosn, colSpan )
 					|| !checkRowSpan( rowCount, rowPosn, rowSpan ) )
 				ok = false;
 
@@ -155,8 +155,6 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	 * 
 	 * @param cols
 	 *            column array which records the cell allocation
-	 * @param cell
-	 *            cell element to check
 	 * @param colPosn
 	 *            column position of the cell
 	 * @param colSpan
@@ -164,7 +162,7 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	 * @return whether the horizontal overlap exists
 	 */
 
-	private boolean checkColSpan( boolean cols[], Cell cell, int colPosn,
+	private boolean checkColSpan( boolean cols[], int colPosn,
 			int colSpan )
 	{
 		boolean ok = true;

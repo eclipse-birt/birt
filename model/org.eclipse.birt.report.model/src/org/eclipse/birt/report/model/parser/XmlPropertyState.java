@@ -35,7 +35,7 @@ class XmlPropertyState extends PropertyState
 	 *      theHandler, DesignElement element, )
 	 */
 
-	XmlPropertyState( DesignParserHandler theHandler, DesignElement element )
+	XmlPropertyState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 	}
@@ -48,7 +48,7 @@ class XmlPropertyState extends PropertyState
 	 *      struct)
 	 */
 
-	XmlPropertyState( DesignParserHandler theHandler,
+	XmlPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, IStructure struct )
 	{
 		super( theHandler, element, propDefn, struct );

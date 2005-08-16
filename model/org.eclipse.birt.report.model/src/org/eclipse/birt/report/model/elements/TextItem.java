@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 /**
@@ -74,25 +75,25 @@ public class TextItem extends ReportItem implements ITextItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an handle for this text element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * 
 	 * @return a handle for this element
 	 */
 
-	public TextItemHandle handle( ReportDesign design )
+	public TextItemHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new TextItemHandle( design, this );
+			handle = new TextItemHandle( module, this );
 		}
 		return (TextItemHandle) handle;
 	}
@@ -104,12 +105,12 @@ public class TextItem extends ReportItem implements ITextItemModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			String text = getStringProperty( design, TextItem.CONTENT_PROP );
+			String text = getStringProperty( module, TextItem.CONTENT_PROP );
 
 			if ( !StringUtil.isBlank( text ) )
 			{
@@ -118,7 +119,7 @@ public class TextItem extends ReportItem implements ITextItemModel
 				return displayLabel;
 			}
 
-			String resourceKey = getStringProperty( design,
+			String resourceKey = getStringProperty( module,
 					TextItem.CONTENT_RESOURCE_KEY_PROP );
 			if ( !StringUtil.isBlank( resourceKey ) )
 			{

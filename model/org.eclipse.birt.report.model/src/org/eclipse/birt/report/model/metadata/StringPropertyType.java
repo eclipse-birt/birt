@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * String property type.
@@ -52,7 +52,7 @@ public class StringPropertyType extends PropertyType
 	 * @return a <code>String</code> object or null
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
@@ -83,7 +83,7 @@ public class StringPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyValidator#validateXml(java.lang.String)
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		// For config variable, "" and null are different values.
@@ -130,7 +130,7 @@ public class StringPropertyType extends PropertyType
 	 * return 0.
 	 */
 
-	public double toDouble( ReportDesign design, Object value )
+	public double toDouble( Module module, Object value )
 	{
 		// Strings cannot be converted to doubles because the conversion
 		// rules are locale-dependent.
@@ -144,7 +144,7 @@ public class StringPropertyType extends PropertyType
 	 * @return <code>value</code> as a string.
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		return (String) value;
 	}
@@ -156,7 +156,7 @@ public class StringPropertyType extends PropertyType
 	 *         if <code>value</code> is null.
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;

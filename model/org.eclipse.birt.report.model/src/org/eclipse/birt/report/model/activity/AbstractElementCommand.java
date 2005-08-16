@@ -1,19 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.activity;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class is the base class for commands that work directly with the
@@ -23,23 +22,66 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 
 public abstract class AbstractElementCommand extends Command
 {
+
 	/**
 	 * The element to modify.
 	 */
-	
+
 	protected DesignElement element = null;
-	
+
 	/**
 	 * Constructor.
 	 * 
-	 * @param design the report design
-	 * @param obj the element to modify
+	 * @param module
+	 *            the module
+	 * @param obj
+	 *            the element to modify
 	 */
-	
-	public AbstractElementCommand( ReportDesign design, DesignElement obj )
+
+	public AbstractElementCommand( Module module, DesignElement obj )
 	{
-		super( design );
+		super( module );
 		assert obj != null;
 		element = obj;
+	}
+
+	/**
+	 * Checks and adjusts the new position.
+	 * 
+	 * @param oldPosn
+	 *            the old position
+	 * @param newPosn
+	 *            the new position
+	 * @param size
+	 *            the list size
+	 * @return the adjusted new position.
+	 */
+
+	static protected int checkAndAdjustPosition( int oldPosn, int newPosn,
+			int size )
+	{
+		if ( newPosn < 0 )
+			newPosn = 0;
+		if ( newPosn > size - 1 )
+			newPosn = size;
+
+		if ( oldPosn < 0 || oldPosn > size )
+			throw new IndexOutOfBoundsException(
+					"From: " + oldPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+
+		if ( newPosn < 0 || newPosn > size )
+			throw new IndexOutOfBoundsException(
+					"To: " + newPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+
+		if ( oldPosn == newPosn || oldPosn + 1 == newPosn )
+			return oldPosn;
+
+		// adjust the position when move a item from a position with a small
+		// index to another position with a bigger index.
+
+		if ( oldPosn < newPosn )
+			return newPosn - 1;
+
+		return newPosn;
 	}
 }

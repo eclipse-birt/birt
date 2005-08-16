@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 
@@ -78,25 +79,25 @@ public class TableColumn extends StyledElement implements ITableColumnModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design of the column
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public ColumnHandle handle( ReportDesign design )
+	public ColumnHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ColumnHandle( design, this );
+			handle = new ColumnHandle( module, this );
 		}
 		return (ColumnHandle) handle;
 	}

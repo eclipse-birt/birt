@@ -35,7 +35,7 @@ public class TextPropertyState extends AbstractPropertyState
 	 *      theHandler, DesignElement element, )
 	 */
 
-	TextPropertyState( DesignParserHandler theHandler, DesignElement element )
+	TextPropertyState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 
@@ -49,7 +49,7 @@ public class TextPropertyState extends AbstractPropertyState
 	 *      struct)
 	 */
 
-	TextPropertyState( DesignParserHandler theHandler, DesignElement element,
+	TextPropertyState( ModuleParserHandler theHandler, DesignElement element,
 			IStructure struct )
 	{
 		super( theHandler, element );

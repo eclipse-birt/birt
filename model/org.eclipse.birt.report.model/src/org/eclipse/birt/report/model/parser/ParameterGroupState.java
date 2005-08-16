@@ -11,8 +11,8 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -37,9 +37,9 @@ public class ParameterGroupState extends ReportElementState
      * @param handler the design parser handler.
      */
     
-    public ParameterGroupState(DesignParserHandler handler)
+    public ParameterGroupState(ModuleParserHandler handler)
     {
-        super( handler, handler.getDesign(), ReportDesign.PARAMETER_SLOT );
+        super( handler, handler.getModule(), Module.PARAMETER_SLOT );
     }
 
     /*

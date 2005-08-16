@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * An iterator over the children of an element. A child is an element that
@@ -36,29 +36,29 @@ class DerivedElementIterator implements Iterator
 	protected Iterator iter;
 
 	/**
-	 * Report design.
+	 * The module.
 	 */
 
-	protected ReportDesign design;
+	protected Module module;
 
 	/**
 	 * Constructs a iterator with the given design and the design element
 	 * handle.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @param elementHandle
 	 *            handle to the element over which to iterate its derived
 	 *            elements
 	 */
 
-	public DerivedElementIterator( ReportDesign design,
+	public DerivedElementIterator( Module module,
 			DesignElementHandle elementHandle )
 	{
-		assert design != null;
+		assert module != null;
 		assert elementHandle != null;
 
-		this.design = design;
+		this.module = module;
 
 		iter = elementHandle.getElement( ).getDerived( ).iterator( );
 	}
@@ -102,7 +102,7 @@ class DerivedElementIterator implements Iterator
 	{
 		DesignElement derived = (DesignElement) iter.next( );
 
-		return derived.getHandle( design );
+		return derived.getHandle( module );
 	}
 
 }

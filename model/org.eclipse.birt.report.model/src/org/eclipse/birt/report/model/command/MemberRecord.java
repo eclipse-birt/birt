@@ -16,9 +16,9 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -39,10 +39,10 @@ public class MemberRecord extends SimpleRecord
 	protected DesignElement element;
 
 	/**
-	 * The report design of the element to be changed.
+	 * The module of the element to be changed.
 	 */
 
-	protected ReportDesign design;
+	protected Module module;
 
 	/**
 	 * Reference to the member.
@@ -71,8 +71,8 @@ public class MemberRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            the element that contains the property that contains the
 	 *            structure that contains the member.
@@ -82,15 +82,15 @@ public class MemberRecord extends SimpleRecord
 	 *            new value for the member
 	 */
 
-	public MemberRecord( ReportDesign design, DesignElement obj, MemberRef ref,
+	public MemberRecord( Module module, DesignElement obj, MemberRef ref,
 			Object value )
 	{
 		element = obj;
 		memberRef = ref;
 		newValue = value;
-		assert design != null;
-		structure = memberRef.getStructure( design, element );
-		oldValue = memberRef.getLocalValue( design, element );
+		assert module != null;
+		structure = memberRef.getStructure( module, element );
+		oldValue = memberRef.getLocalValue( module, element );
 
 		label = ModelMessages.getMessage(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE,

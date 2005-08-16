@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents script property type. Scripts are stored as strings.
@@ -61,7 +61,7 @@ public class ScriptPropertyType extends TextualPropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java.lang.Object)
 	 */
 	
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		return (String) value;
 	}

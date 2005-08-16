@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
  * for a report item. Since both contexts use exactly the same XML (except for
  * the name and extends attributes), and both use the same property names,
  * having one state handle both contexts makes the parser simpler.
- * 
+ *  
  */
 
 class StyleState extends ReportElementState
@@ -72,9 +72,9 @@ class StyleState extends ReportElementState
 	 *            the design file parser handler
 	 */
 
-	StyleState( DesignParserHandler handler )
+	StyleState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getDesign( ), ReportDesign.STYLE_SLOT );
+		super( handler, handler.getModule( ), ReportDesign.STYLE_SLOT );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class StyleState extends ReportElementState
 	 *            the element being built
 	 */
 
-	StyleState( DesignParserHandler handler, DesignElement obj )
+	StyleState( ModuleParserHandler handler, DesignElement obj )
 	{
 		super( handler );
 		element = obj;

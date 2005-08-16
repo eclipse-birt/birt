@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents the integer property type. Integer property values are stored as
@@ -57,7 +57,7 @@ public class IntegerPropertyType extends PropertyType
 	 * @return object of type Integer or null if value is null..
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
@@ -113,7 +113,7 @@ public class IntegerPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java.lang.Object)
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -127,7 +127,7 @@ public class IntegerPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toInteger(java.lang.Object)
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;

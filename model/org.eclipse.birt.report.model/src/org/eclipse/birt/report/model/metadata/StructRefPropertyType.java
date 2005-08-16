@@ -16,8 +16,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Represents a reference to a structure. A structure reference is different
@@ -87,7 +87,7 @@ public class StructRefPropertyType extends PropertyType
 	 *      java.lang.Object)
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
@@ -97,12 +97,12 @@ public class StructRefPropertyType extends PropertyType
 		if ( value instanceof String )
 		{
 			String name = StringUtil.trimString( (String) value );
-			return validateStringValue( design, targetDefn, name );
+			return validateStringValue( module, targetDefn, name );
 		}
 		if ( value instanceof Structure )
 		{
 			Structure target = (Structure) value;
-			return validateStructValue( design, targetDefn, target );
+			return validateStructValue( module, targetDefn, target );
 		}
 
 		// Invalid property value.
@@ -115,7 +115,7 @@ public class StructRefPropertyType extends PropertyType
 	/**
 	 * Validates the structure name.
 	 * 
-	 * @param design
+	 * @param module
 	 *            report design
 	 * @param targetDefn
 	 *            definition of target structure
@@ -128,14 +128,14 @@ public class StructRefPropertyType extends PropertyType
 	 *             found.
 	 */
 
-	private StructRefValue validateStringValue( ReportDesign design,
+	private StructRefValue validateStringValue( Module module,
 			StructureDefn targetDefn, String name )
 			throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( name ) )
 			return null;
 
-		Structure target = getStructure( design, targetDefn, name );
+		Structure target = getStructure( module, targetDefn, name );
 
 		// Element is unresolved.
 
@@ -155,13 +155,13 @@ public class StructRefPropertyType extends PropertyType
 		return new StructRefValue( target );
 	}
 
-	private Structure getStructure( ReportDesign design,
+	private Structure getStructure( Module module,
 			StructureDefn targetDefn, String name )
 	{
 		if ( StringUtil.isBlank( name ) || targetDefn == null )
 			return null;
 
-		List referencableProperties = design.getReferencablePropertyDefns( );
+		List referencableProperties = module.getReferencablePropertyDefns( );
 		assert !referencableProperties.isEmpty( );
 		IElementPropertyDefn defn = null;
 		for ( int i = 0; i < referencableProperties.size( ); i++ )
@@ -181,7 +181,7 @@ public class StructRefPropertyType extends PropertyType
 		
 		if ( defn.isList( ) )
 		{
-			List list = design.getListProperty( design, defn.getName( ) );
+			List list = module.getListProperty( module, defn.getName( ) );
 			if ( list == null )
 				return null;
 			for ( int i = 0; i < list.size( ); i++ )
@@ -193,7 +193,7 @@ public class StructRefPropertyType extends PropertyType
 		}
 		else
 		{
-			Structure struct = (Structure) design.getProperty( design, defn
+			Structure struct = (Structure) module.getProperty( module, defn
 					.getName( ) );
 			if ( name.equals( struct.getReferencableProperty( ) ) )
 				return struct;
@@ -204,7 +204,7 @@ public class StructRefPropertyType extends PropertyType
 	/**
 	 * Validates the structure value.
 	 * 
-	 * @param design
+	 * @param module
 	 *            report design
 	 * @param targetDefn
 	 *            definition of target structure
@@ -216,7 +216,7 @@ public class StructRefPropertyType extends PropertyType
 	 *             definition.
 	 */
 
-	private StructRefValue validateStructValue( ReportDesign design,
+	private StructRefValue validateStructValue( Module module,
 			StructureDefn targetDefn, Structure target )
 			throws PropertyValueException
 	{
@@ -241,7 +241,7 @@ public class StructRefPropertyType extends PropertyType
 	 *      java.lang.Object)
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -257,7 +257,7 @@ public class StructRefPropertyType extends PropertyType
 	 * the target is found, replace the structure name with the cached
 	 * structure.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            the definition of the structure ref property
@@ -265,13 +265,13 @@ public class StructRefPropertyType extends PropertyType
 	 *            the structure reference
 	 */
 
-	public void resolve( ReportDesign design, PropertyDefn defn,
+	public void resolve( Module module, PropertyDefn defn,
 			StructRefValue ref )
 	{
 		if ( ref.isResolved( ) )
 			return;
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
-		Structure target = getStructure( design, targetDefn, ref.getName( ) );
+		Structure target = getStructure( module, targetDefn, ref.getName( ) );
 		if ( target != null )
 			ref.resolve( target );
 	}

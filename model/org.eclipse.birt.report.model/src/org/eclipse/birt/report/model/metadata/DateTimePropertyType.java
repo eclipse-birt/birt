@@ -19,7 +19,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -64,7 +64,7 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 
@@ -74,7 +74,7 @@ public class DateTimePropertyType extends PropertyType
 			return value;
 		if ( value instanceof String )
 		{
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 		}
 
 		throw new PropertyValueException( value,
@@ -89,7 +89,7 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
@@ -116,7 +116,7 @@ public class DateTimePropertyType extends PropertyType
 	 * @return display string for the date object in the current locale.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )
@@ -160,11 +160,11 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
-            return null;
+			return null;
 
         // Parse the input in locale-dependent way.
         
@@ -188,7 +188,7 @@ public class DateTimePropertyType extends PropertyType
      * "yyyy-MM-dd HH:mm:ss".
      */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -109,25 +110,25 @@ public class TableRow extends StyledElement implements ITableRowModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.element.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design of the row
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public RowHandle handle( ReportDesign design )
+	public RowHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new RowHandle( design, this );
+			handle = new RowHandle( module, this );
 		}
 		return (RowHandle) handle;
 	}
@@ -135,20 +136,20 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/**
 	 * Computes the number of columns defined by this row.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the number of columns defined in this row
 	 */
 
-	public int getColumnCount( ReportDesign design )
+	public int getColumnCount( Module module )
 	{
 		int colCount = 0;
 		int cellCount = contents.getCount( );
 		for ( int i = 0; i < cellCount; i++ )
 		{
 			Cell cell = (Cell) contents.getContent( i );
-			int posn = cell.getColumn( design );
-			int span = cell.getColSpan( design );
+			int posn = cell.getColumn( module );
+			int span = cell.getColSpan( module );
 
 			// One-based indexing. Position is optional.
 
@@ -170,11 +171,11 @@ public class TableRow extends StyledElement implements ITableRowModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		list.addAll( CellOverlappingValidator.getInstance( ).validate( design,
+		list.addAll( CellOverlappingValidator.getInstance( ).validate( module,
 				this ) );
 
 		return list;

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.validators;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * The base abstract validator class to validate one specific property of
@@ -27,8 +27,8 @@ public abstract class AbstractPropertyValidator extends AbstractSemanticValidato
 	/**
 	 * Validates the specific property of the given element in report.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the given element to validate
 	 * @param propName
@@ -37,7 +37,7 @@ public abstract class AbstractPropertyValidator extends AbstractSemanticValidato
 	 *         <code>SemanticException</code>.
 	 */
 
-	public abstract List validate( ReportDesign design, DesignElement element,
+	public abstract List validate( Module module, DesignElement element,
 			String propName );
 
 }

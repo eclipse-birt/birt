@@ -19,8 +19,8 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -57,8 +57,8 @@ public class MasterPageSizeValidator extends AbstractElementValidator
 	/**
 	 * Validates whether the page size is invalid.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the master page to validate
 	 * 
@@ -66,21 +66,21 @@ public class MasterPageSizeValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof MasterPage ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (MasterPage) element );
+		return doValidate( module, (MasterPage) element );
 	}
 
-	private List doValidate( ReportDesign design, MasterPage toValidate )
+	private List doValidate( Module module, MasterPage toValidate )
 	{
 		List list = new ArrayList( );
 
 		// Validate the size. Must be positive in both dimensions.
 
-		Point size = toValidate.getSize( design );
+		Point size = toValidate.getSize( module );
 		if ( size.x <= 0 || size.y <= 0 )
 		{
 			list.add( new SemanticError( toValidate,
@@ -91,7 +91,7 @@ public class MasterPageSizeValidator extends AbstractElementValidator
 			// Check margins. Must start on the page and not be of negative
 			// size.
 
-			Rectangle margins = toValidate.getContentArea( design );
+			Rectangle margins = toValidate.getContentArea( module );
 			if ( margins.x >= size.x || margins.y >= size.y
 					|| margins.height <= 0 || margins.width <= 0 )
 			{

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -43,15 +43,15 @@ public class UserPropertyCommand extends AbstractElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            the element to modify
 	 */
 
-	public UserPropertyCommand( ReportDesign design, DesignElement obj )
+	public UserPropertyCommand( Module module, DesignElement obj )
 	{
-		super( design, obj );
+		super( module, obj );
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		// remove the value of it self.
 
-		if ( element.getLocalProperty( design, propName ) != null )
+		if ( element.getLocalProperty( module, propName ) != null )
 		{
 			PropertyRecord valueCmd = new PropertyRecord( element, propName,
 					null );
@@ -143,7 +143,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 		for ( int i = 0; i < descendents.size( ); i++ )
 		{
 			DesignElement child = (DesignElement) descendents.get( i );
-			if ( child.getLocalProperty( design, propName ) != null )
+			if ( child.getLocalProperty( module, propName ) != null )
 			{
 				PropertyRecord valueCmd = new PropertyRecord( child, propName,
 						null );
@@ -221,7 +221,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 		for ( int i = 0; i < descendents.size( ); i++ )
 		{
 			DesignElement child = (DesignElement) descendents.get( i );
-			Object value = child.getLocalProperty( design, propName );
+			Object value = child.getLocalProperty( module, propName );
 
 			// If the type of the definition is changed, then we will validate
 			// the old value. Another situation is that the type of the
@@ -327,7 +327,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 		String displayName = prop.getDisplayName( );
 		if ( !StringUtil.isBlank( msgID ) )
 		{
-			displayName = design.getMessage( msgID );
+			displayName = module.getMessage( msgID );
 			if ( StringUtil.isBlank( displayName ) )
 				throw new UserPropertyException(
 						element,
@@ -373,7 +373,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 				{
 					try
 					{
-						value = prop.validateValue( design, value );
+						value = prop.validateValue( module, value );
 					}
 					catch ( PropertyValueException e )
 					{
@@ -423,7 +423,7 @@ public class UserPropertyCommand extends AbstractElementCommand
 
 		try
 		{
-			return prop.validateValue( design, value );
+			return prop.validateValue( module, value );
 		}
 		catch ( PropertyValueException ex )
 		{

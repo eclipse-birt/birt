@@ -51,7 +51,7 @@ import org.xml.sax.SAXException;
 public class CompatibleComputedColumnStructureState extends StructureState
 {
 
-	CompatibleComputedColumnStructureState( DesignParserHandler theHandler,
+	CompatibleComputedColumnStructureState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn, ArrayList theList )
 	{
 		super( theHandler, element, propDefn, theList );
@@ -74,7 +74,7 @@ public class CompatibleComputedColumnStructureState extends StructureState
 	class CompatibleComputedColumnPropertyState extends PropertyState
 	{
 
-		CompatibleComputedColumnPropertyState( DesignParserHandler theHandler,
+		CompatibleComputedColumnPropertyState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );

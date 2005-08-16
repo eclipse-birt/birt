@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Represents the peer extension itself. Provides metadata about the extension.

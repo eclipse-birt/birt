@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represent a handle to a table group. Like a list report item, a table report
@@ -31,15 +31,15 @@ public class TableGroupHandle extends GroupHandle
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public TableGroupHandle( ReportDesign design, DesignElement element )
+	public TableGroupHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 }

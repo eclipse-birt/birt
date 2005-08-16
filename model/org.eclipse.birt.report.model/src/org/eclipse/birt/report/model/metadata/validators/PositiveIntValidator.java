@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.metadata.validators;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -28,7 +28,7 @@ public class PositiveIntValidator extends SimpleValueValidator
 	 * @see org.eclipse.birt.report.model.metadata.IMetaValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
 	 *      org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-	public void validate( ReportDesign report, PropertyDefn defn, Object value )
+	public void validate( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		if ( value == null )

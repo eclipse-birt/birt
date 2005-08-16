@@ -13,6 +13,9 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 
 /**
  * Represents the handle of custom color. The developer can define a set of
@@ -48,10 +51,11 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
  * it as integer RGB value. Otherwise the color value is treat just as what the
  * user has entered, and can not be converted into an RGB value.
  * <p>
- *  Use {@link ColorUtil#format(int, int)}and
- * {@link ColorUtil#format(String, int)}to do the formatting work on a color value.
+ * Use {@link ColorUtil#format(int, int)}and
+ * {@link ColorUtil#format(String, int)}to do the formatting work on a color
+ * value.
  * 
- * @see ColorUtil 
+ * @see ColorUtil
  */
 
 public class CustomColorHandle extends StructureHandle
@@ -79,7 +83,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public String getDisplayName( )
 	{
-        return getStringProperty( CustomColor.DISPLAY_NAME_MEMBER );
+		return getStringProperty( CustomColor.DISPLAY_NAME_MEMBER );
 	}
 
 	/**
@@ -91,7 +95,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public void setDisplayName( String displayName )
 	{
-        setPropertySilently( CustomColor.DISPLAY_NAME_MEMBER, displayName );
+		setPropertySilently( CustomColor.DISPLAY_NAME_MEMBER, displayName );
 	}
 
 	/**
@@ -102,7 +106,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public String getDisplayNameID( )
 	{
-        return getStringProperty( CustomColor.DISPLAY_NAME_ID_MEMBER );
+		return getStringProperty( CustomColor.DISPLAY_NAME_ID_MEMBER );
 	}
 
 	/**
@@ -114,7 +118,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public void setDisplayNameID( String displayNameID )
 	{
-        setPropertySilently( CustomColor.DISPLAY_NAME_ID_MEMBER, displayNameID );
+		setPropertySilently( CustomColor.DISPLAY_NAME_ID_MEMBER, displayNameID );
 	}
 
 	/**
@@ -125,7 +129,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public String getName( )
 	{
-        return getStringProperty( CustomColor.NAME_MEMBER );
+		return getStringProperty( CustomColor.NAME_MEMBER );
 	}
 
 	/**
@@ -136,7 +140,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public String getColor( )
 	{
-        return getStringProperty( CustomColor.COLOR_MEMBER );
+		return getStringProperty( CustomColor.COLOR_MEMBER );
 	}
 
 	/**
@@ -144,7 +148,7 @@ public class CustomColorHandle extends StructureHandle
 	 * 
 	 * @param colorValue
 	 *            the color value to be set.
-	 *  
+	 * 
 	 */
 
 	public void setColor( String colorValue )
@@ -161,7 +165,7 @@ public class CustomColorHandle extends StructureHandle
 
 	public void setName( String name )
 	{
-        setPropertySilently( CustomColor.NAME_MEMBER, name );
+		setPropertySilently( CustomColor.NAME_MEMBER, name );
 	}
 
 	/**
@@ -188,6 +192,29 @@ public class CustomColorHandle extends StructureHandle
 	public int getRGB( )
 	{
 		return ( (CustomColor) getStructure( ) ).getRGB( );
+	}
+
+	/**
+	 * Returns the qualified name of this element. The qualified name is the
+	 * name of this element if this element is in module user is editing.
+	 * 
+	 * @return the qualified name of thie element.
+	 */
+
+	public String getQualifiedName( )
+	{
+
+		if ( getName( ) == null )
+			return null;
+
+		Module module = getModule( );
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			return StringUtil.buildQualifiedReference( namespace, getName( ) );
+		}
+
+		return getName( );
 	}
 
 }

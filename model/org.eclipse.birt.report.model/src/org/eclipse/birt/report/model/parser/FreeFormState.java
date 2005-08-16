@@ -45,7 +45,7 @@ public class FreeFormState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public FreeFormState( DesignParserHandler handler,
+	public FreeFormState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

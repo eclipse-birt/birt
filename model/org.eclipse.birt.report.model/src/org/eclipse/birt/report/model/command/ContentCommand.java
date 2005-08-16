@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -62,15 +63,15 @@ public class ContentCommand extends AbstractElementCommand
 	/**
 	 * Constructs the content command with container element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param container
 	 *            the container element
 	 */
 
-	public ContentCommand( ReportDesign design, DesignElement container )
+	public ContentCommand( Module module, DesignElement container )
 	{
-		super( design, container );
+		super( module, container );
 	}
 
 	/**
@@ -150,7 +151,6 @@ public class ContentCommand extends AbstractElementCommand
 		// properties defined -- add these as separate steps.
 
 		assert !content.hasUserProperties( );
-		assert content.getExtendsElement( ) == null;
 		assert content.getContainer( ) == null;
 
 		// Ensure that the content can be put into the container.
@@ -182,7 +182,7 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 		}
 
-		if ( !element.canContain( design, slotID, content ) )
+		if ( !element.canContain( module, slotID, content ) )
 			throw new ContentException(
 					element,
 					slotID,
@@ -191,7 +191,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Ensure we can add the name.
 
-		NameCommand nameCmd = new NameCommand( design, content );
+		NameCommand nameCmd = new NameCommand( module, content );
 		nameCmd.checkName( );
 
 		// Add the item to the container.
@@ -209,8 +209,8 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( MetaDataDictionary.getInstance( ).useID( ) )
 		{
-			content.setID( design.getNextID( ) );
-			addRecord.setRoot( design );
+			content.setID( module.getNextID( ) );
+			addRecord.setModule( module );
 		}
 
 		ActivityStack stack = getActivityStack( );
@@ -311,7 +311,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( MetaDataDictionary.getInstance( ).useID( ) )
 		{
-			dropRecord.setRoot( design );
+			dropRecord.setModule( module );
 		}
 
 		ActivityStack stack = getActivityStack( );
@@ -334,9 +334,9 @@ public class ContentCommand extends AbstractElementCommand
 
 			// Drop the style...
 
-			if ( content.getStyle( design ) != null )
+			if ( content.getStyle( module ) != null )
 			{
-				StyleCommand styleCmd = new StyleCommand( design, content );
+				StyleCommand styleCmd = new StyleCommand( module, content );
 				styleCmd.setStyle( null );
 			}
 
@@ -344,7 +344,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( content.getExtendsElement( ) != null )
 			{
-				ExtendsCommand extendsCmd = new ExtendsCommand( design, content );
+				ExtendsCommand extendsCmd = new ExtendsCommand( module, content );
 				extendsCmd.setExtendsName( null );
 			}
 
@@ -352,7 +352,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( content.getName( ) != null )
 			{
-				NameCommand nameCmd = new NameCommand( design, content );
+				NameCommand nameCmd = new NameCommand( module, content );
 				nameCmd.dropElement( );
 			}
 		}
@@ -392,7 +392,7 @@ public class ContentCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			DesignElement child = (DesignElement) iter.next( );
-			ExtendsCommand childCmd = new ExtendsCommand( design, child );
+			ExtendsCommand childCmd = new ExtendsCommand( module, child );
 			childCmd.setExtendsElement( parent );
 		}
 	}
@@ -435,7 +435,7 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( unresolveReference )
 			{
-				BackRefRecord record = new ElementBackRefRecord( design,
+				BackRefRecord record = new ElementBackRefRecord( module,
 						referred, client, ref.propName );
 				getActivityStack( ).execute( record );
 			}
@@ -443,12 +443,12 @@ public class ContentCommand extends AbstractElementCommand
 			{
 				if ( referred.isStyle( ) )
 				{
-					StyleCommand clientCmd = new StyleCommand( design, client );
+					StyleCommand clientCmd = new StyleCommand( module, client );
 					clientCmd.setStyleElement( null );
 				}
 				else
 				{
-					PropertyCommand cmd = new PropertyCommand( design, client );
+					PropertyCommand cmd = new PropertyCommand( module, client );
 					cmd.setProperty( ref.propName, null );
 				}
 			}
@@ -486,7 +486,7 @@ public class ContentCommand extends AbstractElementCommand
 			if ( propDefn.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE
 					|| propDefn.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
 			{
-				Object value = element.getLocalProperty( design,
+				Object value = element.getLocalProperty( module,
 						(ElementPropertyDefn) propDefn );
 
 				if ( value != null )
@@ -499,7 +499,7 @@ public class ContentCommand extends AbstractElementCommand
 							// Clear all element reference property for dropped
 							// element
 
-							PropertyCommand cmd = new PropertyCommand( design,
+							PropertyCommand cmd = new PropertyCommand( module,
 									element );
 							cmd.setProperty( propDefn.getName( ), null );
 						}
@@ -530,7 +530,7 @@ public class ContentCommand extends AbstractElementCommand
 		Collection props = element.getUserProperties( );
 		if ( props != null )
 		{
-			UserPropertyCommand propCmd = new UserPropertyCommand( design, obj );
+			UserPropertyCommand propCmd = new UserPropertyCommand( module, obj );
 			Iterator iter = props.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -563,7 +563,7 @@ public class ContentCommand extends AbstractElementCommand
 		for ( int slotID = 0; slotID < slotCount; slotID++ )
 		{
 			ContainerSlot slot = obj.getSlot( slotID );
-			ContentCommand contentCmd = new ContentCommand( design, obj );
+			ContentCommand contentCmd = new ContentCommand( module, obj );
 			while ( !slot.isEmpty( ) )
 			{
 				DesignElement content = slot.getContent( 0 );
@@ -654,7 +654,7 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( to, toSlotID,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 
-		if ( !to.canContain( design, toSlotID, content ) )
+		if ( !to.canContain( module, toSlotID, content ) )
 			throw new ContentException(
 					to,
 					toSlotID,
@@ -774,29 +774,33 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_MOVE_FORBIDDEN );
 
+		int oldPosn = slot.findPosn( content );
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, slot.getCount( ) );
+		if ( oldPosn == adjustedNewPosn )
+			return;
+		
 		// Move the new position so that it is in range.
 
-		if ( newPosn < 0 )
-			newPosn = 0;
-		if ( newPosn > slot.getCount( ) - 1 )
-			newPosn = slot.getCount( );
-
-		// If the new position is the same as the old, then skip the operation.
-
-		int posn = slot.findPosn( content );
-		if ( ( posn == newPosn ) || ( posn + 1 == newPosn ) )
-			return;
-
-		// adjust the position when move a item from a position with a small
-		// index to another position with a bigger index.
-
-		if ( posn < newPosn )
-			newPosn -= 1;
+//		if ( newPosn < 0 )
+//			newPosn = 0;
+//		if ( newPosn > slot.getCount( ) - 1 )
+//			newPosn = slot.getCount( );
+//
+//		// If the new position is the same as the old, then skip the operation.
+//
+//		if ( ( posn == newPosn ) || ( posn + 1 == newPosn ) )
+//			return;
+//
+//		// adjust the position when move a item from a position with a small
+//		// index to another position with a bigger index.
+//
+//		if ( posn < newPosn )
+//			newPosn -= 1;
 
 		// Do the move.
 
 		MoveContentRecord record = new MoveContentRecord( element, slotID,
-				content, newPosn );
+				content, adjustedNewPosn );
 		getActivityStack( ).execute( record );
 	}
 

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.api.core;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Interface for all the design elements.
@@ -36,12 +36,12 @@ public interface IDesignElement extends Cloneable
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return an API handle for this element.
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design );
+	public DesignElementHandle getHandle( Module module );
 
 	/**
 	 * Generates a clone copy of this element. When a report element is cloned,

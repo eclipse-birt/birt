@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -44,7 +45,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- *  
+ * 
  */
 
 public class PropertyCommand extends AbstractElementCommand
@@ -53,15 +54,15 @@ public class PropertyCommand extends AbstractElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param obj
 	 *            the element to modify.
 	 */
 
-	public PropertyCommand( ReportDesign design, DesignElement obj )
+	public PropertyCommand( Module module, DesignElement obj )
 	{
-		super( design, obj );
+		super( module, obj );
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class PropertyCommand extends AbstractElementCommand
 					PropertyValueException.DESIGN_EXCEPTION_EXTENSION_SETTING_FORBIDDEN );
 		}
 
-		String mask = element.getPropertyMask( design, prop.getName( ) );
+		String mask = element.getPropertyMask( module, prop.getName( ) );
 		if ( DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK
 				.equalsIgnoreCase( mask ) )
 		{
@@ -157,7 +158,7 @@ public class PropertyCommand extends AbstractElementCommand
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
 
-		Object oldValue = element.getLocalProperty( design, prop );
+		Object oldValue = element.getLocalProperty( module, prop );
 		if ( oldValue == null && value == null )
 			return;
 		if ( oldValue != null && value != null && oldValue.equals( value ) )
@@ -196,16 +197,16 @@ public class PropertyCommand extends AbstractElementCommand
 	 * operations like addItem, removeItem, etc. for extension elements. This
 	 * method is kept but NERVER call it in <code>doSetProperty</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the extended item that holds the extended element
 	 * @param prop
 	 *            the extension property definition to change
 	 */
 
-	private void assertExtendedElement( ReportDesign design,
-			DesignElement element, PropertyDefn prop )
+	private void assertExtendedElement( Module module, DesignElement element,
+			PropertyDefn prop )
 	{
 		if ( element instanceof ExtendedItem )
 		{
@@ -236,7 +237,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		try
 		{
-			return prop.validateValue( design, value );
+			return prop.validateValue( module, value );
 		}
 		catch ( PropertyValueException ex )
 		{
@@ -265,12 +266,12 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( DesignElement.NAME_PROP.equals( propName ) )
 		{
 			String name = (String) value;
-			NameCommand cmd = new NameCommand( design, element );
+			NameCommand cmd = new NameCommand( module, element );
 			cmd.setName( name );
 		}
 		else if ( DesignElement.EXTENDS_PROP.equals( propName ) )
 		{
-			ExtendsCommand cmd = new ExtendsCommand( design, element );
+			ExtendsCommand cmd = new ExtendsCommand( module, element );
 			if ( value == null )
 				cmd.setExtendsName( null );
 			else
@@ -278,7 +279,7 @@ public class PropertyCommand extends AbstractElementCommand
 		}
 		else if ( StyledElement.STYLE_PROP.equals( propName ) )
 		{
-			StyleCommand cmd = new StyleCommand( design, element );
+			StyleCommand cmd = new StyleCommand( module, element );
 			if ( value == null )
 				cmd.setStyle( null );
 			else
@@ -331,16 +332,16 @@ public class PropertyCommand extends AbstractElementCommand
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		assert memberDefn != null;
-		value = memberDefn.validateValue( design, value );
+		value = memberDefn.validateValue( module, value );
 
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
 
-		Object oldValue = ref.getLocalValue( design, element );
+		Object oldValue = ref.getLocalValue( module, element );
 		if ( oldValue == null && value == null )
 			return;
 		if ( oldValue != null && value != null && oldValue.equals( value ) )
@@ -349,13 +350,14 @@ public class PropertyCommand extends AbstractElementCommand
 		// The values differ. Make the change.
 
 		ActivityStack stack = getActivityStack( );
+
 		String label = ModelMessages
 				.getMessage( MessageConstants.CHANGE_ITEM_MESSAGE );
 		stack.startTrans( label );
 
 		makeLocalCompositeValue( ref );
 
-		MemberRecord record = new MemberRecord( design, element, ref, value );
+		MemberRecord record = new MemberRecord( module, element, ref, value );
 		stack.execute( record );
 		stack.commit( );
 	}
@@ -391,7 +393,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		if ( item.isReferencable( ) )
 			assert !( (ReferencableStructure) item ).hasReferences( );
@@ -399,19 +401,19 @@ public class PropertyCommand extends AbstractElementCommand
 		checkListMemberRef( ref );
 		checkItem( ref, item );
 
-		List list = ref.getList( design, element );
-		element.checkStructureList( design, ref.getPropDefn( ), list, item );
+		List list = ref.getList( module, element );
+		element.checkStructureList( module, ref.getPropDefn( ), list, item );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.ADD_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
-		list = ref.getList( design, element );
+		list = ref.getList( module, element );
 		if ( null == list )
 		{
 			list = new ArrayList( );
-			MemberRecord memberRecord = new MemberRecord( design, element, ref,
+			MemberRecord memberRecord = new MemberRecord( module, element, ref,
 					list );
 			stack.execute( memberRecord );
 		}
@@ -459,13 +461,13 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		checkListMemberRef( ref );
 		checkItem( ref, item );
 
-		List list = ref.getList( design, element );
-		element.checkStructureList( design, ref.getPropDefn( ), list, item );
+		List list = ref.getList( module, element );
+		element.checkStructureList( module, ref.getPropDefn( ), list, item );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -473,11 +475,11 @@ public class PropertyCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.INSERT_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
-		list = ref.getList( design, element );
+		list = ref.getList( module, element );
 		if ( null == list )
 		{
 			list = new ArrayList( );
-			MemberRecord memberRecord = new MemberRecord( design, element, ref,
+			MemberRecord memberRecord = new MemberRecord( module, element, ref,
 					list );
 			stack.execute( memberRecord );
 		}
@@ -525,11 +527,11 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		checkListMemberRef( ref );
 
-		List list = ref.getList( design, element );
+		List list = ref.getList( module, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
 					null,
@@ -568,10 +570,10 @@ public class PropertyCommand extends AbstractElementCommand
 	{
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		checkListMemberRef( ref );
-		List list = ref.getList( design, element );
+		List list = ref.getList( module, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
 					null,
@@ -598,14 +600,14 @@ public class PropertyCommand extends AbstractElementCommand
 		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
 
-		ActivityStack stack = design.getActivityStack( );
+		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( label );
 
 		makeLocalCompositeValue( structRef );
-		List list = structRef.getList( design, element );
+		List list = structRef.getList( module, element );
 		assert list != null;
 
-		Structure struct = structRef.getStructure( design, element );
+		Structure struct = structRef.getStructure( module, element );
 		if ( struct.isReferencable( ) )
 			adjustReferenceClients( (ReferencableStructure) struct );
 
@@ -643,7 +645,7 @@ public class PropertyCommand extends AbstractElementCommand
 			BackRef ref = (BackRef) iter.next( );
 			DesignElement client = ref.element;
 
-			BackRefRecord record = new StructBackRefRecord( design, struct,
+			BackRefRecord record = new StructBackRefRecord( module, struct,
 					client, ref.propName );
 			getActivityStack( ).execute( record );
 
@@ -680,11 +682,11 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		checkListMemberRef( ref );
 
-		List list = ref.getList( design, element );
+		List list = ref.getList( module, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
 					null,
@@ -693,17 +695,17 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( newItem != null )
 		{
 			checkItem( ref, newItem );
-			element.checkStructureList( design, ref.getPropDefn( ), list,
+			element.checkStructureList( module, ref.getPropDefn( ), list,
 					newItem );
 		}
 
-		ActivityStack stack = design.getActivityStack( );
+		ActivityStack stack = module.getActivityStack( );
 
 		stack.startTrans( ModelMessages
 				.getMessage( MessageConstants.REPLACE_ITEM_MESSAGE ) );
 
 		makeLocalCompositeValue( ref );
-		list = ref.getList( design, element );
+		list = ref.getList( module, element );
 		assert list != null;
 
 		int index = list.indexOf( oldItem );
@@ -739,7 +741,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
-		assertExtendedElement( design, element, propDefn );
+		assertExtendedElement( module, element, propDefn );
 
 		if ( ref.refType == MemberRef.PROPERTY )
 			setProperty( ref.getPropDefn( ), null );
@@ -768,9 +770,9 @@ public class PropertyCommand extends AbstractElementCommand
 	 * 
 	 * @param ref
 	 *            reference to the list in which to do the move the item.
-	 * @param from
+	 * @param oldPosn
 	 *            the old position of the item.
-	 * @param to
+	 * @param newPosn
 	 *            new position of the item. Note that the range of
 	 *            <code>to</code> is from 0 to the number of strucutres in the
 	 *            list.
@@ -783,7 +785,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
-	public void moveItem( MemberRef ref, int from, int to )
+	public void moveItem( MemberRef ref, int oldPosn, int newPosn )
 			throws PropertyValueException
 	{
 		assert ref != null;
@@ -792,7 +794,7 @@ public class PropertyCommand extends AbstractElementCommand
 		assert propDefn != null;
 		checkListMemberRef( ref );
 
-		List list = ref.getList( design, element );
+		List list = ref.getList( module, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
 					null,
@@ -800,33 +802,21 @@ public class PropertyCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 		String label = ModelMessages
-				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
+				.getMessage( MessageConstants.MOVE_ITEM_MESSAGE );
+
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, list
+				.size( ) );
+		if ( oldPosn == adjustedNewPosn )
+			return;
 
 		stack.startTrans( label );
 
-		if ( from < 0 || from > list.size( ) )
-			throw new IndexOutOfBoundsException(
-					"From: " + from + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
-
-		if ( to < 0 || to > list.size( ) )
-			throw new IndexOutOfBoundsException(
-					"To: " + to + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
-
-		if ( ( from == to ) || ( from + 1 == to ) )
-			return;
-
-		// adjust the position when move a item from a position with a small
-		// index to another position with a bigger index.
-
-		if ( from < to )
-			to -= 1;
-
 		makeLocalCompositeValue( ref );
-		list = ref.getList( design, element );
+		list = ref.getList( module, element );
 		assert list != null;
 
 		MoveListItemRecord record = new MoveListItemRecord( element, ref, list,
-				from, to );
+				oldPosn, adjustedNewPosn );
 
 		stack.execute( record );
 		stack.commit( );
@@ -865,14 +855,14 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			// Top level property is a list.
 
-			ArrayList list = (ArrayList) element.getLocalProperty( design,
+			ArrayList list = (ArrayList) element.getLocalProperty( module,
 					propDefn );
 
 			if ( list != null )
 				return;
 			// Make a local copy of the inherited list value.
 
-			ArrayList inherited = (ArrayList) element.getProperty( design,
+			ArrayList inherited = (ArrayList) element.getProperty( module,
 					propDefn );
 
 			list = new ArrayList( );
@@ -892,7 +882,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 		// Top level property is a structure.
 
-		Structure struct = (Structure) element.getLocalProperty( design,
+		Structure struct = (Structure) element.getLocalProperty( module,
 				propDefn );
 
 		if ( struct != null )
@@ -901,7 +891,7 @@ public class PropertyCommand extends AbstractElementCommand
 		// Make a local copy of the inherited list value.
 
 		Structure inherited = (Structure) element
-				.getProperty( design, propDefn );
+				.getProperty( module, propDefn );
 
 		if ( inherited != null )
 		{
@@ -972,13 +962,13 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
 
-			item.setProperty( memberDefn, memberDefn.validateValue( design,
-					item.getLocalProperty( design, memberDefn ) ) );
+			item.setProperty( memberDefn, memberDefn.validateValue( module,
+					item.getLocalProperty( module, memberDefn ) ) );
 		}
 
 		if ( item instanceof Structure )
 		{
-			List errorList = ( (Structure) item ).validate( design, element );
+			List errorList = ( (Structure) item ).validate( module, element );
 			if ( errorList.size( ) > 0 )
 			{
 				throw (SemanticException) errorList.get( 0 );

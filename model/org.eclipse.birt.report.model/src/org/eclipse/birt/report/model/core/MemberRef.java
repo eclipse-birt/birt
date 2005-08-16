@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -44,7 +43,7 @@ import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
  * <p>
  * The reference supports up to two level of list.member identification. This is
  * the most used by the element definitions.
- *  
+ * 
  */
 
 public class MemberRef
@@ -260,8 +259,7 @@ public class MemberRef
 	 *            the definition of the member
 	 */
 
-	MemberRef( ElementPropertyDefn prop, int n,
-			StructPropertyDefn memberDef )
+	MemberRef( ElementPropertyDefn prop, int n, StructPropertyDefn memberDef )
 	{
 		propDefn = prop;
 
@@ -569,17 +567,17 @@ public class MemberRef
 	/**
 	 * Gets the value of the referenced property, structure, or member.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param element
 	 *            the element for which to retrieve the value
 	 * @return the retrieved value, which may be null
 	 */
 
-	public Object getValue( ReportDesign design, DesignElement element )
+	public Object getValue( Module module, DesignElement element )
 	{
-		Structure struct = getStructure( design, element );
+		Structure struct = getStructure( module, element );
 		if ( struct == null )
 			return null;
 		if ( propDefn.isList( ) )
@@ -594,15 +592,15 @@ public class MemberRef
 			switch ( refType )
 			{
 				case PROPERTY :
-					return getList( design, element );
+					return getList( module, element );
 				case PROPERTY_LISTn :
 				case PROPERTY_LISTn_MEMBER_LISTn :
 					return struct;
 				case PROPERTY_LISTn_MEMBER : // reference the list itself.
-					return struct.getProperty( design, member[0] );
+					return struct.getProperty( module, member[0] );
 				case PROPERTY_LISTn_MEMBER_MEMBER :
 				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
-					return struct.getProperty( design, member[1] );
+					return struct.getProperty( module, member[1] );
 				default :
 				{
 					assert false;
@@ -624,10 +622,10 @@ public class MemberRef
 			case PROPERTY_MEMBER_LISTn :
 				return struct;
 			case PROPERTY_MEMBER :
-				return struct.getProperty( design, member[0] );
+				return struct.getProperty( module, member[0] );
 			case PROPERTY_MEMBER_MEMBER :
 			case PROPERTY_MEMBER_LISTn_MEMBER :
-				return struct.getProperty( design, member[1] );
+				return struct.getProperty( module, member[1] );
 			default :
 			{
 				assert false;
@@ -639,17 +637,17 @@ public class MemberRef
 	/**
 	 * Gets the local value of the referenced property, structure, or member.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param element
 	 *            the element for which to retrieve the value
 	 * @return the retrieved value, which may be null
 	 */
 
-	public Object getLocalValue( ReportDesign design, DesignElement element )
+	public Object getLocalValue( Module module, DesignElement element )
 	{
-		Structure struct = getStructure( design, element );
+		Structure struct = getStructure( module, element );
 		if ( struct == null )
 			return null;
 		if ( propDefn.isList( ) )
@@ -664,15 +662,15 @@ public class MemberRef
 			switch ( refType )
 			{
 				case PROPERTY :
-					return getList( design, element );
+					return getList( module, element );
 				case PROPERTY_LISTn :
 				case PROPERTY_LISTn_MEMBER_LISTn :
 					return struct;
 				case PROPERTY_LISTn_MEMBER : // reference the list itself.
-					return struct.getLocalProperty( design, member[0] );
+					return struct.getLocalProperty( module, member[0] );
 				case PROPERTY_LISTn_MEMBER_MEMBER :
 				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
-					return struct.getLocalProperty( design, member[1] );
+					return struct.getLocalProperty( module, member[1] );
 				default :
 				{
 					assert false;
@@ -694,10 +692,10 @@ public class MemberRef
 			case PROPERTY_MEMBER_LISTn :
 				return struct;
 			case PROPERTY_MEMBER :
-				return struct.getLocalProperty( design, member[0] );
+				return struct.getLocalProperty( module, member[0] );
 			case PROPERTY_MEMBER_MEMBER :
 			case PROPERTY_MEMBER_LISTn_MEMBER :
-				return struct.getLocalProperty( design, member[1] );
+				return struct.getLocalProperty( module, member[1] );
 			default :
 			{
 				assert false;
@@ -746,19 +744,19 @@ public class MemberRef
 	 * property.list[n].member. <strong>list[n] </strong>[.member] <br>
 	 * property.list[n]. <strong>member </strong>.member
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param element
 	 *            the element from which to retrieve the structure
 	 * @return the value of the referenced structure
 	 */
 
-	public Structure getStructure( ReportDesign design, DesignElement element )
+	public Structure getStructure( Module module, DesignElement element )
 	{
 		if ( propDefn.isList( ) )
 		{
-			List list = getList( design, element );
+			List list = getList( module, element );
 			if ( list == null )
 				return null;
 
@@ -776,7 +774,7 @@ public class MemberRef
 				// property.list[n].member.member
 
 				assert !member[0].isList( );
-				return (Structure) struct.getProperty( design, member[0] );
+				return (Structure) struct.getProperty( module, member[0] );
 			}
 			else if ( depth == 2 )
 			{
@@ -786,7 +784,7 @@ public class MemberRef
 			return null;
 		}
 
-		Structure struct = (Structure) element.getProperty( design, propDefn );
+		Structure struct = (Structure) element.getProperty( module, propDefn );
 		if ( struct == null )
 			return null;
 
@@ -796,7 +794,7 @@ public class MemberRef
 			// property.member.list[n].member
 
 			assert member[0].isList( );
-			ArrayList list = (ArrayList) struct.getProperty( design, member[0] );
+			ArrayList list = (ArrayList) struct.getProperty( module, member[0] );
 
 			return getStructure( list, 0 );
 		}
@@ -806,7 +804,7 @@ public class MemberRef
 			// property.member.member
 
 			assert !member[0].isList( );
-			return (Structure) struct.getProperty( design, member[0] );
+			return (Structure) struct.getProperty( module, member[0] );
 		}
 
 		// property.member
@@ -901,22 +899,22 @@ public class MemberRef
 	 * 
 	 * property.member. <strong>list </strong>[n][.member] <br>
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param element
 	 *            the element for which to retrieve the list
 	 * @return the list of structures
 	 */
 
-	public List getList( ReportDesign design, DesignElement element )
+	public List getList( Module module, DesignElement element )
 	{
 		if ( propDefn.isList( ) )
 		{
 			// Get the property list. If the list is null, there
 			// is no value.
 
-			ArrayList list = (ArrayList) element.getProperty( design, propDefn );
+			ArrayList list = (ArrayList) element.getProperty( module, propDefn );
 			if ( list == null )
 				return null;
 
@@ -932,7 +930,7 @@ public class MemberRef
 				// Check the second-level list if needed.
 
 				assert member[0].isList( );
-				list = (ArrayList) struct.getProperty( design, member[0] );
+				list = (ArrayList) struct.getProperty( module, member[0] );
 			}
 
 			return list;
@@ -940,9 +938,9 @@ public class MemberRef
 
 		// not a list property
 
-		Structure struct = (Structure) element.getProperty( design, propDefn );
+		Structure struct = (Structure) element.getProperty( module, propDefn );
 		if ( struct != null && member[0] != null && member[0].isList( ) )
-			return (ArrayList) struct.getProperty( design, member[0] );
+			return (ArrayList) struct.getProperty( module, member[0] );
 
 		return null;
 	}
@@ -987,7 +985,7 @@ public class MemberRef
 	Structure getStructure( List list, int level )
 	{
 		assert level == 0 || level == 1;
-		
+
 		if ( list == null )
 			return null;
 		if ( index[level] < 0 || index[level] >= list.size( ) )

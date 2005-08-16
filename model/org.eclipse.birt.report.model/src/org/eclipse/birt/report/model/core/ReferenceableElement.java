@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -115,7 +114,7 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 
 	public List getClientList( )
 	{
-		return clients;
+		return new ArrayList( clients );
 	}
 
 	/**
@@ -135,16 +134,16 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 	 * 
 	 * @param ev
 	 *            the event to send
-	 * @param design
+	 * @param module
 	 *            the root node of the design tree.
 	 */
 
-	public void broadcast( NotificationEvent ev, ReportDesign design )
+	public void broadcast( NotificationEvent ev, Module module )
 	{
-		super.broadcast( ev, design );
+		super.broadcast( ev, module );
 
 		adjustDeliveryPath( ev );
-		broadcastToClients( ev, design );
+		broadcastToClients( ev, module );
 	}
 
 	/**
@@ -161,15 +160,15 @@ public abstract class ReferenceableElement extends DesignElement implements IRef
 	 * 
 	 * @param ev
 	 *            the event to broadcast
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, ReportDesign design )
+	protected void broadcastToClients( NotificationEvent ev, Module module )
 	{
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
-			( (BackRef) clients.get( i ) ).element.broadcast( ev, design );
+			( (BackRef) clients.get( i ) ).element.broadcast( ev, module );
 		}
 	}
 }

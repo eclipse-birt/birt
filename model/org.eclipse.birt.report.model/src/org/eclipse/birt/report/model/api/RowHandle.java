@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
@@ -35,15 +35,15 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	 * application generally does not create handles directly. Instead, it uses
 	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public RowHandle( ReportDesign design, DesignElement element )
+	public RowHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

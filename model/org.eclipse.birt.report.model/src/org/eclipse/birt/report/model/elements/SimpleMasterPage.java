@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.SingleElementSlot;
 import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
 
@@ -96,16 +97,16 @@ public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageMod
 	/**
 	 * Return the handle of this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return the handle of this element
 	 */
 
-	public SimpleMasterPageHandle handle( ReportDesign design )
+	public SimpleMasterPageHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new SimpleMasterPageHandle( design, this );
+			handle = new SimpleMasterPageHandle( module, this );
 		}
 		return (SimpleMasterPageHandle) handle;
 	}
@@ -150,8 +151,8 @@ public class SimpleMasterPage extends MasterPage implements ISimpleMasterPageMod
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 }

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Iterates over the clients of an element. A client is an element that
@@ -37,10 +37,10 @@ class ClientIterator implements Iterator
 	protected Iterator iter;
 
 	/**
-	 * Report design.
+	 * Module.
 	 */
 
-	protected ReportDesign design;
+	protected Module module;
 
 	/**
 	 * Constructs a iterator to return the clients of the given element.
@@ -54,8 +54,8 @@ class ClientIterator implements Iterator
 	{
 		assert elementHandle != null;
 
-		this.design = elementHandle.getDesign( );
-		assert design != null;
+		this.module = elementHandle.getModule( );
+		assert module != null;
 
 		if ( elementHandle.getElement( ) instanceof ReferenceableElement )
 		{
@@ -113,7 +113,7 @@ class ClientIterator implements Iterator
 		if ( iter != null )
 		{
 			BackRef client = (BackRef) iter.next( );
-			return client.element.getHandle( design );
+			return client.element.getHandle( module );
 		}
 		return null;
 	}

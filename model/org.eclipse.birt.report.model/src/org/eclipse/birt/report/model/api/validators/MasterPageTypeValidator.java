@@ -19,8 +19,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -55,8 +55,8 @@ public class MasterPageTypeValidator extends AbstractElementValidator
 	/**
 	 * Validates whether the page type and size are consistent.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the master page to validate
 	 * 
@@ -64,23 +64,23 @@ public class MasterPageTypeValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( ! ( element instanceof MasterPage ) )
 			return Collections.EMPTY_LIST;
 		
-		return doValidate( design, (MasterPage) element );
+		return doValidate( module, (MasterPage) element );
 	}
 
-	private List doValidate( ReportDesign design, MasterPage toValidate )
+	private List doValidate( Module module, MasterPage toValidate )
 	{
 		List list = new ArrayList( );
 	
-		String type = toValidate.getStringProperty( design, MasterPage.TYPE_PROP );
-		String height = toValidate.getStringProperty( design,
+		String type = toValidate.getStringProperty( module, MasterPage.TYPE_PROP );
+		String height = toValidate.getStringProperty( module,
 				MasterPage.HEIGHT_PROP );
 		String width = toValidate
-				.getStringProperty( design, MasterPage.WIDTH_PROP );
+				.getStringProperty( module, MasterPage.WIDTH_PROP );
 
 		// if type is CUSTOM type, height and width must be specified.
 

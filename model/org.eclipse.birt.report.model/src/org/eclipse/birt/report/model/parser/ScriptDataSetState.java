@@ -33,7 +33,7 @@ public class ScriptDataSetState extends DataSetState
 	 *            the design file parser handler
 	 */
 
-	public ScriptDataSetState( DesignParserHandler handler )
+	public ScriptDataSetState( ModuleParserHandler handler )
 	{
 		super( handler );
 	}

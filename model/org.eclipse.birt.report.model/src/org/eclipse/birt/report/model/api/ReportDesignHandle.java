@@ -13,35 +13,14 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.CustomMsgException;
-import org.eclipse.birt.report.model.api.core.IRootElementModel;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.api.validators.IValidationListener;
-import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.birt.report.model.command.CustomMsgCommand;
-import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.command.LibraryCommand;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.writer.DesignWriter;
 
 /**
@@ -128,10 +107,9 @@ import org.eclipse.birt.report.model.writer.DesignWriter;
  * @see org.eclipse.birt.report.model.elements.ReportDesign
  */
 
-public class ReportDesignHandle extends DesignElementHandle
+public class ReportDesignHandle extends ModuleHandle
 		implements
-			IReportDesignModel,
-			IRootElementModel
+			IReportDesignModel
 {
 
 	/**
@@ -148,187 +126,143 @@ public class ReportDesignHandle extends DesignElementHandle
 		super( design );
 	}
 
-	// Implementation of abstract method defined in base class.
+	/**
+	 * Adds one library with the given library file name. The new library will
+	 * be appended to the library list. 
+	 * 
+	 * 
+	 * @param libraryFileName
+	 *            library file name
+	 * @param namespace
+	 *            library namespace
+	 * @throws DesignFileException
+	 *             if the library file is not found, or has fatal error.
+	 * @throws SemanticException
+	 */
 
-	public DesignElement getElement( )
+	public void addLibrary( String libraryFileName, String namespace )
+			throws DesignFileException, SemanticException
 	{
-		return design;
+		LibraryCommand command = new LibraryCommand( module );
+		command.addLibrary( libraryFileName, namespace );
 	}
 
 	/**
-	 * Finds a named element in the name space.
 	 * 
-	 * @param name
-	 *            the name of the element to find
-	 * @return a handle to the element, or <code>null</code> if the element
-	 *         was not found.
+	 * @param library
+	 * @throws SemanticException
+	 */
+	
+	public void dropLibrary( LibraryHandle library ) throws SemanticException
+	{
+		LibraryCommand command = new LibraryCommand( module );
+		command.dropLibrary( (Library) library.getElement( ) );
+	}
+	
+	/**
+	 * Returns the script called just after closing the report document file in
+	 * the Factory.
+	 * 
+	 * @return the script
 	 */
 
-	public DesignElementHandle findElement( String name )
+	public String getAfterCloseDoc( )
 	{
-		DesignElement element = design.findElement( name );
-		if ( element == null )
-			return null;
-		return element.getHandle( design );
+		return getStringProperty( AFTER_CLOSE_DOC_METHOD );
 	}
 
 	/**
-	 * Finds a style by its name.
+	 * Returns the script called at the end of the Factory after closing the
+	 * report document (if any). This is the last method called in the Factory.
 	 * 
-	 * @param name
-	 *            name of the style
-	 * @return a handle to the style, or <code>null</code> if the style is not
-	 *         found
+	 * @return the script
 	 */
 
-	public SharedStyleHandle findStyle( String name )
+	public String getAfterFactory( )
 	{
-		StyleElement style = design.findStyle( name );
-		if ( style == null )
-			return null;
-		return (SharedStyleHandle) style.getHandle( design );
+		return getStringProperty( AFTER_FACTORY_METHOD );
 	}
 
 	/**
-	 * Finds a data source by name.
+	 * Returns the script called just after opening the report document in the
+	 * Factory.
 	 * 
-	 * @param name
-	 *            name of the data source
-	 * @return a handle to the data source, or <code>null</code> if the data
-	 *         source is not found
+	 * @return the script
 	 */
 
-	public DataSourceHandle findDataSource( String name )
+	public String getAfterOpenDoc( )
 	{
-		DesignElement element = design.findDataSource( name );
-		if ( element == null )
-			return null;
-		return (DataSourceHandle) element.getHandle( design );
+		return getStringProperty( AFTER_OPEN_DOC_METHOD );
 	}
 
 	/**
-	 * Finds a data set by name.
+	 * Returns the script called after starting a presentation time action.
 	 * 
-	 * @param name
-	 *            name of the data set
-	 * @return a handle to the data set, or <code>null</code> if the data set
-	 *         is not found
+	 * @return the script
 	 */
 
-	public DataSetHandle findDataSet( String name )
+	public String getAfterRender( )
 	{
-		DesignElement element = design.findDataSet( name );
-		if ( element == null )
-			return null;
-		return (DataSetHandle) element.getHandle( design );
+		return getStringProperty( AFTER_RENDER_METHOD );
 	}
 
 	/**
-	 * Finds a master page by name.
+	 * Returns the base directory to use when computing relative links from this
+	 * report. Especially used for searching images, library and so.
 	 * 
-	 * @param name
-	 *            the name of the master page
-	 * @return a handle to the master page, or <code>null</code> if the page
-	 *         is not found
+	 * @return the base directory
 	 */
 
-	public MasterPageHandle findMasterPage( String name )
+	public String getBase( )
 	{
-		DesignElement element = design.findPage( name );
-		if ( element == null )
-			return null;
-		return (MasterPageHandle) element.getHandle( design );
+		return module.getStringProperty( module, BASE_PROP );
 	}
 
 	/**
-	 * Finds a parameter by name.
+	 * Returns the script called just before closing the report document file in
+	 * the Factory.
 	 * 
-	 * @param name
-	 *            the name of the parameter
-	 * @return a handle to the parameter, or <code>null</code> if the
-	 *         parameter is not found
+	 * @return the script
 	 */
 
-	public ParameterHandle findParameter( String name )
+	public String getBeforeCloseDoc( )
 	{
-		DesignElement element = design.findParameter( name );
-		if ( element == null )
-			return null;
-		return (ParameterHandle) element.getHandle( design );
+		return getStringProperty( BEFORE_CLOSE_DOC_METHOD );
 	}
 
 	/**
-	 * Returns the command stack that manages undo/redo operations for the
-	 * design.
+	 * Returns the script called at the start of the Factory after the
+	 * initialize( ) method and before opening the report document (if any).
 	 * 
-	 * @return a command stack
-	 * 
-	 * @see CommandStack
+	 * @return the script
 	 */
 
-	public CommandStack getCommandStack( )
+	public String getBeforeFactory( )
 	{
-		return design.getActivityStack( );
+		return getStringProperty( BEFORE_FACTORY_METHOD );
 	}
 
 	/**
-	 * Saves the design to an existing file name. Call this only when the file
-	 * name has been set.
+	 * Returns the script called just before opening the report document in the
+	 * Factory.
 	 * 
-	 * @throws IOException
-	 *             if the file cannot be saved on the storage
-	 * 
-	 * @see #saveAs(String)
+	 * @return the script
 	 */
 
-	public void save( ) throws IOException
+	public String getBeforeOpenDoc( )
 	{
-		String fileName = getFileName( );
-		assert fileName != null;
-		if ( fileName == null )
-			return;
-		design.prepareToSave( );
-		DesignWriter writer = new DesignWriter( design );
-		writer.write( new File( fileName ) );
-		design.onSave( );
+		return getStringProperty( BEFORE_OPEN_DOC_METHOD );
 	}
 
 	/**
-	 * Saves the design to the file name provided. The file name is saved in the
-	 * design, and subsequent calls to <code>save( )</code> will save to this
-	 * new name.
+	 * Returns the script called before starting a presentation time action.
 	 * 
-	 * @param newName
-	 *            the new file name
-	 * @throws IOException
-	 *             if the file cannot be saved
-	 * 
-	 * @see #save()
+	 * @return the script
 	 */
 
-	public void saveAs( String newName ) throws IOException
+	public String getBeforeRender( )
 	{
-		design.setFileName( newName );
-		save( );
-	}
-
-	/**
-	 * Finds the handle to an element by a given element ID. Returns
-	 * <code>null</code> if the ID is not valid, or if this session does not
-	 * use IDs.
-	 * 
-	 * @param id
-	 *            ID of the element to find
-	 * @return A handle to the element, or <code>null</code> if the element
-	 *         was not found or this session does not use IDs.
-	 */
-
-	public DesignElementHandle getElementByID( int id )
-	{
-		DesignElement element = design.getElementByID( id );
-		if ( element == null )
-			return null;
-		return element.getHandle( design );
+		return getStringProperty( BEFORE_RENDER_METHOD );
 	}
 
 	/**
@@ -341,68 +275,29 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	public SlotHandle getBody( )
 	{
-		return getSlot( ReportDesign.BODY_SLOT );
+		return getSlot( BODY_SLOT );
 	}
 
 	/**
-	 * Returns a slot handle to work with the styles within the report. Note
-	 * that the order of the styles within the slot is unimportant.
+	 * Get the base name of the customer-defined resource bundle.
 	 * 
-	 * @return A handle for working with the styles.
+	 * @return the base name of the customer-defined resource bundle.
 	 */
 
-	public SlotHandle getStyles( )
+	public String getIncludeResource( )
 	{
-		return getSlot( IRootElementModel.STYLE_SLOT );
+		return getStringProperty( INCLUDE_RESOURCE_PROP );
 	}
 
 	/**
-	 * Returns a slot handle to work with the data sources within the report.
-	 * Note that the order of the data sources within the slot is unimportant.
+	 * Returns the refresh rate when viewing the report.
 	 * 
-	 * @return A handle for working with the data sources.
+	 * @return the refresh rate
 	 */
 
-	public SlotHandle getDataSources( )
+	public int getRefreshRate( )
 	{
-		return getSlot( ReportDesign.DATA_SOURCE_SLOT );
-	}
-
-	/**
-	 * Returns a slot handle to work with the data sets within the report. Note
-	 * that the order of the data sets within the slot is unimportant.
-	 * 
-	 * @return A handle for working with the data sets.
-	 */
-
-	public SlotHandle getDataSets( )
-	{
-		return getSlot( ReportDesign.DATA_SET_SLOT );
-	}
-
-	/**
-	 * Returns a slot handle to work with the master pages within the report.
-	 * Note that the order of the master pages within the slot is unimportant.
-	 * 
-	 * @return A handle for working with the master pages.
-	 */
-
-	public SlotHandle getMasterPages( )
-	{
-		return getSlot( ReportDesign.PAGE_SLOT );
-	}
-
-	/**
-	 * Returns a slot handle to work with the top-level parameters and parameter
-	 * groups within the report. The order that the items appear within the slot
-	 * determines the order in which they appear in the "requester" UI.
-	 * 
-	 * @return A handle for working with the parameters and parameter groups.
-	 */
-
-	public SlotHandle getParameters( )
-	{
-		return getSlot( ReportDesign.PARAMETER_SLOT );
+		return getIntProperty( REFRESH_RATE_PROP );
 	}
 
 	/**
@@ -414,108 +309,215 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	public SlotHandle getScratchPad( )
 	{
-		return getSlot( ReportDesign.SCRATCH_PAD_SLOT );
+		return getSlot( SCRATCH_PAD_SLOT );
 	}
 
 	/**
-	 * Returns a slot handle to work with the top-level components within the
-	 * report.
+	 * Returns the iterator over all included libraries. Each one is the
+	 * instance of <code>IncludeLibraryHandle</code>
 	 * 
-	 * @return A handle for working with the components.
+	 * @return the iterator over all included libraries.
+	 * @see IncludeLibraryHandle
 	 */
 
-	public SlotHandle getComponents( )
+	public Iterator includeLibrariesIterator( )
 	{
-		return getSlot( ReportDesign.COMPONENT_SLOT );
+		PropertyHandle propHandle = getPropertyHandle( INCLUDE_LIBRARIES_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 
 	/**
-	 * Returns the flatten Parameters/ParameterGroups of the design. This method
-	 * put all Parameters and ParameterGroups into a list then return it. The
-	 * return list is sorted by on the display name of the parameters.
+	 * Returns the iterator over all included scripts. Each one is the instance
+	 * of <code>IncludeScriptHandle</code>
 	 * 
-	 * @return the sorted, flatten parameters and parameter groups.
+	 * @return the iterator over all included scripts.
+	 * @see IncludeScriptHandle
 	 */
 
-	public List getFlattenParameters( )
+	public Iterator includeScriptsIterator( )
 	{
-		ArrayList list = new ArrayList( );
-		SlotHandle slotHandle = getParameters( );
-		Iterator it = slotHandle.iterator( );
-		while ( it.hasNext( ) )
-		{
-			DesignElementHandle h = (DesignElementHandle) it.next( );
-			list.add( h );
-			if ( h instanceof ParameterGroupHandle )
-			{
-				addParameters( list, (ParameterGroupHandle) h );
-			}
-		}
-		DesignElementHandle.doSort( list );
-		return list;
+		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 
 	/**
-	 * Adds all the parameters under the given parameter group to a list.
+	 * Sets the script called just after closing the report document file in the
+	 * Factory.
 	 * 
-	 * @param list
-	 *            the list to which the parameters are added.
-	 * @param handle
-	 *            the handle to the parameter group.
+	 * @param value
+	 *            the script to set.
 	 */
 
-	private void addParameters( ArrayList list, ParameterGroupHandle handle )
-	{
-		SlotHandle h = handle.getParameters( );
-		Iterator it = h.iterator( );
-		while ( it.hasNext( ) )
-		{
-			list.add( it.next( ) );
-		}
-	}
-
-	/**
-	 * Returns the name of the author of the design report.
-	 * 
-	 * @return the name of the author.
-	 */
-
-	public String getAuthor( )
-	{
-		return getStringProperty( ReportDesign.AUTHOR_PROP );
-	}
-
-	/**
-	 * Sets the name of the author of the design report.
-	 * 
-	 * @param author
-	 *            the name of the author.
-	 */
-
-	public void setAuthor( String author )
+	public void setAfterCloseDoc( String value )
 	{
 		try
 		{
-			setStringProperty( ReportDesign.AUTHOR_PROP, author );
+			setStringProperty( AFTER_CLOSE_DOC_METHOD, value );
 		}
 		catch ( SemanticException e )
 		{
 			assert false;
 		}
-
 	}
 
 	/**
-	 * Returns the default units for the design. These are the units that are
-	 * used for dimensions that don't explicitly specify units.
+	 * Sets the script called at the end of the Factory after closing the report
+	 * document (if any). This is the last method called in the Factory.
 	 * 
-	 * @return the default units for the design.
-	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
+	 * @param value
+	 *            the script to set.
 	 */
 
-	public String getDefaultUnits( )
+	public void setAfterFactory( String value )
 	{
-		return design.getUnits( );
+		try
+		{
+			setStringProperty( AFTER_FACTORY_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called just after opening the report document in the
+	 * Factory.
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setAfterOpenDoc( String value )
+	{
+		try
+		{
+			setStringProperty( AFTER_OPEN_DOC_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called after starting a presentation time action.
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setAfterRender( String value )
+	{
+		try
+		{
+			setStringProperty( AFTER_RENDER_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the base directory to use when computing relative links from this
+	 * report. Especially used for searching images, library and so.
+	 * 
+	 * @param base
+	 *            the base directory to set
+	 */
+
+	public void setBase( String base )
+	{
+		try
+		{
+			setProperty( BASE_PROP, base );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called just before closing the report document file in
+	 * the Factory.
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setBeforeCloseDoc( String value )
+	{
+		try
+		{
+			setStringProperty( BEFORE_CLOSE_DOC_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called at the start of the Factory after the initialize( )
+	 * method and before opening the report document (if any).
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setBeforeFactory( String value )
+	{
+		try
+		{
+			setStringProperty( BEFORE_FACTORY_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called just before opening the report document in the
+	 * Factory.
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setBeforeOpenDoc( String value )
+	{
+		try
+		{
+			setStringProperty( BEFORE_OPEN_DOC_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
+	}
+
+	/**
+	 * Sets the script called before starting a presentation time action.
+	 * 
+	 * @param value
+	 *            the script to set.
+	 */
+
+	public void setBeforeRender( String value )
+	{
+		try
+		{
+			setStringProperty( BEFORE_RENDER_METHOD, value );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
 	}
 
 	/**
@@ -542,135 +544,31 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	public void setDefaultUnits( String units ) throws SemanticException
 	{
-		setStringProperty( ReportDesign.UNITS_PROP, units );
+		setStringProperty( UNITS_PROP, units );
 	}
 
 	/**
-	 * Returns the file name of the design. This is the name of the file from
-	 * which the design was read, or the name to which the design was last
-	 * written.
+	 * Set the base name of the customer-defined resource bundle. The name is a
+	 * common base name, e.g: "myMessage" without the Language_Country suffix,
+	 * then the message file family can be "myMessage_en.properties",
+	 * "myMessage_zh_CN.properties" etc. The message file is stored in the same
+	 * folder as the design file.
 	 * 
-	 * @return the file name
+	 * @param baseName
+	 *            common base name of the customer-defined resource bundle.
+	 * 
 	 */
 
-	public String getFileName( )
-	{
-		return design.getFileName( );
-	}
-
-	/**
-	 * Sets the design file name.
-	 * 
-	 * @param newName
-	 *            the new file name
-	 */
-
-	public void setFileName( String newName )
-	{
-		design.setFileName( newName );
-	}
-
-	/**
-	 * Returns the base directory to use when computing relative links from this
-	 * report. Especially used for searching images, library and so.
-	 * 
-	 * @return the base directory
-	 */
-
-	public String getBase( )
-	{
-		return design.getStringProperty( design, ReportDesign.BASE_PROP );
-	}
-
-	/**
-	 * Sets the base directory to use when computing relative links from this
-	 * report. Especially used for searching images, library and so.
-	 * 
-	 * @param base
-	 *            the base directory to set
-	 */
-
-	public void setBase( String base )
+	public void setIncludeResource( String baseName )
 	{
 		try
 		{
-			setProperty( ReportDesign.BASE_PROP, base );
+			setProperty( INCLUDE_RESOURCE_PROP, baseName );
 		}
 		catch ( SemanticException e )
 		{
 			assert false;
 		}
-	}
-
-	/**
-	 * Returns an external file that provides help information for the report.
-	 * 
-	 * @return the name of an external file
-	 */
-
-	public String getHelpGuide( )
-	{
-		return getStringProperty( ReportDesign.HELP_GUIDE_PROP );
-	}
-
-	/**
-	 * Sets an external file that provides help information for the report.
-	 * 
-	 * @param helpGuide
-	 *            the name of an external file
-	 */
-
-	public void setHelpGuide( String helpGuide )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.HELP_GUIDE_PROP, helpGuide );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the name of the tool that created the design.
-	 * 
-	 * @return the name of the tool
-	 */
-
-	public String getCreatedBy( )
-	{
-		return getStringProperty( ReportDesign.CREATED_BY_PROP );
-	}
-
-	/**
-	 * Returns the name of the tool that created the design.
-	 * 
-	 * @param toolName
-	 *            the name of the tool
-	 */
-
-	public void setCreatedBy( String toolName )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.CREATED_BY_PROP, toolName );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the refresh rate when viewing the report.
-	 * 
-	 * @return the refresh rate
-	 */
-
-	public int getRefreshRate( )
-	{
-		return getIntProperty( ReportDesign.REFRESH_RATE_PROP );
 	}
 
 	/**
@@ -684,7 +582,7 @@ public class ReportDesignHandle extends DesignElementHandle
 	{
 		try
 		{
-			setIntProperty( ReportDesign.REFRESH_RATE_PROP, rate );
+			setIntProperty( REFRESH_RATE_PROP, rate );
 		}
 		catch ( SemanticException e )
 		{
@@ -692,1009 +590,22 @@ public class ReportDesignHandle extends DesignElementHandle
 		}
 	}
 
-	/**
-	 * Gets a handle to deal with a translation. A translation is identified by
-	 * its resourceKey and locale.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param resourceKey
-	 *            the resource key
-	 * @param locale
-	 *            the locale information
-	 * 
-	 * @return corresponding <code>TranslationHandle</code>. Or return
-	 *         <code>null</code> if the translation is not found in the
-	 *         design.
-	 * 
-	 * @see TranslationHandle
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#save()
 	 */
 
-	public TranslationHandle getTranslation( String resourceKey, String locale )
+	public void save( ) throws IOException
 	{
-		Translation translation = design.findTranslation( resourceKey, locale );
-
-		if ( translation != null )
-			return translation.handle( getDesign( ) );
-
-		return null;
-	}
-
-	/**
-	 * Gets a list of translation defined on the report. The content of the list
-	 * is the corresponding <code>TranslationHandle</code>.
-	 * 
-	 * @return a list containing TranslationHandles defined on the report or
-	 *         <code>null</code> if the design has no any translations.
-	 * 
-	 * @see TranslationHandle
-	 */
-
-	public List getTranslations( )
-	{
-		List translations = getDesign( ).getTranslations( );
-
-		if ( translations == null )
-			return null;
-
-		List translationHandles = new ArrayList( );
-
-		for ( int i = 0; i < translations.size( ); i++ )
-		{
-			translationHandles.add( ( (Translation) translations.get( i ) )
-					.handle( getDesign( ) ) );
-		}
-
-		return translationHandles;
-	}
-
-	/**
-	 * Returns a string array containing all the resource keys of user-defined
-	 * translations for the report.
-	 * 
-	 * @return a string array containing message resource keys, return
-	 *         <code>null</code> if there is no messages defined in the
-	 *         design.
-	 */
-
-	public String[] getTranslationKeys( )
-	{
-		return getDesign( ).getTranslationResourceKeys( );
-	}
-
-	/**
-	 * Adds a new translation to the design.
-	 * 
-	 * @param resourceKey
-	 *            resource key for the message
-	 * @param locale
-	 *            the string value of a locale for the translation. Locale
-	 *            should be in java-defined format( en, en-US, zh_CN, etc.)
-	 * @param text
-	 *            translated text for the locale
-	 * 
-	 * @throws CustomMsgException
-	 *             if the resource key is duplicate or missing, or locale is not
-	 *             a valid format.
-	 * 
-	 * @see #getTranslation(String, String)
-	 */
-
-	public void addTranslation( String resourceKey, String locale, String text )
-			throws CustomMsgException
-	{
-		CustomMsgCommand command = new CustomMsgCommand( getDesign( ) );
-		command.addTranslation( resourceKey, locale, text );
-	}
-
-	/**
-	 * Drops a translation from the design.
-	 * 
-	 * @param resourceKey
-	 *            resource key of the message in which this translation saves.
-	 * @param locale
-	 *            the string value of the locale for a translation. Locale
-	 *            should be in java-defined format( en, en-US, zh_CN, etc.)
-	 * @throws CustomMsgException
-	 *             if <code>resourceKey</code> is <code>null</code>.
-	 * @see #getTranslation(String, String)
-	 */
-
-	public void dropTranslation( String resourceKey, String locale )
-			throws CustomMsgException
-	{
-		CustomMsgCommand command = new CustomMsgCommand( getDesign( ) );
-		command.dropTranslation( resourceKey, locale );
-	}
-
-	/**
-	 * Returns the iterator over all structures of color palette. Each one is
-	 * the instance of <code>CustomColorHandle</code>
-	 * 
-	 * @return the iterator over all structures of color palette.
-	 * @see CustomColorHandle
-	 */
-
-	public Iterator customColorsIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ReportDesign.COLOR_PALETTE_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Returns the iterator over all config variables. Each one is the instance
-	 * of <code>ConfigVariableHandle</code>
-	 * 
-	 * @return the iterator over all config variables.
-	 * @see ConfigVariableHandle
-	 */
-
-	public Iterator configVariablesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ReportDesign.CONFIG_VARS_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Adds a new config variable.
-	 * 
-	 * @param configVar
-	 *            the config variable
-	 * @throws SemanticException
-	 *             if the name is empty or the same name exists.
-	 *  
-	 */
-
-	public void addConfigVariable( ConfigVariable configVar )
-			throws SemanticException
-	{
-		ElementPropertyDefn propDefn = design
-				.getPropertyDefn( ReportDesign.CONFIG_VARS_PROP );
-
-		if ( configVar != null && StringUtil.isBlank( configVar.getName( ) ) )
-		{
-			throw new PropertyValueException( getElement( ), propDefn,
-					configVar,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
-		}
-
-		if ( configVar != null
-				&& findConfigVariable( configVar.getName( ) ) != null )
-		{
-			throw new PropertyValueException( getElement( ), propDefn,
-					configVar.getName( ),
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
-		}
-
-		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
-		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
-	}
-
-	/**
-	 * Finds the position of the config variable with the given name.
-	 * 
-	 * @param name
-	 *            the config variable name
-	 * @return the index ( from 0 ) of config variable with the given name.
-	 *         Return -1, if not found.
-	 *  
-	 */
-
-	private int findConfigVariablePos( String name )
-	{
-		List configVars = (List) design.getLocalProperty( design,
-				ReportDesign.CONFIG_VARS_PROP );
-		if ( configVars == null )
-			return -1;
-
-		int i = 0;
-		for ( Iterator iter = configVars.iterator( ); iter.hasNext( ); i++ )
-		{
-			ConfigVariable var = (ConfigVariable) iter.next( );
-
-			if ( var.getName( ).equals( name ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Drops a config variable.
-	 * 
-	 * @param name
-	 *            config variable name
-	 * @throws SemanticException
-	 *             if no config variable is found.
-	 * @deprecated
-	 */
-
-	public void dropConfigVariable( String name ) throws SemanticException
-	{
-		PropertyHandle propHandle = this
-				.getPropertyHandle( ReportDesign.CONFIG_VARS_PROP );
-
-		int posn = findConfigVariablePos( name );
-		if ( posn < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		propHandle.removeItem( posn );
-
-	}
-
-	/**
-	 * Finds the config variable with the given name.
-	 * 
-	 * @param name
-	 *            config variable name
-	 * @return config variable with the specified name. Return <code>null</code>,
-	 *         if not found.
-	 *  
-	 */
-
-	public ConfigVariable findConfigVariable( String name )
-	{
-		int pos = findConfigVariablePos( name );
-		if ( pos == -1 )
-			return null;
-
-		List configVars = (List) design.getLocalProperty( design,
-				ReportDesign.CONFIG_VARS_PROP );
-
-		return (ConfigVariable) configVars.get( pos );
-	}
-
-	/**
-	 * Replaces the old config variable with the new one.
-	 * 
-	 * @param oldVar
-	 *            the old config variable
-	 * @param newVar
-	 *            the new config variable
-	 * @throws SemanticException
-	 *             if the old config variable is not found or the name of new
-	 *             one is empty.
-	 *  
-	 */
-
-	public void replaceConfigVariable( ConfigVariable oldVar,
-			ConfigVariable newVar ) throws SemanticException
-	{
-		replaceObjectInList( ReportDesign.CONFIG_VARS_PROP, oldVar, newVar );
-	}
-
-	/**
-	 * Returns the iterator over all embedded images. Each one is the instance
-	 * of <code>EmbeddedImageHandle</code>
-	 * 
-	 * @return the iterator over all embedded images.
-	 * 
-	 * @see EmbeddedImageHandle
-	 */
-
-	public Iterator imagesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ReportDesign.IMAGES_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Adds a new embedded image.
-	 * 
-	 * @param image
-	 *            the image to add
-	 * @throws SemanticException
-	 *             if the name is empty, type is invalid, or the same name
-	 *             exists.
-	 */
-
-	public void addImage( EmbeddedImage image ) throws SemanticException
-	{
-		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
-		ElementPropertyDefn propDefn = design
-				.getPropertyDefn( ReportDesign.IMAGES_PROP );
-		cmd.addItem( new CachedMemberRef( propDefn ), image );
-	}
-
-	/**
-	 * Finds the position of the image with the given name.
-	 * 
-	 * @param name
-	 *            the image name to find
-	 * @return position of image with the specified name. Return -1, if not
-	 *         found.
-	 */
-
-	private int findImagePos( String name )
-	{
-		List images = (List) design.getLocalProperty( design,
-				ReportDesign.IMAGES_PROP );
-
-		int i = 0;
-		for ( Iterator iter = images.iterator( ); iter.hasNext( ); i++ )
-		{
-			EmbeddedImage image = (EmbeddedImage) iter.next( );
-
-			if ( image.getName( ) != null
-					&& image.getName( ).equalsIgnoreCase( name ) )
-			{
-				return i;
-			}
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Drops an embedded image from the design.
-	 * 
-	 * @param name
-	 *            the image name
-	 * @throws SemanticException
-	 *             if the image is not found.
-	 * @deprecated
-	 */
-
-	public void dropImage( String name ) throws SemanticException
-	{
-		PropertyHandle propHandle = this
-				.getPropertyHandle( ReportDesign.IMAGES_PROP );
-
-		int pos = findImagePos( name );
-		if ( pos < 0 )
-			throw new PropertyValueException( getElement( ), propHandle
-					.getPropertyDefn( ), name,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		propHandle.removeItem( pos );
-	}
-
-	/**
-	 * Drops an embedded image handle list from the design. Each one in the list
-	 * is the instance of <code>EmbeddedImageHandle</code>.
-	 * 
-	 * @param images
-	 *            the image handle list to remove
-	 * @throws SemanticException
-	 *             if any image in the list is not found.
-	 */
-
-	public void dropImage( List images ) throws SemanticException
-	{
-		if ( images == null )
+		String fileName = getFileName( );
+		assert fileName != null;
+		if ( fileName == null )
 			return;
-		PropertyHandle propHandle = this
-				.getPropertyHandle( ReportDesign.IMAGES_PROP );
-		propHandle.removeItems( images );
-	}
-
-	/**
-	 * Finds the image with the given name.
-	 * 
-	 * @param name
-	 *            the image name
-	 * @return embedded image with the given name. Return <code>null</code>,
-	 *         if not found.
-	 */
-
-	public EmbeddedImage findImage( String name )
-	{
-		return design.findImage( name );
-	}
-
-	/**
-	 * Replaces the old embedded image with the new one.
-	 * 
-	 * @param oldVar
-	 *            the old embedded image
-	 * @param newVar
-	 *            the new embedded image
-	 * @throws SemanticException
-	 *             if the old image is not found or the name of new one is
-	 *             empty.
-	 */
-
-	public void replaceImage( EmbeddedImage oldVar, EmbeddedImage newVar )
-			throws SemanticException
-	{
-		replaceObjectInList( ReportDesign.IMAGES_PROP, oldVar, newVar );
-	}
-
-	/**
-	 * Replaces an old object in the structure list with the given new one.
-	 * 
-	 * @param propName
-	 *            the name of the property that holds a structure list
-	 * @param oldVar
-	 *            an existed object in the list
-	 * @param newVar
-	 *            a new object
-	 * @throws SemanticException
-	 *             if the old object is not found or the name of new one is
-	 *             empty.
-	 */
-
-	private void replaceObjectInList( String propName, Object oldVar,
-			Object newVar ) throws SemanticException
-	{
-		ElementPropertyDefn propDefn = design.getPropertyDefn( propName );
-
-		PropertyCommand cmd = new PropertyCommand( design, getElement( ) );
-		cmd.replaceItem( new CachedMemberRef( propDefn ), (Structure) oldVar,
-				(Structure) newVar );
-	}
-
-	/**
-	 * Determines if the design has changed since it was last read from, or
-	 * written to, the file. The dirty state reflects the action of the command
-	 * stack. If the user saves the design and then changes it, the design is
-	 * dirty. If the user then undoes the change, the design is no longer dirty.
-	 * 
-	 * @return <code>true</code> if the design has changed since the last load
-	 *         or save; <code>false</code> if it has not changed.
-	 */
-
-	public boolean needsSave( )
-	{
-		return design.isDirty( );
-	}
-
-	/**
-	 * Closes the design. The report design handle is no longer valid after
-	 * closing the design.
-	 */
-
-	public void close( )
-	{
-		design.close( );
-	}
-
-	/**
-	 * Writes the report design to the given output stream. The caller must call
-	 * <code>onSave</code> if the save succeeds.
-	 * 
-	 * @param out
-	 *            the output stream to which the design is written.
-	 * @throws IOException
-	 *             if the file cannot be written to the output stream
-	 *             successfully.
-	 */
-
-	public void serialize( OutputStream out ) throws IOException
-	{
-		assert out != null;
-
-		design.prepareToSave( );
-		DesignWriter writer = new DesignWriter( design );
-		writer.write( out );
-		design.onSave( );
-	}
-
-	/**
-	 * Calls to inform a save is successful. Must be called after a successful
-	 * completion of a save done using <code>serialize</code>.
-	 */
-
-	public void onSave( )
-	{
-		design.onSave( );
-	}
-
-	/**
-	 * Returns a list containing errors during parsing the design file.
-	 * 
-	 * @return a list containing parsing errors. Each element in the list is
-	 *         <code>ErrorDetail</code>.
-	 * 
-	 * @see ErrorDetail
-	 */
-
-	public List getErrorList( )
-	{
-		return design.getErrorList( );
-	}
-
-	/**
-	 * Returns a list containing warnings during parsing the design file.
-	 * 
-	 * @return a list containing parsing warnings. Each element in the list is
-	 *         <code>ErrorDetail</code>.
-	 * 
-	 * @see ErrorDetail
-	 */
-
-	public List getWarningList( )
-	{
-		return design.getWarningList( );
-	}
-
-	/**
-	 * Returns the iterator over all included libraries. Each one is the
-	 * instance of <code>IncludeLibraryHandle</code>
-	 * 
-	 * @return the iterator over all included libraries.
-	 * @see IncludeLibraryHandle
-	 */
-
-	public Iterator includeLibrariesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ReportDesign.INCLUDE_LIBRARIES );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Returns the iterator over all included scripts. Each one is the instance
-	 * of <code>IncludeScriptHandle</code>
-	 * 
-	 * @return the iterator over all included scripts.
-	 * @see IncludeScriptHandle
-	 */
-
-	public Iterator includeScriptsIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ReportDesign.INCLUDE_SCRIPTS );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
-
-	/**
-	 * Sets the script called when the report starts executing.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setInitialize( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.INITIALIZE_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called when the report starts executing.
-	 * 
-	 * @return the script called when the report starts executing
-	 */
-
-	public String getInitialize( )
-	{
-		return getStringProperty( ReportDesign.INITIALIZE_METHOD );
-	}
-
-	/**
-	 * Sets the script called at the start of the Factory after the initialize( )
-	 * method and before opening the report document (if any).
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setBeforeFactory( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.BEFORE_FACTORY_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called at the start of the Factory after the
-	 * initialize( ) method and before opening the report document (if any).
-	 * 
-	 * @return the script
-	 */
-
-	public String getBeforeFactory( )
-	{
-		return getStringProperty( ReportDesign.BEFORE_FACTORY_METHOD );
-	}
-
-	/**
-	 * Sets the script called at the end of the Factory after closing the report
-	 * document (if any). This is the last method called in the Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setAfterFactory( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.AFTER_FACTORY_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called at the end of the Factory after closing the
-	 * report document (if any). This is the last method called in the Factory.
-	 * 
-	 * @return the script
-	 */
-
-	public String getAfterFactory( )
-	{
-		return getStringProperty( ReportDesign.AFTER_FACTORY_METHOD );
-	}
-
-	/**
-	 * Sets the script called just before opening the report document in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setBeforeOpenDoc( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.BEFORE_OPEN_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called just before opening the report document in the
-	 * Factory.
-	 * 
-	 * @return the script
-	 */
-
-	public String getBeforeOpenDoc( )
-	{
-		return getStringProperty( ReportDesign.BEFORE_OPEN_DOC_METHOD );
-	}
-
-	/**
-	 * Sets the script called just after opening the report document in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setAfterOpenDoc( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.AFTER_OPEN_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called just after opening the report document in the
-	 * Factory.
-	 * 
-	 * @return the script
-	 */
-
-	public String getAfterOpenDoc( )
-	{
-		return getStringProperty( ReportDesign.AFTER_OPEN_DOC_METHOD );
-	}
-
-	/**
-	 * Sets the script called just before closing the report document file in
-	 * the Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setBeforeCloseDoc( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.BEFORE_CLOSE_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called just before closing the report document file in
-	 * the Factory.
-	 * 
-	 * @return the script
-	 */
-
-	public String getBeforeCloseDoc( )
-	{
-		return getStringProperty( ReportDesign.BEFORE_CLOSE_DOC_METHOD );
-	}
-
-	/**
-	 * Sets the script called just after closing the report document file in the
-	 * Factory.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setAfterCloseDoc( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.AFTER_CLOSE_DOC_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called just after closing the report document file in
-	 * the Factory.
-	 * 
-	 * @return the script
-	 */
-
-	public String getAfterCloseDoc( )
-	{
-		return getStringProperty( ReportDesign.AFTER_CLOSE_DOC_METHOD );
-	}
-
-	/**
-	 * Sets the script called before starting a presentation time action.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setBeforeRender( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.BEFORE_RENDER_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called before starting a presentation time action.
-	 * 
-	 * @return the script
-	 */
-
-	public String getBeforeRender( )
-	{
-		return getStringProperty( ReportDesign.BEFORE_RENDER_METHOD );
-	}
-
-	/**
-	 * Sets the script called after starting a presentation time action.
-	 * 
-	 * @param value
-	 *            the script to set.
-	 */
-
-	public void setAfterRender( String value )
-	{
-		try
-		{
-			setStringProperty( ReportDesign.AFTER_RENDER_METHOD, value );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Returns the script called after starting a presentation time action.
-	 * 
-	 * @return the script
-	 */
-
-	public String getAfterRender( )
-	{
-		return getStringProperty( ReportDesign.AFTER_RENDER_METHOD );
-	}
-
-	/**
-	 * Checks the element name in name space of this report.
-	 * 
-	 * <ul>
-	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
-	 * </ul>
-	 * 
-	 * @param elementHandle
-	 *            the element handle whose name is need to check.
-	 */
-
-	public void rename( DesignElementHandle elementHandle )
-	{
-		if ( elementHandle == null )
-			return;
-
-		IElementDefn defn = elementHandle.getElement( ).getDefn( );
-
-		if ( defn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
-			design.makeUniqueName( elementHandle.getElement( ) );
-		else
-			elementHandle.getElement( ).setName( null );
-
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = elementHandle.getElement( ).getSlot( i );
-
-			if ( slot != null )
-			{
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-				{
-					DesignElement innerElement = slot.getContent( pos );
-					rename( innerElement.getHandle( design ) );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Checks this whole report. Only one <code>ValidationEvent</code> will be
-	 * sent, which contains all error information of this check.
-	 */
-
-	public void checkReport( )
-	{
-		// validate the whole design
-
-		design.semanticCheck( design );
-
-		ValidationEvent event = new ValidationEvent( design, null,
-				getErrorList( ) );
-
-		design.broadcastValidationEvent( design, event );
-	}
-
-	/**
-	 * Set the base name of the customer-defined resource bundle. The name is a
-	 * common base name, e.g: "myMessage" without the Language_Country suffix,
-	 * then the message file family can be "myMessage_en.properties",
-	 * "myMessage_zh_CN.properties" etc. The message file is stored in the same
-	 * folder as the design file.
-	 * 
-	 * @param baseName
-	 *            common base name of the customer-defined resource bundle.
-	 *  
-	 */
-
-	public void setIncludeResource( String baseName )
-	{
-		try
-		{
-			setProperty( ReportDesign.INCLUDE_RESOURCE_PROP, baseName );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
-	}
-
-	/**
-	 * Get the base name of the customer-defined resource bundle.
-	 * 
-	 * @return the base name of the customer-defined resource bundle.
-	 */
-
-	public String getIncludeResource( )
-	{
-		return getStringProperty( ReportDesign.INCLUDE_RESOURCE_PROP );
-	}
-
-	/**
-	 * Finds user-defined messages for the given locale.
-	 * <p>
-	 * First we look up in the report itself, then look into the referenced
-	 * message file. Each search uses a reduced form of Java locale-driven
-	 * search algorithm: Language&Country, language, default.
-	 * 
-	 * @param resourceKey
-	 *            Resource key of the user defined message.
-	 * @param locale
-	 *            locale of message, if the input <code>locale</code> is
-	 *            <code>null</code>, the locale for the current thread will
-	 *            be used instead.
-	 * @return the corresponding locale-dependent messages. Return
-	 *         <code>null</code> if resoueceKey is blank.
-	 */
-
-	public String getMessage( String resourceKey, Locale locale )
-	{
-		return getDesign( ).getMessage( resourceKey, locale );
-	}
-
-	/**
-	 * Finds user-defined messages for the current thread's locale.
-	 * 
-	 * @param resourceKey
-	 *            Resource key of the user-defined message.
-	 * @return the corresponding locale-dependent messages. Return
-	 *         <code>null</code> if resoueceKey is blank.
-	 * @see #getMessage(String, Locale)
-	 */
-
-	public String getMessage( String resourceKey )
-	{
-		return getDesign( ).getMessage( resourceKey );
-	}
-
-	/**
-	 * Return a list of user-defined message keys. The list contained resource
-	 * keys defined in the report itself and the keys defined in the referenced
-	 * message files for the current thread's locale. The list returned contains
-	 * no duplicate keys.
-	 * 
-	 * @return a list of user-defined message keys.
-	 */
-
-	public List getMessageKeys( )
-	{
-		return getDesign( ).getMessageKeys( );
-	}
-
-	/**
-	 * Adds the validation listener, which implements
-	 * <code>IValidationListener</code>. A listener receives notifications
-	 * each time an element is validated.
-	 * 
-	 * @param listener
-	 *            the validation listener.
-	 */
-
-	public void addValidationListener( IValidationListener listener )
-	{
-		getDesign( ).addValidationListener( listener );
-	}
-
-	/**
-	 * Removes a given validation listener. If the listener not registered, then
-	 * the request is silently ignored.
-	 * 
-	 * @param listener
-	 *            the listener to de-register
-	 * @return <code>true</code> if <code>listener</code> is sucessfully
-	 *         removed. Otherwise <code>false</code>.
-	 */
-
-	public boolean removeValidationListener( IValidationListener listener )
-	{
-		return getDesign( ).removeValidationListener( listener );
+		module.prepareToSave( );
+		DesignWriter writer = new DesignWriter( (ReportDesign) module );
+		writer.write( new File( fileName ) );
+		module.onSave( );
 	}
 
 	/**
@@ -1725,6 +636,7 @@ public class ReportDesignHandle extends DesignElementHandle
 
 	public URL findResource( String fileName, int fileType )
 	{
-		return design.findResource( fileName, fileType );
+		return module.findResource( fileName, fileType );
 	}
+
 }

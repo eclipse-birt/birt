@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 
 /**
@@ -76,24 +77,24 @@ public class Label extends ReportItem implements ILabelModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public LabelHandle handle( ReportDesign design )
+	public LabelHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new LabelHandle( design, this );
+			handle = new LabelHandle( module, this );
 		}
 		return (LabelHandle) handle;
 	}
@@ -105,12 +106,12 @@ public class Label extends ReportItem implements ILabelModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			String text = handle( design ).getText( );
+			String text = handle( module ).getText( );
 			if ( !StringUtil.isBlank( text ) )
 			{
 				text = limitStringLength( text );
@@ -118,7 +119,7 @@ public class Label extends ReportItem implements ILabelModel
 				return displayLabel;
 			}
 
-			String resourceKey = handle( design ).getTextKey( );
+			String resourceKey = handle( module ).getTextKey( );
 			if ( !StringUtil.isBlank( resourceKey ) )
 			{
 				resourceKey = limitStringLength( resourceKey );

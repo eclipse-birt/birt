@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -28,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * need not specify a cell for each column; Columns without cells are presumed
  * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to
  * change the properties.
- * 
+ *  
  */
 
 public class Cell extends StyledElement implements ICellModel
@@ -71,7 +72,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * 
 	 * @return the retrieved slot.
 	 * 
-	 * 
+	 *  
 	 */
 
 	public ContainerSlot getSlot( int slot )
@@ -96,7 +97,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * name for this element.
 	 * 
 	 * @return the cell element's name.
-	 * 
+	 *  
 	 */
 
 	public String getElementName( )
@@ -107,14 +108,14 @@ public class Cell extends StyledElement implements ICellModel
 	/**
 	 * Returns the corresponding handle to this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle of this element
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
@@ -126,11 +127,11 @@ public class Cell extends StyledElement implements ICellModel
 	 * @return an API handle for this element.
 	 */
 
-	public CellHandle handle( ReportDesign design )
+	public CellHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new CellHandle( design, this );
+			handle = new CellHandle( module, this );
 		}
 		return (CellHandle) handle;
 	}
@@ -138,41 +139,41 @@ public class Cell extends StyledElement implements ICellModel
 	/**
 	 * Returns the number of columns spanned by this cell.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the number of columns spanned by this cell
 	 */
 
-	public int getColSpan( ReportDesign design )
+	public int getColSpan( Module module )
 	{
-		return getIntProperty( design, COL_SPAN_PROP );
+		return getIntProperty( module, COL_SPAN_PROP );
 	}
 
 	/**
 	 * Returns the number of rows spanned by this cell.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the number of rows spanned by this cell
 	 */
 
-	public int getRowSpan( ReportDesign design )
+	public int getRowSpan( Module module )
 	{
-		return getIntProperty( design, ROW_SPAN_PROP );
+		return getIntProperty( module, ROW_SPAN_PROP );
 	}
 
 	/**
 	 * Returns the column position.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the column position, or 0 if the columns is to occupy the next
 	 *         available column position.
 	 */
 
-	public int getColumn( ReportDesign design )
+	public int getColumn( Module module )
 	{
-		return getIntProperty( design, COLUMN_PROP );
+		return getIntProperty( module, COLUMN_PROP );
 	}
 
 	/**
@@ -180,8 +181,8 @@ public class Cell extends StyledElement implements ICellModel
 	 * If <code>prop</code> is a style property definition, also check style
 	 * values defined on the Table/Grid columns.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param container
 	 *            the container, must be Table or Grid
 	 * @param cell
@@ -191,35 +192,35 @@ public class Cell extends StyledElement implements ICellModel
 	 * @return the property value
 	 */
 
-	private Object getColumnProperty( ReportDesign design,
+	private Object getColumnProperty( Module module,
 			DesignElement container, Cell cell, ElementPropertyDefn prop )
 	{
 		Object value = null;
 		if ( container instanceof TableItem )
 		{
 			TableItem table = (TableItem) container;
-			value = table.getPropertyFromColumn( design, cell, prop );
+			value = table.getPropertyFromColumn( module, cell, prop );
 		}
 
 		if ( container instanceof GridItem )
 		{
 			GridItem grid = (GridItem) container;
-			value = grid.getPropertyFromColumn( design, cell, prop );
+			value = grid.getPropertyFromColumn( module, cell, prop );
 		}
 
 		return value;
 	}
-
-	/*
+	
+	
+	/* 
 	 * Gets a property value given its definition. If <code>prop</code> is a
 	 * style property definition, also check style values defined on the Table
 	 * columns.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-
-	protected Object getPropertyRelatedToContainer( ReportDesign design,
+	
+	protected Object getPropertyRelatedToContainer( Module module,
 			ElementPropertyDefn prop )
 	{
 		// Get property from the container of this cell. If the container
@@ -228,7 +229,7 @@ public class Cell extends StyledElement implements ICellModel
 		DesignElement e = getContainer( );
 		while ( e != null )
 		{
-			Object value = e.getPropertyFromElement( design, prop );
+			Object value = e.getPropertyFromElement( module, prop );
 			if ( value != null )
 				return value;
 
@@ -236,12 +237,12 @@ public class Cell extends StyledElement implements ICellModel
 
 			if ( e.getContainer( ) instanceof TableItem
 					|| e.getContainer( ) instanceof GridItem )
-				return getColumnProperty( design, e.getContainer( ), this, prop );
+				return getColumnProperty( module, e.getContainer( ), this, prop );
 
 			e = e.getContainer( );
 		}
 
-		return super.getPropertyRelatedToContainer( design, prop );
+		return super.getPropertyRelatedToContainer( module, prop );
 	}
 
 	/**

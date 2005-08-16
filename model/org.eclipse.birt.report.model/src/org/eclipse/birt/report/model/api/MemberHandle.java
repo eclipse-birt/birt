@@ -95,7 +95,7 @@ public class MemberHandle extends SimpleValueHandle
 
 	public Object getValue( )
 	{
-		Object value = memberRef.getValue( getDesign( ), getElement( ) );
+		Object value = memberRef.getValue( getModule( ), getElement( ) );
 
 		if ( value instanceof ElementRefValue )
 			value = ( (ElementRefValue) value ).getName( );
@@ -108,7 +108,7 @@ public class MemberHandle extends SimpleValueHandle
 
 	public void setValue( Object value ) throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( getDesign( ), getElement( ) );
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.setMember( memberRef, value );
 	}
 
@@ -142,7 +142,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
-
+	
 	public boolean isVisible( )
 	{
 		return true;

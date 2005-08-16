@@ -32,7 +32,7 @@ public class CompatibleIgnorePropertyState extends PropertyState
 	 * 
 	 */
 
-	public CompatibleIgnorePropertyState( DesignParserHandler theHandler,
+	public CompatibleIgnorePropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		super( theHandler, element );

@@ -90,6 +90,8 @@ public interface DesignSchemaConstants
 	static final String	INCLUDES_TAG							= "includes";					//$NON-NLS-1$
 	static final String	KEY_ATTRIB								= "key";		 				//$NON-NLS-1$
 	static final String	LABEL_TAG								= "label";						//$NON-NLS-1$ 
+	static final String	LIBRARY_ATTRIB							= "library";					//$NON-NLS-1$ 
+	static final String	LIBRARY_TAG								= "library";					//$NON-NLS-1$ 
 	static final String	LINE_TAG								= "line";						//$NON-NLS-1$ 
 	static final String	LIST_PARAMETER_TAG						= "list-parameter";				//$NON-NLS-1$ 
 	static final String LIST_PROPERTY_TAG						= "list-property";				//$NON-NLS-1$

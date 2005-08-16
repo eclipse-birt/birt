@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
@@ -35,8 +35,8 @@ public class StructBackRefRecord extends BackRefRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            the module
 	 * @param referred
 	 *            the structure to change.
 	 * @param reference
@@ -46,11 +46,11 @@ public class StructBackRefRecord extends BackRefRecord
 	 *            <code>STRUCT_REF_TYPE</code>.
 	 */
 
-	public StructBackRefRecord( ReportDesign design,
+	public StructBackRefRecord( Module module,
 			ReferencableStructure referred, DesignElement reference,
 			String propName )
 	{
-		super( design, reference, propName );
+		super( module, reference, propName );
 		this.referred = referred;
 
 		assert referred != null;
@@ -70,12 +70,12 @@ public class StructBackRefRecord extends BackRefRecord
 
 			// To add client is done in resolving structure reference.
 
-			reference.resolveStructReference( design, propDefn );
+			reference.resolveStructReference( module, propDefn );
 		}
 		else
 		{
 			StructRefValue value = (StructRefValue) reference.getLocalProperty(
-					design, propName );
+					module, propName );
 			value.unresolved( value.getName( ) );
 
 			referred.dropClient( reference );
@@ -90,7 +90,7 @@ public class StructBackRefRecord extends BackRefRecord
 
 	public DesignElement getTarget( )
 	{
-		return design;
+		return module;
 	}
 
 }

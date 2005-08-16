@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Provides methods for style property values on the column. Currently, only
@@ -25,7 +26,7 @@ public final class ColumnHelper
 	/**
 	 * Figures out the column according to the index of the column.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param columnSlot
 	 *            the slot contains columns
@@ -35,7 +36,7 @@ public final class ColumnHelper
 	 * @return the index of a column.
 	 */
 
-	public static TableColumn findColumn( ReportDesign design,
+	public static TableColumn findColumn( Module module,
 			ContainerSlot columnSlot, int columnNum )
 	{
 		assert columnNum > 0;
@@ -44,7 +45,7 @@ public final class ColumnHelper
 		{
 			TableColumn column = (TableColumn) ( columnSlot.getContent( i ) );
 			int repeat = column
-					.getIntProperty( design, TableColumn.REPEAT_PROP );
+					.getIntProperty( module, TableColumn.REPEAT_PROP );
 
 			// in default, repeat is one.
 

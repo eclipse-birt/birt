@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -61,8 +61,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	/**
 	 * Validates the element reference value can refer to an actual element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element holding the element reference property
 	 * @param propName
@@ -71,14 +71,14 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element,
+	public List validate( Module module, DesignElement element,
 			String propName )
 	{
 		List list = new ArrayList( );
 
-		if ( !checkElementReference( design, element, propName ) )
+		if ( !checkElementReference( module, element, propName ) )
 		{
-			Object value = element.getLocalProperty( design, propName );
+			Object value = element.getLocalProperty( module, propName );
 
 			list.add( new SemanticError( element, new String[]{propName,
 					( (ElementRefValue) value ).getName( )},
@@ -94,8 +94,8 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 * reference is not resolved, attempt to resolve it. If it cannot be
 	 * resolved, return false.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element holding this element reference property
 	 * @param propName
@@ -104,7 +104,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *         <code>false</code> otherwise.
 	 */
 
-	private boolean checkElementReference( ReportDesign design,
+	private boolean checkElementReference( Module module,
 			DesignElement element, String propName )
 	{
 		assert !StringUtil.isBlank( propName );
@@ -116,7 +116,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 
 		// Attempt to resolve the reference.
 
-		ElementRefValue ref = element.resolveElementReference( design, prop );
+		ElementRefValue ref = element.resolveElementReference( module, prop );
 		if ( ref == null )		
 			return true;
 			

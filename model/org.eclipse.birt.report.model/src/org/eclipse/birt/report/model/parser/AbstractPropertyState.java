@@ -42,8 +42,10 @@ import org.xml.sax.Attributes;
  * <pre>
  * 
  *  
+ *   
+ *     
+ *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *    
- *    &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *   
  *  
  * </pre>
@@ -70,7 +72,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * The design file parser handler.
 	 */
 
-	protected DesignParserHandler handler = null;
+	protected ModuleParserHandler handler = null;
 
 	/**
 	 * The element holding this property.
@@ -83,6 +85,12 @@ public class AbstractPropertyState extends AbstractParseState
 	 */
 
 	protected String name = null;
+
+	/**
+	 * The library which the element reference is using.
+	 */
+
+//	protected String library = null;
 
 	/**
 	 * The structure which holds this property as a member.
@@ -107,7 +115,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 *            the element which holds this property
 	 */
 
-	public AbstractPropertyState( DesignParserHandler theHandler,
+	public AbstractPropertyState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
 		handler = theHandler;
@@ -122,7 +130,8 @@ public class AbstractPropertyState extends AbstractParseState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-
+//		library = attrs.getValue( DesignSchemaConstants.LIBRARY_ATTRIB );
+//
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 		if ( StringUtil.isBlank( name ) )
 		{
@@ -172,7 +181,8 @@ public class AbstractPropertyState extends AbstractParseState
 				.getMember( member );
 		if ( memberDefn == null )
 		{
-			DesignParserException e = new DesignParserException( new String[]{member},
+			DesignParserException e = new DesignParserException(
+					new String[]{member},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 
@@ -199,7 +209,7 @@ public class AbstractPropertyState extends AbstractParseState
 
 		try
 		{
-			Object propValue = memberDefn.validateXml( handler.getDesign( ),
+			Object propValue = memberDefn.validateXml( handler.getModule( ),
 					valueToSet );
 			struct.setProperty( memberDefn, propValue );
 		}
@@ -242,7 +252,8 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( new String[]{propName},
+			DesignParserException e = new DesignParserException(
+					new String[]{propName},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 			valid = false;
@@ -258,7 +269,7 @@ public class AbstractPropertyState extends AbstractParseState
 
 		try
 		{
-			Object propValue = propDefn.validateXml( handler.getDesign( ),
+			Object propValue = propDefn.validateXml( handler.getModule( ),
 					valueToSet );
 			element.setProperty( propDefn, propValue );
 		}

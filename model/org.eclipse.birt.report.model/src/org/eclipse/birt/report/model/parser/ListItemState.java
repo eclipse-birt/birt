@@ -39,7 +39,7 @@ public class ListItemState extends ListingItemState
 	 *            the slot in which this element appears
 	 */
 
-	public ListItemState( DesignParserHandler handler,
+	public ListItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
@@ -96,7 +96,7 @@ public class ListItemState extends ListingItemState
 		 *            the slot in which this element appears
 		 */
 
-		public ListGroupState( DesignParserHandler handler,
+		public ListGroupState( ModuleParserHandler handler,
 				DesignElement theContainer, int slot )
 		{
 			super( handler, theContainer, slot );
@@ -148,7 +148,7 @@ public class ListItemState extends ListingItemState
 		 * @param slot
 		 *            the slot in which this element appears
 		 */
-		public ListBandState( DesignParserHandler handler,
+		public ListBandState( ModuleParserHandler handler,
 				DesignElement theContainer, int slot )
 		{
 			super( handler, theContainer, slot );

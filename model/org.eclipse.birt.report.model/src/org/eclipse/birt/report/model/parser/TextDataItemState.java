@@ -40,7 +40,7 @@ public class TextDataItemState extends ReportItemState
 	 * @param slot the slot in which this element appears
 	 */
 	
-	public TextDataItemState( DesignParserHandler handler,
+	public TextDataItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

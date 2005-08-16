@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IPropertySet;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -51,7 +50,7 @@ public class TextState extends DesignParseState
 	 *            the name of the property to set
 	 */
 
-	public TextState( DesignParserHandler handler, IPropertySet obj,
+	public TextState( ModuleParserHandler handler, IPropertySet obj,
 			String theProp )
 	{
 		super( handler );

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 
 /**
@@ -75,24 +76,24 @@ public class DataItem extends ReportItem implements IDataItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element.
 	 */
 
-	public DataItemHandle handle( ReportDesign design )
+	public DataItemHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new DataItemHandle( design, this );
+			handle = new DataItemHandle( module, this );
 		}
 		return (DataItemHandle) handle;
 	}
@@ -104,12 +105,12 @@ public class DataItem extends ReportItem implements IDataItemModel
 	 *      int)
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = super.getDisplayLabel( design, level );
+		String displayLabel = super.getDisplayLabel( module, level );
 		if ( level == DesignElement.FULL_LABEL )
 		{
-			String valueExpr = handle( design ).getValueExpr( );
+			String valueExpr = handle( module ).getValueExpr( );
 			if ( !StringUtil.isBlank( valueExpr ) )
 			{
 				valueExpr = limitStringLength( valueExpr );

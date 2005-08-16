@@ -29,7 +29,7 @@ public abstract class DesignParseState extends AbstractParseState
 	 * Pointer to the design file parser handler.
 	 */
 
-	protected DesignParserHandler handler = null;
+	protected ModuleParserHandler handler = null;
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
@@ -38,7 +38,7 @@ public abstract class DesignParseState extends AbstractParseState
 	 *            SAX handler for the design file parser
 	 */
 
-	public DesignParseState( DesignParserHandler theHandler )
+	public DesignParseState( ModuleParserHandler theHandler )
 	{
 		handler = theHandler;
 	}
@@ -87,7 +87,7 @@ public abstract class DesignParseState extends AbstractParseState
 		Object propValue = null;
 		try
 		{
-			propValue = prop.validateXml( handler.getDesign( ), value );
+			propValue = prop.validateXml( handler.getModule( ), value );
 		}
 		catch ( PropertyValueException ex )
 		{
@@ -130,4 +130,5 @@ public abstract class DesignParseState extends AbstractParseState
 		return super.startElement( tagName );
 	}
 
+	
 }

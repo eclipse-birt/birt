@@ -76,7 +76,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 {
 
 	CompatibleOdaDriverPropertyStructureListState(
-			DesignParserHandler theHandler, DesignElement element )
+			ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 
@@ -114,7 +114,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 		String propertyValue = null;
 
 		CompatibleOdaDriverPropertyStructureState(
-				DesignParserHandler theHandler, DesignElement element,
+				ModuleParserHandler theHandler, DesignElement element,
 				PropertyDefn propDefn, ArrayList theList )
 		{
 			super( theHandler, element );
@@ -171,7 +171,7 @@ public class CompatibleOdaDriverPropertyStructureListState
 		boolean isPropertyName = false;
 		CompatibleOdaDriverPropertyStructureState state;
 
-		CompatibleTextState( DesignParserHandler handler,
+		CompatibleTextState( ModuleParserHandler handler,
 				boolean isPropertyName,
 				CompatibleOdaDriverPropertyStructureState state )
 		{

@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -35,8 +35,8 @@ public class ElementBackRefRecord extends BackRefRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            the module
 	 * @param referred
 	 *            the element to change
 	 * @param reference
@@ -48,11 +48,11 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public ElementBackRefRecord( ReportDesign design,
+	public ElementBackRefRecord( Module module,
 			ReferenceableElement referred, DesignElement reference,
 			String propName )
 	{
-		super( design, reference, propName );
+		super( module, reference, propName );
 		this.referred = referred;
 
 		assert referred != null;
@@ -72,12 +72,12 @@ public class ElementBackRefRecord extends BackRefRecord
 
 			// To add client is done in resolving element reference.
 
-			reference.resolveElementReference( design, propDefn );
+			reference.getLocalProperty( module, propDefn );
 		}
 		else
 		{
 			ElementRefValue value = (ElementRefValue) reference.getLocalProperty(
-					design, propName );
+					module, propName );
 			value.unresolved( value.getName( ) );
 
 			referred.dropClient( reference );

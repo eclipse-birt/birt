@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
@@ -95,24 +96,24 @@ public class OdaDataSource extends DataSource
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public OdaDataSourceHandle handle( ReportDesign design )
+	public OdaDataSourceHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new OdaDataSourceHandle( design, this );
+			handle = new OdaDataSourceHandle( module, this );
 		}
 		return (OdaDataSourceHandle) handle;
 	}
@@ -221,9 +222,9 @@ public class OdaDataSource extends DataSource
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		return list;
 	}

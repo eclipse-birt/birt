@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -100,14 +100,14 @@ public class BooleanPropertyType extends PropertyType
 	 *  
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
+	public Object validateValue( Module module, PropertyDefn defn,
 			Object value ) throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
 
 		if ( value instanceof String )
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 		if ( value instanceof Boolean )
 			return value;
 
@@ -136,7 +136,7 @@ public class BooleanPropertyType extends PropertyType
 	 *         <code>value</code> parameter is null or a blank string.
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
+	public Object validateXml( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
@@ -191,7 +191,7 @@ public class BooleanPropertyType extends PropertyType
 	 *         {@link #INT_FALSE}if value is false.
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;
@@ -211,7 +211,7 @@ public class BooleanPropertyType extends PropertyType
 	 *         return "true" if value is true; return "false" if value is false.
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -237,7 +237,7 @@ public class BooleanPropertyType extends PropertyType
 	 *  
 	 */
 
-	public boolean toBoolean( ReportDesign design, Object value )
+	public boolean toBoolean( Module module, Object value )
 	{
 		if ( value == null )
 			return false;
@@ -264,7 +264,7 @@ public class BooleanPropertyType extends PropertyType
 	 *  
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
@@ -304,7 +304,7 @@ public class BooleanPropertyType extends PropertyType
 	 *         <code>null</code> if the value is null.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )

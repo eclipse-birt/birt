@@ -887,7 +887,16 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			Class c = Class.forName( javaClass );
 
-			if ( !( c.newInstance( ) instanceof DesignElement ) )
+			Class clazz = c;
+			while ( clazz.getSuperclass() != null )
+			{
+				if ( clazz == DesignElement.class )
+					break;
+				
+				clazz = clazz.getSuperclass();
+			}
+			if ( clazz != DesignElement.class )
+//			if ( !( c.newInstance( ) instanceof DesignElement ) )
 				throw new MetaDataException(
 						new String[]{javaClass},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS );
@@ -899,20 +908,20 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			throw new MetaDataException( new String[]{name, javaClass},
 					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_LOAD_ERROR );
 		}
-		catch ( InstantiationException e )
-		{
-			// can not initalize the java class instance, either javaclass is
-			// not a valid DesignElement or the class
-			// itself does not provide a default constructor.
-
-			throw new MetaDataException(
-					new String[]{name, javaClass},
-					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
-		}
-		catch ( IllegalAccessException e )
-		{
-			// ignore
-		}
+//		catch ( InstantiationException e )
+//		{
+//			// can not initalize the java class instance, either javaclass is
+//			// not a valid DesignElement or the class
+//			// itself does not provide a default constructor.
+//
+//			throw new MetaDataException(
+//					new String[]{name, javaClass},
+//					MetaDataException.DESIGN_EXCEPTION_JAVA_CLASS_INITIALIZE_ERROR );
+//		}
+//		catch ( IllegalAccessException e )
+//		{
+//			// ignore
+//		}
 	}
 
 	/**

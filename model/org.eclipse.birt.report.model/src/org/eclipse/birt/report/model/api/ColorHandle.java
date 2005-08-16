@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -107,12 +108,12 @@ public class ColorHandle extends ComplexValueHandle
 	 * <code>value</code> is not a valid internal value for a color.
 	 * 
 	 * @return the color value as an integer RGB value
-	 * @see ColorPropertyType#toInteger(ReportDesign, Object)
+	 * @see ColorPropertyType#toInteger(Module, Object)
 	 */
 
 	public int getRGB( )
 	{
-		return type.toInteger( getDesign( ), getValue( ) );
+		return type.toInteger( getModule( ), getValue( ) );
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class ColorHandle extends ComplexValueHandle
 
 	public String getCssValue( )
 	{
-		return type.toCSSCompatibleColor( getDesign( ), getValue( ) );
+		return type.toCSSCompatibleColor( getModule( ), getValue( ) );
 	}
 
 	/**
@@ -156,15 +157,15 @@ public class ColorHandle extends ComplexValueHandle
 	{
 		List retList = getCSSColors( );
 
-		List colors = getDesign( ).getListProperty( getDesign( ),
-				ReportDesign.COLOR_PALETTE_PROP );
+		List colors = getModule( ).getListProperty( getModule( ),
+				Module.COLOR_PALETTE_PROP );
 		if ( colors == null )
 			return retList;
 
 		for ( int i = 0; i < colors.size( ); i++ )
 		{
 			CustomColor customColor = (CustomColor) colors.get( i );
-			retList.add( customColor.getDisplayName( getDesign() ) );
+			retList.add( customColor.getDisplayName( getModule() ) );
 		}
 
 		return retList;

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -52,23 +53,23 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 	/**
 	 * Validates whether the data set of the given listing element is provided.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the listing element to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ListingElement || element instanceof ExtendedItem ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, element );
+		return doValidate( module, element );
 	}
 
-	private List doValidate( ReportDesign design, DesignElement toValidate )
+	private List doValidate( Module module, DesignElement toValidate )
 	{
 		List list = new ArrayList( );
 
@@ -78,10 +79,10 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		boolean dataSetFound = false;
 		if ( toValidate instanceof ExtendedItem )
 		{
-			if ( ( (ExtendedItem) toValidate ).getDataSetElement( design ) != null )
-			{	
-				dataSetFound = true;				
-			}			
+			if ( ( (ExtendedItem) toValidate ).getDataSetElement( module ) != null )
+			{
+				dataSetFound = true;
+			}
 			else
 			{
 				while ( container.getContainer( ) != null )
@@ -93,11 +94,12 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		}
 		else if ( toValidate instanceof ListingElement )
 		{
-			while ( !dataSetFound && container.getContainer( ) != null )
+			while ( container.getContainer( ) != null && !dataSetFound )
 			{
 				if ( container instanceof ListingElement )
 				{
-					if ( ( (ListingElement) container ).getDataSetElement( design ) != null )
+					if ( ( (ListingElement) container )
+							.getDataSetElement( module ) != null )
 					{
 						dataSetFound = true;
 						break;
@@ -110,10 +112,11 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		}
 		else
 		{
-			// now the check is only employed to listing elements, extended items.
-			
+			// now the check is only employed to listing elements, extended
+			// items.
+
 			assert false;
-		}		
+		}
 
 		// Since element in components slot is considered as incompletely
 		// defined, the data set is not required on table in components.
@@ -125,4 +128,5 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		}
 		return list;
 	}
+
 }

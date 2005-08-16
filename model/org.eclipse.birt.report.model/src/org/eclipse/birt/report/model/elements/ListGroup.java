@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class represents a grouping level within a list. See the parent class,
@@ -60,24 +61,24 @@ public class ListGroup extends GroupElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public ListGroupHandle handle( ReportDesign design )
+	public ListGroupHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ListGroupHandle( design, this );
+			handle = new ListGroupHandle( module, this );
 		}
 		return (ListGroupHandle) handle;
 	}

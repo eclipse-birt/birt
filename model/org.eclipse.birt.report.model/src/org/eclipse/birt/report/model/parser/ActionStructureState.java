@@ -13,13 +13,9 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -71,7 +67,7 @@ public class ActionStructureState extends StructureState
 	final static String DRILLTHROUGH_SEARCH_MEMBER = "drillThroughSearch"; //$NON-NLS-1$
 	final static String DRILLTHROUGH_PARAM_BINDINGS_MEMBER = "drillThroughParamBindings"; //$NON-NLS-1$
 
-	ActionStructureState( DesignParserHandler theHandler, DesignElement element )
+	ActionStructureState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 		struct = new Action( );
@@ -108,14 +104,7 @@ public class ActionStructureState extends StructureState
 	static class CompatibleActionListPropertyState extends PropertyListState
 	{
 
-		/**
-		 * @param theHandler
-		 * @param element
-		 * @param propDefn
-		 * @param struct
-		 */
-
-		CompatibleActionListPropertyState( DesignParserHandler theHandler,
+		CompatibleActionListPropertyState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );
@@ -130,6 +119,12 @@ public class ActionStructureState extends StructureState
 
 	static class CompatibleActionPropertyState extends PropertyState
 	{
+
+		CompatibleActionPropertyState( ModuleParserHandler theHandler,
+				DesignElement element, PropertyDefn propDefn, IStructure struct )
+		{
+			super( theHandler, element, propDefn, struct );
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -149,20 +144,6 @@ public class ActionStructureState extends StructureState
 
 			super.end( );
 		}
-
-		/**
-		 * @param theHandler
-		 * @param element
-		 * @param propDefn
-		 * @param struct
-		 */
-
-		CompatibleActionPropertyState( DesignParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, IStructure struct )
-		{
-			super( theHandler, element, propDefn, struct );
-		}
-
 	}
 
 	/**
@@ -175,7 +156,7 @@ public class ActionStructureState extends StructureState
 	static class CompatibleActionExpressionState extends ExpressionState
 	{
 
-		CompatibleActionExpressionState( DesignParserHandler theHandler,
+		CompatibleActionExpressionState( ModuleParserHandler theHandler,
 				DesignElement element, PropertyDefn propDefn, IStructure struct )
 		{
 			super( theHandler, element, propDefn, struct );

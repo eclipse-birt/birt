@@ -95,7 +95,7 @@ public class StructureState extends AbstractPropertyState
 	 *            the element holding this structure to parse
 	 */
 
-	StructureState( DesignParserHandler theHandler, DesignElement element )
+	StructureState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 	}
@@ -113,7 +113,7 @@ public class StructureState extends AbstractPropertyState
 	 *            the structure list
 	 */
 
-	StructureState( DesignParserHandler theHandler, DesignElement element,
+	StructureState( ModuleParserHandler theHandler, DesignElement element,
 			PropertyDefn propDefn, ArrayList theList )
 	{
 		super( theHandler, element );
@@ -138,7 +138,7 @@ public class StructureState extends AbstractPropertyState
 	 *            the structure that contains the current structure
 	 */
 
-	StructureState( DesignParserHandler theHandler, DesignElement element,
+	StructureState( ModuleParserHandler theHandler, DesignElement element,
 			PropertyDefn propDefn, IStructure parentStruct )
 	{
 		super( theHandler, element );

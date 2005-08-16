@@ -29,8 +29,8 @@ import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
@@ -59,7 +59,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * design file, and deserialized from this XML-type extension property when
  * loading design file.
  * </ul>
- *  
+ * 
  */
 
 public class PeerExtensibilityProvider extends ModelExtensibilityProvider
@@ -321,14 +321,14 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	/**
 	 * Initializes the extension element instance of <code>IReportItem</code>.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @throws ExtendedElementException
 	 *             if the extension is not found or it's failed to initialized
 	 *             the extension element instance.
 	 */
 
-	public void initializeReportItem( ReportDesign design )
+	public void initializeReportItem( Module module )
 			throws ExtendedElementException
 	{
 		if ( reportItem != null )
@@ -343,7 +343,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory( );
 		assert elementFactory != null;
 
-		reportItem = elementFactory.newReportItem( element.getHandle( design ) );
+		reportItem = elementFactory.newReportItem( element.getHandle( module ) );
 
 		// if the item caches the property values of extension, transfer them
 		// and then clear the cached values

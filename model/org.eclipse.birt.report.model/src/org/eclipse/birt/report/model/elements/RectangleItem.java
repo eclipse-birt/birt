@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RectangleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * The Rectangle element describes a simple rectangle. The user can set the line
@@ -64,24 +65,24 @@ public class RectangleItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public RectangleHandle handle( ReportDesign design )
+	public RectangleHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new RectangleHandle( design, this );
+			handle = new RectangleHandle( module, this );
 		}
 		return (RectangleHandle) handle;
 	}

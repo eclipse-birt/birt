@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -294,10 +295,10 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * on this element.</li>
  * <li>The {@link #clearProperty}method unsets a property value on this
  * method.</li>
- * <li>The {@link #getLocalProperty( ReportDesign, String )}method gets the
- * property value, if any, set on this element.</li>
- * <li>The {@link #getProperty( ReportDesign, String )}method gets the
- * effective value of the property.</li>
+ * <li>The {@link #getLocalProperty( Module, String )}method gets the property
+ * value, if any, set on this element.</li>
+ * <li>The {@link #getProperty( Module, String )}method gets the effective
+ * value of the property.</li>
  * </ul>
  * 
  * <h3>Element Name</h3>
@@ -311,7 +312,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * element.
  * <p>
  * If an element has a name, then it resides in a name space. All name spaces
- * reside in the {@link RootElement root element}.
+ * reside in the {@link Module Module}.
  * <p>
  * An element also has a <em>display name</em> that is shown to the user. The
  * display name is optional, and is represented by a system property value. If
@@ -387,8 +388,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
- * triggers the notifications as it processes commands.</li>
+ * <li>The {@link org.eclipse.birt.report.model.api.activity.ActivityStack}
+ * class triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
  * <li>The sendEvent( ) method in turn calls
@@ -409,8 +410,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * referenced, and so the name is optional.</dd>
  * 
  * <dd><strong>By navigation </strong></dt>
- * <dd>Elements can be found via navigation. One can start at the root element
- * and work down though the containment hierarchy. Every valid element can be
+ * <dd>Elements can be found via navigation. One can start at the module and
+ * work down though the containment hierarchy. Every valid element can be
  * reached via navigation. Indeed, the definition of element creation, from the
  * perspective of the design, is when the element is added to the containment
  * hierarchy. Similarly, the definition of deletion, again from the perspective
@@ -431,7 +432,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * and are not persistent. The application must enable IDs by calling
  * {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary#enableElementID}.
  * Call {@link #getID}to get the ID of an element. Call
- * {@link RootElement#getElementByID}to obtain and element given an element ID.
+ * {@link Module#getElementByID}to obtain and element given an element ID.
  * </dd>
  * </dl>
  * 
@@ -688,22 +689,22 @@ public abstract class DesignElement
 
 	/**
 	 * Gets the root node of the design tree. This node must be a instance of
-	 * <code>ReportDesign</code>.
+	 * <code>ReportDesign</code> or <code>Library</code>.
 	 * 
 	 * @return the root node of the design tree
 	 */
 
-	public ReportDesign getRoot( )
+	public Module getRoot( )
 	{
 		DesignElement element = this;
 
 		while ( element.getContainer( ) != null )
 			element = element.getContainer( );
 
-		if ( element instanceof ReportDesign == false )
+		if ( element instanceof Module == false )
 			return null;
 
-		return (ReportDesign) element;
+		return (Module) element;
 	}
 
 	/**
@@ -732,11 +733,11 @@ public abstract class DesignElement
 	 * 
 	 * @param ev
 	 *            the event to send
-	 * @param design
+	 * @param module
 	 *            the root node of the design tree.
 	 */
 
-	public void broadcast( NotificationEvent ev, ReportDesign design )
+	public void broadcast( NotificationEvent ev, Module module )
 	{
 
 		// copy a temporary ArrayList and send to all direct listeners.
@@ -751,7 +752,7 @@ public abstract class DesignElement
 			while ( iter.hasNext( ) )
 			{
 				( (Listener) iter.next( ) ).elementChanged(
-						getHandle( design ), ev );
+						getHandle( module ), ev );
 			}
 		}
 
@@ -777,7 +778,7 @@ public abstract class DesignElement
 			Iterator iter = derived.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				( (DesignElement) iter.next( ) ).broadcast( ev, design );
+				( (DesignElement) iter.next( ) ).broadcast( ev, module );
 			}
 		}
 
@@ -795,15 +796,15 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property value system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            name of the property to get. Can be a system-defined or
 	 *            user-defined property name. Must be of the correct case.
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getProperty( ReportDesign design, String propName )
+	public Object getProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 
@@ -812,21 +813,21 @@ public abstract class DesignElement
 		if ( prop == null )
 			return null;
 
-		return getProperty( design, prop );
+		return getProperty( module, prop );
 	}
 
 	/**
 	 * Returns the property value from this element's parent, or any ancestor.
 	 * The value is only from local properties, or local style of its ancestor.
 	 * 
-	 * @param design
-	 *            report design.
+	 * @param module
+	 *            module
 	 * @param prop
 	 *            definition of the property to get.
 	 * @return property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyFromParent( ReportDesign design,
+	protected Object getPropertyFromParent( Module module,
 			ElementPropertyDefn prop )
 	{
 		Object value = null;
@@ -836,7 +837,7 @@ public abstract class DesignElement
 		{
 			// If we can find the value here, return it.
 
-			value = e.getPropertyFromSelf( design, prop );
+			value = e.getPropertyFromSelf( module, prop );
 			if ( value != null )
 				return value;
 
@@ -850,28 +851,27 @@ public abstract class DesignElement
 	 * Returns the property value from this element. The value is only from
 	 * local properties or local style of this element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            the definition of property
 	 * @return the property value, or null if no value is set.
 	 */
 
-	private Object getPropertyFromSelf( ReportDesign design,
-			ElementPropertyDefn prop )
+	private Object getPropertyFromSelf( Module module, ElementPropertyDefn prop )
 	{
 		// 1). If we can find the value here, return it.
 
-		Object value = getLocalProperty( design, prop );
+		Object value = getLocalProperty( module, prop );
 		if ( value != null )
 			return value;
 
 		// 2). Does the style provide the value of this property ?
 
-		StyleElement style = getStyle( design );
+		StyleElement style = getStyle( module );
 		if ( style != null )
 		{
-			value = style.getLocalProperty( design, prop );
+			value = style.getLocalProperty( module, prop );
 			if ( value != null )
 				return value;
 		}
@@ -906,19 +906,19 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property value system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            definition of the property to get
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getPropertyFromElement( ReportDesign design,
+	public Object getPropertyFromElement( Module module,
 			ElementPropertyDefn prop )
 	{
 		Object value = null;
 
-		value = getPropertyFromSelf( design, prop );
+		value = getPropertyFromSelf( module, prop );
 		if ( value != null )
 			return value;
 
@@ -928,7 +928,7 @@ public abstract class DesignElement
 		{
 			// Does the parent provide the value of this property?
 
-			value = getPropertyFromParent( design, prop );
+			value = getPropertyFromParent( module, prop );
 			if ( value != null )
 				return value;
 		}
@@ -939,7 +939,7 @@ public abstract class DesignElement
 		if ( prop.isStyleProperty( ) )
 		{
 			String selector = ( (ElementDefn) getDefn( ) ).getSelector( );
-			value = getPropertyFromSelector( design, prop, selector );
+			value = getPropertyFromSelector( module, prop, selector );
 			if ( value != null )
 				return value;
 		}
@@ -959,14 +959,14 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property value system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            definition of the property to get
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getProperty( ReportDesign design, ElementPropertyDefn prop )
+	public Object getProperty( Module module, ElementPropertyDefn prop )
 	{
 		if ( prop.isIntrinsic( ) )
 		{
@@ -987,18 +987,18 @@ public abstract class DesignElement
 		{
 			// Check if this element or parent provides the value
 
-			value = e.getPropertyFromElement( design, prop );
+			value = e.getPropertyFromElement( module, prop );
 			if ( value != null )
 				return value;
 
 			if ( !e.isInheritableProperty( prop ) || !prop.isStyleProperty( )
 					|| isStyle( ) )
-				return getDefaultValue( design, prop );
+				return getDefaultValue( module, prop );
 
 			// Check if the container/slot predefined style provides
 			// the value
 
-			value = e.getPropertyRelatedToContainer( design, prop );
+			value = e.getPropertyRelatedToContainer( module, prop );
 			if ( value != null )
 				return value;
 
@@ -1010,26 +1010,26 @@ public abstract class DesignElement
 
 		// Still not found. Use the default.
 
-		return getDefaultValue( design, prop );
+		return getDefaultValue( module, prop );
 	}
 
 	/**
 	 * Gets the default value of the specified property.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @param prop
 	 *            definition of the property to get
 	 * @return The default property value, or null if no default value is set.
 	 */
 
-	public Object getDefaultValue( ReportDesign design, ElementPropertyDefn prop )
+	public Object getDefaultValue( Module module, ElementPropertyDefn prop )
 	{
 		if ( prop.isStyleProperty( ) )
 		{
 			// Does session define default value for this property ?
 
-			Object value = design.session.getDefaultValue( prop.getName( ) );
+			Object value = module.session.getDefaultValue( prop.getName( ) );
 			if ( value != null )
 				return value;
 		}
@@ -1068,8 +1068,8 @@ public abstract class DesignElement
 	/**
 	 * Returns property value with predefined style.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @param prop
 	 *            definition of property to get
 	 * @param selector
@@ -1077,17 +1077,20 @@ public abstract class DesignElement
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getPropertyFromSelector( ReportDesign design,
+	public Object getPropertyFromSelector( Module module,
 			ElementPropertyDefn prop, String selector )
 	{
-		assert design != null;
+		assert module != null;
+
+		if ( selector == null )
+			return null;
 
 		// Find the predefined style
 
-		StyleElement style = design.findStyle( selector );
+		StyleElement style = module.findStyle( selector );
 		if ( style != null )
 		{
-			return style.getLocalProperty( design, prop );
+			return style.getLocalProperty( module, prop );
 		}
 
 		return null;
@@ -1098,14 +1101,14 @@ public abstract class DesignElement
 	 * the selector style which represents the slot or combination of container
 	 * and slot.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            the definition of property
 	 * @return the property value, or null if no value is set.
 	 */
 
-	protected Object getPropertyRelatedToContainer( ReportDesign design,
+	protected Object getPropertyRelatedToContainer( Module module,
 			ElementPropertyDefn prop )
 	{
 		if ( getContainer( ) == null )
@@ -1113,22 +1116,22 @@ public abstract class DesignElement
 
 		String selector = getContainer( ).getSelector( getContainerSlot( ) );
 
-		return getPropertyFromSelector( design, prop, selector );
+		return getPropertyFromSelector( module, prop, selector );
 	}
 
 	/**
 	 * Returns the property value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            the definition of property
 	 * @return the property value, or null if no value is set.
 	 */
 
-	public Object getProperty( ReportDesign design, PropertyDefn prop )
+	public Object getProperty( Module module, PropertyDefn prop )
 	{
-		return getProperty( design, (ElementPropertyDefn) prop );
+		return getProperty( module, (ElementPropertyDefn) prop );
 	}
 
 	/**
@@ -1152,20 +1155,20 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property value system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            name of the property to set. Must be valid. Can be a
 	 *            system-defined or user-defined property name.
 	 * @return the property value, or null if no value is set
 	 */
 
-	public Object getLocalProperty( ReportDesign design, String propName )
+	public Object getLocalProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return null;
-		return getLocalProperty( design, prop );
+		return getLocalProperty( module, prop );
 	}
 
 	/**
@@ -1175,15 +1178,14 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property value system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            The property definition.
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getLocalProperty( ReportDesign design,
-			ElementPropertyDefn prop )
+	public Object getLocalProperty( Module module, ElementPropertyDefn prop )
 	{
 		if ( prop.isIntrinsic( ) )
 		{
@@ -1196,14 +1198,14 @@ public abstract class DesignElement
 
 		if ( prop.getTypeCode( ) == PropertyType.ELEMENT_REF_TYPE )
 		{
-			return resolveElementReference( design, prop );
+			return resolveElementReference( module, prop );
 		}
 
 		// Cache a structure reference property if necessary.
 
 		if ( prop.getTypeCode( ) == PropertyType.STRUCT_REF_TYPE )
 		{
-			return resolveStructReference( design, prop );
+			return resolveStructReference( module, prop );
 		}
 
 		// Get the value of a non-intrinsic property.
@@ -1366,21 +1368,21 @@ public abstract class DesignElement
 	 * Note that this method is only for internal usage. DO NOT call this method
 	 * outside the org.eclipse.birt.report.model package.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property
 	 * 
 	 * @return the mask of the given property
 	 */
 
-	public String getPropertyMask( ReportDesign design, String propName )
+	public String getPropertyMask( Module module, String propName )
 	{
 		DesignElement e = this;
 
 		do
 		{
-			ArrayList masks = (ArrayList) e.getLocalProperty( design,
+			ArrayList masks = (ArrayList) e.getLocalProperty( module,
 					DesignElement.PROPERTY_MASKS_PROP );
 
 			if ( masks != null )
@@ -1660,7 +1662,9 @@ public abstract class DesignElement
 	{
 		if ( extendsRef == null )
 			return null;
-		return extendsRef.getName( );
+
+		return StringUtil.buildQualifiedReference( extendsRef
+				.getLibraryNamespace( ), extendsRef.getName( ) );
 	}
 
 	/**
@@ -1814,13 +1818,13 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Style system.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param module
+	 *            module
 	 * @return the shared style, or null if this element does not explicitly
 	 *         reference a shared style.
 	 */
 
-	public StyleElement getStyle( ReportDesign design )
+	public StyleElement getStyle( Module module )
 	{
 		return null;
 	}
@@ -1912,9 +1916,14 @@ public abstract class DesignElement
 
 			assert base.getName( ) != null;
 
-			if ( extendsRef == null )
-				extendsRef = new ElementRefValue( );
-			extendsRef.resolve( base );
+			String namespace = null;
+			Module root = base.getRoot( );
+			if ( root instanceof Library )
+			{
+				namespace = ( (Library) root ).getNamespace( );
+			}
+
+			extendsRef = new ElementRefValue( namespace, base );
 			base.addDerived( this );
 		}
 	}
@@ -2151,17 +2160,17 @@ public abstract class DesignElement
 	/**
 	 * Returns the value of a property as a number (BigDecimal).
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property to get
 	 * @return the property as a BigDecimal, or null if the value is not set or
 	 *         cannot convert to a number
 	 */
 
-	public BigDecimal getNumberProperty( ReportDesign design, String propName )
+	public BigDecimal getNumberProperty( Module module, String propName )
 	{
-		Object value = getProperty( design, propName );
+		Object value = getProperty( module, propName );
 		if ( value == null )
 			return null;
 		if ( value instanceof BigDecimal )
@@ -2170,7 +2179,7 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
-		return type.toNumber( design, value );
+		return type.toNumber( module, value );
 	}
 
 	/**
@@ -2188,22 +2197,22 @@ public abstract class DesignElement
 	/**
 	 * Gets a property converted to a string value.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            The name of the property to get.
 	 * @return The property value as a string.
 	 */
 
-	public String getStringProperty( ReportDesign design, String propName )
+	public String getStringProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return null;
-		Object value = getProperty( design, prop );
+		Object value = getProperty( module, prop );
 		if ( value == null )
 			return null;
-		return prop.getStringValue( design, value );
+		return prop.getStringValue( module, value );
 	}
 
 	/**
@@ -2212,19 +2221,19 @@ public abstract class DesignElement
 	 * colors to their localized display names. Returns the localized display
 	 * name for an element reference, etc.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the property name
 	 * @return the localized display value of the property
 	 */
 
-	public String getDisplayProperty( ReportDesign design, String propName )
+	public String getDisplayProperty( Module module, String propName )
 	{
 		PropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return null;
-		return getDisplayProperty( design, prop );
+		return getDisplayProperty( module, prop );
 	}
 
 	/**
@@ -2233,19 +2242,19 @@ public abstract class DesignElement
 	 * colors to their localized display names. Returns the localized display
 	 * name for an element reference, etc.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            the property definition
 	 * @return the localized display value of the property
 	 */
 
-	public String getDisplayProperty( ReportDesign design, PropertyDefn prop )
+	public String getDisplayProperty( Module module, PropertyDefn prop )
 	{
-		Object value = getProperty( design, prop );
+		Object value = getProperty( module, prop );
 		if ( value == null )
 			return null;
-		return prop.getDisplayValue( design, value );
+		return prop.getDisplayValue( module, value );
 	}
 
 	/**
@@ -2263,9 +2272,11 @@ public abstract class DesignElement
 		name = StringUtil.trimString( name );
 		if ( name == null )
 			return;
-		if ( extendsRef == null )
-			extendsRef = new ElementRefValue( );
-		extendsRef.unresolved( name );
+
+		String namespace = StringUtil.extractNamespace( name );
+		name = StringUtil.extractName( name );
+
+		extendsRef = new ElementRefValue( namespace, name );
 	}
 
 	/**
@@ -2277,13 +2288,13 @@ public abstract class DesignElement
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public final List validateWithContents( ReportDesign design )
+	public final List validateWithContents( Module module )
 	{
 		ElementDefn elementDefn = (ElementDefn) getDefn( );
 		List validatorList = ValidationExecutor.getValidationNodes( this,
 				elementDefn.getTriggerDefnSet( ), true );
 
-		ValidationExecutor executor = design.getValidationExecutor( );
+		ValidationExecutor executor = module.getValidationExecutor( );
 		errors = executor.perform( this, validatorList );
 
 		List list = new ArrayList( errors );
@@ -2294,7 +2305,7 @@ public abstract class DesignElement
 			while ( iter.hasNext( ) )
 			{
 				list.addAll( ( (DesignElement) iter.next( ) )
-						.validateWithContents( design ) );
+						.validateWithContents( module ) );
 			}
 		}
 
@@ -2306,20 +2317,20 @@ public abstract class DesignElement
 	 * The derived class should override this method to define specific
 	 * validation rules.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the list of the errors found in validation, each of which is the
 	 *         <code>SemanticException</code> object.
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
 		errors = new ArrayList( );
 
 		// Check whether this element is unsupported element.
 
 		errors.addAll( UnsupportedElementValidator.getInstance( ).validate(
-				design, this ) );
+				module, this ) );
 
 		// String elementName = getElementName( );
 		//
@@ -2335,7 +2346,7 @@ public abstract class DesignElement
 
 		// check property masks.
 
-		ArrayList propMasks = (ArrayList) getLocalProperty( design,
+		ArrayList propMasks = (ArrayList) getLocalProperty( module,
 				PROPERTY_MASKS_PROP );
 
 		if ( propMasks != null )
@@ -2344,7 +2355,7 @@ public abstract class DesignElement
 			while ( masks.hasNext( ) )
 			{
 				PropertyMask mask = (PropertyMask) masks.next( );
-				errors.addAll( mask.validate( design, this ) );
+				errors.addAll( mask.validate( module, this ) );
 			}
 		}
 
@@ -2356,17 +2367,17 @@ public abstract class DesignElement
 	 * list property type. This method is used for element semantic check. The
 	 * error is kept in the report design's error list.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the structure list type
 	 * @return the list of the errors found in validation, each of which is the
 	 *         <code>SemanticException</code> object.
 	 */
 
-	protected List validateStructureList( ReportDesign design, String propName )
+	protected List validateStructureList( Module module, String propName )
 	{
-		return StructureListValidator.getInstance( ).validate( design, this,
+		return StructureListValidator.getInstance( ).validate( module, this,
 				propName );
 	}
 
@@ -2375,8 +2386,8 @@ public abstract class DesignElement
 	 * list property type. This method is used in command. If any error is
 	 * found, the exception will be thrown.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propDefn
 	 *            the property definition of the list property
 	 * @param list
@@ -2389,11 +2400,11 @@ public abstract class DesignElement
 	 *             semantic error..
 	 */
 
-	public void checkStructureList( ReportDesign design, PropertyDefn propDefn,
+	public void checkStructureList( Module module, PropertyDefn propDefn,
 			List list, IStructure toAdd ) throws PropertyValueException
 	{
 		List errorList = StructureListValidator.getInstance( )
-				.validateForAdding( getHandle( design ), propDefn, list, toAdd );
+				.validateForAdding( getHandle( module ), propDefn, list, toAdd );
 		if ( errorList.size( ) > 0 )
 		{
 			throw (PropertyValueException) errorList.get( 0 );
@@ -2444,13 +2455,13 @@ public abstract class DesignElement
 	 * 
 	 * @param propName
 	 *            the name of the property to get
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the property value as an integer. Returns 0 if the property is
 	 *         not defined, or cannot convert to an integer.
 	 */
 
-	public int getIntProperty( ReportDesign design, String propName )
+	public int getIntProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
@@ -2459,25 +2470,25 @@ public abstract class DesignElement
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
-		Object value = getProperty( design, propName );
+		Object value = getProperty( module, propName );
 		if ( value instanceof Integer )
 			return ( (Integer) value ).intValue( );
 
-		return type.toInteger( design, value );
+		return type.toInteger( module, value );
 	}
 
 	/**
 	 * Gets the value of a property as a float (double).
 	 * 
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @param design
-	 *            the report design
 	 * @return the property value as a double. Returns 0 if the property is not
 	 *         defined, or cannot convert to a double.
 	 */
 
-	public double getFloatProperty( ReportDesign design, String propName )
+	public double getFloatProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
@@ -2486,25 +2497,25 @@ public abstract class DesignElement
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
-		Object value = getProperty( design, propName );
+		Object value = getProperty( module, propName );
 		if ( value instanceof Double )
 			return ( (Double) value ).doubleValue( );
 
-		return type.toDouble( design, value );
+		return type.toDouble( module, value );
 	}
 
 	/**
 	 * Gets the value of a property as a boolean.
 	 * 
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @param design
-	 *            the report design
 	 * @return the property value as a boolean. Returns false if the property is
 	 *         not set, or not defined, or cannot convert to a boolean.
 	 */
 
-	public boolean getBooleanProperty( ReportDesign design, String propName )
+	public boolean getBooleanProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
@@ -2513,24 +2524,24 @@ public abstract class DesignElement
 		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
 				prop.getTypeCode( ) );
 
-		Object value = getProperty( design, propName );
-		return ( (BooleanPropertyType) type ).toBoolean( design, value );
+		Object value = getProperty( module, propName );
+		return ( (BooleanPropertyType) type ).toBoolean( module, value );
 	}
 
 	/**
 	 * Gets the value of a property as a list.
 	 * 
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property to get
-	 * @param design
-	 *            the report design
 	 * @return the value as an <code>ArrayList</code>, or null if the
 	 *         property is not set or the value is not a list
 	 */
 
-	public List getListProperty( ReportDesign design, String propName )
+	public List getListProperty( Module module, String propName )
 	{
-		Object value = getProperty( design, propName );
+		Object value = getProperty( module, propName );
 		if ( value == null )
 			return null;
 		if ( value instanceof ArrayList )
@@ -2568,16 +2579,6 @@ public abstract class DesignElement
 	 */
 
 	public abstract String getElementName( );
-
-	/**
-	 * Returns an API handle for this element.
-	 * 
-	 * @param design
-	 *            the report design
-	 * @return an API handle for this element.
-	 */
-
-	public abstract DesignElementHandle getHandle( ReportDesign design );
 
 	/*
 	 * (non-Javadoc)
@@ -2620,8 +2621,8 @@ public abstract class DesignElement
 	/**
 	 * Determines if the slot can contain a given element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param slotId
 	 *            the slot id
 	 * @param element
@@ -2630,7 +2631,7 @@ public abstract class DesignElement
 	 *         <code>element</code>, otherwise <code>false</code>.
 	 */
 
-	public final boolean canContain( ReportDesign design, int slotId,
+	public final boolean canContain( Module module, int slotId,
 			DesignElement element )
 	{
 		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
@@ -2645,7 +2646,7 @@ public abstract class DesignElement
 		{
 			if ( tmpContainer instanceof ListingElement )
 			{
-				List errors = tmpContainer.checkContent( design, this, slotId,
+				List errors = tmpContainer.checkContent( module, this, slotId,
 						element );
 				return errors.isEmpty( );
 			}
@@ -2660,9 +2661,8 @@ public abstract class DesignElement
 	 * Determines if the current element can contain an element with the
 	 * definition of <code>elementType</code> on context containment.
 	 * 
-	 * @param design
-	 *            the report design
-	 * 
+	 * @param module
+	 *            the module
 	 * @param slotId
 	 *            the slot id
 	 * @param defn
@@ -2671,7 +2671,7 @@ public abstract class DesignElement
 	 *         otherwise <code>false</code>.
 	 */
 
-	public final boolean canContain( ReportDesign design, int slotId,
+	public final boolean canContain( Module module, int slotId,
 			IElementDefn defn )
 	{
 		assert defn != null;
@@ -2688,7 +2688,7 @@ public abstract class DesignElement
 		{
 			if ( tmpContainer instanceof ListingElement )
 			{
-				List errors = tmpContainer.checkContent( design, this, slotId,
+				List errors = tmpContainer.checkContent( module, this, slotId,
 						defn );
 				return errors.isEmpty( );
 			}
@@ -2737,8 +2737,8 @@ public abstract class DesignElement
 	 * Checks whether the <code>content</code> can be inserted to the slot
 	 * <code>slotId</code> in another element <code>container</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param container
 	 *            the container element
 	 * @param slotId
@@ -2749,7 +2749,7 @@ public abstract class DesignElement
 	 *         <code>false</code>.
 	 */
 
-	protected List checkContent( ReportDesign design, DesignElement container,
+	protected List checkContent( Module module, DesignElement container,
 			int slotId, DesignElement content )
 	{
 		return new ArrayList( );
@@ -2760,8 +2760,8 @@ public abstract class DesignElement
 	 * to the slot <code>slotId</code> in another element
 	 * <code>container</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param container
 	 *            the container element
 	 * @param slotId
@@ -2772,7 +2772,7 @@ public abstract class DesignElement
 	 *         <code>false</code>.
 	 */
 
-	protected List checkContent( ReportDesign design, DesignElement container,
+	protected List checkContent( Module module, DesignElement container,
 			int slotId, IElementDefn defn )
 	{
 		return new ArrayList( );
@@ -2804,17 +2804,16 @@ public abstract class DesignElement
 	 * Returns the value of an element reference property as an element. Returns
 	 * null if either the property is unset, or the reference is unresolved.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the element reference property to get
 	 * @return the element referenced by the property
 	 */
 
-	public DesignElement getReferenceProperty( ReportDesign design,
-			String propName )
+	public DesignElement getReferenceProperty( Module module, String propName )
 	{
-		ElementRefValue ref = (ElementRefValue) getProperty( design, propName );
+		ElementRefValue ref = (ElementRefValue) getProperty( module, propName );
 		if ( ref == null )
 			return null;
 		return ref.getElement( );
@@ -2879,21 +2878,20 @@ public abstract class DesignElement
 	 * it is inherited from a shared style.</li>
 	 * </ul>
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param prop
 	 *            definition of the property
 	 * @return the value of the property according to the rules explained above
 	 */
 
-	public Object getFactoryProperty( ReportDesign design,
-			ElementPropertyDefn prop )
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
 	{
 		// This class handles only non-style properties. See the
 		// StyledElement class for the handling of style properties.
 
 		assert !prop.isStyleProperty( );
-		return getProperty( design, prop );
+		return getProperty( module, prop );
 	}
 
 	/**
@@ -2911,14 +2909,14 @@ public abstract class DesignElement
 	 * it is inherited from a shared style.</li>
 	 * </ul>
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            module
 	 * @param propName
 	 *            name of the property
 	 * @return the value of the property according to the rules explained above
 	 */
 
-	public Object getFactoryProperty( ReportDesign design, String propName )
+	public Object getFactoryProperty( Module module, String propName )
 	{
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 
@@ -2927,28 +2925,28 @@ public abstract class DesignElement
 		if ( prop == null )
 			return null;
 
-		return getFactoryProperty( design, prop );
+		return getFactoryProperty( module, prop );
 	}
 
 	/**
 	 * Resolves a property element reference. The reference is the value of a
 	 * property of type property element reference.
 	 * 
-	 * @param design
-	 *            the report design information needed for the check, and
-	 *            records any errors
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
 	 * @param prop
 	 *            the property whose type is element reference
 	 */
 
-	public ElementRefValue resolveElementReference( ReportDesign design,
+	public ElementRefValue resolveElementReference( Module module,
 			ElementPropertyDefn prop )
 	{
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof ElementRefValue;
 
-		if ( value == null || design == null )
+		if ( value == null || module == null )
 			return (ElementRefValue) value;
 
 		ElementRefValue ref = (ElementRefValue) value;
@@ -2964,7 +2962,7 @@ public abstract class DesignElement
 
 		ElementRefPropertyType refType = (ElementRefPropertyType) prop
 				.getType( );
-		refType.resolve( design, prop, ref );
+		refType.resolve( module, prop, ref );
 		if ( ref.isResolved( ) )
 			ref.getTargetElement( ).addClient( this, prop.getName( ) );
 
@@ -2975,23 +2973,23 @@ public abstract class DesignElement
 	 * Resolves a property structure reference. The reference is the value of a
 	 * property of type property structure reference.
 	 * 
-	 * @param design
-	 *            the report design information needed for the check, and
-	 *            records any errors
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
 	 * @param prop
 	 *            the property whose type is structure reference
 	 * @return the resolved value if the resolve operation is successful,
 	 *         otherwise the unresolved value
 	 */
 
-	public StructRefValue resolveStructReference( ReportDesign design,
+	public StructRefValue resolveStructReference( Module module,
 			ElementPropertyDefn prop )
 	{
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof StructRefValue;
 
-		if ( value == null || design == null )
+		if ( value == null || module == null )
 			return (StructRefValue) value;
 
 		StructRefValue ref = (StructRefValue) value;
@@ -3006,7 +3004,7 @@ public abstract class DesignElement
 		// to element pointer.
 
 		StructRefPropertyType refType = (StructRefPropertyType) prop.getType( );
-		refType.resolve( design, prop, ref );
+		refType.resolve( module, prop, ref );
 		if ( ref.isResolved( ) )
 			ref.getTargetStructure( ).addClient( this, prop.getName( ) );
 
@@ -3117,16 +3115,16 @@ public abstract class DesignElement
 	 * element needs to overwrite this method</li>
 	 * </ul>
 	 * 
-	 * @param design
-	 *            the report design instance
+	 * @param module
+	 *            the module
 	 * @param level
 	 *            the description level.
 	 * @return the display label of this element.
 	 */
 
-	public String getDisplayLabel( ReportDesign design, int level )
+	public String getDisplayLabel( Module module, int level )
 	{
-		String displayLabel = design.getMessage( getDisplayNameID( ) );
+		String displayLabel = module.getMessage( getDisplayNameID( ) );
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = getDisplayName( );
@@ -3168,9 +3166,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be ¡°elided¡± to a length of 30 characters. To
-	 * elide the text, find the first white-space before the limit, truncate the
-	 * string after that point, and append three dots: ¡°¡­¡±
+	 * All descriptive text should be "elided" to a length of 30 characters.
+	 * To elide the text, find the first white-space before the limit, truncate
+	 * the string after that point, and append three dots "...".
 	 * <p>
 	 * 
 	 * @param displayLabel
@@ -3257,8 +3255,8 @@ public abstract class DesignElement
 
 					ElementRefValue refValue = (ElementRefValue) propValues
 							.get( key );
-					ElementRefValue newRefValue = new ElementRefValue( );
-					newRefValue.unresolved( refValue.getName( ) );
+					ElementRefValue newRefValue = new ElementRefValue( null,
+							refValue.getName( ) );
 					element.propValues.put( key, newRefValue );
 
 					break;

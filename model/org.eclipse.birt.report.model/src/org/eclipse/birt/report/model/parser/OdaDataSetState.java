@@ -38,7 +38,7 @@ public class OdaDataSetState extends DataSetState
 	 *            the design file parser handler
 	 */
 
-	public OdaDataSetState( DesignParserHandler handler )
+	public OdaDataSetState( ModuleParserHandler handler )
 	{
 		super( handler );
 

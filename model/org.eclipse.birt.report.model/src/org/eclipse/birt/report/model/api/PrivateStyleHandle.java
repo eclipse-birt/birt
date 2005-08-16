@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents the "private style" for an element. The private style is the set
@@ -34,15 +34,15 @@ public class PrivateStyleHandle extends StyleHandle
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public PrivateStyleHandle( ReportDesign design, DesignElement element )
+	public PrivateStyleHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class PrivateStyleHandle extends StyleHandle
 
 	public DesignElementHandle getElementHandle( )
 	{
-		return element.getHandle( design );
+		return element.getHandle( module );
 	}
 
 	/**
@@ -89,12 +89,12 @@ public class PrivateStyleHandle extends StyleHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
 	 */
-
+	
 	public void drop( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
 	}
-
+	
 	/**
 	 * This method is not defined for private styles. It will raise an assertion
 	 * if called. To change the element that owns this private style, use

@@ -31,7 +31,7 @@ public class UserPropertyListState extends PropertyListState
 	 *            the element holding this list property
 	 */
 
-	UserPropertyListState( DesignParserHandler theHandler, DesignElement element )
+	UserPropertyListState( ModuleParserHandler theHandler, DesignElement element )
 	{
 		super( theHandler, element );
 	}

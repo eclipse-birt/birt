@@ -74,7 +74,7 @@ public class CompatibleFormatPropertyState extends PropertyState
 	 *            the structure that contains format structures.
 	 */
 
-	CompatibleFormatPropertyState( DesignParserHandler theHandler,
+	CompatibleFormatPropertyState( ModuleParserHandler theHandler,
 			DesignElement element, PropertyDefn propDefn,
 			IStructure parentStruct )
 	{

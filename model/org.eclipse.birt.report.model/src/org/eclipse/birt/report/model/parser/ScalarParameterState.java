@@ -42,7 +42,7 @@ public class ScalarParameterState extends ParameterState
 	 *            the slot ID of the slot where the parameter is stored.
 	 */
 
-	public ScalarParameterState( DesignParserHandler handler,
+	public ScalarParameterState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

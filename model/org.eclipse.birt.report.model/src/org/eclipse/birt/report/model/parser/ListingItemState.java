@@ -41,7 +41,7 @@ public abstract class ListingItemState extends ReportItemState
 	 *            the slot in which this element appears
 	 */
 
-	public ListingItemState( DesignParserHandler handler,
+	public ListingItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );

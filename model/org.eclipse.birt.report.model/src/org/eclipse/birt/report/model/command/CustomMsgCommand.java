@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 
@@ -29,13 +30,13 @@ public class CustomMsgCommand extends AbstractElementCommand
 	/**
 	 * Constructs the user-defined message command.
 	 * 
-	 * @param design
-	 *            the report design that need to change.
+	 * @param module
+	 *            the module to change
 	 */
 
-	public CustomMsgCommand( ReportDesign design )
+	public CustomMsgCommand( Module module )
 	{
-		super( design, design );
+		super( module, module );
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 	public void addTranslation( String resourceKey, String locale, String text )
 			throws CustomMsgException
 	{
-		assert design != null;
+		assert module != null;
 
 		// resource key required.
 
@@ -72,7 +73,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 
 		// check duplicated locale for one single message.
 
-		if ( design.findTranslation( resourceKey, locale ) != null )
+		if ( module.findTranslation( resourceKey, locale ) != null )
 			throw new CustomMsgException( element, resourceKey, locale,
 					CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE );
 
@@ -100,9 +101,9 @@ public class CustomMsgCommand extends AbstractElementCommand
 	public void dropTranslation( String resourceKey, String locale )
 			throws CustomMsgException
 	{
-		assert design != null;
+		assert module != null;
 
-		Translation translation = design.findTranslation( resourceKey, locale );
+		Translation translation = module.findTranslation( resourceKey, locale );
 
 		if ( translation == null )
 			throw new CustomMsgException( element,
@@ -132,12 +133,12 @@ public class CustomMsgCommand extends AbstractElementCommand
 	public void setLocale( Translation translation, String newLocale )
 			throws CustomMsgException
 	{
-		assert design != null;
+		assert module != null;
 		assert translation != null;
 
 		// translation should exist in the report.
 
-		if ( !design.contains( translation ) )
+		if ( !module.contains( translation ) )
 			throw new CustomMsgException( element,
 					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 
@@ -157,7 +158,7 @@ public class CustomMsgCommand extends AbstractElementCommand
 
         // locale duplicates.
         
-        if( design.findTranslation( translation.getResourceKey(), newLocale ) != null )
+        if( module.findTranslation( translation.getResourceKey(), newLocale ) != null )
         	throw new CustomMsgException( element, translation.getResourceKey(), newLocale,
                     CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE );
             
@@ -186,12 +187,12 @@ public class CustomMsgCommand extends AbstractElementCommand
 	public void setText( Translation translation, String newText )
 			throws CustomMsgException
 	{
-		assert design != null;
+		assert module != null;
 		assert translation != null;
 
 		// translation should exist in the report.
 
-		if ( !design.contains( translation ) )
+		if ( !module.contains( translation ) )
 			throw new CustomMsgException( element,
 					CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND );
 

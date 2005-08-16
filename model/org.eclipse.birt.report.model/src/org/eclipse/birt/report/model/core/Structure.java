@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -81,21 +80,21 @@ public abstract class Structure implements IStructure
 	 * Gets the value of the member. If the value has not been set, the default
 	 * value for the member will be returned.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param memberName
 	 *            the member name
 	 * @return the member is defined on the structure and the value is set,
 	 *         otherwise null.
 	 */
 
-	public final Object getProperty( ReportDesign design, String memberName )
+	public final Object getProperty( Module module, String memberName )
 	{
 		PropertyDefn prop = (PropertyDefn) getDefn( ).getMember( memberName );
 		if ( prop == null )
 			return null;
 
-		return getProperty( design, prop );
+		return getProperty( module, prop );
 	}
 
 	/*
@@ -105,10 +104,10 @@ public abstract class Structure implements IStructure
 	 *      org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
-	public Object getProperty( ReportDesign design, PropertyDefn propDefn )
+	public Object getProperty( Module module, PropertyDefn propDefn )
 	{
 		assert propDefn != null;
-		Object value = getLocalProperty( design, propDefn );
+		Object value = getLocalProperty( module, propDefn );
 		if ( value == null )
 			return propDefn.getDefault( );
 
@@ -118,8 +117,8 @@ public abstract class Structure implements IStructure
 	/**
 	 * Gets the locale value of a property.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * 
 	 * @param propDefn
 	 *            definition of the property to get
@@ -127,7 +126,7 @@ public abstract class Structure implements IStructure
 	 *         locally or is not found.
 	 */
 
-	public Object getLocalProperty( ReportDesign design, PropertyDefn propDefn )
+	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
 		if ( propDefn.isIntrinsic( ) )
 			return getIntrinsicProperty( propDefn.getName( ) );
@@ -193,14 +192,14 @@ public abstract class Structure implements IStructure
 	 * override this method if semantic check is needed. The each error is the
 	 * instance of <code>PropertyValueException</code>.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the element contains this structure
 	 * @return the semantic error list
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		return new ArrayList( );
 	}

@@ -34,16 +34,16 @@ public class TranslationHandle extends ElementDetailHandle
 	/**
 	 * Constructs a handle for a translation message.
 	 * 
-	 * @param designHandle
-	 *            a handle to a report design
+	 * @param moduleHandle
+	 *            a handle to a module
 	 * @param trans
 	 *            the translation instance to be handled.
 	 */
 
-	public TranslationHandle( ReportDesignHandle designHandle,
+	public TranslationHandle( ModuleHandle moduleHandle,
 			Translation trans )
 	{
-		super( designHandle );
+		super( moduleHandle );
         
         assert trans != null; 
 		this.translation = trans;
@@ -72,7 +72,7 @@ public class TranslationHandle extends ElementDetailHandle
 
 	public void setLocale( String newLocale ) throws CustomMsgException
 	{
-		CustomMsgCommand command = new CustomMsgCommand( getDesign( ) );
+		CustomMsgCommand command = new CustomMsgCommand( getModule( ) );
 		command.setLocale( translation, newLocale );
 	}
 
@@ -98,7 +98,7 @@ public class TranslationHandle extends ElementDetailHandle
 
 	public void setText( String text ) throws CustomMsgException
 	{
-		CustomMsgCommand command = new CustomMsgCommand( getDesign( ) );
+		CustomMsgCommand command = new CustomMsgCommand( getModule( ) );
 		command.setText( translation, text );
 	}
 

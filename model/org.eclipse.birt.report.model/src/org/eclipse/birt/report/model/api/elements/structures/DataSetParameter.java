@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
  * Represents the parameter for ODA drivers. The parameter is the part of the
@@ -486,14 +485,14 @@ public class DataSetParameter extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		ArrayList list = new ArrayList( );
 
 		if ( StringUtil.isBlank( getName( ) ) )
 		{
 			list.add( new PropertyValueException( element,
-					(StructPropertyDefn) getDefn( ).getMember( NAME_MEMBER ),
+					getDefn( ).getMember( NAME_MEMBER ),
 					getName( ),
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
 		}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
 public class ParametersState extends AbstractParseState
 {
 
-	private DesignParserHandler handler;
+	private ModuleParserHandler handler;
 	private DesignElement container;
 	private int slotID;
 	private boolean isReport = true;
@@ -37,11 +38,11 @@ public class ParametersState extends AbstractParseState
 	 *            the design file parser handler
 	 */
 
-	public ParametersState( DesignParserHandler handler )
+	public ParametersState( ModuleParserHandler handler )
 	{
 		this.handler = handler;
-		container = handler.getDesign( );
-		slotID = ReportDesign.PARAMETER_SLOT;
+		container = handler.getModule( );
+		slotID = Module.PARAMETER_SLOT;
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class ParametersState extends AbstractParseState
 	 *            stored.
 	 */
 	
-	public ParametersState( DesignParserHandler handler,
+	public ParametersState( ModuleParserHandler handler,
 			DesignElement container, int slotID )
 	{
 		this.handler = handler;

@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 public abstract class StyleElement extends ReferenceableElement
 {
 
-	private final static String ReportSelector = "report";
+	private final static String REPORT_SELECTOR = "report"; //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -78,17 +78,17 @@ public abstract class StyleElement extends ReferenceableElement
 	/**
 	 * Gets the value of property.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            module
 	 * @param prop
 	 *            definition of the property to get
 	 * @return the value of the property.
 	 */
 
-	public Object getFactoryProperty( ReportDesign design,
+	public Object getFactoryProperty( Module module,
 			ElementPropertyDefn prop )
 	{
-		return getLocalProperty( design, prop );
+		return getLocalProperty( module, prop );
 	}
 
 	/**
@@ -147,9 +147,9 @@ public abstract class StyleElement extends ReferenceableElement
 	 *      org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, ReportDesign design )
+	protected void broadcastToClients( NotificationEvent ev, Module module )
 	{
-		super.broadcastToClients( ev, design );
+		super.broadcastToClients( ev, module );
 
 		// Broad the event to the elements selected by selector style.
 
@@ -176,24 +176,24 @@ public abstract class StyleElement extends ReferenceableElement
 		if ( selector != null )
 		{
 			// Work around for renaming selector style.
-			if ( ReportSelector.equals( selector ) )
+			if ( REPORT_SELECTOR.equals( selector ) )
 			{
 				NotificationEvent event = null;
-				event = new StyleEvent( design );
+				event = new StyleEvent( module );
 				event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-				design.broadcast( event );
+				module.broadcast( event );
 
 			}
 			else
 			{
 
-				broadcastToSelectedElementsInSlot( design, design
+				broadcastToSelectedElementsInSlot( module, module
 						.getSlot( ReportDesign.COMPONENT_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( design, design
+				broadcastToSelectedElementsInSlot( module, module
 						.getSlot( ReportDesign.PAGE_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( design, design
+				broadcastToSelectedElementsInSlot( module, module
 						.getSlot( ReportDesign.BODY_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( design, design
+				broadcastToSelectedElementsInSlot( module, module
 						.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selector );
 			}
 		}
@@ -204,15 +204,15 @@ public abstract class StyleElement extends ReferenceableElement
 	 * Broadcasts the event to all elements in the given slot if the elements
 	 * are selected by selector style.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param slot
 	 *            the slot to send
 	 * @param selectorName
 	 *            the selector name
 	 */
 
-	private void broadcastToSelectedElementsInSlot( ReportDesign design,
+	private void broadcastToSelectedElementsInSlot( Module module,
 			ContainerSlot slot, String selectorName )
 	{
 		Iterator iter = slot.iterator( );
@@ -235,27 +235,27 @@ public abstract class StyleElement extends ReferenceableElement
 			if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
 
 			{
-				element.broadcast( event, design );
+				element.broadcast( event, module );
 				continue;
 			}
 
 			// check if the element slot has the selector with the same name as
 			// the given selector name.
 
-			if ( checkSlotSelector( element, selectorName, event, design ) )
+			if ( checkSlotSelector( element, selectorName, event, module ) )
 				continue;
 
 			int count = element.getDefn( ).getSlotCount( );
 			for ( int i = 0; i < count; i++ )
 			{
-				broadcastToSelectedElementsInSlot( design,
+				broadcastToSelectedElementsInSlot( module,
 						element.getSlot( i ), selectorName );
 			}
 		}
 	}
 
 	private boolean checkSlotSelector( DesignElement element,
-			String selectorName, NotificationEvent event, ReportDesign design )
+			String selectorName, NotificationEvent event, Module module )
 	{
 
 		String selector = element.getContainer( ).getSelector(
@@ -263,7 +263,7 @@ public abstract class StyleElement extends ReferenceableElement
 
 		if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
 		{
-			element.broadcast( event, design );
+			element.broadcast( event, module );
 			return true;
 		}
 		return false;

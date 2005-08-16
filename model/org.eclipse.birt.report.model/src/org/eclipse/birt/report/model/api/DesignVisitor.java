@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
@@ -56,14 +58,6 @@ public class DesignVisitor
 {
 
 	/**
-	 * The report design which this visitor visits.
-	 * 
-	 * @deprecated
-	 */
-
-	protected ReportDesign design = null;
-
-	/**
 	 * The private internal element visitor.
 	 */
 
@@ -79,21 +73,6 @@ public class DesignVisitor
 	}
 
 	/**
-	 * Constructs a <code>DesignVisitor</code> with the given
-	 * <code>DesignElementHandle</code>.
-	 * 
-	 * @param handle
-	 *            handle to any element in the design, typically the report
-	 *            design itself
-	 * @deprecated
-	 */
-
-	public DesignVisitor( DesignElementHandle handle )
-	{
-		design = handle.getDesign( );
-	}
-
-	/**
 	 * Applies this visitor to the given element.
 	 * 
 	 * @param handle
@@ -102,7 +81,7 @@ public class DesignVisitor
 
 	public void apply( DesignElementHandle handle )
 	{
-		forwarder.setDesign( handle.getDesign( ) );
+		forwarder.setModule( handle.getModule( ) );
 		handle.getElement( ).apply( forwarder );
 	}
 
@@ -347,6 +326,30 @@ public class DesignVisitor
 	}
 
 	/**
+	 * Visits the module element
+	 * 
+	 * @param obj
+	 *            the handle of the module to traverse
+	 */
+
+	protected void visitModule( ModuleHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the library element.
+	 * 
+	 * @param obj
+	 *            the handle of the library to traverse
+	 */
+
+	protected void visitLibrary( LibraryHandle obj )
+	{
+		visitModule( obj );
+	}
+
+	/**
 	 * Visits the report design element.
 	 * 
 	 * @param obj
@@ -355,7 +358,7 @@ public class DesignVisitor
 
 	protected void visitReportDesign( ReportDesignHandle obj )
 	{
-		visitDesignElement( obj );
+		visitModule( obj );
 	}
 
 	/**
@@ -539,7 +542,7 @@ public class DesignVisitor
 
 	/**
 	 * A class forward the visit of an element to its handle.
-	 *  
+	 * 
 	 */
 
 	protected class Forwarder extends ElementVisitor
@@ -549,7 +552,7 @@ public class DesignVisitor
 		 * The report design which this visitor visits.
 		 */
 
-		ReportDesign design = null;
+		Module module = null;
 
 		/**
 		 * Visits the free form element.
@@ -560,7 +563,7 @@ public class DesignVisitor
 
 		public void visitFreeForm( FreeForm obj )
 		{
-			DesignVisitor.this.visitFreeForm( obj.handle( design ) );
+			DesignVisitor.this.visitFreeForm( obj.handle( module ) );
 		}
 
 		/**
@@ -569,10 +572,10 @@ public class DesignVisitor
 		 * @param design
 		 *            report design
 		 */
-		
-		void setDesign( ReportDesign design )
+
+		void setModule( Module module )
 		{
-			this.design = design;
+			this.module = module;
 		}
 
 		/**
@@ -584,7 +587,7 @@ public class DesignVisitor
 
 		public void visitLabel( Label obj )
 		{
-			DesignVisitor.this.visitLabel( obj.handle( design ) );
+			DesignVisitor.this.visitLabel( obj.handle( module ) );
 		}
 
 		/**
@@ -596,7 +599,7 @@ public class DesignVisitor
 
 		public void visitDataItem( DataItem obj )
 		{
-			DesignVisitor.this.visitDataItem( obj.handle( design ) );
+			DesignVisitor.this.visitDataItem( obj.handle( module ) );
 		}
 
 		/**
@@ -608,7 +611,7 @@ public class DesignVisitor
 
 		public void visitTextItem( TextItem obj )
 		{
-			DesignVisitor.this.visitTextItem( obj.handle( design ) );
+			DesignVisitor.this.visitTextItem( obj.handle( module ) );
 		}
 
 		/**
@@ -620,7 +623,7 @@ public class DesignVisitor
 
 		public void visitImage( ImageItem obj )
 		{
-			DesignVisitor.this.visitImage( obj.handle( design ) );
+			DesignVisitor.this.visitImage( obj.handle( module ) );
 		}
 
 		/**
@@ -632,7 +635,7 @@ public class DesignVisitor
 
 		public void visitList( ListItem obj )
 		{
-			DesignVisitor.this.visitList( obj.handle( design ) );
+			DesignVisitor.this.visitList( obj.handle( module ) );
 		}
 
 		/**
@@ -644,7 +647,7 @@ public class DesignVisitor
 
 		public void visitListGroup( ListGroup obj )
 		{
-			DesignVisitor.this.visitListGroup( obj.handle( design ) );
+			DesignVisitor.this.visitListGroup( obj.handle( module ) );
 		}
 
 		/**
@@ -656,7 +659,7 @@ public class DesignVisitor
 
 		public void visitTable( TableItem obj )
 		{
-			DesignVisitor.this.visitTable( obj.handle( design ) );
+			DesignVisitor.this.visitTable( obj.handle( module ) );
 		}
 
 		/**
@@ -668,7 +671,7 @@ public class DesignVisitor
 
 		public void visitTableGroup( TableGroup obj )
 		{
-			DesignVisitor.this.visitTableGroup( obj.handle( design ) );
+			DesignVisitor.this.visitTableGroup( obj.handle( module ) );
 		}
 
 		/**
@@ -680,7 +683,7 @@ public class DesignVisitor
 
 		public void visitCell( Cell obj )
 		{
-			DesignVisitor.this.visitCell( obj.handle( design ) );
+			DesignVisitor.this.visitCell( obj.handle( module ) );
 		}
 
 		/**
@@ -692,7 +695,7 @@ public class DesignVisitor
 
 		public void visitColumn( TableColumn obj )
 		{
-			DesignVisitor.this.visitColumn( obj.handle( design ) );
+			DesignVisitor.this.visitColumn( obj.handle( module ) );
 		}
 
 		/**
@@ -704,7 +707,7 @@ public class DesignVisitor
 
 		public void visitRow( TableRow obj )
 		{
-			DesignVisitor.this.visitRow( obj.handle( design ) );
+			DesignVisitor.this.visitRow( obj.handle( module ) );
 		}
 
 		/**
@@ -716,7 +719,7 @@ public class DesignVisitor
 
 		public void visitGrid( GridItem obj )
 		{
-			DesignVisitor.this.visitGrid( obj.handle( design ) );
+			DesignVisitor.this.visitGrid( obj.handle( module ) );
 		}
 
 		/**
@@ -728,7 +731,7 @@ public class DesignVisitor
 
 		public void visitLine( LineItem obj )
 		{
-			DesignVisitor.this.visitLine( obj.handle( design ) );
+			DesignVisitor.this.visitLine( obj.handle( module ) );
 		}
 
 		/**
@@ -740,9 +743,21 @@ public class DesignVisitor
 
 		public void visitParameterGroup( ParameterGroup obj )
 		{
-			DesignVisitor.this.visitParameterGroup( obj.handle( design ) );
+			DesignVisitor.this.visitParameterGroup( obj.handle( module ) );
 		}
 
+		/**
+		 * Visits the library.
+		 * 
+		 * @param obj
+		 *            the library to traverse
+		 */
+		
+		public void visitLibrary( Library obj )
+		{
+			DesignVisitor.this.visitLibrary( obj.handle( ) );
+		}
+		
 		/**
 		 * Visits the report design.
 		 * 
@@ -754,7 +769,7 @@ public class DesignVisitor
 		{
 			DesignVisitor.this.visitReportDesign( obj.handle( ) );
 		}
-
+		
 		/**
 		 * Visits the scalar parameter.
 		 * 
@@ -764,7 +779,7 @@ public class DesignVisitor
 
 		public void visitScalarParameter( ScalarParameter obj )
 		{
-			DesignVisitor.this.visitScalarParameter( obj.handle( design ) );
+			DesignVisitor.this.visitScalarParameter( obj.handle( module ) );
 		}
 
 		/**
@@ -776,7 +791,7 @@ public class DesignVisitor
 
 		public void visitStyle( Style obj )
 		{
-			DesignVisitor.this.visitStyle( obj.handle( design ) );
+			DesignVisitor.this.visitStyle( obj.handle( module ) );
 		}
 
 		/**
@@ -788,7 +803,7 @@ public class DesignVisitor
 
 		public void visitRectangle( RectangleItem obj )
 		{
-			DesignVisitor.this.visitRectangle( obj.handle( design ) );
+			DesignVisitor.this.visitRectangle( obj.handle( module ) );
 		}
 
 		/**
@@ -800,7 +815,7 @@ public class DesignVisitor
 
 		public void visitTextDataItem( TextDataItem obj )
 		{
-			DesignVisitor.this.visitTextDataItem( obj.handle( design ) );
+			DesignVisitor.this.visitTextDataItem( obj.handle( module ) );
 		}
 
 		/**
@@ -812,7 +827,7 @@ public class DesignVisitor
 
 		public void visitExtendedItem( ExtendedItem obj )
 		{
-			DesignVisitor.this.visitExtendedItem( obj.handle( design ) );
+			DesignVisitor.this.visitExtendedItem( obj.handle( module ) );
 		}
 
 		/**
@@ -824,7 +839,7 @@ public class DesignVisitor
 
 		public void visitScriptDataSource( ScriptDataSource obj )
 		{
-			DesignVisitor.this.visitScriptDataSource( obj.handle( design ) );
+			DesignVisitor.this.visitScriptDataSource( obj.handle( module ) );
 		}
 
 		/**
@@ -836,7 +851,7 @@ public class DesignVisitor
 
 		public void visitGraphicMasterPage( GraphicMasterPage obj )
 		{
-			DesignVisitor.this.visitGraphicMasterPage( obj.handle( design ) );
+			DesignVisitor.this.visitGraphicMasterPage( obj.handle( module ) );
 		}
 
 		/**
@@ -848,7 +863,7 @@ public class DesignVisitor
 
 		public void visitSimpleMasterPage( SimpleMasterPage obj )
 		{
-			DesignVisitor.this.visitSimpleMasterPage( obj.handle( design ) );
+			DesignVisitor.this.visitSimpleMasterPage( obj.handle( module ) );
 		}
 
 		/**
@@ -860,7 +875,7 @@ public class DesignVisitor
 
 		public void visitOdaDataSource( OdaDataSource obj )
 		{
-			DesignVisitor.this.visitExtendedDataSource( obj.handle( design ) );
+			DesignVisitor.this.visitExtendedDataSource( obj.handle( module ) );
 		}
 
 		/**
@@ -872,7 +887,7 @@ public class DesignVisitor
 
 		public void visitScriptDataSet( ScriptDataSet obj )
 		{
-			DesignVisitor.this.visitScriptDataSet( obj.handle( design ) );
+			DesignVisitor.this.visitScriptDataSet( obj.handle( module ) );
 		}
 
 		/**
@@ -884,7 +899,7 @@ public class DesignVisitor
 
 		public void visitOdaDataSet( OdaDataSet obj )
 		{
-			DesignVisitor.this.visitExtendedDataSet( obj.handle( design ) );
+			DesignVisitor.this.visitExtendedDataSet( obj.handle( module ) );
 		}
 	}
 }

@@ -102,7 +102,7 @@ public class CompatibleTestExpreState extends PropertyState
 {
 	private String tempVeluekey =  null; 
 
-	public CompatibleTestExpreState( DesignParserHandler theHandler,
+	public CompatibleTestExpreState( ModuleParserHandler theHandler,
 			DesignElement element, String key )
 	{
 		super( theHandler, element);

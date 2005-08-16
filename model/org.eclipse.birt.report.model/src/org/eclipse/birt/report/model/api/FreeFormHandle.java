@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.FreeForm;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 
 /**
@@ -31,15 +31,15 @@ public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
 	 * The application generally does not create handles directly. Instead, it
 	 * uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public FreeFormHandle( ReportDesign design, FreeForm element )
+	public FreeFormHandle( Module module, FreeForm element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**

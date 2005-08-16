@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
@@ -51,7 +52,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * to HTML, PDF or other formats.
  * </ul>
  * 
- *  
+ * 
  */
 
 public class ExtendedItem extends ReportItem
@@ -126,25 +127,25 @@ public class ExtendedItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public ExtendedItemHandle handle( ReportDesign design )
+	public ExtendedItemHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ExtendedItemHandle( design, this );
+			handle = new ExtendedItemHandle( module, this );
 		}
 		return (ExtendedItemHandle) handle;
 	}
@@ -155,17 +156,16 @@ public class ExtendedItem extends ReportItem
 	 * gets the "local" property value. The property name must also be valid for
 	 * this object.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(Module,
 	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	public Object getLocalProperty( ReportDesign design,
-			ElementPropertyDefn prop )
+	public Object getLocalProperty( Module module, ElementPropertyDefn prop )
 	{
 		assert prop != null;
 
 		if ( !prop.isExtended( ) )
-			return super.getLocalProperty( design, prop );
+			return super.getLocalProperty( module, prop );
 
 		if ( provider != null )
 			return provider.getExtensionProperty( prop.getName( ) );
@@ -260,17 +260,17 @@ public class ExtendedItem extends ReportItem
 	 * peer for it or the peer instance has been created before, then there is
 	 * no operation.
 	 * 
-	 * @param design
-	 *            the report design the peer element has
+	 * @param module
+	 *            the module the peer element has
 	 * @throws ExtendedElementException
 	 *             if the serialized model is invalid
 	 */
 
-	public void initializeReportItem( ReportDesign design )
+	public void initializeReportItem( Module module )
 			throws ExtendedElementException
 	{
 		if ( provider != null )
-			provider.initializeReportItem( design );
+			provider.initializeReportItem( module );
 		else
 			throw new ExtendedElementException(
 					ExtendedElementException.PLUGIN_ID,
@@ -320,12 +320,12 @@ public class ExtendedItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		list
-				.addAll( ExtensionValidator.getInstance( ).validate( design,
+				.addAll( ExtensionValidator.getInstance( ).validate( module,
 						this ) );
 
 		return list;

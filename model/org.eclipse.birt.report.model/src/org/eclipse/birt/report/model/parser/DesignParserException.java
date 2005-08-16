@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 /**
  * This class describes a parse error. Many errors are reported using the same
  * exceptions used for API operations.
- *  
+ * 
  */
 
 public class DesignParserException extends ModelException
@@ -165,6 +165,12 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_INVALID_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_VERSION;
 
 	/**
+	 * The namespace is duplicate.
+	 */
+
+	public static final String DESIGN_EXCEPTION_DUPLICATE_NAMESPACE = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_NAMESPACE;
+
+	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
@@ -179,6 +185,7 @@ public class DesignParserException extends ModelException
 	/**
 	 * Constructs the design parser exception with the file name, the property
 	 * name and the error code.
+	 * 
 	 * @param values
 	 *            the values for message
 	 * @param errCode
@@ -201,7 +208,8 @@ public class DesignParserException extends ModelException
 		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
-				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION )
+				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION
+				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_NAMESPACE )
 		{
 			assert oaMessageArguments.length == 1;
 

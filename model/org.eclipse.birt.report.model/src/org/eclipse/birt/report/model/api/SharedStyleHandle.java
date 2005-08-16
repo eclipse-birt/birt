@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents a named, shared style. A named, shared style is a style defined in
@@ -28,15 +28,24 @@ public class SharedStyleHandle extends StyleHandle
 	 * not create handles directly. Instead, it uses one of the navigation
 	 * methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public SharedStyleHandle( ReportDesign design, DesignElement element )
+	public SharedStyleHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getQualifiedName()
+	 */
+	
+	public String getQualifiedName( )
+	{
+		return getName( );
+	}
 }

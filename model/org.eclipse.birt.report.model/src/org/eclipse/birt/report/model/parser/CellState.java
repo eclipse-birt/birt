@@ -44,7 +44,7 @@ public class CellState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public CellState( DesignParserHandler handler, DesignElement theContainer,
+	public CellState( ModuleParserHandler handler, DesignElement theContainer,
 			int slot )
 	{
 		super( handler, theContainer, slot );

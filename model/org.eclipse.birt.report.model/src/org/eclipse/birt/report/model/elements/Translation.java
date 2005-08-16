@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.TranslationHandle;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This inner class represents an entry for the user-defined message. One
@@ -80,7 +82,7 @@ public class Translation implements Cloneable
 	 * @param locale
 	 *            Locale for the translation. Locale should be in java-defined
 	 *            format( en, en-US, zh_CN, etc.)
-	 *  
+	 * 
 	 */
 
 	public Translation( String resourceKey, String locale )
@@ -180,14 +182,15 @@ public class Translation implements Cloneable
 	 * Return a handle to deal with the translation.
 	 * 
 	 * @param design
-	 *            report design
+	 *            module
 	 * @return handle to deal with the translation.
 	 */
 
-	public TranslationHandle handle( ReportDesign design )
+	public TranslationHandle handle( Module module )
 	{
 		if ( handle == null )
-			handle = new TranslationHandle( design.handle( ), this );
+			handle = new TranslationHandle( (ModuleHandle) module
+					.getHandle( module ), this );
 
 		return handle;
 	}

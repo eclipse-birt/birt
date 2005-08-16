@@ -35,14 +35,14 @@ public class LabelState extends ReportItemState
 	 * element and the container slot of the label.
 	 * 
 	 * @param handler
-	 *            the design file parser handler
+	 *            the module parser handler
 	 * @param theContainer
 	 *            the element that contains this one
 	 * @param slot
 	 *            the slot in which this element appears
 	 */
 
-	public LabelState( DesignParserHandler handler, DesignElement theContainer,
+	public LabelState( ModuleParserHandler handler, DesignElement theContainer,
 			int slot )
 	{
 		super( handler, theContainer, slot );
@@ -71,5 +71,4 @@ public class LabelState extends ReportItemState
 		return element;
 	}
     
-	
 }

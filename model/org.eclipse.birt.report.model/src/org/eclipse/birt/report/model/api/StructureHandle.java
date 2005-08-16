@@ -95,7 +95,7 @@ public class StructureHandle extends ValueHandle
 
 	public IStructure getStructure( )
 	{
-		return structRef.getStructure( getDesign( ), getElement( ) );
+		return structRef.getStructure( getModule( ), getElement( ) );
 	}
 
 	/**
@@ -103,17 +103,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member
-	 *         is not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
 	 */
 
 	protected Object getProperty( String memberName )
 	{
-		MemberHandle handle = getMember( memberName );
-		if ( handle == null )
-			return null;
-
-		return handle.getValue( );
+        MemberHandle handle = getMember( memberName );
+        if( handle == null )
+            return null;
+        
+        return handle.getValue();
 	}
 
 	/**
@@ -121,17 +121,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member
-	 *         is not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member is
+	 *         not set or is not found.
 	 */
 
 	protected String getStringProperty( String memberName )
 	{
-		MemberHandle handle = getMember( memberName );
-		if ( handle == null )
-			return null;
-
-		return handle.getStringValue( );
+        MemberHandle handle = getMember( memberName );
+        if( handle == null )
+            return null;
+        
+        return handle.getStringValue(); 
 	}
 
 	/**
@@ -209,8 +209,7 @@ public class StructureHandle extends ValueHandle
 
 	public MemberHandle getMember( String memberName )
 	{
-		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn( )
-				.getMember( memberName );
+		StructPropertyDefn memberDefn = (StructPropertyDefn)getDefn( ).getMember( memberName );
 		if ( memberDefn == null )
 			return null;
 

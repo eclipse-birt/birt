@@ -32,7 +32,7 @@ public class SimpleMasterPageState extends MasterPageState
 	 *            the design file parser handler
 	 */
 
-	public SimpleMasterPageState( DesignParserHandler handler )
+	public SimpleMasterPageState( ModuleParserHandler handler )
 	{
 		super( handler );
 	}

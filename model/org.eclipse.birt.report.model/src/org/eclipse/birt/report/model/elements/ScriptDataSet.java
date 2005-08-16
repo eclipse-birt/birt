@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 
 /**
@@ -77,24 +78,24 @@ public class ScriptDataSet extends DataSet implements IScriptDataSetModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public ScriptDataSetHandle handle( ReportDesign design )
+	public ScriptDataSetHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ScriptDataSetHandle( design, this );
+			handle = new ScriptDataSetHandle( module, this );
 		}
 		return (ScriptDataSetHandle) handle;
 	}
@@ -105,11 +106,11 @@ public class ScriptDataSet extends DataSet implements IScriptDataSetModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#valdiate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( design,
+		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
 				this, FETCH_METHOD ) );
 
 		return list;

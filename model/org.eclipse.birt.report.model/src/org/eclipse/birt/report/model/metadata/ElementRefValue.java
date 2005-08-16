@@ -38,56 +38,62 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
  * case, the target must be derived from <code>ReferenceableElement</code> so
  * that the referenced class can cache a back-pointer to the referencing
  * element.
- *  
+ * 
  */
 
 public class ElementRefValue
 {
 
 	/**
+	 * Library namespace that indicats which library this reference is using
+	 */
+
+	String libraryNamespace;
+
+	/**
 	 * Unresolved name of the target element.
 	 */
 
-	public String name;
+	String name;
 
 	/**
 	 * Resolved pointer to the target element.
 	 */
 
-	public DesignElement resolved;
+	DesignElement resolved;
 
 	/**
 	 * Constructor of an unresolved reference.
 	 * 
+	 * @param namespace
+	 *            the namespace to indicate which included library this value
+	 *            refers to
 	 * @param theName
 	 *            the unresolved name
 	 */
 
-	public ElementRefValue( String theName )
+	public ElementRefValue( String namespace, String theName )
 	{
 		assert theName != null;
 		name = theName;
+		libraryNamespace = namespace;
 	}
 
 	/**
 	 * Constructor of a resolved reference.
 	 * 
+	 * @param namespace
+	 *            the namespace to indicate which included library this value
+	 *            refers to
 	 * @param element
 	 *            the resolved element
 	 */
 
-	public ElementRefValue( DesignElement element )
+	public ElementRefValue( String namespace, DesignElement element )
 	{
 		assert element != null;
 		resolved = element;
-	}
-
-	/**
-	 * Default constructor.
-	 */
-
-	public ElementRefValue( )
-	{
+		libraryNamespace = namespace;
 	}
 
 	/**
@@ -182,12 +188,23 @@ public class ElementRefValue
 		return name != null || resolved != null;
 	}
 
+	/**
+	 * Returns the library namespace.
+	 * 
+	 * @return the library namespace
+	 */
+
+	public String getLibraryNamespace( )
+	{
+		return libraryNamespace;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	
+
 	public boolean equals( Object obj )
 	{
 		if ( obj instanceof ElementRefValue )
@@ -197,24 +214,48 @@ public class ElementRefValue
 			{
 				if ( value.isResolved( ) )
 				{
-					return this.getElement( ).equals( value.getElement( ) );
+					return getElement( ).equals( value.getElement( ) );
 				}
-				return this.getName( ).equals( value.getName( ) );
+				return getLibraryNamespace().equals( value.getLibraryNamespace()) && getName( ).equals( value.getName( ) );
 			}
 			return false;
 
 		}
 		return false;
-	}	
-	
-	/* (non-Javadoc)
+	}
+
+	/**
+	 * Returns the qualified reference of this reference value, which is made up
+	 * with library namespace and element name. If no library namespace is available,
+	 * only element name is returned.
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>The library namespace is "LibA", and element name is "style1".
+	 * "LibA:style1" is retured.
+	 * <li>If it has no library namespace, 
+	 * </ul>
+	 * 
+	 * @return the qualified reference
+	 */
+
+	public String getQualifiedReference( )
+	{
+		return StringUtil.buildQualifiedReference( getLibraryNamespace( ),
+				getName( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
+			return getQualifiedReference( );
+			
 		return super.toString( );
 	}
 }

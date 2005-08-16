@@ -23,9 +23,9 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -77,16 +77,16 @@ public class GroupNameValidator extends AbstractElementValidator
 		// Collect all groups in this element.
 
 		ListingElement targetElement = getListingElementWithDataSet( element
-				.getDesign( ), (ListingElement) element.getElement( ) );
+				.getModule( ), (ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 		{
 			targetElement = (ListingElement) element.getElement( );
-			groupList = getGroups( element.getDesign( ),
+			groupList = getGroups( element.getModule( ),
 					(ListingElement) element.getElement( ) );
 		}
 		else
 		{
-			groupList = getGroupsWithContents( element.getDesign( ),
+			groupList = getGroupsWithContents( element.getModule( ),
 					targetElement );
 		}
 
@@ -94,7 +94,7 @@ public class GroupNameValidator extends AbstractElementValidator
 
 		// Check whether the given group name is in the group list.
 
-		if ( isDuplicateGroupName( element.getDesign( ), groupList, groupName ) )
+		if ( isDuplicateGroupName( element.getModule( ), groupList, groupName ) )
 		{
 			list.add( new SemanticError( targetElement,
 					new String[]{groupName},
@@ -129,20 +129,20 @@ public class GroupNameValidator extends AbstractElementValidator
 		}
 
 		ListingElement targetElement = getListingElementWithDataSet( element
-				.getDesign( ), (ListingElement) element.getElement( ) );
+				.getModule( ), (ListingElement) element.getElement( ) );
 		if ( targetElement == null )
 			return Collections.EMPTY_LIST;
 
 		// Collect all group name in this element.
 
-		List groupList = getGroupsWithContents( element.getDesign( ),
+		List groupList = getGroupsWithContents( element.getModule( ),
 				targetElement );
 
 		List list = new ArrayList( );
 
 		// Check whether the given group name is in the group name list.
 
-		if ( isDuplicateGroupName( element.getDesign( ), groupList, groupName ) )
+		if ( isDuplicateGroupName( element.getModule( ), groupList, groupName ) )
 		{
 			list.add( new SemanticError( targetElement,
 					new String[]{groupName},
@@ -158,8 +158,8 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * Validates whether the given element contains the duplicate group name.
 	 * This check is applied to all listing element without data set.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the listing element to check
 	 * 
@@ -167,26 +167,26 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
 		if ( !( element instanceof ListingElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( design, (ListingElement) element );
+		return doValidate( module, (ListingElement) element );
 	}
 
-	private List doValidate( ReportDesign design, ListingElement toValidate )
+	private List doValidate( Module module, ListingElement toValidate )
 	{
 		List list = new ArrayList( );
 
-		ListingElement targetElement = getListingElementWithDataSet( design,
+		ListingElement targetElement = getListingElementWithDataSet( module,
 				toValidate );
 		if ( targetElement == null )
 			targetElement = toValidate;
 
 		// Collect all group name in this element.
 
-		List groupList = getGroupsWithContents( design, toValidate );
+		List groupList = getGroupsWithContents( module, toValidate );
 
 		// Check whether the duplicate group name exists in the group name list.
 
@@ -195,7 +195,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		for ( int i = 0; i < size - 1; i++ )
 		{
 			GroupElement group1 = (GroupElement) groupList.get( i );
-			String groupName1 = group1.getStringProperty( design,
+			String groupName1 = group1.getStringProperty( module,
 					GroupElement.GROUP_NAME_PROP );
 			assert groupName1 != null;
 
@@ -210,7 +210,7 @@ public class GroupNameValidator extends AbstractElementValidator
 			for ( int j = i + 1; j < size; j++ )
 			{
 				GroupElement group2 = (GroupElement) groupList.get( j );
-				String groupName2 = group2.getStringProperty( design,
+				String groupName2 = group2.getStringProperty( module,
 						GroupElement.GROUP_NAME_PROP );
 				assert groupName2 != null;
 
@@ -245,14 +245,14 @@ public class GroupNameValidator extends AbstractElementValidator
 
 	public List validate( ListingHandle element )
 	{
-		return validate( element.getDesign( ), element.getElement( ) );
+		return validate( element.getModule( ), element.getElement( ) );
 	}
 
 	/**
 	 * Returns the first container, which is listing element with data set.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the listing element
 	 * 
@@ -260,7 +260,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         such container is not found, return <code>null</code>.
 	 */
 
-	private ListingElement getListingElementWithDataSet( ReportDesign design,
+	private ListingElement getListingElementWithDataSet( Module module,
 			ListingElement element )
 	{
 		DesignElement container = element;
@@ -269,7 +269,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		{
 			if ( container instanceof ListingElement )
 			{
-				if ( ( (ListingElement) container ).getProperty( design,
+				if ( ( (ListingElement) container ).getProperty( module,
 						ListingElement.DATA_SET_PROP ) != null )
 					return (ListingElement) container;
 			}
@@ -283,15 +283,15 @@ public class GroupNameValidator extends AbstractElementValidator
 	/**
 	 * Gets the list of group names in the given listing element.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the listing element from which the group names are retrived.
 	 * 
 	 * @return list of group names.
 	 */
 
-	private List getGroups( ReportDesign design, ListingElement element )
+	private List getGroups( Module module, ListingElement element )
 	{
 		List list = new ArrayList( );
 
@@ -300,7 +300,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		{
 			GroupElement group = (GroupElement) iter.next( );
 
-			String groupName = group.getStringProperty( design,
+			String groupName = group.getStringProperty( module,
 					GroupElement.GROUP_NAME_PROP );
 			if ( !StringUtil.isBlank( groupName ) )
 			{
@@ -316,15 +316,15 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * listing element. The group names in the listing element with data set are
 	 * not in this list.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the listing element from which the group names are retrived.
 	 * 
 	 * @return list of group names.
 	 */
 
-	private List getGroupsWithContents( ReportDesign design,
+	private List getGroupsWithContents( Module module,
 			DesignElement element )
 	{
 		List list = new ArrayList( );
@@ -332,7 +332,7 @@ public class GroupNameValidator extends AbstractElementValidator
 		// Get group names from the given element.
 
 		if ( element instanceof ListingElement )
-			list.addAll( getGroups( design, (ListingElement) element ) );
+			list.addAll( getGroups( module, (ListingElement) element ) );
 
 		// Get group names from contents of the given element.
 
@@ -347,16 +347,16 @@ public class GroupNameValidator extends AbstractElementValidator
 				if ( e instanceof ListingElement )
 				{
 					ListingElement listingElement = (ListingElement) e;
-					if ( listingElement.getProperty( design,
+					if ( listingElement.getProperty( module,
 							ListingElement.DATA_SET_PROP ) == null )
 					{
-						list.addAll( getGroupsWithContents( design,
+						list.addAll( getGroupsWithContents( module,
 								listingElement ) );
 					}
 				}
 				else
 				{
-					list.addAll( getGroupsWithContents( design, e ) );
+					list.addAll( getGroupsWithContents( module, e ) );
 				}
 			}
 		}
@@ -368,7 +368,7 @@ public class GroupNameValidator extends AbstractElementValidator
 	 * Checks whether the given group name duplicates one of the list.
 	 * 
 	 * @param design
-	 *            the report design
+	 *            the module
 	 * @param groupNameList
 	 *            the group name list
 	 * @param groupName
@@ -377,14 +377,14 @@ public class GroupNameValidator extends AbstractElementValidator
 	 *         Otherwise, return <code>false</code>.
 	 */
 
-	private boolean isDuplicateGroupName( ReportDesign design,
+	private boolean isDuplicateGroupName( Module module,
 			List groupNameList, String groupName )
 	{
 		Iterator iter = groupNameList.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			GroupElement group = (GroupElement) iter.next( );
-			String name = group.getStringProperty( design,
+			String name = group.getStringProperty( module,
 					GroupElement.GROUP_NAME_PROP );
 			assert name != null;
 

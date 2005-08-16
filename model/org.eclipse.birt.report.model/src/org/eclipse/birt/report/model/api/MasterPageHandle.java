@@ -17,8 +17,8 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.Point;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 
 /**
@@ -41,15 +41,15 @@ public abstract class MasterPageHandle extends ReportElementHandle
 	 * The application generally does not create handles directly. Instead, it
 	 * uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the model representation of the element
 	 */
 
-	public MasterPageHandle( ReportDesign design, DesignElement element )
+	public MasterPageHandle( Module module, DesignElement element )
 	{
-		super( design, element );
+		super( module, element );
 	}
 
 	/**
@@ -63,7 +63,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public Point getSize( )
 	{
-		return ( (MasterPage) element ).getSize( design );
+		return ( (MasterPage) element ).getSize( module );
 	}
 
 	/**
@@ -77,7 +77,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionValue getEffectiveWidth( )
 	{
-		return new DimensionValue( getSize( ).x, design.getSession( )
+		return new DimensionValue( getSize( ).x, module.getSession( )
 				.getUnits( ) );
 	}
 
@@ -92,7 +92,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 
 	public DimensionValue getEffectiveHeight( )
 	{
-		return new DimensionValue( getSize( ).y, design.getSession( )
+		return new DimensionValue( getSize( ).y, module.getSession( )
 				.getUnits( ) );
 	}
 
@@ -157,7 +157,7 @@ public abstract class MasterPageHandle extends ReportElementHandle
 			// value.
 			try
 			{
-				getDesign( ).getActivityStack( ).startTrans( );
+				getModule( ).getActivityStack( ).startTrans( );
 
 				// clear up height/width value when set type to .
 				super.setProperty( MasterPage.TYPE_PROP, value );
@@ -170,11 +170,11 @@ public abstract class MasterPageHandle extends ReportElementHandle
 					super.setProperty( MasterPage.HEIGHT_PROP, null );
 				}
 
-				getDesign( ).getActivityStack( ).commit( );
+				getModule( ).getActivityStack( ).commit( );
 			}
 			catch ( SemanticException e )
 			{
-				getDesign( ).getActivityStack( ).rollback( );
+				getModule( ).getActivityStack( ).rollback( );
 				throw e;
 			}
 

@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -69,10 +69,10 @@ public class ContentRecord extends SimpleRecord
 	protected int oldPosn = -1;
 
 	/**
-	 * The root element set when using element IDs.
+	 * The module set when using element IDs.
 	 */
 
-	protected RootElement root = null;
+	protected Module module = null;
 
 	/**
 	 * Constructs the record with container element, slot id, content element,
@@ -210,8 +210,8 @@ public class ContentRecord extends SimpleRecord
 			// Add the item to the element ID map if we are using
 			// element IDs.
 
-			if ( root != null )
-				root.addElementID( content );
+			if ( module != null )
+				module.addElementID( content );
 		}
 		else
 		{
@@ -224,8 +224,8 @@ public class ContentRecord extends SimpleRecord
 			// Remove the element from the ID map if we are using
 			// IDs.
 
-			if ( root != null )
-				root.dropElementID( content );
+			if ( module != null )
+				module.dropElementID( content );
 		}
 	}
 
@@ -304,16 +304,16 @@ public class ContentRecord extends SimpleRecord
 	}
 
 	/**
-	 * Sets the root element if element IDs are in use. If set, the record will
-	 * manage the ID map in the root element.
+	 * Sets the module if element IDs are in use. If set, the record will
+	 * manage the ID map in the module.
 	 * 
-	 * @param theRoot
-	 *            The root element.
+	 * @param theModule
+	 *            The module to set.
 	 */
 
-	public void setRoot( RootElement theRoot )
+	public void setModule( Module theModule )
 	{
-		root = theRoot;
+		module = theModule;
 	}
 
 	/*

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
@@ -121,28 +122,28 @@ public class DimensionPropertyType extends PropertyType
 	 * @return object is of type <code>DimensionValue</code> or null.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
 
 		if ( value instanceof String )
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 		if ( value instanceof DimensionValue )
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
 				return value;
 			return new DimensionValue(
 					( (DimensionValue) value ).getMeasure( ), getDefaultUnit(
-							design, defn ) );
+							module, defn ) );
 		}
 		if ( value instanceof Integer )
-			return fromDouble( design, defn, ( (Integer) value ).intValue( ) );
+			return fromDouble( module, defn, ( (Integer) value ).intValue( ) );
 		if ( value instanceof Double )
-			return fromDouble( design, defn, ( (Double) value ).doubleValue( ) );
+			return fromDouble( module, defn, ( (Double) value ).doubleValue( ) );
 		if ( value instanceof BigDecimal )
-			return fromDouble( design, defn, ( (BigDecimal) value )
+			return fromDouble( module, defn, ( (BigDecimal) value )
 					.doubleValue( ) );
 
 		throw new PropertyValueException( value,
@@ -155,44 +156,47 @@ public class DimensionPropertyType extends PropertyType
 	 * unit , then return it, otherwise return the application unit defined on
 	 * session.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            the property definition
 	 * @return the default unit
 	 */
 
-	private String getDefaultUnit( ReportDesign design, PropertyDefn defn )
+	private String getDefaultUnit( Module module, PropertyDefn defn )
 	{
 		String unit = defn.getDefaultUnit( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		if ( design == null )
+		if ( module == null )
 			return DesignChoiceConstants.UNITS_IN;
-		unit = design.getUnits( );
-		if ( !StringUtil.isBlank( unit ) )
-			return unit;
-		return design.getSession( ).getUnits( );
+		if ( module instanceof ReportDesign )
+		{
+			unit = ( (ReportDesign) module ).getUnits( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
+		}
+		return module.getSession( ).getUnits( );
 	}
 
 	/**
 	 * Creates a <code>DimensionValue</code> given its measure. The unit is
 	 * assumed to be in session unit.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design.
 	 * @param defn
 	 *            the definition of the property
 	 * @param value
 	 *            the double value of the measure.
 	 * @return an <code>DimensionValue</code> Object in session unit.
-	 *  
+	 * 
 	 */
 
-	private DimensionValue fromDouble( ReportDesign design, PropertyDefn defn,
+	private DimensionValue fromDouble( Module module, PropertyDefn defn,
 			double value )
 	{
-		return new DimensionValue( value, getDefaultUnit( design, defn ) );
+		return new DimensionValue( value, getDefaultUnit( module, defn ) );
 	}
 
 	/**
@@ -202,20 +206,20 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return a <code>DimensionValue</code> that holds the measure and unit
 	 *         parsed from the xml value.
-	 *  
+	 * 
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		DimensionValue dim = DimensionValue.parse( value );
 		if ( dim == null )
 			return null;
 
-		validateUnits( design, defn, dim );
+		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim;
-		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
 
 	}
@@ -234,24 +238,24 @@ public class DimensionPropertyType extends PropertyType
 	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
-	 *  
+	 * 
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		DimensionValue dim = DimensionValue.parseInput( value );
 		if ( dim == null )
 			return null;
-		validateUnits( design, defn, dim );
+		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim;
-        
-		dim = new DimensionValue( dim.getMeasure( ), getDefaultUnit( design,
+
+		dim = new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
-        
-        logger.log( Level.INFO, "Read in dimension value: " + dim.toString() ); //$NON-NLS-1$
-        return dim;
+
+		logger.log( Level.INFO, "Read in dimension value: " + dim.toString( ) ); //$NON-NLS-1$
+		return dim;
 	}
 
 	/**
@@ -261,7 +265,7 @@ public class DimensionPropertyType extends PropertyType
 	 * will be 12.000.000,123. The unit will be attached after the measure.
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )
@@ -278,7 +282,7 @@ public class DimensionPropertyType extends PropertyType
 	 * Validates the unit of the dimension value, checks to see if it is in the
 	 * allowed units set.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @param defn
 	 *            property definition.
@@ -286,17 +290,17 @@ public class DimensionPropertyType extends PropertyType
 	 *            the dimension value of the dimension.
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
-	 *  
+	 * 
 	 */
 
-	private void validateUnits( ReportDesign design, PropertyDefn defn,
+	private void validateUnits( Module module, PropertyDefn defn,
 			DimensionValue value ) throws PropertyValueException
 	{
 		assert value != null;
 		String unit = value.getUnits( );
 		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( unit ) )
 		{
-			unit = getDefaultUnit( design, defn );
+			unit = getDefaultUnit( module, defn );
 		}
 
 		IChoiceSet units = defn.getAllowedChoices( );
@@ -341,7 +345,7 @@ public class DimensionPropertyType extends PropertyType
 	 * "12,000,000.12345cm" will be converted into "12000000.123cm"
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -356,10 +360,10 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return double value of the dimension value in session unit. Return
 	 *         <code>0.0</code> if <code>value</code> is null.
-	 *  
+	 * 
 	 */
 
-	public double toDouble( ReportDesign design, Object value )
+	public double toDouble( Module module, Object value )
 	{
 		DimensionValue dim = (DimensionValue) value;
 		if ( dim == null )
@@ -369,6 +373,6 @@ public class DimensionPropertyType extends PropertyType
 			return dim.getMeasure( );
 
 		return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
-				design.getSession( ).getUnits( ) ).getMeasure( );
+				module.getSession( ).getUnits( ) ).getMeasure( );
 	}
 }

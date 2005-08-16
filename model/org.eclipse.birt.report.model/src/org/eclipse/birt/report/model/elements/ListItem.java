@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class represents a List element. List is a free-form layout driven by
@@ -77,24 +78,24 @@ public class ListItem extends ListingElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( ReportDesign design )
+	public DesignElementHandle getHandle( Module module )
 	{
-		return handle( design );
+		return handle( module );
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design
 	 * @return an API handle for this element
 	 */
 
-	public ListHandle handle( ReportDesign design )
+	public ListHandle handle( Module module )
 	{
 		if ( handle == null )
 		{
-			handle = new ListHandle( design, this );
+			handle = new ListHandle( module, this );
 		}
 		return (ListHandle) handle;
 	}
@@ -105,14 +106,14 @@ public class ListItem extends ListingElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
 	 */
 
-	public List validate( ReportDesign design )
+	public List validate( Module module )
 	{
-		List list = super.validate( design );
+		List list = super.validate( module );
 
 		// Check header slot context containment of table.
 
 		list.addAll( TableHeaderContextContainmentValidator.getInstance( ).validate(
-				design, this ) );
+				module, this ) );
 
 		return list;
 	}

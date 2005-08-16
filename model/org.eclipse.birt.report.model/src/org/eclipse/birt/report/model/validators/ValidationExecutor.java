@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SemanticTriggerDefn;
@@ -35,18 +35,18 @@ public class ValidationExecutor
 	 * The report design which is associated with this validation executor.
 	 */
 
-	private ReportDesign design;
+	private Module module;
 
 	/**
 	 * Constructs the validation executor with one opened report.
 	 * 
-	 * @param design
+	 * @param module
 	 *            the report design containing this validation executor
 	 */
 
-	public ValidationExecutor( ReportDesign design )
+	public ValidationExecutor( Module module )
 	{
-		this.design = design;
+		this.module = module;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class ValidationExecutor
 		{
 			ValidationNode node = (ValidationNode) iter.next( );
 
-			List errors = node.perform( design, false );
+			List errors = node.perform( module, false );
 			if ( targetElement == node.getElement( ) )
 				exceptionList.addAll( errors );
 
@@ -109,7 +109,7 @@ public class ValidationExecutor
 		{
 			ValidationNode node = (ValidationNode) iter.next( );
 
-			List errors = node.perform( design, sendEvent );
+			List errors = node.perform( module, sendEvent );
 
 			allErrors.addAll( errors );
 

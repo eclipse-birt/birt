@@ -18,7 +18,7 @@ import java.text.ParseException;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
@@ -96,8 +96,8 @@ public class FloatPropertyType extends PropertyType
 	 *         <code>null</code> if value is null.
 	 */
 
-	public Object validateValue( ReportDesign design, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -114,7 +114,7 @@ public class FloatPropertyType extends PropertyType
 					? BooleanPropertyType.INT_TRUE
 					: BooleanPropertyType.INT_FALSE );
 		if ( value instanceof String )
-			return validateInputString( design, defn, (String) value );
+			return validateInputString( module, defn, (String) value );
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -132,8 +132,8 @@ public class FloatPropertyType extends PropertyType
 	 *         string.
 	 */
 
-	public Object validateXml( ReportDesign design, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
@@ -146,10 +146,10 @@ public class FloatPropertyType extends PropertyType
 	 * Converts the float property value into a double. Return its double value
 	 * if the input <code>value</code> is a Double, return 0.0 if value is
 	 * null.
-	 *  
+	 * 
 	 */
 
-	public double toDouble( ReportDesign design, Object value )
+	public double toDouble( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;
@@ -160,10 +160,10 @@ public class FloatPropertyType extends PropertyType
 	 * Converts the float property value into an integer. Return its integer
 	 * value if the input <code>value</code> is a <code>Double</code>,
 	 * return 0 if value is null.
-	 *  
+	 * 
 	 */
 
-	public int toInteger( ReportDesign design, Object value )
+	public int toInteger( Module module, Object value )
 	{
 		if ( value == null )
 			return 0;
@@ -176,7 +176,7 @@ public class FloatPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java.lang.Object)
 	 */
 
-	public String toString( ReportDesign design, PropertyDefn defn, Object value )
+	public String toString( Module module, PropertyDefn defn, Object value )
 	{
 		if ( value == null )
 			return null;
@@ -188,10 +188,10 @@ public class FloatPropertyType extends PropertyType
 	 * Converts the float property value into an localized formatter, e.g:
 	 * return "12,000.123" for a Double(12000.123d) in US locale. Return
 	 * <code>null</code> if the value is null.
-	 *  
+	 * 
 	 */
 
-	public String toDisplayString( ReportDesign design, PropertyDefn defn,
+	public String toDisplayString( Module module, PropertyDefn defn,
 			Object value )
 	{
 		if ( value == null )
@@ -214,34 +214,32 @@ public class FloatPropertyType extends PropertyType
 	 *             if the input string is not valid for the current locale.
 	 */
 
-	public Object validateInputString( ReportDesign design, PropertyDefn defn,
+	public Object validateInputString( Module module, PropertyDefn defn,
 			String value ) throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
-        if ( value == null )
-            return null;
+		if ( value == null )
+			return null;
 
-        NumberFormat localeFormatter = NumberFormat
-                .getNumberInstance( ThreadResources.getLocale() );
-        Number number = null;
-        try
-        {
-            // Parse in locale-dependent way.
-            // Use the decimal separator from the locale.
-            
-            number = localeFormatter.parse( value );
-        }
-        catch ( ParseException e )
-        {
-            throw new PropertyValueException( value,
-                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-                    NUMBER_TYPE );
-        }
+		NumberFormat localeFormatter = NumberFormat
+				.getNumberInstance( ThreadResources.getLocale( ) );
+		Number number = null;
+		try
+		{
+			// Parse in locale-dependent way.
+			// Use the decimal separator from the locale.
+			number = localeFormatter.parse( value );
+		}
+		catch ( ParseException e )
+		{
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					NUMBER_TYPE );
+		}
 
-        return new Double( number.doubleValue( ) );
+		return new Double( number.doubleValue( ) );
 	}
 
-	
 	/**
 	 * Returns a new <code>Double</code> initialized to the value represented
 	 * by the specified <code>String</code>.
@@ -258,9 +256,9 @@ public class FloatPropertyType extends PropertyType
 	{
 		try
 		{
-			//Locale-independent way
+			// Locale-independent way
 
-            return Double.valueOf( value );
+			return Double.valueOf( value );
 		}
 		catch ( NumberFormatException e )
 		{

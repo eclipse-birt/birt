@@ -22,8 +22,8 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -283,18 +283,18 @@ public class CustomColor extends ReferencableStructure
 	 * property if is not null or blank; Else, return the internal name of the
 	 * color.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the display name of the color
 	 */
 
-	public String getDisplayName( ReportDesign design )
+	public String getDisplayName( Module module )
 	{
 		String value = null;
 
 		// 1. use the displayNameID to find the translation.
 
-		Translation translation = design.findTranslation( displayNameID,
+		Translation translation = module.findTranslation( displayNameID,
 				ThreadResources.getLocale( ).toString( ) );
 
 		if ( translation != null )
@@ -385,13 +385,13 @@ public class CustomColor extends ReferencableStructure
 	 * <li>The color value can not be the same as a CSS color name.</li>
 	 * </ul>
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( ReportDesign design, DesignElement element )
+	public List validate( Module module, DesignElement element )
 	{
-		List list = super.validate( design, element );
+		List list = super.validate( module, element );
 
 		if ( StringUtil.isBlank( name ) )
 		{

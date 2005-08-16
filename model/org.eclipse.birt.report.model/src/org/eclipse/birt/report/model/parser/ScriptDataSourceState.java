@@ -29,7 +29,7 @@ public class ScriptDataSourceState extends DataSourceState
 	 * @param handler the design file parser handler
 	 */
 	
-	public ScriptDataSourceState( DesignParserHandler handler )
+	public ScriptDataSourceState( ModuleParserHandler handler )
 	{
 		super( handler );
 		element = new ScriptDataSource( );

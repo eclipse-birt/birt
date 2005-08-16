@@ -38,7 +38,7 @@ abstract class GroupState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public GroupState( DesignParserHandler handler,
+	public GroupState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
