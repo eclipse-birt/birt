@@ -44,7 +44,7 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	   If null, this data source is not open */
 	private IDataSource				odiDataSource = null;
 	
-	private DataEngineImpl			dataEngine;
+	private Scriptable 				scope;
 	
 	protected static Logger logger = Logger.getLogger( DataSourceRuntime.class.getName( ) );
 	
@@ -52,7 +52,6 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	{
 		assert dataSource != null;
 		design = dataSource;
-		this.dataEngine = dataEngine;
 	}
 	
 	/**
@@ -114,16 +113,32 @@ public abstract class DataSourceRuntime implements IBaseDataSourceDesign
 	{
 		return design.getBeforeOpenScript();
 	}
+		
+	/**
+	 * Define the scope of this data source.
+	 * @param scope
+	 */
+	public void setScope(Scriptable scope)
+	{
+		assert ( scope != null );
+		
+		this.scope = scope;
+		if ( this.jsObject != null )
+		{
+			this.jsObject.setParentScope( this.scope );
+		}
+	}
 	
 	/**
 	 * Gets a ROM Script DataSource object wrapper for this object
 	 */
 	public Scriptable getScriptable( )
 	{
+		assert ( this.scope != null );
 		// Script object is created on demand
 		if ( jsObject == null )
 		{
-			jsObject = new JSDataSource(this, dataEngine.getSharedScope() ); 
+			jsObject = new JSDataSource(this, this.scope);//DataEngineImpl.createSubscope( dataEngine.getSharedScope() ) ); 
 		}
 		return jsObject;
 	}

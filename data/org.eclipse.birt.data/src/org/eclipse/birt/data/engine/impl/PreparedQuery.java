@@ -160,11 +160,6 @@ abstract class PreparedQuery
 		
 		Executor executor = newExecutor();
 		
-		// Create a new sub scope if none is provided
-		if ( scope == null )
-	    {
-			scope = DataEngineImpl.createSubscope( getDataEngine().getSharedScope() );
-	    }
 		//here prepare the execution. After the preparation the result metadata is available by
 		//calling getResultClass, and the query is ready for execution.
 		logger.finer( "Start to prepare the execution." );
@@ -441,12 +436,37 @@ abstract class PreparedQuery
 		 * Prepare Executor so that it is ready to execute the query
 		 * 
 		 */
-		private void prepareExecution( IQueryResults outerRts, Scriptable scope ) throws DataException
+		private void prepareExecution( IQueryResults outerRts, Scriptable targetScope ) throws DataException
 		{
 			if(isPrepared)return;
 			
-			assert scope != null;
-			this.scope = scope;
+			dataSource = findDataSource( );
+	
+			if ( targetScope == null )
+			{
+				if ( this.dataSource != null )
+				{
+					dataSource.setScope( engine.getSharedScope( ) );
+					this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable( ) );
+				}
+				else
+					this.scope = DataEngineImpl.createSubscope( engine.getSharedScope( ) );
+			}
+			else
+			{
+				if ( this.dataSource != null )
+				{
+					dataSource.setScope( targetScope );
+					this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable( ) );
+				}
+				else
+					this.scope = targetScope;
+			}
+
+			
+			openDataSource( );
+			
+			//this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable());
 			this.outerResults = outerRts;
 			// Create the data set runtime
 			// Since data set runtime contains the execution result, a new data set
@@ -456,9 +476,9 @@ abstract class PreparedQuery
 		    // Set up the Javascript "row" object; this is needed before executeOdiQuery
 			// since filtering may need the object
 		    rowObject = new JSRowObject( dataSet );
-		    scope.put( "row", scope,  rowObject );
+		    this.scope.put( "row", this.scope,  rowObject );
 				
-			openDataSource( );
+			
 			
 			if ( dataSet != null  )
 			{
@@ -626,13 +646,18 @@ abstract class PreparedQuery
 					"executor closed " );
 		}
 		
-		/** Creates and/or opens the required data source */
+		/**
+		 * Open the required DataSource. This method should be called after "dataSource"
+		 * is initialized by findDataSource() method.
+		 * @throws DataException
+		 */ 
+		 
 		protected void openDataSource( ) throws DataException
 		{
 			assert odiDataSource == null;
 			
 			// Open the underlying data source
-			dataSource = findDataSource( );
+		    // dataSource = findDataSource( );
 			if ( dataSource != null  )
 			{
 				if ( ! dataSource.isOpen() )
