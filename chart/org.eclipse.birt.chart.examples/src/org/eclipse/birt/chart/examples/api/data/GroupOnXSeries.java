@@ -8,18 +8,16 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
-
 package org.eclipse.birt.chart.examples.api.data;
 
 import java.io.IOException;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -28,13 +26,11 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
-
 /**
- * Presents a bar chart with mulitple Y series, which could be acheived in the report designer as follows:
- * Chart Builder -> Data -> Y Axis -> Set: Series Grouping Key 
- * 
+ * Presents a bar chart with grouping on X series, which could be acheived in the report designer as follows:
+ * Chart Builder -> Data -> X Series -> Set Dat Sorting / Tick Grouping Enabled
  */
-public class GroupOnYAxis {
+public class GroupOnXSeries {
 
     /**
      * execute application
@@ -42,24 +38,24 @@ public class GroupOnYAxis {
      */
     public static void main(String[] args)
     {
-    	new GroupOnYAxis().groupKey();
+    	new GroupOnXSeries().groupSeries();
         
     }
    
 	/**
-	 * Get the chart instance from the design file and add series grouping key.
+	 * Get the chart instance from the design file and group X series of the chart.
 	 * 
 	 * @return An instance of the simulated runtime chart model (containing
 	 *         filled datasets)
 	 */
-	void groupKey() {
+	void groupSeries() {
 		SessionHandle sessionHandle = DesignEngine.newSession( null );
 		ReportDesignHandle designHandle = null;
 		
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";
 		
 	    try {
-	        designHandle = sessionHandle.openDesign(path + "NonGroupOnYAxis.rptdesign");
+	        designHandle = sessionHandle.openDesign(path + "NonGroupOnXSeries.rptdesign");
 	    } catch (DesignFileException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
@@ -77,22 +73,19 @@ public class GroupOnYAxis {
 	    
 	    Chart cm = (Chart) crii.getProperty( "chart.instance" ); 
 	    
-	    cm.getTitle().getLabel().getCaption().setValue("Group On Y Axis");
-
-	    Axis axisBase = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis
-	    Axis axisOrth = (Axis) axisBase.getAssociatedAxes( ).get( 0 ); //Y-Axis	    
-	    SeriesDefinition sdY = (SeriesDefinition) axisOrth.getSeriesDefinitions().get(0); //Y-Series
-	    
-	    SeriesDefinition sdGroup = SeriesDefinitionImpl.create();
-	    Query query = QueryImpl.create("row[\"Month\"]");
-		sdGroup.setQuery(query);
+	    cm.getTitle().getLabel().getCaption().setValue("Group On X Series");
 		
-		axisOrth.getSeriesDefinitions().clear(); // Clear the original Y-Series (sdY)
-		axisOrth.getSeriesDefinitions().add(0, sdGroup); 
-		sdGroup.getSeries().add(sdY.getSeries().get(0));
+	    SeriesDefinition sdX = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm).getAxes( )
+				.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+
+		sdX.setSorting(SortOption.ASCENDING_LITERAL);
+		sdX.getGrouping().setEnabled(true);
+		sdX.getGrouping().setAggregateExpression("Sum");
+		sdX.getGrouping().setGroupType(DataType.NUMERIC_LITERAL);
+		sdX.getGrouping().setGroupingInterval(1);
 		
 		try{
-		designHandle.saveAs(path + "GroupOnYAxis.rptdesign");
+		designHandle.saveAs(path + "GroupOnXSeries.rptdesign");
 		}catch (IOException e){
 			e.printStackTrace();
 		}

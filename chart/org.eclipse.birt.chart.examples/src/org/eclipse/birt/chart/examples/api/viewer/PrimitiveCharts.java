@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.chart.examples.api.viewer;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Vector;
 
 import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
@@ -115,18 +113,10 @@ public final class PrimitiveCharts {
 		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		//Data Set
-		Vector vs = new Vector();
-		vs.add("zero");
-		vs.add("one");
-		vs.add("two");
-
-		ArrayList vn1 = new ArrayList();
-		vn1.add(new Double(25));
-		vn1.add(new Double(35));
-		vn1.add(new Double(15));
-
-		TextDataSet categoryValues = TextDataSetImpl.create(vs);
-		NumberDataSet orthoValues1 = NumberDataSetImpl.create(vn1);
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Item 1", "Item 2", "Item 3"});
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] {
+				25, 35, 15});
 
 		//X-Series
 		Series seCategory = SeriesImpl.create();
@@ -139,7 +129,7 @@ public final class PrimitiveCharts {
 
 		//Y-Series
 		BarSeries bs = (BarSeries) BarSeriesImpl.create();
-		bs.setDataSet(orthoValues1);
+		bs.setDataSet(orthoValues);
 		bs.setRiserOutline(null);
 		bs.getLabel().setVisible(true);
 		bs.setLabelPosition(Position.INSIDE_LITERAL);
@@ -190,18 +180,10 @@ public final class PrimitiveCharts {
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 
 		//Data Set
-		Vector vs = new Vector();
-		vs.add("one");
-		vs.add("two");
-		vs.add("three");
-
-		ArrayList vn1 = new ArrayList();
-		vn1.add(new Double(25));
-		vn1.add(new Double(35));
-		vn1.add(new Double(15));
-
-		TextDataSet categoryValues = TextDataSetImpl.create(vs);
-		NumberDataSet orthoValues1 = NumberDataSetImpl.create(vn1);
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Item 1", "Item 2", "Item 3"});
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create(new double[] {
+				25, 35, 15});
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create(new double[] {
 				17, 63.55, 27.29 });
 
@@ -269,18 +251,10 @@ public final class PrimitiveCharts {
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 
 		//Data Set
-		Vector vs = new Vector();
-		vs.add("one");
-		vs.add("two");
-		vs.add("three");
-
-		ArrayList vn = new ArrayList();
-		vn.add(new Double(25));
-		vn.add(new Double(35));
-		vn.add(new Double(15));
-
-		TextDataSet categoryValues = TextDataSetImpl.create(vs);
-		NumberDataSet orthoValues = NumberDataSetImpl.create(vn);
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Item 1", "Item 2", "Item 3"});
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] {
+				25, 35, 15});
 
 		//X-Series
 		Series seCategory = SeriesImpl.create();

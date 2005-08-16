@@ -24,18 +24,19 @@
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> 1.1.3 
       Live Bar and Line Combination Chart</font></div>
   </blockquote>
-  <div align="left">
+  <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif">1.2- Databinding, Grouping 
       and Sorting</font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">org.eclipse.birt.chart.examples.api.data</font></p>
   </div>
   <blockquote> 
-    <div align="left">
+    <div align="left"> 
       <div align="left"></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.1 
         Bar Chart with multiple Y series</font></div>
-  </div>
-    <div align="left"><div align="left"></div>
+    </div>
+    <div align="left"> 
+      <div align="left"></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.2 
         Line Chart with multiple Y axis</font></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.3 
@@ -43,11 +44,11 @@
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.4 
         Pie Chart with min slice </font></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.5 
-        Bar Chart with sorting/grouping on X axis</font></div>
+        Bar Chart with sorting/grouping on X series</font></div>
     </div>
   </blockquote>
-  <div align="left">
-<p><font size="2" face="Arial, Helvetica, sans-serif">1.3- Data Format, Legend/Title/Plot 
+  <div align="left"> 
+    <p><font size="2" face="Arial, Helvetica, sans-serif">1.3- Data Format, Legend/Title/Plot 
       Properties </font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">org.eclipse.birt.chart.examples.api.format</font></p>
   </div>
@@ -65,7 +66,7 @@
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.3.6 
       Chart with customized Plot</font></div>
   </blockquote>
-  <div align="left">
+  <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif">1.4- Interactivity</font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">org.eclipse.birt.chart.examples.api.activity</font></p>
   </div>
@@ -75,13 +76,22 @@
     <div align="left"></div>
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.4.2 
       Scatter chart: Mouse_Hover + Show_Tooltip</font></div>
-    </blockquote>
+    <div align="left"> 
+      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.4.3 
+        Pie chart: Mouse_Click + InvokeScript</font></div>
+      <div align="left"></div>
+      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.4.2 
+        Scatter chart: Mouse_Click + Toggle_Visibility</font></div>
+    </div>
+    <div align="left"> 
+      <p>&nbsp;</p>
+    </div>
+  </blockquote>
 </blockquote>
-<div align="center"> 
-  <p align="left"> </p>
-  <p align="left"><font face="Arial, Helvetica, sans-serif"><strong><font size="2">2. 
-    Sample Reports with Embeded Charts</font></strong></font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">org.eclipse.birt.chart.examples.report</font></p>
+<div align="left"><font face="Arial, Helvetica, sans-serif"><strong><font size="2">2. 
+  Sample Reports with Embeded Charts</font></strong></font> </div>
+<div align="center">
+<p align="left"><font size="2" face="Arial, Helvetica, sans-serif">org.eclipse.birt.chart.examples.report</font></p>
 </div>
 <blockquote> 
   <div align="left"> 
@@ -92,11 +102,10 @@
   <blockquote> 
     <div align="left"> 
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">2.1.1 
-        Stock Analysis Report with embedded Stock chart</font></div>
+        Stock Analysis Report with embedded Stock chart and Bar chart</font></div>
+      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> </font></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> 2.2.2 
-        Physical Experiment Report with embedded Scatter chart</font></div>
-      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> 2.2.3 
-        Project Analysis Report with embedded Pie chart and Bar chart</font></div>
+        Sales Report with embedded Pie chart</font></div>
       <div align="left"></div>
     </div>
   </blockquote>
@@ -151,7 +160,7 @@
       chart</font></div>
   </li>
 </ul>
-<div align="center">
+<div align="center"> 
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"> The renderers 
     also provide &quot;Transposed&quot;, &quot;Percent&quot; and &quot;Logarithmic&quot; 
     attributes for the charts mentioned above. </font></p>
@@ -171,78 +180,171 @@
     value, but different in Y-Series value, which could be acheived in the report 
     designer as follows: Chart Builder -&gt; Data -&gt; Y Axis -&gt; Set: Number 
     of Series Definitions = 2. </font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">yAxis.getSeriesDefinitions().add(ySeriesDefinition1); 
-    yAxis.getSeriesDefinitions().add(ySeriesDefinition2);</font></p>
+</div>
+<blockquote> 
+  <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">yAxis.getSeriesDefinitions().add(ySeriesDefinition1); 
+    </font></div>
+  <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">yAxis.getSeriesDefinitions().add(ySeriesDefinition2);</font></div>
+</blockquote>
+<div align="center"> 
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Line 
     Chart with multiple Y axis</u></strong></font></p>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">The example 
     shows a line chart with 2 Y axis. Each axis matches one of Y series, which 
     could be acheived in the report designer as follows: Chart Builder -&gt; Data 
-    -&gt; X Axis -&gt; Set: Number of Y Axes = 2. The following code shows how 
-    to add the 2nd Y axis:</font></p>
-  <p align="left"> <font size="2" face="Arial, Helvetica, sans-serif">Axis yAxis2 = AxisImpl.create(Axis.ORTHOGONAL);<br>
-    xAxis.getAssociatedAxes( ).add( yAxis2 );</font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Pie 
-    Chart with min slice</u></strong></font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">The pie chart itself 
-    does not have the &quot;min slice&quot; grouping feature yet, but the result 
-    could be achieved by using a query with a union in the chart dataset. Here 
-    is an example of such an SQL Query that groups values by category, and where 
-    the minimum slice value is 10:</font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><br>
-    select cat, sum (val) as sumval<br>
-    from Table1<br>
-    group by cat<br>
-    having sum(val)&gt;10<br>
-    union<br>
-    select 'others' as cat, sum (val) as sumval<br>
-    from Table1 where cat in ( select cat from Table1<br>
-    group by cat<br>
-    having sum(val)&lt;=10<br>
-    )<br>
-    group by 'others'</font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
-    Chart with sorting/grouping on X axis </u></strong></font></p>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">This example 
-    shows how to group multiple data values in X axis. In the example, the X axis 
-    key is a date. Dates have been grouped into calendar quarters. In addition, 
-    the x-axis has been rounded to show whole years. </font></p>
+    -&gt; X Axis -&gt; Set: Number of Y Axes = 2. </font></p>
+</div>
+<blockquote> 
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">Axis yAxisPrimary 
+    = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);</font></div>
+  <div align="left"> <font size="-1" face="Arial, Helvetica, sans-serif">yAxisPrimary.getSeriesDefinitions().add(sdY1);</font> 
+    <p> </div>
+  <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">Axis yAxis 
+    = AxisImpl.create(Axis.ORTHOGONAL);<br>
+    xAxis.getAssociatedAxes( ).add( yAxis );</font></div>
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">yAxis.getSeriesDefinitions().add(sdY2);</font></div>
+</blockquote>
+<blockquote> 
+  <blockquote> 
+    <div align="left"></div>
+  </blockquote>
+</blockquote>
+<div align="center"> 
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
     Chart with grouping on Y axis </u></strong></font></p>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">This example 
     shows how to create a bar chart with mulitple Y series, which could be acheived 
     in the report designer as follows: Chart Builder -&gt; Data -&gt; Y Axis -&gt; 
     Set: Series Grouping Key.</font></p>
+</div>
+<blockquote>
+  <div align="left"> <font size="-1" face="Arial, Helvetica, sans-serif">Axis 
+    axisBase = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 ); // X-Axis<br>
+    Axis axisOrth = (Axis) axisBase.getAssociatedAxes( ).get( 0 ); //Y-Axis <br>
+    SeriesDefinition sdY = (SeriesDefinition) axisOrth.getSeriesDefinitions().get(0); 
+    //Y-Series<br>
+    <br>
+    SeriesDefinition sdGroup = SeriesDefinitionImpl.create();<br>
+    Query query = QueryImpl.create(&quot;row[\&quot;Month\&quot;]&quot;);<br>
+    sdGroup.setQuery(query);<br>
+    <br>
+    axisOrth.getSeriesDefinitions().clear(); // Clear the original Y-Series (sdY)<br>
+    axisOrth.getSeriesDefinitions().add(0, sdGroup); <br>
+    sdGroup.getSeries().add(sdY.getSeries().get(0));</font></div>
+</blockquote>
+<div align="center">
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Pie 
+    Chart with min slice</u></strong></font></p>
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">The pie chart 
+    itself does not have the &quot;min slice&quot; grouping feature yet, but the 
+    result could be achieved by using a query with a union in the chart dataset. 
+    Here is an example of such an SQL Query that groups values by category, and 
+    where the minimum slice value is 10:</font></p>
+</div>
+<blockquote> 
+  <div align="left"> 
+    <p><font size="2" face="Arial, Helvetica, sans-serif"><br>
+      Select Product, sum (Product_sales) as totalSales<br>
+      From productTable<br>
+      Group by Product<br>
+      Having sum(Product_sale)&gt;10<br>
+      Union<br>
+      Select 'Others' as Product, sum (Product_sales) as totalSales<br>
+      From productTable where Product IN ( Select Product From productTable<br>
+      Group by Product<br>
+      Having sum(Product_sale)&lt;=10<br>
+      )<br>
+      Group by 'others'</font></p>
+  </div>
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">OdaDataSetHandle 
+    dataSet = (OdaDataSetHandle) designHandle.getDataSets().get(0);</font></div>
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">dataSet.setQueryText(query);</font></div>
+</blockquote>
+<div align="center">
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
+    Chart with sorting/grouping on X Series</u></strong></font></p>
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">This example 
+    shows how to group multiple data values in X axis, which could be acheived 
+    in the report designer as follows: Chart Builder -&gt; Data -&gt; X Series 
+    -&gt; Set Dat Sorting / Tick Grouping Enabled. </font></p>
+</div>
+<blockquote> 
+  <div align="left"> 
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">SeriesDefinition sdX 
+      = (SeriesDefinition) ( (Axis) ( (ChartWithAxes) cm).getAxes( ).get( 0 ) 
+      ).getSeriesDefinitions( ).get( 0 ); //Get the X-Series from a chart instance</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">sdX.setSorting(SortOption.ASCENDING_LITERAL); 
+      </font><font size="-1" face="Arial, Helvetica, sans-serif"><br>
+      sdX.getGrouping().setEnabled(true);<br>
+      sdX.getGrouping().setAggregateExpression(&quot;Sum&quot;);<br>
+      sdX.getGrouping().setGroupType(DataType.NUMERIC_LITERAL);<br>
+      sdX.getGrouping().setGroupingInterval(1);</font></p>
+  </div>
+</blockquote>
+<div align="center"> 
   <hr>
   <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Chart with 
       formatted X-axis (DateTime) / Y-axis (Number) labels</u></strong></font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">This example shows how 
       to format the lable of Axes. </font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">If the type of axis 
-      is DATE_TIME, the statement will be axis.setFormatSpecifier(JavaDateFormatSpecifierImpl.create(&quot; 
-      &quot;));</font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">If the type of axis 
-      is NUMBER, the statement will be axis.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create(&quot; 
-      &quot;));</font></p>
+  </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">If the 
+      type of axis is DATE_TIME, the statement will be axis.setFormatSpecifier(JavaDateFormatSpecifierImpl.create(&quot; 
+      &quot;));</font></div>
+  </div>
+  <div align="center"> 
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">If the 
+      type of axis is NUMBER, the statement will be axis.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create(&quot; 
+      &quot;));</font></div>
+  </div>
+</blockquote>
+<div align="center"> 
+  <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Chart with 
       formatted X-series / Y-series values</u></strong></font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">The example shows how 
       to format the value of Series. </font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">If the LegendItemType 
-      is SERIES, X series will not display on the screen, then Y series could 
-      be formatted as follows:</font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif"> seriesDefinition.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create(&quot; 
-      &quot;));</font></p>
+  </div>
+</div>
+<div align="center">
+  <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">If the 
+    LegendItemType is SERIES, X series will not display on the screen, then Y 
+    series could be formatted as follows: </font></div>
+</div>
+<blockquote>
+  <div align="center">
+    <div align="left">
+      <p><font size="2" face="Arial, Helvetica, sans-serif">seriesDefinition.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create(&quot; 
+        &quot;));</font></p>
+    </div>
+  </div>
+</blockquote>
+<div align="center">
+  <div align="left">
     <p><font size="2" face="Arial, Helvetica, sans-serif">If the LegendItemType 
       is CATEGORIES, </font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">X series: seriesDefinition.setFormatSpecifier(JavaDateFormatSpecifierImpl.create(&quot; 
-      &quot;));</font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">Y series: DataPointComponent 
-      dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, 
+  </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">X series: 
+      seriesDefinition.setFormatSpecifier(JavaDateFormatSpecifierImpl.create(&quot; 
+      &quot;));</font></div>
+  </div>
+  <div align="center"> 
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">Y series: 
+      DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, 
       JavaNumberFormatSpecifierImpl.create(&quot;&quot;) );<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;barSeries.getDataPoint().getComponents().clear();<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;barSeries.getDataPoint().getComponents().add(dpc);</font></p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;barSeries.getDataPoint().getComponents().add(dpc);</font></div>
+  </div>
+</blockquote>
+<div align="center"> 
+  <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar Chart 
       colored by category</u></strong></font></p>
     <p><font size="2" face="Arial, Helvetica, sans-serif">The example shows how 
@@ -269,31 +371,49 @@
       use values[i] += (data[i] / TotalValue) * 100 to generate a new data set 
       containing the values we required in the pie chart. Then use the following 
       statements to format the values:</font></p>
-    <p> <font size="2" face="Arial, Helvetica, sans-serif">DataPointComponent dpc = DataPointComponentImpl.create( 
-      DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,<br>
+  </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"> <font size="2" face="Arial, Helvetica, sans-serif">DataPointComponent 
+      dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,<br>
       JavaNumberFormatSpecifierImpl.create(&quot;0'%'&quot;) );<br>
       sePie.getDataPoint().getComponents().clear();<br>
-      sePie.getDataPoint().getComponents().add(dpc);</font></p>
+      sePie.getDataPoint().getComponents().add(dpc);</font></div>
+  </div>
+</blockquote>
+<div align="center"> 
+  <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Chart with 
       customized Plot</u></strong></font></p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">The plot could be formatted similar 
-      with Title and Legend.</font></p>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">The plot could be formatted 
+      similar with Title and Legend.</font></p>
     <hr>
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Pie chart: 
       Mouse_Click + URL_Redirect</u></strong></font></p>
-    <div align="left">
+    <div align="left"> 
       <p><font size="2" face="Arial, Helvetica, sans-serif">The example presents 
         a simple pie chart. When the mouse hovers in one of the pie series, the 
         series will be spotlighted. When the mouse clicks on one of the pie series, 
         a designated URL page will be opened. The effect could be obtained by 
         the following code:</font></p>
-      <p> <font size="2" face="Arial, Helvetica, sans-serif">Trigger triger = 
-        TriggerImpl.create(TriggerCondition.MOUSE_CLICK_LITERAL, ActionImpl.create(ActionType.URL_REDIRECT_LITERAL, 
+    </div>
+  </div>
+</div>
+<blockquote>
+  <div align="center">
+    <div align="left">
+      <div align="left"> <font size="2" face="Arial, Helvetica, sans-serif">Trigger 
+        triger = TriggerImpl.create(TriggerCondition.MOUSE_CLICK_LITERAL, ActionImpl.create(ActionType.URL_REDIRECT_LITERAL, 
         URLValueImpl.create(&quot;Url&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 
         &quot;&quot;)));<br>
-        pieSeries .getTriggers().add(triger);</font></p>
+        pieSeries .getTriggers().add(triger);</font></div>
     </div>
-    <div align="left">
+  </div>
+</blockquote>
+<div align="center">
+  <div align="left">
+    <div align="left"> 
       <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Scatter 
         chart: Mouse_Hover + Show_Tooltip</u></strong></font></p>
     </div>
@@ -301,26 +421,242 @@
       a scatter chart. When the mouse hovers in one of the data pair points, a 
       predefined tooltip message will be displayed. The effect could be obtained 
       by the following code:</font> </p>
-    <p><font size="2" face="Arial, Helvetica, sans-serif">scatterSeries.getTriggers().add(TriggerImpl.create(TriggerCondition.MOUSE_HOVER_LITERAL, 
+  </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">scatterSeries.getTriggers().add(TriggerImpl.create(TriggerCondition.MOUSE_HOVER_LITERAL, 
       ActionImpl.create(ActionType.SHOW_TOOLTIP_LITERAL, TooltipValueImpl.create(500, 
-      null))));</font></p>
+      null))));</font></div>
+  </div>
+</blockquote>
+<div align="center">
+  <div align="left">
+    <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u> Mouse_Click 
+      + Toggle_Visibility / Invoke_Script</u></strong></font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">Coming soon (The interactivity 
+      features are not available now)</font></p>
     <hr>
     <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Stock Analysis 
       Report with embedded Stock chart</u></strong></font><u><strong><font size="2"> 
       </font></strong></u></p>
     <font size="2"> 
-    <p><font face="Arial, Helvetica, sans-serif">Coming Soon</font></p>
-    </font> 
-    <div align="left">
-      <p><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Physical 
-        Experiment Report with embedded Scatter chart</u></strong></font></p>
-      <p><font size="2" face="Arial, Helvetica, sans-serif">Coming Soon </font></p>
+    <p><font face="Arial, Helvetica, sans-serif">The report presents a stock anaylsis 
+      within 8 days. </font><font size="2" face="Arial, Helvetica, sans-serif">After 
+      running the class, the output SalesReport.rptdesign file is stored in &quot;output&quot; 
+      file folder in the first-level subdirectory of the plugin.</font></p>
+    </font> </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"><strong>ScriptDataSet column</strong>:</div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"></div>
     </div>
+    <div align="center"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">ColumnHint 
+        ch = StructureFactory.createColumnHint();<br>
+        ......Set Property: column name......</font></div>
+    </div>
+    <div align="center"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">PropertyHandle 
+        columnHint = dataSetHandle.getPropertyHandle(ScriptDataSetHandle.COLUMN_HINTS_PROP);<br>
+        columnHint.addItem(ch);</font></div>
+    </div>
+  </blockquote>
+  <div align="center"> 
+    <div align="left"> 
+      <div align="center"> 
+        <div align="left"></div>
+      </div>
+    </div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"> 
+        <div align="center"> 
+          <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">ResultSetColumn 
+            rs = StructureFactory.createResultSetColumn();<br>
+            ......Set ColumnName/Position/DataType......</font></div>
+        </div>
+        <div align="center"></div>
+        <div align="center"></div>
+        <div align="center"> 
+          <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif"> 
+            PropertyHandle resultSet = dataSetHandle.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);<br>
+            resultSet.addItem(rs);</font></div>
+        </div>
+      </div>
+    </div>
+    <div align="center"></div>
+  </blockquote>
+  <div align="center"> 
+    <div align="left"> 
+      <p><strong>StockChart</strong>:</p>
+    </div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"> <font size="-1" face="Arial, Helvetica, sans-serif">Query 
+        query1 = QueryImpl.create(&quot;row[\&quot;High\&quot;]&quot;);<br>
+        Query query2 = QueryImpl.create(&quot;row[\&quot;Low\&quot;]&quot;);<br>
+        Query query3 = QueryImpl.create(&quot;row[\&quot;Open\&quot;]&quot;);<br>
+        Query query4 = QueryImpl.create(&quot;row[\&quot;Close\&quot;]&quot;);<br>
+        ArrayList list = new ArrayList();<br>
+        list.add(query1);<br>
+        list.add(query2);<br>
+        list.add(query3);<br>
+        list.add(query4);<br>
+        stockChart.getDataDefinition().addAll(list);</font></div>
+    </div>
+  </blockquote>
+</blockquote>
+<div align="center">
+  <div align="left">
+    <div align="left">
+      <p>&nbsp;</p>
+      </div>
     <div align="left"> 
       <p><u><strong><font size="2" face="Arial, Helvetica, sans-serif"> Sales 
         Report with embedded Pie chart and Bar chart</font></strong></u></p>
-      <p><font size="2" face="Arial, Helvetica, sans-serif">Coming Soon</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">The report presents 
+        a sales report of 3 brands. The first grid in the top conotains 3 logos 
+        for these companys. The following grid contains a grouped table in the 
+        left cell and a pie chart in the right cell. After running the class, 
+        the output SalesReport.rptdesign file is stored in &quot;output&quot; 
+        file folder in the first-level subdirectory of the plugin.</font></p>
+    </div>
+  </div>
+</div>
+<blockquote> 
+  <div align="center"> 
+    <div align="left"> 
+      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong>Dynamic 
+        Series Pie Chart</strong>: </font></div>
+    </div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"> 
+          <p><font size="-1" face="Arial, Helvetica, sans-serif">Gradient backgroup: 
+            </font></p>
+        </div>
       </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"> 
+          <p><font size="-1" face="Arial, Helvetica, sans-serif">cwoaPie.getBlock().setBackground(GradientImpl.create(ColorDefinitionImpl.create(204, 
+            254, 204), ColorDefinitionImpl.create(254, 226, 240), -35, false)); 
+            <br>
+            cwoaPie.getPlot().getClientArea().setBackground(ColorDefinitionImpl.TRANSPARENT());<br>
+            cwoaPie.getLegend().setBackground(ColorDefinitionImpl.TRANSPARENT());<br>
+            cwoaPie.getLegend().getClientArea().setBackground(ColorDefinitionImpl.TRANSPARENT());</font></p>
+        </div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"> 
+          <p><font size="-1" face="Arial, Helvetica, sans-serif">Series:</font></p>
+        </div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">withoutAxesChart.getSeriesDefinitions().add(series); 
+          //series: Base Series</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">series.getSeriesDefinitions().add(seGroup); 
+          //seGroup: Series Group Key<br>
+          seGroup.getSeries().add(ps); //ps: Orthogonal Series</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"> </div>
+      </div>
+    </div>
+  </blockquote>
+  <div align="center"> 
+    <div align="left"> 
+      <div align="left"> 
+        <p><font size="2" face="Arial, Helvetica, sans-serif"><strong>EmbeddedImage</strong>:</font></p>
+      </div>
+    </div>
+  </div>
+  <div align="center"> 
+    <div align="left"> 
+      <div align="left"></div>
+    </div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">EmbeddedImage 
+          image = StructureFactory.createEmbeddedImage( ); //Create a new embedded 
+          image</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">......Set 
+          Type/Data/Name for the embedded image......</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">reportDesignHandle.addImage( 
+          image ); //Add EmbeddedImage into the report</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif"><br>
+          ImageHandle imageHandle = elementFactory.newImage(&quot;imageHandle&quot;);</font></div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">......Set 
+          Source/ImageName for the image handle......</font></div>
+      </div>
+    </div>
+  </blockquote>
+  <div align="center"> 
+    <div align="left"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif"><strong>TableGroup</strong>:</font></div>
+    </div>
+  </div>
+  <blockquote> 
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"> 
+          <p><font size="-1" face="Arial, Helvetica, sans-serif">TableGroupHandle 
+            group = elementFactory.newTableGroup(); //Create a table group<br>
+            group.setKeyExpr(&quot;&quot;); //Set the group key<br>
+            table.getGroups().add(group);</font></p>
+        </div>
+      </div>
+    </div>
+    <div align="center"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">RowHandle 
+          groupHeader= elementFactory.newTableRow(3); //Create table header / 
+          footer<br>
+          group.getHeader().add(groupHeader);</font></div>
+      </div>
+    </div>
+  </blockquote>
+</blockquote>
+<div align="center">
+  <div align="left">
     <hr>
     <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
       chart with JavaScript</u></strong></font></p>
@@ -342,7 +678,7 @@
         is inserted in the header of outer group, which shows the order of different 
         products in the same product line. The product line information is passed 
         from the table group to the chart via a parameter row[0][&quot;ProductLine&quot;].</font></p>
-      </div>
+    </div>
     <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Dynamic 
       Series Pie Chart</u></strong></font></p>
     <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">Data Source: 
