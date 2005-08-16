@@ -24,6 +24,7 @@
       <import plugin="org.eclipse.birt.report.designer.core"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
    </requires>
    
    <extension

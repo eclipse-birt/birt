@@ -35,7 +35,6 @@
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.team.core"/>
-      <import plugin="org.eclipse.ui.ide"/>
    </requires>
    
    <!-- Extension points -->

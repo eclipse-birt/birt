@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 import java.io.File;
 
+import org.eclipse.birt.report.designer.internal.ui.views.ResourceSorter;
+import org.eclipse.birt.report.designer.internal.ui.views.WorkbenchContentProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IFile;
@@ -40,9 +42,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
-import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.ui.views.navigator.ResourceSorter;
 
 /**
  * A wizard page to select a custom template.
