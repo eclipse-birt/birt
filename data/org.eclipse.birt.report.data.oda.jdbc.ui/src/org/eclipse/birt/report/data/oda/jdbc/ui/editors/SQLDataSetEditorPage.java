@@ -31,7 +31,6 @@ import org.eclipse.birt.report.designer.ui.editors.sql.SQLPartitionScanner;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.compare.Splitter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -54,6 +53,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -91,7 +91,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.21 $ $Date: 2005/08/11 06:10:55 $
+ * @version $Revision: 1.22 $ $Date: 2005/08/11 08:04:26 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -181,46 +181,44 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	public Control createPageControl( Composite parent )
 	{
-		Splitter splitter = new Splitter( parent, SWT.NONE );
-		splitter.setOrientation( SWT.HORIZONTAL );
-		splitter.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
-		initialize();
-		
-		initJdbcInfo();
-		
-		createTableSelectionComposite(splitter);
-	
+		SashForm SashForm = new SashForm( parent, SWT.HORIZONTAL );
+		SashForm.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		initialize( );
+
+		initJdbcInfo( );
+
+		createTableSelectionComposite( SashForm );
+
 		// Populate the available Items
-		populateAvailableDbObjects();		
+		populateAvailableDbObjects( );
 
-		createTextualQueryComposite(splitter);
+		createTextualQueryComposite( SashForm );
 
-		setSplitterWeights( splitter );
-			
-		return splitter;
+		setSashFormWeights( SashForm );
+
+		return SashForm;
 	}
 	
 	/**
 	 * Sets Splitter Weights.
-	 * In Eclipse 3.0.1, the comptuersize of splitter is not correct,
-	 * so set weights with default value 40,60.  
+	 * if left side is too wide,set weights with default value 40,60.  
 	 * @param splitter
 	 */
-	private void setSplitterWeights(Splitter splitter) {
-		int leftWidth = splitter.getChildren( )[0].computeSize( SWT.DEFAULT,
+	private void setSashFormWeights(SashForm sashForm) {
+		int leftWidth = sashForm.getChildren( )[0].computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).x;
-		int totalWidth = splitter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		int totalWidth = sashForm.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		if ( (double) leftWidth / (double) totalWidth > 0.4 )
 		{
 			//if left side is too wide, set it to default value 40:60
-			splitter.setWeights( new int[]{
+			sashForm.setWeights( new int[]{
 					40, 60
 			} );
 		}
 		else
 		{
-			splitter.setWeights( new int[]{
+			sashForm.setWeights( new int[]{
 					leftWidth, totalWidth - leftWidth
 			} );
 		}
