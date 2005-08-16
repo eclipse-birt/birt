@@ -57,9 +57,7 @@ public abstract class ReportItemtHandleAdapter extends
 			x = (int) handle.getMeasure( );
 		}
 
-		double px = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
+		double px = DEUtil.convertToValue( handle, DesignChoiceConstants.UNITS_IN );
 
 		handle = getReportItemHandle( ).getY( );
 
@@ -68,9 +66,7 @@ public abstract class ReportItemtHandleAdapter extends
 		{
 			y = (int) handle.getMeasure( );
 		}
-		double py = DimensionUtil.convertTo( handle.getMeasure( ),
-				handle.getUnits( ),
-				DesignChoiceConstants.UNITS_IN ).getMeasure( );
+		double py = DEUtil.convertToValue( handle, DesignChoiceConstants.UNITS_IN );
 		Point p = MetricUtility.inchToPixel( px, py );
 		if ( x != 0 )
 		{

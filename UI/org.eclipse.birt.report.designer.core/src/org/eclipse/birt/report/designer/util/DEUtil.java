@@ -497,6 +497,23 @@ public class DEUtil
 		return MetricUtility.inchToPixel( px );
 	}
 
+	/**Transform other units to target unit.
+	 * @param handle
+	 * @param targetUnit
+	 * @return
+	 */
+	public static double convertToValue(DimensionHandle handle,String targetUnit)
+	{
+		double retValue = 0.0;
+		
+		if (handle.isSet())
+		{
+			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
+					handle.getUnits( ),
+					targetUnit ).getMeasure( );
+		}
+		return retValue;
+	}
 	/**
 	 * Checks if the value can be converted to a valid Integer.
 	 * 
