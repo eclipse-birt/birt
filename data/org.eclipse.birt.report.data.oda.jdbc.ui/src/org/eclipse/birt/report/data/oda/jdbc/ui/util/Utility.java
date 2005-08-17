@@ -11,10 +11,20 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -31,7 +41,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.11 $ $Date: 2005/05/13 07:47:26 $
+ * @version $Revision: 1.12 $ $Date: 2005/05/16 07:43:40 $
  */
 public class Utility
 {
@@ -40,14 +50,11 @@ public class Utility
 	// if duplicate objects are selected in the Table Selection Page
 	private static final String dupAffix = "_";
 	
-
-	
     /**
      * 
      */
     private Utility()
     {
-        super();
     }
 
     public static String getUserProperty(DesignElementHandle ds, String propertyName)
@@ -307,5 +314,86 @@ public class Utility
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Get Map from PreferenceStore by key
+	 * @param mapKey the key of the map
+	 * @return Map 
+	 */
+	public static Map getPreferenceStoredMap( String mapKey )
+	{
+		String driverMap64 = JdbcPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getString( mapKey );
+		try
+		{
+			if ( driverMap64 != null )
+			{
+				byte[] bytes = Base64.decodeBase64( driverMap64.getBytes( ) );
+
+				ByteArrayInputStream bis = new ByteArrayInputStream( bytes );
+				Object obj = new ObjectInputStream( bis ).readObject( );
+
+				if ( obj instanceof Map )
+				{
+					return (Map) obj;
+				}
+			}
+		}
+		catch ( IOException e )
+		{
+			//ignore
+		}
+		catch ( ClassNotFoundException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		return new HashMap( );
+	}
+	
+	/**
+	 * Put <tt>value</tt> with key <tt>keyInMap</tt>into the map whose key
+	 * is <tt>keyOfPreference</tt>
+	 * @param keyOfPreference
+	 *            key of PreferenceStore Map
+	 * @param keyInMap
+	 *            key in the Map
+	 * @param value
+	 *            the value to be set
+	 */
+	public static void putPreferenceStoredMapValue( String keyOfPreference,
+			String keyInMap, Object value )
+	{
+		Map map = getPreferenceStoredMap( keyOfPreference );
+		map.put( keyInMap, value );
+		setPreferenceStoredMap( keyOfPreference, map );
+	}
+
+	/**
+	 * Reset the map in PreferenceStored
+	 * @param keyOfPreference key in PreferenceStore
+	 * @param map the map to be set 
+	 */
+	public static void setPreferenceStoredMap( String keyOfPreference, Map map )
+	{
+		try
+		{
+			ByteArrayOutputStream bos = new ByteArrayOutputStream( );
+			new ObjectOutputStream( bos ).writeObject( map );
+
+			byte[] bytes = bos.toByteArray( );
+
+			bytes = Base64.encodeBase64( bytes );
+
+			JdbcPlugin.getDefault( )
+					.getPreferenceStore( )
+					.setValue( keyOfPreference, new String( bytes ) );
+		}
+		catch ( IOException e )
+		{
+			//ignore
+		}
 	}
 }

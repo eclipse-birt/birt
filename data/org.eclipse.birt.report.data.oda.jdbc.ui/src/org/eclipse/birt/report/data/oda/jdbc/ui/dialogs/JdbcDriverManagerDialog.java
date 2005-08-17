@@ -11,35 +11,21 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-import org.apache.commons.codec.binary.Base64;
-import org.eclipse.birt.data.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -70,7 +56,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.osgi.framework.Bundle;
 
 /**
  * A dialog to manage Jdbc drivers.
@@ -86,27 +71,13 @@ public class JdbcDriverManagerDialog extends Dialog
 	private Map jarMap, driverMap;
 
 	/**
-	 * The key for JAR files map property in preference store.
+	 * list of jars to be copied and deleted when okPressed
 	 */
-	public static final String JAR_MAP_PREFERENCE_KEY = "JDBC Jar List"; //$NON-NLS-1$
-
-	/**
-	 * The key for drivers map property in preference store.
-	 */
-	public static final String DRIVER_MAP_PREFERENCE_KEY = "JDBC Driver Map"; //$NON-NLS-1$
-
-	/**
-	 * The key for BIRT viewer drivers path property in plugin.properties.
-	 */
-	public static final String VIEWER_DRIVER_PATH_KEY = "birt-viewer-driver-path"; //$NON-NLS-1$
-
-	private static final String ORIGINAL_FILE_NOT_EXIST_TOKEN = "*"; //$NON-NLS-1$
-
-	private static final String ODA_FILE_NOT_EXIST_TOKEN = "x"; //$NON-NLS-1$
-
+	private List jarsToBeCopied,jarsToBeDeleted;
+	
 	private static final int btnWidth = 90;
 	private static final int btnHeight = 24;
-	
+
 	/**
 	 * The constructor.
 	 * 
@@ -159,435 +130,18 @@ public class JdbcDriverManagerDialog extends Dialog
 	}
 
 	/**
-	 * Returns the viewer drivers directory path. <br>
-	 * TODO: may change if viewer plugin provide more convenient api.
-	 * 
-	 * @return
+	 * Add jarPage and driverPage
+	 * @param tabFolder parent Composite
 	 */
-	private File getViewerDriverLocation( )
-	{
-		//get the driver path under viewer plug-in.
-		Bundle viewerBundle = Platform.getBundle( "org.eclipse.birt.report.viewer" ); //$NON-NLS-1$
-		if ( viewerBundle != null )
-		{
-			ResourceBundle resBundle = Platform.getResourceBundle( JdbcPlugin.getDefault( )
-					.getBundle( ) );
-			if ( resBundle != null )
-			{
-				String viewerLocation = null;
-				try
-				{
-					URL url = Platform.asLocalURL( viewerBundle.getEntry( "/" ) );
-					try
-					{
-						URI uri = new URI( url.toString( ) );
-						viewerLocation = uri.getPath( );
-					}
-					catch ( URISyntaxException e )
-					{
-						viewerLocation = url.getFile( );
-					}
-				}
-				catch ( Exception e )
-				{
-					viewerLocation = viewerBundle.getLocation( ).substring( 7 );
-				}
-				String driverPath = viewerLocation
-						+ resBundle.getString( VIEWER_DRIVER_PATH_KEY );
-				
-				File driverLoc = new File( driverPath );
-				if ( driverLoc.exists( ) == false )
-					driverLoc.mkdir( );
-				
-				return driverLoc;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the ODA dirvers directory path. <br>
-	 */
-	private File getDriverLocation( )
-	{
-		try
-		{
-			return OdaJdbcDriver.getDriverDirectory();
-		}
-		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		catch ( OdaException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Copies the specified file to ODA driver path and viewer dirver path.
-	 * 
-	 * @param filePath
-	 */
-	private void doCopyJar( String filePath )
-	{
-		File source = new File( filePath );
-
-		File odaDir = getDriverLocation( );
-		File viewDir = getViewerDriverLocation( );
-
-		File dest1 = null, dest2 = null;
-
-		if ( odaDir != null )
-		{
-			dest1 = new File( odaDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-		}
-		if ( viewDir != null )
-		{
-			dest2 = new File( viewDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-		}
-
-		if ( source.exists( ) )
-		{
-			FileChannel in = null, out1 = null, out2 = null;
-			try
-			{
-				if ( dest1 != null )
-				{
-					try
-					{
-						out1 = new FileOutputStream( dest1 ).getChannel( );
-					}
-					catch ( FileNotFoundException e )
-					{
-						//does nothing.
-					}
-				}
-				if ( dest2 != null )
-				{
-					try
-					{
-						out2 = new FileOutputStream( dest2 ).getChannel( );
-					}
-					catch ( FileNotFoundException e )
-					{
-						//does nothing.
-					}
-				}
-
-				if ( out1 != null )
-				{
-					in = new FileInputStream( source ).getChannel( );
-					long size = in.size( );
-					MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
-							0,
-							size );
-					out1.write( buf );
-				}
-				
-				try
-				{
-					if ( in != null )
-					{
-						in.close( );
-					}
-				}
-				catch ( IOException e1 )
-				{
-					//does nothing.
-				}
-				
-				if ( out2 != null )
-				{
-					in = new FileInputStream( source ).getChannel( );
-					long size = in.size( );
-					MappedByteBuffer buf = in.map( FileChannel.MapMode.READ_ONLY,
-							0,
-							size );
-					out2.write( buf );
-				}
-
-			}
-			catch ( FileNotFoundException e )
-			{
-				//does nothing.
-			}
-			catch ( IOException e )
-			{
-				//does nothing.
-			}
-			finally
-			{
-				try
-				{
-					if ( in != null )
-					{
-						in.close( );
-					}
-					if ( out1 != null )
-					{
-						out1.close( );
-					}
-					if ( out2 != null )
-					{
-						out2.close( );
-					}
-				}
-				catch ( IOException e1 )
-				{
-					//does nothing.
-				}
-			}
-		}
-	}
-
-	/**
-	 * Deletes the specified file from ODA driver path and viewer dirver path,
-	 * NOTE just the file name is used.
-	 * 
-	 * @param filePath
-	 */
-	private void doDeleteJar( String filePath )
-	{
-		File source = new File( filePath );
-
-		File odaDir = getDriverLocation( );
-		File viewDir = getViewerDriverLocation( );
-
-		File dest1 = null, dest2 = null;
-
-		if ( odaDir != null )
-		{
-			dest1 = new File( odaDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-
-			if ( dest1.exists( ) )
-			{
-				if ( !dest1.delete( ) )
-				{
-					dest1.deleteOnExit( );
-				}
-			}
-		}
-		if ( viewDir != null )
-		{
-			dest2 = new File( viewDir.getAbsolutePath( )
-					+ File.separator
-					+ source.getName( ) );
-			if ( dest2.exists( ) )
-			{
-				if ( !dest2.delete( ) )
-				{
-					dest2.deleteOnExit( );
-				}
-			}
-		}
-
-	}
-
-	private void updateJarMap( )
-	{
-		//read jar files under ODA driver directory.
-		File jarPath = getDriverLocation( );
-
-		if ( jarPath != null && jarPath.exists( ) && jarPath.isDirectory( ) )
-		{
-			File[] jars = jarPath.listFiles( new FileFilter( ) {
-
-				public boolean accept( File pathname )
-				{
-					if ( pathname.exists( )
-							&& pathname.isFile( )
-							&& ( pathname.getName( ).endsWith( ".jar" ) ) ) //$NON-NLS-1$
-					{
-						return true;
-					}
-
-					return false;
-				}
-			} );
-
-			for ( int i = 0; i < jars.length; i++ )
-			{
-				jarMap.put( jars[i].getName( ), new String[]{
-						jars[i].getAbsolutePath( ), ""
-				} ); //$NON-NLS-1$
-			}
-		}
-
-		//read setting from preference store.
-		try
-		{
-			String jarMap64 = JdbcPlugin.getDefault( )
-					.getPreferenceStore( )
-					.getString( JAR_MAP_PREFERENCE_KEY );
-
-			if ( jarMap64 != null )
-			{
-				byte[] bytes = Base64.decodeBase64( jarMap64.getBytes( ) );
-
-				ByteArrayInputStream bis = new ByteArrayInputStream( bytes );
-				Object obj = new ObjectInputStream( bis ).readObject( );
-
-				if ( obj instanceof Map )
-				{
-					jarMap.putAll( (Map) obj );
-				}
-			}
-
-		}
-		catch ( IOException e )
-		{
-			//ignore.
-		}
-		catch ( ClassNotFoundException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		checkJarState( );
-	}
-
-	/**
-	 * Returns the user dirver info from preference store.
-	 * 
-	 * @return
-	 */
-	public static Map getPreferenceDriverInfo( )
-	{
-		String driverMap64 = JdbcPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getString( DRIVER_MAP_PREFERENCE_KEY );
-
-		try
-		{
-			if ( driverMap64 != null )
-			{
-				byte[] bytes = Base64.decodeBase64( driverMap64.getBytes( ) );
-
-				ByteArrayInputStream bis = new ByteArrayInputStream( bytes );
-				Object obj = new ObjectInputStream( bis ).readObject( );
-
-				if ( obj instanceof Map )
-				{
-					return (Map) obj;
-				}
-			}
-		}
-		catch ( IOException e )
-		{
-			//ignore.
-		}
-		catch ( ClassNotFoundException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		return new HashMap( );
-	}
-
-	private void updateDriverMap( )
-	{
-		ArrayList driverList = JdbcToolKit.getJdbcDriverNames( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
-		for ( Iterator itr = driverList.iterator( ); itr.hasNext( ); )
-		{
-			JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
-
-			if ( !driverMap.containsKey( info.toString( ) ) )
-			{
-				driverMap.put( info.toString( ), new String[]{
-						( info.getDisplayName( ) == null ) ? ""
-								: ( info.getDisplayName( ) ),
-						( info.getUrlFormat( ) == null ) ? ""
-								: ( info.getUrlFormat( ) )
-				} ); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		}
-
-		driverMap.putAll( getPreferenceDriverInfo( ) );
-	}
-
-	private void initialize( )
-	{
-		jarMap = new HashMap( );
-		driverMap = new HashMap( );
-
-		updateJarMap( );
-		updateDriverMap( );
-
-		jarViewer.setInput( jarMap );
-		driverViewer.setInput( driverMap );
-
-		refreshJarViewer( );
-		refreshDriverViewer( );
-
-		updateJarButtons( );
-		updateDriverButtons( );
-	}
-
-	private boolean isUnderODAPath( File f )
-	{
-		File odaPath = getDriverLocation( );
-
-		File ff = new File( odaPath + File.separator + f.getName( ) );
-
-		return ff.exists( );
-	}
-
-	private void checkJarState( )
-	{
-		// check if the jar exist in the oda driver directory or exist in the
-		// disk.
-		// x - not exist in the oda dirctory.
-		// * - not exist in the disk.
-		// <br>
-		// TODO further work, use state flag to mark state.
-		for ( Iterator itr = jarMap.values( ).iterator( ); itr.hasNext( ); )
-		{
-			String[] vals = (String[]) itr.next( );
-
-			File f = new File( vals[0] );
-
-			if ( !isUnderODAPath( f ) )
-			{
-				if ( f.exists( ) )
-				{
-					vals[1] = ODA_FILE_NOT_EXIST_TOKEN;
-				}
-				else
-				{
-					vals[1] = ODA_FILE_NOT_EXIST_TOKEN
-							+ ORIGINAL_FILE_NOT_EXIST_TOKEN;
-				}
-			}
-			else
-			{
-				if ( f.exists( ) )
-				{
-					vals[1] = ""; //$NON-NLS-1$
-				}
-				else
-				{
-					vals[1] = ORIGINAL_FILE_NOT_EXIST_TOKEN;
-				}
-			}
-		}
-
-	}
-
 	private void addTabPages( TabFolder tabFolder )
 	{
 		addJarPage( tabFolder );
 		addDriverPage( tabFolder );
 	}
-
+	
+	/**
+	 * add Jar Page to the Dialog
+	 */
 	private void addJarPage( TabFolder tabFolder )
 	{
 		final Composite page = new Composite( tabFolder, SWT.NONE );
@@ -660,6 +214,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		lb = new Label( page, SWT.NONE );
 		lb.setText( JdbcPlugin.getResourceString( "driverManagerDialog.message.FileNotExist" ) ); //$NON-NLS-1$
 
+		lb = new Label( page, SWT.NONE );
+		lb.setText( JdbcPlugin.getResourceString( "driverManagerDialog.message.FileRestored" ) ); //$NON-NLS-1$
+
 		Composite buttons = new Composite( page, SWT.NONE );
 		buttons.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
 		layout = new GridLayout( );
@@ -714,7 +271,11 @@ public class JdbcDriverManagerDialog extends Dialog
 		tabItem.setControl( page );
 		tabItem.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.JarFile" ) ); //$NON-NLS-1$
 	}
-
+	
+	/**
+	 * Add Driver Page to the Dialog
+	 * @param tabFolder tab Composite
+	 */
 	private void addDriverPage( TabFolder tabFolder )
 	{
 		Composite page = new Composite( tabFolder, SWT.NONE );
@@ -817,13 +378,207 @@ public class JdbcDriverManagerDialog extends Dialog
 		tabItem.setControl( page );
 		tabItem.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.Drivers" ) ); //$NON-NLS-1$
 	}
+	
+	/**
+	 * initialize jarMap,driverMap and Viewer
+	 */
+	private void initialize( )
+	{
+		jarMap = new HashMap( );
+		driverMap = new HashMap( );
+		jarsToBeCopied = new ArrayList( );
+		jarsToBeDeleted = new ArrayList( );
+		
+		updateJarMap( );
+		updateDriverMap( );
 
+		refreshJarViewer( );
+		refreshDriverViewer( );
+
+		updateJarButtons( );
+		updateDriverButtons( );
+	}
+	
+	/**
+	 * update jarMap, read setting from preference store. Jar files under ODA
+	 * driver directory will be displayed.
+	 */
+	private void updateJarMap( )
+	{
+		File jarPath = JarFile.getDriverLocation( );
+		
+		if ( jarPath != null && jarPath.exists( ) && jarPath.isDirectory( ) )
+		{
+			File[] jars = jarPath.listFiles( new FileFilter( ) {
+				Map deletedJars = Utility.getPreferenceStoredMap( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY );
+
+				public boolean accept( File pathname )
+				{
+					if ( pathname.exists( )
+							&& pathname.isFile( )
+							&& ( !deletedJars.containsKey( pathname.getName( ) ) )
+							&& ( pathname.getName( ).endsWith( ".jar" ) || pathname.getName( ).endsWith( ".zip" ) ) ) //$NON-NLS-1$
+					{
+						return true;
+					}
+
+					return false;
+				}
+			} );
+
+			for ( int i = 0; i < jars.length; i++ )
+				jarMap.put( jars[i].getName( ),
+						new JarFile( jars[i].getAbsolutePath( ), "", false ) );
+			
+		}
+		
+//		Set entrySet = deletedJars.entrySet( );
+//		Iterator iterator = entrySet.iterator( );
+//		while ( iterator.hasNext( ) )
+//		{
+//			Map.Entry entry = (Map.Entry) iterator.next( );
+//			if ( !( (JarFile) entry.getValue( ) ).isToBeDeleted() )
+//				jarMap.put( entry.getKey( ), entry.getValue( ) );
+//		}
+		
+		jarMap.putAll( Utility.getPreferenceStoredMap( JdbcPlugin.JAR_MAP_PREFERENCE_KEY ));
+		
+		checkJarState( );
+	}
+	
+	/**
+	 * refresh jarViewer
+	 */
+	private void refreshJarViewer( )
+	{
+		jarViewer.setInput(jarMap);
+
+		for ( int i = 0; i < jarViewer.getTable( ).getItemCount( ); i++ )
+		{
+			TableItem ti = jarViewer.getTable( ).getItem( i );
+
+			Object element = ti.getData( );
+
+			String c0 = "", c1 = "", c2 = ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+			if ( element instanceof Map.Entry )
+			{
+				Map.Entry entry = (Map.Entry) element;
+
+				c1 = (String) entry.getKey( );
+
+				JarFile jarInfo = (JarFile) entry.getValue( );
+
+				c2 = jarInfo.getFilePath( );
+				c0 = jarInfo.getState( );
+			}
+
+			ti.setText( 0, c0 );
+			ti.setText( 1, c1 );
+			ti.setText( 2, c2 );
+		}
+
+	}
+	
+	/**
+	 * check if the jar exist in the oda driver directory or exist in the disk.
+	 * x - not exist in the oda dirctory. <br>* - not exist in the disk.
+	 */
+	private void checkJarState( )
+	{
+		for ( Iterator itr = jarMap.values( ).iterator( ); itr.hasNext( ); )
+		{
+			JarFile jarInfo = (JarFile) itr.next( );
+
+			jarInfo.checkJarState();
+		}
+	}
+	
+	/**
+	 * update driverMap
+	 */
+	private void updateDriverMap( )
+	{
+		// get drivers from ODADir
+		List driverList = JdbcToolKit.getJdbcDriversFromODADir( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
+		
+		// add drivers in to be copied Jars
+		List fileList = new ArrayList( );
+		for ( int i = 0; i < jarsToBeCopied.size( ); i++ )
+		{
+			fileList.add(new File( ( (JarFile) jarsToBeCopied.get( i ) ).getFilePath( ) ) );
+		}
+		driverList.addAll( JdbcToolKit.getJdbcDriverFromFile( fileList ) );
+		
+		// remove drivers in to be deleted Jars
+		fileList.clear( );
+		for ( int i = 0; i < jarsToBeDeleted.size( ); i++ )
+		{
+			fileList.add( new File( ( (JarFile) jarsToBeDeleted.get( i ) ).getFilePath( ) ) );
+
+		}
+		driverList.removeAll( JdbcToolKit.getJdbcDriverFromFile( fileList ) );
+		
+		driverMap.clear( );
+		for ( Iterator itr = driverList.iterator( ); itr.hasNext( ); )
+		{
+			JDBCDriverInformation info = (JDBCDriverInformation) itr.next( );
+
+			if ( !driverMap.containsKey( info.toString( ) ) )
+			{
+				driverMap.put( info.toString( ), new String[]{
+						( info.getDisplayName( ) == null ) ? ""
+								: ( info.getDisplayName( ) ),
+						( info.getUrlFormat( ) == null ) ? ""
+								: ( info.getUrlFormat( ) )
+				} ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		}
+	}
+	
+	/**
+	 * refresh driverViewer
+	 */
+	private void refreshDriverViewer( )
+	{
+		driverViewer.setInput(driverMap);
+
+		for ( int i = 0; i < driverViewer.getTable( ).getItemCount( ); i++ )
+		{
+			TableItem ti = driverViewer.getTable( ).getItem( i );
+
+			Object element = ti.getData( );
+
+			String c1 = "", c2 = "", c3 = ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+			if ( element instanceof Map.Entry )
+			{
+				Map.Entry entry = (Map.Entry) element;
+
+				c1 = entry.getKey( ).toString( );
+
+				String[] vals = (String[]) entry.getValue( );
+
+				c2 = vals[0];
+				c3 = vals[1];
+			}
+
+			ti.setText( 0, "" ); //$NON-NLS-1$
+			ti.setText( 1, c1 );
+			ti.setText( 2, c2 );
+			ti.setText( 3, c3 );
+		}
+	}
+	
+	/**
+	 * Update states of jar buttons
+	 */
 	private void updateJarButtons( )
 	{
 		restoreButton.setEnabled( jarViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
 						.getItemCount( )
-				&& ODA_FILE_NOT_EXIST_TOKEN.equals( jarViewer.getTable( )
+				&& JarFile.ODA_FILE_NOT_EXIST_TOKEN.equals( jarViewer.getTable( )
 						.getItem( jarViewer.getTable( ).getSelectionIndex( ) )
 						.getText( ) ) );
 
@@ -832,14 +587,19 @@ public class JdbcDriverManagerDialog extends Dialog
 						.getItemCount( ) );
 	}
 
+	/**
+	 * Update states of driver buttons
+	 */
 	private void updateDriverButtons( )
 	{
 		editButton.setEnabled( driverViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& driverViewer.getTable( ).getSelectionIndex( ) < driverViewer.getTable( )
 						.getItemCount( ) );
-
 	}
-
+	
+	/**
+	 * actions after add button is click in jarPage
+	 */
 	private void addJar( )
 	{
 		FileDialog dlg = new FileDialog( getShell( ) );
@@ -855,30 +615,34 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			if ( jarMap.containsKey( dlg.getFileName( ) ) )
 			{
-				//TODO propmpt the duplicate.
+				// duplicate,can not add a driver 
+				ExceptionHandler.openErrorMessageBox( JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
+						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
+				return;
 			}
 
-			doCopyJar( fn );
+			JarFile jarInfo = new JarFile( fn, "", false );
 
-			jarMap.put( dlg.getFileName( ), new String[]{
-					fn, ""
-			} ); //$NON-NLS-1$
-
-			jarViewer.setInput( jarMap );
+			jarsToBeCopied.add( jarInfo );
+			jarMap.put( dlg.getFileName( ), jarInfo );
 
 			refreshJarViewer( );
 
 			updateJarButtons( );
-
+			
+			JdbcToolKit.resetJdbcDriverNames();
+			
 			updateDriverMap( );
 
 			refreshDriverViewer( );
 
 			updateDriverButtons( );
-
 		}
 	}
 
+	/**
+	 * actions after restore button is click in jarPage
+	 */
 	private void restoreJar( )
 	{
 		//restore jar.
@@ -888,8 +652,11 @@ public class JdbcDriverManagerDialog extends Dialog
 		{
 			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
 
-			doCopyJar( ( (String[]) fn.getValue( ) )[0] );
-
+//			( (JarFile) fn.getValue( ) ).copyJarToODADir();
+			
+			( (JarFile) fn.getValue( ) ).setRestored( );
+			jarsToBeCopied.add( (JarFile) fn.getValue( ) );
+			
 			checkJarState( );
 
 			refreshJarViewer( );
@@ -904,6 +671,9 @@ public class JdbcDriverManagerDialog extends Dialog
 		}
 	}
 
+	/**
+	 * actions after delete button is click in jarPage
+	 */
 	private void deleteJar( )
 	{
 		if ( jarViewer.getTable( ).getSelectionIndex( ) >= 0
@@ -914,6 +684,19 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
 
+			( (JarFile) fn.getValue( ) ).setToBeDeleted(true);
+
+			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
+					fn.getKey( ).toString( ),
+					fn.getValue( ) );
+//			((JarFile) fn.getValue( )).deleteJarFromODADir();
+			if ( jarsToBeCopied.contains( (JarFile) fn.getValue( ) ) )
+			{
+				jarsToBeCopied.remove( (JarFile) fn.getValue( ) );
+			}
+			
+			jarsToBeDeleted.add((JarFile) fn.getValue( ));
+			
 			jarMap.remove( fn.getKey( ) );
 
 			jarViewer.getTable( ).remove( idx );
@@ -927,22 +710,23 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			jarViewer.getTable( ).select( idx );
 
-			doDeleteJar( ( (String[]) fn.getValue( ) )[0] );
-
 			refreshJarViewer( );
 
 			updateJarButtons( );
+
+			JdbcToolKit.resetJdbcDriverNames();
 
 			updateDriverMap( );
 
 			refreshDriverViewer( );
 
 			updateDriverButtons( );
-
 		}
-
 	}
-
+	
+	/**
+	 * actions of Edit Driver in Driver Page
+	 */
 	private void editDriver( )
 	{
 		if ( driverViewer.getTable( ).getSelectionIndex( ) >= 0
@@ -980,104 +764,39 @@ public class JdbcDriverManagerDialog extends Dialog
 			}
 		}
 	}
-
-	private void refreshJarViewer( )
+	
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
+     */
+	protected void cancelPressed( )
 	{
-		for ( int i = 0; i < jarViewer.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem ti = jarViewer.getTable( ).getItem( i );
-
-			Object element = ti.getData( );
-
-			String c0 = "", c1 = "", c2 = ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-			if ( element instanceof Map.Entry )
-			{
-				Map.Entry entry = (Map.Entry) element;
-
-				c1 = (String) entry.getKey( );
-
-				String[] vals = (String[]) entry.getValue( );
-
-				c2 = vals[0];
-				c0 = vals[1];
-			}
-
-			ti.setText( 0, c0 );
-			ti.setText( 1, c1 );
-			ti.setText( 2, c2 );
-		}
-
-	}
-
-	private void refreshDriverViewer( )
-	{
-		for ( int i = 0; i < driverViewer.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem ti = driverViewer.getTable( ).getItem( i );
-
-			Object element = ti.getData( );
-
-			String c1 = "", c2 = "", c3 = ""; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-			if ( element instanceof Map.Entry )
-			{
-				Map.Entry entry = (Map.Entry) element;
-
-				c1 = entry.getKey( ).toString( );
-
-				String[] vals = (String[]) entry.getValue( );
-
-				c2 = vals[0];
-				c3 = vals[1];
-			}
-
-			ti.setText( 0, "" ); //$NON-NLS-1$
-			ti.setText( 1, c1 );
-			ti.setText( 2, c2 );
-			ti.setText( 3, c3 );
-		}
+		JdbcToolKit.resetJdbcDriverNames( );
+		super.cancelPressed( );
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
+	 *  (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		try
+	protected void okPressed() {
+    	Utility.setPreferenceStoredMap( JdbcPlugin.JAR_MAP_PREFERENCE_KEY,
+				jarMap );
+		Utility.setPreferenceStoredMap( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY,
+				driverMap );
+		for ( int i = 0; i < jarsToBeCopied.size( ); i++ )
 		{
-			ByteArrayOutputStream bos = new ByteArrayOutputStream( );
-			new ObjectOutputStream( bos ).writeObject( jarMap );
-
-			byte[] bytes = bos.toByteArray( );
-
-			bytes = Base64.encodeBase64( bytes );
-
-			JdbcPlugin.getDefault( )
-					.getPreferenceStore( )
-					.setValue( JAR_MAP_PREFERENCE_KEY, new String( bytes ) );
-
-			bos = new ByteArrayOutputStream( );
-			new ObjectOutputStream( bos ).writeObject( driverMap );
-
-			bytes = bos.toByteArray( );
-
-			bytes = Base64.encodeBase64( bytes );
-
-			JdbcPlugin.getDefault( )
-					.getPreferenceStore( )
-					.setValue( DRIVER_MAP_PREFERENCE_KEY, new String( bytes ) );
+			JarFile jar = (JarFile) jarsToBeCopied.get( i );
+			jar.copyJarToODADir( );
 		}
-		catch ( IOException e )
+		for ( int i = 0; i < jarsToBeDeleted.size( ); i++ )
 		{
-			ExceptionHandler.handle( e );
+			JarFile jar = (JarFile) jarsToBeDeleted.get( i );
+			jar.deleteJarFromODADir( );
 		}
-
 		super.okPressed( );
 	}
-
+	
 	/**
 	 * EditJdbcDriverDialog
 	 */

@@ -25,6 +25,19 @@ public class JdbcPlugin extends AbstractUIPlugin
 	private static JdbcPlugin plugin;
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
+	/**
+	 * The key for drivers map property in preference store.
+	 */
+	public static final String DRIVER_MAP_PREFERENCE_KEY = "JDBC Driver Map"; //$NON-NLS-1$
+	/**
+	 * The key for JAR files map property in preference store.
+	 */
+	public static final String JAR_MAP_PREFERENCE_KEY = "JDBC Jar List"; //$NON-NLS-1$
+
+	/**
+	 * The key for deleted Jar files map property in preference store.
+	 */
+	public static final String DELETED_JAR_MAP_PREFERENCE_KEY = "Deleted Jar List"; //$NON-NLS-1$
 
 	/**
 	 * The constructor.
