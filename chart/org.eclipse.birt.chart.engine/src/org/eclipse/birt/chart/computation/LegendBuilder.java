@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -22,6 +23,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Direction;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -170,7 +172,7 @@ public final class LegendBuilder
 								ex );
 					}
 
-					// TODO Check dataset type, throw exception or ignore?.
+					// TODO Check dataSet type, throw exception or ignore?.
 
 					if ( bPercentageMinSlice )
 					{
@@ -268,12 +270,33 @@ public final class LegendBuilder
 							ex );
 				}
 
+				FormatSpecifier fs = null;
+				if ( sdBase != null )
+				{
+					fs = sdBase.getFormatSpecifier( );
+				}
+
 				while ( dsiBase.hasNext( ) )
 				{
 					// TODO filter the not-used legend.
 
-					la.getCaption( )
-							.setValue( String.valueOf( dsiBase.next( ) ) );
+					Object obj = dsiBase.next();
+					String lgtext = String.valueOf( obj );
+					if ( fs != null )
+					{
+						try
+						{
+							lgtext = ValueFormatter.format( obj,
+									fs,
+									Locale.getDefault(),
+									null );
+						}
+						catch ( ChartException e )
+						{
+							// ignore, use original text.
+						}
+					}
+					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la );
 					dWidth = Math.max( itm.getFullWidth( ), dWidth );
 					dHeight += insCA.getTop( )
@@ -305,14 +328,27 @@ public final class LegendBuilder
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
+					FormatSpecifier fs = seda[j].getFormatSpecifier( );
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
-						la.getCaption( )
-								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-						// APPLY
-						// FORMAT
-						// SPECIFIER
+						Object obj = se.getSeriesIdentifier( );
+						String lgtext = String.valueOf( obj );
+						if ( fs != null )
+						{
+							try
+							{
+								lgtext = ValueFormatter.format( obj,
+										fs,
+										Locale.getDefault(),
+										null );
+							}
+							catch ( ChartException e )
+							{
+								// ignore, use original text.
+							}
+						}
+						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la );
 						dW = itm.getFullWidth( );
 						if ( dW > dMaxW )
@@ -348,14 +384,27 @@ public final class LegendBuilder
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
+					FormatSpecifier fs = seda[j].getFormatSpecifier( );
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
-						la.getCaption( )
-								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-						// APPLY
-						// FORMAT
-						// SPECIFIER
+						Object obj = se.getSeriesIdentifier( );
+						String lgtext = String.valueOf( obj );
+						if ( fs != null )
+						{
+							try
+							{
+								lgtext = ValueFormatter.format( obj,
+										fs,
+										Locale.getDefault(),
+										null );
+							}
+							catch ( ChartException e )
+							{
+								// ignore, use original text.
+							}
+						}
+						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la );
 						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
 						dHeight += insCA.getTop( )
@@ -461,14 +510,35 @@ public final class LegendBuilder
 							ChartException.GENERATION,
 							ex );
 				}
+				
+				FormatSpecifier fs = null;
+				if ( sdBase != null )
+				{
+					fs = sdBase.getFormatSpecifier( );
+				}
 
 				double dMaxHeight = 0;
 				while ( dsiBase.hasNext( ) )
 				{
 					// TODO filter the not-used legend.
 
-					la.getCaption( )
-							.setValue( String.valueOf( dsiBase.next( ) ) );
+					Object obj = dsiBase.next();
+					String lgtext = String.valueOf( obj );
+					if ( fs != null )
+					{
+						try
+						{
+							lgtext = ValueFormatter.format( obj,
+									fs,
+									Locale.getDefault(),
+									null );
+						}
+						catch ( ChartException e )
+						{
+							// ignore, use original text.
+						}
+					}
+					la.getCaption( ).setValue( lgtext );
 					itm.reuse( la );
 					dMaxHeight = Math.max( itm.getFullHeight( ), dMaxHeight );
 					dWidth += itm.getFullWidth( );
@@ -501,14 +571,27 @@ public final class LegendBuilder
 				{
 					dWidth = 0;
 					al = seda[j].getRunTimeSeries( );
+					FormatSpecifier fs = seda[j].getFormatSpecifier( );
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
-						la.getCaption( )
-								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-						// APPLY
-						// FORMAT
-						// SPECIFIER
+						Object obj = se.getSeriesIdentifier( );
+						String lgtext = String.valueOf( obj );
+						if ( fs != null )
+						{
+							try
+							{
+								lgtext = ValueFormatter.format( obj,
+										fs,
+										Locale.getDefault(),
+										null );
+							}
+							catch ( ChartException e )
+							{
+								// ignore, use original text.
+							}
+						}
+						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la );
 
 						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
@@ -541,14 +624,27 @@ public final class LegendBuilder
 				for ( int j = 0; j < seda.length; j++ )
 				{
 					al = seda[j].getRunTimeSeries( );
+					FormatSpecifier fs = seda[j].getFormatSpecifier( );
 					for ( int i = 0; i < al.size( ); i++ )
 					{
 						se = (Series) al.get( i );
-						la.getCaption( )
-								.setValue( String.valueOf( se.getSeriesIdentifier( ) ) );// TBD:
-						// APPLY
-						// FORMAT
-						// SPECIFIER
+						Object obj = se.getSeriesIdentifier( );
+						String lgtext = String.valueOf( obj );
+						if ( fs != null )
+						{
+							try
+							{
+								lgtext = ValueFormatter.format( obj,
+										fs,
+										Locale.getDefault(),
+										null );
+							}
+							catch ( ChartException e )
+							{
+								// ignore, use original text.
+							}
+						}
+						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la );
 
 						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING

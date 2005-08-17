@@ -249,6 +249,7 @@ public class StockChart extends DefaultChartTypeImpl
 				}
 			}
 			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					|| currentChart.getType( )
 							.equals( ScatterChart.TYPE_LITERAL ) )

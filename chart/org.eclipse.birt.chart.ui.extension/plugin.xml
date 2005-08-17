@@ -29,6 +29,9 @@
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.types">
+      <!--chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.AreaChart"
+            name="Area Chart"/-->
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.BarChart"
             name="Bar Chart"/>
@@ -164,6 +167,9 @@
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
+      <!--seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.AreaSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/-->
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>

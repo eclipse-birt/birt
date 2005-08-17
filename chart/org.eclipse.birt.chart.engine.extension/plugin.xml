@@ -21,6 +21,9 @@
 
    <extension
          point="org.eclipse.birt.chart.engine.modelrenderers">
+      <!--modelRenderer
+            renderer="org.eclipse.birt.chart.render.Area"
+            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/-->
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Bar"
             series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
@@ -36,9 +39,6 @@
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Scatter"
             series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
-      <modelRenderer
-            renderer="org.eclipse.birt.chart.render.Area"
-            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.datasetprocessors">
@@ -51,6 +51,9 @@
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
+            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>

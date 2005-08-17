@@ -363,6 +363,7 @@ public class LineChart extends DefaultChartTypeImpl
 				}
 			}
 			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( ScatterChart.TYPE_LITERAL ) )
 			{

@@ -246,7 +246,8 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
 			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
-					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) )
+					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					&& !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}

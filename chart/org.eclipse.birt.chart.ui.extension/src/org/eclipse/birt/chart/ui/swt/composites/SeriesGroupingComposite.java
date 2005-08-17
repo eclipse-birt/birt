@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.DataPackage;
@@ -244,8 +245,16 @@ public class SeriesGroupingComposite extends Composite implements
 
 		// Populate grouping aggregate expression combo
 
-		cmbAggregate.setItems( PluginSettings.instance( )
-				.getRegisteredAggregateFunctions( ) );
+		try
+		{
+			cmbAggregate.setItems( PluginSettings.instance( )
+					.getRegisteredAggregateFunctions( ) );
+		}
+		catch ( ChartException e )
+		{
+			e.printStackTrace();
+		}
+		
 		if ( bEnableUI && grouping.getAggregateExpression( ) != null )
 		{
 			cmbAggregate.setText( grouping.getAggregateExpression( ) );

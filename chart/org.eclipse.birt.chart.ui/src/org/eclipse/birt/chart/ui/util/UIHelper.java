@@ -142,6 +142,12 @@ public final class UIHelper
         {
             e.printStackTrace();
         }
+        
+        // If still can't load, return a dummy image.
+        if (img == null)
+        {
+        	img = new Image(Display.getCurrent(), 1, 1);
+        }
         return img;
     }
 }

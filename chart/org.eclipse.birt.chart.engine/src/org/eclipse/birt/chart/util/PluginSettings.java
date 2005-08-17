@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -61,7 +63,7 @@ public final class PluginSettings
 	 */
 	private static String[] saSeries = {
 			"org.eclipse.birt.chart.model.component.impl.SeriesImpl", //$NON-NLS-1$
-			//"org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.BarSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.LineSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.PieSeriesImpl", //$NON-NLS-1$
@@ -76,7 +78,7 @@ public final class PluginSettings
 	 */
 	private static String[] saDataSetProcessors = {
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
-			//"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
@@ -90,8 +92,7 @@ public final class PluginSettings
 	 * series type list.
 	 */
 	private static String[] saRenderers = {
-			null,
-			//"org.eclipse.birt.chart.render.Area", //$NON-NLS-1$ 
+			null, "org.eclipse.birt.chart.render.Area", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.render.Bar", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.render.Line", //$NON-NLS-1$
 			"org.eclipse.birt.chart.render.Pie", //$NON-NLS-1$ 
@@ -555,9 +556,26 @@ public final class PluginSettings
 	 * @return A list of series registered via extension point implementations
 	 *         (or simulated)
 	 */
-	public final String[] getRegisteredSeries( )
+	public final String[] getRegisteredSeries( ) throws ChartException
 	{
-		return saSeries;
+		if ( inEclipseEnv( ) )
+		{
+			String[][] sers = getPluginXmlStrings( "modelrenderers", //$NON-NLS-1$
+					"modelRenderer", //$NON-NLS-1$
+					"series", //$NON-NLS-1$
+					"renderer" ); //$NON-NLS-1$
+
+			final String[] saSeries = new String[sers.length];
+			for ( int i = 0; i < saSeries.length; i++ )
+			{
+				saSeries[i] = sers[i][0];
+			}
+			return saSeries;
+		}
+		else
+		{
+			return saSeries;
+		}
 	}
 
 	/**
@@ -568,13 +586,31 @@ public final class PluginSettings
 	 *         implementations (or simulated)
 	 */
 	public final String[] getRegisteredAggregateFunctions( )
+			throws ChartException
 	{
-		final String[] saFunctions = new String[saAggregateFunctions.length];
-		for ( int i = 0; i < saFunctions.length; i++ )
+		if ( inEclipseEnv( ) )
 		{
-			saFunctions[i] = saAggregateFunctions[i][0];
+			String[][] aggs = getPluginXmlStrings( "aggregatefunctions", //$NON-NLS-1$
+					"aggregateFunction", //$NON-NLS-1$
+					"name", //$NON-NLS-1$
+					"function" ); //$NON-NLS-1$
+
+			final String[] saFunctions = new String[aggs.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = aggs[i][0];
+			}
+			return saFunctions;
 		}
-		return saFunctions;
+		else
+		{
+			final String[] saFunctions = new String[saAggregateFunctions.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = saAggregateFunctions[i][0];
+			}
+			return saFunctions;
+		}
 	}
 
 	/**
@@ -716,6 +752,60 @@ public final class PluginSettings
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Attempts to walk through the schema tree as defined in an extension point
+	 * schema and instantiate the class associated with the value for a given
+	 * element name.
+	 * 
+	 * @param sXsdListName
+	 * @param sXsdComplexName
+	 * @param sXsdElementName
+	 * @param sXsdElementValue
+	 * @param sLookupName
+	 * 
+	 * @return An array of the value class instantiated via the extension
+	 *         framework
+	 */
+	private static final String[][] getPluginXmlStrings( String sXsdListName,
+			String sXsdComplexName, String sXsdElementName,
+			String sXsdElementValue ) throws ChartException
+	{
+		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
+		if ( iep == null )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.PLUGIN,
+					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
+					new Object[]{
+							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$ //$NON-NLS-2$
+					},
+					ResourceBundle.getBundle( Messages.ENGINE,
+							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+		}
+		final IExtension[] iea = iep.getExtensions( );
+		IConfigurationElement[] icea;
+
+		List lst = new ArrayList( );
+
+		for ( int i = 0; i < iea.length; i++ )
+		{
+			icea = iea[i].getConfigurationElements( );
+			for ( int j = 0; j < icea.length; j++ )
+			{
+				if ( icea[j].getName( ).equals( sXsdComplexName ) )
+				{
+					lst.add( new String[]{
+							icea[j].getAttribute( sXsdElementName ),
+							icea[j].getAttribute( sXsdElementValue )
+					} );
+				}
+			}
+		}
+
+		return (String[][]) lst.toArray( new String[0][0] );
 	}
 
 	/**

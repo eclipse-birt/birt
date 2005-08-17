@@ -797,6 +797,9 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
+	 */
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{

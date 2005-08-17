@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.type.impl;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -306,6 +307,17 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		return eDynamicIsSet(eFeature);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
+	 */
+	public void translateFrom( Series series, int iSeriesDefinitionIndex,
+			Chart chart )
+	{
+		super.translateFrom(series, iSeriesDefinitionIndex, chart);
+		
+		this.getMarker().setVisible(false);
+	}
+	
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 

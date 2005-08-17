@@ -1,27 +1,31 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.type;
 
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
@@ -33,11 +37,10 @@ import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -49,22 +52,22 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author Actuate Corporation
  * 
  */
-public class BarChart extends DefaultChartTypeImpl
+
+public class AreaChart extends DefaultChartTypeImpl
 {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Bar Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$
 
-	private static final String sStackedDescription = Messages.getString( "BarChart.Txt.StackedDescription" ); //$NON-NLS-1$
+	private static final String sStackedDescription = Messages.getString( "AreaChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
-	private static final String sPercentStackedDescription = Messages.getString( "BarChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
+	private static final String sPercentStackedDescription = Messages.getString( "AreaChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
 
-	private static final String sSideBySideDescription = Messages.getString( "BarChart.Txt.SideBySideDescription" ); //$NON-NLS-1$
+	private static final String sOverlayDescription = Messages.getString( "AreaChart.Txt.OverlayDescription" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
@@ -86,15 +89,15 @@ public class BarChart extends DefaultChartTypeImpl
 			TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
 	};
 
-	public BarChart( )
+	public AreaChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/obj16/barcharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/areacharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
+	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getName()
 	 */
 	public String getName( )
 	{
@@ -104,7 +107,7 @@ public class BarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getTypeName()
+	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getImage()
 	 */
 	public Image getImage( )
 	{
@@ -119,7 +122,7 @@ public class BarChart extends DefaultChartTypeImpl
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( TYPE_LITERAL,
-				Messages.getString( "BarChart.Txt.HelpText" ) ); //$NON-NLS-1$
+				Messages.getString( "AreaChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -136,53 +139,49 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStacked = UIHelper.getImage( "icons/wizban/stackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/stackedareachartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedareachartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysideareachartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedareachartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedareachartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysideareachartimage.gif" ); //$NON-NLS-1$
 			}
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStacked, sStackedDescription ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStacked, sPercentStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide, sSideBySideDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySide, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedareachartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedareachartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysideareachartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedareachartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedareachartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysideareachartwithdepthimage.gif" ); //$NON-NLS-1$
+
 			}
+
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStackedWithDepth, sStackedDescription ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
 					sPercentStackedDescription ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySideWithDepth, sSideBySideDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySideWithDepth, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
-			}
-			else
-			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
-			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sSideBySideDescription ) ); //$NON-NLS-1$
+			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysideareachart3dimage.gif" ); //$NON-NLS-1$
+
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -228,7 +227,7 @@ public class BarChart extends DefaultChartTypeImpl
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( Messages.getString( "BarChart.Txt.DefaultBarChartTitle" ) ); //$NON-NLS-1$
+				.setValue( Messages.getString( "AreaChart.Txt.DefaultAreaChartTitle" ) ); //$NON-NLS-1$
 
 		if ( sSubType.equalsIgnoreCase( "Stacked" ) ) //$NON-NLS-1$
 		{
@@ -239,9 +238,12 @@ public class BarChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
-			Series valueSeries = BarSeriesImpl.create( );
+			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			valueSeries.setStacked( true );
+			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (AreaSeries) valueSeries ).getLineAttributes( )
+					.setColor( ColorDefinitionImpl.BLUE( ) );
+			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
@@ -257,15 +259,17 @@ public class BarChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
-			Series valueSeries = BarSeriesImpl.create( );
+			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			valueSeries.setStacked( true );
-			( (BarSeries) valueSeries ).setStacked( true );
+			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (AreaSeries) valueSeries ).getLineAttributes( )
+					.setColor( ColorDefinitionImpl.BLUE( ) );
+			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
-		else if ( sSubType.equalsIgnoreCase( "Side-by-side" ) ) //$NON-NLS-1$
+		else if ( sSubType.equalsIgnoreCase( "Overlay" ) ) //$NON-NLS-1$
 		{
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -274,9 +278,12 @@ public class BarChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).update( 0 );
-			Series valueSeries = BarSeriesImpl.create( );
+			Series valueSeries = AreaSeriesImpl.create( );
 			valueSeries.getLabel( ).setVisible( true );
-			( (BarSeries) valueSeries ).setStacked( false );
+			( (AreaSeries) valueSeries ).getMarker( ).setVisible( false );
+			( (AreaSeries) valueSeries ).getLineAttributes( )
+					.setColor( ColorDefinitionImpl.BLUE( ) );
+			( (AreaSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
@@ -298,10 +305,17 @@ public class BarChart extends DefaultChartTypeImpl
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
+		oSample.setDataSetRepresentation( "5,14,10" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
+		/*
+		 * OrthogonalSampleData oSample2 =
+		 * DataFactory.eINSTANCE.createOrthogonalSampleData();
+		 * oSample2.setDataSetRepresentation("7,22,14");
+		 * oSample2.setSeriesDefinitionIndex(0);
+		 * sd.getOrthogonalSampleData().add(oSample2);
+		 */
 		newChart.setSampleData( sd );
 	}
 
@@ -313,9 +327,9 @@ public class BarChart extends DefaultChartTypeImpl
 		// ChartWithAxes
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-			// chart is
+																	// chart is
 			// of this type
-			// (BarChart)
+			// (AreaChart)
 			{
 				if ( !currentChart.getSubType( ).equals( sNewSubType ) ) // Original
 				// chart
@@ -355,12 +369,13 @@ public class BarChart extends DefaultChartTypeImpl
 					}
 				}
 			}
-			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
+			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( ScatterChart.TYPE_LITERAL ) )
+					|| currentChart.getType( )
+							.equals( ScatterChart.TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) )
+				if ( !currentChart.getType( ).equals( BarChart.TYPE_LITERAL ) ) //$NON-NLS-1$
 				{
 					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
 					( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -522,51 +537,58 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			return series;
 		}
-		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
-		barseries.setRiser( RiserType.RECTANGLE_LITERAL );
-
-		// Copy generic series properties
-		barseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		AreaSeries areaseries = (AreaSeries) AreaSeriesImpl.create( );
+		areaseries.getLineAttributes( ).setVisible( true );
+		areaseries.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
+		if ( !( series instanceof ScatterSeries ) )
 		{
-			barseries.setLabelPosition( series.getLabelPosition( ) );
+			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
+			marker.setSize( 5 );
+			marker.setType( MarkerType.BOX_LITERAL );
+			marker.setVisible( false );
+			areaseries.setMarker( marker );
 		}
 		else
 		{
-			barseries.setLabelPosition( Position.OUTSIDE_LITERAL );
+			areaseries.setMarker( ( (ScatterSeries) series ).getMarker( ) );
+			areaseries.getMarker( ).setVisible( false );
 		}
-		barseries.setVisible( series.isVisible( ) );
+
+		// Copy generic series properties
+		areaseries.setLabel( series.getLabel( ) );
+		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
+				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		{
+			areaseries.setLabelPosition( Position.ABOVE_LITERAL );
+		}
+		else
+		{
+			areaseries.setLabelPosition( series.getLabelPosition( ) );
+		}
+
+		areaseries.setVisible( series.isVisible( ) );
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
-			barseries.getTriggers( ).addAll( series.getTriggers( ) );
+			areaseries.getTriggers( ).addAll( series.getTriggers( ) );
 		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
 		{
-			barseries.setDataPoint( series.getDataPoint( ) );
+			areaseries.setDataPoint( series.getDataPoint( ) );
 		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
 		{
-			barseries.getDataDefinition( ).add( series.getDataDefinition( )
+			areaseries.getDataDefinition( ).add( series.getDataDefinition( )
 					.get( 0 ) );
 		}
 
 		// Copy series specific properties
-		if ( series instanceof LineSeries )
+		if ( series instanceof StockSeries )
 		{
-			barseries.setRiserOutline( ( (LineSeries) series ).getLineAttributes( )
-					.getColor( ) );
+			areaseries.getLineAttributes( )
+					.setColor( ( (StockSeries) series ).getLineAttributes( )
+							.getColor( ) );
 		}
-		else if ( series instanceof PieSeries )
-		{
-			barseries.setRiserOutline( ( (PieSeries) series ).getSliceOutline( ) );
-		}
-		else if ( series instanceof StockSeries )
-		{
-			barseries.setRiserOutline( ( (StockSeries) series ).getLineAttributes( )
-					.getColor( ) );
-		}
-		return barseries;
+		return areaseries;
 	}
 
 	private SampleData getConvertedSampleData( SampleData currentSampleData )
@@ -692,16 +714,5 @@ public class BarChart extends DefaultChartTypeImpl
 			return ChartDimension.THREE_DIMENSIONAL_LITERAL;
 		}
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart,
-	 *      java.util.Hashtable)
-	 */
-	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
-	{
-		return false;
 	}
 }
