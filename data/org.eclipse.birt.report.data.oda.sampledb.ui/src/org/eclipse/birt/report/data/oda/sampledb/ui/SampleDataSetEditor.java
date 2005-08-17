@@ -16,6 +16,7 @@ package org.eclipse.birt.report.data.oda.sampledb.ui;
 import java.sql.Connection;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage;
+import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -31,16 +32,19 @@ public class SampleDataSetEditor extends SQLDataSetEditorPage
 	/*
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage#connectMetadataProvider(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
-	protected Connection connectMetadataProvider(JdbcMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle)
+	protected Connection connectMetadataProvider(IMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle)
 	{
 		// Sanity check; connect to SampleDB only if the data source is a sample DB data source
-		if ( dataSourceHandle.getExtensionID().equals( SampleDBDriver.DATA_SOURCE_ID ))
+		if ( dataSourceHandle.getExtensionID().equals( SampleDBDriver.DATA_SOURCE_ID )&&metadata instanceof JdbcMetaDataProvider )
 		{
 			String user = "";
 			String password = "";
 			String url = SampleDBDriver.getUrl();
-			return metadata.connect( user, password, url, SampleDBDriver.DRIVER_CLASS,
-						SampleDBDriver.DATA_SOURCE_ID);
+			return ( (JdbcMetaDataProvider) metadata ).connect( user,
+					password,
+					url,
+					SampleDBDriver.DRIVER_CLASS,
+					SampleDBDriver.DATA_SOURCE_ID );
 		}
 		else
 			return super.connectMetadataProvider( metadata, dataSourceHandle);
