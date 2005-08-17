@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.core.RootElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -106,17 +106,17 @@ public class DocElement extends DocComposite
 	{
 		switch ( getElementDefn( ).getNameSpaceID( ) )
 		{
-			case RootElement.STYLE_NAME_SPACE:
+			case Module.STYLE_NAME_SPACE:
 				return "Styles";
-			case RootElement.DATA_SET_NAME_SPACE:
+			case Module.DATA_SET_NAME_SPACE:
 				return "Data Sets";
-			case RootElement.DATA_SOURCE_NAME_SPACE:
+			case Module.DATA_SOURCE_NAME_SPACE:
 				return "Data Sources";
-			case RootElement.ELEMENT_NAME_SPACE:
+			case Module.ELEMENT_NAME_SPACE:
 				return "Report Items";
-			case RootElement.PARAMETER_NAME_SPACE:
+			case Module.PARAMETER_NAME_SPACE:
 				return "Parameters";
-			case RootElement.PAGE_NAME_SPACE:
+			case Module.PAGE_NAME_SPACE:
 				return "Pages";
 			default:
 				return "None";
