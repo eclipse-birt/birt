@@ -19,6 +19,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
@@ -217,19 +219,19 @@ public class OdaJdbcDriver implements IDriver
 	/**
 	 * Lists all possible driver files (those ending with .zip or .jar) in the drivers directory
 	 */
-	public static File[] getDriverFileList() throws OdaException, IOException
+	public static List getDriverFileList() throws OdaException, IOException
 	{
 		File driverHomeDir = getDriverDirectory();
 		String files[] = driverHomeDir.list( new FilenameFilter() {
 					public boolean accept( File dir,String name )
 					{	return isDriverFile( name ); }
 				} );
-		File[] ret = new File[files.length];
+		List retList = new ArrayList();
 		for ( int i = 0; i < files.length; i++ )
 		{
-			ret[i] = new File( driverHomeDir, files[i]);
+			retList.add( new File( driverHomeDir, files[i] ) );
 		}
-		return ret;
+		return retList;
 	}
 		
     /**
