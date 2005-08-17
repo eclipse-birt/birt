@@ -922,7 +922,7 @@ public class InsertInLayoutUtil
 
 	protected static boolean isHandleValid( DesignElementHandle handle )
 	{
-		return handle.isValid( ) && handle.getValidationErrors( ).isEmpty( );
+		return handle.isValid( ) && handle.getSemanticErrors( ).isEmpty( );
 	}
 	
 	/**

@@ -38,7 +38,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * command and record are invoked and the record will eventually send out a kind
  * of NotificationEvent, when calling the {@link #getEventType()}of the event,
  * the return value will be one of the constants defined here.
- * 
+ *  
  */
 
 public abstract class NotificationEvent
@@ -100,12 +100,24 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int VALIDATION_EVENT = 10;
-	
+
 	/**
 	 * The event type of LibraryEvent
 	 */
-	
+
 	public static final int LIBRARY_EVENT = 11;
+
+	/**
+	 * The event type of attributeEvent.
+	 */
+
+	public static final int ATTRIBUTE_EVENT = 12;
+
+	/**
+	 * The event type of DISPOSE_EVENT.
+	 */
+
+	public static final int DISPOSE_EVENT = 13;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
@@ -140,12 +152,12 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int ELEMENT_CLIENT = 4;
-	
+
 	/**
-	 * Event is being sent to the elements that use a structure
-	 * defined in report design. 
+	 * Event is being sent to the elements that use a structure defined in
+	 * report design.
 	 */
-	
+
 	public static final int STRUCTURE_CLIENT = 5;
 
 	/**
@@ -286,12 +298,16 @@ public abstract class NotificationEvent
 	 * <li>USER_PROP_EVENT</li>
 	 * <li>CUSTOM_MSG_EVENT</li>
 	 * <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li>
+	 * <li>NOTIFICATION_EVENT</li>
 	 * <li>VALIDATION_EVENT</li>
 	 * <li>LIBRARY_EVENT</li>
+	 * <li>ATTRIBUTE_EVENT</li>
+	 * <li>DISPOSE_EVENT</li>
 	 * </ul>
 	 * 
 	 * @return the event type.
 	 */
+
 	public abstract int getEventType( );
 
 	/**

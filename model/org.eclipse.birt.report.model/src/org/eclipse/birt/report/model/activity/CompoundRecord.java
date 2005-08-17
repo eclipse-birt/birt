@@ -41,7 +41,7 @@ public class CompoundRecord extends ActivityRecord
 	 * The list of child records. Contents are of type ActivityRecord.
 	 */
 
-	private List recordList = new ArrayList( );
+	private List recordList = new ArrayList( );	
 
 	/**
 	 * Constructor.
@@ -53,6 +53,22 @@ public class CompoundRecord extends ActivityRecord
 	public CompoundRecord( String text )
 	{
 		label = text;
+	}
+
+	/**
+	 * Constructs a compound record.
+	 * 
+	 * @param text
+	 *            the localized label text
+	 * @param isPersistent
+	 *            the status justifying whether the record is persistent when
+	 *            rollback
+	 */
+
+	public CompoundRecord( String text, boolean isPersistent )
+	{
+		this.label = text;
+		this.isPersistent = isPersistent;
 	}
 
 	/**
@@ -274,5 +290,21 @@ public class CompoundRecord extends ActivityRecord
 			list.addAll( record.getValidators( ) );
 		}
 		return list;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
+	 */
+	
+	public void rollback( )
+	{
+		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
+		{
+			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			if ( !record.isPersistent( ) )
+			{
+				record.rollback( );
+			}
+		}
 	}
 }

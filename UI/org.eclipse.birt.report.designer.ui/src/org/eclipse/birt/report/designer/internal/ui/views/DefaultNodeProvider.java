@@ -226,7 +226,7 @@ public class DefaultNodeProvider implements INodeProvider
 		String iconName = getIconName( model );
 
 		if ( model instanceof DesignElementHandle
-				&& ( (DesignElementHandle) model ).getValidationErrors( )
+				&& ( (DesignElementHandle) model ).getSemanticErrors( )
 						.size( ) > 0 )
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );

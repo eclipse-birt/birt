@@ -61,7 +61,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 		setLabel( extCommand.getLabel( ) );
 
 		if ( extCommand.getElementHandle( ) != null )
-			element = (DesignElement) extCommand.getElementHandle( )
+			element = extCommand.getElementHandle( )
 					.getElement( );
 	}
 
@@ -147,11 +147,11 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * <code>getEvent( )</code> to produce the notification, and sends the
 	 * event to the element returned by <code>getTarget( )</code>.
 	 * 
-	 * @param target
-	 *            the target element of the event
-	 * @param propName
-	 *            the property name changed
+	 * @param transactionStarted
+	 *            status identifying whether it is nested in a parent
+	 *            transaction
 	 */
+	
 	public void sendNotifcations( boolean transactionStarted )
 	{
 		if ( element != null )
@@ -171,8 +171,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * extension element is not null and the dynamic property list is changed.
 	 * <code>propertyEvent</code> will be returned if not the above case.
 	 * 
-	 * @return
-	 * 		event
+	 * @return event
 	 */
 	private NotificationEvent getEvent( )
 	{
@@ -190,6 +189,19 @@ public final class ExtensionActivityRecord extends ActivityRecord
 			event = new PropertyEvent( element, propName );
 		// Use the same notification for the done/redone and undone states.
 		return event;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
+	 */
+	public void rollback( )
+	{
+		undo( );
+		setState( ActivityRecord.UNDONE_STATE );
+		sendNotifcations( true );
 
 	}
 }

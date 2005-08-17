@@ -28,6 +28,10 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.AttributeEvent;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -221,6 +225,18 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	private List libraries = null;
+	
+	/**
+	 * The attribute listener list to handle the file name changed events.
+	 */
+	
+	private List attributeListeners = null;
+	
+	/**
+	 * Dispose listener list to handle the design disposal events.
+	 */
+	
+	private List disposeListeners = null;
 
 	/**
 	 * Default constructor.
@@ -1488,6 +1504,118 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 			client.resolveElementReference( this, client
 					.getPropertyDefn( ref.propName ) );
+		}
+	}
+	
+	/**
+	 * Adds one attribute listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the attribute listener to add
+	 */
+
+	public void addAttributeListener( IAttributeListener listener )
+	{
+		if ( attributeListeners == null )
+			attributeListeners = new ArrayList( );
+
+		if ( !attributeListeners.contains( listener ) )
+			attributeListeners.add( listener );
+	}
+
+	/**
+	 * Removes one attribute listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the attribute listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 *  
+	 */
+
+	public boolean removeAttributeListener( IAttributeListener listener )
+	{
+		if ( attributeListeners == null )
+			return false;
+		return attributeListeners.remove( listener );
+	}
+	
+	/**
+	 * Broadcasts the file name event to the file name listeners.
+	 * 
+	 * @param event
+	 *            the file name event
+	 */
+
+	public void broadcastFileNameEvent( AttributeEvent event )
+	{
+		if ( attributeListeners != null )
+		{
+			Iterator iter = attributeListeners.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IAttributeListener listener = (IAttributeListener) iter
+						.next( );
+
+				listener.fileNameChanged( (ModuleHandle)getHandle( this ), event );
+			}
+		}
+	}
+	
+	/**
+	 * Adds one dispose listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the dispose listener to add
+	 */
+
+	public void addDisposeListener( IDisposeListener listener )
+	{
+		if ( disposeListeners == null )
+			disposeListeners = new ArrayList( );
+
+		if ( !disposeListeners.contains( listener ) )
+			disposeListeners.add( listener );
+	}
+
+	/**
+	 * Removes one dispose listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the dispose listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 *  
+	 */
+
+	public boolean removeDisposeListener( IDisposeListener listener )
+	{
+		if ( disposeListeners == null )
+			return false;
+		return disposeListeners.remove( listener );
+	}
+	
+	/**
+	 * Broadcasts the dispose event to the dispose listeners.
+	 * 
+	 * @param event
+	 *            the dispose event
+	 */
+
+	public void broadcastDisposeEvent( DisposeEvent event )
+	{
+		if ( disposeListeners != null )
+		{
+			Iterator iter = disposeListeners.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				IDisposeListener listener = (IDisposeListener) iter
+						.next( );
+
+				listener.moduleDisposed( (ModuleHandle)getHandle( this ), event );
+			}
 		}
 	}
 

@@ -251,6 +251,12 @@ public abstract class ActivityRecord
 	private int transNo = 0;
 
 	/**
+	 * The status justifying whether the record is persistent when rollback.
+	 */
+
+	protected boolean isPersistent = false;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -450,5 +456,36 @@ public abstract class ActivityRecord
 	{
 		return Collections.EMPTY_LIST;
 	}
+
+	/**
+	 * Justifies whether the record is undoable or persistent when the
+	 * application calls <code>rollback</code> or <code>rollbackAll</code>.
+	 * 
+	 * @return true if the record is persisten, otherwise false
+	 */
+
+	public boolean isPersistent( )
+	{
+		return this.isPersistent;
+	}
+
+	/**
+	 * Sets the persistent status of the record.
+	 * 
+	 * @param isPersistent
+	 */
+
+	public void setPersistent( boolean isPersistent )
+	{
+		this.isPersistent = isPersistent;
+	}
+
+	/**
+	 * Rollbacks the record. If the record is persistent, then there will be no
+	 * operation with the method. Otherwise the record is undone.
+	 *  
+	 */
+
+	abstract public void rollback( );
 
 }

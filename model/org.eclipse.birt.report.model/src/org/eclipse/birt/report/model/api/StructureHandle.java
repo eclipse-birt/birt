@@ -18,8 +18,11 @@ import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
 /**
@@ -52,7 +55,7 @@ public class StructureHandle extends ValueHandle
 	{
 		super( element );
 		structRef = new CachedMemberRef( ref );
-		if (! structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+		if ( !structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
@@ -72,7 +75,7 @@ public class StructureHandle extends ValueHandle
 		super( valueHandle.getElementHandle( ) );
 		structRef = new CachedMemberRef( new CachedMemberRef( valueHandle
 				.getReference( ), index ) );
-		if (! structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+		if ( !structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
@@ -103,17 +106,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member is
-	 *         not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member
+	 *         is not set or is not found.
 	 */
 
 	protected Object getProperty( String memberName )
 	{
-        MemberHandle handle = getMember( memberName );
-        if( handle == null )
-            return null;
-        
-        return handle.getValue();
+		MemberHandle handle = getMember( memberName );
+		if ( handle == null )
+			return null;
+
+		return handle.getValue( );
 	}
 
 	/**
@@ -121,17 +124,17 @@ public class StructureHandle extends ValueHandle
 	 * 
 	 * @param memberName
 	 *            name of the member to get
-	 * @return String value of the member, or <code>null</code> if the member is
-	 *         not set or is not found.
+	 * @return String value of the member, or <code>null</code> if the member
+	 *         is not set or is not found.
 	 */
 
 	protected String getStringProperty( String memberName )
 	{
-        MemberHandle handle = getMember( memberName );
-        if( handle == null )
-            return null;
-        
-        return handle.getStringValue(); 
+		MemberHandle handle = getMember( memberName );
+		if ( handle == null )
+			return null;
+
+		return handle.getStringValue( );
 	}
 
 	/**
@@ -209,7 +212,8 @@ public class StructureHandle extends ValueHandle
 
 	public MemberHandle getMember( String memberName )
 	{
-		StructPropertyDefn memberDefn = (StructPropertyDefn)getDefn( ).getMember( memberName );
+		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn( )
+				.getMember( memberName );
 		if ( memberDefn == null )
 			return null;
 
@@ -240,6 +244,46 @@ public class StructureHandle extends ValueHandle
 	public MemberRef getReference( )
 	{
 		return structRef;
+	}
+
+	/**
+	 * Removes this structure from a list property or member. Once the structure
+	 * is dropped, the handle should not be used to do any setter operations.
+	 * 
+	 * @throws PropertyValueException
+	 *             if the structure is not contained in the list.
+	 */
+
+	public void drop( ) throws PropertyValueException
+	{
+		MemberRef listRef = null;
+		MemberRef ref = getReference( );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getPropertyDefn( );
+
+		if ( propDefn.isList( ) )
+		{
+			if ( ref.getDepth( ) == 1 )
+			{
+				listRef = new CachedMemberRef( propDefn );
+			}
+			else if ( ref.getDepth( ) == 2 )
+			{
+				listRef = new CachedMemberRef( propDefn );
+				listRef = new CachedMemberRef( listRef, ref.getIndex( ),
+						(StructPropertyDefn) ref.getMemberDefn( ) );
+			}
+		}
+		else
+		{
+			assert ref.getDepth( ) == 1;
+
+			listRef = new CachedMemberRef( propDefn, (StructPropertyDefn) ref
+					.getMemberDefn( ) );
+
+		}
+
+		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		cmd.removeItem( listRef, getStructure( ) );
 	}
 
 }

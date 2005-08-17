@@ -37,10 +37,10 @@ import org.eclipse.birt.report.model.api.activity.IActivityRecord;
  * errors. Transactions provide this support.
  * <p>
  * The application starts an operation with a call to the
- * <code>{@link #startTrans}</code> method, supplying a localized label that
- * can appear in the menu along with the "Undo" command. For example, "Undo
- * Align Left." The application then makes changes as usual. If the operation
- * succeeds, the application ends the transaction by calling
+ * <code>{@link #startTrans(String)}</code> method, supplying a localized
+ * label that can appear in the menu along with the "Undo" command. For example,
+ * "Undo Align Left." The application then makes changes as usual. If the
+ * operation succeeds, the application ends the transaction by calling
  * <code>{@link #commit}</code>. However, if the operation fails, and so the
  * whole sequence should be abandoned, the application calls the
  * <code>{@link #rollback}</code> method.
@@ -59,7 +59,23 @@ import org.eclipse.birt.report.model.api.activity.IActivityRecord;
  * transaction. The <code>rollback</code> method undoes just the innermost
  * transaction. Or, if the application has a generic error handler, it can call
  * <code>rollbackAll</code> to undo the entire set of active transactions.
- * 
+ * <p>
+ * Sometimes, there is possibility that when a transaction fails, some certain
+ * operation that has already done and succeeded is essential to be persistent
+ * and not to be undone when the application call <code>rollback</code> or
+ * <code>rollbackAll</code>. Considering that an Eclipse user select Eclipse ->
+ * Search (Outer Dialog) -> Scope -> Choose¡­ -> Select Working Set (Inner
+ * Dialog) to do some searching, he or she customizes the working set and
+ * succeeds, and then he or she clicks "cancel" button to quit the searching, it
+ * is completely possible to rollback the transaction while the customized
+ * working set is still existent and impactful to the next searching working,
+ * which therefore is called as "persistent transaction". In this condition, the
+ * application calls <code>startPersistentTrans(String)</code> to do the
+ * customization of the working set. So a persistent transaction means that,
+ * once the transaction is committed, it will never be undone with all calls to
+ * rollback( ) or rollbackAll( ) and the only way to make the transaction undone
+ * is just to call undo( ).
+ *  
  */
 
 public interface CommandStack
@@ -216,4 +232,14 @@ public interface CommandStack
 	 */
 
 	public void removeListener( ActivityStackListener obj );
+
+	/**
+	 * Starts one persistent transaction, which will never be rollbacked once
+	 * the parent transaction is rollbacked.
+	 * 
+	 * @param label
+	 *            the localized label of the transaction
+	 */
+
+	void startPersistentTrans( String label );
 }

@@ -509,10 +509,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public void clearAllProperties( ) throws SemanticException
 	{
-		Iterator iter = getDefn( ).getPropertyIterator( );
-		while ( iter.hasNext( ) )
+		List props = getDefn( ).getProperties( );
+		for ( int i = 0; i < props.size( ); i++ )
 		{
-			PropertyDefn propDefn = (PropertyDefn) iter.next( );
+			PropertyDefn propDefn = (PropertyDefn) props.get( i );
 
 			setProperty( propDefn.getName( ), null );
 		}
@@ -558,7 +558,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 * 
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -582,7 +582,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 * 
+	 *  
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -890,7 +890,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * Eclipse client does not.
 	 * 
 	 * @return the element ID
-	 * @see ReportDesignHandle#getElementByID
+	 * @see ModuleHandle#getElementByID
 	 * @see org.eclipse.birt.report.model.metadata.MetaDataDictionary#enableElementID
 	 */
 
@@ -1363,8 +1363,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns whether the element is valid or not. An element is invalid if
-	 * errors are associated with the element.
+	 * Returns whether the element is valid or not. An element may be valid even
+	 * though it has some semantic errors.
 	 * 
 	 * @return <code>true</code> if this element is valid, otherwise
 	 *         <code>false</code>.
@@ -1373,6 +1373,29 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public boolean isValid( )
 	{
 		return getElement( ).isValid( );
+	}
+
+	/**
+	 * Sets the status that identifies whether the element is valid or not.
+	 * 
+	 * @param isValid
+	 *            the status to set
+	 */
+
+	public void setValid( boolean isValid )
+	{
+		getElement( ).setValid( isValid );
+	}
+
+	/**
+	 * Justifies whether this element has any semantic error or not.
+	 * 
+	 * @return true if the element has any semantic error, otherwise false
+	 */
+
+	public boolean hasSemanticError( )
+	{
+		return !getSemanticErrors( ).isEmpty( );
 	}
 
 	/**
@@ -1580,13 +1603,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns the validation error list, each of which is the instance of
+	 * Returns the semantic error list, each of which is the instance of
 	 * <code>ErrorDetail</code>.
 	 * 
-	 * @return the validation error list.
+	 * @return the semantic error list.
 	 */
 
-	public List getValidationErrors( )
+	public List getSemanticErrors( )
 	{
 		List exceptionList = getElement( ).getErrors( );
 		if ( exceptionList == null )

@@ -23,6 +23,10 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.AttributeEvent;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -39,7 +43,6 @@ import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -138,7 +141,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the config variable
 	 * @throws SemanticException
 	 *             if the name is empty or the same name exists.
-	 * 
+	 *  
 	 */
 
 	public void addConfigVariable( ConfigVariable configVar )
@@ -260,12 +263,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Closes the design. The report design handle is no longer valid after
-	 * closing the design.
+	 * closing the design. This method will send notifications instance of
+	 * <code>DisposeEvent</code> to all the dispose listeners registered in
+	 * the module.
 	 */
 
 	public void close( )
 	{
 		module.close( );
+		DisposeEvent event = new DisposeEvent( module );
+		module.broadcastDisposeEvent( event );
 	}
 
 	/**
@@ -493,7 +500,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the config variable name
 	 * @return the index ( from 0 ) of config variable with the given name.
 	 *         Return -1, if not found.
-	 * 
+	 *  
 	 */
 
 	private int findConfigVariablePos( String name )
@@ -1170,7 +1177,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             if the old config variable is not found or the name of new
 	 *             one is empty.
-	 * 
+	 *  
 	 */
 
 	public void replaceConfigVariable( ConfigVariable oldVar,
@@ -1248,7 +1255,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void saveAs( String newName ) throws IOException
 	{
-		module.setFileName( newName );
+		setFileName( newName );
 		save( );
 	}
 
@@ -1312,7 +1319,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Sets the design file name.
+	 * Sets the design file name. This method will send notifications instance
+	 * of <code>AttributeEvent</code> to all the attribute listeners registered
+	 * in the module.
 	 * 
 	 * @param newName
 	 *            the new file name
@@ -1321,6 +1330,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void setFileName( String newName )
 	{
 		module.setFileName( newName );
+		AttributeEvent event = new AttributeEvent( module, AttributeEvent.FILE_NAME_ATTRIBUTE );
+		module.broadcastFileNameEvent( event );
 	}
 
 	/**
@@ -1512,4 +1523,77 @@ public abstract class ModuleHandle extends DesignElementHandle
 		command.shiftLibrary( (Library) library.getElement( ), toPosn );
 	}
 
+	/**
+	 * Adds one attribute listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the attribute listener to add
+	 */
+
+	public void addAttributeListener( IAttributeListener listener )
+	{
+		getModule( ).addAttributeListener( listener );
+	}
+
+	/**
+	 * Removes one attribute listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the attribute listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 *  
+	 */
+
+	public boolean removeAttributeListener( IAttributeListener listener )
+	{
+		return getModule( ).removeAttributeListener( listener );
+	}
+
+	/**
+	 * Adds one dispose listener. The duplicate listener will not be added.
+	 * 
+	 * @param listener
+	 *            the dispose listener to add
+	 */
+
+	public void addDisposeListener( IDisposeListener listener )
+	{
+		getModule( ).addDisposeListener( listener );
+	}
+
+	/**
+	 * Removes one dispose listener. If the listener not registered, then the
+	 * request is silently ignored.
+	 * 
+	 * @param listener
+	 *            the dispose listener to remove
+	 * @return <code>true</code> if <code>listener</code> is successfully
+	 *         removed. Otherwise <code>false</code>.
+	 *  
+	 */
+
+	public boolean removeDisposeListener( IDisposeListener listener )
+	{
+		return getModule( ).removeDisposeListener( listener );
+	}	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
+	 */
+	
+	public void drop( ) throws SemanticException
+	{
+		throw new IllegalOperationException( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#dropAndClear()
+	 */
+	
+	public void dropAndClear( ) throws SemanticException
+	{
+		throw new IllegalOperationException( );
+	}
 }
