@@ -39,21 +39,40 @@ import org.eclipse.ui.PlatformUI;
 
 
 /**
- * Class to Manage Jdbc Data Sources
- * Has implementation of utility functions such as getting meta data
- * from a Jdbc Data Source 
+ * Class to Manage Jdbc Data Sources, has implementation of utility functions
+ * such as getting meta data from a Jdbc Data Source
  */
-public class JdbcMetaDataProvider 
+public class JdbcMetaDataProvider implements IMetaDataProvider
 {
 	
 	private Connection jdbcConnection = null;
 	private String userName = null;
 	private String url = null;
 	private String driverClass = null;
-
-	
 	private DatabaseMetaData metaData;
 	private HashMap crossReferenceMap = null;
+	
+	public JdbcMetaDataProvider( Connection connection)
+	{
+		this.jdbcConnection = connection;
+		metaData = null;
+		crossReferenceMap = new HashMap();
+	}
+	
+
+	/**
+	 * @return Returns the jdbcConnection.
+	 */
+	public Connection getJdbcConnection() {
+		return jdbcConnection;
+	}
+	
+	/**
+	 * @param connection The jdbcConnection to set.
+	 */
+	public void setJdbcConnection(Connection jdbcConnection) {
+		this.jdbcConnection = jdbcConnection;
+	}	
 	
 	public Connection connect( String userName, String password, String url,
 			String driverClass, String odaDriverName )
@@ -106,6 +125,10 @@ public class JdbcMetaDataProvider
 
 	}
 	
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#connect(org.eclipse.birt.report.model.api.DataSourceHandle)
+	 */
 	public Connection connect(DataSourceHandle dataSourceHandle)
 	{		
 		
@@ -125,36 +148,37 @@ public class JdbcMetaDataProvider
 		return jdbcConnection;
 	}
 	
-	public JdbcMetaDataProvider( Connection connection)
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getConnection()
+	 */
+	public Connection getConnection( )
 	{
-		jdbcConnection = connection;
-		metaData = null;
-		crossReferenceMap = new HashMap();
+		return jdbcConnection;
 	}
 	
 	/*
-	 * Gets the CataLog for the Jdbc connection
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#closeConnection()
 	 */
-    public String getCatalog()
-    {
-        String cataLog = null;
-        if(jdbcConnection != null)
-        {
-            try
-            {
-                cataLog = jdbcConnection.getCatalog();
-            }
-            catch( SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    	
-    	return cataLog;
-    }
+	public void closeConnection()
+	{
+		if ( jdbcConnection != null )
+		{
+			try {
+				if( !jdbcConnection.isClosed())
+				{
+					jdbcConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
     
 	/*
-	 * Gets the CataLog for the Jdbc connection
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getDataBaseName()
 	 */
     public String getDataBaseName()
     {
@@ -194,129 +218,136 @@ public class JdbcMetaDataProvider
 		}
 		
 		return databaseName;
-		
-    	
-    	
     }
 
-    /**
-     *  Gets the Meta Data for the connection 
-     * 
-     */
-      public DatabaseMetaData getMetaData()
-      {
-      	if ( jdbcConnection == null )
-      	{
-      		return null;
-      	}
-      	
-      	if ( metaData == null)
-      	{
-      		try
+    /*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getMetaData()
+	 */
+	public DatabaseMetaData getMetaData( )
+	{
+		if ( jdbcConnection == null )
+		{
+			return null;
+		}
+
+		if ( metaData == null )
+		{
+			try
 			{
-      			metaData = jdbcConnection.getMetaData();
+				metaData = jdbcConnection.getMetaData( );
 			}
-      		catch(SQLException e)
+			catch ( SQLException e )
 			{
-      			e.printStackTrace();
+				e.printStackTrace( );
 			}
-      	}
-      	
-      	return metaData;
-      }
-      
-      
-        /**
-	 * @param schemaPattern:
-	 *            The schem from which the tables will be selected
-	 * @param namePattern:
-	 *            Will be used to return all objects matching this string
-	 * @param Type:
-	 *            All the standard Jdbc Types such as "TABLE", "VIEW", "SYSTEM
-	 *            TABLE"
-         * @return : The ResultSet containing the Tables
-         */
+		}
+
+		return metaData;
+	}
+        
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getAllSchema()
+	 */
+	public ResultSet getAllSchema( )
+	{
+		assert jdbcConnection != null;
+
+		if ( metaData == null )
+		{
+
+			metaData = getMetaData( );
+		}
+
+		ResultSet schemaRs = null;
+
+		try
+		{
+			schemaRs = metaData.getSchemas( );
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return schemaRs;
+	}
+        
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#isSchemaSupported()
+	 */
+	public boolean isSchemaSupported( )
+	{
+
+		DatabaseMetaData metaData = getMetaData( );
+		try
+		{
+			if ( metaData != null )
+			{
+				return ( metaData.supportsSchemasInTableDefinitions( ) );
+			}
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return false;
+	}
+  
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getAlltables(java.lang.String, java.lang.String, java.lang.String, java.lang.String[])
+     */  
 	public ResultSet getAlltables( String cataLog, String schemaPattern,
 			String namePattern, String[] types )
-        {
+	{
 
-        	if( jdbcConnection == null)
-        	{
-        		return null;
-        	}
-        	
-        	if ( metaData == null )
-        	{
-        	
-        		metaData = getMetaData();
-        	}
-        	
-        	ResultSet resultSet = null;
-        	if( cataLog != null && cataLog.trim().length() == 0)
-        	{
-        		cataLog = null;
-        	}
-        	
-        	if (metaData != null )
-        	{
-        		try
-				{
+		if ( jdbcConnection == null )
+		{
+			return null;
+		}
+
+		if ( metaData == null )
+		{
+
+			metaData = getMetaData( );
+		}
+
+		ResultSet resultSet = null;
+		if ( cataLog != null && cataLog.trim( ).length( ) == 0 )
+		{
+			cataLog = null;
+		}
+
+		if ( metaData != null )
+		{
+			try
+			{
 				resultSet = metaData.getTables( cataLog,
 						schemaPattern,
 						namePattern,
 						types );
-				}
-        		catch(SQLException e)
-				{
-        			e.printStackTrace();
-				}
-        	}
-        	return resultSet;
-        }
-        
-        public ResultSet getAllSchema()
-        {
-        	assert jdbcConnection != null;
-        	
-        	if ( metaData == null )
-        	{
-        	
-        		metaData = getMetaData();
-        	}
-        	
-        	ResultSet schemaRs = null;
-        	
-        	try
-			{
-        		schemaRs = metaData.getSchemas();
 			}
-        	catch( SQLException e)
+			catch ( SQLException e )
 			{
-        		e.printStackTrace();
+				e.printStackTrace( );
 			}
-        	
-        	return schemaRs;
-        }
-        
-        public boolean isSchemaSupported()
-        {
-        	
-        	DatabaseMetaData metaData = getMetaData();
-        	try
-			{
-        		if ( metaData != null )
-        		{
-        			return ( metaData.supportsSchemasInTableDefinitions());
-        		}
-			}
-        	catch( SQLException e)
-			{
-        		e.printStackTrace();
-			}
-        	
-        	return false;
-        }
-        
+		}
+		return resultSet;
+	}
+	
+    /*
+     * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getColumns(java.lang.String,
+	 *      java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public ArrayList getColumns( String catalog, String schemaPattern,
 			String tableNamePattern, String columnNamePattern )
         {
@@ -355,246 +386,377 @@ public class JdbcMetaDataProvider
         	return columnList;
         }
         
-        public String getCatalogSeparator()
-        {
-        	
-        	if ( metaData == null )
-        	{
-        		metaData = getMetaData();
-        	}
-        	
-        	try
-			{
-        		String separator =  metaData.getCatalogSeparator();
-        		if(separator == null || separator.trim().length() ==0)
-        		{
-        			separator = ".";
-        		}
-        		return separator;
-
-			}
-        	catch(SQLException e)
-			{
-        		e.printStackTrace();
-			}
-        	
-        	
-        	return null;
-        }
-        
-	public static String constructSql( ArrayList tableList,
-			ArrayList columnList, ArrayList joinList, JdbcMetaDataProvider metaDataProvider )
-        {
-		
-			// String used to quote the identifiers by default
-		    // when they have to be escaped
-			String quoteString = null;
-//			String extraNameCharacters = null;
-//			String searchEscapeCharacter = null;
-
-			
-			String databaseName = "";
-			boolean schemaSupported = true;
-			
-			if ( metaDataProvider != null )
-			{
-				databaseName = metaDataProvider.getDataBaseName();
-				schemaSupported = metaDataProvider.isSchemaSupported();
-			}
-			
-			
-//			char escapeChar = '\'';
-			
-			if  (metaDataProvider != null)
-			{
-				DatabaseMetaData metaData = metaDataProvider.getMetaData();
-				if ( metaData != null )
-				{
-					try
-					{
-						quoteString = metaData.getIdentifierQuoteString();
-//						extraNameCharacters = metaData.getExtraNameCharacters();
-//						searchEscapeCharacter = metaData.getSearchStringEscape();
-		
-						
-					}
-					catch(SQLException e)
-					{
-						e.printStackTrace();
-					}
-				}
-			}
-			
-			if( quoteString == null || quoteString.trim().length() == 0)
-			{
-				quoteString = "\"";
-			}
-			
-			
-			String[] delimitors = { quoteString, quoteString };
-			
-			// Handling for special cases
-			getQuoteString(databaseName, delimitors);
-			
-			String startDelimitor = delimitors[0];
-			String endDelimitor = delimitors[1];
-			
-			
-			
-        	String sqlStatement = null;
-        
-        	String SELECT_COLUMN_SPACING = "        ";
-        	String SELECT = " SELECT ";
-        	if ( tableList != null && columnList != null)
-        	{
-        		
-        		// The Select clause built from the column list
-        		StringBuffer selectClause = new StringBuffer(SELECT);//$NON-NLS-1$
-        		
-        		int columnCount = columnList.size();
-        		
-        		for ( int i=0; i < columnCount; i++)
-        		{
-        			String columnName = (String)columnList.get(i);
-        			//selectClause.append(columnName);
-        			selectClause.append(quoteName(columnName, startDelimitor, endDelimitor ));
-
-        			if ( i != (columnCount -1))
-        			{
-        				 selectClause.append(",");//$NON-NLS-1$
-        				 selectClause.append("\n");
-        				 selectClause.append(SELECT_COLUMN_SPACING);
-        			}
-        		}
-        		
-        		selectClause.append(" ");//$NON-NLS-1$
-//        		StringBuffer fromClause = new StringBuffer(" FROM ");//$NON-NLS-1$
-        		
-        		String fromAndWhereClause = null;
-       			fromAndWhereClause = getFromAndOnClause(tableList, joinList, startDelimitor, endDelimitor, schemaSupported);
-        		sqlStatement = selectClause.toString() + "\n" + fromAndWhereClause;
-        	}
-        	
-        	
-        	return sqlStatement;
-        }
-
-        
-        public static String  getFromAndOnClause(ArrayList tableList, ArrayList joins,
-        										 String startDelimitor, String endDelimitor, boolean schemaSupported)
-        {
-        	
-        	StringBuffer fromClause = new StringBuffer("");//$NON-NLS-1$
-        	String FROM_CLAUSE_SPACING = "      ";
-        	
-//        	ArrayList fromTables = new ArrayList();
-        	
-        	if(joins == null || joins.size() ==0)
-        	{
-        		// No Joins
-        		// Just add the table names in the FROM clause
-        		int tableCount = tableList.size();
-        		for ( int i=0; i < tableCount; i++)
-        		{
-        			TableImpl  tableItem = (TableImpl)tableList.get(i);
-        			String tableAlias = tableItem.getTableAlias();
-        			String tableName = tableItem.getFullyQualifiedName();
-        			if( tableAlias != null && tableAlias.length() > 0)
-        			{
-        				// Table Alias and the actual table name differ
-        				if( !tableAlias.equalsIgnoreCase(tableName))
-        				{
-        					if(fromClause.length() > 0)
-        					{
-        						fromClause.append(FROM_CLAUSE_SPACING);
-        					}
-        					
-        					// ORIGINAL CODE
-        					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor));
-        					
-
-        					fromClause.append( " AS ");
-							fromClause.append(tableAlias);
-						}
-        				else
-        				{
-        					if(fromClause.length() > 0)
-        					{
-        						fromClause.append(FROM_CLAUSE_SPACING);;
-        					}
-        					
-        					
-        					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
-        					
-        					//fromClause.append(tableName);
-        				}
-        			}
-        			else
-        			{
-        				if( fromClause.length() > 0)
-        				{
-        					fromClause.append(FROM_CLAUSE_SPACING);
-        				}
-        				
-        				// ORIGINAL CODE
-    					fromClause.append(quoteName(tableName, startDelimitor, endDelimitor ));
-        				
-        				//fromClause.append(tableName);
-        			}
-        			
-        			if ( i != (tableCount -1))
-        			{
-        				fromClause.append(" , ");
-        				fromClause.append("\n");
-        			}
-        		}
-
-        	}
-        	
-        	else
-        	{
-        		createJoinClause(joins, fromClause, startDelimitor, endDelimitor, tableList);
-        	}
-        	
-        	
-        	String fromClauseStr = "";
-        	if( fromClause.length() > 0)
-        	{
-        		fromClauseStr = " FROM " + fromClause.toString();
-        	}
-        	
-        	
-        	return fromClauseStr ;
-        }
-
-	/**
-	 * @return Returns the jdbcConnection.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getCatalog()
 	 */
-	public Connection getJdbcConnection() {
-		return jdbcConnection;
-	}
-	/**
-	 * @param jdbcConnection The jdbcConnection to set.
-	 */
-	public void setJdbcConnection(Connection jdbcConnection) {
-		this.jdbcConnection = jdbcConnection;
-	}
-	
-	public void closeConnection()
+	public String getCatalog( )
 	{
+		String cataLog = null;
 		if ( jdbcConnection != null )
 		{
-			try {
-				if( !jdbcConnection.isClosed())
-				{
-					jdbcConnection.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			try
+			{
+				cataLog = jdbcConnection.getCatalog( );
+			}
+			catch ( SQLException e )
+			{
+				e.printStackTrace( );
 			}
 		}
+
+		return cataLog;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getCatalogSeparator()
+	 */
+	public String getCatalogSeparator( )
+	{
+
+		if ( metaData == null )
+		{
+			metaData = getMetaData( );
+		}
+
+		try
+		{
+			String separator = metaData.getCatalogSeparator( );
+			if ( separator == null || separator.trim( ).length( ) == 0 )
+			{
+				separator = ".";
+			}
+			return separator;
+
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return null;
 	}
 	
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#getCrossReferences(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public ArrayList getCrossReferences( String primarySchema,
+			String primaryTable, String foreignSchema, String foreignTable )
+	{
+		if ( metaData == null )
+		{
+			return null;
+		}
+
+		String fullPrimaryTableName = primaryTable;
+		String fullForeignTableName = foreignTable;
+
+		if ( primarySchema != null )
+		{
+			fullPrimaryTableName = primarySchema + "." + fullPrimaryTableName;
+		}
+
+		if ( foreignSchema != null )
+		{
+			fullForeignTableName = foreignSchema + "." + fullForeignTableName;
+		}
+
+		// If already retrieved then, get it from the Hash
+
+		ArrayList crossReferences = (ArrayList) crossReferenceMap.get( fullForeignTableName );
+		if ( crossReferences != null )
+		{
+			return crossReferences;
+		}
+		else
+		{
+			crossReferences = new ArrayList( );
+		}
+
+		ResultSet crossReferencesRs = null;
+
+		try
+		{
+			crossReferencesRs = metaData.getCrossReference( null,
+					primarySchema,
+					primaryTable,
+					null,
+					foreignSchema,
+					foreignTable );
+
+			// test
+			// crossReferencesRs = metaData.getCrossReference(null,
+			// primarySchema, "customers", null, foreignSchema, "orders");
+
+			while ( crossReferencesRs.next( ) )
+			{
+				String pkSchema = crossReferencesRs.getString( "PKTABLE_SCHEM" );
+				String pkTable = crossReferencesRs.getString( "PKTABLE_NAME" );
+				String pkColumn = crossReferencesRs.getString( "PKCOLUMN_NAME" );
+				String fkSchema = crossReferencesRs.getString( "FKTABLE_SCHEM" );
+				String fkTable = crossReferencesRs.getString( "FKTABLE_NAME" );
+				String fkColumn = crossReferencesRs.getString( "FKCOLUMN_NAME" );
+
+				String pkFullColumnName = pkTable + "." + pkColumn;
+				String fkFullColumnName = fkTable + "." + fkColumn;
+
+				if ( pkSchema != null && pkSchema.length( ) > 0 )
+				{
+					pkFullColumnName = pkSchema + "." + pkFullColumnName;
+				}
+
+				if ( fkSchema != null && fkSchema.length( ) > 0 )
+				{
+					fkFullColumnName = fkSchema + "." + fkFullColumnName;
+				}
+
+				CrossReference crossReference = new CrossReference( pkSchema,
+						pkTable,
+						pkColumn,
+						fkSchema,
+						fkTable,
+						fkColumn );
+				crossReferences.add( crossReference );
+			}
+			if ( crossReferences != null && crossReferences.size( ) > 0 )
+			{
+				crossReferenceMap.put( fullPrimaryTableName, crossReferences );
+			}
+
+		}
+		catch ( SQLException e )
+		{
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+
+		return crossReferences;
+	}
+
+	
+	public static String constructSql( ArrayList tableList,
+			ArrayList columnList, ArrayList joinList,
+			IMetaDataProvider metaDataProvider )
+	{
+
+		// String used to quote the identifiers by default
+		// when they have to be escaped
+		String quoteString = null;
+		// String extraNameCharacters = null;
+		// String searchEscapeCharacter = null;
+
+		String databaseName = "";
+		boolean schemaSupported = true;
+
+		if ( metaDataProvider != null )
+		{
+			databaseName = metaDataProvider.getDataBaseName( );
+			schemaSupported = metaDataProvider.isSchemaSupported( );
+		}
+
+		// char escapeChar = '\'';
+
+		if ( metaDataProvider != null )
+		{
+			DatabaseMetaData metaData = metaDataProvider.getMetaData( );
+			if ( metaData != null )
+			{
+				try
+				{
+					quoteString = metaData.getIdentifierQuoteString( );
+					// extraNameCharacters = metaData.getExtraNameCharacters();
+					// searchEscapeCharacter = metaData.getSearchStringEscape();
+
+				}
+				catch ( SQLException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
+
+		if ( quoteString == null || quoteString.trim( ).length( ) == 0 )
+		{
+			quoteString = "\"";
+		}
+
+		String[] delimitors = {
+				quoteString, quoteString
+		};
+
+		// Handling for special cases
+		getQuoteString( databaseName, delimitors );
+
+		String startDelimitor = delimitors[0];
+		String endDelimitor = delimitors[1];
+
+		String sqlStatement = null;
+
+		String SELECT_COLUMN_SPACING = "        ";
+		String SELECT = " SELECT ";
+		if ( tableList != null && columnList != null )
+		{
+
+			// The Select clause built from the column list
+			StringBuffer selectClause = new StringBuffer( SELECT );//$NON-NLS-1$
+
+			int columnCount = columnList.size( );
+
+			for ( int i = 0; i < columnCount; i++ )
+			{
+				String columnName = (String) columnList.get( i );
+				// selectClause.append(columnName);
+				selectClause.append( quoteName( columnName,
+						startDelimitor,
+						endDelimitor ) );
+
+				if ( i != ( columnCount - 1 ) )
+				{
+					selectClause.append( "," );//$NON-NLS-1$
+					selectClause.append( "\n" );
+					selectClause.append( SELECT_COLUMN_SPACING );
+				}
+			}
+
+			selectClause.append( " " );//$NON-NLS-1$
+			// StringBuffer fromClause = new StringBuffer(" FROM
+			// ");//$NON-NLS-1$
+
+			String fromAndWhereClause = null;
+			fromAndWhereClause = getFromAndOnClause( tableList,
+					joinList,
+					startDelimitor,
+					endDelimitor,
+					schemaSupported );
+			sqlStatement = selectClause.toString( ) + "\n" + fromAndWhereClause;
+		}
+
+		return sqlStatement;
+	}
+
+	public static String getFromAndOnClause( ArrayList tableList,
+			ArrayList joins, String startDelimitor, String endDelimitor,
+			boolean schemaSupported )
+	{
+
+		StringBuffer fromClause = new StringBuffer( "" );//$NON-NLS-1$
+		String FROM_CLAUSE_SPACING = "      ";
+
+		// ArrayList fromTables = new ArrayList();
+
+		if ( joins == null || joins.size( ) == 0 )
+		{
+			// No Joins
+			// Just add the table names in the FROM clause
+			int tableCount = tableList.size( );
+			for ( int i = 0; i < tableCount; i++ )
+			{
+				TableImpl tableItem = (TableImpl) tableList.get( i );
+				String tableAlias = tableItem.getTableAlias( );
+				String tableName = tableItem.getFullyQualifiedName( );
+				if ( tableAlias != null && tableAlias.length( ) > 0 )
+				{
+					// Table Alias and the actual table name differ
+					if ( !tableAlias.equalsIgnoreCase( tableName ) )
+					{
+						if ( fromClause.length( ) > 0 )
+						{
+							fromClause.append( FROM_CLAUSE_SPACING );
+						}
+
+						// ORIGINAL CODE
+						fromClause.append( quoteName( tableName,
+								startDelimitor,
+								endDelimitor ) );
+
+						fromClause.append( " AS " );
+						fromClause.append( tableAlias );
+					}
+					else
+					{
+						if ( fromClause.length( ) > 0 )
+						{
+							fromClause.append( FROM_CLAUSE_SPACING );
+							;
+						}
+
+						fromClause.append( quoteName( tableName,
+								startDelimitor,
+								endDelimitor ) );
+
+						// fromClause.append(tableName);
+					}
+				}
+				else
+				{
+					if ( fromClause.length( ) > 0 )
+					{
+						fromClause.append( FROM_CLAUSE_SPACING );
+					}
+
+					// ORIGINAL CODE
+					fromClause.append( quoteName( tableName,
+							startDelimitor,
+							endDelimitor ) );
+
+					// fromClause.append(tableName);
+				}
+
+				if ( i != ( tableCount - 1 ) )
+				{
+					fromClause.append( " , " );
+					fromClause.append( "\n" );
+				}
+			}
+
+		}
+
+		else
+		{
+			createJoinClause( joins,
+					fromClause,
+					startDelimitor,
+					endDelimitor,
+					tableList );
+		}
+
+		String fromClauseStr = "";
+		if ( fromClause.length( ) > 0 )
+		{
+			fromClauseStr = " FROM " + fromClause.toString( );
+		}
+
+		return fromClauseStr;
+	}
+	
+	public static String getJoinText(int joinType)
+	{
+		if((joinType == -1) || (joinType == JoinType.INNER))
+		{
+			return(" INNER JOIN ");
+		}
+		else if( joinType == JoinType.LEFT_OUTER )
+		{
+			 return(" LEFT OUTER JOIN ");
+		}
+		else if( joinType == JoinType.RIGHT_OUTER )
+		{
+			return(" RIGHT OUTER JOIN ");
+		}
+		else if ( joinType == JoinType.FULL_OUTER)
+		{
+			return(" FULL OUTER JOIN ");
+		}
+		else
+		{
+			return( " INNER JOIN ");
+		}
+
+	}
 	
 	private static String quoteName(String name, String startDelimitor, String endDelimitor)
 	{
@@ -616,7 +778,7 @@ public class JdbcMetaDataProvider
 	     while (st.hasMoreTokens()) 
 	     {
 	     	String token = st.nextToken();
-	     	// IF the delimitor is a quote , escape the 
+	     	// IF the delimitor is a quote , escape the
 	     	// quotes within the string with 2 double quotes
 	     	if( startDelimitor.equals("\"") && endDelimitor.equals("\""))
 	     	{
@@ -821,120 +983,5 @@ public class JdbcMetaDataProvider
     		}
     		fromClause.append("\n");
     	}
-
-		
-
-
-	}
-	
-	public static String getJoinText(int joinType)
-	{
-		if((joinType == -1) || (joinType == JoinType.INNER))
-		{
-			return(" INNER JOIN ");
-		}
-		else if( joinType == JoinType.LEFT_OUTER )
-		{
-			 return(" LEFT OUTER JOIN ");
-		}
-		else if( joinType == JoinType.RIGHT_OUTER )
-		{
-			return(" RIGHT OUTER JOIN ");
-		}
-		else if ( joinType == JoinType.FULL_OUTER)
-		{
-			return(" FULL OUTER JOIN ");
-		}
-		else
-		{
-			return( " INNER JOIN ");
-		}
-
-	}
-	
-	public ArrayList getCrossReferences(String primarySchema, String primaryTable,
-										String foreignSchema, String foreignTable)
-	{
-		if ( metaData == null )
-		{
-			return null;
-		}
-		
-		String fullPrimaryTableName = primaryTable;
-		String fullForeignTableName = foreignTable;
-		
-		if ( primarySchema != null )
-		{
-			fullPrimaryTableName = primarySchema + "." + fullPrimaryTableName;
-		}
-		
-		if ( foreignSchema != null )
-		{
-			fullForeignTableName = foreignSchema + "." + fullForeignTableName;
-		}
-		
-		// If already retrieved then, get it from the Hash
-		
-		ArrayList crossReferences = (ArrayList)crossReferenceMap.get(fullForeignTableName);
-		if ( crossReferences != null )
-		{
-			return crossReferences;
-		}
-		else
-		{
-			crossReferences = new ArrayList();
-		}
-		
-		ResultSet crossReferencesRs = null;
-		
-		try {
-			crossReferencesRs = metaData.getCrossReference(null, primarySchema, primaryTable, null, foreignSchema, foreignTable);
-			
-			// test 
-			//crossReferencesRs = metaData.getCrossReference(null, primarySchema, "customers", null, foreignSchema, "orders");
-			
-    		while( crossReferencesRs.next())
-    		{
-    			String pkSchema = crossReferencesRs.getString("PKTABLE_SCHEM");
-    			String pkTable = crossReferencesRs.getString("PKTABLE_NAME");
-    			String pkColumn = crossReferencesRs.getString("PKCOLUMN_NAME");
-    			String fkSchema = crossReferencesRs.getString("FKTABLE_SCHEM");
-    			String fkTable = crossReferencesRs.getString("FKTABLE_NAME" );
-    			String fkColumn = crossReferencesRs.getString("FKCOLUMN_NAME");
-    			
-    			String pkFullColumnName = pkTable + "." + pkColumn;
-    			String fkFullColumnName = fkTable + "." + fkColumn;
-    			
-    			if ( pkSchema != null && pkSchema.length() > 0 )
-    			{
-    				pkFullColumnName = pkSchema + "." + pkFullColumnName;
-    			}
-    			
-    			if ( fkSchema != null && fkSchema.length() > 0 )
-    			{
-    				fkFullColumnName = fkSchema + "." + fkFullColumnName;
-    			}
-    			
-    			CrossReference crossReference = new CrossReference(pkSchema, pkTable, pkColumn, fkSchema, fkTable, fkColumn);
-    			crossReferences.add(crossReference);
-    		}
-    		if ( crossReferences != null && crossReferences.size() > 0)
-    		{
-    			crossReferenceMap.put(fullPrimaryTableName, crossReferences);
-    		}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-
-
-		
-		return crossReferences;
-	}
-
-	public Connection getConnection()
-	{
-		return jdbcConnection;
 	}
 }

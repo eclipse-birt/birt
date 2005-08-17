@@ -22,6 +22,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.ExternalEditorPreferenceManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExternalEditorPreference;
+import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -91,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.22 $ $Date: 2005/08/11 08:04:26 $
+ * @version $Revision: 1.21 $ $Date: 2005/08/11 06:10:55 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -105,7 +106,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
     private boolean isSchemaSupported = false;
     private boolean expandDbObjectsTree = false;
     private Tree availableDbObjectsTree = null;
-    private JdbcMetaDataProvider metaDataProvider = null;
+    private IMetaDataProvider metaDataProvider = null;
     private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	// Images that will be used in displayign the tables, views etc
 	private Image schemaImage, tableImage, viewImage, 
@@ -155,16 +156,12 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			reg.put( COLUMN_ICON,
 					ImageDescriptor.createFromFile( JdbcPlugin.class,
 							"icons/column.gif" ) );//$NON-NLS-1$
-
-	
 		}
 		catch ( Exception ex )
 		{
 			
 		} 
 	}
-
-
     
 	/**
 	 * @param pageName
@@ -241,7 +238,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			tablescomposite.setLayoutData(data);
 		}
 		
-		
 		// Available Items 
 		Label dataSourceLabel = new Label( tablescomposite, SWT.LEFT );
 		dataSourceLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.availableItems" ) );//$NON-NLS-1$
@@ -249,8 +245,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			GridData data = new GridData();
 			dataSourceLabel.setLayoutData(data);
 		}
-
-		
 		
 		availableDbObjectsTree = new Tree(tablescomposite, SWT.BORDER|SWT.MULTI );
 		
@@ -288,12 +282,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				}
 			}
 		  });
-		
-
 
 		// Group for selecting the Tables etc
 		// Searching the Tables and Views
-		
 		Group selectTableGroup = new Group(tablescomposite, SWT.FILL);
 		{
 			GridLayout groupLayout = new GridLayout();
@@ -318,14 +309,12 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		Label FilterLabel = new Label(selectTableGroup, SWT.LEFT);
 		FilterLabel.setText(JdbcPlugin.getResourceString("tablepage.label.filter"));
 		
-		
 		searchTxt = new Text(selectTableGroup, SWT.BORDER) ;
 		{
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			data.horizontalSpan = 2;
 			searchTxt.setLayoutData(data);
 		}
-
 		
 		// Select Type
 		Label selectTypeLabel = new Label(selectTableGroup, SWT.NONE);
@@ -335,40 +324,34 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		filterComboViewer = new ComboViewer(selectTableGroup, SWT.READ_ONLY);
 		setFilterComboContents(filterComboViewer);
 		filterComboViewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
 	
 		// Find Button
 		Button findButton = new Button(selectTableGroup, SWT.NONE);
 		findButton.setText(JdbcPlugin.getResourceString("tablepage.button.filter"));//$NON-NLS-1$
-
 		
 		// Add listener to the find button
-		findButton.addSelectionListener(new SelectionAdapter() {
-		public void widgetSelected(SelectionEvent event) {
-				 	PlatformUI.getWorkbench( ).getDisplay( ).asyncExec(
-				 	new Runnable()
-				 	{
-						public void run() 
-						{
-							populateAvailableDbObjects();
-							
-						}
+		findButton.addSelectionListener( new SelectionAdapter( ) {
 
-				 	}
-				 	);
-				 }
-		
-			 });
-		
+			public void widgetSelected( SelectionEvent event )
+			{
+				PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.asyncExec( new Runnable( ) {
 
+							public void run( )
+							{
+								populateAvailableDbObjects( );
+
+							}
+
+						} );
+			}
+		} );
 		
 		setRootElement();
 		
-		
 		//	 Create the drag source on the tree
 		addDragSupportToTree();   
-		
-
 	}
 	
 	private void enableSchemaComponent( boolean b )
@@ -403,7 +386,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		dbTypeList.add(tableType);
 		dbTypeList.add(viewType);
 		dbTypeList.add(allType);
-
 		
         filterComboViewer.setContentProvider(new IStructuredContentProvider(){
 
@@ -443,9 +425,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		
 		// Set the Default selection to the First Item , which is "Table"
 		filterComboViewer.getCombo().select(0);
-        
-        
-		
 	}
 
 	/*
@@ -487,8 +466,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		{
 			selectNode(rootNode);
 		}
-		
-
 	}
 	
 	/*
@@ -503,7 +480,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		OdaDataSourceHandle dataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
 		
 		rootNode.setText(dataSourceHandle.getName());
-		
 	}
 	
 	private void RemoveAllAvailableDbObjects()
@@ -526,35 +502,35 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	protected void populateTableList()
 	{
 		 // Remove all the existing children of the root Node
-		 if ( rootNode != null )
-		 {
-		 	availableDbObjectsTree.removeAll();
-		 	setRootElement();
-		 }
+		if ( rootNode != null )
+		{
+			availableDbObjectsTree.removeAll( );
+			setRootElement( );
+		}
 
-		  String namePattern = null;
-		  String[] tableType = null;
+		String namePattern = null;
+		String[] tableType = null;
 
+		if ( searchTxt.getText( ).length( ) > 0 )
+		{
+			namePattern = searchTxt.getText( );
+			// Add the % by default if there is no such pattern
+			if ( namePattern != null )
+			{
+				if ( namePattern.lastIndexOf( '%' ) == -1 )
+				{
+					namePattern = namePattern + "%";
+				}
+			}
+		}
 		  
-		  if ( searchTxt.getText().length() > 0 )
-		  {
-		  	namePattern = searchTxt.getText();
-		  	// Add the % by default if there is no such pattern
-		  	if ( namePattern != null )
-		  	{
-		  		if ( namePattern.lastIndexOf('%') == -1)
-		  		{
-		  			namePattern = namePattern + "%";
-		  		}
-		  	}
-		  }
-		  
-		  String dbtype = getSelectedDbType();
-		  if ( dbtype != null && ! DbType.ALL_STRING.equalsIgnoreCase(dbtype))
-		  {
-		  	tableType = new String[]{ dbtype };
-		  }
-		  
+		String dbtype = getSelectedDbType( );
+		if ( dbtype != null && !DbType.ALL_STRING.equalsIgnoreCase( dbtype ) )
+		{
+			tableType = new String[]{
+				dbtype
+			};
+		}
 
 	    String catalogName = metaDataProvider.getCatalog();
 		ArrayList tableList = new ArrayList();
@@ -651,8 +627,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 							availableDbObjectsTree.showItem( item[0] );
 						}
 					}
-					
-					
 				}
 				catch(SQLException e)
 				{
@@ -707,27 +681,20 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			{
 				e.printStackTrace();
 			}
-			
-			
 		}
-
 	
 		// Add a listener for fetching columns
 	   addFetchColumnListener();  
-
 	}
-
 	
 	// Connects the metadata provider to the specified data source
-	protected Connection connectMetadataProvider( JdbcMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle )
+	protected Connection connectMetadataProvider( IMetaDataProvider metadata, OdaDataSourceHandle dataSourceHandle )
 	{
 		return metadata.connect( dataSourceHandle );
 	}
 	
 	private void initialize()
 	{
-		
-	
 //		dataSourceImage = JFaceResources.getImage( PAGE_ICON );
 		
 		tableImage = JFaceResources.getImage( TABLE_ICON );
@@ -741,8 +708,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		columnImage = JFaceResources.getImage(COLUMN_ICON);
 		
 	}
-		
-
 
 	/**
 	 *  Initializes the Jdbc related information , used  by this page
@@ -751,10 +716,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	protected void initJdbcInfo()
 	{
-		if ( metaDataProvider == null )
-		{
-			metaDataProvider = new JdbcMetaDataProvider(null);		
-		}
+		createMetaDataProvider( );
 
 		prevDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
 		jdbcConnection = connectMetadataProvider( metaDataProvider, prevDataSourceHandle);
@@ -777,6 +739,17 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 	}
 	/**
+	 *  Create Metadata Provider
+	 */
+	protected void createMetaDataProvider( )
+	{
+		if ( metaDataProvider == null )
+		{
+			metaDataProvider = new JdbcMetaDataProvider(null);		
+		}
+	}
+	
+	/**
 	 *  Initializes the Jdbc related information , used  by this page
 	 * ( such as the Jdbc Connection , Catalog Name etc )
 	 * @param curDataSourceHandle
@@ -786,8 +759,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		if( metaDataProvider != null )
 		{
-			metaDataProvider.closeConnection();
-			metaDataProvider = new JdbcMetaDataProvider(null);
+			metaDataProvider.closeConnection( );
+			metaDataProvider = null;
+			createMetaDataProvider( );
 			jdbcConnection = connectMetadataProvider( metaDataProvider, curDataSourceHandle);
 			
 			// Clear the Table list and the schema List
@@ -842,8 +816,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	private ArrayList createSchemaList(ResultSet schemaRs)
 	{
-		
-		 
 		if ( schemaRs == null )
 		{
 			return null;
@@ -894,7 +866,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 		
 		return schemas;
-	
 	}
 	
 	/**
@@ -963,12 +934,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			
 			populateAvailableDbObjects();
 		}
-		
 	}	
 	
 	private void addFetchColumnListener()
 	{
-		
 		
 		availableDbObjectsTree.addListener(SWT.Expand, new Listener(){
 
@@ -1191,7 +1160,6 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				// do nothing
 			}
 		} );
-        
 	}
     
     private final boolean isExternalEditorConfigured()
@@ -1410,6 +1378,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	{
 		this.expandDbObjectsTree = expand;
 	}
+	
     /*
 	 * (non-Javadoc)
 	 * 
