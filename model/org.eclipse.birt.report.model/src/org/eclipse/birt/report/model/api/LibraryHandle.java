@@ -82,6 +82,16 @@ import org.eclipse.birt.report.model.writer.LibraryWriter;
  * </tr>
  * 
  * </table>
+ * 
+ * <p>
+ * There are two cases that this library handle represents:
+ * <ul>
+ * <li>the library file that user opens directly <br>
+ * In this case, user can take operations as same as design file.
+ * <li>the library file that is included in one design file <br>
+ * User can not take operations, because the included library file is read-only.
+ * Any operation on the library file of this type will throw runtime exception.
+ * </ul>
  */
 
 public class LibraryHandle extends ModuleHandle implements ILibraryModel

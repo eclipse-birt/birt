@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -904,7 +905,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the validation listener to remove
 	 * @return <code>true</code> if <code>listener</code> is sucessfully
 	 *         removed. Otherwise <code>false</code>.
-	 * 
+	 *  
 	 */
 
 	public boolean removeValidationListener( IValidationListener listener )
@@ -1334,6 +1335,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		{
 			Library library = loadLibrary( includeLibrary.getFileName( ),
 					includeLibrary.getNamespace( ) );
+			library.setReadOnly( );
 			libraries.add( library );
 		}
 		catch ( DesignFileException e )
@@ -1505,6 +1507,17 @@ public abstract class Module extends DesignElement implements IModuleModel
 			client.resolveElementReference( this, client
 					.getPropertyDefn( ref.propName ) );
 		}
+	}
+
+	/**
+	 * Returns whether this module is read-only.
+	 * 
+	 * @return true, if this module is read-only. Otherwise, return false.
+	 */
+
+	public boolean isReadOnly( )
+	{
+		return activityStack instanceof ReadOnlyActivityStack;
 	}
 	
 	/**

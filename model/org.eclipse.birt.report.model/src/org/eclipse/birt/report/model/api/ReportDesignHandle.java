@@ -104,6 +104,32 @@ import org.eclipse.birt.report.model.writer.DesignWriter;
  * 
  * </table>
  * 
+ * <p>
+ * Module allow to use the components defined in <code>Library</code>. 
+ * <ul>
+ * <li> User can call {@link #includeLibrary(String, String)}to include one library.
+ * <li> User can create one report item based on the one in library, and add it into design file.
+ * <li> User can use style, data source, and data set, which are defined in library, in design file. 
+ * </ul>
+ * 
+ * <pre>
+ *   // Include one library
+ *   
+ *   ReportDesignHandle designHandle = ...;
+ *   designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *   LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *    
+ *   // Create one label based on the one in library
+ *  
+ *   LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *   LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *  
+ *   // Add the new label into design file
+ *  
+ *   designHandle.getBody().add(myLabelHandle);
+ *
+ * </pre>
+ * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
  */
 
@@ -126,39 +152,6 @@ public class ReportDesignHandle extends ModuleHandle
 		super( design );
 	}
 
-	/**
-	 * Adds one library with the given library file name. The new library will
-	 * be appended to the library list. 
-	 * 
-	 * 
-	 * @param libraryFileName
-	 *            library file name
-	 * @param namespace
-	 *            library namespace
-	 * @throws DesignFileException
-	 *             if the library file is not found, or has fatal error.
-	 * @throws SemanticException
-	 */
-
-	public void addLibrary( String libraryFileName, String namespace )
-			throws DesignFileException, SemanticException
-	{
-		LibraryCommand command = new LibraryCommand( module );
-		command.addLibrary( libraryFileName, namespace );
-	}
-
-	/**
-	 * 
-	 * @param library
-	 * @throws SemanticException
-	 */
-	
-	public void dropLibrary( LibraryHandle library ) throws SemanticException
-	{
-		LibraryCommand command = new LibraryCommand( module );
-		command.dropLibrary( (Library) library.getElement( ) );
-	}
-	
 	/**
 	 * Returns the script called just after closing the report document file in
 	 * the Factory.
@@ -312,20 +305,6 @@ public class ReportDesignHandle extends ModuleHandle
 		return getSlot( SCRATCH_PAD_SLOT );
 	}
 
-	/**
-	 * Returns the iterator over all included libraries. Each one is the
-	 * instance of <code>IncludeLibraryHandle</code>
-	 * 
-	 * @return the iterator over all included libraries.
-	 * @see IncludeLibraryHandle
-	 */
-
-	public Iterator includeLibrariesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( INCLUDE_LIBRARIES_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
-	}
 
 	/**
 	 * Returns the iterator over all included scripts. Each one is the instance
@@ -556,7 +535,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @param baseName
 	 *            common base name of the customer-defined resource bundle.
-	 * 
+	 *  
 	 */
 
 	public void setIncludeResource( String baseName )

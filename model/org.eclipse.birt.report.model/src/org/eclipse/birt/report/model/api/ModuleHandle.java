@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
+import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -1523,6 +1524,71 @@ public abstract class ModuleHandle extends DesignElementHandle
 		command.shiftLibrary( (Library) library.getElement( ), toPosn );
 	}
 
+	/**
+	 * Returns whether this module is read-only.
+	 * 
+	 * @return true, if this module is read-only. Otherwise, return false.
+	 */
+
+	public boolean isReadOnly( )
+	{
+		return module.isReadOnly( );
+	}
+	
+	/**
+	 * Returns the iterator over all included libraries. Each one is the
+	 * instance of <code>IncludeLibraryHandle</code>
+	 * 
+	 * @return the iterator over all included libraries.
+	 * @see IncludeLibraryHandle
+	 */
+
+	public Iterator includeLibrariesIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( INCLUDE_LIBRARIES_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Includes one library with the given library file name. The new library
+	 * will be appended to the library list.
+	 * 
+	 * @param libraryFileName
+	 *            library file name
+	 * @param namespace
+	 *            library namespace
+	 * @throws DesignFileException
+	 *             if the library file is not found, or has fatal error.
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeLibrary</code> structure list.
+	 */
+
+	public void includeLibrary( String libraryFileName, String namespace )
+			throws DesignFileException, SemanticException
+	{
+		LibraryCommand command = new LibraryCommand( module );
+		command.addLibrary( libraryFileName, namespace );
+	}
+
+	/**
+	 * Drops the given library from the included libraries of this design file.
+	 * 
+	 * @param library
+	 *            the library to drop
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeLibrary</code> structure list.
+	 */
+
+	public void dropLibrary( LibraryHandle library ) throws SemanticException
+	{
+		LibraryCommand command = new LibraryCommand( module );
+		command.dropLibrary( (Library) library.getElement( ) );
+	}
+
+	
 	/**
 	 * Adds one attribute listener. The duplicate listener will not be added.
 	 * 

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -21,7 +22,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 /**
  * Represents the library module. The library is the container of reusable
  * report items , data sources, styles and so on. One library has its own
- * namespace, which is used to identify which library the element reference refers.
+ * namespace, which is used to identify which library the element reference
+ * refers.
  */
 
 public class Library extends Module implements ILibraryModel
@@ -133,5 +135,15 @@ public class Library extends Module implements ILibraryModel
 	public void setNamespace( String namespace )
 	{
 		this.namespace = namespace;
+	}
+
+	/**
+	 * Sets the library is read-only one. That means any operation on it will
+	 * throw runtime exception.
+	 */
+
+	public void setReadOnly( )
+	{
+		activityStack = new ReadOnlyActivityStack( );
 	}
 }
