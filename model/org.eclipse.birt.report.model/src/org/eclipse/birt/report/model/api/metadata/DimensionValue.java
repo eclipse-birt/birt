@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -63,6 +65,23 @@ public class DimensionValue
 	public static final String DEFAULT_UNIT = ""; //$NON-NLS-1$
 
 	/**
+	 * Regular expression for "000,000.000,000".
+	 */
+	private static final String DOT_SEPARATOR_EXPRESSION = "[\\s]*[-]?[+]?" //$NON-NLS-1$
+			+ "[\\d]*([\\d]+[,]?[\\d]+)*" + //$NON-NLS-1$
+			"[./]?" + //$NON-NLS-1$
+			"[\\d]*([\\d]+[,]?[\\d]+)*[\\s]*";//$NON-NLS-1$
+
+	/**
+	 * Regular expression for "000.000,000.000".
+	 */
+
+	private static final String COMMA_SEPARATOR_EXPRESSION = "[\\s]*[-]?[+]?" //$NON-NLS-1$
+			+ "[\\d]*([\\d]+[.]?[\\d]+)*" + //$NON-NLS-1$
+			"[,]?" + //$NON-NLS-1$
+			"[\\d]*([\\d]+[.]?[\\d]+)*[\\s]*";//$NON-NLS-1$
+
+	/**
 	 * Constructs a DimensionValue given its measure and unit.
 	 * 
 	 * @param theMeasure
@@ -85,7 +104,22 @@ public class DimensionValue
 			throw new IllegalArgumentException(
 					"The unit " + theUnits + " is not supported." ); //$NON-NLS-1$//$NON-NLS-2$
 	}
+	
 
+	/**
+	 * Compiled pattern for CSS absolute pattern: "000,000.000,000"
+	 */
+
+	private static Pattern dotSeparatorPattern = Pattern
+			.compile( DOT_SEPARATOR_EXPRESSION );
+
+	/**
+	 * Compiled pattern for CSS absolute pattern: "000.000,000.000"
+	 */
+
+	private static Pattern commaSeparatorPattern = Pattern
+			.compile( COMMA_SEPARATOR_EXPRESSION );
+	
 	/**
 	 * Returns the measure portion of the dimension.
 	 * 
@@ -188,7 +222,7 @@ public class DimensionValue
 			{
 				// Parse in locale-dependent way.
 				// Use the decimal separator from the locale.
-
+				validateDecimalValue( value );
 				Number number = NumberFormat.getNumberInstance(
 						ThreadResources.getLocale( ) ).parse( value );
 				measure = number.doubleValue( );
@@ -206,6 +240,43 @@ public class DimensionValue
 		}
 
 		return new DimensionValue( measure, units );
+	}
+
+	/**
+	 * Validates whether the input dimension value just contains digital
+	 * numbers. Exception will be thrown out when the letter occurred in the
+	 * input value is not "." or ",".
+	 * 
+	 * @param value
+	 *            dimension value
+	 * @throws PropertyValueException
+	 *             if the value input is not valid.
+	 */
+	private static void validateDecimalValue( String value )
+			throws PropertyValueException
+	{
+		assert value != null;
+		char separator = new DecimalFormatSymbols( ThreadResources.getLocale( ) )
+				.getDecimalSeparator( );
+
+		if ( separator == '.' )
+		{
+			if ( ! dotSeparatorPattern.matcher( value ).matches( ) )
+				throw new PropertyValueException( value,
+						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+						PropertyType.DIMENSION_TYPE );
+		}
+
+		else if ( separator == ',' )
+		{
+			if ( ! commaSeparatorPattern.matcher( value ).matches( ) )
+				throw new PropertyValueException( value,
+						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+						PropertyType.DIMENSION_TYPE );
+		}
+		else
+			assert false;
+
 	}
 
 	/**
