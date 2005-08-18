@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="533.0" height="333.0"><g style="fill:none;stroke:none"><defs/><script><![CDATA[function BuildHelper(tag, attrList, text) {
+	this.tag = tag;
+	this.attrList = attrList;
+	this.text       = text;
+	this.element  = null;
+	this.textNode = null;
+	}	
+		
+	BuildHelper.prototype.addToParent= function(parent) {	
+	if (!parent) return;	
+	var svgDocument = parent.ownerDocument;
+	this.element = svgDocument.createElementNS("http://www.w3.org/2000/svg",this.tag);
+		
+	for (var attribute in this.attrList){
+	if (attribute == 'classType')	
+		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);
+	else	
+		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);
+	}	
+		
+	if (this.text) {
+		this.textNode = svgDocument.createTextNode(this.text);
+		this.element.appendChild(this.textNode);
+	}
+		
+	parent.appendChild(this.element);
+	};	
+		
+BuildHelper.prototype.insertBefore = function(parent, before) {
+	if (typeof parent == 'undefined') return;	
+	var svgDocument = parent.ownerDocument;
+	this.element = svgDocument.createElementNS("http://www.w3.org/2000/svg",this.tag);
+		
+	for (var attribute in this.attrList){
+	if (attribute == 'classType')	
+		     this.element.setAttributeNS(null, 'class', this.attrList[attribute]);
+	else	
+		     this.element.setAttributeNS(null, attribute, this.attrList[attribute]);
+	}	
+		
+	if (this.text) {
+		this.textNode = svgDocument.createTextNode(this.text);
+		this.element.appendChild(textNode);
+	}
+		
+	parent.insertBefore(this.element, before);
+	};	
+		
+		
+	BuildHelper.prototype.removeNode = function() {	
+	if (this.element) this.element.parentNode.removeChild(this.element);
+	this.tag = "";
+	this.attrList = null;
+	this.text = null;
+	this.element = null;
+	this.textNode = null;
+	};	
+	function TM(){	
+	}	
+		
+TM.setParent = function TooltipManager_setParent(parent, mainSvg){
+	this.parent = parent;	
+	this.mainSvg = mainSvg	
+	}	
+		
+	TM.remove = function TooltipManager_removeTooltip(){	
+	if (typeof this.group != 'undefined'){	
+	  this.group.removeNode();
+	  this.group = undefined;
+	}	
+	}	
+		
+	TM.show = function TooltiplManager_showTooltip(evt){	
+	var text = TM.getText(TM.getTitleElement(evt));	
+	x = evt.clientX;	
+	y = evt.clientY;	
+	if (typeof this.group == 'undefined'){	
+	this.height = 15;	
+	this.xPadding = 5;	
+	   this.yPadding = -20;
+	   var mainSvg = evt.target.ownerDocument.documentElement;
+	   var off = mainSvg.currentTranslate;
+	   var scl = mainSvg.currentScale;
+	   this.group = new BuildHelper("g",
+	     {
+	     transform:"translate("+(((x+20))/scl)+","+(((y+20))/scl)+")"
+	 } );
+	   this.group.addToParent(mainSvg);
+	   this.rectangle = new BuildHelper("rect",
+	     {id:"test",
+	      x: 0,
+	      y: this.yPadding,
+	      height: this.height,
+	      classType: "tooltip"
+	 } );
+	   this.rectangle.addToParent(this.group.element);
+	   var textObj = new BuildHelper("text",
+	     {id:"tooltip",
+	      x: this.xPadding,
+	      y: (this.height/2+4+this.yPadding),
+	      classType: "tooltip text"
+	 },text);
+	   textObj.addToParent(this.group.element);
+	   var itemlength = textObj.element.getComputedTextLength();
+	   this.rectangle.element.setAttributeNS(null, "width", (itemlength+2*this.xPadding));
+	  }
+	}
+		
+		
+	TM.getTitleElement = function TM_getTitleElement(evt){
+	    var elem = evt.currentTarget;
+	if (elem == null ) return;	
+	    var childs = elem.childNodes;
+	    for (var x=0; x<childs.length; x++){
+		if (childs.item(x).nodeType == 1 && childs.item(x).nodeName == "title")
+		    return childs.item(x);
+	    }
+	    return null;
+	}
+		
+	TM.getText = function TM_getText(elem){
+	   var childs = elem ? elem.childNodes : null;
+	   for (var x = 0;  childs && x < childs.length; x++)
+	      if (childs.item(x).nodeType == 3)
+		  return childs.item(x).nodeValue;
+	   return "";
+	}
+		
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 10.0 L29.0 10.0 L29.0 29.0 L10.0 29.0 L10.0 10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 30.0 L30.0 30.0 L30.0 50.0 L10.0 50.0 L10.0 30.0 Z" style="fill-opacity:1.0;fill:#170a37;"/><path d=" M-10.0 -10.0 L9.0 -10.0 L9.0 9.0 L-10.0 9.0 L-10.0 -10.0 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M-10.0 -30.0 L10.0 -30.0 L10.0 -10.0 L-10.0 -10.0 L-10.0 -30.0 Z" style="fill-opacity:1.0;fill:#170a37;"/><path d="" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d="" style="fill-opacity:1.0;fill:#170a37;"/><path d=" M44.34 12.23 L143.8623 12.23 L143.8623 23.431 L44.34 23.431 L44.34 12.23 Z" style="stroke:#100726;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M44.34 62.23 L144.8623 62.23 L144.8623 74.431 L44.34 74.431 L44.34 62.23 Z" style="fill-opacity:1.0;fill:#170a37;"/></g></svg>
