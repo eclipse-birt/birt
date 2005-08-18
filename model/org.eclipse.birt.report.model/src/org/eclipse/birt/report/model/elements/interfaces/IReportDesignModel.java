@@ -31,12 +31,6 @@ public interface IReportDesignModel
 
 	public static final String REFRESH_RATE_PROP = "refreshRate"; //$NON-NLS-1$
 
-    /**
-     * Base name of the included resource bundle file.
-     */
-    
-    public static final String INCLUDE_RESOURCE_PROP = "includeResource";   //$NON-NLS-1$
-    
 	/**
 	 * Name of the method called at the start of the Factory after the
 	 * initialize( ) method and before opening the report document (if any).

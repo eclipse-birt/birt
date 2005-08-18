@@ -1375,10 +1375,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns all style element handles that this modules and the included
-	 * modules containts.
+	 * modules contain.
 	 * 
 	 * @return all style element handles that this modules and the included
-	 *         modules containts.
+	 *         modules contain.
 	 */
 
 	public List getAllStyles( )
@@ -1391,10 +1391,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns all data source handles that this modules and the included
-	 * modules containts.
+	 * modules contain.
 	 * 
 	 * @return all data source handles that this modules and the included
-	 *         modules containts.
+	 *         modules contain.
 	 */
 
 	public List getAllDataSources( )
@@ -1407,10 +1407,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns all data set handles that this modules and the included modules
-	 * containts.
+	 * contain.
 	 * 
 	 * @return all data set handles that this modules and the included modules
-	 *         containts.
+	 *         contain.
 	 */
 
 	public List getAllDataSets( )
@@ -1423,10 +1423,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns all page handles that this modules and the included modules
-	 * containts.
+	 * contain.
 	 * 
 	 * @return all page handles that this modules and the included modules
-	 *         containts.
+	 *         contain.
 	 */
 
 	public List getAllPages( )
@@ -1439,10 +1439,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Returns all parameter handles that this modules and the included modules
-	 * containts.
+	 * contain.
 	 * 
 	 * @return all parameter handles that this modules and the included modules
-	 *         containts.
+	 *         contain.
 	 */
 
 	public List getAllParameters( )
@@ -1661,5 +1661,39 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void dropAndClear( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
+	}
+
+	/**
+	 * Get the base name of the customer-defined resource bundle.
+	 * 
+	 * @return the base name of the customer-defined resource bundle.
+	 */
+	
+	public String getIncludeResource( )
+	{
+		return getStringProperty( INCLUDE_RESOURCE_PROP );
+	}
+
+	/**
+	 * Set the base name of the customer-defined resource bundle. The name is a
+	 * common base name, e.g: "myMessage" without the Language_Country suffix,
+	 * then the message file family can be "myMessage_en.properties",
+	 * "myMessage_zh_CN.properties" etc. The message file is stored in the same
+	 * folder as the design file.
+	 * 
+	 * @param baseName
+	 *            common base name of the customer-defined resource bundle.
+	 */
+	
+	public void setIncludeResource( String baseName )
+	{
+		try
+		{
+			setProperty( INCLUDE_RESOURCE_PROP, baseName );
+		}
+		catch ( SemanticException e )
+		{
+			assert false;
+		}
 	}
 }

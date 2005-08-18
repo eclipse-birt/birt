@@ -1544,6 +1544,7 @@
     <Property canInherit="false" displayNameID="Element.Module.descriptionID" name="descriptionID" since="reserved" type="resourceKey"/>
     <Property canInherit="false" displayNameID="Element.Module.comments" name="comments" since="1.0" type="html"/>
     <Property canInherit="false" displayNameID="Element.Module.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
+	<Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
     <Property canInherit="false" detailType="CustomColor" displayNameID="Element.Module.colorPalette" isList="true" name="colorPalette" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.Module.configVars" isList="true" name="configVars" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
@@ -1591,7 +1592,6 @@
     <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" since="1.0" type="choice">
       <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>
-	<Property canInherit="false" displayNameID="Element.ReportDesign.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
     <Method context="factory" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="reserved" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip"/>

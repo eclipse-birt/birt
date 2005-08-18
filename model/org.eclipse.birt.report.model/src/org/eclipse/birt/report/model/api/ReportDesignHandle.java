@@ -17,8 +17,6 @@ import java.net.URL;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.command.LibraryCommand;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.writer.DesignWriter;
@@ -138,6 +136,7 @@ public class ReportDesignHandle extends ModuleHandle
 			IReportDesignModel
 {
 
+	
 	/**
 	 * Constructs a handle with the given design. The application generally does
 	 * not create handles directly. Instead, it uses one of the navigation
@@ -269,17 +268,6 @@ public class ReportDesignHandle extends ModuleHandle
 	public SlotHandle getBody( )
 	{
 		return getSlot( BODY_SLOT );
-	}
-
-	/**
-	 * Get the base name of the customer-defined resource bundle.
-	 * 
-	 * @return the base name of the customer-defined resource bundle.
-	 */
-
-	public String getIncludeResource( )
-	{
-		return getStringProperty( INCLUDE_RESOURCE_PROP );
 	}
 
 	/**
@@ -524,30 +512,6 @@ public class ReportDesignHandle extends ModuleHandle
 	public void setDefaultUnits( String units ) throws SemanticException
 	{
 		setStringProperty( UNITS_PROP, units );
-	}
-
-	/**
-	 * Set the base name of the customer-defined resource bundle. The name is a
-	 * common base name, e.g: "myMessage" without the Language_Country suffix,
-	 * then the message file family can be "myMessage_en.properties",
-	 * "myMessage_zh_CN.properties" etc. The message file is stored in the same
-	 * folder as the design file.
-	 * 
-	 * @param baseName
-	 *            common base name of the customer-defined resource bundle.
-	 *  
-	 */
-
-	public void setIncludeResource( String baseName )
-	{
-		try
-		{
-			setProperty( INCLUDE_RESOURCE_PROP, baseName );
-		}
-		catch ( SemanticException e )
-		{
-			assert false;
-		}
 	}
 
 	/**

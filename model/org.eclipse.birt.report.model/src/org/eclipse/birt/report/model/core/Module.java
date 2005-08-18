@@ -1170,42 +1170,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Returns all visible styles in this module and the libraries this module
-	 * includes.
-	 * 
-	 * @return all visible styles
-	 */
-
-	public List getAllStyles( )
-	{
-		return moduleNameSpaces[STYLE_NAME_SPACE].getElements( );
-	}
-
-	/**
-	 * Returns all visible data sources in this module and the libraries this
-	 * module includes.
-	 * 
-	 * @return all visible data sources
-	 */
-
-	public List getAllDataSources( )
-	{
-		return moduleNameSpaces[DATA_SOURCE_NAME_SPACE].getElements( );
-	}
-
-	/**
-	 * Returns all visible data sets in this module and the libraries this
-	 * module includes.
-	 * 
-	 * @return all visible data sets
-	 */
-
-	public List getDataSetElements( )
-	{
-		return moduleNameSpaces[DATA_SET_NAME_SPACE].getElements( );
-	}
-
-	/**
 	 * Sets the error list into this module.
 	 * 
 	 * @param allErrors
