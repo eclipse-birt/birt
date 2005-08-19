@@ -487,33 +487,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Sets the default units for the design. These are the units that are used
-	 * for dimensions that don't explicitly specify units.
-	 * <p>
-	 * 
-	 * For a report design, it allows the following constants that defined in
-	 * <code>{@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}</code>:
-	 * <ul>
-	 * <li><code>UNITS_IN</code></li>
-	 * <li><code>UNITS_CM</code></li>
-	 * <li><code>UNITS_MM</code></li>
-	 * <li><code>UNITS_PT</code></li>
-	 * </ul>
-	 * 
-	 * @param units
-	 *            the default units for the design.
-	 * @throws SemanticException
-	 *             if the input unit is not one of allowed.
-	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
-	 */
-
-	public void setDefaultUnits( String units ) throws SemanticException
-	{
-		setStringProperty( UNITS_PROP, units );
-	}
-
-	/**
 	 * Sets the refresh rate when viewing the report.
 	 * 
 	 * @param rate
