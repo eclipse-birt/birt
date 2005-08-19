@@ -71,9 +71,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
        <perspective
-		    class="org.eclipse.birt.report.designer.ui.rcp.ReportRCPPerspective"
+		    class="org.eclipse.birt.report.designer.ui.ReportRCPPerspective"
 		    name="%ReportPerspective"
-		    id="org.eclipse.birt.report.designer.ui.rcp.ReportRCPPerspective"/>
+		    id="org.eclipse.birt.report.designer.ui.ReportRCPPerspective"/>
    </extension>
    <extension
          point="org.eclipse.ui.actionSets">

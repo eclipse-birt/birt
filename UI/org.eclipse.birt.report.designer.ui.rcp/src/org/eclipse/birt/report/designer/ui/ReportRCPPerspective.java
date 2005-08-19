@@ -27,7 +27,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 public class ReportRCPPerspective implements IPerspectiveFactory
 {
 
-	public static final String BIRT_REPORT_RCP_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.rcp.ReportRCPPerspective"; //$NON-NLS-1$
+	public static final String BIRT_REPORT_RCP_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.ReportRCPPerspective"; //$NON-NLS-1$
 
 	/**
 	 * Constructs a new Default layout engine.
