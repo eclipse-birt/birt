@@ -1,0 +1,48 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.rcp.nls;
+
+import org.eclipse.osgi.util.NLS;
+
+/**
+ * Defines i18n string
+ */
+
+public class DesignerWorkbenchMessages extends NLS
+{
+
+	private static final String BUNDLE_NAME = "org.eclipse.birt.report.designer.ui.rcp.nls.messages";//$NON-NLS-1$
+
+	static
+	{
+		// load message values from bundle file
+		NLS.initializeMessages( BUNDLE_NAME, DesignerWorkbenchMessages.class );
+	}
+
+	// --- File Menu ---
+	public static String Workbench_file;
+	public static String Workbench_new;
+	public static String Action_newReport;
+	public static String Action_openReport;
+
+	// --- Edit Menu ---
+	public static String Workbench_edit;
+
+	// --- Window Menu ---
+	public static String Workbench_window;
+	public static String Workbench_openPerspective;
+	public static String Workbench_showView;
+	public static String Workbench_openNewWindow;
+
+	// --- Help Menu ---
+	public static String Workbench_help;
+}

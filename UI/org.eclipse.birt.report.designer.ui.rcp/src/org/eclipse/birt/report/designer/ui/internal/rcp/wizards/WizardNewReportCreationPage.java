@@ -1,0 +1,154 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
+
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+
+/**
+ * Creation page for Report Wizard without Advanced control
+ * 
+ */
+public class WizardNewReportCreationPage extends WizardPage
+{
+
+	private static final String MSG_DUPLICATE_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.duplicate.fileName" ); //$NON-NLS-1$
+
+	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.locationDirectory" ); //$NON-NLS-1$
+
+	private static final String MSG_EMPTY_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.name" ); //$NON-NLS-1$
+
+	private Listener locationModifyListener = new Listener( ) {
+
+		public void handleEvent( Event e )
+		{
+			setPageComplete( validatePage( ) );
+		}
+	};
+
+	NewReportPageSupport pageSupport = null;
+
+	/**
+	 * The Constructor.
+	 * 
+	 * @param pageName
+	 */
+	public WizardNewReportCreationPage( String pageName )
+	{
+		super( pageName );
+		pageSupport = new NewReportPageSupport( );
+	}
+
+	/**
+	 * Sets the initial file name that this page will use when created. The name
+	 * is ignored if the createControl(Composite) method has already been
+	 * called. Leading and trailing spaces in the name are ignored.
+	 * 
+	 * @param name
+	 *            initial file name for this page
+	 */
+	public void setInitialFileName( String name )
+	{
+		pageSupport.setInitialFileName( name );
+	}
+
+	public void setInitialFileLocation( String path )
+	{
+		pageSupport.setInitialFileLocation( path );
+	}
+
+	public void createControl( Composite parent )
+	{
+		initializeDialogUnits( parent );
+		setControl( pageSupport.createComposite( parent ) );
+
+		pageSupport.getFileNameField( ).addListener( SWT.Modify,
+				locationModifyListener );
+		pageSupport.getLocationPathField( ).addListener( SWT.Modify,
+				locationModifyListener );
+
+		setPageComplete( validatePage( ) );
+		setErrorMessage( null );
+		setMessage( null );
+	}
+
+	public String getFileName( )
+	{
+		return pageSupport.getFileName( );
+	}
+
+	public IPath getFileLocationFullPath( )
+	{
+		return pageSupport.getFileLocationFullPath( );
+	}
+
+	public void setVisible( boolean visible )
+	{
+		getControl( ).setVisible( visible );
+		if ( visible )
+		{
+			pageSupport.getFileNameField( ).setFocus( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
+	 */
+	public boolean validatePage( )
+	{
+		if ( getFileName( ).equals( "" ) )//$NON-NLS-1$
+		{
+			setErrorMessage( null );
+			setMessage( MSG_EMPTY_FILE_NAME );
+			return false;
+		}
+
+		String location = getFileLocationFullPath( ).toOSString( );
+
+		if ( location.equals( "" ) ) //$NON-NLS-1$
+		{
+			setErrorMessage( null );
+			setMessage( MSG_EMPTY_FILE_LOCATION_DIRECTORY );
+			return false;
+		}
+
+		IPath path;
+
+		if ( !getFileName( ).endsWith( IReportEditorInput.FILE_EXTENTION ) )
+		{
+			path = getFileLocationFullPath( ).append( getFileName( )
+					+ IReportEditorInput.FILE_EXTENTION ); 
+		}
+		else
+		{
+			path = getFileLocationFullPath( ).append( getFileName( ) );
+		}
+
+		if ( path.toFile( ).exists( ) )
+		{
+			setErrorMessage( MSG_DUPLICATE_FILE_NAME );
+			return false;
+		}
+
+		setErrorMessage( null );
+		setMessage( null );
+		return true;
+	}
+}

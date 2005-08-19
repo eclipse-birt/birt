@@ -51,15 +51,15 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
-         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
-         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
-         <newWizardShortcut id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
       </perspectiveExtension>
    </extension>
    
@@ -71,21 +71,21 @@
       <wizard
             finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report.gif"
-            class="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard"
+            class="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"
             category="org.eclipse.birt.report.designer.ui.wizard.category"
             project="false"
             name="%ReportWizard"
-            id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportWizard">
+            id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard">
       <description>%ReportWizardDescription</description>
       </wizard>
       <wizard
             finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
-            class="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportProjectWizard"
+            class="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportProjectWizard"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_report_project.gif"
             category="org.eclipse.birt.report.designer.ui.wizard.category"
             project="true"
             name="%ReportProjectWizard"
-            id="org.eclipse.birt.report.designer.internal.ui.wizards.NewReportProjectWizard">
+            id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportProjectWizard">
       <description>%ReportProjectWizardDescription</description>
       </wizard>
    </extension>              

@@ -22,20 +22,18 @@ import org.eclipse.ui.IPerspectiveFactory;
  * JRPPerspective generates the initial page layout and visible action set for
  * birt.
  * 
- *  
+ * 
  */
-public class ReportPerspective implements IPerspectiveFactory
+public class ReportRCPPerspective implements IPerspectiveFactory
 {
 
-	public static final String BIRT_REPORT_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.ReportPerspective"; //$NON-NLS-1$
-
-	public static final String NEW_REPORT_ID = "org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard";//$NON-NLS-1$
+	public static final String BIRT_REPORT_RCP_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.rcp.ReportRCPPerspective"; //$NON-NLS-1$
 
 	/**
 	 * Constructs a new Default layout engine.
 	 */
 
-	public ReportPerspective( )
+	public ReportRCPPerspective( )
 	{
 		super( );
 	}
@@ -66,23 +64,15 @@ public class ReportPerspective implements IPerspectiveFactory
 	 */
 	private void defineActions( IPageLayout layout )
 	{
-		// Add "new wizards".
-		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
-		layout.addNewWizardShortcut( NEW_REPORT_ID );
-		
 		// Add "show views".
-		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
-		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
-		layout.addShowViewShortcut(PaletteView.ID);
-		layout.addShowViewShortcut(AttributeView.ID);
-		layout.addShowViewShortcut(DataView.ID);
-		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
-		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
-		
-		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);
-		
+		layout.addShowViewShortcut( IPageLayout.ID_OUTLINE );
+		layout.addShowViewShortcut( PaletteView.ID );
+		layout.addShowViewShortcut( AttributeView.ID );
+		layout.addShowViewShortcut( DataView.ID );
+		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
 
-		
+		layout.addPerspectiveShortcut( BIRT_REPORT_RCP_PERSPECTIVE );
+
 	}
 
 	/**
@@ -101,13 +91,10 @@ public class ReportPerspective implements IPerspectiveFactory
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder( "bottomLeft", IPageLayout.BOTTOM, (float) 0.50,//$NON-NLS-1$
 				"topLeft" );//$NON-NLS-1$
-		bottomLeft.addView( IPageLayout.ID_RES_NAV );
 		bottomLeft.addView( IPageLayout.ID_OUTLINE );
 
 		// Bottom right.
 		IFolderLayout bootomRight = layout.createFolder( "bootomRight", IPageLayout.BOTTOM, (float) 0.66, editorArea );//$NON-NLS-1$
 		bootomRight.addView( AttributeView.ID );
-		bootomRight.addView( IPageLayout.ID_PROBLEM_VIEW );
-
 	}
 }
