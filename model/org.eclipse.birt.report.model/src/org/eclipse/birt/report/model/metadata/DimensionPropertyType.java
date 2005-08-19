@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Dimension property type. Dimension property values have two parts:
@@ -170,12 +169,9 @@ public class DimensionPropertyType extends PropertyType
 			return unit;
 		if ( module == null )
 			return DesignChoiceConstants.UNITS_IN;
-		if ( module instanceof ReportDesign )
-		{
-			unit = ( (ReportDesign) module ).getUnits( );
-			if ( !StringUtil.isBlank( unit ) )
-				return unit;
-		}
+		unit = module.getUnits( );
+		if ( !StringUtil.isBlank( unit ) )
+			return unit;
 		return module.getSession( ).getUnits( );
 	}
 
@@ -190,7 +186,7 @@ public class DimensionPropertyType extends PropertyType
 	 * @param value
 	 *            the double value of the measure.
 	 * @return an <code>DimensionValue</code> Object in session unit.
-	 * 
+	 *  
 	 */
 
 	private DimensionValue fromDouble( Module module, PropertyDefn defn,
@@ -206,7 +202,7 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return a <code>DimensionValue</code> that holds the measure and unit
 	 *         parsed from the xml value.
-	 * 
+	 *  
 	 */
 
 	public Object validateXml( Module module, PropertyDefn defn, String value )
@@ -238,7 +234,7 @@ public class DimensionPropertyType extends PropertyType
 	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
-	 * 
+	 *  
 	 */
 
 	public Object validateInputString( Module module, PropertyDefn defn,
@@ -290,7 +286,7 @@ public class DimensionPropertyType extends PropertyType
 	 *            the dimension value of the dimension.
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
-	 * 
+	 *  
 	 */
 
 	private void validateUnits( Module module, PropertyDefn defn,
@@ -360,7 +356,7 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return double value of the dimension value in session unit. Return
 	 *         <code>0.0</code> if <code>value</code> is null.
-	 * 
+	 *  
 	 */
 
 	public double toDouble( Module module, Object value )

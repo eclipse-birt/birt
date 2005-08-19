@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -549,37 +548,6 @@ public class ReportDesignHandle extends ModuleHandle
 		DesignWriter writer = new DesignWriter( (ReportDesign) module );
 		writer.write( new File( fileName ) );
 		module.onSave( );
-	}
-
-	/**
-	 * Returns the <code>URL</code> object if the file with
-	 * <code>fileName</code> exists. This method takes the following search
-	 * steps:
-	 * <ul>
-	 * <li>Search file taking <code>fileName</code> as absolute file name;
-	 * <li>Search file taking <code>fileName</code> as relative file name and
-	 * basing "base" property of report design;
-	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
-	 * in session.
-	 * </ul>
-	 * 
-	 * @param fileName
-	 *            file name to search
-	 * @param fileType
-	 *            file type. The value should be one of:
-	 *            <ul>
-	 *            <li><code>IResourceLocator.IMAGE</code>
-	 *            <li><code>IResourceLocator.LIBRARY</code>
-	 *            </ul>
-	 *            Any invalid value will be treated as
-	 *            <code>IResourceLocator.IMAGE</code>.
-	 * @return the <code>URL</code> object if the file with
-	 *         <code>fileName</code> is found, or null otherwise.
-	 */
-
-	public URL findResource( String fileName, int fileType )
-	{
-		return module.findResource( fileName, fileType );
 	}
 
 }

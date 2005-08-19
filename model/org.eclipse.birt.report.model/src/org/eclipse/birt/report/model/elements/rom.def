@@ -1545,6 +1545,9 @@
     <Property canInherit="false" displayNameID="Element.Module.comments" name="comments" since="1.0" type="html"/>
     <Property canInherit="false" displayNameID="Element.Module.base" name="base" runtimeSettable="false" since="reserved" type="string"/>
 	<Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" type="string"/>	
+    <Property canInherit="false" detailType="units" displayNameID="Element.Module.units" isIntrinsic="true" name="units" since="1.0" type="choice">
+      <Allowed>in,cm,mm,pt,pc</Allowed>
+    </Property>
     <Property canInherit="false" detailType="CustomColor" displayNameID="Element.Module.colorPalette" isList="true" name="colorPalette" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="ConfigVar" displayNameID="Element.Module.configVars" isList="true" name="configVars" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
@@ -1588,9 +1591,6 @@
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportDesign" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.ReportDesign" name="ReportDesign" nameSpace="none" selector="report" since="1.0" xmlName="report">
     <Property canInherit="false" displayNameID="Element.ReportDesign.refreshRate" name="refreshRate" runtimeSettable="false" since="reserved" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
-    </Property>
-    <Property canInherit="false" detailType="units" displayNameID="Element.ReportDesign.units" isIntrinsic="true" name="units" since="1.0" type="choice">
-      <Allowed>in,cm,mm,pt,pc</Allowed>
     </Property>
     <Method context="factory" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip"/>
     <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip"/>

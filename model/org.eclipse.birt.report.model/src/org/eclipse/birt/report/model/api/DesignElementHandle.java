@@ -106,6 +106,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * whether this element is in report design or library.
 	 * 
 	 * @return the report design, or null if the module is not report design.
+	 * @deprecated replaced by getModule()
 	 */
 
 	public ReportDesign getDesign( )
@@ -134,6 +135,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @return the handle of report design, or null if the module is not report
 	 *         design.
+	 * @deprecated replaced by getModuleHandle()
 	 */
 
 	public ReportDesignHandle getDesignHandle( )

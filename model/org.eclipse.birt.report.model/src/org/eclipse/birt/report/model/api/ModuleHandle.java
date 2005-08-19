@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -797,7 +798,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public String getDefaultUnits( )
 	{
-		return ( (ReportDesign) module ).getUnits( );
+		return module.getUnits( );
 	}
 
 	/*
@@ -964,9 +965,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public List getMessageKeys( )
 	{
-		return getDesign( ).getMessageKeys( );
+		return getModule( ).getMessageKeys( );
 	}
 
+	
 	/**
 	 * Returns a slot handle to work with the top-level parameters and parameter
 	 * groups within the report. The order that the items appear within the slot
@@ -1696,4 +1698,37 @@ public abstract class ModuleHandle extends DesignElementHandle
 			assert false;
 		}
 	}
+	
+	/**
+	 * Returns the <code>URL</code> object if the file with
+	 * <code>fileName</code> exists. This method takes the following search
+	 * steps:
+	 * <ul>
+	 * <li>Search file taking <code>fileName</code> as absolute file name;
+	 * <li>Search file taking <code>fileName</code> as relative file name and
+	 * basing "base" property of report design;
+	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
+	 * in session.
+	 * </ul>
+	 * 
+	 * @param fileName
+	 *            file name to search
+	 * @param fileType
+	 *            file type. The value should be one of:
+	 *            <ul>
+	 *            <li><code>IResourceLocator.IMAGE</code>
+	 *            <li><code>IResourceLocator.LIBRARY</code>
+	 *            </ul>
+	 *            Any invalid value will be treated as
+	 *            <code>IResourceLocator.IMAGE</code>.
+	 * @return the <code>URL</code> object if the file with
+	 *         <code>fileName</code> is found, or null otherwise.
+	 */
+
+	public URL findResource( String fileName, int fileType )
+	{
+		return module.findResource( fileName, fileType );
+	}
+
+	
 }

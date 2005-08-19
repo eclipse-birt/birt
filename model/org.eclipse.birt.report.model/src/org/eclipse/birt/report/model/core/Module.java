@@ -16,11 +16,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -29,10 +32,10 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
-import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -45,6 +48,7 @@ import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameSpaceFactory;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -222,21 +226,26 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected String signature = null;
 
 	/**
+	 * The default units for the design.
+	 */
+	protected String units = null;
+
+	/**
 	 * All libraries which are included in this module.
 	 */
 
 	private List libraries = null;
-	
+
 	/**
 	 * The attribute listener list to handle the file name changed events.
 	 */
-	
+
 	private List attributeListeners = null;
-	
+
 	/**
 	 * Dispose listener list to handle the design disposal events.
 	 */
-	
+
 	private List disposeListeners = null;
 
 	/**
@@ -524,10 +533,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected void onCreate( )
 	{
 		// Force an update when the module is created.
-		// This value shoule be same as the transaction number
+		// This value should be same as the transaction number
 		// when ActivityStack is created.
 
 		saveState = 0;
+
+		// Pass the validation executor to activity stack.
+
+		activityStack.setValidationExecutor( validationExecutor );
 	}
 
 	/**
@@ -536,32 +549,26 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void close( )
 	{
-		session.drop( this );
+		isValid = false;
+		
+		if ( ! isReadOnly( ) )
+		{
+			saveState = activityStack.getCurrentTransNo( );
+			session.drop( this );
+		}
 	}
 
 	/**
-	 * Makes a clone for this module. The cloned module is added into the
-	 * session as module automatically. It has an empty idMap, empty activity
-	 * stack and the set of required namespaces.
+	 * This method is not supported in report design.
 	 * 
-	 * @return Object the cloned module.
+	 * @return Object the cloned report design element.
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
+
 	public Object clone( ) throws CloneNotSupportedException
 	{
-		Module root = (Module) super.clone( );
-
-		root.idMap = null;
-		root.activityStack = new ActivityStack( );
-		root.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
-
-		for ( int i = 0; i < nameSpaces.length; i++ )
-		{
-			root.nameSpaces[i] = (NameSpace) nameSpaces[i].clone( );
-		}
-
-		return root;
+		throw new CloneNotSupportedException( );
 	}
 
 	/**
@@ -722,6 +729,38 @@ public abstract class Module extends DesignElement implements IModuleModel
 		String msg = translations.getMessage( resourceKey, locale );
 		if ( msg != null )
 			return msg;
+
+		// find it in the linked resource file.
+
+		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
+		if ( baseName == null )
+			return ""; //$NON-NLS-1$
+
+		File msgFolder = getModuleFolder( );
+		if ( msgFolder == null )
+			return ""; //$NON-NLS-1$
+
+		return BundleHelper.getHelper( msgFolder, baseName ).getMessage(
+				resourceKey, locale );
+	}
+
+	/**
+	 * Return the folder in which the design file is located. The search depend
+	 * on the {@link #getFileName()}.
+	 * 
+	 * @return the folder in which the design file is located. Return
+	 *         <code>null</code> if the folder can not be found.
+	 */
+
+	private File getModuleFolder( )
+	{
+		String designPath = getFileName( );
+		File designFile = new File( designPath );
+		if ( !designFile.exists( ) )
+			return null;
+
+		if ( designFile.isFile( ) )
+			return designFile.getParentFile( );
 
 		return null;
 	}
@@ -1483,7 +1522,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		return activityStack instanceof ReadOnlyActivityStack;
 	}
-	
+
 	/**
 	 * Adds one attribute listener. The duplicate listener will not be added.
 	 * 
@@ -1517,7 +1556,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			return false;
 		return attributeListeners.remove( listener );
 	}
-	
+
 	/**
 	 * Broadcasts the file name event to the file name listeners.
 	 * 
@@ -1532,14 +1571,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 			Iterator iter = attributeListeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IAttributeListener listener = (IAttributeListener) iter
-						.next( );
+				IAttributeListener listener = (IAttributeListener) iter.next( );
 
-				listener.fileNameChanged( (ModuleHandle)getHandle( this ), event );
+				listener.fileNameChanged( (ModuleHandle) getHandle( this ),
+						event );
 			}
 		}
 	}
-	
+
 	/**
 	 * Adds one dispose listener. The duplicate listener will not be added.
 	 * 
@@ -1573,7 +1612,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			return false;
 		return disposeListeners.remove( listener );
 	}
-	
+
 	/**
 	 * Broadcasts the dispose event to the dispose listeners.
 	 * 
@@ -1588,12 +1627,134 @@ public abstract class Module extends DesignElement implements IModuleModel
 			Iterator iter = disposeListeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				IDisposeListener listener = (IDisposeListener) iter
-						.next( );
+				IDisposeListener listener = (IDisposeListener) iter.next( );
 
-				listener.moduleDisposed( (ModuleHandle)getHandle( this ), event );
+				listener.moduleDisposed( (ModuleHandle) getHandle( this ),
+						event );
 			}
 		}
+	}
+
+	/**
+	 * Return a list of user-defined message keys. The list contained resource
+	 * keys defined in the report itself and the keys defined in the referenced
+	 * message files for the current thread's locale. The list returned contains
+	 * no duplicate keys.
+	 * 
+	 * @return a list of user-defined message keys.
+	 */
+
+	public List getMessageKeys( )
+	{
+		Set keys = new LinkedHashSet( );
+
+		String[] transKeys = translations.getResourceKeys( );
+		if ( transKeys != null )
+		{
+			for ( int i = 0; i < transKeys.length; i++ )
+				keys.add( transKeys[i] );
+		}
+
+		// find from the referenced message files.
+		// e.g: message
+
+		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
+		if ( baseName == null )
+			return new ArrayList( keys );
+
+		File msgFolder = getModuleFolder( );
+		if ( msgFolder == null )
+			return new ArrayList( keys );
+
+		Collection msgKeys = BundleHelper.getHelper( msgFolder, baseName )
+				.getMessageKeys( ThreadResources.getLocale( ) );
+		keys.addAll( msgKeys );
+
+		return new ArrayList( keys );
+	}
+
+	/**
+	 * Checks if the file with <code>fileName</code> exists. The search steps
+	 * are described in {@link #findResource(String, int)}.
+	 * 
+	 * @param fileName
+	 *            the file name to check
+	 * @param fileType
+	 *            the file type
+	 * @return true if the file exists, false otherwise.
+	 */
+
+	public boolean isFileExist( String fileName, int fileType )
+	{
+		URL url = findResource( fileName, fileType );
+
+		return url != null;
+	}
+
+	/**
+	 * Gets a list containing all the include libraries.
+	 * 
+	 * @return a list containing all the include libraries. Return
+	 *         <code>null</code> if there were no include libraries defined.
+	 */
+
+	public List getIncludeLibraries( )
+	{
+		return new ArrayList( (List) getLocalProperty( this,
+				INCLUDE_LIBRARIES_PROP ) );
+	}
+
+	/**
+	 * Gets the default units for the design.
+	 * 
+	 * @return the default units used in the design
+	 */
+	public String getUnits( )
+	{
+		if ( !StringUtil.isBlank( units ) )
+			return units;
+		return (String) getPropertyDefn( ReportDesign.UNITS_PROP ).getDefault( );
+	}
+
+	/**
+	 * Gets a list containing all the include scripts.
+	 * 
+	 * @return a list containing all the include scripts. Return
+	 *         <code>null</code> if there were no scripts defined.
+	 */
+	public List getIncludeScripts( )
+	{
+		return (ArrayList) getLocalProperty( this, INCLUDE_SCRIPTS_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 */
+
+	protected Object getIntrinsicProperty( String propName )
+	{
+		if ( propName.equals( UNITS_PROP ) )
+		{
+			return units;
+		}
+		return super.getIntrinsicProperty( propName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	protected void setIntrinsicProperty( String propName, Object value )
+	{
+		if ( propName.equals( UNITS_PROP ) )
+			units = (String) value;
+		else
+			super.setIntrinsicProperty( propName, value );
 	}
 
 }

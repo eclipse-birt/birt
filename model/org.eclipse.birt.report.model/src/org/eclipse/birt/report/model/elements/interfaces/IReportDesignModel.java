@@ -19,13 +19,6 @@ public interface IReportDesignModel
 {
 
 	/**
-	 * Name of the default units property. These are the units assumed for any
-	 * dimension property that does not explicitly specify units.
-	 */
-
-	public static final String UNITS_PROP = "units"; //$NON-NLS-1$
-
-	/**
 	 * Name of the refresh rate property.
 	 */
 

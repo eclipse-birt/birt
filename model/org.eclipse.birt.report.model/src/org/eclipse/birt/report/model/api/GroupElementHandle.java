@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -55,11 +56,11 @@ public class GroupElementHandle
 {
 
 	/**
-	 * The design provides overall information about the design, especially the
-	 * command stack.
+	 * The module that provides overall information, especially the command
+	 * stack.
 	 */
 
-	protected final ReportDesign design;
+	protected final Module module;
 
 	/**
 	 * List of handles to design elements.
@@ -71,17 +72,17 @@ public class GroupElementHandle
 	 * Constructs a handle to deal with a list of report elements. The contents
 	 * of the given list should be design element handles.
 	 * 
-	 * @param designHandle
-	 *            the report design
+	 * @param moduleHandle
+	 *            the handle of module
 	 * @param elements
 	 *            a list of handles of design elements. If a item is not
 	 *            <code>DesignElementHandle</code>, it is ignored.
 	 * @see DesignElementHandle
 	 */
 
-	public GroupElementHandle( ReportDesignHandle designHandle, List elements )
+	public GroupElementHandle( ModuleHandle moduleHandle, List elements )
 	{
-		this.design = designHandle.getDesign( );
+		module = moduleHandle.getModule( );
 		assert elements != null;
 
 		this.elements = elements;
@@ -208,22 +209,52 @@ public class GroupElementHandle
 	 * Returns the report design.
 	 * 
 	 * @return the report design
+	 * @deprecated replaced by getModule( )
 	 */
 
 	public ReportDesign getDesign( )
 	{
-		return design;
+		if ( module instanceof ReportDesign )
+			return (ReportDesign) module;
+
+		return null;
 	}
 
 	/**
 	 * Returns the handle of report design.
 	 * 
 	 * @return the handle of report design
+	 * @deprecated replaced by getModuleHandle( )
 	 */
 
 	public ReportDesignHandle getDesignHandle( )
 	{
-		return (ReportDesignHandle) design.getHandle( design );
+		if ( module instanceof ReportDesign )
+			return (ReportDesignHandle) module.getHandle( module );
+
+		return null;
+	}
+
+	/**
+	 * Returns the module.
+	 * 
+	 * @return the module
+	 */
+
+	public Module getModule( )
+	{
+		return module;
+	}
+
+	/**
+	 * Returns the handle of module.
+	 * 
+	 * @return the handle of module
+	 */
+
+	public ModuleHandle getModuleHandle( )
+	{
+		return (ModuleHandle) module.getHandle( module );
 	}
 
 	/**

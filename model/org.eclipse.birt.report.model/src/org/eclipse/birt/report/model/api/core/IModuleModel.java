@@ -67,6 +67,13 @@ public interface IModuleModel
 	public static final String BASE_PROP = "base"; //$NON-NLS-1$
 
 	/**
+	 * Name of the default units property. These are the units assumed for any
+	 * dimension property that does not explicitly specify units.
+	 */
+
+	public static final String UNITS_PROP = "units"; //$NON-NLS-1$
+
+	/**
 	 * Name of the help guide property.
 	 */
 
