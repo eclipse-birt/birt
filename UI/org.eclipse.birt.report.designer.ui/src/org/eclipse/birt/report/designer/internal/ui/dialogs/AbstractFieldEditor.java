@@ -15,11 +15,17 @@ import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- *  
+ * 
  */
 
 public abstract class AbstractFieldEditor extends FieldEditor
 {
+
+	/**
+	 * Indicates that no value change should fired when the field editor is not
+	 * loaded.
+	 */
+	protected boolean isLoaded = false;
 
 	private boolean isDirty = false;
 
@@ -67,6 +73,34 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	public String getDefaultUnit( )
 	{
 		return defaultUnit;
+	}
+
+	public void load( )
+	{
+		if ( getPreferenceStore( ) != null )
+		{
+			setPresentsDefaultValue( false );
+
+			isLoaded = false;
+			doLoad( );
+			isLoaded = true;
+
+			refreshValidState( );
+		}
+	}
+
+	public void loadDefault( )
+	{
+		if ( getPreferenceStore( ) != null )
+		{
+			setPresentsDefaultValue( true );
+
+			isLoaded = false;
+			doLoadDefault( );
+			isLoaded = true;
+
+			refreshValidState( );
+		}
 	}
 
 	/*
@@ -149,7 +183,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 
 	/**
 	 * Gets string value of the field editor.
-	 *  
+	 * 
 	 */
 	protected abstract String getStringValue( );
 
@@ -161,14 +195,12 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	 */
 	protected void valueChanged( String name )
 	{
+		if ( !isLoaded )
+		{
+			return;
+		}
 		String curValue = getPropValue( );
 		String newValue = getStringValue( );
-		//		System.out.println( "old: "
-		//				+ curValue
-		//				+ " new: "
-		//				+ newValue
-		//				+ " "
-		//				+ !curValue.equals( newValue ) );
 		setPresentsDefaultValue( false );
 		if ( !curValue.equals( newValue ) )
 		{
@@ -192,10 +224,10 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	protected boolean isDirty( )
 	{
 		return isDirty;
-		//		if ( oldValue.equals( propValue ) )
-		//		{
-		//			return false;
-		//		}
-		//		return true;
+		// if ( oldValue.equals( propValue ) )
+		// {
+		// return false;
+		// }
+		// return true;
 	}
 }
