@@ -46,7 +46,7 @@ class CSSLengthValueHandler
 	CSSLengthValueHandler( DimensionHandle dimensionHandle )
 	{
 		this.dimensionHandle = dimensionHandle;
-		DesignSession session = dimensionHandle.getElementHandle( ).getDesign( )
+		DesignSession session = dimensionHandle.getElementHandle( ).getModule( )
 				.getSession( );
 		provider = session.getPredefinedFontSizeProvider( );
 	}

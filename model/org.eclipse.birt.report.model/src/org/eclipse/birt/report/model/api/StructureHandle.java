@@ -55,7 +55,7 @@ public class StructureHandle extends ValueHandle
 	{
 		super( element );
 		structRef = new CachedMemberRef( ref );
-		if ( !structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+		if ( !structRef.checkOrCacheStructure( getModule( ), getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
@@ -75,7 +75,7 @@ public class StructureHandle extends ValueHandle
 		super( valueHandle.getElementHandle( ) );
 		structRef = new CachedMemberRef( new CachedMemberRef( valueHandle
 				.getReference( ), index ) );
-		if ( !structRef.checkOrCacheStructure( getDesign( ), getElement( ) ) )
+		if ( !structRef.checkOrCacheStructure( getModule( ), getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}

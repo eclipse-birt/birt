@@ -172,7 +172,9 @@ public class DimensionPropertyType extends PropertyType
 		unit = module.getUnits( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		return module.getSession( ).getUnits( );
+		if ( module.getSession() != null )
+			return module.getSession( ).getUnits( );
+		return DesignChoiceConstants.UNITS_IN;
 	}
 
 	/**

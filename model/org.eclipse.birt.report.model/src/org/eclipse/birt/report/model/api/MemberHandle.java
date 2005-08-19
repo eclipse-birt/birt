@@ -57,7 +57,7 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		super( element );
 		memberRef = new CachedMemberRef( ref );
-		if ( !memberRef.checkOrCacheStructure( elementHandle.getDesign( ),
+		if ( !memberRef.checkOrCacheStructure( elementHandle.getModule( ),
 				elementHandle.getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
@@ -78,7 +78,7 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		super( structHandle.getElementHandle( ) );
 		memberRef = new CachedMemberRef( structHandle.getReference( ), member );
-		if ( !memberRef.checkOrCacheStructure( elementHandle.getDesign( ),
+		if ( !memberRef.checkOrCacheStructure( elementHandle.getModule( ),
 				elementHandle.getElement( ) ) )
 			throw new RuntimeException(
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$

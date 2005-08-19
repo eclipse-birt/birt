@@ -108,7 +108,7 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 
 	public int getIntValue( )
 	{
-		return propDefn.getIntValue( getDesign( ), value );
+		return propDefn.getIntValue( getModule( ), value );
 	}
 
 	/**

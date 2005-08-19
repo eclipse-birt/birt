@@ -35,7 +35,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 /**
  * Abstract base class that represents a handle for the value to either a
  * property or a structure member.
- * 
+ *  
  */
 
 public abstract class SimpleValueHandle extends ValueHandle
@@ -525,13 +525,11 @@ public abstract class SimpleValueHandle extends ValueHandle
 			String unit = defn.getDefaultUnit( );
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
-			if ( getDesign( ) != null )
-			{
-				unit = getDesign( ).getUnits( );
-				if ( !StringUtil.isBlank( unit ) )
-					return unit;
-				return getDesign( ).getSession( ).getUnits( );
-			}
+			unit = getModule( ).getUnits( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
+			if ( getModule( ).getSession( ) != null )
+				return getModule( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}

@@ -107,7 +107,7 @@ public final class TableColumnBandAdapter extends ColumnBandAdapter
 
 		TableItem table = (TableItem) element.getElement( );
 
-		return table.getColumnPosition4Cell( getDesign( ), (Cell) cell
+		return table.getColumnPosition4Cell( getModule( ), (Cell) cell
 				.getElement( ) );
 	}
 

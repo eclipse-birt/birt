@@ -305,14 +305,12 @@ public class DimensionHandle extends ComplexValueHandle
 			if ( !StringUtil.isBlank( unit ) )
 				return unit;
 
-			if ( getDesign( ) != null )
-			{
-				unit = getDesign( ).getUnits( );
-				if ( !StringUtil.isBlank( unit ) )
-					return unit;
+			unit = getModule( ).getUnits( );
+			if ( !StringUtil.isBlank( unit ) )
+				return unit;
 
-				return getDesign( ).getSession( ).getUnits( );
-			}
+			if ( getModule( ).getSession( ) != null )
+				return getModule( ).getSession( ).getUnits( );
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}

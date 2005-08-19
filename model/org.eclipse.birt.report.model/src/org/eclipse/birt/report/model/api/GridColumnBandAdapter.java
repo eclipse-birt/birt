@@ -81,7 +81,7 @@ public final class GridColumnBandAdapter extends ColumnBandAdapter
 	protected int getCellPosition( CellHandle cell )
 	{
 		GridItem grid = (GridItem) element.getElement( );
-		return grid.getCellPositionInColumn( getDesign( ), (Cell) cell
+		return grid.getCellPositionInColumn( getModule( ), (Cell) cell
 				.getElement( ) );
 	}
 

@@ -93,16 +93,16 @@ public class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 
 		try
 		{
-			adapter.getDesign( ).getActivityStack( ).startTrans( );
+			adapter.getModule( ).getActivityStack( ).startTrans( );
 			pasteColumn( column, columnIndex, true );
 			pasteCells( cells, originalCells, columnIndex, true );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getDesign( ).getActivityStack( ).rollback( );
+			adapter.getModule( ).getActivityStack( ).rollback( );
 			throw e;
 		}
-		adapter.getDesign( ).getActivityStack( ).commit( );
+		adapter.getModule( ).getActivityStack( ).commit( );
 
 		return doPostPasteCheck( column, cells );
 	}

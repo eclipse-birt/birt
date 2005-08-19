@@ -97,7 +97,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 			if ( !computedPropertyFound )
 			{
 				propValue = e.getElement( ).getPropertyFromElement(
-						dimensionHandle.getDesign( ), dimensionHandle.propDefn );
+						dimensionHandle.getModule( ), dimensionHandle.propDefn );
 				if ( propValue != null )
 				{
 					computedPropertyFound = true;
@@ -107,7 +107,7 @@ final class ComputedValueHandler extends CSSLengthValueHandler
 			if ( computedPropertyFound )
 			{
 				propValue = e.getElement( ).getPropertyFromElement(
-						dimensionHandle.getDesign( ), fontSizePropDefn );
+						dimensionHandle.getModule( ), fontSizePropDefn );
 				if ( propValue != null )
 					break;
 			}

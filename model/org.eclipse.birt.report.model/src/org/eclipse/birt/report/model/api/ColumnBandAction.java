@@ -32,7 +32,7 @@ abstract class ColumnBandAction
 {
 
 	/**
-	 * Adapater to work on the grid/table columns.
+	 * Adapter to work on the grid/table columns.
 	 */
 
 	protected ColumnBandAdapter adapter = null;
@@ -119,7 +119,7 @@ abstract class ColumnBandAction
 
 			if ( ( i == columnNumber - 1 && !isInsert )
 					|| ( isInsert && i == columnNumber ) )
-				toAdd = column.handle( adapter.getDesign( ) );
+				toAdd = column.handle( adapter.getModule( ) );
 			else
 				toAdd = adapter.getElementHandle( ).getElementFactory( )
 						.newTableColumn( );
@@ -151,7 +151,7 @@ abstract class ColumnBandAction
 			return Collections.EMPTY_LIST;
 
 		List exceptionList = content.getElement( ).validateWithContents(
-				adapter.getDesign( ) );
+				adapter.getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
@@ -182,8 +182,8 @@ abstract class ColumnBandAction
 		}
 
 		CellContextInfo cellInfo = new CellContextInfo( cell, cell
-				.getRowSpan( adapter.getDesign( ) ), cell.getColSpan( adapter
-				.getDesign( ) ), cell.getStringProperty( adapter.getDesign( ),
+				.getRowSpan( adapter.getModule( ) ), cell.getColSpan( adapter
+				.getModule( ) ), cell.getStringProperty( adapter.getModule( ),
 				Cell.DROP_PROP ) );
 
 		int rowNumber = slot.findPosn( row );
@@ -349,14 +349,14 @@ abstract class ColumnBandAction
 
 		if ( isInsert && columnNumber == 0 )
 		{
-			columns.add( column.handle( adapter.getDesign( ) ), 0 );
+			columns.add( column.handle( adapter.getModule( ) ), 0 );
 			return;
 		}
 
-		targetColumn = ColumnHelper.findColumn( adapter.getDesign( ), columns
+		targetColumn = ColumnHelper.findColumn( adapter.getModule( ), columns
 				.getSlot( ), columnNumber );
 
-		replaceColumn( column, targetColumn.handle( adapter.getDesign( ) ),
+		replaceColumn( column, targetColumn.handle( adapter.getModule( ) ),
 				columnNumber, isInsert );
 	}
 
@@ -387,7 +387,7 @@ abstract class ColumnBandAction
 		if ( source == null )
 			toAdd = target.getElementFactory( ).newTableColumn( );
 		else
-			toAdd = (ColumnHandle) source.getHandle( adapter.getDesign( ) );
+			toAdd = (ColumnHandle) source.getHandle( adapter.getModule( ) );
 
 		int oldPos = columns.findPosn( target );
 
@@ -449,7 +449,7 @@ abstract class ColumnBandAction
 				repeat2 -= 1;
 
 			ColumnHandle newColumn = ( (TableColumn) target.copy( ) )
-					.handle( adapter.getDesign( ) );
+					.handle( adapter.getModule( ) );
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
 			int pos = oldPos;
@@ -499,13 +499,13 @@ abstract class ColumnBandAction
 
 		if ( column != null )
 			list = checkElementPostPaste( column
-					.getHandle( adapter.getDesign( ) ) );
+					.getHandle( adapter.getModule( ) ) );
 
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle(
-					adapter.getDesign( ) );
+					adapter.getModule( ) );
 			list.addAll( checkElementPostPaste( cell ) );
 		}
 		return list;

@@ -75,7 +75,7 @@ public class LabelHandle extends ReportItemHandle implements ILabelModel
 		{
 			// find in report.
 
-			String localizedText = getDesign( ).getMessage( textKey );
+			String localizedText = getModule( ).getMessage( textKey );
 			if ( !StringUtil.isBlank( localizedText ) )
 				return localizedText;
 		}

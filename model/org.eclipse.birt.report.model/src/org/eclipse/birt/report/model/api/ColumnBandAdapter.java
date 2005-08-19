@@ -14,11 +14,11 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents an object for copy/paste in Gird/Table. The copy/paste between
- * Grid/Table must follow the follwing rules:
+ * Grid/Table must follow the following rules:
  * 
  * <ul>
  * <li>Copy/paste operations must occur among the same type of elements, like
@@ -44,14 +44,14 @@ abstract class ColumnBandAdapter
 	protected abstract ReportItemHandle getElementHandle( );
 
 	/**
-	 * Returns the report design where the element belongs to.
+	 * Returns the module where the element belongs to.
 	 * 
-	 * @return the report design
+	 * @return the module
 	 */
 
-	protected ReportDesign getDesign( )
+	protected Module getModule( )
 	{
-		return getElementHandle( ).getDesign( );
+		return getElementHandle( ).getModule( );
 	}
 
 	/**

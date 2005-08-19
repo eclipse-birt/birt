@@ -118,8 +118,8 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		}
 
 		CellContextInfo cellInfo = new CellContextInfo( cell, cell
-				.getRowSpan( adapter.getDesign( ) ), cell.getColSpan( adapter
-				.getDesign( ) ), cell.getStringProperty( adapter.getDesign( ),
+				.getRowSpan( adapter.getModule( ) ), cell.getColSpan( adapter
+				.getModule( ) ), cell.getStringProperty( adapter.getModule( ),
 				Cell.DROP_PROP ) );
 
 		int rowNumber = slot.findPosn( row );
@@ -151,7 +151,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 	 *            <code>true</code> if this is an insert and paste action.
 	 *            Otherwise <code>false</code>.
 	 * 
-	 * @return an array containg insert positions
+	 * @return an array containing insert positions
 	 */
 
 	private int[] getInsertPosition( List copiedCells, List originalCells,
@@ -184,7 +184,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 				CellContextInfo contextInfo = (CellContextInfo) originalCells
 						.get( i );
 				CellHandle cell = contextInfo.getCell( ).handle(
-						adapter.getDesign( ) );
+						adapter.getModule( ) );
 
 				originalPositions[i] = ColumnBandAdapter
 						.findCellPosition( cell );
@@ -241,7 +241,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			CellContextInfo contextInfo = (CellContextInfo) originalCells
 					.get( i );
 			CellHandle cell = contextInfo.getCell( ).handle(
-					adapter.getDesign( ) );
+					adapter.getModule( ) );
 			if ( !isInsert )
 				cell.getContainerSlotHandle( ).drop( cell );
 		}
@@ -262,10 +262,10 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 			int pos = insertPosition[i];
 			CellHandle cell = contextInfo.getCell( ).handle(
-					adapter.getDesign( ) );
+					adapter.getModule( ) );
 
 			// if this is only paste operation, then paste it to the old
-			// position. Otherwise, apppend it to the next avaiable position.
+			// position. Otherwise, append it to the next available position.
 
 			if ( !isInsert )
 				pos--;
@@ -331,7 +331,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 
 	protected TableColumn copyColumn( SlotHandle columns, int columnIndex )
 	{
-		TableColumn column = ColumnHelper.findColumn( adapter.getDesign( ),
+		TableColumn column = ColumnHelper.findColumn( adapter.getModule( ),
 				columns.getSlot( ), columnIndex );
 
 		if ( column == null )

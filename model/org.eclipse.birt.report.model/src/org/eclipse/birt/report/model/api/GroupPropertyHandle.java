@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -134,14 +133,14 @@ public class GroupPropertyHandle
 		return ( (DesignElementHandle) elements.get( 0 ) )
 				.getStringProperty( propDefn.getName( ) );
 	}
-	
+
 	/**
 	 * Value will be returned as string only if all values of this property are
 	 * equal within the collection of elements. The value return are localized.
 	 * 
-	 * @return The localized value as string if all the element values for the property
-	 *         are equal. Return null, if elements have different value for the
-	 *         property.
+	 * @return The localized value as string if all the element values for the
+	 *         property are equal. Return null, if elements have different value
+	 *         for the property.
 	 * @see SimpleValueHandle#getDisplayValue()
 	 */
 
@@ -174,7 +173,7 @@ public class GroupPropertyHandle
 
 	public void setValue( Object value ) throws SemanticException
 	{
-		ActivityStack actStack = this.handle.getDesign( ).getActivityStack( );
+		ActivityStack actStack = handle.getModule( ).getActivityStack( );
 		actStack.startTrans( );
 
 		try
@@ -254,21 +253,17 @@ public class GroupPropertyHandle
 		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
 		assert elementDefn != null;
 
-		ReportDesign design = handle.getDesign( );
-		ReportDesignHandle designHandle = ( (ReportDesignHandle) design
-				.getHandle( design ) );
-
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getDataSets( ).getContents( );
+			return handle.getModuleHandle( ).getAllDataSets( );
 
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getDataSources( ).getContents( );
+			return handle.getModuleHandle( ).getAllDataSources( );
 
 		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return designHandle.getStyles( ).getContents( );
+			return handle.getModuleHandle( ).getAllStyles( );
 
 		return list;
 

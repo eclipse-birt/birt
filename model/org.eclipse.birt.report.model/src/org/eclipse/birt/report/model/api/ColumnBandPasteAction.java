@@ -67,7 +67,7 @@ public class ColumnBandPasteAction extends ColumnBandCopyAction
 	 * @param columnIndex
 	 *            the column number
 	 * @param inForce
-	 *            <code>true</code> if paste regardless of the differece of
+	 *            <code>true</code> if paste regardless of the difference of
 	 *            cell layouts, otherwise <code>false</code>.
 	 * @return a list containing post-parsing errors. Each element in the list
 	 *         is <code>ErrorDetail</code>.
@@ -99,16 +99,16 @@ public class ColumnBandPasteAction extends ColumnBandCopyAction
 
 		try
 		{
-			adapter.getDesign( ).getActivityStack( ).startTrans( );
+			adapter.getModule( ).getActivityStack( ).startTrans( );
 			pasteColumn( column, columnIndex, false );
 			pasteCells( cells, originalCells, columnIndex, false );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getDesign( ).getActivityStack( ).rollback( );
+			adapter.getModule( ).getActivityStack( ).rollback( );
 			throw e;
 		}
-		adapter.getDesign( ).getActivityStack( ).commit( );
+		adapter.getModule( ).getActivityStack( ).commit( );
 
 		return doPostPasteCheck( column, cells );
 	}

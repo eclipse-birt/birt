@@ -44,7 +44,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 	 * @return a <code>ColumnBandData</code> object containing the data to
 	 *         shift
 	 * @throws SemanticException
-	 *             if the source column is forbidden to shift becuase of column
+	 *             if the source column is forbidden to shift because of column
 	 *             spans and dropping properties.
 	 */
 
@@ -56,7 +56,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		ColumnBandData data = new ColumnBandData( );
 
-		TableColumn column = ColumnHelper.findColumn( adapter.getDesign( ),
+		TableColumn column = ColumnHelper.findColumn( adapter.getModule( ),
 				adapter.getColumns( ).getSlot( ), sourceIndex );
 
 		if ( column != null )
@@ -152,17 +152,17 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		try
 		{
-			adapter.getDesign( ).getActivityStack( ).startTrans( );
+			adapter.getModule( ).getActivityStack( ).startTrans( );
 			shiftColumn( data.getColumn( ), sourceColumn, newPosn );
 			shiftCells( data.getCells( ), sourceColumn, newPosn );
 		}
 		catch ( SemanticException e )
 		{
-			adapter.getDesign( ).getActivityStack( ).rollback( );
+			adapter.getModule( ).getActivityStack( ).rollback( );
 			throw e;
 		}
 
-		adapter.getDesign( ).getActivityStack( ).commit( );
+		adapter.getModule( ).getActivityStack( ).commit( );
 	}
 
 	/**
@@ -185,9 +185,9 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		SlotHandle columns = adapter.getColumns( );
 		TableColumn sourceColumn = ColumnHelper.findColumn(
-				adapter.getDesign( ), columns.getSlot( ), sourceIndex );
+				adapter.getModule( ), columns.getSlot( ), sourceIndex );
 		ColumnHandle sourceCol = (ColumnHandle) sourceColumn.getHandle( adapter
-				.getDesign( ) );
+				.getModule( ) );
 
 		pasteColumn( column, destIndex, true );
 
@@ -229,11 +229,11 @@ class ColumnBandShiftAction extends ColumnBandAction
 			assert row != null;
 
 			CellHandle cell = contextInfo.getCell( ).handle(
-					adapter.getDesign( ) );
+					adapter.getModule( ) );
 			cell.setColumn( 0 );
 
 			// if this is only paste operation, then paste it to the old
-			// position. Otherwise, apppend it to the next avaiable position.
+			// position. Otherwise, append it to the next available position.
 
 			row.getCells( ).shift( cell, destIndex );
 		}
