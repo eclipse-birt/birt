@@ -28,4 +28,10 @@ public interface IComputedColumn
      * Gets the expression of the computed column
      */
     public abstract String getExpression();
+
+	/**
+	 * Gets the data type of the computed column.
+	 * @return Data type as an integer. 
+	 */
+	public abstract int getDataType();
 }

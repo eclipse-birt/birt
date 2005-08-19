@@ -80,6 +80,8 @@ public class ResourceConstants
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
+	// Data Type of computed column is not correct
+	public final static String WRONG_DATA_TYPE_COMPUTED_COLUMN= "data.engine.CompCol.WrongDataType";
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	

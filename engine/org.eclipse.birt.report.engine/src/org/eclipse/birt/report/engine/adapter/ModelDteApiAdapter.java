@@ -65,7 +65,6 @@ import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
-
 /**
  * A singleton adapter class that creates data engine API interface objects 
  * from the model.api objects for data set and data source definition.
@@ -431,8 +430,9 @@ public class ModelDteApiAdapter
 					modelCmptdColumn.getName( ) );
         }
         
-        return new ComputedColumn( modelCmptdColumn.getName(), 
-                					modelCmptdColumn.getExpression() );
+        return new ComputedColumn( modelCmptdColumn.getName( ),
+				modelCmptdColumn.getExpression( ),
+				toDteDataType( modelCmptdColumn.getDataType( ) ) );
     }
     
     /** Creates a new DtE API IJSExprFilter or IColumnFilter from 

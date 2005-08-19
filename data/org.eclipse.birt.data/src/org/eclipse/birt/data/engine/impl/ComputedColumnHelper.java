@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -74,8 +76,9 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		logger.entering( ComputedColumnHelper.class.getName( ), "process" );
 		assert resultObject != null;
 		
+		IResultClass resultClass = resultObject.getResultClass( );
 		if ( isPrepared == false )
-			prepare( resultObject.getResultClass( ) );
+			prepare( resultClass );
 
 		// check if no computed columns are found as custom fields in the result
 		// set
@@ -105,6 +108,22 @@ public class ComputedColumnHelper implements IResultObjectEvent
 							columnExprArray[i],
 							"ComputedColumn",
 							0 );
+					try
+					{
+						value = DataTypeUtil.convert( value,
+								resultClass.getFieldValueClass( columnIndexArray[i] ) );
+					}
+					catch ( BirtException e )
+					{
+						// Data Type of computed column is not correct
+						throw new DataException( ResourceConstants.WRONG_DATA_TYPE_COMPUTED_COLUMN,
+								new Object[]{
+										resultClass.getFieldName( columnIndexArray[i] ),
+										resultClass.getFieldValueClass( columnIndexArray[i] )
+												.getName( ),
+										value.toString( ),
+								} );
+					}
 					resultObject.setCustomFieldValue( columnIndexArray[i],
 							value );
 				}

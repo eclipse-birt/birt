@@ -66,6 +66,8 @@ public final class DataTypeUtil
 	{
 		switch ( toType )
 		{
+			case DataType.ANY_TYPE :
+				return source;
 			case DataType.INTEGER_TYPE :
 				return toInteger( source );
 			case DataType.DECIMAL_TYPE :
@@ -104,6 +106,8 @@ public final class DataTypeUtil
 	public static Object convert( Object source, Class toTypeClass )
 		throws BirtException
 	{
+		if ( toTypeClass == DataType.getClass( DataType.ANY_TYPE ) )
+			return source;
 		if ( toTypeClass == Integer.class )
 			return toInteger( source );
 		if ( toTypeClass == BigDecimal.class )
