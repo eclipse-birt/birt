@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -456,8 +457,8 @@ abstract class PreparedQuery
 			{
 				if ( this.dataSource != null )
 				{
-					dataSource.setScope( targetScope );
-					this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable( ) );
+					dataSource.setScope( createSubscope (targetScope) );
+				    this.scope = createSubscope( this.dataSource.getScriptable( ) );
 				}
 				else
 					this.scope = targetScope;
@@ -491,6 +492,36 @@ abstract class PreparedQuery
 			populateOdiQuery( );
 			prepareOdiQuery( );
 			isPrepared = true;
+		}
+		
+		/**
+		 * Creates a new child scope using given parent
+		 */
+		private Scriptable createSubscope( Scriptable parent )
+		{
+			Context cx = Context.enter( );
+			try
+			{
+				Scriptable scope = cx.newObject( parent );
+				//scope.setPrototype( prototype );
+				scope.setParentScope( parent );
+				return scope;
+			}
+			catch ( JavaScriptException e )
+			{
+				// Not expected; use provided scrope instead
+				logger.logp( Level.WARNING,
+						DataEngineImpl.class.getName( ),
+						"createSubscope",
+						"Failed to create sub scope",
+						e );
+				return parent;
+			}
+			finally
+			{
+				Context.exit( );
+			}
+
 		}
 		
 		public IResultMetaData getResultMetaData( ) throws DataException
