@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -267,7 +268,7 @@ public class DNDUtil
 			Object targetObj, int position, String commandName,
 			String commandType )
 	{
-		ReportDesignHandle designHandle = SessionHandleAdapter.getInstance( )
+		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		CommandStack stack = designHandle.getCommandStack( );
 		try

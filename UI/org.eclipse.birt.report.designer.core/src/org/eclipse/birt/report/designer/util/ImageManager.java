@@ -25,7 +25,7 @@ import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -125,7 +125,7 @@ public class ImageManager
 	 * 
 	 * @return Returns the image,or null if the embedded image doesn't exist.
 	 */
-	public Image getImage( ReportDesignHandle handle, String name )
+	public Image getImage( ModuleHandle handle, String name )
 	{
 		String key = generateKey( handle, name );
 		EmbeddedImage embeddedImage = handle.findImage( name );
@@ -234,8 +234,9 @@ public class ImageManager
 			String path = URIUtil.getLocalPath( uri );
 			if ( path != null )
 			{
-				ReportDesignHandle designHandle = SessionHandleAdapter.getInstance( )
+				ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ); 
+				//add by gao for lib
 				return designHandle.findResource( path, IResourceLocator.IMAGE );
 			}
 			return URI.create( uri ).toURL( );
@@ -249,7 +250,7 @@ public class ImageManager
 	 * @param name
 	 * @return key string
 	 */
-	public String generateKey( ReportDesignHandle reportDesignHandle,
+	public String generateKey(ModuleHandle reportDesignHandle,
 			String name )
 	{
 		return reportDesignHandle.hashCode( ) + EMBEDDED_SUFFIX + name;

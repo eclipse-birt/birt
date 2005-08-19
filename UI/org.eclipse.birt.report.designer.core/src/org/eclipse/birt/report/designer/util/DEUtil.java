@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -941,7 +942,7 @@ public class DEUtil
 	 */
 	public static GroupElementHandle getMultiSelectionHandle( List modelList )
 	{
-		ReportDesignHandle designHandle = SessionHandleAdapter.getInstance( )
+		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		GroupElementHandle handle = new GroupElementHandle( designHandle,
 				modelList );

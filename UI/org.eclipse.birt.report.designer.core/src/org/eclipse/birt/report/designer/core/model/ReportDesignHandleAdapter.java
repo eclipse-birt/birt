@@ -18,7 +18,8 @@ import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -27,7 +28,7 @@ import org.eclipse.draw2d.geometry.Insets;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ReportDesignHandleAdapter responds to model
- * ReportDesignHandle
+ * ModuleHandle
  * 
  *  
  */
@@ -35,7 +36,7 @@ import org.eclipse.draw2d.geometry.Insets;
 public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 {
 
-	public ReportDesignHandleAdapter( ReportDesignHandle handle )
+	public ReportDesignHandleAdapter( ModuleHandle handle )
 	{
 		this( handle, null );
 	}
@@ -45,7 +46,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @param handle
 	 */
-	public ReportDesignHandleAdapter( ReportDesignHandle handle,
+	public ReportDesignHandleAdapter( ModuleHandle handle,
 			IModelAdapterHelper mark )
 	{
 		super( handle, mark );
@@ -106,11 +107,11 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	}
 
 	/**
-	 * Sets the ReportDesignHandle be adapted.
+	 * Sets the ModuleHandle be adapted.
 	 * 
 	 * @param handle
 	 */
-	public void setReportDesignHandle( ReportDesignHandle handle )
+	public void setReportDesignHandle( ModuleHandle handle )
 	{
 		setElementHandle( handle );
 	}

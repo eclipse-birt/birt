@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -75,7 +75,7 @@ public class BirtImageLoader
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	public EmbeddedImage save( ReportDesignHandle handle, String fileName )
+	public EmbeddedImage save( ModuleHandle handle, String fileName )
 			throws SemanticException, IOException
 	{
 		return save(handle,fileName,fileName);
@@ -95,7 +95,7 @@ public class BirtImageLoader
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	public EmbeddedImage save( ReportDesignHandle handle, String fileName, String imageName )
+	public EmbeddedImage save( ModuleHandle handle, String fileName, String imageName )
 			throws SemanticException, IOException
 	{
 		EmbeddedImage embeddedImage = StructureFactory.createEmbeddedImage( );

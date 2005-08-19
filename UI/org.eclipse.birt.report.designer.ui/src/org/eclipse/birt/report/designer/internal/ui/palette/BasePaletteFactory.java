@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -241,7 +241,7 @@ public class BasePaletteFactory
 		{
 			String type = (String) getRequest( ).getNewObjectType( );
 			String text = null;
-			ReportDesignHandle reportHandle = SessionHandleAdapter.getInstance( )
+			ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 
 			TextItemHandle textItemHandle = SessionHandleAdapter.getInstance( )
@@ -411,7 +411,7 @@ public class BasePaletteFactory
 		 */
 		public boolean preHandleMouseUp( )
 		{
-			ReportDesignHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
+			ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			ElementFactory factory = reportDesignHandle.getElementFactory( );
 			String type = (String) getRequest( ).getNewObjectType( );

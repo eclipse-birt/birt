@@ -95,7 +95,7 @@ public class UIUtilUITest extends BirtUITestCase
 		TreeViewer outlineTreeViewer = (TreeViewer) PrivateAccessor.getField( outlinePage,
 				"treeViewer" );
 
-		ReportDesignHandle reportHandle = SessionHandleAdapter.getInstance( )
+		ReportDesignHandle reportHandle = (ReportDesignHandle)SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
 		DataSourceHandle dataSource = reportHandle.getElementFactory( )

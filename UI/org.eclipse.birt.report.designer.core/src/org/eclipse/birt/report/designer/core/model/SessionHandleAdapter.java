@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -103,7 +103,7 @@ public class SessionHandleAdapter
 	{
 		try
 		{
-			ReportDesignHandle handle = getSessionHandle( ).openDesign( fileName,
+			ModuleHandle handle = getSessionHandle( ).openDesign( fileName,
 					input );
 
 			postInit( handle );
@@ -119,7 +119,7 @@ public class SessionHandleAdapter
 	/**
 	 * @param handle
 	 */
-	private void postInit( ReportDesignHandle handle )
+	private void postInit( ModuleHandle handle )
 	{
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ).getCount( ) == 0 )
@@ -146,7 +146,7 @@ public class SessionHandleAdapter
 	 * 
 	 * @return created report design instance
 	 */
-	public ReportDesignHandle creatReportDesign( )
+	public ModuleHandle creatReportDesign( )
 	{
 		return getSessionHandle( ).createDesign( );
 	}
@@ -154,7 +154,7 @@ public class SessionHandleAdapter
 	/**
 	 * @return wrapped report design handle.
 	 */
-	public ReportDesignHandle getReportDesignHandle( )
+	public ModuleHandle getReportDesignHandle( )
 	{
 		if ( designHandleAdapter != null )
 		{
@@ -170,7 +170,7 @@ public class SessionHandleAdapter
 	 * @param handle
 	 *            the model
 	 */
-	public void setReportDesignHandle( ReportDesignHandle handle )
+	public void setReportDesignHandle( ModuleHandle handle )
 	{
 
 		designHandleAdapter.setReportDesignHandle( handle );
@@ -206,7 +206,7 @@ public class SessionHandleAdapter
 	 *            the model
 	 * @return get corresponding mediator
 	 */
-	public ReportMediator getMediator( ReportDesignHandle handle )
+	public ReportMediator getMediator( ModuleHandle handle )
 	{
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
 		if ( mediator == null )

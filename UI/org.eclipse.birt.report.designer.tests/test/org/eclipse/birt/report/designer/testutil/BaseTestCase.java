@@ -50,7 +50,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		loadFile( getLoadFile( ) );
-		report = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		report = (ReportDesignHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}
 
 	protected void tearDown( ) throws Exception

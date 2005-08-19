@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.core.model.views.outline;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 
 /**
  * Model class for embedded image node in the outline view
@@ -23,13 +23,13 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class EmbeddedImageNode
 {
 
-	private ReportDesignHandle reportHandle;
+	private ModuleHandle reportHandle;
 
 	/**
 	 * Constructor
 	 * @param reportHandle
 	 */
-	public EmbeddedImageNode( ReportDesignHandle reportHandle )
+	public EmbeddedImageNode( ModuleHandle reportHandle )
 	{
 		this.reportHandle = reportHandle;
 	}
@@ -38,7 +38,7 @@ public class EmbeddedImageNode
 	 * Get container of embedded images.
 	 * @return report design handle, which contains embedded images.
 	 */
-	public ReportDesignHandle getReportDesignHandle( )
+	public ModuleHandle getReportDesignHandle( )
 	{
 		return reportHandle;
 	}

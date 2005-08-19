@@ -17,7 +17,7 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementMo
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -167,7 +167,7 @@ public class PasteCommand extends Command
 			dropSourceHandle( sourceHandle );
 
 			// Gets new handle
-			ReportDesignHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
+			ModuleHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			DesignElementHandle newHandle = copyNewHandle( cloneElement,
 					currentDesignHandle );
@@ -272,7 +272,7 @@ public class PasteCommand extends Command
 	}
 
 	private DesignElementHandle copyNewHandle( IDesignElement element,
-			ReportDesignHandle currentDesignHandle )
+			ModuleHandle currentDesignHandle )
 			throws CloneNotSupportedException
 	{
 		IDesignElement newElement = isCloned ? element

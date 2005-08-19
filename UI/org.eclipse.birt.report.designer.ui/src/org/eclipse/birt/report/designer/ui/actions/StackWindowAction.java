@@ -19,7 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
@@ -50,7 +50,7 @@ public abstract class StackWindowAction
 		}
 	};
 	private CommandStack commandStack;
-	private ReportDesignHandle designHandle;
+	private ModuleHandle designHandle;
 	private IAction iaction;
 
 	protected String getLabelForCommand( Command command )
@@ -196,7 +196,7 @@ public abstract class StackWindowAction
 		changeLabel( action );
 	}
 
-	protected ReportDesignHandle getDesignHandle( )
+	protected ModuleHandle getDesignHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}

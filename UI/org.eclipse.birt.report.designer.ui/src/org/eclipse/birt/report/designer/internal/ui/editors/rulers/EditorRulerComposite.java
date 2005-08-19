@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -837,7 +838,7 @@ public class EditorRulerComposite extends Composite
 		return SessionHandleAdapter.getInstance( ).getMasterPageHandle( );
 	}
 
-	private ReportDesignHandle getReportDesignHandle( )
+	private ModuleHandle getReportDesignHandle( )
 	{
 		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
 	}

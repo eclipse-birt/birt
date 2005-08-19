@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -450,7 +450,7 @@ public class ChoiceSetFactory {
 	public static String[] getDataSets() {
 		ArrayList list = new ArrayList();
 
-		ReportDesignHandle handle = SessionHandleAdapter.getInstance()
+		ModuleHandle handle = SessionHandleAdapter.getInstance()
 				.getReportDesignHandle();
 
 		SlotHandle dataSets = handle.getDataSets();
@@ -471,7 +471,7 @@ public class ChoiceSetFactory {
 	 */
 	public static String[] getMasterPages() {
 		ArrayList list = new ArrayList();
-		ReportDesignHandle handle = SessionHandleAdapter.getInstance()
+		ModuleHandle handle = SessionHandleAdapter.getInstance()
 				.getReportDesignHandle();
 		SlotHandle pages = handle.getMasterPages();
 		if (pages != null) {
