@@ -44,5 +44,12 @@
                   displayName="%dataset.editor.page.query"
                   name="org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1"/>
        </odaDataSetUI>
+       <odaDataSetUI id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet">
+            <dataSetEditorPage
+                  class="org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage"
+                  path="/"
+                  displayName="%dataset.editor.page.query"
+                  name="org.eclipse.birt.report.data.oda.jdbc.ui.data-set-editor-page1"/>
+       </odaDataSetUI>
     </extension>
    </plugin>

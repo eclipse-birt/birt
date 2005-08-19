@@ -92,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.21 $ $Date: 2005/08/11 06:10:55 $
+ * @version $Revision: 1.24 $ $Date: 2005/08/17 06:33:44 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -613,7 +613,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						numTables ++;
 						
 					}
-					
+					if ( metaDataProvider.isProcedureSupported( ) )
+					{
+						tableList.add( "STORED PROCEDURES" );
+					}
+
 					if ( schemaTreeItem != null 
 							&& schemaTreeItem.length > 0 ) 
 					{
@@ -969,17 +973,64 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					}
 				}
 				
-					
-				ArrayList columnList = metaDataProvider.getColumns(catalogName,schemaName, tableName,null);
-				TreeItem[] items = item.getItems();
-				if ( items != null )
+				if ( !tableName.equalsIgnoreCase( "STORED PROCEDURES" ) )
 				{
-					for ( int i=0; i < items.length; i++)
+					ArrayList columnList = metaDataProvider.getColumns( catalogName,
+							schemaName,
+							tableName,
+							null );
+					TreeItem[] items = item.getItems( );
+					if ( items != null )
 					{
-						items[i].dispose();
+						for ( int i = 0; i < items.length; i++ )
+						{
+							items[i].dispose( );
+						}
 					}
+					Utility.createTreeItems( item,
+							columnList,
+							SWT.NONE,
+							columnImage );
 				}
-				Utility.createTreeItems(item, columnList, SWT.NONE, columnImage);
+				else
+				{
+					ArrayList procedureList = new ArrayList( );
+					try
+					{
+						ResultSet procedureRs = metaDataProvider.getAllProcedure( catalogName,
+								schemaName,
+								null );
+						if ( procedureRs == null )
+						{
+							return;
+						}
+						while ( procedureRs.next( ) )
+						{
+							String name = procedureRs.getString( "PROCEDURE_NAME" );
+							DbObject dbObject = new DbObject( name,
+									name,
+									DbObject.PROCEDURE_TYPE );
+							dbObject.setImage( columnImage );
+							procedureList.add( dbObject );
+						}
+					}
+					catch ( SQLException e )
+					{
+					}
+					TreeItem[] items = item.getItems( );
+					if ( items != null )
+					{
+						for ( int i = 0; i < items.length; i++ )
+						{
+							items[i].dispose( );
+						}
+					}
+					Utility.createTreeItems( item,
+							procedureList,
+							SWT.NONE,
+							columnImage );
+					//expand procedure TreeItem
+				}
 			}
 		});
 	}

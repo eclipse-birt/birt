@@ -35,6 +35,10 @@ public class Connection implements IConnection
 	private java.sql.Connection jdbcConn = null;
 	
 	private static Logger logger = Logger.getLogger( Connection.class.getName( ) );	
+	
+	// TODO:
+	private final String simpleDataType = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet";
+	private final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
 	public void close( ) throws OdaException
 	{
@@ -83,7 +87,10 @@ public class Connection implements IConnection
 				"Connection.createStatement(" + dataSourceType + ")" );
 		// only one data source type, ignoring the argument.
 		assertOpened( );
-		return new Statement( jdbcConn );
+		if ( dataSourceType.equalsIgnoreCase( advancedDataType ) )
+			return new CallStatement( jdbcConn );
+		else
+			return new Statement( jdbcConn );
 	}
 
 

@@ -530,7 +530,10 @@ abstract class PreparedQuery
 					|| odiQuery instanceof ICandidateQuery;
 			if ( odiQuery instanceof IPreparedDSQuery )
 			{
-				return new ResultMetaData( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
+				if ( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) != null )
+					return new ResultMetaData( ( (IPreparedDSQuery) odiQuery ).getResultClass( ) );
+				else
+				    return null;
 			}
 			else
 			{

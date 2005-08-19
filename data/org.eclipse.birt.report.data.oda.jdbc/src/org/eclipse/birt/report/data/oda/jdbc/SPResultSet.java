@@ -1,0 +1,236 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.report.data.oda.jdbc;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
+import org.eclipse.birt.data.oda.IResultSet;
+import org.eclipse.birt.data.oda.IResultSetMetaData;
+import org.eclipse.birt.data.oda.OdaException;
+
+/**
+ * Special case: if the stored procedure does not return resultset, a faked
+ * resultset should be constructed
+ */
+
+public class SPResultSet implements IResultSet
+{
+	/** the JDBC ResultSet object */
+	private java.sql.ResultSet rs;
+	
+	/**
+	 * 
+	 * Constructor ResultSet(java.sql.ResultSet jrs) use JDBC's ResultSet to
+	 * construct it.
+	 *  
+	 */
+	public SPResultSet( java.sql.ResultSet jrs ) throws OdaException
+	{
+
+		/* record down the JDBC ResultSet object */
+		this.rs = jrs;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getMetaData()
+	 */
+	public IResultSetMetaData getMetaData( ) throws OdaException
+	{
+		/* redirect the call to JDBC ResultSet.getMetaData() */
+		SPResultSetMetaData rsMeta = new SPResultSetMetaData( null );
+		return rsMeta;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#close()
+	 */
+	public void close( ) throws OdaException
+	{
+       return;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#setMaxRows(int)
+	 */
+	public void setMaxRows( int max )
+	{
+      return;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#next()
+	 */
+	public boolean next( ) throws OdaException
+	{
+      return false;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getRow()
+	 */
+	public int getRow( ) throws OdaException
+	{
+		return 0;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getString(int)
+	 */
+	public String getString( int index ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getString(java.lang.String)
+	 */
+	public String getString( String columnName ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getInt(int)
+	 */
+	public int getInt( int index ) throws OdaException
+	{
+		return 0;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getInt(java.lang.String)
+	 */
+	public int getInt( String columnName ) throws OdaException
+	{
+       return 0;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getDouble(int)
+	 */
+	public double getDouble( int index ) throws OdaException
+	{
+      return 0.0;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getDouble(java.lang.String)
+	 */
+	public double getDouble( String columnName ) throws OdaException
+	{
+      return 0.0;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getBigDecimal(int)
+	 */
+	public BigDecimal getBigDecimal( int index ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getBigDecimal(java.lang.String)
+	 */
+	public BigDecimal getBigDecimal( String columnName ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getDate(int)
+	 */
+	public Date getDate( int index ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getDate(java.lang.String)
+	 */
+	public Date getDate( String columnName ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getTime(int)
+	 */
+	public Time getTime( int index ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getTime(java.lang.String)
+	 */
+	public Time getTime( String columnName ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getTimestamp(int)
+	 */
+	public Timestamp getTimestamp( int index ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#getTimestamp(java.lang.String)
+	 */
+	public Timestamp getTimestamp( String columnName ) throws OdaException
+	{
+		return null;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#wasNull()
+	 */
+	public boolean wasNull( ) throws OdaException
+	{
+		return true;
+	}
+
+	/*
+	 * 
+	 * @see org.eclipse.birt.data.oda.IResultSet#findColumn(java.lang.String)
+	 */
+	public int findColumn( String columnName ) throws OdaException
+	{
+		return 0;
+	}
+
+}

@@ -342,6 +342,97 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		return resultSet;
 	}
 	
+	/**
+	 * get all procedure from special catalog,schemaPattern,and namePattern
+	 */
+ 	public ResultSet getAllProcedure( String cataLog, String schemaPattern,
+			String namePattern ) throws SQLException
+	{
+		if ( metaData == null )
+		{
+
+			metaData = getMetaData( );
+		}
+		ResultSet resultSet = null;
+		if ( cataLog != null && cataLog.trim( ).length( ) == 0 )
+		{
+			cataLog = null;
+		}
+
+		if ( metaData != null )
+		{
+			try
+			{
+				resultSet = metaData.getProcedures( cataLog,
+						schemaPattern,
+						namePattern );
+			}
+			catch ( SQLException e )
+			{
+				throw e;
+			}
+		}
+		return resultSet;
+	}
+ 	
+ 	/**
+ 	 * Get procedure's columns information
+ 	 */
+ 	public ResultSet getProcedureColumns(String cataLog,
+			  String schemaPattern,
+			  String procedureNamePattern, 
+			  String columnNamePattern) throws SQLException
+	{
+ 		if ( metaData == null )
+		{
+			metaData = getMetaData( );
+		}
+ 		
+ 		ArrayList procedureList = new ArrayList();
+		ResultSet resultSet = null;
+		if ( cataLog != null && cataLog.trim( ).length( ) == 0 )
+		{
+			cataLog = null;
+		}
+
+		if ( metaData != null )
+		{
+			try
+			{
+				resultSet = metaData.getProcedureColumns( cataLog,
+						schemaPattern,
+						procedureNamePattern,
+						columnNamePattern );
+			}
+			catch ( SQLException e )
+			{
+				throw e;
+			}
+		}
+		return resultSet;
+	
+	}
+
+ 	/**
+ 	 * is procedure supported
+ 	 */
+	public boolean isProcedureSupported( )
+	{
+		metaData = getMetaData( );
+		try
+		{
+			if ( metaData != null )
+			{
+				return ( metaData.supportsStoredProcedures( ) );
+			}
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace( );
+		}
+		return false;
+	}
+	
     /*
      * (non-Javadoc)
 	 * 

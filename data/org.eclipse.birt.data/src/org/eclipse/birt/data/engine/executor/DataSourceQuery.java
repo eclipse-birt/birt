@@ -301,8 +301,17 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         // Column projection comes last because it needs hints and custom column information
         addCustomFields( odaStatement );
         addColumnHints( odaStatement );
-        odaStatement.setColumnsProjection( this.projectedFields );
-
+        
+        // TODO: do more invesigation
+        try
+		{
+			odaStatement.setColumnsProjection( this.projectedFields );
+		}
+		catch ( DataException e )
+		{
+			//Do nothing
+		}
+        
         // If ODA can provide result metadata, get it now
         try
         {
@@ -413,8 +422,13 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			{
 				Object inputValue = convertToValue( paramDef.getDefaultInputValue( ),
 						paramDef.getType( ) );
-				this.setInputParamValue( parameterHint.getName( ), inputValue );
-			}
+				if ( parameterHint.getPosition( ) != -1 )
+					this.setInputParamValue( parameterHint.getPosition( ),
+							inputValue );
+				else
+					this.setInputParamValue( parameterHint.getName( ),
+							inputValue );
+			}			
 		}
 		this.setInputParameterBinding();
 	}
