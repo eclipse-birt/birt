@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -12,11 +20,20 @@ import org.eclipse.birt.report.model.elements.ColumnHelper;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 
+/**
+ * Provides the copy operation to the column band in the grid/table.
+ * 
+ */
+
 abstract class ColumnBandCopyAction extends ColumnBandAction
 {
 
 	/**
+	 * Constructs a <code>ColumnBandCopyAction</code> for the copy action.
+	 * 
 	 * @param adapter
+	 *            the adapter to work on tables and grids.
+	 * 
 	 */
 
 	public ColumnBandCopyAction( ColumnBandAdapter adapter )
@@ -126,7 +143,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		cellInfo.setContainerDefnName( rowContainer.getDefn( ).getName( ) );
 		cellInfo.setSlotId( slotId );
 		cellInfo.setGroupId( groupId );
-		cellInfo.setRowNumber( rowNumber );
+		cellInfo.setRowIndex( rowNumber );
 
 		return cellInfo;
 	}
@@ -256,7 +273,7 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			// groupId is equal to -1, means this is a top slot in the table
 
 			RowHandle row = adapter.getRow( contextInfo.getSlotId( ),
-					contextInfo.getGroupId( ), contextInfo.getRowNumber( ) );
+					contextInfo.getGroupId( ), contextInfo.getRowIndex( ) );
 
 			assert row != null;
 

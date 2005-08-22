@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -7,10 +15,19 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableColumn;
 
-public class ColumnBandPasteAction extends ColumnBandCopyAction
+/**
+ * Provides the paste operation to the column band in the grid/table.
+ * 
+ */
+
+class ColumnBandPasteAction extends ColumnBandCopyAction
 {
 
 	/**
+	 * Constructs a <code>ColumnBandPasteAction</code> for the paste action.
+	 * 
+	 * @param adapter
+	 *            the adapter to work on tables and grids.
 	 * 
 	 */
 
@@ -29,6 +46,8 @@ public class ColumnBandPasteAction extends ColumnBandCopyAction
 	 *            <code>true</code> indicates to paste the column regardless
 	 *            of the different layout of cells. <code>false</code>
 	 *            indicates not.
+	 * @param data
+	 *            the copied column band data
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -69,6 +88,8 @@ public class ColumnBandPasteAction extends ColumnBandCopyAction
 	 * @param inForce
 	 *            <code>true</code> if paste regardless of the difference of
 	 *            cell layouts, otherwise <code>false</code>.
+	 * @param data
+	 *            the copied column band data
 	 * @return a list containing post-parsing errors. Each element in the list
 	 *         is <code>ErrorDetail</code>.
 	 * @throws SemanticException

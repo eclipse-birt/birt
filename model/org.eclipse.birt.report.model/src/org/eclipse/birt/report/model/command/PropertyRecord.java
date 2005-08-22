@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.command;
 
@@ -172,4 +170,16 @@ public class PropertyRecord extends SimpleRecord
 		return ValidationExecutor.getValidationNodes( element, propDefn
 				.getTriggerDefnSet( ), false );
 	}
+
+	/**
+	 * Returns the definition of the property whose value is changed.
+	 * 
+	 * @return the property definition
+	 */
+
+	public ElementPropertyDefn getPropDefn( )
+	{
+		return propDefn;
+	}
+
 }

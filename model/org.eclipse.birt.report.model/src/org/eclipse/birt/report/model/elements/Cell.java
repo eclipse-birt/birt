@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * need not specify a cell for each column; Columns without cells are presumed
  * empty. Use the {@link org.eclipse.birt.report.model.api.CellHandle}class to
  * change the properties.
- *  
+ * 
  */
 
 public class Cell extends StyledElement implements ICellModel
@@ -72,7 +72,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * 
 	 * @return the retrieved slot.
 	 * 
-	 *  
+	 * 
 	 */
 
 	public ContainerSlot getSlot( int slot )
@@ -97,7 +97,7 @@ public class Cell extends StyledElement implements ICellModel
 	 * name for this element.
 	 * 
 	 * @return the cell element's name.
-	 *  
+	 * 
 	 */
 
 	public String getElementName( )
@@ -121,8 +121,8 @@ public class Cell extends StyledElement implements ICellModel
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param design
-	 *            the report design of the cell
+	 * @param module
+	 *            the module of the cell
 	 * 
 	 * @return an API handle for this element.
 	 */
@@ -192,8 +192,8 @@ public class Cell extends StyledElement implements ICellModel
 	 * @return the property value
 	 */
 
-	private Object getColumnProperty( Module module,
-			DesignElement container, Cell cell, ElementPropertyDefn prop )
+	private Object getColumnProperty( Module module, DesignElement container,
+			Cell cell, ElementPropertyDefn prop )
 	{
 		Object value = null;
 		if ( container instanceof TableItem )
@@ -210,16 +210,16 @@ public class Cell extends StyledElement implements ICellModel
 
 		return value;
 	}
-	
-	
-	/* 
+
+	/*
 	 * Gets a property value given its definition. If <code>prop</code> is a
 	 * style property definition, also check style values defined on the Table
 	 * columns.
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign, org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyFromContainer(org.eclipse.birt.report.model.elements.ReportDesign,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	
+
 	protected Object getPropertyRelatedToContainer( Module module,
 			ElementPropertyDefn prop )
 	{

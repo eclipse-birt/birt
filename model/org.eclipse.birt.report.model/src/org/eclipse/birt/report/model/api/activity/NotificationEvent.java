@@ -119,6 +119,12 @@ public abstract class NotificationEvent
 
 	public static final int DISPOSE_EVENT = 13;
 
+	/**
+	 * The event type of TABLE_MODEL_EVENT
+	 */
+
+	public static final int TABLE_MODEL_EVENT = 14;
+
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

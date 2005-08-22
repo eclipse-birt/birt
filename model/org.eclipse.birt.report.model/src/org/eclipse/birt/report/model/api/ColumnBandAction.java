@@ -190,7 +190,7 @@ abstract class ColumnBandAction
 		cellInfo.setContainerDefnName( rowContainer.getDefn( ).getName( ) );
 		cellInfo.setSlotId( slotId );
 		cellInfo.setGroupId( groupId );
-		cellInfo.setRowNumber( rowNumber );
+		cellInfo.setRowIndex( rowNumber );
 
 		return cellInfo;
 	}
@@ -370,6 +370,9 @@ abstract class ColumnBandAction
 	 *            the column to be replaced
 	 * @param columnNumber
 	 *            the column number
+	 * @param isInsert
+	 *            <code>true</code> if this is an insert action instead of an
+	 *            paste action
 	 * @throws SemanticException
 	 *             if error is encountered when adding or dropping elements.
 	 */
@@ -543,6 +546,17 @@ abstract class ColumnBandAction
 
 		private int groupId;
 
+		/**
+		 * Constructs a <code>SlotLayoutInfo</code> for the given slot.
+		 * 
+		 * @param containerDefnName
+		 *            the definition name of the container.
+		 * @param slotId
+		 *            the slot id
+		 * @param groupId
+		 *            the group id
+		 */
+
 		protected SlotLayoutInfo( String containerDefnName, int slotId,
 				int groupId )
 		{
@@ -563,11 +577,6 @@ abstract class ColumnBandAction
 		protected void addCell( Cell cell, int rowSpan )
 		{
 			details.add( new Integer( rowSpan ) );
-		}
-
-		protected int getNumOfCells( )
-		{
-			return details.size( );
 		}
 
 		/**

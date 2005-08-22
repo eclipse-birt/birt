@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;

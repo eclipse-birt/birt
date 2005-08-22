@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;

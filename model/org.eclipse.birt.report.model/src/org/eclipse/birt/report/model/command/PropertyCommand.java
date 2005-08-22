@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;

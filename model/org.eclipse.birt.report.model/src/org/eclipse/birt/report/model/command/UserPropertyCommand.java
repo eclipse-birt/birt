@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;

@@ -16,6 +16,8 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.table.LayoutHelper;
+import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
@@ -23,8 +25,6 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
-import org.eclipse.birt.report.model.elements.table.LayoutHelper;
-import org.eclipse.birt.report.model.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -150,7 +150,9 @@ public class TableItem extends ListingElement implements ITableItemModel
 
 	public int findMaxCols( Module module )
 	{
-		refreshRenderModel( module );
+		if ( table == null )
+			refreshRenderModel( module );
+
 		return table.getColumnCount( );
 	}
 
@@ -202,7 +204,8 @@ public class TableItem extends ListingElement implements ITableItemModel
 		if ( columnNum == 0 )
 			columnNum = getColumnPosition4Cell( module, target );
 
-		assert columnNum > 0;
+		assert columnNum != 0;
+
 		TableColumn column = ColumnHelper.findColumn( module,
 				slots[COLUMN_SLOT], columnNum );
 
@@ -233,7 +236,6 @@ public class TableItem extends ListingElement implements ITableItemModel
 		DesignElement grandPa = row.getContainer( );
 		int rowId = grandPa.getSlot( slotId ).findPosn( row );
 
-		refreshRenderModel( module );
 		if ( grandPa instanceof TableItem )
 		{
 			assert grandPa == this;
@@ -274,11 +276,11 @@ public class TableItem extends ListingElement implements ITableItemModel
 	 * @return the table model for rendering
 	 */
 
-	public LayoutTable getRenderModel( Module module )
+	public LayoutTable getLayoutModel( Module module )
 	{
 		if ( table == null )
-			table = LayoutHelper.applyLayout( module, this );
-		
+			refreshRenderModel( module );
+
 		return table;
 	}
 
@@ -287,9 +289,6 @@ public class TableItem extends ListingElement implements ITableItemModel
 	 * 
 	 * @param module
 	 *            the module
-	 * @return the table model for rendering
-	 * 
-	 * @see {@link #getRenderModel(ReportDesign)}
 	 */
 
 	public void refreshRenderModel( Module module )

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.activity;
 
 import org.eclipse.birt.report.model.api.IllegalOperationException;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
@@ -28,6 +27,10 @@ public class ReadOnlyActivityStack extends ActivityStack
 {
 
 	private final static String MESSAGE = "The library is read-only and operation is forbidden."; //$NON-NLS-1$
+
+	/**
+	 * Constructs a <code>ReadOnlyActivityStack</code>.
+	 */
 
 	public ReadOnlyActivityStack( )
 	{

@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
 /**
  * The base activity record provides the mechanism for performing a low-level
  * change to the model. See the
- * {@link org.eclipse.birt.report.model.api.activity.ActivityStack ActivityRecord Stack}
+ * {@link org.eclipse.birt.report.model.activity.ActivityStack ActivityRecord Stack}
  * class for additional background information including a description of the
  * <em>initial</em> and <em>final</em> states for a record.
  * <p>
@@ -157,7 +157,7 @@ import org.eclipse.birt.report.model.validators.IValidatorProvider;
  * <h3>Error Management</h3>
  * 
  * Note that none of the record methods throw an exception. As described in the
- * {@link org.eclipse.birt.report.model.api.activity.ActivityStack command stack},
+ * {@link org.eclipse.birt.report.model.activity.ActivityStack command stack},
  * records must be designed so that they do not fail. The application (generally
  * the command layer) is responsible for ensuring that the requested operation
  * is valid. This rule exists to keep the record mechanism simple. If a record

@@ -33,10 +33,10 @@ class CellContextInfo implements Cloneable
 	int slotId;
 
 	/**
-	 * The row number.
+	 * The 0-based row number.
 	 */
 
-	int rowNumber;
+	int rowIndex;
 
 	/**
 	 * The group id.
@@ -83,61 +83,140 @@ class CellContextInfo implements Cloneable
 		this.drop = drop;
 	}
 
+	/**
+	 * Returns the definition name of the container of the row where the cell
+	 * resides.
+	 * 
+	 * @return the definition name of the container of the row
+	 */
+
 	protected String getContainerDefnName( )
 	{
 		return containerDefnNameOfRow;
 	}
 
-	protected int getRowNumber( )
+	/**
+	 * Returns the index of the row where the cell resides.
+	 * 
+	 * @return the 0-based index of the row
+	 */
+
+	protected int getRowIndex( )
 	{
-		return rowNumber;
+		return rowIndex;
 	}
+
+	/**
+	 * Sets the definition name of the container of the row where the cell
+	 * resides.
+	 * 
+	 * @param parent
+	 *            the definition name of the container of the row
+	 */
 
 	protected void setContainerDefnName( String parent )
 	{
 		this.containerDefnNameOfRow = parent;
 	}
 
+	/**
+	 * Returns the slot id where the cell resides.
+	 * 
+	 * @return the slot id
+	 */
+
 	protected int getSlotId( )
 	{
 		return slotId;
 	}
+
+	/**
+	 * Sets the slot id where the cell resides.
+	 * 
+	 * @param slotId
+	 *            the slot id
+	 */
 
 	protected void setSlotId( int slotId )
 	{
 		this.slotId = slotId;
 	}
 
-	protected void setRowNumber( int rowNumber )
+	/**
+	 * Sets the index of the row where the cell resides.
+	 * 
+	 * @param rowNumber
+	 *            the 0-based index of the row
+	 */
+
+	protected void setRowIndex( int rowNumber )
 	{
 		assert rowNumber != -1;
-		this.rowNumber = rowNumber;
+		this.rowIndex = rowNumber;
 	}
+
+	/**
+	 * Return the cell element that this <code>CellContextInfo</code>
+	 * corresponds to.
+	 * 
+	 * @return the cell element
+	 */
 
 	protected Cell getCell( )
 	{
 		return cell;
 	}
 
+	/**
+	 * Returns the group index where the cell resides.
+	 * 
+	 * @return the 0-based group index
+	 */
+
 	protected int getGroupId( )
 	{
 		return groupId;
 	}
+
+	/**
+	 * Sets the group index where the cell resides.
+	 * 
+	 * @param groupId
+	 *            the 0-based group index
+	 */
 
 	protected void setGroupId( int groupId )
 	{
 		this.groupId = groupId;
 	}
 
+	/**
+	 * Returns the row span of the cell.
+	 * 
+	 * @return the row span of the cell
+	 */
+
 	protected int getRowSpan( )
 	{
 		return rowSpan;
 	}
 
+	/**
+	 * Returns the column span of the cell.
+	 * 
+	 * @return the column span of the cell
+	 */
+
 	protected int getColumnSpan( )
 	{
 		return colSpan;
 	}
+
+	/**
+	 * Returns the value of the drop property of the cell.
+	 * 
+	 * @return the value of the drop property
+	 */
 
 	protected String getDrop( )
 	{

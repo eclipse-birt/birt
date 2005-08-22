@@ -292,7 +292,7 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 
 		return insertAction.canInsertAndPaste( columnIndex, data );
 	}
-	
+
 	/**
 	 * Moves the column from <code>sourceColumn</code> to
 	 * <code>destIndex</code>.
@@ -301,6 +301,8 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 *            the source column ranging from 1 to the column number
 	 * @param destColumn
 	 *            the target column ranging from 0 to the column number
+	 * @throws SemanticException
+	 *             if the chosen column band is forbidden to shift
 	 */
 
 	public void shiftColumn( int sourceColumn, int destColumn )
@@ -320,6 +322,8 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 *            the source column ranging from 1 to the column number
 	 * @param destColumn
 	 *            the target column ranging from 0 to the column number
+	 * @return <code>true</code> if the chosen column band is legal to shift.
+	 *         Otherwise <code>false</code>.
 	 */
 
 	public boolean canShiftColumn( int sourceColumn, int destColumn )

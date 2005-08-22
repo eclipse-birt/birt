@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
+import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 /**
  * Application-level interface into the Model's command stack. Each design owns
@@ -213,6 +214,17 @@ public interface CommandStack
 
 	void execute( IActivityRecord record );
 
+	/**
+	 * Executes the specified extended element command. The command must be
+	 * ready to execute. As noted above, any required checks must have already
+	 * been done. Flushes the redo stack.
+	 * 
+	 * @param command
+	 *            the ActivityRecord to execute
+	 */
+
+	public void execute( IElementCommand command );
+	
 	/**
 	 * Registers a listener. A listener can be registered any number of times,
 	 * but will receive each event only once.

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.elements.table.BasicLayoutStrategies;
+import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -18,10 +20,11 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 /**
  * This class parses the Table (table item) tag.
- *  
+ * 
  */
 
 public class TableItemState extends ListingItemState
@@ -77,6 +80,23 @@ public class TableItemState extends ListingItemState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.FOOTER_TAG ) )
 			return new TableBandState( element, TableItem.FOOTER_SLOT );
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		super.end( );
+
+		assert element instanceof TableItem;
+
+		LayoutTable layoutTable = ( (TableItem) element )
+				.getLayoutModel( handler.getModule( ) );
+		BasicLayoutStrategies.appliesStrategies( layoutTable, true );
 	}
 
 	/**

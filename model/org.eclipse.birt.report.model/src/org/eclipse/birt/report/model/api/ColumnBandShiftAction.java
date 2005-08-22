@@ -1,13 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -29,6 +27,9 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 	/**
 	 * Constructs a default <code>ColumnBandShiftAction</code>.
+	 * 
+	 * @param adapter
+	 *            the adapter to work on tables and grids.
 	 */
 
 	public ColumnBandShiftAction( ColumnBandAdapter adapter )
@@ -102,6 +103,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 	 *            the source position
 	 * @param newPosn
 	 *            the new position
+	 * @return the column destination position ready for the shift action
 	 */
 
 	private int adjustDestPosn( int posn, int newPosn )
@@ -169,6 +171,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 	 * Moves one column from <code>sourceColumn</code> to
 	 * <code>destColumn</code>.
 	 * 
+	 * @param column
+	 *            the column involved in shift action
 	 * @param sourceIndex
 	 *            the source column to shift
 	 * @param destIndex
@@ -204,6 +208,8 @@ class ColumnBandShiftAction extends ColumnBandAction
 	/**
 	 * Moves cells from one column band to another column band.
 	 * 
+	 * @param cellInfos
+	 *            a list containing information for cells to shift
 	 * @param sourceIndex
 	 *            the source column to shift
 	 * @param destIndex
@@ -224,7 +230,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 			// groupId is equal to -1, means this is a top slot in the table
 
 			RowHandle row = adapter.getRow( contextInfo.getSlotId( ),
-					contextInfo.getGroupId( ), contextInfo.getRowNumber( ) );
+					contextInfo.getGroupId( ), contextInfo.getRowIndex( ) );
 
 			assert row != null;
 
@@ -232,10 +238,45 @@ class ColumnBandShiftAction extends ColumnBandAction
 					adapter.getModule( ) );
 			cell.setColumn( 0 );
 
-			// if this is only paste operation, then paste it to the old
-			// position. Otherwise, append it to the next available position.
-
+			int oldPosn = row.getCells( ).findPosn( cell );
 			row.getCells( ).shift( cell, destIndex );
+
+			clearsCellColumnProperties( row, oldPosn, destIndex );
+		}
+	}
+
+	/**
+	 * Checks whether the paste operation can be done with the given copied
+	 * column band data, the column index and the operation flag.
+	 * 
+	 * @param row
+	 *            the row handle
+	 * @param fromPosn
+	 *            the source position in the shift
+	 * @param toPosn
+	 *            the destination position in the shift
+	 * @throws SemanticException
+	 */
+
+	protected void clearsCellColumnProperties( RowHandle row, int fromPosn,
+			int toPosn ) throws SemanticException
+	{
+		int fromIndex = fromPosn;
+		int endIndex = toPosn;
+
+		if ( fromPosn > toPosn )
+		{
+			fromIndex = toPosn;
+			endIndex = fromPosn;
+		}
+
+		if ( row.getCells( ).getCount( ) <= endIndex )
+			endIndex = row.getCells( ).getCount( ) - 1;
+
+		for ( int i = fromIndex; i <= endIndex; i++ )
+		{
+			CellHandle cell = (CellHandle) row.getCells( ).get( i );
+			cell.setColumn( 0 );
 		}
 	}
 

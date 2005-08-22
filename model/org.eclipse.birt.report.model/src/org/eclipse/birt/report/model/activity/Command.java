@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.activity;
 
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.core.Module;
 
 /**

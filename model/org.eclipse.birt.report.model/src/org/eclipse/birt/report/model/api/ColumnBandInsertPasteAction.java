@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -7,16 +15,16 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.TableColumn;
 
-public class ColumnBandInsertPasteAction extends ColumnBandCopyAction
+class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 {
 
 	/**
 	 * @param adapter
 	 */
-	
+
 	public ColumnBandInsertPasteAction( ColumnBandAdapter adapter )
 	{
-		super( adapter );		
+		super( adapter );
 	}
 
 	/**
@@ -25,6 +33,8 @@ public class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 	 * 
 	 * @param columnIndex
 	 *            the column index
+	 * @param data
+	 *            the copied column band data
 	 * @return <code>true</code> indicates the paste operation can be done.
 	 *         Otherwise <code>false</code>.
 	 */
@@ -70,14 +80,16 @@ public class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 	 * 
 	 * @param columnIndex
 	 *            the column index
+	 * @param data
+	 *            the copied column band data
 	 * @return a list containing post-parsing errors. Each element in the list
 	 *         is <code>ErrorDetail</code>.
 	 * @throws SemanticException
 	 *             if layouts of slots are different.
 	 */
 
-	protected List insertAndPasteColumnBand( int columnIndex, ColumnBandData data )
-			throws SemanticException
+	protected List insertAndPasteColumnBand( int columnIndex,
+			ColumnBandData data ) throws SemanticException
 	{
 		boolean canDone = canInsertAndPaste( columnIndex, data );
 

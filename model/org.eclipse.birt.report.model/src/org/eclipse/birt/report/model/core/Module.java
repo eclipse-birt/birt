@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.activity.ReadOnlyActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -152,7 +152,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	/**
 	 * The save state used for dirty file detection. See
-	 * {@link org.eclipse.birt.report.model.api.activity.ActivityStack}for
+	 * {@link org.eclipse.birt.report.model.activity.ActivityStack}for
 	 * details.
 	 */
 
@@ -538,9 +538,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		saveState = 0;
 
-		// Pass the validation executor to activity stack.
+		// Pass the design to the task manager in the activity stack.
 
-		activityStack.setValidationExecutor( validationExecutor );
+		activityStack.getInterceptor( ).registerModule( this );
 	}
 
 	/**
@@ -550,8 +550,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void close( )
 	{
 		isValid = false;
-		
-		if ( ! isReadOnly( ) )
+
+		if ( !isReadOnly( ) )
 		{
 			saveState = activityStack.getCurrentTransNo( );
 			session.drop( this );

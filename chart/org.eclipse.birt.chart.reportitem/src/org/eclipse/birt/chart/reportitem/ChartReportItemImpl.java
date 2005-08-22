@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
@@ -152,9 +151,8 @@ public final class ChartReportItemImpl extends ReportItem
 				this,
 				oldChart,
 				newChart );
-		// TODO Cast to be removed when CommandStack has the
-		// execute(IElementCommand) method
-		( (ActivityStack) this.handle.getDesignHandle( ).getCommandStack( ) ).execute( command );
+
+		this.handle.getDesignHandle( ).getCommandStack( ).execute( command );
 	}
 
 	/**

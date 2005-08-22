@@ -1,17 +1,16 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * 
+ * Contributors: Actuate Corporation - initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -22,8 +21,12 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
  * its heading at the top of each page. The table is a list that is structured
  * into a rows and columns. The columns are defined for the entire table. Rows
  * are clustered into a set of groups.
+ * <p>
+ * To get the layout of a table, it is recommended to use
+ * <code>LayoutTableModel</code>.
  * 
  * @see org.eclipse.birt.report.model.elements.TableItem
+ * @see org.eclipse.birt.report.model.api.elements.table.LayoutTableModel
  */
 
 public class TableHandle extends ListingHandle implements ITableItemModel
@@ -301,12 +304,13 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 *            the source column ranging from 1 to the column number
 	 * @param destColumn
 	 *            the target column ranging from 0 to the column number
+	 * @throws SemanticException
+	 *             if the chosen column band is forbidden to shift
 	 */
 
 	public void shiftColumn( int sourceColumn, int destColumn )
 			throws SemanticException
 	{
-
 		ColumnBandShiftAction shiftAction = new ColumnBandShiftAction(
 				new TableColumnBandAdapter( this ) );
 		shiftAction.shiftColumnBand( sourceColumn, destColumn );
@@ -320,6 +324,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 *            the source column ranging from 1 to the column number
 	 * @param destColumn
 	 *            the target column ranging from 0 to the column number
+	 * @return <code>true</code> if the chosen column band is legal to shift.
+	 *         Otherwise <code>false</code>.
 	 */
 
 	public boolean canShiftColumn( int sourceColumn, int destColumn )
@@ -336,5 +342,16 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			return false;
 		}
 		return shiftAction.checkTargetColumn( sourceColumn, destColumn );
+	}
+
+	/**
+	 * Returns the layout model of the table.
+	 * 
+	 * @return the layout model of the table
+	 */
+
+	public LayoutTableModel getLayoutModel( )
+	{
+		return new LayoutTableModel( this );
 	}
 }

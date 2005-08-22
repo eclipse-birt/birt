@@ -442,6 +442,7 @@ public class ElementFactory
 			row.setContainer( table, TableItem.DETAIL_SLOT );
 		}
 
+		table.refreshRenderModel( module );
 		return tableHandle;
 	}
 
