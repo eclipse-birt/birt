@@ -851,28 +851,48 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public EmbeddedImage findImage( String imageName )
 	{
+		EmbeddedImage image = findImage( imageName, this );
+		if ( image != null )
+			return image;
+
 		String namespace = StringUtil.extractNamespace( imageName );
 		String name = StringUtil.extractName( imageName );
 
-		Module moduleToSearch = this;
-		if ( namespace != null )
-			moduleToSearch = getLibraryWithNamespace( namespace );
+		if ( namespace == null )
+			return null;
 
-		if ( moduleToSearch != null )
+		Module moduleToSearch = getLibraryWithNamespace( namespace );
+
+		return findImage( name, moduleToSearch );
+	}
+
+	/**
+	 * Finds an embedded image by name in the given module.
+	 * 
+	 * @param imageName
+	 *            the name of the image to find
+	 * @param moduleToSearch
+	 *            the module in which embedded image is searched
+	 * @return image if found, otherwise, return null.
+	 */
+	
+	private EmbeddedImage findImage( String imageName, Module moduleToSearch )
+	{
+		if ( moduleToSearch == null )
+			return null;
+
+		List list = (List) moduleToSearch.getLocalProperty( moduleToSearch,
+				IMAGES_PROP );
+		if ( list != null )
 		{
-			List list = (List) moduleToSearch.getLocalProperty( moduleToSearch,
-					IMAGES_PROP );
-			if ( list != null )
+			for ( int i = 0; i < list.size( ); i++ )
 			{
-				for ( int i = 0; i < list.size( ); i++ )
-				{
-					EmbeddedImage image = (EmbeddedImage) list.get( i );
-					if ( image.getName( ) != null
-							&& image.getName( ).equals( name ) )
-						return image;
-				}
+				EmbeddedImage image = (EmbeddedImage) list.get( i );
+				if ( image.getName( ) != null && image.getName( ).equals( imageName ) )
+					return image;
 			}
 		}
+
 		return null;
 	}
 
@@ -944,7 +964,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the validation listener to remove
 	 * @return <code>true</code> if <code>listener</code> is sucessfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeValidationListener( IValidationListener listener )
@@ -1547,7 +1567,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the attribute listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeAttributeListener( IAttributeListener listener )
@@ -1603,7 +1623,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the dispose listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeDisposeListener( IDisposeListener listener )

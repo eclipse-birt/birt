@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Element name property type. Represents the name of an element.
- *  
+ * 
  */
 
 public class NamePropertyType extends TextualPropertyType
@@ -28,6 +31,20 @@ public class NamePropertyType extends TextualPropertyType
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.name"; //$NON-NLS-1$
+
+	/**
+	 * Compiled regular expression for allowed values.
+	 * <ul>
+	 * <li>abc_.abc allowed
+	 * <li>abc abc allowed
+	 * <li>_abc allowed
+	 * <li>9abc not allowed
+	 * <li>.abc not allowed
+	 * </ul>
+	 */
+
+	private static final Pattern pattern = Pattern
+			.compile( "[A-Za-z_][A-Za-z_0-9. ]*" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -68,8 +85,8 @@ public class NamePropertyType extends TextualPropertyType
 	 *      java.lang.Object)
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		assert defn != null;
 		if ( value == null )
@@ -82,12 +99,25 @@ public class NamePropertyType extends TextualPropertyType
 		}
 		if ( value instanceof String )
 		{
-			if ( StringUtil.isBlank( (String) value )
-					&& defn.isStructureMember( ) )
-				throw new PropertyValueException( value,
+			String stringValue = StringUtil.trimString( (String) value ) ;
+			if ( stringValue == null )
+			{
+				if ( defn.isStructureMember( ) )
+					throw new PropertyValueException(
+							value,
+							PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+							NAME_TYPE );
+
+				return null;
+			}
+
+			Matcher matcher = pattern.matcher( stringValue );
+			if ( !matcher.matches( ) )
+				throw new PropertyValueException( stringValue,
 						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 						NAME_TYPE );
-			return StringUtil.trimString( (String) value );
+
+			return stringValue;
 		}
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -102,8 +132,8 @@ public class NamePropertyType extends TextualPropertyType
 	 *      java.lang.String)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
