@@ -464,17 +464,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 		ReportItemHandle handle = (ReportItemHandle) getModel( );
 
-		int fontSize = 0;
-		Object size = handle.getPrivateStyle( ).getFontSize( ).getValue( );
-		if ( size instanceof DimensionValue )
-		{
-			fontSize = DEUtil.getFontSize( ( (DimensionValue) size ).toString( ) );
-		}
-		else
-		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( handle ) ) )
-					.intValue( );
-		}
+		int fontSize = DEUtil.getFontSizeIntValue(handle);
 
 		int fontStyle = 0;
 		String fontWeight = styleHandle.getFontWeight( );
