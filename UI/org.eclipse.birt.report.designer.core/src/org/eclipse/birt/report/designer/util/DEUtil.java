@@ -41,7 +41,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -80,7 +79,7 @@ public class DEUtil
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
-		//do not support following element in release 1
+		// do not support following element in release 1
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.LINE_ITEM ) );
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
@@ -113,7 +112,7 @@ public class DEUtil
 			list.removeAll( notSupportList );
 		}
 
-		//Append to validate the type according to the context
+		// Append to validate the type according to the context
 		List availableList = new ArrayList( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -447,7 +446,7 @@ public class DEUtil
 			return measure;
 		}
 
-		//Default value is DesignChoiceConstants.UNITS_IN
+		// Default value is DesignChoiceConstants.UNITS_IN
 		if ( "".equalsIgnoreCase( units ) ) //$NON-NLS-1$
 		{
 			px = measure;
@@ -457,7 +456,7 @@ public class DEUtil
 		{
 			Font defaultFont = JFaceResources.getDefaultFont( );
 			FontData[] fontData = defaultFont.getFontData( );
-			fontSize = fontData[0].height;
+			fontSize = fontData[0].getHeight( );
 		}
 
 		if ( DesignChoiceConstants.UNITS_EM.equals( units ) )
@@ -478,7 +477,7 @@ public class DEUtil
 					DesignChoiceConstants.UNITS_PT,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
-		//added by gao if unit is "", set the unit is Design default unit
+		// added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) || units == null )//$NON-NLS-1$ 
 		{
 			units = SessionHandleAdapter.getInstance( )
@@ -498,16 +497,19 @@ public class DEUtil
 		return MetricUtility.inchToPixel( px );
 	}
 
-	/**Transform other units to target unit.
+	/**
+	 * Transform other units to target unit.
+	 * 
 	 * @param handle
 	 * @param targetUnit
 	 * @return
 	 */
-	public static double convertToValue(DimensionHandle handle,String targetUnit)
+	public static double convertToValue( DimensionHandle handle,
+			String targetUnit )
 	{
 		double retValue = 0.0;
-		
-		if (handle.isSet())
+
+		if ( handle.isSet( ) )
 		{
 			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
 					handle.getUnits( ),
@@ -515,6 +517,7 @@ public class DEUtil
 		}
 		return retValue;
 	}
+
 	/**
 	 * Checks if the value can be converted to a valid Integer.
 	 * 
@@ -781,11 +784,11 @@ public class DEUtil
 			}
 
 			return /*
-				    * Roll back because engine hasn't support full path yet
-				    * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
-				    * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
-				    * ).getName( ) + "\"]." +
-				    */IReportElementConstants.DATA_COLUMN_PREFIX
+					 * Roll back because engine hasn't support full path yet
+					 * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
+					 * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
+					 * ).getName( ) + "\"]." +
+					 */IReportElementConstants.DATA_COLUMN_PREFIX
 					+ "[\"" + DEUtil.escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return null;
@@ -827,17 +830,17 @@ public class DEUtil
 					sp[1] ) );
 		}
 
-		return 10;//as medium size.
+		return 10;// as medium size.
 	}
 
 	/**
-	 * Get the handle's font size. if the font size is relative, calculate the
-	 * actual size according to its parent.
+	 * Get the handle's font size 's string value. if the font size is relative,
+	 * calculate the actual size according to its parent.
 	 * 
 	 * @param handle
 	 *            The style handle to work with the style properties of this
 	 *            element.
-	 * @return The font size
+	 * @return The font size string value.
 	 */
 	public static String getFontSize( DesignElementHandle handle )
 	{
@@ -853,35 +856,338 @@ public class DEUtil
 			}
 		}
 
-		StyleHandle styleHandle = handle.getPrivateStyle( );
-		String fontSize = (String) ( styleHandle.getFontSize( ).getValue( ) );
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
 
-		if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+		if ( fontSizeValue instanceof DimensionValue )
 		{
-			String parentFontSize = getFontSize( handle.getContainer( ) );
-			for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
+			return ( (DimensionValue) fontSizeValue ).toString( );
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
 			{
-				if ( parentFontSize.equals( DesignerConstants.fontSizes[i][0] ) )
+				return getLargerFontSize( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSize( handle.getContainer( ) );
+			}
+			else
+			{
+				return fontSize;
+			}
+		}
+		else
+		{
+			return DesignChoiceConstants.FONT_SIZE_MEDIUM;
+		}
+	}
+
+	private static String getLargerFontSize( DesignElementHandle handle )
+	{
+		if ( !( handle instanceof ReportItemHandle ) )
+		{
+			if ( handle instanceof ReportDesignHandle )
+			{
+				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
 				{
-					return DesignerConstants.fontSizes[i + 1][0];
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return DesignerConstants.fontSizes[i + 1][0];
+					}
 				}
 			}
-			return DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][0];
-		}
-		else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
-		{
-			String parentFontSize = getFontSize( handle.getContainer( ) );
-			for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
+			if ( handle instanceof GroupHandle )
 			{
-				if ( parentFontSize.equals( DesignerConstants.fontSizes[i][0] ) )
-				{
-					return DesignerConstants.fontSizes[i - 1][0];
-				}
+				handle = handle.getContainer( );
 			}
-			return DesignerConstants.fontSizes[0][0];
 		}
 
-		return fontSize;
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
+		if ( fontSizeValue instanceof DimensionValue )
+		{
+			int parentSize = getFontSizeIntValue( handle.getContainer( ) );
+			int size = (int) CSSUtil.convertToPoint( fontSizeValue, parentSize ) + 1;
+
+			DimensionValue dm = new DimensionValue( size, "pt" );
+			return dm.toString( );
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+			{
+				return getLargerFontSize( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSize( handle.getContainer( ) );
+			}
+			else
+			{
+				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
+				{
+					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return DesignerConstants.fontSizes[i + 1][0];
+					}
+				}
+				return DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][0];
+			}
+		}
+		else
+		{
+			return DesignChoiceConstants.FONT_SIZE_MEDIUM;
+		}
+
+	}
+
+	private static String getSmallerFontSize( DesignElementHandle handle )
+	{
+		if ( !( handle instanceof ReportItemHandle ) )
+		{
+			if ( handle instanceof ReportDesignHandle )
+			{
+				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
+				{
+					if ( DesignChoiceConstants.FONT_SIZE_MEDIUM.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return DesignerConstants.fontSizes[i - 1][0];
+					}
+				}
+			}
+			if ( handle instanceof GroupHandle )
+			{
+				handle = handle.getContainer( );
+			}
+		}
+
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
+		if ( fontSizeValue instanceof DimensionValue )
+		{
+			int parentSize = getFontSizeIntValue( handle.getContainer( ) );
+			int size = (int) CSSUtil.convertToPoint( fontSizeValue, parentSize ) - 1;
+
+			size = ( size < 1 ) ? 1 : size;
+
+			DimensionValue dm = new DimensionValue( size, "pt" );
+			return dm.toString( );
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+			{
+				return getLargerFontSize( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSize( handle.getContainer( ) );
+			}
+			else
+			{
+				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
+				{
+					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return DesignerConstants.fontSizes[i - 1][0];
+					}
+				}
+				return DesignerConstants.fontSizes[0][0];
+			}
+		}
+		else
+		{
+			return DesignChoiceConstants.FONT_SIZE_MEDIUM;
+		}
+
+	}
+
+	/**
+	 * Get the handle's font size int value. if the font size is relative,
+	 * calculate the actual size according to its parent.
+	 * 
+	 * @param handle
+	 *            The style handle to work with the style properties of this
+	 *            element.
+	 * @return The font size int value
+	 */
+	public static int getFontSizeIntValue( DesignElementHandle handle )
+	{
+		if ( !( handle instanceof ReportItemHandle ) )
+		{
+			if ( handle instanceof ReportDesignHandle )
+			{
+				// return 10.
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				return Integer.parseInt( size );
+			}
+			if ( handle instanceof GroupHandle )
+			{
+				handle = handle.getContainer( );
+			}
+		}
+
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
+		if ( fontSizeValue instanceof DimensionValue )
+		{
+			// use parent's font size as the base size for converting sizeValue
+			// to a int value.
+			int size = getFontSizeIntValue( handle.getContainer( ) );
+			return (int) CSSUtil.convertToPoint( fontSizeValue, size );
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+			{
+				return getLargerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else
+			{
+				String size = (String) DesignerConstants.fontMap.get( fontSize );
+				return Integer.parseInt( size );
+			}
+		}
+		else
+		{
+			// return 10.
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			return Integer.parseInt( size );
+		}
+	}
+
+	private static int getLargerFontSizeIntValue( DesignElementHandle handle )
+	{
+		if ( !( handle instanceof ReportItemHandle ) )
+		{
+			if ( handle instanceof ReportDesignHandle )
+			{
+				// return 10.
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				return Integer.parseInt( size ) + 1;
+			}
+			if ( handle instanceof GroupHandle )
+			{
+				handle = handle.getContainer( );
+			}
+		}
+
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
+		if ( fontSizeValue instanceof DimensionValue )
+		{
+			int size = getFontSizeIntValue( handle.getContainer( ) );
+			return (int) CSSUtil.convertToPoint( fontSizeValue, size ) + 1;
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+			{
+				return getLargerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else
+			{
+				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
+				{
+					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return Integer.parseInt( DesignerConstants.fontSizes[i + 1][1] );
+					}
+				}
+				return Integer.parseInt( DesignerConstants.fontSizes[DesignerConstants.fontSizes.length - 1][1] );
+			}
+		}
+		else
+		{
+			// return 10 + 1.
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			return Integer.parseInt( size ) + 1;
+		}
+	}
+
+	private static int getSmallerFontSizeIntValue( DesignElementHandle handle )
+	{
+		if ( !( handle instanceof ReportItemHandle ) )
+		{
+			if ( handle instanceof ReportDesignHandle )
+			{
+				// return 10.
+				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+				return Integer.parseInt( size ) - 1;
+			}
+			if ( handle instanceof GroupHandle )
+			{
+				handle = handle.getContainer( );
+			}
+		}
+
+		Object fontSizeValue = handle.getPrivateStyle( )
+				.getFontSize( )
+				.getValue( );
+		if ( fontSizeValue instanceof DimensionValue )
+		{
+			int gParentFontSize = getFontSizeIntValue( handle.getContainer( ) );
+			int size = (int) CSSUtil.convertToPoint( fontSizeValue,
+					gParentFontSize ) - 1;
+			if ( size < 1 )
+			{
+				return 1;
+			}
+			else
+			{
+				return size;
+			}
+		}
+		else if ( fontSizeValue instanceof String )
+		{
+			String fontSize = (String) fontSizeValue;
+			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
+			{
+				return getLargerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+			{
+				return getSmallerFontSizeIntValue( handle.getContainer( ) );
+			}
+			else
+			{
+				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
+				{
+					if ( fontSize.equals( DesignerConstants.fontSizes[i][0] ) )
+					{
+						return Integer.parseInt( DesignerConstants.fontSizes[i - 1][1] );
+					}
+				}
+				return Integer.parseInt( DesignerConstants.fontSizes[0][1] );
+			}
+		}
+		else
+		{
+			// return 10 -1.
+			String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
+			return Integer.parseInt( size ) - 1;
+		}
 	}
 
 	/**
@@ -911,24 +1217,26 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( )
 	{
-		return getSystemFontNames(null);
+		return getSystemFontNames( null );
 	}
 
 	/**
-	 * Returns all font names for current system.
-	 * NOTES: Java 1.4 only support true type fonts.
-	 * @param comparator Sort comparator.
+	 * Returns all font names for current system. NOTES: Java 1.4 only support
+	 * true type fonts.
+	 * 
+	 * @param comparator
+	 *            Sort comparator.
 	 * @return font names.
 	 */
-	public static String[] getSystemFontNames( Comparator comparator)
+	public static String[] getSystemFontNames( Comparator comparator )
 	{
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment( );
 
-		String [] fontNames = ge.getAvailableFontFamilyNames( );
-		
-		if(comparator !=null)
+		String[] fontNames = ge.getAvailableFontFamilyNames( );
+
+		if ( comparator != null )
 		{
-			Arrays.sort(fontNames,comparator);
+			Arrays.sort( fontNames, comparator );
 		}
 		return fontNames;
 	}

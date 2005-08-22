@@ -412,7 +412,7 @@ public class CSSUtil
 		{
 			Font defaultFont = JFaceResources.getDefaultFont( );
 			FontData[] fontData = defaultFont.getFontData( );
-			baseSize = fontData[0].height;
+			baseSize = fontData[0].getHeight();
 		}
 
 		// converts relative units to inch.

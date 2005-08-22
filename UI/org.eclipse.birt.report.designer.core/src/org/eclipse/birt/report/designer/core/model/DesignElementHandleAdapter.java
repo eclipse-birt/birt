@@ -14,11 +14,9 @@ package org.eclipse.birt.report.designer.core.model;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -185,19 +183,7 @@ public abstract class DesignElementHandleAdapter
 			retValue = new Insets( retValue );
 		}
 
-		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
-				.getFontSize( );
-
-		int fontSize = 12;
-		if ( fontHandle.getValue( ) instanceof String )
-		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
-					.intValue( );
-		}
-		else if ( fontHandle.getValue( ) instanceof DimensionValue )
-		{
-			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
-		}
+		int fontSize = DEUtil.getFontSizeIntValue(getHandle( ));
 
 		DimensionValue dimensionValue = (DimensionValue) getHandle( ).getProperty( StyleHandle.PADDING_TOP_PROP );
 		double px = DEUtil.convertToPixel( dimensionValue, fontSize );
@@ -238,19 +224,7 @@ public abstract class DesignElementHandleAdapter
 			retValue = new Insets( retValue );
 		}
 
-		DimensionHandle fontHandle = getHandle( ).getPrivateStyle( )
-				.getFontSize( );
-
-		int fontSize = 12;
-		if ( fontHandle.getValue( ) instanceof String )
-		{
-			fontSize = Integer.valueOf( (String) DesignerConstants.fontMap.get( DEUtil.getFontSize( getHandle( ) ) ) )
-					.intValue( );
-		}
-		else if ( fontHandle.getValue( ) instanceof DimensionValue )
-		{
-			DEUtil.convertToPixel( fontHandle.getValue( ), fontSize );
-		}
+		int fontSize = DEUtil.getFontSizeIntValue(getHandle( ));
 
 		double px = 0;
 		Object prop = getHandle( ).getProperty( StyleHandle.MARGIN_TOP_PROP );
