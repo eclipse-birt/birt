@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.13 $ $Date: 2005/05/08 06:59:45 $
  */
 public abstract class ReportItemExecutor
 {
@@ -167,7 +167,7 @@ public abstract class ReportItemExecutor
 		}
 		String ret = context.getReport( ).getMessage( resourceKey,
 				context.getLocale( ) );
-		if ( ret == null )
+		if ( ret == null || "".equals(ret) )
 		{
 		    logger.log(Level.SEVERE,"get resource error, resource key: {0} Locale: {1}", new Object[]{resourceKey, context.getLocale().toString()} ); //$NON-NLS-1$
 			return text;
