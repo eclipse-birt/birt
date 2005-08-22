@@ -44,7 +44,7 @@ public class JSRowObject extends ScriptableObject
     private IResultIterator resultSet;
     private DataSetRuntime	dataSet;
     private JSColumnMetaData cachedColumnMetaData;
-    
+    private int currentRowIndex = -1;
     private boolean	allowUpdate = false;
     
 	private static Logger logger = Logger.getLogger( JSRowObject.class.getName( ) );
@@ -216,12 +216,9 @@ public class JSRowObject extends ScriptableObject
        	// IResultObject handle it in such case)
     	try
 		{
-	       	if ( index == 0 && resultSet != null )
+	       	if ( index == 0 )
 	       	{
-	    		logger.exiting( JSRowObject.class.getName( ),
-						"get",
-						new Integer( resultSet.getCurrentResultIndex( ) ) );
-	       		return new Integer( resultSet.getCurrentResultIndex() );
+	       		return getCurrentRowIndex( );
 	       	}
 	       	else
 	       	{
@@ -250,6 +247,7 @@ public class JSRowObject extends ScriptableObject
     		return null;
 		}
 	}
+
     
     /**
 	 * Gets a named property
@@ -276,11 +274,7 @@ public class JSRowObject extends ScriptableObject
 		{
 			try
 			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( JSRowObject.class.getName( ),
-							"get",
-							new Integer( resultSet.getCurrentResultIndex( ) ) );
-				return new Integer( resultSet.getCurrentResultIndex( ) );
+				return getCurrentRowIndex( );
 			}
 			catch ( DataException e )
 			{
@@ -485,5 +479,31 @@ public class JSRowObject extends ScriptableObject
 		// assert resultObject!=null;
 		return resultObject;
 	}
-    
+
+	/**
+	 * Indicates the index of the current result row
+	 */
+	public void setCurrentRowIndex( int currentRowIndex )
+	{
+		this.currentRowIndex = currentRowIndex;
+	}
+
+	/**
+	 * Gets value of row[0]
+	 * @return
+	 * @throws DataException
+	 */
+	private Object getCurrentRowIndex( ) throws DataException
+	{
+		int rowID;
+		if ( resultSet != null )
+			rowID = resultSet.getCurrentResultIndex( );
+		else
+			rowID = this.currentRowIndex;
+
+		logger.exiting( JSRowObject.class.getName( ),
+				"get",
+				new Integer( rowID ) );
+		return new Integer( rowID );
+	}
 }

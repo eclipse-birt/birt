@@ -53,7 +53,7 @@ class FilterByRow implements IResultObjectEvent
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
-	public boolean process( IResultObject row ) throws DataException
+	public boolean process( IResultObject row , int rowIndex) throws DataException
 	{
 		logger.entering( FilterByRow.class.getName( ), "process" );
 		Context cx = Context.enter();
@@ -62,6 +62,7 @@ class FilterByRow implements IResultObjectEvent
 			boolean isAccepted = true;
 			Iterator filterIt = filters.iterator( );
 			scriptObj.setRowObject( row, false );
+			scriptObj.setCurrentRowIndex( rowIndex );
 			while ( filterIt.hasNext( ) )
 			{
 				IFilterDefinition filter = (IFilterDefinition) filterIt.next( );

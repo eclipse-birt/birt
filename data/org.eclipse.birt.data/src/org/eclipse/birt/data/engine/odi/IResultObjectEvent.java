@@ -29,6 +29,7 @@ public interface IResultObjectEvent
 	 * 		false if resultObject should be excluded
 	 * @throws DataException
 	 */
-	public boolean process( IResultObject resultObject ) throws DataException;
+	public boolean process( IResultObject resultObject, int rowIndex )
+			throws DataException;
 	
 }

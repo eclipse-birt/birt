@@ -71,7 +71,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
-	public boolean process( IResultObject resultObject ) throws DataException
+	public boolean process( IResultObject resultObject, int rowIndex ) throws DataException
 	{	
 		logger.entering( ComputedColumnHelper.class.getName( ), "process" );
 		assert resultObject != null;
@@ -90,7 +90,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		
 		// bind new object to row script object
 		rowObject.setRowObject( resultObject, true );
-
+		rowObject.setCurrentRowIndex( rowIndex );
 		// now assign the computed value to each of its projected computed
 		// columns
 		Context cx = Context.enter( );
