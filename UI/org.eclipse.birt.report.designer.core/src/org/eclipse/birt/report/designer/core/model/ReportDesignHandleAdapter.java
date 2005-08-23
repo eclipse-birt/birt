@@ -70,7 +70,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public List getDataSources( )
 	{
-		return getReportDesignHandle( ).getDataSources( ).getContents( );
+		return getModuleHandle( ).getDataSources( ).getContents( );
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public DataSourceHandle getDataSourceHandle( String name )
 	{
-		return getReportDesignHandle( ).findDataSource( name );
+		return getModuleHandle( ).findDataSource( name );
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public boolean checkDataSourceName( String name )
 	{
-		return getReportDesignHandle( ).findDataSource( name ) != null;
+		return getModuleHandle( ).findDataSource( name ) != null;
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public boolean checkDataSetName( String name )
 	{
-		return getReportDesignHandle( ).findDataSet( name ) != null;
+		return getModuleHandle( ).findDataSet( name ) != null;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public MasterPageHandle getMasterPage( int pos )
 	{
-		SlotHandle masterPages = getReportDesignHandle( ).getMasterPages( );
+		SlotHandle masterPages = getModuleHandle( ).getMasterPages( );
 		MasterPageHandle masterPage = (MasterPageHandle) masterPages.get( pos );
 
 		return masterPage;
@@ -202,5 +202,10 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 				(int) DEUtil.convertoToPixel( masterPage.getLeftMargin( ) ),
 				(int) DEUtil.convertoToPixel( masterPage.getBottomMargin( ) ),
 				(int) DEUtil.convertoToPixel( masterPage.getRightMargin( ) ) );
+	}
+	
+	public ModuleHandle getModuleHandle()
+	{
+		return (ModuleHandle)getHandle();
 	}
 }

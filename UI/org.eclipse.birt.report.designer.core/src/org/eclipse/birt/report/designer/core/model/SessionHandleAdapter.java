@@ -40,6 +40,11 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 public class SessionHandleAdapter
 {
 
+	public static int DESIGNEFILE = 0;
+	public static int LIBRARYFILE = 1;
+	
+	private int type = DESIGNEFILE;
+	
 	// add field support mediator
 	private Map mediatorMap = new WeakHashMap( );
 
@@ -49,6 +54,11 @@ public class SessionHandleAdapter
 	private SessionHandleAdapter( )
 	{
 
+	}
+	
+	public int getFileType()
+	{
+		return type;
 	}
 
 	private static SessionHandleAdapter sessionAdapter;
@@ -88,6 +98,12 @@ public class SessionHandleAdapter
 		return sessionHandle;
 	}
 
+	
+	public void init( String fileName, InputStream input )
+	throws DesignFileException
+	{
+		init(fileName, input, DESIGNEFILE );
+	}
 	/**
 	 * Initialize a report design file
 	 * 
@@ -98,14 +114,26 @@ public class SessionHandleAdapter
 	 * @throws DesignFileException
 	 */
 
-	public void init( String fileName, InputStream input )
+	public void init( String fileName, InputStream input, int type )
 			throws DesignFileException
 	{
 		try
 		{
-			ModuleHandle handle = getSessionHandle( ).openDesign( fileName,
+			ModuleHandle handle = null;
+			if (type == DESIGNEFILE)
+			{
+				handle = getSessionHandle( ).openDesign( fileName,
 					input );
 
+			}
+			else if (type == LIBRARYFILE)
+			{
+				handle = getSessionHandle( ).openLibrary( fileName );
+			}
+			else
+			{
+				throw new RuntimeException("Not support the file type");
+			}
 			postInit( handle );
 
 			designHandleAdapter = new ReportDesignHandleAdapter( handle );
@@ -158,7 +186,7 @@ public class SessionHandleAdapter
 	{
 		if ( designHandleAdapter != null )
 		{
-			return designHandleAdapter.getReportDesignHandle( );
+			return designHandleAdapter.getModuleHandle( );
 		}
 		return null;
 

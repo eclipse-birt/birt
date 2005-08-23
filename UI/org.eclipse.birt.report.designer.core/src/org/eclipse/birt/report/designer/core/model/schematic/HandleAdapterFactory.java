@@ -17,6 +17,7 @@ import java.util.WeakHashMap;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ExtendedItemHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapt;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -60,9 +62,14 @@ public class HandleAdapterFactory
 	public DesignElementHandleAdapter getDesignElementHandleAdapter(
 			Object obj, IModelAdapterHelper mark )
 	{
+		
 		if ( obj instanceof ReportDesignHandle )
 		{
 			return getReportDesignHandleAdapter( );
+		}
+		else if (obj instanceof LibraryHandle)
+		{
+			return getLibraryHandleAdapter( );
 		}
 		else if ( obj instanceof SimpleMasterPageHandle )
 		{
@@ -218,6 +225,17 @@ public class HandleAdapterFactory
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
 	{
 		return new ReportDesignHandleAdapter( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ) );
+	}
+	
+	/**
+	 * Get report design handle adapter
+	 * 
+	 * @return Design handle adapter
+	 */
+	public ReportDesignHandleAdapter getLibraryHandleAdapter( )
+	{
+		return new LibraryHandleAdapt( SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ) );
 	}
 

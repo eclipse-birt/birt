@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -302,6 +303,10 @@ public class DEUtil
 		{
 			slotID = ReportDesignHandle.BODY_SLOT;
 		}
+		else if ( parent instanceof LibraryHandle )
+		{
+			slotID = ModuleHandle.COMPONENT_SLOT;
+		}
 		else if ( parent instanceof CellHandle )
 		{
 			slotID = CellHandle.CONTENT_SLOT;
@@ -477,8 +482,8 @@ public class DEUtil
 					DesignChoiceConstants.UNITS_PT,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
-		// added by gao if unit is "", set the unit is Design default unit
-		else if ( "".equals( units ) || units == null )//$NON-NLS-1$ 
+		//added by gao if unit is "", set the unit is Design default unit
+		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
 			units = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
@@ -486,6 +491,10 @@ public class DEUtil
 			px = DimensionUtil.convertTo( measure,
 					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
+		}
+		else if (units == null )//$NON-NLS-1$
+		{
+			px = 0.0;
 		}
 		else
 		{

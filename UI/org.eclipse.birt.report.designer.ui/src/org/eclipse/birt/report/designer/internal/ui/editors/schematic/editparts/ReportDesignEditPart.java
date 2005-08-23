@@ -18,29 +18,24 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.TreeSearch;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
@@ -56,14 +51,7 @@ import org.eclipse.gef.tools.DeselectAllTracker;
  */
 public class ReportDesignEditPart extends ReportElementEditPart
 {
-
-	private static final Point PRIVATE_POINT = new Point( );
-
-	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
-
-	private static final Insets DEFAULT_MARGIN = new Insets( 3, 3, 3, 3 );
-
-	private boolean showMargin = true;
+	protected boolean showMargin = true;
 
 	/**
 	 * constructor
@@ -83,145 +71,14 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	 */
 	protected IFigure createFigure( )
 	{
-		Figure figure = new ReportElementFigure( ) {
-
-			{
-				getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
-
-					public void propertyChange( PropertyChangeEvent evt )
-					{
-						if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals( evt.getPropertyName( ) ) )
-						{
-							showMargin = ( (Boolean) evt.getNewValue( ) ).booleanValue( );
-
-							refresh( );
-							markDirty( true );
-						}
-					}
-				} );
-			}
-
-			protected void paintBorder( Graphics graphics )
-			{
-				//does nothing , figure paint itself.
-			}
-
-			
-			public Insets getInsets( )
-			{
-				if ( showMargin )
-				{
-					if ( getBorder( ) != null )
-					{
-						return getBorder( ).getInsets( this );
-					}
-
-					return NO_INSETS;
-				}
-				return DEFAULT_MARGIN;
-			}
-
-			protected void paintFigure( Graphics graphics )
-			{
-				super.paintFigure( graphics );
-
-				graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
-				graphics.drawRectangle( getBounds( ).getCopy( )
-						.crop( getInsets( ) )
-						.crop( DEFAULT_CROP ) );
-
-				//				graphics.setForegroundColor(
-				// ReportColorConstants.MarginMarkerColor );
-				//
-				//				Rectangle rect = getBounds( ).getCopy( )
-				//						.crop( getBorder( ).getInsets( this ) )
-				//						.crop( DEFAULT_CROP );
-				//
-				//				graphics.drawLine( rect.x, rect.y, rect.x, rect.y - 27 );
-				//				graphics.drawLine( rect.x, rect.y, rect.x - 27, rect.y );
-				//
-				//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-				//						+ rect.width, rect.y - 27 );
-				//				graphics.drawLine( rect.x + rect.width, rect.y, rect.x
-				//						+ rect.width
-				//						+ 27, rect.y );
-				//
-				//				graphics.drawLine( rect.x, rect.y + rect.height, rect.x,
-				// rect.y
-				//						+ rect.height
-				//						+ 27 );
-				//				graphics.drawLine( rect.x,
-				//						rect.y + rect.height,
-				//						rect.x - 27,
-				//						rect.y + rect.height );
-				//
-				//				graphics.drawLine( rect.x + rect.width,
-				//						rect.y + rect.height,
-				//						rect.x + rect.width + 27,
-				//						rect.y + rect.height );
-				//				graphics.drawLine( rect.x + rect.width,
-				//						rect.y + rect.height,
-				//						rect.x + rect.width,
-				//						rect.y + rect.height + 27 );
-
-			}
-
-			protected void paintChildren( Graphics graphics )
-			{
-				IFigure child;
-
-				for ( int i = 0; i < this.getChildren( ).size( ); i++ )
-				{
-					child = (IFigure) this.getChildren( ).get( i );
-					if ( child.isVisible( ) )
-					{
-						graphics.setClip( getBounds( ).getCopy( )
-								.intersect( child.getBounds( ) ) );
-						child.paint( graphics );
-						graphics.restoreState( );
-					}
-				}
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.draw2d.Figure#findDescendantAtExcluding(int,
-			 *      int, org.eclipse.draw2d.TreeSearch)
-			 */
-			protected IFigure findDescendantAtExcluding( int x, int y,
-					TreeSearch search )
-			{
-				PRIVATE_POINT.setLocation( x, y );
-				translateFromParent( PRIVATE_POINT );
-				if ( !getBounds( ).contains( PRIVATE_POINT ) )
-					return null;
-
-				IFigure fig;
-				for ( int i = getChildren( ).size( ); i > 0; )
-				{
-					i--;
-					fig = (IFigure) getChildren( ).get( i );
-					if ( fig.isVisible( ) )
-					{
-						fig = fig.findFigureAt( PRIVATE_POINT.x,
-								PRIVATE_POINT.y,
-								search );
-						if ( fig != null )
-							return fig;
-					}
-				}
-				//No descendants were found
-				return null;
-			}
-
-		};
+		ReportRootFigure figure = new ReportRootFigure( );
 
 		figure.setOpaque( true );
+		figure.setShowMargin(showMargin);
 
 		ReportDesignLayout layout = new ReportDesignLayout( this );
 
-		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
+		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
 		
@@ -305,7 +162,7 @@ public class ReportDesignEditPart extends ReportElementEditPart
 	 */
 	public void refreshFigure( )
 	{
-		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
+		SlotHandle slotHandle = ( (ModuleHandle) getModel( ) ).getMasterPages( );
 		Iterator iter = slotHandle.iterator( );
 		SimpleMasterPageHandle masterPageHandle = (SimpleMasterPageHandle) iter.next( );
 		
@@ -314,6 +171,8 @@ public class ReportDesignEditPart extends ReportElementEditPart
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
+		ReportRootFigure figure = (ReportRootFigure)getFigure();
+		figure.setShowMargin(showMargin);
 		if ( !showMargin )
 		{
 			Insets mg = getMasterPageInsets( masterPageHandle );
@@ -360,6 +219,20 @@ public class ReportDesignEditPart extends ReportElementEditPart
 					.addListener( this );
 		}
 		getFigure( ).setFocusTraversable( false );
+		
+		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent evt )
+			{
+				if ( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals( evt.getPropertyName( ) ) )
+				{
+					showMargin = ( (Boolean) evt.getNewValue( ) ).booleanValue( );
+
+					refresh( );
+					markDirty( true );
+				}
+			}
+		} );
 	}
 
 	/*
