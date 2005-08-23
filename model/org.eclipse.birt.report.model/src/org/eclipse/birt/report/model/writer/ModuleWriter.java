@@ -96,7 +96,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * 
  */
 
-abstract class ModuleWriter extends ElementVisitor
+public abstract class ModuleWriter extends ElementVisitor
 {
 
 	/**

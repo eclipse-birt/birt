@@ -132,7 +132,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <p>
  * This abstract base class provides style support in the handling of property
  * values, notifications and the like. Derived classes add logic to define a
- * named style. The derived class overrides the {@link #getStyle}method to
+ * named style. The derived class overrides the {@link #getStyle()}method to
  * return the style for use by the generic mechanisms.
  * <p>
  * An element that can have a style is called a <em>styled element</em>. The
@@ -156,7 +156,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * Members and classes in the style system include:
  * <p>
  * <ul>
- * <li>The {@link #getStyle}method returns the associated style, if any, for
+ * <li>The {@link #getStyle()}method returns the associated style, if any, for
  * this element as a generic DesignElement.</li>
  * </ul>
  * 
@@ -388,7 +388,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.api.activity.ActivityStack}
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}
  * class triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
@@ -459,7 +459,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * The API handle package provides a set of "facade" classes that give this
  * high-level view. Therefore, the application will seldom work with this class
  * directly. Instead, it will work with the handle produced by calling the
- * {@link #getHandle}method.
+ * {@link #getHandle( Module module )}method.
  * 
  * <h3>Semantic State</h3>
  * 
@@ -604,6 +604,7 @@ public abstract class DesignElement
 
 	public DesignElement( )
 	{
+		// Do nothing.
 	}
 
 	/**
@@ -720,7 +721,7 @@ public abstract class DesignElement
 
 	public final void broadcast( NotificationEvent ev )
 	{
-		if ( this instanceof ReportDesign || getContainer( ) != null )
+		if ( this instanceof Module || getContainer( ) != null )
 			broadcast( ev, getRoot( ) );
 	}
 
@@ -1773,8 +1774,8 @@ public abstract class DesignElement
 	 * <p>
 	 * Part of: Property system.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            The name of the property to validate.
 	 * @param value
@@ -1786,7 +1787,7 @@ public abstract class DesignElement
 	 *             If the value is incorrect.
 	 */
 
-	public Object validatePropertyValue( ReportDesign design, String propName,
+	public Object validatePropertyValue( Module module, String propName,
 			Object value ) throws PropertyNameException, PropertyValueException
 	{
 		// If we can't find the property, then the property name
@@ -1800,7 +1801,7 @@ public abstract class DesignElement
 
 		try
 		{
-			return prop.validateValue( design, value );
+			return prop.validateValue( module, value );
 		}
 		catch ( PropertyValueException e )
 		{
@@ -2282,8 +2283,8 @@ public abstract class DesignElement
 	/**
 	 * Validates this element and its contents.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @return the list of the errors found in validation, each of which is the
 	 *         <code>SemanticException</code> object.
 	 */
@@ -2937,6 +2938,8 @@ public abstract class DesignElement
 	 *            errors
 	 * @param prop
 	 *            the property whose type is element reference
+	 * @return the element reference value is always returned, which contains
+	 *         the information of element resolution.
 	 */
 
 	public ElementRefValue resolveElementReference( Module module,
@@ -3017,15 +3020,15 @@ public abstract class DesignElement
 	 * reference is not resolved, attempt to resolve it. If it cannot be
 	 * resolved, return false.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param propName
 	 *            the name of the property
 	 * @return <code>true</code> if the property is resolved;
 	 *         <code>false</code> otherwise.
 	 */
 
-	public boolean checkElementReference( ReportDesign design, String propName )
+	public boolean checkElementReference( Module module, String propName )
 	{
 		assert !StringUtil.isBlank( propName );
 
@@ -3042,7 +3045,7 @@ public abstract class DesignElement
 
 		// Attempt to resolve the reference.
 
-		ElementRefValue ref = resolveElementReference( design, prop );
+		ElementRefValue ref = resolveElementReference( module, prop );
 		return ref.isResolved( );
 	}
 
@@ -3166,9 +3169,9 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * All descriptive text should be "elided" to a length of 30 characters.
-	 * To elide the text, find the first white-space before the limit, truncate
-	 * the string after that point, and append three dots "...".
+	 * All descriptive text should be "elided" to a length of 30 characters. To
+	 * elide the text, find the first white-space before the limit, truncate the
+	 * string after that point, and append three dots "...".
 	 * <p>
 	 * 
 	 * @param displayLabel
@@ -3375,6 +3378,8 @@ public abstract class DesignElement
 
 		if ( this instanceof ReportDesign )
 			return "report"; //$NON-NLS-1$
+		else if ( this instanceof Library )
+			return "library"; //$NON-NLS-1$
 
 		if ( getContainer( ) == null )
 			return getDefn( ).getName( ); //$NON-NLS-1$

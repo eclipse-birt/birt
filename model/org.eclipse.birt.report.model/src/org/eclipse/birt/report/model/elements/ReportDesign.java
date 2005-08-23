@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.writer.DesignWriter;
+import org.eclipse.birt.report.model.writer.ModuleWriter;
 
 /**
  * This class represents the root element in the report design hierarchy.
@@ -176,6 +178,17 @@ public class ReportDesign extends Module implements IReportDesignModel
 	protected int getSlotCount( )
 	{
 		return SLOT_COUNT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Module#getWriter()
+	 */
+
+	public ModuleWriter getWriter( )
+	{
+		return new DesignWriter( this );
 	}
 
 }

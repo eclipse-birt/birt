@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
+import org.eclipse.birt.report.model.writer.ModuleWriter;
 
 /**
  * Core representation of the module element. The module contains:
@@ -1777,4 +1778,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 			super.setIntrinsicProperty( propName, value );
 	}
 
+	/**
+	 * Returns the writer for this moudle.
+	 * 
+	 * @return the writer for this moudle.
+	 */
+	
+	public abstract ModuleWriter getWriter( );
 }

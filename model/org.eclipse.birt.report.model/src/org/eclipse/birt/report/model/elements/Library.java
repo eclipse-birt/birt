@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.writer.LibraryWriter;
+import org.eclipse.birt.report.model.writer.ModuleWriter;
 
 /**
  * Represents the library module. The library is the container of reusable
@@ -145,5 +147,15 @@ public class Library extends Module implements ILibraryModel
 	public void setReadOnly( )
 	{
 		activityStack = new ReadOnlyActivityStack( );
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Module#getWriter()
+	 */
+	
+	public ModuleWriter getWriter( )
+	{
+		return new LibraryWriter( this );
 	}
 }

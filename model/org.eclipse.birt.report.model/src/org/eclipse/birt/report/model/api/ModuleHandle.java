@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
@@ -24,10 +25,10 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
-import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
-import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -49,10 +50,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.writer.DesignWriter;
 
 /**
  * Abstract module handle which provides the common functionalities of report
@@ -1268,7 +1267,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @see #saveAs(String)
 	 */
 
-	public abstract void save( ) throws IOException;
+	public void save( ) throws IOException
+	{
+		String fileName = getFileName( );
+		assert fileName != null;
+		if ( fileName == null )
+			return;
+		module.prepareToSave( );
+		module.getWriter( ).write( new File( fileName ) );
+		module.onSave( );
+	}
 
 	/**
 	 * Saves the design to the file name provided. The file name is saved in the
@@ -1305,8 +1313,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		assert out != null;
 
 		module.prepareToSave( );
-		DesignWriter writer = new DesignWriter( (ReportDesign) module );
-		writer.write( out );
+		module.getWriter( ).write( out );
 		module.onSave( );
 	}
 

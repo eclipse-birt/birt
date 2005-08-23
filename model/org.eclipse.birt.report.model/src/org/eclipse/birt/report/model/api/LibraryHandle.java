@@ -11,13 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
-import org.eclipse.birt.report.model.writer.LibraryWriter;
 
 /**
  * Represents the handle of library element. The library contains the resuable
@@ -118,23 +114,6 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	public DesignElement getElement( )
 	{
 		return module;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ModuleHandle#save()
-	 */
-	public void save( ) throws IOException
-	{
-		String fileName = getFileName( );
-		assert fileName != null;
-		if ( fileName == null )
-			return;
-		module.prepareToSave( );
-		LibraryWriter writer = new LibraryWriter( (Library) module );
-		writer.write( new File( fileName ) );
-		module.onSave( );
 	}
 
 	/**

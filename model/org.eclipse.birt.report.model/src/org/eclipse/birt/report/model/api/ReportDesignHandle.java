@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.writer.DesignWriter;
 
 /**
  * Represents the overall report design. The report design defines a set of
@@ -503,24 +500,6 @@ public class ReportDesignHandle extends ModuleHandle
 		{
 			assert false;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ModuleHandle#save()
-	 */
-
-	public void save( ) throws IOException
-	{
-		String fileName = getFileName( );
-		assert fileName != null;
-		if ( fileName == null )
-			return;
-		module.prepareToSave( );
-		DesignWriter writer = new DesignWriter( (ReportDesign) module );
-		writer.write( new File( fileName ) );
-		module.onSave( );
 	}
 
 }
