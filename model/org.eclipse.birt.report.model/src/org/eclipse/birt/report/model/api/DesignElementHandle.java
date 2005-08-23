@@ -1378,6 +1378,19 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Determines whether to show an error item on the element or not. Show an
+	 * error item if the element is invalid or has semantic errors, otherwise
+	 * not.
+	 * 
+	 * @return true if the element has semantic error or the element is invalid
+	 */
+	
+	public boolean showError( )
+	{
+		return hasSemanticError( ) || !isValid( );
+	}
+
+	/**
 	 * Sets the status that identifies whether the element is valid or not.
 	 * 
 	 * @param isValid

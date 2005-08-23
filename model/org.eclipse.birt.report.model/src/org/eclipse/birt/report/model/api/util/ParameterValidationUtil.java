@@ -47,6 +47,13 @@ public class ParameterValidationUtil
 {
 
 	/**
+	 * Default locale of the validation issues. If the caller does not provide
+	 * the locale information, we will use it.
+	 */
+
+	private static Locale DEFAULT_LOCALE = Locale.US;
+
+	/**
 	 * Validates a input parameter value with the given data type. The returned
 	 * value is locale and format independent. The data type can be one of the
 	 * following:
@@ -189,8 +196,8 @@ public class ParameterValidationUtil
 
 	/**
 	 * Validates a input parameter value with the given data type, format choice
-	 * string. The returned value is locale and pattern independent. The data
-	 * type and the format can be one pair of the following:
+	 * string. The returned value is locale and pattern dependent. The data type
+	 * and the format can be one pair of the following:
 	 * <p>
 	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
 	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
@@ -305,7 +312,8 @@ public class ParameterValidationUtil
 					}
 					catch ( ParseException e )
 					{
-						throw new ValidationValueException( value,
+						throw new ValidationValueException(
+								value,
 								PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 								DesignChoiceConstants.PARAM_TYPE_STRING );
 					}
@@ -321,6 +329,80 @@ public class ParameterValidationUtil
 		{
 			return validate( dataType, value, locale );
 		}
+	}
+
+	/**
+	 * Validates a input parameter value with the given data type, format choice
+	 * string and a default locale defined by the class(Locale.US). The returned
+	 * value is pattern dependent. The data type and the format can be one pair
+	 * of the following:
+	 * <p>
+	 * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
+	 * collapse" bordercolor="#111111" width="36%" id="AutoNumber1">
+	 * <tr>
+	 * <td width="16%">Data Type</td>
+	 * <td width="84%">Format Type</td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Float/Decimal</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Number</li>
+	 * <li>Currency</li>
+	 * <li>Fixed</li>
+	 * <li>Percent</li>
+	 * <li>Scientific</li>
+	 * <li>Standard</li>
+	 * <li>pattern string, such as "###,##0", "###,##0.00 'm/s'", "###.#\';';#"
+	 * and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">Date time</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>General Date</li>
+	 * <li>Long Date</li>
+	 * <li>Medium Date</li>
+	 * <li>Short Date</li>
+	 * <li>Long Time</li>
+	 * <li>Medium Time</li>
+	 * <li>Short Time</li>
+	 * <li>pattern string, such as "MM/dd/yyyy hh:mm:ss a", "yyyy-MM-dd
+	 * HH:mm:ss" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * <tr>
+	 * <td width="16%">String</td>
+	 * <td width="84%">
+	 * <ul>
+	 * <li>Upper case</li>
+	 * <li>Lower case</li>
+	 * <li>pattern string, such as "lt!" and so on.</li>
+	 * </ul>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param dataType
+	 *            the data type of the value
+	 * @param format
+	 *            the format choice string
+	 * @param value
+	 *            the input value to validate
+	 * @return the validated value if the input value is valid for the given
+	 *         data type and format choice string
+	 * @throws ValidationValueException
+	 *             if the input value is not valid with the given data type and
+	 *             format string
+	 */
+
+	static public Object validate( String dataType, String format, String value )
+			throws ValidationValueException
+	{
+		return validate( dataType, format, value, DEFAULT_LOCALE );
 	}
 
 	/**
@@ -554,6 +636,39 @@ public class ParameterValidationUtil
 			return null;
 		}
 
+	}
+
+	/**
+	 * Gets the display string for the value with the given data type, format
+	 * and the default locale defined by the class(Locale.US). The value must be
+	 * the valid data type. That is:
+	 * 
+	 * <ul>
+	 * <li>if data type is <code>PARAM_TYPE_DATETIME</code>, then the value
+	 * must be <code>java.util.Date<code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_FLOAT</code>, then the value must
+	 * be <code>java.lang.Double</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_DECIMAL</code>, then the value must
+	 * be <code>java.math.BigDecimal</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_BOOLEAN</code>, then the value must
+	 * be <code>java.lang.Boolean</code>.</li>
+	 * <li>if the data type is <code>PARAM_TYPE_STRING</code>, then the value must
+	 * be <code>java.lang.String</code>.</li>
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *  		the data type of the input value
+	 * @param format
+	 *  		the format pattern to validate
+	 * @param value
+	 *  		the input value to validate
+	 * @return the formatted string
+	 */
+
+	static public String getDisplayValue( String dataType, String format,
+			Object value )
+	{
+		return getDisplayValue( dataType, format, value, DEFAULT_LOCALE );
 	}
 
 	/**
