@@ -38,13 +38,13 @@ public class NamePropertyType extends TextualPropertyType
 	 * <li>abc_.abc allowed
 	 * <li>abc abc allowed
 	 * <li>_abc allowed
-	 * <li>9abc not allowed
+	 * <li>9abc allowed
 	 * <li>.abc not allowed
 	 * </ul>
 	 */
 
 	private static final Pattern pattern = Pattern
-			.compile( "[A-Za-z_][A-Za-z_0-9. ]*" ); //$NON-NLS-1$
+			.compile( "[\\w][\\w. ]*" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
