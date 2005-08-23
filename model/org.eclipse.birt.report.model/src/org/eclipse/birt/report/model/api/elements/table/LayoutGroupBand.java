@@ -121,7 +121,7 @@ class LayoutGroupBand
 	public String getLayoutString( )
 	{
 		if ( slots.isEmpty( ) )
-			return "";
+			return ""; //$NON-NLS-1$
 
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < slots.size( ); i++ )

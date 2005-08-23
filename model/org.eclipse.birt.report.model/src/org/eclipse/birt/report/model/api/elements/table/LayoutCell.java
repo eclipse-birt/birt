@@ -259,7 +259,7 @@ public class LayoutCell
 				sb.append( 0 );
 		}
 
-		sb.append( "     " );
+		sb.append( "     " ); //$NON-NLS-1$
 		return sb.toString( );
 	}
 

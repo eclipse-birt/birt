@@ -96,7 +96,7 @@ public class TableItemState extends ListingItemState
 
 		LayoutTable layoutTable = ( (TableItem) element )
 				.getLayoutModel( handler.getModule( ) );
-		BasicLayoutStrategies.appliesStrategies( layoutTable, true );
+		BasicLayoutStrategies.appliesStrategies( layoutTable, false );
 	}
 
 	/**

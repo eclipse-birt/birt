@@ -489,7 +489,7 @@ public class LayoutSlot
 	public String getLayoutString( )
 	{
 		if ( rows.isEmpty( ) )
-			return "";
+			return ""; //$NON-NLS-1$
 
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < rows.size( ); i++ )

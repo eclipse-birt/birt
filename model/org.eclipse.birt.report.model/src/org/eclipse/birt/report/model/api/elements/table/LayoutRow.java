@@ -227,7 +227,7 @@ public class LayoutRow
 	public String getLayoutString( )
 	{
 		if ( cells.isEmpty( ) )
-			return "";
+			return ""; //$NON-NLS-1$
 
 		StringBuffer sb = new StringBuffer( );
 		for ( int i = 0; i < cells.size( ); i++ )
@@ -235,7 +235,7 @@ public class LayoutRow
 			LayoutCell cell = (LayoutCell) cells.get( i );
 			sb.append( cell.getLayoutString( ) );
 		}
-		sb.append( "\r\n" );
+		sb.append( "\r\n" ); //$NON-NLS-1$
 		return sb.toString( );
 	}
 

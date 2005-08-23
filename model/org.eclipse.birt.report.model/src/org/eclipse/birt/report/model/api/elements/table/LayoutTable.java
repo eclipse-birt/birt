@@ -300,7 +300,7 @@ public class LayoutTable
 			}
 		}
 
-//		assert false;
+		// assert false;
 		return 0;
 	}
 
@@ -530,23 +530,20 @@ public class LayoutTable
 	/**
 	 * Returns the string that shows the layout. Mainly for the debug.
 	 * 
-	 * @param tableName
-	 *            the table name
-	 * 
 	 * @return the string that shows the layout
 	 */
 
-	public String getLayoutString( String tableName )
+	public String getLayoutString( )
 	{
 		StringBuffer sb = new StringBuffer( );
 
-		sb.append( "table " + tableName + " layout: \r\n" );
+		sb.append( "table " + table.getName( ) + " layout: \r\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append( getHeader( ).getLayoutString( ) );
 		sb.append( getGroupHeaders( ).getLayoutString( ) );
 		sb.append( getDetail( ).getLayoutString( ) );
 		sb.append( getGroupFooters( ).getLayoutString( ) );
 		sb.append( getFooter( ).getLayoutString( ) );
-		sb.append( "\r\n" );
+		sb.append( "\r\n" ); //$NON-NLS-1$
 
 		return sb.toString( );
 	}
