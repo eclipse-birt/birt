@@ -451,7 +451,9 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void refreshJarViewer( )
 	{
-		jarViewer.setInput(jarMap);
+		//TODO: a temporary solution for table refresh error
+		jarViewer.setInput( null );
+		jarViewer.setInput( jarMap );
 
 		for ( int i = 0; i < jarViewer.getTable( ).getItemCount( ); i++ )
 		{
@@ -464,13 +466,10 @@ public class JdbcDriverManagerDialog extends Dialog
 			if ( element instanceof Map.Entry )
 			{
 				Map.Entry entry = (Map.Entry) element;
-
-				c1 = (String) entry.getKey( );
-
 				JarFile jarInfo = (JarFile) entry.getValue( );
-
-				c2 = jarInfo.getFilePath( );
 				c0 = jarInfo.getState( );
+				c1 = (String) entry.getKey( );
+				c2 = jarInfo.getFilePath( );
 			}
 
 			ti.setText( 0, c0 );
@@ -541,6 +540,8 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void refreshDriverViewer( )
 	{
+		//TODO: a temporary solution for table refresh error
+		driverViewer.setInput( null );
 		driverViewer.setInput(driverMap);
 
 		for ( int i = 0; i < driverViewer.getTable( ).getItemCount( ); i++ )
@@ -613,9 +614,11 @@ public class JdbcDriverManagerDialog extends Dialog
 					+ File.separator
 					+ dlg.getFileName( );
 
-			if ( jarMap.containsKey( dlg.getFileName( ) ) )
+			if ( jarMap.containsKey( dlg.getFileName( ) )
+					&& !( (JarFile) jarMap.get( dlg.getFileName( ) ) ).getState( )
+							.equals( JarFile.ODA_FILE_NOT_EXIST_TOKEN ) )
 			{
-				// duplicate,can not add a driver 
+				// duplicate,can not add a driver
 				ExceptionHandler.openErrorMessageBox( JdbcPlugin.getResourceString( "driverManagerDialog.text.DriverError" ),
 						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
 				return;
