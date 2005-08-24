@@ -61,6 +61,8 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public static final String BODY = Messages.getString( "DefaultNodeProvider.Tree.Body" ); //$NON-NLS-1$
 
+	public static final String COMPONENTS = Messages.getString( "DefaultNodeProvider.Tree.Components" ); //$NON-NLS-1$
+	
 	public static final String PAGESETUP = Messages.getString( "DefaultNodeProvider.Tree.PageSetup" ); //$NON-NLS-1$
 
 	public static final String DATASOURCES = Messages.getString( "DefaultNodeProvider.Tree.DataSources" ); //$NON-NLS-1$

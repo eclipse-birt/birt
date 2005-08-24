@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 
@@ -83,7 +83,7 @@ public class ListenerElementVisitor extends DesignVisitor
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)
 	 */
-	protected void visitReportDesign( ReportDesignHandle obj )
+	protected void visitModule( ModuleHandle obj )
 	{
 		if(listener instanceof IValidationListener)
 		{
@@ -97,7 +97,7 @@ public class ListenerElementVisitor extends DesignVisitor
 				obj.removeValidationListener( vl );
 			}
 		}
-		super.visitReportDesign( obj );
+		super.visitModule( obj );
 	}
 
 	/**
