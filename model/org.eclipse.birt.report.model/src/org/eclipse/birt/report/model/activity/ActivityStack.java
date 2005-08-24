@@ -240,7 +240,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * {@link #undo()}, or {@link #redo()}is called. The event
  * <code>ActivityStackEvent</code> contains the cause of the activity stack
  * change.
- *  
+ * 
  */
 
 public class ActivityStack implements CommandStack
@@ -250,25 +250,25 @@ public class ActivityStack implements CommandStack
 	 * The default stack size limit.
 	 */
 
-	public static final int				DEFAULT_STACK_LIMIT	= 500;
+	public static final int DEFAULT_STACK_LIMIT = 500;
 
 	/**
 	 * The undo stack. Entries are of type ActivityRecord.
 	 */
 
-	private Stack						undoStack			= new Stack( );
+	private Stack undoStack = new Stack( );
 
 	/**
 	 * The redo stack. Entries are of type ActivityRecord.
 	 */
 
-	private Stack						redoStack			= new Stack( );
+	private Stack redoStack = new Stack( );
 
 	/**
 	 * The active transaction stack. Entries are of type CompoundCommand.
 	 */
 
-	private Stack						transStack			= new Stack( );
+	private Stack transStack = new Stack( );
 
 	/**
 	 * The stack size limit. The limit applies to the undo stack. Since the redo
@@ -276,27 +276,27 @@ public class ActivityStack implements CommandStack
 	 * never hold more items than the undo stack once held.
 	 */
 
-	private int							stackLimit			= DEFAULT_STACK_LIMIT;
+	private int stackLimit = DEFAULT_STACK_LIMIT;
 
 	/**
 	 * The transaction counter. Incremented for each new transaction, including
 	 * simple top-level commands.
 	 */
 
-	private int							transCount			= 0;
+	private int transCount = 0;
 
 	/**
 	 * Listeners are the objects that want to be notified of events. Contents
 	 * are of type Listener. Created only when needed.
 	 */
 
-	protected ArrayList					listeners			= null;
+	protected ArrayList listeners = null;
 
 	/**
 	 * The interceptor to execute tasks after the exection of records.
 	 */
 
-	private ActivityStackTaskManager	taskManager			= new ActivityStackTaskManager( );
+	private ActivityStackTaskManager taskManager = new ActivityStackTaskManager( );
 
 	/**
 	 * Default constructor.
@@ -350,7 +350,10 @@ public class ActivityStack implements CommandStack
 
 		// Send out notifications about the action just completed.
 
-		sendRecordNotifications( record );
+		assert !( record instanceof CompoundRecord );
+
+		if ( !isTransInSlientMode( record ) )
+			record.sendNotifcations( !transStack.isEmpty( ) );
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
@@ -368,7 +371,6 @@ public class ActivityStack implements CommandStack
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
 
-			taskManager.doPostTasks( record );
 		}
 		else
 		{
@@ -376,29 +378,48 @@ public class ActivityStack implements CommandStack
 			trans.append( record );
 		}
 
+		// If the record is not in a slient
+		// transaction, it means the task must be executed after the execution
+		// of this record.
+
+		assert !( record instanceof CompoundRecord );
+
+		if ( !isTransInSlientMode( record ) )
+			taskManager.doPostTasks( record );
 	}
 
 	/**
-	 * Sends the notification for a record that is called in
-	 * <code>execute</code> method. Whether the notification is sent depends
-	 * on the slient mode of its transaction record <code>CompoundRecord</code>.
+	 * Checks whether the current transaction is/is in a slient transaction. All
+	 * events in slient trasaction will be discarded. Meanwhile, all post tasks
+	 * for a slient transaction are held until the commit of this transaction.
 	 * 
 	 * @param record
+	 *            the record that the stack works on
+	 * 
+	 * @return <code>true</code> if it is slient. Otherwise,
+	 *         <code>false</code>.
 	 */
 
-	private void sendRecordNotifications( ActivityRecord record )
+	private boolean isTransInSlientMode( ActivityRecord record )
 	{
-		// Send out notifications about the action just completed.
+		if ( record instanceof SlientCompoundRecord )
+			return true;
 
-		boolean isNotificationRequired = true;
+		boolean isSlientMode = false;
 
-		if ( !transStack.isEmpty( ) )
+		for ( int i = transStack.size( ) - 1; i >= 0; i-- )
 		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
-			isNotificationRequired = taskManager.isNotificationRequired( cr );
+			// The event will not be fired.
+
+			CompoundRecord cr = (CompoundRecord) transStack.get( i );
+			if ( cr instanceof SlientCompoundRecord )
+			{
+				isSlientMode = true;
+				break;
+			}
 		}
-		if ( isNotificationRequired )
-			record.sendNotifcations( !transStack.isEmpty( ) );
+
+		return isSlientMode;
 	}
 
 	/**
@@ -441,7 +462,6 @@ public class ActivityStack implements CommandStack
 				ActivityStackEvent.UNDONE ) );
 
 		taskManager.doPostTasks( record );
-
 	}
 
 	/**
@@ -754,8 +774,6 @@ public class ActivityStack implements CommandStack
 
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
-
-			taskManager.doPostTasks( record );
 		}
 		else
 		{
@@ -766,6 +784,12 @@ public class ActivityStack implements CommandStack
 			outer.append( record );
 		}
 
+		// If the current transaction is/is in a slient transaction, it means
+		// post-tasks have been executed after each record in the transaction,
+		// so that, it is not good to execute post-tasks again when committing.
+
+		if ( isTransInSlientMode( transaction ) )
+			taskManager.doPostTasks( record );
 	}
 
 	/**
@@ -885,7 +909,6 @@ public class ActivityStack implements CommandStack
 		return taskManager;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -905,5 +928,29 @@ public class ActivityStack implements CommandStack
 	public void startPersistentTrans( )
 	{
 		startPersistentTrans( null );
+	}
+
+	/**
+	 * Starts a slient transaction. All events in the trasaction will not be
+	 * sent out.
+	 * 
+	 */
+
+	public void startSlientTrans( )
+	{
+		startSlientTrans( null );
+	}
+
+	/**
+	 * Starts a slient transaction. All events in the trasaction will not be
+	 * sent out.
+	 * 
+	 * @param label
+	 *            localized label for the transaction
+	 */
+
+	public void startSlientTrans( String label )
+	{
+		transStack.push( new SlientCompoundRecord( label ) );
 	}
 }

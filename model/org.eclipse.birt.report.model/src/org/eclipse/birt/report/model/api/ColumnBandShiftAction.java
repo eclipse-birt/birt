@@ -154,7 +154,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		try
 		{
-			adapter.getModule( ).getActivityStack( ).startTrans( );
+			adapter.getModule( ).getActivityStack( ).startSlientTrans( );
 			shiftColumn( data.getColumn( ), sourceColumn, newPosn );
 			shiftCells( data.getCells( ), sourceColumn, newPosn );
 		}

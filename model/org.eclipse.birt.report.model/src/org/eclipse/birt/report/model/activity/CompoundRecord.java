@@ -26,7 +26,7 @@ import java.util.List;
  * equivalent.
  * <p>
  * The application normally creates a compound record using the
- * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#startTrans( String )}
+ * {@link org.eclipse.birt.report.model.activity.ActivityStack#startTrans( String )}
  * method.
  * 
  * A compound record has a label. The system provides a default label. The
@@ -41,7 +41,7 @@ public class CompoundRecord extends ActivityRecord
 	 * The list of child records. Contents are of type ActivityRecord.
 	 */
 
-	private List recordList = new ArrayList( );	
+	private List recordList = new ArrayList( );
 
 	/**
 	 * Constructor.
@@ -87,7 +87,7 @@ public class CompoundRecord extends ActivityRecord
 	 * the compound record must be in the Done state.
 	 * 
 	 * @see ActivityRecord#execute()
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
+	 * @see org.eclipse.birt.report.model.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
 	 */
 
 	public void execute( )
@@ -101,7 +101,7 @@ public class CompoundRecord extends ActivityRecord
 	 * executed.
 	 * 
 	 * @see ActivityRecord#undo()
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#undo()
+	 * @see org.eclipse.birt.report.model.activity.ActivityStack#undo()
 	 */
 
 	public void undo( )
@@ -113,8 +113,22 @@ public class CompoundRecord extends ActivityRecord
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 			record.undo( );
 			record.setState( ActivityRecord.UNDONE_STATE );
-			record.sendNotifcations( true );
+			sendSingleRecordNotification( record );
 		}
+	}
+
+	/**
+	 * Sends the notificaion for a record in the compound record. The default
+	 * behavior is simply calling the notification of the record.
+	 * 
+	 * @param record
+	 *            an <code>AcitivtyRecord</code> in this compound record
+	 */
+
+	protected void sendSingleRecordNotification( ActivityRecord record )
+	{
+		assert recordList.contains( record );
+		record.sendNotifcations( true );
 	}
 
 	/**
@@ -122,7 +136,7 @@ public class CompoundRecord extends ActivityRecord
 	 * in the order they were originally executed.
 	 * 
 	 * @see ActivityRecord#redo()
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#redo()
+	 * @see org.eclipse.birt.report.model.activity.ActivityStack#redo()
 	 */
 
 	public void redo( )
@@ -133,7 +147,7 @@ public class CompoundRecord extends ActivityRecord
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 			record.redo( );
 			record.setState( ActivityRecord.REDONE_STATE );
-			record.sendNotifcations( true );
+			sendSingleRecordNotification( record );
 		}
 	}
 
@@ -202,11 +216,11 @@ public class CompoundRecord extends ActivityRecord
 	 * Appends a record to the compound record. The record must have been
 	 * executed already. The application should not call this method directly.
 	 * Instead, the record should be executed via the usual call to
-	 * {@link org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord) ActivityStack.execute( )}.
+	 * {@link org.eclipse.birt.report.model.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord) ActivityStack.execute( )}.
 	 * 
 	 * @param record
 	 *            the record to be added.
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
+	 * @see org.eclipse.birt.report.model.activity.ActivityStack#execute(org.eclipse.birt.report.model.api.activity.IActivityRecord)
 	 */
 
 	public void append( ActivityRecord record )
@@ -291,11 +305,13 @@ public class CompoundRecord extends ActivityRecord
 		}
 		return list;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
 	 */
-	
+
 	public void rollback( )
 	{
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
