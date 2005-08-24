@@ -378,7 +378,7 @@ public class ActivityStack implements CommandStack
 			trans.append( record );
 		}
 
-		// If the record is not in a slient
+		// If the record is not in a silent
 		// transaction, it means the task must be executed after the execution
 		// of this record.
 
@@ -389,20 +389,20 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Checks whether the current transaction is/is in a slient transaction. All
-	 * events in slient trasaction will be discarded. Meanwhile, all post tasks
-	 * for a slient transaction are held until the commit of this transaction.
+	 * Checks whether the current transaction is/is in a silent transaction. All
+	 * events in silent trasaction will be discarded. Meanwhile, all post tasks
+	 * for a silent transaction are held until the commit of this transaction.
 	 * 
 	 * @param record
 	 *            the record that the stack works on
 	 * 
-	 * @return <code>true</code> if it is slient. Otherwise,
+	 * @return <code>true</code> if it is silent. Otherwise,
 	 *         <code>false</code>.
 	 */
 
 	private boolean isTransInSlientMode( ActivityRecord record )
 	{
-		if ( record instanceof SlientCompoundRecord )
+		if ( record instanceof SilentCompoundRecord )
 			return true;
 
 		boolean isSlientMode = false;
@@ -412,7 +412,7 @@ public class ActivityStack implements CommandStack
 			// The event will not be fired.
 
 			CompoundRecord cr = (CompoundRecord) transStack.get( i );
-			if ( cr instanceof SlientCompoundRecord )
+			if ( cr instanceof SilentCompoundRecord )
 			{
 				isSlientMode = true;
 				break;
@@ -784,7 +784,7 @@ public class ActivityStack implements CommandStack
 			outer.append( record );
 		}
 
-		// If the current transaction is/is in a slient transaction, it means
+		// If the current transaction is/is in a silent transaction, it means
 		// post-tasks have been executed after each record in the transaction,
 		// so that, it is not good to execute post-tasks again when committing.
 
@@ -931,7 +931,7 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Starts a slient transaction. All events in the trasaction will not be
+	 * Starts a silent transaction. All events in the trasaction will not be
 	 * sent out.
 	 * 
 	 */
@@ -942,7 +942,7 @@ public class ActivityStack implements CommandStack
 	}
 
 	/**
-	 * Starts a slient transaction. All events in the trasaction will not be
+	 * Starts a silent transaction. All events in the trasaction will not be
 	 * sent out.
 	 * 
 	 * @param label
@@ -951,6 +951,6 @@ public class ActivityStack implements CommandStack
 
 	public void startSlientTrans( String label )
 	{
-		transStack.push( new SlientCompoundRecord( label ) );
+		transStack.push( new SilentCompoundRecord( label ) );
 	}
 }
