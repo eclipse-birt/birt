@@ -99,6 +99,8 @@ public class ResourceConstants
 	public final static String UNEXPECTED_ERROR = "data.engine.UnexpectedError";
 	public final static String JSSCRIPT_INVALID = "data.engine.JSScriptInvalid";
 	public final static String CANNOT_CONVERT_PARAMETER_TYPE = "data.engine.ConvertDataTypeError";
+	public static final String CANNOT_INSTANTIATE_AGGREGATION_FACTORY = "data.engine.CannotInstantiateAggregationFactory";
+	public static final String DUPLICATE_AGGREGATION_NAME = "date.engine.DuplicateAggregationName";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -187,5 +189,4 @@ public class ResourceConstants
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
 	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
 	public final static String CANNOT_GET_PARAMETER_METADATA = "odaconsumer.CannotGetParameterMetaData";
-	
 }
