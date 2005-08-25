@@ -152,7 +152,7 @@ public final class ChartReportItemImpl extends ReportItem
 				oldChart,
 				newChart );
 
-		this.handle.getDesignHandle( ).getCommandStack( ).execute( command );
+		this.handle.getModuleHandle( ).getCommandStack( ).execute( command );
 	}
 
 	/**
