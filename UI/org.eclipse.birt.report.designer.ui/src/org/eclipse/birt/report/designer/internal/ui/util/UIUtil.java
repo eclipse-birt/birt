@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.GroupDialog;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -426,7 +427,7 @@ public class UIUtil
 	 */
 	public static EditPartViewer getLayoutEditPartViewer( )
 	{
-		ReportEditor reportEditor = (ReportEditor) PlatformUI.getWorkbench( )
+		AbstractMultiPageLayoutEditor reportEditor = (AbstractMultiPageLayoutEditor) PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( )
 				.getActiveEditor( );

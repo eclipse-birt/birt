@@ -10,8 +10,8 @@
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * TODO: Please document
@@ -46,7 +46,7 @@ public abstract class DefaultExtendedDataSetWizard extends
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.odadatasource.wizards.AbstractDataSetWizard#createDataSet(org.eclipse.birt.model.api.ReportDesignHandle)
 	 */
-	public DataSetHandle createDataSet( ReportDesignHandle handle )
+	public DataSetHandle createDataSet( ModuleHandle handle )
 	{
         String dataSetType = getConfigurationElement( ).getAttribute( "id" ); //$NON-NLS-1$
         

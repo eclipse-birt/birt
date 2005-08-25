@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -90,8 +90,8 @@ public abstract class AbstractDataSetWizard extends Wizard
 			//Add the data source element
 			DesignElementHandle parentHandle = HandleAdapterFactory.getInstance( )
 					.getReportDesignHandleAdapter( )
-					.getReportDesignHandle( );
-			SlotHandle slotHandle = ( (ReportDesignHandle) parentHandle ).getDataSets( );
+					.getModuleHandle( );
+			SlotHandle slotHandle = ( (ModuleHandle) parentHandle ).getDataSets( );
 
 			try
 			{
@@ -122,7 +122,7 @@ public abstract class AbstractDataSetWizard extends Wizard
 	/*
 	 * Create a DataSet object and store it in the datSet variable
 	 */
-	public abstract DataSetHandle createDataSet( ReportDesignHandle handle );
+	public abstract DataSetHandle createDataSet( ModuleHandle handle );
 
 	public final DataSetHandle getDataSet( )
 	{
@@ -137,7 +137,7 @@ public abstract class AbstractDataSetWizard extends Wizard
 			//call create data set to create an empty data set object
 			dataSetHandle = createDataSet( HandleAdapterFactory.getInstance( )
 					.getReportDesignHandleAdapter( )
-					.getReportDesignHandle( ) );
+					.getModuleHandle( ) );
 		}
 		return dataSetHandle;
 	}

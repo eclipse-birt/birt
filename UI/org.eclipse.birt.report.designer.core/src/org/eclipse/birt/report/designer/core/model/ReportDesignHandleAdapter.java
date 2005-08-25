@@ -204,8 +204,4 @@ public class ReportDesignHandleAdapter extends DesignElementHandleAdapter
 				(int) DEUtil.convertoToPixel( masterPage.getRightMargin( ) ) );
 	}
 	
-	public ModuleHandle getModuleHandle()
-	{
-		return (ModuleHandle)getHandle();
-	}
 }

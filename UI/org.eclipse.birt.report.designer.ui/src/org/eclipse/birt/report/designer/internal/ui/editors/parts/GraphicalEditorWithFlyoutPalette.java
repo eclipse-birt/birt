@@ -32,7 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.model.api.ImageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.geometry.Point;
@@ -104,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.14 $ $Date: 2005/06/29 03:05:28 $
+ * @version $Revision: 1.15 $ $Date: 2005/06/29 03:22:17 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		implements
@@ -470,7 +470,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 		if ( type == DataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage(
-					(ReportDesignHandle) ( (MultiEditorProvider) getMultiPageEditor( ) )
+					(ModuleHandle) ( (MultiEditorProvider) getMultiPageEditor( ) )
 							.getModel( ) );
 			return page;
 		}

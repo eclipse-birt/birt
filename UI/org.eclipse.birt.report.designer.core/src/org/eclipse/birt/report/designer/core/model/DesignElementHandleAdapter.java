@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -95,7 +96,15 @@ public abstract class DesignElementHandleAdapter
 	{
 		return elementHandle.getDesignHandle( );
 	}
-
+	
+	/**Gets the handle of the moudule handle
+	 * @return
+	 */
+	public ModuleHandle getModuleHandle()
+	{
+		return elementHandle.getModuleHandle();
+	}
+	
 	/**
 	 * Reloads all properties from model
 	 */
@@ -151,7 +160,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public void transStar( String name )
 	{
-		CommandStack stack = getReportDesignHandle( ).getCommandStack( );
+		CommandStack stack = getModuleHandle( ).getCommandStack( );
 		//start trans
 		stack.startTrans( name );
 	}
@@ -161,7 +170,7 @@ public abstract class DesignElementHandleAdapter
 	 */
 	public void transEnd( )
 	{
-		CommandStack stack = getReportDesignHandle( ).getCommandStack( );
+		CommandStack stack = getModuleHandle( ).getCommandStack( );
 		stack.commit( );
 	}
 

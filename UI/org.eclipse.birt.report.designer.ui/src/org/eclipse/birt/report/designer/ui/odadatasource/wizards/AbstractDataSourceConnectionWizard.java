@@ -16,7 +16,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -46,7 +46,6 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 	{
 		this( );
 		setWindowTitle( title );
-
 	}
 
 	/**
@@ -65,7 +64,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 	 * wizard will have to implenent this
 	 *  
 	 */
-	public abstract DataSourceHandle createDataSource( ReportDesignHandle handle );
+	public abstract DataSourceHandle createDataSource( ModuleHandle handle );
 
 	/*
 	 * This method checks if a data source has been created If not then it calls
@@ -80,7 +79,7 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
             
 			dataSourceHandle = createDataSource( HandleAdapterFactory.getInstance( )
 					.getReportDesignHandleAdapter( )
-					.getReportDesignHandle( ) );
+					.getModuleHandle( ) );
 		}
 		return dataSourceHandle;
 	}
@@ -107,8 +106,8 @@ public abstract class AbstractDataSourceConnectionWizard extends Wizard
 				//Add the data source element
 				DesignElementHandle parentHandle = HandleAdapterFactory.getInstance( )
 						.getReportDesignHandleAdapter( )
-						.getReportDesignHandle( );
-				SlotHandle slotHandle = ( (ReportDesignHandle) parentHandle ).getDataSources( );
+						.getModuleHandle( );
+				SlotHandle slotHandle = ( (ModuleHandle) parentHandle ).getDataSources( );
 
 				slotHandle.add( dataSourceHandle );
 
