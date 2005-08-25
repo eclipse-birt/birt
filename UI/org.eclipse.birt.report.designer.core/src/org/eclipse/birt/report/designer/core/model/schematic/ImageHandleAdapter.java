@@ -51,7 +51,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage( getImageHandle( ).getDesignHandle( ),
+					.getImage( getImageHandle( ).getModuleHandle(),
 							getImageHandle( ).getImageName( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )

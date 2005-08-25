@@ -69,6 +69,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_LIST_GROUP = ReportDesignConstants.LIST_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMNET_MASTERPAGE = ReportDesignConstants.MASTER_PAGE_ELEMENT;
+	
+	public final static String ICON_ELEMNET_GRAPHICMASTERPAGE = ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
 
 	public final static String ICON_ELEMENT_PARAMETER = "Parameter"; //$NON-NLS-1$
 
