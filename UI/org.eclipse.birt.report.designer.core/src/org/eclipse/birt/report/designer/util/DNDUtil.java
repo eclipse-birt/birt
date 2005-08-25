@@ -401,7 +401,7 @@ public class DNDUtil
 		{
 			childHandle = (ParameterGroupHandle) ( (IDesignElement) childGroup ).getHandle( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
-					.getDesign( ) );
+					.getModule( ) );
 		}
 
 		if ( childHandle != null )
@@ -918,7 +918,7 @@ public class DNDUtil
 			{
 				DesignElementHandle childHandle = ( (IDesignElement) transferData ).getHandle( SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( )
-						.getDesign( ) );
+						.getModule( ) );
 				return handleValidateTargetCanContainByContainer( targetObj,
 						childHandle,
 						validateContainer );

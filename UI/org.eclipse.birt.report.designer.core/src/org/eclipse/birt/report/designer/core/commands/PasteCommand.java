@@ -277,7 +277,7 @@ public class PasteCommand extends Command
 	{
 		IDesignElement newElement = isCloned ? element
 				: (IDesignElement) element.clone( );
-		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getDesign( ) );
+		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getModule( ) );
 		currentDesignHandle.rename( handle );
 		return handle;
 	}
@@ -296,7 +296,7 @@ public class PasteCommand extends Command
 		{
 			childHandle = cloneElement.getHandle( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
-					.getDesign( ) );
+					.getModule( ) );
 		}
 		return DNDUtil.handleValidateTargetCanContain( newContainer,
 				childHandle )
