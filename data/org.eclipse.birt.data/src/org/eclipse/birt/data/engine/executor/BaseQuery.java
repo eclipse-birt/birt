@@ -70,7 +70,7 @@ public abstract class BaseQuery implements IQuery
         return groups;
     }
     
-    int getMaxRows()
+    public int getMaxRows()
     {
         return maxRows;
     }
