@@ -482,7 +482,7 @@ public class DEUtil
 					DesignChoiceConstants.UNITS_PT,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
-		//added by gao if unit is "", set the unit is Design default unit
+		// added by gao if unit is "", set the unit is Design default unit
 		else if ( "".equals( units ) )//$NON-NLS-1$ 
 		{
 			units = SessionHandleAdapter.getInstance( )
@@ -492,7 +492,7 @@ public class DEUtil
 					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
-		else if (units == null )//$NON-NLS-1$
+		else if ( units == null )//$NON-NLS-1$
 		{
 			px = 0.0;
 		}
@@ -923,7 +923,7 @@ public class DEUtil
 			int parentSize = getFontSizeIntValue( handle.getContainer( ) );
 			int size = (int) CSSUtil.convertToPoint( fontSizeValue, parentSize ) + 1;
 
-			DimensionValue dm = new DimensionValue( size, "pt" );
+			DimensionValue dm = new DimensionValue( size, "pt" ); //$NON-NLS-1$
 			return dm.toString( );
 		}
 		else if ( fontSizeValue instanceof String )
@@ -986,7 +986,7 @@ public class DEUtil
 
 			size = ( size < 1 ) ? 1 : size;
 
-			DimensionValue dm = new DimensionValue( size, "pt" );
+			DimensionValue dm = new DimensionValue( size, "pt" ); //$NON-NLS-1$
 			return dm.toString( );
 		}
 		else if ( fontSizeValue instanceof String )
@@ -1365,5 +1365,25 @@ public class DEUtil
 			Arrays.sort( stylesArray, comparator );
 		}
 		return Arrays.asList( stylesArray ).iterator( );
+	}
+
+	/**
+	 * Checks if two strings have same value.
+	 * 
+	 * @param str1
+	 * @param str2
+	 * @return
+	 */
+	public static boolean isSameString( String str1, String str2 )
+	{
+		if ( str1 == null && str2 == null )
+		{
+			return true;
+		}
+		if ( str1 != null && str1.equals( str2 ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }
