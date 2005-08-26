@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.tests.i18n.I18nTest;
 import org.eclipse.birt.chart.tests.device.DeviceTest;
 import org.eclipse.birt.chart.tests.engine.EngineTest;
 import org.eclipse.birt.chart.tests.reportitem.ReportItemTest;
-import org.eclipse.birt.chart.tests.ui.UITest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -30,7 +29,6 @@ public class AllTests {
 		suite.addTest(I18nTest.suite());
 		suite.addTest(EngineTest.suite());
 		suite.addTest(ReportItemTest.suite());
-		suite.addTest(UITest.suite());
 		
 		//$JUnit-END$
 		return suite;

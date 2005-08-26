@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.tests.device;
 
 import org.eclipse.birt.chart.tests.device.render.ImageRenderTest;
+import org.eclipse.birt.chart.tests.device.svg.SVGGradientPaintTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -19,10 +20,11 @@ import junit.framework.TestSuite;
 public class DeviceTest {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.chart.device / " +
+				"Test for org.eclipse.birt.chart.device " +
 				"and org.eclipse.birt.chart.device.extension");
 		//$JUnit-BEGIN$
 		suite.addTest(ImageRenderTest.suite());
+		suite.addTestSuite(SVGGradientPaintTest.class);
 		
 		//$JUnit-END$
 		return suite;

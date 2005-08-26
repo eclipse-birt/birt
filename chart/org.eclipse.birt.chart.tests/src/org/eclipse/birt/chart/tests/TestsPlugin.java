@@ -14,6 +14,11 @@ public class TestsPlugin extends AbstractUIPlugin {
 	private ResourceBundle resourceBundle;
 	
 	/**
+	 * Plugin ID.
+	 */
+	public static final String ID = "org.eclipse.birt.chart.tests"; //$NON-NLS-1$ 
+	
+	/**
 	 * The constructor.
 	 */
 	public TestsPlugin() {

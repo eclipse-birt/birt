@@ -13,8 +13,7 @@ package org.eclipse.birt.chart.tests.engine.datafeed;
 
 import junit.framework.TestCase;
 import org.eclipse.birt.chart.datafeed.StockEntry;
-/**
- */
+
 public class StockEntryTest extends TestCase {
 	
 	StockEntry stock1 = new StockEntry(3.12, 2.84, 3.22, 3.18);
