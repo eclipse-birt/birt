@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
@@ -31,20 +28,6 @@ public class NamePropertyType extends TextualPropertyType
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.name"; //$NON-NLS-1$
-
-	/**
-	 * Compiled regular expression for allowed values.
-	 * <ul>
-	 * <li>abc_.abc allowed
-	 * <li>abc abc allowed
-	 * <li>_abc allowed
-	 * <li>9abc allowed
-	 * <li>.abc not allowed
-	 * </ul>
-	 */
-
-	private static final Pattern pattern = Pattern
-			.compile( "[\\w][\\w. ]*" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -110,12 +93,6 @@ public class NamePropertyType extends TextualPropertyType
 
 				return null;
 			}
-
-			Matcher matcher = pattern.matcher( stringValue );
-			if ( !matcher.matches( ) )
-				throw new PropertyValueException( stringValue,
-						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						NAME_TYPE );
 
 			return stringValue;
 		}
