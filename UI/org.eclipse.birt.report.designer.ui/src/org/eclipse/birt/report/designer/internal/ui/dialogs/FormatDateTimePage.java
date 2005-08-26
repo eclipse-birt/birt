@@ -115,6 +115,11 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	 * Listener, or <code>null</code> if none
 	 */
 	private java.util.List listeners = new ArrayList( );
+	
+	private Date defaultDate = new Date();
+	
+	private String defaultDateTime = new DateFormatter( "Unformatted" ).format( defaultDate ); //$NON-NLS-1$
+	
 
 	/**
 	 * Constructs a page for formatting date time, default aligns the page
@@ -202,7 +207,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		createCategoryPages( infoComp );
 
 		setInput( null, null );
-		setPreviewText( new Date( ).toString( ) );
+		setPreviewText( defaultDateTime );
 	}
 
 	protected void createContentsHorizontally( )
@@ -251,7 +256,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		createFormatCodePages( formatCodeComp );
 
 		setInput( null, null );
-		setPreviewText( new Date( ).toString( ) );
+		setPreviewText( defaultDateTime );
 	}
 
 	/**
@@ -354,7 +359,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 				{
 					// uses UI specified display names.
 					String pattern = getPatternForCategory( category );
-					fmtStr = new DateFormatter( pattern ).format( new Date( ) );
+					fmtStr = new DateFormatter( pattern ).format( defaultDate );
 				}
 				formatTypes[i] = fmtStr;
 			}
@@ -756,8 +761,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
-		Date sampleDateTime = new Date( );
-		if ( getPreviewText( ) != null )
+		Date sampleDateTime = defaultDate;
+		if ( getPreviewText( ) != null && !getPreviewText().equals( defaultDateTime ))
 		{
 			try
 			{
@@ -765,7 +770,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			}
 			catch ( Exception e )
 			{
-				//
+				// do nothing, leave sampleDate to be defaultDate.
 			}
 		}
 
@@ -830,13 +835,13 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		{
 			String pattern = formatCode.getText( );
 			String fmtStr;
-			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
+			String text = previewTextBox.getText( );
+			if ( StringUtil.isBlank( text ) || defaultDateTime.equals(text))
 			{
 				fmtStr = new DateFormatter( pattern ).format( sampleDateTime );
 			}
 			else
 			{
-				String text = previewTextBox.getText( );
 				try
 				{
 					fmtStr = new DateFormatter( pattern ).format( new Date( text ) );
@@ -1096,7 +1101,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 		new Label( group, SWT.NONE ).setText( LABEL_PREVIEW_DATETIME ); //$NON-NLS-1$
 		previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
-		previewTextBox.setText( "" ); //$NON-NLS-1$
+		previewTextBox.setText( defaultDateTime ); 
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -1200,31 +1205,31 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate )
 		} );
 		new TableItem( table, SWT.NONE ).setText( new String[]{
 				getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
-				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( new Date( ) )
+				new DateFormatter( getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate )
 		} );
 	}
 
