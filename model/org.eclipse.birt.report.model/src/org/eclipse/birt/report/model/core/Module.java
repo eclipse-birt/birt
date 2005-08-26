@@ -153,8 +153,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	/**
 	 * The save state used for dirty file detection. See
-	 * {@link org.eclipse.birt.report.model.activity.ActivityStack}for
-	 * details.
+	 * {@link org.eclipse.birt.report.model.activity.ActivityStack}for details.
 	 */
 
 	protected int saveState = 0;
@@ -876,7 +875,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the module in which embedded image is searched
 	 * @return image if found, otherwise, return null.
 	 */
-	
+
 	private EmbeddedImage findImage( String imageName, Module moduleToSearch )
 	{
 		if ( moduleToSearch == null )
@@ -889,7 +888,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				EmbeddedImage image = (EmbeddedImage) list.get( i );
-				if ( image.getName( ) != null && image.getName( ).equals( imageName ) )
+				if ( image.getName( ) != null
+						&& image.getName( ).equals( imageName ) )
 					return image;
 			}
 		}
@@ -1783,6 +1783,17 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * 
 	 * @return the writer for this moudle.
 	 */
-	
+
 	public abstract ModuleWriter getWriter( );
+
+	/**
+	 * Returns the module handle.
+	 * 
+	 * @return module handle
+	 */
+
+	public ModuleHandle getModuleHandle( )
+	{
+		return (ModuleHandle) getHandle( this );
+	}
 }
