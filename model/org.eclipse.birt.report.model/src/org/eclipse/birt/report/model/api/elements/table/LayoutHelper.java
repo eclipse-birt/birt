@@ -58,10 +58,7 @@ public final class LayoutHelper
 			int definedColumn = cell.getColumn( module );
 
 			if ( definedColumn != 0 )
-			{
 				startCol = definedColumn;
-				cell.setProperty( Cell.COLUMN_PROP, null );
-			}
 			else
 				startCol = findFillInPosition( mappingRow, startCol, colSpan );
 
