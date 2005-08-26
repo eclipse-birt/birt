@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/23 08:39:40 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/23 11:57:39 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.16 $ $Date: 2005/05/23 08:39:40 $
+	 * @version $Revision: 1.17 $ $Date: 2005/05/23 11:57:39 $
 	 */
 	private class PersistData
 	{
@@ -149,8 +149,6 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 				}
 			}
 
-			curColumnID = lastCol;
-
 			ensureSize(lastCol + colSpan);
 			for ( int n = 0; n < colSpan; n++, lastCol++ )
 			{
@@ -162,11 +160,6 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		 * Specifies the total column number.
 		 */
 		private int columns;
-
-		/**
-		 * The column ID of current cell.
-		 */
-		private int curColumnID;
 
 		/**
 		 * An integer array to store the row span of each column.
@@ -225,7 +218,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			return;
 		}
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
-		int type;
+
 		DimensionType x = tableObj.getX( );
 		DimensionType y = tableObj.getY( );
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -233,18 +226,14 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		IStyle mergedStyle = tableObj.getMergedStyle( );
 		addDefaultTableStyles( mergedStyle, styleBuffer );
 
-		type = checkElementType( x, y, mergedStyle, styleBuffer );
-
 		writer.openTag( HTMLTags.TAG_TABLE );
 
 		// style string
 		setStyleName( tableObj.getStyle( ) );
-		if ( type == ELEMENT_INLINE )
-		{
-			styleBuffer.append( "display: inline;" ); //$NON-NLS-1$
-		}
+		int display = checkElementType( x, y, mergedStyle, styleBuffer );
+		setDisplayProperty( display, DISPLAY_INLINE, styleBuffer );
 
-		handleShrink( ELEMENT_BLOCK, mergedStyle, tableObj.getHeight( ),
+		handleShrink( DISPLAY_BLOCK, mergedStyle, tableObj.getHeight( ),
 				tableObj.getWidth( ), styleBuffer );
 		handleStyle( tableObj, styleBuffer );
 
