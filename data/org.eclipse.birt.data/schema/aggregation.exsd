@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.data">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.data" id="AggregationExtension" name="org.eclipse.birt.data.engine.aggregation.extension"/>
+      </appInfo>
+      <documentation>
+         This extension point is used to support the extension of BIRT aggregations.Each implementation of this extension must comply to interfaces defined in the &lt;i&gt;org.eclipse.birt.engine.api.aggregation&lt;/i&gt; package.
+
+All extended aggregations would be referenced in design time with prefix &quot;Total&quot;. Say, user may defined an aggregation with name &quot;UserAggression&quot;. Then this aggregation will be referenced as &quot;Total.UserAggression()&quot; in design.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <documentation>
+            This extension point is used to extend aggregation functions. User may define their own aggregation functions through this extension point.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Aggregations"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Aggregations">
+      <annotation>
+         <documentation>
+            Aggregations is a collection of aggregation.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Aggregation" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="UIInfo">
+      <annotation>
+         <documentation>
+            UI information which is used in expression builder.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="tip" type="string">
+            <annotation>
+               <documentation>
+                  The tip which would be displayed in ui when mouse pointer hovers.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="textData" type="string">
+            <annotation>
+               <documentation>
+                  The text which would be insert into script editor in expression builder.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="parameterMetaInfo" type="string">
+            <annotation>
+               <documentation>
+                  The parameter metadata info. Say, a function Sum may presented in ui as &quot;Sum(number a)&quot;. Here the &quot;number a&quot; is the parameter metadata info.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Aggregation">
+      <annotation>
+         <documentation>
+            An aggregation name should identical to its function name. Say, to invoke an extended aggregation function ABC() in BIRT, the name of that function should be &quot;ABC&quot;. And user call that function using script &quot;Total.ABC()&quot;. The following function names are of built-in functions and are excluded from user-selectable function names:   COUNT,SUM,MAX,MIN,AVE,WEIGHTEDAVE,MOVINGAVE,MEDIAN,MODE,STDDEV,VARIANCE,FIRST,LAST,RUNNINGSUM,IRR,MIRR,NPV,
+RUNNINGNPV,COUNTDISTINCT;
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="UIInfo" minOccurs="0" maxOccurs="1"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of this aggregation. The name should be unique and should equal to the function name.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="aggregationClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class which implements the aggregation.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         1.01
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;plugin
+   id=&quot;org.eclipse.birt.thirdparty.aggregation&quot;
+   name=&quot;Aggr&quot;
+   version=&quot;1.0.1&quot;
+   provider-name=&quot;Eclipse.org&quot;&gt;
+      &lt;runtime&gt;
+      &lt;library name=&quot;aggregation.jar&quot;&gt;
+         &lt;export name=&quot;*&quot;/&gt;
+      &lt;/library&gt;
+   &lt;/runtime&gt;
+   &lt;requires&gt;
+      &lt;import plugin=&quot;org.eclipse.birt.data&quot;/&gt;
+   &lt;/requires&gt;
+   
+   &lt;extension
+         point=&quot;org.eclipse.birt.data.aggregation&quot;&gt;
+         &lt;Aggregations&gt;
+         
+	         	&lt;Aggregation
+	         		name= &quot;NewAve&quot;
+	         		aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalAve&quot;
+	         	&gt;
+	     		&lt;UIInfo
+		         	tip=&quot;New Ave tip~&quot;
+		         	textData=&quot;Total.NewAve()&quot;
+		         	parameterMetaInfo=&quot;String a, String b,Stringc&quot;
+		        /&gt;
+	          	&lt;/Aggregation&gt;
+	            &lt;Aggregation
+	             	name=&quot;NewCount&quot;
+             	 	aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalCount&quot;
+	            &gt;	 
+	            &lt;UIInfo
+		         	tip=&quot;New Count tip~&quot;
+		         	textData=&quot;Total.NewCount()&quot;
+		         	parameterMetaInfo=&quot;String aa, String bb,String cc&quot;
+		        /&gt;
+	         	&lt;/Aggregation&gt;
+	         	&lt;Aggregation
+				    name =&quot;NewSum&quot;
+	         	    aggregationClass = &quot;org.eclipse.birt.thirdparty.aggregation.TotalSum&quot;
+		        &gt;
+		        &lt;UIInfo
+		         	tip=&quot;New Sum tip~&quot;
+		        	textData=&quot;Total.NewSum()&quot;
+		         	parameterMetaInfo=&quot;String aaa, String bbb,String ccc&quot;
+		        /&gt;
+	         	&lt;/Aggregation&gt;
+         &lt;/Aggregations&gt;
+   &lt;/extension&gt;
+&lt;/plugin&gt;
+
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         All aggregation extension must implement interfaces defined in 
+&lt;i&gt;org.eclipse.birt.data.engine.api.aggregation&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         The plugin in directory 
+test\org.eclipse.birt.data\test\plugins\org.eclipse.birt.thirdparty.aggregation is an example implementation of this extension point.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2004-2005 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+      </documentation>
+   </annotation>
+
+</schema>

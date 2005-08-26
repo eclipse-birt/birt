@@ -16,5 +16,5 @@
       <import plugin="org.eclipse.birt.core"/>
       <import plugin="org.eclipse.birt.data.oda"/>
    </requires>
-   <extension-point id="aggregationExtension" name="Custom Aggregation Extension" schema="schema/AggregationExtension.exsd"/>
+   <extension-point id="aggregation" name="Custom Aggregation Extension" schema="schema/Aggregation.exsd"/>
 </plugin>
