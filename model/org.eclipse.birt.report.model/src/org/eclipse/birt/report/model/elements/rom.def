@@ -1787,7 +1787,7 @@
       <Type name="Parameter"/>
     </Slot>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Style" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Style" name="Style" nameSpace="style" since="1.0">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Style" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Style" name="Style" nameSpace="style" since="1.0" xmlName="style">
     <PropertyGroup displayNameID="Element.Style.font">
       <Property detailType="fontFamily" displayNameID="Element.Style.font.family" isStyleProperty="true" name="fontFamily" since="1.0" type="string">
         <Default>serif</Default>
@@ -2092,8 +2092,7 @@
     <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip"/>
     <!-- Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip"/ -->
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-    <PropertyVisibility name="bookmark" visibility="hide"/>         
-    <PropertyVisibility name="toc" visibility="hide"/>           
+    <PropertyVisibility name="bookmark" visibility="hide"/>                
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/>        
   </Element>
@@ -2499,7 +2498,7 @@
     <PropertyVisibility name="borderBottomColor" visibility="hide"/>          
     <PropertyVisibility name="borderBottomStyle" visibility="hide"/>              
     <PropertyVisibility name="borderBottomWidth" visibility="hide"/>                           
-    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="">
+    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="cells">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.command.ContentCommand;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -560,7 +562,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId, int pos )
@@ -584,7 +586,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *             if the element is not allowed in the slot
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
-	 *  
+	 * 
 	 */
 
 	public void addElement( DesignElementHandle child, int slotId )
@@ -1384,7 +1386,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * 
 	 * @return true if the element has semantic error or the element is invalid
 	 */
-	
+
 	public boolean showError( )
 	{
 		return hasSemanticError( ) || !isValid( );
@@ -1652,4 +1654,84 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		return null;
 	}
 
+	/**
+	 * Returns return the path corresponding to the current position of the
+	 * element in the tree.
+	 * 
+	 * This path string helps user locate this element in user interface. It
+	 * follows XPath syntax. Each node name indicates the name of the element
+	 * definition and the 1-based element position in the slot. The position
+	 * information is only available when the element is in the multicardinality
+	 * slot.
+	 * 
+	 * <p>
+	 * For example,
+	 * <ul>
+	 * <li>/report/Body[1]/Label[3] - The third label element in body slot
+	 * <li>/report/Styles[1]/Style[1] - The first style in the styles slot
+	 * <li>/report/page-setup[1]/Graphic Master Page - The master page in the
+	 * page setup slot.
+	 * </ul>
+	 * <p>
+	 * Note: the localized name is used for element type and slot name.
+	 * 
+	 * @return the path of this element
+	 */
+
+	public String getXPath( )
+	{
+
+		DesignElementHandle element = this;
+		StringBuffer sb = new StringBuffer( );
+
+		do
+		{
+			ElementDefn elementDefn = (ElementDefn) element.getDefn( );
+
+			DesignElementHandle container = element.getContainer( );
+
+			String slotInfo = null;
+			String posnInfo = null;
+
+			if ( container != null )
+			{
+				SlotHandle slot = element.getContainerSlotHandle( );
+				ISlotDefn slotDefn = container.getElement( ).getDefn( )
+						.getSlot( slot.getSlotID( ) );
+				String slotDefnName = slotDefn.getXmlName( );
+
+				int slotIndex = 1;
+
+				slotInfo = "/" + slotDefnName + "[" + slotIndex //$NON-NLS-1$ //$NON-NLS-2$
+						+ "]"; //$NON-NLS-1$
+
+				int tagIndex = 1;
+
+				for ( int i = 0; i < slot.findPosn( element ); i++ )
+				{
+					DesignElementHandle tmpElement = slot.get( i );
+					if ( tmpElement.getDefn( ) == elementDefn )
+						tagIndex++;
+				}
+
+				posnInfo = "[" + tagIndex + "]";//$NON-NLS-1$ //$NON-NLS-2$
+			}
+
+			String elementPath = ""; //$NON-NLS-1$
+
+			if ( !StringUtil.isBlank( slotInfo ) )
+				elementPath = slotInfo;
+
+			elementPath = elementPath + "/" + elementDefn.getXmlElement( ); //$NON-NLS-1$
+
+			if ( !StringUtil.isBlank( posnInfo ) )
+				elementPath = elementPath + posnInfo;
+
+			sb.insert( 0, elementPath );
+			element = container;
+
+		} while ( element != null );
+
+		return sb.toString( );
+	}
 }
