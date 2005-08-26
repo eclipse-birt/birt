@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -951,9 +950,9 @@ public class DNDUtil
 			targetObj = ( (EmbeddedImageNode) targetObj ).getReportDesignHandle( );
 		}
 		if ( transferData instanceof EmbeddedImage
-				&& targetObj instanceof ReportDesignHandle )
+				&& targetObj instanceof ModuleHandle )
 		{
-			return ( (ReportDesignHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
 		}
 		return false;
 	}

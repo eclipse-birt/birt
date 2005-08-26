@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -67,7 +67,7 @@ public class PasteStructureCommand extends Command
 						+ ",Target: " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( container ) );
 			}
-			( (ReportDesignHandle) container ).addImage( (EmbeddedImage) copyData.copy( ) );
+			( (ModuleHandle) container ).addImage( (EmbeddedImage) copyData.copy( ) );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "PasteStructureCommand >>  Finished" ); //$NON-NLS-1$

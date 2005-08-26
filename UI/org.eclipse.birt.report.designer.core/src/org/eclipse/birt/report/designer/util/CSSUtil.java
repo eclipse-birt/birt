@@ -16,7 +16,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -97,7 +97,7 @@ public class CSSUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				return DesignChoiceConstants.FONT_SIZE_MEDIUM;
 			}
@@ -253,7 +253,7 @@ public class CSSUtil
 		String font = null;
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				font = DesignChoiceConstants.FONT_WEIGHT_NORMAL;
 				return getFontWeight( font );

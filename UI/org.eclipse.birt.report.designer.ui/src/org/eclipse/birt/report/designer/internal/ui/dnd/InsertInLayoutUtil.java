@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -725,7 +725,7 @@ public class InsertInLayoutUtil
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
 				|| container instanceof FreeFormHandle
-				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ReportDesignHandle );
+				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
 	/**
@@ -745,7 +745,7 @@ public class InsertInLayoutUtil
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
 				|| container instanceof FreeFormHandle
-				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ReportDesignHandle );
+				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
 	/**
@@ -765,7 +765,7 @@ public class InsertInLayoutUtil
 		return ( container instanceof GridHandle
 				|| container instanceof TableHandle
 				|| container instanceof FreeFormHandle
-				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ReportDesignHandle );
+				|| container instanceof ListHandle || dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
 	/**
@@ -793,7 +793,7 @@ public class InsertInLayoutUtil
 						ReportDesignConstants.DATA_ITEM ) )
 		{
 			//Validates target is report root
-			if ( target.getModel( ) instanceof ReportDesignHandle )
+			if ( target.getModel( ) instanceof ModuleHandle )
 			{
 				return true;
 			}

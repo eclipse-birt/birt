@@ -64,7 +64,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -184,7 +184,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
-				|| multiSelection == ReportDesignHandle.class
+				|| multiSelection == ModuleHandle.class
 				// saveral report items
 				|| multiSelection == ReportItemHandle.class
 				// table and list
@@ -203,7 +203,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new DeleteAction( selectedElements ) );
 
-			if ( multiSelection == ReportDesignHandle.class )
+			if ( multiSelection == ModuleHandle.class )
 			{
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );

@@ -34,7 +34,7 @@ import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.designer.util.ImageManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -857,7 +857,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		boolean bool = false;
 		if ( getModel( ) instanceof DesignElementHandle )
 		{
-			if ( !( getModel( ) instanceof ReportDesignHandle ) )
+			if ( !( getModel( ) instanceof ModuleHandle ) )
 			{
 				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null;
 			}

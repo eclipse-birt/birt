@@ -18,7 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.commands.MoveGuideCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -97,7 +97,7 @@ public class EditorRulerProvider extends RulerProvider
 	 * 
 	 * @param handle
 	 */
-	public EditorRulerProvider( ReportDesignHandle handle, boolean isHorizontal )
+	public EditorRulerProvider( ModuleHandle handle, boolean isHorizontal )
 	{
 		this.ruler = new EditorRuler( isHorizontal );
 		this.ruler.addPropertyChangeListener( rulerListener );

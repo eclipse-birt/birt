@@ -855,7 +855,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				return DesignChoiceConstants.FONT_SIZE_MEDIUM;
 			}
@@ -899,7 +899,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				for ( int i = 0; i < DesignerConstants.fontSizes.length - 1; i++ )
 				{
@@ -960,7 +960,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				for ( int i = DesignerConstants.fontSizes.length - 1; i > 0; i-- )
 				{
@@ -1032,7 +1032,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
 				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
@@ -1084,7 +1084,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
 				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
@@ -1139,7 +1139,7 @@ public class DEUtil
 	{
 		if ( !( handle instanceof ReportItemHandle ) )
 		{
-			if ( handle instanceof ReportDesignHandle )
+			if ( handle instanceof ModuleHandle )
 			{
 				// return 10.
 				String size = (String) DesignerConstants.fontMap.get( DesignChoiceConstants.FONT_SIZE_MEDIUM );
