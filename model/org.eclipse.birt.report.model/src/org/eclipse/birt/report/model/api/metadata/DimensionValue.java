@@ -67,7 +67,7 @@ public class DimensionValue
 	/**
 	 * Regular expression for "000,000.000,000".
 	 */
-	private static final String DOT_SEPARATOR_EXPRESSION = "[\\s]*[-]?[+]?" //$NON-NLS-1$
+	private static final String DOT_SEPARATOR_EXPRESSION = "[\\s]*[-]?" //$NON-NLS-1$
 			+ "[\\d]*([\\d]+[,]?[\\d]+)*" + //$NON-NLS-1$
 			"[./]?" + //$NON-NLS-1$
 			"[\\d]*([\\d]+[,]?[\\d]+)*[\\s]*";//$NON-NLS-1$
@@ -76,7 +76,7 @@ public class DimensionValue
 	 * Regular expression for "000.000,000.000".
 	 */
 
-	private static final String COMMA_SEPARATOR_EXPRESSION = "[\\s]*[-]?[+]?" //$NON-NLS-1$
+	private static final String COMMA_SEPARATOR_EXPRESSION = "[\\s]*[-]?" //$NON-NLS-1$
 			+ "[\\d]*([\\d]+[.]?[\\d]+)*" + //$NON-NLS-1$
 			"[,]?" + //$NON-NLS-1$
 			"[\\d]*([\\d]+[.]?[\\d]+)*[\\s]*";//$NON-NLS-1$
