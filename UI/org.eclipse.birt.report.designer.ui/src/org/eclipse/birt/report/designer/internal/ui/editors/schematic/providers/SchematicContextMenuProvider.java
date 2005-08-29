@@ -61,10 +61,11 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -184,7 +185,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				// multi ?
 				|| multiSelection == DesignElementHandle.class
 				// report design
-				|| multiSelection == ModuleHandle.class
+				|| isRootElementHandleClass(multiSelection)
 				// saveral report items
 				|| multiSelection == ReportItemHandle.class
 				// table and list
@@ -203,7 +204,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new DeleteAction( selectedElements ) );
 
-			if ( multiSelection == ModuleHandle.class )
+			if ( isRootElementHandleClass(multiSelection) )
 			{
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
@@ -384,6 +385,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 	}
 
+	
+	private boolean isRootElementHandleClass(Object obj)
+	{
+		return obj == ReportDesignHandle.class || obj == LibraryHandle.class;
+	}
 	/**
 	 * @param menuManager
 	 */
