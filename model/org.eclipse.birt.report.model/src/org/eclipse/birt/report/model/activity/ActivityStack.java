@@ -491,6 +491,10 @@ public class ActivityStack implements CommandStack
 
 		// Send notifications.
 
+		record.sendNotifcations( false );
+		
+		// Send notifications.
+
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.REDONE ) );
 

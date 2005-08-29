@@ -105,7 +105,7 @@ class ColumnBandInsertPasteAction extends ColumnBandCopyAction
 
 		try
 		{
-			adapter.getModule( ).getActivityStack( ).startSlientTrans( );
+			adapter.getModule( ).getActivityStack( ).startTrans( );
 			pasteColumn( column, columnIndex, true );
 			pasteCells( cells, originalCells, columnIndex, true );
 		}
