@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>org.eclipse.birt.data.engine.aggregation.extension</title>
+<style>@import url("file:/c:/dev/eclipse/plugins/org.eclipse.sdk_3.1.0/book.css");</style>
+<style>@import url("file:/c:/dev/eclipse/plugins/org.eclipse.platform.doc.isv_3.1.0/schema.css");</style>
+</HEAD>
+<BODY>
+<H1><CENTER>org.eclipse.birt.data.engine.aggregation.extension</CENTER></H1>
+<p></p>
+<h6 class=CaptionFigColumn id=header>Identifier: </h6>org.eclipse.birt.data.AggregationExtension<p></p>
+<h6 class=CaptionFigColumn id=header>Since: </h6>1.01
+<p></p>
+
+<p>
+<h6 class=CaptionFigColumn id=header>Description: </h6>This extension point is used to support the extension of BIRT aggregations.Each implementation of this extension must comply to interfaces defined in the <i>org.eclipse.birt.engine.api.aggregation</i> package.
+
+All extended aggregations would be referenced in design time with prefix "Total". Say, user may defined an aggregation with name "UserAggression". Then this aggregation will be referenced as "Total.UserAggression()" in design.</p>
+<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.Aggregations">Aggregations</a>)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST extension</p>
+<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+This extension point is used to extend aggregation functions. User may define their own aggregation functions through this extension point.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.Aggregations">Aggregations</a> (<a href="#e.Aggregation">Aggregation</a>*)&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+Aggregations is a collection of aggregation.</p>
+<br><br>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.UIInfo">UIInfo</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST UIInfo</p>
+<p class=code id=dtdAttlist>tip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>textData&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>parameterMetaInfo&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+UI information which is used in expression builder.</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>tip</b> - The tip which would be displayed in ui when mouse pointer hovers.</li>
+<li><b>textData</b> - The text which would be insert into script editor in expression builder.</li>
+<li><b>parameterMetaInfo</b> - The parameter metadata info. Say, a function Sum may presented in ui as "Sum(number a)". Here the "number a" is the parameter metadata info.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.Aggregation">Aggregation</a> (<a href="#e.UIInfo">UIInfo</a>?)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST Aggregation</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>aggregationClass&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<p class=ConfigMarkup id=elementDesc>
+An aggregation name should identical to its function name. Say, to invoke an extended aggregation function ABC() in BIRT, the name of that function should be "ABC". And user call that function using script "Total.ABC()". The following function names are of built-in functions and are excluded from user-selectable function names:   COUNT,SUM,MAX,MIN,AVE,WEIGHTEDAVE,MOVINGAVE,MEDIAN,MODE,STDDEV,VARIANCE,FIRST,LAST,RUNNINGSUM,IRR,MIRR,NPV,
+RUNNINGNPV,COUNTDISTINCT;</p>
+<br>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>name</b> - The name of this aggregation. The name should be unique and should equal to the function name.</li>
+<li><b>aggregationClass</b> - The class which implements the aggregation.</li>
+</ul>
+<br><h6 class=CaptionFigColumn id=header>Examples: </h6><plugin
+   id="org.eclipse.birt.thirdparty.aggregation"
+   name="Aggr"
+   version="1.0.1"
+   provider-name="Eclipse.org">
+      <runtime>
+      <library name="aggregation.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.birt.data"/>
+   </requires>
+   
+   <extension
+         point="org.eclipse.birt.data.aggregation">
+         <Aggregations>
+         
+           <Aggregation
+            name= "NewAve"
+            aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalAve"
+           >
+        <UIInfo
+            tip="New Ave tip~"
+            textData="Total.NewAve()"
+            parameterMetaInfo="String a, String b,Stringc"
+          />
+            </Aggregation>
+             <Aggregation
+               name="NewCount"
+                aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalCount"
+             >  
+             <UIInfo
+            tip="New Count tip~"
+            textData="Total.NewCount()"
+            parameterMetaInfo="String aa, String bb,String cc"
+          />
+           </Aggregation>
+           <Aggregation
+        name ="NewSum"
+               aggregationClass = "org.eclipse.birt.thirdparty.aggregation.TotalSum"
+          >
+          <UIInfo
+            tip="New Sum tip~"
+           textData="Total.NewSum()"
+            parameterMetaInfo="String aaa, String bbb,String ccc"
+          />
+           </Aggregation>
+         </Aggregations>
+   </extension>
+</plugin>
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>API Information: </h6>All aggregation extension must implement interfaces defined in 
+<i>org.eclipse.birt.data.engine.api.aggregation</i> package. See the package's JavaDoc documentation and API interfaces for more information.
+<p></p>
+
+<h6 class=CaptionFigColumn id=header>Supplied Implementation: </h6>The plugin in directory 
+test\org.eclipse.birt.data\test\plugins\org.eclipse.birt.thirdparty.aggregation is an example implementation of this extension point.
+<p></p>
+
+<br>
+<p class=note id=copyright>
+Copyright (c) 2004-2005 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+<p></p>
+
+</p>
+</BODY>
+</HTML>
