@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -67,6 +68,9 @@ public class LibraryWriter extends ModuleWriter
 		property( obj, Library.AUTHOR_PROP );
 		property( obj, Library.HELP_GUIDE_PROP );
 		property( obj, Library.CREATED_BY_PROP );
+		property( obj, Library.UNITS_PROP );
+		property( obj, Library.BASE_PROP );
+		property( obj, Library.INCLUDE_RESOURCE_PROP );
 
 		resourceKey( obj, Library.TITLE_ID_PROP, Library.TITLE_PROP );
 		property( obj, Library.COMMENTS_PROP );
@@ -74,6 +78,14 @@ public class LibraryWriter extends ModuleWriter
 		resourceKey( obj, Library.DESCRIPTION_ID_PROP, Library.DESCRIPTION_PROP );
 
 		property( obj, Library.INITIALIZE_METHOD );
+
+		// include libraries and scripts
+
+		// Library including library is not supported.
+		//
+		// writeStructureList( obj, Library.INCLUDE_LIBRARIES_PROP );
+		writeSimpleStructureList( obj, Library.INCLUDE_SCRIPTS_PROP,
+				IncludeScript.FILE_NAME_MEMBER );
 
 		// config variables
 
