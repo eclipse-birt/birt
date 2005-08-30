@@ -77,14 +77,6 @@ public class StructRefValue
 	}
 
 	/**
-	 * Default constructor.
-	 */
-	
-	public StructRefValue( )
-	{
-	}
-
-	/**
 	 * Gets the reference name. The name is either the unresolved
 	 * name, or the name of the resolved element.
 	 * 

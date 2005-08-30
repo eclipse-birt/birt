@@ -147,10 +147,6 @@ public class ContentCommand extends AbstractElementCommand
 	private void doAdd( DesignElement content, int slotID, int newPos )
 			throws ContentException, NameException
 	{
-		// The element should not have any properties values or user
-		// properties defined -- add these as separate steps.
-
-		assert !content.hasUserProperties( );
 		assert content.getContainer( ) == null;
 
 		// Ensure that the content can be put into the container.

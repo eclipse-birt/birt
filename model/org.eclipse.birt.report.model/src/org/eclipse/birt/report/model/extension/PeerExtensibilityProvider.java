@@ -30,13 +30,13 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the extensibility provider which supports the peer extension. The
@@ -470,30 +470,9 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			String propName = (String) it.next( );
 			PropertyDefn propDefn = element.getPropertyDefn( propName );
 
-			Object value = null;
-			if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
-			{
-				if ( propDefn.isList( ) )
-				{
-					value = element
-							.cloneStructList( (ArrayList) source.extensionPropValues
-									.get( propName ) );
-					extensionPropValues.put( propName, value );
-				}
-				else
-				{
-					value = ( (Structure) source.extensionPropValues
-							.get( propName ) ).copy( );
-					extensionPropValues.put( propName, value );
-				}
-			}
-			else if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
-			{
-				// Primitive or immutable values
-
-				extensionPropValues.put( propName, source.extensionPropValues
-						.get( propName ) );
-			}
+			Object value = source.extensionPropValues.get( propName );
+			Object valueToSet = ModelUtil.copyValue( propDefn, value );
+			extensionPropValues.put( propName, valueToSet );
 		}
 	}
 

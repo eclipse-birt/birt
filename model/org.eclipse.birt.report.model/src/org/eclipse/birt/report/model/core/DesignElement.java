@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -388,8 +389,8 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * <li>The {@link Listener}class to receive notifications.</li>
  * <li>A subclass of {@link NotificationEvent}notifies the listener of the
  * type of change, and information about the change.</li>
- * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack}
- * class triggers the notifications as it processes commands.</li>
+ * <li>The {@link org.eclipse.birt.report.model.activity.ActivityStack} class
+ * triggers the notifications as it processes commands.</li>
  * <li>ActivityStack calls the {@link #sendEvent}method to send the
  * notification to the appropriate listeners.</li>
  * <li>The sendEvent( ) method in turn calls
@@ -969,6 +970,29 @@ public abstract class DesignElement
 
 	public Object getProperty( Module module, ElementPropertyDefn prop )
 	{
+		Object value = getPropertyExceptRomDefault( module, prop );
+		if ( value != null )
+			return value;
+
+		return prop.getDefault( );
+	}
+
+	/**
+	 * Gets a property value given its definition. This version does the
+	 * property search with style reference, extends reference and containment.
+	 * The default value style property defined in session is also searched, but
+	 * the default value defined in ROM will not be returned.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 */
+
+	public Object getPropertyExceptRomDefault( Module module,
+			ElementPropertyDefn prop )
+	{
 		if ( prop.isIntrinsic( ) )
 		{
 			// This is an intrinsic system-defined property.
@@ -976,7 +1000,7 @@ public abstract class DesignElement
 			Object value = getIntrinsicProperty( prop.getName( ) );
 			if ( value != null )
 				return value;
-			return prop.getDefault( );
+			return null;
 		}
 
 		// Repeat the search up the inheritance or style
@@ -994,7 +1018,7 @@ public abstract class DesignElement
 
 			if ( !e.isInheritableProperty( prop ) || !prop.isStyleProperty( )
 					|| isStyle( ) )
-				return getDefaultValue( module, prop );
+				return getSessionDefaultValue( module, prop );
 
 			// Check if the container/slot predefined style provides
 			// the value
@@ -1011,31 +1035,32 @@ public abstract class DesignElement
 
 		// Still not found. Use the default.
 
-		return getDefaultValue( module, prop );
+		return getSessionDefaultValue( module, prop );
 	}
 
 	/**
-	 * Gets the default value of the specified property.
+	 * Gets the session default value of the specified property if it is style
+	 * property.
 	 * 
 	 * @param module
 	 *            module
 	 * @param prop
 	 *            definition of the property to get
-	 * @return The default property value, or null if no default value is set.
+	 * @return The session default property value, or null if no default value
+	 *         is set.
 	 */
 
-	public Object getDefaultValue( Module module, ElementPropertyDefn prop )
+	private Object getSessionDefaultValue( Module module,
+			ElementPropertyDefn prop )
 	{
 		if ( prop.isStyleProperty( ) )
 		{
 			// Does session define default value for this property ?
 
-			Object value = module.session.getDefaultValue( prop.getName( ) );
-			if ( value != null )
-				return value;
+			return module.session.getDefaultValue( prop.getName( ) );
 		}
 
-		return prop.getDefault( );
+		return null;
 	}
 
 	/**
@@ -2834,37 +2859,6 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Tests whether the element has a private style defined on.
-	 * 
-	 * @return <code>true</code> if has, otherwise <code>false</code>.
-	 * 
-	 * @deprecated only <code>StyledElement</code> has the private style.
-	 *             Other elements not.
-	 */
-
-	public boolean hasPrivateStyle( )
-	{
-		Iterator it = propValues.keySet( ).iterator( );
-		String propName;
-		while ( it.hasNext( ) )
-		{
-			propName = (String) it.next( );
-			if ( getPropertyDefn( propName ).isStyleProperty( ) )
-			{
-				return true;
-			}
-		}
-
-		DesignElement parent = getExtendsElement( );
-		if ( parent != null )
-		{
-			return parent.hasPrivateStyle( );
-		}
-
-		return false;
-	}
-
-	/**
 	 * Creates the Factory data structures for specialized property access. This
 	 * method uses specialized property resolution rules:
 	 * <p>
@@ -3235,48 +3229,10 @@ public abstract class DesignElement
 		{
 			String key = (String) it.next( );
 			PropertyDefn propDefn = getPropertyDefn( key );
+			Object value = propValues.get( key );
+			Object valueToSet = ModelUtil.copyValue( propDefn, value );
 
-			switch ( propDefn.getTypeCode( ) )
-			{
-				case PropertyType.STRUCT_TYPE :
-					if ( propDefn.isList( ) )
-					{
-						element.propValues.put( key,
-								cloneStructList( (ArrayList) propValues
-										.get( key ) ) );
-					}
-					else
-					{
-						element.propValues.put( key, ( (Structure) propValues
-								.get( key ) ).copy( ) );
-					}
-					break;
-
-				case PropertyType.ELEMENT_REF_TYPE :
-
-					// set cloned reference to be unresolved.
-
-					ElementRefValue refValue = (ElementRefValue) propValues
-							.get( key );
-					ElementRefValue newRefValue = new ElementRefValue( null,
-							refValue.getName( ) );
-					element.propValues.put( key, newRefValue );
-
-					break;
-
-				case PropertyType.STRUCT_REF_TYPE :
-
-					// set cloned reference to be unresolved
-
-					StructRefValue structRefValue = (StructRefValue) propValues
-							.get( key );
-					StructRefValue newStructRefValue = new StructRefValue( );
-					newStructRefValue.unresolved( structRefValue.getName( ) );
-					element.propValues.put( key, newStructRefValue );
-
-				default :
-					element.propValues.put( key, propValues.get( key ) );
-			}
+			element.propValues.put( key, valueToSet );
 		}
 
 		// User Properties
@@ -3294,35 +3250,6 @@ public abstract class DesignElement
 		}
 
 		return element;
-	}
-
-	/**
-	 * Clone the structure list, a list value contains a list of structures.
-	 * 
-	 * @param list
-	 *            The structure list to be cloned.
-	 * @return The cloned structure list.
-	 */
-
-	public ArrayList cloneStructList( ArrayList list )
-	{
-		if ( list == null )
-			return null;
-
-		ArrayList returnList = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object item = list.get( i );
-			if ( item instanceof Structure )
-			{
-				returnList.add( ( (Structure) item ).copy( ) );
-			}
-			else
-			{
-				assert false;
-			}
-		}
-		return returnList;
 	}
 
 	/**
