@@ -434,7 +434,14 @@ public class ScriptEvalUtil
 		boolean result = false;
 		try
 		{
-			Pattern p = Pattern.compile( pattern.toString( ) );
+			String patternString = pattern.toString( );
+			// support '%' as SQL, replace all "%" with ".*"  
+			if ( patternString.indexOf( "%" ) >= 0 )
+			{
+				patternString = patternString.replaceAll( "\\Q%\\E", ".*" );
+			}
+			
+			Pattern p = Pattern.compile( patternString );
 			Matcher m = p.matcher( obj1.toString( ) );
 			result = m.matches( );
 		}
