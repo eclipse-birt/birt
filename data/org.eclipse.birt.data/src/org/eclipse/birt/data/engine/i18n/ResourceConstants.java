@@ -21,6 +21,8 @@ public class ResourceConstants
 	public final static String UNDEFINED_DATA_SET = "data.engine.UndefinedDataSet";
 	public final static String UNSUPPORTED_DATASOURCE_TYPE = "data.engine.UnsupportedDataSourceType";
 	public final static String UNSUPPORTED_DATASET_TYPE = "data.engine.UnsupportedDataSetType";
+	public final static String UNSUPPORTED_GROUP_ON_BLOBAndCLOB ="data.engine.UnsupportedGroupOnClobAndBLOB";
+	public final static String UNSUPPORTED_SORT_ON_BLOBAndCLOB ="data.engine.UnsupportedSortOnClobAndBLOB";
 
 	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
 	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
@@ -112,6 +114,7 @@ public class ResourceConstants
 	public final static String UNSUPPORTED_NATIVE_TYPE = "odaconsumer.UnsupportedNativeType";
 	public final static String UNSUPPORTED_DATA_SET_TYPE = "odaconsumer.UnsupportedDataSetType";
 	public final static String CANNOT_DETERMINE_DEFAULT_DATA_SET_TYPE = "odaconsumer.CannotDetermineDefaultDataSetType";
+	public final static String INVALID_DATA_SET_TYPE = "odaconsumer.InvalidDataSetType";
 	public final static String PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ParameterNameCannotBeEmptyOrNull";
 	public final static String PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ParameterPositionIsOneBased";
 	public final static String CANNOT_GET_PARAMETER_TYPE_NAME = "odaconsumer.CannotGetParameterTypeName";
@@ -167,6 +170,8 @@ public class ResourceConstants
 	public final static String CANNOT_GET_DATE_FROM_COLUMN = "odaconsumer.CannotGetDateFromColumn";
 	public final static String CANNOT_GET_TIME_FROM_COLUMN = "odaconsumer.CannotGetTimeFromColumn";
 	public final static String CANNOT_GET_TIMESTAMP_FROM_COLUMN = "odaconsumer.CannotGetTimestampFromColumn";
+	public final static String CANNOT_GET_CLOB_FROM_COLUMN = "odaconsumer.CannotGetClobFromColumn";
+	public final static String CANNOT_GET_BLOB_FROM_COLUMN = "odaconsumer.CannotGetBlobFromColumn";
 	public final static String CANNOT_GET_ROW_POSITION = "odaconsumer.CannotGetRowPosition";
 	public final static String CANNOT_CLOSE_RESULT_SET = "odaconsumer.CannotCloseResultSet";
 	public final static String CANNOT_GET_PARAMETER_COUNT = "odaconsumer.CannotGetParameterCount";
