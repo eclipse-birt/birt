@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
-import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
  * Represents the activity stack which is read-only. Thats means any operation
@@ -73,16 +72,6 @@ public class ReadOnlyActivityStack extends ActivityStack
 	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#sendNotifcations(org.eclipse.birt.report.model.api.activity.ActivityStackEvent)
 	 */
 	protected void sendNotifcations( ActivityStackEvent event )
-	{
-		// Do nothing.
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.ActivityStack#setValidationExecutor(org.eclipse.birt.report.model.validators.ValidationExecutor)
-	 */
-	public void setValidationExecutor( ValidationExecutor validationExecutor )
 	{
 		// Do nothing.
 	}

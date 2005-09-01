@@ -188,12 +188,6 @@ public abstract class NotificationEvent
 	protected int deliveryPath = DIRECT;
 
 	/**
-	 * Whether the operation causing this event is in transaction.
-	 */
-
-	private boolean isInTransaction = false;
-
-	/**
 	 * Default constructor.
 	 */
 
@@ -315,28 +309,4 @@ public abstract class NotificationEvent
 	 */
 
 	public abstract int getEventType( );
-
-	/**
-	 * Sets whether the operation causing this event is in transaction.
-	 * 
-	 * @param isInTransaction
-	 *            whether the operation causing this event is in transaction.
-	 */
-
-	public void setInTransaction( boolean isInTransaction )
-	{
-		this.isInTransaction = isInTransaction;
-	}
-
-	/**
-	 * Returns whether the operation causing this event is in transaction.
-	 * 
-	 * @return <code>true</code>, if the operation causing this event is in
-	 *         transaction, otherwise, return <code>false</code>.
-	 */
-
-	public boolean isInTransaction( )
-	{
-		return isInTransaction;
-	}
 }

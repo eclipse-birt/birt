@@ -349,12 +349,12 @@ public class LayoutSlot
 		int rowCount = rows.size( );
 
 		if ( rowCount == 0 || rowCount == currentRowId + 1 )
-		{
 			ensureSize( rowCount + 1, colCount );
-			rowCount++;
-		}
 
-		currentRowId = rowCount - 1;
+		if ( rowCount != 0 )
+			currentRowId++;
+
+		rowCount++;
 	}
 
 	/**

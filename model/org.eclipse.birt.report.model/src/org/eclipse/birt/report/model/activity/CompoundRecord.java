@@ -12,8 +12,12 @@
 package org.eclipse.birt.report.model.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
+
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * A compound record represents an atomic operation made up of a series of other
@@ -113,22 +117,9 @@ public class CompoundRecord extends ActivityRecord
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 			record.undo( );
 			record.setState( ActivityRecord.UNDONE_STATE );
-			sendSingleRecordNotification( record );
+			record.performPostTasks( null );
+			record.sendNotifcations( null );
 		}
-	}
-
-	/**
-	 * Sends the notificaion for a record in the compound record. The default
-	 * behavior is simply calling the notification of the record.
-	 * 
-	 * @param record
-	 *            an <code>AcitivtyRecord</code> in this compound record
-	 */
-
-	protected void sendSingleRecordNotification( ActivityRecord record )
-	{
-		assert recordList.contains( record );
-		record.sendNotifcations( true );
 	}
 
 	/**
@@ -147,7 +138,8 @@ public class CompoundRecord extends ActivityRecord
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 			record.redo( );
 			record.setState( ActivityRecord.REDONE_STATE );
-			sendSingleRecordNotification( record );
+			record.performPostTasks( null );
+			record.sendNotifcations( null );
 		}
 	}
 
@@ -243,25 +235,23 @@ public class CompoundRecord extends ActivityRecord
 		return recordList.isEmpty( );
 	}
 
-	/**
-	 * This is a null operation in a composite record. Instead, notifications
-	 * must have been sent when executing, undoing or redoing each sub-record.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see ActivityRecord#sendNotifcations( boolean transactionStarted )
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public void sendNotifcations( boolean transactionStarted )
+	protected NotificationChain getNotificationChain( )
 	{
-		// Ignore this operation. Notifications were sent when doing
-		// the operations on the contained records.
-		//
-		// Indeed, doing the notifications here would result in the application
-		// seeing notifications in a different state than if the records were
-		// executed as atomic operations. The application expects to receive
-		// notifications when the the model is in the <em>final</em> state for a
-		// record, and this state holds only until the next record does an
-		// operation. Deferring notifications will break this invariant, causing
-		// endless problems in the UI.
+		NotificationChain events = new NotificationChain( );
+		for ( Iterator iter = recordList.iterator( ); iter.hasNext( ); )
+		{
+			ActivityRecord record = (ActivityRecord) iter.next( );
+			NotificationChain recordEvents = record.getNotificationChain( );
+			events.append( recordEvents );
+		}
+
+		return events;
 	}
 
 	/**
@@ -309,7 +299,7 @@ public class CompoundRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback(org.eclipse.birt.report.model.activity.ActivityStack)
 	 */
 
 	public void rollback( )
@@ -320,7 +310,82 @@ public class CompoundRecord extends ActivityRecord
 			if ( !record.isPersistent( ) )
 			{
 				record.rollback( );
+				record.performPostTasks( null );
+				record.sendNotifcations( null );
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
+	 */
+
+	protected List getPostTasks( )
+	{
+		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
+		{
+			ActivityRecord record = (ActivityRecord) recordList.get( i );
+			if ( record instanceof CompoundRecord )
+				continue;
+
+			List simpleTasks = record.getPostTasks( );
+			for ( int j = 0; j < simpleTasks.size( ); j++ )
+			{
+				IActivityTask task = (IActivityTask) simpleTasks.get( j );
+				if ( !( task instanceof ValidationActivityTask ) )
+					continue;
+
+				List tasks = new ArrayList( );
+				tasks.addAll( super.getPostTasks( ) );
+				tasks.add( task );
+				return tasks;
+			}
+		}
+
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Returns <code>true</code> if need to hold the event at this time. We
+	 * need to hold the event if it is sent inside a transaction that declared
+	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
+	 * 
+	 * @param transStack
+	 *            the transaction stack.
+	 * @return <code>true</code> if need to hold the event at this time,
+	 *         returns <code>false</code> otherwise.
+	 */
+	protected final boolean holdEvent( Stack transStack )
+	{
+		if ( transStack != null && !transStack.isEmpty( ) )
+		{
+			CompoundRecord cr = (CompoundRecord) transStack.peek( );
+			if ( cr instanceof FilterEventsCompoundRecord )
+				return true;
+		}
+
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(java.util.Stack)
+	 */
+
+	public void sendNotifcations( Stack transStack )
+	{
+		// Ignore this operation. Notifications were sent when doing
+		// the operations on the contained records.
+		//
+		// Indeed, doing the notifications here would result in the application
+		// seeing notifications in a different state than if the records were
+		// executed as atomic operations. The application expects to receive
+		// notifications when the the model is in the <em>final</em> state for a
+		// record, and this state holds only until the next record does an
+		// operation. Deferring notifications will break this invariant, causing
+		// endless problems in the UI.
 	}
 }

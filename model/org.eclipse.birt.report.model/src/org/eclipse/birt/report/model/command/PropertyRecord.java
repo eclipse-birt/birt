@@ -9,15 +9,20 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.LayoutTableActivityTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -182,4 +187,33 @@ public class PropertyRecord extends SimpleRecord
 		return propDefn;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
+	 */
+
+	protected List getPostTasks( )
+	{
+		List retValue = new ArrayList( );
+		retValue.addAll( super.getPostTasks( ) );
+
+		if ( !( element instanceof Cell ) )
+			return retValue;
+
+		String propName = propDefn.getName( );
+
+		if ( !Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
+				&& !Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+				&& !Cell.COLUMN_PROP.equalsIgnoreCase( propName )
+				&& !Cell.DROP_PROP.equalsIgnoreCase( propName ) )
+			return retValue;
+
+		TableItem table = LayoutUtil.getTableContainer( element );
+		if ( table == null )
+			return retValue;
+
+		retValue.add( new LayoutTableActivityTask( table.getRoot( ), table ) );
+		return retValue;
+	}
 }

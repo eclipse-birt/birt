@@ -311,8 +311,8 @@ public class ContentCommand extends AbstractElementCommand
 		}
 
 		ActivityStack stack = getActivityStack( );
-		stack.startTrans( dropRecord.getLabel( ) );
 
+		stack.startFilterEventTrans( dropRecord.getLabel() );
 		try
 		{
 			// Remove contents.

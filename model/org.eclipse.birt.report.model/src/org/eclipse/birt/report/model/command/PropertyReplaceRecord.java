@@ -22,10 +22,11 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * Replaces one structure in the structure list property.
- *  
+ * 
  */
 
 public class PropertyReplaceRecord extends SimpleRecord
@@ -139,20 +140,23 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * 
 	 * @see org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent()
 	 */
+
 	public NotificationEvent getEvent( )
 	{
 		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain()
 	 */
 
-	public void sendNotifcations( boolean transactionStarted )
+	protected NotificationChain getNotificationChain( )
 	{
-		super.sendNotifcations( transactionStarted );
+		NotificationChain events = new NotificationChain( );
+
+		events.append( element, getEvent( ) );
 
 		// if the structure is referencable, then send notification to the
 		// clients
@@ -160,8 +164,10 @@ public class PropertyReplaceRecord extends SimpleRecord
 		if ( oldItem != null && oldItem.isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) oldItem;
-			refValue.broadcast( getEvent( ) );
+			events.append( refValue, getEvent( ) );
 		}
+
+		return events;
 	}
 
 }

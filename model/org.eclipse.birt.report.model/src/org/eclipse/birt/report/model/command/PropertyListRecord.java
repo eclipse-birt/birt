@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * Records adding or removing an item from a property list.
@@ -171,16 +172,18 @@ public class PropertyListRecord extends SimpleRecord
 
 		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain()
 	 */
 
-	public void sendNotifcations( boolean transactionStarted )
+	protected NotificationChain getNotificationChain( )
 	{
-		super.sendNotifcations( transactionStarted );
+		NotificationChain events = new NotificationChain( );
+
+		events.append( element, getEvent( ) );
 
 		// if the structure is referencable, then send notification to the
 		// clients
@@ -188,7 +191,9 @@ public class PropertyListRecord extends SimpleRecord
 		if ( value != null && value.isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) value;
-			refValue.broadcast( getEvent( ) );
+			events.append( refValue, getEvent( ) );
 		}
+
+		return events;
 	}
 }

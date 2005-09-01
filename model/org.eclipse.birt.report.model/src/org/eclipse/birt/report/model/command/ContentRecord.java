@@ -11,21 +11,28 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.LayoutTableActivityTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
+import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.util.NotificationChain;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -230,63 +237,6 @@ public class ContentRecord extends SimpleRecord
 	}
 
 	/**
-	 * Sends a content changed and possibly element deleted event. This record
-	 * is unusual because it must send two events: one for the container, one
-	 * for the content. If we are dropping the content, then it is effectively
-	 * deleted, and we must tell the content that it has been deleted.
-	 */
-
-	public void sendNotifcations( boolean transactionStarted )
-	{
-		// Send the content changed event to the container.
-
-		NotificationEvent event = null;
-		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			event = new ContentEvent( container, content, slotID,
-					ContentEvent.ADD );
-		else
-			event = new ContentEvent( container, content, slotID,
-					ContentEvent.REMOVE );
-
-		event.setInTransaction( transactionStarted );
-
-		// Include the sender if this is the original execution.
-		// The sender is not sent for undo, redo because such actions are
-		// triggered by the activity stack, not dialog or editor.
-
-		if ( state == DONE_STATE )
-			event.setSender( sender );
-
-		// Broadcast the event to the target.
-
-		container.broadcast( event );
-
-		// If the content was added, then send an element added
-		// event to the content.
-
-		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-		{
-			if ( isSelector( content ) )
-				content.broadcast( event, container.getRoot( ) );
-
-			return;
-		}
-
-		// Broadcast to the content element of the deleted event.
-
-		event = new ElementDeletedEvent( content );
-		if ( state == DONE_STATE )
-			event.setSender( sender );
-		content.broadcast( event, container.getRoot( ) );
-
-		// If element is dropped, clear up the listeners registered on the
-		// element.
-
-		if ( !add && state != UNDONE_STATE || add && state == UNDONE_STATE )
-			content.clearListeners( );
-	}
-
-	/**
 	 * Indicate whether the given <code>content</code> is a CSS-selecter.
 	 * 
 	 * @param content
@@ -304,8 +254,8 @@ public class ContentRecord extends SimpleRecord
 	}
 
 	/**
-	 * Sets the module if element IDs are in use. If set, the record will
-	 * manage the ID map in the module.
+	 * Sets the module if element IDs are in use. If set, the record will manage
+	 * the ID map in the module.
 	 * 
 	 * @param theModule
 	 *            The module to set.
@@ -336,5 +286,79 @@ public class ContentRecord extends SimpleRecord
 				contentDefn.getTriggerDefnSet( ), false ) );
 
 		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
+	 */
+
+	protected List getPostTasks( )
+	{
+		List retValue = new ArrayList( );
+		retValue.addAll( super.getPostTasks( ) );
+
+		if ( !( container instanceof TableItem
+				|| container instanceof TableGroup
+				|| container instanceof TableRow ) )
+			return retValue;
+
+		TableItem table = LayoutUtil.getTableContainer( container );
+		if ( table == null )
+			return retValue;
+
+		retValue.add( new LayoutTableActivityTask( module, table ) );
+		return retValue;
+	}
+
+	/**
+	 * Returns a chain of events relating to the content record. A content
+	 * changed and possibly element deleted event. This record is unusual
+	 * because it must send two events: one for the container, one for the
+	 * content. If we are dropping the content, then it is effectively deleted,
+	 * and we must tell the content that it has been deleted.
+	 * 
+	 */
+
+	protected NotificationChain getNotificationChain( )
+	{
+		NotificationChain events = new NotificationChain( );
+
+		// Send the content changed event to the container.
+
+		NotificationEvent event = null;
+		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
+			event = new ContentEvent( container, content, slotID,
+					ContentEvent.ADD );
+		else
+			event = new ContentEvent( container, content, slotID,
+					ContentEvent.REMOVE );
+
+		if ( state == DONE_STATE )
+			event.setSender( sender );
+
+		events.append( container, event );
+
+		// If the content was added, then send an element added
+		// event to the content.
+
+		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
+		{
+			if ( isSelector( content ) )
+				// content.broadcast( event, container.getRoot( ) );
+				events.append( content, event, container.getRoot( ) );
+
+			return events;
+		}
+
+		// Broadcast to the content element of the deleted event.
+
+		event = new ElementDeletedEvent( container, content );
+		if ( state == DONE_STATE )
+			event.setSender( sender );
+
+		events.append( content, event, container.getRoot( ) );
+		return events;
 	}
 }

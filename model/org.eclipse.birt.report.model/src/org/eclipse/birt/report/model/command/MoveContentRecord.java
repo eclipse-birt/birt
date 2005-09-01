@@ -11,10 +11,19 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.model.activity.LayoutTableActivityTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
@@ -123,6 +132,28 @@ public class MoveContentRecord extends SimpleRecord
 	public NotificationEvent getEvent( )
 	{
 		return new ContentEvent( container, content, slot, ContentEvent.SHIFT );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
+	 */
+
+	protected List getPostTasks( )
+	{
+		List retValue = new ArrayList( );
+		retValue.addAll( super.getPostTasks( ) );
+
+		if ( !( content instanceof TableGroup || content instanceof TableRow || content instanceof Cell ) )
+			return retValue;
+
+		TableItem table = LayoutUtil.getTableContainer( container );
+		if ( table == null )
+			return retValue;
+
+		retValue.add( new LayoutTableActivityTask( table.getRoot( ), table ) );
+		return retValue;
 	}
 
 }

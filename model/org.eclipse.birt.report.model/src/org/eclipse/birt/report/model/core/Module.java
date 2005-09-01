@@ -537,10 +537,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// when ActivityStack is created.
 
 		saveState = 0;
-
-		// Pass the design to the task manager in the activity stack.
-
-		activityStack.getInterceptor( ).registerModule( this );
 	}
 
 	/**
@@ -1120,6 +1116,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		return signature;
 	}
+
+	/**
+	 * Returns the number of slots of the module. For the library and the report
+	 * design, this number is different.
+	 * 
+	 * @return the number of slots of the module
+	 */
 
 	protected abstract int getSlotCount( );
 

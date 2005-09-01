@@ -13,8 +13,10 @@ package org.eclipse.birt.report.model.activity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
+import org.eclipse.birt.report.model.util.NotificationChain;
 import org.eclipse.birt.report.model.validators.IValidatorProvider;
 
 /**
@@ -392,11 +394,25 @@ public abstract class ActivityRecord
 	/**
 	 * Sends element change notifications for this record.
 	 * 
-	 * @param transactionStarted
-	 *            whether this record is executed in transaction.
+	 * @param transStack
+	 *            the transaction stack
+	 * 
 	 */
 
-	public abstract void sendNotifcations( boolean transactionStarted );
+	public void sendNotifcations( Stack transStack )
+	{
+		getNotificationChain( ).fireEvents( );
+	}
+
+	/**
+	 * Returns an event chain relating to the record. Subclass needs to
+	 * implement this method to collect the relating records, the record should
+	 * be appended to the event chain in the sequence they are fired.
+	 * 
+	 * @return an event chain relating to the record.
+	 */
+
+	protected abstract NotificationChain getNotificationChain( );
 
 	/**
 	 * Returns the optional UI hint to be sent with the execute notification for
@@ -473,6 +489,8 @@ public abstract class ActivityRecord
 	 * Sets the persistent status of the record.
 	 * 
 	 * @param isPersistent
+	 *            <code>true</code> if the record is persistent. Otherwise
+	 *            <code>false</code>.
 	 */
 
 	public void setPersistent( boolean isPersistent )
@@ -483,9 +501,38 @@ public abstract class ActivityRecord
 	/**
 	 * Rollbacks the record. If the record is persistent, then there will be no
 	 * operation with the method. Otherwise the record is undone.
-	 *  
+	 * 
 	 */
 
 	abstract public void rollback( );
 
+	/**
+	 * Returns tasks that will be executed after the record and before sending
+	 * notifications to elements.
+	 * 
+	 * @return a list containing tasks
+	 */
+
+	protected List getPostTasks( )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Performs tasks after the execution of the record.
+	 * 
+	 * @param transStack
+	 *            the transaction stack.
+	 */
+
+	protected void performPostTasks( Stack transStack )
+	{
+		List tasks = getPostTasks( );
+
+		for ( int i = 0; i < tasks.size( ); i++ )
+		{
+			IActivityTask subTask = (IActivityTask) tasks.get( i );
+			subTask.doTask( this );
+		}
+	}
 }

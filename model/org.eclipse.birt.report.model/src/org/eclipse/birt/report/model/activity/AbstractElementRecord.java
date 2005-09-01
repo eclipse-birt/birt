@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.activity;
 
+
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * This class is the base class for all simple activity records. A simple
@@ -54,15 +56,14 @@ public abstract class AbstractElementRecord extends ActivityRecord
 	abstract public NotificationEvent getEvent( );
 
 	/**
-	 * Sends the notifications. This implementation uses
-	 * <code>getEvent( )</code> to produce the notification, and sends the
-	 * event to the element returned by <code>getTarget( )</code>.
+	 * Returns a chain of events relating to this record. This implementation
+	 * uses <code>getEvent( )</code> to produce the notification, and the
+	 * target of the event is returned by <code>getTarget( )
 	 * 
-	 * @param transactionStarted
-	 *            whether this record is executed in transaction.
+	 * @return  a chain of events relating to this record
 	 */
 
-	public void sendNotifcations( boolean transactionStarted )
+	protected NotificationChain getNotificationChain( )
 	{
 		// Get the target element. There should be one unless this is a
 		// "null command" that does nothing.
@@ -73,10 +74,14 @@ public abstract class AbstractElementRecord extends ActivityRecord
 		// element.
 
 		NotificationEvent event = getEvent( );
-		assert event != null;
 
-		event.setInTransaction( transactionStarted );
-
+		// Some record do not need a notification, e.g: BackRefRecord.
+		
+		if( event == null )
+			return NotificationChain.EMPTY_CHAIN;
+		
+		assert target != null;
+		
 		// Include the sender if this is the original execution.
 		// The sender is not sent for undo, redo because such actions are
 		// triggered by the activity stack, not dialog or editor.
@@ -84,8 +89,6 @@ public abstract class AbstractElementRecord extends ActivityRecord
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 
-		// Broadcast the event to the target.
-
-		target.broadcast( event );
+		return new NotificationChain( ).append( target, event );
 	}
 }

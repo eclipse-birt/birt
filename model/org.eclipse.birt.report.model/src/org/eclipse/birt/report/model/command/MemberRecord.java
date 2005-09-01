@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * Records setting the value of a structure member.
@@ -138,20 +139,22 @@ public class MemberRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public void sendNotifcations( boolean transactionStarted )
+	public NotificationChain getNotificationChain( )
 	{
-		super.sendNotifcations( transactionStarted );
+		NotificationChain chain = new NotificationChain( );
 
-		// if the structure is referencable, then send notification to the
-		// clients
+		NotificationEvent ev = getEvent( );
+		chain.append( element, ev );
 
 		if ( structure != null && structure.isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) structure;
-			refValue.broadcast( getEvent( ) );
+			chain.append( refValue, ev );
 		}
+
+		return chain;
 	}
 }

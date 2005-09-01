@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * The activity record provides the mechanism for performing a low-level change
@@ -61,8 +62,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 		setLabel( extCommand.getLabel( ) );
 
 		if ( extCommand.getElementHandle( ) != null )
-			element = extCommand.getElementHandle( )
-					.getElement( );
+			element = extCommand.getElementHandle( ).getElement( );
 	}
 
 	/*
@@ -143,22 +143,10 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	}
 
 	/**
-	 * Sends the notifications of extended element. This implementation uses
-	 * <code>getEvent( )</code> to produce the notification, and sends the
-	 * event to the element returned by <code>getTarget( )</code>.
+	 * Returns the design element.
 	 * 
-	 * @param transactionStarted
-	 *            status identifying whether it is nested in a parent
-	 *            transaction
+	 * @return the design element
 	 */
-	
-	public void sendNotifcations( boolean transactionStarted )
-	{
-		if ( element != null )
-		{
-			element.broadcast( getEvent( ) );
-		}
-	}
 
 	public DesignElement getTarget( )
 	{
@@ -195,13 +183,29 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 */
+
+	public NotificationChain getNotificationChain( )
+	{
+		if ( element == null )
+			return NotificationChain.EMPTY_CHAIN;
+
+		NotificationChain events = new NotificationChain( );
+		events.append( element, getEvent( ) );
+		return events;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
 	 */
+
 	public void rollback( )
 	{
 		undo( );
 		setState( ActivityRecord.UNDONE_STATE );
-		sendNotifcations( true );
-
+		sendNotifcations( null );
 	}
 }

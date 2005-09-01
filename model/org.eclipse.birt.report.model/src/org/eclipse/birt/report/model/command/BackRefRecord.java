@@ -76,14 +76,4 @@ abstract public class BackRefRecord extends SimpleRecord
 	{
 		return null;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(boolean)
-	 */
-	public void sendNotifcations( boolean transactionStarted )
-	{
-
-	}
 }

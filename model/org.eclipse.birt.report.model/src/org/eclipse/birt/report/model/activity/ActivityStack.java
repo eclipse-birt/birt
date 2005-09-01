@@ -293,12 +293,6 @@ public class ActivityStack implements CommandStack
 	protected ArrayList listeners = null;
 
 	/**
-	 * The interceptor to execute tasks after the exection of records.
-	 */
-
-	private ActivityStackTaskManager taskManager = new ActivityStackTaskManager( );
-
-	/**
 	 * Default constructor.
 	 */
 
@@ -348,12 +342,10 @@ public class ActivityStack implements CommandStack
 		record.execute( );
 		record.setState( ActivityRecord.DONE_STATE );
 
-		// Send out notifications about the action just completed.
-
 		assert !( record instanceof CompoundRecord );
 
-		if ( !isTransInSlientMode( record ) )
-			record.sendNotifcations( !transStack.isEmpty( ) );
+		record.performPostTasks( transStack );
+		record.sendNotifcations( transStack );
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
@@ -378,48 +370,6 @@ public class ActivityStack implements CommandStack
 			trans.append( record );
 		}
 
-		// If the record is not in a silent
-		// transaction, it means the task must be executed after the execution
-		// of this record.
-
-		assert !( record instanceof CompoundRecord );
-
-		if ( !isTransInSlientMode( record ) )
-			taskManager.doPostTasks( record );
-	}
-
-	/**
-	 * Checks whether the current transaction is/is in a silent transaction. All
-	 * events in silent trasaction will be discarded. Meanwhile, all post tasks
-	 * for a silent transaction are held until the commit of this transaction.
-	 * 
-	 * @param record
-	 *            the record that the stack works on
-	 * 
-	 * @return <code>true</code> if it is silent. Otherwise,
-	 *         <code>false</code>.
-	 */
-
-	private boolean isTransInSlientMode( ActivityRecord record )
-	{
-		if ( record instanceof SilentCompoundRecord )
-			return true;
-
-		boolean isSlientMode = false;
-
-		for ( int i = transStack.size( ) - 1; i >= 0; i-- )
-		{
-			// The event will not be fired.
-
-			CompoundRecord cr = (CompoundRecord) transStack.get( i );
-			if ( cr instanceof SilentCompoundRecord )
-			{
-				isSlientMode = true;
-				break;
-			}
-		}
-
-		return isSlientMode;
 	}
 
 	/**
@@ -452,16 +402,16 @@ public class ActivityStack implements CommandStack
 
 		redoStack.push( record );
 
+		record.performPostTasks( transStack );
+
 		// Send notifications.
 
-		record.sendNotifcations( false );
+		record.sendNotifcations( transStack );
 
 		// listener, transaction, not go into transaction stack
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.UNDONE ) );
-
-		taskManager.doPostTasks( record );
 	}
 
 	/**
@@ -489,16 +439,16 @@ public class ActivityStack implements CommandStack
 
 		undoStack.push( record );
 
+		record.performPostTasks( transStack );
+		
 		// Send notifications.
 
-		record.sendNotifcations( false );
-		
+		record.sendNotifcations( transStack );
+
 		// Send notifications.
 
 		sendNotifcations( new ActivityStackEvent( this,
 				ActivityStackEvent.REDONE ) );
-
-		taskManager.doPostTasks( record );
 	}
 
 	/**
@@ -720,7 +670,15 @@ public class ActivityStack implements CommandStack
 	{
 		// Create a compound record to implement the transaction.
 
-		transStack.push( new CompoundRecord( label ) );
+		if ( !transStack.isEmpty( )
+				&& transStack.peek( ) instanceof SilentCompoundRecord )
+			startSilentTrans( label );
+		else if ( !transStack.isEmpty( )
+				&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
+			startFilterEventTrans( label );
+		else
+			transStack.push( new CompoundRecord( label ) );
+
 	}
 
 	/**
@@ -752,15 +710,8 @@ public class ActivityStack implements CommandStack
 		// Handle the special case of a transaction with one item.
 
 		ActivityRecord record = transaction;
-		if ( transaction.getCount( ) == 1 )
-		{
-			// Store the one record in place of the transaction in the
-			// undo stack.
-
-			record = transaction.pop( );
-			record.setPersistent( transaction.isPersistent( ) );
-			transaction.destroy( );
-		}
+		record.performPostTasks( transStack );
+		record.sendNotifcations( transStack );
 
 		if ( transStack.empty( ) )
 		{
@@ -786,14 +737,9 @@ public class ActivityStack implements CommandStack
 
 			CompoundRecord outer = (CompoundRecord) transStack.lastElement( );
 			outer.append( record );
+
 		}
 
-		// If the current transaction is/is in a silent transaction, it means
-		// post-tasks have been executed after each record in the transaction,
-		// so that, it is not good to execute post-tasks again when committing.
-
-		if ( isTransInSlientMode( transaction ) )
-			taskManager.doPostTasks( record );
 	}
 
 	/**
@@ -805,6 +751,10 @@ public class ActivityStack implements CommandStack
 	{
 		assert transStack.size( ) > 0;
 		CompoundRecord trans = (CompoundRecord) transStack.pop( );
+
+		// silent task do not perform tasks here since values on elements
+		// are not changed.
+
 		trans.rollback( );
 		trans.destroy( );
 	}
@@ -900,24 +850,12 @@ public class ActivityStack implements CommandStack
 		}
 	}
 
-	/**
-	 * Returns the interceptor of the activity stack. The interceptor provides a
-	 * mechanism for specified works after the execution of record.
-	 * 
-	 * @return the interceptor
-	 * @see ActivityStackTaskManager
-	 */
-
-	public ActivityStackTaskManager getInterceptor( )
-	{
-		return taskManager;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java.lang.String)
 	 */
+
 	public void startPersistentTrans( String label )
 	{
 		transStack.push( new CompoundRecord( label, true ) );
@@ -940,9 +878,9 @@ public class ActivityStack implements CommandStack
 	 * 
 	 */
 
-	public void startSlientTrans( )
+	public void startSilentTrans( )
 	{
-		startSlientTrans( null );
+		startSilentTrans( null );
 	}
 
 	/**
@@ -953,8 +891,39 @@ public class ActivityStack implements CommandStack
 	 *            localized label for the transaction
 	 */
 
-	public void startSlientTrans( String label )
+	public void startSilentTrans( String label )
 	{
-		transStack.push( new SilentCompoundRecord( label ) );
+		boolean outerMost = true;
+		if ( !transStack.isEmpty( )
+				&& transStack.peek( ) instanceof SilentCompoundRecord )
+			outerMost = false;
+
+		transStack.push( new SilentCompoundRecord( label, outerMost ) );
+	}
+
+	/**
+	 * Starts a filter events transaction, all the events within the transaction
+	 * will be held. They will be filtered and sent out once the transaction is
+	 * committed.
+	 * 
+	 * @param label
+	 *            localized label for the transaction
+	 */
+
+	public void startFilterEventTrans( String label )
+	{
+		if ( !transStack.isEmpty( )
+				&& transStack.peek( ) instanceof SilentCompoundRecord )
+			startSilentTrans( label );
+		else
+		{
+			boolean outerMost = true;
+			if ( !transStack.isEmpty( )
+					&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
+				outerMost = false;
+
+			transStack
+					.push( new FilterEventsCompoundRecord( label, outerMost ) );
+		}
 	}
 }
