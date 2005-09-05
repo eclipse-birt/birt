@@ -310,6 +310,7 @@
 			<batchtest todir="${utest.report.dir}">
 				<fileset dir="${test.src}">
 					<include name="**/*Test.java" />
+					<exclude name="**/cache/*.java" /> 
 					<exclude name="**/perf/*.java" /> 
 					<exclude name="**/regre/db/*.java" /> 
 				</fileset>

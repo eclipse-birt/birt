@@ -87,6 +87,11 @@ public class ResourceConstants
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	
+	// resultsetcache exception
+	public final static String DESTINDEX_OUTOF_RANGE = "data.engine.BadDestIndex";
+	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
+	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
+	
 	// wrapper error
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String INVALID_TYPE_IN_EXPR = "data.engine.BadDataTypeCondExpr";
