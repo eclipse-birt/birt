@@ -236,15 +236,16 @@ public class Statement implements IQuery
 			/* redirect the call to JDBC preparedStatement.getMetaData() */
 			resultmd = preStat.getMetaData( );
 		}
-		catch (NullPointerException e )
+		catch ( Throwable e )
 		{
-		  resultmd=null;
-		}
-		catch(SQLException e)
-		{
-			// For some database, meta data of table can not be obtained 
+			// Some data base will throw error, such as AbstractMethodError of
+			// DB2 7.2, so Throwable should be used to catch all possible
+			// exceptions or errors.
+			// 
+			// For some database, meta data of table can not be obtained
 			// in prepared time. To solve this problem, query execution is
 			// required to be executed first.
+			resultmd = null;
 		}
 		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
