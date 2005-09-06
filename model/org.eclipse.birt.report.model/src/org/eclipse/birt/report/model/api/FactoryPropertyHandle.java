@@ -74,6 +74,19 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	}
 
 	/**
+	 * Returns the cached factory property value.
+	 * 
+	 * @return the cached factory property value.
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(Module,
+	 *      ElementPropertyDefn)
+	 */
+
+	public Object getValue( )
+	{
+		return value;
+	}
+
+	/**
 	 * Tests whether this is a style property.
 	 * 
 	 * @return <code>true</code> if this is a style property, otherwise
