@@ -210,17 +210,21 @@ public class SmartCache implements ResultSetCache
 			MemoryCacheSize = 10; // default minimum value is 10M.
 			String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );
 			if ( memcachesize != null )
+			{
 				try
 				{
 					MemoryCacheSize = Integer.parseInt( memcachesize );
-					if ( MemoryCacheSize < 10 )
-						// the minimum value should be guranteed
-						MemoryCacheSize = 10;
 				}
 				catch ( Exception e )
 				{
 					// ignore it
 				}
+
+				if ( MemoryCacheSize < 10 )
+				{
+					throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
+				}
+			}
 		}
 
 		return computeCacheRowCount( MemoryCacheSize, rsMeta );
@@ -235,6 +239,11 @@ public class SmartCache implements ResultSetCache
 	 */
 	private int computeCacheRowCount( int cacheSize, IResultClass rsMeta )
 	{
+		// below code only for unit test
+		String memcachesizeOfTest = System.getProperty( "birt.data.engine.test.memcachesize" );
+		if ( memcachesizeOfTest != null )
+			return Integer.parseInt( memcachesizeOfTest );
+
 		// here a simple assumption, that 1M memory can accomondate 2000 rows
 		return cacheSize * 2000;
 	}
