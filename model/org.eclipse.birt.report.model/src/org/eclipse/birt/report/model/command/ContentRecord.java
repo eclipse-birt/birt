@@ -14,7 +14,8 @@ package org.eclipse.birt.report.model.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.LayoutTableActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutActivityTask;
+import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
@@ -32,7 +33,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
-import org.eclipse.birt.report.model.util.NotificationChain;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -299,31 +299,14 @@ public class ContentRecord extends SimpleRecord
 		List retValue = new ArrayList( );
 		retValue.addAll( super.getPostTasks( ) );
 
-		if ( !( container instanceof TableItem
-				|| container instanceof TableGroup
-				|| container instanceof TableRow ) )
-			return retValue;
+		if ( container instanceof TableItem || container instanceof TableGroup
+				|| container instanceof TableRow )
+		{
 
-		TableItem table = LayoutUtil.getTableContainer( container );
-		if ( table == null )
-			return retValue;
-
-		retValue.add( new LayoutTableActivityTask( module, table ) );
-		return retValue;
-	}
-
-	/**
-	 * Returns a chain of events relating to the content record. A content
-	 * changed and possibly element deleted event. This record is unusual
-	 * because it must send two events: one for the container, one for the
-	 * content. If we are dropping the content, then it is effectively deleted,
-	 * and we must tell the content that it has been deleted.
-	 * 
-	 */
-
-	protected NotificationChain getNotificationChain( )
-	{
-		NotificationChain events = new NotificationChain( );
+			TableItem table = LayoutUtil.getTableContainer( container );
+			if ( table != null )
+				retValue.add( new LayoutActivityTask( module, table ) );
+		}
 
 		// Send the content changed event to the container.
 
@@ -338,7 +321,7 @@ public class ContentRecord extends SimpleRecord
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 
-		events.append( container, event );
+		retValue.add( new NotificationRecordTask( container, event ) );
 
 		// If the content was added, then send an element added
 		// event to the content.
@@ -347,9 +330,11 @@ public class ContentRecord extends SimpleRecord
 		{
 			if ( isSelector( content ) )
 				// content.broadcast( event, container.getRoot( ) );
-				events.append( content, event, container.getRoot( ) );
 
-			return events;
+				retValue.add( new NotificationRecordTask( content, event,
+						container.getRoot( ) ) );
+
+			return retValue;
 		}
 
 		// Broadcast to the content element of the deleted event.
@@ -358,7 +343,9 @@ public class ContentRecord extends SimpleRecord
 		if ( state == DONE_STATE )
 			event.setSender( sender );
 
-		events.append( content, event, container.getRoot( ) );
-		return events;
+		retValue.add( new NotificationRecordTask( content, event, container
+				.getRoot( ) ) );
+
+		return retValue;
 	}
 }

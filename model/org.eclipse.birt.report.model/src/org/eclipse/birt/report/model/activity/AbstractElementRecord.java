@@ -11,17 +11,18 @@
 
 package org.eclipse.birt.report.model.activity;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * This class is the base class for all simple activity records. A simple
  * activity record performs one operation. The <em>target element</em> is the
  * one that is changed. This class provides a standard implementation for
  * sending change notifications.
- *  
+ * 
  */
 
 public abstract class AbstractElementRecord extends ActivityRecord
@@ -56,19 +57,19 @@ public abstract class AbstractElementRecord extends ActivityRecord
 	abstract public NotificationEvent getEvent( );
 
 	/**
-	 * Returns a chain of events relating to this record. This implementation
-	 * uses <code>getEvent( )</code> to produce the notification, and the
-	 * target of the event is returned by <code>getTarget( )
+	 * Returns a list of tasks relating to this record. This implementation uses
+	 * <code>getEvent( )</code> to produce the notification task, and the
+	 * target of the event is returned by <code>getTarget( )</code>.
 	 * 
 	 * @return  a chain of events relating to this record
+	 * 
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected NotificationChain getNotificationChain( )
+	protected List getPostTasks( )
 	{
-		// Get the target element. There should be one unless this is a
-		// "null command" that does nothing.
-
-		DesignElement target = getTarget( );
+		List retList = new ArrayList( );
+		retList.addAll( super.getPostTasks( ) );
 
 		// Create the event. The event is required if there is a target
 		// element.
@@ -76,19 +77,19 @@ public abstract class AbstractElementRecord extends ActivityRecord
 		NotificationEvent event = getEvent( );
 
 		// Some record do not need a notification, e.g: BackRefRecord.
-		
-		if( event == null )
-			return NotificationChain.EMPTY_CHAIN;
-		
-		assert target != null;
-		
-		// Include the sender if this is the original execution.
-		// The sender is not sent for undo, redo because such actions are
-		// triggered by the activity stack, not dialog or editor.
 
-		if ( state == DONE_STATE )
-			event.setSender( sender );
+		if ( event != null )
+		{
+			// Include the sender if this is the original execution.
+			// The sender is not sent for undo, redo because such actions are
+			// triggered by the activity stack, not dialog or editor.
 
-		return new NotificationChain( ).append( target, event );
+			if ( state == DONE_STATE )
+				event.setSender( sender );
+
+			retList.add( new NotificationRecordTask( getTarget( ), event ) );
+		}
+
+		return retList;
 	}
 }

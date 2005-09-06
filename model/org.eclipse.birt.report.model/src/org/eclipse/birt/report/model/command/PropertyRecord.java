@@ -12,7 +12,7 @@ package org.eclipse.birt.report.model.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.LayoutTableActivityTask;
+import org.eclipse.birt.report.model.activity.LayoutActivityTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
@@ -213,7 +213,7 @@ public class PropertyRecord extends SimpleRecord
 		if ( table == null )
 			return retValue;
 
-		retValue.add( new LayoutTableActivityTask( table.getRoot( ), table ) );
+		retValue.add( new LayoutActivityTask( table.getRoot( ), table ) );
 		return retValue;
 	}
 }

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Stack;
 
 import org.eclipse.birt.report.model.api.activity.IActivityRecord;
-import org.eclipse.birt.report.model.util.NotificationChain;
 import org.eclipse.birt.report.model.validators.IValidatorProvider;
 
 /**
@@ -392,29 +391,6 @@ public abstract class ActivityRecord
 	}
 
 	/**
-	 * Sends element change notifications for this record.
-	 * 
-	 * @param transStack
-	 *            the transaction stack
-	 * 
-	 */
-
-	public void sendNotifcations( Stack transStack )
-	{
-		getNotificationChain( ).fireEvents( );
-	}
-
-	/**
-	 * Returns an event chain relating to the record. Subclass needs to
-	 * implement this method to collect the relating records, the record should
-	 * be appended to the event chain in the sequence they are fired.
-	 * 
-	 * @return an event chain relating to the record.
-	 */
-
-	protected abstract NotificationChain getNotificationChain( );
-
-	/**
 	 * Returns the optional UI hint to be sent with the execute notification for
 	 * this record.
 	 * 
@@ -531,8 +507,8 @@ public abstract class ActivityRecord
 
 		for ( int i = 0; i < tasks.size( ); i++ )
 		{
-			IActivityTask subTask = (IActivityTask) tasks.get( i );
-			subTask.doTask( this );
+			RecordTask subTask = (RecordTask) tasks.get( i );
+			subTask.doTask( this, transStack );
 		}
 	}
 }

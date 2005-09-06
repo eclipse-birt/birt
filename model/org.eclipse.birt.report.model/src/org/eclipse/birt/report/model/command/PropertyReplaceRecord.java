@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -22,7 +24,6 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * Replaces one structure in the structure list property.
@@ -152,22 +153,24 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain()
 	 */
 
-	protected NotificationChain getNotificationChain( )
+	protected List getPostTasks( )
 	{
-		NotificationChain events = new NotificationChain( );
+		List retList = new ArrayList( );
+		retList.addAll( super.getPostTasks( ) );
 
-		events.append( element, getEvent( ) );
-
+		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		
 		// if the structure is referencable, then send notification to the
 		// clients
 
 		if ( oldItem != null && oldItem.isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) oldItem;
-			events.append( refValue, getEvent( ) );
+			retList.add( new NotificationRecordTask( refValue, getEvent( ) ) );
+			
 		}
 
-		return events;
+		return retList;
 	}
 
 }

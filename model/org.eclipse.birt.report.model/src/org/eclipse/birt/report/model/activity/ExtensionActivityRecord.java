@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.activity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ExtensionPropertyDefinitionEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -18,7 +22,6 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * The activity record provides the mechanism for performing a low-level change
@@ -186,26 +189,25 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public NotificationChain getNotificationChain( )
+	public void rollback( )
 	{
-		if ( element == null )
-			return NotificationChain.EMPTY_CHAIN;
-
-		NotificationChain events = new NotificationChain( );
-		events.append( element, getEvent( ) );
-		return events;
+		undo( );
+		setState( ActivityRecord.UNDONE_STATE );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	public void rollback( )
+	protected List getPostTasks( )
 	{
-		undo( );
-		setState( ActivityRecord.UNDONE_STATE );
-		sendNotifcations( null );
+		if ( element == null )
+			return Collections.EMPTY_LIST;
+
+		List retList = new ArrayList( );
+		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		return retList;
 	}
 }

@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
@@ -22,11 +26,10 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * Records setting the value of a structure member.
- *  
+ * 
  */
 
 public class MemberRecord extends SimpleRecord
@@ -142,19 +145,21 @@ public class MemberRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public NotificationChain getNotificationChain( )
+	protected List getPostTasks( )
 	{
-		NotificationChain chain = new NotificationChain( );
+		List retList = new ArrayList( );
+		retList.addAll( super.getPostTasks( ) );
 
 		NotificationEvent ev = getEvent( );
-		chain.append( element, ev );
 
+		retList.add( new NotificationRecordTask( element, ev ) );
 		if ( structure != null && structure.isReferencable( ) )
 		{
 			ReferencableStructure refValue = (ReferencableStructure) structure;
-			chain.append( refValue, ev );
+			retList.add( new NotificationRecordTask( refValue, ev ) );
 		}
 
-		return chain;
+		return retList;
 	}
+
 }

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 
@@ -88,20 +87,6 @@ public abstract class SimpleRecord extends AbstractElementRecord
 		setState( ActivityRecord.UNDONE_STATE );
 	}
 
-	/**
-	 * Performs tasks after the execution of the record.
-	 * 
-	 * @param transStack
-	 */
-
-	protected void performPostTasks( Stack transStack )
-	{
-		if ( holdTask( transStack ) )
-			return;
-
-		super.performPostTasks( transStack );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -115,68 +100,10 @@ public abstract class SimpleRecord extends AbstractElementRecord
 		if ( element.getRoot( ) == null )
 			return Collections.EMPTY_LIST;
 
-		IActivityTask task = new ValidationActivityTask( element.getRoot( ) );
 		List retList = new ArrayList( );
 		retList.addAll( super.getPostTasks( ) );
-		retList.add( task );
+		retList.add( new ValidationRecordTask( element.getRoot( ) ) );
 		return retList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(java.util.Stack)
-	 */
-	
-	public void sendNotifcations( Stack transStack )
-	{
-		if ( !holdNotification( transStack ) )
-			super.sendNotifcations( transStack );
-	}
-
-	/**
-	 * Returns <code>true</code> if need to hold the event at this time. We
-	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
-	 * 
-	 * @param transStack
-	 *            the transaction stack.
-	 * @return <code>true</code> if need to hold the event at this time,
-	 *         returns <code>false</code> otherwise.
-	 */
-	
-	protected final boolean holdNotification( Stack transStack )
-	{
-		if ( transStack != null && !transStack.isEmpty( ) )
-		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
-			if ( cr instanceof FilterEventsCompoundRecord )
-				return true;
-		}
-	
-		return false;
-	}
-	
-	/**
-	 * Returns <code>true</code> if need to hold the event at this time. We
-	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
-	 * 
-	 * @param transStack
-	 *            the transaction stack.
-	 * @return <code>true</code> if need to hold the event at this time,
-	 *         returns <code>false</code> otherwise.
-	 */
-	
-	protected final boolean holdTask( Stack transStack )
-	{
-		if ( transStack != null && !transStack.isEmpty( ) )
-		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
-			if ( cr instanceof SilentCompoundRecord )
-				return true;
-		}
-	
-		return false;
-	}
 }

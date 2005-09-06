@@ -345,7 +345,6 @@ public class ActivityStack implements CommandStack
 		assert !( record instanceof CompoundRecord );
 
 		record.performPostTasks( transStack );
-		record.sendNotifcations( transStack );
 
 		// Add the record to the undo stack if it is a singleton, or
 		// to the current transaction if one is in effect.
@@ -404,10 +403,6 @@ public class ActivityStack implements CommandStack
 
 		record.performPostTasks( transStack );
 
-		// Send notifications.
-
-		record.sendNotifcations( transStack );
-
 		// listener, transaction, not go into transaction stack
 
 		sendNotifcations( new ActivityStackEvent( this,
@@ -440,10 +435,6 @@ public class ActivityStack implements CommandStack
 		undoStack.push( record );
 
 		record.performPostTasks( transStack );
-		
-		// Send notifications.
-
-		record.sendNotifcations( transStack );
 
 		// Send notifications.
 
@@ -671,7 +662,7 @@ public class ActivityStack implements CommandStack
 		// Create a compound record to implement the transaction.
 
 		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof SilentCompoundRecord )
+				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			startSilentTrans( label );
 		else if ( !transStack.isEmpty( )
 				&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
@@ -711,7 +702,6 @@ public class ActivityStack implements CommandStack
 
 		ActivityRecord record = transaction;
 		record.performPostTasks( transStack );
-		record.sendNotifcations( transStack );
 
 		if ( transStack.empty( ) )
 		{
@@ -895,10 +885,10 @@ public class ActivityStack implements CommandStack
 	{
 		boolean outerMost = true;
 		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof SilentCompoundRecord )
+				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			outerMost = false;
 
-		transStack.push( new SilentCompoundRecord( label, outerMost ) );
+		transStack.push( new LayoutCompoundRecord( label, outerMost ) );
 	}
 
 	/**
@@ -913,7 +903,7 @@ public class ActivityStack implements CommandStack
 	public void startFilterEventTrans( String label )
 	{
 		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof SilentCompoundRecord )
+				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			startSilentTrans( label );
 		else
 		{

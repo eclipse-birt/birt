@@ -12,12 +12,9 @@
 package org.eclipse.birt.report.model.activity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
-
-import org.eclipse.birt.report.model.util.NotificationChain;
 
 /**
  * A compound record represents an atomic operation made up of a series of other
@@ -110,6 +107,16 @@ public class CompoundRecord extends ActivityRecord
 
 	public void undo( )
 	{
+		// Since undo/redo has no information about the transaction stack,
+		// establish a tricky way to restore the information about the
+		// transaction stack. Because filter/layout compound record only
+		// includes filter/layout compound record, records in
+		// <code>recordList</code> only need to know the compound record they
+		// reside in. That is, "this".
+
+		Stack stack = new Stack( );
+		stack.push( this );
+
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
 			ActivityRecord record = (ActivityRecord) recordList.get( i );
@@ -117,8 +124,7 @@ public class CompoundRecord extends ActivityRecord
 					|| record.getState( ) == ActivityRecord.REDONE_STATE;
 			record.undo( );
 			record.setState( ActivityRecord.UNDONE_STATE );
-			record.performPostTasks( null );
-			record.sendNotifcations( null );
+			record.performPostTasks( stack );
 		}
 	}
 
@@ -132,14 +138,23 @@ public class CompoundRecord extends ActivityRecord
 
 	public void redo( )
 	{
+		// Since undo/redo has no information about the transaction stack,
+		// establish a tricky way to restore the information about the
+		// transaction stack. Because filter/layout compound record only
+		// includes filter/layout compound record, records in
+		// <code>recordList</code> only need to know the compound record they
+		// reside in. That is, "this".
+
+		Stack stack = new Stack( );
+		stack.push( this );
+
 		for ( int i = 0; i < recordList.size( ); i++ )
 		{
 			ActivityRecord record = (ActivityRecord) recordList.get( i );
 			assert record.getState( ) == ActivityRecord.UNDONE_STATE;
 			record.redo( );
 			record.setState( ActivityRecord.REDONE_STATE );
-			record.performPostTasks( null );
-			record.sendNotifcations( null );
+			record.performPostTasks( stack );
 		}
 	}
 
@@ -241,19 +256,6 @@ public class CompoundRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	protected NotificationChain getNotificationChain( )
-	{
-		NotificationChain events = new NotificationChain( );
-		for ( Iterator iter = recordList.iterator( ); iter.hasNext( ); )
-		{
-			ActivityRecord record = (ActivityRecord) iter.next( );
-			NotificationChain recordEvents = record.getNotificationChain( );
-			events.append( recordEvents );
-		}
-
-		return events;
-	}
-
 	/**
 	 * Returns the number of records in this compound record.
 	 * 
@@ -304,14 +306,23 @@ public class CompoundRecord extends ActivityRecord
 
 	public void rollback( )
 	{
+		// Since undo/redo has no information about the transaction stack,
+		// establish a tricky way to restore the information about the
+		// transaction stack. Because filter/layout compound record only
+		// includes filter/layout compound record, records in
+		// <code>recordList</code> only need to know the compound record they
+		// reside in. That is, "this".
+
+		Stack stack = new Stack( );
+		stack.push( this );
+
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
 			ActivityRecord record = (ActivityRecord) recordList.get( i );
 			if ( !record.isPersistent( ) )
 			{
 				record.rollback( );
-				record.performPostTasks( null );
-				record.sendNotifcations( null );
+				record.performPostTasks( stack );
 			}
 		}
 	}
@@ -324,68 +335,35 @@ public class CompoundRecord extends ActivityRecord
 
 	protected List getPostTasks( )
 	{
+		List retList = new ArrayList( );
+
 		for ( int i = recordList.size( ) - 1; i >= 0; i-- )
 		{
 			ActivityRecord record = (ActivityRecord) recordList.get( i );
-			if ( record instanceof CompoundRecord )
-				continue;
+			retList.addAll( record.getPostTasks( ) );
 
-			List simpleTasks = record.getPostTasks( );
-			for ( int j = 0; j < simpleTasks.size( ); j++ )
-			{
-				IActivityTask task = (IActivityTask) simpleTasks.get( j );
-				if ( !( task instanceof ValidationActivityTask ) )
-					continue;
-
-				List tasks = new ArrayList( );
-				tasks.addAll( super.getPostTasks( ) );
-				tasks.add( task );
-				return tasks;
-			}
 		}
-
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
-	 * Returns <code>true</code> if need to hold the event at this time. We
-	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
-	 * 
-	 * @param transStack
-	 *            the transaction stack.
-	 * @return <code>true</code> if need to hold the event at this time,
-	 *         returns <code>false</code> otherwise.
-	 */
-	protected final boolean holdEvent( Stack transStack )
-	{
-		if ( transStack != null && !transStack.isEmpty( ) )
-		{
-			CompoundRecord cr = (CompoundRecord) transStack.peek( );
-			if ( cr instanceof FilterEventsCompoundRecord )
-				return true;
-		}
-
-		return false;
+		return retList;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations(java.util.Stack)
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks(java.util.Stack)
 	 */
 
-	public void sendNotifcations( Stack transStack )
+	protected void performPostTasks( Stack transStack )
 	{
-		// Ignore this operation. Notifications were sent when doing
-		// the operations on the contained records.
-		//
-		// Indeed, doing the notifications here would result in the application
-		// seeing notifications in a different state than if the records were
-		// executed as atomic operations. The application expects to receive
-		// notifications when the the model is in the <em>final</em> state for a
-		// record, and this state holds only until the next record does an
-		// operation. Deferring notifications will break this invariant, causing
-		// endless problems in the UI.
+		List simpleTasks = getPostTasks( );
+
+		for ( int j = 0; j < simpleTasks.size( ); j++ )
+		{
+			RecordTask task = (RecordTask) simpleTasks.get( j );
+			if ( task instanceof ValidationRecordTask )
+			{
+				task.doTask( this, transStack );
+				return;
+			}
+		}
 	}
 }
