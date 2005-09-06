@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TreeSearch;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 
@@ -29,7 +28,6 @@ public class ReportRootFigure extends ReportElementFigure
 	private static final Insets DEFAULT_MARGIN = new Insets( 3, 3, 3, 3 );
 	
 	private static final Point PRIVATE_POINT = new Point( );
-	public static final Dimension  DEFAULTSIZE  = new Dimension( 400, 300);
 	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 	private boolean showMargin;
 

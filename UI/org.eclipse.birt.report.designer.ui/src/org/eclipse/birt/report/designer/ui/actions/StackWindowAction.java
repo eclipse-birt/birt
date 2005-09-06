@@ -15,10 +15,10 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.AbstractMultiPageLayoutEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
-import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -179,7 +179,7 @@ public abstract class StackWindowAction
 				if ( editor != null
 						&& editor.getEditorInput( ) instanceof IReportEditorInput )
 				{
-					if ( editor instanceof ReportEditor )
+					if ( editor instanceof AbstractMultiPageLayoutEditor )
 					{
 						isEnabled = canDo( );
 						break;
