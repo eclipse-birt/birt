@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -48,6 +50,15 @@ class ResultObjectUtil
 
 	// how many bytes is used for int value
 	private static int FixedBytesLengOfInt = 8;
+
+	// object index for read and write
+	private int readIndex;
+	private int writeIndex;
+	
+	// store the null object information with its row index and
+	// column index
+	private Set nullObjectSet;
+	private Set tempNullObjectSet;
 	
 	/**
 	 * In serializaing data to file and deserializing it from file, metadata
@@ -60,7 +71,7 @@ class ResultObjectUtil
 	 * @param rsMetaData
 	 * @throws DataException
 	 */
-	public static ResultObjectUtil newInstance( IResultClass rsMetaData )
+	static ResultObjectUtil newInstance( IResultClass rsMetaData )
 	{
 		ResultObjectUtil instance = new ResultObjectUtil( );
 		int length = rsMetaData.getFieldCount( );
@@ -79,19 +90,64 @@ class ResultObjectUtil
 
 		instance.columnCount = rsMetaData.getFieldCount( );
 		instance.rsMetaData = rsMetaData;
+		
+		instance.readIndex = 0;
+		instance.writeIndex = 0;
+		instance.nullObjectSet = new HashSet( );
+		
 		return instance;
 	}
 
 	/**
-	 * Use a single instance pattern.
-	 * 
-	 * @param rsMetaData
-	 * @throws DataException
+	 * Contruction, private 
 	 */
 	private ResultObjectUtil( )
 	{
 	}
 
+	/**
+	 * Reset read index to 0. When reading data from start, this method must be
+	 * called first.
+	 */
+	void startNewRead( )
+	{
+		readIndex = 0;
+	}
+
+	/**
+	 * Reset write index to 0. This method is closely coupled with current
+	 * implementation of treating Null object. Null object is not suitable to
+	 * serialize or deserialize, since there is no proper way to handle it.
+	 * 
+	 * The approach adoped here is to keep a Set in memory which stores the Null
+	 * object data with its rowIndex and colIndex. In serialization procedure,
+	 * first checking whether the data is Null, if yes, the index info of the
+	 * data will be stored in the nullObjectSet and the serialization action
+	 * will be skipped. In de-serialization procedure, first looking for Null
+	 * object information from nullObjectSet, if it can be found, then directly
+	 * give it the Null value and de-serialization action will be skipped.
+	 * 
+	 * Below is accurate analysis of algorithm for read/write in export. When
+	 * there is no sort, data will not be read but be written once. So this
+	 * method will not be called. When there is sort, data will be read once and
+	 * be written twice. So in the twic write, this method needs to be called
+	 * explicitly.
+	 */
+	void startSecondWrite( )
+	{
+		writeIndex = 0;
+		tempNullObjectSet = nullObjectSet;
+		nullObjectSet = new HashSet( );
+	}
+	
+	/**
+	 * End second write. Do a clean job.
+	 */
+	void endSecondWrite( )
+	{
+		tempNullObjectSet = null;
+	}	
+	
 	/**
 	 * New a instance of ResultObject according to the parameter of object array
 	 * plus the metadata stored before.
@@ -99,7 +155,7 @@ class ResultObjectUtil
 	 * @param ob
 	 * @return RowData
 	 */
-	public ResultObject newResultObject( Object[] rowData )
+	ResultObject newResultObject( Object[] rowData )
 	{
 		return new ResultObject( rsMetaData, rowData );
 	}
@@ -107,16 +163,10 @@ class ResultObjectUtil
 	/**
 	 * Deserialze result object array from input stream.
 	 * 
-	 * Serialize datatype is follwing: UNKNOWN_TYPE (String) ANY_TYPE (String)
-	 * BOOLEAN_TYPE (boolean) INTEGER_TYPE (int) DOUBLE_TYPE (double)
-	 * DECIMAL_TYPE (String) STRING_TYPE (String) DATE_TYPE (long) BLOB_TYPE
-	 * (not supported yet)
+	 * Datatype Corresponds to executor#setDataType
 	 * 
-	 * Timestamp (from ODA)
-	 * 
-	 * Corresponds to executor#setDataType
-	 * 
-	 * A very difficult problem is how to process NULL.
+	 * One point needs to be noticed that the read and write procedure is strictly
+	 * be conversed. 
 	 * 
 	 * @param br
 	 *            input stream
@@ -125,7 +175,7 @@ class ResultObjectUtil
 	 * @return result object array
 	 * @throws IOException
 	 */
-	public IResultObject[] readData( BufferedInputStream bis, int length )
+	IResultObject[] readData( BufferedInputStream bis, int length )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -149,7 +199,9 @@ class ResultObjectUtil
 			Object[] obs = new Object[columnCount];
 			for ( int j = 0; j < columnCount; j++ )
 			{
-				if ( typeArray[j].equals( Integer.class ) )
+				if ( isNullObject( readIndex, j ) )
+					obs[j] = null;	
+				else if ( typeArray[j].equals( Integer.class ) )
 					obs[j] = new Integer( ois.readInt( ) );
 				else if ( typeArray[j].equals( Double.class ) )
 					obs[j] = new Double( ois.readDouble( ) );
@@ -172,6 +224,8 @@ class ResultObjectUtil
 			rowDataBytes = null;
 			bais = null;
 			ois = null;
+			
+			readIndex++;
 		}
 
 		return rowDatas;
@@ -187,7 +241,7 @@ class ResultObjectUtil
 	 * @throws DataException
 	 * @throws Exception
 	 */
-	public void writeData( BufferedOutputStream bos,
+	void writeData( BufferedOutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
 	{
 		byte[] rowsDataByte;
@@ -205,8 +259,6 @@ class ResultObjectUtil
 				try
 				{
 					fieldValue = resultObjects[i].getFieldValue( j + 1 );
-					if ( fieldValue == null )
-						throw new IllegalArgumentException( "Currently null value is not supported in large data set" );
 				}
 				catch ( DataException e )
 				{
@@ -214,7 +266,9 @@ class ResultObjectUtil
 					// correct
 				}
 				
-				if ( typeArray[j].equals( Integer.class ) )
+				if ( fieldValue == null )
+					putNullObject( writeIndex, j );				
+				else if ( typeArray[j].equals( Integer.class ) )
 					oos.writeInt( ( (Integer) fieldValue ).intValue( ) );
 				else if ( typeArray[j].equals( Double.class ) )
 					oos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
@@ -241,6 +295,8 @@ class ResultObjectUtil
 			rowsDataByte = null;
 			baos = null;
 			oos = null;
+			
+			writeIndex++;
 		}
 	}
 
@@ -270,6 +326,65 @@ class ResultObjectUtil
 	private static int getIntOfBytes( byte[] byteOfInt )
 	{
 		return Integer.parseInt( new String( byteOfInt ).trim( ) );
+	}
+	
+	/**
+	 * @param rowIndex
+	 * @param colIndex
+	 */
+	private void putNullObject( int rowIndex, int colIndex )
+	{
+		DataIndex index = new DataIndex( rowIndex, colIndex );
+		nullObjectSet.add( index );
+	}
+
+	/**
+	 * @param rowIndex
+	 * @param colIndex
+	 * @return true, Null object
+	 */
+	private boolean isNullObject( int rowIndex, int colIndex )
+	{
+		DataIndex index = new DataIndex( rowIndex, colIndex );
+		if ( tempNullObjectSet != null )
+			return tempNullObjectSet.contains( index );
+		else
+			return nullObjectSet.contains( index );
+	}
+
+	/**
+	 * Save the row and col index information
+	 */
+	private class DataIndex
+	{
+		private int rowIndex, colIndex;
+
+		/**
+		 * @param rowIndex
+		 * @param colIndex
+		 */
+		DataIndex( int rowIndex, int colIndex )
+		{
+			this.rowIndex = rowIndex;
+			this.colIndex = colIndex;
+		}
+
+		/*
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		public boolean equals( Object obj )
+		{
+			DataIndex index = (DataIndex) obj;
+			return rowIndex == index.rowIndex && colIndex == index.colIndex;
+		}
+
+		/*
+		 * @see java.lang.Object#hashCode()
+		 */
+		public int hashCode( )
+		{
+			return 0;
+		}
 	}
 	
 }
