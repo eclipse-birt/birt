@@ -302,16 +302,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
         addCustomFields( odaStatement );
         addColumnHints( odaStatement );
         
-        // TODO: do more invesigation
-        try
-		{
-			odaStatement.setColumnsProjection( this.projectedFields );
-		}
-		catch ( DataException e )
-		{
-			//Do nothing
-		}
-        
+		odaStatement.setColumnsProjection( this.projectedFields );
+
         // If ODA can provide result metadata, get it now
         try
         {
