@@ -98,14 +98,14 @@
 	<target name="Jar" depends="Javadoc,Schemadoc">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,engine/**,oda/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,engine/**,oda/**,model/**,ref/**"
 		/>
 	</target>
 
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="birt/**,chart/**,chartui/**,engine/**,oda/**,model/**,ref/**"
+			includes="birt/**,chart/**,chartui/**,data/**,engine/**,oda/**,model/**,ref/**"
 		/>
 	</target>
 	
@@ -149,6 +149,7 @@
     <antcall target = "engineJavadoc"/>
     <antcall target = "modelJavadoc"/>
     <antcall target = "odaJavadoc"/>
+    <antcall target = "dataJavadoc"/>
     <antcall target = "chartJavadoc"/>
     <antcall target = "chartuiJavadoc"/>
 	</target>
@@ -191,7 +192,7 @@
 		<delete dir="${data.javadoc.dir}"/>
 		<ant dir="${data.dir}" antfile="BuildData.xml" target="apiJavaDoc" inheritall="false" inheritrefs="false">
 		 	<property name="eclipse.home" value="../.." />
-      <property name="apiJavadoc.dir" value="../${module.name}/${data.javadoc.dir}" />
+      <property name="api.javadoc.dir" value="../${module.name}/${data.javadoc.dir}" />
 		</ant>
   </target>
 	
@@ -222,6 +223,9 @@
 	<!-- Copy the BIRT Schema HTML files.
 	 -->
 	<target name="Schemadoc">
+    <copy todir="./ref/ext" failonerror="false">
+      <fileset dir="${data.dir}/schema/doc"/>
+    </copy>
     <copy todir="./ref/ext" failonerror="false">
       <fileset dir="${oda.dir}/schema/doc"/>
     </copy>
