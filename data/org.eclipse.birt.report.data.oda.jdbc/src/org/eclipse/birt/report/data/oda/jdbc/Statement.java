@@ -250,16 +250,33 @@ public class Statement implements IQuery
 		IResultSetMetaData pstmtResultMetaData = null;
 		if ( resultmd != null )
 		{
-			pstmtResultMetaData = new ResultSetMetaData( resultmd );
+			try
+			{
+				// in the case of oracle 8.1.7, even if ResultMetaData can be
+				// gotten prepare time, the getColumnCount function is
+				// unavailable.
+				resultmd.getColumnCount( );
+			}
+			catch ( SQLException e )
+			{
+				resultmd = null;
+			}
+
+			if ( resultmd != null )
+			{
+				pstmtResultMetaData = new ResultSetMetaData( resultmd );
+			}
 		}
-		else
+		
+		if ( pstmtResultMetaData == null )
 		{
 			// If Jdbc driver throw an SQLexception or return null, when we get
 			// MetaData from ResultSet
 			IResultSet mdRs = executeQuery( );
 			if ( mdRs != null )
-			    pstmtResultMetaData = mdRs.getMetaData( );
+				pstmtResultMetaData = mdRs.getMetaData( );
 		}
+		
 		return pstmtResultMetaData;
 	}
 
@@ -632,7 +649,13 @@ public class Statement implements IQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET , e );
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET,
+					e );
+		}
+		catch ( Throwable e )
+		{
+			// in the case of Oracle 8.1.7, AbstractMethodError will be thrown
+			return null;
 		}
 	}
 
