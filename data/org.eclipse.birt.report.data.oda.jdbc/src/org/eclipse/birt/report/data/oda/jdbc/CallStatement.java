@@ -274,11 +274,22 @@ public class CallStatement implements IAdvancedQuery
 		{
 			// If Jdbc driver throw an SQLexception or return null, when we get
 			// MetaData from ResultSet
-			IResultSet mdRs = executeQuery( );
+			IResultSet mdRs = null;
+			try
+			{
+				 mdRs = executeQuery( );
+			}
+			catch ( OdaException e )
+			{
+				 mdRs = null;
+			}
+			
 			try
 			{
 				if ( mdRs != null )
 					pstmtResultMetaData = mdRs.getMetaData( );
+				else
+					pstmtResultMetaData = new SPResultSetMetaData( null );
 			}
 			catch ( OdaException e )
 			{
@@ -1268,9 +1279,24 @@ public class CallStatement implements IAdvancedQuery
 		if ( end < start )
 			end = text.length( );
 		name = text.substring( start, end ).trim( );
+		name = escapeIdentifier( name );
 		if ( name.indexOf( ";" ) > 0 )
 			name = name.substring( 0, name.indexOf( ";" ) );
 		return name;
+	}
+
+	/**
+	 * escape the double quote & bracket
+	 * @param text
+	 * @return
+	 */
+	private String escapeIdentifier( String text )
+	{
+		if ( ( text.startsWith( "\"" ) && text.endsWith( "\"" ) )
+				|| ( text.startsWith( "[" ) && text.endsWith( "]" ) ) )
+			return text.substring( 1, text.length( ) - 1 );
+		else
+			return text;
 	}
 
 	/**
