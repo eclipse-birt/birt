@@ -60,6 +60,14 @@ class RowResultSet
 	}
 
 	/**
+	 * @return result meta data
+	 */
+	IResultClass getMetaData( )
+	{
+		return resultClass;
+	}
+	
+	/**
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
 	 * 
@@ -120,14 +128,6 @@ class RowResultSet
 		}
 		
 		return true;
-	}
-
-	/**
-	 * @return result meta data
-	 */
-	IResultClass getMetaData( )
-	{
-		return resultClass;
 	}
 
 }

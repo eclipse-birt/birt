@@ -129,8 +129,7 @@ public class SmartCache implements ResultSetCache
 
 		int oldIndex = resultCache.getCurrentIndex( );
 
-		// There is one point needs to be noticed that in OdiAdapter,
-		// it fetches the next row, not current row. So the 
+		// In OdiAdapter, it fetches the next row, not current row.
 		resultCache.moveTo( startIndex - 1 );
 		initInstance( odiAdpater, query, rsMeta, sortSpec );
 
@@ -161,17 +160,17 @@ public class SmartCache implements ResultSetCache
 		while ( ( odaObject = rowResultSet.next( ) ) != null )
 		{
 			dataCount++;
-			// notice. it is less than, not less than or equal
-			if ( dataCount < memoryCacheRowCount ) 
+			// notice. it is less than or equal
+			if ( dataCount <= memoryCacheRowCount ) 
 			{
 				resultObjectsList.add( odaObject );
 			}
 			else
 			{
-				resultObjectsList.add( odaObject );
 				resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
-
+				// the order is: resultObjects, odaObject, rowResultSet
 				resultSetCache = new DiskCache( resultObjects,
+						odaObject,
 						rowResultSet,
 						getComparator( sortSpec ),
 						memoryCacheRowCount );
