@@ -84,44 +84,44 @@ public class ExpressionTreeSupport
 	/** Arithmetic operators and their descriptions */
 	private static final String[][] OPERATORS_ASSIGNMENT = new String[][]{
 			{
-					"=", Messages.getString( "ExpressionBuidler.Operator.Assign" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"=", Messages.getString( "ExpressionProvider.Operator.Assign" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"+=", Messages.getString( "ExpressionBuidler.Operator.AddTo" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"+=", Messages.getString( "ExpressionProvider.Operator.AddTo" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"-=", Messages.getString( "ExpressionBuidler.Operator.SubFrom" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"-=", Messages.getString( "ExpressionProvider.Operator.SubFrom" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"*=", Messages.getString( "ExpressionBuidler.Operator.MultTo" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"*=", Messages.getString( "ExpressionProvider.Operator.MultTo" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"/=", Messages.getString( "ExpressionBuidler.Operator.DividingFrom" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"/=", Messages.getString( "ExpressionProvider.Operator.DividingFrom" ) //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
 	/** Comparison operators and their descriptions */
 	private static final String[][] OPERATORS_COMPARISON = new String[][]{
 			{
-					"==", Messages.getString( "ExpressionBuidler.Operator.Equals" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"==", Messages.getString( "ExpressionProvider.Operator.Equals" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"<", Messages.getString( "ExpressionBuidler.Operator.Less" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"<", Messages.getString( "ExpressionProvider.Operator.Less" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
 					"<=",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.LessEqual" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.LessEqual" ) //$NON-NLS-1$ 
 			},
 			{
 					"!=",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.NotEqual" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.NotEqual" ) //$NON-NLS-1$ 
 			},
 			{
-					">", Messages.getString( "ExpressionBuidler.Operator.Greater" ) //$NON-NLS-1$ //$NON-NLS-2$
+					">", Messages.getString( "ExpressionProvider.Operator.Greater" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
 					">=",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.GreaterEquals" ) //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString( "ExpressionProvider.Operator.GreaterEquals" ) //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
@@ -129,30 +129,30 @@ public class ExpressionTreeSupport
 	private static final String[][] OPERATORS_COMPUTATIONAL = new String[][]{
 
 			{
-					"+", Messages.getString( "ExpressionBuidler.Operator.Add" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"+", Messages.getString( "ExpressionProvider.Operator.Add" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"-", Messages.getString( "ExpressionBuidler.Operator.Sub" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"-", Messages.getString( "ExpressionProvider.Operator.Sub" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"*", Messages.getString( "ExpressionBuidler.Operator.Mult" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"*", Messages.getString( "ExpressionProvider.Operator.Mult" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
 					"/",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.Dvides" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.Dvides" ) //$NON-NLS-1$ 
 			},
 			{
 					"++X ",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.Inc" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.Inc" ) //$NON-NLS-1$ 
 			},
 			{
-					"X++ ", Messages.getString( "ExpressionBuidler.Operator.ReturnInc" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"X++ ", Messages.getString( "ExpressionProvider.Operator.ReturnInc" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"--X ", Messages.getString( "ExpressionBuidler.Operator.Dec" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"--X ", Messages.getString( "ExpressionProvider.Operator.Dec" ) //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"X-- ", Messages.getString( "ExpressionBuidler.Operator.ReturnDec" ) //$NON-NLS-1$ //$NON-NLS-2$
+					"X-- ", Messages.getString( "ExpressionProvider.Operator.ReturnDec" ) //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
@@ -160,30 +160,30 @@ public class ExpressionTreeSupport
 	private static final String[][] OPERATORS_LOGICAL = new String[][]{
 			{
 					"&&",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.And" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.And" ) //$NON-NLS-1$ 
 			}, {
 					"||",//$NON-NLS-1$
-					Messages.getString( "ExpressionBuidler.Operator.Or" ) //$NON-NLS-1$ 
+					Messages.getString( "ExpressionProvider.Operator.Or" ) //$NON-NLS-1$ 
 			}
 	};
 
-	private static final String TREE_ITEM_OPERATORS = Messages.getString( "ExpressionBuidler.Tree.Operators" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_FUNCTIONS = Messages.getString( "ExpressionBuidler.Tree.Functions" ); //$NON-NLS-1$ 
+	private static final String TREE_ITEM_BIRT_OBJECTS = Messages.getString( "ExpressionProvider.Category.BirtObjects" ); //$NON-NLS-1$ 
 
-	private static final String TREE_ITEM_DATASETS = Messages.getString( "ExpressionBuidler.Tree.DataSets" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_DATASETS = Messages.getString( "ExpressionProvider.Category.DataSets" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_PARAMETERS = Messages.getString( "ExpressionBuidler.Tree.Parameters" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_PARAMETERS = Messages.getString( "ExpressionProvider.Category.Parameters" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_OBJECTS = Messages.getString( "ExpressionBuidler.Tree.Objects" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_NATIVE_OBJECTS = Messages.getString( "ExpressionProvider.Category.NativeObjects" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_LOGICAL = Messages.getString( "ExpressionBuidler.Tree.Logical" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_LOGICAL = Messages.getString( "ExpressionProvider.Operators.Logical" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_COMPUTATIONAL = Messages.getString( "ExpressionBuidler.Tree.Computational" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_COMPARISON = Messages.getString( "ExpressionBuidler.Tree.Comparison" ); //$NON-NLS-1$
+	private static final String TREE_ITEM_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
 
-	private static final String TREE_ITEM_ASSIGNMENT = Messages.getString( "ExpressionBuidler.Tree.Assignment" ); //$NON-NLS-1$	
+	private static final String TREE_ITEM_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 
 	/** Tool tip key of tree item data */
 	protected static final String ITEM_DATA_KEY_TOOLTIP = "TOOL_TIP"; //$NON-NLS-1$
@@ -311,7 +311,7 @@ public class ExpressionTreeSupport
 	public void createNativeObjectsTree( )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_FUNCTIONS );
+		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
 		createObjects( topItem, OBJECTS_TYPE_NATIVE );
 	}
 
@@ -395,7 +395,7 @@ public class ExpressionTreeSupport
 	public void createBirtObjectsTree( )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_OBJECTS );
+		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
 		createObjects( topItem, OBJECTS_TYPE_BIRT );
 	}
 

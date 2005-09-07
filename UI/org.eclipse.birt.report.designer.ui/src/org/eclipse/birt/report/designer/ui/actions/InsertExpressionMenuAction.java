@@ -17,13 +17,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -67,12 +67,15 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 		{
 			System.out.println( "Insert expression menu action >> Run ..." ); //$NON-NLS-1$
 		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( new Shell( ),
-				"" ); //$NON-NLS-1$
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder( ); //$NON-NLS-1$
 
-		expressionBuilder.setDataSetList( DEUtil.getDataSetList( slotHandle == null
-				? null : slotHandle.getElementHandle( ) ) );
+		if ( slotHandle != null )
+		{
+			expressionBuilder.setExpressionProvier( new ExpressionProvider( slotHandle.getElementHandle( )
+					.getModuleHandle( ),
+					DEUtil.getDataSetList( slotHandle.getElementHandle( ) ) ) );
 
+		}
 		if ( expressionBuilder.open( ) == Window.OK )
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
@@ -87,7 +90,7 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 
 				if ( obj instanceof DataItemHandle )
 				{
-					( (DataItemHandle) obj ).setValueExpr( (String) expressionBuilder.getResult( ) );
+					( (DataItemHandle) obj ).setValueExpr( expressionBuilder.getResult( ) );
 				}
 
 				stack.commit( );

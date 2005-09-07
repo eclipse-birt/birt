@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+
 /**
  * Expression filter for data set, filtering birt_objects and parameters when
  * invoking the expressiong builder.
@@ -35,8 +37,8 @@ public class DataSetExpressionFilter extends ExpressionFilter
 	 */
 	public boolean select( Object parentElement, Object element )
 	{
-		if ( ExpressionTreeSupport.TREE_NAME_BIRT_OBJECTS.equals( element )
-				|| ExpressionTreeSupport.TREE_NAME_PARAMETERS.equals( element ) )
+		if ( ExpressionProvider.BIRT_OBJECTS.equals( element )
+				|| ExpressionProvider.PARAMETERS.equals( element ) )
 		{
 			return false;
 		}

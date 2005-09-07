@@ -13,6 +13,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.La
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -23,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Data edit part
- *  
+ * 
  */
 public class DataEditPart extends LabelEditPart
 {
@@ -40,7 +41,9 @@ public class DataEditPart extends LabelEditPart
 		super( model );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure( )
@@ -61,12 +64,13 @@ public class DataEditPart extends LabelEditPart
 				.getDisplay( )
 				.getActiveShell( ),
 				handle.getValueExpr( ) );
-		dialog.setDataSetList( DEUtil.getDataSetList( handle ) );
+		dialog.setExpressionProvier( ( new ExpressionProvider( handle.getModuleHandle( ),
+				DEUtil.getDataSetList( handle ) ) ) );
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			try
 			{
-				( (DataItemHandle) getModel( ) ).setValueExpr( (String) dialog.getResult( ) );
+				( (DataItemHandle) getModel( ) ).setValueExpr( dialog.getResult( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -90,7 +94,9 @@ public class DataEditPart extends LabelEditPart
 		( (LabelFigure) getFigure( ) ).setToolTipText( ( (DataItemHandle) getModel( ) ).getValueExpr( ) );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#getText()
 	 */
 	protected String getText( )
@@ -110,7 +116,9 @@ public class DataEditPart extends LabelEditPart
 		return text;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart#hasText()
 	 */
 	protected boolean hasText( )

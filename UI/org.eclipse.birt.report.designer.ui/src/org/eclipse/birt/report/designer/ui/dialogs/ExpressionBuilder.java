@@ -11,650 +11,581 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.CompositeRuler;
+import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.commands.ICommandManager;
-import org.eclipse.ui.keys.KeySequence;
-import org.eclipse.ui.keys.KeyStroke;
-import org.eclipse.ui.keys.ModifierKey;
-import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-import org.eclipse.ui.texteditor.TextEditorAction;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.ISharedImages;
 
 /**
- * Expression Builder
- * 
- * The builder is used to build an expression.
+ * The expression builder
  */
-public class ExpressionBuilder extends BaseDialog
+
+public class ExpressionBuilder extends TitleAreaDialog
 {
 
-	private static final String LABEL_TEXT_EXPRESSION = Messages.getString( "ExpressionBuilder.Label.Expression" ); //$NON-NLS-1$
-	private static final String LABEL_TEXT_AVAILABLE_OBJECTS = Messages.getString( "ExpressionBuilder.Label.AvailableObjects" ); //$NON-NLS-1$
-	private static final String LABEL_TEXT_DESCRIPTION = Messages.getString( "ExpressionBuilder.Label.instruction" ); //$NON-NLS-1$
-	private static final String LABEL_TEXT_HEADER = Messages.getString( "ExpressionBuilder.Label.title" ); //$NON-NLS-1$
-	private static final String LABEL_TEXT_SELECTION = Messages.getString( "ExpressionBuilder.Label.Selection" ); //$NON-NLS-1$
+	private static final String DIALOG_TITLE = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
 
-	/** file name of the state file */
-	// Layout constant values
-	private static final int SASH_WEIGHT_LEFT = 33;
+	private static final String PROMRT_MESSAGE = Messages.getString( "ExpressionBuilder.Message.Prompt" ); //$NON-NLS-1$
 
-	private static final int SASH_WEIGHT_RIGHT = 100 - SASH_WEIGHT_LEFT;
+	private static final String LABEL_FUNCTIONS = Messages.getString( "ExpressionBuilder.Label.Functions" ); //$NON-NLS-1$
 
-	/** The expression text area */
-	protected SourceViewer expressionViewer;
+	private static final String LABEL_SUB_CATEGORY = Messages.getString( "ExpressionBuilder.Label.SubCategory" ); //$NON-NLS-1$
 
-	/** The expression value to return */
-	protected String inputExpression = ""; //$NON-NLS-1$
+	private static final String LABEL_CATEGORY = Messages.getString( "ExpressionBuilder.Label.Category" ); //$NON-NLS-1$
 
-	private Label lblText;
-	private Label lblTooltip;
+	private static final String LABEL_OPERATORS = Messages.getString( "ExpressionBuilder.Label.Operators" ); //$NON-NLS-1$
 
-	final static String EXPRESSIONBUILDERDIALOG_SHELLNAME = Messages.getString( "ExpressionBuidler.Dialog.Title" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_REDO = Messages.getString( "TextEditDialog.toolTipText.redo" ); //$NON-NLS-1$
 
-	private List dataSetList = null;
+	private static final String TOOL_TIP_TEXT_UNDO = Messages.getString( "TextEditDialog.toolTipText.undo" ); //$NON-NLS-1$
 
-	/**
-	 * This tree's filters, null means there are no filters.
-	 */
-	private List filterList;
+	private static final String TOOL_TIP_TEXT_DELETE = Messages.getString( "TextEditDialog.toolTipText.delete" ); //$NON-NLS-1$
 
-	/**
-	 * Add extension support: mouse down to show selection status
-	 */
-	private ExpressionTreeSupport treeCommon = new ExpressionTreeSupport( ) {
+	private static final String TOOL_TIP_TEXT_PASTE = Messages.getString( "TextEditDialog.toolTipText.paste" ); //$NON-NLS-1$
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionTreeSupport#addMouseListener()
-		 */
-		public void addMouseListener( )
+	private static final String TOOL_TIP_TEXT_CUT = Messages.getString( "TextEditDialog.toolTipText.cut" ); //$NON-NLS-1$
+
+	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
+
+	private class TableContentProvider implements IStructuredContentProvider
+	{
+
+		private TableViewer viewer;
+
+		public TableContentProvider( TableViewer viewer )
 		{
-			getTree( ).addMouseListener( new MouseAdapter( ) {
+			this.viewer = viewer;
+		}
 
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see org.eclipse.swt.events.MouseAdapter#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
-				 */
-				public void mouseDoubleClick( MouseEvent e )
-				{
-					TreeItem[] selection = getTreeSelection( );
-					if ( selection == null || selection.length <= 0 )
-						return;
-					TreeItem item = selection[0];
-					if ( item != null )
-					{
-						Object obj = item.getData( ITEM_DATA_KEY_TEXT );
-						Boolean isEnabled = (Boolean) item.getData( ITEM_DATA_KEY_ENABLED );
-						if ( obj != null && isEnabled.booleanValue( ) )
-						{
-							String text = (String) obj;
-							insertText( text );
-						}
-					}
-				}
+		public Object[] getElements( Object inputElement )
+		{
+			if ( viewer == categoryTable )
+			{
+				return provider.getCategory( );
+			}
+			return provider.getChildren( inputElement );
+		}
 
-				/*
-				 * (non-Javadoc)
-				 * 
-				 * @see org.eclipse.swt.events.MouseAdapter#mouseDown(org.eclipse.swt.events.MouseEvent)
-				 */
-				public void mouseDown( MouseEvent e )
-				{
-					TreeItem[] selection = getTreeSelection( );
-					if ( selection == null || selection.length <= 0 )
-						return;
-					TreeItem item = selection[0];
-					if ( item != null )
-					{
-						lblText.setText( LABEL_TEXT_SELECTION + item.getText( ) );
-						String tooltip = (String) item.getData( ITEM_DATA_KEY_TOOLTIP );
-						if ( tooltip == null )
-						{
-							tooltip = ""; //$NON-NLS-1$
-						}
-						lblTooltip.setText( tooltip );
-					}
-				}
-			} );
+		public void dispose( )
+		{
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+			if ( viewer == subCategoryTable )
+			{
+				functionTable.setInput( null );
+			}
+		}
+	}
+
+	private ISelectionChangedListener selectionListener = new ISelectionChangedListener( ) {
+
+		public void selectionChanged( SelectionChangedEvent event )
+		{
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+			if ( selection.isEmpty( ) )
+			{
+				return;
+			}
+			TableViewer target = null;
+			if ( event.getSource( ) == categoryTable )
+			{
+				target = subCategoryTable;
+			}
+			else if ( event.getSource( ) == subCategoryTable )
+			{
+				target = functionTable;
+			}
+			if ( target != null )
+			{
+				target.setInput( selection.getFirstElement( ) );
+			}
+		}
+
+	};
+
+	private ITableLabelProvider tableLabelProvider = new ITableLabelProvider( ) {
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return provider.getImage( element );
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			return provider.getDisplayText( element );
+		}
+
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		public void dispose( )
+		{
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return true;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
 		}
 	};
 
-	class EBTextAction extends TextEditorAction
-	{
+	private IDoubleClickListener doubleClickListener = new IDoubleClickListener( ) {
 
-		SourceViewer sourceViewer;
-
-		int operationCode;
-
-		public EBTextAction( ResourceBundle bundle, String prefix,
-				SourceViewer sourceViewer, int operationCode )
+		public void doubleClick( DoubleClickEvent event )
 		{
-			super( bundle, prefix, null );
-			this.sourceViewer = sourceViewer;
-			this.operationCode = operationCode;
-			update( );
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+			if ( selection.isEmpty( ) )
+			{
+				return;
+			}
+			if ( event.getSource( ) == functionTable )
+			{
+				String insertText = provider.getInsertText( selection.getFirstElement( ) );
+				if ( insertText != null )
+				{
+					sourceViewer.getTextWidget( ).insert( insertText );
+				}
+				return;
+			}
 		}
+	};
+	private Composite buttonBar;
+	private TableViewer categoryTable, subCategoryTable, functionTable;
+	private IExpressionProvider provider;
+	private SourceViewer sourceViewer;
+	private String expression = null;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.ui.texteditor.IUpdate#update()
-		 */
-		public void update( )
-		{
-			if ( sourceViewer != null )
-				setEnabled( sourceViewer.canDoOperation( operationCode ) );
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.action.IAction#run()
-		 */
-		public void run( )
-		{
-			sourceViewer.doOperation( operationCode );
-		}
-	}
+	private String title;
 
 	/**
-	 * Constructor, creates a new expression builder
+	 * Create an expression builder under the given parent shell with the given
+	 * initial expression
 	 * 
 	 * @param parentShell
+	 *            the parent shell
+	 * @param initExpression
+	 *            the initial expression
 	 */
-	public ExpressionBuilder( Shell parentShell )
+	public ExpressionBuilder( Shell parentShell, String initExpression )
 	{
-		super( parentShell, EXPRESSIONBUILDERDIALOG_SHELLNAME );
-		setShellStyle( getShellStyle( ) | SWT.RESIZE );
+		super( parentShell );
+		title = DIALOG_TITLE;
+		this.expression = UIUtil.convertToGUIString( initExpression );
 	}
 
 	/**
-	 * Constructor, creates a new expression builder
+	 * Create an expression builder under the default parent shell with the
+	 * given initial expression
 	 * 
-	 * @param parentShell
-	 * @param initValue
-	 *            the value displayed in the viewer
+	 * @param initExpression
+	 *            the initial expression
 	 */
-	public ExpressionBuilder( Shell parentShell, String initValue )
+	public ExpressionBuilder( String initExpression )
 	{
-		this( parentShell );
-
-		if ( initValue != null )
-		{
-			inputExpression = initValue;
-		}
+		this( UIUtil.getDefaultShell( ), initExpression );
 	}
 
 	/**
-	 * Constructor, creates a new expression builder
+	 * Create an expression builder under the default parent shell without an
+	 * initail expression
 	 * 
-	 * @param initValue
-	 *            the value displayed in the viewer
 	 */
-	public ExpressionBuilder( String initValue )
+	public ExpressionBuilder( )
 	{
-		this( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
-				initValue );
-
+		this( null );
 	}
 
-	/**
-	 * Creates and returns the contents of the upper part of this dialog (above
-	 * the button bar).
-	 * 
-	 * @param parent
-	 *            the parent composite to contain the dialog area
-	 * @return the dialog area control
-	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		Composite topLevel = (Composite) super.createDialogArea( parent );
-
-		if ( dataSetList == null )
+		Composite composite = (Composite) super.createDialogArea( parent );
+		createToolbar( composite );
+		createExpressionField( composite );
+		if ( provider == null )
 		{
-			dataSetList = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getDataSets( )
-					.getContents( );
+			provider = new ExpressionProvider( );
 		}
+		createOperatorsBar( composite );
+		createListArea( composite );
 
-		createTopArea( topLevel );
-		createExpressionArea( topLevel );
-		createStatusArea( topLevel );
+		return composite;
 
-		return topLevel;
 	}
 
-	private void createExpressionArea( Composite composite )
+	private void createToolbar( Composite parent )
 	{
-		//	create sash form
-		SashForm sashForm = new SashForm( composite, SWT.HORIZONTAL );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		data.widthHint = 600;
-		data.heightHint = 400;
-		sashForm.setLayoutData( data );
+		ToolBar toolBar = new ToolBar( parent, SWT.FLAT );
+		toolBar.setLayoutData( new GridData( ) );
 
-		Composite c = new Composite( sashForm, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.marginWidth = 0;
-		c.setLayout( layout );
-		c.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		Label label = new Label( c, SWT.NONE );
-		label.setText( LABEL_TEXT_AVAILABLE_OBJECTS );
-		// Create left tree
-		createLeftTree( c );
+		ToolItem copy = new ToolItem( toolBar, SWT.NONE );
+		copy.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_COPY ) );
+		copy.setToolTipText( TOOL_TIP_TEXT_COPY );
+		copy.addSelectionListener( new SelectionAdapter( ) {
 
-		c = new Composite( sashForm, SWT.NONE );
-		layout = new GridLayout( );
-		layout.marginWidth = 0;
-		c.setLayout( layout );
-		c.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		label = new Label( c, SWT.NONE );
-		label.setText( LABEL_TEXT_EXPRESSION );
-		// Expression Text Area:
-		createExpressionViewer( c );
-		setFocus( );
-
-		sashForm.setWeights( new int[]{
-				SASH_WEIGHT_LEFT, SASH_WEIGHT_RIGHT
-		} );
-	}
-
-	private void createTopArea( Composite composite )
-	{
-		Composite c = new Composite( composite, SWT.NONE );
-		c.setBackground( ColorConstants.white );
-		c.setLayout( new GridLayout( ) );
-
-		Label title = new Label( c, SWT.NONE );
-		title.setText( LABEL_TEXT_HEADER );
-		title.setFont( FontManager.getFont( title.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		title.setBackground( ColorConstants.white );
-		title.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
-		title = new Label( c, SWT.NONE );
-		title.setText( LABEL_TEXT_DESCRIPTION );
-		title.setFont( FontManager.getFont( title.getFont( ).toString( ),
-				9,
-				SWT.NORMAL ) );
-		title.setBackground( ColorConstants.white );
-		title.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-
-		title = new Label( c, SWT.NONE );
-		title.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER ) );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalAlignment = GridData.END;
-		title.setLayoutData( gd );
-		
-		Label bar = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
-		bar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-	}
-
-	private void createStatusArea( Composite composite )
-	{
-		lblText = new Label( composite, SWT.HORIZONTAL );
-		lblText.setText( LABEL_TEXT_SELECTION );
-		lblText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		lblTooltip = new Label( composite, SWT.HORIZONTAL );
-		lblTooltip.setText( " " ); //$NON-NLS-1$
-		lblTooltip.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		// horizontal bar
-		Label bar = new Label( composite, SWT.HORIZONTAL | SWT.SEPARATOR );
-		GridData data = new GridData( );
-		data.horizontalAlignment = GridData.FILL;
-		bar.setLayoutData( data );
-	}
-
-	/**
-	 * Set focus on source viewer.
-	 */
-	private void setFocus( )
-	{
-		expressionViewer.getControl( ).setFocus( );
-	}
-
-	/**
-	 * create the left tree
-	 * 
-	 * @param parent
-	 *            the parent composite
-	 */
-	private void createLeftTree( Composite parent )
-	{
-		Tree tree = new Tree( parent, SWT.BORDER );
-		tree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		treeCommon.setTree( tree );
-		treeCommon.createFilteredExpressionTree( dataSetList, filterList );
-
-		// Add tool tips
-		tree.setToolTipText( "" ); //$NON-NLS-1$
-		treeCommon.addMouseTrackListener( );
-		treeCommon.addMouseListener( );
-		treeCommon.addDragSupportToTree( );
-	}
-
-	/**
-	 * Create the expression text area
-	 * 
-	 * @param parent
-	 */
-	private void createExpressionViewer( Composite parent )
-	{
-		IVerticalRuler ruler = null;
-		expressionViewer = new SourceViewer( parent, ruler, SWT.WRAP
-				| SWT.MULTI
-				| SWT.BORDER
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
-		expressionViewer.getTextWidget( )
-				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		treeCommon.setExpressionViewer( expressionViewer );
-		treeCommon.addDropSupportToViewer( );
-
-		expressionViewer.configure( new JSSourceViewerConfiguration( ) );
-		JSEditorInput editorInput = new JSEditorInput( inputExpression );
-		JSDocumentProvider documentProvider = new JSDocumentProvider( );
-		try
-		{
-			documentProvider.connect( editorInput );
-		}
-		catch ( CoreException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
-		final StyledText text = expressionViewer.getTextWidget( );
-		IDocument document = documentProvider.getDocument( editorInput );
-		expressionViewer.setDocument( document );
-		text.setFont( JFaceResources.getTextFont( ) );
-
-		text.addKeyListener(new KeyListener()
-				{
-
-					public void keyPressed( KeyEvent e )
-					{
-						if (isUndoKeyPress(e))
-						{
-							expressionViewer.doOperation( ITextOperationTarget.UNDO );
-						}
-						else if (isRedoKeyPress(e))
-						{
-							expressionViewer.doOperation( ITextOperationTarget.REDO );
-						}
-					}
-
-					public void keyReleased( KeyEvent e )
-					{
-						// do nothing
-					}
-					
-					private boolean isUndoKeyPress(KeyEvent e)
-					{
-						return ((e.stateMask & SWT.CONTROL) > 0 ) && ((e.keyCode == 'z')  || (e.keyCode == 'Z') );
-					}
-					
-					private boolean isRedoKeyPress(KeyEvent e)
-					{
-						return ((e.stateMask & SWT.CONTROL) > 0 ) && ((e.keyCode == 'y')  || (e.keyCode == 'Y') );
-					}
-					
-				});
-		
-		//create actions for context menu and short cut keys
-		ResourceBundle bundle = ResourceBundle.getBundle( "org.eclipse.birt.report.designer.nls.messages" );//$NON-NLS-1$
-		final TextEditorAction undoAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.Undo.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.UNDO );
-		final TextEditorAction redoAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.Redo.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.REDO );
-		final TextEditorAction cutAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.Cut.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.CUT );
-		final TextEditorAction copyAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.Copy.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.COPY );
-		final TextEditorAction pasteAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.Paste.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.PASTE );
-		final TextEditorAction selectAllAction = new EBTextAction( bundle,
-				"TextAreaContextMenu.SelectAll.",//$NON-NLS-1$
-				expressionViewer,
-				ITextOperationTarget.SELECT_ALL );
-
-		//Create context menu
-		MenuManager menuMgr = new MenuManager( "#EB Context" );//$NON-NLS-1$
-		menuMgr.setRemoveAllWhenShown( true );
-		menuMgr.addMenuListener( new IMenuListener( ) {
-
-			public void menuAboutToShow( IMenuManager menuManager )
+			public void widgetSelected( SelectionEvent e )
 			{
-				menuManager.add( new Separator( ITextEditorActionConstants.GROUP_UNDO ) );
-				menuManager.add( new Separator( ITextEditorActionConstants.GROUP_COPY ) );
-				menuManager.add( new Separator( ITextEditorActionConstants.GROUP_EDIT ) );
-				undoAction.update( );
-				redoAction.update( );
-				copyAction.update( );
-				cutAction.update( );
-				pasteAction.update( );
-				selectAllAction.update( );
-
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
-						undoAction );
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_UNDO,
-						redoAction );
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
-						cutAction );
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
-						copyAction );
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_COPY,
-						pasteAction );
-				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_EDIT,
-						selectAllAction );
+				sourceViewer.doOperation( ITextOperationTarget.COPY );
 			}
 		} );
-		text.setMenu( menuMgr.createContextMenu( text ) );
 
-		//Create short cut keys for undo and redo, they can be configured in
-		// preferences
-		text.addKeyListener( new KeyAdapter( ) {
+		ToolItem cut = new ToolItem( toolBar, SWT.NONE );
+		cut.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_CUT ) );
+		cut.setToolTipText( TOOL_TIP_TEXT_CUT );
+		cut.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( ITextOperationTarget.CUT );
+			}
+		} );
+
+		ToolItem paste = new ToolItem( toolBar, SWT.NONE );
+		paste.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_PASTE ) );
+		paste.setToolTipText( TOOL_TIP_TEXT_PASTE );
+		paste.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( ITextOperationTarget.PASTE );
+			}
+		} );
+
+		ToolItem delete = new ToolItem( toolBar, SWT.NONE );
+		delete.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_DELETE ) );
+		delete.setToolTipText( TOOL_TIP_TEXT_DELETE );
+		delete.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( ITextOperationTarget.DELETE );
+			}
+		} );
+
+		ToolItem undo = new ToolItem( toolBar, SWT.NONE );
+		undo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_UNDO ) );
+		undo.setToolTipText( TOOL_TIP_TEXT_UNDO );
+		undo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( ITextOperationTarget.UNDO );
+			}
+		} );
+
+		ToolItem redo = new ToolItem( toolBar, SWT.NONE );
+		redo.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_TOOL_REDO ) );
+		redo.setToolTipText( TOOL_TIP_TEXT_REDO );
+		redo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sourceViewer.doOperation( ITextOperationTarget.REDO );
+			}
+		} );
+	}
+
+	private void createExpressionField( Composite parent )
+	{
+		Composite expressionArea = new Composite( parent, SWT.NONE );
+		expressionArea.setLayout( new GridLayout( 2, false ) );
+		expressionArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		Composite composite = new Composite( expressionArea, SWT.BORDER );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+
+		CompositeRuler ruler = new CompositeRuler( );
+		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
+		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
+				| SWT.V_SCROLL );
+		Document doc = new Document( expression );
+		sourceViewer.setDocument( doc );
+		sourceViewer.configure( new SourceViewerConfiguration( ) );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.heightHint = 150;
+		sourceViewer.getControl( ).setLayoutData( gd );
+		sourceViewer.getTextWidget( ).addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
 			{
-				KeySequence keySeq = getKeySequenceFromKeyEvent( e );
-				if ( keySeq == null )
+				if ( isUndoKeyPress( e ) )
 				{
-					return;
+					sourceViewer.doOperation( ITextOperationTarget.UNDO );
 				}
-				ICommandManager cmdMgr = PlatformUI.getWorkbench( )
-						.getCommandSupport( )
-						.getCommandManager( );
-				if ( ITextEditorActionDefinitionIds.UNDO.equals( cmdMgr.getPerfectMatch( keySeq ) ) )
+				else if ( isRedoKeyPress( e ) )
 				{
-					undoAction.update( );
-					if ( undoAction.isEnabled( ) )
-						undoAction.run( );
+					sourceViewer.doOperation( ITextOperationTarget.REDO );
 				}
-				else if ( ITextEditorActionDefinitionIds.REDO.equals( cmdMgr.getPerfectMatch( keySeq ) ) )
+			}
+
+			private boolean isUndoKeyPress( KeyEvent e )
+			{
+				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
+						&& ( ( e.keyCode == 'z' ) || ( e.keyCode == 'Z' ) );
+			}
+
+			private boolean isRedoKeyPress( KeyEvent e )
+			{
+				return ( ( e.stateMask & SWT.CONTROL ) > 0 )
+						&& ( ( e.keyCode == 'y' ) || ( e.keyCode == 'Y' ) );
+			}
+
+		} );
+		buttonBar = new Composite( expressionArea, SWT.NONE );
+		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+	}
+
+	private void createOperatorsBar( Composite parent )
+	{
+		String[] operators = provider.getOperators( );
+		if ( operators == null || operators.length == 0 )
+		{
+			return;
+		}
+		Composite operatorsBar = new Composite( parent, SWT.NONE );
+		operatorsBar.setLayout( new GridLayout( 2, false ) );
+		operatorsBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		Label lable = new Label( operatorsBar, SWT.NONE );
+		lable.setText( LABEL_OPERATORS );
+		lable.setLayoutData( new GridData( 70, SWT.DEFAULT ) );
+		Composite operatorsArea = new Composite( operatorsBar, SWT.NONE );
+		operatorsArea.setLayout( UIUtil.createGridLayoutWithoutMargin( operators.length,
+				true ) );
+		SelectionAdapter selectionAdapter = new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				Button button = (Button) e.getSource( );
+				sourceViewer.getTextWidget( )
+						.insert( (String) button.getData( ) );
+			}
+
+		};
+		for ( int i = 0; i < operators.length; i++ )
+		{
+			Button button = new Button( operatorsArea, SWT.PUSH );
+			button.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			if ( operators[i] != IExpressionProvider.OPERATOR_SEPARATOR )
+			{
+				button.setData( operators[i] );
+				String text = operators[i];
+				if ( text.indexOf( "&" ) != -1 ) //$NON-NLS-1$
 				{
-					redoAction.update( );
-					if ( redoAction.isEnabled( ) )
-						redoAction.run( );
+					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				button.setText( text );
+				button.addSelectionListener( selectionAdapter );
+			}
+			else
+			{
+				button.setVisible( false );
+			}
+		}
+	}
+
+	private void createListArea( Composite parent )
+	{
+		Composite listArea = new Composite( parent, SWT.NONE );
+		listArea.setLayout( new GridLayout( 3, true ) );
+		listArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		new Label( listArea, SWT.NONE ).setText( LABEL_CATEGORY );
+		new Label( listArea, SWT.NONE ).setText( LABEL_SUB_CATEGORY );
+		new Label( listArea, SWT.NONE ).setText( LABEL_FUNCTIONS );
+
+		int style = SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE;
+		categoryTable = new TableViewer( listArea, style );
+		subCategoryTable = new TableViewer( listArea, style );
+		functionTable = new TableViewer( listArea, style );
+
+		initTable( categoryTable );
+		initTable( subCategoryTable );
+		initTable( functionTable );
+	}
+
+	private void initTable( TableViewer tableViewer )
+	{
+		final Table table = tableViewer.getTable( );
+
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.heightHint = 150;
+		table.setLayoutData( gd );
+		table.setToolTipText( null );
+
+		new TableColumn( table, SWT.NONE ).setWidth( 200 );
+
+		table.addMouseTrackListener( new MouseTrackAdapter( ) {
+
+			public void mouseHover( MouseEvent event )
+			{
+				Widget widget = event.widget;
+				if ( widget == table )
+				{
+					Point pt = new Point( event.x, event.y );
+					TableItem item = table.getItem( pt );
+					if ( item == null )
+					{
+
+						table.setToolTipText( null );
+					}
+					else
+					{
+						table.setToolTipText( provider.getTooltipText( item.getData( ) ) );
+					}
 				}
 			}
 		} );
+
+		tableViewer.setLabelProvider( tableLabelProvider );
+		tableViewer.setContentProvider( new TableContentProvider( tableViewer ) );
+		tableViewer.addSelectionChangedListener( selectionListener );
+		tableViewer.addDoubleClickListener( doubleClickListener );
 	}
 
-	private KeySequence getKeySequenceFromKeyEvent( KeyEvent e )
+	protected Control createButtonBar( Composite parent )
 	{
-		String keyString = Character.toString( (char) ( e.keyCode ^ e.stateMask ) )
-				.toUpperCase( );
-		if ( ( e.stateMask & SWT.CTRL ) != 0 )
-			keyString = ModifierKey.CTRL.toString( )
-					+ KeyStroke.KEY_DELIMITER
-					+ keyString;
-		if ( ( e.stateMask & SWT.ALT ) != 0 )
-			keyString = ModifierKey.ALT.toString( )
-					+ KeyStroke.KEY_DELIMITER
-					+ keyString;
-		if ( ( e.stateMask & SWT.SHIFT ) != 0 )
-			keyString = ModifierKey.SHIFT.toString( )
-					+ KeyStroke.KEY_DELIMITER
-					+ keyString;
-		if ( ( e.stateMask & SWT.COMMAND ) != 0 )
-			keyString = ModifierKey.COMMAND.toString( )
-					+ KeyStroke.KEY_DELIMITER
-					+ keyString;
-		try
-		{
-			return KeySequence.getInstance( KeyStroke.getInstance( keyString ) );
-		}
-		catch ( Exception ex )
-		{
-			return null;
-		}
+		Composite composite = (Composite) super.createButtonBar( buttonBar );
+		createButton( composite,
+				IDialogConstants.HELP_ID,
+				IDialogConstants.HELP_LABEL,
+				false );
+		GridLayout layout = (GridLayout) composite.getLayout( );
+		layout.numColumns = 1;
+		composite.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+		return composite;
 	}
 
 	/**
-	 * Close the window.
+	 * Sets the layout data of the button to a GridData with appropriate heights
+	 * and widths.
+	 * <p>
+	 * The <code>BaseDialog</code> override the method in order to make Help
+	 * button split with other buttons.
+	 * 
+	 * @param button
+	 *            the button to be set layout data to
 	 */
+	protected void setButtonLayoutData( Button button )
+	{
+		GridData gridData;
+		if ( button.getText( ).equals( IDialogConstants.HELP_LABEL ) )
+		{
+			gridData = new GridData( GridData.VERTICAL_ALIGN_END
+					| GridData.HORIZONTAL_ALIGN_CENTER );
+			gridData.grabExcessVerticalSpace = true;
+		}
+		else
+		{
+			gridData = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+
+		}
+		int widthHint = convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
+		gridData.widthHint = Math.max( widthHint,
+				button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		button.setLayoutData( gridData );
+	}
+
+	protected Control createContents( Composite parent )
+	{
+		Control control = super.createContents( parent );
+		setTitle( DIALOG_TITLE );
+		setMessage( PROMRT_MESSAGE );
+		getShell( ).setText( title );
+		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
+		sourceViewer.getTextWidget( ).setFocus( );
+		return control;
+	}
+
 	protected void okPressed( )
 	{
-		setResult( expressionViewer.getDocument( ).get( ) );
+		expression = UIUtil.convertToModelString( sourceViewer.getTextWidget( )
+				.getText( ), true );
 		super.okPressed( );
 	}
 
 	/**
-	 * Sets the usable dataset list for the builder.
+	 * Returns the result of the expression builder.
 	 * 
-	 * @param dataSetList
+	 * @return the result
 	 */
-	public void setDataSetList( List dataSetList )
+	public String getResult( )
 	{
-		this.dataSetList = dataSetList;
+		return expression;
 	}
 
 	/**
-	 * Adds a filter for this expression builder.
+	 * Sets the expression provider for the expression builder
 	 * 
-	 * @param filter
+	 * @param provider
+	 *            the expression provider
 	 */
-	public void addFilter( ExpressionFilter filter )
+	public void setExpressionProvier( IExpressionProvider provider )
 	{
-		if ( filterList == null )
-		{
-			filterList = new ArrayList( );
-		}
-
-		if ( !filterList.contains( filter ) )
-		{
-			filterList.add( filter );
-		}
+		this.provider = provider;
 	}
 
 	/**
-	 * Adds a filter list for this expression builder.
+	 * Sets the dialog title of the expression builder
 	 * 
-	 * @param list
+	 * @param newTitle
+	 *            the new dialog title
 	 */
-	public void addFilterList( List list )
+	public void setDialogTitle( String newTitle )
 	{
-		// allows for null.
-		if ( list == null )
-		{
-			return;
-		}
-		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
-		{
-			Object obj = iter.next( );
-			if ( obj instanceof ExpressionFilter )
-			{
-				addFilter( (ExpressionFilter) obj );
-			}
-		}
+		title = newTitle;
 	}
 
 	/**
-	 * Removes a filter from the filter list.
-	 * 
-	 * @param filter
+	 * Returns the dialog title of the expression builder
 	 */
-	public void removeFilter( ExpressionFilter filter )
+	public String getDialogTitle( )
 	{
-		if ( filterList == null )
-		{
-			return;
-		}
-		filterList.remove( filter );
+		return title;
 	}
-
-	/**
-	 * Clears the filter list.
-	 *  
-	 */
-	public void clearFilters( )
-	{
-		if ( filterList == null )
-		{
-			return;
-		}
-		filterList.clear( );
-	}
-
 }
