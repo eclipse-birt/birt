@@ -64,7 +64,6 @@ public class ExpressionProvider implements IExpressionProvider
 			this.symbol = symbol;
 			insertText = symbol;
 			this.tooltip = Messages.getString( tooltipKey );
-
 		}
 
 		Operator( String symbol, String tooltipKey, String insertText )
@@ -115,10 +114,10 @@ public class ExpressionProvider implements IExpressionProvider
 			new Operator( "-", "ExpressionProvider.Operator.Sub" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "*", "ExpressionProvider.Operator.Mult" ), //$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( "/", "ExpressionProvider.Operator.Dvides" ), //$NON-NLS-1$ //$NON-NLS-2$ 
-			new Operator( "++X ", "ExpressionProvider.Operator.Inc", "++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-			new Operator( "X++ ", "ExpressionProvider.Operator.ReturnInc", "++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "--X ", "ExpressionProvider.Operator.Dec", "--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			new Operator( "X-- ", "ExpressionProvider.Operator.ReturnDec", "--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new Operator( "++X ", "ExpressionProvider.Operator.Inc", "++@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+			new Operator( "X++ ", "ExpressionProvider.Operator.ReturnInc", "@++" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new Operator( "--X ", "ExpressionProvider.Operator.Dec", "--@" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			new Operator( "X-- ", "ExpressionProvider.Operator.ReturnDec", "@--" ), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	};
 
@@ -532,7 +531,7 @@ public class ExpressionProvider implements IExpressionProvider
 					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
 				}
 				insertText.append( methodInfo.getName( ) );
-				insertText.append( "( )" ); //$NON-NLS-1$
+				insertText.append( "()" ); //$NON-NLS-1$
 			}
 			return insertText.toString( );
 		}

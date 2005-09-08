@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -190,7 +191,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 				String insertText = provider.getInsertText( selection.getFirstElement( ) );
 				if ( insertText != null )
 				{
-					sourceViewer.getTextWidget( ).insert( insertText );
+					insertText( insertText );
 				}
 				return;
 			}
@@ -403,8 +404,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				Button button = (Button) e.getSource( );
-				sourceViewer.getTextWidget( )
-						.insert( (String) button.getData( ) );
+				insertText( (String) button.getData( ) );
 			}
 
 		};
@@ -447,6 +447,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		initTable( categoryTable );
 		initTable( subCategoryTable );
 		initTable( functionTable );
+
 	}
 
 	private void initTable( TableViewer tableViewer )
@@ -538,7 +539,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		setMessage( PROMRT_MESSAGE );
 		getShell( ).setText( title );
 		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
-		sourceViewer.getTextWidget( ).setFocus( );
+		getShell( ).setDefaultButton( null );
+		sourceViewer.getTextWidget( ).setFocus( );		
 		return control;
 	}
 
@@ -587,5 +589,52 @@ public class ExpressionBuilder extends TitleAreaDialog
 	public String getDialogTitle( )
 	{
 		return title;
+	}
+
+	/**
+	 * Insert a text string into the text area
+	 * 
+	 * @param text
+	 */
+	protected void insertText( String text )
+	{
+		StyledText textWidget = sourceViewer.getTextWidget( );
+		if ( !textWidget.isEnabled( ) )
+		{
+			return;
+		}
+		int selectionStart = textWidget.getSelection( ).x;
+		// character replacement
+		StringBuffer insertText = new StringBuffer( );
+		for ( int index; ( index = text.indexOf( "@" ) ) != -1; )
+		{
+			insertText.append( text.substring( 0, index ) );
+			if ( index == text.length( ) - 1 )
+			{
+				insertText.append( textWidget.getSelectionText( ) );
+				text = "";
+			}
+			else if ( text.charAt( index + 1 ) != '@' )
+			{
+				insertText.append( textWidget.getSelectionText( ) );
+				text = text.substring( index + 1 );
+			}
+			else
+			{
+				insertText.append( "@" );
+				text = text.substring( index + 2 );
+			}
+		}
+		insertText.append( text );
+		text = insertText.toString( );
+
+		textWidget.insert( text );
+		textWidget.setSelection( selectionStart + text.length( ) );
+		textWidget.setFocus( );
+
+		if ( text.endsWith( "()" ) ) //$NON-NLS-1$
+		{
+			textWidget.setCaretOffset( textWidget.getCaretOffset( ) - 1 ); // Move
+		}
 	}
 }
