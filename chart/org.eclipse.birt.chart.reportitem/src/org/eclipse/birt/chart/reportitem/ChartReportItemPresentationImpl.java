@@ -43,50 +43,31 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ * ChartReportItemPresentationImpl
  */
 public final class ChartReportItemPresentationImpl extends
 		ReportItemPresentationBase
 {
 
-	/**
-	 * 
-	 */
 	private File fChartImage = null;
 
-	/**
-	 * 
-	 */
 	private FileInputStream fis = null;
 
-	/**
-	 * 
-	 */
 	private String sExtension = null;
 
-	/**
-	 * 
-	 */
 	private Chart cm = null;
 
-	/**
-	 * 
-	 */
 	private RunTimeContext rtc = null;
 
-	/**
-	 * 
-	 */
 	private IBaseQueryDefinition[] ibqda = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	/**
-	 * 
+	 * The constructor.
 	 */
 	public ChartReportItemPresentationImpl( )
 	{
-
 	}
 
 	/*
@@ -316,11 +297,20 @@ public final class ChartReportItemPresentationImpl extends
 		}
 		catch ( BirtException ex )
 		{
-			if ( ex.getCause() instanceof ChartException
-					&& ( (ChartException) ex.getCause() ).getType( ) == ChartException.ZERO_DATASET )
+			if ( ex.getCause( ) instanceof ChartException
+					&& ( (ChartException) ex.getCause( ) ).getType( ) == ChartException.ZERO_DATASET )
 			{
 				// if the Data set has zero lines, just log the error and
 				// returns null gracefully.
+				logger.log( ex );
+				return null;
+			}
+
+			if ( ( ex.getCause( ) instanceof ChartException && ( (ChartException) ex.getCause( ) ).getType( ) == ChartException.INVALID_IMAGE_SIZE )
+					|| ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
+			{
+				// if the image size is invalid, this may caused by
+				// Display=None, lets ignore it.
 				logger.log( ex );
 				return null;
 			}

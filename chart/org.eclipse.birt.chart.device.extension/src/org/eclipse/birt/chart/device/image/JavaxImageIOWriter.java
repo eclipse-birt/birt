@@ -38,45 +38,52 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 
 /**
- * 
+ * JavaxImageIOWriter
  */
 public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		IIOWriteWarningListener
 {
 
-	/**
-	 * 
-	 */
 	protected Image _img = null;
 
-	/**
-	 * 
-	 */
 	protected Object _oOutputIdentifier = null;
 
-	/**
-	 * 
-	 */
 	private Bounds _bo = null;
 
-	/**
-	 * 
-	 */
 	private transient boolean _bImageExternallySpecified = false;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
+
 	/**
+	 * Returns the output format string for this writer.
 	 * 
 	 * @return
 	 */
 	protected abstract String getFormat( );
 
 	/**
+	 * Returns the output image type for this writer.
+	 * 
+	 * @see java.awt.image.BufferedImage#TYPE_INT_RGB
+	 * @see java.awt.image.BufferedImage#TYPE_INT_ARGB
+	 * @see java.awt.image.BufferedImage#TYPE_INT_ARGB_PRE
+	 * @see java.awt.image.BufferedImage#TYPE_INT_BGR
+	 * @see java.awt.image.BufferedImage#TYPE_3BYTE_BGR
+	 * @see java.awt.image.BufferedImage#TYPE_4BYTE_ABGR
+	 * @see java.awt.image.BufferedImage#TYPE_4BYTE_ABGR_PRE
+	 * @see java.awt.image.BufferedImage#TYPE_BYTE_GRAY
+	 * @see java.awt.image.BufferedImage#TYPE_USHORT_GRAY
+	 * @see java.awt.image.BufferedImage#TYPE_BYTE_BINARY
+	 * @see java.awt.image.BufferedImage#TYPE_BYTE_INDEXED
+	 * @see java.awt.image.BufferedImage#TYPE_USHORT_565_RGB
+	 * @see java.awt.image.BufferedImage#TYPE_USHORT_555_RGB
 	 * 
 	 * @return
 	 */
 	protected abstract int getImageType( );
 
 	/**
+	 * Updates the writer's parameters.
 	 * 
 	 * @param iwp
 	 */
@@ -85,9 +92,9 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// OPTIONALLY IMPLEMENTED BY SUBCLASS
 	}
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
-
 	/**
+	 * Returns the output MIME type for this writer.
+	 * 
 	 * @return
 	 */
 	protected String getMimeType( )
@@ -154,6 +161,15 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.RENDERING,
 						"exception.no.bounds", //$NON-NLS-1$
+						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
+								getLocale( ) ) );
+			}
+
+			if ( (int) _bo.getWidth( ) <= 0 || (int) _bo.getHeight( ) <= 0 )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.INVALID_IMAGE_SIZE,
+						"exception.invalid.image.size", //$NON-NLS-1$
 						ResourceBundle.getBundle( Messages.DEVICE_EXTENSION,
 								getLocale( ) ) );
 			}
