@@ -100,6 +100,10 @@ public class ChartException extends BirtException
 	 */
 	public static final int NULL_DATASET = 17;
 	/**
+	 * Exception type for InvalidImageSize error.
+	 */
+	public static final int INVALID_IMAGE_SIZE = 18;
+	/**
 	 * Exception type for Validation error.
 	 */
 	public static final int VALIDATION = MAX_VALUE;
