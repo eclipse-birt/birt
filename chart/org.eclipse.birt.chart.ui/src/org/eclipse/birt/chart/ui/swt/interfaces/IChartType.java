@@ -18,40 +18,46 @@ import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author Actuate Corporation
+ * IChartType
  */
 public interface IChartType
 {
 
 	/**
-	 * Comment for <code>TWO_DIMENSION_DISPLAY_NAME</code>
+	 * Type constant of 2D.
 	 */
 	public static final String TWO_DIMENSION_TYPE = Messages.getString( "DimensionType.2D" ); //$NON-NLS-1$
 
 	/**
-	 * Comment for <code>TWO_DIMENSION_WITH_DEPTH_DISPLAY_NAME</code>
+	 * Type constant of 2D with depth.
 	 */
 	public static final String TWO_DIMENSION_WITH_DEPTH_TYPE = Messages.getString( "DimensionType.2DWithDepth" ); //$NON-NLS-1$
 
 	/**
-	 * Comment for <code>THREE_DIMENSION_TYPE</code>
+	 * Type constant of 3D.
 	 */
 	public static final String THREE_DIMENSION_TYPE = Messages.getString( "DimensionType.3D" ); //$NON-NLS-1$
 
 	/**
 	 * Returns the name of the chart type. This is what appears in the selection
-	 * list in the Chart Selecter UI.
+	 * list in the Chart Selector UI.
 	 * 
 	 * @return Chart type name.
 	 */
 	public String getName( );
 
+	/**
+	 * Returns the image icon of the chart type. This is what appears in the
+	 * selection list in the Chart Selector UI.
+	 * 
+	 * @return Chart image icon.
+	 */
 	public Image getImage( );
 
 	/**
 	 * Returns the names of the chart sub-types available for this type. These
 	 * names are used to build the sub-type selection panel in the Chart
-	 * Selecter UI.
+	 * Selector UI.
 	 * 
 	 * @return Array of sub-type names.
 	 */
@@ -74,14 +80,53 @@ public interface IChartType
 	 */
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints );
 
+	/**
+	 * Returns the Chart model for given parameters.
+	 * 
+	 * @param sType
+	 * @param Orientation
+	 * @param Dimension
+	 * @param currentChart
+	 * @return
+	 */
 	public Chart getModel( String sType, Orientation Orientation,
 			String Dimension, Chart currentChart );
 
+	/**
+	 * Returns the dimension array this chart type supports.
+	 * 
+	 * @return
+	 */
 	public String[] getSupportedDimensions( );
 
+	/**
+	 * Returns the default dimension of this chart type.
+	 * 
+	 * @return
+	 */
 	public String getDefaultDimension( );
 
+	/**
+	 * Returns if this chart type supports transposition.
+	 * 
+	 * @return
+	 */
 	public boolean supportsTransposition( );
 
+	/**
+	 * Returns if this chart type supports transposition for given dimension.
+	 * 
+	 * @since 2.0
+	 * 
+	 * @param dimension
+	 * @return
+	 */
+	public boolean supportsTransposition( String dimension );
+
+	/**
+	 * Returns the help information.
+	 * 
+	 * @return
+	 */
 	public IHelpContent getHelp( );
 }

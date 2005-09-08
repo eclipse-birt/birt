@@ -118,6 +118,16 @@ public class DefaultChartTypeImpl implements IChartType
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition(java.lang.String)
+	 */
+	public boolean supportsTransposition( String dimension )
+	{
+		return supportsTransposition( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getHelp()
 	 */
 	public IHelpContent getHelp( )
