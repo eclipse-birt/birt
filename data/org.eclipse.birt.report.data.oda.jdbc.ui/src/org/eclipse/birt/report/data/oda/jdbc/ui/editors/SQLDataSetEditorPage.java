@@ -92,7 +92,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.24 $ $Date: 2005/08/17 06:33:44 $
+ * @version $Revision: 1.25 $ $Date: 2005/08/19 07:47:00 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -615,7 +615,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					}
 					if ( metaDataProvider.isProcedureSupported( ) )
 					{
-						tableList.add( "STORED PROCEDURES" );
+						DbObject dbObject = new DbObject("STORED PROCEDURES","STORED PROCEDURES", DbObject.PROCEDURE_TYPE, image);
+						tableList.add( dbObject );
 					}
 
 					if ( schemaTreeItem != null 
@@ -955,8 +956,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					return;
 				}
 				
-				String tableName = (String)item.getData();
-					
+				String tableName = Utility.getTreeItemsName( item );
+
 				String catalogName = metaDataProvider.getCatalog();
 				String schemaName = null;
 					
@@ -972,31 +973,34 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						tableName = tableName.substring( index + 1);
 					}
 				}
-				
-				if ( !tableName.equalsIgnoreCase( "STORED PROCEDURES" ) )
+
+				if ( item.getData( ) instanceof DbObject )
 				{
-					ArrayList columnList = metaDataProvider.getColumns( catalogName,
-							schemaName,
-							tableName,
-							null );
-					TreeItem[] items = item.getItems( );
-					if ( items != null )
+					DbObject obj = (DbObject) item.getData( );
+					if ( obj.getType( ) == DbObject.TABLE_TYPE
+							|| obj.getType( ) == DbObject.VIEW_TYPE )
 					{
-						for ( int i = 0; i < items.length; i++ )
+						ArrayList columnList = metaDataProvider.getColumns( catalogName,
+								schemaName,
+								tableName,
+								null );
+						TreeItem[] items = item.getItems( );
+						if ( items != null )
 						{
-							items[i].dispose( );
+							for ( int i = 0; i < items.length; i++ )
+							{
+								items[i].dispose( );
+							}
 						}
+						Utility.createTreeItems( item,
+								columnList,
+								SWT.NONE,
+								columnImage );
+
 					}
-					Utility.createTreeItems( item,
-							columnList,
-							SWT.NONE,
-							columnImage );
-				}
-				else
-				{
-					ArrayList procedureList = new ArrayList( );
-					try
+					else if ( obj.getType( ) == DbObject.PROCEDURE_TYPE )
 					{
+						ArrayList procedureList = new ArrayList( );
 						ResultSet procedureRs = metaDataProvider.getAllProcedure( catalogName,
 								schemaName,
 								null );
@@ -1004,32 +1008,56 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						{
 							return;
 						}
-						while ( procedureRs.next( ) )
+						try
 						{
-							String name = procedureRs.getString( "PROCEDURE_NAME" );
-							DbObject dbObject = new DbObject( name,
-									name,
-									DbObject.PROCEDURE_TYPE );
-							dbObject.setImage( columnImage );
-							procedureList.add( dbObject );
+							while ( procedureRs.next( ) )
+							{
+								String name = procedureRs.getString( "PROCEDURE_NAME" );
+								DbObject dbObject = new DbObject( name,
+										name,
+										DbObject.PROCEDURE_ITEM_TYPE );
+								dbObject.setImage( columnImage );
+								procedureList.add( dbObject );
+							}
 						}
-					}
-					catch ( SQLException e )
-					{
-					}
-					TreeItem[] items = item.getItems( );
-					if ( items != null )
-					{
-						for ( int i = 0; i < items.length; i++ )
+						catch ( SQLException e )
 						{
-							items[i].dispose( );
 						}
+						TreeItem[] items = item.getItems( );
+						if ( items != null )
+						{
+							for ( int i = 0; i < items.length; i++ )
+							{
+								items[i].dispose( );
+							}
+						}
+						Utility.createTreeItems( item,
+								procedureList,
+								SWT.NONE,
+								columnImage );
+						//expand procedure TreeItem
+
 					}
-					Utility.createTreeItems( item,
-							procedureList,
-							SWT.NONE,
-							columnImage );
-					//expand procedure TreeItem
+					else if ( obj.getType( ) == DbObject.PROCEDURE_ITEM_TYPE )
+					{
+						ArrayList columnList = new ArrayList( );
+						columnList = metaDataProvider.getProcedureColumns( catalogName,
+									schemaName,
+									tableName,
+									null );
+						TreeItem[] items = item.getItems( );
+						if ( items != null )
+						{
+							for ( int i = 0; i < items.length; i++ )
+							{
+								items[i].dispose( );
+							}
+						}
+						Utility.createTreeItems( item,
+								columnList,
+								SWT.NONE,
+								columnImage );
+					}
 				}
 			}
 		});
@@ -1065,7 +1093,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					TreeItem[] selection = availableDbObjectsTree.getSelection( );
 					if ( selection.length > 0 )
 					{
-						event.data = selection[0].getData( );
+						Object obj = selection[0].getData( );
+						if ( obj instanceof DbObject )
+						{
+							event.data = ( (DbObject) obj ).getName( );
+						}
+						else
+							event.data = selection[0].getData( );
 					}
 				}
 			}

@@ -30,6 +30,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -346,7 +347,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	 * get all procedure from special catalog,schemaPattern,and namePattern
 	 */
  	public ResultSet getAllProcedure( String cataLog, String schemaPattern,
-			String namePattern ) throws SQLException
+			String namePattern )
 	{
 		if ( metaData == null )
 		{
@@ -369,7 +370,6 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				throw e;
 			}
 		}
 		return resultSet;
@@ -378,18 +378,18 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
  	/**
  	 * Get procedure's columns information
  	 */
- 	public ResultSet getProcedureColumns(String cataLog,
+ 	public ArrayList getProcedureColumns(String cataLog,
 			  String schemaPattern,
 			  String procedureNamePattern, 
-			  String columnNamePattern) throws SQLException
+			  String columnNamePattern)
 	{
+ 		ArrayList columnList = new ArrayList();
  		if ( metaData == null )
 		{
 			metaData = getMetaData( );
 		}
  		
- 		ArrayList procedureList = new ArrayList();
-		ResultSet resultSet = null;
+		ResultSet columnsRs = null;
 		if ( cataLog != null && cataLog.trim( ).length( ) == 0 )
 		{
 			cataLog = null;
@@ -399,18 +399,35 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		{
 			try
 			{
-				resultSet = metaData.getProcedureColumns( cataLog,
+				columnsRs = metaData.getProcedureColumns( cataLog,
 						schemaPattern,
 						procedureNamePattern,
 						columnNamePattern );
+				int n = 0;
+				while ( columnsRs.next( ) )
+				{
+					ProcedureParameter column = new ProcedureParameter( );
+					if ( columnsRs.getString( "COLUMN_NAME" )!= null )
+						column.setName( columnsRs.getString( "COLUMN_NAME" ) );
+					else
+					{
+						// if the column name cannot retrieved ,give the unique name for this column
+						n++;
+						column.setName( "param" + n );
+					}
+					column.setModeType( columnsRs.getInt( "COLUMN_TYPE" ) );
+					column.setDataTypeName( columnsRs.getString( "TYPE_NAME" ) );
+					column.setDataType( columnsRs.getInt( "DATA_TYPE" ) );
+					column.setProcedureName( columnsRs.getString( "PROCEDURE_NAME" ) );
+
+					columnList.add( column );
+				}
 			}
 			catch ( SQLException e )
 			{
-				throw e;
 			}
 		}
-		return resultSet;
-	
+		return columnList;
 	}
 
  	/**

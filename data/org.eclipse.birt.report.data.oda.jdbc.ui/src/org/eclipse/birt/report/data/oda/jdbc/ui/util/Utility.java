@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.ParameterMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.13 $ $Date: 2005/08/17 05:07:50 $
+ * @version $Revision: 1.14 $ $Date: 2005/08/19 04:12:06 $
  */
 public class Utility
 {
@@ -135,17 +136,20 @@ public class Utility
 			{
 				displayName = (String)source;
 				name = displayName;
+				item[i].setData(name);
 			}
 			else if( source instanceof TableImpl)
 			{
 				TableImpl table = (TableImpl)source;
 				displayName = table.getTableAlias();
 				name = table.getFullyQualifiedName();
+				item[i].setData(name);
 			}
 			else if (source instanceof TableItem )
 			{
 				displayName = ((TableItem)source).getText();
 				name = (String)((TableItem)source).getData();
+				item[i].setData(name);
 			}
 			else if(source instanceof DbObject)
 			{
@@ -154,6 +158,7 @@ public class Utility
 				displayName = dbObject.getDisplayName();
 				image = dbObject.getImage();
 				addDummyNode = true;
+				item[i].setData(dbObject);
 			}
 			else if ( source instanceof Column )
 			{
@@ -167,11 +172,21 @@ public class Utility
 				{
 					name = column.getSchemaName() + "." + name;
 				}
+				item[i].setData(name);
 			}
-
+			else if ( source instanceof ProcedureParameter )
+			{
+				ProcedureParameter column = (ProcedureParameter)source;
+				displayName = column.getName();
+				name = displayName;
+				int type = column.getModeType();
+				String mode = toModeType( type );
+				String dataType = column.getDataTypeName();
+				displayName = displayName + " (" + dataType + ", " + mode + ")";
+				item[i].setData(column);
+			}
 	
 			item[i].setText(displayName);
-			item[i].setData(name);
 			
 			item[i].setImage(image);
 
@@ -187,6 +202,77 @@ public class Utility
 		return item;
 	}
 
+	/**
+	 * give the stored procedure's column type name from the type.
+	 * @param type
+	 * @return
+	 */
+	public static String toModeType( int type )
+	{
+		switch ( type )
+		{
+			case ParameterMetaData.parameterModeUnknown:
+				return "Unknown";
+			case ParameterMetaData.parameterModeIn:
+				return "Input";
+			case ParameterMetaData.parameterModeInOut:
+				return "Input/Output";
+			case ParameterMetaData.parameterModeOut:
+				return "Output";
+			case 5:
+				return "Return Value";
+			default:
+				return "Unknown";
+		}
+	}
+	
+	/**
+	 * get the tree item name from the tree item's object
+	 * @param selectedItem
+	 * @return
+	 */
+	public static String getTreeItemsName( TreeItem selectedItem ) 
+	{
+		if ( selectedItem == null )
+		{
+			return null;
+		}
+		String name = "";
+		Object source = selectedItem.getData();
+		    if(source instanceof String)
+			{
+				name = (String)source;
+			}
+			else if( source instanceof TableImpl)
+			{
+				TableImpl table = (TableImpl)source;
+				name = table.getFullyQualifiedName();
+			}
+			else if (source instanceof TableItem )
+			{
+				name = (String)((TableItem)source).getData();
+			}
+			else if(source instanceof DbObject)
+			{
+				DbObject dbObject = (DbObject)source;
+				name = dbObject.getName();
+			}
+			else if ( source instanceof Column )
+			{
+				Column column = (Column)source;
+				String displayName = column.getName();
+				name = column.getTableName() + "." + displayName;
+				String type = column.getDbType();
+				displayName = displayName + " (" + type + ")";
+				 
+				if ( column.getSchemaName() != null )
+				{
+					name = column.getSchemaName() + "." + name;
+				}
+			}
+		return name;
+	}
+	
 	/**
 	 * @param tables: A List of existing table names
 	 * @param fileName
