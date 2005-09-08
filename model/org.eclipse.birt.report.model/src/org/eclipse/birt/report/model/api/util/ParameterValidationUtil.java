@@ -52,6 +52,12 @@ public class ParameterValidationUtil
 	 */
 
 	private static Locale DEFAULT_LOCALE = Locale.US;
+	
+	/**
+	 * Default date-time format string.
+	 */
+	
+	public static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss"; //$NON-NLS-1$
 
 	/**
 	 * Validates a input parameter value with the given data type. The returned
@@ -692,7 +698,7 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType ) )
 		{
 			DateFormat formatter = DateFormat.getDateTimeInstance(
-					DateFormat.SHORT, DateFormat.MEDIUM, locale );
+					DateFormat.MEDIUM, DateFormat.MEDIUM, locale );
 			return formatter.format( (Date) value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
