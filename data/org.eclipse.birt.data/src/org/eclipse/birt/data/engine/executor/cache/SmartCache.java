@@ -152,6 +152,8 @@ public class SmartCache implements ResultSetCache
 	private void initInstance( OdiAdapter odiAdpater, BaseQuery query,
 			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
 	{	
+		long startTime = System.currentTimeMillis( );
+		
 		// compute the number of rows which can be cached in memory
 		int memoryCacheRowCount = computeCacheRowCount( rsMeta );
 		logger.info( "memoryCacheRowCount is " + memoryCacheRowCount );
@@ -199,6 +201,9 @@ public class SmartCache implements ResultSetCache
 		resultObjects = null;
 		resultObjectsList = null;
 		rowResultSet = null;
+		
+		long consumedTime = ( System.currentTimeMillis( ) - startTime ) / 1000;
+		logger.info( "Time consumed by cache is: " + consumedTime + " second" );
 	}
 	
 	/**
