@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
@@ -42,6 +43,9 @@ public class SmartCache implements ResultSetCache
 	 * bytes.
 	 */
 	private static int MemoryCacheSize;
+	
+	// log instance
+	private static Logger logger = Logger.getLogger( SmartCache.class.getName( ) );
 	
 	/**
 	 * Retrieve data from ODA, used in normal query
@@ -150,6 +154,7 @@ public class SmartCache implements ResultSetCache
 	{	
 		// compute the number of rows which can be cached in memory
 		int memoryCacheRowCount = computeCacheRowCount( rsMeta );
+		logger.info( "memoryCacheRowCount is " + memoryCacheRowCount );
 		
 		IResultObject odaObject;
 		IResultObject[] resultObjects;
@@ -167,6 +172,8 @@ public class SmartCache implements ResultSetCache
 			}
 			else
 			{
+				logger.info( "DisckCache is used" );
+				
 				resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
 				// the order is: resultObjects, odaObject, rowResultSet
 				resultSetCache = new DiskCache( resultObjects,
@@ -180,6 +187,8 @@ public class SmartCache implements ResultSetCache
 
 		if ( resultSetCache == null )
 		{
+			logger.info( "MemoryCache is used" );
+			
 			resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
 			
 			resultSetCache = new MemoryCache( resultObjects,
