@@ -199,24 +199,25 @@ class ResultObjectUtil
 			Object[] obs = new Object[columnCount];
 			for ( int j = 0; j < columnCount; j++ )
 			{
+				Class fieldType = typeArray[j];
 				if ( isNullObject( readIndex, j ) )
 					obs[j] = null;	
-				else if ( typeArray[j].equals( Integer.class ) )
+				else if ( fieldType.equals( Integer.class ) )
 					obs[j] = new Integer( ois.readInt( ) );
-				else if ( typeArray[j].equals( Double.class ) )
+				else if ( fieldType.equals( Double.class ) )
 					obs[j] = new Double( ois.readDouble( ) );
-				else if ( typeArray[j].equals( BigDecimal.class ) )
+				else if ( fieldType.equals( BigDecimal.class ) )
 					obs[j] = new BigDecimal( ois.readUTF( ) );
-				else if ( typeArray[j].equals( Date.class ) )
+				else if ( fieldType.equals( Date.class ) )
 					obs[j] = new Date( ois.readLong( ) );
-				else if ( typeArray[j].equals( Time.class ) )
+				else if ( fieldType.equals( Time.class ) )
 					obs[j] = new Time( ois.readLong( ) );
-				else if ( typeArray[j].equals( Timestamp.class ) )
+				else if ( fieldType.equals( Timestamp.class ) )
 					obs[j] = new Timestamp( ois.readLong( ) );
-				else if ( typeArray[j].equals( Boolean.class ) )
+				else if ( fieldType.equals( Boolean.class ) )
 					obs[j] = new Boolean( ois.readBoolean( ) );
-				else if ( typeArray[j].equals( String.class )
-						|| typeArray[j].equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				else if ( fieldType.equals( String.class )
+						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 					obs[j] = ois.readUTF( );
 			}
 			rowDatas[i] = newResultObject( obs );
@@ -244,7 +245,7 @@ class ResultObjectUtil
 	void writeData( BufferedOutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
 	{
-		byte[] rowsDataByte;
+		byte[] rowsDataByte = new byte[0];
 
 		ByteArrayOutputStream baos;
 		ObjectOutputStream oos;
@@ -266,24 +267,25 @@ class ResultObjectUtil
 					// correct
 				}
 				
+				Class fieldType = typeArray[j];
 				if ( fieldValue == null )
-					putNullObject( writeIndex, j );				
-				else if ( typeArray[j].equals( Integer.class ) )
+					putNullObject( writeIndex, j );
+				else if ( fieldType.equals( Integer.class ) )
 					oos.writeInt( ( (Integer) fieldValue ).intValue( ) );
-				else if ( typeArray[j].equals( Double.class ) )
+				else if ( fieldType.equals( Double.class ) )
 					oos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
-				else if ( typeArray[j].equals( BigDecimal.class ) )
+				else if ( fieldType.equals( BigDecimal.class ) )
 					oos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
-				else if ( typeArray[j].equals( Date.class ) )
+				else if ( fieldType.equals( Date.class ) )
 					oos.writeLong( ( (Date) fieldValue ).getTime( ) );
-				else if ( typeArray[j].equals( Time.class ) )
+				else if ( fieldType.equals( Time.class ) )
 					oos.writeLong( ( (Time) fieldValue ).getTime( ) );
-				else if ( typeArray[j].equals( Timestamp.class ) )
+				else if ( fieldType.equals( Timestamp.class ) )
 					oos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
-				else if ( typeArray[j].equals( Boolean.class ) )
+				else if ( fieldType.equals( Boolean.class ) )
 					oos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
-				else if ( typeArray[j].equals( String.class )
-						|| typeArray[j].equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+				else if ( fieldType.equals( String.class )
+						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 					oos.writeUTF( fieldValue.toString( ) );
 			}
 			oos.flush( );
