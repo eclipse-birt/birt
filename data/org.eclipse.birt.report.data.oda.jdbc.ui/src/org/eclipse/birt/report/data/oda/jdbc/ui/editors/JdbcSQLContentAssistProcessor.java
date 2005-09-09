@@ -40,7 +40,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  * If both a schema and a table have the same name the results are
  * unpredictable.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/23 05:37:11 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/26 01:21:28 $
  */
 
 public class JdbcSQLContentAssistProcessor implements
@@ -364,8 +364,7 @@ public class JdbcSQLContentAssistProcessor implements
 		{
 			//just raad until we encounter something that is not a character
 			while ( startOffset > viewer.getTopIndexStartOffset( )
-					&& Character.isLetterOrDigit( viewer.getDocument( )
-							.getChar( startOffset ) ) )
+					&& viewer.getDocument( ).getChar( startOffset ) != '.'&& viewer.getDocument( ).getChar( startOffset )!=' ' )
 			{
 				startOffset--;
 			}

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Implement the Data Set Editor page for SampleDB data sets.
@@ -40,6 +41,18 @@ public class SampleDataSetEditor extends SQLDataSetEditorPage
 			String user = "";
 			String password = "";
 			String url = SampleDBDriver.getUrl();
+			
+			try
+			{
+				dataSourceHandle.setProperty( "odaDriverClass", SampleDBDriver.DRIVER_CLASS );
+				dataSourceHandle.setProperty( "odaURL", url );
+				dataSourceHandle.setProperty( "odaUser", SampleDBDriver.SAMPLE_DB_SCHEMA);
+			}
+			catch ( SemanticException e )
+			{
+				//Should not arrive here
+			}
+			
 			return ( (JdbcMetaDataProvider) metadata ).connect( user,
 					password,
 					url,

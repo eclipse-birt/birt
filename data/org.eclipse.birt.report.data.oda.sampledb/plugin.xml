@@ -30,7 +30,40 @@
             driverClass="org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver"
             defaultDisplayName="%datasource.name"
             setThreadContextClassLoader="false"
-            id="org.eclipse.birt.report.data.oda.sampledb"/>
+            id="org.eclipse.birt.report.data.oda.sampledb">
+            <properties>
+            <propertyGroup
+                  defaultDisplayName="Connection Properties"
+                  name="connectionProperties">
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver Class"
+                  canInherit="true"
+                  name="odaDriverClass"/>
+               <property
+                  type="string"
+                  defaultDisplayName="JDBC Driver URL"
+                  canInherit="true"
+                  name="odaURL"/>
+               <property
+                  type="string"
+                  defaultDisplayName="Data Source"
+                  canInherit="true"
+                  name="odaDataSource"/>
+               <property
+                  type="string"
+                  defaultDisplayName="User Name"
+                  canInherit="true"
+                  name="odaUser"/>
+               <property
+                     isEncryptable="true"
+                     type="string"
+                     canInherit="true"
+                     defaultDisplayName="Password"
+                     name="odaPassword"/>
+            </propertyGroup>
+         </properties>
+      </dataSource>   
       <dataSet
             defaultDisplayName="%select.dataset.name"
             id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
