@@ -314,7 +314,11 @@ final class SwingTextRenderer implements IConstants
 			bShadow = la.getShadowColor( ) != null;
 		}
 		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
-		Color clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
 		final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
@@ -366,8 +370,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -429,8 +436,11 @@ final class SwingTextRenderer implements IConstants
 						- dFH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -487,8 +497,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND FILL
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -546,8 +559,11 @@ final class SwingTextRenderer implements IConstants
 						- dFH, dFW, dFH );
 
 				// RENDER THE BACKGROUND FILL
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -605,8 +621,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND FILL
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -658,7 +677,11 @@ final class SwingTextRenderer implements IConstants
 			bShadow = la.getShadowColor( ) != null;
 		}
 		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
-		Color clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
 
 		// dX += 2;
 		dY += 1;
@@ -711,8 +734,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND FILL
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -776,8 +802,11 @@ final class SwingTextRenderer implements IConstants
 						dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -837,8 +866,11 @@ final class SwingTextRenderer implements IConstants
 						- dFH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -897,8 +929,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -957,8 +992,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1010,7 +1048,11 @@ final class SwingTextRenderer implements IConstants
 		// _sxs.getColor(la.getShadowColor()) : null;
 		double dAngleInDegrees = fd.getRotation( );
 		Color clrText = (Color) _sxs.getColor( la.getCaption( ).getColor( ) );
-		Color clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
 		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
@@ -1056,8 +1098,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1116,8 +1161,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1171,8 +1219,11 @@ final class SwingTextRenderer implements IConstants
 						- dH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1232,8 +1283,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1297,8 +1351,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1353,7 +1410,11 @@ final class SwingTextRenderer implements IConstants
 		final double dAngleInDegrees = fd.getRotation( );
 		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
 				.getColor( ) );
-		final Color clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		Color clrBackground = null;
+		if ( la.getBackground( ) != null )
+		{
+			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
+		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
 		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
@@ -1402,8 +1463,11 @@ final class SwingTextRenderer implements IConstants
 						dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1466,8 +1530,11 @@ final class SwingTextRenderer implements IConstants
 						dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1529,8 +1596,11 @@ final class SwingTextRenderer implements IConstants
 						- dFH, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1595,8 +1665,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1658,8 +1731,11 @@ final class SwingTextRenderer implements IConstants
 						- dYHalfOffset, dFW, dFH );
 
 				// RENDER THE BACKGROUND
-				g2d.setColor( clrBackground );
-				g2d.fill( r2d );
+				if ( clrBackground != null )
+				{
+					g2d.setColor( clrBackground );
+					g2d.fill( r2d );
+				}
 
 				// RENDER THE TEXT
 				g2d.setColor( clrText );
@@ -1711,7 +1787,7 @@ final class SwingTextRenderer implements IConstants
 	private final void renderOutline( IPrimitiveRenderer ipr,
 			LineAttributes lia, Rectangle2D.Double r2d )
 	{
-		if ( lia.isVisible( ) )
+		if ( lia != null && lia.isVisible( ) )
 		{
 			Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
 			Stroke sPrevious = null;

@@ -23,6 +23,7 @@ import java.awt.Stroke;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -438,7 +439,7 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * @param la
 	 * @return
 	 */
-	static final int[][] getCoordinatesAsInts( Location[] la )
+	protected static final int[][] getCoordinatesAsInts( Location[] la )
 	{
 		final int n = la.length;
 		final int[] iaX = new int[n];
@@ -673,13 +674,52 @@ public class SwingRendererImpl extends DeviceAdapter
 			_g2d.setStroke( sCurrent );
 		}
 		_g2d.setColor( cFG );
-		_g2d.draw( new Arc2D.Double( are.getTopLeft( ).getX( ),
-				are.getTopLeft( ).getY( ),
-				are.getWidth( ),
-				are.getHeight( ),
-				are.getStartAngle( ),
-				are.getAngleExtent( ),
-				toSwingArcType( are.getStyle( ) ) ) );
+
+		if ( are.getInnerRadius( ) >= 0
+				&& are.getOuterRadius( ) > 0
+				&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+		{
+			Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+					+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
+					/ 2,
+					are.getTopLeft( ).getY( )
+							+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+							/ 2,
+					2 * are.getOuterRadius( ),
+					2 * are.getOuterRadius( ),
+					are.getStartAngle( ),
+					are.getAngleExtent( ),
+					Arc2D.PIE );
+			Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+					/ 2,
+					are.getTopLeft( ).getY( )
+							+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+							/ 2,
+					2 * are.getInnerRadius( ),
+					2 * are.getInnerRadius( ),
+					are.getStartAngle( ),
+					are.getAngleExtent( ),
+					Arc2D.PIE );
+
+			Area fArea = new Area( outerArc );
+			fArea.exclusiveOr( new Area( innerArc ) );
+
+			Shape prevClip = _g2d.getClip( );
+			_g2d.setClip( fArea );
+			_g2d.draw( fArea );
+			_g2d.setClip( prevClip );
+		}
+		else
+		{
+			_g2d.draw( new Arc2D.Double( are.getTopLeft( ).getX( ),
+					are.getTopLeft( ).getY( ),
+					are.getWidth( ),
+					are.getHeight( ),
+					are.getStartAngle( ),
+					are.getAngleExtent( ),
+					toSwingArcType( are.getStyle( ) ) ) );
+		}
 
 		if ( sPrevious != null ) // RESTORE PREVIOUS STROKE
 		{
@@ -717,14 +757,55 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( flBackground instanceof ColorDefinition )
 		{
 			final Color clrPrevious = _g2d.getColor( );
-			_g2d.setColor( (Color) _ids.getColor( (ColorDefinition) flBackground ) );
-			_g2d.fill( new Arc2D.Double( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ),
-					are.getStartAngle( ),
-					are.getAngleExtent( ),
-					toSwingArcType( are.getStyle( ) ) ) );
+			final Color currentColor = (Color) _ids.getColor( (ColorDefinition) flBackground );
+			_g2d.setColor( currentColor );
+
+			if ( are.getInnerRadius( ) >= 0
+					&& are.getOuterRadius( ) > 0
+					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			{
+				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+								/ 2,
+						2 * are.getOuterRadius( ),
+						2 * are.getOuterRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+								/ 2,
+						2 * are.getInnerRadius( ),
+						2 * are.getInnerRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+
+				Area fArea = new Area( outerArc );
+				fArea.exclusiveOr( new Area( innerArc ) );
+
+				Shape prevClip = _g2d.getClip( );
+				_g2d.setClip( fArea );
+				_g2d.fill( fArea );
+				_g2d.setClip( prevClip );
+			}
+			else
+			{
+				_g2d.fill( new Arc2D.Double( are.getTopLeft( ).getX( ),
+						are.getTopLeft( ).getY( ),
+						are.getWidth( ),
+						are.getHeight( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						toSwingArcType( are.getStyle( ) ) ) );
+			}
+
 			_g2d.setColor( clrPrevious ); // RESTORE
 		}
 		else if ( flBackground instanceof Gradient )
@@ -732,15 +813,9 @@ public class SwingRendererImpl extends DeviceAdapter
 			final Gradient g = (Gradient) flBackground;
 			final ColorDefinition cdStart = (ColorDefinition) g.getStartColor( );
 			final ColorDefinition cdEnd = (ColorDefinition) g.getEndColor( );
-			// boolean bCyclic = g.isCyclic();
 			double dAngleInDegrees = g.getDirection( );
 			final double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
-			// int iAlpha = g.getTransparency();
 			Bounds bo = are.getBounds( );
-
-			/*
-			 * if (bCyclic) { }
-			 */
 
 			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
 			{
@@ -791,18 +866,59 @@ public class SwingRendererImpl extends DeviceAdapter
 				p2dEnd = new Point2D.Double( bo.getLeft( ) + bo.getWidth( ),
 						bo.getTop( ) );
 			}
+
 			final Paint pPrevious = _g2d.getPaint( );
 			_g2d.setPaint( new GradientPaint( p2dStart,
 					(Color) _ids.getColor( cdStart ),
 					p2dEnd,
 					(Color) _ids.getColor( cdEnd ) ) );
-			_g2d.fill( new Arc2D.Double( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ),
-					are.getStartAngle( ),
-					are.getAngleExtent( ),
-					toSwingArcType( are.getStyle( ) ) ) );
+
+			if ( are.getInnerRadius( ) >= 0
+					&& are.getOuterRadius( ) > 0
+					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			{
+				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+								/ 2,
+						2 * are.getOuterRadius( ),
+						2 * are.getOuterRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+								/ 2,
+						2 * are.getInnerRadius( ),
+						2 * are.getInnerRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+
+				Area fArea = new Area( outerArc );
+				fArea.exclusiveOr( new Area( innerArc ) );
+
+				Shape prevClip = _g2d.getClip( );
+				_g2d.setClip( fArea );
+				_g2d.fill( fArea );
+				_g2d.setClip( prevClip );
+			}
+			else
+			{
+				_g2d.fill( new Arc2D.Double( are.getTopLeft( ).getX( ),
+						are.getTopLeft( ).getY( ),
+						are.getWidth( ),
+						are.getHeight( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						toSwingArcType( are.getStyle( ) ) ) );
+			}
+
 			_g2d.setPaint( pPrevious ); // RESTORE
 		}
 		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
@@ -813,16 +929,52 @@ public class SwingRendererImpl extends DeviceAdapter
 					bo.getWidth( ),
 					bo.getHeight( ) );
 
-			// SETUP THE CLIPPING AREA
-			final Shape shArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ),
-					are.getStartAngle( ),
-					are.getAngleExtent( ),
-					toSwingArcType( are.getStyle( ) ) );
 			Shape shPreviousClip = _g2d.getClip( );
-			_g2d.setClip( shArc );
+
+			if ( are.getInnerRadius( ) >= 0
+					&& are.getOuterRadius( ) > 0
+					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
+			{
+				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+								/ 2,
+						2 * are.getOuterRadius( ),
+						2 * are.getOuterRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+								/ 2,
+						2 * are.getInnerRadius( ),
+						2 * are.getInnerRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+
+				Area fArea = new Area( outerArc );
+				fArea.exclusiveOr( new Area( innerArc ) );
+
+				_g2d.setClip( fArea );
+			}
+			else
+			{
+				// SETUP THE CLIPPING AREA
+				final Shape shArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
+						are.getTopLeft( ).getY( ),
+						are.getWidth( ),
+						are.getHeight( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						toSwingArcType( are.getStyle( ) ) );
+				_g2d.setClip( shArc );
+			}
 
 			// LOAD THE IMAGE
 			final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
@@ -859,7 +1011,7 @@ public class SwingRendererImpl extends DeviceAdapter
 							io );
 				}
 			}
-			// img(); // FLUSHED LATER BY CACHE; DON'T FLUSH HERE
+
 			_g2d.setClip( shPreviousClip ); // RESTORE
 		}
 	}

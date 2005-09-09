@@ -36,19 +36,24 @@
             name="dv.GIF8"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.PngRendererImpl"
-            name="dv.PNG"/>
+            name="dv.PNG"
+            format="PNG"
+            description="Portable Network Graphics"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.GifRendererImpl"
-            name="dv.GIF"/>
+            name="dv.GIF"
+            format="GIF"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.JpegRendererImpl"
             name="dv.JPEG"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.JpegRendererImpl"
-            name="dv.JPG"/>
+            name="dv.JPG"
+            format="JPG"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.BmpRendererImpl"
-            name="dv.BMP"/>
+            name="dv.BMP"
+            format="BMP"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.displayservers">
