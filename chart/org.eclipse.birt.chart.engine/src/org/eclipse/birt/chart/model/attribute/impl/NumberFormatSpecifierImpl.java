@@ -28,21 +28,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getSuffix <em>Suffix</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl#getFractionDigits <em>Fraction Digits</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
@@ -50,9 +42,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 {
 
 	/**
-	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -60,9 +51,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected static final String PREFIX_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -70,9 +60,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected String prefix = PREFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -80,9 +69,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected static final String SUFFIX_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -90,9 +78,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected String suffix = SUFFIX_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -100,9 +87,8 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -151,7 +137,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected NumberFormatSpecifierImpl( )
@@ -161,7 +146,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -171,7 +155,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getPrefix( )
@@ -181,7 +164,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPrefix( String newPrefix )
@@ -198,7 +180,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getSuffix( )
@@ -208,7 +189,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSuffix( String newSuffix )
@@ -225,7 +205,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getMultiplier( )
@@ -235,7 +214,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMultiplier( double newMultiplier )
@@ -255,7 +233,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetMultiplier( )
@@ -275,7 +252,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetMultiplier( )
@@ -285,7 +261,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getFractionDigits( )
@@ -295,7 +270,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFractionDigits( int newFractionDigits )
@@ -315,7 +289,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetFractionDigits( )
@@ -335,7 +308,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetFractionDigits( )
@@ -345,7 +317,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -366,7 +337,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -391,7 +361,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -416,7 +385,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -439,7 +407,6 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -478,7 +445,7 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 	{
 		final NumberFormatSpecifier nfs = AttributeFactory.eINSTANCE.createNumberFormatSpecifier( );
 		nfs.setFractionDigits( 2 );
-		//jnfs.setMultiplier(1); // UNDEFINED SUGGESTS A DEFAULT OF '1'
+		// jnfs.setMultiplier(1); // UNDEFINED SUGGESTS A DEFAULT OF '1'
 		return nfs;
 	}
 
@@ -509,4 +476,4 @@ public class NumberFormatSpecifierImpl extends FormatSpecifierImpl implements
 		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue );
 	}
-} //NumberFormatSpecifierImpl
+} // NumberFormatSpecifierImpl

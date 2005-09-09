@@ -34,36 +34,23 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#isEnabled <em>Enabled</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingUnit <em>Grouping Unit</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingOrigin <em>Grouping Origin</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingInterval <em>Grouping Interval</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#isEnabled <em>Enabled</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingUnit <em>Grouping Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingOrigin <em>Grouping Origin</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingInterval <em>Grouping Interval</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 {
 
 	/**
-	 * The default value of the '{@link #isEnabled() <em>Enabled</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isEnabled()
 	 * @generated
 	 * @ordered
@@ -71,9 +58,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected static final boolean ENABLED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isEnabled() <em>Enabled</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isEnabled()
 	 * @generated
 	 * @ordered
@@ -81,9 +67,9 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected boolean enabled = ENABLED_EDEFAULT;
 
 	/**
-	 * This is true if the Enabled attribute has been set. <!-- begin-user-doc
+	 * This is true if the Enabled attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -121,10 +107,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected boolean groupingUnitESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGroupingOrigin()
 	 * @generated
 	 * @ordered
@@ -132,10 +116,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected DataElement groupingOrigin = null;
 
 	/**
-	 * The default value of the '
-	 * {@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
+	 * The default value of the '{@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGroupingInterval()
 	 * @generated
 	 * @ordered
@@ -143,10 +125,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected static final int GROUPING_INTERVAL_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
+	 * The cached value of the '{@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGroupingInterval()
 	 * @generated
 	 * @ordered
@@ -163,9 +143,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected boolean groupingIntervalESet = false;
 
 	/**
-	 * The default value of the '{@link #getGroupType() <em>Group Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getGroupType() <em>Group Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGroupType()
 	 * @generated
 	 * @ordered
@@ -173,9 +152,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected static final DataType GROUP_TYPE_EDEFAULT = DataType.NUMERIC_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getGroupType() <em>Group Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getGroupType() <em>Group Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGroupType()
 	 * @generated
 	 * @ordered
@@ -192,10 +170,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected boolean groupTypeESet = false;
 
 	/**
-	 * The default value of the '
-	 * {@link #getAggregateExpression() <em>Aggregate Expression</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getAggregateExpression() <em>Aggregate Expression</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAggregateExpression()
 	 * @generated
 	 * @ordered
@@ -203,10 +179,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected static final String AGGREGATE_EXPRESSION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getAggregateExpression() <em>Aggregate Expression</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAggregateExpression() <em>Aggregate Expression</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAggregateExpression()
 	 * @generated
 	 * @ordered
@@ -215,7 +189,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SeriesGroupingImpl( )
@@ -225,7 +198,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -235,7 +207,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isEnabled( )
@@ -245,7 +216,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setEnabled( boolean newEnabled )
@@ -265,7 +235,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetEnabled( )
@@ -285,7 +254,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetEnabled( )
@@ -295,7 +263,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public GroupingUnitType getGroupingUnit( )
@@ -305,7 +272,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGroupingUnit( GroupingUnitType newGroupingUnit )
@@ -326,7 +292,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetGroupingUnit( )
@@ -346,7 +311,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetGroupingUnit( )
@@ -356,7 +320,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getGroupingOrigin( )
@@ -366,7 +329,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetGroupingOrigin(
@@ -391,7 +353,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGroupingOrigin( DataElement newGroupingOrigin )
@@ -425,7 +386,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getGroupingInterval( )
@@ -435,7 +395,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGroupingInterval( int newGroupingInterval )
@@ -455,7 +414,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetGroupingInterval( )
@@ -475,7 +433,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetGroupingInterval( )
@@ -485,7 +442,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataType getGroupType( )
@@ -495,7 +451,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGroupType( DataType newGroupType )
@@ -515,7 +470,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetGroupType( )
@@ -535,7 +489,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetGroupType( )
@@ -545,7 +498,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getAggregateExpression( )
@@ -555,7 +507,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setAggregateExpression( String newAggregateExpression )
@@ -572,7 +523,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -596,7 +546,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -621,7 +570,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -652,7 +600,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -683,7 +630,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -709,7 +655,6 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

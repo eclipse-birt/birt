@@ -14,16 +14,16 @@ package org.eclipse.birt.chart.model.data;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Number Data Set</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds the numeric data associated with a series.
- * 
+ * 			This type holds the numeric data associated with a series.
+ * 			
  * <!-- end-model-doc -->
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getNumberDataSet()
- * @model
+ * @model extendedMetaData="name='NumberDataSet' kind='elementOnly'"
  * @generated
  */
 public interface NumberDataSet extends DataSet

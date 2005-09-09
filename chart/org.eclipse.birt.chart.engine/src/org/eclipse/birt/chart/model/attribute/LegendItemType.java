@@ -34,9 +34,9 @@ public final class LegendItemType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Series</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Series</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SERIES_LITERAL
 	 * @model name="Series"
 	 * @generated
@@ -45,9 +45,9 @@ public final class LegendItemType extends AbstractEnumerator
 	public static final int SERIES = 0;
 
 	/**
-	 * The '<em><b>Categories</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Categories</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #CATEGORIES_LITERAL
 	 * @model name="Categories"
 	 * @generated
@@ -56,13 +56,13 @@ public final class LegendItemType extends AbstractEnumerator
 	public static final int CATEGORIES = 1;
 
 	/**
-	 * The '<em><b>Series</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Series</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Series</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SERIES
 	 * @generated
 	 * @ordered
@@ -71,14 +71,14 @@ public final class LegendItemType extends AbstractEnumerator
 			"Series" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Categories</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Categories</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Categories</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CATEGORIES
 	 * @generated
 	 * @ordered
@@ -89,7 +89,6 @@ public final class LegendItemType extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Legend Item Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final LegendItemType[] VALUES_ARRAY = new LegendItemType[]{
@@ -97,17 +96,15 @@ public final class LegendItemType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Legend Item Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Legend Item Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static LegendItemType get( String name )
@@ -124,9 +121,8 @@ public final class LegendItemType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Legend Item Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static LegendItemType get( int value )
@@ -142,9 +138,9 @@ public final class LegendItemType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private LegendItemType( int value, String name )

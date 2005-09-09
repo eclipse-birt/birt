@@ -95,6 +95,7 @@ public class EventObjectCache
 		else
 		{
 			pre.setSourceObject( oSource );
+			pre.reset( );
 		}
 		return pre;
 	}

@@ -18,7 +18,9 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.EventObjectCache;
+import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -28,6 +30,8 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -39,104 +43,51 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class CurveRenderer
 {
 
-	/**
-	 * 
-	 */
-	private final float kError = 0.5f;
+	private final double kError = 0.5d;
 
-	/**
-	 * 
-	 */
 	private int iNumberOfPoints = 0;
 
-	/**
-	 * 
-	 */
 	private Spline spX = null, spY = null;
 
-	/**
-	 * 
-	 */
-	private float[] fa, faX, faY, lastX, lastY;
+	private double[] fa, faX, faY, faZ, lastX, lastY;
 
-	/**
-	 * 
-	 */
-	private final float zeroLocation;
+	private final double zeroLocation;
 
-	/**
-	 * 
-	 */
 	private final Object oSource;
 
-	/**
-	 * 
-	 */
 	private LineAttributes lia;
 
-	/**
-	 * 
-	 */
 	private final Location loStart, loEnd;
 
-	/**
-	 * 
-	 */
 	private final DeferredCache dc;
 
-	/**
-	 * 
-	 */
 	private final ChartWithAxes cwa;
-	/**
-	 * 
-	 */
+
 	private final boolean bShowAsTape;
 
-	/**
-	 * 
-	 */
 	private final boolean bFillArea;
 
-	/**
-	 * 
-	 */
 	private final boolean bUseLastState;
 
-	/**
-	 * 
-	 */
 	private final boolean bKeepState;
 
-	/**
-	 * 
-	 */
 	private final boolean bTranslucent;
 
-	/**
-	 * 
-	 */
 	private final boolean bDeferred;
 
-	/**
-	 * 
-	 */
 	private final Location[] loa;
 
-	/**
-	 * 
-	 */
-	private final double dSeriesThickness;
+	private final Location3D[] loa3d;
 
-	/**
-	 * 
-	 */
+	private final Location[] loPoints;
+
+	private final double dTapeWidth;
+
 	private ColorDefinition fillColor, sideColor, tapeColor;
 
-	/**
-	 * 
-	 */
 	private final BaseRenderer iRender;
+
+	private final boolean bRendering3D;
 
 	/**
 	 * 
@@ -146,17 +97,17 @@ public final class CurveRenderer
 	 * @param _faY
 	 */
 	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
-			LineAttributes _lia, float[] _faX, float[] _faY,
-			boolean _bShowAsTape, boolean _bDeferred, boolean _bKeepState,
+			LineAttributes _lia, Location[] _lo, boolean _bShowAsTape,
+			double _tapeWidth, boolean _bDeferred, boolean _bKeepState,
 			Fill paletteEntry )
 	{
 		this( _cwa,
 				_render,
 				_lia,
-				_faX,
-				_faY,
+				_lo,
 				0,
 				_bShowAsTape,
+				_tapeWidth,
 				false,
 				false,
 				false,
@@ -174,16 +125,28 @@ public final class CurveRenderer
 	 * @param _bShowAsTape
 	 */
 	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
-			LineAttributes _lia, float[] _faX, float[] _faY,
-			float _zeroLocation, boolean _bShowAsTape, boolean _bFillArea,
+			LineAttributes _lia, Location[] _lo, double _zeroLocation,
+			boolean _bShowAsTape, double _tapeWidth, boolean _bFillArea,
 			boolean _bTranslucent, boolean _bUseLastState, boolean _bDeferred,
 			boolean _bKeepState, Fill paletteEntry )
 	{
+		cwa = _cwa;
+		loPoints = _lo;
+		bRendering3D = loPoints instanceof Location3D[];
+
 		bFillArea = _bFillArea;
 		bShowAsTape = _bShowAsTape;
 		bDeferred = _bDeferred;
 		loa = ( bShowAsTape || bFillArea ) ? new Location[4] : null;
-		dSeriesThickness = _cwa.getSeriesThickness( );
+		loa3d = ( bRendering3D ) ? new Location3D[4] : null;
+		if ( _tapeWidth == -1 )
+		{
+			dTapeWidth = _cwa.getSeriesThickness( );
+		}
+		else
+		{
+			dTapeWidth = _tapeWidth;
+		}
 		if ( loa != null )
 		{
 			for ( int i = 0; i < 4; i++ )
@@ -191,10 +154,24 @@ public final class CurveRenderer
 				loa[i] = LocationImpl.create( 0, 0 );
 			}
 		}
+		if ( loa3d != null )
+		{
+			for ( int i = 0; i < 4; i++ )
+			{
+				loa3d[i] = Location3DImpl.create( 0, 0, 0 );
+			}
+		}
 
-		cwa = _cwa;
-		faX = _faX;
-		faY = _faY;
+		faX = LocationImpl.getXArray( loPoints );
+		faY = LocationImpl.getYArray( loPoints );
+		if ( bRendering3D )
+		{
+			faZ = Location3DImpl.getZArray( (Location3D[]) loPoints );
+		}
+		else
+		{
+			faZ = null;
+		}
 		lia = _lia;
 		zeroLocation = _zeroLocation;
 		bTranslucent = _bTranslucent;
@@ -206,7 +183,7 @@ public final class CurveRenderer
 
 		bUseLastState = _bUseLastState;
 		bKeepState = _bKeepState;
-		
+
 		if ( paletteEntry instanceof ColorDefinition )
 		{
 			lia = (LineAttributes) EcoreUtil.copy( lia );
@@ -258,7 +235,7 @@ public final class CurveRenderer
 		// Y-CORDINATES
 		spY = new Spline( faY ); // Y-SPLINE
 
-		fa = new float[iNumberOfPoints];
+		fa = new double[iNumberOfPoints];
 		for ( int i = 0; i < iNumberOfPoints; i++ )
 		{
 			fa[i] = i;
@@ -276,49 +253,85 @@ public final class CurveRenderer
 	 * @param y2
 	 * @throws RenderingException
 	 */
-	private final void plotPlane( IPrimitiveRenderer ipr, float x1, float y1,
-			float x2, float y2, boolean drawSide ) throws ChartException
+	private final void plotPlane( IPrimitiveRenderer ipr, double x1, double y1,
+			double x2, double y2, double z1, double z2, boolean drawSide,
+			boolean leftSide ) throws ChartException
 	{
-		final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
-				PolygonRenderEvent.class );
-		pre.setOutline( null );
-		pre.setBackground( tapeColor );
-		loa[0].set( x1 + kError, y1 + kError );
-		loa[1].set( x2 + kError, y2 + kError );
-		loa[2].set( x2 + kError + dSeriesThickness, y2
-				+ kError
-				- dSeriesThickness );
-		loa[3].set( x1 + kError + dSeriesThickness, y1
-				+ kError
-				- dSeriesThickness );
-		pre.setPoints( loa );
-
-		if ( bDeferred )
+		if ( bRendering3D )
 		{
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					Polygon3DRenderEvent.class );
+			pre.setOutline( null );
+			pre.setBackground( tapeColor );
+
+			if ( !leftSide )
+			{
+				loa3d[0].set( x1 + kError, y1 + kError, z1 );
+				loa3d[1].set( x2 + kError, y2 + kError, z2 );
+				loa3d[2].set( x2 + kError, y2 + kError, z2 - dTapeWidth );
+				loa3d[3].set( x1 + kError, y1 + kError, z1 - dTapeWidth );
+				pre.setPoints3D( loa3d );
+
+				dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			}
+
+			if ( drawSide )
+			{
+				pre.setBackground( sideColor );
+
+				if ( leftSide )
+				{
+					if ( y1 + kError > zeroLocation )
+					{
+						loa3d[0].set( x1 + kError, y1 + kError, z1 );
+						loa3d[1].set( x1 + kError, y1 + kError, z1 - dTapeWidth );
+						loa3d[2].set( x1 + kError, zeroLocation, z1
+								- dTapeWidth );
+						loa3d[3].set( x1 + kError, zeroLocation, z1 );
+					}
+					else
+					{
+						loa3d[0].set( x1 + kError, y1 + kError, z1 );
+						loa3d[1].set( x1 + kError, zeroLocation, z1 );
+						loa3d[2].set( x1 + kError, zeroLocation, z1
+								- dTapeWidth );
+						loa3d[3].set( x1 + kError, y1 + kError, z1 - dTapeWidth );
+					}
+				}
+				else
+				{
+					if ( y2 + kError > zeroLocation )
+					{
+						loa3d[0].set( x2 + kError, y2 + kError, z2 );
+						loa3d[1].set( x2 + kError, zeroLocation, z2 );
+						loa3d[2].set( x2 + kError, zeroLocation, z2
+								- dTapeWidth );
+						loa3d[3].set( x2 + kError, y2 + kError, z2 - dTapeWidth );
+					}
+					else
+					{
+						loa3d[0].set( x2 + kError, y2 + kError, z2 );
+						loa3d[1].set( x2 + kError, y2 + kError, z2 - dTapeWidth );
+						loa3d[2].set( x2 + kError, zeroLocation, z2
+								- dTapeWidth );
+						loa3d[3].set( x2 + kError, zeroLocation, z2 );
+					}
+				}
+				pre.setPoints3D( loa3d );
+
+				dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			}
 		}
 		else
 		{
-			ipr.fillPolygon( pre );
-		}
-
-		if ( drawSide )
-		{
-			pre.setBackground( sideColor );
-			loa[0].set( x2 + kError, y2 + kError );
-			loa[1].set( x2 + kError + dSeriesThickness, y2
-					+ kError
-					- dSeriesThickness );
-			if ( cwa.isTransposed( ) )
-			{
-				loa[2].set( zeroLocation, y2 + kError - dSeriesThickness );
-				loa[3].set( zeroLocation, y2 + kError );
-			}
-			else
-			{
-				loa[2].set( x2 + kError + dSeriesThickness, zeroLocation );
-				loa[3].set( x2 + kError, zeroLocation );
-			}
+			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					PolygonRenderEvent.class );
+			pre.setOutline( null );
+			pre.setBackground( tapeColor );
+			loa[0].set( x1 + kError, y1 + kError );
+			loa[1].set( x2 + kError, y2 + kError );
+			loa[2].set( x2 + kError + dTapeWidth, y2 + kError - dTapeWidth );
+			loa[3].set( x1 + kError + dTapeWidth, y1 + kError - dTapeWidth );
 			pre.setPoints( loa );
 
 			if ( bDeferred )
@@ -328,6 +341,33 @@ public final class CurveRenderer
 			else
 			{
 				ipr.fillPolygon( pre );
+			}
+
+			if ( drawSide )
+			{
+				pre.setBackground( sideColor );
+				loa[0].set( x2 + kError, y2 + kError );
+				loa[1].set( x2 + kError + dTapeWidth, y2 + kError - dTapeWidth );
+				if ( cwa.isTransposed( ) )
+				{
+					loa[2].set( zeroLocation, y2 + kError - dTapeWidth );
+					loa[3].set( zeroLocation, y2 + kError );
+				}
+				else
+				{
+					loa[2].set( x2 + kError + dTapeWidth, zeroLocation );
+					loa[3].set( x2 + kError, zeroLocation );
+				}
+				pre.setPoints( loa );
+
+				if ( bDeferred )
+				{
+					dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+				}
+				else
+				{
+					ipr.fillPolygon( pre );
+				}
 			}
 		}
 	}
@@ -341,24 +381,37 @@ public final class CurveRenderer
 	 * @param y2
 	 * @throws RenderingException
 	 */
-	private final void plotLine( IPrimitiveRenderer ipr, float x1, float y1,
-			float x2, float y2 ) throws ChartException
+	private final void plotLine( IPrimitiveRenderer ipr, double x1, double y1,
+			double x2, double y2, double z1, double z2 ) throws ChartException
 	{
-		final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
-				LineRenderEvent.class );
-		lre.setLineAttributes( lia );
-		loStart.set( x1 + kError, y1 + kError );
-		loEnd.set( x2 + kError, y2 + kError );
-		lre.setStart( loStart );
-		lre.setEnd( loEnd );
-
-		if ( bDeferred )
+		if ( bRendering3D )
 		{
+			final Line3DRenderEvent lre = (Line3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					Line3DRenderEvent.class );
+			lre.setLineAttributes( lia );
+			lre.setStart3D( Location3DImpl.create( x1 + kError, y1 + kError, z1 ) );
+			lre.setEnd3D( Location3DImpl.create( x2 + kError, y2 + kError, z2 ) );
+
 			dc.addLine( lre );
 		}
 		else
 		{
-			ipr.drawLine( lre );
+			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+					LineRenderEvent.class );
+			lre.setLineAttributes( lia );
+			loStart.set( x1 + kError, y1 + kError );
+			loEnd.set( x2 + kError, y2 + kError );
+			lre.setStart( loStart );
+			lre.setEnd( loEnd );
+
+			if ( bDeferred )
+			{
+				dc.addLine( lre );
+			}
+			else
+			{
+				ipr.drawLine( lre );
+			}
 		}
 	}
 
@@ -368,7 +421,7 @@ public final class CurveRenderer
 	 * @param faXY
 	 * @return
 	 */
-	private final boolean computeSpline( float t, float[] faXY )
+	private final boolean computeSpline( double t, double[] faXY )
 	{
 		if ( spX == null || spY == null )
 		{
@@ -392,8 +445,12 @@ public final class CurveRenderer
 			return;
 		}
 
-		final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
-				PolygonRenderEvent.class );
+		final PolygonRenderEvent pre = bRendering3D ? null
+				: (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+						PolygonRenderEvent.class );
+		final Polygon3DRenderEvent pre3d = bRendering3D ? (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				Polygon3DRenderEvent.class )
+				: null;
 
 		if ( bUseLastState )
 		{
@@ -410,16 +467,16 @@ public final class CurveRenderer
 				{
 					Object o = lst.get( i );
 
-					if ( o instanceof float[] )
+					if ( o instanceof double[] )
 					{
 						if ( lastX == null )
 						{
-							lastX = new float[lst.size( )];
-							lastY = new float[lastX.length];
+							lastX = new double[lst.size( )];
+							lastY = new double[lastX.length];
 						}
 
-						lastX[i] = ( (float[]) o )[0];
-						lastY[i] = ( (float[]) o )[1];
+						lastX[i] = ( (double[]) o )[0];
+						lastY[i] = ( (double[]) o )[1];
 					}
 					else
 					{
@@ -437,7 +494,7 @@ public final class CurveRenderer
 
 				for ( int i = 0; i < points.size( ); i++ )
 				{
-					float[] pt = (float[]) points.get( i );
+					double[] pt = (double[]) points.get( i );
 					pa[i] = LocationImpl.create( pt[0], pt[1] );
 				}
 
@@ -465,39 +522,96 @@ public final class CurveRenderer
 			}
 		}
 
-		Location[] pa = new Location[points.size( ) + 2];
-
-		for ( int i = 0; i < points.size( ); i++ )
+		if ( bRendering3D )
 		{
-			float[] pt = (float[]) points.get( i );
-			pa[i] = LocationImpl.create( pt[0], pt[1] );
-		}
+			Location3D[] pa = new Location3D[points.size( ) + 2];
 
-		if ( cwa.isTransposed( ) )
-		{
-			pa[pa.length - 2] = LocationImpl.create( zeroLocation,
-					pa[pa.length - 3].getY( ) );
-			pa[pa.length - 1] = LocationImpl.create( zeroLocation, pa[0].getY( ) );
+			double[] pt0 = (double[]) points.get( 0 );
+
+			if ( pt0[1] > zeroLocation )
+			{
+				for ( int i = 1; i < points.size( ); i++ )
+				{
+					double[] pt = (double[]) points.get( i );
+					pa[pa.length - i] = Location3DImpl.create( pt[0],
+							pt[1],
+							pt[2] );
+				}
+				pa[0] = Location3DImpl.create( pt0[0], pt0[1], pt0[2] );
+				pa[1] = Location3DImpl.create( pt0[0], zeroLocation, pt0[2] );
+				pa[2] = Location3DImpl.create( pa[3].getX( ),
+						zeroLocation,
+						pa[3].getZ( ) );
+			}
+			else
+			{
+				for ( int i = 0; i < points.size( ); i++ )
+				{
+					double[] pt = (double[]) points.get( i );
+					pa[i + 2] = Location3DImpl.create( pt[0], pt[1], pt[2] );
+				}
+				pa[0] = Location3DImpl.create( pa[pa.length - 1].getX( ),
+						zeroLocation,
+						pa[pa.length - 1].getZ( ) );
+				pa[1] = Location3DImpl.create( pt0[0], zeroLocation, pt0[2] );
+			}
+
+			pre3d.setOutline( null );
+			pre3d.setPoints3D( pa );
+			pre3d.setBackground( fillColor );
+			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+
+			for ( int i = 0; i < pa.length; i++ )
+			{
+				pa[i].setZ( pa[i].getZ( ) - dTapeWidth );
+			}
+			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+
+			double[] pte = (double[]) points.get( points.size( ) - 1 );
+			loa3d[0].set( pt0[0], zeroLocation, pt0[2] );
+			loa3d[1].set( pt0[0], zeroLocation, pt0[2] - dTapeWidth );
+			loa3d[2].set( pte[0], zeroLocation, pte[2] - dTapeWidth );
+			loa3d[3].set( pte[0], zeroLocation, pte[2] );
+			pre3d.setPoints3D( loa3d );
+			dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 		}
 		else
 		{
-			pa[pa.length - 2] = LocationImpl.create( pa[pa.length - 3].getX( ),
-					zeroLocation );
-			pa[pa.length - 1] = LocationImpl.create( pa[0].getX( ),
-					zeroLocation );
-		}
+			Location[] pa = new Location[points.size( ) + 2];
 
-		pre.setOutline( null );
-		pre.setPoints( pa );
-		pre.setBackground( fillColor );
+			for ( int i = 0; i < points.size( ); i++ )
+			{
+				double[] pt = (double[]) points.get( i );
+				pa[i] = LocationImpl.create( pt[0], pt[1] );
+			}
 
-		if ( bDeferred )
-		{
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
-		}
-		else
-		{
-			ipr.fillPolygon( pre );
+			if ( cwa.isTransposed( ) )
+			{
+				pa[pa.length - 2] = LocationImpl.create( zeroLocation,
+						pa[pa.length - 3].getY( ) );
+				pa[pa.length - 1] = LocationImpl.create( zeroLocation,
+						pa[0].getY( ) );
+			}
+			else
+			{
+				pa[pa.length - 2] = LocationImpl.create( pa[pa.length - 3].getX( ),
+						zeroLocation );
+				pa[pa.length - 1] = LocationImpl.create( pa[0].getX( ),
+						zeroLocation );
+			}
+
+			pre.setOutline( null );
+			pre.setPoints( pa );
+			pre.setBackground( fillColor );
+
+			if ( bDeferred )
+			{
+				dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			}
+			else
+			{
+				ipr.fillPolygon( pre );
+			}
 		}
 	}
 
@@ -508,20 +622,20 @@ public final class CurveRenderer
 	 * @param fYOffset
 	 * @throws RenderingException
 	 */
-	private final void renderCurve( IPrimitiveRenderer ipr, float fXOffset,
-			float fYOffset ) throws ChartException
+	private final void renderCurve( IPrimitiveRenderer ipr, double fXOffset,
+			double fYOffset ) throws ChartException
 	{
-		final float[] faKnotXY1 = new float[2];
-		final float[] faKnotXY2 = new float[2];
+		final double[] faKnotXY1 = new double[2];
+		final double[] faKnotXY2 = new double[2];
 		if ( !computeSpline( fa[0], faKnotXY1 ) )
 		{
 			return;
 		}
 
 		int iNumberOfDivisions;
-		float fX, fY;
-		float[] faXY1, faXY2;
-		float fT;
+		double fX, fY;
+		double[] faXY1, faXY2;
+		double fT;
 
 		final ArrayList stateList = new ArrayList( );
 
@@ -535,8 +649,8 @@ public final class CurveRenderer
 			fY = faKnotXY2[1] - faKnotXY1[1];
 			iNumberOfDivisions = (int) ( Math.sqrt( fX * fX + fY * fY ) / 5.0f ) + 1;
 
-			faXY1 = new float[2];
-			faXY2 = new float[2];
+			faXY1 = new double[2];
+			faXY2 = new double[2];
 			if ( !computeSpline( fa[i], faXY1 ) )
 			{
 				continue;
@@ -546,16 +660,34 @@ public final class CurveRenderer
 			{
 				fT = fa[i]
 						+ ( fa[i + 1] - fa[i] )
-						* (float) ( j + 1 )
-						/ (float) iNumberOfDivisions;
+						* (double) ( j + 1 )
+						/ (double) iNumberOfDivisions;
 				if ( !computeSpline( fT, faXY2 ) )
 				{
 					continue;
 				}
 				if ( bShowAsTape )
 				{
+					boolean drawLeftSide = ( i == 0 )
+							&& ( j == 0 )
+							&& bKeepState
+							&& bRendering3D;
+
+					if ( drawLeftSide )
+					{
+						plotPlane( ipr,
+								faXY1[0] + fXOffset,
+								faXY1[1] + fYOffset,
+								faXY2[0] + fXOffset,
+								faXY2[1] + fYOffset,
+								bRendering3D ? faZ[i] : 0,
+								bRendering3D ? faZ[i] : 0,
+								true,
+								true );
+					}
+
 					// TODO user a single surface to draw the tape.
-					boolean drawSide = ( i == iNumberOfPoints - 2 )
+					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
 							&& ( j == iNumberOfDivisions - 1 && bKeepState );
 
 					plotPlane( ipr,
@@ -563,7 +695,10 @@ public final class CurveRenderer
 							faXY1[1] + fYOffset,
 							faXY2[0] + fXOffset,
 							faXY2[1] + fYOffset,
-							drawSide );
+							bRendering3D ? faZ[i] : 0,
+							bRendering3D ? faZ[i] : 0,
+							drawRightSide,
+							false );
 				}
 
 				if ( !bFillArea )
@@ -573,16 +708,30 @@ public final class CurveRenderer
 							faXY1[0] + fXOffset,
 							faXY1[1] + fYOffset,
 							faXY2[0] + fXOffset,
-							faXY2[1] + fYOffset );
+							faXY2[1] + fYOffset,
+							bRendering3D ? faZ[i] : 0,
+							bRendering3D ? faZ[i] : 0 );
 				}
 
 				// TODO remove the duplicate points.
-				stateList.add( new float[]{
-						faXY1[0] + fXOffset, faXY1[1] + fYOffset
-				} );
-				stateList.add( new float[]{
-						faXY2[0] + fXOffset, faXY2[1] + fYOffset
-				} );
+				if ( bRendering3D )
+				{
+					stateList.add( new double[]{
+							faXY1[0] + fXOffset, faXY1[1] + fYOffset, faZ[i]
+					} );
+					stateList.add( new double[]{
+							faXY2[0] + fXOffset, faXY2[1] + fYOffset, faZ[i]
+					} );
+				}
+				else
+				{
+					stateList.add( new double[]{
+							faXY1[0] + fXOffset, faXY1[1] + fYOffset
+					} );
+					stateList.add( new double[]{
+							faXY2[0] + fXOffset, faXY2[1] + fYOffset
+					} );
+				}
 
 				faXY1[0] = faXY2[0];
 				faXY1[1] = faXY2[1];
@@ -604,48 +753,33 @@ public final class CurveRenderer
 	}
 
 	/**
-	 * 
+	 * Spline
 	 */
 	private static class Spline
 	{
 
-		/**
-		 * 
-		 */
 		private final int iNumberOfPoints;
 
-		/**
-		 * 
-		 */
-		private final float[] fa;
+		private final double[] fa;
 
-		/**
-		 * 
-		 */
-		private final float[] faA;
+		private final double[] faA;
 
-		/**
-		 * 
-		 */
-		private final float[] faB;
+		private final double[] faB;
 
-		/**
-		 * 
-		 */
-		private final float[] faC;
+		private final double[] faC;
 
 		/**
 		 * 
 		 * @param _fa
 		 */
-		public Spline( float[] _fa )
+		public Spline( double[] _fa )
 		{
 			iNumberOfPoints = _fa.length;
-			fa = new float[iNumberOfPoints];
+			fa = new double[iNumberOfPoints];
 
-			faA = new float[iNumberOfPoints - 1];
-			faB = new float[iNumberOfPoints - 1];
-			faC = new float[iNumberOfPoints - 1];
+			faA = new double[iNumberOfPoints - 1];
+			faB = new double[iNumberOfPoints - 1];
+			faC = new double[iNumberOfPoints - 1];
 
 			for ( int i = 0; i < iNumberOfPoints; i++ )
 			{
@@ -654,12 +788,9 @@ public final class CurveRenderer
 			computeCoefficients( );
 		}
 
-		/**
-		 * 
-		 */
 		private final void computeCoefficients( )
 		{
-			float p, dy1, dy2;
+			double p, dy1, dy2;
 			dy1 = fa[1] - fa[0];
 			for ( int i = 1; i < iNumberOfPoints - 1; i++ )
 			{
@@ -697,7 +828,7 @@ public final class CurveRenderer
 		 * @param x
 		 * @return
 		 */
-		private final float computeValue( float x )
+		private final double computeValue( double x )
 		{
 			if ( iNumberOfPoints < 2 )
 			{
@@ -719,7 +850,7 @@ public final class CurveRenderer
 					iRight = iMiddle;
 				}
 			}
-			final float t = ( x - i );
+			final double t = ( x - i );
 			return faA[i] * t * t * t + faB[i] * t * t + faC[i] * t + fa[i];
 		}
 	}

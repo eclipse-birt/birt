@@ -47,29 +47,28 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getCurveFitting <em>Curve Fitting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataDefinition <em>Data Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getSeriesIdentifier <em>Series Identifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataPoint <em>Data Point</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getDataSet <em>Data Set</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isStacked <em>Stacked</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#isTranslucent <em>Translucent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl#getCurveFitting <em>Curve Fitting</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SeriesImpl extends EObjectImpl implements Series
 {
 
 	/**
-	 * The default value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -77,9 +76,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected static final boolean VISIBLE_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -87,18 +85,17 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean visibleESet = false;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -106,9 +103,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected Label label = null;
 
 	/**
-	 * The cached value of the '{@link #getDataDefinition() <em>Data Definition</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDataDefinition() <em>Data Definition</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataDefinition()
 	 * @generated
 	 * @ordered
@@ -116,9 +112,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected EList dataDefinition = null;
 
 	/**
-	 * The default value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesIdentifier()
 	 * @generated
 	 * @ordered
@@ -126,9 +121,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected static final Object SERIES_IDENTIFIER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesIdentifier() <em>Series Identifier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesIdentifier()
 	 * @generated
 	 * @ordered
@@ -136,9 +130,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected Object seriesIdentifier = SERIES_IDENTIFIER_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDataPoint() <em>Data Point</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDataPoint() <em>Data Point</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataPoint()
 	 * @generated
 	 * @ordered
@@ -146,9 +139,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected DataPoint dataPoint = null;
 
 	/**
-	 * The cached value of the '{@link #getDataSet() <em>Data Set</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDataSet() <em>Data Set</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSet()
 	 * @generated
 	 * @ordered
@@ -187,9 +179,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected boolean labelPositionESet = false;
 
 	/**
-	 * The default value of the '{@link #isStacked() <em>Stacked</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isStacked() <em>Stacked</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isStacked()
 	 * @generated
 	 * @ordered
@@ -197,9 +188,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected static final boolean STACKED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isStacked() <em>Stacked</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isStacked() <em>Stacked</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isStacked()
 	 * @generated
 	 * @ordered
@@ -207,18 +197,17 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected boolean stacked = STACKED_EDEFAULT;
 
 	/**
-	 * This is true if the Stacked attribute has been set. <!-- begin-user-doc
+	 * This is true if the Stacked attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean stackedESet = false;
 
 	/**
-	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggers()
 	 * @generated
 	 * @ordered
@@ -226,9 +215,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected EList triggers = null;
 
 	/**
-	 * The default value of the '{@link #isTranslucent() <em>Translucent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isTranslucent() <em>Translucent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isTranslucent()
 	 * @generated
 	 * @ordered
@@ -236,9 +224,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected static final boolean TRANSLUCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isTranslucent() <em>Translucent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isTranslucent() <em>Translucent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isTranslucent()
 	 * @generated
 	 * @ordered
@@ -255,9 +242,8 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected boolean translucentESet = false;
 
 	/**
-	 * The cached value of the '{@link #getCurveFitting() <em>Curve Fitting</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getCurveFitting() <em>Curve Fitting</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCurveFitting()
 	 * @generated
 	 * @ordered
@@ -265,17 +251,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	protected CurveFitting curveFitting = null;
 
 	/**
-	 * This is true if the Curve Fitting containment reference has been set.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean curveFittingESet = false;
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SeriesImpl( )
@@ -285,7 +261,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -295,7 +270,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isVisible( )
@@ -305,7 +279,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVisible( boolean newVisible )
@@ -325,7 +298,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVisible( )
@@ -345,7 +317,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVisible( )
@@ -355,7 +326,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -365,7 +335,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -390,7 +359,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -422,7 +390,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getDataDefinition( )
@@ -438,7 +405,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object getSeriesIdentifier( )
@@ -448,7 +414,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSeriesIdentifier( Object newSeriesIdentifier )
@@ -465,7 +430,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataPoint getDataPoint( )
@@ -475,7 +439,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDataPoint( DataPoint newDataPoint,
@@ -500,7 +463,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDataPoint( DataPoint newDataPoint )
@@ -534,7 +496,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataSet getDataSet( )
@@ -544,7 +505,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDataSet( DataSet newDataSet,
@@ -569,7 +529,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDataSet( DataSet newDataSet )
@@ -603,7 +562,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Position getLabelPosition( )
@@ -613,7 +571,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabelPosition( Position newLabelPosition )
@@ -634,7 +591,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLabelPosition( )
@@ -654,7 +610,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLabelPosition( )
@@ -664,7 +619,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isStacked( )
@@ -674,7 +628,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStacked( boolean newStacked )
@@ -694,7 +647,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStacked( )
@@ -714,7 +666,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStacked( )
@@ -724,7 +675,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getTriggers( )
@@ -740,7 +690,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isTranslucent( )
@@ -750,7 +699,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTranslucent( boolean newTranslucent )
@@ -770,7 +718,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTranslucent( )
@@ -790,7 +737,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTranslucent( )
@@ -800,7 +746,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CurveFitting getCurveFitting( )
@@ -810,7 +755,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCurveFitting(
@@ -818,16 +762,13 @@ public class SeriesImpl extends EObjectImpl implements Series
 	{
 		CurveFitting oldCurveFitting = curveFitting;
 		curveFitting = newCurveFitting;
-		boolean oldCurveFittingESet = curveFittingESet;
-		curveFittingESet = true;
 		if ( eNotificationRequired( ) )
 		{
 			ENotificationImpl notification = new ENotificationImpl( this,
 					Notification.SET,
 					ComponentPackage.SERIES__CURVE_FITTING,
 					oldCurveFitting,
-					newCurveFitting,
-					!oldCurveFittingESet );
+					newCurveFitting );
 			if ( msgs == null )
 				msgs = notification;
 			else
@@ -838,7 +779,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setCurveFitting( CurveFitting newCurveFitting )
@@ -862,93 +802,16 @@ public class SeriesImpl extends EObjectImpl implements Series
 			if ( msgs != null )
 				msgs.dispatch( );
 		}
-		else
-		{
-			boolean oldCurveFittingESet = curveFittingESet;
-			curveFittingESet = true;
-			if ( eNotificationRequired( ) )
-				eNotify( new ENotificationImpl( this,
-						Notification.SET,
-						ComponentPackage.SERIES__CURVE_FITTING,
-						newCurveFitting,
-						newCurveFitting,
-						!oldCurveFittingESet ) );
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public NotificationChain basicUnsetCurveFitting( NotificationChain msgs )
-	{
-		CurveFitting oldCurveFitting = curveFitting;
-		curveFitting = null;
-		boolean oldCurveFittingESet = curveFittingESet;
-		curveFittingESet = false;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.UNSET,
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
 					ComponentPackage.SERIES__CURVE_FITTING,
-					oldCurveFitting,
-					null,
-					oldCurveFittingESet );
-			if ( msgs == null )
-				msgs = notification;
-			else
-				msgs.add( notification );
-		}
-		return msgs;
+					newCurveFitting,
+					newCurveFitting ) );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void unsetCurveFitting( )
-	{
-		if ( curveFitting != null )
-		{
-			NotificationChain msgs = null;
-			msgs = ( (InternalEObject) curveFitting ).eInverseRemove( this,
-					EOPPOSITE_FEATURE_BASE
-							- ComponentPackage.SERIES__CURVE_FITTING,
-					null,
-					msgs );
-			msgs = basicUnsetCurveFitting( msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else
-		{
-			boolean oldCurveFittingESet = curveFittingESet;
-			curveFittingESet = false;
-			if ( eNotificationRequired( ) )
-				eNotify( new ENotificationImpl( this,
-						Notification.UNSET,
-						ComponentPackage.SERIES__CURVE_FITTING,
-						null,
-						null,
-						oldCurveFittingESet ) );
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public boolean isSetCurveFitting( )
-	{
-		return curveFittingESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -971,7 +834,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
 							msgs );
 				case ComponentPackage.SERIES__CURVE_FITTING :
-					return basicUnsetCurveFitting( msgs );
+					return basicSetCurveFitting( null, msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -984,7 +847,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -1019,7 +881,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -1067,7 +928,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -1105,7 +965,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 				unsetTranslucent( );
 				return;
 			case ComponentPackage.SERIES__CURVE_FITTING :
-				unsetCurveFitting( );
+				setCurveFitting( (CurveFitting) null );
 				return;
 		}
 		eDynamicUnset( eFeature );
@@ -1113,7 +973,6 @@ public class SeriesImpl extends EObjectImpl implements Series
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -1142,14 +1001,13 @@ public class SeriesImpl extends EObjectImpl implements Series
 			case ComponentPackage.SERIES__TRANSLUCENT :
 				return isSetTranslucent( );
 			case ComponentPackage.SERIES__CURVE_FITTING :
-				return isSetCurveFitting( );
+				return curveFitting != null;
 		}
 		return eDynamicIsSet( eFeature );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

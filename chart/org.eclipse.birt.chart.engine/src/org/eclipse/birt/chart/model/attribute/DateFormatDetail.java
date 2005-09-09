@@ -34,9 +34,9 @@ public final class DateFormatDetail extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Date</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Date</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_LITERAL
 	 * @model name="Date"
 	 * @generated
@@ -45,9 +45,9 @@ public final class DateFormatDetail extends AbstractEnumerator
 	public static final int DATE = 0;
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="Date_Time"
 	 * @generated
@@ -56,13 +56,13 @@ public final class DateFormatDetail extends AbstractEnumerator
 	public static final int DATE_TIME = 1;
 
 	/**
-	 * The '<em><b>Date</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Date</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Date</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DATE
 	 * @generated
 	 * @ordered
@@ -71,14 +71,14 @@ public final class DateFormatDetail extends AbstractEnumerator
 			"Date" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -87,9 +87,8 @@ public final class DateFormatDetail extends AbstractEnumerator
 			"Date_Time" ); //$NON-NLS-1$
 
 	/**
-	 * An array of all the '<em><b>Date Format Detail</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Date Format Detail</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final DateFormatDetail[] VALUES_ARRAY = new DateFormatDetail[]{
@@ -97,17 +96,15 @@ public final class DateFormatDetail extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Date Format Detail</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Date Format Detail</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DateFormatDetail get( String name )
@@ -124,9 +121,8 @@ public final class DateFormatDetail extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Date Format Detail</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DateFormatDetail get( int value )
@@ -142,9 +138,9 @@ public final class DateFormatDetail extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private DateFormatDetail( int value, String name )

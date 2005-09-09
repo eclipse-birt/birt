@@ -19,10 +19,13 @@ import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.CurveFitting;
+import org.eclipse.birt.chart.model.component.Dial;
+import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
+import org.eclipse.birt.chart.model.component.Needle;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
@@ -43,7 +46,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class ComponentPackageImpl extends EPackageImpl implements
@@ -52,63 +54,75 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass axisEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass chartPreferencesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass curveFittingEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dialEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dialRegionEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass gridEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass labelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass markerLineEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass markerRangeEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass needleEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass scaleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass seriesEClass = null;
@@ -135,27 +149,26 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -211,7 +224,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAxis( )
@@ -221,7 +233,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getAxis_Type( )
@@ -231,7 +242,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAxis_Title( )
@@ -241,7 +251,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAxis_SubTitle( )
@@ -251,7 +260,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getAxis_TitlePosition( )
@@ -261,7 +269,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAxis_AssociatedAxes( )
@@ -270,178 +277,170 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAxis_SeriesDefinitions( )
+	public EReference getAxis_AncillaryAxes( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 5 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_GapWidth( )
+	public EReference getAxis_SeriesDefinitions( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 6 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 6 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_Orientation( )
+	public EAttribute getAxis_GapWidth( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 7 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_LineAttributes( )
+	public EAttribute getAxis_Orientation( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 8 );
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 8 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_Label( )
+	public EReference getAxis_LineAttributes( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 9 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_FormatSpecifier( )
+	public EReference getAxis_Label( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 10 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_LabelPosition( )
+	public EReference getAxis_FormatSpecifier( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 11 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 11 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_Staggered( )
+	public EAttribute getAxis_LabelPosition( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 12 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_MarkerLines( )
+	public EAttribute getAxis_Staggered( )
 	{
-		return (EReference) axisEClass.getEStructuralFeatures( ).get( 13 );
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 13 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_MarkerRanges( )
+	public EReference getAxis_MarkerLines( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 14 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_MajorGrid( )
+	public EReference getAxis_MarkerRanges( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 15 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_MinorGrid( )
+	public EReference getAxis_MajorGrid( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 16 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_Scale( )
+	public EReference getAxis_MinorGrid( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 17 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EReference getAxis_Origin( )
+	public EReference getAxis_Scale( )
 	{
 		return (EReference) axisEClass.getEStructuralFeatures( ).get( 18 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_PrimaryAxis( )
+	public EReference getAxis_Origin( )
 	{
-		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 19 );
+		return (EReference) axisEClass.getEStructuralFeatures( ).get( 19 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_CategoryAxis( )
+	public EAttribute getAxis_PrimaryAxis( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 20 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public EAttribute getAxis_Percent( )
+	public EAttribute getAxis_CategoryAxis( )
 	{
 		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 21 );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	public EAttribute getAxis_Percent( )
+	{
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 22 );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getChartPreferences( )
@@ -451,7 +450,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartPreferences_Labels( )
@@ -462,7 +460,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartPreferences_Blocks( )
@@ -473,7 +470,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getCurveFitting( )
@@ -483,7 +479,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getCurveFitting_LineAttributes( )
@@ -494,7 +489,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getCurveFitting_Label( )
@@ -505,7 +499,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getCurveFitting_LabelAnchor( )
@@ -515,8 +508,157 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDial( )
+	{
+		return dialEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDial_StartAngle( )
+	{
+		return (EAttribute) dialEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDial_StopAngle( )
+	{
+		return (EAttribute) dialEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDial_Radius( )
+	{
+		return (EAttribute) dialEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_LineAttributes( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_Fill( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 4 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_DialRegions( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_MajorGrid( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_MinorGrid( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 7 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_Scale( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 8 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_Label( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 9 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDial_FormatSpecifier( )
+	{
+		return (EReference) dialEClass.getEStructuralFeatures( ).get( 10 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDialRegion( )
+	{
+		return dialRegionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDialRegion_InnerRadius( )
+	{
+		return (EAttribute) dialRegionEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDialRegion_OuterRadius( )
+	{
+		return (EAttribute) dialRegionEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getGrid( )
@@ -526,7 +668,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getGrid_LineAttributes( )
@@ -536,7 +677,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGrid_TickStyle( )
@@ -546,7 +686,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getGrid_TickAttributes( )
@@ -556,7 +695,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGrid_TickSize( )
@@ -566,7 +704,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGrid_TickCount( )
@@ -576,7 +713,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLabel( )
@@ -586,7 +722,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabel_Caption( )
@@ -596,7 +731,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabel_Background( )
@@ -606,7 +740,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabel_Outline( )
@@ -616,7 +749,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabel_ShadowColor( )
@@ -626,7 +758,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabel_Insets( )
@@ -636,7 +767,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLabel_Visible( )
@@ -646,7 +776,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getMarkerLine( )
@@ -656,7 +785,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerLine_LineAttributes( )
@@ -666,7 +794,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerLine_Value( )
@@ -676,7 +803,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerLine_Label( )
@@ -686,7 +812,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getMarkerLine_LabelAnchor( )
@@ -696,7 +821,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerLine_FormatSpecifier( )
@@ -706,7 +830,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getMarkerRange( )
@@ -716,7 +839,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_Outline( )
@@ -726,7 +848,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_Fill( )
@@ -736,7 +857,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_StartValue( )
@@ -746,7 +866,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_EndValue( )
@@ -756,7 +875,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_Label( )
@@ -766,7 +884,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getMarkerRange_LabelAnchor( )
@@ -776,7 +893,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getMarkerRange_FormatSpecifier( )
@@ -785,8 +901,37 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNeedle( )
+	{
+		return needleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNeedle_LineAttributes( )
+	{
+		return (EReference) needleEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNeedle_Decorator( )
+	{
+		return (EAttribute) needleEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getScale( )
@@ -796,7 +941,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getScale_Min( )
@@ -806,7 +950,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getScale_Max( )
@@ -816,7 +959,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getScale_Step( )
@@ -826,7 +968,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getScale_Unit( )
@@ -836,7 +977,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getScale_MinorGridsPerUnit( )
@@ -846,7 +986,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSeries( )
@@ -856,7 +995,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeries_Visible( )
@@ -866,7 +1004,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_Label( )
@@ -876,7 +1013,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_DataDefinition( )
@@ -886,7 +1022,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeries_SeriesIdentifier( )
@@ -896,7 +1031,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_DataPoint( )
@@ -906,7 +1040,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_DataSet( )
@@ -916,7 +1049,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeries_LabelPosition( )
@@ -926,7 +1058,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeries_Stacked( )
@@ -936,7 +1067,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_Triggers( )
@@ -946,7 +1076,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeries_Translucent( )
@@ -956,7 +1085,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeries_CurveFitting( )
@@ -966,7 +1094,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ComponentFactory getComponentFactory( )
@@ -976,16 +1103,15 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -1001,6 +1127,7 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( axisEClass, AXIS__SUB_TITLE );
 		createEAttribute( axisEClass, AXIS__TITLE_POSITION );
 		createEReference( axisEClass, AXIS__ASSOCIATED_AXES );
+		createEReference( axisEClass, AXIS__ANCILLARY_AXES );
 		createEReference( axisEClass, AXIS__SERIES_DEFINITIONS );
 		createEAttribute( axisEClass, AXIS__GAP_WIDTH );
 		createEAttribute( axisEClass, AXIS__ORIENTATION );
@@ -1027,6 +1154,23 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEReference( curveFittingEClass, CURVE_FITTING__LINE_ATTRIBUTES );
 		createEReference( curveFittingEClass, CURVE_FITTING__LABEL );
 		createEAttribute( curveFittingEClass, CURVE_FITTING__LABEL_ANCHOR );
+
+		dialEClass = createEClass( DIAL );
+		createEAttribute( dialEClass, DIAL__START_ANGLE );
+		createEAttribute( dialEClass, DIAL__STOP_ANGLE );
+		createEAttribute( dialEClass, DIAL__RADIUS );
+		createEReference( dialEClass, DIAL__LINE_ATTRIBUTES );
+		createEReference( dialEClass, DIAL__FILL );
+		createEReference( dialEClass, DIAL__DIAL_REGIONS );
+		createEReference( dialEClass, DIAL__MAJOR_GRID );
+		createEReference( dialEClass, DIAL__MINOR_GRID );
+		createEReference( dialEClass, DIAL__SCALE );
+		createEReference( dialEClass, DIAL__LABEL );
+		createEReference( dialEClass, DIAL__FORMAT_SPECIFIER );
+
+		dialRegionEClass = createEClass( DIAL_REGION );
+		createEAttribute( dialRegionEClass, DIAL_REGION__INNER_RADIUS );
+		createEAttribute( dialRegionEClass, DIAL_REGION__OUTER_RADIUS );
 
 		gridEClass = createEClass( GRID );
 		createEReference( gridEClass, GRID__LINE_ATTRIBUTES );
@@ -1059,6 +1203,10 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		createEAttribute( markerRangeEClass, MARKER_RANGE__LABEL_ANCHOR );
 		createEReference( markerRangeEClass, MARKER_RANGE__FORMAT_SPECIFIER );
 
+		needleEClass = createEClass( NEEDLE );
+		createEReference( needleEClass, NEEDLE__LINE_ATTRIBUTES );
+		createEAttribute( needleEClass, NEEDLE__DECORATOR );
+
 		scaleEClass = createEClass( SCALE );
 		createEReference( scaleEClass, SCALE__MIN );
 		createEReference( scaleEClass, SCALE__MAX );
@@ -1082,7 +1230,6 @@ public class ComponentPackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -1112,1144 +1259,354 @@ public class ComponentPackageImpl extends EPackageImpl implements
 		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
 
 		// Add supertypes to classes
+		dialRegionEClass.getESuperTypes( ).add( this.getMarkerRange( ) );
 
 		// Initialize classes and features; add operations and parameters
 		initEClass( axisEClass,
 				Axis.class,
-				"Axis", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Axis", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getAxis_Type( ),
 				theAttributePackage.getAxisType( ),
-				"type", //$NON-NLS-1$
-				"Linear", //$NON-NLS-1$
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Linear", 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxis_Title( ),
 				this.getLabel( ),
 				null,
-				"title", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"title", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_SubTitle( ),
 				this.getLabel( ),
 				null,
-				"subTitle", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"subTitle", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"titlePosition", "Above", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxis_AssociatedAxes( ),
 				this.getAxis( ),
 				null,
-				"associatedAxes", //$NON-NLS-1$
+				"associatedAxes", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getAxis_AncillaryAxes( ),
+				this.getAxis( ),
 				null,
-				0,
-				-1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"ancillaryAxes", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_SeriesDefinitions( ),
 				theDataPackage.getSeriesDefinition( ),
 				null,
-				"seriesDefinitions", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesDefinitions", null, 1, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_GapWidth( ),
 				theXMLTypePackage.getDouble( ),
-				"gapWidth", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"gapWidth", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_Orientation( ),
 				theAttributePackage.getOrientation( ),
-				"orientation", //$NON-NLS-1$
-				"Horizontal", //$NON-NLS-1$
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"orientation", "Horizontal", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxis_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_Label( ),
 				this.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_FormatSpecifier( ),
 				theAttributePackage.getFormatSpecifier( ),
 				null,
-				"formatSpecifier", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"formatSpecifier", null, 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_LabelPosition( ),
 				theAttributePackage.getPosition( ),
-				"labelPosition", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				0,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labelPosition", "Above", 0, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getAxis_Staggered( ),
 				theXMLTypePackage.getBoolean( ),
-				"staggered", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"staggered", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_MarkerLines( ),
 				this.getMarkerLine( ),
 				null,
-				"markerLines", //$NON-NLS-1$
-				null,
-				0,
-				-1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"markerLines", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_MarkerRanges( ),
 				this.getMarkerRange( ),
 				null,
-				"markerRanges", //$NON-NLS-1$
-				null,
-				0,
-				-1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"markerRanges", null, 0, -1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_MajorGrid( ),
 				this.getGrid( ),
 				null,
-				"majorGrid", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"majorGrid", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_MinorGrid( ),
 				this.getGrid( ),
 				null,
-				"minorGrid", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minorGrid", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_Scale( ),
 				this.getScale( ),
 				null,
-				"scale", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"scale", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getAxis_Origin( ),
 				theAttributePackage.getAxisOrigin( ),
 				null,
-				"origin", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"origin", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_PrimaryAxis( ),
 				theXMLTypePackage.getBoolean( ),
-				"primaryAxis", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"primaryAxis", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_CategoryAxis( ),
 				theXMLTypePackage.getBoolean( ),
-				"categoryAxis", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"categoryAxis", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getAxis_Percent( ),
 				theXMLTypePackage.getBoolean( ),
-				"percent", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Axis.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"percent", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartPreferencesEClass,
 				ChartPreferences.class,
-				"ChartPreferences", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ChartPreferences", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getChartPreferences_Labels( ),
 				this.getLabel( ),
 				null,
-				"labels", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				ChartPreferences.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labels", null, 1, -1, ChartPreferences.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChartPreferences_Blocks( ),
 				theLayoutPackage.getBlock( ),
 				null,
-				"blocks", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				ChartPreferences.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"blocks", null, 1, -1, ChartPreferences.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( curveFittingEClass,
 				CurveFitting.class,
-				"CurveFitting", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"CurveFitting", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getCurveFitting_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				CurveFitting.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 1, 1, CurveFitting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getCurveFitting_Label( ),
 				this.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				CurveFitting.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 1, 1, CurveFitting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getCurveFitting_LabelAnchor( ),
 				theAttributePackage.getAnchor( ),
-				"labelAnchor", //$NON-NLS-1$
-				"North", //$NON-NLS-1$
-				0,
-				1,
-				CurveFitting.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labelAnchor", "North", 0, 1, CurveFitting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass( dialEClass,
+				Dial.class,
+				"Dial", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getDial_StartAngle( ),
+				theXMLTypePackage.getDouble( ),
+				"startAngle", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getDial_StopAngle( ),
+				theXMLTypePackage.getDouble( ),
+				"stopAngle", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getDial_Radius( ),
+				theXMLTypePackage.getDouble( ),
+				"radius", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_LineAttributes( ),
+				theAttributePackage.getLineAttributes( ),
+				null,
+				"lineAttributes", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_Fill( ),
+				theAttributePackage.getFill( ),
+				null,
+				"fill", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_DialRegions( ),
+				this.getDialRegion( ),
+				null,
+				"dialRegions", null, 0, -1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_MajorGrid( ),
+				this.getGrid( ),
+				null,
+				"majorGrid", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_MinorGrid( ),
+				this.getGrid( ),
+				null,
+				"minorGrid", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_Scale( ),
+				this.getScale( ),
+				null,
+				"scale", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_Label( ),
+				this.getLabel( ),
+				null,
+				"label", null, 1, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDial_FormatSpecifier( ),
+				theAttributePackage.getFormatSpecifier( ),
+				null,
+				"formatSpecifier", null, 0, 1, Dial.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( dialRegionEClass,
+				DialRegion.class,
+				"DialRegion", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getDialRegion_InnerRadius( ),
+				theXMLTypePackage.getDouble( ),
+				"innerRadius", null, 0, 1, DialRegion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getDialRegion_OuterRadius( ),
+				theXMLTypePackage.getDouble( ),
+				"outerRadius", null, 0, 1, DialRegion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( gridEClass,
 				Grid.class,
-				"Grid", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Grid", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getGrid_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Grid.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 1, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGrid_TickStyle( ),
 				theAttributePackage.getTickStyle( ),
-				"tickStyle", //$NON-NLS-1$
-				"Left", //$NON-NLS-1$
-				1,
-				1,
-				Grid.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"tickStyle", "Left", 1, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getGrid_TickAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"tickAttributes", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Grid.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"tickAttributes", null, 0, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGrid_TickSize( ),
 				theXMLTypePackage.getDouble( ),
-				"tickSize", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Grid.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"tickSize", null, 0, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGrid_TickCount( ),
 				theXMLTypePackage.getInt( ),
-				"tickCount", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Grid.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"tickCount", null, 1, 1, Grid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( labelEClass,
 				Label.class,
-				"Label", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Label", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getLabel_Caption( ),
 				theAttributePackage.getText( ),
 				null,
-				"caption", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"caption", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLabel_Background( ),
 				theAttributePackage.getFill( ),
 				null,
-				"background", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"background", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLabel_Outline( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"outline", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"outline", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLabel_ShadowColor( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
-				"shadowColor", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"shadowColor", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLabel_Insets( ),
 				theAttributePackage.getInsets( ),
 				null,
-				"insets", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"insets", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLabel_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Label.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"visible", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( markerLineEClass,
 				MarkerLine.class,
-				"MarkerLine", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"MarkerLine", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getMarkerLine_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerLine.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerLine_Value( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"value", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerLine.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerLine_Label( ),
 				this.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerLine.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getMarkerLine_LabelAnchor( ),
 				theAttributePackage.getAnchor( ),
-				"labelAnchor", //$NON-NLS-1$
-				"North", //$NON-NLS-1$
-				1,
-				1,
-				MarkerLine.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labelAnchor", "North", 1, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getMarkerLine_FormatSpecifier( ),
 				theAttributePackage.getFormatSpecifier( ),
 				null,
-				"formatSpecifier", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				MarkerLine.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"formatSpecifier", null, 0, 1, MarkerLine.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( markerRangeEClass,
 				MarkerRange.class,
-				"MarkerRange", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"MarkerRange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getMarkerRange_Outline( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"outline", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"outline", null, 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerRange_Fill( ),
 				theAttributePackage.getFill( ),
 				null,
-				"fill", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"fill", null, 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerRange_StartValue( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"startValue", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"startValue", null, 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerRange_EndValue( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"endValue", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"endValue", null, 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getMarkerRange_Label( ),
 				this.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getMarkerRange_LabelAnchor( ),
 				theAttributePackage.getAnchor( ),
-				"labelAnchor", //$NON-NLS-1$
-				"North", //$NON-NLS-1$
-				1,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labelAnchor", "North", 1, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getMarkerRange_FormatSpecifier( ),
 				theAttributePackage.getFormatSpecifier( ),
 				null,
-				"formatSpecifier", //$NON-NLS-1$
+				"formatSpecifier", null, 0, 1, MarkerRange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( needleEClass,
+				Needle.class,
+				"Needle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getNeedle_LineAttributes( ),
+				theAttributePackage.getLineAttributes( ),
 				null,
-				0,
-				1,
-				MarkerRange.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 1, 1, Needle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getNeedle_Decorator( ),
+				theAttributePackage.getLineDecorator( ),
+				"decorator", "Arrow", 1, 1, Needle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scaleEClass,
 				Scale.class,
-				"Scale", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Scale", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getScale_Min( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"min", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Scale.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"min", null, 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getScale_Max( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"max", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Scale.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"max", null, 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getScale_Step( ),
 				theXMLTypePackage.getDouble( ),
-				"step", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Scale.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"step", null, 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getScale_Unit( ),
 				theAttributePackage.getScaleUnitType( ),
-				"unit", //$NON-NLS-1$
-				"Seconds", //$NON-NLS-1$
-				1,
-				1,
-				Scale.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"unit", "Seconds", 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getScale_MinorGridsPerUnit( ),
 				theXMLTypePackage.getInt( ),
-				"minorGridsPerUnit", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Scale.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minorGridsPerUnit", null, 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( seriesEClass,
 				Series.class,
-				"Series", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Series", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getSeries_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible", //$NON-NLS-1$
-				"true", //$NON-NLS-1$
-				0,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"visible", "true", 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getSeries_Label( ),
 				this.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeries_DataDefinition( ),
 				theDataPackage.getQuery( ),
 				null,
-				"dataDefinition", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dataDefinition", null, 1, -1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeries_SeriesIdentifier( ),
 				theXMLTypePackage.getAnySimpleType( ),
-				"seriesIdentifier", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesIdentifier", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeries_DataPoint( ),
 				theAttributePackage.getDataPoint( ),
 				null,
-				"dataPoint", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dataPoint", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeries_DataSet( ),
 				theDataPackage.getDataSet( ),
 				null,
-				"dataSet", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dataSet", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeries_LabelPosition( ),
 				theAttributePackage.getPosition( ),
-				"labelPosition", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				0,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"labelPosition", "Above", 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getSeries_Stacked( ),
 				theXMLTypePackage.getBoolean( ),
-				"stacked", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"stacked", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeries_Triggers( ),
 				theDataPackage.getTrigger( ),
 				null,
-				"triggers", //$NON-NLS-1$
-				null,
-				0,
-				-1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"triggers", null, 0, -1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeries_Translucent( ),
 				theXMLTypePackage.getBoolean( ),
-				"translucent", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"translucent", null, 1, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeries_CurveFitting( ),
 				this.getCurveFitting( ),
 				null,
-				"curveFitting", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Series.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"curveFitting", null, 0, 1, Series.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -2268,231 +1625,382 @@ public class ComponentPackageImpl extends EPackageImpl implements
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( axisEClass, source, new String[]{
-				"name", "Axis", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Axis", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Title( ), source, new String[]{
-				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Title" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_SubTitle( ), source, new String[]{
-				"kind", "element", "name", "SubTitle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SubTitle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_TitlePosition( ), source, new String[]{
-				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_AssociatedAxes( ), source, new String[]{
-				"kind", "element", "name", "AssociatedAxes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AssociatedAxes" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_AncillaryAxes( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "AncillaryAxes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_SeriesDefinitions( ), source, new String[]{
-				"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_GapWidth( ), source, new String[]{
-				"kind", "element", "name", "GapWidth" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "GapWidth" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Orientation( ), source, new String[]{
-				"kind", "element", "name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_LabelPosition( ), source, new String[]{
-				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Staggered( ), source, new String[]{
-				"kind", "element", "name", "Staggered" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Staggered" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MarkerLines( ), source, new String[]{
-				"kind", "element", "name", "MarkerLines" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MarkerLines" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MarkerRanges( ), source, new String[]{
-				"kind", "element", "name", "MarkerRanges" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MarkerRanges" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MajorGrid( ), source, new String[]{
-				"kind", "element", "name", "MajorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MajorGrid" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_MinorGrid( ), source, new String[]{
-				"kind", "element", "name", "MinorGrid" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MinorGrid" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Scale( ), source, new String[]{
-				"kind", "element", "name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Origin( ), source, new String[]{
-				"kind", "element", "name", "Origin" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Origin" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_PrimaryAxis( ), source, new String[]{
-				"kind", "element", "name", "PrimaryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "PrimaryAxis" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_CategoryAxis( ), source, new String[]{
-				"kind", "element", "name", "CategoryAxis" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "CategoryAxis" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxis_Percent( ), source, new String[]{
-				"kind", "element", "name", "Percent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Percent" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
-				"name", "ChartPreferences", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartPreferences", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartPreferences_Labels( ), source, new String[]{
-				"kind", "element", "name", "Labels" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Labels" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartPreferences_Blocks( ), source, new String[]{
-				"kind", "element", "name", "Blocks" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Blocks" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( curveFittingEClass, source, new String[]{
-				"name", "CurveFitting", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "CurveFitting", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getCurveFitting_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getCurveFitting_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getCurveFitting_LabelAnchor( ), source, new String[]{
-				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( dialEClass, source, new String[]{
+				"name", "Dial", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_StartAngle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StartAngle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_StopAngle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StopAngle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_Radius( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Radius" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_LineAttributes( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_Fill( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_DialRegions( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DialRegions" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_MajorGrid( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MajorGrid" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_MinorGrid( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MinorGrid" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_Scale( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Scale" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_Label( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDial_FormatSpecifier( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( dialRegionEClass, source, new String[]{
+				"name", "DialRegion", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDialRegion_InnerRadius( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "InnerRadius" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDialRegion_OuterRadius( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "OuterRadius" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( gridEClass, source, new String[]{
-				"name", "Grid", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Grid", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGrid_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGrid_TickStyle( ), source, new String[]{
-				"kind", "element", "name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGrid_TickAttributes( ), source, new String[]{
-				"kind", "element", "name", "TickAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGrid_TickSize( ), source, new String[]{
-				"kind", "element", "name", "TickSize" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickSize" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGrid_TickCount( ), source, new String[]{
-				"kind", "element", "name", "TickCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickCount" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( labelEClass, source, new String[]{
-				"name", "Label", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Label", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_Caption( ), source, new String[]{
-				"kind", "element", "name", "Caption" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Caption" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_Background( ), source, new String[]{
-				"kind", "element", "name", "Background" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Background" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_ShadowColor( ), source, new String[]{
-				"kind", "element", "name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_Insets( ), source, new String[]{
-				"kind", "element", "name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabel_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( markerLineEClass, source, new String[]{
-				"name", "MarkerLine", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "MarkerLine", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerLine_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerLine_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerLine_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerLine_LabelAnchor( ), source, new String[]{
-				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerLine_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( markerRangeEClass, source, new String[]{
-				"name", "MarkerRange", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "MarkerRange", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_Fill( ), source, new String[]{
-				"kind", "element", "name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_StartValue( ), source, new String[]{
-				"kind", "element", "name", "StartValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StartValue" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_EndValue( ), source, new String[]{
-				"kind", "element", "name", "EndValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "EndValue" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_LabelAnchor( ), source, new String[]{
-				"kind", "element", "name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelAnchor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getMarkerRange_FormatSpecifier( ), source, new String[]{
-				"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( needleEClass, source, new String[]{
+				"name", "Needle", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getNeedle_LineAttributes( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getNeedle_Decorator( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Decorator" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scaleEClass, source, new String[]{
-				"name", "Scale", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Scale", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getScale_Min( ), source, new String[]{
-				"kind", "element", "name", "Min" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Min" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getScale_Max( ), source, new String[]{
-				"kind", "element", "name", "Max" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Max" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getScale_Step( ), source, new String[]{
-				"kind", "element", "name", "Step" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Step" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getScale_Unit( ), source, new String[]{
-				"kind", "element", "name", "Unit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Unit" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getScale_MinorGridsPerUnit( ), source, new String[]{
-				"kind", "element", "name", "MinorGridsPerUnit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MinorGridsPerUnit" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( seriesEClass, source, new String[]{
-				"name", "Series", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Series", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_DataDefinition( ), source, new String[]{
-				"kind", "element", "name", "DataDefinition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataDefinition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_SeriesIdentifier( ), source, new String[]{
-				"kind", "element", "name", "SeriesIdentifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SeriesIdentifier" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_DataPoint( ), source, new String[]{
-				"kind", "element", "name", "DataPoint" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataPoint" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_DataSet( ), source, new String[]{
-				"kind", "element", "name", "DataSet" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "DataSet" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_LabelPosition( ), source, new String[]{
-				"kind", "element", "name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelPosition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_Stacked( ), source, new String[]{
-				"kind", "element", "name", "Stacked" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Stacked" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_Triggers( ), source, new String[]{
-				"kind", "element", "name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_Translucent( ), source, new String[]{
-				"kind", "element", "name", "Translucent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Translucent" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeries_CurveFitting( ), source, new String[]{
-				"kind", "element", "name", "CurveFitting" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "CurveFitting" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

@@ -34,9 +34,9 @@ public final class Orientation extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Horizontal</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Horizontal</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #HORIZONTAL_LITERAL
 	 * @model name="Horizontal"
 	 * @generated
@@ -45,9 +45,9 @@ public final class Orientation extends AbstractEnumerator
 	public static final int HORIZONTAL = 0;
 
 	/**
-	 * The '<em><b>Vertical</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Vertical</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #VERTICAL_LITERAL
 	 * @model name="Vertical"
 	 * @generated
@@ -56,14 +56,14 @@ public final class Orientation extends AbstractEnumerator
 	public static final int VERTICAL = 1;
 
 	/**
-	 * The '<em><b>Horizontal</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Horizontal</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Horizontal</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #HORIZONTAL
 	 * @generated
 	 * @ordered
@@ -72,14 +72,14 @@ public final class Orientation extends AbstractEnumerator
 			"Horizontal" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Vertical</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Vertical</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Vertical</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #VERTICAL
 	 * @generated
 	 * @ordered
@@ -98,17 +98,15 @@ public final class Orientation extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Orientation</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Orientation</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Orientation</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Orientation</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Orientation get( String name )
@@ -125,9 +123,8 @@ public final class Orientation extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Orientation</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Orientation</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Orientation get( int value )
@@ -143,9 +140,9 @@ public final class Orientation extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private Orientation( int value, String name )

@@ -61,7 +61,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='Block' kind='elementOnly'"
  * @generated
  */
-public interface Block extends EObject{
+public interface Block extends EObject
+{
 
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.

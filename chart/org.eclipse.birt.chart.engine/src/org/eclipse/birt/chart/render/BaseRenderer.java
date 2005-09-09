@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
+import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -35,6 +37,7 @@ import org.eclipse.birt.chart.event.BlockGenerationEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
+import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
@@ -48,6 +51,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -62,6 +66,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -106,44 +111,20 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 
-	/**
-	 * 
-	 */
 	ISeriesRenderingHints srh;
 
-	/**
-	 * 
-	 */
 	private IDisplayServer xs;
 
-	/**
-	 * 
-	 */
 	private IDeviceRenderer ir;
 
-	/**
-	 * 
-	 */
 	private DeferredCache dc;
 
-	/**
-	 * Needed by the actual renderer
-	 */
 	private Chart cm;
 
-	/**
-	 * 
-	 */
 	private Object oComputations;
 
-	/**
-	 * Needed by the actual renderer
-	 */
 	private Series se;
 
-	/**
-	 * 
-	 */
 	private SeriesDefinition sd;
 
 	/**
@@ -189,7 +170,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			127 );
 
 	/**
-	 * 
+	 * The associated runtimeContext.
 	 */
 	private transient RunTimeContext rtc = null;
 
@@ -206,7 +187,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * 
+	 * @param _cm
+	 * @param _o
+	 * @param _se
+	 * @param _ax
+	 * @param _sd
 	 */
 	public void set( Chart _cm, Object _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )
@@ -218,51 +203,81 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		// CAN'T HOLD 'AXIS' HERE
 	}
 
+	/**
+	 * @param _dc
+	 */
 	public final void set( DeferredCache _dc )
 	{
 		dc = _dc;
 	}
 
+	/**
+	 * @param _ir
+	 */
 	public final void set( IDeviceRenderer _ir )
 	{
 		ir = _ir;
 	}
 
+	/**
+	 * @param _xs
+	 */
 	public final void set( IDisplayServer _xs )
 	{
 		xs = _xs;
 	}
 
+	/**
+	 * @param _srh
+	 */
 	public final void set( ISeriesRenderingHints _srh )
 	{
 		srh = _srh;
 	}
 
+	/**
+	 * @param _brna
+	 */
 	public final void set( BaseRenderer[] _brna )
 	{
 		brna = _brna;
 	}
 
+	/**
+	 * @param _rtc
+	 */
 	public final void set( RunTimeContext _rtc )
 	{
 		rtc = _rtc;
 	}
 
+	/**
+	 * @return
+	 */
 	public final ISeriesRenderingHints getSeriesRenderingHints( )
 	{
 		return srh;
 	}
 
+	/**
+	 * @return
+	 */
 	public final IDisplayServer getXServer( )
 	{
 		return xs;
 	}
 
+	/**
+	 * @return
+	 */
 	public final SeriesDefinition getSeriesDefinition( )
 	{
 		return sd;
 	}
 
+	/**
+	 * @return
+	 */
 	public Axis getAxis( ) // DON'T KNOW ABOUT AXIS HERE!
 	{
 		return null;
@@ -307,6 +322,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		return brna[iIndex];
 	}
 
+	/**
+	 * @return
+	 */
 	public final RunTimeContext getRunTimeContext( )
 	{
 		return rtc;
@@ -587,8 +605,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						uiex );
 			}
 
-			lgTitleWidth = bb.getWidth();
-			lgTitleHeight = bb.getHeight();
+			lgTitleWidth = bb.getWidth( );
+			lgTitleHeight = bb.getHeight( );
 
 			switch ( lg.getTitlePosition( ).getValue( ) )
 			{
@@ -841,11 +859,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					renderLegendItem( ipr,
 							lg,
 							la,
+							null,
 							dX,
 							dY,
 							itm.getFullWidth( ),
 							dItemHeight,
 							itm.getFullHeight( ),
+							0,
+							0,
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -866,11 +887,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					renderLegendItem( ipr,
 							lg,
 							la,
+							null,
 							dX,
 							dY,
 							itm.getFullWidth( ),
 							dItemHeight,
 							itm.getFullHeight( ),
+							0,
+							0,
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -915,22 +939,76 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la ); // RECYCLED
+
+						double dFWidth = itm.getFullWidth( );
+						double dFHeight = itm.getFullHeight( );
+
+						Label valueLa = null;
+						double valueHeight = 0;
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								valueLa = (Label) EcoreUtil.copy( seBase.getLabel( ) );
+								valueLa.getCaption( ).setValue( valueText );
+								itm.reuse( valueLa );
+
+								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
+
+								valueHeight = itm.getFullHeight( );
+							}
+						}
+
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						renderLegendItem( ipr,
 								lg,
 								la,
+								valueLa,
 								dX,
 								dY,
-								itm.getFullWidth( ),
+								dFWidth,
 								dItemHeight,
-								itm.getFullHeight( ),
+								dFHeight,
+								valueHeight,
+								bo.getWidth( ) - 2 * insCA.getLeft( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
 								lirh );
-						dY += dItemHeight + insCA.getBottom( );
+						dY += dItemHeight + insCA.getBottom( ) + valueHeight;
 					}
 					if ( j < seda.length - 1 )
 					{
@@ -983,22 +1061,78 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la ); // RECYCLED
 						dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+
+						double dFWidth = itm.getFullWidth( );
+						double dFHeight = itm.getFullHeight( );
+
+						Label valueLa = null;
+						double valueHeight = 0;
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								valueLa = (Label) EcoreUtil.copy( seBase.getLabel( ) );
+								valueLa.getCaption( ).setValue( valueText );
+								itm.reuse( valueLa );
+
+								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
+
+								dMaxW = Math.max( dMaxW, dFWidth );
+
+								valueHeight = itm.getFullHeight( );
+							}
+						}
+
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						renderLegendItem( ipr,
 								lg,
 								la,
+								valueLa,
 								dX,
 								dY,
-								itm.getFullWidth( ),
+								dFWidth,
 								dItemHeight,
-								itm.getFullHeight( ),
+								dFHeight,
+								valueHeight,
+								bo.getWidth( ) - 2 * insCA.getLeft( ),
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
 								fPaletteEntry,
 								lirh );
-						dY += dItemHeight + insCA.getBottom( );
+						dY += dItemHeight + insCA.getBottom( ) + valueHeight;
 					}
 
 					// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING +
@@ -1127,11 +1261,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					renderLegendItem( ipr,
 							lg,
 							la,
+							null,
 							dX,
 							dY,
 							itm.getFullWidth( ),
 							dItemHeight,
 							itm.getFullHeight( ),
+							0,
+							0,
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -1156,11 +1293,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					renderLegendItem( ipr,
 							lg,
 							la,
+							null,
 							dX,
 							dY,
 							itm.getFullWidth( ),
 							dItemHeight,
 							itm.getFullHeight( ),
+							0,
+							0,
 							insCA.getLeft( ),
 							dHorizontalSpacing,
 							seBase,
@@ -1175,6 +1315,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			else if ( d.getValue( ) == Direction.TOP_BOTTOM )
 			{
+				double maxValueHeight = 0;
 				dSeparatorThickness += dVerticalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
 				{
@@ -1208,16 +1349,73 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la ); // RECYCLED
+
+						double dFWidth = itm.getFullWidth( );
+						double dFHeight = itm.getFullHeight( );
+
+						Label valueLa = null;
+						double valueHeight = 0;
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								valueLa = (Label) EcoreUtil.copy( seBase.getLabel( ) );
+								valueLa.getCaption( ).setValue( valueText );
+								itm.reuse( valueLa );
+
+								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
+
+								valueHeight = itm.getFullHeight( );
+
+								maxValueHeight = Math.max( maxValueHeight,
+										valueHeight );
+							}
+						}
+
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						renderLegendItem( ipr,
 								lg,
 								la,
+								valueLa,
 								dX,
 								dY,
-								itm.getFullWidth( ),
+								dFWidth,
 								dItemHeight,
-								itm.getFullHeight( ),
+								dFHeight,
+								valueHeight,
+								dFWidth + 3 * dItemHeight / 2,
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1230,10 +1428,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing
-								+ itm.getFullWidth( )
+								+ dFWidth
 								+ insCA.getRight( );
 					}
-					dY += insCA.getTop( ) + dItemHeight + insCA.getRight( ); // LINE
+					dY += insCA.getTop( )
+							+ dItemHeight
+							+ insCA.getRight( )
+							+ maxValueHeight; // LINE
 					// FEED
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
@@ -1286,16 +1487,70 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						}
 						la.getCaption( ).setValue( lgtext );
 						itm.reuse( la ); // RECYCLED
+
+						double dFWidth = itm.getFullWidth( );
+						double dFHeight = itm.getFullHeight( );
+
+						Label valueLa = null;
+						double valueHeight = 0;
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( seBase.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								valueLa = (Label) EcoreUtil.copy( seBase.getLabel( ) );
+								valueLa.getCaption( ).setValue( valueText );
+								itm.reuse( valueLa );
+
+								dFWidth = Math.max( dFWidth, itm.getFullWidth( ) );
+
+								valueHeight = itm.getFullHeight( );
+							}
+						}
+
 						fPaletteEntry = (Fill) elPaletteEntries.get( i
 								% iPaletteCount ); // CYCLE THROUGH THE PALETTE
 						renderLegendItem( ipr,
 								lg,
 								la,
+								valueLa,
 								dX,
 								dY,
-								itm.getFullWidth( ),
+								dFWidth,
 								dItemHeight,
-								itm.getFullHeight( ),
+								dFHeight,
+								valueHeight,
+								dFWidth + 3 * dItemHeight / 2,
 								insCA.getLeft( ),
 								dHorizontalSpacing,
 								seBase,
@@ -1308,7 +1563,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing
-								+ itm.getFullWidth( )
+								+ dFWidth
 								+ insCA.getRight( );
 					}
 
@@ -1450,8 +1705,9 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * @throws RenderingException
 	 */
 	protected final void renderLegendItem( IPrimitiveRenderer ipr, Legend lg,
-			Label la, double dX, double dY, double dW, double dItemHeight,
-			double dFullHeight, double dLeftInset, double dHorizontalSpacing,
+			Label la, Label valueLa, double dX, double dY, double dW,
+			double dItemHeight, double dFullHeight, double dValueHeight,
+			double dValueWidth, double dLeftInset, double dHorizontalSpacing,
 			Series se, Fill fPaletteEntry, LegendItemRenderingHints lirh )
 			throws ChartException
 	{
@@ -1481,6 +1737,45 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 		ipr.drawText( tre );
 
+		if ( valueLa != null )
+		{
+			Location[] loaBack = new Location[4];
+			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ir ).getEventObject( lg,
+					PolygonRenderEvent.class );
+			pre.setBackground( valueLa.getBackground( ) );
+			pre.setOutline( valueLa.getOutline( ) );
+			pre.setPoints( loaBack );
+
+			loaBack[0] = LocationImpl.create( dX + dLeftInset + 1, dY
+					+ dFullHeight
+					+ 1 );
+			loaBack[1] = LocationImpl.create( dX + dLeftInset + 1, dY
+					+ dFullHeight
+					+ dValueHeight );
+			loaBack[2] = LocationImpl.create( dX + dLeftInset + dValueWidth - 1,
+					dY + dFullHeight + dValueHeight );
+			loaBack[3] = LocationImpl.create( dX + dLeftInset + dValueWidth - 1,
+					dY + dFullHeight + 1 );
+
+			ipr.fillPolygon( pre );
+			ipr.drawPolygon( pre );
+
+			Label tmpLa = (Label) EcoreUtil.copy( valueLa );
+			tmpLa.setOutline( null );
+			tmpLa.setBackground( null );
+
+			TextAlignment ta = TextAlignmentImpl.create( );
+			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+			ta.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+			tre.setBlockAlignment( ta );
+			tre.setBlockBounds( BoundsImpl.create( dX + dLeftInset + 1, dY
+					+ dFullHeight
+					+ 1, dValueWidth - 2, dValueHeight - 1 ) );
+			tre.setLabel( tmpLa );
+			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			ipr.drawText( tre );
+		}
+
 		// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
 		Trigger tg;
 		EList elTriggers = lg.getTriggers( );
@@ -1488,8 +1783,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		double dTextStartX = tre.getLocation( ).getX( ) - 1;
 		loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
 		loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
-		loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY + dItemHeight );
-		loaHotspot[3] = LocationImpl.create( dTextStartX, dY + dItemHeight );
+		loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
+				+ dItemHeight
+				+ dValueHeight );
+		loaHotspot[3] = LocationImpl.create( dTextStartX, dY
+				+ dItemHeight
+				+ dValueHeight );
 		if ( !elTriggers.isEmpty( ) )
 		{
 			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( se,
@@ -1605,7 +1904,19 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( ca,
 						LineRenderEvent.class );
 				lre.setLineAttributes( ca.getOutline( ) );
-				for ( int i = 1; i < pwoa.getColumnCount( ); i++ )
+
+				int colCount = pwoa.getColumnCount( );
+				int rowCount = pwoa.getRowCount( );
+
+				ChartWithoutAxes cwoa = pwoa.getModel( );
+				if ( cwoa instanceof DialChart
+						&& ( (DialChart) cwoa ).isDialSuperimposition( ) )
+				{
+					colCount = 1;
+					rowCount = 1;
+				}
+
+				for ( int i = 1; i < colCount; i++ )
 				{
 					lre.setStart( LocationImpl.create( bo.getLeft( )
 							+ i
@@ -1615,7 +1926,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							* sz.getWidth( ), bo.getTop( ) + bo.getHeight( ) ) );
 					ipr.drawLine( lre );
 				}
-				for ( int j = 1; j < pwoa.getRowCount( ); j++ )
+				for ( int j = 1; j < rowCount; j++ )
 				{
 					lre.setStart( LocationImpl.create( bo.getLeft( ),
 							bo.getTop( ) + j * sz.getHeight( ) ) );
@@ -1964,7 +2275,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final boolean bSolidColor = f instanceof ColorDefinition;
 		Fill fDarker = null, fBrighter = null;
-		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH )
+		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH
+				|| cd.getValue( ) == ChartDimension.THREE_DIMENSIONAL )
 		{
 			fDarker = f;
 			if ( fDarker instanceof ColorDefinition )
@@ -2137,6 +2449,35 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
+	 * Renders planes as 3D presentaion.
+	 * 
+	 * @param ipr
+	 * @param oSource
+	 * @param loaFace
+	 * @param f
+	 * @param lia
+	 * @throws ChartException
+	 */
+	protected final void render3DPlane( IPrimitiveRenderer ipr, Object oSource,
+			Location3D[][] loaFace, Fill f, LineAttributes lia )
+			throws ChartException
+	{
+		Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				Polygon3DRenderEvent.class );
+
+		int nSides = loaFace.length;
+
+		for ( int i = 0; i < nSides; i++ )
+		{
+			pre.setOutline( lia );
+			pre.setPoints3D( loaFace[i] );
+			pre.setBackground( f );
+			dc.addPlane( pre, PrimitiveRenderEvent.FILL
+					| PrimitiveRenderEvent.DRAW );
+		}
+	}
+
+	/**
 	 * 
 	 * @param loa
 	 * @param iProperty
@@ -2259,24 +2600,68 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 
 	/**
-	 * This method may ONLY be called in an event that the model instance is of
-	 * type ChartWithoutAxes. It returns the bounds of an individual cell (if
-	 * the rendered plot is to be split into a grid).
+	 * Returns the bounds of an individual cell (if the rendered model is a
+	 * ChartWithoutAxis and plot is to be split into a grid) or the entire plot
+	 * bounds (if the rendered model is a ChartWithAxis).
 	 * 
 	 * @return
 	 */
 	protected final Bounds getCellBounds( )
 	{
-		final PlotWithoutAxes pwoa = (PlotWithoutAxes) getComputations( );
-		final Coordinates co = pwoa.getCellCoordinates( iSeriesIndex - 1 );
-		final Size sz = pwoa.getCellSize( );
+		Object obj = getComputations( );
 
-		Bounds bo = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
-		bo.setLeft( bo.getLeft( ) + co.getColumn( ) * sz.getWidth( ) );
-		bo.setTop( bo.getTop( ) + co.getRow( ) * sz.getHeight( ) );
-		bo.setWidth( sz.getWidth( ) );
-		bo.setHeight( sz.getHeight( ) );
-		bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
+		Bounds bo = null;
+
+		if ( obj instanceof PlotWithoutAxes )
+		{
+			PlotWithoutAxes pwoa = (PlotWithoutAxes) obj;
+			Coordinates co = pwoa.getCellCoordinates( iSeriesIndex - 1 );
+			Size sz = pwoa.getCellSize( );
+
+			bo = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
+			bo.setLeft( bo.getLeft( ) + co.getColumn( ) * sz.getWidth( ) );
+			bo.setTop( bo.getTop( ) + co.getRow( ) * sz.getHeight( ) );
+			bo.setWidth( sz.getWidth( ) );
+			bo.setHeight( sz.getHeight( ) );
+			bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
+		}
+		else if ( obj instanceof PlotWithAxes )
+		{
+			PlotWithAxes pwa = (PlotWithAxes) obj;
+
+			bo = (Bounds) EcoreUtil.copy( pwa.getPlotBounds( ) );
+			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
+		}
+
+		return bo;
+	}
+
+	/**
+	 * Returns the bounds of the plot area, NOTE this bounds has reduced the
+	 * insets.
+	 * 
+	 * @return
+	 */
+	protected final Bounds getPlotBounds( )
+	{
+		Object obj = getComputations( );
+
+		Bounds bo = null;
+
+		if ( obj instanceof PlotWithoutAxes )
+		{
+			PlotWithoutAxes pwoa = (PlotWithoutAxes) obj;
+
+			bo = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
+			bo = bo.adjustedInstance( pwoa.getCellInsets( ) );
+		}
+		else if ( obj instanceof PlotWithAxes )
+		{
+			PlotWithAxes pwa = (PlotWithAxes) obj;
+
+			bo = (Bounds) EcoreUtil.copy( pwa.getPlotBounds( ) );
+			bo = bo.adjustedInstance( pwa.getPlotInsets( ) );
+		}
 
 		return bo;
 	}

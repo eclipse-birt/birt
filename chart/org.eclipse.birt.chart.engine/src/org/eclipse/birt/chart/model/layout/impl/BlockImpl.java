@@ -54,32 +54,31 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBounds <em>Bounds</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getAnchor <em>Anchor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getStretch <em>Stretch</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getInsets <em>Insets</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRow <em>Row</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumn <em>Column</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getRowspan <em>Rowspan</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getColumnspan <em>Columnspan</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getMinSize <em>Min Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getBackground <em>Background</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl#getTriggers <em>Triggers</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class BlockImpl extends EObjectImpl implements Block
 {
 
 	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -87,9 +86,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected EList children = null;
 
 	/**
-	 * The cached value of the '{@link #getBounds() <em>Bounds</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getBounds() <em>Bounds</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBounds()
 	 * @generated
 	 * @ordered
@@ -97,9 +95,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected Bounds bounds = null;
 
 	/**
-	 * The default value of the '{@link #getAnchor() <em>Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getAnchor() <em>Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAnchor()
 	 * @generated
 	 * @ordered
@@ -107,9 +104,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final Anchor ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAnchor() <em>Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAnchor() <em>Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAnchor()
 	 * @generated
 	 * @ordered
@@ -117,18 +113,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected Anchor anchor = ANCHOR_EDEFAULT;
 
 	/**
-	 * This is true if the Anchor attribute has been set. <!-- begin-user-doc
+	 * This is true if the Anchor attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean anchorESet = false;
 
 	/**
-	 * The default value of the '{@link #getStretch() <em>Stretch</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStretch() <em>Stretch</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStretch()
 	 * @generated
 	 * @ordered
@@ -136,9 +131,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final Stretch STRETCH_EDEFAULT = Stretch.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getStretch() <em>Stretch</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStretch() <em>Stretch</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStretch()
 	 * @generated
 	 * @ordered
@@ -146,18 +140,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected Stretch stretch = STRETCH_EDEFAULT;
 
 	/**
-	 * This is true if the Stretch attribute has been set. <!-- begin-user-doc
+	 * This is true if the Stretch attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean stretchESet = false;
 
 	/**
-	 * The cached value of the '{@link #getInsets() <em>Insets</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInsets()
 	 * @generated
 	 * @ordered
@@ -167,7 +160,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	/**
 	 * The default value of the '{@link #getRow() <em>Row</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getRow()
 	 * @generated
 	 * @ordered
@@ -177,7 +169,6 @@ public class BlockImpl extends EObjectImpl implements Block
 	/**
 	 * The cached value of the '{@link #getRow() <em>Row</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getRow()
 	 * @generated
 	 * @ordered
@@ -185,18 +176,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected int row = ROW_EDEFAULT;
 
 	/**
-	 * This is true if the Row attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Row attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean rowESet = false;
 
 	/**
-	 * The default value of the '{@link #getColumn() <em>Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getColumn() <em>Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColumn()
 	 * @generated
 	 * @ordered
@@ -204,9 +194,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final int COLUMN_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getColumn() <em>Column</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getColumn() <em>Column</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColumn()
 	 * @generated
 	 * @ordered
@@ -214,18 +203,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected int column = COLUMN_EDEFAULT;
 
 	/**
-	 * This is true if the Column attribute has been set. <!-- begin-user-doc
+	 * This is true if the Column attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean columnESet = false;
 
 	/**
-	 * The default value of the '{@link #getRowspan() <em>Rowspan</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRowspan()
 	 * @generated
 	 * @ordered
@@ -233,9 +221,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final int ROWSPAN_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getRowspan() <em>Rowspan</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRowspan() <em>Rowspan</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRowspan()
 	 * @generated
 	 * @ordered
@@ -243,18 +230,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected int rowspan = ROWSPAN_EDEFAULT;
 
 	/**
-	 * This is true if the Rowspan attribute has been set. <!-- begin-user-doc
+	 * This is true if the Rowspan attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean rowspanESet = false;
 
 	/**
-	 * The default value of the '{@link #getColumnspan() <em>Columnspan</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getColumnspan() <em>Columnspan</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColumnspan()
 	 * @generated
 	 * @ordered
@@ -262,9 +248,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final int COLUMNSPAN_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getColumnspan() <em>Columnspan</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getColumnspan() <em>Columnspan</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColumnspan()
 	 * @generated
 	 * @ordered
@@ -281,9 +266,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected boolean columnspanESet = false;
 
 	/**
-	 * The cached value of the '{@link #getMinSize() <em>Min Size</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMinSize() <em>Min Size</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSize()
 	 * @generated
 	 * @ordered
@@ -291,9 +275,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected Size minSize = null;
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -301,9 +284,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected LineAttributes outline = null;
 
 	/**
-	 * The cached value of the '{@link #getBackground() <em>Background</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBackground()
 	 * @generated
 	 * @ordered
@@ -311,9 +293,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected Fill background = null;
 
 	/**
-	 * The default value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -321,9 +302,8 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected static final boolean VISIBLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -331,18 +311,17 @@ public class BlockImpl extends EObjectImpl implements Block
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean visibleESet = false;
 
 	/**
-	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTriggers() <em>Triggers</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTriggers()
 	 * @generated
 	 * @ordered
@@ -351,7 +330,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected BlockImpl( )
@@ -361,7 +339,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -371,7 +348,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getChildren( )
@@ -387,7 +363,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Bounds getBounds( )
@@ -397,7 +372,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBounds( Bounds newBounds,
@@ -422,7 +396,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBounds( Bounds newBounds )
@@ -454,7 +427,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Anchor getAnchor( )
@@ -464,7 +436,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setAnchor( Anchor newAnchor )
@@ -484,7 +455,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetAnchor( )
@@ -504,7 +474,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetAnchor( )
@@ -514,7 +483,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Stretch getStretch( )
@@ -524,7 +492,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStretch( Stretch newStretch )
@@ -544,7 +511,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStretch( )
@@ -564,7 +530,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStretch( )
@@ -574,7 +539,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Insets getInsets( )
@@ -584,7 +548,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetInsets( Insets newInsets,
@@ -609,7 +572,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setInsets( Insets newInsets )
@@ -641,7 +603,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getRow( )
@@ -651,7 +612,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRow( int newRow )
@@ -671,7 +631,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetRow( )
@@ -691,7 +650,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetRow( )
@@ -701,7 +659,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getColumn( )
@@ -711,7 +668,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setColumn( int newColumn )
@@ -731,7 +687,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetColumn( )
@@ -751,7 +706,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetColumn( )
@@ -761,7 +715,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getRowspan( )
@@ -771,7 +724,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRowspan( int newRowspan )
@@ -791,7 +743,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetRowspan( )
@@ -811,7 +762,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetRowspan( )
@@ -821,7 +771,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getColumnspan( )
@@ -831,7 +780,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setColumnspan( int newColumnspan )
@@ -851,7 +799,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetColumnspan( )
@@ -871,7 +818,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetColumnspan( )
@@ -881,7 +827,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Size getMinSize( )
@@ -891,7 +836,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMinSize( Size newMinSize,
@@ -916,7 +860,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinSize( Size newMinSize )
@@ -948,7 +891,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getOutline( )
@@ -958,7 +900,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline( LineAttributes newOutline,
@@ -983,7 +924,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOutline( LineAttributes newOutline )
@@ -1015,7 +955,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getBackground( )
@@ -1025,7 +964,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBackground( Fill newBackground,
@@ -1050,7 +988,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBackground( Fill newBackground )
@@ -1084,7 +1021,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isVisible( )
@@ -1094,7 +1030,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVisible( boolean newVisible )
@@ -1114,7 +1049,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVisible( )
@@ -1134,7 +1068,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVisible( )
@@ -1144,7 +1077,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getTriggers( )
@@ -1160,7 +1092,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -1198,7 +1129,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -1239,7 +1169,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -1296,7 +1225,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -1351,7 +1279,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -1392,7 +1319,6 @@ public class BlockImpl extends EObjectImpl implements Block
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

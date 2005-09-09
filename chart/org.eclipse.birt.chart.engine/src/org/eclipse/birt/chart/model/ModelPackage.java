@@ -34,7 +34,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.ModelFactory
  * @generated
  */
-public interface ModelPackage extends EPackage{
+public interface ModelPackage extends EPackage
+{
 
 	/**
 	 * The package name.
@@ -63,7 +64,7 @@ public interface ModelPackage extends EPackage{
 	 * end-user-doc -->
 	 * @generated
 	 */
-	ModelPackage eINSTANCE = org.eclipse.birt.chart.model.impl.ModelPackageImpl.init();
+	ModelPackage eINSTANCE = org.eclipse.birt.chart.model.impl.ModelPackageImpl.init( );
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartImpl <em>Chart</em>}' class.
@@ -337,12 +338,21 @@ public interface ModelPackage extends EPackage{
 	int CHART_WITH_AXES__UNIT_SPACING = CHART_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Rotation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITH_AXES__ROTATION = CHART_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the the '<em>Chart With Axes</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 5;
+	int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl <em>Chart Without Axes</em>}' class.
@@ -498,6 +508,178 @@ public interface ModelPackage extends EPackage{
 	 * @ordered
 	 */
 	int CHART_WITHOUT_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.DialChartImpl <em>Dial Chart</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.impl.DialChartImpl
+	 * @see org.eclipse.birt.chart.model.impl.ModelPackageImpl#getDialChart()
+	 * @generated
+	 */
+	int DIAL_CHART = 3;
+
+	/**
+	 * The feature id for the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__VERSION = CHART_WITHOUT_AXES__VERSION;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__TYPE = CHART_WITHOUT_AXES__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__SUB_TYPE = CHART_WITHOUT_AXES__SUB_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__DESCRIPTION = CHART_WITHOUT_AXES__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Block</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__BLOCK = CHART_WITHOUT_AXES__BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Dimension</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__DIMENSION = CHART_WITHOUT_AXES__DIMENSION;
+
+	/**
+	 * The feature id for the '<em><b>Script</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__SCRIPT = CHART_WITHOUT_AXES__SCRIPT;
+
+	/**
+	 * The feature id for the '<em><b>Units</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__UNITS = CHART_WITHOUT_AXES__UNITS;
+
+	/**
+	 * The feature id for the '<em><b>Series Thickness</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__SERIES_THICKNESS = CHART_WITHOUT_AXES__SERIES_THICKNESS;
+
+	/**
+	 * The feature id for the '<em><b>Grid Column Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__GRID_COLUMN_COUNT = CHART_WITHOUT_AXES__GRID_COLUMN_COUNT;
+
+	/**
+	 * The feature id for the '<em><b>Extended Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__EXTENDED_PROPERTIES = CHART_WITHOUT_AXES__EXTENDED_PROPERTIES;
+
+	/**
+	 * The feature id for the '<em><b>Sample Data</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__SAMPLE_DATA = CHART_WITHOUT_AXES__SAMPLE_DATA;
+
+	/**
+	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__SERIES_DEFINITIONS = CHART_WITHOUT_AXES__SERIES_DEFINITIONS;
+
+	/**
+	 * The feature id for the '<em><b>Min Slice</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__MIN_SLICE = CHART_WITHOUT_AXES__MIN_SLICE;
+
+	/**
+	 * The feature id for the '<em><b>Min Slice Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__MIN_SLICE_PERCENT = CHART_WITHOUT_AXES__MIN_SLICE_PERCENT;
+
+	/**
+	 * The feature id for the '<em><b>Min Slice Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__MIN_SLICE_LABEL = CHART_WITHOUT_AXES__MIN_SLICE_LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Dial Superimposition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__DIAL_SUPERIMPOSITION = CHART_WITHOUT_AXES_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the the '<em>Dial Chart</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART_FEATURE_COUNT = CHART_WITHOUT_AXES_FEATURE_COUNT + 1;
 
 	/**
 	 * Returns the meta object for class '
@@ -692,6 +874,17 @@ public interface ModelPackage extends EPackage{
 	EAttribute getChartWithAxes_UnitSpacing( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Rotation</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getRotation()
+	 * @see #getChartWithAxes()
+	 * @generated
+	 */
+	EReference getChartWithAxes_Rotation( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithoutAxes <em>Chart Without Axes</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Without Axes</em>'.
@@ -719,7 +912,7 @@ public interface ModelPackage extends EPackage{
 	 * @see #getChartWithoutAxes()
 	 * @generated
 	 */
-	EAttribute getChartWithoutAxes_MinSlice();
+	EAttribute getChartWithoutAxes_MinSlice( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}'.
@@ -730,7 +923,7 @@ public interface ModelPackage extends EPackage{
 	 * @see #getChartWithoutAxes()
 	 * @generated
 	 */
-	EAttribute getChartWithoutAxes_MinSlicePercent();
+	EAttribute getChartWithoutAxes_MinSlicePercent( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}'.
@@ -741,7 +934,28 @@ public interface ModelPackage extends EPackage{
 	 * @see #getChartWithoutAxes()
 	 * @generated
 	 */
-	EAttribute getChartWithoutAxes_MinSliceLabel();
+	EAttribute getChartWithoutAxes_MinSliceLabel( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.DialChart <em>Dial Chart</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dial Chart</em>'.
+	 * @see org.eclipse.birt.chart.model.DialChart
+	 * @generated
+	 */
+	EClass getDialChart( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Dial Superimposition</em>'.
+	 * @see org.eclipse.birt.chart.model.DialChart#isDialSuperimposition()
+	 * @see #getDialChart()
+	 * @generated
+	 */
+	EAttribute getDialChart_DialSuperimposition( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--

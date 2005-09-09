@@ -35,31 +35,30 @@ package org.eclipse.birt.chart.model.attribute;
 public interface ScriptValue extends ActionValue
 {
 
-    /**
-     * Returns the value of the '<em><b>Script</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Holds the actual script string to be invoked.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Script</em>' attribute.
-     * @see #setScript(String)
-     * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScriptValue_Script()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-     * @generated
-     */
-    String getScript();
+	/**
+	 * Returns the value of the '<em><b>Script</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 							Holds the actual script string to be invoked.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Script</em>' attribute.
+	 * @see #setScript(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScriptValue_Script()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Script'"
+	 * @generated
+	 */
+	String getScript( );
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Script</em>' attribute.
-     * @see #getScript()
-     * @generated
-     */
-    void setScript(String value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Script</em>' attribute.
+	 * @see #getScript()
+	 * @generated
+	 */
+	void setScript( String value );
 
 } // ScriptValue

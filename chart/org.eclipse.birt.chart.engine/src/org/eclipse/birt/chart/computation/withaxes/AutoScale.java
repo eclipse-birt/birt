@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * Encapsulates the auto scaling algorithms used by the rendering and chart
@@ -46,64 +47,28 @@ import org.eclipse.birt.chart.util.CDateTime;
 public final class AutoScale extends Methods implements Cloneable
 {
 
-	/**
-	 * 
-	 */
 	private final int iType;
 
-	/**
-	 * 
-	 */
 	private Object oMinimum;
 
-	/**
-	 * 
-	 */
 	private Object oMaximum;
 
-	/**
-	 * 
-	 */
 	private Object oStep;
 
-	/**
-	 * 
-	 */
 	private Object oUnit;
 
-	/**
-	 * 
-	 */
 	private double dStartShift;
 
-	/**
-	 * 
-	 */
 	private double dEndShift;
 
-	/**
-	 * 
-	 */
 	private transient double dStart, dEnd;
 
-	/**
-	 * 
-	 */
 	private transient double[] daTickCoordinates;
 
-	/**
-	 * 
-	 */
 	private transient DataSetIterator dsiData;
 
-	/**
-	 * 
-	 */
 	private transient boolean bCategoryScale = false;
 
-	/**
-	 * 
-	 */
 	private RunTimeContext rtc;;
 
 	/**
@@ -139,44 +104,26 @@ public final class AutoScale extends Methods implements Cloneable
 			Calendar.YEAR
 	};
 
-	/**
-	 * 
-	 */
 	private static int[] iaSecondDeltas = {
 			1, 5, 10, 15, 20, 30
 	};
 
-	/**
-	 * 
-	 */
 	private static int[] iaMinuteDeltas = {
 			1, 5, 10, 15, 20, 30
 	};
 
-	/**
-	 * 
-	 */
 	private static int[] iaHourDeltas = {
 			1, 2, 3, 4, 12
 	};
 
-	/**
-	 * 
-	 */
 	private static int[] iaDayDeltas = {
 			1, 7, 14
 	};
 
-	/**
-	 * 
-	 */
 	private static int[] iaMonthDeltas = {
 			1, 2, 3, 4, 6
 	};
 
-	/**
-	 * 
-	 */
 	private static int[][] iaCalendarDeltas = {
 			iaSecondDeltas,
 			iaMinuteDeltas,
@@ -186,34 +133,22 @@ public final class AutoScale extends Methods implements Cloneable
 			null
 	};
 
-	/**
-	 * 
-	 */
 	private boolean bIntegralZoom = true;
 
-	/**
-	 * 
-	 */
 	private boolean bMinimumFixed = false;
 
-	/**
-	 * 
-	 */
 	private boolean bMaximumFixed = false;
 
-	/**
-	 * 
-	 */
 	private boolean bStepFixed = false;
 
-	/**
-	 * 
-	 */
-	FormatSpecifier fs = null;
+	private boolean bAlwaysForward = false;
+
+	private FormatSpecifier fs = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param _iType
 	 */
@@ -223,13 +158,15 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param _iType
 	 * @param _oMinimum
 	 * @param _oMaximum
 	 * @param _oStep
 	 */
-	AutoScale( int _iType, Object _oMinimum, Object _oMaximum, Object _oStep )
+	public AutoScale( int _iType, Object _oMinimum, Object _oMaximum,
+			Object _oStep )
 	{
 		oMinimum = _oMinimum;
 		oMaximum = _oMaximum;
@@ -238,6 +175,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param _iType
 	 * @param _oMinimum
@@ -263,7 +201,19 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Tick coordinates always lines forward.
 	 * 
+	 * @param val
+	 */
+	public final void setAlwaysForward( boolean val )
+	{
+		bAlwaysForward = val;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
 	 */
 	public final Object clone( )
 	{
@@ -282,6 +232,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.fs = fs;
 		sc.rtc = rtc;
 		sc.bCategoryScale = bCategoryScale;
+		sc.bAlwaysForward = bAlwaysForward;
 		return sc;
 	}
 
@@ -289,11 +240,12 @@ public final class AutoScale extends Methods implements Cloneable
 	 * Zooms IN 'once' into a scale of type numerical or datetime Typically,
 	 * this is called in a loop until label overlaps occur
 	 */
-	final boolean zoomIn( )
+	public final boolean zoomIn( )
 	{
 		if ( bStepFixed )
 			return false; // CANNOT ZOOM FOR FIXED STEPS
-		if ( ( (Number) oStep ).doubleValue( ) == 0 )
+		if ( ChartUtil.mathEqual( 0, ( (Number) oStep ).doubleValue( ) ) )
+			// if ( ( (Number) oStep ).doubleValue( ) == 0 )
 			return false; // CANNOT ZOOM ANY MORE
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
@@ -422,7 +374,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * Zooms OUT 'once' into a scale of type numerical or datetime Typically,
 	 * this is called in a loop until label overlaps occur
 	 */
-	final boolean zoomOut( )
+	public final boolean zoomOut( )
 	{
 		if ( bStepFixed )
 			return false;
@@ -711,9 +663,25 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @param _oaData
 	 */
-	final void setData( DataSetIterator _oaData )
+	public final void setData( DataSetIterator _oaData )
 	{
 		dsiData = _oaData;
+	}
+
+	/**
+	 * @return
+	 */
+	public final FormatSpecifier getFormatSpecifier( )
+	{
+		return this.fs;
+	}
+
+	/**
+	 * @param fs
+	 */
+	public final void setFormatSpecifier( FormatSpecifier fs )
+	{
+		this.fs = fs;
 	}
 
 	/**
@@ -757,6 +725,63 @@ public final class AutoScale extends Methods implements Cloneable
 	public final double[] getTickCordinates( )
 	{
 		return daTickCoordinates;
+	}
+
+	/**
+	 * Returns the normalized tick coordinates. that means the start point is
+	 * always zero, and the array lines forward.
+	 * 
+	 * @return
+	 */
+	public final double[] getNormalizedTickCoordinates( )
+	{
+		if ( daTickCoordinates != null )
+		{
+			double[] daNomTickCoordinates = new double[daTickCoordinates.length];
+
+			for ( int i = 0; i < daNomTickCoordinates.length; i++ )
+			{
+				daNomTickCoordinates[i] = daTickCoordinates[i]
+						- daTickCoordinates[0];
+			}
+
+			return daNomTickCoordinates;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the normalized start point. always be Zero.
+	 * 
+	 * @return
+	 */
+	public final double getNormalizedStart( )
+	{
+		return 0;
+	}
+
+	/**
+	 * Returns the normalized end point. this will be the (orginal end - orginal
+	 * start).
+	 * 
+	 * @return
+	 */
+	public final double getNormalizedEnd( )
+	{
+		return dEnd - dStart;
+	}
+
+	/**
+	 * Returns the normalized start and end point.
+	 * 
+	 * @return
+	 */
+	public final double[] getNormalizedEndPoints( )
+	{
+		return new double[]{
+				0, dEnd - dStart
+		};
 	}
 
 	/**
@@ -806,7 +831,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @return
 	 */
-	final int getTickCount( )
+	public final int getTickCount( )
 	{
 		int nTicks = 2;
 		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
@@ -892,6 +917,14 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * @param o
+	 */
+	public final void setMinimum( Object o )
+	{
+		this.oMinimum = o;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -901,12 +934,28 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * @param o
+	 */
+	public final void setMaximum( Object o )
+	{
+		this.oMaximum = o;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
 	public final Object getStep( )
 	{
 		return oStep;
+	}
+
+	/**
+	 * @param o
+	 */
+	public final void setStep( Object o )
+	{
+		this.oStep = o;
 	}
 
 	/**
@@ -1018,7 +1067,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param oMinValue
 	 * @param oMaxValue
 	 */
-	final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
+	public final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
 	{
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
@@ -1155,10 +1204,13 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @return
 	 */
-	final boolean checkFit( IDisplayServer xs, Label la, int iLabelLocation )
-			throws ChartException
+	public final boolean checkFit( IDisplayServer xs, Label la,
+			int iLabelLocation ) throws ChartException
 	{
-		if ( iType == TEXT || bCategoryScale )
+		if ( iType == TEXT
+				|| bCategoryScale
+				|| !la.isSetVisible( )
+				|| ( la.isSetVisible( ) && !la.isVisible( ) ) )
 		{
 			return true;
 		}
@@ -1232,8 +1284,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 				Point p = rr.getPoint( iPointToCheck );
 				if ( rrPrev != null
-						&& ( rrPrev.contains( p ) || rrPrev.getPoint( iPointToCheck )
-								.equals( p ) ) )
+						&& ( rrPrev.contains( p )
+								|| rrPrev.getPoint( iPointToCheck ).equals( p ) || rr.intersects( rrPrev.getBounds2D( ) ) ) )
 				{
 					return false;
 				}
@@ -1371,7 +1423,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @return
 	 */
-	final double getEnd( )
+	public final double getEnd( )
 	{
 		return dEnd;
 	}
@@ -1407,7 +1459,8 @@ public final class AutoScale extends Methods implements Cloneable
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
 			DataElement oMinimum, DataElement oMaximum, Double oStep,
-			FormatSpecifier fs, RunTimeContext rtc ) throws ChartException
+			FormatSpecifier fs, RunTimeContext rtc, boolean forward )
+			throws ChartException
 	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
@@ -1423,6 +1476,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc;
 			sc.bCategoryScale = true;
 			sc.setData( dsi );
+			sc.setAlwaysForward( forward );
 			sc.computeTicks( xs,
 					ax.getLabel( ),
 					iLabelLocation,
@@ -1468,6 +1522,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Double( 0 ),
 					new Double( dStep ) );
 			sc.setData( dsi );
+			sc.setAlwaysForward( forward );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 
@@ -1668,6 +1723,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.setData( dsi );
+			sc.setAlwaysForward( forward );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
 			if ( ( iType & PERCENT ) == PERCENT )
 			{
@@ -1787,6 +1843,7 @@ public final class AutoScale extends Methods implements Cloneable
 					cdtMaxAxis,
 					new Integer( iUnit ),
 					new Integer( 1 ) );
+			sc.setAlwaysForward( forward );
 			sc.computeTicks( xs,
 					la,
 					iLabelLocation,
@@ -1943,14 +2000,15 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param bConsiderStartEndLabels
 	 * @param aax
 	 */
-	final int computeTicks( IDisplayServer xs, Label la, int iLabelLocation,
-			int iOrientation, double dStart, double dEnd,
+	public final int computeTicks( IDisplayServer xs, Label la,
+			int iLabelLocation, int iOrientation, double dStart, double dEnd,
 			boolean bConsiderStartEndLabels, AllAxes aax )
 			throws ChartException
 	{
 		int nTicks = 0;
 		double dLength = 0;
-		int iDirection = ( iOrientation == HORIZONTAL ) ? FORWARD : BACKWARD;
+		int iDirection = ( iOrientation == HORIZONTAL || bAlwaysForward ) ? FORWARD
+				: BACKWARD;
 		DataSetIterator dsi = getData( );
 
 		if ( bConsiderStartEndLabels )
@@ -2010,6 +2068,7 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Returns the formatted value for given Axis type and value.
 	 * 
 	 * @param iType
 	 * @param oValue
@@ -2687,21 +2746,57 @@ public final class AutoScale extends Methods implements Cloneable
 		return 0;
 	}
 
-	final boolean isStepFixed( )
+	/**
+	 * @return
+	 */
+	public final boolean isStepFixed( )
 	{
 		return bStepFixed;
 	}
 
-	final boolean isMinimumFixed( )
+	/**
+	 * @param v
+	 */
+	public final void setStepFixed( boolean v )
+	{
+		this.bStepFixed = v;
+	}
+
+	/**
+	 * @return
+	 */
+	public final boolean isMinimumFixed( )
 	{
 		return bMinimumFixed;
 	}
 
-	final boolean isMaximumFixed( )
+	/**
+	 * @param v
+	 */
+	public final void setMinimumFixed( boolean v )
+	{
+		this.bMinimumFixed = v;
+	}
+
+	/**
+	 * @return
+	 */
+	public final boolean isMaximumFixed( )
 	{
 		return bMaximumFixed;
 	}
 
+	/**
+	 * @param v
+	 */
+	public final void setMaximumFixed( boolean v )
+	{
+		this.bMaximumFixed = v;
+	}
+
+	/**
+	 * @return
+	 */
 	public final boolean isCategoryScale( )
 	{
 		return bCategoryScale;
@@ -2743,8 +2838,19 @@ public final class AutoScale extends Methods implements Cloneable
 		return da;
 	}
 
-	public RunTimeContext getRunTimeContext( )
+	/**
+	 * @return
+	 */
+	public final RunTimeContext getRunTimeContext( )
 	{
 		return rtc;
+	}
+
+	/**
+	 * @param context
+	 */
+	public final void setRunTimeContext( RunTimeContext context )
+	{
+		this.rtc = context;
 	}
 }

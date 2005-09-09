@@ -19,14 +19,15 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.birt.chart.model.layout.LayoutPackage
  * @generated
  */
-public interface LayoutFactory extends EFactory{
+public interface LayoutFactory extends EFactory
+{
 
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    LayoutFactory eINSTANCE = new org.eclipse.birt.chart.model.layout.impl.LayoutFactoryImpl();
+	LayoutFactory eINSTANCE = new org.eclipse.birt.chart.model.layout.impl.LayoutFactoryImpl( );
 
 	/**
 	 * Returns a new object of class '<em>Block</em>'.
@@ -34,7 +35,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Block</em>'.
 	 * @generated
 	 */
-    Block createBlock();
+	Block createBlock( );
 
 	/**
 	 * Returns a new object of class '<em>Client Area</em>'.
@@ -42,7 +43,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Client Area</em>'.
 	 * @generated
 	 */
-    ClientArea createClientArea();
+	ClientArea createClientArea( );
 
 	/**
 	 * Returns a new object of class '<em>Label Block</em>'.
@@ -50,7 +51,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Label Block</em>'.
 	 * @generated
 	 */
-    LabelBlock createLabelBlock();
+	LabelBlock createLabelBlock( );
 
 	/**
 	 * Returns a new object of class '<em>Legend</em>'.
@@ -58,7 +59,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Legend</em>'.
 	 * @generated
 	 */
-    Legend createLegend();
+	Legend createLegend( );
 
 	/**
 	 * Returns a new object of class '<em>Plot</em>'.
@@ -66,7 +67,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Plot</em>'.
 	 * @generated
 	 */
-    Plot createPlot();
+	Plot createPlot( );
 
 	/**
 	 * Returns a new object of class '<em>Title Block</em>'.
@@ -74,7 +75,7 @@ public interface LayoutFactory extends EFactory{
 	 * @return a new object of class '<em>Title Block</em>'.
 	 * @generated
 	 */
-    TitleBlock createTitleBlock();
+	TitleBlock createTitleBlock( );
 
 	/**
 	 * Returns the package supported by this factory.
@@ -82,6 +83,6 @@ public interface LayoutFactory extends EFactory{
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-    LayoutPackage getLayoutPackage();
+	LayoutPackage getLayoutPackage( );
 
 } //LayoutFactory

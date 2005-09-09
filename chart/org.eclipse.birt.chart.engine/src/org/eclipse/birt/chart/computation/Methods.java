@@ -32,12 +32,13 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * 
+ * Methods
  */
 public class Methods implements IConstants
 {
 
 	/**
+	 * Converts given object to a DateTime object.
 	 * 
 	 * @param o
 	 * @return
@@ -56,6 +57,7 @@ public class Methods implements IConstants
 	}
 
 	/**
+	 * Converts the given object to a Double object.
 	 * 
 	 * @param o
 	 * @return
@@ -78,6 +80,7 @@ public class Methods implements IConstants
 	}
 
 	/**
+	 * Converts the given object to an Integer object.
 	 * 
 	 * @param o
 	 * @return
@@ -177,6 +180,13 @@ public class Methods implements IConstants
 		}
 	}
 
+	/**
+	 * @param sc
+	 * @param oValue
+	 * @return
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
+	 */
 	public static final double getLocation( AutoScale sc, Object oValue )
 			throws ChartException, IllegalArgumentException
 	{
@@ -216,6 +226,37 @@ public class Methods implements IConstants
 	}
 
 	/**
+	 * @param sc
+	 * @param dValue
+	 * @return
+	 */
+	public static final double getNormalizedLocation( AutoScale sc,
+			double dValue )
+	{
+		return getLocation( sc, dValue ) - getLocation( sc, 0 );
+	}
+
+	/**
+	 * @param sc
+	 * @param oValue
+	 * @return
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
+	 */
+	public static final double getNormalizedLocation( AutoScale sc,
+			Object oValue ) throws ChartException, IllegalArgumentException
+	{
+		if ( ( sc.getType( ) & NUMERICAL ) == NUMERICAL )
+		{
+			return getLocation( sc, oValue ) - getLocation( sc, 0 );
+		}
+		else
+		{
+			return getLocation( sc, oValue ) - sc.getStart( );
+		}
+	}
+
+	/**
 	 * 
 	 * @param sc
 	 * @param dValue
@@ -230,6 +271,7 @@ public class Methods implements IConstants
 			double dMinimum = asDouble( sc.getMinimum( ) ).doubleValue( );
 			double dStep = asDouble( sc.getStep( ) ).doubleValue( );
 			double[] da = sc.getTickCordinates( );
+
 			return da[0]
 					- ( ( ( dValue - dMinimum ) / dStep ) * ( da[0] - da[1] ) );
 		}

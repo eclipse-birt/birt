@@ -42,22 +42,21 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSlice <em>Min Slice</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#isMinSlicePercent <em>Min Slice Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSliceLabel <em>Min Slice Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSlice <em>Min Slice</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#isMinSlicePercent <em>Min Slice Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#getMinSliceLabel <em>Min Slice Label</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 {
 
 	/**
-	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesDefinitions()
 	 * @generated
 	 * @ordered
@@ -65,9 +64,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected EList seriesDefinitions = null;
 
 	/**
-	 * The default value of the '{@link #getMinSlice() <em>Min Slice</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMinSlice() <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSlice()
 	 * @generated
 	 * @ordered
@@ -75,9 +73,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected static final double MIN_SLICE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMinSlice() <em>Min Slice</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMinSlice() <em>Min Slice</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSlice()
 	 * @generated
 	 * @ordered
@@ -85,18 +82,17 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected double minSlice = MIN_SLICE_EDEFAULT;
 
 	/**
-	 * This is true if the Min Slice attribute has been set. <!-- begin-user-doc
+	 * This is true if the Min Slice attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean minSliceESet = false;
 
 	/**
-	 * The default value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isMinSlicePercent()
 	 * @generated
 	 * @ordered
@@ -104,9 +100,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected static final boolean MIN_SLICE_PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isMinSlicePercent() <em>Min Slice Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isMinSlicePercent()
 	 * @generated
 	 * @ordered
@@ -123,9 +118,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected boolean minSlicePercentESet = false;
 
 	/**
-	 * The default value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSliceLabel()
 	 * @generated
 	 * @ordered
@@ -133,9 +127,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	protected static final String MIN_SLICE_LABEL_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMinSliceLabel() <em>Min Slice Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinSliceLabel()
 	 * @generated
 	 * @ordered
@@ -144,7 +137,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ChartWithoutAxesImpl( )
@@ -154,7 +146,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -164,7 +155,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getSeriesDefinitions( )
@@ -180,7 +170,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getMinSlice( )
@@ -190,7 +179,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinSlice( double newMinSlice )
@@ -210,7 +198,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetMinSlice( )
@@ -230,7 +217,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetMinSlice( )
@@ -240,7 +226,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isMinSlicePercent( )
@@ -250,7 +235,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinSlicePercent( boolean newMinSlicePercent )
@@ -270,7 +254,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetMinSlicePercent( )
@@ -290,7 +273,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetMinSlicePercent( )
@@ -300,7 +282,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getMinSliceLabel( )
@@ -310,7 +291,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinSliceLabel( String newMinSliceLabel )
@@ -327,7 +307,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -361,7 +340,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -406,7 +384,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -469,7 +446,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -530,7 +506,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -582,7 +557,6 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -612,7 +586,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * 
 	 * @return
 	 */
-	public static final ChartWithoutAxes create( )
+	public static ChartWithoutAxes create( )
 	{
 		final ChartWithoutAxes cwoa = ModelFactory.eINSTANCE.createChartWithoutAxes( );
 		( (ChartWithoutAxesImpl) cwoa ).initialize( );
@@ -623,7 +597,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initialize( )
+	protected void initialize( )
 	{
 		// INITIALIZE SUPER'S MEMBERS
 		super.initialize( );

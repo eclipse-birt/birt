@@ -34,9 +34,9 @@ public final class VerticalAlignment extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Top</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Top</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TOP_LITERAL
 	 * @model name="Top"
 	 * @generated
@@ -45,9 +45,9 @@ public final class VerticalAlignment extends AbstractEnumerator
 	public static final int TOP = 0;
 
 	/**
-	 * The '<em><b>Center</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Center</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CENTER_LITERAL
 	 * @model name="Center"
 	 * @generated
@@ -56,9 +56,9 @@ public final class VerticalAlignment extends AbstractEnumerator
 	public static final int CENTER = 1;
 
 	/**
-	 * The '<em><b>Bottom</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Bottom</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BOTTOM_LITERAL
 	 * @model name="Bottom"
 	 * @generated
@@ -67,13 +67,13 @@ public final class VerticalAlignment extends AbstractEnumerator
 	public static final int BOTTOM = 2;
 
 	/**
-	 * The '<em><b>Top</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Top</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Top</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TOP
 	 * @generated
 	 * @ordered
@@ -82,13 +82,13 @@ public final class VerticalAlignment extends AbstractEnumerator
 			"Top" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Center</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Center</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Center</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CENTER
 	 * @generated
 	 * @ordered
@@ -97,13 +97,13 @@ public final class VerticalAlignment extends AbstractEnumerator
 			"Center" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Bottom</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Bottom</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Bottom</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BOTTOM
 	 * @generated
 	 * @ordered
@@ -112,9 +112,8 @@ public final class VerticalAlignment extends AbstractEnumerator
 			"Bottom" ); //$NON-NLS-1$
 
 	/**
-	 * An array of all the '<em><b>Vertical Alignment</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Vertical Alignment</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final VerticalAlignment[] VALUES_ARRAY = new VerticalAlignment[]{
@@ -122,17 +121,15 @@ public final class VerticalAlignment extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Vertical Alignment</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Vertical Alignment</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static VerticalAlignment get( String name )
@@ -149,9 +146,8 @@ public final class VerticalAlignment extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Vertical Alignment</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static VerticalAlignment get( int value )
@@ -169,9 +165,9 @@ public final class VerticalAlignment extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private VerticalAlignment( int value, String name )

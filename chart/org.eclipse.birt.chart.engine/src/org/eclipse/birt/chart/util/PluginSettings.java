@@ -65,6 +65,7 @@ public final class PluginSettings
 			"org.eclipse.birt.chart.model.component.impl.SeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.BarSeriesImpl", //$NON-NLS-1$
+			"org.eclipse.birt.chart.model.type.impl.DialSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.LineSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.PieSeriesImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.model.type.impl.StockSeriesImpl", //$NON-NLS-1$
@@ -77,6 +78,7 @@ public final class PluginSettings
 	 * series type list.
 	 */
 	private static String[] saDataSetProcessors = {
+			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
 			"org.eclipse.birt.chart.datafeed.DataSetProcessorImpl", //$NON-NLS-1$
@@ -94,6 +96,7 @@ public final class PluginSettings
 	private static String[] saRenderers = {
 			null, "org.eclipse.birt.chart.render.Area", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.render.Bar", //$NON-NLS-1$ 
+			"org.eclipse.birt.chart.render.Dial", //$NON-NLS-1$
 			"org.eclipse.birt.chart.render.Line", //$NON-NLS-1$
 			"org.eclipse.birt.chart.render.Pie", //$NON-NLS-1$ 
 			"org.eclipse.birt.chart.render.Stock", //$NON-NLS-1$
@@ -106,31 +109,45 @@ public final class PluginSettings
 	 */
 	private static String[][] saDevices = {
 			{
-					"dv.SWING", "org.eclipse.birt.chart.device.swing.SwingRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.SWT", "org.eclipse.birt.chart.device.swt.SwtRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.PNG24", "org.eclipse.birt.chart.device.image.PngRendererImplOld" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.GIF8", "org.eclipse.birt.chart.device.image.GifRendererImplOld" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.PNG", "org.eclipse.birt.chart.device.image.PngRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.GIF", "org.eclipse.birt.chart.device.image.GifRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.JPEG", "org.eclipse.birt.chart.device.image.JpegRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.JPG", "org.eclipse.birt.chart.device.image.JpegRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
-			},
-			{
-					"dv.BMP", "org.eclipse.birt.chart.device.image.BmpRendererImpl" //$NON-NLS-1$ //$NON-NLS-2$
+					"dv.SWING", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.swing.SwingRendererImpl", //$NON-NLS-1$
+					null, null
+			}, {
+					"dv.SWT", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.swt.SwtRendererImpl", //$NON-NLS-1$
+					null, null
+			}, {
+					"dv.PNG24", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.PngRendererImplOld", //$NON-NLS-1$
+					null, null
+			}, {
+					"dv.GIF8", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.GifRendererImplOld", //$NON-NLS-1$
+					null, null
+			}, {
+					"dv.PNG", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.PngRendererImpl", //$NON-NLS-1$
+					"PNG", //$NON-NLS-1$
+					"Portable Network Graphics" //$NON-NLS-1$
+			}, {
+					"dv.GIF", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.GifRendererImpl", //$NON-NLS-1$
+					"GIF", //$NON-NLS-1$
+					null
+			}, {
+					"dv.JPEG", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.JpegRendererImpl", //$NON-NLS-1$
+					null, null
+			}, {
+					"dv.JPG", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.JpegRendererImpl", //$NON-NLS-1$
+					"JPG", //$NON-NLS-1$
+					null
+			}, {
+					"dv.BMP", //$NON-NLS-1$
+					"org.eclipse.birt.chart.device.image.BmpRendererImpl", //$NON-NLS-1$
+					"BMP", //$NON-NLS-1$
+					null
 			}
 	};
 
@@ -149,7 +166,7 @@ public final class PluginSettings
 	/**
 	 * All available aggregate functions used in orthogonal value aggregation
 	 */
-	private static final String[][] saAggregateFunctions = {
+	private static String[][] saAggregateFunctions = {
 			{
 					"Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
 			}, {
@@ -220,7 +237,7 @@ public final class PluginSettings
 								new Object[]{
 									oDSP.getClass( ).getName( )
 								}, Locale.getDefault( ) // LOCALE?
-								) ); // i18n_CONCATENATIONS_REMOVED
+								) );
 				return (IDataSetProcessor) oDSP;
 			}
 			logger.log( ILogger.FATAL,
@@ -228,7 +245,7 @@ public final class PluginSettings
 							new Object[]{
 								sFQClassName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		else
 		{
@@ -241,7 +258,7 @@ public final class PluginSettings
 									new Object[]{
 										saDataSetProcessors[i]
 									}, Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
+									) );
 					return (IDataSetProcessor) newInstance( saDataSetProcessors[i] );
 				}
 			}
@@ -250,7 +267,7 @@ public final class PluginSettings
 							new Object[]{
 								sFQClassName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		return null;
 	}
@@ -283,7 +300,7 @@ public final class PluginSettings
 									oSeriesRenderer.getClass( ).getName( )
 								},
 								Locale.getDefault( ) // LOCALE?
-								) ); // i18n_CONCATENATIONS_REMOVED
+								) );
 				return (BaseRenderer) oSeriesRenderer;
 			}
 			logger.log( ILogger.ERROR,
@@ -292,7 +309,7 @@ public final class PluginSettings
 								sFQClassName
 							},
 							Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		else
 		{
@@ -310,7 +327,7 @@ public final class PluginSettings
 										saRenderers[i]
 									},
 									Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
+									) );
 					return (BaseRenderer) newInstance( saRenderers[i] );
 				}
 			}
@@ -320,7 +337,7 @@ public final class PluginSettings
 								sFQClassName
 							},
 							Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		return null;
 	}
@@ -353,7 +370,15 @@ public final class PluginSettings
 										sName,
 										oDeviceRenderer.getClass( ).getName( )
 								}, Locale.getDefault( ) // LOCALE?
-								) ); // i18n_CONCATENATIONS_REMOVED
+								) );
+
+				final String sFormat = getPluginXmlAttribute( "devicerenderers", "deviceRenderer", "name", "format", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						sName );
+				if ( sFormat != null && sFormat.length( ) > 0 )
+				{
+					( (IDeviceRenderer) oDeviceRenderer ).setProperty( IDeviceRenderer.FORMAT_IDENTIFIER,
+							sFormat );
+				}
 				return (IDeviceRenderer) oDeviceRenderer;
 			}
 			logger.log( ILogger.FATAL,
@@ -361,7 +386,7 @@ public final class PluginSettings
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		else
 		{
@@ -374,8 +399,15 @@ public final class PluginSettings
 									new Object[]{
 											sName, saDevices[i][1]
 									}, Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
-					return (IDeviceRenderer) newInstance( saDevices[i][1] );
+									) );
+					IDeviceRenderer idr = (IDeviceRenderer) newInstance( saDevices[i][1] );
+					if ( saDevices[i][2] != null
+							&& saDevices[i][2].length( ) > 0 )
+					{
+						idr.setProperty( IDeviceRenderer.FORMAT_IDENTIFIER,
+								saDevices[i][2] );
+					}
+					return idr;
 				}
 			}
 			logger.log( ILogger.FATAL,
@@ -383,7 +415,7 @@ public final class PluginSettings
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED //$NON-NLS-1$
+							) );
 		}
 		return null;
 	}
@@ -579,6 +611,48 @@ public final class PluginSettings
 	}
 
 	/**
+	 * Returns a list of registered device renderer output formats and
+	 * descriptions.
+	 * 
+	 * @return
+	 * @throws ChartException
+	 */
+	public final String[][] getRegisteredOutputFormats( ) throws ChartException
+	{
+		if ( inEclipseEnv( ) )
+		{
+			String[][] formats = getPluginXmlStrings( "devicerenderers", //$NON-NLS-1$
+					"deviceRenderer", //$NON-NLS-1$
+					"format", //$NON-NLS-1$
+					"description" ); //$NON-NLS-1$
+
+			ArrayList al = new ArrayList( );
+			for ( int i = 0; i < formats.length; i++ )
+			{
+				if ( formats[i][0] != null && formats[i][0].length( ) > 0 )
+				{
+					al.add( formats[i] );
+				}
+			}
+			return (String[][]) al.toArray( new String[0][0] );
+		}
+		else
+		{
+			ArrayList al = new ArrayList( );
+			for ( int i = 0; i < saDevices.length; i++ )
+			{
+				if ( saDevices[i][2] != null && saDevices[i][2].length( ) > 0 )
+				{
+					al.add( new String[]{
+							saDevices[i][2], saDevices[i][3]
+					} );
+				}
+			}
+			return (String[][]) al.toArray( new String[0][0] );
+		}
+	}
+
+	/**
 	 * Returns a list of all aggregate functions registered via extension point
 	 * implementations (or simulated)
 	 * 
@@ -640,58 +714,6 @@ public final class PluginSettings
 					ex );
 		}
 	}
-
-	// /**
-	// * Attempts to walk through the schema tree as defined in an extension
-	// point
-	// * schema and retrieve the value for a given element name.
-	// *
-	// * @param sXsdListName
-	// * @param sXsdComplexName
-	// * @param sXsdElementName
-	// * @param sXsdElementValue
-	// * @param sLookupName
-	// *
-	// * @return The text value representation associated with the given element
-	// * name
-	// */
-	// private static final String getPluginXmlValue( String sXsdListName,
-	// String sXsdComplexName, String sXsdElementName,
-	// String sXsdElementValue, String sLookupName ) throws ChartException
-	// {
-	// final IExtensionRegistry ier = Platform.getExtensionRegistry( );
-	// final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName
-	// );
-	// if ( iep == null )
-	// {
-	// throw new ChartException( ChartException.PLUGIN,
-	// "exception.cannot.find.plugin.entry", //$NON-NLS-1$
-	// new Object[]{
-	// sLookupName, sXsdElementName, sXsdElementValue
-	// },
-	// ResourceBundle.getBundle( Messages.ENGINE,
-	// Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
-	// }
-	// final IExtension[] iea = iep.getExtensions( );
-	// IConfigurationElement[] icea;
-	//
-	// for ( int i = 0; i < iea.length; i++ )
-	// {
-	// icea = iea[i].getConfigurationElements( );
-	// for ( int j = 0; j < icea.length; j++ )
-	// {
-	// if ( icea[j].getName( ).equals( sXsdComplexName ) )
-	// {
-	// if ( icea[j].getAttribute( sXsdElementName )
-	// .equals( sLookupName ) )
-	// {
-	// return icea[j].getAttribute( sXsdElementValue );
-	// }
-	// }
-	// }
-	// }
-	// return null;
-	// }
 
 	/**
 	 * Attempts to walk through the schema tree as defined in an extension point
@@ -756,6 +778,57 @@ public final class PluginSettings
 
 	/**
 	 * Attempts to walk through the schema tree as defined in an extension point
+	 * schema and retrieve the attribute value associated with the value for a
+	 * given element name.
+	 * 
+	 * @param sXsdListName
+	 * @param sXsdComplexName
+	 * @param sXsdElementName
+	 * @param sXsdElementValue
+	 * @param sLookupName
+	 * @return
+	 * @throws ChartException
+	 */
+	private static final String getPluginXmlAttribute( String sXsdListName,
+			String sXsdComplexName, String sXsdElementName,
+			String sXsdElementValue, String sLookupName ) throws ChartException
+	{
+		final IExtensionRegistry ier = Platform.getExtensionRegistry( );
+		final IExtensionPoint iep = ier.getExtensionPoint( PLUGIN, sXsdListName );
+		if ( iep == null )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.PLUGIN,
+					"exception.cannot.find.plugin.entry", //$NON-NLS-1$
+					new Object[]{
+							sLookupName, sXsdElementName, sXsdElementValue
+					},
+					ResourceBundle.getBundle( Messages.ENGINE,
+							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+		}
+		final IExtension[] iea = iep.getExtensions( );
+		IConfigurationElement[] icea;
+
+		for ( int i = 0; i < iea.length; i++ )
+		{
+			icea = iea[i].getConfigurationElements( );
+			for ( int j = 0; j < icea.length; j++ )
+			{
+				if ( icea[j].getName( ).equals( sXsdComplexName ) )
+				{
+					if ( icea[j].getAttribute( sXsdElementName )
+							.equals( sLookupName ) )
+					{
+						return icea[j].getAttribute( sXsdElementValue );
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to walk through the schema tree as defined in an extension point
 	 * schema and instantiate the class associated with the value for a given
 	 * element name.
 	 * 
@@ -765,8 +838,7 @@ public final class PluginSettings
 	 * @param sXsdElementValue
 	 * @param sLookupName
 	 * 
-	 * @return An array of the value class instantiated via the extension
-	 *         framework
+	 * @return An array of the text value via the extension framework
 	 */
 	private static final String[][] getPluginXmlStrings( String sXsdListName,
 			String sXsdComplexName, String sXsdElementName,
@@ -821,6 +893,138 @@ public final class PluginSettings
 			return false;
 		}
 		return ( Platform.getExtensionRegistry( ) != null );
+	}
+
+	/**
+	 * Registers an aggregate function implementation, the class should
+	 * implement the IAggregateFunction interface.
+	 * 
+	 * @param sName
+	 * @param sAggregateFunctionClass
+	 *            the full qualified class name of the implementor.
+	 */
+	synchronized public final void registerAggregateFunction( String sName,
+			String sAggregateFunctionClass )
+	{
+		String[][] newAggFuncs = new String[saAggregateFunctions.length + 1][2];
+		for ( int i = 0; i < saAggregateFunctions.length; i++ )
+		{
+			newAggFuncs[i][0] = saAggregateFunctions[i][0];
+			newAggFuncs[i][1] = saAggregateFunctions[i][1];
+		}
+		newAggFuncs[saAggregateFunctions.length][0] = sName;
+		newAggFuncs[saAggregateFunctions.length][1] = sAggregateFunctionClass;
+
+		saAggregateFunctions = newAggFuncs;
+	}
+
+	/**
+	 * Registers a device renderer implementation, this class should implement
+	 * the IDeviceRenderer interface.
+	 * 
+	 * @param sName
+	 * @param sDeviceClass
+	 *            the full qualified class name of the implementor.
+	 */
+	synchronized public final void registerDevice( String sName,
+			String sDeviceClass )
+	{
+		String[][] newDevs = new String[saDevices.length + 1][4];
+		for ( int i = 0; i < saDevices.length; i++ )
+		{
+			newDevs[i][0] = saDevices[i][0];
+			newDevs[i][1] = saDevices[i][1];
+			newDevs[i][2] = saDevices[i][2];
+			newDevs[i][3] = saDevices[i][3];
+		}
+		newDevs[saDevices.length][0] = sName;
+		newDevs[saDevices.length][1] = sDeviceClass;
+
+		saDevices = newDevs;
+	}
+
+	/**
+	 * Registers an output format for given device renderer name.
+	 * 
+	 * @param sDeviceName
+	 * @param sFormat
+	 * @param sDescription
+	 */
+	synchronized public final void registerOutputFormat( String sDeviceName,
+			String sFormat, String sDescription )
+	{
+		for ( int i = 0; i < saDevices.length; i++ )
+		{
+			if ( saDevices[i][0].equals( sDeviceName ) )
+			{
+				if ( sFormat != null && sFormat.length( ) > 0 )
+				{
+					saDevices[i][2] = sFormat;
+				}
+				if ( sDescription != null && sDescription.length( ) > 0 )
+				{
+					saDevices[i][3] = sDescription;
+				}
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Registers a display server implementation, this class should implement
+	 * the IDisplayServer interface.
+	 * 
+	 * @param sName
+	 * @param sServerClass
+	 *            the full qualified class name of the implementor.
+	 */
+	synchronized public final void registerDisplayServer( String sName,
+			String sServerClass )
+	{
+		String[][] newSvrs = new String[saDisplayServers.length + 1][2];
+		for ( int i = 0; i < saDisplayServers.length; i++ )
+		{
+			newSvrs[i][0] = saDisplayServers[i][0];
+			newSvrs[i][1] = saDisplayServers[i][1];
+		}
+		newSvrs[saDisplayServers.length][0] = sName;
+		newSvrs[saDisplayServers.length][1] = sServerClass;
+
+		saDisplayServers = newSvrs;
+	}
+
+	/**
+	 * Registers a new Series renderer implementation.
+	 * 
+	 * @param sSeriesClass
+	 *            the full qualified class name of which implements the Series
+	 *            interface.
+	 * @param sDataSetProcessorClass
+	 *            the full qualified class name of which implements the
+	 *            IDataSetProcessor interface.
+	 * @param sRendererClass
+	 *            the full qualified class name of which implements the
+	 *            ISeriesRenderer interface.
+	 */
+	synchronized public final void registerSeriesRenderer( String sSeriesClass,
+			String sDataSetProcessorClass, String sRendererClass )
+	{
+		String[] newSeries = new String[saSeries.length + 1];
+		String[] newDSPs = new String[saSeries.length + 1];
+		String[] newRenderers = new String[saSeries.length + 1];
+		for ( int i = 0; i < saSeries.length; i++ )
+		{
+			newSeries[i] = saSeries[i];
+			newDSPs[i] = saDataSetProcessors[i];
+			newRenderers[i] = saRenderers[i];
+		}
+		newSeries[saSeries.length] = sSeriesClass;
+		newDSPs[saSeries.length] = sDataSetProcessorClass;
+		newRenderers[saSeries.length] = sRendererClass;
+
+		saSeries = newSeries;
+		saDataSetProcessors = newDSPs;
+		saRenderers = newRenderers;
 	}
 
 }

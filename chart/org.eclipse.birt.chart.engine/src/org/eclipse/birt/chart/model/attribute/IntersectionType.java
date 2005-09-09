@@ -34,9 +34,9 @@ public final class IntersectionType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Min</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Min</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MIN_LITERAL
 	 * @model name="Min"
 	 * @generated
@@ -45,9 +45,9 @@ public final class IntersectionType extends AbstractEnumerator
 	public static final int MIN = 0;
 
 	/**
-	 * The '<em><b>Max</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Max</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MAX_LITERAL
 	 * @model name="Max"
 	 * @generated
@@ -56,9 +56,9 @@ public final class IntersectionType extends AbstractEnumerator
 	public static final int MAX = 1;
 
 	/**
-	 * The '<em><b>Value</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Value</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #VALUE_LITERAL
 	 * @model name="Value"
 	 * @generated
@@ -67,13 +67,13 @@ public final class IntersectionType extends AbstractEnumerator
 	public static final int VALUE = 2;
 
 	/**
-	 * The '<em><b>Min</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Min</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Min</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MIN
 	 * @generated
 	 * @ordered
@@ -82,13 +82,13 @@ public final class IntersectionType extends AbstractEnumerator
 			"Min" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Max</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Max</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Max</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MAX
 	 * @generated
 	 * @ordered
@@ -97,13 +97,13 @@ public final class IntersectionType extends AbstractEnumerator
 			"Max" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Value</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Value</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Value</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #VALUE
 	 * @generated
 	 * @ordered
@@ -114,7 +114,6 @@ public final class IntersectionType extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Intersection Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final IntersectionType[] VALUES_ARRAY = new IntersectionType[]{
@@ -122,17 +121,15 @@ public final class IntersectionType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Intersection Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Intersection Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static IntersectionType get( String name )
@@ -149,9 +146,8 @@ public final class IntersectionType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Intersection Type</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Intersection Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static IntersectionType get( int value )
@@ -169,9 +165,9 @@ public final class IntersectionType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private IntersectionType( int value, String name )

@@ -34,9 +34,9 @@ public final class SortOption extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Ascending</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Ascending</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #ASCENDING_LITERAL
 	 * @model name="Ascending"
 	 * @generated
@@ -45,9 +45,9 @@ public final class SortOption extends AbstractEnumerator
 	public static final int ASCENDING = 0;
 
 	/**
-	 * The '<em><b>Descending</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Descending</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #DESCENDING_LITERAL
 	 * @model name="Descending"
 	 * @generated
@@ -56,14 +56,14 @@ public final class SortOption extends AbstractEnumerator
 	public static final int DESCENDING = 1;
 
 	/**
-	 * The '<em><b>Ascending</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Ascending</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Ascending</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #ASCENDING
 	 * @generated
 	 * @ordered
@@ -72,14 +72,14 @@ public final class SortOption extends AbstractEnumerator
 			"Ascending" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Descending</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Descending</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Descending</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DESCENDING
 	 * @generated
 	 * @ordered
@@ -98,17 +98,15 @@ public final class SortOption extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Sort Option</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Sort Option</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static SortOption get( String name )
@@ -125,9 +123,8 @@ public final class SortOption extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static SortOption get( int value )
@@ -143,9 +140,9 @@ public final class SortOption extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private SortOption( int value, String name )

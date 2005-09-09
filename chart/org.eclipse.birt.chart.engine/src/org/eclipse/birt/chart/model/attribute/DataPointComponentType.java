@@ -34,9 +34,9 @@ public final class DataPointComponentType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Base Value</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Base Value</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #BASE_VALUE_LITERAL
 	 * @model name="Base_Value"
 	 * @generated
@@ -67,14 +67,14 @@ public final class DataPointComponentType extends AbstractEnumerator
 	public static final int SERIES_VALUE = 2;
 
 	/**
-	 * The '<em><b>Base Value</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Base Value</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Base Value</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BASE_VALUE
 	 * @generated
 	 * @ordered
@@ -115,9 +115,8 @@ public final class DataPointComponentType extends AbstractEnumerator
 			"Series_Value" ); //$NON-NLS-1$
 
 	/**
-	 * An array of all the '<em><b>Data Point Component Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Data Point Component Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final DataPointComponentType[] VALUES_ARRAY = new DataPointComponentType[]{
@@ -134,9 +133,8 @@ public final class DataPointComponentType extends AbstractEnumerator
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with
-	 * the specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DataPointComponentType get( String name )
@@ -153,9 +151,8 @@ public final class DataPointComponentType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with
-	 * the specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Data Point Component Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DataPointComponentType get( int value )
@@ -173,9 +170,9 @@ public final class DataPointComponentType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private DataPointComponentType( int value, String name )

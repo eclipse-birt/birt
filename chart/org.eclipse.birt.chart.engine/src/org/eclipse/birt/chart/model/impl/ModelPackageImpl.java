@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.impl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class ModelPackageImpl extends EPackageImpl implements ModelPackage
@@ -45,24 +45,28 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass chartEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass chartWithAxesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass chartWithoutAxesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dialChartEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package </b>, registered with
@@ -86,27 +90,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -162,7 +165,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getChart( )
@@ -172,7 +174,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_Version( )
@@ -182,7 +183,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_Type( )
@@ -192,7 +192,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_SubType( )
@@ -202,7 +201,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChart_Description( )
@@ -212,7 +210,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChart_Block( )
@@ -222,7 +219,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_Dimension( )
@@ -232,7 +228,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_Script( )
@@ -242,7 +237,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_Units( )
@@ -252,7 +246,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_SeriesThickness( )
@@ -262,7 +255,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChart_GridColumnCount( )
@@ -272,7 +264,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChart_ExtendedProperties( )
@@ -282,7 +273,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChart_SampleData( )
@@ -292,7 +282,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getChartWithAxes( )
@@ -302,7 +291,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartWithAxes_Axes( )
@@ -313,7 +301,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartWithAxes_WallFill( )
@@ -324,7 +311,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartWithAxes_FloorFill( )
@@ -335,7 +321,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChartWithAxes_Orientation( )
@@ -346,7 +331,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChartWithAxes_UnitSpacing( )
@@ -356,8 +340,18 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getChartWithAxes_Rotation( )
+	{
+		return (EReference) chartWithAxesEClass.getEStructuralFeatures( )
+				.get( 5 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getChartWithoutAxes( )
@@ -367,7 +361,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getChartWithoutAxes_SeriesDefinitions( )
@@ -378,7 +371,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChartWithoutAxes_MinSlice( )
@@ -389,7 +381,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChartWithoutAxes_MinSlicePercent( )
@@ -400,7 +391,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getChartWithoutAxes_MinSliceLabel( )
@@ -410,8 +400,27 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDialChart( )
+	{
+		return dialChartEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDialChart_DialSuperimposition( )
+	{
+		return (EAttribute) dialChartEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ModelFactory getModelFactory( )
@@ -421,16 +430,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -460,6 +468,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		createEReference( chartWithAxesEClass, CHART_WITH_AXES__FLOOR_FILL );
 		createEAttribute( chartWithAxesEClass, CHART_WITH_AXES__ORIENTATION );
 		createEAttribute( chartWithAxesEClass, CHART_WITH_AXES__UNIT_SPACING );
+		createEReference( chartWithAxesEClass, CHART_WITH_AXES__ROTATION );
 
 		chartWithoutAxesEClass = createEClass( CHART_WITHOUT_AXES );
 		createEReference( chartWithoutAxesEClass,
@@ -469,11 +478,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				CHART_WITHOUT_AXES__MIN_SLICE_PERCENT );
 		createEAttribute( chartWithoutAxesEClass,
 				CHART_WITHOUT_AXES__MIN_SLICE_LABEL );
+
+		dialChartEClass = createEClass( DIAL_CHART );
+		createEAttribute( dialChartEClass, DIAL_CHART__DIAL_SUPERIMPOSITION );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -506,359 +517,102 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		// Add supertypes to classes
 		chartWithAxesEClass.getESuperTypes( ).add( this.getChart( ) );
 		chartWithoutAxesEClass.getESuperTypes( ).add( this.getChart( ) );
+		dialChartEClass.getESuperTypes( ).add( this.getChartWithoutAxes( ) );
 
 		// Initialize classes and features; add operations and parameters
 		initEClass( chartEClass,
 				Chart.class,
-				"Chart", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Chart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getChart_Version( ),
 				theXMLTypePackage.getString( ),
-				"version", //$NON-NLS-1$
-				"1.0.0", //$NON-NLS-1$
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"version", "1.0.0", 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getChart_Type( ),
 				theXMLTypePackage.getString( ),
-				"type", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_SubType( ),
 				theXMLTypePackage.getString( ),
-				"subType", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"subType", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChart_Description( ),
 				theAttributePackage.getText( ),
 				null,
-				"description", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"description", null, 0, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChart_Block( ),
 				theLayoutPackage.getBlock( ),
 				null,
-				"block", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"block", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_Dimension( ),
 				theAttributePackage.getChartDimension( ),
-				"dimension", //$NON-NLS-1$
-				"Two_Dimensional", //$NON-NLS-1$
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dimension", "Two_Dimensional", 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getChart_Script( ),
 				theXMLTypePackage.getString( ),
-				"script", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"script", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_Units( ),
 				theXMLTypePackage.getString( ),
-				"units", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"units", null, 0, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_SeriesThickness( ),
 				theXMLTypePackage.getDouble( ),
-				"seriesThickness", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesThickness", null, 0, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChart_GridColumnCount( ),
 				theXMLTypePackage.getInt( ),
-				"gridColumnCount", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"gridColumnCount", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChart_ExtendedProperties( ),
 				theAttributePackage.getExtendedProperty( ),
 				null,
-				"extendedProperties", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"extendedProperties", null, 1, -1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChart_SampleData( ),
 				theDataPackage.getSampleData( ),
 				null,
-				"sampleData", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Chart.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"sampleData", null, 0, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartWithAxesEClass,
 				ChartWithAxes.class,
-				"ChartWithAxes", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ChartWithAxes", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getChartWithAxes_Axes( ),
 				theComponentPackage.getAxis( ),
 				null,
-				"axes", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				ChartWithAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"axes", null, 1, -1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChartWithAxes_WallFill( ),
 				theAttributePackage.getFill( ),
 				null,
-				"wallFill", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ChartWithAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"wallFill", null, 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getChartWithAxes_FloorFill( ),
 				theAttributePackage.getFill( ),
 				null,
-				"floorFill", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ChartWithAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"floorFill", null, 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChartWithAxes_Orientation( ),
 				theAttributePackage.getOrientation( ),
-				"orientation", //$NON-NLS-1$
-				"Horizontal", //$NON-NLS-1$
-				1,
-				1,
-				ChartWithAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"orientation", "Horizontal", 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getChartWithAxes_UnitSpacing( ),
 				theAttributePackage.getPercentage( ),
-				"unitSpacing", //$NON-NLS-1$
+				"unitSpacing", null, 1, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getChartWithAxes_Rotation( ),
+				theAttributePackage.getAngle3D( ),
 				null,
-				1,
-				1,
-				ChartWithAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"rotation", null, 0, 1, ChartWithAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartWithoutAxesEClass,
 				ChartWithoutAxes.class,
-				"ChartWithoutAxes", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ChartWithoutAxes", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getChartWithoutAxes_SeriesDefinitions( ),
 				theDataPackage.getSeriesDefinition( ),
 				null,
-				"seriesDefinitions", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				ChartWithoutAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesDefinitions", null, 1, -1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChartWithoutAxes_MinSlice( ),
 				theXMLTypePackage.getDouble( ),
-				"minSlice", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				ChartWithoutAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minSlice", null, 0, 1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChartWithoutAxes_MinSlicePercent( ),
 				theXMLTypePackage.getBoolean( ),
-				"minSlicePercent", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ChartWithoutAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minSlicePercent", null, 1, 1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getChartWithoutAxes_MinSliceLabel( ),
 				theXMLTypePackage.getString( ),
-				"minSliceLabel", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ChartWithoutAxes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minSliceLabel", null, 1, 1, ChartWithoutAxes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( dialChartEClass,
+				DialChart.class,
+				"DialChart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getDialChart_DialSuperimposition( ),
+				theXMLTypePackage.getBoolean( ),
+				"dialSuperimposition", "true", 0, 1, DialChart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -877,84 +631,122 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( chartEClass, source, new String[]{
-				"name", "Chart", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Chart", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Version( ), source, new String[]{
-				"kind", "element", "name", "Version" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Version" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_SubType( ), source, new String[]{
-				"kind", "element", "name", "SubType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SubType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Description( ), source, new String[]{
-				"kind", "element", "name", "Description" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Description" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Block( ), source, new String[]{
-				"kind", "element", "name", "Block" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Block" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Dimension( ), source, new String[]{
-				"kind", "element", "name", "Dimension" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Dimension" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Script( ), source, new String[]{
-				"kind", "element", "name", "Script" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Script" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_Units( ), source, new String[]{
-				"kind", "element", "name", "Units" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Units" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_SeriesThickness( ), source, new String[]{
-				"kind", "element", "name", "SeriesThickness" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SeriesThickness" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_GridColumnCount( ), source, new String[]{
-				"kind", "element", "name", "GridColumnCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "GridColumnCount" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_ExtendedProperties( ), source, new String[]{
-				"kind", "element", "name", "ExtendedProperties" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ExtendedProperties" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChart_SampleData( ), source, new String[]{
-				"kind", "element", "name", "SampleData" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SampleData" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartWithAxesEClass, source, new String[]{
-				"name", "ChartWithAxes", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartWithAxes", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithAxes_Axes( ), source, new String[]{
-				"kind", "element", "name", "Axes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Axes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithAxes_WallFill( ), source, new String[]{
-				"kind", "element", "name", "WallFill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "WallFill" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithAxes_FloorFill( ), source, new String[]{
-				"kind", "element", "name", "FloorFill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "FloorFill" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithAxes_Orientation( ), source, new String[]{
-				"kind", "element", "name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithAxes_UnitSpacing( ), source, new String[]{
-				"kind", "element", "name", "UnitSpacing" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "UnitSpacing" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getChartWithAxes_Rotation( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartWithoutAxesEClass, source, new String[]{
-				"name", "ChartWithoutAxes", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ChartWithoutAxes", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithoutAxes_SeriesDefinitions( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getChartWithoutAxes_MinSlice( ), source, new String[]{
-				"kind", "element", "name", "MinSlice" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MinSlice" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getChartWithoutAxes_MinSlicePercent( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "MinSlicePercent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "MinSlicePercent" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getChartWithoutAxes_MinSliceLabel( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "MinSliceLabel" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "MinSliceLabel" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( dialChartEClass, source, new String[]{
+				"name", "DialChart", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDialChart_DialSuperimposition( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "DialSuperimposition" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 	}
 

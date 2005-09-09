@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.util;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.*;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -28,23 +30,24 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.birt.chart.model.ModelPackage
  * @generated
  */
-public class ModelSwitch {
+public class ModelSwitch
+{
 
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected static ModelPackage modelPackage;
+	protected static ModelPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    public ModelSwitch()
+	public ModelSwitch( )
 	{
-		if (modelPackage == null)
+		if ( modelPackage == null )
 		{
 			modelPackage = ModelPackage.eINSTANCE;
 		}
@@ -56,9 +59,9 @@ public class ModelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-    public Object doSwitch(EObject theEObject)
+	public Object doSwitch( EObject theEObject )
 	{
-		return doSwitch(theEObject.eClass(), theEObject);
+		return doSwitch( theEObject.eClass( ), theEObject );
 	}
 
 	/**
@@ -67,19 +70,17 @@ public class ModelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-    protected Object doSwitch(EClass theEClass, EObject theEObject)
+	protected Object doSwitch( EClass theEClass, EObject theEObject )
 	{
-		if (theEClass.eContainer() == modelPackage)
+		if ( theEClass.eContainer( ) == modelPackage )
 		{
-			return doSwitch(theEClass.getClassifierID(), theEObject);
+			return doSwitch( theEClass.getClassifierID( ), theEObject );
 		}
 		else
 		{
-			List eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+			List eSuperTypes = theEClass.getESuperTypes( );
+			return eSuperTypes.isEmpty( ) ? defaultCase( theEObject )
+					: doSwitch( (EClass) eSuperTypes.get( 0 ), theEObject );
 		}
 	}
 
@@ -89,79 +90,113 @@ public class ModelSwitch {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-    protected Object doSwitch(int classifierID, EObject theEObject)
+	protected Object doSwitch( int classifierID, EObject theEObject )
 	{
-		switch (classifierID)
+		switch ( classifierID )
 		{
-			case ModelPackage.CHART:
+			case ModelPackage.CHART :
 			{
-				Chart chart = (Chart)theEObject;
-				Object result = caseChart(chart);
-				if (result == null) result = defaultCase(theEObject);
+				Chart chart = (Chart) theEObject;
+				Object result = caseChart( chart );
+				if ( result == null )
+					result = defaultCase( theEObject );
 				return result;
 			}
-			case ModelPackage.CHART_WITH_AXES:
+			case ModelPackage.CHART_WITH_AXES :
 			{
-				ChartWithAxes chartWithAxes = (ChartWithAxes)theEObject;
-				Object result = caseChartWithAxes(chartWithAxes);
-				if (result == null) result = caseChart(chartWithAxes);
-				if (result == null) result = defaultCase(theEObject);
+				ChartWithAxes chartWithAxes = (ChartWithAxes) theEObject;
+				Object result = caseChartWithAxes( chartWithAxes );
+				if ( result == null )
+					result = caseChart( chartWithAxes );
+				if ( result == null )
+					result = defaultCase( theEObject );
 				return result;
 			}
-			case ModelPackage.CHART_WITHOUT_AXES:
+			case ModelPackage.CHART_WITHOUT_AXES :
 			{
-				ChartWithoutAxes chartWithoutAxes = (ChartWithoutAxes)theEObject;
-				Object result = caseChartWithoutAxes(chartWithoutAxes);
-				if (result == null) result = caseChart(chartWithoutAxes);
-				if (result == null) result = defaultCase(theEObject);
+				ChartWithoutAxes chartWithoutAxes = (ChartWithoutAxes) theEObject;
+				Object result = caseChartWithoutAxes( chartWithoutAxes );
+				if ( result == null )
+					result = caseChart( chartWithoutAxes );
+				if ( result == null )
+					result = defaultCase( theEObject );
 				return result;
 			}
-			default: return defaultCase(theEObject);
+			case ModelPackage.DIAL_CHART :
+			{
+				DialChart dialChart = (DialChart) theEObject;
+				Object result = caseDialChart( dialChart );
+				if ( result == null )
+					result = caseChartWithoutAxes( dialChart );
+				if ( result == null )
+					result = caseChart( dialChart );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
+			default :
+				return defaultCase( theEObject );
 		}
 	}
 
 	/**
 	 * Returns the result of interpretting the object as an instance of '<em>Chart</em>'.
 	 * <!-- begin-user-doc -->
-     * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>Chart</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-    public Object caseChart(Chart object)
+	public Object caseChart( Chart object )
 	{
 		return null;
 	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Chart With Axes</em>'. <!--
-     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Chart With Axes</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseChartWithAxes(ChartWithAxes object)
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Chart With Axes</em>'. <!--
+	 * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
+	 * end-user-doc -->
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Chart With Axes</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChartWithAxes( ChartWithAxes object )
 	{
 		return null;
 	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Chart Without Axes</em>'. <!--
-     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Chart Without Axes</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public Object caseChartWithoutAxes(ChartWithoutAxes object)
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Chart Without Axes</em>'. <!--
+	 * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
+	 * end-user-doc -->
+	 * 
+	 * @param object
+	 *            the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Chart Without Axes</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseChartWithoutAxes( ChartWithoutAxes object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Dial Chart</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Dial Chart</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseDialChart( DialChart object )
 	{
 		return null;
 	}
@@ -169,14 +204,14 @@ public class ModelSwitch {
 	/**
 	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
-     * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
-     * case anyway. <!-- end-user-doc -->
+	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
+	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-    public Object defaultCase(EObject object)
+	public Object defaultCase( EObject object )
 	{
 		return null;
 	}

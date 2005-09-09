@@ -25,12 +25,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.FillImpl#getType <em>Type</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.FillImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class FillImpl extends EObjectImpl implements Fill
@@ -39,7 +37,6 @@ public class FillImpl extends EObjectImpl implements Fill
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -49,7 +46,6 @@ public class FillImpl extends EObjectImpl implements Fill
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -57,9 +53,9 @@ public class FillImpl extends EObjectImpl implements Fill
 	protected int type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -67,7 +63,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected FillImpl( )
@@ -77,7 +72,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -87,7 +81,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getType( )
@@ -97,7 +90,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( int newType )
@@ -117,7 +109,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -137,7 +128,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -147,7 +137,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -162,7 +151,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -178,7 +166,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -194,7 +181,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -209,7 +195,6 @@ public class FillImpl extends EObjectImpl implements Fill
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -227,4 +212,4 @@ public class FillImpl extends EObjectImpl implements Fill
 		return result.toString( );
 	}
 
-} //FillImpl
+} // FillImpl

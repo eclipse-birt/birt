@@ -40,23 +40,24 @@ import org.eclipse.birt.chart.model.component.Series;
  * @model
  * @generated
  */
-public interface LineSeries extends Series{
+public interface LineSeries extends Series
+{
 
-    /**
-     * Returns the value of the '<em><b>Marker</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Specifies the marker to be used for displaying the data point on the line in the chart.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Marker</em>' containment reference.
-     * @see #setMarker(Marker)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_Marker()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    Marker getMarker();
+	/**
+	 * Returns the value of the '<em><b>Marker</b></em>' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Specifies the marker to be used for displaying the data point on the line in the chart.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Marker</em>' containment reference.
+	 * @see #setMarker(Marker)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_Marker()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	Marker getMarker( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getMarker <em>Marker</em>}' containment reference.
@@ -65,23 +66,23 @@ public interface LineSeries extends Series{
 	 * @see #getMarker()
 	 * @generated
 	 */
-    void setMarker(Marker value);
+	void setMarker( Marker value );
 
-    /**
-     * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Specifies the attributes for the line used to represent this series.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Line Attributes</em>' containment reference.
-     * @see #setLineAttributes(LineAttributes)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_LineAttributes()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    LineAttributes getLineAttributes();
+	/**
+	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
+	 * <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Specifies the attributes for the line used to represent this series.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Line Attributes</em>' containment reference.
+	 * @see #setLineAttributes(LineAttributes)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_LineAttributes()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	LineAttributes getLineAttributes( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
@@ -90,7 +91,7 @@ public interface LineSeries extends Series{
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
-    void setLineAttributes(LineAttributes value);
+	void setLineAttributes( LineAttributes value );
 
 	/**
 	 * Returns the value of the '<em><b>Palette Line Color</b></em>' attribute.
@@ -108,7 +109,7 @@ public interface LineSeries extends Series{
 	 *        extendedMetaData="kind='element' name='PaletteLineColor'"
 	 * @generated
 	 */
-	boolean isPaletteLineColor();
+	boolean isPaletteLineColor( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
@@ -120,7 +121,7 @@ public interface LineSeries extends Series{
 	 * @see #isPaletteLineColor()
 	 * @generated
 	 */
-	void setPaletteLineColor(boolean value);
+	void setPaletteLineColor( boolean value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute.
@@ -131,7 +132,7 @@ public interface LineSeries extends Series{
 	 * @see #setPaletteLineColor(boolean)
 	 * @generated
 	 */
-	void unsetPaletteLineColor();
+	void unsetPaletteLineColor( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isPaletteLineColor <em>Palette Line Color</em>}' attribute is set.
@@ -143,7 +144,7 @@ public interface LineSeries extends Series{
 	 * @see #setPaletteLineColor(boolean)
 	 * @generated
 	 */
-	boolean isSetPaletteLineColor();
+	boolean isSetPaletteLineColor( );
 
 	/**
 	 * Returns the value of the '<em><b>Curve</b></em>' attribute.
@@ -162,7 +163,7 @@ public interface LineSeries extends Series{
 	 *        extendedMetaData="kind='element' name='Curve'"
 	 * @generated
 	 */
-    boolean isCurve();
+	boolean isCurve( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
@@ -173,7 +174,7 @@ public interface LineSeries extends Series{
 	 * @see #isCurve()
 	 * @generated
 	 */
-    void setCurve(boolean value);
+	void setCurve( boolean value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute.
@@ -183,7 +184,7 @@ public interface LineSeries extends Series{
 	 * @see #setCurve(boolean)
 	 * @generated
 	 */
-    void unsetCurve();
+	void unsetCurve( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}' attribute is set.
@@ -194,23 +195,23 @@ public interface LineSeries extends Series{
 	 * @see #setCurve(boolean)
 	 * @generated
 	 */
-    boolean isSetCurve();
+	boolean isSetCurve( );
 
-    /**
-     * Returns the value of the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Specifies the color to be used for the shadow.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Shadow Color</em>' containment reference.
-     * @see #setShadowColor(ColorDefinition)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_ShadowColor()
-     * @model containment="true" resolveProxies="false" required="true"
-     * @generated
-     */
-    ColorDefinition getShadowColor();
+	/**
+	 * Returns the value of the '<em><b>Shadow Color</b></em>' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Specifies the color to be used for the shadow.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Shadow Color</em>' containment reference.
+	 * @see #setShadowColor(ColorDefinition)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getLineSeries_ShadowColor()
+	 * @model containment="true" resolveProxies="false" required="true"
+	 * @generated
+	 */
+	ColorDefinition getShadowColor( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.LineSeries#getShadowColor <em>Shadow Color</em>}' containment reference.
@@ -219,6 +220,6 @@ public interface LineSeries extends Series{
 	 * @see #getShadowColor()
 	 * @generated
 	 */
-    void setShadowColor(ColorDefinition value);
+	void setShadowColor( ColorDefinition value );
 
 } // LineSeries

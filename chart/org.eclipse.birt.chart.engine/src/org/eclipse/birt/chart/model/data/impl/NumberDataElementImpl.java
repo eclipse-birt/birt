@@ -25,12 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue <em>Value</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class NumberDataElementImpl extends DataElementImpl implements
@@ -38,9 +36,8 @@ public class NumberDataElementImpl extends DataElementImpl implements
 {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -50,7 +47,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -58,9 +54,9 @@ public class NumberDataElementImpl extends DataElementImpl implements
 	protected double value = VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Value attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -68,7 +64,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected NumberDataElementImpl( )
@@ -78,7 +73,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -88,7 +82,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getValue( )
@@ -98,7 +91,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( double newValue )
@@ -118,7 +110,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetValue( )
@@ -138,7 +129,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetValue( )
@@ -148,7 +138,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -163,7 +152,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -179,7 +167,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -195,7 +182,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -210,7 +196,6 @@ public class NumberDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

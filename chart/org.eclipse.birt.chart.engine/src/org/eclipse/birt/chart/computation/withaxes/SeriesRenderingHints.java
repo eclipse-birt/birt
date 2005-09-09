@@ -28,74 +28,35 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ * SeriesRenderingHints
  */
 public final class SeriesRenderingHints implements ISeriesRenderingHints
 {
 
-	/**
-	 * 
-	 */
 	private int iDataSetStructure = UNDEFINED;
 
-	/**
-	 * 
-	 */
 	private final double dAxisLocation;
 
-	/**
-	 * 
-	 */
 	private final double dZeroLocation;
 
-	/**
-	 * 
-	 */
 	private final double dSeriesThickness;
 
-	/**
-	 * 
-	 */
 	private final double dPlotBaseLocation;
 
-	/**
-	 * 
-	 */
 	private final double[] daTickCoordinates;
 
-	/**
-	 * 
-	 */
 	private final DataPointHints[] dpa;
 
-	/**
-	 * 
-	 */
 	private final AutoScale scBase;
 
-	/**
-	 * 
-	 */
 	private final AutoScale scOrthogonal;
 
-	/**
-	 * 
-	 */
 	private final StackedSeriesLookup ssl;
 
-	/**
-	 * 
-	 */
 	private final PlotWith2DAxes pwa;
 
-	/**
-	 * 
-	 */
 	private final DataSetIterator dsiBase;
 
-	/**
-	 * 
-	 */
 	private final DataSetIterator dsiOrthogonal;
 
 	/**
@@ -311,7 +272,7 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 */
 	public final Bounds getClientAreaBounds( boolean bReduceByInsets )
 	{
-		final Bounds boClientArea = pwa.getPlotBounds( );
+		final Bounds boClientArea = (Bounds) EcoreUtil.copy( pwa.getPlotBounds( ) );
 		if ( bReduceByInsets )
 		{
 			boClientArea.adjust( pwa.getPlotInsets( ) );

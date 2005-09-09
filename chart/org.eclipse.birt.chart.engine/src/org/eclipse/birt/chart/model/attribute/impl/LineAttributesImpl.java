@@ -30,30 +30,21 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle <em>Style</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness <em>Thickness</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor <em>Color</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible <em>Visible</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle <em>Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness <em>Thickness</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 {
 
 	/**
-	 * The default value of the '{@link #getStyle() <em>Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -63,7 +54,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	/**
 	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -71,18 +61,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected LineStyle style = STYLE_EDEFAULT;
 
 	/**
-	 * This is true if the Style attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Style attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean styleESet = false;
 
 	/**
-	 * The default value of the '{@link #getThickness() <em>Thickness</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -90,9 +79,8 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected static final int THICKNESS_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -100,18 +88,17 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected int thickness = THICKNESS_EDEFAULT;
 
 	/**
-	 * This is true if the Thickness attribute has been set. <!-- begin-user-doc
+	 * This is true if the Thickness attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean thicknessESet = false;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -119,9 +106,8 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected ColorDefinition color = null;
 
 	/**
-	 * The default value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -129,9 +115,8 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected static final boolean VISIBLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -139,9 +124,9 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -149,7 +134,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected LineAttributesImpl( )
@@ -159,7 +143,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -169,7 +152,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineStyle getStyle( )
@@ -179,7 +161,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStyle( LineStyle newStyle )
@@ -199,7 +180,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStyle( )
@@ -219,7 +199,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStyle( )
@@ -229,7 +208,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getThickness( )
@@ -239,7 +217,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setThickness( int newThickness )
@@ -259,7 +236,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetThickness( )
@@ -279,7 +255,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetThickness( )
@@ -289,7 +264,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ColorDefinition getColor( )
@@ -299,7 +273,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetColor( ColorDefinition newColor,
@@ -324,7 +297,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setColor( ColorDefinition newColor )
@@ -358,7 +330,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isVisible( )
@@ -368,7 +339,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVisible( boolean newVisible )
@@ -388,7 +358,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVisible( )
@@ -408,7 +377,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVisible( )
@@ -418,7 +386,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -442,7 +409,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -463,7 +429,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -488,7 +453,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -513,7 +477,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -534,7 +497,6 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -600,4 +562,4 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 		la.setVisible( true );
 		return la;
 	}
-} //LineAttributesImpl
+} // LineAttributesImpl

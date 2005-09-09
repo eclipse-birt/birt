@@ -43,30 +43,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getQuery <em>Query</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesPalette <em>Series Palette</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesDefinitions <em>Series Definitions</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getFormatSpecifier <em>Format Specifier</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeries <em>Series</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getQuery <em>Query</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesPalette <em>Series Palette</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeries <em>Series</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class SeriesDefinitionImpl extends EObjectImpl implements
@@ -74,9 +60,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 {
 
 	/**
-	 * The cached value of the '{@link #getQuery() <em>Query</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getQuery() <em>Query</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getQuery()
 	 * @generated
 	 * @ordered
@@ -84,10 +69,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected Query query = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesPalette() <em>Series Palette</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesPalette() <em>Series Palette</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesPalette()
 	 * @generated
 	 * @ordered
@@ -95,10 +78,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected Palette seriesPalette = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesDefinitions()
 	 * @generated
 	 * @ordered
@@ -106,10 +87,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected EList seriesDefinitions = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getFormatSpecifier() <em>Format Specifier</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -117,9 +96,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected FormatSpecifier formatSpecifier = null;
 
 	/**
-	 * The cached value of the '{@link #getSeries() <em>Series</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeries() <em>Series</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeries()
 	 * @generated
 	 * @ordered
@@ -127,9 +105,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected EList series = null;
 
 	/**
-	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGrouping()
 	 * @generated
 	 * @ordered
@@ -137,9 +114,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected SeriesGrouping grouping = null;
 
 	/**
-	 * The default value of the '{@link #getSorting() <em>Sorting</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSorting() <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSorting()
 	 * @generated
 	 * @ordered
@@ -147,9 +123,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected static final SortOption SORTING_EDEFAULT = SortOption.ASCENDING_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getSorting() <em>Sorting</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSorting() <em>Sorting</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSorting()
 	 * @generated
 	 * @ordered
@@ -157,9 +132,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	protected SortOption sorting = SORTING_EDEFAULT;
 
 	/**
-	 * This is true if the Sorting attribute has been set. <!-- begin-user-doc
+	 * This is true if the Sorting attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -167,7 +142,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SeriesDefinitionImpl( )
@@ -177,7 +151,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -187,7 +160,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Query getQuery( )
@@ -197,7 +169,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetQuery( Query newQuery,
@@ -222,7 +193,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setQuery( Query newQuery )
@@ -256,7 +226,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Palette getSeriesPalette( )
@@ -266,7 +235,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSeriesPalette( Palette newSeriesPalette,
@@ -291,7 +259,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSeriesPalette( Palette newSeriesPalette )
@@ -325,7 +292,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getSeriesDefinitions( )
@@ -341,7 +307,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -351,7 +316,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -376,7 +340,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -410,7 +373,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getSeries( )
@@ -426,7 +388,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SeriesGrouping getGrouping( )
@@ -436,7 +397,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetGrouping( SeriesGrouping newGrouping,
@@ -461,7 +421,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGrouping( SeriesGrouping newGrouping )
@@ -495,7 +454,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SortOption getSorting( )
@@ -505,7 +463,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSorting( SortOption newSorting )
@@ -525,7 +482,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetSorting( )
@@ -545,7 +501,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetSorting( )
@@ -555,7 +510,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -591,7 +545,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -618,7 +571,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -654,7 +606,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -688,7 +639,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -716,7 +666,6 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

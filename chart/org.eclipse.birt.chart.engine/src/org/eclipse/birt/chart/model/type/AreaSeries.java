@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.type;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Area Series</b></em>'.

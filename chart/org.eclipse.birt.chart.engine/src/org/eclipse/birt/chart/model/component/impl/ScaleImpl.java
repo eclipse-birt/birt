@@ -29,23 +29,22 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMin <em>Min</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMax <em>Max</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ScaleImpl extends EObjectImpl implements Scale
 {
 
 	/**
-	 * The cached value of the '{@link #getMin() <em>Min</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMin() <em>Min</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMin()
 	 * @generated
 	 * @ordered
@@ -53,9 +52,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected DataElement min = null;
 
 	/**
-	 * The cached value of the '{@link #getMax() <em>Max</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMax() <em>Max</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMax()
 	 * @generated
 	 * @ordered
@@ -65,7 +63,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	/**
 	 * The default value of the '{@link #getStep() <em>Step</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getStep()
 	 * @generated
 	 * @ordered
@@ -75,7 +72,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	/**
 	 * The cached value of the '{@link #getStep() <em>Step</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getStep()
 	 * @generated
 	 * @ordered
@@ -83,9 +79,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected double step = STEP_EDEFAULT;
 
 	/**
-	 * This is true if the Step attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Step attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +90,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	/**
 	 * The default value of the '{@link #getUnit() <em>Unit</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getUnit()
 	 * @generated
 	 * @ordered
@@ -104,7 +99,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	/**
 	 * The cached value of the '{@link #getUnit() <em>Unit</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getUnit()
 	 * @generated
 	 * @ordered
@@ -112,18 +106,17 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected ScaleUnitType unit = UNIT_EDEFAULT;
 
 	/**
-	 * This is true if the Unit attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Unit attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean unitESet = false;
 
 	/**
-	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinorGridsPerUnit()
 	 * @generated
 	 * @ordered
@@ -131,9 +124,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	protected static final int MINOR_GRIDS_PER_UNIT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMinorGridsPerUnit() <em>Minor Grids Per Unit</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMinorGridsPerUnit()
 	 * @generated
 	 * @ordered
@@ -151,7 +143,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ScaleImpl( )
@@ -161,7 +152,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -171,7 +161,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getMin( )
@@ -181,7 +170,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMin( DataElement newMin,
@@ -206,7 +194,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMin( DataElement newMin )
@@ -238,7 +225,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getMax( )
@@ -248,7 +234,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMax( DataElement newMax,
@@ -273,7 +258,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMax( DataElement newMax )
@@ -305,7 +289,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getStep( )
@@ -315,7 +298,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStep( double newStep )
@@ -335,7 +317,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetStep( )
@@ -355,7 +336,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetStep( )
@@ -365,7 +345,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ScaleUnitType getUnit( )
@@ -375,7 +354,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setUnit( ScaleUnitType newUnit )
@@ -395,7 +373,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetUnit( )
@@ -415,7 +392,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetUnit( )
@@ -425,7 +401,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getMinorGridsPerUnit( )
@@ -435,7 +410,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMinorGridsPerUnit( int newMinorGridsPerUnit )
@@ -455,7 +429,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetMinorGridsPerUnit( )
@@ -475,7 +448,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetMinorGridsPerUnit( )
@@ -485,7 +457,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -511,7 +482,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -534,7 +504,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -562,7 +531,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -590,7 +558,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -613,7 +580,6 @@ public class ScaleImpl extends EObjectImpl implements Scale
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

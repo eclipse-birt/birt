@@ -23,7 +23,7 @@
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.deviceRenderer">deviceRenderer</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST deviceRenderer</p>
-<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>device&nbsp;CDATA #IMPLIED&gt;</p>
+<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>device&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>format&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>description&nbsp;CDATA #IMPLIED&gt;</p>
 <p></p>
 <p class=ConfigMarkup id=elementDesc>
 A device renderer extension point specifies a mapping entry between a device renderer name against the device renderer implementing class name. Note that all device renderer implementations must subclass the base device renderer implementation provided i.e. org.eclipse.birt.chart.device.DeviceAdapter and override methods as needed. A device renderer is responsible for rendering primitive instructions and handling user events in a particular output format.</p>
@@ -31,6 +31,8 @@ A device renderer extension point specifies a mapping entry between a device ren
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - The name of the device renderer refers to a tag used to locate the device renderer implementing class. The naming convention uses a prefix of 'dv.'. Examples of device renderer names are dv.SWT and dv.SWING</li>
 <li><b>device</b> - The device attribute corresponds to the fully qualified class name that represents the implementing device renderer class. An example of the fully qualified device renderer class name is 'org.eclipse.birt.chart.device.swt.SwtRendererImpl'</li>
+<li><b>format</b> - @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as "BMP", "JPG", "GIF", etc.</li>
+<li><b>description</b> - @Since 2.0. The description of the device renderer elaborates the format detail if the "format" attribute exists or the functionality this device renderer holds.</li>
 </ul>
 <br><h6 class=CaptionFigColumn id=header>Examples: </h6><extension
          point="org.eclipse.birt.chart.engine.devicerenderers">
@@ -48,7 +50,9 @@ A device renderer extension point specifies a mapping entry between a device ren
             name="dv.GIF8"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.PngRendererImpl"
-            name="dv.PNG"/>
+            name="dv.PNG"
+            format="PNG"
+            description="Protable Network Graphics"/>
       <deviceRenderer
             device="org.eclipse.birt.chart.device.image.GifRendererImpl"
             name="dv.GIF"/>

@@ -28,12 +28,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DateTimeDataElementImpl extends DataElementImpl implements
@@ -41,9 +39,8 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -53,7 +50,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -61,9 +57,9 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	protected long value = VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Value attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -71,7 +67,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DateTimeDataElementImpl( )
@@ -81,7 +76,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -91,7 +85,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public long getValue( )
@@ -101,7 +94,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( long newValue )
@@ -121,7 +113,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetValue( )
@@ -141,7 +132,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetValue( )
@@ -151,7 +141,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -166,7 +155,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -182,7 +170,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -198,7 +185,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -213,7 +199,6 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -227,6 +212,7 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 			result.append( value );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ')' );
 		return result.toString( );
 	}
 

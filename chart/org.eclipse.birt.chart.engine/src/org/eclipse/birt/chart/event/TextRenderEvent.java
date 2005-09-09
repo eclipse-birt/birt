@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * TextRenderEvent
  */
-public final class TextRenderEvent extends PrimitiveRenderEvent
+public class TextRenderEvent extends PrimitiveRenderEvent
 {
 
 	/**
@@ -92,32 +92,32 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 	 * The bounds of the enclosing block space in which the text's bounding box
 	 * will be aligned
 	 */
-	private Bounds _boBlock;
+	protected Bounds _boBlock;
 
 	/**
-	 *  
+	 * 
 	 */
-	private Label _la;
+	protected Label _la;
 
 	/**
-	 *  
+	 * 
 	 */
-	private TextAlignment _taBlock;
+	protected TextAlignment _taBlock;
 
 	/**
-	 *  
+	 * 
 	 */
-	private int _iAction = UNDEFINED;
+	protected int _iAction = UNDEFINED;
 
 	/**
-	 *  
+	 * 
 	 */
-	private Location _lo;
+	protected Location _lo;
 
 	/**
-	 *  
+	 * 
 	 */
-	private int _iTextPosition;
+	protected int _iTextPosition;
 
 	/**
 	 * 
@@ -248,10 +248,10 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 				.getCaption( )
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		setLabel( lb.getLabel( ) );
-		
+
 		Bounds bo = lb.getBounds( ).scaledInstance( dScale );
-		bo = bo.adjustedInstance(lb.getInsets().scaledInstance(dScale));
-		
+		bo = bo.adjustedInstance( lb.getInsets( ).scaledInstance( dScale ) );
+
 		setBlockBounds( bo );
 		setBlockAlignment( null );
 		setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
@@ -263,7 +263,7 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public final PrimitiveRenderEvent copy( )
+	public PrimitiveRenderEvent copy( )
 	{
 		final TextRenderEvent tre = new TextRenderEvent( source );
 		if ( _boBlock != null )
@@ -285,6 +285,16 @@ public final class TextRenderEvent extends PrimitiveRenderEvent
 			tre.setBlockAlignment( (TextAlignment) EcoreUtil.copy( _taBlock ) );
 		}
 		return tre;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void fill( IDeviceRenderer idr ) throws ChartException
+	{
+		draw( idr );
 	}
 
 	/*

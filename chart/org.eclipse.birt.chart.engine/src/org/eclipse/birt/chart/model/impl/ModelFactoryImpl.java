@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.impl;
 
+import org.eclipse.birt.chart.model.*;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -23,16 +25,15 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 {
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ModelFactoryImpl( )
@@ -42,7 +43,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EObject create( EClass eClass )
@@ -55,16 +55,15 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 				return createChartWithAxes( );
 			case ModelPackage.CHART_WITHOUT_AXES :
 				return createChartWithoutAxes( );
+			case ModelPackage.DIAL_CHART :
+				return createDialChart( );
 			default :
-				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
-						+ eClass.getName( )
-						+ "' is not a valid classifier" ); //$NON-NLS-1$
+				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Chart createChart( )
@@ -75,7 +74,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ChartWithAxes createChartWithAxes( )
@@ -86,7 +84,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ChartWithoutAxes createChartWithoutAxes( )
@@ -96,8 +93,18 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DialChart createDialChart( )
+	{
+		DialChartImpl dialChart = new DialChartImpl( );
+		return dialChart;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ModelPackage getModelPackage( )
@@ -107,7 +114,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

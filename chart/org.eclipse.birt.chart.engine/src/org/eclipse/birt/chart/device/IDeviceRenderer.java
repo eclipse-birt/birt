@@ -38,6 +38,11 @@ public interface IDeviceRenderer extends
 	public static final String FILE_IDENTIFIER = "device.file.identifier"; //$NON-NLS-1$
 
 	/**
+	 * A property name that identifies an output format identifier
+	 */
+	public static final String FORMAT_IDENTIFIER = "device.output.format.identifier"; //$NON-NLS-1$
+
+	/**
 	 * A property name that identifies a device-specific graphics context
 	 */
 	public static final String GRAPHICS_CONTEXT = "device.output.context"; //$NON-NLS-1$

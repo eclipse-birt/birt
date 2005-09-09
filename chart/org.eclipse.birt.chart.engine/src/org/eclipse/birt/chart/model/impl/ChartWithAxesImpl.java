@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
@@ -54,6 +56,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill <em>Floor Fill</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation <em>Rotation</em>}</li>
  * </ul>
  * </p>
  * 
@@ -150,6 +153,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @ordered
 	 */
 	protected boolean unitSpacingESet = false;
+
+	/**
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getRotation()
+	 * @generated
+	 * @ordered
+	 */
+	protected Angle3D rotation = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -451,6 +464,75 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * @generated
 	 */
+	public Angle3D getRotation( )
+	{
+		return rotation;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetRotation( Angle3D newRotation,
+			NotificationChain msgs )
+	{
+		Angle3D oldRotation = rotation;
+		rotation = newRotation;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART_WITH_AXES__ROTATION,
+					oldRotation,
+					newRotation );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setRotation( Angle3D newRotation )
+	{
+		if ( newRotation != rotation )
+		{
+			NotificationChain msgs = null;
+			if ( rotation != null )
+				msgs = ( (InternalEObject) rotation ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART_WITH_AXES__ROTATION,
+						null,
+						msgs );
+			if ( newRotation != null )
+				msgs = ( (InternalEObject) newRotation ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART_WITH_AXES__ROTATION,
+						null,
+						msgs );
+			msgs = basicSetRotation( newRotation, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART_WITH_AXES__ROTATION,
+					newRotation,
+					newRotation ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs )
 	{
@@ -474,6 +556,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					return basicSetWallFill( null, msgs );
 				case ModelPackage.CHART_WITH_AXES__FLOOR_FILL :
 					return basicSetFloorFill( null, msgs );
+				case ModelPackage.CHART_WITH_AXES__ROTATION :
+					return basicSetRotation( null, msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -527,6 +611,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				return getOrientation( );
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
 				return new Double( getUnitSpacing( ) );
+			case ModelPackage.CHART_WITH_AXES__ROTATION :
+				return getRotation( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -593,6 +679,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
 				setUnitSpacing( ( (Double) newValue ).doubleValue( ) );
 				return;
+			case ModelPackage.CHART_WITH_AXES__ROTATION :
+				setRotation( (Angle3D) newValue );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -657,6 +746,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
 				unsetUnitSpacing( );
 				return;
+			case ModelPackage.CHART_WITH_AXES__ROTATION :
+				setRotation( (Angle3D) null );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -709,6 +801,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				return isSetOrientation( );
 			case ModelPackage.CHART_WITH_AXES__UNIT_SPACING :
 				return isSetUnitSpacing( );
+			case ModelPackage.CHART_WITH_AXES__ROTATION :
+				return rotation != null;
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -833,6 +927,24 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.ChartWithAxes#getAncillaryBaseAxis(org.eclipse.birt.chart.model.component.Axis)
+	 */
+	public Axis getAncillaryBaseAxis( Axis axBase )
+	{
+		final EList elAxes = axBase.getAncillaryAxes( );
+		final int iAxisCount = elAxes.size( );
+
+		if ( iAxisCount > 0 )
+		{
+			return (Axis) elAxes.get( 0 );
+		}
+
+		return null;
+	}
+
 	/**
 	 * A convenience method to create an initialized 'ChartWithAxes' instance
 	 * 
@@ -892,7 +1004,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		// ORTHOGONAL
 		// AXIS TO THE
 		// BASE AXIS
+
 		getAxes( ).add( xAxisBase ); // ADD THE BASE AXIS TO THE CHART
+
+		setRotation( Angle3DImpl.create( 0, 0, 0 ) );
 	}
 
 	/**

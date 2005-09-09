@@ -28,9 +28,9 @@ public class TypeResourceImpl extends XMLResourceImpl
 	 * @param uri the URI of the new resource.
 	 * @generated
 	 */
-    public TypeResourceImpl(URI uri)
+	public TypeResourceImpl( URI uri )
 	{
-		super(uri);
+		super( uri );
 	}
 
 } //TypeResourceFactoryImpl

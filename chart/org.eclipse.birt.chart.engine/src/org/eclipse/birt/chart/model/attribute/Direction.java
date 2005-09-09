@@ -34,9 +34,9 @@ public final class Direction extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Left Right</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Left Right</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #LEFT_RIGHT_LITERAL
 	 * @model name="Left_Right"
 	 * @generated
@@ -45,9 +45,9 @@ public final class Direction extends AbstractEnumerator
 	public static final int LEFT_RIGHT = 0;
 
 	/**
-	 * The '<em><b>Top Bottom</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Top Bottom</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #TOP_BOTTOM_LITERAL
 	 * @model name="Top_Bottom"
 	 * @generated
@@ -56,14 +56,14 @@ public final class Direction extends AbstractEnumerator
 	public static final int TOP_BOTTOM = 1;
 
 	/**
-	 * The '<em><b>Left Right</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Left Right</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Left Right</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LEFT_RIGHT
 	 * @generated
 	 * @ordered
@@ -72,14 +72,14 @@ public final class Direction extends AbstractEnumerator
 			"Left_Right" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Top Bottom</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Top Bottom</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Top Bottom</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TOP_BOTTOM
 	 * @generated
 	 * @ordered
@@ -98,17 +98,15 @@ public final class Direction extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Direction</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Direction</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Direction get( String name )
@@ -125,9 +123,8 @@ public final class Direction extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Direction get( int value )
@@ -143,9 +140,9 @@ public final class Direction extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private Direction( int value, String name )

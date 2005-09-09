@@ -28,9 +28,9 @@ public class ModelResourceImpl extends XMLResourceImpl
 	 * @param uri the URI of the new resource.
 	 * @generated
 	 */
-    public ModelResourceImpl(URI uri)
+	public ModelResourceImpl( URI uri )
 	{
-		super(uri);
+		super( uri );
 	}
 
 } //ModelResourceFactoryImpl

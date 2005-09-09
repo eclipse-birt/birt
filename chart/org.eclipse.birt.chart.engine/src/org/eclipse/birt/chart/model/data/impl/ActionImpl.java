@@ -30,15 +30,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getValue <em>Value</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.ActionImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ActionImpl extends EObjectImpl implements Action
@@ -47,7 +43,6 @@ public class ActionImpl extends EObjectImpl implements Action
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -57,7 +52,6 @@ public class ActionImpl extends EObjectImpl implements Action
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -65,18 +59,17 @@ public class ActionImpl extends EObjectImpl implements Action
 	protected ActionType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet = false;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -85,7 +78,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ActionImpl( )
@@ -95,7 +87,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -105,7 +96,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ActionType getType( )
@@ -115,7 +105,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( ActionType newType )
@@ -135,7 +124,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -155,7 +143,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -165,7 +152,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ActionValue getValue( )
@@ -175,7 +161,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetValue( ActionValue newValue,
@@ -200,7 +185,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( ActionValue newValue )
@@ -232,7 +216,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -256,7 +239,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -273,7 +255,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -292,7 +273,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -311,7 +291,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -328,7 +307,6 @@ public class ActionImpl extends EObjectImpl implements Action
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

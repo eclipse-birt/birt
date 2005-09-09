@@ -19,14 +19,15 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.birt.chart.model.component.ComponentPackage
  * @generated
  */
-public interface ComponentFactory extends EFactory{
+public interface ComponentFactory extends EFactory
+{
 
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    ComponentFactory eINSTANCE = new org.eclipse.birt.chart.model.component.impl.ComponentFactoryImpl();
+	ComponentFactory eINSTANCE = new org.eclipse.birt.chart.model.component.impl.ComponentFactoryImpl( );
 
 	/**
 	 * Returns a new object of class '<em>Axis</em>'.
@@ -34,7 +35,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Axis</em>'.
 	 * @generated
 	 */
-    Axis createAxis();
+	Axis createAxis( );
 
 	/**
 	 * Returns a new object of class '<em>Chart Preferences</em>'.
@@ -42,7 +43,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Chart Preferences</em>'.
 	 * @generated
 	 */
-    ChartPreferences createChartPreferences();
+	ChartPreferences createChartPreferences( );
 
 	/**
 	 * Returns a new object of class '<em>Curve Fitting</em>'.
@@ -51,7 +52,25 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Curve Fitting</em>'.
 	 * @generated
 	 */
-	CurveFitting createCurveFitting();
+	CurveFitting createCurveFitting( );
+
+	/**
+	 * Returns a new object of class '<em>Dial</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dial</em>'.
+	 * @generated
+	 */
+	Dial createDial( );
+
+	/**
+	 * Returns a new object of class '<em>Dial Region</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dial Region</em>'.
+	 * @generated
+	 */
+	DialRegion createDialRegion( );
 
 	/**
 	 * Returns a new object of class '<em>Grid</em>'.
@@ -59,7 +78,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Grid</em>'.
 	 * @generated
 	 */
-    Grid createGrid();
+	Grid createGrid( );
 
 	/**
 	 * Returns a new object of class '<em>Label</em>'.
@@ -67,7 +86,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Label</em>'.
 	 * @generated
 	 */
-    Label createLabel();
+	Label createLabel( );
 
 	/**
 	 * Returns a new object of class '<em>Marker Line</em>'.
@@ -75,7 +94,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Marker Line</em>'.
 	 * @generated
 	 */
-    MarkerLine createMarkerLine();
+	MarkerLine createMarkerLine( );
 
 	/**
 	 * Returns a new object of class '<em>Marker Range</em>'.
@@ -83,7 +102,16 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Marker Range</em>'.
 	 * @generated
 	 */
-    MarkerRange createMarkerRange();
+	MarkerRange createMarkerRange( );
+
+	/**
+	 * Returns a new object of class '<em>Needle</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Needle</em>'.
+	 * @generated
+	 */
+	Needle createNeedle( );
 
 	/**
 	 * Returns a new object of class '<em>Scale</em>'.
@@ -91,7 +119,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Scale</em>'.
 	 * @generated
 	 */
-    Scale createScale();
+	Scale createScale( );
 
 	/**
 	 * Returns a new object of class '<em>Series</em>'.
@@ -99,7 +127,7 @@ public interface ComponentFactory extends EFactory{
 	 * @return a new object of class '<em>Series</em>'.
 	 * @generated
 	 */
-    Series createSeries();
+	Series createSeries( );
 
 	/**
 	 * Returns the package supported by this factory.
@@ -107,6 +135,6 @@ public interface ComponentFactory extends EFactory{
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-    ComponentPackage getComponentPackage();
+	ComponentPackage getComponentPackage( );
 
 } //ComponentFactory

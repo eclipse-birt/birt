@@ -37,16 +37,16 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected static LayoutPackage modelPackage;
+	protected static LayoutPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    public LayoutAdapterFactory()
+	public LayoutAdapterFactory( )
 	{
-		if (modelPackage == null)
+		if ( modelPackage == null )
 		{
 			modelPackage = LayoutPackage.eINSTANCE;
 		}
@@ -55,20 +55,20 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Returns whether this factory is applicable for the type of the object.
 	 * <!-- begin-user-doc --> This
-     * implementation returns <code>true</code> if the object is either the model's package or is an instance object
-     * of the model. <!-- end-user-doc -->
+	 * implementation returns <code>true</code> if the object is either the model's package or is an instance object
+	 * of the model. <!-- end-user-doc -->
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
-    public boolean isFactoryForType(Object object)
+	public boolean isFactoryForType( Object object )
 	{
-		if (object == modelPackage)
+		if ( object == modelPackage )
 		{
 			return true;
 		}
-		if (object instanceof EObject)
+		if ( object instanceof EObject )
 		{
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ( (EObject) object ).eClass( ).getEPackage( ) == modelPackage;
 		}
 		return false;
 	}
@@ -78,38 +78,43 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected LayoutSwitch modelSwitch =
-		new LayoutSwitch()
+	protected LayoutSwitch modelSwitch = new LayoutSwitch( ) {
+
+		public Object caseBlock( Block object )
 		{
-			public Object caseBlock(Block object)
-			{
-				return createBlockAdapter();
-			}
-			public Object caseClientArea(ClientArea object)
-			{
-				return createClientAreaAdapter();
-			}
-			public Object caseLabelBlock(LabelBlock object)
-			{
-				return createLabelBlockAdapter();
-			}
-			public Object caseLegend(Legend object)
-			{
-				return createLegendAdapter();
-			}
-			public Object casePlot(Plot object)
-			{
-				return createPlotAdapter();
-			}
-			public Object caseTitleBlock(TitleBlock object)
-			{
-				return createTitleBlockAdapter();
-			}
-			public Object defaultCase(EObject object)
-			{
-				return createEObjectAdapter();
-			}
-		};
+			return createBlockAdapter( );
+		}
+
+		public Object caseClientArea( ClientArea object )
+		{
+			return createClientAreaAdapter( );
+		}
+
+		public Object caseLabelBlock( LabelBlock object )
+		{
+			return createLabelBlockAdapter( );
+		}
+
+		public Object caseLegend( Legend object )
+		{
+			return createLegendAdapter( );
+		}
+
+		public Object casePlot( Plot object )
+		{
+			return createPlotAdapter( );
+		}
+
+		public Object caseTitleBlock( TitleBlock object )
+		{
+			return createTitleBlockAdapter( );
+		}
+
+		public Object defaultCase( EObject object )
+		{
+			return createEObjectAdapter( );
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -118,21 +123,20 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
-    public Adapter createAdapter(Notifier target)
+	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return (Adapter) modelSwitch.doSwitch( (EObject) target );
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Block <em>Block</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
-     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.Block
 	 * @generated
 	 */
-    public Adapter createBlockAdapter()
+	public Adapter createBlockAdapter( )
 	{
 		return null;
 	}
@@ -140,13 +144,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.ClientArea <em>Client Area</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.ClientArea
 	 * @generated
 	 */
-    public Adapter createClientAreaAdapter()
+	public Adapter createClientAreaAdapter( )
 	{
 		return null;
 	}
@@ -154,13 +158,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.LabelBlock
 	 * @generated
 	 */
-    public Adapter createLabelBlockAdapter()
+	public Adapter createLabelBlockAdapter( )
 	{
 		return null;
 	}
@@ -168,12 +172,12 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Legend <em>Legend</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
-     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.Legend
 	 * @generated
 	 */
-    public Adapter createLegendAdapter()
+	public Adapter createLegendAdapter( )
 	{
 		return null;
 	}
@@ -181,12 +185,12 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.Plot <em>Plot</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
-     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.Plot
 	 * @generated
 	 */
-    public Adapter createPlotAdapter()
+	public Adapter createPlotAdapter( )
 	{
 		return null;
 	}
@@ -194,13 +198,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.layout.TitleBlock <em>Title Block</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.layout.TitleBlock
 	 * @generated
 	 */
-    public Adapter createTitleBlockAdapter()
+	public Adapter createTitleBlockAdapter( )
 	{
 		return null;
 	}
@@ -208,11 +212,11 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc --> This default implementation returns null.
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @generated
 	 */
-    public Adapter createEObjectAdapter()
+	public Adapter createEObjectAdapter( )
 	{
 		return null;
 	}

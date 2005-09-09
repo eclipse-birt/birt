@@ -23,19 +23,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * PolygonRenderEvent
  */
-public final class PolygonRenderEvent extends PrimitiveRenderEvent
+public class PolygonRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = 7825900630615976817L;
 
 	private Location[] _loa;
 
-	private LineAttributes _lia;
+	protected LineAttributes _lia;
 
-	private Fill _ifBackground;
+	protected Fill _ifBackground;
 
 	/**
 	 * @param oSource
@@ -113,7 +110,7 @@ public final class PolygonRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public final PrimitiveRenderEvent copy( )
+	public PrimitiveRenderEvent copy( )
 	{
 		final PolygonRenderEvent pre = new PolygonRenderEvent( source );
 		if ( _loa != null )

@@ -35,7 +35,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.type.TypeFactory
  * @generated
  */
-public interface TypePackage extends EPackage{
+public interface TypePackage extends EPackage
+{
 
 	/**
 	 * The package name.
@@ -64,7 +65,7 @@ public interface TypePackage extends EPackage{
 	 * end-user-doc -->
 	 * @generated
 	 */
-	TypePackage eINSTANCE = org.eclipse.birt.chart.model.type.impl.TypePackageImpl.init();
+	TypePackage eINSTANCE = org.eclipse.birt.chart.model.type.impl.TypePackageImpl.init( );
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl <em>Bar Series</em>}' class.
@@ -82,7 +83,7 @@ public interface TypePackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getLineSeries()
 	 * @generated
 	 */
-	int LINE_SERIES = 2;
+	int LINE_SERIES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -507,13 +508,149 @@ public interface TypePackage extends EPackage{
 	int BAR_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl <em>Dial Series</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.type.impl.DialSeriesImpl
+	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getDialSeries()
+	 * @generated
+	 */
+	int DIAL_SERIES = 2;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__VISIBLE = ComponentPackage.SERIES__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__LABEL = ComponentPackage.SERIES__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Data Definition</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__DATA_DEFINITION = ComponentPackage.SERIES__DATA_DEFINITION;
+
+	/**
+	 * The feature id for the '<em><b>Series Identifier</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__SERIES_IDENTIFIER = ComponentPackage.SERIES__SERIES_IDENTIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Data Point</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__DATA_POINT = ComponentPackage.SERIES__DATA_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Data Set</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__DATA_SET = ComponentPackage.SERIES__DATA_SET;
+
+	/**
+	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__LABEL_POSITION = ComponentPackage.SERIES__LABEL_POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Stacked</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__STACKED = ComponentPackage.SERIES__STACKED;
+
+	/**
+	 * The feature id for the '<em><b>Triggers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__TRIGGERS = ComponentPackage.SERIES__TRIGGERS;
+
+	/**
+	 * The feature id for the '<em><b>Translucent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__TRANSLUCENT = ComponentPackage.SERIES__TRANSLUCENT;
+
+	/**
+	 * The feature id for the '<em><b>Curve Fitting</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__CURVE_FITTING = ComponentPackage.SERIES__CURVE_FITTING;
+
+	/**
+	 * The feature id for the '<em><b>Dial</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__DIAL = ComponentPackage.SERIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Needle</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES__NEEDLE = ComponentPackage.SERIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the the '<em>Dial Series</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl <em>Pie Series</em>}' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.type.impl.PieSeriesImpl
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getPieSeries()
 	 * @generated
 	 */
-	int PIE_SERIES = 3;
+	int PIE_SERIES = 4;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -688,7 +825,7 @@ public interface TypePackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getScatterSeries()
 	 * @generated
 	 */
-	int SCATTER_SERIES = 4;
+	int SCATTER_SERIES = 5;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -839,7 +976,7 @@ public interface TypePackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.type.impl.TypePackageImpl#getStockSeries()
 	 * @generated
 	 */
-	int STOCK_SERIES = 5;
+	int STOCK_SERIES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -965,7 +1102,7 @@ public interface TypePackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.type.AreaSeries
 	 * @generated
 	 */
-	EClass getAreaSeries();
+	EClass getAreaSeries( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.BarSeries <em>Bar Series</em>}'.
@@ -995,6 +1132,38 @@ public interface TypePackage extends EPackage{
 	 * @generated
 	 */
 	EReference getBarSeries_RiserOutline( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.DialSeries <em>Dial Series</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dial Series</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DialSeries
+	 * @generated
+	 */
+	EClass getDialSeries( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Dial</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DialSeries#getDial()
+	 * @see #getDialSeries()
+	 * @generated
+	 */
+	EReference getDialSeries_Dial( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle <em>Needle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Needle</em>'.
+	 * @see org.eclipse.birt.chart.model.type.DialSeries#getNeedle()
+	 * @see #getDialSeries()
+	 * @generated
+	 */
+	EReference getDialSeries_Needle( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.LineSeries <em>Line Series</em>}'.
@@ -1034,7 +1203,7 @@ public interface TypePackage extends EPackage{
 	 * @see #getLineSeries()
 	 * @generated
 	 */
-	EAttribute getLineSeries_PaletteLineColor();
+	EAttribute getLineSeries_PaletteLineColor( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.LineSeries#isCurve <em>Curve</em>}'.
@@ -1084,7 +1253,7 @@ public interface TypePackage extends EPackage{
 	 * @see #getPieSeries()
 	 * @generated
 	 */
-	EAttribute getPieSeries_ExplosionExpression();
+	EAttribute getPieSeries_ExplosionExpression( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}'.

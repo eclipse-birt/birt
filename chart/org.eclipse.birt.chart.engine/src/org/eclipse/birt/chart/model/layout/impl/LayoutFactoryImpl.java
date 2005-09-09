@@ -26,16 +26,15 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 {
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LayoutFactoryImpl( )
@@ -45,7 +44,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EObject create( EClass eClass )
@@ -65,15 +63,12 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 			case LayoutPackage.TITLE_BLOCK :
 				return createTitleBlock( );
 			default :
-				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
-						+ eClass.getName( )
-						+ "' is not a valid classifier" ); //$NON-NLS-1$
+				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Block createBlock( )
@@ -84,7 +79,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ClientArea createClientArea( )
@@ -95,7 +89,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LabelBlock createLabelBlock( )
@@ -106,7 +99,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Legend createLegend( )
@@ -117,7 +109,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Plot createPlot( )
@@ -128,7 +119,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TitleBlock createTitleBlock( )
@@ -139,7 +129,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LayoutPackage getLayoutPackage( )
@@ -149,7 +138,6 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

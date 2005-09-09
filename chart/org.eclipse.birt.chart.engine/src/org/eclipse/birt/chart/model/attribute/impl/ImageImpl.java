@@ -25,12 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getURL <em>URL</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ImageImpl#getURL <em>URL</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ImageImpl extends FillImpl implements Image
@@ -39,7 +37,6 @@ public class ImageImpl extends FillImpl implements Image
 	/**
 	 * The default value of the '{@link #getURL() <em>URL</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getURL()
 	 * @generated
 	 * @ordered
@@ -49,7 +46,6 @@ public class ImageImpl extends FillImpl implements Image
 	/**
 	 * The cached value of the '{@link #getURL() <em>URL</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getURL()
 	 * @generated
 	 * @ordered
@@ -58,7 +54,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ImageImpl( )
@@ -68,7 +63,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -78,7 +72,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getURL( )
@@ -88,7 +81,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setURL( String newURL )
@@ -105,7 +97,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -122,7 +113,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -141,7 +131,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -160,7 +149,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -178,7 +166,6 @@ public class ImageImpl extends FillImpl implements Image
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -207,4 +194,4 @@ public class ImageImpl extends FillImpl implements Image
 		i.setURL( sURL );
 		return i;
 	}
-} //ImageImpl
+} // ImageImpl

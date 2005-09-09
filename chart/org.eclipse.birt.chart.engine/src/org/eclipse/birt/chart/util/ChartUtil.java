@@ -104,4 +104,54 @@ public class ChartUtil
 		return ( dOriginalHeight * 72d ) / idsSWT.getDpiResolution( );
 	}
 
+	/**
+	 * Returns the quadrant (1-4) for given angle in degree. Specially, -1 means
+	 * Zero degree. -2 means 90 degree, -3 means 180 degree, -4 means 270
+	 * degree.
+	 * 
+	 * @param dAngle
+	 * @return
+	 */
+	public static final int getQuadrant( double dAngle )
+	{
+		dAngle = dAngle - ( ( (int) dAngle ) / 360 ) * 360;
+
+		if ( dAngle < 0 )
+		{
+			dAngle += 360;
+		}
+		if ( dAngle == 0 )
+		{
+			return -1;
+		}
+		if ( dAngle == 90 )
+		{
+			return -2;
+		}
+		if ( dAngle == 180 )
+		{
+			return -3;
+		}
+		if ( dAngle == 270 )
+		{
+			return -4;
+		}
+		if ( dAngle >= 0 && dAngle < 90 )
+		{
+			return 1;
+		}
+		if ( dAngle > 90 && dAngle < 180 )
+		{
+			return 2;
+		}
+		if ( dAngle > 180 && dAngle < 270 )
+		{
+			return 3;
+		}
+		else
+		{
+			return 4;
+		}
+	}
+
 }

@@ -29,23 +29,22 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickStyle <em>Tick Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickAttributes <em>Tick Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickSize <em>Tick Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.GridImpl#getTickCount <em>Tick Count</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class GridImpl extends EObjectImpl implements Grid
 {
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -53,9 +52,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The default value of the '{@link #getTickStyle() <em>Tick Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTickStyle() <em>Tick Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickStyle()
 	 * @generated
 	 * @ordered
@@ -63,9 +61,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected static final TickStyle TICK_STYLE_EDEFAULT = TickStyle.LEFT_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTickStyle() <em>Tick Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTickStyle() <em>Tick Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickStyle()
 	 * @generated
 	 * @ordered
@@ -82,9 +79,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected boolean tickStyleESet = false;
 
 	/**
-	 * The cached value of the '{@link #getTickAttributes() <em>Tick Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTickAttributes() <em>Tick Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickAttributes()
 	 * @generated
 	 * @ordered
@@ -92,9 +88,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected LineAttributes tickAttributes = null;
 
 	/**
-	 * The default value of the '{@link #getTickSize() <em>Tick Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTickSize() <em>Tick Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickSize()
 	 * @generated
 	 * @ordered
@@ -102,9 +97,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected static final double TICK_SIZE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getTickSize() <em>Tick Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTickSize() <em>Tick Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickSize()
 	 * @generated
 	 * @ordered
@@ -112,18 +106,17 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected double tickSize = TICK_SIZE_EDEFAULT;
 
 	/**
-	 * This is true if the Tick Size attribute has been set. <!-- begin-user-doc
+	 * This is true if the Tick Size attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean tickSizeESet = false;
 
 	/**
-	 * The default value of the '{@link #getTickCount() <em>Tick Count</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTickCount() <em>Tick Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickCount()
 	 * @generated
 	 * @ordered
@@ -131,9 +124,8 @@ public class GridImpl extends EObjectImpl implements Grid
 	protected static final int TICK_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getTickCount() <em>Tick Count</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTickCount() <em>Tick Count</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTickCount()
 	 * @generated
 	 * @ordered
@@ -151,7 +143,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected GridImpl( )
@@ -161,7 +152,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -171,7 +161,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -181,7 +170,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -206,7 +194,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -240,7 +227,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TickStyle getTickStyle( )
@@ -250,7 +236,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTickStyle( TickStyle newTickStyle )
@@ -270,7 +255,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTickStyle( )
@@ -290,7 +274,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTickStyle( )
@@ -300,7 +283,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getTickAttributes( )
@@ -310,7 +292,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetTickAttributes(
@@ -335,7 +316,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTickAttributes( LineAttributes newTickAttributes )
@@ -369,7 +349,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getTickSize( )
@@ -379,7 +358,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTickSize( double newTickSize )
@@ -399,7 +377,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTickSize( )
@@ -419,7 +396,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTickSize( )
@@ -429,7 +405,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getTickCount( )
@@ -439,7 +414,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTickCount( int newTickCount )
@@ -459,7 +433,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTickCount( )
@@ -479,7 +452,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTickCount( )
@@ -489,7 +461,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -515,7 +486,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -538,7 +508,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -566,7 +535,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -594,7 +562,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -617,7 +584,6 @@ public class GridImpl extends EObjectImpl implements Grid
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

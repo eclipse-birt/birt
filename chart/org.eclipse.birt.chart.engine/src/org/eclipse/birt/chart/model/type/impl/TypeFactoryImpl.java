@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.type.impl;
 
+import org.eclipse.birt.chart.model.type.*;
+
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -26,16 +28,15 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 {
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TypeFactoryImpl( )
@@ -45,7 +46,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EObject create( EClass eClass )
@@ -56,6 +56,8 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 				return createAreaSeries( );
 			case TypePackage.BAR_SERIES :
 				return createBarSeries( );
+			case TypePackage.DIAL_SERIES :
+				return createDialSeries( );
 			case TypePackage.LINE_SERIES :
 				return createLineSeries( );
 			case TypePackage.PIE_SERIES :
@@ -65,15 +67,12 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 			case TypePackage.STOCK_SERIES :
 				return createStockSeries( );
 			default :
-				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
-						+ eClass.getName( )
-						+ "' is not a valid classifier" ); //$NON-NLS-1$
+				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public AreaSeries createAreaSeries( )
@@ -84,7 +83,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public BarSeries createBarSeries( )
@@ -94,8 +92,18 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DialSeries createDialSeries( )
+	{
+		DialSeriesImpl dialSeries = new DialSeriesImpl( );
+		return dialSeries;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineSeries createLineSeries( )
@@ -106,7 +114,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public PieSeries createPieSeries( )
@@ -117,7 +124,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ScatterSeries createScatterSeries( )
@@ -128,7 +134,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public StockSeries createStockSeries( )
@@ -139,7 +144,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TypePackage getTypePackage( )
@@ -149,7 +153,6 @@ public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

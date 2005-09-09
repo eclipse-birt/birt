@@ -25,15 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getName <em>Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getValue <em>Value</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ExtendedPropertyImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ExtendedPropertyImpl extends EObjectImpl implements
@@ -43,7 +39,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -53,7 +48,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -61,9 +55,8 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -73,7 +66,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -82,7 +74,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ExtendedPropertyImpl( )
@@ -92,7 +83,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -102,7 +92,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getName( )
@@ -112,7 +101,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setName( String newName )
@@ -129,7 +117,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getValue( )
@@ -139,7 +126,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( String newValue )
@@ -156,7 +142,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -173,7 +158,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -192,7 +176,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -211,7 +194,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -230,7 +212,6 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -247,4 +228,4 @@ public class ExtendedPropertyImpl extends EObjectImpl implements
 		return result.toString( );
 	}
 
-} //ExtendedPropertyImpl
+} // ExtendedPropertyImpl

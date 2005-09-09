@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
+import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
+import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
@@ -150,18 +152,6 @@ public final class Generator
 			rtc.setLocale( Locale.getDefault( ) );
 		}
 
-		// 3D CHARTS ARE NOT YET SUPPORTED
-		if ( cmDesignTime.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					new ChartException( ChartEnginePlugin.ID,
-							ChartException.UNSUPPORTED_FEATURE,
-							"exception.no3d.support", //$NON-NLS-1$ 
-							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ) );
-		}
-
 		// INITIALIZE THE SCRIPT HANDLER
 		final String sScriptContent = cmRunTime.getScript( );
 		ScriptHandler sh = rtc.getScriptHandler( );
@@ -205,9 +195,18 @@ public final class Generator
 			iChartType = WITH_AXES;
 			try
 			{
-				oComputations = new PlotWith2DAxes( ids,
-						(ChartWithAxes) cmRunTime,
-						rtc );
+				if ( cmRunTime.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+				{
+					oComputations = new PlotWith3DAxes( ids,
+							(ChartWithAxes) cmRunTime,
+							rtc );
+				}
+				else
+				{
+					oComputations = new PlotWith2DAxes( ids,
+							(ChartWithAxes) cmRunTime,
+							rtc );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -284,7 +283,7 @@ public final class Generator
 		long lTimer = System.currentTimeMillis( );
 		if ( iChartType == WITH_AXES )
 		{
-			PlotWith2DAxes pwa = (PlotWith2DAxes) oComputations;
+			PlotWithAxes pwa = (PlotWithAxes) oComputations;
 			try
 			{
 				pwa.compute( boPlot );
@@ -334,7 +333,7 @@ public final class Generator
 				}
 				else
 				{
-					br.set( ( (PlotWith2DAxes) br.getComputations( ) ).getSeriesRenderingHints( br.getSeriesDefinition( ),
+					br.set( ( (PlotWithAxes) br.getComputations( ) ).getSeriesRenderingHints( br.getSeriesDefinition( ),
 							br.getSeries( ) ) );
 				}
 				ScriptHandler.callFunction( sh,
@@ -403,7 +402,7 @@ public final class Generator
 
 		if ( iChartType == WITH_AXES )
 		{
-			PlotWith2DAxes pwa = (PlotWith2DAxes) gcs.getComputations( );
+			PlotWithAxes pwa = (PlotWithAxes) gcs.getComputations( );
 			try
 			{
 				pwa.compute( boPlot );
@@ -472,7 +471,25 @@ public final class Generator
 			int iType = gcs.getType( );
 			if ( iType == WITH_AXES )
 			{
-				Bounds bo = ( (PlotWith2DAxes) gcs.getComputations( ) ).getPlotBounds( );
+				Bounds bo = ( (PlotWithAxes) gcs.getComputations( ) ).getPlotBounds( );
+				try
+				{
+					updateLegendInside( bo,
+							lg,
+							idr.getDisplayServer( ),
+							cm,
+							gcs.getRunTimeContext( ) );
+				}
+				catch ( ChartException gex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							gex );
+				}
+			}
+			else if ( iType == WITHOUT_AXES )
+			{
+				Bounds bo = ( (PlotWithoutAxes) gcs.getComputations( ) ).getBounds( );
 				try
 				{
 					updateLegendInside( bo,

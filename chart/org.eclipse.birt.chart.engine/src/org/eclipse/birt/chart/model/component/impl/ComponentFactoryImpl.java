@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import org.eclipse.birt.chart.model.component.*;
+
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
@@ -29,7 +31,6 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class ComponentFactoryImpl extends EFactoryImpl implements
@@ -37,9 +38,9 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 {
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ComponentFactoryImpl( )
@@ -49,7 +50,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EObject create( EClass eClass )
@@ -62,6 +62,10 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createChartPreferences( );
 			case ComponentPackage.CURVE_FITTING :
 				return createCurveFitting( );
+			case ComponentPackage.DIAL :
+				return createDial( );
+			case ComponentPackage.DIAL_REGION :
+				return createDialRegion( );
 			case ComponentPackage.GRID :
 				return createGrid( );
 			case ComponentPackage.LABEL :
@@ -70,20 +74,19 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 				return createMarkerLine( );
 			case ComponentPackage.MARKER_RANGE :
 				return createMarkerRange( );
+			case ComponentPackage.NEEDLE :
+				return createNeedle( );
 			case ComponentPackage.SCALE :
 				return createScale( );
 			case ComponentPackage.SERIES :
 				return createSeries( );
 			default :
-				throw new IllegalArgumentException( "The class '" //$NON-NLS-1$
-						+ eClass.getName( )
-						+ "' is not a valid classifier" ); //$NON-NLS-1$
+				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Axis createAxis( )
@@ -94,7 +97,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ChartPreferences createChartPreferences( )
@@ -105,7 +107,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CurveFitting createCurveFitting( )
@@ -115,8 +116,29 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Dial createDial( )
+	{
+		DialImpl dial = new DialImpl( );
+		return dial;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DialRegion createDialRegion( )
+	{
+		DialRegionImpl dialRegion = new DialRegionImpl( );
+		return dialRegion;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Grid createGrid( )
@@ -127,7 +149,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label createLabel( )
@@ -138,7 +159,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MarkerLine createMarkerLine( )
@@ -149,7 +169,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MarkerRange createMarkerRange( )
@@ -159,8 +178,18 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Needle createNeedle( )
+	{
+		NeedleImpl needle = new NeedleImpl( );
+		return needle;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Scale createScale( )
@@ -171,7 +200,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Series createSeries( )
@@ -182,7 +210,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ComponentPackage getComponentPackage( )
@@ -192,7 +219,6 @@ public class ComponentFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

@@ -34,23 +34,24 @@ import org.eclipse.birt.chart.model.component.Label;
  * @model
  * @generated
  */
-public interface LabelBlock extends Block{
+public interface LabelBlock extends Block
+{
 
-    /**
-     * Returns the value of the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * The actual text content of the block.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Label</em>' containment reference.
-     * @see #setLabel(Label)
-     * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLabelBlock_Label()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    Label getLabel();
+	/**
+	 * Returns the value of the '<em><b>Label</b></em>' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * The actual text content of the block.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Label</em>' containment reference.
+	 * @see #setLabel(Label)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLabelBlock_Label()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	Label getLabel( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.LabelBlock#getLabel <em>Label</em>}' containment reference.
@@ -59,6 +60,6 @@ public interface LabelBlock extends Block{
 	 * @see #getLabel()
 	 * @generated
 	 */
-    void setLabel(Label value);
+	void setLabel( Label value );
 
 } // LabelBlock

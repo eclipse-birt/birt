@@ -63,6 +63,20 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="format" type="string">
+            <annotation>
+               <documentation>
+                  @Since 2.0. The format attribute indicates a file format which this device renderer can generate, such as &quot;BMP&quot;, &quot;JPG&quot;, &quot;GIF&quot;, etc.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  @Since 2.0. The description of the device renderer elaborates the format detail if the &quot;format&quot; attribute exists or the functionality this device renderer holds.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -96,7 +110,9 @@
             name=&quot;dv.GIF8&quot;/&gt;
       &lt;deviceRenderer
             device=&quot;org.eclipse.birt.chart.device.image.PngRendererImpl&quot;
-            name=&quot;dv.PNG&quot;/&gt;
+            name=&quot;dv.PNG&quot;
+            format=&quot;PNG&quot;
+            description=&quot;Protable Network Graphics&quot;/&gt;
       &lt;deviceRenderer
             device=&quot;org.eclipse.birt.chart.device.image.GifRendererImpl&quot;
             name=&quot;dv.GIF&quot;/&gt;

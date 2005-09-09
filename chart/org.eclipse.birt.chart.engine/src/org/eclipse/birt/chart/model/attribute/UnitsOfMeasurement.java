@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: UnitsOfMeasurement.java,v 1.1 2005/04/26 19:44:08 mpadhye Exp $
+ * $Id: UnitsOfMeasurement.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -30,9 +30,9 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Pixels</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Pixels</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #PIXELS_LITERAL
 	 * @model name="Pixels"
 	 * @generated
@@ -41,9 +41,9 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final int PIXELS = 0;
 
 	/**
-	 * The '<em><b>Points</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Points</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #POINTS_LITERAL
 	 * @model name="Points"
 	 * @generated
@@ -52,9 +52,9 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final int POINTS = 1;
 
 	/**
-	 * The '<em><b>Inches</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Inches</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #INCHES_LITERAL
 	 * @model name="Inches"
 	 * @generated
@@ -63,9 +63,9 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final int INCHES = 2;
 
 	/**
-	 * The '<em><b>Centimeters</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Centimeters</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #CENTIMETERS_LITERAL
 	 * @model name="Centimeters"
 	 * @generated
@@ -74,13 +74,13 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	public static final int CENTIMETERS = 3;
 
 	/**
-	 * The '<em><b>Pixels</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Pixels</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Pixels</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #PIXELS
 	 * @generated
 	 * @ordered
@@ -89,13 +89,13 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 			"Pixels" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Points</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Points</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Points</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #POINTS
 	 * @generated
 	 * @ordered
@@ -104,13 +104,13 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 			"Points" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Inches</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Inches</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Inches</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #INCHES
 	 * @generated
 	 * @ordered
@@ -135,9 +135,8 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 			"Centimeters" ); //$NON-NLS-1$
 
 	/**
-	 * An array of all the '<em><b>Units Of Measurement</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Units Of Measurement</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final UnitsOfMeasurement[] VALUES_ARRAY = new UnitsOfMeasurement[]{
@@ -148,17 +147,15 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Units Of Measurement</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Units Of Measurement</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static UnitsOfMeasurement get( String name )
@@ -175,9 +172,8 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Units Of Measurement</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static UnitsOfMeasurement get( int value )
@@ -197,9 +193,9 @@ public final class UnitsOfMeasurement extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private UnitsOfMeasurement( int value, String name )

@@ -41,16 +41,16 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected static ComponentPackage modelPackage;
+	protected static ComponentPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    public ComponentAdapterFactory()
+	public ComponentAdapterFactory( )
 	{
-		if (modelPackage == null)
+		if ( modelPackage == null )
 		{
 			modelPackage = ComponentPackage.eINSTANCE;
 		}
@@ -59,20 +59,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Returns whether this factory is applicable for the type of the object.
 	 * <!-- begin-user-doc --> This
-     * implementation returns <code>true</code> if the object is either the model's package or is an instance object
-     * of the model. <!-- end-user-doc -->
+	 * implementation returns <code>true</code> if the object is either the model's package or is an instance object
+	 * of the model. <!-- end-user-doc -->
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
-    public boolean isFactoryForType(Object object)
+	public boolean isFactoryForType( Object object )
 	{
-		if (object == modelPackage)
+		if ( object == modelPackage )
 		{
 			return true;
 		}
-		if (object instanceof EObject)
+		if ( object instanceof EObject )
 		{
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ( (EObject) object ).eClass( ).getEPackage( ) == modelPackage;
 		}
 		return false;
 	}
@@ -82,50 +82,73 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected ComponentSwitch modelSwitch =
-		new ComponentSwitch()
+	protected ComponentSwitch modelSwitch = new ComponentSwitch( ) {
+
+		public Object caseAxis( Axis object )
 		{
-			public Object caseAxis(Axis object)
-			{
-				return createAxisAdapter();
-			}
-			public Object caseChartPreferences(ChartPreferences object)
-			{
-				return createChartPreferencesAdapter();
-			}
-			public Object caseCurveFitting(CurveFitting object)
-			{
-				return createCurveFittingAdapter();
-			}
-			public Object caseGrid(Grid object)
-			{
-				return createGridAdapter();
-			}
-			public Object caseLabel(Label object)
-			{
-				return createLabelAdapter();
-			}
-			public Object caseMarkerLine(MarkerLine object)
-			{
-				return createMarkerLineAdapter();
-			}
-			public Object caseMarkerRange(MarkerRange object)
-			{
-				return createMarkerRangeAdapter();
-			}
-			public Object caseScale(Scale object)
-			{
-				return createScaleAdapter();
-			}
-			public Object caseSeries(Series object)
-			{
-				return createSeriesAdapter();
-			}
-			public Object defaultCase(EObject object)
-			{
-				return createEObjectAdapter();
-			}
-		};
+			return createAxisAdapter( );
+		}
+
+		public Object caseChartPreferences( ChartPreferences object )
+		{
+			return createChartPreferencesAdapter( );
+		}
+
+		public Object caseCurveFitting( CurveFitting object )
+		{
+			return createCurveFittingAdapter( );
+		}
+
+		public Object caseDial( Dial object )
+		{
+			return createDialAdapter( );
+		}
+
+		public Object caseDialRegion( DialRegion object )
+		{
+			return createDialRegionAdapter( );
+		}
+
+		public Object caseGrid( Grid object )
+		{
+			return createGridAdapter( );
+		}
+
+		public Object caseLabel( Label object )
+		{
+			return createLabelAdapter( );
+		}
+
+		public Object caseMarkerLine( MarkerLine object )
+		{
+			return createMarkerLineAdapter( );
+		}
+
+		public Object caseMarkerRange( MarkerRange object )
+		{
+			return createMarkerRangeAdapter( );
+		}
+
+		public Object caseNeedle( Needle object )
+		{
+			return createNeedleAdapter( );
+		}
+
+		public Object caseScale( Scale object )
+		{
+			return createScaleAdapter( );
+		}
+
+		public Object caseSeries( Series object )
+		{
+			return createSeriesAdapter( );
+		}
+
+		public Object defaultCase( EObject object )
+		{
+			return createEObjectAdapter( );
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -134,21 +157,20 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
-    public Adapter createAdapter(Notifier target)
+	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return (Adapter) modelSwitch.doSwitch( (EObject) target );
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Axis <em>Axis</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
-     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.Axis
 	 * @generated
 	 */
-    public Adapter createAxisAdapter()
+	public Adapter createAxisAdapter( )
 	{
 		return null;
 	}
@@ -156,13 +178,13 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
 	 * <!-- begin-user-doc
-     * --> This default implementation returns null so that we can easily ignore cases; it's useful to ignore a case
-     * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * --> This default implementation returns null so that we can easily ignore cases; it's useful to ignore a case
+	 * when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.ChartPreferences
 	 * @generated
 	 */
-    public Adapter createChartPreferencesAdapter()
+	public Adapter createChartPreferencesAdapter( )
 	{
 		return null;
 	}
@@ -177,7 +199,37 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	 * @see org.eclipse.birt.chart.model.component.CurveFitting
 	 * @generated
 	 */
-	public Adapter createCurveFittingAdapter()
+	public Adapter createCurveFittingAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Dial <em>Dial</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.component.Dial
+	 * @generated
+	 */
+	public Adapter createDialAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.DialRegion <em>Dial Region</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.component.DialRegion
+	 * @generated
+	 */
+	public Adapter createDialRegionAdapter( )
 	{
 		return null;
 	}
@@ -185,12 +237,12 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Grid <em>Grid</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful
-     * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.Grid
 	 * @generated
 	 */
-    public Adapter createGridAdapter()
+	public Adapter createGridAdapter( )
 	{
 		return null;
 	}
@@ -198,13 +250,13 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Label <em>Label</em>}'.
 	 * <!-- begin-user-doc --> This default
-     * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
-     * will catch all the cases anyway. <!-- end-user-doc -->
+	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
+	 * will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.Label
 	 * @generated
 	 */
-    public Adapter createLabelAdapter()
+	public Adapter createLabelAdapter( )
 	{
 		return null;
 	}
@@ -212,13 +264,13 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker Line</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.MarkerLine
 	 * @generated
 	 */
-    public Adapter createMarkerLineAdapter()
+	public Adapter createMarkerLineAdapter( )
 	{
 		return null;
 	}
@@ -226,13 +278,28 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.MarkerRange <em>Marker Range</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.MarkerRange
 	 * @generated
 	 */
-    public Adapter createMarkerRangeAdapter()
+	public Adapter createMarkerRangeAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Needle <em>Needle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.component.Needle
+	 * @generated
+	 */
+	public Adapter createNeedleAdapter( )
 	{
 		return null;
 	}
@@ -240,13 +307,13 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Scale <em>Scale</em>}'.
 	 * <!-- begin-user-doc --> This default
-     * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
-     * will catch all the cases anyway. <!-- end-user-doc -->
+	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
+	 * will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.Scale
 	 * @generated
 	 */
-    public Adapter createScaleAdapter()
+	public Adapter createScaleAdapter( )
 	{
 		return null;
 	}
@@ -254,13 +321,13 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'.
 	 * <!-- begin-user-doc --> This default
-     * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
-     * will catch all the cases anyway. <!-- end-user-doc -->
+	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance
+	 * will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.component.Series
 	 * @generated
 	 */
-    public Adapter createSeriesAdapter()
+	public Adapter createSeriesAdapter( )
 	{
 		return null;
 	}
@@ -268,11 +335,11 @@ public class ComponentAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc --> This default implementation returns null.
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @generated
 	 */
-    public Adapter createEObjectAdapter()
+	public Adapter createEObjectAdapter( )
 	{
 		return null;
 	}

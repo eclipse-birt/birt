@@ -90,7 +90,6 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Leader Line Style</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final LeaderLineStyle[] VALUES_ARRAY = new LeaderLineStyle[]{
@@ -98,17 +97,15 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Leader Line Style</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Leader Line Style</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static LeaderLineStyle get( String name )
@@ -125,9 +122,8 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Leader Line Style</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static LeaderLineStyle get( int value )
@@ -143,9 +139,9 @@ public final class LeaderLineStyle extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private LeaderLineStyle( int value, String name )

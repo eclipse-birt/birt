@@ -26,21 +26,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getTransparency <em>Transparency</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getRed <em>Red</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getGreen <em>Green</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getBlue <em>Blue</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getTransparency <em>Transparency</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getRed <em>Red</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getGreen <em>Green</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl#getBlue <em>Blue</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
@@ -80,7 +72,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * The default value of the '{@link #getRed() <em>Red</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getRed()
 	 * @generated
 	 * @ordered
@@ -90,7 +81,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * The cached value of the '{@link #getRed() <em>Red</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getRed()
 	 * @generated
 	 * @ordered
@@ -98,18 +88,17 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	protected int red = RED_EDEFAULT;
 
 	/**
-	 * This is true if the Red attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Red attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean redESet = false;
 
 	/**
-	 * The default value of the '{@link #getGreen() <em>Green</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getGreen() <em>Green</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGreen()
 	 * @generated
 	 * @ordered
@@ -119,7 +108,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * The cached value of the '{@link #getGreen() <em>Green</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGreen()
 	 * @generated
 	 * @ordered
@@ -127,9 +115,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	protected int green = GREEN_EDEFAULT;
 
 	/**
-	 * This is true if the Green attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Green attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -138,7 +126,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * The default value of the '{@link #getBlue() <em>Blue</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBlue()
 	 * @generated
 	 * @ordered
@@ -148,7 +135,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	/**
 	 * The cached value of the '{@link #getBlue() <em>Blue</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBlue()
 	 * @generated
 	 * @ordered
@@ -156,9 +142,9 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	protected int blue = BLUE_EDEFAULT;
 
 	/**
-	 * This is true if the Blue attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Blue attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -166,7 +152,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ColorDefinitionImpl( )
@@ -213,7 +198,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -223,7 +207,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getTransparency( )
@@ -233,7 +216,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTransparency( int newTransparency )
@@ -253,7 +235,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTransparency( )
@@ -273,7 +254,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTransparency( )
@@ -283,7 +263,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getRed( )
@@ -293,7 +272,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRed( int newRed )
@@ -313,7 +291,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetRed( )
@@ -333,7 +310,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetRed( )
@@ -343,7 +319,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getBlue( )
@@ -353,7 +328,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBlue( int newBlue )
@@ -373,7 +347,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetBlue( )
@@ -393,7 +366,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetBlue( )
@@ -403,7 +375,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getGreen( )
@@ -413,7 +384,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setGreen( int newGreen )
@@ -433,7 +403,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetGreen( )
@@ -453,7 +422,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetGreen( )
@@ -463,7 +431,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -486,7 +453,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -514,7 +480,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -542,7 +507,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -565,7 +529,6 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -836,4 +799,4 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 		return cd;
 	}
 
-} //ColorDefinitionImpl
+} // ColorDefinitionImpl

@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
@@ -34,69 +35,30 @@ import org.eclipse.birt.chart.util.CDateTime;
 public final class DataSetIterator implements Iterator
 {
 
-	/**
-	 * 
-	 */
 	private double[] da = null;
 
-	/**
-	 * 
-	 */
 	private Double[] dda = null;
 
-	/**
-	 * 
-	 */
 	private Calendar[] ca = null;
 
-	/**
-	 * 
-	 */
 	private long[] la = null;
 
-	/**
-	 * 
-	 */
 	private String[] sa = null;
 
-	/**
-	 * 
-	 */
 	private Collection co = null;
 
-	/**
-	 * 
-	 */
 	private int iDataType = IConstants.UNDEFINED;
 
-	/**
-	 * 
-	 */
 	private int iContentType = IConstants.UNDEFINED;
 
-	/**
-	 * 
-	 */
 	private int iCursor = 0;
 
-	/**
-	 * 
-	 */
 	private Iterator it = null;
 
-	/**
-	 * 
-	 */
 	private int iRowCount = 0;
 
-	/**
-	 * 
-	 */
 	private Calendar cReused = null;
 
-	/**
-	 * 
-	 */
 	private Object[] oa = null;
 
 	/**
@@ -244,7 +206,8 @@ public final class DataSetIterator implements Iterator
 	 * @param ds
 	 * @throws UnexpectedInputException
 	 */
-	public DataSetIterator( DataSet ds ) throws IllegalArgumentException, ChartException
+	public DataSetIterator( DataSet ds ) throws IllegalArgumentException,
+			ChartException
 	{
 		Object oContent = ds.getValues( );
 		if ( ds instanceof NumberDataSet )
@@ -264,6 +227,13 @@ public final class DataSetIterator implements Iterator
 			{
 				iContentType = IConstants.NON_PRIMITIVE_ARRAY;
 				dda = (Double[]) oContent;
+			}
+			else if ( oContent instanceof Number )
+			{
+				iContentType = IConstants.PRIMITIVE_ARRAY;
+				da = new double[]{
+					( (Number) oContent ).doubleValue( )
+				};
 			}
 		}
 		else if ( ds instanceof DateTimeDataSet )
@@ -301,8 +271,7 @@ public final class DataSetIterator implements Iterator
 				sa = (String[]) oContent;
 			}
 		}
-		else
-		// e.g. StockObject[]
+		else if ( ds instanceof StockDataSet )
 		{
 			iDataType = IConstants.OTHER;
 			if ( oContent instanceof Collection )

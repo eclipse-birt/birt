@@ -34,21 +34,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabelAnchor <em>Label Anchor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.CurveFittingImpl#getLabelAnchor <em>Label Anchor</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 {
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -56,9 +55,8 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -66,9 +64,8 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	protected Label label = null;
 
 	/**
-	 * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -76,9 +73,8 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -96,7 +92,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected CurveFittingImpl( )
@@ -118,7 +113,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -128,7 +122,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -138,7 +131,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -163,7 +155,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -197,7 +188,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -207,7 +197,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -232,7 +221,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -266,7 +254,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Anchor getLabelAnchor( )
@@ -276,7 +263,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabelAnchor( Anchor newLabelAnchor )
@@ -297,7 +283,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLabelAnchor( )
@@ -317,7 +302,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLabelAnchor( )
@@ -327,7 +311,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -353,7 +336,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -372,7 +354,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -394,7 +375,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -416,7 +396,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -435,7 +414,6 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

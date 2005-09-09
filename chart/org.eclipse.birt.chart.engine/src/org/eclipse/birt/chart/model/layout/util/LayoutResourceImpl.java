@@ -28,9 +28,9 @@ public class LayoutResourceImpl extends XMLResourceImpl
 	 * @param uri the URI of the new resource.
 	 * @generated
 	 */
-    public LayoutResourceImpl(URI uri)
+	public LayoutResourceImpl( URI uri )
 	{
-		super(uri);
+		super( uri );
 	}
 
 } //LayoutResourceFactoryImpl

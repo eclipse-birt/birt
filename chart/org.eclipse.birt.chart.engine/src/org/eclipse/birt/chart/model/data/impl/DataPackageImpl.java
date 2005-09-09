@@ -51,7 +51,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class DataPackageImpl extends EPackageImpl implements DataPackage
@@ -59,119 +58,102 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass actionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass baseSampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dateTimeDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dateTimeDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass numberDataElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass numberDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass orthogonalSampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass queryEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass ruleEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass sampleDataEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass seriesDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass seriesGroupingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass stockDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass textDataSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass triggerEClass = null;
@@ -198,27 +180,26 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -239,32 +220,32 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		XMLTypePackageImpl.init( );
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackageImpl.eINSTANCE );
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackageImpl.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackageImpl.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackageImpl.eINSTANCE );
+				: ComponentPackage.eINSTANCE );
 		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
-				: AttributePackageImpl.eINSTANCE );
+				: AttributePackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theDataPackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
-		theTypePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
+		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theDataPackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
-		theTypePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
+		theTypePackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theDataPackage.freeze( );
@@ -274,7 +255,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAction( )
@@ -284,7 +264,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getAction_Type( )
@@ -294,7 +273,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAction_Value( )
@@ -304,7 +282,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getBaseSampleData( )
@@ -314,7 +291,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBaseSampleData_DataSetRepresentation( )
@@ -325,7 +301,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDataElement( )
@@ -335,7 +310,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDataSet( )
@@ -345,7 +319,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDataSet_Values( )
@@ -355,7 +328,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDateTimeDataElement( )
@@ -365,7 +337,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDateTimeDataElement_Value( )
@@ -376,7 +347,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDateTimeDataSet( )
@@ -386,7 +356,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getNumberDataElement( )
@@ -396,7 +365,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNumberDataElement_Value( )
@@ -407,7 +375,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getNumberDataSet( )
@@ -417,7 +384,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getOrthogonalSampleData( )
@@ -427,7 +393,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getOrthogonalSampleData_DataSetRepresentation( )
@@ -438,7 +403,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getOrthogonalSampleData_SeriesDefinitionIndex( )
@@ -449,7 +413,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getQuery( )
@@ -459,7 +422,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getQuery_Definition( )
@@ -469,7 +431,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getQuery_Rules( )
@@ -479,7 +440,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getRule( )
@@ -489,7 +449,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getRule_Type( )
@@ -499,7 +458,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getRule_Value( )
@@ -509,7 +467,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSampleData( )
@@ -519,7 +476,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSampleData_BaseSampleData( )
@@ -529,7 +485,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSampleData_OrthogonalSampleData( )
@@ -538,8 +493,17 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSampleData_AncillarySampleData( )
+	{
+		return (EReference) sampleDataEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSeriesDefinition( )
@@ -549,7 +513,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_Query( )
@@ -560,7 +523,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_SeriesPalette( )
@@ -571,7 +533,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_SeriesDefinitions( )
@@ -582,7 +543,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_FormatSpecifier( )
@@ -593,7 +553,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_Series( )
@@ -604,7 +563,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesDefinition_Grouping( )
@@ -615,7 +573,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesDefinition_Sorting( )
@@ -626,7 +583,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSeriesGrouping( )
@@ -636,7 +592,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesGrouping_Enabled( )
@@ -647,7 +602,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesGrouping_GroupingUnit( )
@@ -658,7 +612,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getSeriesGrouping_GroupingOrigin( )
@@ -669,7 +622,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesGrouping_GroupingInterval( )
@@ -680,7 +632,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesGrouping_GroupType( )
@@ -691,7 +642,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesGrouping_AggregateExpression( )
@@ -702,7 +652,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getStockDataSet( )
@@ -712,7 +661,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTextDataSet( )
@@ -722,7 +670,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTrigger( )
@@ -732,7 +679,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTrigger_Condition( )
@@ -742,7 +688,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getTrigger_Action( )
@@ -752,7 +697,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataFactory getDataFactory( )
@@ -762,16 +706,15 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -822,6 +765,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		sampleDataEClass = createEClass( SAMPLE_DATA );
 		createEReference( sampleDataEClass, SAMPLE_DATA__BASE_SAMPLE_DATA );
 		createEReference( sampleDataEClass, SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA );
+		createEReference( sampleDataEClass, SAMPLE_DATA__ANCILLARY_SAMPLE_DATA );
 
 		seriesDefinitionEClass = createEClass( SERIES_DEFINITION );
 		createEReference( seriesDefinitionEClass, SERIES_DEFINITION__QUERY );
@@ -857,7 +801,6 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -897,581 +840,174 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		// Initialize classes and features; add operations and parameters
 		initEClass( actionEClass,
 				Action.class,
-				"Action", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Action", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getAction_Type( ),
 				theAttributePackage.getActionType( ),
-				"type", //$NON-NLS-1$
-				"URL_Redirect", //$NON-NLS-1$
-				1,
-				1,
-				Action.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "URL_Redirect", 1, 1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAction_Value( ),
 				theAttributePackage.getActionValue( ),
 				null,
-				"value", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Action.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( baseSampleDataEClass,
 				BaseSampleData.class,
-				"BaseSampleData", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"BaseSampleData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getBaseSampleData_DataSetRepresentation( ),
 				theXMLTypePackage.getString( ),
-				"dataSetRepresentation", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				BaseSampleData.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dataSetRepresentation", null, 1, 1, BaseSampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dataElementEClass,
 				DataElement.class,
-				"DataElement", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( dataSetEClass,
 				DataSet.class,
-				"DataSet", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDataSet_Values( ),
 				theXMLTypePackage.getAnySimpleType( ),
-				"values", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				DataSet.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"values", null, 1, 1, DataSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dateTimeDataElementEClass,
 				DateTimeDataElement.class,
-				"DateTimeDataElement", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DateTimeDataElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDateTimeDataElement_Value( ),
 				theXMLTypePackage.getLong( ),
-				"value", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				DateTimeDataElement.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, DateTimeDataElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dateTimeDataSetEClass,
 				DateTimeDataSet.class,
-				"DateTimeDataSet", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DateTimeDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( numberDataElementEClass,
 				NumberDataElement.class,
-				"NumberDataElement", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"NumberDataElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getNumberDataElement_Value( ),
 				theXMLTypePackage.getDouble( ),
-				"value", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				NumberDataElement.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, NumberDataElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( numberDataSetEClass,
 				NumberDataSet.class,
-				"NumberDataSet", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"NumberDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( orthogonalSampleDataEClass,
 				OrthogonalSampleData.class,
-				"OrthogonalSampleData", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"OrthogonalSampleData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getOrthogonalSampleData_DataSetRepresentation( ),
 				theXMLTypePackage.getString( ),
-				"dataSetRepresentation", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				OrthogonalSampleData.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dataSetRepresentation", null, 1, 1, OrthogonalSampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getOrthogonalSampleData_SeriesDefinitionIndex( ),
 				theXMLTypePackage.getInt( ),
-				"seriesDefinitionIndex", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				OrthogonalSampleData.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesDefinitionIndex", null, 1, 1, OrthogonalSampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( queryEClass,
 				Query.class,
-				"Query", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Query", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getQuery_Definition( ),
 				theXMLTypePackage.getString( ),
-				"definition", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Query.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"definition", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getQuery_Rules( ),
 				this.getRule( ),
 				null,
-				"rules", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Query.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"rules", null, 1, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( ruleEClass,
 				Rule.class,
-				"Rule", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getRule_Type( ),
 				theAttributePackage.getRuleType( ),
-				"type", //$NON-NLS-1$
-				"Filter", //$NON-NLS-1$
-				1,
-				1,
-				Rule.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Filter", 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getRule_Value( ),
 				theXMLTypePackage.getString( ),
-				"value", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Rule.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( sampleDataEClass,
 				SampleData.class,
-				"SampleData", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"SampleData", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getSampleData_BaseSampleData( ),
 				this.getBaseSampleData( ),
 				null,
-				"baseSampleData", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				SampleData.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"baseSampleData", null, 1, -1, SampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSampleData_OrthogonalSampleData( ),
 				this.getOrthogonalSampleData( ),
 				null,
-				"orthogonalSampleData", //$NON-NLS-1$
+				"orthogonalSampleData", null, 1, -1, SampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getSampleData_AncillarySampleData( ),
+				this.getBaseSampleData( ),
 				null,
-				1,
-				-1,
-				SampleData.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"ancillarySampleData", null, 1, -1, SampleData.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( seriesDefinitionEClass,
 				SeriesDefinition.class,
-				"SeriesDefinition", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"SeriesDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_Query( ),
 				this.getQuery( ),
 				null,
-				"query", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"query", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_SeriesPalette( ),
 				theAttributePackage.getPalette( ),
 				null,
-				"seriesPalette", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesPalette", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_SeriesDefinitions( ),
 				this.getSeriesDefinition( ),
 				null,
-				"seriesDefinitions", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesDefinitions", null, 1, -1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_FormatSpecifier( ),
 				theAttributePackage.getFormatSpecifier( ),
 				null,
-				"formatSpecifier", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"formatSpecifier", null, 1, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_Series( ),
 				theComponentPackage.getSeries( ),
 				null,
-				"series", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"series", null, 1, -1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getSeriesDefinition_Grouping( ),
 				this.getSeriesGrouping( ),
 				null,
-				"grouping", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"grouping", null, 0, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeriesDefinition_Sorting( ),
 				theAttributePackage.getSortOption( ),
-				"sorting", //$NON-NLS-1$
-				"Ascending", //$NON-NLS-1$
-				0,
-				1,
-				SeriesDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"sorting", "Ascending", 0, 1, SeriesDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( seriesGroupingEClass,
 				SeriesGrouping.class,
-				"SeriesGrouping", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"SeriesGrouping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getSeriesGrouping_Enabled( ),
 				theXMLTypePackage.getBoolean( ),
-				"enabled", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"enabled", null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeriesGrouping_GroupingUnit( ),
 				theAttributePackage.getGroupingUnitType( ),
-				"groupingUnit", //$NON-NLS-1$
-				"Seconds", //$NON-NLS-1$
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"groupingUnit", "Seconds", 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getSeriesGrouping_GroupingOrigin( ),
 				this.getDataElement( ),
 				null,
-				"groupingOrigin", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"groupingOrigin", null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeriesGrouping_GroupingInterval( ),
 				theXMLTypePackage.getInt( ),
-				"groupingInterval", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"groupingInterval", null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSeriesGrouping_GroupType( ),
 				theAttributePackage.getDataType( ),
-				"groupType", //$NON-NLS-1$
-				"Numeric", //$NON-NLS-1$
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"groupType", "Numeric", 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getSeriesGrouping_AggregateExpression( ),
 				theXMLTypePackage.getString( ),
-				"aggregateExpression", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesGrouping.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"aggregateExpression", null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( stockDataSetEClass,
 				StockDataSet.class,
-				"StockDataSet", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"StockDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( textDataSetEClass,
 				TextDataSet.class,
-				"TextDataSet", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TextDataSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( triggerEClass,
 				Trigger.class,
-				"Trigger", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Trigger", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getTrigger_Condition( ),
 				theAttributePackage.getTriggerCondition( ),
-				"condition", //$NON-NLS-1$
-				"Mouse_Hover", //$NON-NLS-1$
-				1,
-				1,
-				Trigger.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"condition", "Mouse_Hover", 1, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getTrigger_Action( ),
 				this.getAction( ),
 				null,
-				"action", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Trigger.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"action", null, 1, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1490,164 +1026,216 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( actionEClass, source, new String[]{
-				"name", "Action", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Action", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAction_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAction_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( baseSampleDataEClass, source, new String[]{
-				"name", "BaseSampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "BaseSampleData", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBaseSampleData_DataSetRepresentation( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( dataElementEClass, source, new String[]{
-				"name", "DataElement", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataElement", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dataSetEClass, source, new String[]{
-				"name", "DataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getDataSet_Values( ), source, new String[]{
-				"kind", "element", "name", "Values" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Values" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dateTimeDataElementEClass, source, new String[]{
-				"name", "DateTimeDataElement", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateTimeDataElement", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getDateTimeDataElement_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dateTimeDataSetEClass, source, new String[]{
-				"name", "DateTimeDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateTimeDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( numberDataElementEClass, source, new String[]{
-				"name", "NumberDataElement", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "NumberDataElement", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getNumberDataElement_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( numberDataSetEClass, source, new String[]{
-				"name", "NumberDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "NumberDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( orthogonalSampleDataEClass, source, new String[]{
-				"name", "OrthogonalSampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "OrthogonalSampleData", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getOrthogonalSampleData_DataSetRepresentation( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "DataSetRepresentation" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getOrthogonalSampleData_SeriesDefinitionIndex( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesDefinitionIndex" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SeriesDefinitionIndex" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( queryEClass, source, new String[]{
-				"name", "Query", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Query", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getQuery_Definition( ), source, new String[]{
-				"kind", "element", "name", "Definition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Definition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getQuery_Rules( ), source, new String[]{
-				"kind", "element", "name", "Rules" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Rules" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( ruleEClass, source, new String[]{
-				"name", "Rule", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Rule", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getRule_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getRule_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( sampleDataEClass, source, new String[]{
-				"name", "SampleData", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SampleData", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSampleData_BaseSampleData( ), source, new String[]{
-				"kind", "element", "name", "BaseSampleData" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BaseSampleData" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSampleData_OrthogonalSampleData( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "OrthogonalSampleData" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "OrthogonalSampleData" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getSampleData_AncillarySampleData( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "AncillarySampleData" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( seriesDefinitionEClass, source, new String[]{
-				"name", "SeriesDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SeriesDefinition", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesDefinition_Query( ), source, new String[]{
-				"kind", "element", "name", "Query" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Query" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesDefinition_SeriesPalette( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesPalette" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SeriesPalette" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getSeriesDefinition_SeriesDefinitions( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SeriesDefinitions" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getSeriesDefinition_FormatSpecifier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getSeriesDefinition_Series( ), source, new String[]{
-				"kind", "element", "name", "Series" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Series" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesDefinition_Grouping( ), source, new String[]{
-				"kind", "element", "name", "Grouping" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Grouping" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesDefinition_Sorting( ), source, new String[]{
-				"kind", "element", "name", "Sorting" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Sorting" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( seriesGroupingEClass, source, new String[]{
-				"name", "SeriesGrouping", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "SeriesGrouping", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesGrouping_Enabled( ), source, new String[]{
-				"kind", "element", "name", "Enabled" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Enabled" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesGrouping_GroupingUnit( ), source, new String[]{
-				"kind", "element", "name", "GroupingUnit" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "GroupingUnit" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesGrouping_GroupingOrigin( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "GroupingOrigin" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "GroupingOrigin" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getSeriesGrouping_GroupingInterval( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "GroupingInterval" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "GroupingInterval" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getSeriesGrouping_GroupType( ), source, new String[]{
-				"kind", "element", "name", "GroupType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "GroupType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getSeriesGrouping_AggregateExpression( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "AggregateExpression" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "AggregateExpression" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( stockDataSetEClass, source, new String[]{
-				"name", "StockDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "StockDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( textDataSetEClass, source, new String[]{
-				"name", "TextDataSet", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TextDataSet", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( triggerEClass, source, new String[]{
-				"name", "Trigger", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Trigger", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getTrigger_Condition( ), source, new String[]{
-				"kind", "element", "name", "Condition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Condition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getTrigger_Action( ), source, new String[]{
-				"kind", "element", "name", "Action" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Action" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

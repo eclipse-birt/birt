@@ -25,21 +25,18 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues <em>Values</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl#getValues <em>Values</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DataSetImpl extends EObjectImpl implements DataSet
 {
 
 	/**
-	 * The default value of the '{@link #getValues() <em>Values</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValues() <em>Values</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -47,9 +44,8 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 	protected static final Object VALUES_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getValues() <em>Values</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValues() <em>Values</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValues()
 	 * @generated
 	 * @ordered
@@ -58,7 +54,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DataSetImpl( )
@@ -68,7 +63,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -78,7 +72,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object getValues( )
@@ -88,7 +81,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValues( Object newValues )
@@ -105,7 +97,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -120,7 +111,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -136,7 +126,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -152,7 +141,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -168,7 +156,6 @@ public class DataSetImpl extends EObjectImpl implements DataSet
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

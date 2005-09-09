@@ -40,7 +40,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
@@ -48,42 +47,36 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass blockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass clientAreaEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass labelBlockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass legendEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass plotEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass titleBlockEClass = null;
@@ -110,27 +103,26 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -186,7 +178,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getBlock( )
@@ -196,7 +187,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Children( )
@@ -206,7 +196,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Bounds( )
@@ -216,7 +205,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Anchor( )
@@ -226,7 +214,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Stretch( )
@@ -236,7 +223,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Insets( )
@@ -246,7 +232,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Row( )
@@ -256,7 +241,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Column( )
@@ -266,7 +250,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Rowspan( )
@@ -276,7 +259,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Columnspan( )
@@ -286,7 +268,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_MinSize( )
@@ -296,7 +277,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Outline( )
@@ -306,7 +286,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Background( )
@@ -316,7 +295,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBlock_Visible( )
@@ -326,7 +304,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBlock_Triggers( )
@@ -336,7 +313,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getClientArea( )
@@ -346,7 +322,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getClientArea_Background( )
@@ -356,7 +331,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getClientArea_Outline( )
@@ -366,7 +340,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getClientArea_ShadowColor( )
@@ -376,7 +349,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getClientArea_Insets( )
@@ -386,7 +358,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLabelBlock( )
@@ -396,7 +367,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLabelBlock_Label( )
@@ -406,7 +376,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLegend( )
@@ -416,7 +385,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_HorizontalSpacing( )
@@ -426,7 +394,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_VerticalSpacing( )
@@ -436,7 +403,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLegend_ClientArea( )
@@ -446,7 +412,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLegend_Text( )
@@ -456,7 +421,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_Orientation( )
@@ -466,7 +430,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_Direction( )
@@ -476,7 +439,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLegend_Separator( )
@@ -486,7 +448,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_Position( )
@@ -496,7 +457,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_ItemType( )
@@ -506,7 +466,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLegend_Title( )
@@ -516,7 +475,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLegend_TitlePosition( )
@@ -525,8 +483,37 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLegend_ShowValue( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 11 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLegend_ShowPercent( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 12 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLegend_ShowTotal( )
+	{
+		return (EAttribute) legendEClass.getEStructuralFeatures( ).get( 13 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getPlot( )
@@ -536,7 +523,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPlot_HorizontalSpacing( )
@@ -546,7 +532,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPlot_VerticalSpacing( )
@@ -556,7 +541,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getPlot_ClientArea( )
@@ -566,7 +550,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTitleBlock( )
@@ -576,7 +559,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LayoutFactory getLayoutFactory( )
@@ -586,16 +568,15 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -642,6 +623,9 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEAttribute( legendEClass, LEGEND__ITEM_TYPE );
 		createEReference( legendEClass, LEGEND__TITLE );
 		createEAttribute( legendEClass, LEGEND__TITLE_POSITION );
+		createEAttribute( legendEClass, LEGEND__SHOW_VALUE );
+		createEAttribute( legendEClass, LEGEND__SHOW_PERCENT );
+		createEAttribute( legendEClass, LEGEND__SHOW_TOTAL );
 
 		plotEClass = createEClass( PLOT );
 		createEAttribute( plotEClass, PLOT__HORIZONTAL_SPACING );
@@ -653,7 +637,6 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -691,574 +674,152 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		// Initialize classes and features; add operations and parameters
 		initEClass( blockEClass,
 				Block.class,
-				"Block", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Block", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getBlock_Children( ),
 				this.getBlock( ),
 				null,
-				"children", //$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"children", null, 1, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Bounds( ),
 				theAttributePackage.getBounds( ),
 				null,
-				"bounds", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"bounds", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Anchor( ),
 				theAttributePackage.getAnchor( ),
-				"anchor", //$NON-NLS-1$
-				"North", //$NON-NLS-1$
-				0,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"anchor", "North", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getBlock_Stretch( ),
 				theAttributePackage.getStretch( ),
-				"stretch", //$NON-NLS-1$
-				"Horizontal", //$NON-NLS-1$
-				0,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"stretch", "Horizontal", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getBlock_Insets( ),
 				theAttributePackage.getInsets( ),
 				null,
-				"insets", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"insets", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Row( ),
 				theXMLTypePackage.getInt( ),
-				"row", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"row", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Column( ),
 				theXMLTypePackage.getInt( ),
-				"column", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"column", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Rowspan( ),
 				theXMLTypePackage.getInt( ),
-				"rowspan", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"rowspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Columnspan( ),
 				theXMLTypePackage.getInt( ),
-				"columnspan", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"columnspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_MinSize( ),
 				theAttributePackage.getSize( ),
 				null,
-				"minSize", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"minSize", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Outline( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"outline", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"outline", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Background( ),
 				theAttributePackage.getFill( ),
 				null,
-				"background", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"background", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"visible", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Triggers( ),
 				theDataPackage.getTrigger( ),
 				null,
-				"triggers", //$NON-NLS-1$
-				null,
-				0,
-				-1,
-				Block.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"triggers", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( clientAreaEClass,
 				ClientArea.class,
-				"ClientArea", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ClientArea", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getClientArea_Background( ),
 				theAttributePackage.getFill( ),
 				null,
-				"background", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ClientArea.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"background", null, 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getClientArea_Outline( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"outline", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ClientArea.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"outline", null, 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getClientArea_ShadowColor( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
-				"shadowColor", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ClientArea.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"shadowColor", null, 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getClientArea_Insets( ),
 				theAttributePackage.getInsets( ),
 				null,
-				"insets", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				ClientArea.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"insets", null, 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( labelBlockEClass,
 				LabelBlock.class,
-				"LabelBlock", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LabelBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getLabelBlock_Label( ),
 				theComponentPackage.getLabel( ),
 				null,
-				"label", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				LabelBlock.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"label", null, 0, 1, LabelBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( legendEClass,
 				Legend.class,
-				"Legend", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Legend", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getLegend_HorizontalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"horizontalSpacing", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"horizontalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_VerticalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"verticalSpacing", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"verticalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLegend_ClientArea( ),
 				this.getClientArea( ),
 				null,
-				"clientArea", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"clientArea", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLegend_Text( ),
 				theAttributePackage.getText( ),
 				null,
-				"text", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"text", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Orientation( ),
 				theAttributePackage.getOrientation( ),
-				"orientation", //$NON-NLS-1$
-				"Horizontal", //$NON-NLS-1$
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"orientation", "Horizontal", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLegend_Direction( ),
 				theAttributePackage.getDirection( ),
-				"direction", //$NON-NLS-1$
-				"Left_Right", //$NON-NLS-1$
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"direction", "Left_Right", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getLegend_Separator( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"separator", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"separator", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Position( ),
 				theAttributePackage.getPosition( ),
-				"position", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"position", "Above", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLegend_ItemType( ),
 				theAttributePackage.getLegendItemType( ),
-				"itemType", //$NON-NLS-1$
-				"Series", //$NON-NLS-1$
-				1,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"itemType", "Series", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getLegend_Title( ),
 				theComponentPackage.getLabel( ),
 				null,
-				"title", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"title", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				0,
-				1,
-				Legend.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"titlePosition", "Above", 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getLegend_ShowValue( ),
+				theXMLTypePackage.getBoolean( ),
+				"showValue", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getLegend_ShowPercent( ),
+				theXMLTypePackage.getBoolean( ),
+				"showPercent", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getLegend_ShowTotal( ),
+				theXMLTypePackage.getBoolean( ),
+				"showTotal", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( plotEClass,
 				Plot.class,
-				"Plot", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Plot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getPlot_HorizontalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"horizontalSpacing", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Plot.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"horizontalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPlot_VerticalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"verticalSpacing", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Plot.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"verticalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPlot_ClientArea( ),
 				this.getClientArea( ),
 				null,
-				"clientArea", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				Plot.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"clientArea", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( titleBlockEClass,
 				TitleBlock.class,
-				"TitleBlock", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TitleBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1277,123 +838,174 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( blockEClass, source, new String[]{
-				"name", "Block", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Block", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Children( ), source, new String[]{
-				"kind", "element", "name", "Children" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Children" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Bounds( ), source, new String[]{
-				"kind", "element", "name", "Bounds" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Bounds" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Anchor( ), source, new String[]{
-				"kind", "element", "name", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Stretch( ), source, new String[]{
-				"kind", "element", "name", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Insets( ), source, new String[]{
-				"kind", "element", "name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Row( ), source, new String[]{
-				"kind", "element", "name", "Row" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Row" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Column( ), source, new String[]{
-				"kind", "element", "name", "Column" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Column" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Rowspan( ), source, new String[]{
-				"kind", "element", "name", "Rowspan" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Rowspan" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Columnspan( ), source, new String[]{
-				"kind", "element", "name", "Columnspan" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Columnspan" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_MinSize( ), source, new String[]{
-				"kind", "element", "name", "MinSize" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "MinSize" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Background( ), source, new String[]{
-				"kind", "element", "name", "Background" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Background" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBlock_Triggers( ), source, new String[]{
-				"kind", "element", "name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Triggers" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( clientAreaEClass, source, new String[]{
-				"name", "ClientArea", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ClientArea", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getClientArea_Background( ), source, new String[]{
-				"kind", "element", "name", "Background" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Background" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getClientArea_Outline( ), source, new String[]{
-				"kind", "element", "name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Outline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getClientArea_ShadowColor( ), source, new String[]{
-				"kind", "element", "name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getClientArea_Insets( ), source, new String[]{
-				"kind", "element", "name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( labelBlockEClass, source, new String[]{
-				"name", "LabelBlock", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LabelBlock", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLabelBlock_Label( ), source, new String[]{
-				"kind", "element", "name", "Label" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Label" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( legendEClass, source, new String[]{
-				"name", "Legend", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Legend", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_HorizontalSpacing( ), source, new String[]{
-				"kind", "element", "name", "HorizontalSpacing" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "HorizontalSpacing" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_VerticalSpacing( ), source, new String[]{
-				"kind", "element", "name", "VerticalSpacing" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "VerticalSpacing" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_ClientArea( ), source, new String[]{
-				"kind", "element", "name", "ClientArea" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ClientArea" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Text( ), source, new String[]{
-				"kind", "element", "name", "Text" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Text" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Orientation( ), source, new String[]{
-				"kind", "element", "name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Direction( ), source, new String[]{
-				"kind", "element", "name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Separator( ), source, new String[]{
-				"kind", "element", "name", "Separator" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Separator" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Position( ), source, new String[]{
-				"kind", "element", "name", "Position" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Position" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_ItemType( ), source, new String[]{
-				"kind", "element", "name", "ItemType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ItemType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_Title( ), source, new String[]{
-				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Title" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLegend_TitlePosition( ), source, new String[]{
-				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLegend_ShowValue( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShowValue" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLegend_ShowPercent( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShowPercent" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLegend_ShowTotal( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShowTotal" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( plotEClass, source, new String[]{
-				"name", "Plot", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Plot", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPlot_HorizontalSpacing( ), source, new String[]{
-				"kind", "element", "name", "HorizontalSpacing" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "HorizontalSpacing" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPlot_VerticalSpacing( ), source, new String[]{
-				"kind", "element", "name", "VerticalSpacing" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "VerticalSpacing" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPlot_ClientArea( ), source, new String[]{
-				"kind", "element", "name", "ClientArea" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ClientArea" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( titleBlockEClass, source, new String[]{
-				"name", "TitleBlock", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "TitleBlock", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

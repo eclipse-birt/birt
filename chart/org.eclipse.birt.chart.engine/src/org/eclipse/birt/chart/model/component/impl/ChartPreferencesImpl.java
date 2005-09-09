@@ -65,29 +65,31 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ChartPreferencesImpl()
+	protected ChartPreferencesImpl( )
 	{
-		super();
+		super( );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EClass eStaticClass()
+	protected EClass eStaticClass( )
 	{
-		return ComponentPackage.eINSTANCE.getChartPreferences();
+		return ComponentPackage.eINSTANCE.getChartPreferences( );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getLabels()
+	public EList getLabels( )
 	{
-		if (labels == null)
+		if ( labels == null )
 		{
-			labels = new EObjectContainmentEList(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
+			labels = new EObjectContainmentEList( Label.class,
+					this,
+					ComponentPackage.CHART_PREFERENCES__LABELS );
 		}
 		return labels;
 	}
@@ -96,11 +98,13 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getBlocks()
+	public EList getBlocks( )
 	{
-		if (blocks == null)
+		if ( blocks == null )
 		{
-			blocks = new EObjectContainmentEList(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
+			blocks = new EObjectContainmentEList( Block.class,
+					this,
+					ComponentPackage.CHART_PREFERENCES__BLOCKS );
 		}
 		return blocks;
 	}
@@ -109,91 +113,97 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, Class baseClass, NotificationChain msgs )
 	{
-		if (featureID >= 0)
+		if ( featureID >= 0 )
 		{
-			switch (eDerivedStructuralFeatureID(featureID, baseClass))
+			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
 			{
-				case ComponentPackage.CHART_PREFERENCES__LABELS:
-					return ((InternalEList)getLabels()).basicRemove(otherEnd, msgs);
-				case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-					return ((InternalEList)getBlocks()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+				case ComponentPackage.CHART_PREFERENCES__LABELS :
+					return ( (InternalEList) getLabels( ) ).basicRemove( otherEnd,
+							msgs );
+				case ComponentPackage.CHART_PREFERENCES__BLOCKS :
+					return ( (InternalEList) getBlocks( ) ).basicRemove( otherEnd,
+							msgs );
+				default :
+					return eDynamicInverseRemove( otherEnd,
+							featureID,
+							baseClass,
+							msgs );
 			}
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return eBasicSetContainer( null, featureID, msgs );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve)
+	public Object eGet( EStructuralFeature eFeature, boolean resolve )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS:
-				return getLabels();
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-				return getBlocks();
+			case ComponentPackage.CHART_PREFERENCES__LABELS :
+				return getLabels( );
+			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
+				return getBlocks( );
 		}
-		return eDynamicGet(eFeature, resolve);
+		return eDynamicGet( eFeature, resolve );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue)
+	public void eSet( EStructuralFeature eFeature, Object newValue )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS:
-				getLabels().clear();
-				getLabels().addAll((Collection)newValue);
+			case ComponentPackage.CHART_PREFERENCES__LABELS :
+				getLabels( ).clear( );
+				getLabels( ).addAll( (Collection) newValue );
 				return;
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-				getBlocks().clear();
-				getBlocks().addAll((Collection)newValue);
+			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
+				getBlocks( ).clear( );
+				getBlocks( ).addAll( (Collection) newValue );
 				return;
 		}
-		eDynamicSet(eFeature, newValue);
+		eDynamicSet( eFeature, newValue );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eUnset(EStructuralFeature eFeature)
+	public void eUnset( EStructuralFeature eFeature )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS:
-				getLabels().clear();
+			case ComponentPackage.CHART_PREFERENCES__LABELS :
+				getLabels( ).clear( );
 				return;
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-				getBlocks().clear();
+			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
+				getBlocks( ).clear( );
 				return;
 		}
-		eDynamicUnset(eFeature);
+		eDynamicUnset( eFeature );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature)
+	public boolean eIsSet( EStructuralFeature eFeature )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS:
-				return labels != null && !labels.isEmpty();
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS:
-				return blocks != null && !blocks.isEmpty();
+			case ComponentPackage.CHART_PREFERENCES__LABELS :
+				return labels != null && !labels.isEmpty( );
+			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
+				return blocks != null && !blocks.isEmpty( );
 		}
-		return eDynamicIsSet(eFeature);
+		return eDynamicIsSet( eFeature );
 	}
 
 } // ChartPreferencesImpl

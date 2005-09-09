@@ -25,15 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl#getSeriesDefinitionIndex <em>Series Definition Index</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl#getSeriesDefinitionIndex <em>Series Definition Index</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class OrthogonalSampleDataImpl extends EObjectImpl implements
@@ -41,10 +37,8 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 {
 
 	/**
-	 * The default value of the '
-	 * {@link #getDataSetRepresentation() <em>Data Set Representation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDataSetRepresentation() <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -52,10 +46,8 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	protected static final String DATA_SET_REPRESENTATION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getDataSetRepresentation() <em>Data Set Representation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDataSetRepresentation() <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -63,10 +55,8 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	protected String dataSetRepresentation = DATA_SET_REPRESENTATION_EDEFAULT;
 
 	/**
-	 * The default value of the '
-	 * {@link #getSeriesDefinitionIndex() <em>Series Definition Index</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSeriesDefinitionIndex() <em>Series Definition Index</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesDefinitionIndex()
 	 * @generated
 	 * @ordered
@@ -74,10 +64,8 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 	protected static final int SERIES_DEFINITION_INDEX_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesDefinitionIndex() <em>Series Definition Index</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesDefinitionIndex() <em>Series Definition Index</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesDefinitionIndex()
 	 * @generated
 	 * @ordered
@@ -95,7 +83,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected OrthogonalSampleDataImpl( )
@@ -105,7 +92,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -115,7 +101,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getDataSetRepresentation( )
@@ -125,7 +110,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDataSetRepresentation( String newDataSetRepresentation )
@@ -142,7 +126,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getSeriesDefinitionIndex( )
@@ -152,7 +135,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSeriesDefinitionIndex( int newSeriesDefinitionIndex )
@@ -172,7 +154,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetSeriesDefinitionIndex( )
@@ -192,7 +173,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetSeriesDefinitionIndex( )
@@ -202,7 +182,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -219,7 +198,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -238,7 +216,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -257,7 +234,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -275,7 +251,6 @@ public class OrthogonalSampleDataImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

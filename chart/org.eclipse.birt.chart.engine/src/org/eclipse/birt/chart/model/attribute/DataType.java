@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DataType.java,v 1.1 2005/04/26 19:44:08 mpadhye Exp $
+ * $Id: DataType.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -31,9 +31,9 @@ public final class DataType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Numeric</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Numeric</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NUMERIC_LITERAL
 	 * @model name="Numeric"
 	 * @generated
@@ -42,9 +42,9 @@ public final class DataType extends AbstractEnumerator
 	public static final int NUMERIC = 0;
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="DateTime"
 	 * @generated
@@ -53,9 +53,9 @@ public final class DataType extends AbstractEnumerator
 	public static final int DATE_TIME = 1;
 
 	/**
-	 * The '<em><b>Text</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Text</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TEXT_LITERAL
 	 * @model name="Text"
 	 * @generated
@@ -64,14 +64,14 @@ public final class DataType extends AbstractEnumerator
 	public static final int TEXT = 2;
 
 	/**
-	 * The '<em><b>Numeric</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Numeric</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Numeric</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NUMERIC
 	 * @generated
 	 * @ordered
@@ -80,14 +80,14 @@ public final class DataType extends AbstractEnumerator
 			"Numeric" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -96,13 +96,13 @@ public final class DataType extends AbstractEnumerator
 			"DateTime" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Text</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Text</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TEXT
 	 * @generated
 	 * @ordered
@@ -120,17 +120,15 @@ public final class DataType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Data Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Data Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Data Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Data Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DataType get( String name )
@@ -147,9 +145,8 @@ public final class DataType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Data Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Data Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DataType get( int value )
@@ -167,9 +164,9 @@ public final class DataType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private DataType( int value, String name )

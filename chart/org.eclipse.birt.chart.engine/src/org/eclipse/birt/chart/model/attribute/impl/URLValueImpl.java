@@ -25,33 +25,22 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseUrl <em>Base Url</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class URLValueImpl extends ActionValueImpl implements URLValue
 {
 
 	/**
-	 * The default value of the '{@link #getBaseUrl() <em>Base Url</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -59,9 +48,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String BASE_URL_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getBaseUrl() <em>Base Url</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getBaseUrl() <em>Base Url</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBaseUrl()
 	 * @generated
 	 * @ordered
@@ -69,9 +57,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String baseUrl = BASE_URL_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getTarget() <em>Target</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTarget() <em>Target</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -79,9 +66,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String TARGET_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getTarget() <em>Target</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTarget() <em>Target</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTarget()
 	 * @generated
 	 * @ordered
@@ -89,10 +75,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String target = TARGET_EDEFAULT;
 
 	/**
-	 * The default value of the '
-	 * {@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
+	 * The default value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -100,10 +84,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String BASE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
+	 * The cached value of the '{@link #getBaseParameterName() <em>Base Parameter Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBaseParameterName()
 	 * @generated
 	 * @ordered
@@ -111,10 +93,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String baseParameterName = BASE_PARAMETER_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '
-	 * {@link #getValueParameterName() <em>Value Parameter Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -122,10 +102,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String VALUE_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getValueParameterName() <em>Value Parameter Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValueParameterName() <em>Value Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValueParameterName()
 	 * @generated
 	 * @ordered
@@ -133,10 +111,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected String valueParameterName = VALUE_PARAMETER_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '
-	 * {@link #getSeriesParameterName() <em>Series Parameter Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSeriesParameterName() <em>Series Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesParameterName()
 	 * @generated
 	 * @ordered
@@ -144,10 +120,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	protected static final String SERIES_PARAMETER_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getSeriesParameterName() <em>Series Parameter Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeriesParameterName() <em>Series Parameter Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeriesParameterName()
 	 * @generated
 	 * @ordered
@@ -156,7 +130,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected URLValueImpl( )
@@ -166,7 +139,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -176,7 +148,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getBaseUrl( )
@@ -186,7 +157,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBaseUrl( String newBaseUrl )
@@ -203,7 +173,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getTarget( )
@@ -213,7 +182,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTarget( String newTarget )
@@ -230,7 +198,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getBaseParameterName( )
@@ -240,7 +207,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBaseParameterName( String newBaseParameterName )
@@ -257,7 +223,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getValueParameterName( )
@@ -267,7 +232,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValueParameterName( String newValueParameterName )
@@ -284,7 +248,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getSeriesParameterName( )
@@ -294,7 +257,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSeriesParameterName( String newSeriesParameterName )
@@ -311,7 +273,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -334,7 +295,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -362,7 +322,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -390,7 +349,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -418,7 +376,6 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -467,7 +424,7 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private static final char cEncode = '%';
 
@@ -779,4 +736,4 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 		return sb.toString( );
 	}
 
-} //URLValueImpl
+} // URLValueImpl

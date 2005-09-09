@@ -149,6 +149,11 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="Rotation" type="attribute:Angle3D" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the rotation angle by three directions for the chart. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -183,6 +188,20 @@
 					<xsd:element name="MinSliceLabel" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>Defines the label for MinSlice</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--	Dial Chart-->
+	<xsd:complexType name="DialChart">
+		<xsd:complexContent>
+			<xsd:extension base="ChartWithoutAxes">
+				<xsd:sequence>
+					<xsd:element name="DialSuperimposition" type="xsd:boolean" default="true" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>If true, all dials are superimposed, otherwise they are rendered next to each other.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>

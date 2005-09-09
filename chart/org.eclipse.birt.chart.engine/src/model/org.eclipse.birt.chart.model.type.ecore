@@ -44,6 +44,33 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DialSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="DialSeries"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dial" lowerBound="1" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Dial"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the Dial for this series"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Dial"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="needle" lowerBound="1"
+        eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Needle"
+        containment="true" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines the needle to be used in the Dial"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Needle"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LineSeries" eSuperTypes="org.eclipse.birt.chart.model.component.ecore#//Series">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This is a Series type that holds data for Line Charts.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -125,7 +152,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="explosionExpression" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" unsettable="true">
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies an expression to determine if the explosion will be applied to each slice."/>
       </eAnnotations>

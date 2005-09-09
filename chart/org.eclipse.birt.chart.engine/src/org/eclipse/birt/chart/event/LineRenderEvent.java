@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * LineRenderEvent
  */
-public final class LineRenderEvent extends PrimitiveRenderEvent
+public class LineRenderEvent extends PrimitiveRenderEvent
 {
 
 	/**
@@ -34,7 +34,7 @@ public final class LineRenderEvent extends PrimitiveRenderEvent
 
 	private Location loEnd;
 
-	private LineAttributes lia;
+	protected LineAttributes lia;
 
 	/**
 	 * @param oSource
@@ -99,7 +99,7 @@ public final class LineRenderEvent extends PrimitiveRenderEvent
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public final Bounds getBounds( )
 	{
@@ -115,7 +115,7 @@ public final class LineRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public final PrimitiveRenderEvent copy( )
+	public PrimitiveRenderEvent copy( )
 	{
 		LineRenderEvent lre = new LineRenderEvent( source );
 		if ( lia != null )
@@ -133,6 +133,16 @@ public final class LineRenderEvent extends PrimitiveRenderEvent
 			lre.setEnd( (Location) EcoreUtil.copy( loEnd ) );
 		}
 		return lre;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void fill( IDeviceRenderer idr ) throws ChartException
+	{
+		draw( idr );
 	}
 
 	/*

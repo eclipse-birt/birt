@@ -47,6 +47,14 @@ public abstract class PrimitiveRenderEvent extends EventObject implements
 	}
 
 	/**
+	 * Resets all fields to default value.
+	 */
+	public void reset( )
+	{
+
+	}
+
+	/**
 	 * 
 	 * @return
 	 * @throws UnsupportedFeatureException

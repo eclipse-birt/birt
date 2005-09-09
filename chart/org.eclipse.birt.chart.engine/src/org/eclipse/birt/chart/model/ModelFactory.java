@@ -19,14 +19,15 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.birt.chart.model.ModelPackage
  * @generated
  */
-public interface ModelFactory extends EFactory{
+public interface ModelFactory extends EFactory
+{
 
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    ModelFactory eINSTANCE = new org.eclipse.birt.chart.model.impl.ModelFactoryImpl();
+	ModelFactory eINSTANCE = new org.eclipse.birt.chart.model.impl.ModelFactoryImpl( );
 
 	/**
 	 * Returns a new object of class '<em>Chart</em>'.
@@ -34,7 +35,7 @@ public interface ModelFactory extends EFactory{
 	 * @return a new object of class '<em>Chart</em>'.
 	 * @generated
 	 */
-    Chart createChart();
+	Chart createChart( );
 
 	/**
 	 * Returns a new object of class '<em>Chart With Axes</em>'.
@@ -42,7 +43,7 @@ public interface ModelFactory extends EFactory{
 	 * @return a new object of class '<em>Chart With Axes</em>'.
 	 * @generated
 	 */
-    ChartWithAxes createChartWithAxes();
+	ChartWithAxes createChartWithAxes( );
 
 	/**
 	 * Returns a new object of class '<em>Chart Without Axes</em>'.
@@ -50,7 +51,16 @@ public interface ModelFactory extends EFactory{
 	 * @return a new object of class '<em>Chart Without Axes</em>'.
 	 * @generated
 	 */
-    ChartWithoutAxes createChartWithoutAxes();
+	ChartWithoutAxes createChartWithoutAxes( );
+
+	/**
+	 * Returns a new object of class '<em>Dial Chart</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Dial Chart</em>'.
+	 * @generated
+	 */
+	DialChart createDialChart( );
 
 	/**
 	 * Returns the package supported by this factory.
@@ -58,6 +68,6 @@ public interface ModelFactory extends EFactory{
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-    ModelPackage getModelPackage();
+	ModelPackage getModelPackage( );
 
 } //ModelFactory

@@ -11,19 +11,22 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * ArcRenderEvent
  */
 public final class ArcRenderEvent extends PrimitiveRenderEvent
 {
-	
+
 	private static final long serialVersionUID = -8516218845415390970L;
 
 	private Location loTopLeft = null;
@@ -35,6 +38,10 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
 	private double dStartInDegrees;
 
 	private double dExtentInDegrees;
+
+	private double dInnerRadius;
+
+	private double dOuterRadius;
 
 	private LineAttributes outline;
 
@@ -54,6 +61,25 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
 	public ArcRenderEvent( Object oSource )
 	{
 		super( oSource );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
+	 */
+	public void reset( )
+	{
+		loTopLeft = null;
+		dWidth = 0;
+		dHeight = 0;
+		dStartInDegrees = 0;
+		dExtentInDegrees = 0;
+		dInnerRadius = 0;
+		dOuterRadius = 0;
+		outline = null;
+		ifBackground = null;
+		iStyle = SECTOR;
 	}
 
 	/**
@@ -309,78 +335,6 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
 			return 4;
 	}
 
-	//	/**
-	//	 *
-	//	 * @param angle
-	//	 * @return
-	//	 */
-	//	private final boolean containsAngle( double angle )
-	//	{
-	//		double angExt = getAngleExtent( );
-	//		boolean backwards = ( angExt < 0.0 );
-	//		if ( backwards )
-	//		{
-	//			angExt = -angExt;
-	//		}
-	//		if ( angExt >= 360.0 )
-	//		{
-	//			return true;
-	//		}
-	//		angle = normalizeDegrees( angle ) - normalizeDegrees( getStartAngle( ) );
-	//		if ( backwards )
-	//		{
-	//			angle = -angle;
-	//		}
-	//		if ( angle < 0.0 )
-	//		{
-	//			angle += 360.0;
-	//		}
-	//
-	//		return ( angle >= 0.0 ) && ( angle < angExt );
-	//	}
-
-	//	/**
-	//	 *
-	//	 * @param angle
-	//	 * @return
-	//	 */
-	//	private static double normalizeDegrees( double angle )
-	//	{
-	//		if ( angle > 180.0 )
-	//		{
-	//			if ( angle <= ( 180.0 + 360.0 ) )
-	//			{
-	//				angle = angle - 360.0;
-	//			}
-	//			else
-	//			{
-	//				angle = Math.IEEEremainder( angle, 360.0 );
-	//				// IEEEremainder can return -180 here for some input values...
-	//				if ( angle == -180.0 )
-	//				{
-	//					angle = 180.0;
-	//				}
-	//			}
-	//		}
-	//		else if ( angle <= -180.0 )
-	//		{
-	//			if ( angle > ( -180.0 - 360.0 ) )
-	//			{
-	//				angle = angle + 360.0;
-	//			}
-	//			else
-	//			{
-	//				angle = Math.IEEEremainder( angle, 360.0 );
-	//				// IEEEremainder can return -180 here for some input values...
-	//				if ( angle == -180.0 )
-	//				{
-	//					angle = 180.0;
-	//				}
-	//			}
-	//		}
-	//		return angle;
-	//	}
-
 	/**
 	 * @return Returns the outline.
 	 */
@@ -396,5 +350,79 @@ public final class ArcRenderEvent extends PrimitiveRenderEvent
 	public final void setOutline( LineAttributes outline )
 	{
 		this.outline = outline;
+	}
+
+	public double getInnerRadius( )
+	{
+		return dInnerRadius;
+	}
+
+	public void setInnerRadius( double innerRadius )
+	{
+		dInnerRadius = innerRadius;
+	}
+
+	public double getOuterRadius( )
+	{
+		return dOuterRadius;
+	}
+
+	public void setOuterRadius( double outerRadius )
+	{
+		dOuterRadius = outerRadius;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
+	 */
+	public PrimitiveRenderEvent copy( ) throws ChartException
+	{
+		ArcRenderEvent are = new ArcRenderEvent( source );
+		if ( outline != null )
+		{
+			are.setOutline( (LineAttributes) EcoreUtil.copy( outline ) );
+		}
+
+		if ( ifBackground != null )
+		{
+			are.setBackground( (Fill) EcoreUtil.copy( ifBackground ) );
+		}
+
+		if ( loTopLeft != null )
+		{
+			are.setTopLeft( (Location) EcoreUtil.copy( loTopLeft ) );
+		}
+
+		are.setStyle( iStyle );
+		are.setWidth( dWidth );
+		are.setHeight( dHeight );
+		are.setStartAngle( dStartInDegrees );
+		are.setEndAngle( dExtentInDegrees );
+		are.setInnerRadius( dInnerRadius );
+		are.setOuterRadius( dOuterRadius );
+
+		return are;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void draw( IDeviceRenderer idr ) throws ChartException
+	{
+		idr.drawArc( this );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 */
+	public void fill( IDeviceRenderer idr ) throws ChartException
+	{
+		idr.fillArc( this );
 	}
 }

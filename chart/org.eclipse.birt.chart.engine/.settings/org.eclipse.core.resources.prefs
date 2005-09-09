@@ -1,6 +1,9 @@
-#Mon Aug 08 14:47:12 GMT+08:00 2005
+#Tue Aug 23 09:43:10 GMT+08:00 2005
 eclipse.preferences.version=1
 encoding//src/org/eclipse/birt/chart/engine/i18n/messages.properties=8859_1
+encoding//xsd/attribute.xsd=UTF8
 encoding//xsd/component.xsd=UTF8
+encoding//xsd/data.xsd=UTF8
 encoding//xsd/layout.xsd=UTF8
+encoding//xsd/model.xsd=UTF8
 encoding//xsd/type.xsd=UTF8

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
 <xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
@@ -380,7 +381,6 @@
 			<xsd:enumeration value="Centimeters"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-
 	<xsd:complexType name="ActionValue">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
@@ -554,6 +554,30 @@
 		<xsd:sequence>
 			<xsd:element name="x" type="xsd:double"/>
 			<xsd:element name="y" type="xsd:double"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Location3D">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the location of an element using a 3D coordinate.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Location">
+				<xsd:sequence>
+					<xsd:element name="z" type="xsd:double"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Angle3D">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the angle of three directions.		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="XAngle" type="xsd:double"/>
+			<xsd:element name="YAngle" type="xsd:double"/>
+			<xsd:element name="ZAngle" type="xsd:double"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:simpleType name="ID">
@@ -1223,4 +1247,15 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:simpleType name="LineDecorator">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type represents the possible line head decorators.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Arrow"/>
+			<xsd:enumeration value="Circle"/>
+			<xsd:enumeration value="None"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 </xsd:schema>

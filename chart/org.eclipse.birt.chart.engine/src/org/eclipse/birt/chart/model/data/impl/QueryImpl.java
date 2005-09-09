@@ -34,24 +34,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class QueryImpl extends EObjectImpl implements Query
 {
 
 	/**
-	 * The default value of the '{@link #getDefinition() <em>Definition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDefinition() <em>Definition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -59,9 +54,8 @@ public class QueryImpl extends EObjectImpl implements Query
 	protected static final String DEFINITION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDefinition() <em>Definition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDefinition()
 	 * @generated
 	 * @ordered
@@ -69,9 +63,8 @@ public class QueryImpl extends EObjectImpl implements Query
 	protected String definition = DEFINITION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRules() <em>Rules</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRules()
 	 * @generated
 	 * @ordered
@@ -80,7 +73,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected QueryImpl( )
@@ -90,7 +82,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -100,7 +91,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getDefinition( )
@@ -110,7 +100,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDefinition( String newDefinition )
@@ -127,7 +116,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getRules( )
@@ -143,7 +131,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -168,7 +155,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -185,7 +171,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -205,7 +190,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -224,7 +208,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -242,7 +225,6 @@ public class QueryImpl extends EObjectImpl implements Query
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

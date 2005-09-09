@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.util;
 
+import org.eclipse.birt.chart.model.*;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -34,16 +36,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected static ModelPackage modelPackage;
+	protected static ModelPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    public ModelAdapterFactory()
+	public ModelAdapterFactory( )
 	{
-		if (modelPackage == null)
+		if ( modelPackage == null )
 		{
 			modelPackage = ModelPackage.eINSTANCE;
 		}
@@ -52,20 +54,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Returns whether this factory is applicable for the type of the object.
 	 * <!-- begin-user-doc --> This
-     * implementation returns <code>true</code> if the object is either the model's package or is an instance object
-     * of the model. <!-- end-user-doc -->
+	 * implementation returns <code>true</code> if the object is either the model's package or is an instance object
+	 * of the model. <!-- end-user-doc -->
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
-    public boolean isFactoryForType(Object object)
+	public boolean isFactoryForType( Object object )
 	{
-		if (object == modelPackage)
+		if ( object == modelPackage )
 		{
 			return true;
 		}
-		if (object instanceof EObject)
+		if ( object instanceof EObject )
 		{
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
+			return ( (EObject) object ).eClass( ).getEPackage( ) == modelPackage;
 		}
 		return false;
 	}
@@ -75,26 +77,33 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-    protected ModelSwitch modelSwitch =
-		new ModelSwitch()
+	protected ModelSwitch modelSwitch = new ModelSwitch( ) {
+
+		public Object caseChart( Chart object )
 		{
-			public Object caseChart(Chart object)
-			{
-				return createChartAdapter();
-			}
-			public Object caseChartWithAxes(ChartWithAxes object)
-			{
-				return createChartWithAxesAdapter();
-			}
-			public Object caseChartWithoutAxes(ChartWithoutAxes object)
-			{
-				return createChartWithoutAxesAdapter();
-			}
-			public Object defaultCase(EObject object)
-			{
-				return createEObjectAdapter();
-			}
-		};
+			return createChartAdapter( );
+		}
+
+		public Object caseChartWithAxes( ChartWithAxes object )
+		{
+			return createChartWithAxesAdapter( );
+		}
+
+		public Object caseChartWithoutAxes( ChartWithoutAxes object )
+		{
+			return createChartWithoutAxesAdapter( );
+		}
+
+		public Object caseDialChart( DialChart object )
+		{
+			return createDialChartAdapter( );
+		}
+
+		public Object defaultCase( EObject object )
+		{
+			return createEObjectAdapter( );
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -103,22 +112,21 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
-    public Adapter createAdapter(Notifier target)
+	public Adapter createAdapter( Notifier target )
 	{
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
+		return (Adapter) modelSwitch.doSwitch( (EObject) target );
 	}
 
-
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.Chart <em>Chart</em>}'. <!--
-     * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
-     * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
-     * 
-     * @return the new adapter.
-     * @see org.eclipse.birt.chart.model.Chart
-     * @generated
-     */
-    public Adapter createChartAdapter()
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.Chart <em>Chart</em>}'. <!--
+	 * begin-user-doc --> This default implementation returns null so that we can easily ignore cases; it's useful to
+	 * ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * 
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.Chart
+	 * @generated
+	 */
+	public Adapter createChartAdapter( )
 	{
 		return null;
 	}
@@ -126,13 +134,13 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.ChartWithAxes <em>Chart With Axes</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.ChartWithAxes
 	 * @generated
 	 */
-    public Adapter createChartWithAxesAdapter()
+	public Adapter createChartWithAxesAdapter( )
 	{
 		return null;
 	}
@@ -140,13 +148,28 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.ChartWithoutAxes <em>Chart Without Axes</em>}'.
 	 * <!-- begin-user-doc --> This
-     * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-     * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * default implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
+	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.birt.chart.model.ChartWithoutAxes
 	 * @generated
 	 */
-    public Adapter createChartWithoutAxesAdapter()
+	public Adapter createChartWithoutAxesAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.DialChart <em>Dial Chart</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.DialChart
+	 * @generated
+	 */
+	public Adapter createDialChartAdapter( )
 	{
 		return null;
 	}
@@ -154,11 +177,11 @@ public class ModelAdapterFactory extends AdapterFactoryImpl
 	/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc --> This default implementation returns null.
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @generated
 	 */
-    public Adapter createEObjectAdapter()
+	public Adapter createEObjectAdapter( )
 	{
 		return null;
 	}

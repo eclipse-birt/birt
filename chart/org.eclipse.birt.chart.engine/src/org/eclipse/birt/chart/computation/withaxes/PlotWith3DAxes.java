@@ -1,0 +1,1710 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.chart.computation.withaxes;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
+import org.eclipse.birt.chart.device.IDisplayServer;
+import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.DataPoint;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.render.ISeriesRenderingHints;
+import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+/**
+ * This class is capable of computing the content of a chart (with axes) based
+ * on preferred sizes, text rotation, fit ability, scaling, etc and prepares it
+ * for rendering.
+ * 
+ * WARNING: This is an internal class and subject to change
+ */
+public class PlotWith3DAxes extends PlotWithAxes
+{
+
+	/**
+	 * @param _ids
+	 * @param _cwa
+	 * @param _rtc
+	 * @throws IllegalArgumentException
+	 * @throws ChartException
+	 */
+	public PlotWith3DAxes( IDisplayServer _ids, ChartWithAxes _cwa,
+			RunTimeContext _rtc ) throws IllegalArgumentException,
+			ChartException
+	{
+		cwa = _cwa;
+		ids = _ids;
+		rtc = _rtc;
+		dPointToPixel = ids.getDpiResolution( ) / 72d;
+
+		if ( cwa.isTransposed( ) )
+		{
+			// Not support transposed for 3D chart.
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.COMPUTATION,
+					"exception.no.transposed.3D.chart", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE,
+							getRunTimeContext( ).getLocale( ) ) );
+		}
+
+		buildAxes( ); // CREATED ONCE
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#compute(org.eclipse.birt.chart.model.attribute.Bounds)
+	 */
+	public void compute( Bounds bo ) throws ChartException,
+			IllegalArgumentException
+	{
+		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
+
+		// TODO compute seriesThickness as per rotation.
+		// dSeriesThickness =
+
+		// MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
+		// TODO initial bounding box constraint, may compute as per the rotation
+		// angle.
+		double dX = bo.getLeft( ) + insCA.getLeft( );
+		double dY = bo.getTop( ) + insCA.getTop( );
+		double dW = bo.getWidth( ) - insCA.getLeft( ) - insCA.getRight( );
+		double dH = bo.getHeight( ) - insCA.getTop( ) - insCA.getBottom( );
+
+		// MUST BE 3-D DIMENSION ONLY HERE.
+		iDimension = getDimension( cwa.getDimension( ) );
+		assert iDimension == IConstants.THREE_D;
+
+		dXAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
+				* dPointToPixel; // CONVERSION
+		dYAxisPlotSpacing = cwa.getPlot( ).getVerticalSpacing( )
+				* dPointToPixel; // CONVERSION
+		dZAxisPlotSpacing = cwa.getPlot( ).getHorizontalSpacing( )
+				* dPointToPixel; // CONVERSION
+
+		double dStart, dEnd;
+		final Axis[] axa = cwa.getPrimaryBaseAxes( );
+		final Axis axPrimaryBase = axa[0];
+		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
+		final Axis axAncillaryBase = cwa.getAncillaryBaseAxis( axPrimaryBase );
+
+		// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
+		AutoScale scPrimaryBase = null;
+		OneAxis oaxPrimaryBase = aax.getPrimaryBase( );
+		int iAxisType = getAxisType( axPrimaryBase );
+
+		Object oaData = null;
+		if ( iAxisType == TEXT || oaxPrimaryBase.isCategoryScale( ) )
+		{
+			oaData = getTypedDataSet( axPrimaryBase, iAxisType, 0 );
+		}
+		else if ( ( iAxisType & NUMERICAL ) == NUMERICAL )
+		{
+			oaData = getMinMax( axPrimaryBase, iAxisType );
+		}
+		else if ( ( iAxisType & DATE_TIME ) == DATE_TIME )
+		{
+			oaData = getMinMax( axPrimaryBase, iAxisType );
+		}
+
+		DataSetIterator dsi = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
+				: new DataSetIterator( oaData, iAxisType );
+		oaData = null;
+
+		// TODO compute 3d start end point.
+		dStart = ( aax.areAxesSwapped( ) ) ? dY : dX;
+		dEnd = ( aax.areAxesSwapped( ) ) ? dY + dH : dX + dW;
+		Scale sc = axPrimaryBase.getScale( );
+		scPrimaryBase = AutoScale.computeScale( ids,
+				oaxPrimaryBase,
+				dsi,
+				iAxisType,
+				dStart,
+				dEnd,
+				sc.getMin( ),
+				sc.getMax( ),
+				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
+				axPrimaryBase.getFormatSpecifier( ),
+				rtc,
+				true );
+		oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
+		// AXIS
+
+		// COMPUTE ANCILLARY-BASE-AXIS PROPERTIES AND ITS SCALE
+		AutoScale scAncillaryBase = null;
+		OneAxis oaxAncillaryBase = aax.getAncillaryBase( );
+		iAxisType = getAxisType( axAncillaryBase );
+
+		oaData = null;
+		if ( iAxisType == TEXT || oaxAncillaryBase.isCategoryScale( ) )
+		{
+			oaData = getAncillaryDataSet( axAncillaryBase,
+					axPrimaryOrthogonal,
+					iAxisType );
+		}
+		else if ( ( iAxisType & NUMERICAL ) == NUMERICAL )
+		{
+			oaData = getMinMax( axAncillaryBase, iAxisType );
+		}
+		else if ( ( iAxisType & DATE_TIME ) == DATE_TIME )
+		{
+			oaData = getMinMax( axAncillaryBase, iAxisType );
+		}
+
+		dsi = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
+				: new DataSetIterator( oaData, iAxisType );
+		oaData = null;
+
+		// TODO compute 3d start end point, use the same setting as primary base
+		// axis here.
+		dStart = ( aax.areAxesSwapped( ) ) ? dY : dX;
+		dEnd = ( aax.areAxesSwapped( ) ) ? dY + dH : dX + dW;
+		sc = axAncillaryBase.getScale( );
+		scAncillaryBase = AutoScale.computeScale( ids,
+				oaxAncillaryBase,
+				dsi,
+				iAxisType,
+				dStart,
+				dEnd,
+				sc.getMin( ),
+				sc.getMax( ),
+				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
+				axAncillaryBase.getFormatSpecifier( ),
+				rtc,
+				true );
+		oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
+		// ANCILLARY-BASE AXIS
+
+		// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
+		AutoScale scPrimaryOrthogonal = null;
+		OneAxis oaxPrimaryOrthogonal = aax.getPrimaryOrthogonal( );
+		iAxisType = getAxisType( axPrimaryOrthogonal );
+		oaData = null;
+		if ( ( iAxisType & NUMERICAL ) == NUMERICAL
+				|| ( iAxisType & DATE_TIME ) == DATE_TIME )
+		{
+			dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
+					iAxisType ), iAxisType );
+		}
+		else
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_FORMAT,
+					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+		}
+
+		// TODO compute 3d start end point.
+		dStart = ( aax.areAxesSwapped( ) ) ? dX : dY;
+		dEnd = ( aax.areAxesSwapped( ) ) ? dX + dW : dY + dH;
+		sc = axPrimaryOrthogonal.getScale( );
+		scPrimaryOrthogonal = AutoScale.computeScale( ids,
+				oaxPrimaryOrthogonal,
+				dsi,
+				iAxisType,
+				dStart,
+				dEnd,
+				sc.getMin( ),
+				sc.getMax( ),
+				sc.isSetStep( ) ? new Double( sc.getStep( ) ) : null,
+				axPrimaryOrthogonal.getFormatSpecifier( ),
+				rtc,
+				true );
+		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
+		// PRIMARY-ORTHOGONAL AXIS
+
+		// TODO here we should ignore the intersection Value/Max setting, always
+		// use the Intersection.Min for 3D chart. the adjustVerticalXXX() should
+		// return a double[] to
+		// indicate a coordinate value.
+
+		// ITERATIVELY ADJUST THE PRIMARY ORTHOGONAL AXIS POSITION DUE TO THE
+		// SCALE, START/END LABELS
+		double dYAxisLocationOnX = adjustHorizontal( dX, dW, aax );
+
+		// Iteratively adjust the ancillary base axis position due to the scale,
+		// start/end
+		// labels.
+		double dYAxisLocationOnZ = adjustAncillary( dX, dW, aax );
+
+		// ITERATIVELY ADJUST THE PRIMARY BASE AXIS POSITION DUE TO THE SCALE,
+		// START/END LABELS
+		double dXAxisLocation = adjustVerticalDueToHorizontal( dY, dH, aax );
+
+		// TODO Just use XAxisLocation as the ZAxisLocation now.
+		double dZAxisLocation = dXAxisLocation;
+
+		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
+		iAxisType = getAxisType( axPrimaryOrthogonal );
+		oaData = getTypedDataSet( axPrimaryOrthogonal, iAxisType, 0 );
+		scPrimaryOrthogonal.setData( dsi );
+
+		// Setup the full dataset for the ancillary base axis.
+		iAxisType = getAxisType( axAncillaryBase );
+		if ( iAxisType != IConstants.TEXT )
+		{
+			scAncillaryBase.setData( getTypedDataSet( axAncillaryBase,
+					iAxisType,
+					0 ) );
+		}
+
+		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
+		iAxisType = getAxisType( axPrimaryBase );
+		if ( iAxisType != IConstants.TEXT )
+		{
+			scPrimaryBase.setData( getTypedDataSet( axPrimaryBase, iAxisType, 0 ) );
+		}
+
+		scPrimaryBase.resetShifts( );
+		scAncillaryBase.resetShifts( );
+		scPrimaryOrthogonal.resetShifts( );
+
+		// UPDATE FOR OVERLAYS
+		final OneAxis axPH = aax.areAxesSwapped( ) ? aax.getPrimaryOrthogonal( )
+				: aax.getPrimaryBase( );
+		final OneAxis axPV = aax.areAxesSwapped( ) ? aax.getPrimaryBase( )
+				: aax.getPrimaryOrthogonal( );
+		final OneAxis axAB = aax.getAncillaryBase( );
+
+		// keep old invocation to ensure compatibility.
+		axPH.setAxisCoordinate( dXAxisLocation );
+		axPV.setAxisCoordinate( dYAxisLocationOnX );
+		axAB.setAxisCoordinate( dZAxisLocation );
+
+		// set new 3D axis coordinate. this coordinate has been normalized to
+		// Zero-coordinates.
+		axPH.setAxisCoordinate3D( Location3DImpl.create( 0, dXAxisLocation
+				- scPrimaryOrthogonal.getStart( ), 0 ) );
+		axPV.setAxisCoordinate3D( Location3DImpl.create( dYAxisLocationOnX
+				- scPrimaryBase.getStart( ), 0, dYAxisLocationOnZ
+				- scAncillaryBase.getStart( ) ) );
+		axAB.setAxisCoordinate3D( Location3DImpl.create( 0, dZAxisLocation
+				- scPrimaryOrthogonal.getStart( ), 0 ) );
+		// !Always use Zero origin for 3D coordinates.
+		// axPH.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
+		// axPV.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
+		// axAB.setAxisCoordinate3D( Location3DImpl.create( 0, 0, 0 ) );
+
+		boPlotBackground = (Bounds) EcoreUtil.copy( bo );
+	}
+
+	/**
+	 * @param ax
+	 * @param orthogonalAxis
+	 * @param iType
+	 * @return
+	 * @throws ChartException
+	 * @throws IllegalArgumentException
+	 */
+	protected final DataSetIterator getAncillaryDataSet( Axis ax,
+			Axis orthogonalAxis, int iType ) throws ChartException,
+			IllegalArgumentException
+	{
+		final Series[] sea = ax.getRuntimeSeries( );
+		final Series[] osea = orthogonalAxis.getRuntimeSeries( );
+
+		if ( sea.length == 0 || osea.length == 0 ) // TBD: PULL FROM SAMPLE
+		// DATA
+		{
+			if ( ( iType & NUMERICAL ) == NUMERICAL )
+			{
+				return new DataSetIterator( new Double[]{
+						new Double( 1 ), new Double( 2 )
+				} );
+			}
+			else if ( ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				return new DataSetIterator( new Calendar[]{
+						new CDateTime( ), new CDateTime( )
+				} );
+			}
+			else if ( ( iType & TEXT ) == TEXT )
+			{
+				return new DataSetIterator( new String[]{
+						"Category1", "Category2", "Category3" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				} );
+			}
+		}
+
+		// Assume always use the first ancillary axis.
+		DataSetIterator dsi = getTypedDataSet( sea[0], iType );
+		List data = new ArrayList( );
+
+		for ( int i = 0; i < osea.length; i++ )
+		{
+			if ( dsi.hasNext( ) )
+			{
+				data.add( dsi.next( ) );
+			}
+			else if ( ( iType & NUMERICAL ) == NUMERICAL )
+			{
+				data.add( new Double( 0 ) );
+			}
+			else if ( ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				data.add( new CDateTime( ) );
+			}
+			else if ( ( iType & TEXT ) == TEXT )
+			{
+				data.add( osea[i].getSeriesIdentifier( ) );
+			}
+		}
+
+		if ( ( iType & NUMERICAL ) == NUMERICAL )
+		{
+			return new DataSetIterator( NumberDataSetImpl.create( data ) );
+		}
+		else if ( ( iType & DATE_TIME ) == DATE_TIME )
+		{
+			return new DataSetIterator( DateTimeDataSetImpl.create( data ) );
+		}
+		else if ( ( iType & TEXT ) == TEXT )
+		{
+			return new DataSetIterator( TextDataSetImpl.create( data ) );
+		}
+
+		return null;
+	}
+
+	/**
+	 * Goals: 1. Adjust the two ends of the vertical axis to fit start/end
+	 * labels 2. Compute the horizontal co-ordinate for the axis
+	 * 
+	 * @param dBlockX
+	 * @param dBlockWidth
+	 * @param aax
+	 * 
+	 * @return
+	 */
+	private final double adjustAncillary( double dBlockX, double dBlockWidth,
+			AllAxes aax ) throws ChartException, IllegalArgumentException
+	{
+		final OneAxis axAB = aax.getAncillaryBase( );
+		final OneAxis axPV = aax.areAxesSwapped( ) ? aax.getPrimaryBase( )
+				: aax.getPrimaryOrthogonal( );
+		final AutoScale scZ = axAB.getScale( );
+		final AutoScale scY = axPV.getScale( );
+		final int iZLabelLocation = axAB.getLabelPosition( );
+		final int iYLabelLocation = axPV.getLabelPosition( );
+
+		final int iYTitleLocation = axPV.getTitlePosition( );
+		final Label laZAxisLabels = axAB.getLabel( );
+		final Label laYAxisLabels = axPV.getLabel( );
+		final Label laYAxisTitle = axPV.getTitle( );
+		final int iYTickStyle = axPV.getCombinedTickStyle( );
+		final IntersectionValue iv = axPV.getIntersectionValue( );
+
+		// COMPUTE THE THICKNESS OF THE AXIS INCLUDING AXIS LABEL BOUNDS AND
+		// AXIS-PLOT SPACING
+		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT; // 'boolean'
+		// FOR
+		// CONVENIENCE
+		// &
+		// READABILITY
+		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT; // 'boolean'
+		// FOR
+		// CONVENIENCE
+		// &
+		// READABILITY
+		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dYAxisPlotSpacing
+				: 0;
+
+		// UPDATE Y-AXIS ENDPOINTS DUE TO AXIS LABEL SHIFTS
+		double dStart = scY.getStart( ), dEnd = scY.getEnd( );
+		scY.computeTicks( ids,
+				laYAxisLabels,
+				iYLabelLocation,
+				VERTICAL,
+				dStart,
+				dEnd,
+				true,
+				aax );
+		if ( !scY.isStepFixed( ) )
+		{
+			final Object[] oaMinMax = scY.getMinMax( );
+			while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
+			{
+				scY.zoomOut( );
+				scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+				int tickCount = scY.computeTicks( ids,
+						laYAxisLabels,
+						iYLabelLocation,
+						VERTICAL,
+						dStart,
+						dEnd,
+						true,
+						aax );
+				if ( scY.getUnit( ) != null
+						&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+						&& tickCount <= 3 )
+				{
+					break;
+				}
+			}
+		}
+
+		double dYAxisLabelsThickness = scY.computeAxisLabelThickness( ids,
+				axPV.getLabel( ),
+				VERTICAL );
+		double dYAxisTitleThickness = 0;
+		if ( laYAxisTitle.isVisible( ) )
+		{
+			final String sPreviousValue = laYAxisTitle.getCaption( ).getValue( );
+			laYAxisTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) );
+			try
+			{
+				dYAxisTitleThickness = computeBox( ids,
+						iYTitleLocation,
+						laYAxisTitle,
+						0,
+						0 ).getWidth( );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
+			}
+			finally
+			{
+				laYAxisTitle.getCaption( ).setValue( sPreviousValue );
+			}
+		}
+
+		double dZ = getLocation( scZ, iv ), dZ1 = dZ, dZ2 = dZ; // Y-AXIS BAND
+		// HORIZONTAL
+		// CO-ORDINATES
+
+		// COMPUTE VALUES FOR z1, z, z2
+		// z = HORIZONTAL LOCATION OF Y-AXIS ALONG PLOT
+		// z1 = LEFT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TITLE, TICKS &
+		// SPACING)
+		// z2 = RIGHT EDGE OF Y-AXIS BAND (DUE TO AXIS LABELS, TITLE, TICKS &
+		// SPACING)
+		if ( iv.iType == IntersectionValue.MIN ) // LEFT
+		{
+			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MAX'
+			dZ -= dAppliedYAxisPlotSpacing;
+			dZ1 = dZ;
+			dZ2 = dZ;
+
+			if ( bTicksLeft )
+			{
+				dZ1 -= TICK_SIZE;
+			}
+			if ( iYLabelLocation == LEFT )
+			{
+				dZ1 -= dYAxisLabelsThickness;
+				dZ2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
+						// MAX(RT_TICK_SIZE, HORZ_SPACING)
+						bTicksRight ? TICK_SIZE : 0, dAppliedYAxisPlotSpacing );
+			}
+			else if ( iYLabelLocation == RIGHT )
+			{
+				dZ2 += Math.max( // IF LABELS ARE RIGHT, THEN RIGHT SPACING
+						// IS
+						// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS,
+						// HORZ_SPACING)
+						( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness,
+						dAppliedYAxisPlotSpacing );
+			}
+
+			if ( iYTitleLocation == LEFT )
+			{
+				dZ1 -= dYAxisTitleThickness;
+			}
+			else if ( iYTitleLocation == RIGHT )
+			{
+				dZ2 += dYAxisTitleThickness;
+			}
+
+			// ENSURE THAT WE DON'T GO BEHIND THE LEFT PLOT BLOCK EDGE
+			if ( dZ1 < dBlockX )
+			{
+				final double dDelta = ( dBlockX - dZ1 );
+				dZ1 = dBlockX;
+				dZ += dDelta;
+				dZ2 += dDelta;
+			}
+			final double dDeltaZ1 = dZ - dZ1;
+			final double dDeltaZ2 = dZ2 - dZ;
+
+			// COMPUTE THE Y-AXIS BAND THICKNESS AND ADJUST X2 FOR LABELS BELOW
+			if ( iYLabelLocation == RIGHT )
+			{
+				// Y-AXIS BAND IS (x1 -> (x+AxisPlotSpacing))
+				dZ2 = ( dZ + dAppliedYAxisPlotSpacing );
+			}
+			dYAxisLabelsThickness = dZ2 - dZ1; // REUSE VARIABLE
+
+			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
+			// UPPER END
+			scZ.computeAxisStartEndShifts( ids,
+					laZAxisLabels,
+					HORIZONTAL,
+					iZLabelLocation,
+					aax );
+			if ( dYAxisLabelsThickness > scZ.getStartShift( ) )
+			{
+				// REDUCE scX's STARTPOINT TO FIT THE Y-AXIS ON THE LEFT
+				dStart = dZ2 - scZ.getStartShift( );
+			}
+			else
+			{
+				dStart = scZ.getStart( );
+			}
+			dEnd = scZ.getEnd( );
+			scZ.resetShifts( );
+
+			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF
+			// OVERLAPS OCCUR
+			scZ.setEndPoints( dStart, dEnd );
+			scZ.computeTicks( ids,
+					laZAxisLabels,
+					iZLabelLocation,
+					HORIZONTAL,
+					dStart,
+					dEnd,
+					true,
+					aax );
+
+			if ( !scZ.isStepFixed( ) )
+			{
+				final Object[] oaMinMax = scZ.getMinMax( );
+
+				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
+				{
+					scZ.zoomOut( );
+					scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+					int tickCount = scZ.computeTicks( ids,
+							laZAxisLabels,
+							iZLabelLocation,
+							HORIZONTAL,
+							dStart,
+							dEnd,
+							true,
+							aax );
+					if ( scZ.getUnit( ) != null
+							&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
+					}
+				}
+			}
+
+			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
+			// EXISTS
+			if ( dYAxisLabelsThickness < scZ.getStartShift( ) )
+			{
+				dZ = scZ.getStart( ) - ( dZ2 - dZ );
+			}
+			dZ -= insCA.getLeft( );
+			dZ2 = dZ + dDeltaZ2;
+			dZ1 = dZ - dDeltaZ1;
+
+			axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dZ1 - 1
+					: dZ2 + 1 - dYAxisTitleThickness );
+
+		}
+		else if ( iv.iType == IntersectionValue.MAX ) // RIGHT
+		{
+			// NOTE: ENSURE CODE SYMMETRY WITH 'InsersectionValue.MIN'
+
+			dZ += dAppliedYAxisPlotSpacing;
+			dZ1 = dZ;
+			dZ2 = dZ;
+			if ( bTicksRight )
+			{
+				dZ2 += TICK_SIZE;
+			}
+
+			if ( iYLabelLocation == RIGHT )
+			{
+				dZ2 += dYAxisLabelsThickness;
+				dZ1 -= Math.max( bTicksLeft ? TICK_SIZE : 0,
+						dAppliedYAxisPlotSpacing );
+			}
+			else if ( iYLabelLocation == LEFT )
+			{
+				dZ1 -= Math.max( ( bTicksLeft ? TICK_SIZE : 0 )
+						+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
+			}
+			if ( iYTitleLocation == RIGHT )
+			{
+				dZ2 += dYAxisTitleThickness;
+			}
+			else if ( iYTitleLocation == LEFT )
+			{
+				dZ1 -= dYAxisTitleThickness;
+			}
+
+			// ENSURE THAT WE DON'T GO AHEAD OF THE RIGHT PLOT BLOCK EDGE
+			if ( dZ2 > dBlockX + dBlockWidth )
+			{
+				final double dDelta = dZ2 - ( dBlockX + dBlockWidth );
+				dZ2 = dBlockX + dBlockWidth;
+				dZ -= dDelta;
+				dZ1 -= dDelta;
+			}
+			final double dDeltaZ1 = dZ - dZ1;
+			final double dDeltaZ2 = dZ2 - dZ;
+
+			// COMPUTE THE Y-AXIS BAND THICKNESS AND ADJUST X1 IF Y-AXIS LABELS
+			// ARE ON THE LEFT
+			if ( iYLabelLocation == LEFT )
+			{
+				// Y-AXIS BAND IS ((x-AxisPlotSpacing) -> x2)
+				dZ1 = ( dZ - dAppliedYAxisPlotSpacing );
+			}
+			dYAxisLabelsThickness = dZ2 - dZ1; // REUSE VARIABLE
+
+			// CHECK IF X-AXIS THICKNESS REQUIRES A PLOT HEIGHT RESIZE AT THE
+			// UPPER END
+			scZ.computeAxisStartEndShifts( ids,
+					laZAxisLabels,
+					HORIZONTAL,
+					iZLabelLocation,
+					aax );
+			if ( dYAxisLabelsThickness > scZ.getEndShift( ) )
+			{
+				// REDUCE scX's ENDPOINT TO FIT THE Y-AXIS ON THE RIGHT
+				dEnd = dZ1 + scZ.getEndShift( );
+			}
+			else
+			{
+				dEnd = scZ.getEnd( );
+			}
+			dStart = scZ.getStart( );
+
+			scZ.resetShifts( );
+
+			// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS LABELS IF
+			// OVERLAPS OCCUR
+			scZ.setEndPoints( dStart, dEnd );
+			scZ.computeTicks( ids,
+					laZAxisLabels,
+					iZLabelLocation,
+					HORIZONTAL,
+					dStart,
+					dEnd,
+					true,
+					aax );
+			if ( !scZ.isStepFixed( ) )
+			{
+				final Object[] oaMinMax = scZ.getMinMax( );
+				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
+				{
+					scZ.zoomOut( );
+					scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+					int tickCount = scZ.computeTicks( ids,
+							laZAxisLabels,
+							iZLabelLocation,
+							HORIZONTAL,
+							dStart,
+							dEnd,
+							true,
+							aax );
+					if ( scZ.getUnit( ) != null
+							&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+							&& tickCount <= 3 )
+					{
+						break;
+					}
+				}
+			}
+
+			// MOVE THE Y-AXIS TO THE LEFT EDGE OF THE PLOT IF SLACK SPACE
+			// EXISTS
+			if ( dYAxisLabelsThickness < scZ.getEndShift( ) )
+			{
+				dZ = scZ.getEnd( ) - ( dZ1 - dZ );
+			}
+			dZ += insCA.getRight( );
+			dZ2 = dZ + dDeltaZ2;
+			dZ1 = dZ - dDeltaZ1;
+
+			axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dZ1 - 1
+					: dZ2 + 1 - dYAxisTitleThickness );
+
+		}
+		else
+		{
+			double dDeltaX1 = 0, dDeltaX2 = 0;
+			if ( iYTitleLocation == RIGHT )
+			{
+				dZ2 += dYAxisTitleThickness;
+			}
+			else if ( iYTitleLocation == LEFT )
+			{
+				dZ1 -= dYAxisTitleThickness;
+			}
+
+			if ( iYLabelLocation == LEFT )
+			{
+				dZ1 -= ( bTicksLeft ? TICK_SIZE : 0 ) + dYAxisLabelsThickness;
+				dZ2 += ( bTicksRight ? TICK_SIZE : 0 );
+				dDeltaX1 = dZ - dZ1;
+				dDeltaX2 = dZ2 - dZ;
+
+				// CHECK IF LEFT EDGE OF Y-AXIS BAND GOES BEHIND THE PLOT LEFT
+				// EDGE
+				if ( dZ1 < dBlockX )
+				{
+					final Object[] oaMinMax = scZ.getMinMax( );
+					boolean bForceBreak = false;
+
+					// A LOOP THAT ITERATIVELY ATTEMPTS TO ADJUST THE LEFT EDGE
+					// OF THE Y-AXIS LABELS WITH THE LEFT EDGE OF THE PLOT
+					// AND/OR
+					// ENSURE THAT THE START POINT OF THE X-AXIS SCALE IS
+					// SUITABLY POSITIONED
+
+					// computeTicks(g2d, fm, iXLabelLocation, iXRotation,
+					// HORIZONTAL, scX.dStart, scX.dEnd, scX, true);
+					do
+					{
+						// CANCEL OUT THE ENDPOINT LABEL SHIFT COMPUTATIONS FROM
+						// THE X-AXIS
+						scZ.setEndPoints( scZ.getStart( ) - scZ.getStartShift( ),
+								scZ.getEnd( ) + scZ.getEndShift( ) ); // RESTORE
+						scZ.resetShifts( );
+
+						// APPLY THE AXIS REDUCTION FORMULA W.R.T. X-AXIS
+						// STARTPOINT
+						double[] da = scZ.getEndPoints( );
+						double dT_RI = dBlockX - dZ1; // THRESHOLD -
+						// REQUESTEDINTERSECTION
+						double dAMin_AMax = da[1] - da[0];
+						double dAMax_RI = da[1] - dZ;
+						double dDelta = ( dT_RI / dAMax_RI ) * dAMin_AMax;
+						dStart = da[0] + dDelta;
+						dEnd = da[1];
+
+						if ( dStart < dBlockX )
+						{
+							dStart = dBlockX;
+							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
+							// Y-AXIS SCALE TO THE TOP EDGE
+							// OF THE PLOT BLOCK
+						}
+
+						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+						// LABELS IF OVERLAPS OCCUR
+						scZ.setEndPoints( dStart, dEnd );
+						scZ.computeTicks( ids,
+								laZAxisLabels,
+								iZLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						while ( !scZ.checkFit( ids,
+								laZAxisLabels,
+								iZLabelLocation ) )
+						{
+							scZ.zoomOut( );
+							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+							int tickCount = scZ.computeTicks( ids,
+									laZAxisLabels,
+									iZLabelLocation,
+									HORIZONTAL,
+									dStart,
+									dEnd,
+									true,
+									aax );
+							if ( scZ.getUnit( ) != null
+									&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
+						}
+
+						dZ = getLocation( scZ, iv );
+						dZ1 = dZ - dDeltaX1; // RE-CALCULATE X-AXIS BAND LEFT
+						// EDGE
+					} while ( Math.abs( dZ1 - dBlockX ) > 1 && !bForceBreak );
+				}
+				else
+				{
+					// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+					// LABELS IF OVERLAPS OCCUR
+					dStart = scZ.getStart( );
+					dEnd = scZ.getEnd( );
+					scZ.setEndPoints( dStart, dEnd );
+					scZ.computeTicks( ids,
+							laZAxisLabels,
+							iZLabelLocation,
+							HORIZONTAL,
+							dStart,
+							dEnd,
+							true,
+							aax );
+					if ( !scZ.isStepFixed( ) )
+					{
+						final Object[] oaMinMax = scZ.getMinMax( );
+						while ( !scZ.checkFit( ids,
+								laZAxisLabels,
+								iZLabelLocation ) )
+						{
+							scZ.zoomOut( );
+							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+							int tickCount = scZ.computeTicks( ids,
+									laZAxisLabels,
+									iZLabelLocation,
+									HORIZONTAL,
+									dStart,
+									dEnd,
+									true,
+									aax );
+							if ( scZ.getUnit( ) != null
+									&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
+						}
+					}
+					dZ = getLocation( scZ, iv );
+				}
+				dZ1 = dZ - dDeltaX1;
+				dZ2 = dZ + dDeltaX2;
+			}
+			else if ( iYLabelLocation == RIGHT )
+			{
+				dZ2 += ( bTicksRight ? TICK_SIZE : 0 ) + dYAxisLabelsThickness;
+				dZ1 -= ( bTicksLeft ? TICK_SIZE : 0 );
+				dDeltaX1 = dZ - dZ1;
+				dDeltaX2 = dZ2 - dZ;
+
+				// CHECK IF RIGHT EDGE OF Y-AXIS BAND GOES BEHIND THE PLOT RIGHT
+				// EDGE
+				if ( dZ2 > dBlockX + dBlockWidth )
+				{
+					final Object[] oaMinMax = scZ.getMinMax( );
+					boolean bForceBreak = false;
+
+					// A LOOP THAT ITERATIVELY ATTEMPTS TO ADJUST THE RIGHT EDGE
+					// OF THE Y-AXIS LABELS WITH THE RIGHT EDGE OF THE PLOT
+					// AND/OR
+					// ENSURE THAT THE START POINT OF THE X-AXIS SCALE IS
+					// SUITABLY POSITIONED
+
+					do
+					{
+						// CANCEL OUT THE ENDPOINT LABEL SHIFT COMPUTATIONS FROM
+						// THE X-AXIS
+						scZ.setEndPoints( scZ.getStart( ) - scZ.getStartShift( ),
+								scZ.getEnd( ) + scZ.getEndShift( ) ); // RESTORE
+						scZ.resetShifts( );
+
+						// APPLY THE AXIS REDUCTION FORMULA W.R.T. X-AXIS
+						// ENDPOINT
+						double[] da = scZ.getEndPoints( );
+						double dT_RI = dZ2 - ( dBlockX + dBlockWidth ); // THRESHOLD
+						// -
+						// REQUESTEDINTERSECTION
+						double dAMin_AMax = da[1] - da[0];
+						double dAMin_RI = dZ - da[0];
+						double dDelta = ( dT_RI / dAMin_RI ) * dAMin_AMax;
+						dEnd = da[1] - dDelta;
+						dStart = da[0];
+
+						if ( dEnd > dBlockX + dBlockWidth )
+						{
+							dEnd = dBlockX + dBlockWidth;
+							bForceBreak = true; // ADJUST THE TOP EDGE OF THE
+							// Y-AXIS SCALE TO THE TOP EDGE
+							// OF THE PLOT BLOCK
+						}
+
+						// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+						// LABELS IF OVERLAPS OCCUR
+						scZ.setEndPoints( dStart, dEnd );
+						scZ.computeTicks( ids,
+								laZAxisLabels,
+								iZLabelLocation,
+								HORIZONTAL,
+								dStart,
+								dEnd,
+								true,
+								aax );
+						if ( !scZ.isStepFixed( ) )
+						{
+							while ( !scZ.checkFit( ids,
+									laZAxisLabels,
+									iZLabelLocation ) )
+							{
+								scZ.zoomOut( );
+								scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+								int tickCount = scZ.computeTicks( ids,
+										laZAxisLabels,
+										iZLabelLocation,
+										HORIZONTAL,
+										dStart,
+										dEnd,
+										true,
+										aax );
+								if ( scZ.getUnit( ) != null
+										&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+										&& tickCount <= 3 )
+								{
+									break;
+								}
+							}
+						}
+						dZ = getLocation( scZ, iv );
+						dZ2 = dZ + dDeltaX2; // RE-CALCULATE X-AXIS BAND
+						// RIGHT
+						// EDGE
+					} while ( Math.abs( dZ2 - ( dBlockX + dBlockWidth ) ) > 1
+							&& !bForceBreak );
+				}
+				else
+				{
+					// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+					// LABELS IF OVERLAPS OCCUR
+					dStart = scZ.getStart( );
+					dEnd = scZ.getEnd( );
+					scZ.setEndPoints( dStart, dEnd );
+					scZ.computeTicks( ids,
+							laZAxisLabels,
+							iZLabelLocation,
+							HORIZONTAL,
+							dStart,
+							dEnd,
+							true,
+							aax );
+					if ( !scZ.isStepFixed( ) )
+					{
+						final Object[] oaMinMax = scZ.getMinMax( );
+						while ( !scZ.checkFit( ids,
+								laZAxisLabels,
+								iZLabelLocation ) )
+						{
+							scZ.zoomOut( );
+							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+							int tickCount = scZ.computeTicks( ids,
+									laZAxisLabels,
+									iZLabelLocation,
+									HORIZONTAL,
+									dStart,
+									dEnd,
+									true,
+									aax );
+							if ( scZ.getUnit( ) != null
+									&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3 )
+							{
+								break;
+							}
+						}
+					}
+					dZ = getLocation( scZ, iv );
+				}
+				dZ2 = dZ + dDeltaX2;
+				dZ1 = dZ - dDeltaX1;
+			}
+			axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dZ1 - 1
+					: dZ2 + 1 - dYAxisTitleThickness );
+		}
+		return dZ;
+	}
+
+	private final Object getMinMax( Axis ax, int iType ) throws ChartException,
+			IllegalArgumentException
+	{
+		final Series[] sea = ax.getRuntimeSeries( );
+		final int iSeriesCount = sea.length;
+		DataSet ds;
+
+		Object oV1, oV2, oMin = null, oMax = null;
+
+		PluginSettings ps = PluginSettings.instance( );
+		IDataSetProcessor iDSP = null;
+
+		for ( int i = 0; i < iSeriesCount; i++ )
+		{
+			if ( sea[i].isStacked( ) )
+			{
+				// 3D chart can't be stacked.
+				throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
+						rtc.getLocale( ) )
+						.getString( "exception.unstackable.is.stacked" ), //$NON-NLS-1$
+						new Object[]{
+							sea[i]
+						} ) );
+			}
+
+			iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
+			ds = sea[i].getDataSet( );
+
+			oV1 = iDSP.getMinimum( ds );
+			oV2 = iDSP.getMaximum( ds );
+
+			if ( ( iType & NUMERICAL ) == NUMERICAL )
+			{
+				if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL DATASETS
+				{
+					if ( oMin == null )
+					{
+						oMin = oV1;
+					}
+					else
+					{
+						final double dV1 = asDouble( oV1 ).doubleValue( );
+						if ( Math.min( asDouble( oMin ).doubleValue( ), dV1 ) == dV1 )
+						{
+							oMin = oV1;
+						}
+					}
+				}
+
+				if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL DATASETS
+				{
+					if ( oMax == null )
+					{
+						oMax = oV2;
+					}
+					else
+					{
+						final double dV2 = asDouble( oV2 ).doubleValue( );
+						if ( Math.max( asDouble( oMax ).doubleValue( ), dV2 ) == dV2 )
+						{
+							oMax = oV2;
+						}
+					}
+				}
+			}
+			else if ( ( iType & DATE_TIME ) == DATE_TIME )
+			{
+				if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL DATASETS
+				{
+					if ( oMin == null )
+					{
+						oMin = oV1;
+					}
+					else
+					{
+						final CDateTime cdtV1 = asDateTime( oV1 );
+						final CDateTime cdtMin = asDateTime( oMin );
+						if ( cdtV1.before( cdtMin ) )
+						{
+							oMin = cdtV1;
+						}
+					}
+				}
+
+				if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL DATASETS
+				{
+					if ( oMax == null )
+					{
+						oMax = oV2;
+					}
+					else
+					{
+						final CDateTime cdtV2 = asDateTime( oV2 );
+						final CDateTime cdtMax = asDateTime( oMax );
+						if ( cdtV2.after( cdtMax ) )
+						{
+							oMax = cdtV2;
+						}
+					}
+				}
+			}
+		}
+
+		// ONLY NUMERIC VALUES ARE SUPPORTED IN STACKED ELEMENT COMPUTATIONS
+		if ( ax.isPercent( ) )
+		{
+			// 3D Chart axis doesn't support Percent.
+			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
+					rtc.getLocale( ) )
+					.getString( "exception.3D.axis.percent" ), //$NON-NLS-1$
+					new Object[]{
+						ax
+					} ) );
+		}
+
+		// IF NO DATASET WAS FOUND BECAUSE NO SERIES WERE ATTACHED TO AXES,
+		// SIMULATE MIN/MAX VALUES
+		if ( oMin == null && oMax == null )
+		{
+			if ( iType == DATE_TIME )
+			{
+				oMin = new CDateTime( 1, 1, 2005 );
+				oMax = new CDateTime( 1, 1, 2006 );
+			}
+			else if ( ( iType & NUMERICAL ) == NUMERICAL )
+			{
+				if ( ( iType & PERCENT ) == PERCENT )
+				{
+					oMin = new Double( 0 );
+					oMax = new Double( 99.99 );
+				}
+				else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
+				{
+					oMin = new Double( 1 );
+					oMax = new Double( 999 );
+				}
+				else
+				{
+					oMin = new Double( -0.9 );
+					oMax = new Double( 0.9 );
+				}
+			}
+		}
+
+		if ( iType == DATE_TIME )
+		{
+			try
+			{
+				return new Calendar[]{
+						asDateTime( oMin ), asDateTime( oMax )
+				};
+			}
+			catch ( ClassCastException ex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.numerical.data.datetime.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+
+			}
+		}
+		else if ( ( iType & NUMERICAL ) == NUMERICAL )
+		{
+			try
+			{
+				return new double[]{
+						asDouble( oMin ).doubleValue( ),
+						asDouble( oMax ).doubleValue( )
+				};
+			}
+			catch ( ClassCastException ex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"exception.datetime.data.numerical.axis", //$NON-NLS-1$ 
+						ResourceBundle.getBundle( Messages.ENGINE,
+								rtc.getLocale( ) ) );
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#getSeriesRenderingHints(org.eclipse.birt.chart.model.data.SeriesDefinition,
+	 *      org.eclipse.birt.chart.model.component.Series)
+	 */
+	public ISeriesRenderingHints getSeriesRenderingHints(
+			SeriesDefinition sdOrthogonal, Series seOrthogonal )
+			throws ChartException, IllegalArgumentException
+	{
+		if ( seOrthogonal == null
+				|| seOrthogonal.getClass( ) == SeriesImpl.class ) // EMPTY
+		// PLOT
+		// RENDERING
+		// TECHNIQUE
+		{
+			return null;
+		}
+		OneAxis oaxOrthogonal = findOrthogonalAxis( seOrthogonal );
+		if ( oaxOrthogonal == null )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.NOT_FOUND,
+					"exception.axis.series.link.broken", //$NON-NLS-1$
+					new Object[]{
+						seOrthogonal
+					},
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+		}
+		final OneAxis oaxBase = aax.getPrimaryBase( );
+		final SeriesDefinition sdBase = (SeriesDefinition) oaxBase.getModelAxis( )
+				.getSeriesDefinitions( )
+				.get( 0 );
+
+		final OneAxis oaxAncillaryBase = aax.getAncillaryBase( );
+		final SeriesDefinition sdAncillaryBase = (SeriesDefinition) oaxAncillaryBase.getModelAxis( )
+				.getSeriesDefinitions( )
+				.get( 0 );
+
+		final AutoScale scBase = oaxBase.getScale( );
+		final AutoScale scOrthogonal = oaxOrthogonal.getScale( );
+		final AutoScale scAncillary = oaxAncillaryBase.getScale( );
+		final int iXTickCount = scBase.getTickCount( );
+		final int iZTickCount = scAncillary.getTickCount( );
+		final double dXUnitSize = scBase.getUnitSize( );
+		final double dZUnitSize = scAncillary.getUnitSize( );
+		final boolean bZCategoryTextStyle = scAncillary.isCategoryScale( )
+				|| scAncillary.getType( ) == IConstants.TEXT;
+
+		double[] daXTickCoordinates = scBase.getNormalizedTickCoordinates( );
+		double[] daZTickCoordinates = scAncillary.getNormalizedTickCoordinates( );
+		Object oDataBase = null;
+		DataSetIterator dsiDataBase = scBase.getData( );
+		Object oDataOrthogonal;
+		DataSetIterator dsiDataOrthogonal = getTypedDataSet( seOrthogonal,
+				oaxOrthogonal.getScale( ).getType( ) );
+		DataSetIterator dsiDataAncillary = scAncillary.getData( );
+		double dOrthogonalZero = 0;
+		if ( ( scOrthogonal.getType( ) & NUMERICAL ) == NUMERICAL )
+		{
+			dOrthogonalZero = getNormalizedLocation( scOrthogonal, 0 );
+		}
+		else
+		{
+			dOrthogonalZero = scOrthogonal.getNormalizedStart( );
+		}
+		double dAncillaryZero = 0;
+		if ( ( scAncillary.getType( ) & NUMERICAL ) == NUMERICAL )
+		{
+			dAncillaryZero = getNormalizedLocation( scAncillary, 0 );
+		}
+		else
+		{
+			dAncillaryZero = scAncillary.getNormalizedStart( );
+		}
+
+		double dX = 0, dY = 0, dZ = 0, dXLength = 0, dZLength = 0;
+		Location3D lo3d;
+
+		final int iBaseCount = dsiDataBase.size( );
+		final int iOrthogonalCount = dsiDataOrthogonal.size( );
+		DataPointHints[] dpa = null;
+
+		int seriesIndex = 0;
+		Series[] rss = oaxOrthogonal.getModelAxis( ).getRuntimeSeries( );
+		for ( int i = 0; i < rss.length; i++ )
+		{
+			if ( rss[i] == seOrthogonal )
+			{
+				seriesIndex = i;
+				break;
+			}
+		}
+
+		Object oDataAncillary = null;
+		for ( int i = 0; i < seriesIndex; i++ )
+		{
+			if ( dsiDataAncillary.hasNext( ) )
+			{
+				dsiDataAncillary.next( );
+			}
+		}
+		if ( dsiDataAncillary.hasNext( ) )
+		{
+			oDataAncillary = dsiDataAncillary.next( );
+		}
+
+		if ( iBaseCount != iOrthogonalCount ) // DO NOT COMPUTE DATA POINT
+		// HINTS
+		// FOR OUT-OF-SYNC DATA
+		{
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "exception.base.orthogonal.inconsistent.count", //$NON-NLS-1$
+							new Object[]{
+									new Integer( iBaseCount ),
+									new Integer( iOrthogonalCount )
+							},
+							rtc.getLocale( ) ) );
+		}
+		else
+		{
+			dpa = new DataPointHints[iBaseCount];
+			final boolean bScatter = ( oaxBase.getScale( ).getType( ) != IConstants.TEXT && !oaxBase.isCategoryScale( ) );
+
+			// OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
+			final DataPoint dp = seOrthogonal.getDataPoint( );
+			final EList el = dp.getComponents( );
+			DataPointComponent dpc;
+			DataPointComponentType dpct;
+			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null;
+			for ( int i = 0; i < el.size( ); i++ )
+			{
+				dpc = (DataPointComponent) el.get( i );
+				dpct = dpc.getType( );
+				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
+				{
+					fsBase = dpc.getFormatSpecifier( );
+					if ( fsBase == null ) // BACKUP
+					{
+						fsBase = sdBase.getFormatSpecifier( );
+					}
+				}
+				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
+				{
+					fsOrthogonal = dpc.getFormatSpecifier( );
+					if ( fsOrthogonal == null ) // BACKUP
+					{
+						fsOrthogonal = sdOrthogonal.getFormatSpecifier( );
+					}
+				}
+				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
+				{
+					fsSeries = dpc.getFormatSpecifier( );
+					if ( fsSeries == null )
+					{
+						fsSeries = sdAncillaryBase.getFormatSpecifier( );
+					}
+				}
+			}
+
+			dsiDataBase.reset( );
+			dsiDataOrthogonal.reset( );
+			for ( int i = 0; i < iBaseCount; i++ )
+			{
+				oDataBase = dsiDataBase.next( );
+				oDataOrthogonal = dsiDataOrthogonal.next( );
+
+				if ( !bScatter )
+				{
+					if ( aax.areAxesSwapped( ) )
+					{
+						dY = daXTickCoordinates[0] + dXUnitSize * i;
+
+						if ( bZCategoryTextStyle )
+						{
+							dZ = daZTickCoordinates[0]
+									+ dZUnitSize
+									* seriesIndex;
+						}
+						else
+						{
+							try
+							{
+								dZ = getNormalizedLocation( scAncillary,
+										oDataAncillary );
+							}
+							catch ( IllegalArgumentException e )
+							{
+								dZ = dAncillaryZero;
+							}
+							catch ( ChartException e )
+							{
+								dZ = dAncillaryZero;
+							}
+						}
+
+						try
+						{
+							dX = getNormalizedLocation( scOrthogonal,
+									oDataOrthogonal );
+						}
+						catch ( IllegalArgumentException nvex )
+						{
+							dX = dOrthogonalZero;
+						}
+						catch ( ChartException dfex )
+						{
+							dX = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
+						}
+					}
+					else
+					{
+						dX = daXTickCoordinates[0] + dXUnitSize * i;
+
+						if ( bZCategoryTextStyle )
+						{
+							dZ = daZTickCoordinates[0]
+									+ dZUnitSize
+									* seriesIndex;
+						}
+						else
+						{
+							try
+							{
+								dZ = getNormalizedLocation( scAncillary,
+										oDataAncillary );
+							}
+							catch ( IllegalArgumentException e )
+							{
+								dZ = dAncillaryZero;
+							}
+							catch ( ChartException e )
+							{
+								dZ = dAncillaryZero;
+							}
+						}
+
+						try
+						{
+							dY = getNormalizedLocation( scOrthogonal,
+									oDataOrthogonal );
+						}
+						catch ( IllegalArgumentException nvex )
+						{
+							dY = dOrthogonalZero;
+						}
+						catch ( ChartException dfex )
+						{
+							dY = dOrthogonalZero; // FOR CUSTOM DATA ELEMENTS
+						}
+					}
+				}
+				else
+				{
+					// Do not support scatter for 3D chart.
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.COMPUTATION,
+							"exception.scatter.3D.not.supported", //$NON-NLS-1$ 
+							ResourceBundle.getBundle( Messages.ENGINE,
+									rtc.getLocale( ) ) );
+				}
+
+				lo3d = Location3DImpl.create( dX, dY, dZ );
+				dXLength = ( i < iXTickCount - 1 ) ? daXTickCoordinates[i + 1]
+						- daXTickCoordinates[i] : 0;
+				dZLength = ( seriesIndex < iZTickCount - 1 ) ? daZTickCoordinates[seriesIndex + 1]
+						- daZTickCoordinates[seriesIndex]
+						: 0;
+
+				dpa[i] = new DataPointHints( oDataBase,
+						oDataOrthogonal,
+						oDataAncillary,
+						seOrthogonal.getDataPoint( ),
+						fsBase,
+						fsOrthogonal,
+						fsSeries,
+						lo3d,
+						new double[]{
+								dXLength, dZLength
+						},
+						rtc );
+			}
+		}
+
+		return new SeriesRenderingHints3D( this,
+				oaxBase.getAxisCoordinate( ) - scBase.getStart( ),
+				oaxAncillaryBase.getAxisCoordinate( ) - scAncillary.getStart( ),
+				scOrthogonal.getNormalizedStart( ),
+				dOrthogonalZero,
+				daXTickCoordinates,
+				daZTickCoordinates,
+				dpa,
+				scBase,
+				scOrthogonal,
+				scAncillary,
+				dsiDataBase,
+				dsiDataOrthogonal,
+				dsiDataAncillary );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.computation.withaxes.PlotWithAxes#buildAxes()
+	 */
+	void buildAxes( ) throws IllegalArgumentException, ChartException
+	{
+		final Axis[] axa = cwa.getPrimaryBaseAxes( );
+		final Axis axPrimaryBase = axa[0]; // NOTE: FOR REL 1 AXIS RENDERS, WE
+		// SUPPORT A SINGLE PRIMARY BASE AXIS
+		// ONLY
+		if ( !axPrimaryBase.isSetOrientation( ) )
+		{
+			axPrimaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		}
+		validateAxis( axPrimaryBase );
+
+		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
+		if ( !axPrimaryOrthogonal.isSetOrientation( ) )
+		{
+			axPrimaryOrthogonal.setOrientation( Orientation.VERTICAL_LITERAL );
+		}
+		validateAxis( axPrimaryOrthogonal );
+
+		final Axis axAncillaryBase = cwa.getAncillaryBaseAxis( axPrimaryBase );
+		// if ( !axAncillaryBase.isSetOrientation( ) )
+		{
+			axAncillaryBase.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		}
+		validateAxis( axAncillaryBase );
+
+		if ( axPrimaryBase.getAssociatedAxes( ).size( ) > 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.COMPUTATION,
+					"exception.multi.orthogonal.3D.not.supported", //$NON-NLS-1$ 
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+		}
+
+		aax = new AllAxes( cwa.getPlot( )
+				.getClientArea( )
+				.getInsets( )
+				.scaledInstance( dPointToPixel ) ); // CONVERSION
+		insCA = aax.getInsets( );
+
+		aax.swapAxes( cwa.isTransposed( ) );
+
+		// SETUP THE PRIMARY BASE-AXIS PROPERTIES AND ITS SCALE
+		final OneAxis oaxPrimaryBase = new OneAxis( axPrimaryBase,
+				IConstants.BASE_AXIS );
+		oaxPrimaryBase.set( getOrientation( IConstants.BASE ),
+				transposeLabelPosition( IConstants.BASE,
+						getLabelPosition( axPrimaryBase.getLabelPosition( ) ) ),
+				transposeLabelPosition( IConstants.BASE,
+						getLabelPosition( axPrimaryBase.getTitlePosition( ) ) ),
+				axPrimaryBase.isSetCategoryAxis( )
+						&& axPrimaryBase.isCategoryAxis( ) );
+		oaxPrimaryBase.setGridProperties( axPrimaryBase.getMajorGrid( )
+				.getLineAttributes( ),
+				axPrimaryBase.getMinorGrid( ).getLineAttributes( ),
+				axPrimaryBase.getMajorGrid( ).getTickAttributes( ),
+				axPrimaryBase.getMinorGrid( ).getTickAttributes( ),
+				transposeTickStyle( IConstants.BASE,
+						getTickStyle( axPrimaryBase, MAJOR ) ),
+				transposeTickStyle( IConstants.BASE,
+						getTickStyle( axPrimaryBase, MINOR ) ),
+				axPrimaryBase.getScale( ).getMinorGridsPerUnit( ) );
+
+		if ( cwa.isTransposed( ) )
+		{
+			// TRANSPOSE ROTATION OF LABELS AS APPROPRIATE
+			final Label laAxisLabels = (Label) EcoreUtil.copy( axPrimaryBase.getLabel( ) );
+			final Label laAxisTitle = (Label) EcoreUtil.copy( axPrimaryBase.getTitle( ) );
+			laAxisLabels.getCaption( )
+					.getFont( )
+					.setRotation( transposeAngle( laAxisLabels.getCaption( )
+							.getFont( )
+							.getRotation( ) ) );
+			laAxisTitle.getCaption( )
+					.getFont( )
+					.setRotation( transposeAngle( laAxisTitle.getCaption( )
+							.getFont( )
+							.getRotation( ) ) );
+			oaxPrimaryBase.set( laAxisLabels, laAxisTitle ); // ASSOCIATE
+			// FONT,
+			// ETC
+		}
+		else
+		{
+			oaxPrimaryBase.set( axPrimaryBase.getLabel( ),
+					axPrimaryBase.getTitle( ) ); // ASSOCIATE FONT
+		}
+
+		oaxPrimaryBase.set( getIntersection( axPrimaryBase ) );
+		oaxPrimaryBase.set( axPrimaryBase.getLineAttributes( ) );
+		aax.definePrimary( oaxPrimaryBase ); // ADD TO AXIS SET
+
+		// SETUP THE PRIMARY ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
+		final OneAxis oaxPrimaryOrthogonal = new OneAxis( axPrimaryOrthogonal,
+				IConstants.ORTHOGONAL_AXIS );
+		oaxPrimaryOrthogonal.set( getOrientation( IConstants.ORTHOGONAL ),
+				transposeLabelPosition( IConstants.ORTHOGONAL,
+						getLabelPosition( axPrimaryOrthogonal.getLabelPosition( ) ) ),
+				transposeLabelPosition( IConstants.ORTHOGONAL,
+						getLabelPosition( axPrimaryOrthogonal.getTitlePosition( ) ) ),
+				axPrimaryOrthogonal.isSetCategoryAxis( )
+						&& axPrimaryOrthogonal.isCategoryAxis( ) );
+		oaxPrimaryOrthogonal.setGridProperties( axPrimaryOrthogonal.getMajorGrid( )
+				.getLineAttributes( ),
+				axPrimaryOrthogonal.getMinorGrid( ).getLineAttributes( ),
+				axPrimaryOrthogonal.getMajorGrid( ).getTickAttributes( ),
+				axPrimaryOrthogonal.getMinorGrid( ).getTickAttributes( ),
+				transposeTickStyle( IConstants.ORTHOGONAL,
+						getTickStyle( axPrimaryOrthogonal, MAJOR ) ),
+				transposeTickStyle( IConstants.ORTHOGONAL,
+						getTickStyle( axPrimaryOrthogonal, MINOR ) ),
+				axPrimaryOrthogonal.getScale( ).getMinorGridsPerUnit( ) );
+
+		if ( cwa.isTransposed( ) )
+		{
+			// TRANSPOSE ROTATION OF LABELS AS APPROPRIATE
+			final Label laAxisLabels = (Label) EcoreUtil.copy( axPrimaryOrthogonal.getLabel( ) );
+			final Label laAxisTitle = (Label) EcoreUtil.copy( axPrimaryOrthogonal.getTitle( ) );
+			laAxisLabels.getCaption( )
+					.getFont( )
+					.setRotation( transposeAngle( laAxisLabels.getCaption( )
+							.getFont( )
+							.getRotation( ) ) );
+			laAxisTitle.getCaption( )
+					.getFont( )
+					.setRotation( transposeAngle( laAxisTitle.getCaption( )
+							.getFont( )
+							.getRotation( ) ) );
+			oaxPrimaryOrthogonal.set( laAxisLabels, laAxisTitle ); // ASSOCIATE
+			// FONT, ETC
+		}
+		else
+		{
+			oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLabel( ),
+					axPrimaryOrthogonal.getTitle( ) ); // ASSOCIATE FONT,
+			// ETC
+		}
+		oaxPrimaryOrthogonal.set( getIntersection( axPrimaryOrthogonal ) );
+		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLineAttributes( ) );
+		aax.definePrimary( oaxPrimaryOrthogonal ); // ADD TO AXIS SET
+
+		// SETUP THE ANCILLARY BASE-AXIS PROPERTIES AND ITS SCALE
+		final OneAxis oaxAncillaryBase = new OneAxis( axAncillaryBase,
+				IConstants.ANCILLARY_AXIS );
+		oaxAncillaryBase.set( IConstants.HORIZONTAL,
+				getLabelPosition( axAncillaryBase.getLabelPosition( ) ),
+				getLabelPosition( axAncillaryBase.getTitlePosition( ) ),
+				axAncillaryBase.isSetCategoryAxis( )
+						&& axAncillaryBase.isCategoryAxis( ) );
+		oaxAncillaryBase.setGridProperties( axAncillaryBase.getMajorGrid( )
+				.getLineAttributes( ),
+				axAncillaryBase.getMinorGrid( ).getLineAttributes( ),
+				axAncillaryBase.getMajorGrid( ).getTickAttributes( ),
+				axAncillaryBase.getMinorGrid( ).getTickAttributes( ),
+				getTickStyle( axAncillaryBase, MAJOR ),
+				getTickStyle( axAncillaryBase, MINOR ),
+				axAncillaryBase.getScale( ).getMinorGridsPerUnit( ) );
+		oaxAncillaryBase.set( axAncillaryBase.getLabel( ),
+				axAncillaryBase.getTitle( ) ); // ASSOCIATE FONT, ETC.
+
+		oaxAncillaryBase.set( getIntersection( axAncillaryBase ) );
+		oaxAncillaryBase.set( axAncillaryBase.getLineAttributes( ) );
+		aax.defineAncillaryBase( oaxAncillaryBase ); // ADD TO AXIS SET
+	}
+}

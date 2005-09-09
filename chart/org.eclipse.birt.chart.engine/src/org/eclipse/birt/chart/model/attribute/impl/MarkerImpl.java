@@ -26,18 +26,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getSize <em>Size</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#getSize <em>Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.MarkerImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MarkerImpl extends EObjectImpl implements Marker
@@ -46,7 +40,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -56,7 +49,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -64,9 +56,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	protected MarkerType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -75,7 +67,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	/**
 	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -85,7 +76,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	/**
 	 * The cached value of the '{@link #getSize() <em>Size</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getSize()
 	 * @generated
 	 * @ordered
@@ -93,18 +83,17 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	protected int size = SIZE_EDEFAULT;
 
 	/**
-	 * This is true if the Size attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Size attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean sizeESet = false;
 
 	/**
-	 * The default value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -112,9 +101,8 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	protected static final boolean VISIBLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -122,9 +110,9 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -132,7 +120,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected MarkerImpl( )
@@ -142,7 +129,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -152,7 +138,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MarkerType getType( )
@@ -162,7 +147,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( MarkerType newType )
@@ -182,7 +166,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -202,7 +185,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -212,7 +194,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getSize( )
@@ -222,7 +203,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSize( int newSize )
@@ -242,7 +222,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetSize( )
@@ -262,7 +241,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetSize( )
@@ -272,7 +250,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isVisible( )
@@ -282,7 +259,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVisible( boolean newVisible )
@@ -302,7 +278,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVisible( )
@@ -322,7 +297,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVisible( )
@@ -332,7 +306,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -351,7 +324,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -373,7 +345,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -395,7 +366,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -414,7 +384,6 @@ public class MarkerImpl extends EObjectImpl implements Marker
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -442,4 +411,4 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		return result.toString( );
 	}
 
-} //MarkerImpl
+} // MarkerImpl

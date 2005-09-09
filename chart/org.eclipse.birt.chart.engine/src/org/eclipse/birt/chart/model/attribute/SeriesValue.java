@@ -35,31 +35,30 @@ package org.eclipse.birt.chart.model.attribute;
 public interface SeriesValue extends ActionValue
 {
 
-    /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Holds the name for the series definition.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Name</em>' attribute.
-     * @see #setName(String)
-     * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSeriesValue_Name()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-     * @generated
-     */
-    String getName();
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 							Holds the name for the series definition.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSeriesValue_Name()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Name'"
+	 * @generated
+	 */
+	String getName( );
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
-    void setName(String value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName( String value );
 
 } // SeriesValue

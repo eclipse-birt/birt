@@ -17,42 +17,31 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ * SeriesRenderingHints
  */
 public class SeriesRenderingHints implements ISeriesRenderingHints
 {
 
-	/**
-	 * 
-	 */
 	private int iDataSetStructure = UNDEFINED;
 
-	/**
-	 * 
-	 */
 	private final DataSetIterator dsiBase;
 
-	/**
-	 * 
-	 */
 	private final DataSetIterator dsiOrthogonal;
 
-	/**
-	 * 
-	 */
 	private final DataPointHints[] dpha;
 
-	/**
-	 * 
-	 */
 	private final PlotWithoutAxes pwoa;
 
 	/**
+	 * The constructor.
+	 * 
 	 * @param pwoa
 	 * @param dpha
 	 * @param dsiBase
@@ -199,5 +188,20 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	public DataSetIterator getOrthogonalDataSet( )
 	{
 		return dsiOrthogonal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getClientAreaBounds(boolean)
+	 */
+	public Bounds getClientAreaBounds( boolean bReduceByInsets )
+	{
+		final Bounds boClientArea = (Bounds) EcoreUtil.copy( pwoa.getBounds( ) );
+		if ( bReduceByInsets )
+		{
+			boClientArea.adjust( pwoa.getCellInsets( ) );
+		}
+		return boClientArea;
 	}
 }

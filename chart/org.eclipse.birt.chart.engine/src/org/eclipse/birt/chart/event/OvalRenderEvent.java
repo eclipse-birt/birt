@@ -21,19 +21,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * OvalRenderEvent
  */
-public final class OvalRenderEvent extends PrimitiveRenderEvent
+public class OvalRenderEvent extends PrimitiveRenderEvent
 {
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
 	private static final long serialVersionUID = -6716453650694010927L;
 
-	private Bounds _bo = null;
+	protected Bounds _bo = null;
 
-	private LineAttributes _lia;
+	protected LineAttributes _lia;
 
-	private Fill _ifBackground;
+	protected Fill _ifBackground;
 
 	/**
 	 * @param oSource
@@ -100,7 +97,7 @@ public final class OvalRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public final PrimitiveRenderEvent copy( )
+	public PrimitiveRenderEvent copy( )
 	{
 		final OvalRenderEvent ore = new OvalRenderEvent( source );
 		if ( _bo != null )

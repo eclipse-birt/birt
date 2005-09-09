@@ -36,27 +36,28 @@ import org.eclipse.birt.chart.model.component.Series;
  * @model extendedMetaData="name='BarSeries' kind='elementOnly'"
  * @generated
  */
-public interface BarSeries extends Series{
+public interface BarSeries extends Series
+{
 
-    /**
-     * Returns the value of the '<em><b>Riser</b></em>' attribute. The default value is <code>"Rectangle"</code>.
-     * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.RiserType}. <!--
-     * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Specifies the 'Riser' to be used for displaying the data values in the chart.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Riser</em>' attribute.
-     * @see org.eclipse.birt.chart.model.attribute.RiserType
-     * @see #isSetRiser()
-     * @see #unsetRiser()
-     * @see #setRiser(RiserType)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries_Riser()
-     * @model default="Rectangle" unique="false" unsettable="true"
-     * @generated
-     */
-    RiserType getRiser();
+	/**
+	 * Returns the value of the '<em><b>Riser</b></em>' attribute. The default value is <code>"Rectangle"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.RiserType}. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Specifies the 'Riser' to be used for displaying the data values in the chart.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Riser</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.RiserType
+	 * @see #isSetRiser()
+	 * @see #unsetRiser()
+	 * @see #setRiser(RiserType)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries_Riser()
+	 * @model default="Rectangle" unique="false" unsettable="true"
+	 * @generated
+	 */
+	RiserType getRiser( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute.
@@ -68,7 +69,7 @@ public interface BarSeries extends Series{
 	 * @see #getRiser()
 	 * @generated
 	 */
-    void setRiser(RiserType value);
+	void setRiser( RiserType value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute.
@@ -78,7 +79,7 @@ public interface BarSeries extends Series{
 	 * @see #setRiser(RiserType)
 	 * @generated
 	 */
-    void unsetRiser();
+	void unsetRiser( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiser <em>Riser</em>}' attribute is set.
@@ -89,23 +90,23 @@ public interface BarSeries extends Series{
 	 * @see #setRiser(RiserType)
 	 * @generated
 	 */
-    boolean isSetRiser();
+	boolean isSetRiser( );
 
-    /**
-     * Returns the value of the '<em><b>Riser Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Defines the color to be used for the Riser outline.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Riser Outline</em>' containment reference.
-     * @see #setRiserOutline(ColorDefinition)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries_RiserOutline()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    ColorDefinition getRiserOutline();
+	/**
+	 * Returns the value of the '<em><b>Riser Outline</b></em>' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Defines the color to be used for the Riser outline.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Riser Outline</em>' containment reference.
+	 * @see #setRiserOutline(ColorDefinition)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getBarSeries_RiserOutline()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	ColorDefinition getRiserOutline( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.BarSeries#getRiserOutline <em>Riser Outline</em>}' containment reference.
@@ -114,6 +115,6 @@ public interface BarSeries extends Series{
 	 * @see #getRiserOutline()
 	 * @generated
 	 */
-    void setRiserOutline(ColorDefinition value);
+	void setRiserOutline( ColorDefinition value );
 
 } // BarSeries

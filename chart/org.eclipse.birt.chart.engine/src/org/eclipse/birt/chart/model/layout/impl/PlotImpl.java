@@ -40,21 +40,20 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl#getClientArea <em>Client Area</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class PlotImpl extends BlockImpl implements Plot
 {
 
 	/**
-	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -62,9 +61,8 @@ public class PlotImpl extends BlockImpl implements Plot
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -112,9 +110,8 @@ public class PlotImpl extends BlockImpl implements Plot
 	protected boolean verticalSpacingESet = false;
 
 	/**
-	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
@@ -123,7 +120,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected PlotImpl( )
@@ -133,7 +129,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -143,7 +138,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getHorizontalSpacing( )
@@ -153,7 +147,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setHorizontalSpacing( int newHorizontalSpacing )
@@ -173,7 +166,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetHorizontalSpacing( )
@@ -193,7 +185,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetHorizontalSpacing( )
@@ -203,7 +194,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getVerticalSpacing( )
@@ -213,7 +203,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVerticalSpacing( int newVerticalSpacing )
@@ -233,7 +222,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVerticalSpacing( )
@@ -253,7 +241,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVerticalSpacing( )
@@ -263,7 +250,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ClientArea getClientArea( )
@@ -273,7 +259,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetClientArea( ClientArea newClientArea,
@@ -298,7 +283,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setClientArea( ClientArea newClientArea )
@@ -332,7 +316,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -372,7 +355,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -419,7 +401,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -485,7 +466,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -549,7 +529,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -596,7 +575,6 @@ public class PlotImpl extends BlockImpl implements Plot
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

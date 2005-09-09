@@ -38,24 +38,25 @@ import org.eclipse.emf.common.util.EList;
  * @model extendedMetaData="name='ChartWithoutAxes' kind='elementOnly'"
  * @generated
  */
-public interface ChartWithoutAxes extends Chart{
+public interface ChartWithoutAxes extends Chart
+{
 
-    /**
-     * Returns the value of the '<em><b>Series Definitions</b></em>' containment reference list. The list contents
-     * are of type {@link org.eclipse.birt.chart.model.data.SeriesDefinition}. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Defines the source of the series.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Series Definitions</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_SeriesDefinitions()
-     * @model type="org.eclipse.birt.chart.model.data.SeriesDefinition" containment="true" resolveProxies="false"
-     *        required="true"
-     * @generated
-     */
-    EList getSeriesDefinitions();
+	/**
+	 * Returns the value of the '<em><b>Series Definitions</b></em>' containment reference list. The list contents
+	 * are of type {@link org.eclipse.birt.chart.model.data.SeriesDefinition}. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Defines the source of the series.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Series Definitions</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithoutAxes_SeriesDefinitions()
+	 * @model type="org.eclipse.birt.chart.model.data.SeriesDefinition" containment="true" resolveProxies="false"
+	 *        required="true"
+	 * @generated
+	 */
+	EList getSeriesDefinitions( );
 
 	/**
 	 * Returns the value of the '<em><b>Min Slice</b></em>' attribute.
@@ -73,7 +74,7 @@ public interface ChartWithoutAxes extends Chart{
 	 *        extendedMetaData="kind='element' name='MinSlice'"
 	 * @generated
 	 */
-	double getMinSlice();
+	double getMinSlice( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute.
@@ -85,7 +86,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #getMinSlice()
 	 * @generated
 	 */
-	void setMinSlice(double value);
+	void setMinSlice( double value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute.
@@ -96,7 +97,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #setMinSlice(double)
 	 * @generated
 	 */
-	void unsetMinSlice();
+	void unsetMinSlice( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSlice <em>Min Slice</em>}' attribute is set.
@@ -108,7 +109,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #setMinSlice(double)
 	 * @generated
 	 */
-	boolean isSetMinSlice();
+	boolean isSetMinSlice( );
 
 	/**
 	 * Returns the value of the '<em><b>Min Slice Percent</b></em>' attribute.
@@ -126,7 +127,7 @@ public interface ChartWithoutAxes extends Chart{
 	 *        extendedMetaData="kind='element' name='MinSlicePercent'"
 	 * @generated
 	 */
-	boolean isMinSlicePercent();
+	boolean isMinSlicePercent( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute.
@@ -138,7 +139,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #isMinSlicePercent()
 	 * @generated
 	 */
-	void setMinSlicePercent(boolean value);
+	void setMinSlicePercent( boolean value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute.
@@ -149,7 +150,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #setMinSlicePercent(boolean)
 	 * @generated
 	 */
-	void unsetMinSlicePercent();
+	void unsetMinSlicePercent( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#isMinSlicePercent <em>Min Slice Percent</em>}' attribute is set.
@@ -161,7 +162,7 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #setMinSlicePercent(boolean)
 	 * @generated
 	 */
-	boolean isSetMinSlicePercent();
+	boolean isSetMinSlicePercent( );
 
 	/**
 	 * Returns the value of the '<em><b>Min Slice Label</b></em>' attribute.
@@ -177,7 +178,7 @@ public interface ChartWithoutAxes extends Chart{
 	 *        extendedMetaData="kind='element' name='MinSliceLabel'"
 	 * @generated
 	 */
-	String getMinSliceLabel();
+	String getMinSliceLabel( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithoutAxes#getMinSliceLabel <em>Min Slice Label</em>}' attribute.
@@ -187,11 +188,11 @@ public interface ChartWithoutAxes extends Chart{
 	 * @see #getMinSliceLabel()
 	 * @generated
 	 */
-	void setMinSliceLabel(String value);
+	void setMinSliceLabel( String value );
 
-    /**
-     * 
-     * @return
-     */
-    Series[] getRunTimeSeries();
+	/**
+	 * 
+	 * @return
+	 */
+	Series[] getRunTimeSeries( );
 } // ChartWithoutAxes

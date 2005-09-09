@@ -38,52 +38,33 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ * PlotWithoutAxes
  */
 public final class PlotWithoutAxes
 {
 
-	/**
-	 * 
-	 */
 	private final ChartWithoutAxes cwoa;
 
-	/**
-	 * 
-	 */
 	private final RunTimeContext rtc;
 
-	/**
-	 * 
-	 */
 	private transient double dPointToPixel = 0;
 
-	/**
-	 * 
-	 */
 	private transient Size szCell = null;
 
-	/**
-	 * 
-	 */
 	private transient int iRows = 0, iColumns = 0, iSeries = 0;
 
-	/**
-	 * 
-	 */
 	private transient Bounds boPlot = null;
 
-	/**
-	 * 
-	 */
 	private transient Insets insCA = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withoutaxes" ); //$NON-NLS-1$
 
 	/**
+	 * The constructor.
 	 * 
 	 * @param xs
 	 * @param cwoa
+	 * @param rtc
 	 */
 	public PlotWithoutAxes( IDisplayServer xs, ChartWithoutAxes cwoa,
 			RunTimeContext rtc )
@@ -174,6 +155,14 @@ public final class PlotWithoutAxes
 	public final Bounds getBounds( )
 	{
 		return boPlot;
+	}
+
+	/**
+	 * @return
+	 */
+	public final ChartWithoutAxes getModel( )
+	{
+		return cwoa;
 	}
 
 	/**

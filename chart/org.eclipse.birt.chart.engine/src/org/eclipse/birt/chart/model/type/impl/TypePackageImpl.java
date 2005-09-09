@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.layout.LayoutPackage;
 import org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
@@ -40,7 +41,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class TypePackageImpl extends EPackageImpl implements TypePackage
@@ -48,42 +48,43 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass areaSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass barSeriesEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dialSeriesEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass lineSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass pieSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass scatterSeriesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass stockSeriesEClass = null;
@@ -110,27 +111,26 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -186,7 +186,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAreaSeries( )
@@ -196,7 +195,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getBarSeries( )
@@ -206,7 +204,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBarSeries_Riser( )
@@ -216,7 +213,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getBarSeries_RiserOutline( )
@@ -225,8 +221,37 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDialSeries( )
+	{
+		return dialSeriesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDialSeries_Dial( )
+	{
+		return (EReference) dialSeriesEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDialSeries_Needle( )
+	{
+		return (EReference) dialSeriesEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLineSeries( )
@@ -236,7 +261,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLineSeries_Marker( )
@@ -246,7 +270,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLineSeries_LineAttributes( )
@@ -256,7 +279,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLineSeries_PaletteLineColor( )
@@ -266,7 +288,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLineSeries_Curve( )
@@ -276,7 +297,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLineSeries_ShadowColor( )
@@ -286,7 +306,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getPieSeries( )
@@ -296,7 +315,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPieSeries_Explosion( )
@@ -306,7 +324,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPieSeries_ExplosionExpression( )
@@ -316,7 +333,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getPieSeries_Title( )
@@ -326,7 +342,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPieSeries_TitlePosition( )
@@ -336,7 +351,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getPieSeries_LeaderLineAttributes( )
@@ -346,7 +360,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPieSeries_LeaderLineStyle( )
@@ -356,7 +369,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPieSeries_LeaderLineLength( )
@@ -366,7 +378,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getPieSeries_SliceOutline( )
@@ -376,7 +387,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getScatterSeries( )
@@ -386,7 +396,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getStockSeries( )
@@ -396,7 +405,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getStockSeries_Fill( )
@@ -406,7 +414,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getStockSeries_LineAttributes( )
@@ -416,7 +423,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TypeFactory getTypeFactory( )
@@ -426,16 +432,15 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -450,6 +455,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		barSeriesEClass = createEClass( BAR_SERIES );
 		createEAttribute( barSeriesEClass, BAR_SERIES__RISER );
 		createEReference( barSeriesEClass, BAR_SERIES__RISER_OUTLINE );
+
+		dialSeriesEClass = createEClass( DIAL_SERIES );
+		createEReference( dialSeriesEClass, DIAL_SERIES__DIAL );
+		createEReference( dialSeriesEClass, DIAL_SERIES__NEEDLE );
 
 		lineSeriesEClass = createEClass( LINE_SERIES );
 		createEReference( lineSeriesEClass, LINE_SERIES__MARKER );
@@ -477,7 +486,6 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -509,6 +517,8 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		areaSeriesEClass.getESuperTypes( ).add( this.getLineSeries( ) );
 		barSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
+		dialSeriesEClass.getESuperTypes( )
+				.add( theComponentPackage.getSeries( ) );
 		lineSeriesEClass.getESuperTypes( )
 				.add( theComponentPackage.getSeries( ) );
 		pieSeriesEClass.getESuperTypes( )
@@ -520,318 +530,99 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		// Initialize classes and features; add operations and parameters
 		initEClass( areaSeriesEClass,
 				AreaSeries.class,
-				"AreaSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"AreaSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( barSeriesEClass,
 				BarSeries.class,
-				"BarSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"BarSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getBarSeries_Riser( ),
 				theAttributePackage.getRiserType( ),
-				"riser", //$NON-NLS-1$
-				"Rectangle", //$NON-NLS-1$
-				0,
-				1,
-				BarSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"riser", "Rectangle", 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getBarSeries_RiserOutline( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
-				"riserOutline", //$NON-NLS-1$
+				"riserOutline", null, 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( dialSeriesEClass,
+				DialSeries.class,
+				"DialSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getDialSeries_Dial( ),
+				theComponentPackage.getDial( ),
 				null,
-				0,
-				1,
-				BarSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"dial", null, 1, 1, DialSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getDialSeries_Needle( ),
+				theComponentPackage.getNeedle( ),
+				null,
+				"needle", null, 1, 1, DialSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( lineSeriesEClass,
 				LineSeries.class,
-				"LineSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LineSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getLineSeries_Marker( ),
 				theAttributePackage.getMarker( ),
 				null,
-				"marker", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				LineSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"marker", null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLineSeries_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				LineSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineSeries_PaletteLineColor( ),
 				theXMLTypePackage.getBoolean( ),
-				"paletteLineColor", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"paletteLineColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineSeries_Curve( ),
 				theXMLTypePackage.getBoolean( ),
-				"curve", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"curve", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLineSeries_ShadowColor( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
-				"shadowColor", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"shadowColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( pieSeriesEClass,
 				PieSeries.class,
-				"PieSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"PieSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_Explosion( ),
 				theXMLTypePackage.getInt( ),
-				"explosion", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"explosion", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_ExplosionExpression( ),
 				theXMLTypePackage.getString( ),
-				"explosionExpression", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"explosionExpression", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPieSeries_Title( ),
 				theComponentPackage.getLabel( ),
 				null,
-				"title", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"title", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", //$NON-NLS-1$
-				"Above", //$NON-NLS-1$
-				1,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"titlePosition", "Above", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getPieSeries_LeaderLineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"leaderLineAttributes", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"leaderLineAttributes", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_LeaderLineStyle( ),
 				theAttributePackage.getLeaderLineStyle( ),
-				"leaderLineStyle", //$NON-NLS-1$
-				"Fixed_Length", //$NON-NLS-1$
-				1,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"leaderLineStyle", "Fixed_Length", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getPieSeries_LeaderLineLength( ),
 				theAttributePackage.getPercentage( ),
-				"leaderLineLength", //$NON-NLS-1$
-				null,
-				1,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"leaderLineLength", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPieSeries_SliceOutline( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
-				"sliceOutline", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				PieSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"sliceOutline", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,
-				"ScatterSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ScatterSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( stockSeriesEClass,
 				StockSeries.class,
-				"StockSeries", //$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"StockSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getStockSeries_Fill( ),
 				theAttributePackage.getFill( ),
 				null,
-				"fill", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				StockSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"fill", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getStockSeries_LineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
-				"lineAttributes", //$NON-NLS-1$
-				null,
-				0,
-				1,
-				StockSeries.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"lineAttributes", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -850,79 +641,114 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( areaSeriesEClass, source, new String[]{
-				"name", "AreaSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "AreaSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( barSeriesEClass, source, new String[]{
-				"name", "BarSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "BarSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBarSeries_Riser( ), source, new String[]{
-				"kind", "element", "name", "Riser" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Riser" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getBarSeries_RiserOutline( ), source, new String[]{
-				"kind", "element", "name", "RiserOutline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "RiserOutline" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( dialSeriesEClass, source, new String[]{
+				"name", "DialSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDialSeries_Dial( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Dial" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getDialSeries_Needle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Needle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( lineSeriesEClass, source, new String[]{
-				"name", "LineSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LineSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_Marker( ), source, new String[]{
-				"kind", "element", "name", "Marker" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Marker" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_PaletteLineColor( ), source, new String[]{
-				"kind", "element", "name", "PaletteLineColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "PaletteLineColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_Curve( ), source, new String[]{
-				"kind", "element", "name", "Curve" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Curve" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getLineSeries_ShadowColor( ), source, new String[]{
-				"kind", "element", "name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ShadowColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( pieSeriesEClass, source, new String[]{
-				"name", "PieSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "PieSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_Explosion( ), source, new String[]{
-				"kind", "element", "name", "Explosion" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Explosion" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_ExplosionExpression( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "ExplosionExpression" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "ExplosionExpression" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getPieSeries_Title( ), source, new String[]{
-				"kind", "element", "name", "Title" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Title" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_TitlePosition( ), source, new String[]{
-				"kind", "element", "name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TitlePosition" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_LeaderLineAttributes( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "LeaderLineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "LeaderLineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( getPieSeries_LeaderLineStyle( ), source, new String[]{
-				"kind", "element", "name", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_LeaderLineLength( ), source, new String[]{
-				"kind", "element", "name", "LeaderLineLength" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LeaderLineLength" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getPieSeries_SliceOutline( ), source, new String[]{
-				"kind", "element", "name", "SliceOutline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "SliceOutline" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scatterSeriesEClass, source, new String[]{
-				"name", "ScatterSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ScatterSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( stockSeriesEClass, source, new String[]{
-				"name", "StockSeries", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "StockSeries", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getStockSeries_Fill( ), source, new String[]{
-				"kind", "element", "name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Fill" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getStockSeries_LineAttributes( ), source, new String[]{
-				"kind", "element", "name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LineAttributes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

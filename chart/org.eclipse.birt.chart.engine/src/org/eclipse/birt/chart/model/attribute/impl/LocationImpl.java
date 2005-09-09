@@ -26,12 +26,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
  * </ul>
  * </p>
  * 
@@ -349,6 +345,49 @@ public class LocationImpl extends EObjectImpl implements Location
 		return lo;
 	}
 
+	/**
+	 * @param xa
+	 * @param ya
+	 * @return
+	 */
+	public static final Location[] create( double[] xa, double[] ya )
+	{
+		Location[] loa = new Location[xa.length];
+		for ( int i = 0; i < loa.length; i++ )
+		{
+			loa[i] = create( xa[i], ya[i] );
+		}
+		return loa;
+	}
+
+	/**
+	 * @param loc
+	 * @return
+	 */
+	public static double[] getXArray( Location[] loc )
+	{
+		double[] xa = new double[loc.length];
+		for ( int i = 0; i < loc.length; i++ )
+		{
+			xa[i] = loc[i].getX( );
+		}
+		return xa;
+	}
+
+	/**
+	 * @param loc
+	 * @return
+	 */
+	public static double[] getYArray( Location[] loc )
+	{
+		double[] ya = new double[loc.length];
+		for ( int i = 0; i < loc.length; i++ )
+		{
+			ya[i] = loc[i].getY( );
+		}
+		return ya;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -383,4 +422,4 @@ public class LocationImpl extends EObjectImpl implements Location
 		setY( getY( ) * dScale );
 	}
 
-} //LocationImpl
+} // LocationImpl

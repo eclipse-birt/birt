@@ -43,28 +43,19 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * 
+ * A helper class for Legend computation.
  */
 public final class LegendBuilder
 {
 
-	/**
-	 * 
-	 */
 	private final double dHorizontalSpacing = 4;
 
-	/**
-	 * 
-	 */
 	private final double dVerticalSpacing = 4;
 
-	/**
-	 * 
-	 */
 	private Size sz;
 
 	/**
-	 * 
+	 * The constructor.
 	 */
 	public LegendBuilder( )
 	{
@@ -280,7 +271,7 @@ public final class LegendBuilder
 				{
 					// TODO filter the not-used legend.
 
-					Object obj = dsiBase.next();
+					Object obj = dsiBase.next( );
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -288,7 +279,7 @@ public final class LegendBuilder
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									Locale.getDefault(),
+									Locale.getDefault( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -340,7 +331,7 @@ public final class LegendBuilder
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault(),
+										Locale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -358,6 +349,54 @@ public final class LegendBuilder
 						dHeight += insCA.getTop( )
 								+ dItemHeight
 								+ insCA.getBottom( );
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( se.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								seLabel.getCaption( ).setValue( valueText );
+								itm.reuse( seLabel );
+								dW = itm.getFullWidth( );
+
+								if ( dW > dMaxW )
+								{
+									dMaxW = dW;
+								}
+
+								dHeight += itm.getFullHeight( ) + 2;
+							}
+						}
 					}
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
@@ -396,7 +435,7 @@ public final class LegendBuilder
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault(),
+										Locale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -410,6 +449,50 @@ public final class LegendBuilder
 						dHeight += insCA.getTop( )
 								+ dItemHeight
 								+ insCA.getBottom( );
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( se.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								seLabel.getCaption( ).setValue( valueText );
+								itm.reuse( seLabel );
+
+								dMaxW = Math.max( dMaxW, itm.getFullWidth( ) );
+								dHeight += itm.getFullHeight( ) + 2;
+							}
+						}
+
 					}
 
 					// SETUP VERTICAL SEPARATOR SPACING
@@ -510,7 +593,7 @@ public final class LegendBuilder
 							ChartException.GENERATION,
 							ex );
 				}
-				
+
 				FormatSpecifier fs = null;
 				if ( sdBase != null )
 				{
@@ -522,7 +605,7 @@ public final class LegendBuilder
 				{
 					// TODO filter the not-used legend.
 
-					Object obj = dsiBase.next();
+					Object obj = dsiBase.next( );
 					String lgtext = String.valueOf( obj );
 					if ( fs != null )
 					{
@@ -530,7 +613,7 @@ public final class LegendBuilder
 						{
 							lgtext = ValueFormatter.format( obj,
 									fs,
-									Locale.getDefault(),
+									Locale.getDefault( ),
 									null );
 						}
 						catch ( ChartException e )
@@ -566,6 +649,7 @@ public final class LegendBuilder
 			// TB)
 			{
 				double dMaxW = 0;
+				double tmpHeight = 0;
 				dSeparatorThickness += dVerticalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
 				{
@@ -583,7 +667,7 @@ public final class LegendBuilder
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault(),
+										Locale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -596,12 +680,59 @@ public final class LegendBuilder
 
 						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
 						// + MAX ITEM WIDTH + RIGHT INSETS
-						dWidth += insCA.getLeft( )
+						double tmpWidth = insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing
 								+ itm.getFullWidth( )
 								+ insCA.getRight( );
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( se.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								seLabel.getCaption( ).setValue( valueText );
+								itm.reuse( seLabel );
+
+								tmpWidth = Math.max( tmpWidth,
+										itm.getFullWidth( ) );
+								tmpHeight = Math.max( tmpHeight,
+										itm.getFullHeight( ) + 2 );
+							}
+						}
+
+						dWidth += tmpWidth;
 					}
 
 					// SETUP HORIZONTAL SEPARATOR SPACING
@@ -612,7 +743,10 @@ public final class LegendBuilder
 
 					// SET WIDTH TO MAXIMUM ROW WIDTH
 					dMaxW = Math.max( dWidth, dMaxW );
-					dHeight += insCA.getTop( ) + dItemHeight + insCA.getRight( );
+					dHeight += insCA.getTop( )
+							+ dItemHeight
+							+ insCA.getRight( )
+							+ tmpHeight;
 				}
 				dWidth = dMaxW;
 			}
@@ -620,6 +754,7 @@ public final class LegendBuilder
 			// =>
 			// LR)
 			{
+				double tmpHeight = 0;
 				dSeparatorThickness += dHorizontalSpacing;
 				for ( int j = 0; j < seda.length; j++ )
 				{
@@ -636,7 +771,7 @@ public final class LegendBuilder
 							{
 								lgtext = ValueFormatter.format( obj,
 										fs,
-										Locale.getDefault(),
+										Locale.getDefault( ),
 										null );
 							}
 							catch ( ChartException e )
@@ -649,12 +784,59 @@ public final class LegendBuilder
 
 						// LEFT INSETS + LEGEND ITEM WIDTH + HORIZONTAL SPACING
 						// + MAX ITEM WIDTH + RIGHT INSETS
-						dWidth += insCA.getLeft( )
+						double tmpWidth = insCA.getLeft( )
 								+ ( 3 * dItemHeight )
 								/ 2
 								+ dHorizontalSpacing
 								+ itm.getFullWidth( )
 								+ insCA.getRight( );
+
+						if ( lg.isShowValue( ) )
+						{
+							DataSetIterator dsiBase = null;
+							try
+							{
+								dsiBase = new DataSetIterator( se.getDataSet( ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new ChartException( ChartEnginePlugin.ID,
+										ChartException.GENERATION,
+										ex );
+							}
+
+							// Use first value for each series.
+							if ( dsiBase.hasNext( ) )
+							{
+								obj = dsiBase.next( );
+								String valueText = String.valueOf( obj );
+								if ( fs != null )
+								{
+									try
+									{
+										lgtext = ValueFormatter.format( obj,
+												fs,
+												Locale.getDefault( ),
+												null );
+									}
+									catch ( ChartException e )
+									{
+										// ignore, use original text.
+									}
+								}
+
+								Label seLabel = (Label) EcoreUtil.copy( se.getLabel( ) );
+								seLabel.getCaption( ).setValue( valueText );
+								itm.reuse( seLabel );
+
+								tmpWidth = Math.max( tmpWidth,
+										itm.getFullWidth( ) );
+								tmpHeight = Math.max( tmpHeight,
+										itm.getFullHeight( ) + 2 );
+							}
+						}
+
+						dWidth += tmpWidth;
 					}
 
 					// SETUP VERTICAL SEPARATOR SPACING
@@ -663,7 +845,10 @@ public final class LegendBuilder
 						dWidth += dSeparatorThickness;
 					}
 				}
-				dHeight = insCA.getTop( ) + dItemHeight + insCA.getRight( );
+				dHeight = insCA.getTop( )
+						+ dItemHeight
+						+ insCA.getRight( )
+						+ tmpHeight;
 			}
 			else
 			{
@@ -709,13 +894,13 @@ public final class LegendBuilder
 			{
 				case Position.ABOVE :
 				case Position.BELOW :
-					dHeight += bb.getHeight();
-					dWidth = Math.max( dWidth, bb.getWidth() );
+					dHeight += bb.getHeight( );
+					dWidth = Math.max( dWidth, bb.getWidth( ) );
 					break;
 				case Position.LEFT :
 				case Position.RIGHT :
-					dWidth += bb.getWidth();
-					dHeight = Math.max( dHeight, bb.getHeight() );
+					dWidth += bb.getWidth( );
+					dHeight = Math.max( dHeight, bb.getHeight( ) );
 					break;
 			}
 		}
@@ -725,6 +910,11 @@ public final class LegendBuilder
 		return sz;
 	}
 
+	/**
+	 * Returns the size computed previously.
+	 * 
+	 * @return
+	 */
 	public final Size getSize( )
 	{
 		return sz;

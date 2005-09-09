@@ -92,7 +92,6 @@ public final class ChartDimension extends AbstractEnumerator
 	 * here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TWO_DIMENSIONAL_WITH_DEPTH
 	 * @generated
 	 * @ordered
@@ -119,7 +118,6 @@ public final class ChartDimension extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Chart Dimension</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final ChartDimension[] VALUES_ARRAY = new ChartDimension[]{
@@ -129,17 +127,15 @@ public final class ChartDimension extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Chart Dimension</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Chart Dimension</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static ChartDimension get( String name )
@@ -156,9 +152,8 @@ public final class ChartDimension extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Chart Dimension</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static ChartDimension get( int value )
@@ -176,9 +171,9 @@ public final class ChartDimension extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private ChartDimension( int value, String name )

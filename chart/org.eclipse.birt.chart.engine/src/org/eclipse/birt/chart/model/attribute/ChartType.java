@@ -35,9 +35,9 @@ public final class ChartType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Pie</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Pie</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #PIE_LITERAL
 	 * @model name="Pie"
 	 * @generated
@@ -46,9 +46,9 @@ public final class ChartType extends AbstractEnumerator
 	public static final int PIE = 0;
 
 	/**
-	 * The '<em><b>Bar</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Bar</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BAR_LITERAL
 	 * @model name="Bar"
 	 * @generated
@@ -57,9 +57,9 @@ public final class ChartType extends AbstractEnumerator
 	public static final int BAR = 1;
 
 	/**
-	 * The '<em><b>Line</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Line</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINE_LITERAL
 	 * @model name="Line"
 	 * @generated
@@ -68,9 +68,9 @@ public final class ChartType extends AbstractEnumerator
 	public static final int LINE = 2;
 
 	/**
-	 * The '<em><b>Combo</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Combo</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #COMBO_LITERAL
 	 * @model name="Combo"
 	 * @generated
@@ -79,9 +79,9 @@ public final class ChartType extends AbstractEnumerator
 	public static final int COMBO = 3;
 
 	/**
-	 * The '<em><b>Scatter</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Scatter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SCATTER_LITERAL
 	 * @model name="Scatter"
 	 * @generated
@@ -90,9 +90,9 @@ public final class ChartType extends AbstractEnumerator
 	public static final int SCATTER = 4;
 
 	/**
-	 * The '<em><b>Stock</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Stock</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #STOCK_LITERAL
 	 * @model name="Stock"
 	 * @generated
@@ -101,13 +101,13 @@ public final class ChartType extends AbstractEnumerator
 	public static final int STOCK = 5;
 
 	/**
-	 * The '<em><b>Pie</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Pie</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Pie</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #PIE
 	 * @generated
 	 * @ordered
@@ -115,13 +115,13 @@ public final class ChartType extends AbstractEnumerator
 	public static final ChartType PIE_LITERAL = new ChartType( PIE, "Pie" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Bar</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Bar</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Bar</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BAR
 	 * @generated
 	 * @ordered
@@ -129,13 +129,13 @@ public final class ChartType extends AbstractEnumerator
 	public static final ChartType BAR_LITERAL = new ChartType( BAR, "Bar" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Line</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Line</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Line</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINE
 	 * @generated
 	 * @ordered
@@ -143,13 +143,13 @@ public final class ChartType extends AbstractEnumerator
 	public static final ChartType LINE_LITERAL = new ChartType( LINE, "Line" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Combo</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Combo</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Combo</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #COMBO
 	 * @generated
 	 * @ordered
@@ -157,14 +157,14 @@ public final class ChartType extends AbstractEnumerator
 	public static final ChartType COMBO_LITERAL = new ChartType( COMBO, "Combo" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Scatter</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Scatter</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Scatter</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SCATTER
 	 * @generated
 	 * @ordered
@@ -173,13 +173,13 @@ public final class ChartType extends AbstractEnumerator
 			"Scatter" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Stock</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Stock</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Stock</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #STOCK
 	 * @generated
 	 * @ordered
@@ -202,17 +202,15 @@ public final class ChartType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Chart Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Chart Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static ChartType get( String name )
@@ -229,9 +227,8 @@ public final class ChartType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Chart Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static ChartType get( int value )
@@ -255,9 +252,9 @@ public final class ChartType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private ChartType( int value, String name )

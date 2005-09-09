@@ -25,22 +25,18 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl#getDataSetRepresentation <em>Data Set Representation</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 {
 
 	/**
-	 * The default value of the '
-	 * {@link #getDataSetRepresentation() <em>Data Set Representation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDataSetRepresentation() <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -48,10 +44,8 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 	protected static final String DATA_SET_REPRESENTATION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getDataSetRepresentation() <em>Data Set Representation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDataSetRepresentation() <em>Data Set Representation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDataSetRepresentation()
 	 * @generated
 	 * @ordered
@@ -60,7 +54,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected BaseSampleDataImpl( )
@@ -70,7 +63,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -80,7 +72,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getDataSetRepresentation( )
@@ -90,7 +81,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDataSetRepresentation( String newDataSetRepresentation )
@@ -107,7 +97,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -122,7 +111,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -138,7 +126,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -154,7 +141,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -170,7 +156,6 @@ public class BaseSampleDataImpl extends EObjectImpl implements BaseSampleData
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

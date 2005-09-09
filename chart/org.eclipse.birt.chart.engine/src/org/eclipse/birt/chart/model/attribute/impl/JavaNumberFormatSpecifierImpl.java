@@ -28,15 +28,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
@@ -44,9 +40,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 {
 
 	/**
-	 * The default value of the '{@link #getPattern() <em>Pattern</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -54,9 +49,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected static final String PATTERN_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -64,9 +58,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected String pattern = PATTERN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -74,9 +67,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -94,7 +86,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected JavaNumberFormatSpecifierImpl( )
@@ -104,7 +95,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -114,7 +104,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getPattern( )
@@ -124,7 +113,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPattern( String newPattern )
@@ -141,7 +129,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getMultiplier( )
@@ -151,7 +138,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setMultiplier( double newMultiplier )
@@ -171,7 +157,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetMultiplier( )
@@ -191,7 +176,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetMultiplier( )
@@ -201,7 +185,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -218,7 +201,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -237,7 +219,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -256,7 +237,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -274,7 +254,6 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -307,7 +286,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	{
 		final JavaNumberFormatSpecifier jnfs = AttributeFactory.eINSTANCE.createJavaNumberFormatSpecifier( );
 		jnfs.setPattern( sJavaPattern );
-		//jnfs.setMultiplier(1); // UNDEFINED SUGGESTS A DEFAULT OF '1'
+		// jnfs.setMultiplier(1); // UNDEFINED SUGGESTS A DEFAULT OF '1'
 		return jnfs;
 	}
 
@@ -323,4 +302,4 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
 				: df.format( dValue );
 	}
-} //JavaNumberFormatSpecifierImpl
+} // JavaNumberFormatSpecifierImpl

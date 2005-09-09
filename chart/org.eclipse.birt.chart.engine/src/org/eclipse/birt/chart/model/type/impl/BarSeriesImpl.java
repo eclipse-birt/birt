@@ -51,20 +51,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser <em>Riser</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline <em>Riser Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiser <em>Riser</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.BarSeriesImpl#getRiserOutline <em>Riser Outline</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class BarSeriesImpl extends SeriesImpl implements BarSeries
 {
 
 	/**
-	 * The default value of the '{@link #getRiser() <em>Riser</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getRiser() <em>Riser</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRiser()
 	 * @generated
 	 * @ordered
@@ -74,7 +73,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	/**
 	 * The cached value of the '{@link #getRiser() <em>Riser</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getRiser()
 	 * @generated
 	 * @ordered
@@ -82,18 +80,17 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 	protected RiserType riser = RISER_EDEFAULT;
 
 	/**
-	 * This is true if the Riser attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Riser attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean riserESet = false;
 
 	/**
-	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRiserOutline() <em>Riser Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRiserOutline()
 	 * @generated
 	 * @ordered
@@ -102,7 +99,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected BarSeriesImpl( )
@@ -112,7 +108,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -122,7 +117,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public RiserType getRiser( )
@@ -132,7 +126,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRiser( RiserType newRiser )
@@ -152,7 +145,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetRiser( )
@@ -172,7 +164,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetRiser( )
@@ -182,7 +173,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ColorDefinition getRiserOutline( )
@@ -192,7 +182,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetRiserOutline(
@@ -217,7 +206,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRiserOutline( ColorDefinition newRiserOutline )
@@ -251,7 +239,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -289,7 +276,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -328,7 +314,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -382,7 +367,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -434,7 +418,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -474,7 +457,6 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

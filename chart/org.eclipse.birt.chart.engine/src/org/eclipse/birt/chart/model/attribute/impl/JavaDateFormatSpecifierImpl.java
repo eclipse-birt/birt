@@ -29,12 +29,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern <em>Pattern</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
@@ -42,9 +40,8 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 {
 
 	/**
-	 * The default value of the '{@link #getPattern() <em>Pattern</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -52,9 +49,8 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected static final String PATTERN_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -63,7 +59,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected JavaDateFormatSpecifierImpl( )
@@ -73,7 +68,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -83,7 +77,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getPattern( )
@@ -93,7 +86,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setPattern( String newPattern )
@@ -110,7 +102,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -125,7 +116,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -141,7 +131,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -157,7 +146,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -173,7 +161,6 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -216,4 +203,4 @@ public class JavaDateFormatSpecifierImpl extends FormatSpecifierImpl implements
 		final SimpleDateFormat sdf = new SimpleDateFormat( getPattern( ) );
 		return sdf.format( c.getTime( ) );
 	}
-} //JavaDateFormatSpecifierImpl
+} // JavaDateFormatSpecifierImpl

@@ -35,9 +35,9 @@ public final class MarkerType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Crosshair</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Crosshair</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #CROSSHAIR_LITERAL
 	 * @model name="Crosshair"
 	 * @generated
@@ -46,9 +46,9 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int CROSSHAIR = 0;
 
 	/**
-	 * The '<em><b>Triangle</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Triangle</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #TRIANGLE_LITERAL
 	 * @model name="Triangle"
 	 * @generated
@@ -57,9 +57,9 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int TRIANGLE = 1;
 
 	/**
-	 * The '<em><b>Box</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Box</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BOX_LITERAL
 	 * @model name="Box"
 	 * @generated
@@ -68,9 +68,9 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int BOX = 2;
 
 	/**
-	 * The '<em><b>Circle</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Circle</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CIRCLE_LITERAL
 	 * @model name="Circle"
 	 * @generated
@@ -79,14 +79,14 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int CIRCLE = 3;
 
 	/**
-	 * The '<em><b>Crosshair</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Crosshair</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Crosshair</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CROSSHAIR
 	 * @generated
 	 * @ordered
@@ -95,14 +95,14 @@ public final class MarkerType extends AbstractEnumerator
 			"Crosshair" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Triangle</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Triangle</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Triangle</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TRIANGLE
 	 * @generated
 	 * @ordered
@@ -111,13 +111,13 @@ public final class MarkerType extends AbstractEnumerator
 			"Triangle" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Box</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Box</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Box</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #BOX
 	 * @generated
 	 * @ordered
@@ -125,13 +125,13 @@ public final class MarkerType extends AbstractEnumerator
 	public static final MarkerType BOX_LITERAL = new MarkerType( BOX, "Box" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Circle</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Circle</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Circle</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #CIRCLE
 	 * @generated
 	 * @ordered
@@ -150,17 +150,15 @@ public final class MarkerType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Marker Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Marker Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static MarkerType get( String name )
@@ -177,9 +175,8 @@ public final class MarkerType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Marker Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static MarkerType get( int value )
@@ -199,9 +196,9 @@ public final class MarkerType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private MarkerType( int value, String name )

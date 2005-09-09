@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -46,8 +47,10 @@ import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
@@ -96,7 +99,6 @@ import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package </b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class AttributePackageImpl extends EPackageImpl implements
@@ -105,644 +107,578 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass actionValueEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass angle3DEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass axisOriginEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass boundsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass colorDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dataPointEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dataPointComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass dateFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass extendedPropertyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass fillEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass fontDefinitionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass formatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass gradientEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass imageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass insetsEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass javaDateFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass javaNumberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass lineAttributesEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass locationEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass location3DEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass markerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass numberFormatSpecifierEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass paletteEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass scriptValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass seriesValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass sizeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass styleMapEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass textEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass textAlignmentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass tooltipValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass urlValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum actionTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum anchorEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum axisTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum chartDimensionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum chartTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum dataPointComponentTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum dataTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum dateFormatDetailEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum dateFormatTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum directionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum groupingUnitTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum horizontalAlignmentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum intersectionTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum leaderLineStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum legendItemTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	private EEnum lineDecoratorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EEnum lineStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum markerTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum orientationEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum positionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum riserTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum ruleTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum scaleUnitTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum sortOptionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum stretchEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum styledComponentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum tickStyleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum triggerConditionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum unitsOfMeasurementEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum verticalAlignmentEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType actionTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType anchorObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType axisTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType chartDimensionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType chartTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType dataPointComponentTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType dataTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType dateFormatDetailObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType dateFormatTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType directionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType groupingUnitTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType horizontalAlignmentObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType idEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType intersectionTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType leaderLineStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType legendItemTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	private EDataType lineDecoratorObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EDataType lineStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType markerTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType orientationObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType percentageEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType percentageObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType positionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType rgbValueEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType rgbValueObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType riserTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType ruleTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType scaleUnitTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType sortOptionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType stretchObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType styledComponentObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType tickStyleObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType triggerConditionObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType unitsOfMeasurementObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EDataType verticalAlignmentObjectEDataType = null;
@@ -769,27 +705,26 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package </b> for this model,
-	 * and for any others upon which it depends. Simple dependencies are
-	 * satisfied by calling this method on all dependent packages before doing
-	 * anything else. This method drives initialization for interdependent
-	 * packages directly, in parallel with this package, itself.
-	 * <p>
-	 * Of this package and its interdependencies, all packages which have not
-	 * yet been registered by their URI values are first created and registered.
-	 * The packages are then initialized in two steps: meta-model objects for
-	 * all of the packages are created before any are initialized, since one
-	 * package's meta-model objects may refer to those of another.
-	 * <p>
-	 * Invocation of this method will not affect any packages that have already
-	 * been initialized. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates, registers, and initializes the <b>Package</b> for this
+	 * model, and for any others upon which it depends.  Simple
+	 * dependencies are satisfied by calling this method on all
+	 * dependent packages before doing anything else.  This method drives
+	 * initialization for interdependent packages directly, in parallel
+	 * with this package, itself.
+	 * <p>Of this package and its interdependencies, all packages which
+	 * have not yet been registered by their URI values are first created
+	 * and registered.  The packages are then initialized in two steps:
+	 * meta-model objects for all of the packages are created before any
+	 * are initialized, since one package's meta-model objects may refer to
+	 * those of another.
+	 * <p>Invocation of this method will not affect any packages that have
+	 * already been initialized.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -810,32 +745,32 @@ public class AttributePackageImpl extends EPackageImpl implements
 		XMLTypePackageImpl.init( );
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackageImpl.eINSTANCE );
 		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackageImpl.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
-				: TypePackageImpl.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackageImpl.eINSTANCE );
+				: ComponentPackage.eINSTANCE );
 		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackageImpl.eINSTANCE );
+				: DataPackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+				: TypePackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theAttributePackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
 		theComponentPackage.createPackageContents( );
-		theTypePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
 		theDataPackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
+		theTypePackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theAttributePackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
 		theComponentPackage.initializePackageContents( );
-		theTypePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
 		theDataPackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
+		theTypePackage.initializePackageContents( );
 
 		// Register package validator
 		EValidator.Registry.INSTANCE.put( theAttributePackage,
@@ -855,7 +790,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getActionValue( )
@@ -864,8 +798,47 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAngle3D( )
+	{
+		return angle3DEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAngle3D_XAngle( )
+	{
+		return (EAttribute) angle3DEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAngle3D_YAngle( )
+	{
+		return (EAttribute) angle3DEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAngle3D_ZAngle( )
+	{
+		return (EAttribute) angle3DEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAxisOrigin( )
@@ -875,7 +848,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getAxisOrigin_Type( )
@@ -885,7 +857,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAxisOrigin_Value( )
@@ -895,7 +866,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getBounds( )
@@ -905,7 +875,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBounds_Left( )
@@ -915,7 +884,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBounds_Top( )
@@ -925,7 +893,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBounds_Width( )
@@ -935,7 +902,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getBounds_Height( )
@@ -945,7 +911,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getColorDefinition( )
@@ -955,7 +920,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getColorDefinition_Transparency( )
@@ -966,7 +930,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getColorDefinition_Red( )
@@ -977,7 +940,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getColorDefinition_Blue( )
@@ -988,7 +950,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getColorDefinition_Green( )
@@ -999,7 +960,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDataPoint( )
@@ -1009,7 +969,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getDataPoint_Components( )
@@ -1019,7 +978,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDataPoint_Prefix( )
@@ -1029,7 +987,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDataPoint_Suffix( )
@@ -1039,7 +996,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDataPoint_Separator( )
@@ -1049,7 +1005,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDataPointComponent( )
@@ -1059,7 +1014,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDataPointComponent_Type( )
@@ -1070,7 +1024,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getDataPointComponent_FormatSpecifier( )
@@ -1081,7 +1034,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getDateFormatSpecifier( )
@@ -1091,7 +1043,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDateFormatSpecifier_Type( )
@@ -1102,7 +1053,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getDateFormatSpecifier_Detail( )
@@ -1113,7 +1063,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getExtendedProperty( )
@@ -1123,7 +1072,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getExtendedProperty_Name( )
@@ -1134,7 +1082,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getExtendedProperty_Value( )
@@ -1145,7 +1092,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getFill( )
@@ -1155,7 +1101,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFill_Type( )
@@ -1165,7 +1110,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getFontDefinition( )
@@ -1175,7 +1119,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Name( )
@@ -1186,7 +1129,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Size( )
@@ -1197,7 +1139,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Bold( )
@@ -1208,7 +1149,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Italic( )
@@ -1219,7 +1159,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Strikethrough( )
@@ -1230,7 +1169,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Underline( )
@@ -1241,7 +1179,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_WordWrap( )
@@ -1252,7 +1189,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getFontDefinition_Alignment( )
@@ -1263,7 +1199,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getFontDefinition_Rotation( )
@@ -1274,7 +1209,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getFormatSpecifier( )
@@ -1284,7 +1218,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getGradient( )
@@ -1294,7 +1227,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getGradient_StartColor( )
@@ -1304,7 +1236,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getGradient_EndColor( )
@@ -1314,7 +1245,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGradient_Direction( )
@@ -1324,7 +1254,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGradient_Cyclic( )
@@ -1334,7 +1263,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getGradient_Transparency( )
@@ -1344,7 +1272,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getImage( )
@@ -1354,7 +1281,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getImage_URL( )
@@ -1364,7 +1290,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getInsets( )
@@ -1374,7 +1299,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInsets_Top( )
@@ -1384,7 +1308,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInsets_Left( )
@@ -1394,7 +1317,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInsets_Bottom( )
@@ -1404,7 +1326,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInsets_Right( )
@@ -1414,7 +1335,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getJavaDateFormatSpecifier( )
@@ -1424,7 +1344,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getJavaDateFormatSpecifier_Pattern( )
@@ -1435,7 +1354,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getJavaNumberFormatSpecifier( )
@@ -1445,7 +1363,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getJavaNumberFormatSpecifier_Pattern( )
@@ -1456,7 +1373,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getJavaNumberFormatSpecifier_Multiplier( )
@@ -1467,7 +1383,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLineAttributes( )
@@ -1477,7 +1392,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLineAttributes_Style( )
@@ -1488,7 +1402,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLineAttributes_Thickness( )
@@ -1499,7 +1412,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getLineAttributes_Color( )
@@ -1510,7 +1422,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLineAttributes_Visible( )
@@ -1521,7 +1432,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLocation( )
@@ -1531,7 +1441,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLocation_X( )
@@ -1541,7 +1450,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getLocation_Y( )
@@ -1550,8 +1458,27 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLocation3D( )
+	{
+		return location3DEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLocation3D_Z( )
+	{
+		return (EAttribute) location3DEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getMarker( )
@@ -1561,7 +1488,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getMarker_Type( )
@@ -1571,7 +1497,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getMarker_Size( )
@@ -1581,7 +1506,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getMarker_Visible( )
@@ -1591,7 +1515,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getNumberFormatSpecifier( )
@@ -1601,7 +1524,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNumberFormatSpecifier_Prefix( )
@@ -1612,7 +1534,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNumberFormatSpecifier_Suffix( )
@@ -1623,7 +1544,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNumberFormatSpecifier_Multiplier( )
@@ -1634,7 +1554,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNumberFormatSpecifier_FractionDigits( )
@@ -1645,7 +1564,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getPalette( )
@@ -1655,7 +1573,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getPalette_Name( )
@@ -1665,7 +1582,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getPalette_Entries( )
@@ -1675,7 +1591,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getScriptValue( )
@@ -1685,7 +1600,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getScriptValue_Script( )
@@ -1695,7 +1609,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSeriesValue( )
@@ -1705,7 +1618,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSeriesValue_Name( )
@@ -1715,7 +1627,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getSize( )
@@ -1725,7 +1636,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSize_Height( )
@@ -1735,7 +1645,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getSize_Width( )
@@ -1745,7 +1654,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getStyleMap( )
@@ -1755,7 +1663,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getStyleMap_ComponentName( )
@@ -1765,7 +1672,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getStyleMap_Style( )
@@ -1775,7 +1681,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getText( )
@@ -1785,7 +1690,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getText_Value( )
@@ -1795,7 +1699,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getText_Font( )
@@ -1805,7 +1708,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getText_Color( )
@@ -1815,7 +1717,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTextAlignment( )
@@ -1825,7 +1726,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTextAlignment_HorizontalAlignment( )
@@ -1836,7 +1736,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTextAlignment_VerticalAlignment( )
@@ -1847,7 +1746,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTooltipValue( )
@@ -1857,7 +1755,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTooltipValue_Text( )
@@ -1868,7 +1765,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTooltipValue_Delay( )
@@ -1879,7 +1775,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getURLValue( )
@@ -1889,7 +1784,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getURLValue_BaseUrl( )
@@ -1899,7 +1793,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getURLValue_Target( )
@@ -1909,7 +1802,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getURLValue_BaseParameterName( )
@@ -1919,7 +1811,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getURLValue_ValueParameterName( )
@@ -1929,7 +1820,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getURLValue_SeriesParameterName( )
@@ -1939,7 +1829,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getActionType( )
@@ -1949,7 +1838,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getAnchor( )
@@ -1959,7 +1847,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getChartType( )
@@ -1969,7 +1856,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getDataPointComponentType( )
@@ -1979,7 +1865,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getDataType( )
@@ -1989,7 +1874,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getDateFormatDetail( )
@@ -1999,7 +1883,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getDateFormatType( )
@@ -2009,7 +1892,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getDirection( )
@@ -2019,7 +1901,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getGroupingUnitType( )
@@ -2029,7 +1910,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getHorizontalAlignment( )
@@ -2039,7 +1919,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getIntersectionType( )
@@ -2049,7 +1928,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getLeaderLineStyle( )
@@ -2059,7 +1937,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getLegendItemType( )
@@ -2069,7 +1946,15 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	public EEnum getLineDecorator( )
+	{
+		return lineDecoratorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EEnum getLineStyle( )
@@ -2079,7 +1964,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getMarkerType( )
@@ -2089,7 +1973,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getOrientation( )
@@ -2099,7 +1982,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getPosition( )
@@ -2109,7 +1991,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getRiserType( )
@@ -2119,7 +2000,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getRuleType( )
@@ -2129,7 +2009,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getScaleUnitType( )
@@ -2139,7 +2018,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getSortOption( )
@@ -2149,7 +2027,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getStretch( )
@@ -2159,7 +2036,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getStyledComponent( )
@@ -2169,7 +2045,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getTickStyle( )
@@ -2179,7 +2054,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getTriggerCondition( )
@@ -2189,7 +2063,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getUnitsOfMeasurement( )
@@ -2199,7 +2072,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getVerticalAlignment( )
@@ -2209,7 +2081,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getActionTypeObject( )
@@ -2219,7 +2090,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getAnchorObject( )
@@ -2229,7 +2099,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getAxisTypeObject( )
@@ -2239,7 +2108,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getChartDimensionObject( )
@@ -2249,7 +2117,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getAxisType( )
@@ -2259,7 +2126,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getChartDimension( )
@@ -2269,7 +2135,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getChartTypeObject( )
@@ -2279,7 +2144,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getDataPointComponentTypeObject( )
@@ -2289,7 +2153,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getDataTypeObject( )
@@ -2299,7 +2162,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getDateFormatDetailObject( )
@@ -2309,7 +2171,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getDateFormatTypeObject( )
@@ -2319,7 +2180,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getDirectionObject( )
@@ -2329,7 +2189,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getGroupingUnitTypeObject( )
@@ -2339,7 +2198,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getHorizontalAlignmentObject( )
@@ -2349,7 +2207,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getID( )
@@ -2359,7 +2216,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getIntersectionTypeObject( )
@@ -2369,7 +2225,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getLeaderLineStyleObject( )
@@ -2379,7 +2234,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getLegendItemTypeObject( )
@@ -2389,7 +2243,15 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
+	 */
+	public EDataType getLineDecoratorObject( )
+	{
+		return lineDecoratorObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EDataType getLineStyleObject( )
@@ -2399,7 +2261,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getMarkerTypeObject( )
@@ -2409,7 +2270,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getOrientationObject( )
@@ -2419,7 +2279,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getPercentage( )
@@ -2429,7 +2288,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getPercentageObject( )
@@ -2439,7 +2297,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getPositionObject( )
@@ -2449,7 +2306,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getRGBValue( )
@@ -2459,7 +2315,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getRGBValueObject( )
@@ -2469,7 +2324,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getRiserTypeObject( )
@@ -2479,7 +2333,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getRuleTypeObject( )
@@ -2489,7 +2342,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getScaleUnitTypeObject( )
@@ -2499,7 +2351,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getSortOptionObject( )
@@ -2509,7 +2360,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getStretchObject( )
@@ -2519,7 +2369,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getStyledComponentObject( )
@@ -2529,7 +2378,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getTickStyleObject( )
@@ -2539,7 +2387,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getTriggerConditionObject( )
@@ -2549,7 +2396,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getUnitsOfMeasurementObject( )
@@ -2559,7 +2405,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EDataType getVerticalAlignmentObject( )
@@ -2569,7 +2414,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public AttributeFactory getAttributeFactory( )
@@ -2579,16 +2423,15 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents( )
@@ -2599,6 +2442,11 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		// Create classes and their features
 		actionValueEClass = createEClass( ACTION_VALUE );
+
+		angle3DEClass = createEClass( ANGLE3_D );
+		createEAttribute( angle3DEClass, ANGLE3_D__XANGLE );
+		createEAttribute( angle3DEClass, ANGLE3_D__YANGLE );
+		createEAttribute( angle3DEClass, ANGLE3_D__ZANGLE );
 
 		axisOriginEClass = createEClass( AXIS_ORIGIN );
 		createEAttribute( axisOriginEClass, AXIS_ORIGIN__TYPE );
@@ -2689,6 +2537,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( locationEClass, LOCATION__X );
 		createEAttribute( locationEClass, LOCATION__Y );
 
+		location3DEClass = createEClass( LOCATION3_D );
+		createEAttribute( location3DEClass, LOCATION3_D__Z );
+
 		markerEClass = createEClass( MARKER );
 		createEAttribute( markerEClass, MARKER__TYPE );
 		createEAttribute( markerEClass, MARKER__SIZE );
@@ -2760,6 +2611,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		intersectionTypeEEnum = createEEnum( INTERSECTION_TYPE );
 		leaderLineStyleEEnum = createEEnum( LEADER_LINE_STYLE );
 		legendItemTypeEEnum = createEEnum( LEGEND_ITEM_TYPE );
+		lineDecoratorEEnum = createEEnum( LINE_DECORATOR );
 		lineStyleEEnum = createEEnum( LINE_STYLE );
 		markerTypeEEnum = createEEnum( MARKER_TYPE );
 		orientationEEnum = createEEnum( ORIENTATION );
@@ -2792,6 +2644,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		intersectionTypeObjectEDataType = createEDataType( INTERSECTION_TYPE_OBJECT );
 		leaderLineStyleObjectEDataType = createEDataType( LEADER_LINE_STYLE_OBJECT );
 		legendItemTypeObjectEDataType = createEDataType( LEGEND_ITEM_TYPE_OBJECT );
+		lineDecoratorObjectEDataType = createEDataType( LINE_DECORATOR_OBJECT );
 		lineStyleObjectEDataType = createEDataType( LINE_STYLE_OBJECT );
 		markerTypeObjectEDataType = createEDataType( MARKER_TYPE_OBJECT );
 		orientationObjectEDataType = createEDataType( ORIENTATION_OBJECT );
@@ -2814,7 +2667,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -2838,8 +2690,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		setNsURI( eNS_URI );
 
 		// Obtain other dependent packages
-		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 		XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl) EPackage.Registry.INSTANCE.getEPackage( XMLTypePackage.eNS_URI );
+		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Add supertypes to classes
 		colorDefinitionEClass.getESuperTypes( ).add( this.getFill( ) );
@@ -2851,6 +2703,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 				.add( this.getFormatSpecifier( ) );
 		javaNumberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
+		location3DEClass.getESuperTypes( ).add( this.getLocation( ) );
 		numberFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
 		scriptValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
@@ -2861,1375 +2714,386 @@ public class AttributePackageImpl extends EPackageImpl implements
 		// Initialize classes and features; add operations and parameters
 		initEClass( actionValueEClass,
 				ActionValue.class,
-				"ActionValue",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ActionValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+
+		initEClass( angle3DEClass,
+				Angle3D.class,
+				"Angle3D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getAngle3D_XAngle( ),
+				theXMLTypePackage.getDouble( ),
+				"xAngle", null, 1, 1, Angle3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAngle3D_YAngle( ),
+				theXMLTypePackage.getDouble( ),
+				"yAngle", null, 1, 1, Angle3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAngle3D_ZAngle( ),
+				theXMLTypePackage.getDouble( ),
+				"zAngle", null, 1, 1, Angle3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( axisOriginEClass,
 				AxisOrigin.class,
-				"AxisOrigin",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"AxisOrigin", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getAxisOrigin_Type( ),
 				this.getIntersectionType( ),
-				"type",//$NON-NLS-1$
-				"Min",//$NON-NLS-1$
-				1,
-				1,
-				AxisOrigin.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Min", 1, 1, AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getAxisOrigin_Value( ),
 				theDataPackage.getDataElement( ),
 				null,
-				"value",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				AxisOrigin.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, AxisOrigin.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( boundsEClass,
 				Bounds.class,
-				"Bounds",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Bounds", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getBounds_Left( ),
 				theXMLTypePackage.getDouble( ),
-				"left",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Bounds.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"left", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBounds_Top( ),
 				theXMLTypePackage.getDouble( ),
-				"top",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Bounds.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"top", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBounds_Width( ),
 				theXMLTypePackage.getDouble( ),
-				"width",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Bounds.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"width", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBounds_Height( ),
 				theXMLTypePackage.getDouble( ),
-				"height",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Bounds.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"height", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( colorDefinitionEClass,
 				ColorDefinition.class,
-				"ColorDefinition",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ColorDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getColorDefinition_Transparency( ),
 				theXMLTypePackage.getInt( ),
-				"transparency",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ColorDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"transparency", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getColorDefinition_Red( ),
 				this.getRGBValue( ),
-				"red",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ColorDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"red", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getColorDefinition_Green( ),
 				this.getRGBValue( ),
-				"green",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ColorDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"green", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getColorDefinition_Blue( ),
 				this.getRGBValue( ),
-				"blue",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ColorDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"blue", null, 1, 1, ColorDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dataPointEClass,
 				DataPoint.class,
-				"DataPoint",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getDataPoint_Components( ),
 				this.getDataPointComponent( ),
 				null,
-				"components",//$NON-NLS-1$
-				null,
-				1,
-				-1,
-				DataPoint.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"components", null, 1, -1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getDataPoint_Prefix( ),
 				theXMLTypePackage.getString( ),
-				"prefix",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				DataPoint.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"prefix", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getDataPoint_Suffix( ),
 				theXMLTypePackage.getString( ),
-				"suffix",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				DataPoint.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"suffix", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getDataPoint_Separator( ),
 				theXMLTypePackage.getString( ),
-				"separator",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				DataPoint.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"separator", null, 1, 1, DataPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dataPointComponentEClass,
 				DataPointComponent.class,
-				"DataPointComponent",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataPointComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDataPointComponent_Type( ),
 				this.getDataPointComponentType( ),
-				"type",//$NON-NLS-1$
-				"Base_Value",//$NON-NLS-1$
-				1,
-				1,
-				DataPointComponent.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Base_Value", 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getDataPointComponent_FormatSpecifier( ),
 				this.getFormatSpecifier( ),
 				null,
-				"formatSpecifier",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				DataPointComponent.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"formatSpecifier", null, 1, 1, DataPointComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( dateFormatSpecifierEClass,
 				DateFormatSpecifier.class,
-				"DateFormatSpecifier",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DateFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getDateFormatSpecifier_Type( ),
 				this.getDateFormatType( ),
-				"type",//$NON-NLS-1$
-				"Long",//$NON-NLS-1$
-				1,
-				1,
-				DateFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Long", 1, 1, DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getDateFormatSpecifier_Detail( ),
 				this.getDateFormatDetail( ),
-				"detail",//$NON-NLS-1$
-				"Date",//$NON-NLS-1$
-				1,
-				1,
-				DateFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"detail", "Date", 1, 1, DateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( extendedPropertyEClass,
 				ExtendedProperty.class,
-				"ExtendedProperty",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ExtendedProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getExtendedProperty_Name( ),
 				theXMLTypePackage.getString( ),
-				"name",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ExtendedProperty.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"name", null, 1, 1, ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getExtendedProperty_Value( ),
 				theXMLTypePackage.getString( ),
-				"value",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ExtendedProperty.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, ExtendedProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( fillEClass,
 				Fill.class,
-				"Fill",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Fill", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getFill_Type( ),
 				theXMLTypePackage.getInt( ),
-				"type",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Fill.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", null, 1, 1, Fill.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( fontDefinitionEClass,
 				FontDefinition.class,
-				"FontDefinition",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"FontDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Name( ),
 				theXMLTypePackage.getString( ),
-				"name",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"name", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Size( ),
 				theXMLTypePackage.getFloat( ),
-				"size",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"size", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Bold( ),
 				theXMLTypePackage.getBoolean( ),
-				"bold",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"bold", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Italic( ),
 				theXMLTypePackage.getBoolean( ),
-				"italic",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"italic", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Strikethrough( ),
 				theXMLTypePackage.getBoolean( ),
-				"strikethrough",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"strikethrough", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Underline( ),
 				theXMLTypePackage.getBoolean( ),
-				"underline",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"underline", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_WordWrap( ),
 				theXMLTypePackage.getBoolean( ),
-				"wordWrap",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"wordWrap", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getFontDefinition_Alignment( ),
 				this.getTextAlignment( ),
 				null,
-				"alignment",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"alignment", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getFontDefinition_Rotation( ),
 				theXMLTypePackage.getDouble( ),
-				"rotation",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				FontDefinition.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"rotation", null, 1, 1, FontDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( formatSpecifierEClass,
 				FormatSpecifier.class,
-				"FormatSpecifier",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"FormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( gradientEClass,
 				Gradient.class,
-				"Gradient",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Gradient", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEReference( getGradient_StartColor( ),
 				this.getColorDefinition( ),
 				null,
-				"startColor",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Gradient.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"startColor", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getGradient_EndColor( ),
 				this.getColorDefinition( ),
 				null,
-				"endColor",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Gradient.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"endColor", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGradient_Direction( ),
 				theXMLTypePackage.getDouble( ),
-				"direction",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Gradient.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"direction", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGradient_Cyclic( ),
 				theXMLTypePackage.getBoolean( ),
-				"cyclic",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Gradient.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"cyclic", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGradient_Transparency( ),
 				theXMLTypePackage.getInt( ),
-				"transparency",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Gradient.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"transparency", null, 1, 1, Gradient.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( imageEClass,
 				Image.class,
-				"Image",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Image", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getImage_URL( ),
 				theXMLTypePackage.getString( ),
-				"uRL",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Image.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"uRL", null, 1, 1, Image.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( insetsEClass,
 				Insets.class,
-				"Insets",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Insets", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getInsets_Top( ),
 				theXMLTypePackage.getDouble( ),
-				"top",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Insets.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"top", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getInsets_Left( ),
 				theXMLTypePackage.getDouble( ),
-				"left",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Insets.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"left", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getInsets_Bottom( ),
 				theXMLTypePackage.getDouble( ),
-				"bottom",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Insets.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"bottom", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getInsets_Right( ),
 				theXMLTypePackage.getDouble( ),
-				"right",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Insets.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"right", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( javaDateFormatSpecifierEClass,
 				JavaDateFormatSpecifier.class,
-				"JavaDateFormatSpecifier",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"JavaDateFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getJavaDateFormatSpecifier_Pattern( ),
 				theXMLTypePackage.getString( ),
-				"pattern",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				JavaDateFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"pattern", null, 1, 1, JavaDateFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( javaNumberFormatSpecifierEClass,
 				JavaNumberFormatSpecifier.class,
-				"JavaNumberFormatSpecifier",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"JavaNumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getJavaNumberFormatSpecifier_Pattern( ),
 				theXMLTypePackage.getString( ),
-				"pattern",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				JavaNumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"pattern", null, 1, 1, JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getJavaNumberFormatSpecifier_Multiplier( ),
 				theXMLTypePackage.getDouble( ),
-				"multiplier",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				JavaNumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"multiplier", null, 1, 1, JavaNumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( lineAttributesEClass,
 				LineAttributes.class,
-				"LineAttributes",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LineAttributes", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getLineAttributes_Style( ),
 				this.getLineStyle( ),
-				"style",//$NON-NLS-1$
-				"Solid",//$NON-NLS-1$
-				1,
-				1,
-				LineAttributes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"style", "Solid", 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLineAttributes_Thickness( ),
 				theXMLTypePackage.getInt( ),
-				"thickness",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineAttributes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"thickness", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLineAttributes_Color( ),
 				this.getColorDefinition( ),
 				null,
-				"color",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineAttributes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"color", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineAttributes_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				LineAttributes.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"visible", null, 1, 1, LineAttributes.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( locationEClass,
 				Location.class,
-				"Location",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Location", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getLocation_X( ),
 				theXMLTypePackage.getDouble( ),
-				"x",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Location.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"x", null, 1, 1, Location.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLocation_Y( ),
 				theXMLTypePackage.getDouble( ),
-				"y",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Location.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"y", null, 1, 1, Location.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( location3DEClass,
+				Location3D.class,
+				"Location3D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getLocation3D_Z( ),
+				theXMLTypePackage.getDouble( ),
+				"z", null, 1, 1, Location3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( markerEClass,
 				Marker.class,
-				"Marker",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Marker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getMarker_Type( ),
 				this.getMarkerType( ),
-				"type",//$NON-NLS-1$
-				"Crosshair",//$NON-NLS-1$
-				1,
-				1,
-				Marker.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"type", "Crosshair", 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getMarker_Size( ),
 				theXMLTypePackage.getInt( ),
-				"size",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Marker.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"size", null, 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getMarker_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Marker.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"visible", null, 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( numberFormatSpecifierEClass,
 				NumberFormatSpecifier.class,
-				"NumberFormatSpecifier",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"NumberFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getNumberFormatSpecifier_Prefix( ),
 				theXMLTypePackage.getString( ),
-				"prefix",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				NumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"prefix", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getNumberFormatSpecifier_Suffix( ),
 				theXMLTypePackage.getString( ),
-				"suffix",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				NumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"suffix", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getNumberFormatSpecifier_Multiplier( ),
 				theXMLTypePackage.getDouble( ),
-				"multiplier",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				NumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"multiplier", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getNumberFormatSpecifier_FractionDigits( ),
 				theXMLTypePackage.getInt( ),
-				"fractionDigits",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				NumberFormatSpecifier.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"fractionDigits", null, 1, 1, NumberFormatSpecifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( paletteEClass,
 				Palette.class,
-				"Palette",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Palette", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getPalette_Name( ),
 				theXMLTypePackage.getString( ),
-				"name",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Palette.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"name", null, 1, 1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPalette_Entries( ),
 				this.getFill( ),
 				null,
-				"entries",//$NON-NLS-1$
-				null,
-				1,
-				-1,
-				Palette.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"entries", null, 1, -1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( scriptValueEClass,
 				ScriptValue.class,
-				"ScriptValue",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ScriptValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getScriptValue_Script( ),
 				theXMLTypePackage.getString( ),
-				"script",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				ScriptValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"script", null, 1, 1, ScriptValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( seriesValueEClass,
 				SeriesValue.class,
-				"SeriesValue",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"SeriesValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getSeriesValue_Name( ),
 				theXMLTypePackage.getString( ),
-				"name",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				SeriesValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"name", null, 1, 1, SeriesValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( sizeEClass,
 				Size.class,
-				"Size",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Size", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getSize_Height( ),
 				theXMLTypePackage.getDouble( ),
-				"height",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Size.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"height", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getSize_Width( ),
 				theXMLTypePackage.getDouble( ),
-				"width",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Size.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"width", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( styleMapEClass,
 				StyleMap.class,
-				"StyleMap",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"StyleMap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getStyleMap_ComponentName( ),
 				this.getStyledComponent( ),
-				"componentName",//$NON-NLS-1$
-				"Chart_Title",//$NON-NLS-1$
-				1,
-				1,
-				StyleMap.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"componentName", "Chart_Title", 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getStyleMap_Style( ),
 				theXMLTypePackage.getString( ),
-				"style",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				StyleMap.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"style", null, 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( textEClass,
 				Text.class,
-				"Text",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"Text", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getText_Value( ),
 				theXMLTypePackage.getString( ),
-				"value",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Text.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"value", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getText_Font( ),
 				this.getFontDefinition( ),
 				null,
-				"font",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Text.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"font", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getText_Color( ),
 				this.getColorDefinition( ),
 				null,
-				"color",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				Text.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_COMPOSITE,
-				!IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE,
-				IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"color", null, 1, 1, Text.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( textAlignmentEClass,
 				TextAlignment.class,
-				"TextAlignment",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TextAlignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getTextAlignment_HorizontalAlignment( ),
 				this.getHorizontalAlignment( ),
-				"horizontalAlignment",//$NON-NLS-1$
-				"Left",//$NON-NLS-1$
-				1,
-				1,
-				TextAlignment.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"horizontalAlignment", "Left", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getTextAlignment_VerticalAlignment( ),
 				this.getVerticalAlignment( ),
-				"verticalAlignment",//$NON-NLS-1$
-				"Top",//$NON-NLS-1$
-				1,
-				1,
-				TextAlignment.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"verticalAlignment", "Top", 1, 1, TextAlignment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( tooltipValueEClass,
 				TooltipValue.class,
-				"TooltipValue",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TooltipValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getTooltipValue_Text( ),
 				theXMLTypePackage.getString( ),
-				"text",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				TooltipValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"text", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getTooltipValue_Delay( ),
 				theXMLTypePackage.getInt( ),
-				"delay",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				TooltipValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"delay", null, 1, 1, TooltipValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( urlValueEClass,
 				URLValue.class,
-				"URLValue",//$NON-NLS-1$
-				!IS_ABSTRACT,
-				!IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"URLValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getURLValue_BaseUrl( ),
 				theXMLTypePackage.getString( ),
-				"baseUrl",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				URLValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"baseUrl", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getURLValue_Target( ),
 				theXMLTypePackage.getString( ),
-				"target",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				URLValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"target", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getURLValue_BaseParameterName( ),
 				theXMLTypePackage.getString( ),
-				"baseParameterName",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				URLValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"baseParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getURLValue_ValueParameterName( ),
 				theXMLTypePackage.getString( ),
-				"valueParameterName",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				URLValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"valueParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getURLValue_SeriesParameterName( ),
 				theXMLTypePackage.getString( ),
-				"seriesParameterName",//$NON-NLS-1$
-				null,
-				1,
-				1,
-				URLValue.class,
-				!IS_TRANSIENT,
-				!IS_VOLATILE,
-				IS_CHANGEABLE,
-				!IS_UNSETTABLE,
-				!IS_ID,
-				!IS_UNIQUE,
-				!IS_DERIVED,
-				IS_ORDERED );
+				"seriesParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
-		initEEnum( actionTypeEEnum, ActionType.class, "ActionType" );//$NON-NLS-1$
+		initEEnum( actionTypeEEnum, ActionType.class, "ActionType" ); //$NON-NLS-1$
 		addEEnumLiteral( actionTypeEEnum, ActionType.URL_REDIRECT_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.SHOW_TOOLTIP_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.TOGGLE_VISIBILITY_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.INVOKE_SCRIPT_LITERAL );
 
-		initEEnum( anchorEEnum, Anchor.class, "Anchor" );//$NON-NLS-1$
+		initEEnum( anchorEEnum, Anchor.class, "Anchor" ); //$NON-NLS-1$
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_LITERAL );
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_EAST_LITERAL );
 		addEEnumLiteral( anchorEEnum, Anchor.EAST_LITERAL );
@@ -4239,13 +3103,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( anchorEEnum, Anchor.WEST_LITERAL );
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_WEST_LITERAL );
 
-		initEEnum( axisTypeEEnum, AxisType.class, "AxisType" );//$NON-NLS-1$
+		initEEnum( axisTypeEEnum, AxisType.class, "AxisType" ); //$NON-NLS-1$
 		addEEnumLiteral( axisTypeEEnum, AxisType.LINEAR_LITERAL );
 		addEEnumLiteral( axisTypeEEnum, AxisType.LOGARITHMIC_LITERAL );
 		addEEnumLiteral( axisTypeEEnum, AxisType.TEXT_LITERAL );
 		addEEnumLiteral( axisTypeEEnum, AxisType.DATE_TIME_LITERAL );
 
-		initEEnum( chartDimensionEEnum, ChartDimension.class, "ChartDimension" );//$NON-NLS-1$
+		initEEnum( chartDimensionEEnum, ChartDimension.class, "ChartDimension" ); //$NON-NLS-1$
 		addEEnumLiteral( chartDimensionEEnum,
 				ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		addEEnumLiteral( chartDimensionEEnum,
@@ -4253,7 +3117,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( chartDimensionEEnum,
 				ChartDimension.THREE_DIMENSIONAL_LITERAL );
 
-		initEEnum( chartTypeEEnum, ChartType.class, "ChartType" );//$NON-NLS-1$
+		initEEnum( chartTypeEEnum, ChartType.class, "ChartType" ); //$NON-NLS-1$
 		addEEnumLiteral( chartTypeEEnum, ChartType.PIE_LITERAL );
 		addEEnumLiteral( chartTypeEEnum, ChartType.BAR_LITERAL );
 		addEEnumLiteral( chartTypeEEnum, ChartType.LINE_LITERAL );
@@ -4263,7 +3127,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( dataPointComponentTypeEEnum,
 				DataPointComponentType.class,
-				"DataPointComponentType" );//$NON-NLS-1$
+				"DataPointComponentType" ); //$NON-NLS-1$
 		addEEnumLiteral( dataPointComponentTypeEEnum,
 				DataPointComponentType.BASE_VALUE_LITERAL );
 		addEEnumLiteral( dataPointComponentTypeEEnum,
@@ -4271,31 +3135,31 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( dataPointComponentTypeEEnum,
 				DataPointComponentType.SERIES_VALUE_LITERAL );
 
-		initEEnum( dataTypeEEnum, DataType.class, "DataType" );//$NON-NLS-1$
+		initEEnum( dataTypeEEnum, DataType.class, "DataType" ); //$NON-NLS-1$
 		addEEnumLiteral( dataTypeEEnum, DataType.NUMERIC_LITERAL );
 		addEEnumLiteral( dataTypeEEnum, DataType.DATE_TIME_LITERAL );
 		addEEnumLiteral( dataTypeEEnum, DataType.TEXT_LITERAL );
 
 		initEEnum( dateFormatDetailEEnum,
 				DateFormatDetail.class,
-				"DateFormatDetail" );//$NON-NLS-1$
+				"DateFormatDetail" ); //$NON-NLS-1$
 		addEEnumLiteral( dateFormatDetailEEnum, DateFormatDetail.DATE_LITERAL );
 		addEEnumLiteral( dateFormatDetailEEnum,
 				DateFormatDetail.DATE_TIME_LITERAL );
 
-		initEEnum( dateFormatTypeEEnum, DateFormatType.class, "DateFormatType" );//$NON-NLS-1$
+		initEEnum( dateFormatTypeEEnum, DateFormatType.class, "DateFormatType" ); //$NON-NLS-1$
 		addEEnumLiteral( dateFormatTypeEEnum, DateFormatType.LONG_LITERAL );
 		addEEnumLiteral( dateFormatTypeEEnum, DateFormatType.SHORT_LITERAL );
 		addEEnumLiteral( dateFormatTypeEEnum, DateFormatType.MEDIUM_LITERAL );
 		addEEnumLiteral( dateFormatTypeEEnum, DateFormatType.FULL_LITERAL );
 
-		initEEnum( directionEEnum, Direction.class, "Direction" );//$NON-NLS-1$
+		initEEnum( directionEEnum, Direction.class, "Direction" ); //$NON-NLS-1$
 		addEEnumLiteral( directionEEnum, Direction.LEFT_RIGHT_LITERAL );
 		addEEnumLiteral( directionEEnum, Direction.TOP_BOTTOM_LITERAL );
 
 		initEEnum( groupingUnitTypeEEnum,
 				GroupingUnitType.class,
-				"GroupingUnitType" );//$NON-NLS-1$
+				"GroupingUnitType" ); //$NON-NLS-1$
 		addEEnumLiteral( groupingUnitTypeEEnum,
 				GroupingUnitType.SECONDS_LITERAL );
 		addEEnumLiteral( groupingUnitTypeEEnum,
@@ -4308,7 +3172,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( horizontalAlignmentEEnum,
 				HorizontalAlignment.class,
-				"HorizontalAlignment" );//$NON-NLS-1$
+				"HorizontalAlignment" ); //$NON-NLS-1$
 		addEEnumLiteral( horizontalAlignmentEEnum,
 				HorizontalAlignment.LEFT_LITERAL );
 		addEEnumLiteral( horizontalAlignmentEEnum,
@@ -4318,40 +3182,45 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( intersectionTypeEEnum,
 				IntersectionType.class,
-				"IntersectionType" );//$NON-NLS-1$
+				"IntersectionType" ); //$NON-NLS-1$
 		addEEnumLiteral( intersectionTypeEEnum, IntersectionType.MIN_LITERAL );
 		addEEnumLiteral( intersectionTypeEEnum, IntersectionType.MAX_LITERAL );
 		addEEnumLiteral( intersectionTypeEEnum, IntersectionType.VALUE_LITERAL );
 
 		initEEnum( leaderLineStyleEEnum,
 				LeaderLineStyle.class,
-				"LeaderLineStyle" );//$NON-NLS-1$
+				"LeaderLineStyle" ); //$NON-NLS-1$
 		addEEnumLiteral( leaderLineStyleEEnum,
 				LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		addEEnumLiteral( leaderLineStyleEEnum,
 				LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 
-		initEEnum( legendItemTypeEEnum, LegendItemType.class, "LegendItemType" );//$NON-NLS-1$
+		initEEnum( legendItemTypeEEnum, LegendItemType.class, "LegendItemType" ); //$NON-NLS-1$
 		addEEnumLiteral( legendItemTypeEEnum, LegendItemType.SERIES_LITERAL );
 		addEEnumLiteral( legendItemTypeEEnum, LegendItemType.CATEGORIES_LITERAL );
 
-		initEEnum( lineStyleEEnum, LineStyle.class, "LineStyle" );//$NON-NLS-1$
+		initEEnum( lineDecoratorEEnum, LineDecorator.class, "LineDecorator" ); //$NON-NLS-1$
+		addEEnumLiteral( lineDecoratorEEnum, LineDecorator.ARROW_LITERAL );
+		addEEnumLiteral( lineDecoratorEEnum, LineDecorator.CIRCLE_LITERAL );
+		addEEnumLiteral( lineDecoratorEEnum, LineDecorator.NONE_LITERAL );
+
+		initEEnum( lineStyleEEnum, LineStyle.class, "LineStyle" ); //$NON-NLS-1$
 		addEEnumLiteral( lineStyleEEnum, LineStyle.SOLID_LITERAL );
 		addEEnumLiteral( lineStyleEEnum, LineStyle.DASHED_LITERAL );
 		addEEnumLiteral( lineStyleEEnum, LineStyle.DOTTED_LITERAL );
 		addEEnumLiteral( lineStyleEEnum, LineStyle.DASH_DOTTED_LITERAL );
 
-		initEEnum( markerTypeEEnum, MarkerType.class, "MarkerType" );//$NON-NLS-1$
+		initEEnum( markerTypeEEnum, MarkerType.class, "MarkerType" ); //$NON-NLS-1$
 		addEEnumLiteral( markerTypeEEnum, MarkerType.CROSSHAIR_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.TRIANGLE_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.BOX_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.CIRCLE_LITERAL );
 
-		initEEnum( orientationEEnum, Orientation.class, "Orientation" );//$NON-NLS-1$
+		initEEnum( orientationEEnum, Orientation.class, "Orientation" ); //$NON-NLS-1$
 		addEEnumLiteral( orientationEEnum, Orientation.HORIZONTAL_LITERAL );
 		addEEnumLiteral( orientationEEnum, Orientation.VERTICAL_LITERAL );
 
-		initEEnum( positionEEnum, Position.class, "Position" );//$NON-NLS-1$
+		initEEnum( positionEEnum, Position.class, "Position" ); //$NON-NLS-1$
 		addEEnumLiteral( positionEEnum, Position.ABOVE_LITERAL );
 		addEEnumLiteral( positionEEnum, Position.BELOW_LITERAL );
 		addEEnumLiteral( positionEEnum, Position.LEFT_LITERAL );
@@ -4359,16 +3228,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( positionEEnum, Position.INSIDE_LITERAL );
 		addEEnumLiteral( positionEEnum, Position.OUTSIDE_LITERAL );
 
-		initEEnum( riserTypeEEnum, RiserType.class, "RiserType" );//$NON-NLS-1$
+		initEEnum( riserTypeEEnum, RiserType.class, "RiserType" ); //$NON-NLS-1$
 		addEEnumLiteral( riserTypeEEnum, RiserType.RECTANGLE_LITERAL );
 		addEEnumLiteral( riserTypeEEnum, RiserType.TRIANGLE_LITERAL );
 
-		initEEnum( ruleTypeEEnum, RuleType.class, "RuleType" );//$NON-NLS-1$
+		initEEnum( ruleTypeEEnum, RuleType.class, "RuleType" ); //$NON-NLS-1$
 		addEEnumLiteral( ruleTypeEEnum, RuleType.FILTER_LITERAL );
 		addEEnumLiteral( ruleTypeEEnum, RuleType.SUPPRESS_LITERAL );
 		addEEnumLiteral( ruleTypeEEnum, RuleType.LINK_LITERAL );
 
-		initEEnum( scaleUnitTypeEEnum, ScaleUnitType.class, "ScaleUnitType" );//$NON-NLS-1$
+		initEEnum( scaleUnitTypeEEnum, ScaleUnitType.class, "ScaleUnitType" ); //$NON-NLS-1$
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.SECONDS_LITERAL );
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.MINUTES_LITERAL );
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.HOURS_LITERAL );
@@ -4377,18 +3246,18 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.MONTHS_LITERAL );
 		addEEnumLiteral( scaleUnitTypeEEnum, ScaleUnitType.YEARS_LITERAL );
 
-		initEEnum( sortOptionEEnum, SortOption.class, "SortOption" );//$NON-NLS-1$
+		initEEnum( sortOptionEEnum, SortOption.class, "SortOption" ); //$NON-NLS-1$
 		addEEnumLiteral( sortOptionEEnum, SortOption.ASCENDING_LITERAL );
 		addEEnumLiteral( sortOptionEEnum, SortOption.DESCENDING_LITERAL );
 
-		initEEnum( stretchEEnum, Stretch.class, "Stretch" );//$NON-NLS-1$
+		initEEnum( stretchEEnum, Stretch.class, "Stretch" ); //$NON-NLS-1$
 		addEEnumLiteral( stretchEEnum, Stretch.HORIZONTAL_LITERAL );
 		addEEnumLiteral( stretchEEnum, Stretch.VERTICAL_LITERAL );
 		addEEnumLiteral( stretchEEnum, Stretch.BOTH_LITERAL );
 
 		initEEnum( styledComponentEEnum,
 				StyledComponent.class,
-				"StyledComponent" );//$NON-NLS-1$
+				"StyledComponent" ); //$NON-NLS-1$
 		addEEnumLiteral( styledComponentEEnum,
 				StyledComponent.CHART_TITLE_LITERAL );
 		addEEnumLiteral( styledComponentEEnum,
@@ -4412,7 +3281,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( styledComponentEEnum,
 				StyledComponent.SERIES_LABEL_LITERAL );
 
-		initEEnum( tickStyleEEnum, TickStyle.class, "TickStyle" );//$NON-NLS-1$
+		initEEnum( tickStyleEEnum, TickStyle.class, "TickStyle" ); //$NON-NLS-1$
 		addEEnumLiteral( tickStyleEEnum, TickStyle.LEFT_LITERAL );
 		addEEnumLiteral( tickStyleEEnum, TickStyle.RIGHT_LITERAL );
 		addEEnumLiteral( tickStyleEEnum, TickStyle.ABOVE_LITERAL );
@@ -4421,7 +3290,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( triggerConditionEEnum,
 				TriggerCondition.class,
-				"TriggerCondition" );//$NON-NLS-1$
+				"TriggerCondition" ); //$NON-NLS-1$
 		addEEnumLiteral( triggerConditionEEnum,
 				TriggerCondition.MOUSE_HOVER_LITERAL );
 		addEEnumLiteral( triggerConditionEEnum,
@@ -4429,7 +3298,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( unitsOfMeasurementEEnum,
 				UnitsOfMeasurement.class,
-				"UnitsOfMeasurement" );//$NON-NLS-1$
+				"UnitsOfMeasurement" ); //$NON-NLS-1$
 		addEEnumLiteral( unitsOfMeasurementEEnum,
 				UnitsOfMeasurement.PIXELS_LITERAL );
 		addEEnumLiteral( unitsOfMeasurementEEnum,
@@ -4441,7 +3310,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 
 		initEEnum( verticalAlignmentEEnum,
 				VerticalAlignment.class,
-				"VerticalAlignment" );//$NON-NLS-1$
+				"VerticalAlignment" ); //$NON-NLS-1$
 		addEEnumLiteral( verticalAlignmentEEnum, VerticalAlignment.TOP_LITERAL );
 		addEEnumLiteral( verticalAlignmentEEnum,
 				VerticalAlignment.CENTER_LITERAL );
@@ -4451,174 +3320,109 @@ public class AttributePackageImpl extends EPackageImpl implements
 		// Initialize data types
 		initEDataType( actionTypeObjectEDataType,
 				ActionType.class,
-				"ActionTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ActionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( anchorObjectEDataType,
 				Anchor.class,
-				"AnchorObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"AnchorObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( axisTypeObjectEDataType,
 				AxisType.class,
-				"AxisTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"AxisTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( chartDimensionObjectEDataType,
 				ChartDimension.class,
-				"ChartDimensionObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ChartDimensionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( chartTypeObjectEDataType,
 				ChartType.class,
-				"ChartTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ChartTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dataPointComponentTypeObjectEDataType,
 				DataPointComponentType.class,
-				"DataPointComponentTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataPointComponentTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dataTypeObjectEDataType,
 				DataType.class,
-				"DataTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DataTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dateFormatDetailObjectEDataType,
 				DateFormatDetail.class,
-				"DateFormatDetailObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DateFormatDetailObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( dateFormatTypeObjectEDataType,
 				DateFormatType.class,
-				"DateFormatTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DateFormatTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( directionObjectEDataType,
 				Direction.class,
-				"DirectionObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"DirectionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( groupingUnitTypeObjectEDataType,
 				GroupingUnitType.class,
-				"GroupingUnitTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"GroupingUnitTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( horizontalAlignmentObjectEDataType,
 				HorizontalAlignment.class,
-				"HorizontalAlignmentObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"HorizontalAlignmentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( idEDataType,
 				String.class,
-				"ID",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				!IS_GENERATED_INSTANCE_CLASS );
+				"ID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( intersectionTypeObjectEDataType,
 				IntersectionType.class,
-				"IntersectionTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"IntersectionTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( leaderLineStyleObjectEDataType,
 				LeaderLineStyle.class,
-				"LeaderLineStyleObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LeaderLineStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( legendItemTypeObjectEDataType,
 				LegendItemType.class,
-				"LegendItemTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LegendItemTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( lineDecoratorObjectEDataType,
+				LineDecorator.class,
+				"LineDecoratorObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( lineStyleObjectEDataType,
 				LineStyle.class,
-				"LineStyleObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"LineStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( markerTypeObjectEDataType,
 				MarkerType.class,
-				"MarkerTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"MarkerTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( orientationObjectEDataType,
 				Orientation.class,
-				"OrientationObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"OrientationObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( percentageEDataType,
 				double.class,
-				"Percentage",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				!IS_GENERATED_INSTANCE_CLASS );
+				"Percentage", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( percentageObjectEDataType,
 				Double.class,
-				"PercentageObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				!IS_GENERATED_INSTANCE_CLASS );
+				"PercentageObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( positionObjectEDataType,
 				Position.class,
-				"PositionObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"PositionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( rgbValueEDataType,
 				int.class,
-				"RGBValue",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				!IS_GENERATED_INSTANCE_CLASS );
+				"RGBValue", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( rgbValueObjectEDataType,
 				Integer.class,
-				"RGBValueObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				!IS_GENERATED_INSTANCE_CLASS );
+				"RGBValueObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( riserTypeObjectEDataType,
 				RiserType.class,
-				"RiserTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"RiserTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( ruleTypeObjectEDataType,
 				RuleType.class,
-				"RuleTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"RuleTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( scaleUnitTypeObjectEDataType,
 				ScaleUnitType.class,
-				"ScaleUnitTypeObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"ScaleUnitTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( sortOptionObjectEDataType,
 				SortOption.class,
-				"SortOptionObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"SortOptionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( stretchObjectEDataType,
 				Stretch.class,
-				"StretchObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"StretchObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( styledComponentObjectEDataType,
 				StyledComponent.class,
-				"StyledComponentObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"StyledComponentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( tickStyleObjectEDataType,
 				TickStyle.class,
-				"TickStyleObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TickStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( triggerConditionObjectEDataType,
 				TriggerCondition.class,
-				"TriggerConditionObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"TriggerConditionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( unitsOfMeasurementObjectEDataType,
 				UnitsOfMeasurement.class,
-				"UnitsOfMeasurementObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"UnitsOfMeasurementObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( verticalAlignmentObjectEDataType,
 				VerticalAlignment.class,
-				"VerticalAlignmentObject",//$NON-NLS-1$
-				IS_SERIALIZABLE,
-				IS_GENERATED_INSTANCE_CLASS );
+				"VerticalAlignmentObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -4637,584 +3441,716 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 */
 	protected void createExtendedMetaDataAnnotations( )
 	{
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";//$NON-NLS-1$
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$				
 		addAnnotation( actionTypeEEnum, source, new String[]{
 				"name", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( actionTypeObjectEDataType, source, new String[]{
-				"name", "ActionType:Object", "baseType", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ActionType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "ActionType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( actionValueEClass, source, new String[]{
-				"name", "ActionValue", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ActionValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( anchorEEnum, source, new String[]{
 				"name", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( anchorObjectEDataType, source, new String[]{
-				"name", "Anchor:Object", "baseType", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Anchor:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Anchor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( angle3DEClass, source, new String[]{
+				"name", "Angle3D", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAngle3D_XAngle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "XAngle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAngle3D_YAngle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "YAngle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAngle3D_ZAngle( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ZAngle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( axisOriginEClass, source, new String[]{
-				"name", "AxisOrigin", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "AxisOrigin", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getAxisOrigin_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getAxisOrigin_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( axisTypeEEnum, source, new String[]{
 				"name", "AxisType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( axisTypeObjectEDataType, source, new String[]{
-				"name", "AxisType:Object", "baseType", "AxisType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "AxisType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "AxisType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( boundsEClass, source, new String[]{
-				"name", "Bounds", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Bounds", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getBounds_Left( ), source, new String[]{
-				"kind", "element", "name", "Left" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Left" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getBounds_Top( ), source, new String[]{
-				"kind", "element", "name", "Top" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Top" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getBounds_Width( ), source, new String[]{
-				"kind", "element", "name", "Width" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Width" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getBounds_Height( ), source, new String[]{
-				"kind", "element", "name", "Height" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Height" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( chartDimensionEEnum, source, new String[]{
 				"name", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( chartDimensionObjectEDataType, source, new String[]{
-				"name", "ChartDimension:Object", "baseType", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "ChartDimension:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( chartTypeEEnum, source, new String[]{
 				"name", "ChartType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( chartTypeObjectEDataType, source, new String[]{
-				"name", "ChartType:Object", "baseType", "ChartType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "ChartType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "ChartType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( colorDefinitionEClass, source, new String[]{
-				"name", "ColorDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "ColorDefinition", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getColorDefinition_Transparency( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getColorDefinition_Red( ), source, new String[]{
-				"kind", "element", "name", "Red" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Red" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getColorDefinition_Green( ), source, new String[]{
-				"kind", "element", "name", "Green" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Green" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getColorDefinition_Blue( ), source, new String[]{
-				"kind", "element", "name", "Blue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Blue" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dataPointEClass, source, new String[]{
-				"name", "DataPoint", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "DataPoint", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPoint_Components( ), source, new String[]{
-				"kind", "element", "name", "Components" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Components" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPoint_Prefix( ), source, new String[]{
-				"kind", "element", "name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPoint_Suffix( ), source, new String[]{
-				"kind", "element", "name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPoint_Separator( ), source, new String[]{
-				"kind", "element", "name", "Separator" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Separator" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( dataPointComponentEClass, source, new String[]{
-				"name", "DataPointComponent", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "DataPointComponent", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPointComponent_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getDataPointComponent_FormatSpecifier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "FormatSpecifier" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( dataPointComponentTypeEEnum, source, new String[]{
 				"name", "DataPointComponentType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( dataPointComponentTypeObjectEDataType,
 				source,
 				new String[]{
-						"name", //$NON-NLS-1$
-						"DataPointComponentType:Object", //$NON-NLS-1$
-						"baseType", //$NON-NLS-1$
-						"DataPointComponentType" //$NON-NLS-1$
-				} ); 
+						"name", "DataPointComponentType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+						"baseType", "DataPointComponentType" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( dataTypeEEnum, source, new String[]{
 				"name", "DataType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( dataTypeObjectEDataType, source, new String[]{
-				"name", "DataType:Object", "baseType", "DataType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DataType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "DataType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dateFormatDetailEEnum, source, new String[]{
 				"name", "DateFormatDetail" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( dateFormatDetailObjectEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"DateFormatDetail:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"DateFormatDetail" //$NON-NLS-1$
+				"name", "DateFormatDetail:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "DateFormatDetail" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dateFormatSpecifierEClass, source, new String[]{
-				"name", "DateFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "DateFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getDateFormatSpecifier_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getDateFormatSpecifier_Detail( ), source, new String[]{
-				"kind", "element", "name", "Detail" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Detail" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( dateFormatTypeEEnum, source, new String[]{
 				"name", "DateFormatType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( dateFormatTypeObjectEDataType, source, new String[]{
-				"name", "DateFormatType:Object", "baseType", "DateFormatType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "DateFormatType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "DateFormatType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( directionEEnum, source, new String[]{
 				"name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( directionObjectEDataType, source, new String[]{
-				"name", "Direction:Object", "baseType", "Direction" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Direction:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( extendedPropertyEClass, source, new String[]{
-				"name", "ExtendedProperty", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "ExtendedProperty", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getExtendedProperty_Name( ), source, new String[]{
-				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Name" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getExtendedProperty_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( fillEClass, source, new String[]{
-				"name", "Fill", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Fill", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFill_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( fontDefinitionEClass, source, new String[]{
-				"name", "FontDefinition", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "FontDefinition", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Name( ), source, new String[]{
-				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Name" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Size( ), source, new String[]{
-				"kind", "element", "name", "Size" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Size" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Bold( ), source, new String[]{
-				"kind", "element", "name", "Bold" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Bold" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Italic( ), source, new String[]{
-				"kind", "element", "name", "Italic" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Italic" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Strikethrough( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Strikethrough" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Strikethrough" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getFontDefinition_Underline( ), source, new String[]{
-				"kind", "element", "name", "Underline" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Underline" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_WordWrap( ), source, new String[]{
-				"kind", "element", "name", "WordWrap" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "WordWrap" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Alignment( ), source, new String[]{
-				"kind", "element", "name", "Alignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Alignment" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getFontDefinition_Rotation( ), source, new String[]{
-				"kind", "element", "name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( formatSpecifierEClass, source, new String[]{
-				"name", "FormatSpecifier", "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "FormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( gradientEClass, source, new String[]{
-				"name", "Gradient", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Gradient", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getGradient_StartColor( ), source, new String[]{
-				"kind", "element", "name", "StartColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "StartColor" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getGradient_EndColor( ), source, new String[]{
-				"kind", "element", "name", "EndColor" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "EndColor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getGradient_Direction( ), source, new String[]{
-				"kind", "element", "name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Direction" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getGradient_Cyclic( ), source, new String[]{
-				"kind", "element", "name", "Cyclic" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Cyclic" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getGradient_Transparency( ), source, new String[]{
-				"kind", "element", "name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Transparency" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( groupingUnitTypeEEnum, source, new String[]{
 				"name", "GroupingUnitType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( groupingUnitTypeObjectEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"GroupingUnitType:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"GroupingUnitType" //$NON-NLS-1$
-		} ); 
+				"name", "GroupingUnitType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "GroupingUnitType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( horizontalAlignmentEEnum, source, new String[]{
 				"name", "HorizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( horizontalAlignmentObjectEDataType,
 				source,
 				new String[]{
-						"name", //$NON-NLS-1$
-						"HorizontalAlignment:Object", //$NON-NLS-1$
-						"baseType", //$NON-NLS-1$
-						"HorizontalAlignment" //$NON-NLS-1$
-				} ); 
+						"name", "HorizontalAlignment:Object", //$NON-NLS-1$ //$NON-NLS-2$
+						"baseType", "HorizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( idEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"ID", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"http://www.eclipse.org/emf/2003/XMLType#string", //$NON-NLS-1$
-				"pattern", //$NON-NLS-1$
-				"[A-Z]" //$NON-NLS-1$
-		} ); 
+				"name", "ID", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#string", //$NON-NLS-1$ //$NON-NLS-2$
+				"pattern", "[A-Z]" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( imageEClass, source, new String[]{
-				"name", "Image", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "Image", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getImage_URL( ), source, new String[]{
-				"kind", "element", "name", "URL" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "URL" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( insetsEClass, source, new String[]{
-				"name", "Insets", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Insets", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getInsets_Top( ), source, new String[]{
-				"kind", "element", "name", "Top" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Top" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getInsets_Left( ), source, new String[]{
-				"kind", "element", "name", "Left" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Left" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getInsets_Bottom( ), source, new String[]{
-				"kind", "element", "name", "Bottom" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Bottom" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getInsets_Right( ), source, new String[]{
-				"kind", "element", "name", "Right" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Right" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( intersectionTypeEEnum, source, new String[]{
 				"name", "IntersectionType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( intersectionTypeObjectEDataType, source, new String[]{
-				"name",  //$NON-NLS-1$
-				"IntersectionType:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"IntersectionType" //$NON-NLS-1$
-		} ); 
+				"name", "IntersectionType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "IntersectionType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( javaDateFormatSpecifierEClass, source, new String[]{
-				"name", "JavaDateFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "JavaDateFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( getJavaDateFormatSpecifier_Pattern( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( javaNumberFormatSpecifierEClass, source, new String[]{
-				"name", "JavaNumberFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "JavaNumberFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getJavaNumberFormatSpecifier_Pattern( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Pattern" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getJavaNumberFormatSpecifier_Multiplier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( leaderLineStyleEEnum, source, new String[]{
 				"name", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( leaderLineStyleObjectEDataType, source, new String[]{
-				"name", "LeaderLineStyle:Object", "baseType", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "LeaderLineStyle:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( legendItemTypeEEnum, source, new String[]{
 				"name", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( legendItemTypeObjectEDataType, source, new String[]{
-				"name", "LegendItemType:Object", "baseType", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LegendItemType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( lineAttributesEClass, source, new String[]{
-				"name", "LineAttributes", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "LineAttributes", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLineAttributes_Style( ), source, new String[]{
-				"kind", "element", "name", "Style" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Style" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLineAttributes_Thickness( ), source, new String[]{
-				"kind", "element", "name", "Thickness" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Thickness" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLineAttributes_Color( ), source, new String[]{
-				"kind", "element", "name", "Color" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Color" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLineAttributes_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( lineDecoratorEEnum, source, new String[]{
+				"name", "LineDecorator" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( lineDecoratorObjectEDataType, source, new String[]{
+				"name", "LineDecorator:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LineDecorator" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( lineStyleEEnum, source, new String[]{
 				"name", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( lineStyleObjectEDataType, source, new String[]{
-				"name", "LineStyle:Object", "baseType", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"name", "LineStyle:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LineStyle" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( locationEClass, source, new String[]{
-				"name", "Location", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Location", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLocation_X( ), source, new String[]{
-				"kind", "element", "name", "x" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "x" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getLocation_Y( ), source, new String[]{
-				"kind", "element", "name", "y" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "y" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( location3DEClass, source, new String[]{
+				"name", "Location3D", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLocation3D_Z( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "z" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( markerEClass, source, new String[]{
-				"name", "Marker", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Marker", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getMarker_Type( ), source, new String[]{
-				"kind", "element", "name", "Type" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getMarker_Size( ), source, new String[]{
-				"kind", "element", "name", "Size" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Size" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getMarker_Visible( ), source, new String[]{
-				"kind", "element", "name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( markerTypeEEnum, source, new String[]{
 				"name", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( markerTypeObjectEDataType, source, new String[]{
-				"name", "MarkerType:Object", "baseType", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "MarkerType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( numberFormatSpecifierEClass, source, new String[]{
-				"name", "NumberFormatSpecifier", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "NumberFormatSpecifier", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getNumberFormatSpecifier_Prefix( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Prefix" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getNumberFormatSpecifier_Suffix( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Suffix" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getNumberFormatSpecifier_Multiplier( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "Multiplier" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getNumberFormatSpecifier_FractionDigits( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "FractionDigits" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "FractionDigits" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( orientationEEnum, source, new String[]{
 				"name", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( orientationObjectEDataType, source, new String[]{
-				"name", "Orientation:Object", "baseType", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Orientation:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Orientation" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( paletteEClass, source, new String[]{
-				"name", "Palette", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Palette", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getPalette_Name( ), source, new String[]{
-				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Name" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getPalette_Entries( ), source, new String[]{
-				"kind", "element", "name", "Entries" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Entries" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( percentageEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"Percentage", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"http://www.eclipse.org/emf/2003/XMLType#double", //$NON-NLS-1$
-				"minInclusive", //$NON-NLS-1$
-				"0.0", //$NON-NLS-1$
-				"maxInclusive", //$NON-NLS-1$
-				"100.0" //$NON-NLS-1$
-		} ); 
+				"name", "Percentage", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#double", //$NON-NLS-1$ //$NON-NLS-2$
+				"minInclusive", "0.0", //$NON-NLS-1$ //$NON-NLS-2$
+				"maxInclusive", "100.0" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( percentageObjectEDataType, source, new String[]{
-				"name", "Percentage:Object", "baseType", "Percentage" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Percentage:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Percentage" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( positionEEnum, source, new String[]{
 				"name", "Position" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( positionObjectEDataType, source, new String[]{
-				"name", "Position:Object", "baseType", "Position" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Position:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Position" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( rgbValueEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"RGBValue", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"http://www.eclipse.org/emf/2003/XMLType#int", //$NON-NLS-1$
-				"minInclusive", //$NON-NLS-1$
-				"0", //$NON-NLS-1$
-				"maxInclusive", //$NON-NLS-1$
-				"255" //$NON-NLS-1$
-		} ); 
+				"name", "RGBValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "http://www.eclipse.org/emf/2003/XMLType#int", //$NON-NLS-1$ //$NON-NLS-2$
+				"minInclusive", "0", //$NON-NLS-1$ //$NON-NLS-2$
+				"maxInclusive", "255" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( rgbValueObjectEDataType, source, new String[]{
-				"name", "RGBValue:Object", "baseType", "RGBValue" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "RGBValue:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "RGBValue" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( riserTypeEEnum, source, new String[]{
 				"name", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( riserTypeObjectEDataType, source, new String[]{
-				"name", "RiserType:Object", "baseType", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "RiserType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( ruleTypeEEnum, source, new String[]{
 				"name", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( ruleTypeObjectEDataType, source, new String[]{
-				"name", "RuleType:Object", "baseType", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "RuleType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( scaleUnitTypeEEnum, source, new String[]{
 				"name", "ScaleUnitType" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( scaleUnitTypeObjectEDataType, source, new String[]{
-				"name", "ScaleUnitType:Object", "baseType", "ScaleUnitType" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "ScaleUnitType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "ScaleUnitType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( scriptValueEClass, source, new String[]{
-				"name", "ScriptValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "ScriptValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getScriptValue_Script( ), source, new String[]{
-				"kind", "element", "name", "Script" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Script" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( seriesValueEClass, source, new String[]{
-				"name", "SeriesValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "SeriesValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getSeriesValue_Name( ), source, new String[]{
-				"kind", "element", "name", "Name" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Name" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( sizeEClass, source, new String[]{
-				"name", "Size", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Size", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getSize_Height( ), source, new String[]{
-				"kind", "element", "name", "Height" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Height" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getSize_Width( ), source, new String[]{
-				"kind", "element", "name", "Width" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Width" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( sortOptionEEnum, source, new String[]{
 				"name", "SortOption" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( sortOptionObjectEDataType, source, new String[]{
-				"name", "SortOption:Object", "baseType", "SortOption" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "SortOption:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "SortOption" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( stretchEEnum, source, new String[]{
 				"name", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( stretchObjectEDataType, source, new String[]{
-				"name", "Stretch:Object", "baseType", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Stretch:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( styledComponentEEnum, source, new String[]{
 				"name", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( styledComponentObjectEDataType, source, new String[]{
-				"name", "StyledComponent:Object", "baseType", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "StyledComponent:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( styleMapEClass, source, new String[]{
-				"name", "StyleMap", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "StyleMap", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getStyleMap_ComponentName( ), source, new String[]{
-				"kind", "element", "name", "ComponentName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ComponentName" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getStyleMap_Style( ), source, new String[]{
-				"kind", "element", "name", "Style" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Style" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( textEClass, source, new String[]{
-				"name", "Text", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "Text", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getText_Value( ), source, new String[]{
-				"kind", "element", "name", "Value" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getText_Font( ), source, new String[]{
-				"kind", "element", "name", "Font" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Font" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getText_Color( ), source, new String[]{
-				"kind", "element", "name", "Color" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Color" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( textAlignmentEClass, source, new String[]{
-				"name", "TextAlignment", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "TextAlignment", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getTextAlignment_HorizontalAlignment( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "horizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "horizontalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( getTextAlignment_VerticalAlignment( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "verticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "verticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( tickStyleEEnum, source, new String[]{
 				"name", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( tickStyleObjectEDataType, source, new String[]{
-				"name", "TickStyle:Object", "baseType", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "TickStyle:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "TickStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( tooltipValueEClass, source, new String[]{
-				"name", "TooltipValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "TooltipValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getTooltipValue_Text( ), source, new String[]{
-				"kind", "element", "name", "Text" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Text" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getTooltipValue_Delay( ), source, new String[]{
-				"kind", "element", "name", "Delay" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Delay" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( triggerConditionEEnum, source, new String[]{
 				"name", "TriggerCondition" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( triggerConditionObjectEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"TriggerCondition:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"TriggerCondition" //$NON-NLS-1$
-		} ); 
+				"name", "TriggerCondition:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "TriggerCondition" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( unitsOfMeasurementEEnum, source, new String[]{
 				"name", "UnitsOfMeasurement" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( unitsOfMeasurementObjectEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"UnitsOfMeasurement:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"UnitsOfMeasurement" //$NON-NLS-1$
-		} ); 
+				"name", "UnitsOfMeasurement:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "UnitsOfMeasurement" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( urlValueEClass, source, new String[]{
-				"name", "URLValue", "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"name", "URLValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getURLValue_BaseUrl( ), source, new String[]{
-				"kind", "element", "name", "BaseUrl" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BaseUrl" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getURLValue_Target( ), source, new String[]{
-				"kind", "element", "name", "Target" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Target" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getURLValue_BaseParameterName( ), source, new String[]{
-				"kind", "element", "name", "BaseParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BaseParameterName" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getURLValue_ValueParameterName( ), source, new String[]{
-				"kind", "element", "name", "ValueParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		} ); 
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "ValueParameterName" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( getURLValue_SeriesParameterName( ),
 				source,
 				new String[]{
-						"kind", "element", "name", "SeriesParameterName" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} ); 
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "SeriesParameterName" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( verticalAlignmentEEnum, source, new String[]{
 				"name", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
-		} ); 
+		} );
 		addAnnotation( verticalAlignmentObjectEDataType, source, new String[]{
-				"name", //$NON-NLS-1$
-				"VerticalAlignment:Object", //$NON-NLS-1$
-				"baseType", //$NON-NLS-1$
-				"VerticalAlignment" //$NON-NLS-1$
-		} ); 
+				"name", "VerticalAlignment:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 	}
 
-} //AttributePackageImpl
+} // AttributePackageImpl

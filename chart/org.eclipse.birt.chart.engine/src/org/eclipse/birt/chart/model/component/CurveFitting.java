@@ -37,7 +37,9 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='CurveFitting' kind='elementOnly'"
  * @generated
  */
-public interface CurveFitting extends EObject{
+public interface CurveFitting extends EObject
+{
+
 	/**
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -54,7 +56,7 @@ public interface CurveFitting extends EObject{
 	 *        extendedMetaData="kind='element' name='LineAttributes'"
 	 * @generated
 	 */
-	LineAttributes getLineAttributes();
+	LineAttributes getLineAttributes( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes <em>Line Attributes</em>}' containment reference.
@@ -64,7 +66,7 @@ public interface CurveFitting extends EObject{
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
-	void setLineAttributes(LineAttributes value);
+	void setLineAttributes( LineAttributes value );
 
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
@@ -81,7 +83,7 @@ public interface CurveFitting extends EObject{
 	 *        extendedMetaData="kind='element' name='Label'"
 	 * @generated
 	 */
-	Label getLabel();
+	Label getLabel( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel <em>Label</em>}' containment reference.
@@ -91,7 +93,7 @@ public interface CurveFitting extends EObject{
 	 * @see #getLabel()
 	 * @generated
 	 */
-	void setLabel(Label value);
+	void setLabel( Label value );
 
 	/**
 	 * Returns the value of the '<em><b>Label Anchor</b></em>' attribute.
@@ -113,7 +115,7 @@ public interface CurveFitting extends EObject{
 	 *        extendedMetaData="kind='element' name='LabelAnchor'"
 	 * @generated
 	 */
-	Anchor getLabelAnchor();
+	Anchor getLabelAnchor( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}' attribute.
@@ -126,7 +128,7 @@ public interface CurveFitting extends EObject{
 	 * @see #getLabelAnchor()
 	 * @generated
 	 */
-	void setLabelAnchor(Anchor value);
+	void setLabelAnchor( Anchor value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}' attribute.
@@ -137,7 +139,7 @@ public interface CurveFitting extends EObject{
 	 * @see #setLabelAnchor(Anchor)
 	 * @generated
 	 */
-	void unsetLabelAnchor();
+	void unsetLabelAnchor( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}' attribute is set.
@@ -149,6 +151,6 @@ public interface CurveFitting extends EObject{
 	 * @see #setLabelAnchor(Anchor)
 	 * @generated
 	 */
-	boolean isSetLabelAnchor();
+	boolean isSetLabelAnchor( );
 
 } // CurveFitting

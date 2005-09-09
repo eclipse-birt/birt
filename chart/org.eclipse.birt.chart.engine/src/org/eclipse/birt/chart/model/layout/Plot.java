@@ -33,26 +33,27 @@ package org.eclipse.birt.chart.model.layout;
  * @model extendedMetaData="name='Plot' kind='elementOnly'"
  * @generated
  */
-public interface Plot extends Block{
+public interface Plot extends Block
+{
 
-    /**
-     * Returns the value of the '<em><b>Horizontal Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
-     * horizontal spacing between elements in the plot. (e.g. Axes, Client Area). <!-- end-user-doc --> <!--
-     * begin-model-doc -->
-     * 
-     * The horizontal spacing between elements in the plot.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Horizontal Spacing</em>' attribute.
-     * @see #isSetHorizontalSpacing()
-     * @see #unsetHorizontalSpacing()
-     * @see #setHorizontalSpacing(int)
-     * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_HorizontalSpacing()
-     * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
-     * @generated
-     */
-    int getHorizontalSpacing();
+	/**
+	 * Returns the value of the '<em><b>Horizontal Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
+	 * horizontal spacing between elements in the plot. (e.g. Axes, Client Area). <!-- end-user-doc --> <!--
+	 * begin-model-doc -->
+	 * 
+	 * The horizontal spacing between elements in the plot.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Horizontal Spacing</em>' attribute.
+	 * @see #isSetHorizontalSpacing()
+	 * @see #unsetHorizontalSpacing()
+	 * @see #setHorizontalSpacing(int)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_HorizontalSpacing()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @generated
+	 */
+	int getHorizontalSpacing( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
@@ -63,7 +64,7 @@ public interface Plot extends Block{
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 */
-    void setHorizontalSpacing(int value);
+	void setHorizontalSpacing( int value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
@@ -73,7 +74,7 @@ public interface Plot extends Block{
 	 * @see #setHorizontalSpacing(int)
 	 * @generated
 	 */
-    void unsetHorizontalSpacing();
+	void unsetHorizontalSpacing( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute is set.
@@ -84,51 +85,51 @@ public interface Plot extends Block{
 	 * @see #setHorizontalSpacing(int)
 	 * @generated
 	 */
-    boolean isSetHorizontalSpacing();
+	boolean isSetHorizontalSpacing( );
 
-    /**
-     * Returns the value of the '<em><b>Vertical Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
-     * horizontal spacing between elements in the plot. <!-- end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * The vertical spacing between elements in the plot.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Vertical Spacing</em>' attribute.
-     * @see #isSetVerticalSpacing()
-     * @see #unsetVerticalSpacing()
-     * @see #setVerticalSpacing(int)
-     * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_VerticalSpacing()
-     * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
-     * @generated
-     */
-    int getVerticalSpacing();
+	/**
+	 * Returns the value of the '<em><b>Vertical Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
+	 * horizontal spacing between elements in the plot. <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * The vertical spacing between elements in the plot.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Vertical Spacing</em>' attribute.
+	 * @see #isSetVerticalSpacing()
+	 * @see #unsetVerticalSpacing()
+	 * @see #setVerticalSpacing(int)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getPlot_VerticalSpacing()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @generated
+	 */
+	int getVerticalSpacing( );
 
-    /**
-     * Sets the value of the '
-     * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Vertical Spacing</em>' attribute.
-     * @see #isSetVerticalSpacing()
-     * @see #unsetVerticalSpacing()
-     * @see #getVerticalSpacing()
-     * @generated
-     */
-    void setVerticalSpacing(int value);
+	/**
+	 * Sets the value of the '
+	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Vertical Spacing</em>' attribute.
+	 * @see #isSetVerticalSpacing()
+	 * @see #unsetVerticalSpacing()
+	 * @see #getVerticalSpacing()
+	 * @generated
+	 */
+	void setVerticalSpacing( int value );
 
-    /**
-     * Unsets the value of the '
-     * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute. <!--
-     * begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @see #isSetVerticalSpacing()
-     * @see #getVerticalSpacing()
-     * @see #setVerticalSpacing(int)
-     * @generated
-     */
-    void unsetVerticalSpacing();
+	/**
+	 * Unsets the value of the '
+	 * {@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #isSetVerticalSpacing()
+	 * @see #getVerticalSpacing()
+	 * @see #setVerticalSpacing(int)
+	 * @generated
+	 */
+	void unsetVerticalSpacing( );
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getVerticalSpacing <em>Vertical Spacing</em>}' attribute is set.
@@ -139,12 +140,12 @@ public interface Plot extends Block{
 	 * @see #setVerticalSpacing(int)
 	 * @generated
 	 */
-    boolean isSetVerticalSpacing();
+	boolean isSetVerticalSpacing( );
 
 	/**
 	 * Returns the value of the '<em><b>Client Area</b></em>' containment reference.
 	 * <!-- begin-user-doc --> Gets
-     * the client area for the plot. This is the region in which the data values will be plotted. <!-- end-user-doc -->
+	 * the client area for the plot. This is the region in which the data values will be plotted. <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
 	 * 							The area of the plot within which the series elements will be displayed.
@@ -157,7 +158,7 @@ public interface Plot extends Block{
 	 *        extendedMetaData="kind='element' name='ClientArea'"
 	 * @generated
 	 */
-    ClientArea getClientArea();
+	ClientArea getClientArea( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Plot#getClientArea <em>Client Area</em>}' containment reference.
@@ -166,6 +167,6 @@ public interface Plot extends Block{
 	 * @see #getClientArea()
 	 * @generated
 	 */
-    void setClientArea(ClientArea value);
+	void setClientArea( ClientArea value );
 
 } // Plot

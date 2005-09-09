@@ -34,7 +34,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.component.ComponentFactory
  * @generated
  */
-public interface ComponentPackage extends EPackage{
+public interface ComponentPackage extends EPackage
+{
 
 	/**
 	 * The package name.
@@ -63,7 +64,7 @@ public interface ComponentPackage extends EPackage{
 	 * end-user-doc -->
 	 * @generated
 	 */
-	ComponentPackage eINSTANCE = org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl.init();
+	ComponentPackage eINSTANCE = org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl.init( );
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.AxisImpl <em>Axis</em>}' class.
@@ -116,12 +117,21 @@ public interface ComponentPackage extends EPackage{
 	int AXIS__ASSOCIATED_AXES = 4;
 
 	/**
+	 * The feature id for the '<em><b>Ancillary Axes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__ANCILLARY_AXES = 5;
+
+	/**
 	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__SERIES_DEFINITIONS = 5;
+	int AXIS__SERIES_DEFINITIONS = 6;
 
 	/**
 	 * The feature id for the '<em><b>Gap Width</b></em>' attribute. <!--
@@ -130,7 +140,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__GAP_WIDTH = 6;
+	int AXIS__GAP_WIDTH = 7;
 
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute. <!--
@@ -139,7 +149,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__ORIENTATION = 7;
+	int AXIS__ORIENTATION = 8;
 
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
@@ -147,7 +157,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__LINE_ATTRIBUTES = 8;
+	int AXIS__LINE_ATTRIBUTES = 9;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -155,7 +165,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__LABEL = 9;
+	int AXIS__LABEL = 10;
 
 	/**
 	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
@@ -163,7 +173,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__FORMAT_SPECIFIER = 10;
+	int AXIS__FORMAT_SPECIFIER = 11;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' attribute.
@@ -171,7 +181,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__LABEL_POSITION = 11;
+	int AXIS__LABEL_POSITION = 12;
 
 	/**
 	 * The feature id for the '<em><b>Staggered</b></em>' attribute. <!--
@@ -180,7 +190,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__STAGGERED = 12;
+	int AXIS__STAGGERED = 13;
 
 	/**
 	 * The feature id for the '<em><b>Marker Lines</b></em>' containment reference list.
@@ -188,7 +198,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MARKER_LINES = 13;
+	int AXIS__MARKER_LINES = 14;
 
 	/**
 	 * The feature id for the '<em><b>Marker Ranges</b></em>' containment reference list.
@@ -196,7 +206,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MARKER_RANGES = 14;
+	int AXIS__MARKER_RANGES = 15;
 
 	/**
 	 * The feature id for the '<em><b>Major Grid</b></em>' containment reference.
@@ -204,7 +214,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MAJOR_GRID = 15;
+	int AXIS__MAJOR_GRID = 16;
 
 	/**
 	 * The feature id for the '<em><b>Minor Grid</b></em>' containment reference.
@@ -212,7 +222,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__MINOR_GRID = 16;
+	int AXIS__MINOR_GRID = 17;
 
 	/**
 	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
@@ -220,7 +230,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__SCALE = 17;
+	int AXIS__SCALE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Origin</b></em>' containment reference.
@@ -228,7 +238,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__ORIGIN = 18;
+	int AXIS__ORIGIN = 19;
 
 	/**
 	 * The feature id for the '<em><b>Primary Axis</b></em>' attribute.
@@ -236,7 +246,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PRIMARY_AXIS = 19;
+	int AXIS__PRIMARY_AXIS = 20;
 
 	/**
 	 * The feature id for the '<em><b>Category Axis</b></em>' attribute.
@@ -244,7 +254,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__CATEGORY_AXIS = 20;
+	int AXIS__CATEGORY_AXIS = 21;
 
 	/**
 	 * The feature id for the '<em><b>Percent</b></em>' attribute. <!--
@@ -253,7 +263,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS__PERCENT = 21;
+	int AXIS__PERCENT = 22;
 
 	/**
 	 * The number of structural features of the the '<em>Axis</em>' class.
@@ -261,7 +271,7 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 22;
+	int AXIS_FEATURE_COUNT = 23;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -343,13 +353,141 @@ public interface ComponentPackage extends EPackage{
 	int CURVE_FITTING_FEATURE_COUNT = 3;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.DialImpl <em>Dial</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.DialImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getDial()
+	 * @generated
+	 */
+	int DIAL = 3;
+
+	/**
+	 * The feature id for the '<em><b>Start Angle</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__START_ANGLE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Stop Angle</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__STOP_ANGLE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Radius</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__RADIUS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__LINE_ATTRIBUTES = 3;
+
+	/**
+	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__FILL = 4;
+
+	/**
+	 * The feature id for the '<em><b>Dial Regions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__DIAL_REGIONS = 5;
+
+	/**
+	 * The feature id for the '<em><b>Major Grid</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__MAJOR_GRID = 6;
+
+	/**
+	 * The feature id for the '<em><b>Minor Grid</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__MINOR_GRID = 7;
+
+	/**
+	 * The feature id for the '<em><b>Scale</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__SCALE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__LABEL = 9;
+
+	/**
+	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL__FORMAT_SPECIFIER = 10;
+
+	/**
+	 * The number of structural features of the the '<em>Dial</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_FEATURE_COUNT = 11;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl <em>Dial Region</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.DialRegionImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getDialRegion()
+	 * @generated
+	 */
+	int DIAL_REGION = 4;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.LabelImpl <em>Label</em>}' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.component.impl.LabelImpl
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getLabel()
 	 * @generated
 	 */
-	int LABEL = 4;
+	int LABEL = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.GridImpl <em>Grid</em>}' class.
@@ -358,7 +496,179 @@ public interface ComponentPackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getGrid()
 	 * @generated
 	 */
-	int GRID = 3;
+	int GRID = 5;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl <em>Marker Line</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.MarkerLineImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerLine()
+	 * @generated
+	 */
+	int MARKER_LINE = 7;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerRange()
+	 * @generated
+	 */
+	int MARKER_RANGE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__OUTLINE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__FILL = 1;
+
+	/**
+	 * The feature id for the '<em><b>Start Value</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__START_VALUE = 2;
+
+	/**
+	 * The feature id for the '<em><b>End Value</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__END_VALUE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__LABEL = 4;
+
+	/**
+	 * The feature id for the '<em><b>Label Anchor</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__LABEL_ANCHOR = 5;
+
+	/**
+	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE__FORMAT_SPECIFIER = 6;
+
+	/**
+	 * The number of structural features of the the '<em>Marker Range</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER_RANGE_FEATURE_COUNT = 7;
+
+	/**
+	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__OUTLINE = MARKER_RANGE__OUTLINE;
+
+	/**
+	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__FILL = MARKER_RANGE__FILL;
+
+	/**
+	 * The feature id for the '<em><b>Start Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__START_VALUE = MARKER_RANGE__START_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>End Value</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__END_VALUE = MARKER_RANGE__END_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__LABEL = MARKER_RANGE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Label Anchor</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__LABEL_ANCHOR = MARKER_RANGE__LABEL_ANCHOR;
+
+	/**
+	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__FORMAT_SPECIFIER = MARKER_RANGE__FORMAT_SPECIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Inner Radius</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__INNER_RADIUS = MARKER_RANGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Outer Radius</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION__OUTER_RADIUS = MARKER_RANGE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the the '<em>Dial Region</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_REGION_FEATURE_COUNT = MARKER_RANGE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
@@ -469,15 +779,6 @@ public interface ComponentPackage extends EPackage{
 	int LABEL_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl <em>Marker Line</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.MarkerLineImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerLine()
-	 * @generated
-	 */
-	int MARKER_LINE = 5;
-
-	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -526,77 +827,41 @@ public interface ComponentPackage extends EPackage{
 	int MARKER_LINE_FEATURE_COUNT = 5;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl <em>Marker Range</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl
-	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getMarkerRange()
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.NeedleImpl <em>Needle</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.component.impl.NeedleImpl
+	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getNeedle()
 	 * @generated
 	 */
-	int MARKER_RANGE = 6;
+	int NEEDLE = 9;
 
 	/**
-	 * The feature id for the '<em><b>Outline</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_RANGE__OUTLINE = 0;
+	int NEEDLE__LINE_ATTRIBUTES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Fill</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Decorator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_RANGE__FILL = 1;
+	int NEEDLE__DECORATOR = 1;
 
 	/**
-	 * The feature id for the '<em><b>Start Value</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The number of structural features of the the '<em>Needle</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_RANGE__START_VALUE = 2;
-
-	/**
-	 * The feature id for the '<em><b>End Value</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER_RANGE__END_VALUE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Label</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER_RANGE__LABEL = 4;
-
-	/**
-	 * The feature id for the '<em><b>Label Anchor</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER_RANGE__LABEL_ANCHOR = 5;
-
-	/**
-	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER_RANGE__FORMAT_SPECIFIER = 6;
-
-	/**
-	 * The number of structural features of the the '<em>Marker Range</em>' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MARKER_RANGE_FEATURE_COUNT = 7;
+	int NEEDLE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl <em>Scale</em>}' class.
@@ -605,7 +870,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getScale()
 	 * @generated
 	 */
-	int SCALE = 7;
+	int SCALE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Min</b></em>' containment reference.
@@ -664,7 +929,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.component.impl.ComponentPackageImpl#getSeries()
 	 * @generated
 	 */
-	int SERIES = 8;
+	int SERIES = 11;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -826,6 +1091,17 @@ public interface ComponentPackage extends EPackage{
 	 * @generated
 	 */
 	EReference getAxis_AssociatedAxes( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getAncillaryAxes <em>Ancillary Axes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Ancillary Axes</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#getAncillaryAxes()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EReference getAxis_AncillaryAxes( );
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Axis#getSeriesDefinitions <em>Series Definitions</em>}'.
@@ -1034,7 +1310,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see org.eclipse.birt.chart.model.component.CurveFitting
 	 * @generated
 	 */
-	EClass getCurveFitting();
+	EClass getCurveFitting( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLineAttributes <em>Line Attributes</em>}'.
@@ -1045,7 +1321,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see #getCurveFitting()
 	 * @generated
 	 */
-	EReference getCurveFitting_LineAttributes();
+	EReference getCurveFitting_LineAttributes( );
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabel <em>Label</em>}'.
@@ -1056,7 +1332,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see #getCurveFitting()
 	 * @generated
 	 */
-	EReference getCurveFitting_Label();
+	EReference getCurveFitting_Label( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.CurveFitting#getLabelAnchor <em>Label Anchor</em>}'.
@@ -1067,7 +1343,170 @@ public interface ComponentPackage extends EPackage{
 	 * @see #getCurveFitting()
 	 * @generated
 	 */
-	EAttribute getCurveFitting_LabelAnchor();
+	EAttribute getCurveFitting_LabelAnchor( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Dial <em>Dial</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dial</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial
+	 * @generated
+	 */
+	EClass getDial( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Dial#getStartAngle <em>Start Angle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Start Angle</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getStartAngle()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EAttribute getDial_StartAngle( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Dial#getStopAngle <em>Stop Angle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Stop Angle</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getStopAngle()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EAttribute getDial_StopAngle( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Dial#getRadius <em>Radius</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Radius</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getRadius()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EAttribute getDial_Radius( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getLineAttributes <em>Line Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Line Attributes</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getLineAttributes()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_LineAttributes( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getFill <em>Fill</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Fill</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getFill()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_Fill( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.component.Dial#getDialRegions <em>Dial Regions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Dial Regions</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getDialRegions()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_DialRegions( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getMajorGrid <em>Major Grid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Major Grid</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getMajorGrid()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_MajorGrid( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getMinorGrid <em>Minor Grid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Minor Grid</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getMinorGrid()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_MinorGrid( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getScale <em>Scale</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Scale</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getScale()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_Scale( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Label</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getLabel()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_Label( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier <em>Format Specifier</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Format Specifier</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Dial#getFormatSpecifier()
+	 * @see #getDial()
+	 * @generated
+	 */
+	EReference getDial_FormatSpecifier( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.DialRegion <em>Dial Region</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Dial Region</em>'.
+	 * @see org.eclipse.birt.chart.model.component.DialRegion
+	 * @generated
+	 */
+	EClass getDialRegion( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inner Radius</em>'.
+	 * @see org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius()
+	 * @see #getDialRegion()
+	 * @generated
+	 */
+	EAttribute getDialRegion_InnerRadius( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Outer Radius</em>'.
+	 * @see org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius()
+	 * @see #getDialRegion()
+	 * @generated
+	 */
+	EAttribute getDialRegion_OuterRadius( );
 
 	/**
 	 * Returns the meta object for class '
@@ -1338,6 +1777,38 @@ public interface ComponentPackage extends EPackage{
 	EReference getMarkerRange_FormatSpecifier( );
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Needle <em>Needle</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Needle</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Needle
+	 * @generated
+	 */
+	EClass getNeedle( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.component.Needle#getLineAttributes <em>Line Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Line Attributes</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Needle#getLineAttributes()
+	 * @see #getNeedle()
+	 * @generated
+	 */
+	EReference getNeedle_LineAttributes( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Needle#getDecorator <em>Decorator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Decorator</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Needle#getDecorator()
+	 * @see #getNeedle()
+	 * @generated
+	 */
+	EAttribute getNeedle_Decorator( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Scale <em>Scale</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Scale</em>'.
@@ -1514,7 +1985,7 @@ public interface ComponentPackage extends EPackage{
 	 * @see #getSeries()
 	 * @generated
 	 */
-	EReference getSeries_CurveFitting();
+	EReference getSeries_CurveFitting( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--

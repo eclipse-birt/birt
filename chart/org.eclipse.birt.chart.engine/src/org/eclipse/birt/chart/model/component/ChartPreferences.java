@@ -36,39 +36,40 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='ChartPreferences' kind='elementOnly'"
  * @generated
  */
-public interface ChartPreferences extends EObject{
+public interface ChartPreferences extends EObject
+{
 
-    /**
-     * Returns the value of the '<em><b>Labels</b></em>' containment reference list. The list contents are of type
-     * {@link org.eclipse.birt.chart.model.component.Label}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
-     * begin-model-doc -->
-     * 
-     * A collection of labels holding preferences for the various labels used in a chart.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Labels</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Labels()
-     * @model type="org.eclipse.birt.chart.model.component.Label" containment="true" resolveProxies="false"
-     *        required="true"
-     * @generated
-     */
-    EList getLabels();
+	/**
+	 * Returns the value of the '<em><b>Labels</b></em>' containment reference list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.component.Label}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc -->
+	 * 
+	 * A collection of labels holding preferences for the various labels used in a chart.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Labels</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Labels()
+	 * @model type="org.eclipse.birt.chart.model.component.Label" containment="true" resolveProxies="false"
+	 *        required="true"
+	 * @generated
+	 */
+	EList getLabels( );
 
-    /**
-     * Returns the value of the '<em><b>Blocks</b></em>' containment reference list. The list contents are of type
-     * {@link org.eclipse.birt.chart.model.layout.Block}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
-     * begin-model-doc -->
-     * 
-     * A collection of blocks holding preferences for the different blocks used in a chart.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Blocks</em>' containment reference list.
-     * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Blocks()
-     * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" resolveProxies="false" required="true"
-     * @generated
-     */
-    EList getBlocks();
+	/**
+	 * Returns the value of the '<em><b>Blocks</b></em>' containment reference list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.layout.Block}. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc -->
+	 * 
+	 * A collection of blocks holding preferences for the different blocks used in a chart.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Blocks</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences_Blocks()
+	 * @model type="org.eclipse.birt.chart.model.layout.Block" containment="true" resolveProxies="false" required="true"
+	 * @generated
+	 */
+	EList getBlocks( );
 
 } // ChartPreferences

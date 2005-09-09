@@ -23,51 +23,33 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * 
+ * DataPointHints
  */
 public final class DataPointHints
 {
 
 	private final RunTimeContext rtc;
 
-	/**
-	 * 
-	 */
 	private Object oBaseValue;
 
-	/**
-	 * 
-	 */
 	private Object oOrthogonalValue;
 
-	/**
-	 * 
-	 */
 	private Object oSeriesValue;
 
-	/**
-	 * 
-	 */
 	private final Location lo;
 
-	/**
-	 * 
-	 */
-	private final double dSize;
+	private final double[] dSize;
 
-	/**
-	 * 
-	 */
 	private final DataPoint dp;
 
-	/**
-	 * 
-	 */
 	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
@@ -108,7 +90,44 @@ public final class DataPointHints
 
 		lo = _lo;
 		rtc = _rtc;
-		dSize = _dSize;
+
+		dSize = new double[2];
+		dSize[0] = _dSize;
+	}
+
+	/**
+	 * @param _oBaseValue
+	 * @param _oOrthogonalValue
+	 * @param _oSeriesValue
+	 * @param _dp
+	 * @param _fsBase
+	 * @param _fsOrthogonal
+	 * @param _fsSeries
+	 * @param _lo
+	 * @param _dSize
+	 * @param _rtc
+	 * @throws ChartException
+	 */
+	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
+			Object _oSeriesValue, DataPoint _dp, // FOR COMBINED VALUE
+			// RETRIEVAL
+			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
+			FormatSpecifier _fsSeries, Location _lo, double[] _dSize,
+			RunTimeContext _rtc ) throws ChartException
+	{
+		this( _oBaseValue,
+				_oOrthogonalValue,
+				_oSeriesValue,
+				_dp,
+				_fsBase,
+				_fsOrthogonal,
+				_fsSeries,
+				_lo,
+				0,
+				_rtc );
+
+		dSize[0] = _dSize[0];
+		dSize[1] = _dSize[1];
 	}
 
 	/**
@@ -131,6 +150,11 @@ public final class DataPointHints
 				rtc );
 	}
 
+	/**
+	 * @param _oBaseValue
+	 * @param _oOrthogonalValue
+	 * @param _oSeriesValue
+	 */
 	public void accumulate( Object _oBaseValue, Object _oOrthogonalValue,
 			Object _oSeriesValue )
 	{
@@ -254,12 +278,33 @@ public final class DataPointHints
 	}
 
 	/**
+	 * @return
+	 */
+	public final Location3D getLocation3D( )
+	{
+		if ( lo instanceof Location3D )
+		{
+			return (Location3D) lo;
+		}
+
+		return null;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
 	public final double getSize( )
 	{
-		return dSize;
+		return dSize[0];
+	}
+
+	/**
+	 * @return
+	 */
+	public final Size getSize2D( )
+	{
+		return SizeImpl.create( dSize[0], dSize[1] );
 	}
 
 	/**
@@ -421,8 +466,8 @@ public final class DataPointHints
 		return sb.toString( );
 	}
 
-	/**
-	 * 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
 	public final String toString( )
 	{

@@ -37,23 +37,24 @@ import org.eclipse.birt.chart.model.component.Series;
  * @model
  * @generated
  */
-public interface StockSeries extends Series{
+public interface StockSeries extends Series
+{
 
-    /**
-     * Returns the value of the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
-     * end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Defines the fill to be used for the Candle.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Fill</em>' containment reference.
-     * @see #setFill(Fill)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_Fill()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    Fill getFill();
+	/**
+	 * Returns the value of the '<em><b>Fill</b></em>' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Defines the fill to be used for the Candle.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Fill</em>' containment reference.
+	 * @see #setFill(Fill)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_Fill()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	Fill getFill( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getFill <em>Fill</em>}' containment reference.
@@ -62,23 +63,23 @@ public interface StockSeries extends Series{
 	 * @see #getFill()
 	 * @generated
 	 */
-    void setFill(Fill value);
+	void setFill( Fill value );
 
-    /**
-     * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
-     * <!-- end-user-doc --> <!-- begin-model-doc -->
-     * 
-     * Specifies the style to be used to display the lines for this series.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Line Attributes</em>' containment reference.
-     * @see #setLineAttributes(LineAttributes)
-     * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_LineAttributes()
-     * @model containment="true" resolveProxies="false"
-     * @generated
-     */
-    LineAttributes getLineAttributes();
+	/**
+	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment reference. <!-- begin-user-doc -->
+	 * <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Specifies the style to be used to display the lines for this series.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Line Attributes</em>' containment reference.
+	 * @see #setLineAttributes(LineAttributes)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getStockSeries_LineAttributes()
+	 * @model containment="true" resolveProxies="false"
+	 * @generated
+	 */
+	LineAttributes getLineAttributes( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.StockSeries#getLineAttributes <em>Line Attributes</em>}' containment reference.
@@ -87,6 +88,6 @@ public interface StockSeries extends Series{
 	 * @see #getLineAttributes()
 	 * @generated
 	 */
-    void setLineAttributes(LineAttributes value);
+	void setLineAttributes( LineAttributes value );
 
 } // StockSeries

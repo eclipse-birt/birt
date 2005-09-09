@@ -28,9 +28,9 @@ public class ComponentResourceImpl extends XMLResourceImpl
 	 * @param uri the URI of the new resource.
 	 * @generated
 	 */
-    public ComponentResourceImpl(URI uri)
+	public ComponentResourceImpl( URI uri )
 	{
-		super(uri);
+		super( uri );
 	}
 
 } //ComponentResourceFactoryImpl

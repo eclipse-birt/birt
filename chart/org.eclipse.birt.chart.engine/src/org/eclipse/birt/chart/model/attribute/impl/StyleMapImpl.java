@@ -26,15 +26,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName <em>Component Name</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle <em>Style</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getComponentName <em>Component Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.StyleMapImpl#getStyle <em>Style</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class StyleMapImpl extends EObjectImpl implements StyleMap
@@ -72,9 +68,8 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	protected boolean componentNameESet = false;
 
 	/**
-	 * The default value of the '{@link #getStyle() <em>Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -84,7 +79,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	/**
 	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -93,7 +87,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected StyleMapImpl( )
@@ -103,7 +96,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -113,7 +105,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public StyledComponent getComponentName( )
@@ -123,7 +114,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setComponentName( StyledComponent newComponentName )
@@ -144,7 +134,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetComponentName( )
@@ -164,7 +153,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetComponentName( )
@@ -174,7 +162,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getStyle( )
@@ -184,7 +171,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStyle( String newStyle )
@@ -201,7 +187,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -218,7 +203,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -237,7 +221,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -256,7 +239,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -274,7 +256,6 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -294,4 +275,4 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 		return result.toString( );
 	}
 
-} //StyleMapImpl
+} // StyleMapImpl

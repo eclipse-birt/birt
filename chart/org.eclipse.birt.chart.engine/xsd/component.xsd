@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
-<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+<xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelComponent" xmlns="http://www.birt.eclipse.org/ChartModelComponent" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelData" schemaLocation="data.xsd"/>
@@ -46,6 +46,11 @@
 					<xsd:documentation xml:lang="en">
 					Holds the value orthogonal axes associated with this axis.
 					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AncillaryAxes" type="Axis" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Holds the value ancillary base axes associated with this axis.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="SeriesDefinitions" type="data:SeriesDefinition" maxOccurs="unbounded">
@@ -539,6 +544,104 @@
 				<xsd:annotation>
 					<xsd:documentation>Specifies where the labels for the curve should be displayed.
 					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DialRegion">
+		<xsd:complexContent>
+			<xsd:extension base="MarkerRange">
+				<xsd:sequence>
+					<xsd:element name="InnerRadius" type="xsd:double" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the percentage value of the inner radius of the dial region.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="OuterRadius" type="xsd:double" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies the percentage value of the outer radius of the dial region.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Needle">
+		<xsd:annotation>
+			<xsd:documentation>			This type defines a needle of a dial.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation>Specify the line properties for the needle.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Decorator" type="attribute:LineDecorator">
+				<xsd:annotation>
+					<xsd:documentation>Specify the line decorator for the needle.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Dial">
+		<xsd:annotation>
+			<xsd:documentation>			This type defines the basic elements that are expected in a dial chart. This can further be extended for special dial chart types.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="StartAngle" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the start angle of the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="StopAngle" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the stop angle of the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Radius" type="xsd:double" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the radius of the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineAttributes" type="attribute:LineAttributes">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the border line style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Fill" type="attribute:Fill" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the background fill style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DialRegions" type="DialRegion" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Defines a set of areas for a range of values within a dial displayed as filled sections
+extending across the dial between the start and end positions.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MajorGrid" type="Grid">
+				<xsd:annotation>
+					<xsd:documentation>Defines the major grid associated with the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MinorGrid" type="Grid">
+				<xsd:annotation>
+					<xsd:documentation>Defines the minor grid associated with the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Scale" type="Scale">
+				<xsd:annotation>
+					<xsd:documentation>Defines the scale for the dial.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Label" type="Label">
+				<xsd:annotation>
+					<xsd:documentation>Defines the properties for grid labels.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Format specifier for grid label.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

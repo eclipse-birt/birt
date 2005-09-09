@@ -15,9 +15,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 
 /**
- * This class ...
- * 
- * @author Actuate Corporation
+ * IntersectionValue
  */
 public final class IntersectionValue extends Methods implements IConstants
 {
@@ -26,33 +24,54 @@ public final class IntersectionValue extends Methods implements IConstants
 
     Object oValue;
 
+    /**
+     * @param _iType
+     * @param _dValue
+     */
     public IntersectionValue(int _iType, double _dValue)
     {
         iType = _iType;
         oValue = new Double(_dValue);
     }
 
-    IntersectionValue(int _iType, Object _oValue)
+    /**
+     * @param _iType
+     * @param _oValue
+     */
+    public IntersectionValue(int _iType, Object _oValue)
     {
         iType = _iType;
         oValue = _oValue;
     }
 
+    /**
+     * @return
+     */
     public final int getType()
     {
         return iType;
     }
 
+    /**
+     * @return
+     */
     public final Object getValue()
     {
         return oValue;
     }
 
+    /**
+     * @return
+     */
     public final double getValueAsDouble()
     {
         return asDouble(oValue).doubleValue();
     }
 
+    /**
+     * @param sc
+     * @return
+     */
     public final double getValueAsDouble(AutoScale sc)
     {
         if (iType == MAX)

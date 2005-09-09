@@ -16,81 +16,78 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Extended Property</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type represents an extended property stored as a name-value pair that is created to hold data for minor
- * extensions to a chart.
- * 
+ * 			This type represents an extended property stored as a name-value pair that is created to hold data for minor extensions to a chart.
+ * 			
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty()
- * @model
+ * @model extendedMetaData="name='ExtendedProperty' kind='elementOnly'"
  * @generated
  */
 public interface ExtendedProperty extends EObject
 {
 
-    /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Specifies the unique name for the property.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Name</em>' attribute.
-     * @see #setName(String)
-     * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Name()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-     * @generated
-     */
-    String getName();
+	/**
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Specifies the unique name for the property.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Name</em>' attribute.
+	 * @see #setName(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Name()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Name'"
+	 * @generated
+	 */
+	String getName( );
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
-    void setName(String value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getName <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @see #getName()
+	 * @generated
+	 */
+	void setName( String value );
 
-    /**
-     * Returns the value of the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Defines the value for the property.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Value</em>' attribute.
-     * @see #setValue(String)
-     * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Value()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-     * @generated
-     */
-    String getValue();
+	/**
+	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 					Defines the value for the property.
+	 * 					
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Value</em>' attribute.
+	 * @see #setValue(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getExtendedProperty_Value()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Value'"
+	 * @generated
+	 */
+	String getValue( );
 
-    /**
-     * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}'
-     * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @param value
-     *            the new value of the '<em>Value</em>' attribute.
-     * @see #getValue()
-     * @generated
-     */
-    void setValue(String value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ExtendedProperty#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Value</em>' attribute.
+	 * @see #getValue()
+	 * @generated
+	 */
+	void setValue( String value );
 
 } // ExtendedProperty

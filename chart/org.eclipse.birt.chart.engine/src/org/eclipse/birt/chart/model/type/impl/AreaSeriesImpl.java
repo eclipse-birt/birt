@@ -48,263 +48,270 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AreaSeriesImpl()
+	protected AreaSeriesImpl( )
 	{
-		super();
+		super( );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EClass eStaticClass()
+	protected EClass eStaticClass( )
 	{
-		return TypePackage.eINSTANCE.getAreaSeries();
+		return TypePackage.eINSTANCE.getAreaSeries( );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, Class baseClass, NotificationChain msgs )
 	{
-		if (featureID >= 0)
+		if ( featureID >= 0 )
 		{
-			switch (eDerivedStructuralFeatureID(featureID, baseClass))
+			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
 			{
-				case TypePackage.AREA_SERIES__LABEL:
-					return basicSetLabel(null, msgs);
-				case TypePackage.AREA_SERIES__DATA_DEFINITION:
-					return ((InternalEList)getDataDefinition()).basicRemove(otherEnd, msgs);
-				case TypePackage.AREA_SERIES__DATA_POINT:
-					return basicSetDataPoint(null, msgs);
-				case TypePackage.AREA_SERIES__DATA_SET:
-					return basicSetDataSet(null, msgs);
-				case TypePackage.AREA_SERIES__TRIGGERS:
-					return ((InternalEList)getTriggers()).basicRemove(otherEnd, msgs);
-				case TypePackage.AREA_SERIES__CURVE_FITTING:
-					return basicSetCurveFitting(null, msgs);
-				case TypePackage.AREA_SERIES__MARKER:
-					return basicSetMarker(null, msgs);
-				case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
-					return basicSetLineAttributes(null, msgs);
-				case TypePackage.AREA_SERIES__SHADOW_COLOR:
-					return basicSetShadowColor(null, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+				case TypePackage.AREA_SERIES__LABEL :
+					return basicSetLabel( null, msgs );
+				case TypePackage.AREA_SERIES__DATA_DEFINITION :
+					return ( (InternalEList) getDataDefinition( ) ).basicRemove( otherEnd,
+							msgs );
+				case TypePackage.AREA_SERIES__DATA_POINT :
+					return basicSetDataPoint( null, msgs );
+				case TypePackage.AREA_SERIES__DATA_SET :
+					return basicSetDataSet( null, msgs );
+				case TypePackage.AREA_SERIES__TRIGGERS :
+					return ( (InternalEList) getTriggers( ) ).basicRemove( otherEnd,
+							msgs );
+				case TypePackage.AREA_SERIES__CURVE_FITTING :
+					return basicSetCurveFitting( null, msgs );
+				case TypePackage.AREA_SERIES__MARKER :
+					return basicSetMarker( null, msgs );
+				case TypePackage.AREA_SERIES__LINE_ATTRIBUTES :
+					return basicSetLineAttributes( null, msgs );
+				case TypePackage.AREA_SERIES__SHADOW_COLOR :
+					return basicSetShadowColor( null, msgs );
+				default :
+					return eDynamicInverseRemove( otherEnd,
+							featureID,
+							baseClass,
+							msgs );
 			}
 		}
-		return eBasicSetContainer(null, featureID, msgs);
+		return eBasicSetContainer( null, featureID, msgs );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve)
+	public Object eGet( EStructuralFeature eFeature, boolean resolve )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case TypePackage.AREA_SERIES__VISIBLE:
-				return isVisible() ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.AREA_SERIES__LABEL:
-				return getLabel();
-			case TypePackage.AREA_SERIES__DATA_DEFINITION:
-				return getDataDefinition();
-			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER:
-				return getSeriesIdentifier();
-			case TypePackage.AREA_SERIES__DATA_POINT:
-				return getDataPoint();
-			case TypePackage.AREA_SERIES__DATA_SET:
-				return getDataSet();
-			case TypePackage.AREA_SERIES__LABEL_POSITION:
-				return getLabelPosition();
-			case TypePackage.AREA_SERIES__STACKED:
-				return isStacked() ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.AREA_SERIES__TRIGGERS:
-				return getTriggers();
-			case TypePackage.AREA_SERIES__TRANSLUCENT:
-				return isTranslucent() ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.AREA_SERIES__CURVE_FITTING:
-				return getCurveFitting();
-			case TypePackage.AREA_SERIES__MARKER:
-				return getMarker();
-			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
-				return getLineAttributes();
-			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
-				return isPaletteLineColor() ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.AREA_SERIES__CURVE:
-				return isCurve() ? Boolean.TRUE : Boolean.FALSE;
-			case TypePackage.AREA_SERIES__SHADOW_COLOR:
-				return getShadowColor();
+			case TypePackage.AREA_SERIES__VISIBLE :
+				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.AREA_SERIES__LABEL :
+				return getLabel( );
+			case TypePackage.AREA_SERIES__DATA_DEFINITION :
+				return getDataDefinition( );
+			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER :
+				return getSeriesIdentifier( );
+			case TypePackage.AREA_SERIES__DATA_POINT :
+				return getDataPoint( );
+			case TypePackage.AREA_SERIES__DATA_SET :
+				return getDataSet( );
+			case TypePackage.AREA_SERIES__LABEL_POSITION :
+				return getLabelPosition( );
+			case TypePackage.AREA_SERIES__STACKED :
+				return isStacked( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.AREA_SERIES__TRIGGERS :
+				return getTriggers( );
+			case TypePackage.AREA_SERIES__TRANSLUCENT :
+				return isTranslucent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.AREA_SERIES__CURVE_FITTING :
+				return getCurveFitting( );
+			case TypePackage.AREA_SERIES__MARKER :
+				return getMarker( );
+			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES :
+				return getLineAttributes( );
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR :
+				return isPaletteLineColor( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.AREA_SERIES__CURVE :
+				return isCurve( ) ? Boolean.TRUE : Boolean.FALSE;
+			case TypePackage.AREA_SERIES__SHADOW_COLOR :
+				return getShadowColor( );
 		}
-		return eDynamicGet(eFeature, resolve);
+		return eDynamicGet( eFeature, resolve );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue)
+	public void eSet( EStructuralFeature eFeature, Object newValue )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case TypePackage.AREA_SERIES__VISIBLE:
-				setVisible(((Boolean)newValue).booleanValue());
+			case TypePackage.AREA_SERIES__VISIBLE :
+				setVisible( ( (Boolean) newValue ).booleanValue( ) );
 				return;
-			case TypePackage.AREA_SERIES__LABEL:
-				setLabel((Label)newValue);
+			case TypePackage.AREA_SERIES__LABEL :
+				setLabel( (Label) newValue );
 				return;
-			case TypePackage.AREA_SERIES__DATA_DEFINITION:
-				getDataDefinition().clear();
-				getDataDefinition().addAll((Collection)newValue);
+			case TypePackage.AREA_SERIES__DATA_DEFINITION :
+				getDataDefinition( ).clear( );
+				getDataDefinition( ).addAll( (Collection) newValue );
 				return;
-			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER:
-				setSeriesIdentifier((Object)newValue);
+			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER :
+				setSeriesIdentifier( (Object) newValue );
 				return;
-			case TypePackage.AREA_SERIES__DATA_POINT:
-				setDataPoint((DataPoint)newValue);
+			case TypePackage.AREA_SERIES__DATA_POINT :
+				setDataPoint( (DataPoint) newValue );
 				return;
-			case TypePackage.AREA_SERIES__DATA_SET:
-				setDataSet((DataSet)newValue);
+			case TypePackage.AREA_SERIES__DATA_SET :
+				setDataSet( (DataSet) newValue );
 				return;
-			case TypePackage.AREA_SERIES__LABEL_POSITION:
-				setLabelPosition((Position)newValue);
+			case TypePackage.AREA_SERIES__LABEL_POSITION :
+				setLabelPosition( (Position) newValue );
 				return;
-			case TypePackage.AREA_SERIES__STACKED:
-				setStacked(((Boolean)newValue).booleanValue());
+			case TypePackage.AREA_SERIES__STACKED :
+				setStacked( ( (Boolean) newValue ).booleanValue( ) );
 				return;
-			case TypePackage.AREA_SERIES__TRIGGERS:
-				getTriggers().clear();
-				getTriggers().addAll((Collection)newValue);
+			case TypePackage.AREA_SERIES__TRIGGERS :
+				getTriggers( ).clear( );
+				getTriggers( ).addAll( (Collection) newValue );
 				return;
-			case TypePackage.AREA_SERIES__TRANSLUCENT:
-				setTranslucent(((Boolean)newValue).booleanValue());
+			case TypePackage.AREA_SERIES__TRANSLUCENT :
+				setTranslucent( ( (Boolean) newValue ).booleanValue( ) );
 				return;
-			case TypePackage.AREA_SERIES__CURVE_FITTING:
-				setCurveFitting((CurveFitting)newValue);
+			case TypePackage.AREA_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) newValue );
 				return;
-			case TypePackage.AREA_SERIES__MARKER:
-				setMarker((Marker)newValue);
+			case TypePackage.AREA_SERIES__MARKER :
+				setMarker( (Marker) newValue );
 				return;
-			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
-				setLineAttributes((LineAttributes)newValue);
+			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES :
+				setLineAttributes( (LineAttributes) newValue );
 				return;
-			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
-				setPaletteLineColor(((Boolean)newValue).booleanValue());
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR :
+				setPaletteLineColor( ( (Boolean) newValue ).booleanValue( ) );
 				return;
-			case TypePackage.AREA_SERIES__CURVE:
-				setCurve(((Boolean)newValue).booleanValue());
+			case TypePackage.AREA_SERIES__CURVE :
+				setCurve( ( (Boolean) newValue ).booleanValue( ) );
 				return;
-			case TypePackage.AREA_SERIES__SHADOW_COLOR:
-				setShadowColor((ColorDefinition)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset(EStructuralFeature eFeature)
-	{
-		switch (eDerivedStructuralFeatureID(eFeature))
-		{
-			case TypePackage.AREA_SERIES__VISIBLE:
-				unsetVisible();
-				return;
-			case TypePackage.AREA_SERIES__LABEL:
-				setLabel((Label)null);
-				return;
-			case TypePackage.AREA_SERIES__DATA_DEFINITION:
-				getDataDefinition().clear();
-				return;
-			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER:
-				setSeriesIdentifier(SERIES_IDENTIFIER_EDEFAULT);
-				return;
-			case TypePackage.AREA_SERIES__DATA_POINT:
-				setDataPoint((DataPoint)null);
-				return;
-			case TypePackage.AREA_SERIES__DATA_SET:
-				setDataSet((DataSet)null);
-				return;
-			case TypePackage.AREA_SERIES__LABEL_POSITION:
-				unsetLabelPosition();
-				return;
-			case TypePackage.AREA_SERIES__STACKED:
-				unsetStacked();
-				return;
-			case TypePackage.AREA_SERIES__TRIGGERS:
-				getTriggers().clear();
-				return;
-			case TypePackage.AREA_SERIES__TRANSLUCENT:
-				unsetTranslucent();
-				return;
-			case TypePackage.AREA_SERIES__CURVE_FITTING:
-				setCurveFitting((CurveFitting)null);
-				return;
-			case TypePackage.AREA_SERIES__MARKER:
-				setMarker((Marker)null);
-				return;
-			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
-				setLineAttributes((LineAttributes)null);
-				return;
-			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
-				unsetPaletteLineColor();
-				return;
-			case TypePackage.AREA_SERIES__CURVE:
-				unsetCurve();
-				return;
-			case TypePackage.AREA_SERIES__SHADOW_COLOR:
-				setShadowColor((ColorDefinition)null);
+			case TypePackage.AREA_SERIES__SHADOW_COLOR :
+				setShadowColor( (ColorDefinition) newValue );
 				return;
 		}
-		eDynamicUnset(eFeature);
+		eDynamicSet( eFeature, newValue );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean eIsSet(EStructuralFeature eFeature)
+	public void eUnset( EStructuralFeature eFeature )
 	{
-		switch (eDerivedStructuralFeatureID(eFeature))
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
 		{
-			case TypePackage.AREA_SERIES__VISIBLE:
-				return isSetVisible();
-			case TypePackage.AREA_SERIES__LABEL:
+			case TypePackage.AREA_SERIES__VISIBLE :
+				unsetVisible( );
+				return;
+			case TypePackage.AREA_SERIES__LABEL :
+				setLabel( (Label) null );
+				return;
+			case TypePackage.AREA_SERIES__DATA_DEFINITION :
+				getDataDefinition( ).clear( );
+				return;
+			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER :
+				setSeriesIdentifier( SERIES_IDENTIFIER_EDEFAULT );
+				return;
+			case TypePackage.AREA_SERIES__DATA_POINT :
+				setDataPoint( (DataPoint) null );
+				return;
+			case TypePackage.AREA_SERIES__DATA_SET :
+				setDataSet( (DataSet) null );
+				return;
+			case TypePackage.AREA_SERIES__LABEL_POSITION :
+				unsetLabelPosition( );
+				return;
+			case TypePackage.AREA_SERIES__STACKED :
+				unsetStacked( );
+				return;
+			case TypePackage.AREA_SERIES__TRIGGERS :
+				getTriggers( ).clear( );
+				return;
+			case TypePackage.AREA_SERIES__TRANSLUCENT :
+				unsetTranslucent( );
+				return;
+			case TypePackage.AREA_SERIES__CURVE_FITTING :
+				setCurveFitting( (CurveFitting) null );
+				return;
+			case TypePackage.AREA_SERIES__MARKER :
+				setMarker( (Marker) null );
+				return;
+			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES :
+				setLineAttributes( (LineAttributes) null );
+				return;
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR :
+				unsetPaletteLineColor( );
+				return;
+			case TypePackage.AREA_SERIES__CURVE :
+				unsetCurve( );
+				return;
+			case TypePackage.AREA_SERIES__SHADOW_COLOR :
+				setShadowColor( (ColorDefinition) null );
+				return;
+		}
+		eDynamicUnset( eFeature );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet( EStructuralFeature eFeature )
+	{
+		switch ( eDerivedStructuralFeatureID( eFeature ) )
+		{
+			case TypePackage.AREA_SERIES__VISIBLE :
+				return isSetVisible( );
+			case TypePackage.AREA_SERIES__LABEL :
 				return label != null;
-			case TypePackage.AREA_SERIES__DATA_DEFINITION:
-				return dataDefinition != null && !dataDefinition.isEmpty();
-			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER:
-				return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null : !SERIES_IDENTIFIER_EDEFAULT.equals(seriesIdentifier);
-			case TypePackage.AREA_SERIES__DATA_POINT:
+			case TypePackage.AREA_SERIES__DATA_DEFINITION :
+				return dataDefinition != null && !dataDefinition.isEmpty( );
+			case TypePackage.AREA_SERIES__SERIES_IDENTIFIER :
+				return SERIES_IDENTIFIER_EDEFAULT == null ? seriesIdentifier != null
+						: !SERIES_IDENTIFIER_EDEFAULT.equals( seriesIdentifier );
+			case TypePackage.AREA_SERIES__DATA_POINT :
 				return dataPoint != null;
-			case TypePackage.AREA_SERIES__DATA_SET:
+			case TypePackage.AREA_SERIES__DATA_SET :
 				return dataSet != null;
-			case TypePackage.AREA_SERIES__LABEL_POSITION:
-				return isSetLabelPosition();
-			case TypePackage.AREA_SERIES__STACKED:
-				return isSetStacked();
-			case TypePackage.AREA_SERIES__TRIGGERS:
-				return triggers != null && !triggers.isEmpty();
-			case TypePackage.AREA_SERIES__TRANSLUCENT:
-				return isSetTranslucent();
-			case TypePackage.AREA_SERIES__CURVE_FITTING:
+			case TypePackage.AREA_SERIES__LABEL_POSITION :
+				return isSetLabelPosition( );
+			case TypePackage.AREA_SERIES__STACKED :
+				return isSetStacked( );
+			case TypePackage.AREA_SERIES__TRIGGERS :
+				return triggers != null && !triggers.isEmpty( );
+			case TypePackage.AREA_SERIES__TRANSLUCENT :
+				return isSetTranslucent( );
+			case TypePackage.AREA_SERIES__CURVE_FITTING :
 				return curveFitting != null;
-			case TypePackage.AREA_SERIES__MARKER:
+			case TypePackage.AREA_SERIES__MARKER :
 				return marker != null;
-			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES:
+			case TypePackage.AREA_SERIES__LINE_ATTRIBUTES :
 				return lineAttributes != null;
-			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR:
-				return isSetPaletteLineColor();
-			case TypePackage.AREA_SERIES__CURVE:
-				return isSetCurve();
-			case TypePackage.AREA_SERIES__SHADOW_COLOR:
+			case TypePackage.AREA_SERIES__PALETTE_LINE_COLOR :
+				return isSetPaletteLineColor( );
+			case TypePackage.AREA_SERIES__CURVE :
+				return isSetCurve( );
+			case TypePackage.AREA_SERIES__SHADOW_COLOR :
 				return shadowColor != null;
 		}
-		return eDynamicIsSet(eFeature);
+		return eDynamicIsSet( eFeature );
 	}
 
 	/* (non-Javadoc)
@@ -313,11 +320,11 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{
-		super.translateFrom(series, iSeriesDefinitionIndex, chart);
-		
-		this.getMarker().setVisible(false);
+		super.translateFrom( series, iSeriesDefinitionIndex, chart );
+
+		this.getMarker( ).setVisible( false );
 	}
-	
+
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 

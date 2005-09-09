@@ -35,9 +35,9 @@ public final class AxisType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Linear</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Linear</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINEAR_LITERAL
 	 * @model name="Linear"
 	 * @generated
@@ -46,9 +46,9 @@ public final class AxisType extends AbstractEnumerator
 	public static final int LINEAR = 0;
 
 	/**
-	 * The '<em><b>Logarithmic</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Logarithmic</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #LOGARITHMIC_LITERAL
 	 * @model name="Logarithmic"
 	 * @generated
@@ -57,9 +57,9 @@ public final class AxisType extends AbstractEnumerator
 	public static final int LOGARITHMIC = 1;
 
 	/**
-	 * The '<em><b>Text</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Text</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TEXT_LITERAL
 	 * @model name="Text"
 	 * @generated
@@ -68,9 +68,9 @@ public final class AxisType extends AbstractEnumerator
 	public static final int TEXT = 2;
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME_LITERAL
 	 * @model name="DateTime"
 	 * @generated
@@ -79,13 +79,13 @@ public final class AxisType extends AbstractEnumerator
 	public static final int DATE_TIME = 3;
 
 	/**
-	 * The '<em><b>Linear</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Linear</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Linear</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINEAR
 	 * @generated
 	 * @ordered
@@ -110,13 +110,13 @@ public final class AxisType extends AbstractEnumerator
 			"Logarithmic" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Text</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Text</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Text</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TEXT
 	 * @generated
 	 * @ordered
@@ -124,14 +124,14 @@ public final class AxisType extends AbstractEnumerator
 	public static final AxisType TEXT_LITERAL = new AxisType( TEXT, "Text" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Date Time</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Date Time</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Date Time</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DATE_TIME
 	 * @generated
 	 * @ordered
@@ -153,17 +153,15 @@ public final class AxisType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Axis Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Axis Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static AxisType get( String name )
@@ -180,9 +178,8 @@ public final class AxisType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Axis Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static AxisType get( int value )
@@ -202,9 +199,9 @@ public final class AxisType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private AxisType( int value, String name )

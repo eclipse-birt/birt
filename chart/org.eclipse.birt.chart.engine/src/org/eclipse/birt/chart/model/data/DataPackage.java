@@ -38,39 +38,37 @@ public interface DataPackage extends EPackage
 {
 
 	/**
-	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNAME = "data"; //$NON-NLS-1$
 
 	/**
-	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace URI.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_URI = "http://www.birt.eclipse.org/ChartModelData"; //$NON-NLS-1$
 
 	/**
-	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_PREFIX = "data"; //$NON-NLS-1$
 
 	/**
-	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
+	 * The singleton instance of the package.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	DataPackage eINSTANCE = org.eclipse.birt.chart.model.data.impl.DataPackageImpl.init( );
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.ActionImpl <em>Action</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.ActionImpl <em>Action</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.ActionImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getAction()
 	 * @generated
@@ -87,9 +85,8 @@ public interface DataPackage extends EPackage
 	int ACTION__TYPE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Value</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -98,17 +95,14 @@ public interface DataPackage extends EPackage
 	/**
 	 * The number of structural features of the the '<em>Action</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ACTION_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl <em>Base Sample Data</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl <em>Base Sample Data</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.BaseSampleDataImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getBaseSampleData()
 	 * @generated
@@ -116,28 +110,24 @@ public interface DataPackage extends EPackage
 	int BASE_SAMPLE_DATA = 1;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Representation</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Data Set Representation</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int BASE_SAMPLE_DATA__DATA_SET_REPRESENTATION = 0;
 
 	/**
-	 * The number of structural features of the the '<em>Base Sample Data</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Base Sample Data</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int BASE_SAMPLE_DATA_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.DataElementImpl <em>Element</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DataElementImpl <em>Element</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.DataElementImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataElement()
 	 * @generated
@@ -145,19 +135,16 @@ public interface DataPackage extends EPackage
 	int DATA_ELEMENT = 2;
 
 	/**
-	 * The number of structural features of the the '<em>Element</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Element</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int DATA_ELEMENT_FEATURE_COUNT = 0;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.DataSetImpl <em>Set</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DataSetImpl <em>Set</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.DataSetImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDataSet()
 	 * @generated
@@ -176,17 +163,14 @@ public interface DataPackage extends EPackage
 	/**
 	 * The number of structural features of the the '<em>Set</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int DATA_SET_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl <em>Date Time Data Element</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl <em>Date Time Data Element</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataElement()
 	 * @generated
@@ -203,20 +187,17 @@ public interface DataPackage extends EPackage
 	int DATE_TIME_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '
-	 * <em>Date Time Data Element</em>' class. <!-- begin-user-doc --> <!--
+	 * The number of structural features of the the '<em>Date Time Data Element</em>' class.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int DATE_TIME_DATA_ELEMENT_FEATURE_COUNT = DATA_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl <em>Date Time Data Set</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl <em>Date Time Data Set</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getDateTimeDataSet()
 	 * @generated
@@ -233,20 +214,17 @@ public interface DataPackage extends EPackage
 	int DATE_TIME_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '
-	 * <em>Date Time Data Set</em>' class. <!-- begin-user-doc --> <!--
+	 * The number of structural features of the the '<em>Date Time Data Set</em>' class.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int DATE_TIME_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl <em>Number Data Element</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl <em>Number Data Element</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataElement()
 	 * @generated
@@ -263,20 +241,17 @@ public interface DataPackage extends EPackage
 	int NUMBER_DATA_ELEMENT__VALUE = DATA_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the the '
-	 * <em>Number Data Element</em>' class. <!-- begin-user-doc --> <!--
+	 * The number of structural features of the the '<em>Number Data Element</em>' class.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int NUMBER_DATA_ELEMENT_FEATURE_COUNT = DATA_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl <em>Number Data Set</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl <em>Number Data Set</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataSet()
 	 * @generated
@@ -293,19 +268,16 @@ public interface DataPackage extends EPackage
 	int NUMBER_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Number Data Set</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Number Data Set</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int NUMBER_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl <em>Orthogonal Sample Data</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl <em>Orthogonal Sample Data</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.OrthogonalSampleDataImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getOrthogonalSampleData()
 	 * @generated
@@ -313,38 +285,33 @@ public interface DataPackage extends EPackage
 	int ORTHOGONAL_SAMPLE_DATA = 8;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Representation</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Data Set Representation</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int ORTHOGONAL_SAMPLE_DATA__DATA_SET_REPRESENTATION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Series Definition Index</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Series Definition Index</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int ORTHOGONAL_SAMPLE_DATA__SERIES_DEFINITION_INDEX = 1;
 
 	/**
-	 * The number of structural features of the the '
-	 * <em>Orthogonal Sample Data</em>' class. <!-- begin-user-doc --> <!--
+	 * The number of structural features of the the '<em>Orthogonal Sample Data</em>' class.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ORTHOGONAL_SAMPLE_DATA_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.QueryImpl <em>Query</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.QueryImpl <em>Query</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.QueryImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getQuery()
 	 * @generated
@@ -361,9 +328,8 @@ public interface DataPackage extends EPackage
 	int QUERY__DEFINITION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Rules</b></em>' containment reference
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -372,17 +338,14 @@ public interface DataPackage extends EPackage
 	/**
 	 * The number of structural features of the the '<em>Query</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int QUERY_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.RuleImpl <em>Rule</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.RuleImpl <em>Rule</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.RuleImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getRule()
 	 * @generated
@@ -410,17 +373,14 @@ public interface DataPackage extends EPackage
 	/**
 	 * The number of structural features of the the '<em>Rule</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int RULE_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl <em>Sample Data</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SampleDataImpl <em>Sample Data</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.SampleDataImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSampleData()
 	 * @generated
@@ -428,37 +388,41 @@ public interface DataPackage extends EPackage
 	int SAMPLE_DATA = 11;
 
 	/**
-	 * The feature id for the '<em><b>Base Sample Data</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Base Sample Data</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SAMPLE_DATA__BASE_SAMPLE_DATA = 0;
 
 	/**
-	 * The feature id for the '<em><b>Orthogonal Sample Data</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Orthogonal Sample Data</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SAMPLE_DATA__ORTHOGONAL_SAMPLE_DATA = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Sample Data</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Ancillary Sample Data</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SAMPLE_DATA_FEATURE_COUNT = 2;
+	int SAMPLE_DATA__ANCILLARY_SAMPLE_DATA = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl <em>Series Definition</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Sample Data</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAMPLE_DATA_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl <em>Series Definition</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesDefinition()
 	 * @generated
@@ -466,54 +430,48 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION = 12;
 
 	/**
-	 * The feature id for the '<em><b>Query</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Query</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION__QUERY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Series Palette</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Series Palette</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION__SERIES_PALETTE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Series Definitions</b></em>'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION__SERIES_DEFINITIONS = 2;
 
 	/**
-	 * The feature id for the '<em><b>Format Specifier</b></em>'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Format Specifier</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION__FORMAT_SPECIFIER = 3;
 
 	/**
-	 * The feature id for the '<em><b>Series</b></em>' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Series</b></em>' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION__SERIES = 4;
 
 	/**
-	 * The feature id for the '<em><b>Grouping</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grouping</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -529,19 +487,16 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION__SORTING = 6;
 
 	/**
-	 * The number of structural features of the the '<em>Series Definition</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Series Definition</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_DEFINITION_FEATURE_COUNT = 7;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesGrouping()
 	 * @generated
@@ -560,25 +515,22 @@ public interface DataPackage extends EPackage
 	/**
 	 * The feature id for the '<em><b>Grouping Unit</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_GROUPING__GROUPING_UNIT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Grouping Origin</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grouping Origin</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_GROUPING__GROUPING_ORIGIN = 2;
 
 	/**
-	 * The feature id for the '<em><b>Grouping Interval</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Grouping Interval</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -594,28 +546,24 @@ public interface DataPackage extends EPackage
 	int SERIES_GROUPING__GROUP_TYPE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Aggregate Expression</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Aggregate Expression</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_GROUPING__AGGREGATE_EXPRESSION = 5;
 
 	/**
-	 * The number of structural features of the the '<em>Series Grouping</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Series Grouping</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int SERIES_GROUPING_FEATURE_COUNT = 6;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.StockDataSetImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getStockDataSet()
 	 * @generated
@@ -632,19 +580,16 @@ public interface DataPackage extends EPackage
 	int STOCK_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Stock Data Set</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Stock Data Set</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int STOCK_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.TextDataSetImpl <em>Text Data Set</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.TextDataSetImpl <em>Text Data Set</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.TextDataSetImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTextDataSet()
 	 * @generated
@@ -661,19 +606,16 @@ public interface DataPackage extends EPackage
 	int TEXT_DATA_SET__VALUES = DATA_SET__VALUES;
 
 	/**
-	 * The number of structural features of the the '<em>Text Data Set</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Text Data Set</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int TEXT_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.birt.chart.model.data.impl.TriggerImpl <em>Trigger</em>}'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl <em>Trigger</em>}' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.TriggerImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTrigger()
 	 * @generated
@@ -690,18 +632,16 @@ public interface DataPackage extends EPackage
 	int TRIGGER__CONDITION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Action</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Action</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int TRIGGER__ACTION = 1;
 
 	/**
-	 * The number of structural features of the the '<em>Trigger</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the the '<em>Trigger</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -719,10 +659,8 @@ public interface DataPackage extends EPackage
 	EClass getAction( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Action#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Type</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Action#getType()
 	 * @see #getAction()
@@ -731,10 +669,8 @@ public interface DataPackage extends EPackage
 	EAttribute getAction_Type( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.Action#getValue <em>Value</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.Action#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference '<em>Value</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Action#getValue()
 	 * @see #getAction()
@@ -743,10 +679,8 @@ public interface DataPackage extends EPackage
 	EReference getAction_Value( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.BaseSampleData <em>Base Sample Data</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.BaseSampleData <em>Base Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Base Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.data.BaseSampleData
 	 * @generated
@@ -754,12 +688,9 @@ public interface DataPackage extends EPackage
 	EClass getBaseSampleData( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the attribute '
-	 *         <em>Data Set Representation</em>'.
+	 * @return the meta object for the attribute '<em>Data Set Representation</em>'.
 	 * @see org.eclipse.birt.chart.model.data.BaseSampleData#getDataSetRepresentation()
 	 * @see #getBaseSampleData()
 	 * @generated
@@ -767,10 +698,8 @@ public interface DataPackage extends EPackage
 	EAttribute getBaseSampleData_DataSetRepresentation( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.DataElement <em>Element</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.DataElement <em>Element</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Element</em>'.
 	 * @see org.eclipse.birt.chart.model.data.DataElement
 	 * @generated
@@ -789,10 +718,8 @@ public interface DataPackage extends EPackage
 	EClass getDataSet( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.DataSet#getValues <em>Values</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Values</em>'.
 	 * @see org.eclipse.birt.chart.model.data.DataSet#getValues()
 	 * @see #getDataSet()
@@ -801,10 +728,8 @@ public interface DataPackage extends EPackage
 	EAttribute getDataSet_Values( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.DateTimeDataElement <em>Date Time Data Element</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement <em>Date Time Data Element</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Date Time Data Element</em>'.
 	 * @see org.eclipse.birt.chart.model.data.DateTimeDataElement
 	 * @generated
@@ -812,10 +737,8 @@ public interface DataPackage extends EPackage
 	EClass getDateTimeDataElement( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue()
 	 * @see #getDateTimeDataElement()
@@ -824,10 +747,8 @@ public interface DataPackage extends EPackage
 	EAttribute getDateTimeDataElement_Value( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.DateTimeDataSet <em>Date Time Data Set</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.DateTimeDataSet <em>Date Time Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Date Time Data Set</em>'.
 	 * @see org.eclipse.birt.chart.model.data.DateTimeDataSet
 	 * @generated
@@ -835,10 +756,8 @@ public interface DataPackage extends EPackage
 	EClass getDateTimeDataSet( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.NumberDataElement <em>Number Data Element</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.NumberDataElement <em>Number Data Element</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Number Data Element</em>'.
 	 * @see org.eclipse.birt.chart.model.data.NumberDataElement
 	 * @generated
@@ -846,10 +765,8 @@ public interface DataPackage extends EPackage
 	EClass getNumberDataElement( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see org.eclipse.birt.chart.model.data.NumberDataElement#getValue()
 	 * @see #getNumberDataElement()
@@ -858,10 +775,8 @@ public interface DataPackage extends EPackage
 	EAttribute getNumberDataElement_Value( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.NumberDataSet <em>Number Data Set</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.NumberDataSet <em>Number Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Number Data Set</em>'.
 	 * @see org.eclipse.birt.chart.model.data.NumberDataSet
 	 * @generated
@@ -869,10 +784,8 @@ public interface DataPackage extends EPackage
 	EClass getNumberDataSet( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData <em>Orthogonal Sample Data</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData <em>Orthogonal Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Orthogonal Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.data.OrthogonalSampleData
 	 * @generated
@@ -880,12 +793,9 @@ public interface DataPackage extends EPackage
 	EClass getOrthogonalSampleData( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation <em>Data Set Representation</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the attribute '
-	 *         <em>Data Set Representation</em>'.
+	 * @return the meta object for the attribute '<em>Data Set Representation</em>'.
 	 * @see org.eclipse.birt.chart.model.data.OrthogonalSampleData#getDataSetRepresentation()
 	 * @see #getOrthogonalSampleData()
 	 * @generated
@@ -893,12 +803,9 @@ public interface DataPackage extends EPackage
 	EAttribute getOrthogonalSampleData_DataSetRepresentation( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex <em>Series Definition Index</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the attribute '
-	 *         <em>Series Definition Index</em>'.
+	 * @return the meta object for the attribute '<em>Series Definition Index</em>'.
 	 * @see org.eclipse.birt.chart.model.data.OrthogonalSampleData#getSeriesDefinitionIndex()
 	 * @see #getOrthogonalSampleData()
 	 * @generated
@@ -917,10 +824,8 @@ public interface DataPackage extends EPackage
 	EClass getQuery( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Definition</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Query#getDefinition()
 	 * @see #getQuery()
@@ -929,12 +834,9 @@ public interface DataPackage extends EPackage
 	EAttribute getQuery_Definition( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.data.Query#getRules <em>Rules</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.Query#getRules <em>Rules</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Rules</em>'.
+	 * @return the meta object for the containment reference list '<em>Rules</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Query#getRules()
 	 * @see #getQuery()
 	 * @generated
@@ -953,10 +855,8 @@ public interface DataPackage extends EPackage
 	EClass getRule( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Rule#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Type</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Rule#getType()
 	 * @see #getRule()
@@ -965,10 +865,8 @@ public interface DataPackage extends EPackage
 	EAttribute getRule_Type( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.Rule#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Rule#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Value</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Rule#getValue()
 	 * @see #getRule()
@@ -977,10 +875,8 @@ public interface DataPackage extends EPackage
 	EAttribute getRule_Value( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.SampleData <em>Sample Data</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.SampleData <em>Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SampleData
 	 * @generated
@@ -988,12 +884,9 @@ public interface DataPackage extends EPackage
 	EClass getSampleData( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.data.SampleData#getBaseSampleData <em>Base Sample Data</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.SampleData#getBaseSampleData <em>Base Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Base Sample Data</em>'.
+	 * @return the meta object for the containment reference list '<em>Base Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SampleData#getBaseSampleData()
 	 * @see #getSampleData()
 	 * @generated
@@ -1001,12 +894,9 @@ public interface DataPackage extends EPackage
 	EReference getSampleData_BaseSampleData( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.data.SampleData#getOrthogonalSampleData <em>Orthogonal Sample Data</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.SampleData#getOrthogonalSampleData <em>Orthogonal Sample Data</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Orthogonal Sample Data</em>'.
+	 * @return the meta object for the containment reference list '<em>Orthogonal Sample Data</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SampleData#getOrthogonalSampleData()
 	 * @see #getSampleData()
 	 * @generated
@@ -1014,10 +904,19 @@ public interface DataPackage extends EPackage
 	EReference getSampleData_OrthogonalSampleData( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition <em>Series Definition</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.SampleData#getAncillarySampleData <em>Ancillary Sample Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Ancillary Sample Data</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SampleData#getAncillarySampleData()
+	 * @see #getSampleData()
+	 * @generated
+	 */
+	EReference getSampleData_AncillarySampleData( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.SeriesDefinition <em>Series Definition</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Series Definition</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition
 	 * @generated
@@ -1025,10 +924,8 @@ public interface DataPackage extends EPackage
 	EClass getSeriesDefinition( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery <em>Query</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference '<em>Query</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getQuery()
 	 * @see #getSeriesDefinition()
@@ -1037,12 +934,9 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_Query( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette <em>Series Palette</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Series Palette</em>'.
+	 * @return the meta object for the containment reference '<em>Series Palette</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesPalette()
 	 * @see #getSeriesDefinition()
 	 * @generated
@@ -1050,12 +944,9 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_SeriesPalette( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions <em>Series Definitions</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions <em>Series Definitions</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Series Definitions</em>'.
+	 * @return the meta object for the containment reference list '<em>Series Definitions</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSeriesDefinitions()
 	 * @see #getSeriesDefinition()
 	 * @generated
@@ -1063,12 +954,9 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_SeriesDefinitions( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier <em>Format Specifier</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Format Specifier</em>'.
+	 * @return the meta object for the containment reference '<em>Format Specifier</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getFormatSpecifier()
 	 * @see #getSeriesDefinition()
 	 * @generated
@@ -1076,12 +964,9 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_FormatSpecifier( );
 
 	/**
-	 * Returns the meta object for the containment reference list '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference list '
-	 *         <em>Series</em>'.
+	 * @return the meta object for the containment reference list '<em>Series</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries()
 	 * @see #getSeriesDefinition()
 	 * @generated
@@ -1089,10 +974,8 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_Series( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference '<em>Grouping</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping()
 	 * @see #getSeriesDefinition()
@@ -1101,10 +984,8 @@ public interface DataPackage extends EPackage
 	EReference getSeriesDefinition_Grouping( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Sorting</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting()
 	 * @see #getSeriesDefinition()
@@ -1113,10 +994,8 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesDefinition_Sorting( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping <em>Series Grouping</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.SeriesGrouping <em>Series Grouping</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Series Grouping</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping
 	 * @generated
@@ -1124,10 +1003,8 @@ public interface DataPackage extends EPackage
 	EClass getSeriesGrouping( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled <em>Enabled</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled <em>Enabled</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Enabled</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#isEnabled()
 	 * @see #getSeriesGrouping()
@@ -1136,10 +1013,8 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_Enabled( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit <em>Grouping Unit</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit <em>Grouping Unit</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Grouping Unit</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingUnit()
 	 * @see #getSeriesGrouping()
@@ -1148,12 +1023,9 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_GroupingUnit( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin <em>Grouping Origin</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin <em>Grouping Origin</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the containment reference '
-	 *         <em>Grouping Origin</em>'.
+	 * @return the meta object for the containment reference '<em>Grouping Origin</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingOrigin()
 	 * @see #getSeriesGrouping()
 	 * @generated
@@ -1161,10 +1033,8 @@ public interface DataPackage extends EPackage
 	EReference getSeriesGrouping_GroupingOrigin( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Grouping Interval</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval()
 	 * @see #getSeriesGrouping()
@@ -1173,10 +1043,8 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_GroupingInterval( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Group Type</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType()
 	 * @see #getSeriesGrouping()
@@ -1185,10 +1053,8 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_GroupType( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Aggregate Expression</em>'.
 	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression()
 	 * @see #getSeriesGrouping()
@@ -1197,10 +1063,8 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_AggregateExpression( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.StockDataSet <em>Stock Data Set</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.StockDataSet <em>Stock Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Stock Data Set</em>'.
 	 * @see org.eclipse.birt.chart.model.data.StockDataSet
 	 * @generated
@@ -1208,10 +1072,8 @@ public interface DataPackage extends EPackage
 	EClass getStockDataSet( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.TextDataSet <em>Text Data Set</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.TextDataSet <em>Text Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Text Data Set</em>'.
 	 * @see org.eclipse.birt.chart.model.data.TextDataSet
 	 * @generated
@@ -1219,10 +1081,8 @@ public interface DataPackage extends EPackage
 	EClass getTextDataSet( );
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link org.eclipse.birt.chart.model.data.Trigger <em>Trigger</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.Trigger <em>Trigger</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Trigger</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Trigger
 	 * @generated
@@ -1230,10 +1090,8 @@ public interface DataPackage extends EPackage
 	EClass getTrigger( );
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the attribute '<em>Condition</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Trigger#getCondition()
 	 * @see #getTrigger()
@@ -1242,10 +1100,8 @@ public interface DataPackage extends EPackage
 	EAttribute getTrigger_Condition( );
 
 	/**
-	 * Returns the meta object for the containment reference '
-	 * {@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for the containment reference '<em>Action</em>'.
 	 * @see org.eclipse.birt.chart.model.data.Trigger#getAction()
 	 * @see #getTrigger()

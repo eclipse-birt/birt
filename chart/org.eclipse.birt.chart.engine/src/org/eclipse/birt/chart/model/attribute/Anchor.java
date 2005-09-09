@@ -34,9 +34,9 @@ public final class Anchor extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>North</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>North</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH_LITERAL
 	 * @model name="North"
 	 * @generated
@@ -45,9 +45,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int NORTH = 0;
 
 	/**
-	 * The '<em><b>North East</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>North East</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH_EAST_LITERAL
 	 * @model name="North_East"
 	 * @generated
@@ -56,9 +56,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int NORTH_EAST = 1;
 
 	/**
-	 * The '<em><b>East</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>East</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #EAST_LITERAL
 	 * @model name="East"
 	 * @generated
@@ -67,9 +67,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int EAST = 2;
 
 	/**
-	 * The '<em><b>South East</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>South East</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH_EAST_LITERAL
 	 * @model name="South_East"
 	 * @generated
@@ -78,9 +78,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int SOUTH_EAST = 3;
 
 	/**
-	 * The '<em><b>South</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>South</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH_LITERAL
 	 * @model name="South"
 	 * @generated
@@ -89,9 +89,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int SOUTH = 4;
 
 	/**
-	 * The '<em><b>South West</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>South West</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH_WEST_LITERAL
 	 * @model name="South_West"
 	 * @generated
@@ -100,9 +100,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int SOUTH_WEST = 5;
 
 	/**
-	 * The '<em><b>West</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>West</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WEST_LITERAL
 	 * @model name="West"
 	 * @generated
@@ -111,9 +111,9 @@ public final class Anchor extends AbstractEnumerator
 	public static final int WEST = 6;
 
 	/**
-	 * The '<em><b>North West</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>North West</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH_WEST_LITERAL
 	 * @model name="North_West"
 	 * @generated
@@ -122,13 +122,13 @@ public final class Anchor extends AbstractEnumerator
 	public static final int NORTH_WEST = 7;
 
 	/**
-	 * The '<em><b>North</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>North</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>North</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH
 	 * @generated
 	 * @ordered
@@ -136,14 +136,14 @@ public final class Anchor extends AbstractEnumerator
 	public static final Anchor NORTH_LITERAL = new Anchor( NORTH, "North" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>North East</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>North East</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>North East</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH_EAST
 	 * @generated
 	 * @ordered
@@ -152,13 +152,13 @@ public final class Anchor extends AbstractEnumerator
 			"North_East" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>East</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>East</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>East</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #EAST
 	 * @generated
 	 * @ordered
@@ -166,14 +166,14 @@ public final class Anchor extends AbstractEnumerator
 	public static final Anchor EAST_LITERAL = new Anchor( EAST, "East" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>South East</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>South East</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>South East</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH_EAST
 	 * @generated
 	 * @ordered
@@ -182,13 +182,13 @@ public final class Anchor extends AbstractEnumerator
 			"South_East" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>South</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>South</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>South</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH
 	 * @generated
 	 * @ordered
@@ -196,14 +196,14 @@ public final class Anchor extends AbstractEnumerator
 	public static final Anchor SOUTH_LITERAL = new Anchor( SOUTH, "South" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>South West</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>South West</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>South West</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SOUTH_WEST
 	 * @generated
 	 * @ordered
@@ -212,13 +212,13 @@ public final class Anchor extends AbstractEnumerator
 			"South_West" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>West</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>West</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>West</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WEST
 	 * @generated
 	 * @ordered
@@ -226,14 +226,14 @@ public final class Anchor extends AbstractEnumerator
 	public static final Anchor WEST_LITERAL = new Anchor( WEST, "West" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>North West</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>North West</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>North West</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #NORTH_WEST
 	 * @generated
 	 * @ordered
@@ -259,17 +259,15 @@ public final class Anchor extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Anchor</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Anchor</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Anchor</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Anchor get( String name )
@@ -286,9 +284,8 @@ public final class Anchor extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Anchor</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Anchor</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static Anchor get( int value )
@@ -316,9 +313,9 @@ public final class Anchor extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private Anchor( int value, String name )

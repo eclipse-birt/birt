@@ -30,15 +30,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getFormatSpecifier <em>Format Specifier</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DataPointComponentImpl extends EObjectImpl implements
@@ -48,7 +44,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -58,7 +53,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -66,19 +60,17 @@ public class DataPointComponentImpl extends EObjectImpl implements
 	protected DataPointComponentType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet = false;
 
 	/**
-	 * The cached value of the '
-	 * {@link #getFormatSpecifier() <em>Format Specifier</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -87,7 +79,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DataPointComponentImpl( )
@@ -97,7 +88,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -107,7 +97,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataPointComponentType getType( )
@@ -117,7 +106,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( DataPointComponentType newType )
@@ -137,7 +125,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -157,7 +144,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -167,7 +153,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -177,7 +162,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -202,7 +186,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -236,7 +219,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -260,7 +242,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -277,7 +258,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -296,7 +276,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -315,7 +294,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -332,7 +310,6 @@ public class DataPointComponentImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -369,4 +346,4 @@ public class DataPointComponentImpl extends EObjectImpl implements
 		return dpc;
 	}
 
-} //DataPointComponentImpl
+} // DataPointComponentImpl

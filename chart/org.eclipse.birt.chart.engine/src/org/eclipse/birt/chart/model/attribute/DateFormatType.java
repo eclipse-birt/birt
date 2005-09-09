@@ -34,9 +34,9 @@ public final class DateFormatType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Long</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Long</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LONG_LITERAL
 	 * @model name="Long"
 	 * @generated
@@ -45,9 +45,9 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final int LONG = 0;
 
 	/**
-	 * The '<em><b>Short</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Short</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SHORT_LITERAL
 	 * @model name="Short"
 	 * @generated
@@ -56,9 +56,9 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final int SHORT = 1;
 
 	/**
-	 * The '<em><b>Medium</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Medium</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MEDIUM_LITERAL
 	 * @model name="Medium"
 	 * @generated
@@ -67,9 +67,9 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final int MEDIUM = 2;
 
 	/**
-	 * The '<em><b>Full</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Full</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #FULL_LITERAL
 	 * @model name="Full"
 	 * @generated
@@ -78,13 +78,13 @@ public final class DateFormatType extends AbstractEnumerator
 	public static final int FULL = 3;
 
 	/**
-	 * The '<em><b>Long</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Long</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Long</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LONG
 	 * @generated
 	 * @ordered
@@ -93,13 +93,13 @@ public final class DateFormatType extends AbstractEnumerator
 			"Long" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Short</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Short</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Short</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SHORT
 	 * @generated
 	 * @ordered
@@ -108,13 +108,13 @@ public final class DateFormatType extends AbstractEnumerator
 			"Short" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Medium</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Medium</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Medium</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MEDIUM
 	 * @generated
 	 * @ordered
@@ -123,13 +123,13 @@ public final class DateFormatType extends AbstractEnumerator
 			"Medium" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Full</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Full</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Full</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #FULL
 	 * @generated
 	 * @ordered
@@ -140,7 +140,6 @@ public final class DateFormatType extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Date Format Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final DateFormatType[] VALUES_ARRAY = new DateFormatType[]{
@@ -148,17 +147,15 @@ public final class DateFormatType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Date Format Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Date Format Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DateFormatType get( String name )
@@ -175,9 +172,8 @@ public final class DateFormatType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Date Format Type</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Date Format Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static DateFormatType get( int value )
@@ -197,9 +193,9 @@ public final class DateFormatType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private DateFormatType( int value, String name )

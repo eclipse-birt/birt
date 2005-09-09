@@ -45,26 +45,25 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosion <em>Explosion</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosionExpression <em>Explosion Expression</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitlePosition <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineAttributes <em>Leader Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineStyle <em>Leader Line Style</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosion <em>Explosion</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getExplosionExpression <em>Explosion Expression</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineAttributes <em>Leader Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineStyle <em>Leader Line Style</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class PieSeriesImpl extends SeriesImpl implements PieSeries
 {
 
 	/**
-	 * The default value of the '{@link #getExplosion() <em>Explosion</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getExplosion() <em>Explosion</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExplosion()
 	 * @generated
 	 * @ordered
@@ -72,9 +71,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final int EXPLOSION_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getExplosion() <em>Explosion</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getExplosion() <em>Explosion</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExplosion()
 	 * @generated
 	 * @ordered
@@ -82,18 +80,17 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected int explosion = EXPLOSION_EDEFAULT;
 
 	/**
-	 * This is true if the Explosion attribute has been set. <!-- begin-user-doc
+	 * This is true if the Explosion attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean explosionESet = false;
 
 	/**
-	 * The default value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExplosionExpression()
 	 * @generated
 	 * @ordered
@@ -101,9 +98,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final String EXPLOSION_EXPRESSION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getExplosionExpression()
 	 * @generated
 	 * @ordered
@@ -111,18 +107,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected String explosionExpression = EXPLOSION_EXPRESSION_EDEFAULT;
 
 	/**
-	 * This is true if the Explosion Expression attribute has been set. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean explosionExpressionESet = false;
-
-	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
@@ -161,9 +147,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean titlePositionESet = false;
 
 	/**
-	 * The cached value of the '{@link #getLeaderLineAttributes() <em>Leader Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLeaderLineAttributes() <em>Leader Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLeaderLineAttributes()
 	 * @generated
 	 * @ordered
@@ -171,9 +156,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected LineAttributes leaderLineAttributes = null;
 
 	/**
-	 * The default value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLeaderLineStyle()
 	 * @generated
 	 * @ordered
@@ -181,9 +165,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final LeaderLineStyle LEADER_LINE_STYLE_EDEFAULT = LeaderLineStyle.FIXED_LENGTH_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLeaderLineStyle()
 	 * @generated
 	 * @ordered
@@ -200,9 +183,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean leaderLineStyleESet = false;
 
 	/**
-	 * The default value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLeaderLineLength()
 	 * @generated
 	 * @ordered
@@ -210,9 +192,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected static final double LEADER_LINE_LENGTH_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLeaderLineLength()
 	 * @generated
 	 * @ordered
@@ -229,9 +210,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	protected boolean leaderLineLengthESet = false;
 
 	/**
-	 * The cached value of the '{@link #getSliceOutline() <em>Slice Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSliceOutline() <em>Slice Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSliceOutline()
 	 * @generated
 	 * @ordered
@@ -240,7 +220,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected PieSeriesImpl( )
@@ -250,7 +229,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -260,7 +238,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getExplosion( )
@@ -270,7 +247,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setExplosion( int newExplosion )
@@ -290,7 +266,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetExplosion( )
@@ -310,7 +285,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetExplosion( )
@@ -320,7 +294,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getExplosionExpression( )
@@ -330,57 +303,22 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setExplosionExpression( String newExplosionExpression )
 	{
 		String oldExplosionExpression = explosionExpression;
 		explosionExpression = newExplosionExpression;
-		boolean oldExplosionExpressionESet = explosionExpressionESet;
-		explosionExpressionESet = true;
 		if ( eNotificationRequired( ) )
 			eNotify( new ENotificationImpl( this,
 					Notification.SET,
 					TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION,
 					oldExplosionExpression,
-					explosionExpression,
-					!oldExplosionExpressionESet ) );
+					explosionExpression ) );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public void unsetExplosionExpression( )
-	{
-		String oldExplosionExpression = explosionExpression;
-		boolean oldExplosionExpressionESet = explosionExpressionESet;
-		explosionExpression = EXPLOSION_EXPRESSION_EDEFAULT;
-		explosionExpressionESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION,
-					oldExplosionExpression,
-					EXPLOSION_EXPRESSION_EDEFAULT,
-					oldExplosionExpressionESet ) );
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
-	public boolean isSetExplosionExpression( )
-	{
-		return explosionExpressionESet;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getTitle( )
@@ -390,7 +328,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetTitle( Label newTitle,
@@ -415,7 +352,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTitle( Label newTitle )
@@ -447,7 +383,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Position getTitlePosition( )
@@ -457,7 +392,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTitlePosition( Position newTitlePosition )
@@ -478,7 +412,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTitlePosition( )
@@ -498,7 +431,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTitlePosition( )
@@ -508,7 +440,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLeaderLineAttributes( )
@@ -518,7 +449,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLeaderLineAttributes(
@@ -543,7 +473,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLeaderLineAttributes( LineAttributes newLeaderLineAttributes )
@@ -577,7 +506,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LeaderLineStyle getLeaderLineStyle( )
@@ -587,7 +515,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLeaderLineStyle( LeaderLineStyle newLeaderLineStyle )
@@ -608,7 +535,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLeaderLineStyle( )
@@ -628,7 +554,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLeaderLineStyle( )
@@ -638,7 +563,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getLeaderLineLength( )
@@ -648,7 +572,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLeaderLineLength( double newLeaderLineLength )
@@ -668,7 +591,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLeaderLineLength( )
@@ -688,7 +610,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLeaderLineLength( )
@@ -698,7 +619,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ColorDefinition getSliceOutline( )
@@ -708,7 +628,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSliceOutline(
@@ -733,7 +652,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSliceOutline( ColorDefinition newSliceOutline )
@@ -767,7 +685,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -809,7 +726,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -860,7 +776,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -932,7 +847,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -976,7 +890,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				unsetExplosion( );
 				return;
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
-				unsetExplosionExpression( );
+				setExplosionExpression( EXPLOSION_EXPRESSION_EDEFAULT );
 				return;
 			case TypePackage.PIE_SERIES__TITLE :
 				setTitle( (Label) null );
@@ -1002,7 +916,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -1035,7 +948,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return isSetExplosion( );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
-				return isSetExplosionExpression( );
+				return EXPLOSION_EXPRESSION_EDEFAULT == null ? explosionExpression != null
+						: !EXPLOSION_EXPRESSION_EDEFAULT.equals( explosionExpression );
 			case TypePackage.PIE_SERIES__TITLE :
 				return title != null;
 			case TypePackage.PIE_SERIES__TITLE_POSITION :
@@ -1054,7 +968,6 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -1069,10 +982,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", explosionExpression: " ); //$NON-NLS-1$
-		if ( explosionExpressionESet )
-			result.append( explosionExpression );
-		else
-			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( explosionExpression );
 		result.append( ", titlePosition: " ); //$NON-NLS-1$
 		if ( titlePositionESet )
 			result.append( titlePosition );

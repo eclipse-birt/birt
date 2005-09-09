@@ -25,15 +25,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getText <em>Text</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getDelay <em>Delay</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl#getDelay <em>Delay</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
@@ -42,7 +38,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	/**
 	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -52,7 +47,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -60,9 +54,8 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	protected String text = TEXT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getDelay() <em>Delay</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDelay() <em>Delay</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDelay()
 	 * @generated
 	 * @ordered
@@ -72,7 +65,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	/**
 	 * The cached value of the '{@link #getDelay() <em>Delay</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getDelay()
 	 * @generated
 	 * @ordered
@@ -80,9 +72,9 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 	protected int delay = DELAY_EDEFAULT;
 
 	/**
-	 * This is true if the Delay attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Delay attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -90,7 +82,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TooltipValueImpl( )
@@ -100,7 +91,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -110,7 +100,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getText( )
@@ -120,7 +109,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setText( String newText )
@@ -137,7 +125,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getDelay( )
@@ -147,7 +134,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDelay( int newDelay )
@@ -167,7 +153,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetDelay( )
@@ -187,7 +172,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetDelay( )
@@ -197,7 +181,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -214,7 +197,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -233,7 +215,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -252,7 +233,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -270,7 +250,6 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -310,4 +289,4 @@ public class TooltipValueImpl extends ActionValueImpl implements TooltipValue
 		return tv;
 	}
 
-} //TooltipValueImpl
+} // TooltipValueImpl

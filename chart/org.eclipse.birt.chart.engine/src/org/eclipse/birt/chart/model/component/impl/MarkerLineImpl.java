@@ -39,23 +39,22 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLineAttributes <em>Line Attributes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getValue <em>Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabelAnchor <em>Label Anchor</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getLabelAnchor <em>Label Anchor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 {
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -63,9 +62,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -73,9 +71,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected DataElement value = null;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -94,9 +91,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -113,9 +109,8 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	protected boolean labelAnchorESet = false;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -124,7 +119,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected MarkerLineImpl( )
@@ -134,7 +128,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -144,7 +137,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -154,7 +146,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -179,7 +170,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -213,7 +203,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getValue( )
@@ -223,7 +212,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetValue( DataElement newValue,
@@ -248,7 +236,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( DataElement newValue )
@@ -282,7 +269,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -292,7 +278,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -317,7 +302,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -351,7 +335,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Anchor getLabelAnchor( )
@@ -361,7 +344,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabelAnchor( Anchor newLabelAnchor )
@@ -382,7 +364,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLabelAnchor( )
@@ -402,7 +383,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLabelAnchor( )
@@ -412,7 +392,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -422,7 +401,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -447,7 +425,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -481,7 +458,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -511,7 +487,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -534,7 +509,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -562,7 +536,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -590,7 +563,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -613,7 +585,6 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

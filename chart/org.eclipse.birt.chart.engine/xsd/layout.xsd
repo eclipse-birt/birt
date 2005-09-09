@@ -126,6 +126,21 @@
 				</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="ShowValue" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if show legend item value.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ShowPercent" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if show legend item  value as percentile.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ShowTotal" type="xsd:boolean" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if show legend item value total.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

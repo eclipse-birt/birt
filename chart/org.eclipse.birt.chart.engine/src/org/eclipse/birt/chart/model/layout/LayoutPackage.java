@@ -34,7 +34,8 @@ import org.eclipse.emf.ecore.EReference;
  * @see org.eclipse.birt.chart.model.layout.LayoutFactory
  * @generated
  */
-public interface LayoutPackage extends EPackage{
+public interface LayoutPackage extends EPackage
+{
 
 	/**
 	 * The package name.
@@ -63,7 +64,7 @@ public interface LayoutPackage extends EPackage{
 	 * end-user-doc -->
 	 * @generated
 	 */
-	LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl.init();
+	LayoutPackage eINSTANCE = org.eclipse.birt.chart.model.layout.impl.LayoutPackageImpl.init( );
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.BlockImpl <em>Block</em>}' class.
@@ -617,12 +618,39 @@ public interface LayoutPackage extends EPackage{
 	int LEGEND__TITLE_POSITION = BLOCK_FEATURE_COUNT + 10;
 
 	/**
+	 * The feature id for the '<em><b>Show Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__SHOW_VALUE = BLOCK_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Show Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__SHOW_PERCENT = BLOCK_FEATURE_COUNT + 12;
+
+	/**
+	 * The feature id for the '<em><b>Show Total</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEGEND__SHOW_TOTAL = BLOCK_FEATURE_COUNT + 13;
+
+	/**
 	 * The number of structural features of the the '<em>Legend</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 11;
+	int LEGEND_FEATURE_COUNT = BLOCK_FEATURE_COUNT + 14;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.PlotImpl <em>Plot</em>}' class.
@@ -1255,7 +1283,7 @@ public interface LayoutPackage extends EPackage{
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EReference getLegend_Title();
+	EReference getLegend_Title( );
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title Position</em>}'.
@@ -1266,7 +1294,40 @@ public interface LayoutPackage extends EPackage{
 	 * @see #getLegend()
 	 * @generated
 	 */
-	EAttribute getLegend_TitlePosition();
+	EAttribute getLegend_TitlePosition( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Show Value</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowValue()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_ShowValue( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Show Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowPercent()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_ShowPercent( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Show Total</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.Legend#isShowTotal()
+	 * @see #getLegend()
+	 * @generated
+	 */
+	EAttribute getLegend_ShowTotal( );
 
 	/**
 	 * Returns the meta object for class '

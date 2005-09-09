@@ -34,9 +34,9 @@ public final class RiserType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Rectangle</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Rectangle</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #RECTANGLE_LITERAL
 	 * @model name="Rectangle"
 	 * @generated
@@ -45,9 +45,9 @@ public final class RiserType extends AbstractEnumerator
 	public static final int RECTANGLE = 0;
 
 	/**
-	 * The '<em><b>Triangle</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Triangle</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #TRIANGLE_LITERAL
 	 * @model name="Triangle"
 	 * @generated
@@ -56,14 +56,14 @@ public final class RiserType extends AbstractEnumerator
 	public static final int TRIANGLE = 1;
 
 	/**
-	 * The '<em><b>Rectangle</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Rectangle</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Rectangle</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #RECTANGLE
 	 * @generated
 	 * @ordered
@@ -72,14 +72,14 @@ public final class RiserType extends AbstractEnumerator
 			"Rectangle" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Triangle</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Triangle</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Triangle</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TRIANGLE
 	 * @generated
 	 * @ordered
@@ -98,17 +98,15 @@ public final class RiserType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Riser Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Riser Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static RiserType get( String name )
@@ -125,9 +123,8 @@ public final class RiserType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Riser Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static RiserType get( int value )
@@ -143,9 +140,9 @@ public final class RiserType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private RiserType( int value, String name )

@@ -34,9 +34,9 @@ public final class RuleType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Filter</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Filter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #FILTER_LITERAL
 	 * @model name="Filter"
 	 * @generated
@@ -45,9 +45,9 @@ public final class RuleType extends AbstractEnumerator
 	public static final int FILTER = 0;
 
 	/**
-	 * The '<em><b>Suppress</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Suppress</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #SUPPRESS_LITERAL
 	 * @model name="Suppress"
 	 * @generated
@@ -56,9 +56,9 @@ public final class RuleType extends AbstractEnumerator
 	public static final int SUPPRESS = 1;
 
 	/**
-	 * The '<em><b>Link</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Link</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINK_LITERAL
 	 * @model name="Link"
 	 * @generated
@@ -67,13 +67,13 @@ public final class RuleType extends AbstractEnumerator
 	public static final int LINK = 2;
 
 	/**
-	 * The '<em><b>Filter</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Filter</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Filter</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #FILTER
 	 * @generated
 	 * @ordered
@@ -82,14 +82,14 @@ public final class RuleType extends AbstractEnumerator
 			"Filter" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Suppress</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Suppress</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Suppress</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SUPPRESS
 	 * @generated
 	 * @ordered
@@ -98,13 +98,13 @@ public final class RuleType extends AbstractEnumerator
 			"Suppress" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Link</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Link</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Link</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #LINK
 	 * @generated
 	 * @ordered
@@ -122,17 +122,15 @@ public final class RuleType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Rule Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Rule Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified
-	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static RuleType get( String name )
@@ -149,9 +147,8 @@ public final class RuleType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified
-	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Rule Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static RuleType get( int value )
@@ -169,9 +166,9 @@ public final class RuleType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private RuleType( int value, String name )

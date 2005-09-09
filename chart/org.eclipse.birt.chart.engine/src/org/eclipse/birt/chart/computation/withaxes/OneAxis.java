@@ -15,189 +15,283 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * This class provides an internal implementation of the axis class used by the renderer. Note that positions,
- * orientations, rotation angles, etc could be transposed and may not reflect the same values maintained by the model.
+ * This class provides an internal implementation of the axis class used by the
+ * renderer. Note that positions, orientations, rotation angles, etc could be
+ * transposed and may not reflect the same values maintained by the model.
  */
 public final class OneAxis
 {
-    private AutoScale sc;
 
-    private double dAxisRenderingCoordinate;
+	private AutoScale sc;
 
-    private double dTitleRenderingCoordinate;
+	private double dAxisRenderingCoordinate;
 
-    private int iOrientation;
+	private Location3D locAxisRenderingCoordinate;
 
-    private int iLabelPosition, iTitlePosition;
+	private double dTitleRenderingCoordinate;
 
-    private LineAttributes lia = null;
+	private int iOrientation;
 
-    private Label la = null; // FOR AXIS LABELS
+	private int iLabelPosition, iTitlePosition;
 
-    private Label laTitle = null; // FOR AXIS TITLE
+	private LineAttributes lia = null;
 
-    private IntersectionValue iv = null;
+	private Label la = null; // FOR AXIS LABELS
 
-    private Grid gr = null;
+	private Label laTitle = null; // FOR AXIS TITLE
 
-    private boolean bCategoryScale = false;
+	private IntersectionValue iv = null;
 
-    private final Axis axModel;
+	private Grid gr = null;
 
-    public int getCombinedTickStyle()
-    {
-        return gr.getTickStyle(IConstants.MAJOR) | gr.getTickStyle(IConstants.MINOR);
-    }
+	private boolean bCategoryScale = false;
 
-    /**
-     * A default zero-arg constructor
-     */
-    OneAxis(Axis axModel)
-    {
-        this.axModel = axModel;
-        gr = new Grid();
-    }
+	private final Axis axModel;
 
-    /**
-     * 
-     * @param _iOrientation
-     * @param _iLabelLocation
-     * @param _iLabelRotation
-     * @param _iTickStyle
-     * @param _iAxisLocation
-     */
-    void set(int _iOrientation, int _iLabelPosition, int _iTitlePosition, boolean _bCategoryScale)
-    {
-        iOrientation = _iOrientation;
-        iLabelPosition = _iLabelPosition;
-        iTitlePosition = _iTitlePosition;
-        bCategoryScale = _bCategoryScale;
-    }
+	private final int axisType;
 
-    void setAxisCoordinate(double _dAxisRenderingCoordinate)
-    {
-        dAxisRenderingCoordinate = _dAxisRenderingCoordinate;
-    }
+	/**
+	 * The constructor.
+	 */
+	OneAxis( Axis axModel )
+	{
+		this.axModel = axModel;
+		gr = new Grid( );
+		axisType = IConstants.UNDEFINED;
+	}
 
-    void setTitleCoordinate(double _dTitleRenderingCoordinate)
-    {
-        dTitleRenderingCoordinate = _dTitleRenderingCoordinate;
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param axModel
+	 * @param axisType
+	 */
+	OneAxis( Axis axModel, int axisType )
+	{
+		this.axModel = axModel;
+		gr = new Grid( );
+		this.axisType = axisType;
+	}
 
-    public final double getAxisCoordinate()
-    {
-        return dAxisRenderingCoordinate;
-    }
+	/**
+	 * @return
+	 */
+	public int getAxisType( )
+	{
+		return this.axisType;
+	}
 
-    public final double getTitleCoordinate()
-    {
-        return dTitleRenderingCoordinate;
-    }
+	/**
+	 * 
+	 * @param _iOrientation
+	 * @param _iLabelLocation
+	 * @param _iLabelRotation
+	 * @param _iTickStyle
+	 * @param _iAxisLocation
+	 */
+	void set( int _iOrientation, int _iLabelPosition, int _iTitlePosition,
+			boolean _bCategoryScale )
+	{
+		iOrientation = _iOrientation;
+		iLabelPosition = _iLabelPosition;
+		iTitlePosition = _iTitlePosition;
+		bCategoryScale = _bCategoryScale;
+	}
 
-    public final int getLabelPosition()
-    {
-        return iLabelPosition;
-    }
+	void setAxisCoordinate( double _dAxisRenderingCoordinate )
+	{
+		dAxisRenderingCoordinate = _dAxisRenderingCoordinate;
+	}
 
-    public final int getTitlePosition()
-    {
-        return iTitlePosition;
-    }
+	void setAxisCoordinate3D( Location3D loc3d )
+	{
+		locAxisRenderingCoordinate = loc3d;
+	}
 
-    public final Axis getModelAxis()
-    {
-        return axModel;
-    }
+	void setTitleCoordinate( double _dTitleRenderingCoordinate )
+	{
+		dTitleRenderingCoordinate = _dTitleRenderingCoordinate;
+	}
 
-    final void setGridProperties(LineAttributes laMajorGrid, LineAttributes laMinorGrid, LineAttributes laMajorTicks, LineAttributes laMinorTicks, int iMajorTickStyle,
-        int iMinorTickStyle, int iMinorUnitsPerMajorUnit)
-    {
-        gr.laMajorGrid = laMajorGrid;
-        gr.laMinorGrid = laMinorGrid;
-        gr.laMajorTicks = laMajorTicks;
-        gr.laMinorTicks = laMinorTicks;
-        gr.iMajorTickStyle = iMajorTickStyle;
-        gr.iMinorTickStyle = iMinorTickStyle;
-        gr.iMinorUnitsPerMajorUnit = iMinorUnitsPerMajorUnit;
-    }
+	/**
+	 * @return
+	 */
+	public int getCombinedTickStyle( )
+	{
+		return gr.getTickStyle( IConstants.MAJOR )
+				| gr.getTickStyle( IConstants.MINOR );
+	}
 
-    public final Grid getGrid()
-    {
-        return gr;
-    }
+	/**
+	 * @return
+	 */
+	public final double getAxisCoordinate( )
+	{
+		return dAxisRenderingCoordinate;
+	}
 
-    public final int getOrientation()
-    {
-        return iOrientation;
-    }
+	/**
+	 * @return
+	 */
+	public final Location3D getAxisCoordinate3D( )
+	{
+		return locAxisRenderingCoordinate;
+	}
 
-    public final boolean isCategoryScale()
-    {
-        return bCategoryScale;
-    }
+	/**
+	 * @return
+	 */
+	public final double getTitleCoordinate( )
+	{
+		return dTitleRenderingCoordinate;
+	}
 
-    /**
-     * 
-     * @param _sc
-     */
-    void set(AutoScale _sc)
-    {
-        sc = _sc;
-    }
+	/**
+	 * @return
+	 */
+	public final int getLabelPosition( )
+	{
+		return iLabelPosition;
+	}
 
-    public AutoScale getScale()
-    {
-        return sc;
-    }
+	/**
+	 * @return
+	 */
+	public final int getTitlePosition( )
+	{
+		return iTitlePosition;
+	}
 
-    void set(IntersectionValue _iv)
-    {
-        iv = _iv;
-    }
+	/**
+	 * @return
+	 */
+	public final Axis getModelAxis( )
+	{
+		return axModel;
+	}
 
-    void set(Label _laAxisLabels, Label _laAxisTitle)
-    {
-        la = (Label) EcoreUtil.copy(_laAxisLabels);
-        laTitle = (Label) EcoreUtil.copy(_laAxisTitle);
-    }
+	final void setGridProperties( LineAttributes laMajorGrid,
+			LineAttributes laMinorGrid, LineAttributes laMajorTicks,
+			LineAttributes laMinorTicks, int iMajorTickStyle,
+			int iMinorTickStyle, int iMinorUnitsPerMajorUnit )
+	{
+		gr.laMajorGrid = laMajorGrid;
+		gr.laMinorGrid = laMinorGrid;
+		gr.laMajorTicks = laMajorTicks;
+		gr.laMinorTicks = laMinorTicks;
+		gr.iMajorTickStyle = iMajorTickStyle;
+		gr.iMinorTickStyle = iMinorTickStyle;
+		gr.iMinorUnitsPerMajorUnit = iMinorUnitsPerMajorUnit;
+	}
 
-    void set(LineAttributes _la)
-    {
-        lia = _la;
-    }
+	/**
+	 * @return
+	 */
+	public final Grid getGrid( )
+	{
+		return gr;
+	}
 
-    public final LineAttributes getLineAttributes()
-    {
-        return lia;
-    }
+	/**
+	 * @return
+	 */
+	public final int getOrientation( )
+	{
+		return iOrientation;
+	}
 
-    public final IntersectionValue getIntersectionValue()
-    {
-        return iv;
-    }
+	/**
+	 * @return
+	 */
+	public final boolean isCategoryScale( )
+	{
+		return bCategoryScale;
+	}
 
-    public final Label getLabel()
-    {
-        return la;
-    }
+	/**
+	 * 
+	 * @param _sc
+	 */
+	void set( AutoScale _sc )
+	{
+		sc = _sc;
+	}
 
-    public final Label getTitle()
-    {
-        return laTitle;
-    }
+	/**
+	 * @return
+	 */
+	public AutoScale getScale( )
+	{
+		return sc;
+	}
 
-    public final FormatSpecifier getFormatSpecifier()
-    {
-        return axModel.getFormatSpecifier();
-    }
+	void set( IntersectionValue _iv )
+	{
+		iv = _iv;
+	}
 
-    public final RunTimeContext getRunTimeContext()
-    {
-        return sc.getRunTimeContext();
-    }
+	void set( Label _laAxisLabels, Label _laAxisTitle )
+	{
+		la = (Label) EcoreUtil.copy( _laAxisLabels );
+		laTitle = (Label) EcoreUtil.copy( _laAxisTitle );
+	}
+
+	void set( LineAttributes _la )
+	{
+		lia = _la;
+	}
+
+	/**
+	 * @return
+	 */
+	public final LineAttributes getLineAttributes( )
+	{
+		return lia;
+	}
+
+	/**
+	 * @return
+	 */
+	public final IntersectionValue getIntersectionValue( )
+	{
+		return iv;
+	}
+
+	/**
+	 * @return
+	 */
+	public final Label getLabel( )
+	{
+		return la;
+	}
+
+	/**
+	 * @return
+	 */
+	public final Label getTitle( )
+	{
+		return laTitle;
+	}
+
+	/**
+	 * @return
+	 */
+	public final FormatSpecifier getFormatSpecifier( )
+	{
+		return axModel.getFormatSpecifier( );
+	}
+
+	/**
+	 * @return
+	 */
+	public final RunTimeContext getRunTimeContext( )
+	{
+		return sc.getRunTimeContext( );
+	}
 }

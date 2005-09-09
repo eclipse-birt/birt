@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GroupingUnitType.java,v 1.1 2005/04/26 19:44:08 mpadhye Exp $
+ * $Id: GroupingUnitType.java,v 1.2 2005/06/22 01:50:07 zqian Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -30,9 +30,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Seconds</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Seconds</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SECONDS_LITERAL
 	 * @model name="Seconds"
 	 * @generated
@@ -41,9 +41,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int SECONDS = 0;
 
 	/**
-	 * The '<em><b>Minutes</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Minutes</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MINUTES_LITERAL
 	 * @model name="Minutes"
 	 * @generated
@@ -52,9 +52,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int MINUTES = 1;
 
 	/**
-	 * The '<em><b>Hours</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Hours</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #HOURS_LITERAL
 	 * @model name="Hours"
 	 * @generated
@@ -63,9 +63,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int HOURS = 2;
 
 	/**
-	 * The '<em><b>Days</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Days</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DAYS_LITERAL
 	 * @model name="Days"
 	 * @generated
@@ -74,9 +74,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int DAYS = 3;
 
 	/**
-	 * The '<em><b>Weeks</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Weeks</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WEEKS_LITERAL
 	 * @model name="Weeks"
 	 * @generated
@@ -85,9 +85,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int WEEKS = 4;
 
 	/**
-	 * The '<em><b>Months</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Months</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MONTHS_LITERAL
 	 * @model name="Months"
 	 * @generated
@@ -96,9 +96,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int MONTHS = 5;
 
 	/**
-	 * The '<em><b>Years</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Years</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #YEARS_LITERAL
 	 * @model name="Years"
 	 * @generated
@@ -107,14 +107,14 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int YEARS = 6;
 
 	/**
-	 * The '<em><b>Seconds</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Seconds</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Seconds</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SECONDS
 	 * @generated
 	 * @ordered
@@ -123,14 +123,14 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Seconds" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Minutes</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Minutes</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of '<em><b>Minutes</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MINUTES
 	 * @generated
 	 * @ordered
@@ -139,13 +139,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Minutes" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Hours</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Hours</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Hours</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #HOURS
 	 * @generated
 	 * @ordered
@@ -154,13 +154,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Hours" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Days</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Days</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Days</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DAYS
 	 * @generated
 	 * @ordered
@@ -169,13 +169,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Days" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Weeks</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Weeks</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Weeks</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WEEKS
 	 * @generated
 	 * @ordered
@@ -184,13 +184,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Weeks" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Months</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Months</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Months</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MONTHS
 	 * @generated
 	 * @ordered
@@ -199,13 +199,13 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Months" ); //$NON-NLS-1$
 
 	/**
-	 * The '<em><b>Years</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Years</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Years</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #YEARS
 	 * @generated
 	 * @ordered
@@ -214,9 +214,8 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Years" ); //$NON-NLS-1$
 
 	/**
-	 * An array of all the '<em><b>Grouping Unit Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private static final GroupingUnitType[] VALUES_ARRAY = new GroupingUnitType[]{
@@ -230,17 +229,15 @@ public final class GroupingUnitType extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Grouping Unit Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static GroupingUnitType get( String name )
@@ -257,9 +254,8 @@ public final class GroupingUnitType extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static GroupingUnitType get( int value )
@@ -285,9 +281,9 @@ public final class GroupingUnitType extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private GroupingUnitType( int value, String name )

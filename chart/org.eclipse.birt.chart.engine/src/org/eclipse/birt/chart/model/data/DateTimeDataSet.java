@@ -14,16 +14,16 @@ package org.eclipse.birt.chart.model.data;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Date Time Data Set</b></em>'. <!--
  * end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type holds the date/time data associated with a series.
- * 
+ * 			This type holds the date/time data associated with a series.
+ * 			
  * <!-- end-model-doc -->
- * 
- * 
+ *
+ *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getDateTimeDataSet()
- * @model
+ * @model extendedMetaData="name='DateTimeDataSet' kind='elementOnly'"
  * @generated
  */
 public interface DateTimeDataSet extends DataSet

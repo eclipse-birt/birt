@@ -27,15 +27,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.RuleImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.data.impl.RuleImpl#getValue <em>Value</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.RuleImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.RuleImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class RuleImpl extends EObjectImpl implements Rule
@@ -44,7 +40,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -54,7 +49,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -62,18 +56,17 @@ public class RuleImpl extends EObjectImpl implements Rule
 	protected RuleType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet = false;
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -83,7 +76,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -92,7 +84,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RuleImpl( )
@@ -102,7 +93,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -112,7 +102,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public RuleType getType( )
@@ -122,7 +111,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( RuleType newType )
@@ -142,7 +130,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -162,7 +149,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -172,7 +158,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getValue( )
@@ -182,7 +167,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( String newValue )
@@ -199,7 +183,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -216,7 +199,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -235,7 +217,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -254,7 +235,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -272,7 +252,6 @@ public class RuleImpl extends EObjectImpl implements Rule
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

@@ -33,15 +33,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType <em>Type</em>}
- * </li>
- * <li>
- * {@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail <em>Detail</em>}
- * </li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.DateFormatSpecifierImpl#getDetail <em>Detail</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
@@ -51,7 +47,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -61,7 +56,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -69,18 +63,17 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected DateFormatType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet = false;
 
 	/**
-	 * The default value of the '{@link #getDetail() <em>Detail</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDetail() <em>Detail</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -88,9 +81,8 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected static final DateFormatDetail DETAIL_EDEFAULT = DateFormatDetail.DATE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDetail() <em>Detail</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDetail() <em>Detail</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDetail()
 	 * @generated
 	 * @ordered
@@ -98,9 +90,9 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 	protected DateFormatDetail detail = DETAIL_EDEFAULT;
 
 	/**
-	 * This is true if the Detail attribute has been set. <!-- begin-user-doc
+	 * This is true if the Detail attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -108,7 +100,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DateFormatSpecifierImpl( )
@@ -118,7 +109,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -128,7 +118,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -145,7 +134,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -164,7 +152,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -183,7 +170,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -200,7 +186,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -225,7 +210,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DateFormatType getType( )
@@ -262,7 +246,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setType( DateFormatType newType )
@@ -282,7 +265,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -302,7 +284,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -312,7 +293,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DateFormatDetail getDetail( )
@@ -322,7 +302,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDetail( DateFormatDetail newDetail )
@@ -342,7 +321,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetDetail( )
@@ -362,7 +340,6 @@ public class DateFormatSpecifierImpl extends FormatSpecifierImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetDetail( )

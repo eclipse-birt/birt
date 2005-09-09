@@ -39,25 +39,24 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getOutline <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFill <em>Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getStartValue <em>Start Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getEndValue <em>End Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabel <em>Label</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabelAnchor <em>Label Anchor</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFill <em>Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getStartValue <em>Start Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getEndValue <em>End Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getLabelAnchor <em>Label Anchor</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 {
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -65,9 +64,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected LineAttributes outline = null;
 
 	/**
-	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFill() <em>Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFill()
 	 * @generated
 	 * @ordered
@@ -75,9 +73,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected Fill fill = null;
 
 	/**
-	 * The cached value of the '{@link #getStartValue() <em>Start Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStartValue() <em>Start Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStartValue()
 	 * @generated
 	 * @ordered
@@ -85,9 +82,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected DataElement startValue = null;
 
 	/**
-	 * The cached value of the '{@link #getEndValue() <em>End Value</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEndValue() <em>End Value</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEndValue()
 	 * @generated
 	 * @ordered
@@ -95,9 +91,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected DataElement endValue = null;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -116,9 +111,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected static final Anchor LABEL_ANCHOR_EDEFAULT = Anchor.NORTH_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabelAnchor() <em>Label Anchor</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabelAnchor()
 	 * @generated
 	 * @ordered
@@ -135,9 +129,8 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	protected boolean labelAnchorESet = false;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -146,7 +139,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected MarkerRangeImpl( )
@@ -156,7 +148,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -166,7 +157,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getOutline( )
@@ -176,7 +166,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline( LineAttributes newOutline,
@@ -201,7 +190,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOutline( LineAttributes newOutline )
@@ -235,7 +223,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getFill( )
@@ -245,7 +232,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFill( Fill newFill, NotificationChain msgs )
@@ -269,7 +255,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFill( Fill newFill )
@@ -303,7 +288,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getStartValue( )
@@ -313,7 +297,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetStartValue( DataElement newStartValue,
@@ -338,7 +321,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setStartValue( DataElement newStartValue )
@@ -372,7 +354,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public DataElement getEndValue( )
@@ -382,7 +363,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetEndValue( DataElement newEndValue,
@@ -407,7 +387,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setEndValue( DataElement newEndValue )
@@ -441,7 +420,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -451,7 +429,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -476,7 +453,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -510,7 +486,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Anchor getLabelAnchor( )
@@ -520,7 +495,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLabelAnchor( Anchor newLabelAnchor )
@@ -541,7 +515,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLabelAnchor( )
@@ -561,7 +534,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLabelAnchor( )
@@ -571,7 +543,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -581,7 +552,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -606,7 +576,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -640,7 +609,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -674,7 +642,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -701,7 +668,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -735,7 +701,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -769,7 +734,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -796,7 +760,6 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

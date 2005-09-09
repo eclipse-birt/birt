@@ -36,9 +36,9 @@ public final class TriggerCondition extends AbstractEnumerator
 {
 
 	/**
-	 * The '<em><b>Mouse Hover</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Mouse Hover</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #MOUSE_HOVER_LITERAL
 	 * @model name="Mouse_Hover"
 	 * @generated
@@ -47,9 +47,9 @@ public final class TriggerCondition extends AbstractEnumerator
 	public static final int MOUSE_HOVER = 0;
 
 	/**
-	 * The '<em><b>Mouse Click</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Mouse Click</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #MOUSE_CLICK_LITERAL
 	 * @model name="Mouse_Click"
 	 * @generated
@@ -92,7 +92,6 @@ public final class TriggerCondition extends AbstractEnumerator
 	/**
 	 * An array of all the '<em><b>Trigger Condition</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final TriggerCondition[] VALUES_ARRAY = new TriggerCondition[]{
@@ -100,17 +99,15 @@ public final class TriggerCondition extends AbstractEnumerator
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Trigger Condition</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Trigger Condition</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
 
 	/**
-	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static TriggerCondition get( String name )
@@ -127,9 +124,8 @@ public final class TriggerCondition extends AbstractEnumerator
 	}
 
 	/**
-	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the
-	 * specified value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Trigger Condition</b></em>' literal with the specified value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static TriggerCondition get( int value )
@@ -145,9 +141,9 @@ public final class TriggerCondition extends AbstractEnumerator
 	}
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private TriggerCondition( int value, String name )
