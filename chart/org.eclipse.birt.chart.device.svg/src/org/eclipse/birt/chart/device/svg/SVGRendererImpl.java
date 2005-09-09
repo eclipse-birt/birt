@@ -26,13 +26,18 @@ import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
+import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.InteractionEvent;
+import org.eclipse.birt.chart.event.OvalRenderEvent;
+import org.eclipse.birt.chart.event.PolygonRenderEvent;
+import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Series;
@@ -91,8 +96,20 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	private Object oOutputIdentifier = null;
 
+	/**
+	 * Document object that represents the SVG
+	 */
 	protected Document dom;
+	
+	/**
+	 * SVG Graphic context
+	 */
 	protected SVGGraphics2D svggc;
+	
+	/**
+	 * Element that represents the hot spot layer
+	 */
+	protected Element hotspotLayer;
 
 	/*
 	 * (non-Javadoc)
@@ -110,6 +127,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 			{
 				dom = createSvgDocument( bo.getWidth( ), bo.getHeight( ) );
 				svggc = new SVGGraphics2D( dom );
+				//Create the hotspot layer
+				hotspotLayer = createHotspotLayer(dom);
 				super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, svggc );
 			}
 			catch ( Exception e )
@@ -122,6 +141,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 			oOutputIdentifier = oValue;
 		}
 	}
+	
+	protected Element createHotspotLayer(Document dom){
+		Element hotspot = dom.createElement("g");
+		hotspot.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return hotspot;		
+	}
 
 	/**
 	 * 
@@ -131,6 +156,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public final void after( ) throws ChartException
 	{
 		super.after( );
+		
+		//make sure we add the hotspot layer to the bottom layer of the svg
+		dom.getDocumentElement().appendChild(hotspotLayer);
+		
 		if ( oOutputIdentifier instanceof OutputStream ) // OUTPUT STREAM
 		{
 			try
@@ -238,17 +267,17 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void changeStructure( StructureChangeEvent scev )
 	{
-		Object sourceObj = scev.getSource( );
-		switch ( scev.getEventType( ) )
-		{
-			case StructureChangeEvent.BEFORE :
-				addGroupStructure( sourceObj );
-				break;
-			case StructureChangeEvent.AFTER :
-				removeGroupStructure( sourceObj );
-				break;
-
-		}
+//		Object sourceObj = scev.getSource( );
+//		switch ( scev.getEventType( ) )
+//		{
+//			case StructureChangeEvent.BEFORE :
+//				addGroupStructure( sourceObj );
+//				break;
+//			case StructureChangeEvent.AFTER :
+//				removeGroupStructure( sourceObj );
+//				break;
+//
+//		}
 	}
 
 	protected void removeGroupStructure( Object block )
@@ -309,23 +338,85 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void enableInteraction( InteractionEvent ie ) throws ChartException
 	{
+
 		Trigger[] triggers = ie.getTriggers( );
-		for ( int x = 0; x < triggers.length; x++ )
+		if ( triggers == null )
 		{
-			Trigger tg = triggers[x];
-			if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
-			{
-				svggc.drawTooltip( ( (TooltipValue) tg.getAction( ).getValue( ) ).getText( ) );
-			}
-			else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
-			{
-				svggc.getCurrentParent( )
-						.setAttribute( "onmousedown", //$NON-NLS-1$
-								"parent.location='" //$NON-NLS-1$
-										+ ( (URLValue) tg.getAction( )
-												.getValue( ) ).getBaseUrl( )
-										+ "'" ); //$NON-NLS-1$
-			}
+			return;
 		}
+
+		final PrimitiveRenderEvent pre = ie.getHotSpot( );
+		Element elm = null;
+
+		if ( pre instanceof PolygonRenderEvent )
+		{
+			final Location[] loa = ( (PolygonRenderEvent) pre ).getPoints( );
+
+			int[][] pa = getCoordinatesAsInts( loa );
+
+			elm = svggc.createPolygon( pa[0], pa[1], pa[0].length );
+		}
+		else if ( pre instanceof OvalRenderEvent )
+		{
+			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
+
+			elm = svggc.createOval( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ) );
+		}
+		else if ( pre instanceof ArcRenderEvent )
+		{
+			final ArcRenderEvent are = (ArcRenderEvent) pre;
+			final Bounds boEllipse = are.getEllipseBounds( );
+			double dStart = are.getStartAngle( );
+			double dExtent = are.getAngleExtent( );
+
+			elm = svggc.createArc( boEllipse.getLeft( ),
+					boEllipse.getTop( ),
+					boEllipse.getWidth( ),
+					boEllipse.getHeight( ),
+					dStart,
+					dExtent );
+		}
+
+		if ( elm != null )
+		{
+			for ( int x = 0; x < triggers.length; x++ )
+			{
+				Trigger tg = triggers[x];
+				if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
+				{
+					Element title = svggc.dom.createElement( "title" ); //$NON-NLS-1$
+					title.appendChild( svggc.dom.createTextNode( ( (TooltipValue) tg.getAction( )
+							.getValue( ) ).getText( ) ) );
+					elm.appendChild( title );
+					elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
+					elm.setAttribute( "onmouseover", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$		
+				}
+				else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
+				{
+					elm.setAttribute( "onmousedown", //$NON-NLS-1$
+							"parent.location='" //$NON-NLS-1$
+									+ ( (URLValue) tg.getAction( ).getValue( ) ).getBaseUrl( )
+									+ "'" ); //$NON-NLS-1$
+					setCursor( elm );
+				}
+			}
+
+			hotspotLayer.appendChild( elm );
+		}
+		
 	}
+	
+	protected void setCursor( Element currentElement )
+	{
+		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
+		if ( style == null )
+		{
+			style = ""; //$NON-NLS-1$
+		}
+		currentElement.setAttribute( "style", style + "cursor:pointer;" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
 }
