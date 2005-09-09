@@ -52,7 +52,6 @@ class ResultObjectUtil
 	private static int FixedBytesLengOfInt = 8;
 
 	// object index for read and write
-	private int readIndex;
 	private int writeIndex;
 	
 	// store the null object information with its row index and
@@ -91,7 +90,6 @@ class ResultObjectUtil
 		instance.columnCount = rsMetaData.getFieldCount( );
 		instance.rsMetaData = rsMetaData;
 		
-		instance.readIndex = 0;
 		instance.writeIndex = 0;
 		instance.nullObjectSet = new HashSet( );
 		
@@ -103,15 +101,6 @@ class ResultObjectUtil
 	 */
 	private ResultObjectUtil( )
 	{
-	}
-
-	/**
-	 * Reset read index to 0. When reading data from start, this method must be
-	 * called first.
-	 */
-	void startNewRead( )
-	{
-		readIndex = 0;
 	}
 
 	/**
@@ -161,21 +150,22 @@ class ResultObjectUtil
 	}
 
 	/**
-	 * Deserialze result object array from input stream.
+	 * Deserialze result object array from input stream. The reading procedure
+	 * is strictly sequential, that means there is no random access.
 	 * 
 	 * Datatype Corresponds to executor#setDataType
-	 * 
-	 * One point needs to be noticed that the read and write procedure is strictly
-	 * be conversed. 
 	 * 
 	 * @param br
 	 *            input stream
 	 * @param length
 	 *            how many objects needs to be read
+	 * @param posHint
+	 *            hint info of current read position, this value does not affect
+	 *            the sequence reading
 	 * @return result object array
 	 * @throws IOException
 	 */
-	IResultObject[] readData( BufferedInputStream bis, int length )
+	IResultObject[] readData( BufferedInputStream bis, int length, int posHint )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -200,7 +190,7 @@ class ResultObjectUtil
 			for ( int j = 0; j < columnCount; j++ )
 			{
 				Class fieldType = typeArray[j];
-				if ( isNullObject( readIndex, j ) )
+				if ( isNullObject( posHint + i, j ) )
 					obs[j] = null;	
 				else if ( fieldType.equals( Integer.class ) )
 					obs[j] = new Integer( ois.readInt( ) );
@@ -225,22 +215,19 @@ class ResultObjectUtil
 			rowDataBytes = null;
 			bais = null;
 			ois = null;
-			
-			readIndex++;
 		}
 
 		return rowDatas;
 	}
 
 	/**
-	 * Serialze result object array to file
+	 * Serialze result object array to file. The serialize procedure is
+	 * conversed with de-serialize(read) procedure.
 	 * 
 	 * @param bos output stream
 	 * @param resultObjects result objects needs to be deserialized
 	 * @param length how many objects to be deserialized
 	 * @throws IOException
-	 * @throws DataException
-	 * @throws Exception
 	 */
 	void writeData( BufferedOutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
