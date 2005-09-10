@@ -19,8 +19,8 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.oda.IParameterMetaData;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * Contains the metadata information of a single parameter.

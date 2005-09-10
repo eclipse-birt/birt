@@ -19,8 +19,8 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * ResultSetMetaData contains the result set metadata retrieved during 
@@ -33,14 +33,14 @@ public class ResultSetMetaData
 	private String m_dataSetType;
 
 	// trace logging variables
-	private static String sm_className = ResultSetMetaData.class.getName();
-	private static String sm_loggerName = ConnectionManager.sm_packageName;
+	private static final String sm_className = ResultSetMetaData.class.getName();
+	private static final String sm_loggerName = ConnectionManager.sm_packageName;
 	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 
 	ResultSetMetaData( IResultSetMetaData metadata, String driverName,
 					   String dataSetType )
 	{
-		String methodName = "ResultSetMetaData";
+		final String methodName = "ResultSetMetaData";
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
             		new Object[] { metadata, driverName, dataSetType } );
@@ -59,9 +59,11 @@ public class ResultSetMetaData
 	 */
 	public int getColumnCount( ) throws DataException
 	{
-	    String methodName = "getColumnCount";
+	    final String methodName = "getColumnCount";
 		try
 		{
+		    if( m_metadata == null )
+		        return 0;
 			return m_metadata.getColumnCount( );
 		}
 		catch( OdaException ex )
@@ -86,7 +88,9 @@ public class ResultSetMetaData
 	 */
 	public String getColumnName( int index ) throws DataException
 	{
-	    String methodName = "getColumnName";
+	    final String methodName = "getColumnName";
+
+	    verifyHasRuntimeMetaData();
 		try
 		{
 			return m_metadata.getColumnName( index );
@@ -114,7 +118,9 @@ public class ResultSetMetaData
 	 */
 	public String getColumnLabel( int index ) throws DataException
 	{
-	    String methodName = "getColumnLabel";
+	    final String methodName = "getColumnLabel";
+
+	    verifyHasRuntimeMetaData();
 		try
 		{
 			return m_metadata.getColumnLabel( index );
@@ -142,7 +148,7 @@ public class ResultSetMetaData
 	 */
 	public int getColumnType( int index ) throws DataException
 	{
-	    String methodName = "getColumnType";
+	    final String methodName = "getColumnType";
 	    
 		int nativeType = doGetColumnType( index );
 		int odaType = 
@@ -175,7 +181,9 @@ public class ResultSetMetaData
 	 */
 	public String getColumnNativeTypeName( int index ) throws DataException
 	{
-	    String methodName = "getColumnNativeTypeName";
+	    final String methodName = "getColumnNativeTypeName";
+
+	    verifyHasRuntimeMetaData();
 		try
 		{
 			return m_metadata.getColumnTypeName( index );
@@ -197,7 +205,9 @@ public class ResultSetMetaData
 
 	private int doGetColumnType( int index ) throws DataException
 	{
-	    String methodName = "doGetColumnType";
+	    final String methodName = "doGetColumnType";
+
+	    verifyHasRuntimeMetaData();
 		try
 		{
 			return m_metadata.getColumnType( index );
@@ -222,5 +232,11 @@ public class ResultSetMetaData
 	{
 		int odaType = getColumnType( index );
 		return DataTypeUtil.toTypeClass( odaType );
+	}
+	
+	private void verifyHasRuntimeMetaData() throws DataException
+	{
+	    if( m_metadata == null )
+	        throw new DataException( ResourceConstants.CANNOT_GET_RESULTSET_METADATA );
 	}
 }

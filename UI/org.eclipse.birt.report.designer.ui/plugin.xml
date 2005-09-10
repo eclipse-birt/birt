@@ -31,6 +31,7 @@
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.birt.report.viewer"/>
       <import plugin="org.eclipse.help.base"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.birt.data.oda"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.team.core"/>

@@ -18,10 +18,10 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IDataSetMetaData;
-import org.eclipse.birt.data.oda.IQuery;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * A runtime connection of a specific data source extension.

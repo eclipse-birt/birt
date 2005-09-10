@@ -34,13 +34,13 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.oda.IAdvancedQuery;
-import org.eclipse.birt.data.oda.IParameterMetaData;
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.IQuery;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.SortSpec;
 
 /**
  * <code>PreparedStatement</code> represents a statement query that can be executed without 

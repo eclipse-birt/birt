@@ -18,9 +18,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IDriver;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDriver;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * ConnectionManager manages a set of data source connections.  Calling 

@@ -25,8 +25,8 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * <code>ResultSet</code> maintains an incremental pointer to rows in the  

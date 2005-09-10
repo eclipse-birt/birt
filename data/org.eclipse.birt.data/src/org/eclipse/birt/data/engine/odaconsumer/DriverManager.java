@@ -17,8 +17,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.util.Hashtable;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.oda.IDriver;
-import org.eclipse.birt.data.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.IDriver;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 
 /**
  * <code>DriverManager</code> manages a set of data source drivers.  Calling 
@@ -84,11 +84,11 @@ class DriverManager
 	String getExtensionDataSourceId( String dataSourceElementId ) 
 		throws DataException
 	{
-		String methodName = "getExtensionDataSourceType";
+		String methodName = "getExtensionDataSourceId";
 		sm_logger.entering( sm_className, methodName, dataSourceElementId );
 
 		Driver driver = getDriver( dataSourceElementId );
-		ExtensionManifest config = driver.getExtensionConfig();
+		ExtensionManifest config = driver.getDriverExtensionConfig();
 		String ret = config.getDataSourceElementID();
 		
 		sm_logger.exiting( sm_className, methodName, ret );
