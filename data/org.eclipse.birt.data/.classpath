@@ -6,7 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/junit.jar"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.report.data.oda.jdbc/derby.jar"/>
-	<classpathentry kind="lib" path="/org.eclipse.birt.data.oda/oda.jar"/>
 	<classpathentry exported="true" kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

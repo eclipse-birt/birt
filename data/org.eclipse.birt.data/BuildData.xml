@@ -352,6 +352,15 @@
 	</target>
 	
 	<target name="testDependency">
+		<echo message="start call Jar task in ${dtp.oda.adapter.dir}"/>		
+		<ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.dtp.adapter.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/${dtp.oda.adapter.jar}" file="${dtp.oda.adapter.dir}/${dtp.oda.adapter.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/plugin.xml" file="${dtp.oda.adapter.dir}/plugin.xml"/>
+
+		
 		<echo message="start call Jar task in ${oda.jdbc.dir}"/>		
 		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
