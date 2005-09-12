@@ -22,7 +22,7 @@ import org.eclipse.birt.data.oda.OdaException;
 public class SPResultSetMetaData implements IResultSetMetaData
 {
 	/** the JDBC ResultSetMetaData object */
-	private java.sql.ResultSetMetaData rsMetadata;
+	//private java.sql.ResultSetMetaData rsMetadata;
 
 	/**
 	 * 
@@ -34,7 +34,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 			throws OdaException
 	{
 		/* record down the JDBC ResultSetMetaData object */
-		this.rsMetadata = rsMeta;
+		//this.rsMetadata = rsMeta;
 
 	}
 

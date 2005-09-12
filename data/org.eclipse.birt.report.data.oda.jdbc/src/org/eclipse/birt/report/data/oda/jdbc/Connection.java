@@ -37,7 +37,7 @@ public class Connection implements IConnection
 	private static Logger logger = Logger.getLogger( Connection.class.getName( ) );	
 	
 	// TODO:
-	private final String simpleDataType = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet";
+	//private final String simpleDataType = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet";
 	private final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
 	public void close( ) throws OdaException

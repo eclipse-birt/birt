@@ -58,7 +58,7 @@ public class CallStatement implements IAdvancedQuery
 
 	private static Logger logger = Logger.getLogger( CallStatement.class.getName( ) );
 
-	private boolean isCallabeStatement = true;
+	//private boolean isCallabeStatement = true;
 
 	private String procedureName;
 
@@ -1164,7 +1164,7 @@ public class CallStatement implements IAdvancedQuery
 				allSchemas.add( schemaRs.getString( "TABLE_SCHEM" ) );
 			}
 
-			ResultSet rs = null;
+			//ResultSet rs = null;
 			Iterator it = allSchemas.iterator( );
 
 			while ( it.hasNext( ) )

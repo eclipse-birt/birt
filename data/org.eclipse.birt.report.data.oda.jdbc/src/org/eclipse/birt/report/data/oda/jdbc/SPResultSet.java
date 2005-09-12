@@ -27,7 +27,7 @@ import org.eclipse.birt.data.oda.OdaException;
 public class SPResultSet implements IResultSet
 {
 	/** the JDBC ResultSet object */
-	private java.sql.ResultSet rs;
+	//private java.sql.ResultSet rs;
 	
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class SPResultSet implements IResultSet
 	{
 
 		/* record down the JDBC ResultSet object */
-		this.rs = jrs;
+		//this.rs = jrs;
 	}
 
 	/*
