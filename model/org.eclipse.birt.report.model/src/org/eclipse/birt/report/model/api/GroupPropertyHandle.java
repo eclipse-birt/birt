@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle for working with a top-level property of a collection of elements.
@@ -237,8 +238,9 @@ public class GroupPropertyHandle
 	}
 
 	/**
-	 * returns the element reference value list if the property is element
-	 * referenceable type.
+	 * Returns the element reference value list if the property is element
+	 * referenceable type. The list of available elements are sorted by their
+	 * names lexicographically.
 	 * 
 	 * @return list of the reference element value.
 	 */
@@ -248,25 +250,27 @@ public class GroupPropertyHandle
 		if ( propDefn.getTypeCode( ) != PropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
-		List list = new ArrayList( );
-
 		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
 		assert elementDefn != null;
 
+		List elementList = null;
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return handle.getModuleHandle( ).getAllDataSets( );
-
+		{
+			elementList = handle.getModuleHandle( ).getAllDataSets( );
+		}
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return handle.getModuleHandle( ).getAllDataSources( );
-
+		{
+			elementList = handle.getModuleHandle( ).getAllDataSources( );
+		}
 		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
-			return handle.getModuleHandle( ).getAllStyles( );
-
-		return list;
-
+		{
+			elementList = handle.getModuleHandle( ).getAllStyles( );
+		}
+		
+		return ModelUtil.sortElementsByName( elementList );
 	}
 
 	/**

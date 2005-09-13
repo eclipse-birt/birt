@@ -11,19 +11,29 @@
 
 package org.eclipse.birt.report.model.util;
 
+import java.text.CollationKey;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.LayoutActivityTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
@@ -165,4 +175,132 @@ public class ModelUtil
 		return retList;
 	}
 
+	/**
+	 * 
+	 * Performs property name sorting on a list of properties. Properties
+	 * returned are sorted by their (locale-specific) display name. The name for
+	 * sorting is assumed to be "groupName.displayName" in which "groupName" is
+	 * the localized name of the property group, if any; and "displayName" is
+	 * the localized name of the property. That is, properties without groups
+	 * sort by their property display names. Properties with groups sort first
+	 * by group name within the overall list, then by property name within the
+	 * group. Sorting in English ignores case.
+	 * <p>
+	 * For example, if we have the groups "G" and "R", and the properties
+	 * "alpha", "G.beta", "G.sigma", "iota", "R.delta", "R.epsilon" and "theta",
+	 * the Properties returned is assumed to be sorted into that order.
+	 * 
+	 * Sorts a list of <code>PropertyDefn</code> s by there localized name.
+	 * Uses <code>Collator</code> to do the comparison, sorting in English
+	 * ignores case.
+	 * 
+	 * @param propDefns
+	 *            a list that contains PropertyDefns.
+	 * @return the list of <code>PropertyDefn</code>s that is sorted by their
+	 *         display name.
+	 */
+
+	public static List sortPropertiesByLocalizedName( List propDefns )
+	{
+		// Use the static factory method, getInstance, to obtain the appropriate
+		// Collator object for the current
+		// locale.
+
+		// The Collator instance that performs locale-sensitive String
+		// comparison.
+
+		Locale locale = ThreadResources.getLocale( );
+		Collator collator = Collator.getInstance( locale );
+
+		// Sorting in English should ignore case.
+		if ( Locale.ENGLISH.equals( locale ) )
+		{
+
+			// Set Collator strength value as PRIMARY, only PRIMARY differences
+			// are considered significant during comparison. The assignment of
+			// strengths to language features is locale defendant. A common
+			// example is for different base letters ("a" vs "b") to be
+			// considered a PRIMARY difference.
+
+			collator.setStrength( Collator.PRIMARY );
+		}
+
+		final Map keysMap = new HashMap( );
+		for ( int i = 0; i < propDefns.size( ); i++ )
+		{
+			PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
+
+			// Transforms the String into a series of bits that can be compared
+			// bitwise to other CollationKeys.
+			// CollationKeys provide better performance than Collator.
+
+			CollationKey key = collator.getCollationKey( propDefn
+					.getDisplayName( ) );
+			keysMap.put( propDefn, key );
+		}
+
+		Collections.sort( propDefns, new Comparator( ) {
+
+			public int compare( Object o1, Object o2 )
+			{
+				PropertyDefn p1 = (PropertyDefn) o1;
+				PropertyDefn p2 = (PropertyDefn) o2;
+
+				CollationKey key1 = (CollationKey) keysMap.get( p1 );
+				CollationKey key2 = (CollationKey) keysMap.get( p2 );
+
+				// Comparing two CollationKeys returns the relative order of the
+				// Strings they represent. Using CollationKeys to compare
+				// Strings is generally faster than using Collator.compare.
+
+				return key1.compareTo( key2 );
+			}
+		} );
+
+		return propDefns;
+	}
+
+	/**
+	 * Sorts a list of element by their internal names.
+	 * 
+	 * @param elements
+	 *            a list of <code>DesignElementHandle</code>
+	 * @return a sorted list of element.
+	 */
+
+	public static List sortElementsByName( List elements )
+	{
+		List temp = new ArrayList( elements );
+		Collections.sort( temp, new Comparator( ) {
+
+			public int compare( Object o1, Object o2 )
+			{
+				DesignElementHandle handle1 = (DesignElementHandle)o1;
+				DesignElementHandle handle2 = (DesignElementHandle)o2;
+				
+				String name1 = handle1.getName();
+				String name2 = handle2.getName();
+				
+				if( null == name1 )
+				{
+					if( null == name2 )
+						return 0;
+					
+					return -1;
+				}
+				
+				// name1 != null
+				
+				if( null == name2 )
+				{
+					return 1;
+				}
+				
+				return name1.compareTo( name2 );
+			}
+
+		} );
+		
+		return temp;
+	}
 }

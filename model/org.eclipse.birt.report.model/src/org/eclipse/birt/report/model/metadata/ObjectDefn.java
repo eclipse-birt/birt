@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Base class for attributes common to elements and structures. This base class
@@ -188,7 +189,7 @@ public class ObjectDefn implements IObjectDefn
 	{
 		List propDefns = new ArrayList( properties.values( ) );
 
-		return PropertySorter.sort( propDefns ).iterator( );
+		return ModelUtil.sortPropertiesByLocalizedName( propDefns ).iterator( );
 	}
 
 	/**

@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.PropertySorter;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * An iterator over the properties defined for an element. Includes both user
@@ -61,7 +61,7 @@ public class PropertyIterator implements Iterator
 		this.elementHandle = handle;
 
 		List propDefns = elementHandle.getElement( ).getPropertyDefns( );
-		this.iter = PropertySorter.sort( propDefns ).iterator( );
+		this.iter = ModelUtil.sortPropertiesByLocalizedName( propDefns ).iterator( );
 	}
 
 	// Implementation of an interface method.

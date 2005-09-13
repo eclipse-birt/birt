@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Abstract module handle which provides the common functionalities of report
@@ -142,7 +143,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the config variable
 	 * @throws SemanticException
 	 *             if the name is empty or the same name exists.
-	 *  
+	 * 
 	 */
 
 	public void addConfigVariable( ConfigVariable configVar )
@@ -501,7 +502,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the config variable name
 	 * @return the index ( from 0 ) of config variable with the given name.
 	 *         Return -1, if not found.
-	 *  
+	 * 
 	 */
 
 	private int findConfigVariablePos( String name )
@@ -994,7 +995,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return getModule( ).getMessageKeys( );
 	}
 
-	
 	/**
 	 * Returns a slot handle to work with the top-level parameters and parameter
 	 * groups within the report. The order that the items appear within the slot
@@ -1206,7 +1206,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             if the old config variable is not found or the name of new
 	 *             one is empty.
-	 *  
+	 * 
 	 */
 
 	public void replaceConfigVariable( ConfigVariable oldVar,
@@ -1357,8 +1357,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Sets the design file name. This method will send notifications instance
-	 * of <code>AttributeEvent</code> to all the attribute listeners registered
-	 * in the module.
+	 * of <code>AttributeEvent</code> to all the attribute listeners
+	 * registered in the module.
 	 * 
 	 * @param newName
 	 *            the new file name
@@ -1367,7 +1367,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void setFileName( String newName )
 	{
 		module.setFileName( newName );
-		AttributeEvent event = new AttributeEvent( module, AttributeEvent.FILE_NAME_ATTRIBUTE );
+		AttributeEvent event = new AttributeEvent( module,
+				AttributeEvent.FILE_NAME_ATTRIBUTE );
 		module.broadcastFileNameEvent( event );
 	}
 
@@ -1489,6 +1490,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return generateHandleList( elementList );
 	}
 
+	/**
+	 * Generates a list of element handles according to the given element list.
+	 * Each content in the return list is generated use
+	 * <code>element.getHandle( Module )</code>
+	 * 
+	 * @param elementList
+	 *            a list of elements.
+	 * @return a list of element handles.
+	 */
+
 	private List generateHandleList( List elementList )
 	{
 		List handleList = new ArrayList( );
@@ -1570,7 +1581,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		return module.isReadOnly( );
 	}
-	
+
 	/**
 	 * Returns the iterator over all included libraries. Each one is the
 	 * instance of <code>IncludeLibraryHandle</code>
@@ -1624,7 +1635,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 		command.dropLibrary( (Library) library.getElement( ) );
 	}
 
-	
 	/**
 	 * Adds one attribute listener. The duplicate listener will not be added.
 	 * 
@@ -1645,7 +1655,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the attribute listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeAttributeListener( IAttributeListener listener )
@@ -1673,27 +1683,31 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the dispose listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeDisposeListener( IDisposeListener listener )
 	{
 		return getModule( ).removeDisposeListener( listener );
-	}	
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#drop()
 	 */
-	
+
 	public void drop( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#dropAndClear()
 	 */
-	
+
 	public void dropAndClear( ) throws SemanticException
 	{
 		throw new IllegalOperationException( );
@@ -1704,7 +1718,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * 
 	 * @return the base name of the customer-defined resource bundle.
 	 */
-	
+
 	public String getIncludeResource( )
 	{
 		return getStringProperty( INCLUDE_RESOURCE_PROP );
@@ -1720,7 +1734,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @param baseName
 	 *            common base name of the customer-defined resource bundle.
 	 */
-	
+
 	public void setIncludeResource( String baseName )
 	{
 		try
@@ -1732,7 +1746,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			assert false;
 		}
 	}
-	
+
 	/**
 	 * Returns the <code>URL</code> object if the file with
 	 * <code>fileName</code> exists. This method takes the following search
@@ -1764,5 +1778,4 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return module.findResource( fileName, fileType );
 	}
 
-	
 }
