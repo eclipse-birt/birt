@@ -98,10 +98,14 @@ public abstract class BaseTestCase extends TestCase
 	/*
 	 *  The plugin location   
 	 */
-	protected static final String PLUGINLOC = Platform.getBundle(PLUGIN_NAME).getLocation();
-	protected static final String PLUGIN_PATH = System.getProperty("user.dir")+ "\\plugins\\" 
-	                                               +BaseTestCase.PLUGINLOC.substring(
-	                                            		   BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
+	protected static final String PLUGINLOC = 
+		Platform.getBundle(PLUGIN_NAME).getLocation();
+	
+
+	protected static final String PLUGIN_PATH = System.getProperty("user.dir")
+			+ "\\plugins\\"
+			+ BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC
+					.indexOf("/") + 1) + "bin/";
 	protected static final String TEST_FOLDER = ""; //$NON-NLS-1$
 	protected static final String OUTPUT_FOLDER = "/output/"; //$NON-NLS-1$
 	protected static final String INPUT_FOLDER = "/input/"; //$NON-NLS-1$
@@ -124,6 +128,7 @@ public abstract class BaseTestCase extends TestCase
 
 		ThreadResources.setLocale( Locale.getDefault( ) );
 		MetaDataDictionary.reset( );
+		System.out.println("PluginPath"+PLUGIN_PATH);
 		try
 		{   
 			MetaDataReader.read( ReportDesign.class
@@ -316,6 +321,7 @@ public abstract class BaseTestCase extends TestCase
 			goldenFileName = PLUGIN_PATH + getClassFolder( ) + GOLDEN_FOLDER + goldenFileName;
 			outputFileName = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER + outputFileName;
 
+			
 			readerA = new FileReader( goldenFileName );
 			readerB = new FileReader( outputFileName );
 
@@ -448,25 +454,33 @@ public abstract class BaseTestCase extends TestCase
 			String strB = lineReaderB.readLine( ).trim( );
 			while ( strA != null )
 			{
-				same = strA.trim( ).equals( strB.trim( ) );
-				if ( !same )
+				if ( ! strA.startsWith("<property name=\"fileName\">") )
 				{
-					StringBuffer message = new StringBuffer( );
-
-					message.append( "line=" ); //$NON-NLS-1$
-					message.append( lineNo );
-					message.append( " is different:\n" );//$NON-NLS-1$
-					message.append( " The line from golden file: " );//$NON-NLS-1$
-					message.append( strA );
-					message.append( "\n" );//$NON-NLS-1$
-					message.append( " The line from output file: " );//$NON-NLS-1$
-					message.append( strB );
-					message.append( "\n" );//$NON-NLS-1$
-					throw new Exception( message.toString( ) );
+					same = strA.equals( strB );
+					if ( !same )
+					{
+						StringBuffer message = new StringBuffer( );
+	
+						message.append( "line=" ); //$NON-NLS-1$
+						message.append( lineNo );
+						message.append( " is different:\n" );//$NON-NLS-1$
+						message.append( " The line from golden file: " );//$NON-NLS-1$
+						message.append( strA );
+						message.append( "\n" );//$NON-NLS-1$
+						message.append( " The line from output file: " );//$NON-NLS-1$
+						message.append( strB );
+						message.append( "\n" );//$NON-NLS-1$
+						throw new Exception( message.toString( ) );
+					}
 				}
 
 				strA = lineReaderA.readLine( );
 				strB = lineReaderB.readLine( );
+				if ( strA != null )
+					strA = strA.trim();
+				if ( strB != null )
+					strB = strB.trim();
+				
 				lineNo++;
 			}
 			same = strA == null && strB == null;
