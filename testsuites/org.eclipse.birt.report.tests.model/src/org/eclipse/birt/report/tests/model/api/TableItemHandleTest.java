@@ -19,12 +19,18 @@ import java.io.PrintStream;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.table.LayoutTable;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -95,15 +101,15 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 3, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table4" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 6, table.getColumnCount( ) );
+		assertEquals( 4, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table5" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 7, table.getColumnCount( ) );
+		assertEquals( 4, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table7" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -117,11 +123,11 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table9" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 3, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table10" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 4, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table11" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -137,19 +143,19 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table14" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 5, table.getColumnCount( ) );
+		assertEquals( 3, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table15" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 6, table.getColumnCount( ) );
+		assertEquals( 3, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table16" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 8, table.getColumnCount( ) );
+		assertEquals( 3, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table17" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 7, table.getColumnCount( ) );
+		assertEquals( 4, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table18" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -163,7 +169,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table20" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 11, table.getColumnCount( ) );
+		assertEquals( 6, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table21" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -171,19 +177,19 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table22" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 5, table.getColumnCount( ) );
+		assertEquals( 4, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table23" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 5, table.getColumnCount( ) );
+		assertEquals( 3, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table24" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 3, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table25" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 4, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table26" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -191,7 +197,7 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table = (TableHandle) designHandle.findElement( "My table27" ); //$NON-NLS-1$
 		assertNotNull( table );
-		assertEquals( 4, table.getColumnCount( ) );
+		assertEquals( 2, table.getColumnCount( ) );
 
 		table = (TableHandle) designHandle.findElement( "My table28" ); //$NON-NLS-1$
 		assertNotNull( table );
@@ -215,136 +221,75 @@ public class TableItemHandleTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testContentLayout( ) throws Exception
-	{
-		openDesign( fileName );
-
-		PrintStream out = getOutputStream( "TableItemLayout_output.txt" );//$NON-NLS-1$
-
-		TableHandle table = (TableHandle) designHandle
-				.findElement( "My table1" ); //$NON-NLS-1$
-		assertNotNull( table );
-
-		LayoutTable layout = ( (TableItem) table.getElement( ) )
-				.getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table2" ); //$NON-NLS-1$
-		assertNotNull( table );
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table3" ); //$NON-NLS-1$
-		assertNotNull( table );
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table10" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table11" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table16" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table17" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table20" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table21" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table22" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table24" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table25" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table28" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table30" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table31" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table32" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		table = (TableHandle) designHandle.findElement( "My table33" ); //$NON-NLS-1$
-		layout = ( (TableItem) table.getElement( ) ).getRenderModel( design );
-		out.print( layout.getLayoutString( table.getName( ) ) );
-
-		assertTrue( compareTextFile( "TableItemLayout_golden.txt", //$NON-NLS-1$
-				"TableItemLayout_output.txt" ) ); //$NON-NLS-1$.
-
-		out.close( );
-	}
-
-	/**
-	 * Returns a print stream for a given output file name. Note the output file
-	 * is flushed in the default output directory.
-	 * 
-	 * @param filename
-	 *            the file name
-	 * @return the print stream for the given file
-	 * @throws IOException
-	 *             if any IO error occurs.
-	 */
-
-	private PrintStream getOutputStream( String filename ) throws IOException
-	{
-		String outputPath = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER;
-		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
-
-		File file = new File( outputFolder, filename );
-		FileOutputStream fout = new FileOutputStream( file );
-		PrintStream pout = new PrintStream( fout );
-		return pout;
-
-	}
-
-	/**
-	 * Inserts a new group into the table. This is one smoke test. If no
-	 * exception is thrown, this operation is OK.
-	 * 
-	 */
-
 	public void testInsertGroup( ) throws Exception
 	{
 		SessionHandle session = DesignEngine.newSession( null );
 		designHandle = session.createDesign( );
-		design = designHandle.getDesign( );
+		design = (ReportDesign) designHandle.getModule( );
 
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"testTable", 3, 1, 1, 1 );
-		TableGroupHandle group = designHandle.getElementFactory( )
-				.newTableGroup( );
-		table.getGroups( ).add( group );
+				"testTable", 3, 1, 1, 1 ); //$NON-NLS-1$
+
+		// normal transaction without filtering events.
+
+		try
+		{
+			designHandle.getCommandStack( ).startTrans( null );
+
+			TableGroupHandle group = newTableGroup( 1, 1, 3 );
+
+			// the layout has been updated.
+
+			table.getGroups( ).add( group );
+
+			// set the color of the first column as blue
+
+			table.getColumns( ).get( 0 ).setProperty( IStyleModel.COLOR_PROP,
+					ColorPropertyType.BLUE );
+
+			CellHandle cell = (CellHandle) ( (RowHandle) group.getHeader( )
+					.get( 0 ) ).getCells( ).get( 0 );
+			assertEquals( ColorPropertyType.BLUE, cell
+					.getProperty( IStyleModel.COLOR_PROP ) );
+
+			designHandle.getCommandStack( ).commit( );
+		}
+		catch ( Exception e )
+		{
+			assert false;
+		}
+
 	}
 
+	/**
+	 * Returns a newly created the table group with the given header row number,
+	 * footer row number and the column number.
+	 * 
+	 * @param headerRowNum
+	 *            header row number
+	 * @param footerRowNum
+	 *            footer row number
+	 * @param columnNum
+	 *            the column number
+	 * @return a <code>TableGroupHandle</code>
+	 * @throws SemanticException
+	 */
+
+	private TableGroupHandle newTableGroup( int headerRowNum, int footerRowNum,
+			int columnNum ) throws SemanticException
+	{
+		assert headerRowNum > 0 && footerRowNum > 0 && columnNum > 0;
+		TableGroupHandle group = designHandle.getElementFactory( )
+				.newTableGroup( );
+
+		for ( int i = 0; i < headerRowNum; i++ )
+			group.getHeader( ).add(
+					designHandle.getElementFactory( ).newTableRow( columnNum ) );
+
+		for ( int i = 0; i < footerRowNum; i++ )
+			group.getFooter( ).add(
+					designHandle.getElementFactory( ).newTableRow( columnNum ) );
+
+		return group;
+	}
 }
