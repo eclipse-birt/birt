@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
+    <property name="units">in</property>
+    <list-property name="includeLibraries">
+        <structure>
+            <property name="fileName">C:\eclipse\Eclipse3.1-nearest\plugins\org.eclipse.birt.report.tests.model/bin/org\eclipse\birt\report\tests\model\api/input/LibraryCreatLib_golden.xml</property>
+            <property name="namespace">LibA</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="Parameter1" extends="LibA.Parameter1"/>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="db2d"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="db2ds"/>
+    </data-sets>
+    <styles>
+        <style name="myStyle"/>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-footer>
+                <text>
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <data name="myData" extends="LibA.myData"/>
+        <text name="myText" extends="LibA.myText"/>
+        <label name="myLabel" extends="LibA.myLabel"/>
+        <table name="myTable" extends="LibA.myTable"/>
+        <image name="myImage" extends="LibA.myImage"/>
+    </body>
+</report>
