@@ -1207,10 +1207,10 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean checkFit( IDisplayServer xs, Label la,
 			int iLabelLocation ) throws ChartException
 	{
-		if ( iType == TEXT
-				|| bCategoryScale
-				|| !la.isSetVisible( )
-				|| ( la.isSetVisible( ) && !la.isVisible( ) ) )
+		if ( iType == TEXT || bCategoryScale )
+		// !MUST IGNORE the label visibility here.Don't check it!
+		// || !la.isSetVisible( )
+		// || ( la.isSetVisible( ) && !la.isVisible( ) ) )
 		{
 			return true;
 		}
