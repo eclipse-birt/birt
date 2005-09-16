@@ -492,10 +492,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 	protected Control createButtonBar( Composite parent )
 	{
 		Composite composite = (Composite) super.createButtonBar( buttonBar );
-		createButton( composite,
-				IDialogConstants.HELP_ID,
-				IDialogConstants.HELP_LABEL,
-				false );
+		// createButton(
+		// composite,IDialogConstants.HELP_ID,IDialogConstants.HELP_LABEL,false
+		// );
 		GridLayout layout = (GridLayout) composite.getLayout( );
 		layout.numColumns = 1;
 		composite.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
@@ -540,14 +539,13 @@ public class ExpressionBuilder extends TitleAreaDialog
 		getShell( ).setText( title );
 		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
 		getShell( ).setDefaultButton( null );
-		sourceViewer.getTextWidget( ).setFocus( );		
+		sourceViewer.getTextWidget( ).setFocus( );
 		return control;
 	}
 
 	protected void okPressed( )
 	{
-		expression = UIUtil.convertToModelString( sourceViewer.getTextWidget( )
-				.getText( ), true );
+		expression = sourceViewer.getTextWidget( ).getText( ).trim( );
 		super.okPressed( );
 	}
 
