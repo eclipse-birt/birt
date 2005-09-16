@@ -41,9 +41,10 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LabelAttributesComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class LabelAttributesComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Composite cmpGeneral = null;
@@ -350,7 +351,7 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( this.bVisibilityEnabled )
 		{
-			cbVisible.setEnabled( bState );
+			// cbVisible.setEnabled( bState );
 			bEnableUI = cbVisible.getSelection( );
 		}
 		if ( this.bPositionEnabled )
@@ -366,7 +367,7 @@ public class LabelAttributesComposite extends Composite implements
 		fccShadow.setEnabled( bState & bEnableUI );
 		icInsets.setEnabled( bState & bEnableUI );
 		liacOutline.setEnabled( bState & bEnableUI );
-		grpAttributes.setEnabled( bState & bEnableUI );
+		// grpAttributes.setEnabled( bState & bEnableUI );
 		grpOutline.setEnabled( bState & bEnableUI );
 		this.bEnabled = bState;
 	}
@@ -458,6 +459,8 @@ public class LabelAttributesComposite extends Composite implements
 		this.liacOutline.setLineAttributes( laCurrent );
 		this.icInsets.setInsets( insets, this.sUnits );
 		redraw( );
+
+		setEnabled( this.cbVisible.getSelection( ) );
 	}
 
 	public void setLabelPosition( Position pos )
