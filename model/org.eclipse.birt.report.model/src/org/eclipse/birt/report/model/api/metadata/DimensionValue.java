@@ -234,13 +234,13 @@ public class DimensionValue
 				measure = Double.parseDouble( value );
 			}
 		}
-		catch ( ParseException e )
+		catch( Exception e )
 		{
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					PropertyType.DIMENSION_TYPE );
 		}
-
+		
 		return new DimensionValue( measure, units );
 	}
 
