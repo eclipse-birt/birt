@@ -97,6 +97,12 @@ class MemoryCache implements ResultSetCache
 		checkValid( destIndex );
 		
 		currResultIndex = destIndex;
+	
+		// currResultObject needs to be updated
+		if ( currResultIndex == -1 || currResultIndex == countOfResult )
+			currResultObject = null;
+		else
+			currResultObject = resultObjects[currResultIndex];
 	}
 
 	/**
@@ -129,6 +135,7 @@ class MemoryCache implements ResultSetCache
 	public void reset( )
 	{
 		currResultIndex = -1;
+		currResultObject = null;
 	}
 
 	/*
@@ -136,8 +143,7 @@ class MemoryCache implements ResultSetCache
 	 */
 	public void close( )
 	{
-		currResultIndex = -1;
-		currResultObject = null;
+		reset( );
 		resultObjects = null;
 	}
 
