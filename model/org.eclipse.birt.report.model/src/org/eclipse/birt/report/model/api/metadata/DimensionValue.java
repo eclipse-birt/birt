@@ -212,7 +212,9 @@ public class DimensionValue
 		int indexOfFirstLetter = indexOfUnitLetter( value );
 		if ( indexOfFirstLetter != -1 )
 		{
-			value = value.substring( 0, indexOfFirstLetter ).trim( );
+			value = StringUtil.trimString( value.substring( 0, indexOfFirstLetter ) );
+			if( value ==  null )
+				return null;
 		}
 
 		double measure = 0;
