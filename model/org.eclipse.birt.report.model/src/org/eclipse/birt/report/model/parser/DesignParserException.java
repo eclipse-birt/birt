@@ -165,12 +165,6 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_INVALID_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_VERSION;
 
 	/**
-	 * The namespace is duplicate.
-	 */
-
-	public static final String DESIGN_EXCEPTION_DUPLICATE_NAMESPACE = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_NAMESPACE;
-
-	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
@@ -208,8 +202,7 @@ public class DesignParserException extends ModelException
 		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
-				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION
-				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_NAMESPACE )
+				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION )
 		{
 			assert oaMessageArguments.length == 1;
 

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 
@@ -23,10 +24,10 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 public class LibraryParserHandler extends ModuleParserHandler
 {
 
-	LibraryParserHandler( DesignSession theSession )
+	LibraryParserHandler( DesignSession theSession, Module host )
 	{
 		super( theSession );
-		module = new Library( theSession );
+		module = new Library( theSession, host );
 	}
 
 	/*

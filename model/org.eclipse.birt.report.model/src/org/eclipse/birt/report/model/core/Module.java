@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
@@ -193,10 +194,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 	private List referencableProperties = null;
 
 	/**
-	 * Accumulates errors and warnings during a batch operation.
+	 * Accumulates errors and warnings during a batch operation. Each one is the
+	 * instance of <code>Exception</code>.
 	 */
 
-	protected List allErrors = new ArrayList( );
+	protected List allExceptions = new ArrayList( );
 
 	/**
 	 * The validation executor. It performs the semantic validation and sends
@@ -257,13 +259,20 @@ public abstract class Module extends DesignElement implements IModuleModel
 	private List disposeListeners = null;
 
 	/**
+	 * The fatal exception found in the included modules, which will stop
+	 * opening the outer-most module.
+	 */
+
+	protected Exception fatalException;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param theSession
 	 *            the session of the report
 	 */
 
-	public Module( DesignSession theSession )
+	protected Module( DesignSession theSession )
 	{
 		session = theSession;
 
@@ -924,14 +933,27 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	/**
 	 * Returns the list of errors accumulated during a batch operation. These
-	 * errors can be serious errors or warnings.
+	 * errors can be serious errors or warnings. Each one is the instance of
+	 * <code>ErrorDetail</code>.
 	 * 
 	 * @return the list of errors or warning
 	 */
 
 	public List getAllErrors( )
 	{
-		return allErrors;
+		return ErrorDetail.convertExceptionList( allExceptions );
+	}
+
+	/**
+	 * Returns the list of exceptions accumulated during a batch operation. Each
+	 * one is the instance of <code>Exception</code>.
+	 * 
+	 * @return the list of exception
+	 */
+
+	public List getAllExceptions( )
+	{
+		return allExceptions;
 	}
 
 	/**
@@ -969,7 +991,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the validation listener to remove
 	 * @return <code>true</code> if <code>listener</code> is sucessfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeValidationListener( IValidationListener listener )
@@ -1166,9 +1188,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void semanticError( SemanticException ex )
 	{
-		if ( allErrors == null )
-			allErrors = new ArrayList( );
-		allErrors.add( ex );
+		if ( allExceptions == null )
+			allExceptions = new ArrayList( );
+		allExceptions.add( ex );
 	}
 
 	/**
@@ -1182,6 +1204,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getErrorList( )
 	{
+		List allErrors = getAllErrors( );
+
 		List list = ErrorDetail.getSemanticErrors( allErrors,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_ERROR );
 		list.addAll( ErrorDetail.getSemanticErrors( allErrors,
@@ -1200,6 +1224,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public List getWarningList( )
 	{
+		List allErrors = getAllErrors( );
+
 		return ErrorDetail.getSemanticErrors( allErrors,
 				DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING );
 	}
@@ -1217,8 +1243,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public final void semanticCheck( Module module )
 	{
-		List exceptionList = validateWithContents( module );
-		allErrors = ErrorDetail.convertExceptionList( exceptionList );
+		allExceptions = validateWithContents( module );
 	}
 
 	/**
@@ -1240,15 +1265,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Sets the error list into this module.
+	 * Sets the exceltion list into this module.
 	 * 
-	 * @param allErrors
-	 *            error list to set
+	 * @param allExceptions
+	 *            exception list to set
 	 */
 
-	public void setAllErrors( List allErrors )
+	protected void setAllExceptions( List allExceptions )
 	{
-		this.allErrors = allErrors;
+		this.allExceptions = allExceptions;
 	}
 
 	/**
@@ -1337,8 +1362,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		try
 		{
-			Library library = LibraryReader.getInstance( ).read( session,
-					url.toString( ), url.openStream( ) );
+			Library library = LibraryReader.getInstance( ).read( session, this,
+					url.toString( ), namespace, url.openStream( ) );
 			library.setNamespace( namespace );
 
 			return library;
@@ -1375,17 +1400,47 @@ public abstract class Module extends DesignElement implements IModuleModel
 		}
 		catch ( DesignFileException e )
 		{
-			Library library = new Library( );
+			Exception fatalException = ModelUtil.getFirstFatalException( e
+					.getExceptionList( ) );
+
+			Library library = new Library( session, this );
+			library.setFatalException( fatalException );
 			library.setFileName( includeLibrary.getFileName( ) );
 			library.setNamespace( includeLibrary.getNamespace( ) );
 			library.setValid( false );
-			library.setAllErrors( e.getErrorList( ) );
+			library.setAllExceptions( e.getExceptionList( ) );
 			libraries.add( library );
 		}
 	}
 
 	/**
 	 * Returns all libaries this module contains.
+	 * 
+	 * @return list of libraries.
+	 */
+
+	public List getAllLibraries( )
+	{
+		if ( libraries == null )
+			return Collections.EMPTY_LIST;
+
+		List allLibraries = new ArrayList( );
+
+		allLibraries.addAll( getLibraries( ) );
+
+		Iterator iter = getLibraries( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = (Library) iter.next( );
+
+			allLibraries.addAll( library.getAllLibraries( ) );
+		}
+
+		return allLibraries;
+	}
+
+	/**
+	 * Returns only libraries this module includes directly.
 	 * 
 	 * @return list of libraries.
 	 */
@@ -1466,7 +1521,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( libraries == null )
 			return null;
 
-		Iterator iter = libraries.iterator( );
+		Iterator iter = getAllLibraries( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
@@ -1579,7 +1634,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the attribute listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeAttributeListener( IAttributeListener listener )
@@ -1635,7 +1690,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the dispose listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 *  
+	 * 
 	 */
 
 	public boolean removeDisposeListener( IDisposeListener listener )
@@ -1806,6 +1861,30 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public ModuleHandle getModuleHandle( )
 	{
 		return (ModuleHandle) getHandle( this );
+	}
+
+	/**
+	 * Returns the fatal exception, which means some unrecoverable error is
+	 * found in the included libraries.
+	 * 
+	 * @return the fatal exception
+	 */
+
+	public Exception getFatalException( )
+	{
+		return fatalException;
+	}
+
+	/**
+	 * Sets the fatal exception.
+	 * 
+	 * @param fatalException
+	 *            the fatal exception to set
+	 */
+
+	protected void setFatalException( Exception fatalException )
+	{
+		this.fatalException = fatalException;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import java.net.URL;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 
 /**
@@ -44,7 +45,7 @@ public final class LibraryReader extends ModuleReader
 
 	private LibraryReader( )
 	{
-
+		// Forbid to instance this class outside.
 	}
 
 	/**
@@ -60,35 +61,73 @@ public final class LibraryReader extends ModuleReader
 
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
+	 * internal representation of the library. This method is used to open
+	 * library file which is included in one library or report.
+	 * 
+	 * @param session
+	 *            the session of the library
+	 * @param host
+	 *            the host module, which includes the library to open.
+	 * @param fileName
+	 *            the library file that the input stream is associated to.
+	 * @param namespace
+	 *            the namespace of the library to open.
+	 * @param inputStream
+	 *            the input stream that reads the library file
+	 * 
+	 * @return the internal representation of the library
+	 * @throws DesignFileException
+	 *             if the library file is not found or has syntax error. The
+	 *             syntax errors include that input stream is not well-formed
+	 *             xml, that there is unsupported tags and that there is
+	 *             run-time exception.
+	 */
+
+	public Library read( DesignSession session, Module host, String fileName,
+			String namespace, InputStream inputStream )
+			throws DesignFileException
+	{
+		URL systemId = URIUtil.getDirectory( fileName );
+
+		LibraryParserHandler handler = new LibraryParserHandler( session, host );
+		( (Library) handler.getModule( ) ).setNamespace( namespace );
+
+		return (Library) readModule( handler, fileName, systemId, inputStream );
+	}
+
+	/**
+	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library.
 	 * 
 	 * @param session
 	 *            the session of the library
-	 * 
 	 * @param fileName
 	 *            the library file that the input stream is associated to.
 	 * @param inputStream
 	 *            the input stream that reads the library file
-	 * @throws DesignFileException
-	 *             if the input stream is not well-formed xml, there is
-	 *             unsupported tags and there is run-time exception.
+	 * 
 	 * @return the internal representation of the library
+	 * @throws DesignFileException
+	 *             if the library file is not found or has syntax error. The
+	 *             syntax errors include that input stream is not well-formed
+	 *             xml, that there is unsupported tags and that there is
+	 *             run-time exception.
 	 */
 
 	public Library read( DesignSession session, String fileName,
 			InputStream inputStream ) throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		return (Library) readModule( session, fileName, systemId, inputStream );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null );
+		return (Library) readModule( handler, fileName, systemId, inputStream );
 	}
 
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
-	 * internal representation of the design
+	 * internal representation of the library
 	 * 
 	 * @param session
-	 *            the session of the report
-	 * 
+	 *            the session of the library
 	 * @param systemId
 	 *            the uri path for the library file
 	 * @param inputStream
@@ -102,38 +141,33 @@ public final class LibraryReader extends ModuleReader
 	public Library read( DesignSession session, URL systemId,
 			InputStream inputStream ) throws DesignFileException
 	{
-		return (Library) readModule( session, null, systemId, inputStream );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null );
+		return (Library) readModule( handler, null, systemId, inputStream );
 	}
 
 	/**
 	 * Parses an XML library file given a file name. Creates and returns the
-	 * internal representation of the library.
+	 * internal representation of the library
 	 * 
 	 * @param session
-	 *            the session of the library
-	 * 
+	 *            the session of the report
 	 * @param fileName
 	 *            the library file to parse
+	 * 
 	 * @return the internal representation of the library
 	 * @throws DesignFileException
-	 *             if file is not found
+	 *             if the library file is not found or has syntax error. The
+	 *             syntax errors include that input stream is not well-formed
+	 *             xml, that there is unsupported tags and that there is
+	 *             run-time exception.
 	 */
 
 	public Library read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		return (Library) readModule( session, fileName, systemId );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null );
+		return (Library) readModule( handler, fileName, systemId );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.parser.ModuleReader#getParserHandler(org.eclipse.birt.report.model.core.DesignSession)
-	 */
-
-	protected ModuleParserHandler getParserHandler( DesignSession session )
-	{
-		return new LibraryParserHandler( session );
-	}
 }

@@ -13,13 +13,15 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -130,9 +132,8 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		e.setLineNumber( locator.getLineNumber( ) );
 		e.setTag( currentElement );
-		module.getAllErrors( ).add( e );
+		module.getAllExceptions( ).add( e );
 	}
-
 
 	/**
 	 * Adds a warning to the warning list inherited from XMLParserHandler during
@@ -149,7 +150,6 @@ abstract class ModuleParserHandler extends XMLParserHandler
 		xmlException.setTag( currentElement );
 		getErrors( ).add( xmlException );
 	}
-
 
 	/**
 	 * Overrides the super method. This method first parses attributes of the
@@ -187,38 +187,57 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		super.endDocument( );
 
+		// Check whether duplicate library namespace exists.
+
+		List libraries = module.getAllLibraries( );
+		{
+			Iterator iter = libraries.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Library library = (Library) iter.next( );
+
+				if ( !library.isValid( ) )
+				{
+					// Forward the fatal error to top level.
+
+					Exception fatalException = ModelUtil
+							.getFirstFatalException( library.getAllExceptions( ) );
+					if ( fatalException != null )
+						semanticError( fatalException );
+				}
+			}
+		}
+
 		// Skip the semantic check if we've already found errors.
 		// Doing the semantic check would just uncover bogus errors
 		// due to the ones we've already seen.
 
-		// report design keeps the serious errors that cannot be recovered.
-		// errors on XMLParserHandler keeps the error that are recoverable.
-
-		if ( !module.getAllErrors( ).isEmpty( ) )
+		if ( !module.getAllErrors( ).isEmpty( )
+				|| module.getFatalException( ) != null )
 		{
+			// The most errors which are found during parsing cannot be
+			// recovered.
+
 			module.setValid( false );
-			List allErrors = new ArrayList( );
-			allErrors.addAll( module.getAllErrors( ) );
-			allErrors.addAll( getErrors( ) );
+			List allExceptions = new ArrayList( );
+			allExceptions.addAll( module.getAllExceptions( ) );
+			allExceptions.addAll( getErrors( ) );
 
 			DesignFileException exception = new DesignFileException( module
-					.getFileName( ), allErrors );
+					.getFileName( ), allExceptions );
 
 			throw new SAXException( exception );
-
 		}
+
+		// Perform semantic check. The semantic error is recoverable.
+
 		module.semanticCheck( module );
 
 		// translates warnings during parsing design files to ErrorDetail.
 
 		if ( getErrors( ) != null )
 		{
-			List errorDetailList = ErrorDetail
-					.convertExceptionList( getErrors( ) );
-
-			module.getAllErrors( ).addAll( errorDetailList );
+			module.getAllExceptions( ).addAll( getErrors( ) );
 		}
 	}
-
-
 }

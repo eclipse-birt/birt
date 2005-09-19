@@ -182,7 +182,6 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = "Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION = "Error.DesignParserException.UNSUPPORTED_VERSION"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_VERSION = "Error.DesignParserException.INVALID_VERSION"; //$NON-NLS-1$
-	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_NAMESPACE = "Error.DesignParserException.DUPLICATE_NAMESPACE"; //$NON-NLS-1$
 
 
 	// DesignFileException
@@ -217,5 +216,7 @@ public interface MessageConstants
 
 	// LibraryException
 	public static final String LIBRARY_EXCEPTION_LIBRARY_NOT_FOUND = "Error.LibraryException.LIBRARY_NOT_FOUND"; //$NON-NLS-1$
+	public static final String LIBRARY_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE = "Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE"; //$NON-NLS-1$
+	public static final String LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = "Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY"; //$NON-NLS-1$
 
 }

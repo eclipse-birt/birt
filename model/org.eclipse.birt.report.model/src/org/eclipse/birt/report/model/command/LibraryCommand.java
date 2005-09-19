@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -43,7 +42,6 @@ public class LibraryCommand extends AbstractElementCommand
 	public LibraryCommand( Module module )
 	{
 		super( module, module );
-		assert module instanceof ReportDesign;
 	}
 
 	/**
@@ -62,14 +60,20 @@ public class LibraryCommand extends AbstractElementCommand
 	public void addLibrary( String libraryFileName, String namespace )
 			throws DesignFileException, SemanticException
 	{
-		ReportDesign design = (ReportDesign) module;
-		Library library = design.loadLibrary( libraryFileName, namespace );
+		if ( isDuplicateNamespace( namespace ) )
+		{
+			throw new LibraryException(
+					module,
+					new String[]{namespace},
+					LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE );
+		}
+
+		Library library = module.loadLibrary( libraryFileName, namespace );
 		assert library != null;
 
 		getActivityStack( ).startTrans( );
 
-		LibraryRecord record = new LibraryRecord( (ReportDesign) module,
-				library, true );
+		LibraryRecord record = new LibraryRecord( module, library, true );
 		getActivityStack( ).execute( record );
 
 		// Add includedLibraries
@@ -86,12 +90,37 @@ public class LibraryCommand extends AbstractElementCommand
 			includeLibrary.setNamespace( namespace );
 		}
 
-		ElementPropertyDefn propDefn = design
+		ElementPropertyDefn propDefn = module
 				.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
-		PropertyCommand propCommand = new PropertyCommand( design, design );
+		PropertyCommand propCommand = new PropertyCommand( module, module );
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
 
 		getActivityStack( ).commit( );
+	}
+
+	/**
+	 * Returns whether the namespace to check is duplicate in target module.
+	 * This method helps to judge whether the library to check can be included
+	 * in target module.
+	 * 
+	 * @param namespaceToCheck
+	 *            the namespace to check
+	 * @return true if the namespace to check is duplicate.
+	 */
+
+	private boolean isDuplicateNamespace( String namespaceToCheck )
+	{
+		List libraries = module.getAllLibraries( );
+		Iterator iter = libraries.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = (Library) iter.next( );
+
+			if ( library.getNamespace( ).equals( namespaceToCheck ) )
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -105,18 +134,15 @@ public class LibraryCommand extends AbstractElementCommand
 
 	public void dropLibrary( Library library ) throws SemanticException
 	{
-		ReportDesign design = (ReportDesign) module;
-
 		getActivityStack( ).startTrans( );
 
-		LibraryRecord record = new LibraryRecord( (ReportDesign) module,
-				library, false );
+		LibraryRecord record = new LibraryRecord( module, library, false );
 		getActivityStack( ).execute( record );
 
 		String libraryFileName = library.getFileName( );
 		assert libraryFileName != null;
 
-		List includeLibraries = design.getIncludeLibraries( );
+		List includeLibraries = module.getIncludeLibraries( );
 		Iterator iter = includeLibraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -124,10 +150,10 @@ public class LibraryCommand extends AbstractElementCommand
 
 			if ( libraryFileName.endsWith( includeLibrary.getFileName( ) ) )
 			{
-				ElementPropertyDefn propDefn = design
+				ElementPropertyDefn propDefn = module
 						.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
-				PropertyCommand propCommand = new PropertyCommand( design,
-						design );
+				PropertyCommand propCommand = new PropertyCommand( module,
+						module );
 				propCommand.removeItem( new CachedMemberRef( propDefn ),
 						includeLibrary );
 				break;

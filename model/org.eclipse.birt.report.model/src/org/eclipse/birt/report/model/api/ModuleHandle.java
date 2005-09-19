@@ -316,7 +316,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			}
 		}
 
-		List theLibraries = getLibraries( );
+		List theLibraries = getAllLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
@@ -366,7 +366,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			list.add( s );
 		}
 
-		List theLibraries = getLibraries( );
+		List theLibraries = getAllLibraries( );
 		int size = theLibraries.size( );
 		for ( int i = 0; i < size; i++ )
 		{
@@ -683,7 +683,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Finds a style by its name in this module.
+	 * Finds a style by its name in this module. The style with the same name,
+	 * which is defined the included module, will never be returned.
 	 * 
 	 * @param name
 	 *            name of the style
@@ -1525,10 +1526,34 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Returns the libraries this report design includes. Each in the returned
-	 * list is the instance of <code>LibraryHandle</code>.
+	 * Returns the libraries this report design includes directly or indirectly.
+	 * Each in the returned list is the instance of <code>LibraryHandle</code>.
 	 * 
-	 * @return the libraries this report design includes.
+	 * @return the libraries this report design includes directly or indirectly.
+	 */
+
+	public List getAllLibraries( )
+	{
+		if ( module.getLibraries( ) == null )
+			return Collections.EMPTY_LIST;
+
+		List libraries = new ArrayList( );
+
+		Iterator iter = module.getAllLibraries( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = (Library) iter.next( );
+
+			libraries.add( library.handle( ) );
+		}
+		return libraries;
+	}
+
+	/**
+	 * Returns the libraries this report design includes directly. Each in the
+	 * returned list is the instance of <code>LibraryHandle</code>.
+	 * 
+	 * @return the libraries this report design includes directly.
 	 */
 
 	public List getLibraries( )
@@ -1566,13 +1591,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
-	 * Shifts the library to new position.
+	 * Shifts the library to new position. This method might affect the style
+	 * reference, because the library order is changed.
 	 * 
 	 * @param library
 	 *            the library to shift
 	 * @param toPosn
 	 *            the new position
 	 * @throws SemanticException
+	 *             if error is encountered when shifting
 	 */
 
 	public void shiftLibrary( LibraryHandle library, int toPosn )

@@ -26,7 +26,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
-import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,39 +44,29 @@ abstract class ModuleReader
 {
 
 	/**
-	 * Gets the module parser handler of the reader.
-	 * 
-	 * @param session
-	 *            the design session that is to own this module
-	 * @return the corresponding parser handler of the module reader
-	 */
-
-	abstract protected ModuleParserHandler getParserHandler(
-			DesignSession session );
-
-	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
 	 * 
-	 * @param session
-	 *            the session of the report
-	 * 
+	 * @param handler
+	 *            the parser handler
 	 * @param fileName
 	 *            the design file that the input stream is associated to.
-	 * @param systemId
+	 * @param systemId 
 	 *            the uri path for the design file
 	 * @param inputStream
 	 *            the input stream that reads the design file
+	 * @return the internal representation of the design
+	 * 
 	 * @throws DesignFileException
 	 *             if the input stream is not well-formed xml, there is
 	 *             unsupported tags and there is run-time exception.
-	 * @return the internal representation of the design
 	 */
 
-	protected Module readModule( DesignSession session, String fileName,
+	protected Module readModule( ModuleParserHandler handler, String fileName,
 			URL systemId, InputStream inputStream ) throws DesignFileException
 	{
-		ModuleParserHandler handler = getParserHandler( session );
+		assert handler != null;
+
 		InputStream internalStream = inputStream;
 		if ( !inputStream.markSupported( ) )
 			internalStream = new BufferedInputStream( inputStream );
@@ -114,17 +103,17 @@ abstract class ModuleReader
 			// Invalid xml error is found
 
 			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
+					.getAllExceptions( ), e );
 		}
 		catch ( ParserConfigurationException e )
 		{
 			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
+					.getAllExceptions( ), e );
 		}
 		catch ( IOException e )
 		{
 			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
+					.getAllExceptions( ), e );
 		}
 
 		module.setValid( true );
@@ -135,20 +124,23 @@ abstract class ModuleReader
 	 * Parses an XML design file given a file name. Creates and returns the
 	 * internal representation of the report design
 	 * 
-	 * @param session
-	 *            the session of the report
+	 * @param handler
+	 *            the parser handler
 	 * @param fileName
 	 *            the design file to parse
 	 * @param systemId
 	 *            the uri path for the design file
+	 * 
 	 * @return the internal representation of the design
 	 * @throws DesignFileException
 	 *             if file is not found
 	 */
 
-	protected Module readModule( DesignSession session, String fileName,
+	public Module readModule( ModuleParserHandler handler, String fileName,
 			URL systemId ) throws DesignFileException
 	{
+		assert handler != null;
+
 		InputStream inputStream = null;
 		try
 		{
@@ -166,7 +158,7 @@ abstract class ModuleReader
 		}
 
 		assert inputStream.markSupported( );
-		return readModule( session, fileName, systemId, inputStream );
+		return readModule( handler, fileName, systemId, inputStream );
 	}
 
 	/**

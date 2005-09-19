@@ -44,7 +44,7 @@ public class DesignFileException extends ModelException
 	 * The list containing errors encountered when opening the design file.
 	 */
 
-	private List errorList = new ArrayList( );
+	private List exceptionList = new ArrayList( );
 
 	/**
 	 * The file name with the error.
@@ -99,7 +99,7 @@ public class DesignFileException extends ModelException
 		super( DESIGN_EXCEPTION_INVALID_XML );
 		this.fileName = fileName;
 		this.e = e;
-		errorList.add( new ErrorDetail( e ) );
+		exceptionList.add( e );
 	}
 
 	/**
@@ -118,13 +118,7 @@ public class DesignFileException extends ModelException
 		super( DESIGN_EXCEPTION_SYNTAX_ERROR );
 		this.fileName = fileName;
 
-		Iterator iter = errList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Exception e = (Exception) iter.next( );
-
-			this.errorList.add( new ErrorDetail( e ) );
-		}
+		exceptionList.addAll( errList );
 	}
 
 	/**
@@ -139,7 +133,7 @@ public class DesignFileException extends ModelException
 	 *            exception list, each of which is the syntax error.
 	 * @param ex
 	 *            the exception to add
-	 *  
+	 * 
 	 */
 
 	public DesignFileException( String fileName, List errList, Exception ex )
@@ -147,14 +141,8 @@ public class DesignFileException extends ModelException
 		super( DESIGN_EXCEPTION_INVALID_XML );
 		this.fileName = fileName;
 
-		Iterator iter = errList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Exception e = (Exception) iter.next( );
-
-			this.errorList.add( new ErrorDetail( e ) );
-		}
-		this.errorList.add( new ErrorDetail( ex ) );
+		exceptionList.addAll( errList );
+		exceptionList.add( ex );
 	}
 
 	/**
@@ -166,7 +154,28 @@ public class DesignFileException extends ModelException
 
 	public List getErrorList( )
 	{
+		List errorList = new ArrayList( );
+		Iterator iter = exceptionList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Exception e = (Exception) iter.next( );
+
+			errorList.add( new ErrorDetail( e ) );
+		}
+
 		return errorList;
+	}
+
+	/**
+	 * Returns the exception list. Each item in the list is an instance of
+	 * <code>Exception</code>.
+	 * 
+	 * @return the exception list.
+	 */
+
+	public List getExceptionList( )
+	{
+		return exceptionList;
 	}
 
 	/**
@@ -217,12 +226,6 @@ public class DesignFileException extends ModelException
 	 * <th width="40%">Message</th>
 	 * 
 	 * <tr>
-	 * <td>FILE_NOT_FOUND</td>
-	 * <td><code>[errorType]</code>- The design file ([fileName]) is not
-	 * found.</td>
-	 * </tr>
-	 * 
-	 * <tr>
 	 * <td>SYNTAX_ERROR and INVALID_XML</td>
 	 * <td><code>[errorType]</code>- [numOfErrors] errors found. <br>
 	 * 1.) [detail messages.] <br>
@@ -244,7 +247,7 @@ public class DesignFileException extends ModelException
 	 * @see java.lang.Object#toString()
 	 * @see ErrorDetail#toString()
 	 * @see #getLocalizedMessage()
-	 *  
+	 * 
 	 */
 
 	public String toString( )
@@ -256,6 +259,7 @@ public class DesignFileException extends ModelException
 		if ( sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_XML )
 		{
+			List errorList = getErrorList( );
 			if ( errorList != null )
 			{
 				sb.append( errorList.size( ) );

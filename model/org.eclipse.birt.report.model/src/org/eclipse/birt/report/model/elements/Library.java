@@ -34,12 +34,24 @@ public class Library extends Module implements ILibraryModel
 	private String namespace;
 
 	/**
-	 * Default constructor for loading library from design file.
+	 * The host module which includes this module.
 	 */
 
-	public Library( )
+	protected Module host = null;
+
+	/**
+	 * Constructor for loading library from design file.
+	 * 
+	 * @param theSession
+	 *            the session in which this library is involved
+	 * @param host
+	 *            the host module which includes this library
+	 */
+
+	public Library( DesignSession theSession, Module host )
 	{
-		super( null );
+		super( theSession );
+		this.host = host;
 		initSlots( );
 		onCreate( );
 	}
@@ -53,9 +65,7 @@ public class Library extends Module implements ILibraryModel
 
 	public Library( DesignSession theSession )
 	{
-		super( theSession );
-		initSlots( );
-		onCreate( );
+		this( theSession, null );
 	}
 
 	/*
@@ -150,12 +160,51 @@ public class Library extends Module implements ILibraryModel
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.core.Module#getWriter()
 	 */
-	
+
 	public ModuleWriter getWriter( )
 	{
 		return new LibraryWriter( this );
 	}
+
+	/**
+	 * Returns the host module. If this module is not included by any module,
+	 * return null.
+	 * 
+	 * @return the host module.
+	 */
+
+	public Module getHost( )
+	{
+		return host;
+	}
+
+	/**
+	 * Returns whether the library with the given namespace can be included in
+	 * this module.
+	 * 
+	 * @param namespace
+	 *            the library namespace
+	 * @return true, if the library with the given namespace can be included.
+	 */
+
+	public boolean isRecursiveNamespace( String namespace )
+	{
+		Module module = this;
+		while ( module instanceof Library )
+		{
+			Library library = (Library) module;
+
+			if ( library.getNamespace( ).equals( namespace ) )
+				return true;
+
+			module = library.getHost( );
+		}
+
+		return false;
+	}
+
 }

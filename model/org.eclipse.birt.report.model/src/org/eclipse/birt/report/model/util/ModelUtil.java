@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.model.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.CollationKey;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -27,8 +30,11 @@ import org.eclipse.birt.report.model.activity.LayoutActivityTask;
 import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -36,6 +42,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.xml.sax.SAXException;
 
 /**
  * The utility class which provides many static methods used in Model.
@@ -173,6 +181,78 @@ public class ModelUtil
 		}
 
 		return retList;
+	}
+
+	/**
+	 * Returns the first fatal exception from the given exception list. The
+	 * fatal exception means the error should be forwarded to the outer-most
+	 * host module and stops opening module.
+	 * 
+	 * @param list
+	 *            the exception list
+	 * @return the fatal exception, otherwise, return null.
+	 */
+
+	public static Exception getFirstFatalException( List list )
+	{
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Exception ex = (Exception) iter.next( );
+			if ( ex instanceof XMLParserException )
+			{
+				XMLParserException parserException = (XMLParserException) ex;
+				if ( parserException.getException( ) instanceof LibraryException )
+				{
+					String errorCode = ( (LibraryException) parserException
+							.getException( ) ).getErrorCode( );
+					
+					if ( errorCode == LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY
+							|| errorCode == LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE )
+					{
+						return parserException.getException( );
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Checks whether the input stream has a compatible encoding signature with
+	 * BIRT. Currently, BIRT only supports UTF-8 encoding.
+	 * 
+	 * @param inputStream
+	 *            the input stream to check
+	 * @param fileName
+	 *            the design file name
+	 * @return the signature from the UTF files.
+	 * @throws IOException
+	 *             if errors occur during opening the design file
+	 * @throws SAXException
+	 *             if the stream has unexpected encoding signature
+	 */
+
+	public static String checkUTFSignature( InputStream inputStream,
+			String fileName ) throws IOException, SAXException
+	{
+
+		// This may fail if there are a lot of space characters before the end
+		// of the encoding declaration
+
+		String encoding = UnicodeUtil.checkUTFSignature( inputStream );
+
+		if ( encoding != null && !UnicodeUtil.SIGNATURE_UTF_8.equals( encoding ) )
+		{
+			Exception cause = new DesignParserException(
+					DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_ENCODING );
+			Exception fileException = new DesignFileException( fileName, cause );
+
+			throw new SAXException( fileException );
+		}
+
+		return encoding;
 	}
 
 	/**

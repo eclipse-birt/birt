@@ -17,8 +17,8 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.LibraryEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 
 /**
  * Records to add/drop library.
@@ -28,10 +28,10 @@ class LibraryRecord extends SimpleRecord
 {
 
 	/**
-	 * The report design
+	 * The target module
 	 */
 
-	protected ReportDesign design;
+	protected Module module;
 
 	/**
 	 * The library to operate
@@ -54,17 +54,17 @@ class LibraryRecord extends SimpleRecord
 	/**
 	 * Constructs the library record.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param module
+	 *            the module
 	 * @param library
 	 *            the library to add/drop
 	 * @param add
 	 *            whether the given library is for adding
 	 */
 
-	LibraryRecord( ReportDesign design, Library library, boolean add )
+	LibraryRecord( Module module, Library library, boolean add )
 	{
-		this.design = design;
+		this.module = module;
 		this.library = library;
 		this.add = add;
 	}
@@ -81,30 +81,30 @@ class LibraryRecord extends SimpleRecord
 			int toUpdateLibraryCount;
 			if ( position == -1 )
 			{
-				design.addLibrary( library );
-				toUpdateLibraryCount = design.getLibraries( ).size( ) - 1;
+				module.addLibrary( library );
+				toUpdateLibraryCount = module.getLibraries( ).size( ) - 1;
 			}
 			else
 			{
-				design.insertLibrary( library, position );
+				module.insertLibrary( library, position );
 				toUpdateLibraryCount = position;
 			}
 
 			// One library is added, and the style in it can override the
 			// previouse one.
 
-			List librariesToUpdate = design.getLibraries( ).subList( 0,
+			List librariesToUpdate = module.getLibraries( ).subList( 0,
 					toUpdateLibraryCount );
-			design.updateStyleClients( librariesToUpdate );
+			module.updateStyleClients( librariesToUpdate );
 		}
 		else
 		{
-			position = design.dropLibrary( library );
+			position = module.dropLibrary( library );
 
 			// The update is performed only on the referred elements in the
 			// dropped library.
 
-			design.updateStyleClients( library );
+			module.updateStyleClients( library );
 		}
 	}
 
@@ -116,7 +116,7 @@ class LibraryRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return design;
+		return module;
 	}
 
 	/*
