@@ -447,7 +447,7 @@ abstract class PreparedQuery
 			{
 				if ( this.dataSource != null )
 				{
-					dataSource.setScope( engine.getSharedScope( ) );
+					dataSource.setScope( DataEngineImpl.createSubscope(engine.getSharedScope( )) );
 					this.scope = DataEngineImpl.createSubscope( this.dataSource.getScriptable( ) );
 				}
 				else
@@ -561,12 +561,6 @@ abstract class PreparedQuery
 			// Bind the row object to the odi result set
 			rowObject.setResultSet( odiResult, false );
 				
-			// Data set is open in executeOdiQuery; now run aferOpen script
-			if ( dataSet != null )
-			{
-				dataSet.afterOpen();
-			}
-			
 		    // Calculate aggregate values
 		    aggregates = new AggregateCalculator( aggrTable, odiResult );
 			    

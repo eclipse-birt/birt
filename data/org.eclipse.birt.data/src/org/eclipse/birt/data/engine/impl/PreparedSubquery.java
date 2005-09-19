@@ -127,6 +127,7 @@ class PreparedSubquery extends PreparedQuery
 				throws DataException
 		{
 			assert parentIterator != null;
+			dataSet.afterOpen();
 			ICandidateQuery cdQuery = (ICandidateQuery) odiQuery; 
 			cdQuery.setCandidates( parentIterator, groupLevel );
 			IResultIterator ret = cdQuery.execute();

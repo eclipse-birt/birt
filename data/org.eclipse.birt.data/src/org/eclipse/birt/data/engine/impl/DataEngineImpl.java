@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
@@ -72,7 +73,7 @@ public class DataEngineImpl extends DataEngine
 		{
 			// No scope provided by the caller; create our own
 			Context cx = Context.enter( );
-			this.sharedScope = cx.initStandardObjects( );
+			this.sharedScope = new ImporterTopLevel(cx);;
 			Context.exit( );
 		}
 
