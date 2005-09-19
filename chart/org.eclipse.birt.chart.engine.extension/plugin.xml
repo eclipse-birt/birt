@@ -27,6 +27,9 @@
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Bar"
             series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
+      <!--modelRenderer
+            renderer="org.eclipse.birt.chart.render.Dial"
+            series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/-->
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Line"
             series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
@@ -54,6 +57,9 @@
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
+      <datasetProcessor
+            processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
+            series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
       <datasetProcessor
             processor="org.eclipse.birt.chart.datafeed.DataSetProcessorImpl"
             series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
