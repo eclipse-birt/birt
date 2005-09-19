@@ -163,7 +163,7 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName )
 			throws DesignFileException
 	{
-		ReportDesign design = DesignReader.read( this, fileName );
+		ReportDesign design = DesignReader.getInstance( ).read( this, fileName );
 		designs.add( design );
 		return design;
 	}
@@ -186,7 +186,8 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		ReportDesign design = DesignReader.read( this, fileName, is );
+		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
+				is );
 		designs.add( design );
 		return design;
 	}
@@ -203,7 +204,7 @@ public class DesignSession
 
 	public Library openLibrary( String fileName ) throws DesignFileException
 	{
-		Library library = LibraryReader.read( this, fileName );
+		Library library = LibraryReader.getInstance( ).read( this, fileName );
 		libraries.add( library );
 		return library;
 	}

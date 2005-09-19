@@ -11,24 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -40,14 +27,41 @@ import org.xml.sax.SAXException;
  * with the library.
  */
 
-public class LibraryReader
+public final class LibraryReader extends ModuleReader
 {
 	/**
+	 * The one and only library reader.
+	 */
+	
+	private static LibraryReader instance = new LibraryReader( );
+
+	/**
+	 * Default constructor.
+	 *
+	 */
+	
+	private LibraryReader( )
+	{
+
+	}
+
+	/**
+	 * Gets the only instance of the library reader.
+	 * 
+	 * @return the only instance of the library reader
+	 */
+
+	public static LibraryReader getInstance( )
+	{
+		return instance;
+	}
+
+	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
-	 * internal representation of the design
+	 * internal representation of the library.
 	 * 
 	 * @param session
-	 *            the session of the report
+	 *            the session of the library
 	 * 
 	 * @param fileName
 	 *            the library file that the input stream is associated to.
@@ -59,68 +73,18 @@ public class LibraryReader
 	 * @return the internal representation of the library
 	 */
 
-	public static Library read( DesignSession session, String fileName,
+	public Library read( DesignSession session, String fileName,
 			InputStream inputStream ) throws DesignFileException
 	{
-		LibraryParserHandler handler = new LibraryParserHandler( session );
-		InputStream internalStream = inputStream;
-		if ( !inputStream.markSupported( ) )
-			internalStream = new BufferedInputStream( inputStream );
-
-		assert internalStream.markSupported( );
-
-		// set file name of the library file. Used to search relative path
-		// to the file.
-
-		Library library = (Library) handler.getModule( );
-		library.setFileName( fileName );
-
-		try
-		{
-			String signature = checkUTFSignature( internalStream, fileName );
-			library.setUTFSignature( signature );
-
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
-			InputSource inputSource = new InputSource( internalStream );
-			inputSource.setEncoding( signature );
-			parser.parse( inputSource, handler );
-		}
-		catch ( SAXException e )
-		{
-			// Syntax error is found
-
-			if ( e.getException( ) instanceof DesignFileException )
-			{
-				throw (DesignFileException) e.getException( );
-			}
-
-			// Invalid xml error is found
-
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-		catch ( ParserConfigurationException e )
-		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-		catch ( IOException e )
-		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-
-		library.setValid( true );
-		return library;
+		return (Library) readModule( session, fileName, inputStream );
 	}
 
 	/**
 	 * Parses an XML library file given a file name. Creates and returns the
-	 * internal representation of the library
+	 * internal representation of the library.
 	 * 
 	 * @param session
-	 *            the session of the report
+	 *            the session of the library
 	 * 
 	 * @param fileName
 	 *            the library file to parse
@@ -129,62 +93,20 @@ public class LibraryReader
 	 *             if file is not found
 	 */
 
-	public static Library read( DesignSession session, String fileName )
+	public Library read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
-		InputStream inputStream = null;
-		try
-		{
-			inputStream = new BufferedInputStream( new FileInputStream(
-					fileName ) );
-		}
-		catch ( FileNotFoundException e )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{fileName},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
-			exceptionList.add( ex );
-			throw new DesignFileException( fileName, exceptionList );
-		}
-
-		assert inputStream.markSupported( );
-		return read( session, fileName, inputStream );
+		return (Library) readModule( session, fileName );
 	}
 
-	/**
-	 * Checks whether the input stream has a compatible encoding signature with
-	 * BIRT. Currently, BIRT only supports UTF-8 encoding.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param inputStream
-	 *            the input stream to check
-	 * @param fileName
-	 *            the library file name
-	 * @return the signature from the UTF files.
-	 * @throws IOException
-	 *             if errors occur during opening the library file
-	 * @throws SAXException
-	 *             if the stream has unexpected encoding signature
+	 * @see org.eclipse.birt.report.model.parser.ModuleReader#getParserHandler(org.eclipse.birt.report.model.core.DesignSession)
 	 */
 
-	private static String checkUTFSignature( InputStream inputStream,
-			String fileName ) throws IOException, SAXException
+	protected ModuleParserHandler getParserHandler( DesignSession session )
 	{
-
-		// This may fail if there are a lot of space characters before the end
-		// of the encoding declaration
-
-		String encoding = UnicodeUtil.checkUTFSignature( inputStream );
-
-		if ( encoding != null && !UnicodeUtil.SIGNATURE_UTF_8.equals( encoding ) )
-		{
-			Exception cause = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_ENCODING );
-			Exception fileException = new DesignFileException( fileName, cause );
-
-			throw new SAXException( fileException );
-		}
-
-		return encoding;
+		return new LibraryParserHandler( session );
 	}
 }

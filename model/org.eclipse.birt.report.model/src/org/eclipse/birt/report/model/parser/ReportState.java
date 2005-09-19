@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.xml.sax.Attributes;
 
 /**
  * This class provides parser state for the top-level Report element.
@@ -67,49 +64,7 @@ public class ReportState extends ModuleState
         if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
             return new CompatibleReportPropertyState( handler, getElement() );
 		return super.startElement( tagName );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
-	 */
-
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		String version = attrs.getValue( DesignSchemaConstants.VERSION_ATTRIB );
-
-		if ( !StringUtil.isBlank( version ) )
-		{
-			int result;
-			try
-			{
-				result = StringUtil.compareVersion(
-						DesignSchemaConstants.REPORT_VERSION, version );
-			}
-			catch ( Exception ex )
-			{
-				// The format of version string is invalid.
-				
-				DesignParserException e = new DesignParserException(
-						new String[]{version},
-						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
-				throw new XMLParserException( e );
-			}
-			
-			if ( result < 0 )
-			{
-				DesignParserException e = new DesignParserException(
-						new String[]{version},
-						DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_VERSION );
-				throw new XMLParserException( e );
-			}
-
-			handler.setVersion( version );
-		}
-
-		super.parseAttrs( attrs );
-	}
+	}	
 
 	/**
 	 * Parses the contents of the body tag that contains the list of top-level

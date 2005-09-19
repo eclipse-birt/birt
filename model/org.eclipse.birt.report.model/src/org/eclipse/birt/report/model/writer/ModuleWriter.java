@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.writer;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,6 +26,8 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -59,6 +62,7 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
@@ -71,6 +75,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -93,7 +98,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * means that the writer has to do a bit more work to write the design, the the
  * extra work here is well worth the savings to the many customers who will read
  * the design format.
- * 
+ *  
  */
 
 public abstract class ModuleWriter extends ElementVisitor
@@ -947,6 +952,153 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			property( obj, propDefn.getName( ) );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitModule(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public void visitModule( Module obj )
+	{
+		writer.attribute( DesignSchemaConstants.XMLNS_ATTRIB,
+				DEFAULT_NAME_SPACE );
+		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
+				DesignSchemaConstants.REPORT_VERSION );
+		property( obj, Module.AUTHOR_PROP );
+		property( obj, Module.HELP_GUIDE_PROP );
+		property( obj, Module.CREATED_BY_PROP );
+		property( obj, Module.UNITS_PROP );
+		property( obj, Module.BASE_PROP );
+		property( obj, Module.INCLUDE_RESOURCE_PROP );
+
+		resourceKey( obj, Module.TITLE_ID_PROP, Module.TITLE_PROP );
+		property( obj, Module.COMMENTS_PROP );
+
+		resourceKey( obj, Module.DESCRIPTION_ID_PROP, Module.DESCRIPTION_PROP );		
+	}
+
+	/**
+	 * Visits the embedded images of the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse
+	 */
+
+	protected void writeEmbeddedImages( Module obj )
+	{
+		List list = (List) obj.getLocalProperty( obj, Module.IMAGES_PROP );
+		if ( list != null && list.size( ) > 0 )
+		{
+			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
+			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
+					ReportDesign.IMAGES_PROP );
+
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				EmbeddedImage image = (EmbeddedImage) list.get( i );
+				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+
+				property( image, EmbeddedImage.NAME_MEMBER );
+				property( image, EmbeddedImage.TYPE_MEMBER );
+
+				try
+				{
+					if ( image.getData( ) != null )
+					{
+						byte[] data = base.encode( image.getData( ) );
+						String value = new String( data, EmbeddedImage.CHARSET );
+
+						if ( value.length( ) < IndentableXMLWriter.MAX_CHARS_PER_LINE )
+							writeEntry( DesignSchemaConstants.PROPERTY_TAG,
+									EmbeddedImage.DATA_MEMBER, value, false );
+						else
+							writeLongIndentText(
+									DesignSchemaConstants.PROPERTY_TAG,
+									EmbeddedImage.DATA_MEMBER, value );
+					}
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					assert false;
+				}
+				writer.endElement( );
+			}
+			writer.endElement( );
+		}
+	}
+
+	/**
+	 * Visits the translations of the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse
+	 */
+
+	protected void writeTranslations( Module obj )
+	{
+		String[] resourceKeys = obj.getTranslationResourceKeys( );
+		if ( resourceKeys != null && resourceKeys.length > 0 )
+		{
+			writer.startElement( DesignSchemaConstants.TRANSLATIONS_TAG );
+
+			for ( int i = 0; i < resourceKeys.length; i++ )
+			{
+				writer.startElement( DesignSchemaConstants.RESOURCE_TAG );
+				writer.attribute( DesignSchemaConstants.KEY_ATTRIB,
+						resourceKeys[i] );
+
+				List translations = obj.getTranslations( resourceKeys[i] );
+				for ( int j = 0; j < translations.size( ); j++ )
+				{
+					writer.startElement( DesignSchemaConstants.TRANSLATION_TAG );
+
+					Translation translation = (Translation) translations
+							.get( j );
+
+					writer.attribute( DesignSchemaConstants.LOCALE_ATTRIB,
+							translation.getLocale( ) );
+					writer.text( translation.getText( ) );
+					writer.endElement( );
+				}
+				writer.endElement( );
+			}
+			writer.endElement( );
+		}
+	}
+
+	/**
+	 * Visits the custom colors of the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse
+	 */
+
+	protected void writeCustomColors( Module obj )
+	{
+		List list = (List) obj.getLocalProperty( obj,
+				Module.COLOR_PALETTE_PROP );
+		if ( list != null && list.size( ) > 0 )
+		{
+			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
+			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
+					ReportDesign.COLOR_PALETTE_PROP );
+
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				CustomColor color = (CustomColor) list.get( i );
+
+				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+				property( color, CustomColor.NAME_MEMBER );
+				property( color, CustomColor.COLOR_MEMBER );
+				resourceKey( color, CustomColor.DISPLAY_NAME_ID_MEMBER,
+						CustomColor.DISPLAY_NAME_MEMBER );
+				writer.endElement( );
+			}
+			writer.endElement( );
+		}
+
 	}
 
 	/*

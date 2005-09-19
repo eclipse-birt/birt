@@ -961,7 +961,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the validation listener to remove
 	 * @return <code>true</code> if <code>listener</code> is sucessfully
 	 *         removed. Otherwise <code>false</code>.
-	 * 
+	 *  
 	 */
 
 	public boolean removeValidationListener( IValidationListener listener )
@@ -1043,12 +1043,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( name == null )
 		{
 			// When creating a new report element which requires a name, the
-			// default
-			// name will be "New" followed by the element name, such as "New
-			// Label";
-			// also, if "NewLabel" already exists, then a number will be
-			// appended, such
-			// as "NewLabel1", etc.
+			// default name will be "New" followed by the element name, such as
+			// "New Label"; also, if "NewLabel" already exists, then a number
+			// will be appended, such as "NewLabel1", etc.
 
 			name = ModelMessages
 					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
@@ -1330,8 +1327,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		try
 		{
-			Library library = LibraryReader.read( session, url.toString( ), url
-					.openStream( ) );
+			Library library = LibraryReader.getInstance( ).read( session,
+					url.toString( ), url.openStream( ) );
 			library.setNamespace( namespace );
 			return library;
 		}
@@ -1571,7 +1568,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the attribute listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 * 
+	 *  
 	 */
 
 	public boolean removeAttributeListener( IAttributeListener listener )
@@ -1627,7 +1624,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the dispose listener to remove
 	 * @return <code>true</code> if <code>listener</code> is successfully
 	 *         removed. Otherwise <code>false</code>.
-	 * 
+	 *  
 	 */
 
 	public boolean removeDisposeListener( IDisposeListener listener )

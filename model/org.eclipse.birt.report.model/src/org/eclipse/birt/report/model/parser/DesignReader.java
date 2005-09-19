@@ -11,24 +11,11 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  * This class provides the reader for the design file. Encapsulates the SAX
@@ -40,8 +27,35 @@ import org.xml.sax.SAXException;
  *  
  */
 
-public final class DesignReader
+public final class DesignReader extends ModuleReader
 {
+
+	/**
+	 * The one and only design reader.
+	 */
+	
+	private static DesignReader instance = new DesignReader( );
+
+	/**
+	 * Default constructor.
+	 *
+	 */
+	
+	private DesignReader( )
+	{
+
+	}
+
+	/**
+	 * Gets the only instance of the design reader.
+	 * 
+	 * @return the only instance of the design reader
+	 */
+
+	public static DesignReader getInstance( )
+	{
+		return instance;
+	}
 
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
@@ -60,60 +74,10 @@ public final class DesignReader
 	 * @return the internal representation of the design
 	 */
 
-	public static ReportDesign read( DesignSession session, String fileName,
+	public ReportDesign read( DesignSession session, String fileName,
 			InputStream inputStream ) throws DesignFileException
 	{
-		DesignParserHandler handler = new DesignParserHandler( session );
-		InputStream internalStream = inputStream;
-		if ( !inputStream.markSupported( ) )
-			internalStream = new BufferedInputStream( inputStream );
-
-		assert internalStream.markSupported( );
-
-		// set file name of the design file. Used to search relative path
-		// to the file.
-
-		ReportDesign design = (ReportDesign) handler.getModule( );
-		design.setFileName( fileName );
-
-		try
-		{
-			String signature = checkUTFSignature( internalStream, fileName );
-			design.setUTFSignature( signature );
-
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
-			InputSource inputSource = new InputSource( internalStream );
-			inputSource.setEncoding( signature );
-			parser.parse( inputSource, handler );
-		}
-		catch ( SAXException e )
-		{
-			// Syntax error is found
-
-			if ( e.getException( ) instanceof DesignFileException )
-			{
-				throw (DesignFileException) e.getException( );
-			}
-
-			// Invalid xml error is found
-
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-		catch ( ParserConfigurationException e )
-		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-		catch ( IOException e )
-		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllErrors( ), e );
-		}
-
-		design.setValid( true );
-		return design;
+		return (ReportDesign) readModule( session, fileName, inputStream );
 	}
 
 	/**
@@ -130,62 +94,20 @@ public final class DesignReader
 	 *             if file is not found
 	 */
 
-	public static ReportDesign read( DesignSession session, String fileName )
+	public ReportDesign read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
-		InputStream inputStream = null;
-		try
-		{
-			inputStream = new BufferedInputStream( new FileInputStream(
-					fileName ) );
-		}
-		catch ( FileNotFoundException e )
-		{
-			DesignParserException ex = new DesignParserException(
-					new String[]{fileName},
-					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
-			List exceptionList = new ArrayList( );
-			exceptionList.add( ex );
-			throw new DesignFileException( fileName, exceptionList );
-		}
-
-		assert inputStream.markSupported( );
-		return read( session, fileName, inputStream );
+		return (ReportDesign) readModule( session, fileName );
 	}
 
-	/**
-	 * Checks whether the input stream has a compatible encoding signature with
-	 * BIRT. Currently, BIRT only supports UTF-8 encoding.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param inputStream
-	 *            the input stream to check
-	 * @param fileName
-	 *            the design file name
-	 * @return the signature from the UTF files.
-	 * @throws IOException
-	 *             if errors occur during opening the design file
-	 * @throws SAXException
-	 *             if the stream has unexpected encoding signature
+	 * @see org.eclipse.birt.report.model.parser.ModuleReader#getParserHandler(org.eclipse.birt.report.model.core.DesignSession)
 	 */
 
-	private static String checkUTFSignature( InputStream inputStream,
-			String fileName ) throws IOException, SAXException
+	protected ModuleParserHandler getParserHandler( DesignSession session )
 	{
-
-		// This may fail if there are a lot of space characters before the end
-		// of the encoding declaration
-
-		String encoding = UnicodeUtil.checkUTFSignature( inputStream );
-
-		if ( encoding != null && !UnicodeUtil.SIGNATURE_UTF_8.equals( encoding ) )
-		{
-			Exception cause = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_UNSUPPORTED_ENCODING );
-			Exception fileException = new DesignFileException( fileName, cause );
-
-			throw new SAXException( fileException );
-		}
-
-		return encoding;
+		return new DesignParserHandler( session );
 	}
 }
