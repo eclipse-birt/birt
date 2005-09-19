@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.14 $ $Date: 2005/08/19 04:12:06 $
+ * @version $Revision: 1.15 $ $Date: 2005/09/08 06:13:32 $
  */
 public class Utility
 {
@@ -174,16 +174,28 @@ public class Utility
 				}
 				item[i].setData(name);
 			}
+			else if ( source instanceof Procedure )
+			{
+				Procedure column = (Procedure) source;
+				name = column.getProcedureName( );
+				displayName = name;
+				addDummyNode = true;
+				if ( column.getSchema( ) != null )
+					name = column.getSchema( ) + "." + displayName;
+				item[i].setData( column );
+			}
 			else if ( source instanceof ProcedureParameter )
 			{
-				ProcedureParameter column = (ProcedureParameter)source;
-				displayName = column.getName();
-				name = displayName;
-				int type = column.getModeType();
+				ProcedureParameter column = (ProcedureParameter) source;
+				name = column.getName( );
+				displayName = name;
+				if ( column.getSchema( ) != null )
+					name = column.getSchema( ) + "." + displayName;
+				int type = column.getModeType( );
 				String mode = toModeType( type );
-				String dataType = column.getDataTypeName();
+				String dataType = column.getDataTypeName( );
 				displayName = displayName + " (" + dataType + ", " + mode + ")";
-				item[i].setData(column);
+				item[i].setData( column );
 			}
 	
 			item[i].setText(displayName);
@@ -270,7 +282,17 @@ public class Utility
 					name = column.getSchemaName() + "." + name;
 				}
 			}
-		return name;
+			else if( source instanceof Procedure )
+			{
+				Procedure column = (Procedure)source;
+				name = column.getProcedureName( );
+				 
+				if ( column.getSchema() != null )
+				{
+					name = column.getSchema() + "." + name;
+				}
+			}
+			return name;
 	}
 	
 	/**

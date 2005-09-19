@@ -30,6 +30,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableImpl;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -346,15 +347,16 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	/**
 	 * get all procedure from special catalog,schemaPattern,and namePattern
 	 */
- 	public ResultSet getAllProcedure( String cataLog, String schemaPattern,
+ 	public ArrayList getAllProcedure( String cataLog, String schemaPattern,
 			String namePattern )
 	{
+ 		ArrayList procedureList = new ArrayList();
 		if ( metaData == null )
 		{
 
 			metaData = getMetaData( );
 		}
-		ResultSet resultSet = null;
+		ResultSet procedureRs = null;
 		if ( cataLog != null && cataLog.trim( ).length( ) == 0 )
 		{
 			cataLog = null;
@@ -364,15 +366,31 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		{
 			try
 			{
-				resultSet = metaData.getProcedures( cataLog,
+				procedureRs = metaData.getProcedures( cataLog,
 						schemaPattern,
 						namePattern );
+				boolean isSame;
+				while ( procedureRs.next( ) )
+				{
+					isSame = false;
+					Procedure procedure = new Procedure( );
+					procedure.setProcedureName( procedureRs.getString( "PROCEDURE_NAME" ) );
+					procedure.setSchema( procedureRs.getString( "PROCEDURE_SCHEM" ) );
+					procedure.setCatalog( procedureRs.getString( "PROCEDURE_CAT" ) );
+					for ( int i = 0; i < procedureList.size( ); i++ )
+					{
+						if ( ( (Procedure) ( procedureList.get( i ) ) ).isEqualWith( procedure ) )
+							isSame = true;
+					}
+					if ( !isSame )
+						procedureList.add( procedure );
+				}
 			}
 			catch ( SQLException e )
 			{
 			}
 		}
-		return resultSet;
+		return procedureList;
 	}
  	
  	/**
@@ -407,6 +425,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 				while ( columnsRs.next( ) )
 				{
 					ProcedureParameter column = new ProcedureParameter( );
+					column.setSchema( schemaPattern );
 					if ( columnsRs.getString( "COLUMN_NAME" )!= null )
 						column.setName( columnsRs.getString( "COLUMN_NAME" ) );
 					else

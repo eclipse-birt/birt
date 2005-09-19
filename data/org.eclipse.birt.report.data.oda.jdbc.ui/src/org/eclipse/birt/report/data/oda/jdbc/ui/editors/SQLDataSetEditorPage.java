@@ -25,6 +25,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.preference.externaleditor.IExter
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
@@ -92,7 +93,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.25 $ $Date: 2005/08/19 07:47:00 $
+ * @version $Revision: 1.26 $ $Date: 2005/09/08 06:13:32 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -615,7 +616,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					}
 					if ( metaDataProvider.isProcedureSupported( ) )
 					{
-						DbObject dbObject = new DbObject("STORED PROCEDURES","STORED PROCEDURES", DbObject.PROCEDURE_TYPE, image);
+						String fullyQualifiedTableName = "STORED PROCEDURES";
+						if ( schemaName != null
+								&& schemaName.trim( ).length( ) > 0 )
+						{
+							fullyQualifiedTableName = schemaName + "." + "STORED PROCEDURES";
+						}
+						DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, image);
 						tableList.add( dbObject );
 					}
 
@@ -1000,29 +1007,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					}
 					else if ( obj.getType( ) == DbObject.PROCEDURE_TYPE )
 					{
-						ArrayList procedureList = new ArrayList( );
-						ResultSet procedureRs = metaDataProvider.getAllProcedure( catalogName,
+						ArrayList procedureList = metaDataProvider.getAllProcedure( catalogName,
 								schemaName,
 								null );
-						if ( procedureRs == null )
-						{
-							return;
-						}
-						try
-						{
-							while ( procedureRs.next( ) )
-							{
-								String name = procedureRs.getString( "PROCEDURE_NAME" );
-								DbObject dbObject = new DbObject( name,
-										name,
-										DbObject.PROCEDURE_ITEM_TYPE );
-								dbObject.setImage( columnImage );
-								procedureList.add( dbObject );
-							}
-						}
-						catch ( SQLException e )
-						{
-						}
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1038,13 +1025,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						//expand procedure TreeItem
 
 					}
-					else if ( obj.getType( ) == DbObject.PROCEDURE_ITEM_TYPE )
+				}
+				else if ( item.getData( ) instanceof Procedure )
+				{
+					Procedure obj = (Procedure) item.getData( );
 					{
-						ArrayList columnList = new ArrayList( );
-						columnList = metaDataProvider.getProcedureColumns( catalogName,
-									schemaName,
-									tableName,
-									null );
+						ArrayList columnList = metaDataProvider.getProcedureColumns( obj.getCatalog( ),
+								schemaName,
+								tableName,
+								null );
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1077,7 +1066,16 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			public void dragStart( DragSourceEvent event )
 			{
 				TreeItem[] selection = availableDbObjectsTree.getSelection( );
-				if ( selection.length <= 0
+				if ( selection.length > 0
+						&& selection[0].getData( ) instanceof DbObject )
+				{
+					if ( ( (DbObject) selection[0].getData( ) ).getType( ) == DbObject.PROCEDURE_TYPE )
+					{
+						event.doit = false;
+						return;
+					};
+				}
+				else if ( selection.length <= 0
 						|| selection[0].getData( ) == null )
 				{
 					event.doit = false;
@@ -1097,6 +1095,10 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						if ( obj instanceof DbObject )
 						{
 							event.data = ( (DbObject) obj ).getName( );
+						}
+						else if ( obj instanceof Procedure )
+						{
+							event.data = ( (Procedure) obj ).getProcedureName( );
 						}
 						else
 							event.data = selection[0].getData( );
@@ -1377,12 +1379,19 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 * 
 	 * @return pre-defined query text in an Array
 	 */
-	private String[] getQueryPresetTextArray()
+	private String[] getQueryPresetTextArray( )
 	{
 		// TODO: to be externalized
-		final String[] lines = new String[]{
-				"select", "from"
-		};
+		final String[] lines;
+		if ( ( (OdaDataSetHandle) getContainer( ).getModel( ) ).getExtensionID( )
+				.equals( "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet" ) )
+			lines = new String[]{
+				"{call procedure-name(arg1,arg2, ...)}"
+			};
+		else
+			lines = new String[]{
+					"select", "from"
+			};
 		return lines;
 	}
 	
