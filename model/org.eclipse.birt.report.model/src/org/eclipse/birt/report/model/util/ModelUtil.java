@@ -176,57 +176,6 @@ public class ModelUtil
 	}
 
 	/**
-	 * @param module
-	 * @param systemId
-	 * @param base
-	 */
-
-	// public static void setupSystemIdAndFileName( Module module, URI systemId,
-	// String base )
-	// {
-	// String fullPath = null; //$NON-NLS-1$
-	// String fileName = base;
-	// if ( systemId != null )
-	// fullPath = systemId.toString( );
-	// if ( base != null )
-	// {
-	// int index = Math.max( base.lastIndexOf( '/' ), base
-	// .lastIndexOf( '\\' ) );
-	// if ( index > 0 )
-	// {
-	// fileName = base.substring( index + 1 );
-	//
-	// if ( fullPath == null )
-	// fullPath = ""; //$NON-NLS-1$
-	//
-	// fullPath = fullPath + base.substring( 0, index );
-	// }
-	// }
-	//
-	// module.setFileName( fileName );
-	//
-	// if ( fullPath == null )
-	// return;
-	//
-	// fullPath = fullPath.replace( '\\', '/' );
-	//
-	// try
-	// {
-	// module
-	// .setSystemId( new URI( URLEncoder
-	// .encode( fullPath, "UTF-8" ) ) ); //$NON-NLS-1$
-	// }
-	// catch ( UnsupportedEncodingException e )
-	// {
-	// assert false;
-	// }
-	// catch ( URISyntaxException e )
-	//		{
-	//			assert false;
-	//		}
-	//	}
-
-	/**
 	 * 
 	 * Performs property name sorting on a list of properties. Properties
 	 * returned are sorted by their (locale-specific) display name. The name for
