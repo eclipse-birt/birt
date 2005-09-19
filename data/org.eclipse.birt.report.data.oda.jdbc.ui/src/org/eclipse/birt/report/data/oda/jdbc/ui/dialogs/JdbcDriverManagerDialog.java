@@ -14,6 +14,8 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.dialogs;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +43,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -170,10 +173,36 @@ public class JdbcDriverManagerDialog extends Dialog
 		final TableColumn column1 = new TableColumn( table, SWT.NONE );
 		column1.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.jarColumnFileName" ) ); //$NON-NLS-1$
 		column1.setWidth( 150 );
+		column1.addSelectionListener( new SelectionListener( ) {
+			private boolean asc = false;
+			
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortJar( 1, asc );
+				asc = !asc;
+			}
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				widgetSelected( e );
+			}
+		} );
 
 		final TableColumn column2 = new TableColumn( table, SWT.NONE );
 		column2.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.jarColumnLocation" ) ); //$NON-NLS-1$
 		column2.setWidth( 280 );
+		column2.addSelectionListener( new SelectionListener( ) {
+			private boolean asc = false;
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortJar( 2, asc );
+				asc = !asc;
+			}
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				widgetSelected( e );
+			}
+		} );
 
 		jarViewer = new TableViewer( table );
 		jarViewer.setContentProvider( new IStructuredContentProvider( ) {
@@ -304,14 +333,53 @@ public class JdbcDriverManagerDialog extends Dialog
 		TableColumn column1 = new TableColumn( table, SWT.NONE );
 		column1.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.driverColumnClassName" ) ); //$NON-NLS-1$
 		column1.setWidth( 300 );
+		column1.addSelectionListener(new SelectionListener( ) {
+			private boolean asc = false;
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortDriver( 1, asc );
+				asc = !asc;
+			}
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				widgetSelected( e );
+			}
+		} );
 
 		TableColumn column2 = new TableColumn( table, SWT.NONE );
 		column2.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.driverColumnDisplayName" ) ); //$NON-NLS-1$
 		column2.setWidth( 100 );
+		column2.addSelectionListener( new SelectionListener( ) {
+			private boolean asc = false;
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortDriver( 2, asc );
+				asc = !asc;
+			}
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				widgetSelected( e );
+			}
+		} );
 
 		TableColumn column3 = new TableColumn( table, SWT.NONE );
 		column3.setText( JdbcPlugin.getResourceString( "driverManagerDialog.text.driverColumnTemplate" ) ); //$NON-NLS-1$
 		column3.setWidth( 100 );
+		column3.addSelectionListener( new SelectionListener( ) {
+			private boolean asc = false;
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				sortDriver( 3, asc );
+				asc = !asc;
+			}
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				widgetSelected( e );
+			}
+		} );
 
 		driverViewer = new TableViewer( table );
 		driverViewer.setContentProvider( new IStructuredContentProvider( ) {
@@ -444,6 +512,99 @@ public class JdbcDriverManagerDialog extends Dialog
 		jarMap.putAll( Utility.getPreferenceStoredMap( JdbcPlugin.JAR_MAP_PREFERENCE_KEY ));
 		
 		checkJarState( );
+	}
+	
+	/**
+	 * Carry out sort operation against certain driver column
+	 * @param columnIndex the column based on which the sort operation would be carried out 
+	 * @param asc the sort direction
+	 */	
+	private void sortDriver( final int columnIndex, final boolean asc )
+	{
+		TableItem[] tableItems = driverViewer.getTable( ).getItems( );
+
+		sort( columnIndex, asc, tableItems );
+		String[][] records = mapTableItemsTo2DArray( tableItems );
+
+		driverViewer.getTable( ).removeAll( );
+		TableItem tableItem;
+		for ( int i = 0; i < tableItems.length; i++ )
+		{
+			tableItem = new TableItem( driverViewer.getTable( ), SWT.NONE );
+			tableItem.setText( records[i] );
+		}
+	}
+
+	/**
+	 * Carry out sort operation against certain jar column
+	 * @param columnIndex the column based on which the sort operation would be carried out 
+	 * @param asc the sort direction
+	 */	
+	private void sortJar( final int columnIndex, final boolean asc )
+	{
+		TableItem[] tableItems = jarViewer.getTable( ).getItems( );
+
+		sort( columnIndex, asc, tableItems );
+		String[][] records = mapTableItemsTo2DArray( tableItems );
+
+		jarViewer.getTable( ).removeAll( );
+		TableItem tableItem;
+		for ( int i = 0; i < tableItems.length; i++ )
+		{
+			tableItem = new TableItem( jarViewer.getTable( ), SWT.NONE );
+			tableItem.setText( records[i] );
+		}
+	}
+	
+	/**
+	 * Carry out sort operation against certain column
+	 * @param columnIndex the column based on which the sort operation would be carried out 
+	 * @param asc the sort direction
+	 */	
+	private void sort( final int columnIndex, final boolean asc,
+			TableItem[] items )
+	{
+		TableItem[] tableItems = items;
+
+		Arrays.sort( tableItems, new Comparator( ) {
+
+			public int compare( Object o1, Object o2 )
+			{
+				TableItem it1 = (TableItem) o1;
+				TableItem it2 = (TableItem) o2;
+				int result = 0;
+				if ( asc )
+				{
+					result = it1.getText( columnIndex )
+							.compareTo( it2.getText( columnIndex ) );
+				}
+				else
+				{
+					result = it2.getText( columnIndex )
+							.compareTo( it1.getText( columnIndex ) );
+				}
+				return result;
+			}
+		} );
+	}
+	
+	/**
+	 * Map TableItems to a 2-dimension array
+	 * @param tableItems
+	 * @return
+	 */
+	private String[][] mapTableItemsTo2DArray( TableItem[] tableItems )
+	{
+		String[][] records = new String[tableItems.length][driverViewer.getTable( ).getColumnCount( )];
+		
+		for ( int i = 0; i < tableItems.length; i++)
+		{	
+			for ( int j = 0; j < driverViewer.getTable( ).getColumnCount( ); j++ )
+			{
+				records[i][j] = tableItems[i].getText(j);
+			}
+		}
+		return records;
 	}
 	
 	/**
