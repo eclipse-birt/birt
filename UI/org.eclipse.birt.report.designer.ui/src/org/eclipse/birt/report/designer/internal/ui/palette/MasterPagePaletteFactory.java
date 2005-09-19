@@ -160,16 +160,8 @@ public class MasterPagePaletteFactory extends DesignerPaletteFactory
 	private static CombinedTemplateCreationEntry createAutoText( String label,
 			String shortDesc, Object template )
 	{
-		AbstractToolHandleExtends preHandle = null;
-		if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( template )
-				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equals( template ) )
-		{
-			preHandle = new GridToolExtends( );
-		}
-		else
-		{
-			preHandle = new TextToolExtends( );
-		}
+		AbstractToolHandleExtends preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(template);
+		
 		ImageDescriptor icon = ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_AUTOTEXT );
 		CombinedTemplateCreationEntry entry = new ReportCombinedTemplateCreationEntry( label,
 				shortDesc,

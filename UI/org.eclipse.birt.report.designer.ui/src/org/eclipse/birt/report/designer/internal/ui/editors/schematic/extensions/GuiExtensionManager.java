@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtensionConstants;
+import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
@@ -215,13 +216,12 @@ public class GuiExtensionManager
 					.getDisplayName( );
 			CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( displayName,
 					Messages.getFormattedString( "GuiExtensionManager.tooltip.insert", new Object[]{ displayName }), //$NON-NLS-1$
-					IReportElementConstants.REPORT_ELEMENT_EXTENDED
-							+ point.getExtensionName( ),
+					getExtendedPalletTemplateName(point),
 					new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
 							+ point.getExtensionName( ) ),
 					icon,
 					icon,
-					new ExtendedElementToolExtends( point.getExtensionName( ) ) );
+					BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(getExtendedPalletTemplateName(point)) );
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
 			{
@@ -236,6 +236,11 @@ public class GuiExtensionManager
 			entry.add( combined );
 		}
 		return root;
+	}
+	
+	public static Object getExtendedPalletTemplateName(ExtendedElementUIPoint point)
+	{
+		return IReportElementConstants.REPORT_ELEMENT_EXTENDED + point.getExtensionName( );
 	}
 
 	private static PaletteCategory findCategory( List list, String category )

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImageBuilderDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -645,4 +646,63 @@ public class BasePaletteFactory
 		}
 	}
 
+	public static AbstractToolHandleExtends getAbstractToolHandleExtendsFromPalletName(Object str)
+	{
+		if (!(str instanceof String))
+		{
+			throw new Error("Don't support the other type expect String");
+		}
+		String template = (String)str;
+		AbstractToolHandleExtends preHandle = null;
+		if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase(  template ) )
+		{
+			preHandle = new ImageToolExtends( );
+
+		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase(  template ) )
+		{
+			preHandle = new TableToolExtends( );
+
+		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
+		{
+			preHandle = new TextToolExtends( );
+		}
+		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase(  template )
+				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase(  template )
+				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase(  template ) )
+		{
+			preHandle = new GridToolExtends( );
+		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase(  template ) )
+		{
+			preHandle = new LabelToolExtends( );
+		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase(  template ) )
+		{
+			preHandle = new DataToolExtends( );
+		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase( template ) )
+		{
+			preHandle = new ListToolExtends( );
+		}
+		else if ( (  template ).startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
+		{
+			String extensionName = ( (String) template ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
+			preHandle = new ExtendedElementToolExtends( extensionName );
+		}
+		
+		if (preHandle == null)
+		{
+			throw new Error("Don't find the AbstractToolHandleExtends");
+		}
+		return preHandle;
+	}
 }

@@ -111,7 +111,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_LABEL ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
-				new LabelToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_LABEL) );
 
 		entries.add( combined );
 		
@@ -121,7 +121,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TEXT ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				new TextToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_TEXT) );
 
 		entries.add( combined );
 
@@ -131,7 +131,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_DATA ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
-				new DataToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_DATA) );
 
 		entries.add( combined );
 
@@ -141,7 +141,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_IMAGE ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
-				new ImageToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_IMAGE) );
 
 		entries.add( combined );
 
@@ -151,7 +151,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_GRID ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				new GridToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_GRID) );
 
 		entries.add( combined );
 		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LIST,
@@ -160,7 +160,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_LIST ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
-				new ListToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_LIST) );
 
 		entries.add( combined );
 
@@ -170,7 +170,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TABLE ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
-				new TableToolExtends( ) );
+				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_TABLE) );
 
 		entries.add( combined );
 

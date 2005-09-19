@@ -9,23 +9,14 @@
 package org.eclipse.birt.report.designer.internal.ui.palette;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
-import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.GridToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ImageToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.LabelToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ListToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.TableToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.TextToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -98,50 +89,7 @@ public class ReportTemplateTransferDropTargetListener
 		if ( template instanceof String )
 		{
 			transName = TRANS_LABEL_CREATE_ELEMENT;
-			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new ImageToolExtends( );
-
-			}
-			else if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new TableToolExtends( );
-
-			}
-			else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new TextToolExtends( );
-			}
-			else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( (String) template )
-					|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new GridToolExtends( );
-			}
-			else if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new LabelToolExtends( );
-			}
-			else if ( IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new DataToolExtends( );
-			}
-			else if ( IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase( (String) template ) )
-			{
-				preHandle = new ListToolExtends( );
-			}
-			else if ( ( (String) template ).startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
-			{
-				String extensionName = ( (String) template ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
-				preHandle = new ExtendedElementToolExtends( extensionName );
-			}
+			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(template);
 		}
 		else if ( handleValidateInsert( template ) )
 		{
