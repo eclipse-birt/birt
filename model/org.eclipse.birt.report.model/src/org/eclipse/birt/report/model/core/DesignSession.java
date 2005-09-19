@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.core;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -154,7 +155,8 @@ public class DesignSession
 	 * Opens a design given the file name of the design.
 	 * 
 	 * @param fileName
-	 *            The name of the file to open.
+	 *            The name of the file to open. This name must include the file
+	 *            name with the filename extension.
 	 * @return the opened report design.
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
@@ -175,7 +177,8 @@ public class DesignSession
 	 * @param fileName
 	 *            The name of the file to open. If null, the design will be
 	 *            treated as a new design, and will be saved to a different
-	 *            file.
+	 *            file. If not <code>null</code>, this name must include the
+	 *            file name with the filename extension.
 	 * @param is
 	 *            stream to read the design
 	 * @return the opened report design
@@ -193,10 +196,34 @@ public class DesignSession
 	}
 
 	/**
+	 * Opens a design given a stream to the design and the the file name of the
+	 * design.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream to read the design
+	 * @return the opened report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesign openDesign( URL systemId, InputStream is )
+			throws DesignFileException
+	{
+		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
+				is );
+		designs.add( design );
+		return design;
+	}
+
+	/**
 	 * Opens a library with the given library file name.
 	 * 
 	 * @param fileName
-	 *            the file name of the library to open.
+	 *            the file name of the library to open. This name must include
+	 *            the file name with the filename extension.
 	 * @return the opened library
 	 * @throws DesignFileException
 	 *             If the file is not found, or the file contains fatal errors.
@@ -205,6 +232,29 @@ public class DesignSession
 	public Library openLibrary( String fileName ) throws DesignFileException
 	{
 		Library library = LibraryReader.getInstance( ).read( this, fileName );
+		libraries.add( library );
+		return library;
+	}
+
+	/**
+	 * Opens a library with the given library file name.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream
+	 * 
+	 * @return the opened library
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Library openLibrary( URL systemId, InputStream is )
+			throws DesignFileException
+	{
+		Library library = LibraryReader.getInstance( )
+				.read( this, systemId, is );
 		libraries.add( library );
 		return library;
 	}
@@ -352,7 +402,7 @@ public class DesignSession
 	 *             if the unit are not one of the above.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.DimensionValue
-	 *  
+	 * 
 	 */
 
 	public void setUnits( String newUnits ) throws PropertyValueException
@@ -389,7 +439,7 @@ public class DesignSession
 	 *             if the input format is not supported by DesignSession
 	 * 
 	 * @see org.eclipse.birt.report.model.api.util.ColorUtil
-	 *  
+	 * 
 	 */
 
 	public void setColorFormat( int format ) throws PropertyValueException
@@ -422,7 +472,7 @@ public class DesignSession
 	 * @return the color display preference of the application as an integer.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.util.ColorUtil
-	 *  
+	 * 
 	 */
 
 	public int getColorFormat( )

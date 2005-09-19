@@ -220,6 +220,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected String fileName = null;
 
 	/**
+	 * The system id which is needed for resolving relative URIs. It can be a
+	 * relative/absolute file directory or a network path such as HTTP, FTP,
+	 * etc.
+	 */
+
+	protected URL systemId = null;
+
+	/**
 	 * The UTF signature.
 	 */
 
@@ -1083,7 +1091,9 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * it's illegal to be called for other purpose.
 	 * 
 	 * @param newName
-	 *            the new file name
+	 *            the new file name. It may contain relative/absolute path
+	 *            information. But this name must include the file name with the
+	 *            filename extension.
 	 */
 
 	public void setFileName( String newName )
@@ -1330,6 +1340,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			Library library = LibraryReader.getInstance( ).read( session,
 					url.toString( ), url.openStream( ) );
 			library.setNamespace( namespace );
+
 			return library;
 		}
 		catch ( IOException e )
@@ -1795,5 +1806,31 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public ModuleHandle getModuleHandle( )
 	{
 		return (ModuleHandle) getHandle( this );
+	}
+
+	/**
+	 * Returns the system id of the module. It is the relative URI path of the
+	 * module.
+	 * 
+	 * @return the system id of the module
+	 */
+
+	public URL getSystemId( )
+	{
+		return systemId;
+	}
+
+	/**
+	 * Sets the system id of the module. It is the relative URI path of the
+	 * module.
+	 * 
+	 * @param systemId
+	 *            the system id of the module
+	 * 
+	 */
+
+	public void setSystemId( URL systemId )
+	{
+		this.systemId = systemId;
 	}
 }

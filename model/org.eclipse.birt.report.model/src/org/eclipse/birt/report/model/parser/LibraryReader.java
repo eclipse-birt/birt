@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.io.InputStream;
+import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
-
 
 /**
  * This class provides the reader for the library file. Encapsulates the SAX
@@ -29,17 +30,18 @@ import org.eclipse.birt.report.model.elements.Library;
 
 public final class LibraryReader extends ModuleReader
 {
+
 	/**
 	 * The one and only library reader.
 	 */
-	
+
 	private static LibraryReader instance = new LibraryReader( );
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
-	
+
 	private LibraryReader( )
 	{
 
@@ -76,7 +78,31 @@ public final class LibraryReader extends ModuleReader
 	public Library read( DesignSession session, String fileName,
 			InputStream inputStream ) throws DesignFileException
 	{
-		return (Library) readModule( session, fileName, inputStream );
+		URL systemId = URIUtil.getDirectory( fileName );
+		return (Library) readModule( session, fileName, systemId, inputStream );
+	}
+
+	/**
+	 * Parses an XML library file given an input stream. Creates and returns the
+	 * internal representation of the design
+	 * 
+	 * @param session
+	 *            the session of the report
+	 * 
+	 * @param systemId
+	 *            the uri path for the library file
+	 * @param inputStream
+	 *            the input stream that reads the library file
+	 * @throws DesignFileException
+	 *             if the input stream is not well-formed xml, there is
+	 *             unsupported tags and there is run-time exception.
+	 * @return the internal representation of the library
+	 */
+
+	public Library read( DesignSession session, URL systemId,
+			InputStream inputStream ) throws DesignFileException
+	{
+		return (Library) readModule( session, null, systemId, inputStream );
 	}
 
 	/**
@@ -96,7 +122,8 @@ public final class LibraryReader extends ModuleReader
 	public Library read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
-		return (Library) readModule( session, fileName );
+		URL systemId = URIUtil.getDirectory( fileName );
+		return (Library) readModule( session, fileName, systemId );
 	}
 
 	/*

@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,8 @@ abstract class ModuleReader
 	 * @return the corresponding parser handler of the module reader
 	 */
 
-	abstract protected ModuleParserHandler getParserHandler( DesignSession session );
+	abstract protected ModuleParserHandler getParserHandler(
+			DesignSession session );
 
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
@@ -62,6 +64,8 @@ abstract class ModuleReader
 	 * 
 	 * @param fileName
 	 *            the design file that the input stream is associated to.
+	 * @param systemId
+	 *            the uri path for the design file
 	 * @param inputStream
 	 *            the input stream that reads the design file
 	 * @throws DesignFileException
@@ -71,7 +75,7 @@ abstract class ModuleReader
 	 */
 
 	protected Module readModule( DesignSession session, String fileName,
-			InputStream inputStream ) throws DesignFileException
+			URL systemId, InputStream inputStream ) throws DesignFileException
 	{
 		ModuleParserHandler handler = getParserHandler( session );
 		InputStream internalStream = inputStream;
@@ -85,6 +89,7 @@ abstract class ModuleReader
 
 		Module module = handler.getModule( );
 		module.setFileName( fileName );
+		module.setSystemId( systemId );
 
 		try
 		{
@@ -132,16 +137,17 @@ abstract class ModuleReader
 	 * 
 	 * @param session
 	 *            the session of the report
-	 * 
 	 * @param fileName
 	 *            the design file to parse
+	 * @param systemId
+	 *            the uri path for the design file
 	 * @return the internal representation of the design
 	 * @throws DesignFileException
 	 *             if file is not found
 	 */
 
-	public Module readModule( DesignSession session, String fileName )
-			throws DesignFileException
+	protected Module readModule( DesignSession session, String fileName,
+			URL systemId ) throws DesignFileException
 	{
 		InputStream inputStream = null;
 		try
@@ -160,7 +166,7 @@ abstract class ModuleReader
 		}
 
 		assert inputStream.markSupported( );
-		return readModule( session, fileName, inputStream );
+		return readModule( session, fileName, systemId, inputStream );
 	}
 
 	/**

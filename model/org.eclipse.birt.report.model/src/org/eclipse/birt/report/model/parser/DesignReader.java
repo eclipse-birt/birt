@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.io.InputStream;
+import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 
@@ -24,7 +26,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * <code>DesignFileException</code> will be thrown if fatal error occurs, such
  * as file not found, syntax error or invalid xml file. Semantic error is along
  * with the design.
- *  
+ * 
  */
 
 public final class DesignReader extends ModuleReader
@@ -33,14 +35,14 @@ public final class DesignReader extends ModuleReader
 	/**
 	 * The one and only design reader.
 	 */
-	
+
 	private static DesignReader instance = new DesignReader( );
 
 	/**
 	 * Default constructor.
-	 *
+	 * 
 	 */
-	
+
 	private DesignReader( )
 	{
 
@@ -77,7 +79,32 @@ public final class DesignReader extends ModuleReader
 	public ReportDesign read( DesignSession session, String fileName,
 			InputStream inputStream ) throws DesignFileException
 	{
-		return (ReportDesign) readModule( session, fileName, inputStream );
+		URL systemId = URIUtil.getDirectory( fileName );
+		return (ReportDesign) readModule( session, fileName, systemId,
+				inputStream );
+	}
+
+	/**
+	 * Parses an XML design file given an input stream. Creates and returns the
+	 * internal representation of the report design
+	 * 
+	 * @param session
+	 *            the session of the report
+	 * 
+	 * @param systemId
+	 *            the uri path for the design file
+	 * @param inputStream
+	 *            the input stream that reads the design file
+	 * @throws DesignFileException
+	 *             if the input stream is not well-formed xml, there is
+	 *             unsupported tags and there is run-time exception.
+	 * @return the internal representation of the design
+	 */
+
+	public ReportDesign read( DesignSession session, URL systemId,
+			InputStream inputStream ) throws DesignFileException
+	{
+		return (ReportDesign) readModule( session, null, systemId, inputStream );
 	}
 
 	/**
@@ -97,7 +124,8 @@ public final class DesignReader extends ModuleReader
 	public ReportDesign read( DesignSession session, String fileName )
 			throws DesignFileException
 	{
-		return (ReportDesign) readModule( session, fileName );
+		URL systemId = URIUtil.getDirectory( fileName );
+		return (ReportDesign) readModule( session, fileName, systemId );
 	}
 
 	/*

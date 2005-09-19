@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -77,7 +78,10 @@ public class SessionHandle
 	 * Opens a design with the given the file name.
 	 * 
 	 * @param fileName
-	 *            name of the file to open
+	 *            name of the file to open. It may contain the relative/absolute
+	 *            path information. This name must include the file name with
+	 *            the filename extension.
+	 * 
 	 * @return handle to the report design
 	 * 
 	 * @throws DesignFileException
@@ -97,7 +101,9 @@ public class SessionHandle
 	 * @param fileName
 	 *            name of the file to open. If <code>null</code>, the design
 	 *            will be treated as a new design, and will be saved to a
-	 *            different file.
+	 *            different file. If not <code>null</code>, it may contain
+	 *            the relative/absolute path information. This name must include
+	 *            the file name with the filename extension.
 	 * @param is
 	 *            stream to read the design
 	 * @return handle to the report design
@@ -112,10 +118,32 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a design given a stream to the design and the the file name of the
+	 * design. *
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the report.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream to read the design
+	 * 
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ReportDesignHandle openDesign( URL systemId, InputStream is )
+			throws DesignFileException
+	{
+		return session.openDesign( systemId, is ).handle( );
+	}
+
+	/**
 	 * Opens a library with the given the file name.
 	 * 
 	 * @param fileName
-	 *            name of the file to open
+	 *            name of the file to open. This name must include the file name
+	 *            with the filename extension.
 	 * @return handle to the library
 	 * 
 	 * @throws DesignFileException
@@ -126,6 +154,26 @@ public class SessionHandle
 			throws DesignFileException
 	{
 		return session.openLibrary( fileName ).handle( );
+	}
+
+	/**
+	 * Opens a library with the given the file name.
+	 * 
+	 * @param systemId
+	 *            the uri where to find the relative sources for the library.
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream
+	 * @return handle to the library
+	 * 
+	 * @throws DesignFileException
+	 *             if the file is not found, or the file contains fatal errors.
+	 */
+
+	public LibraryHandle openLibrary( URL systemId, InputStream is )
+			throws DesignFileException
+	{
+		return session.openLibrary( systemId, is ).handle( );
 	}
 
 	/**

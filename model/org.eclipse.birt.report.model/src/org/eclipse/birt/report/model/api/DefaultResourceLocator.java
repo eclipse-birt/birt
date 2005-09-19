@@ -15,6 +15,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.util.URIUtil;
+
 /**
  * The default file search algorithm. It searches for a given file in the 'base'
  * folder of a design. If the 'base' property of the design was not set, then
@@ -50,25 +52,88 @@ public class DefaultResourceLocator implements IResourceLocator
 		if ( fileName == null )
 			return null;
 
-		String base = moduleHandle.getFileName( );
-		if ( base != null )
+		URL systemId = moduleHandle.getModule( ).getSystemId( );
+		assert systemId != null;
+
+		URL url = tryFileSearch( systemId, fileName );
+		if ( url != null )
+			return url;
+
+		// if system id indicates a file protocol, it must have been checked
+		// in the tryFileSearch(). DO NOT call tryURISearch in these cases.
+
+		if ( systemId == null
+				|| URIUtil.FILE_SCHEMA
+						.equalsIgnoreCase( systemId.getProtocol( ) ) )
+			return null;
+
+		return tryURLSearch( systemId, fileName );
+	}
+
+	/**
+	 * Return a url if the <code>fileName</code> can be found in the directory
+	 * <code>filePath</code>.
+	 * 
+	 * @param filePath
+	 *            the file directory
+	 * @param fileName
+	 *            the file name
+	 * @return the <code>URL</code> object. <code>null</code> if the file
+	 *         can not be found.
+	 */
+
+	private URL tryFileSearch( URL systemId, String fileName )
+	{
+		if ( !URIUtil.FILE_SCHEMA.equalsIgnoreCase( systemId.getProtocol( ) ) )
+			return null;
+
+		File f = new File( systemId.getPath( ) );
+		if ( f.isDirectory( ) )
+			f = new File( f.getPath( ), fileName );
+		else
+			f = new File( f.getParent( ), fileName );
+
+		if ( f.isFile( ) && f.exists( ) )
 		{
-			File baseFile = new File( base );
-			File f = new File( baseFile.getParent(), fileName );
-			if ( f.exists( ) && f.isFile( ) )
+			try
 			{
-				try
-				{
-					return f.toURL( );
-				}
-				catch( MalformedURLException e )
-				{
-					return null;
-				}
+				return f.toURL( );
+			}
+			catch ( MalformedURLException e )
+			{
+				return null;
 			}
 		}
 
 		return null;
 	}
 
+	/**
+	 * Return a url with the given base <code>uri</code> and the
+	 * <code>fileName</code>.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @param fileName
+	 *            the file name
+	 * @return the <code>URL</code> object. <code>null</code> if the file
+	 *         can not be found.
+	 */
+
+	private URL tryURLSearch( URL systemId, String fileName )
+	{
+		assert systemId != null;
+
+		try
+		{
+			URL urlObj = new URL( systemId, URIUtil
+					.convertFileNameToURLString( fileName ) );
+			return urlObj;
+		}
+		catch ( MalformedURLException e )
+		{
+			return null;
+		}
+
+	}
 }

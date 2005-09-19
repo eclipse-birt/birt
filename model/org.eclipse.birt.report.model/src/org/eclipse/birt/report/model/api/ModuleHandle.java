@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
@@ -52,7 +53,6 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Abstract module handle which provides the common functionalities of report
@@ -1274,7 +1274,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( fileName == null )
 			return;
 		module.prepareToSave( );
-		module.getWriter( ).write( new File( fileName ) );
+		module.getWriter( ).write( new File( getModule( ).getFileName( ) ) );
 		module.onSave( );
 	}
 
@@ -1361,12 +1361,23 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * registered in the module.
 	 * 
 	 * @param newName
-	 *            the new file name
+	 *            the new file name. It may contain the relative/absolute path
+	 *            information. This name must include the file name with the
+	 *            filename extension.
 	 */
 
 	public void setFileName( String newName )
 	{
-		module.setFileName( newName );
+		getModule( ).setFileName( newName );
+
+		if ( !StringUtil.isBlank( newName ) )
+		{
+			URL systemId = URIUtil.getDirectory( newName );
+
+			if ( systemId != null )
+				getModule( ).setSystemId( systemId );
+		}
+
 		AttributeEvent event = new AttributeEvent( module,
 				AttributeEvent.FILE_NAME_ATTRIBUTE );
 		module.broadcastFileNameEvent( event );
