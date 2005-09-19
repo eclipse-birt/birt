@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.render;
 
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -100,7 +101,7 @@ public final class EmptyWithoutAxes extends BaseRenderer
 
 		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)
 		renderPlane( ipr,
-				lg,
+				StructureSource.createLegend( lg ),
 				loaFrontFace,
 				fPaletteEntry,
 				lia,

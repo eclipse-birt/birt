@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -49,7 +50,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	{
 		return s3d;
 	}
-	
+
 	/**
 	 * @param start
 	 */
@@ -65,8 +66,28 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	{
 		return e3d;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * Returns center of gravity of line
+	 * 
+	 * @return
+	 */
+	public Vector getCenter( )
+	{
+		if ( s3d == null || e3d == null )
+		{
+			return null;
+		}
+
+		return new Vector( ( s3d.getX( ) + e3d.getX( ) ) / 2,
+				( s3d.getY( ) + e3d.getY( ) ) / 2,
+				( s3d.getZ( ) + e3d.getZ( ) ) / 2,
+				true );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
 	public PrimitiveRenderEvent copy( )

@@ -36,15 +36,12 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 public class EventObjectCache
 {
 
-	/**
-	 * 
-	 */
 	private transient Hashtable _htEvents;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/event" ); //$NON-NLS-1$
 
 	/**
-	 * 
+	 * The constructor.
 	 */
 	public EventObjectCache( )
 	{

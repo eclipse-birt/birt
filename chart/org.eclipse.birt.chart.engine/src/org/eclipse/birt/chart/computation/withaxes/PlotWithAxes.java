@@ -1018,7 +1018,10 @@ public abstract class PlotWithAxes extends Methods
 			final Object[] oaMinMax = scY.getMinMax( );
 			while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 			{
-				scY.zoomOut( );
+				if (!scY.zoomOut( ))
+				{
+					break;
+				}
 				scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 				int tickCount = scY.computeTicks( ids,
 						laYAxisLabels,
@@ -1168,7 +1171,10 @@ public abstract class PlotWithAxes extends Methods
 
 				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					scX.zoomOut( );
+					if (!scX.zoomOut( ))
+					{
+						break;
+					}
 					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					int tickCount = scX.computeTicks( ids,
 							laXAxisLabels,
@@ -1289,7 +1295,10 @@ public abstract class PlotWithAxes extends Methods
 				final Object[] oaMinMax = scX.getMinMax( );
 				while ( !scX.checkFit( ids, laXAxisLabels, iXLabelLocation ) )
 				{
-					scX.zoomOut( );
+					if (!scX.zoomOut( ))
+					{
+						break;
+					}
 					scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					int tickCount = scX.computeTicks( ids,
 							laXAxisLabels,
@@ -1398,7 +1407,10 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							scX.zoomOut( );
+							if (!scX.zoomOut( ))
+							{
+								break;
+							}
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
@@ -1443,7 +1455,10 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							scX.zoomOut( );
+							if (!scX.zoomOut( ))
+							{
+								break;
+							}
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
@@ -1531,7 +1546,10 @@ public abstract class PlotWithAxes extends Methods
 									laXAxisLabels,
 									iXLabelLocation ) )
 							{
-								scX.zoomOut( );
+								if (!scX.zoomOut( ))
+								{
+									break;
+								}
 								scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 								int tickCount = scX.computeTicks( ids,
 										laXAxisLabels,
@@ -1578,7 +1596,10 @@ public abstract class PlotWithAxes extends Methods
 								laXAxisLabels,
 								iXLabelLocation ) )
 						{
-							scX.zoomOut( );
+							if (!scX.zoomOut( ))
+							{
+								break;
+							}
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scX.computeTicks( ids,
 									laXAxisLabels,
@@ -1768,7 +1789,10 @@ public abstract class PlotWithAxes extends Methods
 					final Object[] oaMinMax = scY.getMinMax( );
 					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 					{
-						scY.zoomOut( );
+						if (!scY.zoomOut( ))
+						{
+							break;
+						}
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
@@ -1876,7 +1900,10 @@ public abstract class PlotWithAxes extends Methods
 					final Object[] oaMinMax = scY.getMinMax( );
 					while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 					{
-						scY.zoomOut( );
+						if (!scY.zoomOut( ))
+						{
+							break;
+						}
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
@@ -1977,7 +2004,10 @@ public abstract class PlotWithAxes extends Methods
 									laYAxisLabels,
 									iYLabelLocation ) )
 							{
-								scY.zoomOut( );
+								if (!scY.zoomOut( ))
+								{
+									break;
+								}
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 								int tickCount = scY.computeTicks( ids,
 										laYAxisLabels,
@@ -2079,7 +2109,10 @@ public abstract class PlotWithAxes extends Methods
 									laYAxisLabels,
 									iYLabelLocation ) )
 							{
-								scY.zoomOut( );
+								if (!scY.zoomOut( ))
+								{
+									break;
+								}
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 								int tickCount = scY.computeTicks( ids,
 										laYAxisLabels,

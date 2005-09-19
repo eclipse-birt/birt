@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -175,7 +176,7 @@ public final class CurveRenderer
 		lia = _lia;
 		zeroLocation = _zeroLocation;
 		bTranslucent = _bTranslucent;
-		oSource = _render.getSeries( );
+		oSource = StructureSource.createSeries( _render.getSeries( ) );
 		dc = _render.getDeferredCache( );
 		this.iRender = _render;
 		loStart = LocationImpl.create( 0, 0 );

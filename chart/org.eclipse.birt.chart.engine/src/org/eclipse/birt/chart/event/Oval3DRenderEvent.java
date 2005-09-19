@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location3D;
@@ -51,6 +52,31 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return points;
 	}
 
+	/**
+	 * Returns center of gravity of oval
+	 * 
+	 * @return
+	 */
+	public Vector getCenter( )
+	{
+		if ( points == null || points.length == 0 )
+		{
+			return null;
+		}
+
+		double m = points.length;
+		double xs = 0, ys = 0, zs = 0;
+
+		for ( int i = 0; i < m; i++ )
+		{
+			xs += points[i].getX( );
+			ys += points[i].getY( );
+			zs += points[i].getZ( );
+		}
+
+		return new Vector( xs / m, ys / m, zs / m, true );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

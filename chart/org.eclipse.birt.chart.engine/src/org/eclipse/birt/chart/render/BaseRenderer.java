@@ -41,8 +41,10 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.RectangleRenderEvent;
+import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
+import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -357,7 +359,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
-			renderBlock( idr, bl );
+			renderBlock( idr, bl, StructureSource.createUnknown( bl ) );
 			ScriptHandler.callFunction( sh, ScriptHandler.AFTER_DRAW_BLOCK, bl );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 					bl );
@@ -399,7 +401,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						bl );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
-				renderTitle( ir, bl );
+				renderTitle( ir, (TitleBlock) bl );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
 						bl );
@@ -413,7 +415,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						bl );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
-				renderLabel( ir, bl );
+				renderLabel( ir, bl, StructureSource.createUnknown( bl ) );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
 						bl );
@@ -441,7 +443,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						bl );
 				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 						bl );
-				renderBlock( ir, bl );
+				renderBlock( ir, bl, StructureSource.createUnknown( bl ) );
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.AFTER_DRAW_BLOCK,
 						bl );
@@ -501,7 +503,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			return;
 		}
 
-		renderBlock( ipr, lg );
+		renderBlock( ipr, lg, StructureSource.createLegend( lg ) );
 		final IDisplayServer xs = getDevice( ).getDisplayServer( );
 		final double dScale = xs.getDpiResolution( ) / 72d;
 		Bounds bo = lg.getBounds( ).scaledInstance( dScale );
@@ -642,7 +644,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		dX = bo.getLeft( );
 		dY = bo.getTop( );
 
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ir ).getEventObject( ca,
+		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				RectangleRenderEvent.class );
 		rre.setBounds( bo );
 		rre.setOutline( lia );
@@ -1634,7 +1636,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					break;
 			}
 
-			final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( lg,
+			final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( WrappedStructureSource.createLegendTitle( lg,
+					lgTitle ),
 					TextRenderEvent.class );
 			tre.setBlockBounds( BoundsImpl.create( lX,
 					lY,
@@ -1668,7 +1671,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		if ( o.getValue( ) == Orientation.HORIZONTAL )
 		{
-			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( lg,
+			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
 			lre.setStart( LocationImpl.create( dX, dY ) );
@@ -1677,7 +1680,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		else if ( o.getValue( ) == Orientation.VERTICAL )
 		{
-			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( lg,
+			final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					LineRenderEvent.class );
 			lre.setLineAttributes( lia );
 			lre.setStart( LocationImpl.create( dX, dY ) );
@@ -1726,7 +1729,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final BaseRenderer br = lirh.getRenderer( );
 		br.renderLegendGraphic( ipr, lg, fPaletteEntry, bo );
 
-		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( lg,
+		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				TextRenderEvent.class );
 		tre.setLocation( LocationImpl.create( dX
 				+ dLeftInset
@@ -1740,7 +1743,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( valueLa != null )
 		{
 			Location[] loaBack = new Location[4];
-			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ir ).getEventObject( lg,
+			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 					PolygonRenderEvent.class );
 			pre.setBackground( valueLa.getBackground( ) );
 			pre.setOutline( valueLa.getOutline( ) );
@@ -1791,7 +1794,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				+ dValueHeight );
 		if ( !elTriggers.isEmpty( ) )
 		{
-			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( se,
+			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
 					InteractionEvent.class );
 			iev.reuse( se );
 			for ( int t = 0; t < elTriggers.size( ); t++ )
@@ -1802,7 +1805,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					iev.addTrigger( tg );
 				}
 			}
-			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( lg,
+			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 					PolygonRenderEvent.class );
 			pre.setPoints( loaHotspot );
 			iev.setHotSpot( pre );
@@ -1870,7 +1873,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		final double dScale = getDevice( ).getDisplayServer( )
 				.getDpiResolution( ) / 72d;
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( p,
+		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 		rre.updateFrom( p, dScale ); // POINTS => PIXELS
 		ipr.fillRectangle( rre );
@@ -1901,7 +1904,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				final Size sz = SizeImpl.create( bo.getWidth( )
 						/ pwoa.getColumnCount( ), bo.getHeight( )
 						/ pwoa.getRowCount( ) );
-				final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( ca,
+				final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						LineRenderEvent.class );
 				lre.setLineAttributes( ca.getOutline( ) );
 
@@ -1946,12 +1949,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @throws RenderingException
 	 */
-	protected void renderBlock( IPrimitiveRenderer ipr, Block b )
+	protected void renderBlock( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
 	{
 		final double dScale = getDevice( ).getDisplayServer( )
 				.getDpiResolution( ) / 72d;
-		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( b,
+		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
 		ipr.fillRectangle( rre );
@@ -1965,18 +1968,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @throws RenderingException
 	 */
-	public void renderLabel( IPrimitiveRenderer ipr, Block b )
+	public void renderLabel( IPrimitiveRenderer ipr, Block b, Object oSource )
 			throws ChartException
 	{
 		if ( !b.isVisible( ) ) // CHECK VISIBILITY
 		{
 			return;
 		}
-		renderBlock( ipr, b );
+		renderBlock( ipr, b, oSource );
 		final double dScale = getDevice( ).getDisplayServer( )
 				.getDpiResolution( ) / 72d;
 		final LabelBlock lb = (LabelBlock) b;
-		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( lb,
+		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
 
 		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc ); // HANDLES
@@ -1993,10 +1996,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	 * 
 	 * @throws RenderingException
 	 */
-	public void renderTitle( IPrimitiveRenderer ipr, Block b )
+	public void renderTitle( IPrimitiveRenderer ipr, TitleBlock b )
 			throws ChartException
 	{
-		renderLabel( ipr, b );
+		renderLabel( ipr, b, StructureSource.createTitle( b ) );
 	}
 
 	/**

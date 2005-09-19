@@ -1073,7 +1073,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						oaxOverlay.getLabel( ),
 						oaxOverlay.getLabelPosition( ) ) )
 				{
-					sc.zoomOut( );
+					if (!sc.zoomOut( ))
+					{
+						break;
+					}
 					sc.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					sc.computeTicks( ids,
 							oaxOverlay.getLabel( ),
@@ -1445,7 +1448,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				oaMinMax = scOA.getMinMax( );
 				while ( !scOA.checkFit( ids, la, axOverlay.getLabelPosition( ) ) )
 				{
-					scOA.zoomOut( );
+					if (!scOA.zoomOut( ))
+					{
+						break;
+					}
 					scOA.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					scOA.computeTicks( ids,
 							la,

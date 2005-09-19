@@ -465,7 +465,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 			final Object[] oaMinMax = scY.getMinMax( );
 			while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 			{
-				scY.zoomOut( );
+				if (!scY.zoomOut( ))
+				{
+					break;
+				}
 				scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 				int tickCount = scY.computeTicks( ids,
 						laYAxisLabels,
@@ -616,7 +619,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
 				{
-					scZ.zoomOut( );
+					if (!scZ.zoomOut( ))
+					{
+						break;
+					}
 					scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					int tickCount = scZ.computeTicks( ids,
 							laZAxisLabels,
@@ -737,7 +743,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 				final Object[] oaMinMax = scZ.getMinMax( );
 				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
 				{
-					scZ.zoomOut( );
+					if (!scZ.zoomOut( ))
+					{
+						break;
+					}
 					scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 					int tickCount = scZ.computeTicks( ids,
 							laZAxisLabels,
@@ -846,7 +855,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							scZ.zoomOut( );
+							if (!scZ.zoomOut( ))
+							{
+								break;
+							}
 							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scZ.computeTicks( ids,
 									laZAxisLabels,
@@ -891,7 +903,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							scZ.zoomOut( );
+							if (!scZ.zoomOut( ))
+							{
+								break;
+							}
 							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scZ.computeTicks( ids,
 									laZAxisLabels,
@@ -979,7 +994,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 									laZAxisLabels,
 									iZLabelLocation ) )
 							{
-								scZ.zoomOut( );
+								if (!scZ.zoomOut( ))
+								{
+									break;
+								}
 								scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 								int tickCount = scZ.computeTicks( ids,
 										laZAxisLabels,
@@ -1026,7 +1044,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							scZ.zoomOut( );
+							if (!scZ.zoomOut( ))
+							{
+								break;
+							}
 							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 							int tickCount = scZ.computeTicks( ids,
 									laZAxisLabels,

@@ -378,6 +378,8 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( bStepFixed )
 			return false;
+		if ( ( (Number) oStep ).doubleValue( ) >= Double.POSITIVE_INFINITY )
+			return false; // CANNOT ZOOM ANY MORE
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
 		{

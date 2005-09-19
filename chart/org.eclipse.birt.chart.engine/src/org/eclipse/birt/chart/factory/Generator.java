@@ -337,13 +337,13 @@ public final class Generator
 							br.getSeries( ) ) );
 				}
 				ScriptHandler.callFunction( sh,
-						ScriptHandler.BEFORE_COMPUTE_SERIES,
+						ScriptHandler.START_COMPUTE_SERIES,
 						br.getSeries( ) );
 				br.compute( bo,
 						cmRunTime.getPlot( ),
 						br.getSeriesRenderingHints( ) );
 				ScriptHandler.callFunction( sh,
-						ScriptHandler.AFTER_COMPUTE_SERIES,
+						ScriptHandler.FINISH_COMPUTE_SERIES,
 						br.getSeries( ) );
 			}
 			catch ( Exception ex )
