@@ -76,7 +76,7 @@
                toolbarPath="previewGroup"
                label="%designer.preview.previewtoolbarmenuaction.label"
                tooltip="%designer.preview.previewtoolbarmenuaction.label"
-               icon="icons/etool16/preview.gif"
+               icon="icons/etool16/preview.gif"               
                class="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenuAction"
                style="pulldown"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewToolbarMenu">
@@ -89,6 +89,7 @@
                label="%designer.preview.previewinpdfaction.label"
                icon="icons/etool16/preview_pdf.gif"
                tooltip="%designer.preview.previewinpdfaction.label"
+               accelerator="Ctrl+I"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                menubarPath="file/preview"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewInPDFAction"/>
@@ -97,6 +98,7 @@
                label="%designer.preview.previewaction.label"
                icon="icons/etool16/preview.gif"
                tooltip="%designer.preview.previewaction.label"
+               accelerator="Ctrl+T"
                class="org.eclipse.birt.report.designer.ui.actions.PreviewAction"
                menubarPath="file/preview"
                id="org.eclipse.birt.report.designer.ui.actions.PreviewAction"/>

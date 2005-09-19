@@ -490,16 +490,23 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		List points = ExtensionPointManager.getInstance( )
 				.getExtendedElementPoints( );
-		for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
-		{
-			ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
-			action = getAction( point.getExtensionName( ) );
-			if ( action != null )
+			for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
 			{
-				action.setText( point.getExtensionName( ) );
-				subMenu.add( action );
+				ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
+				action = getAction( point.getExtensionName( ) );
+				if ( action != null )
+				{
+					if(point.getExtensionName( ).equalsIgnoreCase("Chart")) //$NON-NLS-1$
+					{
+						action.setText( "&" + point.getExtensionName( ) ); //$NON-NLS-1$
+					}
+					else
+					{
+						action.setText( point.getExtensionName( ) );
+					}
+					subMenu.add( action );
+				}
 			}
-		}
 
 		menuManager.appendToGroup( group_name, subMenu );
 	}
