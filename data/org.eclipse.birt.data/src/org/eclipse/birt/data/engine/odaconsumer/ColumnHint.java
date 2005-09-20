@@ -21,6 +21,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * <code>ColumnHint</code> provides hints to merge static design time 
@@ -117,7 +119,9 @@ public class ColumnHint
 		        dataType == BigDecimal.class ||
 		        dataType == Date.class ||
 		        dataType == Time.class ||
-		        dataType == Timestamp.class );
+		        dataType == Timestamp.class ||
+		        dataType == IBlob.class ||
+		        dataType == IClob.class );
 		
 		m_dataType = dataType;
 	}

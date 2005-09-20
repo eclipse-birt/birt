@@ -35,6 +35,8 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
@@ -45,6 +47,9 @@ import org.eclipse.datatools.connectivity.oda.SortSpec;
 /**
  * <code>PreparedStatement</code> represents a statement query that can be executed without 
  * input parameter values and returns the results and output parameters values it produces.
+ * <br>
+ * Blob and Clob data types are only supported in output data returned
+ * in result columns and output parameters.
  */
 public class PreparedStatement
 {
@@ -1647,6 +1652,18 @@ public class PreparedStatement
 							 getTimestamp( paramName );
 				break;
 				
+			case Types.BLOB:
+				paramValue = ( paramName == null ) ?
+							 doGetBlob( paramIndex ) :
+							 getBlob( paramName );
+				break;
+				
+			case Types.CLOB:
+				paramValue = ( paramName == null ) ?
+							 doGetClob( paramIndex ) :
+							 getClob( paramName );
+				break;
+				
 			default:
 				assert false;	// exception now thrown by DriverManager
 		}
@@ -1810,6 +1827,50 @@ public class PreparedStatement
 		else
 		{
 			ret = doGetTimestamp( paramName );
+		}
+		
+		sm_logger.exiting( sm_className, methodName, ret );
+		return ret;
+	}
+	
+	private IBlob getBlob( String paramName ) throws DataException
+	{
+		final String methodName = "getBlob";
+		sm_logger.entering( sm_className, methodName, paramName );
+		
+		IBlob ret = null;
+		
+		if( ! supportsNamedParameter() )
+		{
+			int paramIndex = getIndexFromParamHints( paramName );
+			if( paramIndex > 0 )
+				ret = doGetBlob( paramIndex );
+		}
+		else
+		{
+			ret = doGetBlob( paramName );
+		}
+		
+		sm_logger.exiting( sm_className, methodName, ret );
+		return ret;
+	}
+	
+	private IClob getClob( String paramName ) throws DataException
+	{
+		final String methodName = "getClob";
+		sm_logger.entering( sm_className, methodName, paramName );
+		
+		IClob ret = null;
+		
+		if( ! supportsNamedParameter() )
+		{
+			int paramIndex = getIndexFromParamHints( paramName );
+			if( paramIndex > 0 )
+				ret = doGetClob( paramIndex );
+		}
+		else
+		{
+			ret = doGetClob( paramName );
 		}
 		
 		sm_logger.exiting( sm_className, methodName, ret );
@@ -2241,6 +2302,122 @@ public class PreparedStatement
 			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_PARAMETER, ex,
 			                         new Object[] { paramName } );
 		}
+	}
+	
+	private IBlob doGetBlob( int paramIndex ) throws DataException
+	{
+		final String methodName = "doGetBlob( int )";
+		sm_logger.entering( sm_className, methodName, paramIndex );
+
+		try
+		{
+		    IBlob ret = getAdvancedStatement().getBlob( paramIndex );
+
+			sm_logger.exiting( sm_className, methodName, ret );
+			return ret;
+		}
+		catch( OdaException ex )
+		{
+		    return logAndThrowGetBlobParamException( methodName, 
+		            			new Integer( paramIndex ), ex );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    return logAndThrowGetBlobParamException( methodName, 
+        						new Integer( paramIndex ), ex );
+		}
+	}
+	
+	private IBlob doGetBlob( String paramName ) throws DataException
+	{
+		final String methodName = "doGetBlob( String )";
+		sm_logger.entering( sm_className, methodName, paramName );
+		
+		try
+		{
+		    IBlob ret = getAdvancedStatement().getBlob( paramName );
+
+			sm_logger.exiting( sm_className, methodName, ret );
+			return ret;
+		}
+		catch( OdaException ex )
+		{
+		    return logAndThrowGetBlobParamException( methodName, 
+		            						paramName, ex );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    return logAndThrowGetBlobParamException( methodName, 
+											paramName, ex );
+		}
+	}
+	
+	private IBlob logAndThrowGetBlobParamException( String methodName, 
+	        Object parameterId, Exception ex ) throws DataException
+	{
+		sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+				"Cannot get BLOB data from parameter.", ex );
+
+		throw new DataException( ResourceConstants.CANNOT_GET_BLOB_FROM_PARAMETER, 
+		        				ex, parameterId );
+	}
+	
+	private IClob doGetClob( int paramIndex ) throws DataException
+	{
+		final String methodName = "doGetClob( int )";
+		sm_logger.entering( sm_className, methodName, paramIndex );
+
+		try
+		{
+		    IClob ret = getAdvancedStatement().getClob( paramIndex );
+
+			sm_logger.exiting( sm_className, methodName, ret );
+			return ret;
+		}
+		catch( OdaException ex )
+		{
+		    return logAndThrowGetClobParamException( methodName, 
+		            			new Integer( paramIndex ), ex );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    return logAndThrowGetClobParamException( methodName, 
+        						new Integer( paramIndex ), ex );
+		}
+	}
+	
+	private IClob doGetClob( String paramName ) throws DataException
+	{
+		final String methodName = "doGetClob( String )";
+		sm_logger.entering( sm_className, methodName, paramName );
+		
+		try
+		{
+		    IClob ret = getAdvancedStatement().getClob( paramName );
+
+			sm_logger.exiting( sm_className, methodName, ret );
+			return ret;
+		}
+		catch( OdaException ex )
+		{
+		    return logAndThrowGetClobParamException( methodName, 
+		            						paramName, ex );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    return logAndThrowGetClobParamException( methodName, 
+											paramName, ex );
+		}
+	}
+	
+	private IClob logAndThrowGetClobParamException( String methodName, 
+	        Object parameterId, Exception ex ) throws DataException
+	{
+		sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+				"Cannot get CLOB data from parameter.", ex );
+
+		throw new DataException( ResourceConstants.CANNOT_GET_CLOB_FROM_PARAMETER, 
+		        				ex, parameterId );
 	}
 	
 	private boolean wasNull() throws DataException

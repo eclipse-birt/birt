@@ -19,8 +19,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.sql.Time;
 import java.sql.Timestamp;
+
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * <code>ParameterHint</code> provides hints to map static  
@@ -52,7 +55,7 @@ public class ParameterHint
 	 */
 	public ParameterHint( String parameterName, boolean isInputMode, boolean isOutputMode )
 	{
-		String methodName = "ParameterHint";
+		final String methodName = "ParameterHint";
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName,
 		            			new Object[] { parameterName, new Boolean( isInputMode ), new Boolean( isOutputMode ) } );
@@ -94,7 +97,7 @@ public class ParameterHint
 	 */
 	public void setPosition( int position )
 	{
-		String methodName = "setPosition";
+		final String methodName = "setPosition";
 		
 		if( position < 1 )
 		{
@@ -121,18 +124,48 @@ public class ParameterHint
 	/**
 	 * Sets the data type for this parameter hint.
 	 * @param dataType	the data type of the parameter.
+	 * @throws IllegalArgumentException	if the parameter data type is invalid
 	 */
 	public void setDataType( Class dataType )
 	{
+		final String methodName = "setDataType";
+		
+		// validate given data type;
 		// data type for a hint may be null
-		assert( dataType == null || 
+		boolean isValid = false;
+		if( dataType == null || 
 		        dataType == Integer.class ||
 		        dataType == Double.class ||
 		        dataType == String.class ||
 		        dataType == BigDecimal.class ||
 		        dataType == Date.class ||
 		        dataType == Time.class ||
-		        dataType == Timestamp.class );
+		        dataType == Timestamp.class ||
+		        dataType == IBlob.class ||
+		        dataType == IClob.class )
+		{
+		    isValid = true;
+		}
+		
+		// input parameter does not support Blob/Clob data type
+		if( isValid && isInputMode() && dataType != null )
+		{
+		    if( dataType == IBlob.class || 
+		        dataType == IClob.class )
+		    {
+			    isValid = false;
+		    }
+		}
+		
+		if( isValid == false )
+		{
+			String localizedMessage = 
+				DataResourceHandle.getInstance().getMessage( ResourceConstants.UNSUPPORTED_PARAMETER_VALUE_TYPE,
+				        new Object[]{ dataType } );
+			sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+					"Invalid parameter data type {0}.", dataType );
+			throw new IllegalArgumentException( localizedMessage );
+		}
 		
 		m_dataType = dataType;
 	}

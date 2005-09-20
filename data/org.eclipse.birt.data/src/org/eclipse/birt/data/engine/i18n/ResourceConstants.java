@@ -188,6 +188,8 @@ public class ResourceConstants
 	public final static String CANNOT_GET_DATE_FROM_PARAMETER = "odaconsumer.CannotGetDateFromParameter";
 	public final static String CANNOT_GET_TIME_FROM_PARAMETER = "odaconsumer.CannotGetTimeFromParameter";
 	public final static String CANNOT_GET_TIMESTAMP_FROM_PARAMETER = "odaconsumer.CannotGetTimestampFromParameter";
+	public final static String CANNOT_GET_BLOB_FROM_PARAMETER = "odaconsumer.CannotGetBlobFromParameter";
+	public final static String CANNOT_GET_CLOB_FROM_PARAMETER = "odaconsumer.CannotGetClobFromParameter";
 	public final static String CANNOT_FIND_IN_PARAMETER = "odaconsumer.CannotFindInParameter";
 	public final static String CANNOT_SET_INT_PARAMETER = "odaconsumer.CannotSetIntParameter";
 	public final static String CANNOT_SET_DOUBLE_PARAMETER = "odaconsumer.CannotSetDoubleParameter";

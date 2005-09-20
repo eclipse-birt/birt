@@ -16,6 +16,9 @@ import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
+
 /**
  * <code>ResultFieldMetadata</code> contains metadata about a 
  * column that is needed by <code>ResultClass</code>.
@@ -91,7 +94,9 @@ public class ResultFieldMetadata
 		        dataType == BigDecimal.class ||
 		        dataType == Date.class ||
 		        dataType == Time.class ||
-		        dataType == Timestamp.class );
+		        dataType == Timestamp.class ||
+		        dataType == IBlob.class ||
+		        dataType == IClob.class ); 
 		
 		m_dataType = dataType;
 	}

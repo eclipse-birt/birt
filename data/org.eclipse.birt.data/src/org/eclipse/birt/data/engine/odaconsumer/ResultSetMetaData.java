@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
-import java.sql.Types;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -141,29 +140,21 @@ public class ResultSetMetaData
 	}
 	
 	/**
-	 * Returns the <code>java.sql.Types</code> type at the specified column index.
+	 * Returns the ODA type at the specified column index.
 	 * @param index	the column index.
-	 * @return		the <code>java.sql.Types</code> type at the specified column index.
+	 * @return		the ODA type, in <code>java.sql.Types</code> value, 
+	 * 				at the specified column index.
 	 * @throws DataException	if data source error occurs.
 	 */
 	public int getColumnType( int index ) throws DataException
 	{
 	    final String methodName = "getColumnType";
 	    
-		int nativeType = doGetColumnType( index );
+		int nativeType = doGetNativeColumnType( index );
 		int odaType = 
 			DriverManager.getInstance().getNativeToOdaMapping( m_driverName, 
 															   m_dataSetType,
 															   nativeType );
-		if( odaType != Types.INTEGER &&
-			odaType != Types.DOUBLE &&
-			odaType != Types.CHAR &&
-			odaType != Types.DECIMAL &&
-			odaType != Types.DATE &&
-			odaType != Types.TIME &&
-			odaType != Types.TIMESTAMP &&
-			odaType != Types.NULL )
-			assert false;	// exception is now thrown by DriverManager
 		
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 
@@ -203,9 +194,9 @@ public class ResultSetMetaData
 		}
 	}
 
-	private int doGetColumnType( int index ) throws DataException
+	private int doGetNativeColumnType( int index ) throws DataException
 	{
-	    final String methodName = "doGetColumnType";
+	    final String methodName = "doGetNativeColumnType";
 
 	    verifyHasRuntimeMetaData();
 		try

@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  * Utility class for handling data types in the ODI layer of the Data 
@@ -48,14 +50,16 @@ public final class DataTypeUtil
 	 * Decimal -> java.math.BigDecimal<br>
 	 * Date -> java.util.Date<br>
 	 * Time -> java.sql.Time<br>
-	 * Timestamp -> java.sql.Timestamp<br></i>
+	 * Timestamp -> java.sql.Timestamp<br>
+	 * Blob -> org.eclipse.datatools.connectivity.oda.IBlob<br>
+	 * Clob -> org.eclipse.datatools.connectivity.oda.IClob<br></i>
 	 * @param odaDataType	the ODA data type.
 	 * @return	the Java class that corresponds with the ODA data type.
 	 * @throws IllegalArgumentException	if the ODA data type is not a supported type.
 	 */
 	public static Class toTypeClass( int odaDataType )
 	{
-		String methodName = "toTypeClass";		
+		final String methodName = "toTypeClass";		
 
 		if( odaDataType != Types.INTEGER &&
 			odaDataType != Types.DOUBLE &&
@@ -64,6 +68,8 @@ public final class DataTypeUtil
 			odaDataType != Types.DATE &&
 			odaDataType != Types.TIME &&
 			odaDataType != Types.TIMESTAMP &&
+			odaDataType != Types.BLOB &&
+			odaDataType != Types.CLOB &&
 			odaDataType != Types.NULL )
 		{
 			String localizedMessage = 
@@ -105,6 +111,14 @@ public final class DataTypeUtil
 				fieldClass = Timestamp.class;
 				break;
 				
+			case Types.BLOB:
+				fieldClass = IBlob.class;
+				break;
+				
+			case Types.CLOB:
+				fieldClass = IClob.class;
+				break;
+				
 			case Types.NULL:
 				fieldClass = null;
 				break;				    
@@ -127,14 +141,16 @@ public final class DataTypeUtil
 	 * java.math.BigDecimal -> Decimal<br>
 	 * java.util.Date -> Date<br>
 	 * java.sql.Time -> Time<br>
-	 * java.sql.Timestamp -> Timestamp<br></i><br>
+	 * java.sql.Timestamp -> Timestamp<br>
+	 * org.eclipse.datatools.connectivity.oda.IBlob -> Blob<br>
+	 * org.eclipse.datatools.connectivity.oda.IClob -> Clob<br></i><br>
 	 * All other Java classes are mapped to the ODA character type.
 	 * @param javaClass	the Java class.
 	 * @return	the ODA data type that maps to the Java class.
 	 */
 	public static int toOdaType( Class javaClass )
 	{
-		String methodName = "toOdaType";		
+		final String methodName = "toOdaType";		
 
 		int odaType = Types.CHAR;	// default
 		
@@ -155,6 +171,10 @@ public final class DataTypeUtil
 		    odaType = Types.TIME;
 		else if( javaClass == Timestamp.class )
 		    odaType = Types.TIMESTAMP;
+		else if( javaClass == IBlob.class )
+		    odaType = Types.BLOB;
+		else if( javaClass == IClob.class )
+		    odaType = Types.CLOB;
 		
 		if( sm_logger.isLoggable( Level.FINEST ) )
 		    sm_logger.logp( Level.FINEST, sm_className, methodName, 

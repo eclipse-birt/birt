@@ -25,6 +25,8 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
@@ -44,7 +46,7 @@ public class ResultSet
 		
 	ResultSet( IResultSet resultSet, IResultClass resultClass )
 	{
-		String methodName = "ResultSet";
+	    final String methodName = "ResultSet";
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 		            		new Object[] { resultSet, resultClass } );
@@ -76,7 +78,7 @@ public class ResultSet
 	 */
 	public void setMaxRows( int max ) throws DataException
 	{
-		String methodName = "setMaxRows";
+	    final String methodName = "setMaxRows";
 		try
 		{
 			m_resultSet.setMaxRows( max );
@@ -102,7 +104,7 @@ public class ResultSet
 	 */
 	public IResultObject fetch( ) throws DataException
 	{
-		String methodName = "fetch";
+	    final String methodName = "fetch";
 		try
 		{
 			if( ! m_resultSet.next( ) )
@@ -159,7 +161,11 @@ public class ResultSet
 				colValue = getTime( driverPosition );
 			else if( dataType == Timestamp.class )
 				colValue = getTimestamp( driverPosition );
-			else 
+			else if( dataType == IBlob.class )
+				colValue = getBlob( driverPosition );
+			else if( dataType == IClob.class )
+				colValue = getClob( driverPosition );
+			else
 				assert false;
 			
 			if( wasNull( ) )
@@ -175,10 +181,10 @@ public class ResultSet
 
 		return ret;
 	}
-	
-	private int getInt( int driverPosition ) throws DataException
+
+    private int getInt( int driverPosition ) throws DataException
 	{
-		String methodName = "getInt";
+        final String methodName = "getInt";
 		try
 		{
 			return m_resultSet.getInt( driverPosition );
@@ -201,7 +207,7 @@ public class ResultSet
 	
 	private double getDouble( int driverPosition ) throws DataException
 	{
-	    String methodName = "getDouble";
+	    final String methodName = "getDouble";
 		try
 		{
 			return m_resultSet.getDouble( driverPosition );
@@ -224,7 +230,7 @@ public class ResultSet
 	
 	private String getString( int driverPosition ) throws DataException
 	{
-	    String methodName = "getString";
+	    final String methodName = "getString";
 		try
 		{
 			return m_resultSet.getString( driverPosition );
@@ -247,7 +253,7 @@ public class ResultSet
 	
 	private BigDecimal getBigDecimal( int driverPosition ) throws DataException
 	{
-	    String methodName = "getBigDecimal";
+	    final String methodName = "getBigDecimal";
 		try
 		{
 			return m_resultSet.getBigDecimal( driverPosition );
@@ -270,7 +276,7 @@ public class ResultSet
 	
 	private java.util.Date getDate( int driverPosition ) throws DataException
 	{
-	    String methodName = "getDate";
+	    final String methodName = "getDate";
 		try
 		{
 			return m_resultSet.getDate( driverPosition );
@@ -293,7 +299,7 @@ public class ResultSet
 	
 	private Time getTime( int driverPosition ) throws DataException
 	{
-	    String methodName = "getTime";
+	    final String methodName = "getTime";
 		try
 		{
 			return m_resultSet.getTime( driverPosition );
@@ -316,7 +322,7 @@ public class ResultSet
 	
 	private Timestamp getTimestamp( int driverPosition ) throws DataException
 	{
-	    String methodName = "getTimestamp";
+	    final String methodName = "getTimestamp";
 		try
 		{
 			return m_resultSet.getTimestamp( driverPosition );
@@ -337,9 +343,55 @@ public class ResultSet
 		}
 	}
 	
+    private IBlob getBlob( int driverPosition ) throws DataException
+    {
+        final String methodName = "getBlob";
+		try
+		{
+			return m_resultSet.getBlob( driverPosition );
+		}
+		catch( OdaException ex )
+		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+		            		"Cannot get BLOB value.", ex );
+			throw new DataException( ResourceConstants.CANNOT_GET_BLOB_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+            				"Cannot get BLOB value.", ex );
+			throw new DataException( ResourceConstants.CANNOT_GET_BLOB_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+    }
+
+    private IClob getClob( int driverPosition ) throws DataException
+    {
+        final String methodName = "getClob";
+		try
+		{
+			return m_resultSet.getClob( driverPosition );
+		}
+		catch( OdaException ex )
+		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+		            		"Cannot get CLOB value.", ex );
+			throw new DataException( ResourceConstants.CANNOT_GET_CLOB_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+		catch( UnsupportedOperationException ex )
+		{
+		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
+            				"Cannot get CLOB value.", ex );
+			throw new DataException( ResourceConstants.CANNOT_GET_CLOB_FROM_COLUMN, ex, 
+			                         new Object[] { new Integer( driverPosition ) } );
+		}
+    }
+	
 	private boolean wasNull() throws DataException
 	{
-	    String methodName = "wasNull";
+	    final String methodName = "wasNull";
 		try
 		{
 			return m_resultSet.wasNull();
@@ -365,7 +417,7 @@ public class ResultSet
 	 */
 	public int getRowPosition( ) throws DataException
 	{
-	    String methodName = "getRowPosition";
+	    final String methodName = "getRowPosition";
 		try
 		{
 			return m_resultSet.getRow( );
@@ -390,7 +442,7 @@ public class ResultSet
 	 */
 	public void close( ) throws DataException
 	{
-	    String methodName = "close";
+	    final String methodName = "close";
 	    sm_logger.entering( sm_className, methodName );
 	    
 		try

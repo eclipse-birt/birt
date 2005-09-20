@@ -155,20 +155,24 @@ class Driver
 		
 		String odaType = mapping.getOdaScalarDataType();
 		
-		if( odaType.equals( "Date" ) )
+		if( odaType.equalsIgnoreCase( "Date" ) )
 			return Types.DATE;
-		else if( odaType.equals( "Decimal" ) )
+		else if( odaType.equalsIgnoreCase( "Decimal" ) )
 			return Types.DECIMAL;
-		else if( odaType.equals( "Double" ) )
+		else if( odaType.equalsIgnoreCase( "Double" ) )
 			return Types.DOUBLE;
-		else if( odaType.equals( "Integer" ) )
+		else if( odaType.equalsIgnoreCase( "Integer" ) )
 			return Types.INTEGER;
-		else if( odaType.equals( "String" ) )
+		else if( odaType.equalsIgnoreCase( "String" ) )
 			return Types.CHAR;
-		else if( odaType.equals( "Time" ) )
+		else if( odaType.equalsIgnoreCase( "Time" ) )
 			return Types.TIME;
-		else if( odaType.equals( "Timestamp" ) )
+		else if( odaType.equalsIgnoreCase( "Timestamp" ) )
 			return Types.TIMESTAMP;
+		else if( odaType.equalsIgnoreCase( "Blob" ) )
+			return Types.BLOB;
+		else if( odaType.equalsIgnoreCase( "Clob" ) )
+			return Types.CLOB;
 		else
 		{
 			// shouldn't be in here, the configuration should only have the 
