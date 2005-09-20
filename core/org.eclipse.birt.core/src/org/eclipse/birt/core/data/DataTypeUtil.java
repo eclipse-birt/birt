@@ -513,12 +513,30 @@ public final class DataTypeUtil
 	 */
 	public static String toString( Object source ) throws BirtException
 	{
+		return toString( source, Locale.getDefault( ) );
+	}
+	
+	
+	/**
+	 * Number -> String
+	 * 		Number.toString()
+	 * Boolean -> String
+	 * 		Boolean.toString()
+	 * Date	-> String
+	 * 		toString(Date,locale)
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String toString( Object source, Locale locale )
+			throws BirtException
+	{
 		if ( source == null )
 			return null;
 		
 		if(source instanceof Date )
 		{
-			return toString( (Date) source );
+			return toString( (Date) source, locale );
 		}
 		else
 		{
@@ -694,8 +712,9 @@ public final class DataTypeUtil
 	 * @param source
 	 * @return
 	 */
-	private static String toString( Date source ){
-		DateFormatter df = new DateFormatter( );
+	private static String toString( Date source, Locale locale )
+	{
+		DateFormatter df = new DateFormatter( locale );
 		return df.format( (Date) source );
 	}
 }
