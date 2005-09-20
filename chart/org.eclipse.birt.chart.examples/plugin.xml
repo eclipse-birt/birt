@@ -2,10 +2,10 @@
 <?eclipse version="3.0"?>
 <plugin
    id="org.eclipse.birt.chart.examples"
-   name="Chart Example(s) Plug-in"
+   name="BIRT Chart Examples Plug-in"
    version="1.0.1"
    provider-name="Eclipse.org"
-   class="org.eclipse.birt.chart.examples.TestsPlugin">
+   class="org.eclipse.birt.chart.examples.ExamplesPlugin">
 
    <runtime>
       <library name="examples.jar">
