@@ -93,7 +93,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.26 $ $Date: 2005/09/08 06:13:32 $
+ * @version $Revision: 1.27 $ $Date: 2005/09/19 07:54:47 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -133,6 +133,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	private static String DATABASE_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.DbIcon";
 	private static String COLUMN_ICON = "org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage.ColumnIcon";
 	
+	private String cachedSearchTxt = "";
+	private String cachedDbType = "";
+	private int cachedSchemaComboIndex = -1;
 	static
 	{
 		try
@@ -382,12 +385,13 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		DbType tableType  = new DbType(DbType.TABLE_TYPE, JdbcPlugin.getResourceString("tablepage.text.tabletype"));
 		DbType viewType = new DbType(DbType.VIEW_TYPE, JdbcPlugin.getResourceString("tablepage.text.viewtype"));
 		DbType allType = new DbType(DbType.ALL_TYPE, JdbcPlugin.getResourceString("tablepage.text.All"));
-
+		DbType procedureType = new DbType(DbType.PROCEDURE_TYPE,JdbcPlugin.getResourceString("tablepage.text.procedure"));
 		// Populate the Types of Data bases objects which can be retrieved
+		dbTypeList.add(allType);
 		dbTypeList.add(tableType);
 		dbTypeList.add(viewType);
-		dbTypeList.add(allType);
-		
+		if(metaDataProvider.isSchemaSupported()) 
+			dbTypeList.add(procedureType);
         filterComboViewer.setContentProvider(new IStructuredContentProvider(){
 
             public Object[] getElements(Object inputElement)
@@ -424,7 +428,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
         
 		filterComboViewer.setInput(dbTypeList);
 		
-		// Set the Default selection to the First Item , which is "Table"
+		// Set the Default selection to the First Item , which is "All"
 		filterComboViewer.getCombo().select(0);
 	}
 
@@ -435,6 +439,20 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	protected void populateAvailableDbObjects()
 	{
+		
+		if ( (cachedSearchTxt == searchTxt.getText( ) ||(cachedSearchTxt!=null&& cachedSearchTxt.equals( searchTxt.getText( ) ))) 
+				&& (cachedDbType == getSelectedDbType( )  ||(cachedDbType!=null&& cachedDbType.equals( getSelectedDbType( ) )) ))
+		{
+			if ( schemaList != null && schemaList.size( ) > 0 )
+			{
+				if ( cachedSchemaComboIndex == schemaCombo.getSelectionIndex( ) )
+				{
+					return;
+				}
+			}
+			else
+				return;
+		}
 		
 		// Clear of the Old values in the Available Db objects 
 		// in the tree
@@ -511,34 +529,30 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 
 		String namePattern = null;
 		String[] tableType = null;
-
-		if ( searchTxt.getText( ).length( ) > 0 )
-		{
-			namePattern = searchTxt.getText( );
-			// Add the % by default if there is no such pattern
-			if ( namePattern != null )
-			{
-				if ( namePattern.lastIndexOf( '%' ) == -1 )
-				{
-					namePattern = namePattern + "%";
-				}
-			}
-		}
+		cachedSearchTxt = searchTxt.getText();	
+		namePattern = getTailoredSearchText( namePattern );
 		  
 		String dbtype = getSelectedDbType( );
-		if ( dbtype != null && !DbType.ALL_STRING.equalsIgnoreCase( dbtype ) )
+		cachedDbType = dbtype;
+		if ( dbtype != null )
 		{
-			tableType = new String[]{
-				dbtype
-			};
+			if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
+					|| DbType.VIEW_STRING.equalsIgnoreCase( dbtype ) )
+			{
+				tableType = new String[]{
+					dbtype
+				};
+			}
 		}
 
 	    String catalogName = metaDataProvider.getCatalog();
 		ArrayList tableList = new ArrayList();
 		ArrayList targetSchemaList = new ArrayList();		
-	
+		ResultSet tablesRs = null;
+		ArrayList procedureRs = null;
 		if (schemaList != null && schemaList.size() > 0)
 		{
+			cachedSchemaComboIndex = schemaCombo.getSelectionIndex();
 			if ( schemaCombo.getSelectionIndex() == 0)
 			{
 				targetSchemaList = schemaList;
@@ -548,18 +562,20 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				targetSchemaList.add( schemaCombo.getItem( schemaCombo.getSelectionIndex() ));
 			}
 			
-			ResultSet tablesRs = null;
+		
 			// For each schema Get  the List of Tables
 			int numTables = 0;
-			//if ( schemaComboViewer.getSelection().)
 	
 			for( int i=0; i< targetSchemaList.size(); i++)
 			{
 				int count = 0;
 				String schemaName = (String)targetSchemaList.get(i);
-				tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);
+				if( metaDataProvider.isProcedureSupported() )
+					procedureRs = metaDataProvider.getAllProcedure( catalogName, schemaName, namePattern );
+				if( !DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype))
+					tablesRs = metaDataProvider.getAlltables(catalogName,schemaName,namePattern,tableType);	
 				tableList = new ArrayList();
-				if( tablesRs == null )
+				if( tablesRs == null && procedureRs == null )
 				{
 					continue;
 				}
@@ -581,40 +597,56 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 							availableDbObjectsTree.showItem(schemaTreeItem[0]);
 					}
 					
-					while( tablesRs.next()) 
+					if ( tablesRs != null )
 					{
-						String type = tablesRs.getString("TABLE_TYPE");
-						if ( type.equalsIgnoreCase("SYSTEM TABLE"))
-							continue;
-						count++;
-//						String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
-						String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
-						//$NON-NLS-1$
-						
-						int dbType = DbObject.TABLE_TYPE;
-				
-						if(type.equalsIgnoreCase("TABLE"))
+						while ( tablesRs.next( ) )
 						{
-							image = tableImage;
-							dbType = DbObject.TABLE_TYPE;
+							// tablesRs.getString("TABLE_NAME") must be called
+							// before
+							// tablesRs.getString("TABLE_TYPE"). This is because
+							// once using JDBC-ODBC-SQLSERVER
+							// the index of "TABLE_NAME" is higher than that of
+							// "TABLE_TYPE".And when connection
+							// is built using JDBC-ODBC-SQLSERVER the
+							// ResultSet.getString() method, if being called
+							// use a low index, then called using a high index,
+							// will result in an exception.
+							String tableName = tablesRs.getString( "TABLE_NAME" );
+							String type = tablesRs.getString( "TABLE_TYPE" );
+							if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
+								continue;
+							count++;
+
+							int dbType = DbObject.TABLE_TYPE;
+
+							if ( type.equalsIgnoreCase( "TABLE" ) )
+							{
+								image = tableImage;
+								dbType = DbObject.TABLE_TYPE;
+							}
+							else if ( type.equalsIgnoreCase( "VIEW" ) )
+							{
+								image = viewImage;
+								dbType = DbObject.VIEW_TYPE;
+							}
+
+							String fullyQualifiedTableName = tableName;
+							if ( schemaName != null
+									&& schemaName.trim( ).length( ) > 0 )
+							{
+								fullyQualifiedTableName = schemaName
+										+ "." + tableName;
+							}
+							DbObject dbObject = new DbObject( fullyQualifiedTableName,
+									tableName,
+									dbType,
+									image );
+							tableList.add( dbObject );
+							numTables++;
+
 						}
-						else if(type.equalsIgnoreCase("VIEW"))
-						{
-							image = viewImage;
-							dbType = DbObject.VIEW_TYPE;
-						}
-						
-						String fullyQualifiedTableName = tableName;
-						if( schemaName != null && schemaName.trim().length() > 0)
-						{
-							fullyQualifiedTableName = schemaName + "." + tableName;
-						}
-						DbObject dbObject = new DbObject(fullyQualifiedTableName,tableName, dbType, image);
-						tableList.add(dbObject);
-						numTables ++;
-						
 					}
-					if ( metaDataProvider.isProcedureSupported( ) )
+					if ( needToCreateProcedureNode( dbtype, procedureRs ))
 					{
 						String fullyQualifiedTableName = "STORED PROCEDURES";
 						if ( schemaName != null
@@ -622,7 +654,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						{
 							fullyQualifiedTableName = schemaName + "." + "STORED PROCEDURES";
 						}
-						DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, image);
+						DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, tableImage);
+
 						tableList.add( dbObject );
 					}
 
@@ -648,39 +681,56 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		}
 		else
 		{
-			//ResultSet tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
-			ResultSet tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
-			if( tablesRs == null)
+			if( metaDataProvider.isProcedureSupported() )
+				procedureRs = metaDataProvider.getAllProcedure( catalogName, null, namePattern );
+			if( !DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype))
+				tablesRs = metaDataProvider.getAlltables(catalogName,null,namePattern,tableType);
+			
+			if( tablesRs == null && procedureRs == null )
 			{
 				return;
 			}
 			try
 			{
 				Image image = tableImage;
-				while( tablesRs.next())
+				if ( tablesRs != null )
 				{
-					String type = tablesRs.getString("TABLE_TYPE");//$NON-NLS-1$
-					if ( type.equalsIgnoreCase("SYSTEM TABLE"))
-						continue;
-	//				String SchemaName = tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
-					String tableName = tablesRs.getString("TABLE_NAME");//$NON-NLS-1$
-					int dbType = DbObject.TABLE_TYPE;
-								
-					if(type.equalsIgnoreCase("TABLE"))
+					while ( tablesRs.next( ) )
 					{
-						image = tableImage;
-						dbType = DbObject.TABLE_TYPE;
+						String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
+						if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
+							continue;
+						// String SchemaName =
+						// tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+						String tableName = tablesRs.getString( "TABLE_NAME" );//$NON-NLS-1$
+						int dbType = DbObject.TABLE_TYPE;
+
+						if ( type.equalsIgnoreCase( "TABLE" ) )
+						{
+							image = tableImage;
+							dbType = DbObject.TABLE_TYPE;
+						}
+						else if ( type.equalsIgnoreCase( "VIEW" ) )
+						{
+							image = viewImage;
+							dbType = DbObject.VIEW_TYPE;
+						}
+
+						DbObject dbObject = new DbObject( tableName,
+								tableName,
+								dbType,
+								image );
+						tableList.add( dbObject );
 					}
-					else if(type.equalsIgnoreCase("VIEW"))
-					{
-						image = viewImage;
-						dbType = DbObject.VIEW_TYPE;
-					}
-					
-					DbObject dbObject = new DbObject(tableName, tableName,dbType, image);
-					tableList.add(dbObject);
 				}
-				
+				if ( needToCreateProcedureNode( dbtype, procedureRs ))
+				{
+					String fullyQualifiedTableName = "STORED PROCEDURES";
+		
+					DbObject dbObject = new DbObject( fullyQualifiedTableName,"STORED PROCEDURES", DbObject.PROCEDURE_TYPE, tableImage);
+
+					tableList.add( dbObject );
+				}
 				TreeItem item[] = Utility.createTreeItems(rootNode, tableList, SWT.NONE, null);
 				
 				//expand table TreeItem
@@ -697,6 +747,37 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	
 		// Add a listener for fetching columns
 	   addFetchColumnListener();  
+	}
+
+	/**
+	 * @param namePattern
+	 * @return
+	 */
+	private String getTailoredSearchText( String namePattern )
+	{
+		if ( searchTxt.getText( ).length( ) > 0 )
+		{
+			namePattern = searchTxt.getText( );
+			// Add the % by default if there is no such pattern
+			if ( namePattern != null )
+			{
+				if ( namePattern.lastIndexOf( '%' ) == -1 )
+				{
+					namePattern = namePattern + "%";
+				}
+			}
+		}
+		return namePattern;
+	}
+
+	/**
+	 * @param dbtype
+	 * @param procedureRs
+	 * @return
+	 */
+	private boolean needToCreateProcedureNode( String dbtype, ArrayList procedureRs )
+	{
+		return procedureRs!=null&& procedureRs.size()>0  && (DbType.ALL_STRING.equalsIgnoreCase(dbtype)||DbType.PROCEDURE_STRING.equalsIgnoreCase(dbtype) );
 	}
 	
 	// Connects the metadata provider to the specified data source
@@ -904,8 +985,8 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				case DbType.VIEW_TYPE:
 					type = DbType.VIEW_STRING;
 					break;
-				case DbType.ALL_TYPE:
-					type = null;
+				case DbType.PROCEDURE_TYPE:
+					type = DbType.PROCEDURE_STRING;
 					break;
 			}
 		}
@@ -1009,7 +1090,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 					{
 						ArrayList procedureList = metaDataProvider.getAllProcedure( catalogName,
 								schemaName,
-								null );
+								getTailoredSearchText( searchTxt.getText() ) );
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1563,6 +1644,8 @@ class DbType
 	public static final String VIEW_STRING = "VIEW";
 	public static final int ALL_TYPE = 2;
 	public static final String ALL_STRING = "ALL";
+	public static final int PROCEDURE_TYPE = 3;
+	public static final String PROCEDURE_STRING = "PROCEDURE";
 	public static final int MAX_ITEMS_DISPLAY_COUNT = 500;
 
     public String getName()
@@ -1596,4 +1679,4 @@ class DbType
     }
     
 }
-
+ 
