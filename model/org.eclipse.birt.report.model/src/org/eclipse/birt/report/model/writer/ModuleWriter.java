@@ -111,7 +111,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * The constant for default model name space.
 	 */
 
-	final protected static String DEFAULT_NAME_SPACE = " http://www.eclipse.org/birt/2005/design"; //$NON-NLS-1$
+	final protected static String DEFAULT_NAME_SPACE = "http://www.eclipse.org/birt/2005/design"; //$NON-NLS-1$
 
 	/**
 	 * The XML writer.
