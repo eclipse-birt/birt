@@ -144,12 +144,20 @@ public class ReportCreationTool extends CreationTool
 	 */
 	private void selectAddedObject( )
 	{
-		final Object model = getCreateRequest( ).getExtendedData( )
-				.get( DesignerConstants.KEY_NEWOBJECT );
+		final Object model = getNewObjectFromRequest();
 		final EditPartViewer viewer = getCurrentViewer( );
 		selectAddedObject( model, viewer );
 	}
 
+	
+	/**Gets the new Object from request
+	 * @return
+	 */
+	public Object getNewObjectFromRequest()
+	{
+		return getCreateRequest( ).getExtendedData( )
+		.get( DesignerConstants.KEY_NEWOBJECT );
+	}
 	/**
 	 * Selects or clicks added object
 	 * 
@@ -196,7 +204,10 @@ public class ReportCreationTool extends CreationTool
 
 					( (LabelEditPart) editpart ).performDirectEdit( );
 				}
-				viewer.reveal( (EditPart) editpart );
+				if (editpart != null)
+				{
+					viewer.reveal( (EditPart) editpart );
+				}
 			}
 		} );
 	}

@@ -44,6 +44,7 @@ public class HandleAdapterFactory
 {
 
 	private static HandleAdapterFactory factory = null;
+	
 
 	private Map map;
 
@@ -62,12 +63,12 @@ public class HandleAdapterFactory
 	public DesignElementHandleAdapter getDesignElementHandleAdapter(
 			Object obj, IModelAdapterHelper mark )
 	{
-		
+
 		if ( obj instanceof ReportDesignHandle )
 		{
 			return getReportDesignHandleAdapter( );
 		}
-		else if (obj instanceof LibraryHandle)
+		else if ( obj instanceof LibraryHandle )
 		{
 			return getLibraryHandleAdapter( );
 		}
@@ -117,29 +118,32 @@ public class HandleAdapterFactory
 		}
 		if ( obj instanceof ExtendedItemHandle )
 		{
-		    return getExtendedItemHandleAdapter( obj, mark );
+			return getExtendedItemHandleAdapter( obj, mark );
 		}
 
 		return null;
 	}
 
 	/**
-     * @param obj
-     * @param mark
-     * @return
-     */
-    private ExtendedItemHandleAdapter getExtendedItemHandleAdapter( Object obj, IModelAdapterHelper mark )
-    {
-        ExtendedItemHandleAdapter retValue = (ExtendedItemHandleAdapter) map.get( obj );
+	 * @param obj
+	 * @param mark
+	 * @return
+	 */
+	private ExtendedItemHandleAdapter getExtendedItemHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
+	{
+		ExtendedItemHandleAdapter retValue = (ExtendedItemHandleAdapter) map
+				.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new ExtendedItemHandleAdapter( (ExtendedItemHandle) obj, mark );
+			retValue = new ExtendedItemHandleAdapter( (ExtendedItemHandle) obj,
+					mark );
 			map.put( obj, retValue );
 		}
 		return retValue;
-    }
+	}
 
-    /**
+	/**
 	 * Get Table Handle Adapter
 	 * 
 	 * @param obj
@@ -222,22 +226,53 @@ public class HandleAdapterFactory
 	 * 
 	 * @return Design handle adapter
 	 */
-	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
+	public ReportDesignHandleAdapter getReportDesignHandleAdapter(Object obj )
 	{
-		return new ReportDesignHandleAdapter( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ) );
+		ReportDesignHandleAdapter retValue = (ReportDesignHandleAdapter) map
+				.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new ReportDesignHandleAdapter( (ReportDesignHandle)obj );
+			map.put( obj, retValue );
+		}
+		return retValue;
 	}
 	
+	/**
+	 * @return
+	 */
+	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
+	{
+		return getReportDesignHandleAdapter(SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ));
+	}
+
 	/**
 	 * Get report design handle adapter
 	 * 
 	 * @return Design handle adapter
 	 */
-	public ReportDesignHandleAdapter getLibraryHandleAdapter( )
+	public LibraryHandleAdapt getLibraryHandleAdapter(Object obj )
 	{
-		return new LibraryHandleAdapt( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ) );
+		LibraryHandleAdapt retValue = (LibraryHandleAdapt) map
+				.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new LibraryHandleAdapt( (LibraryHandle)obj );
+			map.put( obj, retValue );
+		}
+		return retValue;
 	}
+	
+	/**
+	 * @return
+	 */
+	public LibraryHandleAdapt getLibraryHandleAdapter( )
+	{
+		return getLibraryHandleAdapter(SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ));
+	}
+	
 
 	/**
 	 * Get Table Handle Adapter
@@ -291,7 +326,8 @@ public class HandleAdapterFactory
 	public TableGroupHandleAdapter getTableGroupHandleAdapter( Object obj,
 			IModelAdapterHelper mark )
 	{
-		TableGroupHandleAdapter retValue = (TableGroupHandleAdapter) map.get( obj );
+		TableGroupHandleAdapter retValue = (TableGroupHandleAdapter) map
+				.get( obj );
 		if ( retValue == null )
 		{
 			retValue = new TableGroupHandleAdapter( (TableGroupHandle) obj,
