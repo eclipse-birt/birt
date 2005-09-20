@@ -225,6 +225,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createPaletteAdapter( );
 		}
 
+		public Object caseRotation3D( Rotation3D object )
+		{
+			return createRotation3DAdapter( );
+		}
+
 		public Object caseScriptValue( ScriptValue object )
 		{
 			return createScriptValueAdapter( );
@@ -604,6 +609,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createPaletteAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.Rotation3D <em>Rotation3 D</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.Rotation3D
+	 * @generated
+	 */
+	public Adapter createRotation3DAdapter( )
 	{
 		return null;
 	}

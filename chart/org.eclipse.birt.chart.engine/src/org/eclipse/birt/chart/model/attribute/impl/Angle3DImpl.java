@@ -45,8 +45,47 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		angle.setXAngle( x );
 		angle.setYAngle( y );
 		angle.setZAngle( z );
+		( (Angle3DImpl) angle ).axis = AXIS_NONE;
 		return angle;
 	}
+
+	/**
+	 * @param val
+	 * @return
+	 */
+	public static Angle3D createX( double val )
+	{
+		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
+		angle.setXAngle( val );
+		( (Angle3DImpl) angle ).axis = AXIS_X;
+		return angle;
+	}
+
+	/**
+	 * @param val
+	 * @return
+	 */
+	public static Angle3D createY( double val )
+	{
+		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
+		angle.setYAngle( val );
+		( (Angle3DImpl) angle ).axis = AXIS_Y;
+		return angle;
+	}
+
+	/**
+	 * @param val
+	 * @return
+	 */
+	public static Angle3D createZ( double val )
+	{
+		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
+		angle.setZAngle( val );
+		( (Angle3DImpl) angle ).axis = AXIS_Z;
+		return angle;
+	}
+
+	protected int axis = AXIS_NONE;
 
 	/**
 	 * The default value of the '{@link #getXAngle() <em>XAngle</em>}'
@@ -447,6 +486,39 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		return result.toString( );
 	}
 
+	/**
+	 * Returns the angle axis if set.
+	 * 
+	 * @return
+	 */
+	public int getAxisType( )
+	{
+		return axis;
+	}
+
+	/**
+	 * Returns the specific axis angle value if axis specified, or just returns
+	 * Zero.
+	 * 
+	 * @return
+	 */
+	public double getAxisAngle( )
+	{
+		if ( axis == AXIS_X )
+		{
+			return getXAngle( );
+		}
+		else if ( axis == AXIS_Y )
+		{
+			return getYAngle( );
+		}
+		else if ( axis == AXIS_Z )
+		{
+			return getZAngle( );
+		}
+		return 0;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -458,6 +530,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		setXAngle( x );
 		setYAngle( y );
 		setZAngle( z );
+		axis = AXIS_NONE;
 	}
 
 } // Angle3DImpl

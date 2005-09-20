@@ -580,6 +580,15 @@
 			<xsd:element name="ZAngle" type="xsd:double"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="Rotation3D">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the list of rotated angles.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Angles" type="Angle3D" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:simpleType name="ID">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">

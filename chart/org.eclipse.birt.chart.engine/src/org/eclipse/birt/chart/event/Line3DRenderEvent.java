@@ -27,6 +27,8 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 
 	private Location3D s3d, e3d;
 
+	private Vector center;
+
 	/**
 	 * @param oSource
 	 */
@@ -68,12 +70,33 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	}
 
 	/**
+	 * @param va
+	 */
+	public void updateCenter( Vector[] va )
+	{
+		if ( va == null || va.length < 2 )
+		{
+			return;
+		}
+
+		center = new Vector( ( va[0].get( 0 ) + va[1].get( 0 ) ) / 2,
+				( va[0].get( 1 ) + va[1].get( 1 ) ) / 2,
+				( va[0].get( 2 ) + va[1].get( 2 ) ) / 2,
+				true );
+	}
+
+	/**
 	 * Returns center of gravity of line
 	 * 
 	 * @return
 	 */
 	public Vector getCenter( )
 	{
+		if ( center != null )
+		{
+			return center;
+		}
+
 		if ( s3d == null || e3d == null )
 		{
 			return null;

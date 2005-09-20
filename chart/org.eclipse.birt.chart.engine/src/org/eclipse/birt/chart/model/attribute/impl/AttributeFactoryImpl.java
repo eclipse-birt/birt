@@ -157,6 +157,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
 				return createPalette( );
+			case AttributePackage.ROTATION3_D :
+				return createRotation3D( );
 			case AttributePackage.SCRIPT_VALUE :
 				return createScriptValue( );
 			case AttributePackage.SERIES_VALUE :
@@ -883,6 +885,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		PaletteImpl palette = new PaletteImpl( );
 		return palette;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Rotation3D createRotation3D( )
+	{
+		Rotation3DImpl rotation3D = new Rotation3DImpl( );
+		return rotation3D;
 	}
 
 	/**

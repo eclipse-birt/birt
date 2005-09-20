@@ -219,6 +219,15 @@ public interface AttributeFactory extends EFactory
 	Palette createPalette( );
 
 	/**
+	 * Returns a new object of class '<em>Rotation3 D</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rotation3 D</em>'.
+	 * @generated
+	 */
+	Rotation3D createRotation3D( );
+
+	/**
 	 * Returns a new object of class '<em>Script Value</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Script Value</em>'.

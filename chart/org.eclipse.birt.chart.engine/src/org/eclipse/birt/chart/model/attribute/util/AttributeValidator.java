@@ -13,11 +13,10 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -51,6 +50,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
@@ -58,6 +58,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.RuleType;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
@@ -237,6 +238,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.PALETTE :
 				return validatePalette( (Palette) value, diagnostics, context );
+			case AttributePackage.ROTATION3_D :
+				return validateRotation3D( (Rotation3D) value,
+						diagnostics,
+						context );
 			case AttributePackage.SCRIPT_VALUE :
 				return validateScriptValue( (ScriptValue) value,
 						diagnostics,
@@ -757,6 +762,19 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map context )
 	{
 		return validate_EveryDefaultConstraint( palette, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateRotation3D( Rotation3D rotation3D,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( rotation3D,
+				diagnostics,
+				context );
 	}
 
 	/**

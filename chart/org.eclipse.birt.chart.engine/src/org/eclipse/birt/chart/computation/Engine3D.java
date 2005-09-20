@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.util.Matrix;
@@ -115,7 +116,7 @@ public final class Engine3D implements IConstants
 	/**
 	 * Rotation of the coordinate frame
 	 */
-	private Angle3D ROT;
+	private Rotation3D ROT;
 
 	/**
 	 * Matrix to convert viewer coordinates to model coordinates.
@@ -143,7 +144,7 @@ public final class Engine3D implements IConstants
 	 * @param hitherDistance
 	 * @param yonDistance
 	 */
-	public Engine3D( Angle3D rotation, Vector lightDirection,
+	public Engine3D( Rotation3D rotation, Vector lightDirection,
 			double viewerWidth, double viewerHeight, double viewingDistance,
 			double modelingDistance, double hitherDistance, double yonDistance,
 			double perspectiveDistance )
@@ -151,7 +152,7 @@ public final class Engine3D implements IConstants
 		dViewerWidth = viewerWidth;
 		dViewerHeight = viewerHeight;
 
-		ROT = (Angle3D) EcoreUtil.copy( rotation );
+		ROT = (Rotation3D) EcoreUtil.copy( rotation );
 		LDR = new Vector( lightDirection );
 
 		VIEW_DISTANCE = viewingDistance;
@@ -170,13 +171,13 @@ public final class Engine3D implements IConstants
 	 * @param viewerWidth
 	 * @param viewerHeight
 	 */
-	public Engine3D( Angle3D rotation, Vector lightDirection,
+	public Engine3D( Rotation3D rotation, Vector lightDirection,
 			double viewerWidth, double viewerHeight )
 	{
 		dViewerWidth = viewerWidth;
 		dViewerHeight = viewerHeight;
 
-		ROT = (Angle3D) EcoreUtil.copy( rotation );
+		ROT = (Rotation3D) EcoreUtil.copy( rotation );
 		LDR = new Vector( lightDirection );
 
 		reset( );
@@ -296,80 +297,57 @@ public final class Engine3D implements IConstants
 	 * 
 	 * @param degree
 	 */
-	public void rotateViewX( double degree )
-	{
-		Matrix m = Matrix.identity( 4, 4 );
-
-		double radians = Math.toRadians( degree );
-		double cos = Math.cos( radians );
-		double sin = Math.sin( radians );
-
-		m.set( 1, 1, cos );
-		m.set( 2, 2, cos );
-		m.set( 1, 2, -sin );
-		m.set( 2, 1, sin );
-
-		VDX.multiply( m );
-		VDY.multiply( m );
-		VDZ.multiply( m );
-
-		initViewModelMatrix( );
-	}
-
-	/**
-	 * Rotates the view frame along Y axis
+	/*
+	 * public void rotateViewX( double degree ) { Matrix m = Matrix.identity( 4,
+	 * 4 );
+	 * 
+	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
+	 * double sin = Math.sin( radians );
+	 * 
+	 * m.set( 1, 1, cos ); m.set( 2, 2, cos ); m.set( 1, 2, -sin ); m.set( 2, 1,
+	 * sin );
+	 * 
+	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
+	 * 
+	 * initViewModelMatrix( ); }
+	 * 
+	 * /** Rotates the view frame along Y axis
 	 * 
 	 * @param degree
 	 */
-	public void rotateViewY( double degree )
-	{
-		Matrix m = Matrix.identity( 4, 4 );
-
-		double radians = Math.toRadians( degree );
-		double cos = Math.cos( radians );
-		double sin = Math.sin( radians );
-
-		m.set( 0, 0, cos );
-		m.set( 2, 2, cos );
-		m.set( 0, 2, sin );
-		m.set( 2, 0, -sin );
-
-		VDX.multiply( m );
-		VDY.multiply( m );
-		VDZ.multiply( m );
-
-		initViewModelMatrix( );
-	}
-
-	/**
-	 * Rotates the view frame along Z axis
+	/*
+	 * public void rotateViewY( double degree ) { Matrix m = Matrix.identity( 4,
+	 * 4 );
+	 * 
+	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
+	 * double sin = Math.sin( radians );
+	 * 
+	 * m.set( 0, 0, cos ); m.set( 2, 2, cos ); m.set( 0, 2, sin ); m.set( 2, 0,
+	 * -sin );
+	 * 
+	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
+	 * 
+	 * initViewModelMatrix( ); }
+	 * 
+	 * /** Rotates the view frame along Z axis
 	 * 
 	 * @param degree
 	 */
-	public void rotateViewZ( double degree )
-	{
-		Matrix m = Matrix.identity( 4, 4 );
-
-		double radians = Math.toRadians( degree );
-		double cos = Math.cos( radians );
-		double sin = Math.sin( radians );
-
-		m.set( 0, 0, cos );
-		m.set( 1, 1, cos );
-		m.set( 0, 1, -sin );
-		m.set( 1, 0, sin );
-		// m.set( 1, 1, cos );
-		// m.set( 2, 2, cos );
-		// m.set( 1, 2, sin );
-		// m.set( 2, 1, -sin );
-
-		VDX.multiply( m );
-		VDY.multiply( m );
-		VDZ.multiply( m );
-
-		initViewModelMatrix( );
-	}
-
+	/*
+	 * public void rotateViewZ( double degree ) { Matrix m = Matrix.identity( 4,
+	 * 4 );
+	 * 
+	 * double radians = Math.toRadians( degree ); double cos = Math.cos( radians );
+	 * double sin = Math.sin( radians );
+	 * 
+	 * m.set( 0, 0, cos ); m.set( 1, 1, cos ); m.set( 0, 1, -sin ); m.set( 1, 0,
+	 * sin ); // m.set( 1, 1, cos ); // m.set( 2, 2, cos ); // m.set( 1, 2, sin ); //
+	 * m.set( 2, 1, -sin );
+	 * 
+	 * VDX.multiply( m ); VDY.multiply( m ); VDZ.multiply( m );
+	 * 
+	 * initViewModelMatrix( ); }
+	 */
 	Matrix rotateMatrixX( Matrix t, double degree )
 	{
 		Matrix m = Matrix.identity( 4, 4 );
@@ -380,8 +358,8 @@ public final class Engine3D implements IConstants
 
 		m.set( 1, 1, cos );
 		m.set( 2, 2, cos );
-		m.set( 1, 2, -sin );
-		m.set( 2, 1, sin );
+		m.set( 1, 2, sin );
+		m.set( 2, 1, -sin );
 
 		return t.times( m );
 	}
@@ -396,8 +374,8 @@ public final class Engine3D implements IConstants
 
 		m.set( 0, 0, cos );
 		m.set( 2, 2, cos );
-		m.set( 0, 2, sin );
-		m.set( 2, 0, -sin );
+		m.set( 0, 2, -sin );
+		m.set( 2, 0, sin );
 
 		return t.times( m );
 	}
@@ -412,8 +390,18 @@ public final class Engine3D implements IConstants
 
 		m.set( 0, 0, cos );
 		m.set( 1, 1, cos );
-		m.set( 0, 1, -sin );
-		m.set( 1, 0, sin );
+		m.set( 0, 1, sin );
+		m.set( 1, 0, -sin );
+
+		return t.times( m );
+	}
+
+	Matrix translateMatrix( Matrix t, Vector v )
+	{
+		Matrix m = Matrix.identity( 4, 4 );
+		m.set( 3, 0, v.get( 0 ) );
+		m.set( 3, 1, v.get( 1 ) );
+		m.set( 3, 2, v.get( 2 ) );
 
 		return t.times( m );
 	}
@@ -626,9 +614,41 @@ public final class Engine3D implements IConstants
 	Matrix getTransformMatrix( )
 	{
 		Matrix m = Matrix.identity( 4, 4 );
-		m = rotateMatrixX( m, ROT.getXAngle( ) );
-		m = rotateMatrixY( m, ROT.getYAngle( ) );
-		m = rotateMatrixZ( m, ROT.getZAngle( ) );
+
+		// inverse Z sign.
+		m.set( 2, 2, -1 );
+
+		for ( Iterator itr = ROT.getAngles( ).iterator( ); itr.hasNext( ); )
+		{
+			Angle3D agl = (Angle3D) itr.next( );
+			if ( agl.getAxisType( ) == Angle3D.AXIS_NONE )
+			{
+				m = rotateMatrixY( m, agl.getYAngle( ) );
+				m = rotateMatrixX( m, agl.getXAngle( ) );
+				m = rotateMatrixZ( m, agl.getZAngle( ) );
+			}
+			else
+			{
+				switch ( agl.getAxisType( ) )
+				{
+					case Angle3D.AXIS_X :
+						m = rotateMatrixX( m, agl.getAxisAngle( ) );
+						break;
+					case Angle3D.AXIS_Y :
+						m = rotateMatrixY( m, agl.getAxisAngle( ) );
+						break;
+					case Angle3D.AXIS_Z :
+						m = rotateMatrixZ( m, agl.getAxisAngle( ) );
+						break;
+				}
+			}
+		}
+
+		// // TODO test translate matrix
+		// Vector v = new Vector( 0, -200, 0, false );
+		// // v.multiply( C2V_MATRIX );
+		// // v.multiply( V2M_MATRIX );
+		// m = translateMatrix( m, v );
 
 		return m;
 	}
@@ -725,6 +745,8 @@ public final class Engine3D implements IConstants
 
 			Location[] loa = vectorArray2LocationArray( va, xOffset, yOffset );
 
+			p3dre.updateCenter( va );
+
 			p3dre.setPoints( loa );
 
 			return true;// ( p3dre.isDoubleSided( ) || !p3dre.isBehind( ) );
@@ -732,6 +754,13 @@ public final class Engine3D implements IConstants
 		else if ( obj instanceof Line3DRenderEvent )
 		{
 			Line3DRenderEvent l3dre = (Line3DRenderEvent) obj;
+
+			if ( l3dre.getLineAttributes( ) == null
+					|| !l3dre.getLineAttributes( ).isSetVisible( )
+					|| !l3dre.getLineAttributes( ).isVisible( ) )
+			{
+				return false;
+			}
 
 			Vector[] va = getVectors( l3dre );
 
@@ -746,6 +775,8 @@ public final class Engine3D implements IConstants
 			}
 			perspective( va, PERSPECTIVE_VALUE );
 			transform( va, V2C_MATRIX );
+
+			l3dre.updateCenter( va );
 
 			l3dre.setStart( vector2Location( va[0], xOffset, yOffset ) );
 			l3dre.setEnd( vector2Location( va[1], xOffset, yOffset ) );
@@ -766,6 +797,8 @@ public final class Engine3D implements IConstants
 			}
 			perspective( va, PERSPECTIVE_VALUE );
 			transform( va, V2C_MATRIX );
+
+			t3dre.updateCenter( va );
 
 			t3dre.setLocation( vector2Location( va[0], xOffset, yOffset ) );
 
@@ -790,6 +823,8 @@ public final class Engine3D implements IConstants
 			}
 			perspective( va, PERSPECTIVE_VALUE );
 			transform( va, V2C_MATRIX );
+
+			o3dre.updateCenter( va );
 
 			Location[] loa = vectorArray2LocationArray( va, xOffset, yOffset );
 			o3dre.setBounds( BoundsImpl.create( loa[0].getX( ),
@@ -849,8 +884,6 @@ public final class Engine3D implements IConstants
 			public int compare( Object o1, Object o2 )
 			{
 				double z1 = 0, z2 = 0;
-				double y1 = 0, y2 = 0;
-				double x1 = 0, x2 = 0;
 
 				if ( o1 instanceof WrappedInstruction )
 				{
@@ -859,31 +892,26 @@ public final class Engine3D implements IConstants
 
 				if ( o1 instanceof Polygon3DRenderEvent )
 				{
-					z1 = ( (Polygon3DRenderEvent) o1 ).getPoints3D( )[0].getZ( );
-					y1 = ( (Polygon3DRenderEvent) o1 ).getPoints3D( )[0].getY( );
-					x1 = ( (Polygon3DRenderEvent) o1 ).getPoints3D( )[0].getX( );
+					Vector v = ( (Polygon3DRenderEvent) o1 ).getCenter( );
+					z1 = v.get( 2 );
 				}
 				else if ( o1 instanceof Line3DRenderEvent )
 				{
-					z1 = ( (Line3DRenderEvent) o1 ).getStart3D( ).getZ( );
-					y1 = ( (Line3DRenderEvent) o1 ).getStart3D( ).getY( );
-					x1 = ( (Line3DRenderEvent) o1 ).getStart3D( ).getX( );
+					Vector v = ( (Line3DRenderEvent) o1 ).getCenter( );
+					z1 = v.get( 2 );
 				}
 				else if ( o1 instanceof Text3DRenderEvent )
 				{
-					z1 = ( (Text3DRenderEvent) o1 ).getLocation3D( ).getZ( );
-					y1 = ( (Text3DRenderEvent) o1 ).getLocation3D( ).getY( );
-					x1 = ( (Text3DRenderEvent) o1 ).getLocation3D( ).getX( );
+					z1 = ( (Text3DRenderEvent) o1 ).getCenter( ).get( 2 );
 				}
 				else if ( o1 instanceof Oval3DRenderEvent )
 				{
-					z1 = ( (Oval3DRenderEvent) o1 ).getLocation3D( )[0].getZ( );
-					y1 = ( (Oval3DRenderEvent) o1 ).getLocation3D( )[0].getY( );
-					x1 = ( (Oval3DRenderEvent) o1 ).getLocation3D( )[0].getX( );
+					Vector v = ( (Oval3DRenderEvent) o1 ).getCenter( );
+					z1 = v.get( 2 );
 				}
 				else
 				{
-					return 1;
+					return -1;
 				}
 
 				if ( o2 instanceof WrappedInstruction )
@@ -893,58 +921,35 @@ public final class Engine3D implements IConstants
 
 				if ( o2 instanceof Polygon3DRenderEvent )
 				{
-					z2 = ( (Polygon3DRenderEvent) o2 ).getPoints3D( )[0].getZ( );
-					y2 = ( (Polygon3DRenderEvent) o2 ).getPoints3D( )[0].getY( );
-					x2 = ( (Polygon3DRenderEvent) o2 ).getPoints3D( )[0].getX( );
+					Vector v = ( (Polygon3DRenderEvent) o2 ).getCenter( );
+					z2 = v.get( 2 );
 				}
 				else if ( o2 instanceof Line3DRenderEvent )
 				{
-					z2 = ( (Line3DRenderEvent) o2 ).getStart3D( ).getZ( );
-					y2 = ( (Line3DRenderEvent) o2 ).getStart3D( ).getY( );
-					x2 = ( (Line3DRenderEvent) o2 ).getStart3D( ).getX( );
+					Vector v = ( (Line3DRenderEvent) o2 ).getCenter( );
+					z2 = v.get( 2 );
 				}
 				else if ( o2 instanceof Text3DRenderEvent )
 				{
-					z2 = ( (Text3DRenderEvent) o2 ).getLocation3D( ).getZ( );
-					y2 = ( (Text3DRenderEvent) o2 ).getLocation3D( ).getY( );
-					x2 = ( (Text3DRenderEvent) o2 ).getLocation3D( ).getX( );
+					z2 = ( (Text3DRenderEvent) o2 ).getCenter( ).get( 2 );
 				}
 				else if ( o1 instanceof Oval3DRenderEvent )
 				{
-					z2 = ( (Oval3DRenderEvent) o2 ).getLocation3D( )[0].getZ( );
-					y2 = ( (Oval3DRenderEvent) o2 ).getLocation3D( )[0].getY( );
-					x2 = ( (Oval3DRenderEvent) o2 ).getLocation3D( )[0].getX( );
+					Vector v = ( (Oval3DRenderEvent) o2 ).getCenter( );
+					z2 = v.get( 2 );
 				}
 				else
 				{
-					return -1;
+					return 1;
 				}
 
 				if ( z1 > z2 )
 				{
-					return 1;
+					return -1;
 				}
 				else if ( z1 < z2 )
 				{
-					return -1;
-				}
-
-				if ( y1 > y2 )
-				{
 					return 1;
-				}
-				else if ( y1 < y2 )
-				{
-					return -1;
-				}
-
-				if ( x1 > x2 )
-				{
-					return 1;
-				}
-				else if ( x1 < x2 )
-				{
-					return -1;
 				}
 
 				return 0;

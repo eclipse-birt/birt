@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl#getZ <em>Z</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Location3DImpl#getZ <em>Z</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class Location3DImpl extends LocationImpl implements Location3D
@@ -125,9 +125,9 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	protected double z = Z_EDEFAULT;
 
 	/**
-	 * This is true if the Z attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Z attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -135,7 +135,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected Location3DImpl( )
@@ -145,7 +144,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -155,7 +153,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getZ( )
@@ -165,7 +162,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setZ( double newZ )
@@ -185,7 +181,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetZ( )
@@ -205,7 +200,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetZ( )
@@ -215,7 +209,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -234,7 +227,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -256,7 +248,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -278,7 +269,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -297,7 +287,6 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

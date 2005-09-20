@@ -43,6 +43,8 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 	private Fill runtimeBackground;
 
+	private Vector center;
+
 	/**
 	 * @param oSource
 	 */
@@ -85,7 +87,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		this.bBehind = value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.PolygonRenderEvent#setBackground(org.eclipse.birt.chart.model.attribute.Fill)
 	 */
 	public void setBackground( Fill ifBackground )
@@ -95,7 +99,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		runtimeBackground = ifBackground;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.PolygonRenderEvent#getBackground()
 	 */
 	public Fill getBackground( )
@@ -124,12 +130,40 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
+	 * @param va
+	 */
+	public void updateCenter( Vector[] va )
+	{
+		if ( va == null || va.length == 0 )
+		{
+			return;
+		}
+
+		double m = va.length;
+		double xs = 0, ys = 0, zs = 0;
+
+		for ( int i = 0; i < m; i++ )
+		{
+			xs += va[i].get( 0 );
+			ys += va[i].get( 1 );
+			zs += va[i].get( 2 );
+		}
+
+		center = new Vector( xs / m, ys / m, zs / m, true );
+	}
+
+	/**
 	 * Returns center of gravity of polygon
 	 * 
 	 * @return
 	 */
 	public Vector getCenter( )
 	{
+		if ( center != null )
+		{
+			return center;
+		}
+
 		if ( loa3d == null || loa3d.length == 0 )
 		{
 			return null;

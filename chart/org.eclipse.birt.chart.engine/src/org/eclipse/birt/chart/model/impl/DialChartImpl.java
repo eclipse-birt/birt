@@ -42,19 +42,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.DialChartImpl#isDialSuperimposition <em>Dial Superimposition</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.DialChartImpl#isDialSuperimposition <em>Dial Superimposition</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 {
 
 	/**
-	 * The default value of the '{@link #isDialSuperimposition() <em>Dial Superimposition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isDialSuperimposition() <em>Dial Superimposition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isDialSuperimposition()
 	 * @generated
 	 * @ordered
@@ -62,9 +61,8 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 	protected static final boolean DIAL_SUPERIMPOSITION_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isDialSuperimposition() <em>Dial Superimposition</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isDialSuperimposition() <em>Dial Superimposition</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isDialSuperimposition()
 	 * @generated
 	 * @ordered
@@ -82,7 +80,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DialChartImpl( )
@@ -92,7 +89,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -102,7 +98,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isDialSuperimposition( )
@@ -112,7 +107,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDialSuperimposition( boolean newDialSuperimposition )
@@ -132,7 +126,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetDialSuperimposition( )
@@ -152,7 +145,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetDialSuperimposition( )
@@ -162,7 +154,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -196,7 +187,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -243,7 +233,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -309,7 +298,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -373,7 +361,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -427,7 +414,6 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -456,7 +442,7 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		( (DialChartImpl) dc ).initialize( );
 		return dc;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#initialize()
 	 */

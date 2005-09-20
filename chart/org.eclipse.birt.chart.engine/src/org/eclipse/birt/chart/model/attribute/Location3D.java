@@ -10,19 +10,19 @@ package org.eclipse.birt.chart.model.attribute;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Location3 D</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
  * 
- * This type defines the location of an element using a 3D coordinate. <!--
- * end-model-doc -->
- * 
+ * 			This type defines the location of an element using a 3D coordinate.
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getLocation3D()
  * @model extendedMetaData="name='Location3D' kind='elementOnly'"
  * @generated
@@ -52,11 +52,9 @@ public interface Location3D extends Location
 	double getZ( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Z</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Z</em>' attribute.
 	 * @see #isSetZ()
 	 * @see #unsetZ()
 	 * @see #getZ()
@@ -65,9 +63,8 @@ public interface Location3D extends Location
 	void setZ( double value );
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetZ()
 	 * @see #getZ()
 	 * @see #setZ(double)
@@ -76,9 +73,8 @@ public interface Location3D extends Location
 	void unsetZ( );
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}'
-	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Location3D#getZ <em>Z</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return whether the value of the '<em>Z</em>' attribute is set.
 	 * @see #unsetZ()
 	 * @see #getZ()

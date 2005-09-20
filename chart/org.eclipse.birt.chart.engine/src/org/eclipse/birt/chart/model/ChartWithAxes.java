@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.chart.model;
 
-import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.emf.common.util.EList;
@@ -234,13 +234,13 @@ public interface ChartWithAxes extends Chart
 	 * Specifies the rotation angle by three directions for the chart. 
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Rotation</em>' containment reference.
-	 * @see #setRotation(Angle3D)
+	 * @see #setRotation(Rotation3D)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_Rotation()
 	 * @model containment="true" resolveProxies="false"
 	 *        extendedMetaData="kind='element' name='Rotation'"
 	 * @generated
 	 */
-	Angle3D getRotation( );
+	Rotation3D getRotation( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}' containment reference.
@@ -250,7 +250,7 @@ public interface ChartWithAxes extends Chart
 	 * @see #getRotation()
 	 * @generated
 	 */
-	void setRotation( Angle3D value );
+	void setRotation( Rotation3D value );
 
 	/**
 	 * This method returns all base axes associated with the chart model

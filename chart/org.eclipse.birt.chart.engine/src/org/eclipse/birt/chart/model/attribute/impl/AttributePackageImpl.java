@@ -58,6 +58,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.RuleType;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
@@ -244,6 +245,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass paletteEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass rotation3DEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1590,6 +1598,26 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRotation3D( )
+	{
+		return rotation3DEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRotation3D_Angles( )
+	{
+		return (EReference) rotation3DEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2559,6 +2587,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( paletteEClass, PALETTE__NAME );
 		createEReference( paletteEClass, PALETTE__ENTRIES );
 
+		rotation3DEClass = createEClass( ROTATION3_D );
+		createEReference( rotation3DEClass, ROTATION3_D__ANGLES );
+
 		scriptValueEClass = createEClass( SCRIPT_VALUE );
 		createEAttribute( scriptValueEClass, SCRIPT_VALUE__SCRIPT );
 
@@ -2997,6 +3028,14 @@ public class AttributePackageImpl extends EPackageImpl implements
 				this.getFill( ),
 				null,
 				"entries", null, 1, -1, Palette.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( rotation3DEClass,
+				Rotation3D.class,
+				"Rotation3D", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getRotation3D_Angles( ),
+				this.getAngle3D( ),
+				null,
+				"angles", null, 0, -1, Rotation3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( scriptValueEClass,
 				ScriptValue.class,
@@ -3977,6 +4016,14 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( riserTypeObjectEDataType, source, new String[]{
 				"name", "RiserType:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "RiserType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( rotation3DEClass, source, new String[]{
+				"name", "Rotation3D", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getRotation3D_Angles( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Angles" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( ruleTypeEEnum, source, new String[]{
 				"name", "RuleType" //$NON-NLS-1$ //$NON-NLS-2$

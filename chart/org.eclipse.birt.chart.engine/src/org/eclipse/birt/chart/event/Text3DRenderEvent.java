@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -27,6 +28,8 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	private static final long serialVersionUID = 3083777028665416663L;
 
 	private Location3D loc3d;
+
+	private Vector center;
 
 	/**
 	 * @param oSource
@@ -50,6 +53,37 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	public Location3D getLocation3D( )
 	{
 		return loc3d;
+	}
+
+	/**
+	 * @param va
+	 */
+	public void updateCenter( Vector[] va )
+	{
+		if ( va == null || va.length < 1 )
+		{
+			return;
+		}
+
+		center = new Vector( va[0].get( 0 ),
+				va[0].get( 1 ),
+				va[0].get( 2 ),
+				true );
+	}
+
+	public Vector getCenter( )
+	{
+		if ( center != null )
+		{
+			return center;
+		}
+
+		if ( loc3d == null )
+		{
+			return null;
+		}
+
+		return new Vector( loc3d );
 	}
 
 	/*

@@ -34,6 +34,23 @@ public interface Angle3D extends EObject
 {
 
 	/**
+	 * Comment for <code>AXIS_NONE</code>
+	 */
+	public static final int AXIS_NONE = -1;
+	/**
+	 * Comment for <code>AXIS_X</code>
+	 */
+	public static final int AXIS_X = 1;
+	/**
+	 * Comment for <code>AXIS_Y</code>
+	 */
+	public static final int AXIS_Y = 2;
+	/**
+	 * Comment for <code>AXIS_Z</code>
+	 */
+	public static final int AXIS_Z = 3;
+
+	/**
 	 * Returns the value of the '<em><b>XAngle</b></em>' attribute. <!--
 	 * begin-user-doc -->
 	 * <p>
@@ -212,5 +229,20 @@ public interface Angle3D extends EObject
 	 * @param z
 	 */
 	void set( double x, double y, double z );
+
+	/**
+	 * Returns the angle axis if set.
+	 * 
+	 * @return
+	 */
+	int getAxisType( );
+
+	/**
+	 * Returns the specific axis angle value if axis specified, or just returns
+	 * Zero.
+	 * 
+	 * @return
+	 */
+	double getAxisAngle( );
 
 } // Angle3D

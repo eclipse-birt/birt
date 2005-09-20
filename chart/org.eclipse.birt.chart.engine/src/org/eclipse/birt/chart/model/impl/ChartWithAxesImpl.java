@@ -19,15 +19,15 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
-import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
+import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
@@ -162,7 +162,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * @generated
 	 * @ordered
 	 */
-	protected Angle3D rotation = null;
+	protected Rotation3D rotation = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -464,7 +464,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * @generated
 	 */
-	public Angle3D getRotation( )
+	public Rotation3D getRotation( )
 	{
 		return rotation;
 	}
@@ -474,10 +474,10 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetRotation( Angle3D newRotation,
+	public NotificationChain basicSetRotation( Rotation3D newRotation,
 			NotificationChain msgs )
 	{
-		Angle3D oldRotation = rotation;
+		Rotation3D oldRotation = rotation;
 		rotation = newRotation;
 		if ( eNotificationRequired( ) )
 		{
@@ -499,7 +499,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	 * 
 	 * @generated
 	 */
-	public void setRotation( Angle3D newRotation )
+	public void setRotation( Rotation3D newRotation )
 	{
 		if ( newRotation != rotation )
 		{
@@ -680,7 +680,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				setUnitSpacing( ( (Double) newValue ).doubleValue( ) );
 				return;
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
-				setRotation( (Angle3D) newValue );
+				setRotation( (Rotation3D) newValue );
 				return;
 		}
 		eDynamicSet( eFeature, newValue );
@@ -747,7 +747,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				unsetUnitSpacing( );
 				return;
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
-				setRotation( (Angle3D) null );
+				setRotation( (Rotation3D) null );
 				return;
 		}
 		eDynamicUnset( eFeature );
@@ -1007,7 +1007,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 		getAxes( ).add( xAxisBase ); // ADD THE BASE AXIS TO THE CHART
 
-		setRotation( Angle3DImpl.create( 0, 0, 0 ) );
+		setRotation( Rotation3DImpl.create( ) );
 	}
 
 	/**

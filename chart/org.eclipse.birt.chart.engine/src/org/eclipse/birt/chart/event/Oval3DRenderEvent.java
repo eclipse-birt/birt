@@ -28,6 +28,8 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 	private Location3D[] points;
 
+	private Vector center;
+
 	/**
 	 * @param oSource
 	 */
@@ -53,12 +55,40 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	}
 
 	/**
+	 * @param va
+	 */
+	public void updateCenter( Vector[] va )
+	{
+		if ( va == null || va.length == 0 )
+		{
+			return;
+		}
+
+		double m = va.length;
+		double xs = 0, ys = 0, zs = 0;
+
+		for ( int i = 0; i < m; i++ )
+		{
+			xs += va[i].get( 0 );
+			ys += va[i].get( 1 );
+			zs += va[i].get( 2 );
+		}
+
+		center = new Vector( xs / m, ys / m, zs / m, true );
+	}
+
+	/**
 	 * Returns center of gravity of oval
 	 * 
 	 * @return
 	 */
 	public Vector getCenter( )
 	{
+		if ( center != null )
+		{
+			return center;
+		}
+
 		if ( points == null || points.length == 0 )
 		{
 			return null;
@@ -76,7 +106,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 		return new Vector( xs / m, ys / m, zs / m, true );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
