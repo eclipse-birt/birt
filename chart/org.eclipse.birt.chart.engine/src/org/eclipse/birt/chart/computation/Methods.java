@@ -233,7 +233,7 @@ public class Methods implements IConstants
 	public static final double getNormalizedLocation( AutoScale sc,
 			double dValue )
 	{
-		return getLocation( sc, dValue ) - getLocation( sc, 0 );
+		return getLocation( sc, dValue ) - sc.getStart( );
 	}
 
 	/**
@@ -246,14 +246,7 @@ public class Methods implements IConstants
 	public static final double getNormalizedLocation( AutoScale sc,
 			Object oValue ) throws ChartException, IllegalArgumentException
 	{
-		if ( ( sc.getType( ) & NUMERICAL ) == NUMERICAL )
-		{
-			return getLocation( sc, oValue ) - getLocation( sc, 0 );
-		}
-		else
-		{
-			return getLocation( sc, oValue ) - sc.getStart( );
-		}
+		return getLocation( sc, oValue ) - sc.getStart( );
 	}
 
 	/**

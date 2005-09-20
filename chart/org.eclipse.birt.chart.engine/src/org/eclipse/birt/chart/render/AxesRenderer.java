@@ -1339,6 +1339,50 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				floorFill = true;
 			}
+
+			// Draw the Zero plane
+			// IntersectionValue iv = aax.getPrimaryBase(
+			// ).getIntersectionValue( );
+			// if ( iv != null && iv.getType( ) == IntersectionValue.VALUE )
+			// {
+			// if ( loa == null )
+			// {
+			// loa = new Location3D[4];
+			// }
+			//
+			// double yZeroValue = Methods.getNormalizedLocation(
+			// scPrimaryOrthogonal,
+			// 0 );
+			//
+			// for ( int i = 0; i < baseTickCount - 1; i++ )
+			// {
+			// for ( int j = 0; j < ancillaryTickCount - 1; j++ )
+			// {
+			// loa[0] = Location3DImpl.create( dXStart + i * xStep,
+			// yZeroValue,
+			// dZStart + j * zStep );
+			// loa[1] = Location3DImpl.create( dXStart + i * xStep,
+			// yZeroValue,
+			// dZStart + ( j + 1 ) * zStep );
+			// loa[2] = Location3DImpl.create( dXStart
+			// + ( i + 1 )
+			// * xStep, yZeroValue, dZStart
+			// + ( j + 1 )
+			// * zStep );
+			// loa[3] = Location3DImpl.create( dXStart
+			// + ( i + 1 )
+			// * xStep, yZeroValue, dZStart + j * zStep );
+			// pre.setPoints3D( loa );
+			// pre.setBackground( ColorDefinitionImpl.create( 255,
+			// 255,
+			// 255,
+			// 127 ) );
+			// pre.setOutline( null );
+			// getDeferredCache( ).addPlane( pre,
+			// PrimitiveRenderEvent.FILL );
+			// }
+			// }
+			// }
 		}
 
 		// SETUP AXIS ARRAY
@@ -3469,6 +3513,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							&& iv.getType( ) == IntersectionValue.VALUE
 							&& iDimension == IConstants.TWO_5_D )
 					{
+						// Zero plane.
 						final Location[] loa = new Location[4];
 						loa[0] = LocationImpl.create( dStart, dY );
 						loa[1] = LocationImpl.create( dStart + dSeriesThickness,
