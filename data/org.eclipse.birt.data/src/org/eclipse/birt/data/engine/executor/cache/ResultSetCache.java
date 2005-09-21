@@ -66,7 +66,7 @@ public interface ResultSetCache
 	/**
 	 * @return count of result objects
 	 */
-	public int getCount( );
+	public int getCount( ) throws DataException;
 
 	/**
 	 * Reset the current index to -1

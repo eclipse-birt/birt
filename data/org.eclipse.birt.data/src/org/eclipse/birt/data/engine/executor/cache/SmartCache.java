@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -46,6 +47,9 @@ public class SmartCache implements ResultSetCache
 	
 	// log instance
 	private static Logger logger = Logger.getLogger( SmartCache.class.getName( ) );
+	
+	// open flag
+	private boolean isOpen = true;
 	
 	/**
 	 * Retrieve data from ODA, used in normal query
@@ -264,8 +268,10 @@ public class SmartCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCount()
 	 */
-	public int getCount( )
+	public int getCount( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		return resultSetCache.getCount( );
 	}
 	
@@ -274,6 +280,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public int getCurrentIndex( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		return resultSetCache.getCurrentIndex( );
 	}
 	
@@ -282,6 +290,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public IResultObject getCurrentResult( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		return resultSetCache.getCurrentResult( );
 	}
 
@@ -290,6 +300,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public boolean next( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		return resultSetCache.next( );
 	}
 	
@@ -298,6 +310,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public IResultObject fetch( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		return resultSetCache.fetch( );
 	}
 	
@@ -306,6 +320,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void moveTo( int destIndex ) throws DataException
 	{
+		checkOpenStates( );
+		
 		resultSetCache.moveTo( destIndex );
 	}
 
@@ -314,6 +330,8 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void reset( ) throws DataException
 	{
+		checkOpenStates( );
+		
 		resultSetCache.reset( );
 	}
 
@@ -322,8 +340,21 @@ public class SmartCache implements ResultSetCache
 	 */
 	public void close( )
 	{
+		if ( isOpen == false )
+			return;
+		
 		resultSetCache.close( );
 		resultSetCache = null;
+		isOpen = false;
+	}
+	
+	/**
+	 * @throws DataException
+	 */
+	private void checkOpenStates( ) throws DataException
+	{
+		if ( isOpen == false )
+			throw new DataException( ResourceConstants.RESULT_CLOSED );
 	}
 
 	/**
