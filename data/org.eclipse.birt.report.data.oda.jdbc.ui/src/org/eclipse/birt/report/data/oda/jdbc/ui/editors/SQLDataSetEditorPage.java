@@ -26,6 +26,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
@@ -93,7 +94,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.27 $ $Date: 2005/09/19 07:54:47 $
+ * @version $Revision: 1.28 $ $Date: 2005/09/20 09:41:56 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -469,9 +470,11 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			{
 				schemaCombo.add( JdbcPlugin.getResourceString("tablepage.text.All") );
 				schemaCombo.select( 0 );
-				Iterator it = schemaList.iterator();
-				while ( it.hasNext() )
-					schemaCombo.add( it.next().toString() );
+				if( schemaList != null){
+					Iterator it = schemaList.iterator( );
+					while ( it.hasNext( ) )
+						schemaCombo.add( it.next( ).toString( ) );
+				}
 			}
 			populateTableList();
 		}
@@ -530,7 +533,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 		String namePattern = null;
 		String[] tableType = null;
 		cachedSearchTxt = searchTxt.getText();	
-		namePattern = getTailoredSearchText( namePattern );
+		namePattern = getTailoredSearchText( searchTxt.getText() );
 		  
 		String dbtype = getSelectedDbType( );
 		cachedDbType = dbtype;
@@ -697,12 +700,12 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 				{
 					while ( tablesRs.next( ) )
 					{
+						String tableName = tablesRs.getString( "TABLE_NAME" );
 						String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
 						if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
 							continue;
 						// String SchemaName =
 						// tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
-						String tableName = tablesRs.getString( "TABLE_NAME" );//$NON-NLS-1$
 						int dbType = DbObject.TABLE_TYPE;
 
 						if ( type.equalsIgnoreCase( "TABLE" ) )
@@ -755,18 +758,15 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	 */
 	private String getTailoredSearchText( String namePattern )
 	{
-		if ( searchTxt.getText( ).length( ) > 0 )
+		if ( namePattern != null )
 		{
-			namePattern = searchTxt.getText( );
-			// Add the % by default if there is no such pattern
-			if ( namePattern != null )
+			if ( namePattern.lastIndexOf( '%' ) == -1 )
 			{
-				if ( namePattern.lastIndexOf( '%' ) == -1 )
-				{
-					namePattern = namePattern + "%";
-				}
+				namePattern = namePattern + "%";
 			}
-		}
+		}else
+			namePattern = "%";
+		
 		return namePattern;
 	}
 
@@ -1114,7 +1114,7 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 						ArrayList columnList = metaDataProvider.getProcedureColumns( obj.getCatalog( ),
 								schemaName,
 								tableName,
-								null );
+								getTailoredSearchText(null) );
 						TreeItem[] items = item.getItems( );
 						if ( items != null )
 						{
@@ -1147,14 +1147,21 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			public void dragStart( DragSourceEvent event )
 			{
 				TreeItem[] selection = availableDbObjectsTree.getSelection( );
-				if ( selection.length > 0
-						&& selection[0].getData( ) instanceof DbObject )
+				if ( selection.length > 0 )
 				{
-					if ( ( (DbObject) selection[0].getData( ) ).getType( ) == DbObject.PROCEDURE_TYPE )
+					if ( selection[0].getData( ) instanceof DbObject )
+					{
+						if ( ( (DbObject) selection[0].getData( ) ).getType( ) == DbObject.PROCEDURE_TYPE )
+						{
+							event.doit = false;
+							return;
+						}
+					}
+					else if ( selection[0].getData( ) instanceof ProcedureParameter )
 					{
 						event.doit = false;
 						return;
-					};
+					}
 				}
 				else if ( selection.length <= 0
 						|| selection[0].getData( ) == null )

@@ -51,6 +51,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	private String userName = null;
 	private String url = null;
 	private String driverClass = null;
+	private String pass = null;
 	private DatabaseMetaData metaData;
 	private HashMap crossReferenceMap = null;
 	
@@ -114,6 +115,7 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 				    this.driverClass = driverClass;
 				    this.url = url;
 				    this.userName = userName;
+				    this.pass = password;
 				}
 			}
 			catch ( SQLException e )
@@ -272,12 +274,19 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		}
 		catch ( SQLException e )
 		{
-			e.printStackTrace( );
+			try
+			{
+				schemaRs = reTryAchieveResultSet("SCHEMAS", null);
+			}
+			catch ( SQLException e1 )
+			{
+				e1.printStackTrace();
+			}
 		}
-
+		
 		return schemaRs;
 	}
-        
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -338,12 +347,19 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace( );
+				try
+				{
+					return reTryAchieveResultSet("TABLES", new Object[]{cataLog, schemaPattern, namePattern, types});
+				}
+				catch ( SQLException e1 )
+				{
+					e1.printStackTrace();
+				}
 			}
 		}
 		return resultSet;
 	}
-	
+  
 	/**
 	 * get all procedure from special catalog,schemaPattern,and namePattern
 	 */
@@ -366,17 +382,28 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		{
 			try
 			{
-				procedureRs = metaData.getProcedures( cataLog,
-						schemaPattern,
-						namePattern );
+				try
+				{
+					procedureRs = metaData.getProcedures( cataLog,
+							schemaPattern,
+							namePattern );
+				}
+				catch ( SQLException e )
+				{
+					procedureRs = reTryAchieveResultSet("PROCEDURE", new Object[]{ cataLog, schemaPattern, namePattern});
+				}
 				boolean isSame;
 				while ( procedureRs.next( ) )
 				{
 					isSame = false;
 					Procedure procedure = new Procedure( );
-					procedure.setProcedureName( procedureRs.getString( "PROCEDURE_NAME" ) );
-					procedure.setSchema( procedureRs.getString( "PROCEDURE_SCHEM" ) );
+					//Here the sequence of geting statements are significant for some data base driver do not all the
+					//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
 					procedure.setCatalog( procedureRs.getString( "PROCEDURE_CAT" ) );
+					procedure.setSchema( procedureRs.getString( "PROCEDURE_SCHEM" ) );
+					procedure.setProcedureName( procedureRs.getString( "PROCEDURE_NAME" ) );
+					
+					
 					for ( int i = 0; i < procedureList.size( ); i++ )
 					{
 						if ( ( (Procedure) ( procedureList.get( i ) ) ).isEqualWith( procedure ) )
@@ -388,11 +415,12 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
+				e.printStackTrace();
 			}
 		}
 		return procedureList;
 	}
- 	
+ 	 
  	/**
  	 * Get procedure's columns information
  	 */
@@ -417,17 +445,31 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 		{
 			try
 			{
-				columnsRs = metaData.getProcedureColumns( cataLog,
-						schemaPattern,
-						procedureNamePattern,
-						columnNamePattern );
+				try
+				{
+					columnsRs = metaData.getProcedureColumns( cataLog,
+							schemaPattern,
+							procedureNamePattern,
+							columnNamePattern );
+				}
+				catch ( SQLException e )
+				{
+					columnsRs = reTryAchieveResultSet( "PROCEDURE_COLUMNS", new Object[]{cataLog,
+							schemaPattern,
+							procedureNamePattern,
+							columnNamePattern });
+				}
 				int n = 0;
 				while ( columnsRs.next( ) )
 				{
 					ProcedureParameter column = new ProcedureParameter( );
 					column.setSchema( schemaPattern );
-					if ( columnsRs.getString( "COLUMN_NAME" )!= null )
-						column.setName( columnsRs.getString( "COLUMN_NAME" ) );
+					//Here the sequence of geting statements are significant for some data base driver do not all the
+					//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
+					column.setProcedureName( columnsRs.getString( "PROCEDURE_NAME" ) );
+					String columnName = columnsRs.getString( "COLUMN_NAME" );
+					if ( columnName != null )
+						column.setName( columnName );
 					else
 					{
 						// if the column name cannot retrieved ,give the unique name for this column
@@ -435,15 +477,17 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 						column.setName( "param" + n );
 					}
 					column.setModeType( columnsRs.getInt( "COLUMN_TYPE" ) );
-					column.setDataTypeName( columnsRs.getString( "TYPE_NAME" ) );
 					column.setDataType( columnsRs.getInt( "DATA_TYPE" ) );
-					column.setProcedureName( columnsRs.getString( "PROCEDURE_NAME" ) );
+					column.setDataTypeName( columnsRs.getString( "TYPE_NAME" ) );
+					
+					
 
 					columnList.add( column );
 				}
 			}
 			catch ( SQLException e )
 			{
+				e.printStackTrace();
 			}
 		}
 		return columnList;
@@ -477,41 +521,73 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	 */
 	public ArrayList getColumns( String catalog, String schemaPattern,
 			String tableNamePattern, String columnNamePattern )
-        {
-        	
-        	ArrayList columnList = new ArrayList();
-        	if ( metaData == null )
-        	{
-        		metaData = getMetaData();
-        	}
-        	
-        	try
+	{
+
+		ArrayList columnList = new ArrayList( );
+		if ( metaData == null )
+		{
+			metaData = getMetaData( );
+		}
+
+		try
+		{
+			ResultSet columnsRs = null;
+			try
 			{
-			ResultSet columnsRs = metaData.getColumns( catalog,
-					schemaPattern,
-					tableNamePattern,
-					columnNamePattern );
-        		
-        		while( columnsRs.next())
-        		{
-        			
-        			Column column = new Column();
-        			column.setSchemaName(columnsRs.getString("TABLE_SCHEM"));
-        			column.setTableName(columnsRs.getString("TABLE_NAME"));
-        			column.setName(columnsRs.getString("COLUMN_NAME"));
-        			column.setDbType(columnsRs.getString("TYPE_NAME"));
-        			
-        			columnList.add(column);
-        			
-        		}
+				columnsRs = metaData.getColumns( catalog,
+						schemaPattern,
+						tableNamePattern,
+						columnNamePattern );
 			}
-        	catch(SQLException e)
+			catch ( SQLException e )
 			{
-        		e.printStackTrace();
+				columnsRs = reTryAchieveResultSet("TABLE_COLUMNS",new Object[]{ catalog,
+						schemaPattern,
+						tableNamePattern,
+						columnNamePattern });
 			}
-        	
-        	return columnList;
-        }
+
+			while ( columnsRs.next( ) )
+			{
+				//Here the sequence of geting statements are significant for some data base driver do not all the
+				//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
+
+				Column column = new Column( );
+				column.setSchemaName( columnsRs.getString( "TABLE_SCHEM" ) );
+				column.setTableName( columnsRs.getString( "TABLE_NAME" ) );
+				column.setName( columnsRs.getString( "COLUMN_NAME" ) );
+				column.setDbType( columnsRs.getString( "TYPE_NAME" ) );
+
+				columnList.add( column );
+
+			}
+		}
+		catch ( SQLException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return columnList;
+	}
+
+
+	/**
+	 * @param catalog
+	 * @param schemaPattern
+	 * @param tableNamePattern
+	 * @param columnNamePattern
+	 * @return
+	 * @throws SQLException
+	 */
+	private void resetMetadata( ) throws SQLException
+	{
+		jdbcConnection = DriverLoader.getConnection( driverClass,
+				url,
+				userName,
+				pass );
+		metaData = jdbcConnection.getMetaData();
+		
+	}
         
 	/*
 	 * (non-Javadoc)
@@ -529,7 +605,16 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 			}
 			catch ( SQLException e )
 			{
-				e.printStackTrace( );
+				try
+				{
+					this.closeConnection( );
+					this.resetMetadata( );
+					cataLog = jdbcConnection.getCatalog( );
+				}
+				catch ( SQLException e1 )
+				{
+					e1.printStackTrace( );
+				}
 			}
 		}
 
@@ -608,19 +693,30 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 
 		try
 		{
-			crossReferencesRs = metaData.getCrossReference( null,
+			try {crossReferencesRs = metaData.getCrossReference( null,
 					primarySchema,
 					primaryTable,
 					null,
 					foreignSchema,
 					foreignTable );
-
+			}catch (SQLException e)
+			{
+				
+				crossReferencesRs = reTryAchieveResultSet( "CROSSREFERENCE", new Object[]{null,
+						primarySchema,
+						primaryTable,
+						null,
+						foreignSchema,
+						foreignTable });
+			}
 			// test
 			// crossReferencesRs = metaData.getCrossReference(null,
 			// primarySchema, "customers", null, foreignSchema, "orders");
 
 			while ( crossReferencesRs.next( ) )
 			{
+				//Here the sequence of geting statements are significant for some data base driver do not all the
+				//retrievement of an element of high index once an element of low index is retrieved from ResultSet 
 				String pkSchema = crossReferencesRs.getString( "PKTABLE_SCHEM" );
 				String pkTable = crossReferencesRs.getString( "PKTABLE_NAME" );
 				String pkColumn = crossReferencesRs.getString( "PKCOLUMN_NAME" );
@@ -663,8 +759,67 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 
 		return crossReferences;
 	}
+	/**
+	 * When using some driver, one connection metaData can only use methods like
+	 * "getColumns()" once in its lifecycle, i.e. jdbc-odbc-sqlserver driver.
+	 * Some other drivers, such as IBM db2 driver, will occationly throw
+	 * exceptions once one method is executed multiple times. Most of these
+	 * driver-specific problem can be resolved by re-connecting to the data
+	 * source. This method is used to do that job.
+	 * 
+	 * @param name
+	 * @param arguments
+	 * @return
+	 * @throws SQLException
+	 */
+	private ResultSet reTryAchieveResultSet( String name, Object[] arguments )
+			throws SQLException
+	{
+		this.closeConnection( );
+		this.resetMetadata( );
+		if ( name.equalsIgnoreCase( "SCHEMAS" ) )
+		{
+			return metaData.getSchemas( );
+		}
+		else if ( name.equalsIgnoreCase( "TABLES" ) )
+		{
+			return metaData.getTables( String.valueOf( arguments[0] ),
+					String.valueOf( arguments[1] ),
+					String.valueOf( arguments[2] ),
+					arguments[3] == null ? null : (String[]) arguments[3] );
+		}
+		else if ( name.equalsIgnoreCase( "PROCEDURE" ) )
+		{
+			return metaData.getProcedures( String.valueOf( arguments[0] ),
+					String.valueOf( arguments[1] ),
+					String.valueOf( arguments[2] ) );
+		}
+		else if ( name.equalsIgnoreCase( "PROCEDURE_COLUMNS" ) )
+		{
+			return metaData.getProcedureColumns( String.valueOf( arguments[0] ),
+					String.valueOf( arguments[1] ),
+					String.valueOf( arguments[2] ),
+					String.valueOf( arguments[3] ) );
+		}
+		else if ( name.equalsIgnoreCase( "TABLE_COLUMNS" ) )
+		{
+			return metaData.getColumns( String.valueOf( arguments[0] ),
+					String.valueOf( arguments[1] ),
+					String.valueOf( arguments[2] ),
+					String.valueOf( arguments[3] ) );
+		}
+		else if ( name.equalsIgnoreCase( "CROSSREFERENCE" ) )
+		{
+			return metaData.getCrossReference( String.valueOf( arguments[0] ),
+					String.valueOf( arguments[1] ),
+					String.valueOf( arguments[2] ),
+					String.valueOf( arguments[3] ),
+					String.valueOf( arguments[4] ),
+					String.valueOf( arguments[5] ) );
+		}
 
-	
+		return null;
+	}
 	public static String constructSql( ArrayList tableList,
 			ArrayList columnList, ArrayList joinList,
 			IMetaDataProvider metaDataProvider )
