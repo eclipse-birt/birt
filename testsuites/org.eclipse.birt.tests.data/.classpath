@@ -3,15 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.flatfile_1.0.0/oda-flatfile.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/db2jcc_license_cu.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/db2jcc.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/ifxjdbc.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/jtds-0.9.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/mysql-connector-java-3.0.16-ga-bin.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/drivers/postgresql-8.0-310.jdbc3.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/derby.jar"/>
-	<classpathentry kind="lib" path="plugins/org.eclipse.birt.report.data.oda.jdbc_1.0.0/oda-jdbc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
