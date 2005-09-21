@@ -36,5 +36,13 @@
       <description>%LibraryWizardDescription</description>
       </wizard>
       
-   </extension>           
+   </extension>
+<extension
+      point="org.eclipse.ui.views">
+   <view
+         category="org.eclipse.birt.report.designer.ui.views.category"
+         class="org.eclipse.birt.report.designer.ui.lib.views.explorer.LibraryExplorerView"
+         id="org.eclipse.birt.report.designer.ui.lib.views.explorer"
+         name="Library Explorer"/>
+</extension>           
 </plugin>
