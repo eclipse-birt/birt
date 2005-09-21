@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.chart.event;
 
-import org.eclipse.birt.chart.computation.Vector;
+import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -26,9 +28,9 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 	private static final long serialVersionUID = 3249838045689532033L;
 
-	private Location3D[] points;
 
-	private Vector center;
+
+	private Object3D object3D;
 
 	/**
 	 * @param oSource
@@ -43,7 +45,7 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	 */
 	public void setLocation3D( Location3D[] loa )
 	{
-		points = loa;
+		object3D = new Object3D( loa );
 	}
 
 	/**
@@ -51,61 +53,11 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	 */
 	public Location3D[] getLocation3D( )
 	{
-		return points;
+		return object3D.getLocation3D( );
 	}
 
-	/**
-	 * @param va
-	 */
-	public void updateCenter( Vector[] va )
-	{
-		if ( va == null || va.length == 0 )
-		{
-			return;
-		}
+	
 
-		double m = va.length;
-		double xs = 0, ys = 0, zs = 0;
-
-		for ( int i = 0; i < m; i++ )
-		{
-			xs += va[i].get( 0 );
-			ys += va[i].get( 1 );
-			zs += va[i].get( 2 );
-		}
-
-		center = new Vector( xs / m, ys / m, zs / m, true );
-	}
-
-	/**
-	 * Returns center of gravity of oval
-	 * 
-	 * @return
-	 */
-	public Vector getCenter( )
-	{
-		if ( center != null )
-		{
-			return center;
-		}
-
-		if ( points == null || points.length == 0 )
-		{
-			return null;
-		}
-
-		double m = points.length;
-		double xs = 0, ys = 0, zs = 0;
-
-		for ( int i = 0; i < m; i++ )
-		{
-			xs += points[i].getX( );
-			ys += points[i].getY( );
-			zs += points[i].getZ( );
-		}
-
-		return new Vector( xs / m, ys / m, zs / m, true );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -115,14 +67,9 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 	public PrimitiveRenderEvent copy( )
 	{
 		final Oval3DRenderEvent ore = new Oval3DRenderEvent( source );
-		if ( points != null )
+		if ( object3D != null )
 		{
-			final Location3D[] loa = new Location3D[this.points.length];
-			for ( int i = 0; i < loa.length; i++ )
-			{
-				loa[i] = (Location3D) EcoreUtil.copy( points[i] );
-			}
-			ore.points = loa;
+			ore.object3D = new Object3D( object3D );
 		}
 
 		if ( _lia != null )
@@ -137,4 +84,16 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return ore;
 	}
 
+	public Object3D getObject3D( )
+	{
+		return object3D;
+	}
+	public void prepare2D( double xOffset, double yOffset )
+	{
+		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+		setBounds( BoundsImpl.create( points[0].getX( ),
+				points[0].getY( ),
+				points[2].getX( ) - points[1].getX( ),
+				points[0].getY( ) - points[1].getY( ) ) );
+	}
 }

@@ -14,12 +14,13 @@ package org.eclipse.birt.chart.event;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.chart.computation.Vector;
+import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -39,13 +40,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 	private boolean bBehind = false;
 
-	private Location3D[] loa3d;
+	private Object3D object3D;
 
 	private Fill runtimeBackground;
 
-	private Vector center;
 
-	private Vector normal;
 
 	/**
 	 * @param oSource
@@ -112,103 +111,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
-	 * @param va
-	 */
-	public void updateNormal( Vector[] va )
-	{
-		if ( va == null || va.length < 3 )
-		{
-			return;
-		}
-
-		// create vectors with first three points and returns cross products
-		Vector v1 = new Vector( va[1] );
-		v1.sub( va[0] );
-		Vector v2 = new Vector( va[2] );
-		v2.sub( va[1] );
-
-		normal = v1.crossProduct( v2 );
-	}
-
-	/**
-	 * returns the normal vector (pointing outside the enclosed volume for
-	 * oriented polygons.)
-	 * 
-	 * @return
-	 */
-	public Vector getNormal( )
-	{
-		if ( normal != null )
-		{
-			return normal;
-		}
-
-		if ( loa3d == null )
-		{
-			return null;
-		}
-
-		// create vectors with first three points and returns cross products
-		Vector v1 = new Vector( loa3d[0], loa3d[1] );
-		Vector v2 = new Vector( loa3d[1], loa3d[2] );
-
-		return v1.crossProduct( v2 );
-	}
-
-	/**
-	 * @param va
-	 */
-	public void updateCenter( Vector[] va )
-	{
-		if ( va == null || va.length == 0 )
-		{
-			return;
-		}
-
-		double m = va.length;
-		double xs = 0, ys = 0, zs = 0;
-
-		for ( int i = 0; i < m; i++ )
-		{
-			xs += va[i].get( 0 );
-			ys += va[i].get( 1 );
-			zs += va[i].get( 2 );
-		}
-
-		center = new Vector( xs / m, ys / m, zs / m, true );
-	}
-
-	/**
-	 * Returns center of gravity of polygon
-	 * 
-	 * @return
-	 */
-	public Vector getCenter( )
-	{
-		if ( center != null )
-		{
-			return center;
-		}
-
-		if ( loa3d == null || loa3d.length == 0 )
-		{
-			return null;
-		}
-
-		double m = loa3d.length;
-		double xs = 0, ys = 0, zs = 0;
-
-		for ( int i = 0; i < m; i++ )
-		{
-			xs += loa3d[i].getX( );
-			ys += loa3d[i].getY( );
-			zs += loa3d[i].getZ( );
-		}
-
-		return new Vector( xs / m, ys / m, zs / m, true );
-	}
-
-	/**
 	 * @return
 	 */
 	public double getBrightness( )
@@ -246,11 +148,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 * @param la
 	 *            Sets the co-ordinates for each point that defines the polygon
 	 */
-	public final void setPoints3D( Location3D[] la ) throws ChartException
+	public final void setPoints3D( Location3D[] loa ) throws ChartException
 	{
-		loa3d = la;
+		
 
-		if ( la.length < 3 )
+		if ( loa.length < 3 )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.RENDERING,
@@ -258,17 +160,23 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 					ResourceBundle.getBundle( Messages.ENGINE,
 							Locale.getDefault( ) ) );
 		}
+		object3D = new Object3D( loa );
 	}
 
 	/**
 	 * 
 	 * @return Returns the co-ordinates for each point in the polygon
 	 */
-	public final Location3D[] getPoints3D( )
+	public Location3D[] getPoints3D( )
 	{
-		return loa3d;
+		return object3D.getLocation3D();
 	}
 
+	public void prepare2D( double xOffset, double yOffset )
+	{
+		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+		setPoints( points );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -277,15 +185,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	public PrimitiveRenderEvent copy( )
 	{
 		final Polygon3DRenderEvent pre = new Polygon3DRenderEvent( source );
-		if ( loa3d != null )
+		if ( object3D != null )
 		{
-			final Location3D[] loa = new Location3D[this.loa3d.length];
-			for ( int i = 0; i < loa.length; i++ )
-			{
-				loa[i] = (Location3D) EcoreUtil.copy( loa3d[i] );
-			}
-			pre.loa3d = loa;
+			pre.object3D = new Object3D( object3D );
 		}
+	
 
 		if ( _lia != null )
 		{
@@ -304,4 +208,19 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		return pre;
 	}
 
+	// must be implemented as the object is cached and reused.
+	public void reset()
+	{
+		object3D.reset( );
+		this.bDoubleSided = false;
+		this.dBrightness = 1;
+		this.bBehind = false;
+		this.runtimeBackground = null;
+		super.reset();
+	}
+
+	public Object3D getObject3D( )
+	{
+		return object3D;
+	}
 }

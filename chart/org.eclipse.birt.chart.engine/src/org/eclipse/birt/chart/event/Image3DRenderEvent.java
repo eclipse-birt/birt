@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.event;
 
-import org.eclipse.birt.chart.computation.Vector;
+import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -28,9 +29,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	private static final long serialVersionUID = -5027476689319210090L;
 
-	private Location3D lo3d;
-
-	private Vector center;
+	private Object3D object3D;
 
 	/**
 	 * @param oSource
@@ -45,7 +44,7 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	public void setLocation3D( Location3D lo )
 	{
-		this.lo3d = lo;
+		object3D = new Object3D( lo );
 	}
 
 	/**
@@ -53,42 +52,11 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	public Location3D getLocation3D( )
 	{
-		return lo3d;
+		return object3D.getLocation3D()[0];
 	}
 
-	/**
-	 * @param va
-	 */
-	public void updateCenter( Vector[] va )
-	{
-		if ( va == null || va.length < 1 )
-		{
-			return;
-		}
 
-		center = new Vector( va[0].get( 0 ),
-				va[0].get( 1 ),
-				va[0].get( 2 ),
-				true );
-	}
 
-	/**
-	 * @return
-	 */
-	public Vector getCenter( )
-	{
-		if ( center != null )
-		{
-			return center;
-		}
-
-		if ( lo3d == null )
-		{
-			return null;
-		}
-
-		return new Vector( lo3d );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -99,9 +67,9 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	{
 		Image3DRenderEvent ire = new Image3DRenderEvent( source );
 
-		if ( lo3d != null )
+		if ( object3D != null )
 		{
-			ire.setLocation3D( (Location3D) EcoreUtil.copy( lo3d ) );
+			ire.object3D = new Object3D( object3D );
 		}
 
 		if ( img != null )
@@ -115,6 +83,18 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		ire.setStretch( stretch );
 
 		return ire;
+	}
+
+	public Object3D getObject3D( )
+	{
+		return object3D;
+	}
+
+	public void prepare2D( double xOffset, double yOffset )
+	{
+		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+		setLocation( points[ 0 ] );
+		 
 	}
 
 }

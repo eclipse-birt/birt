@@ -11,8 +11,9 @@
 
 package org.eclipse.birt.chart.event;
 
-import org.eclipse.birt.chart.computation.Vector;
+import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.component.Label;
@@ -27,9 +28,9 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 
 	private static final long serialVersionUID = 3083777028665416663L;
 
-	private Location3D loc3d;
+	private Object3D object3D;
 
-	private Vector center;
+	
 
 	/**
 	 * @param oSource
@@ -44,7 +45,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 */
 	public void setLocation3D( Location3D loc )
 	{
-		this.loc3d = loc;
+		this.object3D = new Object3D( loc );
 	}
 
 	/**
@@ -52,39 +53,10 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 */
 	public Location3D getLocation3D( )
 	{
-		return loc3d;
+		return object3D.getLocation3D()[0];
 	}
 
-	/**
-	 * @param va
-	 */
-	public void updateCenter( Vector[] va )
-	{
-		if ( va == null || va.length < 1 )
-		{
-			return;
-		}
-
-		center = new Vector( va[0].get( 0 ),
-				va[0].get( 1 ),
-				va[0].get( 2 ),
-				true );
-	}
-
-	public Vector getCenter( )
-	{
-		if ( center != null )
-		{
-			return center;
-		}
-
-		if ( loc3d == null )
-		{
-			return null;
-		}
-
-		return new Vector( loc3d );
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -104,9 +76,9 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		{
 			tre.setLabel( (Label) EcoreUtil.copy( _la ) );
 		}
-		if ( loc3d != null )
+		if ( object3D != null )
 		{
-			tre.setLocation3D( (Location3D) EcoreUtil.copy( loc3d ) );
+			tre.object3D = new Object3D(  object3D  );
 		}
 		if ( _taBlock != null )
 		{
@@ -114,4 +86,20 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		return tre;
 	}
+	
+	
+	public Object3D getObject3D( )
+	{
+		return object3D;
+	}
+
+	public void prepare2D( double xOffset, double yOffset )
+	{
+		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+		setLocation( points[0] );
+
+	}
+		
+
+
 }

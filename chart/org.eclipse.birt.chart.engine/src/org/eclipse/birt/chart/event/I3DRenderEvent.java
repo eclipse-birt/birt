@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.Object3D;
+
 /**
  * A tagging interface that all 3D rendering events must extend.
  */
 
 public interface I3DRenderEvent
 {
-
+	Object3D getObject3D( );
 }

@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.chart.event;
 
+import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -25,9 +27,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 
 	private static final long serialVersionUID = 33812052466380930L;
 
-	private Location3D s3d, e3d;
+	private Object3D object3D;
 
-	private Vector center;
+
 
 	/**
 	 * @param oSource
@@ -35,6 +37,7 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	public Line3DRenderEvent( Object oSource )
 	{
 		super( oSource );
+		object3D = new Object3D( 2 );
 	}
 
 	/**
@@ -42,15 +45,20 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public void setStart3D( Location3D start )
 	{
-		s3d = start;
+		object3D.getVectors()[0] = new Vector( start );
 	}
 
+	public void setStart3D( double x, double y, double z )
+	{
+		object3D.getVectors()[0] = new Vector( x, y, z, true );
+	}
 	/**
+	 * not a live object
 	 * @return
 	 */
 	public Location3D getStart3D( )
 	{
-		return s3d;
+		return object3D.getLocation3D()[0];
 	}
 
 	/**
@@ -58,55 +66,25 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public void setEnd3D( Location3D end )
 	{
-		e3d = end;
+		object3D.getVectors()[1] = new Vector( end );
+	}
+	
+	public void setEnd3D( double x, double y, double z )
+	{
+		object3D.getVectors()[1] = new Vector( x, y, z, true );
 	}
 
 	/**
+	 *  not a live object
 	 * @return
 	 */
 	public Location3D getEnd3D( )
 	{
-		return e3d;
+		return object3D.getLocation3D()[1];
 	}
 
-	/**
-	 * @param va
-	 */
-	public void updateCenter( Vector[] va )
-	{
-		if ( va == null || va.length < 2 )
-		{
-			return;
-		}
 
-		center = new Vector( ( va[0].get( 0 ) + va[1].get( 0 ) ) / 2,
-				( va[0].get( 1 ) + va[1].get( 1 ) ) / 2,
-				( va[0].get( 2 ) + va[1].get( 2 ) ) / 2,
-				true );
-	}
 
-	/**
-	 * Returns center of gravity of line
-	 * 
-	 * @return
-	 */
-	public Vector getCenter( )
-	{
-		if ( center != null )
-		{
-			return center;
-		}
-
-		if ( s3d == null || e3d == null )
-		{
-			return null;
-		}
-
-		return new Vector( ( s3d.getX( ) + e3d.getX( ) ) / 2,
-				( s3d.getY( ) + e3d.getY( ) ) / 2,
-				( s3d.getZ( ) + e3d.getZ( ) ) / 2,
-				true );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -120,16 +98,29 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		{
 			lre.setLineAttributes( (LineAttributes) EcoreUtil.copy( lia ) );
 		}
-
-		if ( s3d != null )
+		if ( object3D != null )
 		{
-			lre.setStart3D( (Location3D) EcoreUtil.copy( s3d ) );
-		}
-
-		if ( e3d != null )
-		{
-			lre.setEnd3D( (Location3D) EcoreUtil.copy( e3d ) );
+			lre.object3D = new Object3D( object3D );
 		}
 		return lre;
 	}
+
+	public Object3D getObject3D( )
+	{
+		return object3D;
+	}
+
+	public void prepare2D( double xOffset, double yOffset )
+	{
+		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+		setStart( points[ 0 ] );
+		setEnd( points[ 1 ] );	 
+	
+	}
+	public void reset()
+	{
+		object3D = new Object3D( 2 );
+		super.reset();
+	}
+
 }

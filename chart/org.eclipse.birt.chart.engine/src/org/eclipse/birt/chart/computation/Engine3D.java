@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.Image3DRenderEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.Oval3DRenderEvent;
@@ -24,11 +25,7 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
-import org.eclipse.birt.chart.model.attribute.Location;
-import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.util.Matrix;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -414,7 +411,7 @@ public final class Engine3D implements IConstants
 	 * @param end
 	 * @return
 	 */
-	private byte checkClipping( Vector start, Vector end )
+	public byte checkClipping( Vector start, Vector end )
 	{
 		byte retval = OUT_OF_RANGE_NONE;
 		Vector v1 = new Vector( );
@@ -485,153 +482,24 @@ public final class Engine3D implements IConstants
 	}
 
 	/**
-	 * @param va
-	 * @return
+	 * @param p3dre
+	 * @return true if polygon is behind
 	 */
-	boolean checkBehindFace( Vector[] va )
+	boolean checkBehindFace( Polygon3DRenderEvent p3dre )
 	{
-		Vector v1 = va[0];
-		Vector v2 = va[1];
-		Vector v3 = va[2];
-
-		Vector u = new Vector( );
-		Vector v = new Vector( );
-
-		// get the normal vector of the face
-		u.set( v1.get( 0 ), v1.get( 1 ), v1.get( 2 ) );
-		u.sub( v2 );
-		v.set( v2.get( 0 ), v2.get( 1 ), v2.get( 2 ) );
-		v.sub( v3 );
-
-		Vector uxv = u.crossProduct( v );
-
-		Vector viewDirection = new Vector( v2.get( 0 ),
-				v2.get( 1 ),
-				v2.get( 2 ),
-				false );
-
+		if ( p3dre.isDoubleSided())
+			return false;
+		
+		Vector viewDirection = p3dre.getObject3D().getCenter();
+		Vector normal = p3dre.getObject3D().getNormal();
+	
 		// check if the normal vector of face points to the same direction
 		// of the viewing direction
-		return ( uxv.scalarProduct( viewDirection ) <= 0 );
+		return ( normal.scalarProduct( viewDirection ) <= 0 );
 	}
 
-	/**
-	 * Doing canonical view clipping for all the lines of the polygon
-	 * 
-	 * @param va
-	 */
-	Vector[] clipPolygon( Vector[] va )
-	{
-		byte retval;
-
-		List lst = new ArrayList( );
-
-		for ( int i = 0; i < va.length; i++ )
-		{
-			Vector start = null;
-			Vector end = null;
-
-			if ( i == va.length - 1 )
-			{
-				start = new Vector( va[i] );
-				end = new Vector( va[0] );
-			}
-			else
-			{
-				start = new Vector( va[i] );
-				end = new Vector( va[i + 1] );
-			}
-
-			retval = checkClipping( start, end );
-
-			if ( retval != OUT_OF_RANGE_BOTH )
-			{
-				lst.add( start );
-				lst.add( end );
-			}
-		}
-
-		return (Vector[]) lst.toArray( new Vector[0] );
-	}
-
-	/**
-	 * Doing canonical view clipping for all the lines of the polygon
-	 * 
-	 * @param va
-	 */
-	Vector[] clipLine( Vector[] va )
-	{
-		Vector start = new Vector( va[0] );
-		Vector end = new Vector( va[1] );
-
-		List lst = new ArrayList( );
-
-		byte retval = checkClipping( start, end );
-
-		if ( retval != OUT_OF_RANGE_BOTH )
-		{
-			lst.add( start );
-			lst.add( end );
-		}
-
-		return (Vector[]) lst.toArray( new Vector[0] );
-	}
-
-	/**
-	 * @param va
-	 * @return
-	 */
-	Vector[] clipText( Vector[] va )
-	{
-		Vector start = new Vector( va[0] );
-		Vector end = new Vector( va[0] );
-
-		List lst = new ArrayList( );
-
-		byte retval = checkClipping( start, end );
-
-		if ( retval != OUT_OF_RANGE_BOTH )
-		{
-			lst.add( start );
-		}
-
-		return (Vector[]) lst.toArray( new Vector[0] );
-	}
-
-	/**
-	 * @param va
-	 * @return
-	 */
-	Vector[] clipImage( Vector[] va )
-	{
-		Vector start = new Vector( va[0] );
-		Vector end = new Vector( va[0] );
-
-		List lst = new ArrayList( );
-
-		byte retval = checkClipping( start, end );
-
-		if ( retval != OUT_OF_RANGE_BOTH )
-		{
-			lst.add( start );
-		}
-
-		return (Vector[]) lst.toArray( new Vector[0] );
-	}
-
-	/**
-	 * Perspective transformation of the vectors.
-	 * 
-	 * @param va
-	 * @param distance
-	 */
-	void perspective( Vector[] va, double distance )
-	{
-		for ( int i = 0; i < va.length; i++ )
-		{
-			va[i].perspective( distance );
-		}
-	}
+	
+	
 
 	Matrix getTransformMatrix( )
 	{
@@ -675,74 +543,10 @@ public final class Engine3D implements IConstants
 		return m;
 	}
 
-	private Vector[] getVectors( Polygon3DRenderEvent evt )
-	{
-		Location3D[] loa = evt.getPoints3D( );
 
-		Vector[] va = new Vector[loa.length];
-		for ( int i = 0; i < va.length; i++ )
-		{
-			va[i] = new Vector( loa[i] );
-		}
-		return va;
-	}
 
-	private Vector[] getVectors( Oval3DRenderEvent evt )
-	{
-		Location3D[] loa = evt.getLocation3D( );
+	
 
-		Vector[] va = new Vector[loa.length];
-		for ( int i = 0; i < va.length; i++ )
-		{
-			va[i] = new Vector( loa[i] );
-		}
-		return va;
-	}
-
-	private Vector[] getVectors( Line3DRenderEvent evt )
-	{
-		return new Vector[]{
-				new Vector( evt.getStart3D( ) ), new Vector( evt.getEnd3D( ) )
-		};
-	}
-
-	private Vector[] getVectors( Text3DRenderEvent evt )
-	{
-		if ( evt.getAction( ) == Text3DRenderEvent.RENDER_TEXT_AT_LOCATION )
-		{
-			return new Vector[]{
-				new Vector( evt.getLocation3D( ) )
-			};
-		}
-		else
-		{
-			// TODO process render-in-block.
-			return new Vector[0];
-		}
-	}
-
-	private Vector[] getVectors( Image3DRenderEvent evt )
-	{
-		return new Vector[]{
-			new Vector( evt.getLocation3D( ) )
-		};
-	}
-
-	private Location[] vectorArray2LocationArray( Vector[] va, double xOffset,
-			double yOffset )
-	{
-		Location[] loa = new Location[va.length];
-		for ( int i = 0; i < va.length; i++ )
-		{
-			loa[i] = vector2Location( va[i], xOffset, yOffset );
-		}
-		return loa;
-	}
-
-	private Location vector2Location( Vector v, double xOffset, double yOffset )
-	{
-		return LocationImpl.create( v.get( 0 ) + xOffset, v.get( 1 ) + yOffset );
-	}
 
 	private boolean translate3DEvent( Object obj, Matrix transMatrix,
 			double xOffset, double yOffset )
@@ -750,23 +554,24 @@ public final class Engine3D implements IConstants
 		if ( obj instanceof Polygon3DRenderEvent )
 		{
 			Polygon3DRenderEvent p3dre = (Polygon3DRenderEvent) obj;
-
-			Vector[] va = getVectors( p3dre );
-
-			transform( va, transMatrix );
-			transform( va, M2V_MATRIX );
-
-			boolean behind = checkBehindFace( va );
+			Object3D object3D = p3dre.getObject3D( );
+			
+			object3D.transform( transMatrix );
+			object3D.transform( M2V_MATRIX );
+			
+			
+			boolean behind = checkBehindFace( p3dre );
 			p3dre.setBehind( behind );
 
-			if ( !p3dre.isDoubleSided( ) && p3dre.isBehind( ) )
+			
+			if (  p3dre.isBehind( ) )
 			{
 				// optimize for culling face.
-				// return false;
+				 return false;
 			}
 
-			p3dre.updateNormal( va );
-			double cosValue = p3dre.getNormal( ).cosineValue( LDR );
+			
+			double cosValue = object3D.getNormal( ).cosineValue( LDR );
 			if ( p3dre.isDoubleSided( ) )
 			{
 				cosValue = -Math.abs( cosValue );
@@ -774,17 +579,17 @@ public final class Engine3D implements IConstants
 			double brightnessRatio = ( 1 - cosValue ) / 2d;
 			p3dre.setBrightness( brightnessRatio );
 
-			va = clipPolygon( va );
-			perspective( va, PERSPECTIVE_VALUE );
-			transform( va, V2C_MATRIX );
+			object3D.clip( this );
+			if ( object3D.getVectors().length < 3 )
+			{
+				return false;
+			}
+			object3D.perspective(  PERSPECTIVE_VALUE );
+			object3D.transform( V2C_MATRIX );
 
-			Location[] loa = vectorArray2LocationArray( va, xOffset, yOffset );
-
-			p3dre.updateCenter( va );
-
-			p3dre.setPoints( loa );
-
-			return true;// ( p3dre.isDoubleSided( ) || !p3dre.isBehind( ) );
+			p3dre.prepare2D( xOffset, yOffset );
+			
+			return true;
 		}
 		else if ( obj instanceof Line3DRenderEvent )
 		{
@@ -796,47 +601,41 @@ public final class Engine3D implements IConstants
 			{
 				return false;
 			}
+			
+			Object3D object3D = l3dre.getObject3D( );
+			
+			object3D.transform( transMatrix );
+			object3D.transform(  M2V_MATRIX );
 
-			Vector[] va = getVectors( l3dre );
-
-			transform( va, transMatrix );
-			transform( va, M2V_MATRIX );
-
-			va = clipLine( va );
-
-			if ( va.length < 2 )
+			object3D.clip( this );
+			if ( object3D.getVectors().length < 2 )
 			{
 				return false;
 			}
-			perspective( va, PERSPECTIVE_VALUE );
-			transform( va, V2C_MATRIX );
+			object3D.perspective( PERSPECTIVE_VALUE );
+			object3D.transform(  V2C_MATRIX );
 
-			l3dre.updateCenter( va );
+			l3dre.prepare2D( xOffset, yOffset );
 
-			l3dre.setStart( vector2Location( va[0], xOffset, yOffset ) );
-			l3dre.setEnd( vector2Location( va[1], xOffset, yOffset ) );
+			
 		}
 		else if ( obj instanceof Text3DRenderEvent )
 		{
 			Text3DRenderEvent t3dre = (Text3DRenderEvent) obj;
+			Object3D object3D = t3dre.getObject3D( );
+			
+			object3D.transform(  transMatrix );
+			object3D.transform( M2V_MATRIX );
 
-			Vector[] va = getVectors( t3dre );
-
-			transform( va, transMatrix );
-			transform( va, M2V_MATRIX );
-
-			va = clipText( va );
-			if ( va.length < 1 )
+			object3D.clip( this );
+			if ( object3D.getVectors().length < 1 )
 			{
 				return false;
 			}
-			perspective( va, PERSPECTIVE_VALUE );
-			transform( va, V2C_MATRIX );
-
-			t3dre.updateCenter( va );
-
-			t3dre.setLocation( vector2Location( va[0], xOffset, yOffset ) );
-
+			object3D.perspective( PERSPECTIVE_VALUE );
+			object3D.transform(  V2C_MATRIX );
+			
+			t3dre.prepare2D( xOffset, yOffset );
 			if ( t3dre.getAction( ) == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
 			{
 				t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -845,48 +644,42 @@ public final class Engine3D implements IConstants
 		else if ( obj instanceof Oval3DRenderEvent )
 		{
 			Oval3DRenderEvent o3dre = (Oval3DRenderEvent) obj;
+			Object3D object3D = o3dre.getObject3D( );
+			
+			
+			object3D.transform( transMatrix );
+			object3D.transform( M2V_MATRIX );
 
-			Vector[] va = getVectors( o3dre );
-
-			transform( va, transMatrix );
-			transform( va, M2V_MATRIX );
-
-			va = clipPolygon( va );
-			if ( va.length < 3 )
+			object3D.clip( this);
+			if ( object3D.getVectors().length < 3 )
 			{
 				return false;
 			}
-			perspective( va, PERSPECTIVE_VALUE );
-			transform( va, V2C_MATRIX );
+			object3D.perspective(  PERSPECTIVE_VALUE );
+			object3D.transform( V2C_MATRIX );
 
-			o3dre.updateCenter( va );
-
-			Location[] loa = vectorArray2LocationArray( va, xOffset, yOffset );
-			o3dre.setBounds( BoundsImpl.create( loa[0].getX( ),
-					loa[0].getY( ),
-					loa[2].getX( ) - loa[1].getX( ),
-					loa[0].getY( ) - loa[1].getY( ) ) );
+			o3dre.prepare2D( xOffset, yOffset );
+			
 		}
 		else if ( obj instanceof Image3DRenderEvent )
 		{
 			Image3DRenderEvent i3dre = (Image3DRenderEvent) obj;
+			Object3D object3D = i3dre.getObject3D( );
+			
+			
+			object3D.transform( transMatrix );
+			object3D.transform( M2V_MATRIX );
 
-			Vector[] va = getVectors( i3dre );
-
-			transform( va, transMatrix );
-			transform( va, M2V_MATRIX );
-
-			va = clipImage( va );
-			if ( va.length < 1 )
+			object3D.clip( this );
+			if ( object3D.getVectors().length < 1 )
 			{
 				return false;
 			}
-			perspective( va, PERSPECTIVE_VALUE );
-			transform( va, V2C_MATRIX );
+			object3D.perspective( PERSPECTIVE_VALUE );
+			object3D.transform( V2C_MATRIX );
 
-			i3dre.updateCenter( va );
-
-			i3dre.setLocation( vector2Location( va[0], xOffset, yOffset ) );
+			
+			i3dre.prepare2D( xOffset, yOffset ) ;
 		}
 
 		return true;
@@ -934,7 +727,15 @@ public final class Engine3D implements IConstants
 			}
 		}
 
-		// z-sort
+		zsort( rtList );
+		
+		return rtList;
+	}
+
+	// 	z-sort
+	protected void zsort( List rtList )
+	{
+		
 		Collections.sort( rtList, new Comparator( ) {
 
 			public int compare( Object o1, Object o2 )
@@ -946,29 +747,9 @@ public final class Engine3D implements IConstants
 					o1 = ( (WrappedInstruction) o1 ).getEvent( );
 				}
 
-				if ( o1 instanceof Polygon3DRenderEvent )
+				if ( o1 instanceof I3DRenderEvent )
 				{
-					Vector v = ( (Polygon3DRenderEvent) o1 ).getCenter( );
-					z1 = v.get( 2 );
-				}
-				else if ( o1 instanceof Line3DRenderEvent )
-				{
-					Vector v = ( (Line3DRenderEvent) o1 ).getCenter( );
-					z1 = v.get( 2 );
-				}
-				else if ( o1 instanceof Text3DRenderEvent )
-				{
-					z1 = ( (Text3DRenderEvent) o1 ).getCenter( ).get( 2 );
-				}
-				else if ( o1 instanceof Oval3DRenderEvent )
-				{
-					Vector v = ( (Oval3DRenderEvent) o1 ).getCenter( );
-					z1 = v.get( 2 );
-				}
-				else if ( o1 instanceof Image3DRenderEvent )
-				{
-					Vector v = ( (Image3DRenderEvent) o1 ).getCenter( );
-					z1 = v.get( 2 );
+					z1 = ((I3DRenderEvent)o1).getObject3D().getCenter().get(2);
 				}
 				else
 				{
@@ -980,29 +761,10 @@ public final class Engine3D implements IConstants
 					o2 = ( (WrappedInstruction) o2 ).getEvent( );
 				}
 
-				if ( o2 instanceof Polygon3DRenderEvent )
+				if ( o2 instanceof I3DRenderEvent )
 				{
-					Vector v = ( (Polygon3DRenderEvent) o2 ).getCenter( );
-					z2 = v.get( 2 );
-				}
-				else if ( o2 instanceof Line3DRenderEvent )
-				{
-					Vector v = ( (Line3DRenderEvent) o2 ).getCenter( );
-					z2 = v.get( 2 );
-				}
-				else if ( o2 instanceof Text3DRenderEvent )
-				{
-					z2 = ( (Text3DRenderEvent) o2 ).getCenter( ).get( 2 );
-				}
-				else if ( o2 instanceof Oval3DRenderEvent )
-				{
-					Vector v = ( (Oval3DRenderEvent) o2 ).getCenter( );
-					z2 = v.get( 2 );
-				}
-				else if ( o2 instanceof Image3DRenderEvent )
-				{
-					Vector v = ( (Image3DRenderEvent) o2 ).getCenter( );
-					z2 = v.get( 2 );
+					z2 = ((I3DRenderEvent)o2).getObject3D().getCenter().get(2);
+					
 				}
 				else
 				{
@@ -1017,12 +779,13 @@ public final class Engine3D implements IConstants
 				{
 					return 1;
 				}
-
-				return 0;
+				else
+				{
+					return 0;
+				}
 			}
 
 		} );
 
-		return rtList;
 	}
 }
