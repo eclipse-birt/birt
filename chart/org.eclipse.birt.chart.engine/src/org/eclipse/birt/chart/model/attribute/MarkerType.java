@@ -79,6 +79,21 @@ public final class MarkerType extends AbstractEnumerator
 	public static final int CIRCLE = 3;
 
 	/**
+	 * The '<em><b>Icon</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Icon</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ICON_LITERAL
+	 * @model name="Icon"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ICON = 4;
+
+	/**
 	 * The '<em><b>Crosshair</b></em>' literal object.
 	 * <!-- begin-user-doc
 	 * -->
@@ -140,13 +155,27 @@ public final class MarkerType extends AbstractEnumerator
 			"Circle" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Icon</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ICON
+	 * @generated
+	 * @ordered
+	 */
+	public static final MarkerType ICON_LITERAL = new MarkerType( ICON, "Icon" ); //$NON-NLS-1$
+
+	/**
 	 * An array of all the '<em><b>Marker Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
 	private static final MarkerType[] VALUES_ARRAY = new MarkerType[]{
-			CROSSHAIR_LITERAL, TRIANGLE_LITERAL, BOX_LITERAL, CIRCLE_LITERAL,
+			CROSSHAIR_LITERAL,
+			TRIANGLE_LITERAL,
+			BOX_LITERAL,
+			CIRCLE_LITERAL,
+			ICON_LITERAL,
 	};
 
 	/**
@@ -191,6 +220,8 @@ public final class MarkerType extends AbstractEnumerator
 				return BOX_LITERAL;
 			case CIRCLE :
 				return CIRCLE_LITERAL;
+			case ICON :
+				return ICON_LITERAL;
 		}
 		return null;
 	}

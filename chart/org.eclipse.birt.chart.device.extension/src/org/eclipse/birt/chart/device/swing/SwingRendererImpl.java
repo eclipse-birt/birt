@@ -68,6 +68,7 @@ import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -213,9 +214,75 @@ public class SwingRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.output.IPrimitiveRenderListener#drawImage(org.eclipse.birt.chart.output.ImageRenderEvent)
 	 */
-	public void drawImage( ImageRenderEvent pre )
+	public void drawImage( ImageRenderEvent pre ) throws ChartException
 	{
-		// TODO: Provide an implementation here
+		if ( pre.getImage( ) == null || pre.getLocation( ) == null )
+		{
+			return;
+		}
+
+		final String sUrl = pre.getImage( ).getURL( );
+		java.awt.Image img = null;
+		try
+		{
+			img = (java.awt.Image) _ids.loadImage( new URL( sUrl ) );
+		}
+		catch ( ChartException ilex )
+		{
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
+					ilex );
+		}
+		catch ( MalformedURLException muex )
+		{
+			throw new ChartException( ChartDeviceExtensionPlugin.ID,
+					ChartException.RENDERING,
+					muex );
+		}
+
+		if ( img == null )
+		{
+			return;
+		}
+
+		Location loc = pre.getLocation( );
+		Position pos = pre.getPosition( );
+		if ( pos == null )
+		{
+			pos = Position.INSIDE_LITERAL;
+		}
+
+		ImageObserver io = (ImageObserver) _ids.getObserver( );
+
+		int width = img.getWidth( io );
+		int height = img.getHeight( io );
+		int x = (int) loc.getX( );
+		int y = (int) loc.getY( );
+
+		switch ( pos.getValue( ) )
+		{
+			case Position.INSIDE :
+			case Position.OUTSIDE :
+				x -= width / 2;
+				y -= height / 2;
+				break;
+			case Position.LEFT :
+				x -= width;
+				y -= height / 2;
+				break;
+			case Position.RIGHT :
+				y -= height / 2;
+				break;
+			case Position.ABOVE :
+				x -= width / 2;
+				y -= height;
+				break;
+			case Position.BELOW :
+				x -= width / 2;
+				break;
+		}
+
+		_g2d.drawImage( img, x, y, width, height, io );
 	}
 
 	/*

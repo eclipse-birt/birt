@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getSize <em>Size</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}</li>
  * </ul>
  * </p>
  *
@@ -192,5 +193,31 @@ public interface Marker extends EObject
 	 * @generated
 	 */
 	boolean isSetVisible( );
+
+	/**
+	 * Returns the value of the '<em><b>Icon Palette</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specified the palette used by type Icon
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Icon Palette</em>' containment reference.
+	 * @see #setIconPalette(Palette)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getMarker_IconPalette()
+	 * @model containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='IconPalette'"
+	 * @generated
+	 */
+	Palette getIconPalette( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Icon Palette</em>' containment reference.
+	 * @see #getIconPalette()
+	 * @generated
+	 */
+	void setIconPalette( Palette value );
 
 } // Marker

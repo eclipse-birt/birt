@@ -295,6 +295,7 @@
 			<xsd:enumeration value="Triangle"/>
 			<xsd:enumeration value="Box"/>
 			<xsd:enumeration value="Circle"/>
+			<xsd:enumeration value="Icon"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="LegendItemType">
@@ -1146,6 +1147,11 @@
 					<xsd:documentation xml:lang="en">
 					Specifies whether the marker is to be rendered.
 					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="IconPalette" type="Palette" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specified the palette used by type Icon</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

@@ -33,19 +33,18 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl#getAngles <em>Angles</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl#getAngles <em>Angles</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 {
 
 	/**
-	 * The cached value of the '{@link #getAngles() <em>Angles</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAngles() <em>Angles</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAngles()
 	 * @generated
 	 * @ordered
@@ -54,7 +53,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected Rotation3DImpl( )
@@ -64,7 +62,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -74,7 +71,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getAngles( )
@@ -90,7 +86,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -115,7 +110,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -130,7 +124,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -147,7 +140,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -163,7 +155,6 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )

@@ -1162,11 +1162,11 @@ public abstract class AxesRenderer extends BaseRenderer
 		AutoScale scPrimaryOrthogonal = null;
 		AutoScale scAncillaryBase = null;
 		double dXStart = 0;
-		double dXEnd = 0;
+		//double dXEnd = 0;
 		double dYStart = 0;
-		double dYEnd = 0;
+		//double dYEnd = 0;
 		double dZStart = 0;
-		double dZEnd = 0;
+		//double dZEnd = 0;
 		int baseTickCount = 0;
 		int ancillaryTickCount = 0;
 		int orthogonalTickCount = 0;
@@ -1181,11 +1181,11 @@ public abstract class AxesRenderer extends BaseRenderer
 			scAncillaryBase = aax.getAncillaryBase( ).getScale( );
 
 			dXStart = scPrimaryBase.getNormalizedStart( );
-			dXEnd = scPrimaryBase.getNormalizedEnd( );
+			//dXEnd = scPrimaryBase.getNormalizedEnd( );
 			dYStart = scPrimaryOrthogonal.getNormalizedStart( );
-			dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
+			//dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
 			dZStart = scAncillaryBase.getNormalizedStart( );
-			dZEnd = scAncillaryBase.getNormalizedEnd( );
+			//dZEnd = scAncillaryBase.getNormalizedEnd( );
 
 			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
 			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).length;
@@ -1279,29 +1279,62 @@ public abstract class AxesRenderer extends BaseRenderer
 			// DRAW THE WALL
 			if ( cwa.getWallFill( ) != null )
 			{
-				// Left Wall
 				loa = new Location3D[4];
-				loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-				loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
-				loa[2] = Location3DImpl.create( dXStart, dYEnd, dZEnd );
-				loa[3] = Location3DImpl.create( dXStart, dYStart, dZEnd );
-				pre.setPoints3D( loa );
-				pre.setBackground( cwa.getWallFill( ) );
-				pre.setOutline( ca.getOutline( ) );
-				getDeferredCache( ).addPlane( pre,
-						PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+
+				// Left Wall
+				// split to small planes to render.
+				for ( int i = 0; i < orthogonalTickCount - 1; i++ )
+				{
+					for ( int j = 0; j < ancillaryTickCount - 1; j++ )
+					{
+						loa[0] = Location3DImpl.create( dXStart, dYStart
+								+ yStep
+								* i, dZStart + zStep * j );
+						loa[1] = Location3DImpl.create( dXStart, dYStart
+								+ ( i + 1 )
+								* yStep, dZStart + j * zStep );
+						loa[2] = Location3DImpl.create( dXStart, dYStart
+								+ ( i + 1 )
+								* yStep, dZStart + ( j + 1 ) * zStep );
+						loa[3] = Location3DImpl.create( dXStart, dYStart
+								+ i
+								* yStep, dZStart + ( j + 1 ) * zStep );
+						pre.setPoints3D( loa );
+						pre.setBackground( cwa.getWallFill( ) );
+						pre.setOutline( ca.getOutline( ) );
+						getDeferredCache( ).addPlane( pre,
+								PrimitiveRenderEvent.DRAW
+										| PrimitiveRenderEvent.FILL );
+					}
+				}
 				leftWallFill = true;
 
 				// Right Wall
-				loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
-				loa[1] = Location3DImpl.create( dXEnd, dYStart, dZStart );
-				loa[2] = Location3DImpl.create( dXEnd, dYEnd, dZStart );
-				loa[3] = Location3DImpl.create( dXStart, dYEnd, dZStart );
-				pre.setPoints3D( loa );
-				pre.setBackground( cwa.getWallFill( ) );
-				pre.setOutline( ca.getOutline( ) );
-				getDeferredCache( ).addPlane( pre,
-						PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+				// split to small planes to render.
+				for ( int i = 0; i < orthogonalTickCount - 1; i++ )
+				{
+					for ( int j = 0; j < baseTickCount - 1; j++ )
+					{
+						loa[0] = Location3DImpl.create( dXStart + j * xStep,
+								dYStart + i * yStep,
+								dZStart );
+						loa[1] = Location3DImpl.create( dXStart
+								+ ( j + 1 )
+								* xStep, dYStart + i * yStep, dZStart );
+						loa[2] = Location3DImpl.create( dXStart
+								+ ( j + 1 )
+								* xStep, dYStart + ( i + 1 ) * yStep, dZStart );
+						loa[3] = Location3DImpl.create( dXStart + j * xStep,
+								dYStart + ( i + 1 ) * yStep,
+								dZStart );
+						pre.setPoints3D( loa );
+						pre.setBackground( cwa.getWallFill( ) );
+						pre.setOutline( ca.getOutline( ) );
+						getDeferredCache( ).addPlane( pre,
+								PrimitiveRenderEvent.DRAW
+										| PrimitiveRenderEvent.FILL );
+					}
+				}
 				rightWallFill = true;
 			}
 
@@ -1313,6 +1346,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					loa = new Location3D[4];
 				}
 
+				// split to small planes to render.
 				for ( int i = 0; i < baseTickCount - 1; i++ )
 				{
 					for ( int j = 0; j < ancillaryTickCount - 1; j++ )
@@ -1456,15 +1490,18 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( xa[k]
-											+ doaMinor[j],
-											dYStart,
-											dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( xa[k]
-											+ doaMinor[j],
-											dYStart,
-											dZEnd ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( xa[k]
+												+ doaMinor[j],
+												dYStart,
+												dZStart + n * zStep ) );
+										lre3d.setEnd3D( Location3DImpl.create( xa[k]
+												+ doaMinor[j],
+												dYStart,
+												dZStart + ( n + 1 ) * zStep ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}
@@ -1475,15 +1512,18 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( xa[k]
-											+ doaMinor[j],
-											dYStart,
-											dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( xa[k]
-											+ doaMinor[j],
-											dYEnd,
-											dZStart ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( xa[k]
+												+ doaMinor[j],
+												dYStart + n * yStep,
+												dZStart ) );
+										lre3d.setEnd3D( Location3DImpl.create( xa[k]
+												+ doaMinor[j],
+												dYStart + ( n + 1 ) * yStep,
+												dZStart ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}
@@ -1496,13 +1536,16 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( dXStart,
-											ya[k] + doaMinor[j],
-											dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( dXStart,
-											ya[k] + doaMinor[j],
-											dZEnd ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < ancillaryTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( dXStart,
+												ya[k] + doaMinor[j],
+												dZStart + n * zStep ) );
+										lre3d.setEnd3D( Location3DImpl.create( dXStart,
+												ya[k] + doaMinor[j],
+												dZStart + ( n + 1 ) * zStep ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}
@@ -1513,13 +1556,20 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( dXStart,
-											ya[k] + doaMinor[j],
-											dZStart ) );
-									lre3d.setEnd3D( Location3DImpl.create( dXEnd,
-											ya[k] + doaMinor[j],
-											dZStart ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < baseTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( dXStart
+												+ n
+												* xStep,
+												ya[k] + doaMinor[j],
+												dZStart ) );
+										lre3d.setEnd3D( Location3DImpl.create( dXStart
+												+ ( n + 1 )
+												* xStep,
+												ya[k] + doaMinor[j],
+												dZStart ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}
@@ -1532,13 +1582,16 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( dXStart,
-											dYStart,
-											za[k] + doaMinor[j] ) );
-									lre3d.setEnd3D( Location3DImpl.create( dXStart,
-											dYEnd,
-											za[k] + doaMinor[j] ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < orthogonalTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( dXStart,
+												dYStart + n * yStep,
+												za[k] + doaMinor[j] ) );
+										lre3d.setEnd3D( Location3DImpl.create( dXStart,
+												dYStart + ( n + 1 ) * yStep,
+												za[k] + doaMinor[j] ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}
@@ -1549,13 +1602,20 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								for ( int j = 0; j < doaMinor.length - 1; j++ )
 								{
-									lre3d.setStart3D( Location3DImpl.create( dXStart,
-											dYStart,
-											za[k] + doaMinor[j] ) );
-									lre3d.setEnd3D( Location3DImpl.create( dXEnd,
-											dYStart,
-											za[k] + doaMinor[j] ) );
-									getDeferredCache( ).addLine( lre3d );
+									for ( int n = 0; n < baseTickCount - 1; n++ )
+									{
+										lre3d.setStart3D( Location3DImpl.create( dXStart
+												+ n
+												* xStep,
+												dYStart,
+												za[k] + doaMinor[j] ) );
+										lre3d.setEnd3D( Location3DImpl.create( dXStart
+												+ ( n + 1 )
+												* xStep,
+												dYStart,
+												za[k] + doaMinor[j] ) );
+										getDeferredCache( ).addLine( lre3d );
+									}
 								}
 							}
 						}

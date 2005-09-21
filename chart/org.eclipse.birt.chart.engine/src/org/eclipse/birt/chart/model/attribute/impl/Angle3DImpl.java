@@ -22,12 +22,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getXAngle <em>XAngle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getYAngle <em>YAngle</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getZAngle <em>ZAngle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getXAngle <em>XAngle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getYAngle <em>YAngle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getZAngle <em>ZAngle</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class Angle3DImpl extends EObjectImpl implements Angle3D
@@ -88,9 +88,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected int axis = AXIS_NONE;
 
 	/**
-	 * The default value of the '{@link #getXAngle() <em>XAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getXAngle() <em>XAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getXAngle()
 	 * @generated
 	 * @ordered
@@ -98,9 +97,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected static final double XANGLE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getXAngle() <em>XAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getXAngle() <em>XAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getXAngle()
 	 * @generated
 	 * @ordered
@@ -108,18 +106,17 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected double xAngle = XANGLE_EDEFAULT;
 
 	/**
-	 * This is true if the XAngle attribute has been set. <!-- begin-user-doc
+	 * This is true if the XAngle attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean xAngleESet = false;
 
 	/**
-	 * The default value of the '{@link #getYAngle() <em>YAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getYAngle() <em>YAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getYAngle()
 	 * @generated
 	 * @ordered
@@ -127,9 +124,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected static final double YANGLE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getYAngle() <em>YAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getYAngle() <em>YAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getYAngle()
 	 * @generated
 	 * @ordered
@@ -137,18 +133,17 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected double yAngle = YANGLE_EDEFAULT;
 
 	/**
-	 * This is true if the YAngle attribute has been set. <!-- begin-user-doc
+	 * This is true if the YAngle attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean yAngleESet = false;
 
 	/**
-	 * The default value of the '{@link #getZAngle() <em>ZAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getZAngle() <em>ZAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getZAngle()
 	 * @generated
 	 * @ordered
@@ -156,9 +151,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected static final double ZANGLE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getZAngle() <em>ZAngle</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getZAngle() <em>ZAngle</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getZAngle()
 	 * @generated
 	 * @ordered
@@ -166,9 +160,9 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	protected double zAngle = ZANGLE_EDEFAULT;
 
 	/**
-	 * This is true if the ZAngle attribute has been set. <!-- begin-user-doc
+	 * This is true if the ZAngle attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -176,7 +170,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected Angle3DImpl( )
@@ -186,7 +179,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -196,7 +188,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getXAngle( )
@@ -206,7 +197,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setXAngle( double newXAngle )
@@ -226,7 +216,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetXAngle( )
@@ -246,7 +235,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetXAngle( )
@@ -256,7 +244,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getYAngle( )
@@ -266,7 +253,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setYAngle( double newYAngle )
@@ -286,7 +272,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetYAngle( )
@@ -306,7 +291,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetYAngle( )
@@ -316,7 +300,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getZAngle( )
@@ -326,7 +309,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setZAngle( double newZAngle )
@@ -346,7 +328,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetZAngle( )
@@ -366,7 +347,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetZAngle( )
@@ -376,7 +356,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -395,7 +374,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -417,7 +395,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -439,7 +416,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -458,7 +434,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

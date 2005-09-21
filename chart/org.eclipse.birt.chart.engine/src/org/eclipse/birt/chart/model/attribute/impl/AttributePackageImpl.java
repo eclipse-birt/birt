@@ -1522,6 +1522,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMarker_IconPalette( )
+	{
+		return (EReference) markerEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2572,6 +2582,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( markerEClass, MARKER__TYPE );
 		createEAttribute( markerEClass, MARKER__SIZE );
 		createEAttribute( markerEClass, MARKER__VISIBLE );
+		createEReference( markerEClass, MARKER__ICON_PALETTE );
 
 		numberFormatSpecifierEClass = createEClass( NUMBER_FORMAT_SPECIFIER );
 		createEAttribute( numberFormatSpecifierEClass,
@@ -3001,6 +3012,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getMarker_Visible( ),
 				theXMLTypePackage.getBoolean( ),
 				"visible", null, 1, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getMarker_IconPalette( ),
+				this.getPalette( ),
+				null,
+				"iconPalette", null, 0, 1, Marker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( numberFormatSpecifierEClass,
 				NumberFormatSpecifier.class,
@@ -3254,6 +3269,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( markerTypeEEnum, MarkerType.TRIANGLE_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.BOX_LITERAL );
 		addEEnumLiteral( markerTypeEEnum, MarkerType.CIRCLE_LITERAL );
+		addEEnumLiteral( markerTypeEEnum, MarkerType.ICON_LITERAL );
 
 		initEEnum( orientationEEnum, Orientation.class, "Orientation" ); //$NON-NLS-1$
 		addEEnumLiteral( orientationEEnum, Orientation.HORIZONTAL_LITERAL );
@@ -3928,6 +3944,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getMarker_Visible( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getMarker_IconPalette( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "IconPalette" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( markerTypeEEnum, source, new String[]{
 				"name", "MarkerType" //$NON-NLS-1$ //$NON-NLS-2$

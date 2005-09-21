@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.event.Image3DRenderEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.Oval3DRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
@@ -598,6 +599,27 @@ public final class Engine3D implements IConstants
 	}
 
 	/**
+	 * @param va
+	 * @return
+	 */
+	Vector[] clipImage( Vector[] va )
+	{
+		Vector start = new Vector( va[0] );
+		Vector end = new Vector( va[0] );
+
+		List lst = new ArrayList( );
+
+		byte retval = checkClipping( start, end );
+
+		if ( retval != OUT_OF_RANGE_BOTH )
+		{
+			lst.add( start );
+		}
+
+		return (Vector[]) lst.toArray( new Vector[0] );
+	}
+
+	/**
 	 * Perspective transformation of the vectors.
 	 * 
 	 * @param va
@@ -697,6 +719,13 @@ public final class Engine3D implements IConstants
 			// TODO process render-in-block.
 			return new Vector[0];
 		}
+	}
+
+	private Vector[] getVectors( Image3DRenderEvent evt )
+	{
+		return new Vector[]{
+			new Vector( evt.getLocation3D( ) )
+		};
 	}
 
 	private Location[] vectorArray2LocationArray( Vector[] va, double xOffset,
@@ -838,6 +867,27 @@ public final class Engine3D implements IConstants
 					loa[2].getX( ) - loa[1].getX( ),
 					loa[0].getY( ) - loa[1].getY( ) ) );
 		}
+		else if ( obj instanceof Image3DRenderEvent )
+		{
+			Image3DRenderEvent i3dre = (Image3DRenderEvent) obj;
+
+			Vector[] va = getVectors( i3dre );
+
+			transform( va, transMatrix );
+			transform( va, M2V_MATRIX );
+
+			va = clipImage( va );
+			if ( va.length < 1 )
+			{
+				return false;
+			}
+			perspective( va, PERSPECTIVE_VALUE );
+			transform( va, V2C_MATRIX );
+
+			i3dre.updateCenter( va );
+
+			i3dre.setLocation( vector2Location( va[0], xOffset, yOffset ) );
+		}
 
 		return true;
 	}
@@ -915,6 +965,11 @@ public final class Engine3D implements IConstants
 					Vector v = ( (Oval3DRenderEvent) o1 ).getCenter( );
 					z1 = v.get( 2 );
 				}
+				else if ( o1 instanceof Image3DRenderEvent )
+				{
+					Vector v = ( (Image3DRenderEvent) o1 ).getCenter( );
+					z1 = v.get( 2 );
+				}
 				else
 				{
 					return -1;
@@ -939,9 +994,14 @@ public final class Engine3D implements IConstants
 				{
 					z2 = ( (Text3DRenderEvent) o2 ).getCenter( ).get( 2 );
 				}
-				else if ( o1 instanceof Oval3DRenderEvent )
+				else if ( o2 instanceof Oval3DRenderEvent )
 				{
 					Vector v = ( (Oval3DRenderEvent) o2 ).getCenter( );
+					z2 = v.get( 2 );
+				}
+				else if ( o2 instanceof Image3DRenderEvent )
+				{
+					Vector v = ( (Image3DRenderEvent) o2 ).getCenter( );
 					z2 = v.get( 2 );
 				}
 				else

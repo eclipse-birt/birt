@@ -644,11 +644,11 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	 */
 	public void updateFrom( Location[] loa )
 	{
-		if (loa==null)
+		if ( loa == null )
 		{
 			return;
 		}
-		
+
 		double dXMin = 0, dXMax = 0, dYMin = 0, dYMax = 0;
 		for ( int i = 0; i < loa.length; i++ )
 		{

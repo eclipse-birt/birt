@@ -965,12 +965,21 @@ public interface AttributePackage extends EPackage
 	int MARKER__VISIBLE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Icon Palette</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MARKER__ICON_PALETTE = 3;
+
+	/**
 	 * The number of structural features of the the '<em>Marker</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MARKER_FEATURE_COUNT = 3;
+	int MARKER_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl <em>Number Format Specifier</em>}' class.
@@ -2724,6 +2733,17 @@ public interface AttributePackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getMarker_Visible( );
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.attribute.Marker#getIconPalette <em>Icon Palette</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Icon Palette</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.Marker#getIconPalette()
+	 * @see #getMarker()
+	 * @generated
+	 */
+	EReference getMarker_IconPalette( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier <em>Number Format Specifier</em>}'.
