@@ -14,7 +14,6 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -22,6 +21,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
@@ -29,7 +29,6 @@ import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.impl.Blob;
 import org.eclipse.datatools.connectivity.oda.impl.Clob;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
@@ -553,7 +552,6 @@ public class ResultSet implements IResultSet
 
 			if ( clob == null )
 				return new Clob( null );
-			Reader reader = null;
 			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
 			StringBuffer buffer = new StringBuffer( );
 			String str;
@@ -587,7 +585,6 @@ public class ResultSet implements IResultSet
 
 			if ( clob == null )
 				return new Clob( null );
-			Reader reader = null;
 			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
 			StringBuffer buffer = new StringBuffer( );
 			String str;

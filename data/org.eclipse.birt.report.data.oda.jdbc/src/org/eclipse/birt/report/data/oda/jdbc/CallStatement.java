@@ -14,7 +14,6 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
@@ -27,6 +26,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
@@ -38,7 +38,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.datatools.connectivity.oda.impl.Blob;
 import org.eclipse.datatools.connectivity.oda.impl.Clob;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
@@ -1061,7 +1060,6 @@ public class CallStatement implements IAdvancedQuery
 
 			if ( clob == null )
 				return new Clob( null );
-			Reader reader = null;
 			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
 			StringBuffer buffer = new StringBuffer( );
 			while ( ( in.read( ) ) != -1 )
@@ -1094,7 +1092,6 @@ public class CallStatement implements IAdvancedQuery
 
 			if ( clob == null )
 				return new Clob( null );
-			Reader reader = null;
 			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
 			StringBuffer buffer = new StringBuffer( );
 			while ( ( in.read( ) ) != -1 )
