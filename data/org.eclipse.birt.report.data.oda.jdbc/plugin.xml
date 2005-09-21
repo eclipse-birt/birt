@@ -132,29 +132,29 @@
                nativeDataTypeCode="93"
                odaScalarDataType="Timestamp"/>
          <dataTypeMapping
-               nativeDataType="BINARY"
-               nativeDataTypeCode="-2"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
-               nativeDataType="VARBINARY"
-               nativeDataTypeCode="-3"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
-               nativeDataType="LONGVARBINARY"
-               nativeDataTypeCode="-4"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
                nativeDataType="BOOLEAN"
                nativeDataTypeCode="16"
                odaScalarDataType="Integer"/>
          <dataTypeMapping
+               nativeDataType="BINARY"
+               nativeDataTypeCode="-2"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
+               nativeDataType="VARBINARY"
+               nativeDataTypeCode="-3"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
+               nativeDataType="LONGVARBINARY"
+               nativeDataTypeCode="-4"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
                nativeDataType="BLOB"
                nativeDataTypeCode="2004"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>
          <dataTypeMapping
                nativeDataType="CLOB"
                nativeDataTypeCode="2005"
-               odaScalarDataType="Clob"/>
+               odaScalarDataType="Clob"/>-->
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
@@ -235,29 +235,29 @@
                nativeDataTypeCode="93"
                odaScalarDataType="Timestamp"/>
          <dataTypeMapping
-               nativeDataType="BINARY"
-               nativeDataTypeCode="-2"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
-               nativeDataType="VARBINARY"
-               nativeDataTypeCode="-3"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
-               nativeDataType="LONGVARBINARY"
-               nativeDataTypeCode="-4"
-               odaScalarDataType="Blob"/>
-         <dataTypeMapping
                nativeDataType="BOOLEAN"
                nativeDataTypeCode="16"
                odaScalarDataType="Integer"/>
          <dataTypeMapping
+               nativeDataType="BINARY"
+               nativeDataTypeCode="-2"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
+               nativeDataType="VARBINARY"
+               nativeDataTypeCode="-3"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
+               nativeDataType="LONGVARBINARY"
+               nativeDataTypeCode="-4"
+               odaScalarDataType="String"/><!--Blob"/>-->
+         <dataTypeMapping
                nativeDataType="BLOB"
                nativeDataTypeCode="2004"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>
          <dataTypeMapping
                nativeDataType="CLOB"
                nativeDataTypeCode="2005"
-               odaScalarDataType="Clob"/>
+               odaScalarDataType="Clob"/>-->
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
