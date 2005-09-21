@@ -374,10 +374,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				pw2da.getStackedSeriesLookup( ).resetSubUnits( );
 			}
 			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.elapsed.time.render", //$NON-NLS-1$
+					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
-							}, getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, getRunTimeContext( ).getLocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -2160,7 +2160,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								ml
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									getRunTimeContext( ).getLocale( ) ) );
 				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
@@ -2197,7 +2197,7 @@ public abstract class AxesRenderer extends BaseRenderer
 									new Object[]{
 											deValue, ml
 									},
-									getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									getRunTimeContext( ).getLocale( ) ) );
 					continue; // TRY NEXT MARKER RANGE
 				}
 

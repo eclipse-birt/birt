@@ -53,7 +53,7 @@ public final class EmptyWithoutAxes extends BaseRenderer
 								getClass( ).getName( ),
 								new Integer( iSeriesIndex + 1 ),
 								new Integer( iSeriesCount )
-						}, getRunTimeContext( ).getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+						}, getRunTimeContext( ).getLocale( ) ) );
 	}
 
 	/*

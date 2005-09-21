@@ -45,6 +45,8 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 	private Vector center;
 
+	private Vector normal;
+
 	/**
 	 * @param oSource
 	 */
@@ -110,6 +112,25 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	/**
+	 * @param va
+	 */
+	public void updateNormal( Vector[] va )
+	{
+		if ( va == null || va.length < 3 )
+		{
+			return;
+		}
+
+		// create vectors with first three points and returns cross products
+		Vector v1 = new Vector( va[1] );
+		v1.sub( va[0] );
+		Vector v2 = new Vector( va[2] );
+		v2.sub( va[1] );
+
+		normal = v1.crossProduct( v2 );
+	}
+
+	/**
 	 * returns the normal vector (pointing outside the enclosed volume for
 	 * oriented polygons.)
 	 * 
@@ -117,6 +138,11 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public Vector getNormal( )
 	{
+		if ( normal != null )
+		{
+			return normal;
+		}
+
 		if ( loa3d == null )
 		{
 			return null;

@@ -736,7 +736,13 @@ public final class Engine3D implements IConstants
 				// return false;
 			}
 
-			double brightnessRatio = ( 1 - p3dre.getNormal( ).cosineValue( LDR ) ) / 2d;
+			p3dre.updateNormal( va );
+			double cosValue = p3dre.getNormal( ).cosineValue( LDR );
+			if ( p3dre.isDoubleSided( ) )
+			{
+				cosValue = -Math.abs( cosValue );
+			}
+			double brightnessRatio = ( 1 - cosValue ) / 2d;
 			p3dre.setBrightness( brightnessRatio );
 
 			va = clipPolygon( va );

@@ -473,7 +473,7 @@ public final class DataPointHints
 	{
 		return Messages.getString( "info.datapoint.to.string", //$NON-NLS-1$
 				new Object[]{
-					super.toString( ) + getDisplayValue( )
+					this, getDisplayValue( )
 				}, rtc.getLocale( ) );
 	}
 }

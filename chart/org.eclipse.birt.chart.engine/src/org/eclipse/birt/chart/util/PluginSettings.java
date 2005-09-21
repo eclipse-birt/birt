@@ -446,7 +446,7 @@ public final class PluginSettings
 										sName,
 										oDisplayServer.getClass( ).getName( )
 								}, Locale.getDefault( ) // LOCALE?
-								) ); // i18n_CONCATENATIONS_REMOVED
+								) );
 				return (IDisplayServer) oDisplayServer;
 			}
 			logger.log( ILogger.FATAL,
@@ -454,7 +454,7 @@ public final class PluginSettings
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		else
 		{
@@ -467,7 +467,7 @@ public final class PluginSettings
 									new Object[]{
 											sName, saDisplayServers[i][1]
 									}, Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
+									) );
 					return (IDisplayServer) newInstance( saDisplayServers[i][1] );
 				}
 			}
@@ -476,7 +476,7 @@ public final class PluginSettings
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		return null;
 	}
@@ -509,7 +509,7 @@ public final class PluginSettings
 										oAggregateFunction.getClass( )
 												.getName( )
 								}, Locale.getDefault( ) // LOCALE?
-								) ); // i18n_CONCATENATIONS_REMOVED
+								) );
 				return (IAggregateFunction) oAggregateFunction;
 			}
 			logger.log( ILogger.FATAL,
@@ -531,7 +531,7 @@ public final class PluginSettings
 											sName, saAggregateFunctions[i][1]
 									},
 									Locale.getDefault( ) // LOCALE?
-									) ); // i18n_CONCATENATIONS_REMOVED
+									) );
 					return (IAggregateFunction) newInstance( saAggregateFunctions[i][1] );
 				}
 			}
@@ -540,7 +540,7 @@ public final class PluginSettings
 							new Object[]{
 								sName
 							}, Locale.getDefault( ) // LOCALE?
-							) ); // i18n_CONCATENATIONS_REMOVED
+							) );
 		}
 		return null;
 	}
@@ -744,7 +744,7 @@ public final class PluginSettings
 							sLookupName, sXsdElementName, sXsdElementValue
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							Locale.getDefault( ) ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
@@ -804,7 +804,7 @@ public final class PluginSettings
 							sLookupName, sXsdElementName, sXsdElementValue
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							Locale.getDefault( ) ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;
@@ -855,7 +855,7 @@ public final class PluginSettings
 							"", sXsdElementName, sXsdElementValue //$NON-NLS-1$ //$NON-NLS-2$
 					},
 					ResourceBundle.getBundle( Messages.ENGINE,
-							Locale.getDefault( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							Locale.getDefault( ) ) );
 		}
 		final IExtension[] iea = iep.getExtensions( );
 		IConfigurationElement[] icea;

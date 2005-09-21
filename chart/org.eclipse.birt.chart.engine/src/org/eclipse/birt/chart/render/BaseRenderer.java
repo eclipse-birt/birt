@@ -481,7 +481,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					Messages.getString( "info.elapsed.render.time", //$NON-NLS-1$
 							new Object[]{
 								new Long( lTimer )
-							}, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+							}, rtc.getLocale( ) ) );
 			htRenderers.remove( TIMER );
 		}
 	}
@@ -1169,7 +1169,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							d.getName( )
 						},
 						ResourceBundle.getBundle( Messages.ENGINE,
-								rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+								rtc.getLocale( ) ) );
 			}
 		}
 		else if ( o.getValue( ) == Orientation.HORIZONTAL )
@@ -2155,7 +2155,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 								new Integer( alRuntimeSeries.size( ) )
 							},
 							ResourceBundle.getBundle( Messages.ENGINE,
-									rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+									rtc.getLocale( ) ) );
 				}
 				se = (Series) alRuntimeSeries.get( 0 );
 				brna[iSI] = ( se.getClass( ) == SeriesImpl.class ) ? new EmptyWithoutAxes( )
@@ -2745,7 +2745,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							new Integer( isrh.getBaseDataSet( ).size( ) ),
 							new Integer( isrh.getOrthogonalDataSet( ).size( ) )
 					},
-					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ); // i18n_CONCATENATIONS_REMOVED
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 	}
 }
