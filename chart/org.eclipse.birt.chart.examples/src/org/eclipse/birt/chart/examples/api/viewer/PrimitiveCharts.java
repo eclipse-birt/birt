@@ -17,10 +17,16 @@ import org.eclipse.birt.chart.datafeed.StockEntry;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineDecorator;
+import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
@@ -32,10 +38,18 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.DialRegion;
+import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
+import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
+import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
@@ -50,15 +64,20 @@ import org.eclipse.birt.chart.model.data.impl.StockDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
+import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
@@ -66,13 +85,13 @@ import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
 import org.eclipse.birt.chart.util.CDateTime;
 
 /**
- * The class cannot be run individually. It provides sample model implementations
- * for viewer selector classes in the package.
+ * The class cannot be run individually. It provides sample model
+ * implementations for viewer selector classes in the package.
  * 
  */
 
 public final class PrimitiveCharts {
-	
+
 	/**
 	 * Creates a simple bar chart model
 	 * 
@@ -81,60 +100,60 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		cwaBar.getBlock().getOutline().setVisible(true);
 		Plot p = cwaBar.getPlot();
 		p.getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
 		p.getOutline().setVisible(false);
-		
-		//Title
+
+		// Title
 		cwaBar.getTitle().getLabel().getCaption().setValue("Bar Chart");
 
-		//Legend
+		// Legend
 		Legend lg = cwaBar.getLegend();
 		lg.getText().getFont().setSize(16);
 		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
-		
-		//X-Axis
+
+		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
-		
+
 		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
 		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 		xAxisPrimary.getTitle().setVisible(true);
-		
-		//Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);		
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
-		//Data Set
+		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
-				"Item 1", "Item 2", "Item 3"});
-		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] {
-				25, 35, 15});
+				"Item 1", "Item 2", "Item 3" });
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25,
+				35, 15 });
 
-		//X-Series
+		// X-Series
 		Series seCategory = SeriesImpl.create();
 		seCategory.setDataSet(categoryValues);
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
-		sdX.getSeriesPalette().update(0);		
+		sdX.getSeriesPalette().update(0);
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seCategory);
 
-		//Y-Series
+		// Y-Series
 		BarSeries bs = (BarSeries) BarSeriesImpl.create();
 		bs.setDataSet(orthoValues);
 		bs.setRiserOutline(null);
 		bs.getLabel().setVisible(true);
 		bs.setLabelPosition(Position.INSIDE_LITERAL);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create();		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
 		yAxisPrimary.getSeriesDefinitions().add(sdY);
 		sdY.getSeries().add(bs);
 
@@ -150,51 +169,52 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createMultiBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		Plot p = cwaBar.getPlot();
 		p.getClientArea().setBackground(
 				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
 						ColorDefinitionImpl.create(255, 255, 225), -35, false));
 		p.getOutline().setVisible(true);
-		
-		//Title
-		cwaBar.getTitle().getLabel().getCaption().setValue("2-Series Bar Chart");
 
-		//Legend
+		// Title
+		cwaBar.getTitle().getLabel().getCaption()
+				.setValue("2-Series Bar Chart");
+
+		// Legend
 		Legend lg = cwaBar.getLegend();
 		lg.getText().getFont().setSize(16);
 
-		//X-Axis
+		// X-Axis
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
 		xAxisPrimary.getTitle().setVisible(true);
-		xAxisPrimary.setTitlePosition(Position.BELOW_LITERAL);		
+		xAxisPrimary.setTitlePosition(Position.BELOW_LITERAL);
 		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
-		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);		
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 		xAxisPrimary.setLabelPosition(Position.BELOW_LITERAL);
-		
-		//Y-Axis
+
+		// Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 
-		//Data Set
+		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
-				"Item 1", "Item 2", "Item 3"});
+				"Item 1", "Item 2", "Item 3" });
 		NumberDataSet orthoValues1 = NumberDataSetImpl.create(new double[] {
-				25, 35, 15});
+				25, 35, 15 });
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create(new double[] {
 				17, 63.55, 27.29 });
 
-		//X-Series
+		// X-Series
 		Series seCategory = SeriesImpl.create();
-		seCategory.setDataSet(categoryValues);		
+		seCategory.setDataSet(categoryValues);
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seCategory);
 
-		//Y-Series
+		// Y-Series
 		BarSeries bs1 = (BarSeries) BarSeriesImpl.create();
 		bs1.setSeriesIdentifier("Series 1");
 		bs1.setDataSet(orthoValues1);
@@ -210,8 +230,8 @@ public final class PrimitiveCharts {
 		bs2.setLabelPosition(Position.INSIDE_LITERAL);
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		sdY.getSeriesPalette().update(1); 	
-		yAxisPrimary.getSeriesDefinitions().add(sdY);		
+		sdY.getSeriesPalette().update(1);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
 		sdY.getSeries().add(bs1);
 		sdY.getSeries().add(bs2);
 
@@ -226,45 +246,45 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createLineChart() {
 		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwaLine.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		Plot p = cwaLine.getPlot();
 		p.getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
-		
-		//Title
+
+		// Title
 		cwaLine.getTitle().getLabel().getCaption().setValue("Line Chart");
 
-		//Legend
+		// Legend
 		cwaLine.getLegend().setVisible(false);
 
-		//X-Axis
-		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes()[0];		
+		// X-Axis
+		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes()[0];
 		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
 		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 		xAxisPrimary.getTitle().setVisible(true);
 
-		//Y-Axis
+		// Y-Axis
 		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis(xAxisPrimary);
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 
-		//Data Set
+		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
-				"Item 1", "Item 2", "Item 3"});
-		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] {
-				25, 35, 15});
+				"Item 1", "Item 2", "Item 3" });
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25,
+				35, 15 });
 
-		//X-Series
+		// X-Series
 		Series seCategory = SeriesImpl.create();
 		seCategory.setDataSet(categoryValues);
-		SeriesDefinition sdX = SeriesDefinitionImpl.create(); 
-		
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seCategory);
 
-		//Y-Sereis
+		// Y-Sereis
 		LineSeries ls = (LineSeries) LineSeriesImpl.create();
 		ls.setDataSet(orthoValues);
 		ls.getLineAttributes().setColor(ColorDefinitionImpl.CREAM());
@@ -272,8 +292,8 @@ public final class PrimitiveCharts {
 		ls.getLabel().setVisible(true);
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create();
-		sdY.getSeriesPalette().update(-2); 		
-		yAxisPrimary.getSeriesDefinitions().add(sdY);		
+		sdY.getSeriesPalette().update(-2);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
 		sdY.getSeries().add(ls);
 
 		return cwaLine;
@@ -287,8 +307,8 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createPieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwoaPie.setSeriesThickness(25);
 		cwoaPie.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		Plot p = cwoaPie.getPlot();
@@ -296,41 +316,41 @@ public final class PrimitiveCharts {
 		p.getClientArea().getOutline().setVisible(true);
 		p.getOutline().setVisible(true);
 
-		//Legend
+		// Legend
 		Legend lg = cwoaPie.getLegend();
 		lg.getText().getFont().setSize(16);
 		lg.setBackground(null);
 		lg.getOutline().setVisible(true);
 
-		//Title
+		// Title
 		cwoaPie.getTitle().getLabel().getCaption().setValue("Pie Chart");
 		cwoaPie.getTitle().getOutline().setVisible(true);
 
-		//Data Set
+		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
 				"New York", "Boston", "Chicago", "San Francisco", "Dallas" });
 		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] {
 				54.65, 21, 75.95, 91.28, 37.43 });
 
-		//Base Series
+		// Base Series
 		Series seCategory = (Series) SeriesImpl.create();
 		seCategory.setDataSet(categoryValues);
-		
+
 		SeriesDefinition sd = SeriesDefinitionImpl.create();
-		cwoaPie.getSeriesDefinitions().add(sd);		
+		cwoaPie.getSeriesDefinitions().add(sd);
 		sd.getSeriesPalette().update(0);
 		sd.getSeries().add(seCategory);
 
-		//Orthogonal Series
+		// Orthogonal Series
 		PieSeries sePie = (PieSeries) PieSeriesImpl.create();
 		sePie.setDataSet(seriesOneValues);
-		sePie.setSeriesIdentifier("Cities");	
-		
+		sePie.setSeriesIdentifier("Cities");
+
 		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
 		sdCity.getQuery().setDefinition("Census.City");
 		sd.getSeriesDefinitions().add(sdCity);
 		sdCity.getSeries().add(sePie);
-		
+
 		return cwoaPie;
 	}
 
@@ -343,8 +363,8 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createMultiPieChart() {
 		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwoaPie.setSeriesThickness(25);
 		cwoaPie.setGridColumnCount(2);
 		cwoaPie.getBlock().setBackground(ColorDefinitionImpl.WHITE());
@@ -353,18 +373,18 @@ public final class PrimitiveCharts {
 		p.getClientArea().getOutline().setVisible(true);
 		p.getOutline().setVisible(true);
 
-		//Legend
+		// Legend
 		Legend lg = cwoaPie.getLegend();
 		lg.getText().getFont().setSize(16);
 		lg.setBackground(null);
 		lg.getOutline().setVisible(true);
 
-		//Title
+		// Title
 		cwoaPie.getTitle().getLabel().getCaption().setValue(
 				"Multiple Series Pie Chart");
 		cwoaPie.getTitle().getOutline().setVisible(true);
 
-		//Data Set
+		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
 				"Boston", "New York", "Chicago", "San Francisco", "Seattle" });
 		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] {
@@ -376,23 +396,23 @@ public final class PrimitiveCharts {
 		NumberDataSet seriesFourValues = NumberDataSetImpl.create(new double[] {
 				25.65, 55, 5.95, 14.28, 86.43 });
 
-		//Base Sereis
+		// Base Sereis
 		Series seCategory = (Series) SeriesImpl.create();
 		seCategory.setDataSet(categoryValues);
-		
+
 		SeriesDefinition sd = SeriesDefinitionImpl.create();
 		cwoaPie.getSeriesDefinitions().add(sd);
-		sd.getSeriesPalette().update(1);	
+		sd.getSeriesPalette().update(1);
 		sd.getSeries().add(seCategory);
 
-		//Orthogonal Series
-		PieSeries sePie1 = (PieSeries) PieSeriesImpl.create();		
+		// Orthogonal Series
+		PieSeries sePie1 = (PieSeries) PieSeriesImpl.create();
 		sePie1.setDataSet(seriesOneValues);
 		sePie1.setSeriesIdentifier("2000");
-		sePie1.getLabel().getCaption().getFont().setRotation(25);		
+		sePie1.getLabel().getCaption().getFont().setRotation(25);
 		sePie1.getTitle().getCaption().getFont().setRotation(8);
 		sePie1.setTitlePosition(Position.ABOVE_LITERAL);
-		sePie1.getTitle().getInsets().set(8, 10, 0, 5);		
+		sePie1.getTitle().getInsets().set(8, 10, 0, 5);
 
 		PieSeries sePie2 = (PieSeries) PieSeriesImpl.create();
 		sePie2.setDataSet(seriesTwoValues);
@@ -401,17 +421,17 @@ public final class PrimitiveCharts {
 		sePie2.getTitle().getCaption().getFont().setRotation(28);
 		sePie2.getLabel().setBackground(ColorDefinitionImpl.YELLOW());
 		sePie2.getLabel().setShadowColor(ColorDefinitionImpl.GREY());
-		sePie2.setTitlePosition(Position.RIGHT_LITERAL);	
+		sePie2.setTitlePosition(Position.RIGHT_LITERAL);
 
 		PieSeries sePie3 = (PieSeries) PieSeriesImpl.create();
 		sePie3.setDataSet(seriesThreeValues);
 		sePie3.setSeriesIdentifier("2002");
 		sePie3.getTitle().getCaption().getFont().setRotation(75);
 		sePie3.setTitlePosition(Position.LEFT_LITERAL);
-		
+
 		PieSeries sePie4 = (PieSeries) PieSeriesImpl.create();
 		sePie4.setDataSet(seriesFourValues);
-		sePie4.setSeriesIdentifier("2003");		
+		sePie4.setSeriesIdentifier("2003");
 		sePie4.setLabelPosition(Position.INSIDE_LITERAL);
 
 		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
@@ -432,8 +452,8 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createStackedChart() {
 		ChartWithAxes cwaCombination = ChartWithAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwaCombination.setUnitSpacing(25);
 		cwaCombination.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		Plot p = cwaCombination.getPlot();
@@ -444,18 +464,19 @@ public final class PrimitiveCharts {
 		p.getClientArea().getInsets().set(8, 8, 8, 8);
 		p.getOutline().setVisible(true);
 
-		//Legend
+		// Legend
 		Legend lg = cwaCombination.getLegend();
 		lg.setBackground(ColorDefinitionImpl.YELLOW());
 		lg.getOutline().setVisible(true);
 
-		//Title
-		cwaCombination.getTitle().getLabel().getCaption().setValue("Project Sales");
+		// Title
+		cwaCombination.getTitle().getLabel().getCaption().setValue(
+				"Project Sales");
 
-		//X-Axis
+		// X-Axis
 		Axis xAxisPrimary = cwaCombination.getPrimaryBaseAxes()[0];
 		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
-		
+
 		xAxisPrimary.getLabel().setBackground(
 				ColorDefinitionImpl.create(255, 255, 235));
 		xAxisPrimary.getLabel().setShadowColor(
@@ -465,14 +486,14 @@ public final class PrimitiveCharts {
 		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 		xAxisPrimary.setTitlePosition(Position.BELOW_LITERAL);
 		xAxisPrimary.setLabelPosition(Position.BELOW_LITERAL);
-		
+
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.create(64, 64, 64));
 		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		
+
 		xAxisPrimary.getTitle().getCaption().setValue("Computer Components");
 		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
 
@@ -480,8 +501,9 @@ public final class PrimitiveCharts {
 				ColorDefinitionImpl.CYAN());
 		xAxisPrimary.getMinorGrid().getLineAttributes().setVisible(true);
 
-		//Y-Series 
-		Axis yAxisPrimary = cwaCombination.getPrimaryOrthogonalAxis(xAxisPrimary);
+		// Y-Series
+		Axis yAxisPrimary = cwaCombination
+				.getPrimaryOrthogonalAxis(xAxisPrimary);
 
 		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
 		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
@@ -490,7 +512,7 @@ public final class PrimitiveCharts {
 
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		yAxisPrimary.getLabel().getCaption().getFont().setRotation(37);
-		
+
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
@@ -503,36 +525,38 @@ public final class PrimitiveCharts {
 		yAxisPrimary.getMinorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.GREEN());
 
-		//Data Set
+		// Data Set
 		String[] saTextValues = { "CPUs", "Keyboards", "Video Cards",
 				"Monitors", "Motherboards", "Memory", "Storage Devices",
 				"Media", "Printers", "Scanners" };
 
 		TextDataSet categoryValues = TextDataSetImpl.create(saTextValues);
-		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] { 
-				56.99, 352.95, 201.95, 299.95, 95.95, 25.45, 129.33, 26.5, 43.5, 122 });
-		NumberDataSet seriesTwoValues = NumberDataSetImpl.create(new double[] { 
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] {
+				56.99, 352.95, 201.95, 299.95, 95.95, 25.45, 129.33, 26.5,
+				43.5, 122 });
+		NumberDataSet seriesTwoValues = NumberDataSetImpl.create(new double[] {
 				20, 35, 59, 105, 150, 37, 65, 99, 145, 185 });
-		NumberDataSet seriesThreeValues = NumberDataSetImpl.create(new double[] { 
-				54.99, 21, 75.95, 39.95, 7.95, 91.22, 33.45, 25.63, 40, 13 });
+		NumberDataSet seriesThreeValues = NumberDataSetImpl
+				.create(new double[] { 54.99, 21, 75.95, 39.95, 7.95, 91.22,
+						33.45, 25.63, 40, 13 });
 		NumberDataSet seriesFourValues = NumberDataSetImpl.create(new double[] {
 				15, 45, 43, 5, 19, 25, 35, 94, 15, 55 });
 		NumberDataSet seriesFiveValues = NumberDataSetImpl.create(new double[] {
 				43, 65, 35, 41, 45, 55, 29, 15, 85, 65 });
 		NumberDataSet seriesSixValues = NumberDataSetImpl.create(new double[] {
 				15, 45, 43, 5, 19, 25, 35, 94, 15, 55 });
-		NumberDataSet seriesSevenValues = NumberDataSetImpl.create(new double[] {
-				43, 65, 35, 41, 45, 55, 29, 15, 85,65 });
+		NumberDataSet seriesSevenValues = NumberDataSetImpl
+				.create(new double[] { 43, 65, 35, 41, 45, 55, 29, 15, 85, 65 });
 
-		//X-Series
+		// X-Series
 		Series seCategory = SeriesImpl.create();
 		seCategory.setDataSet(categoryValues);
-		
+
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seCategory);
 
-		//Y-Series
+		// Y-Series
 		BarSeries bs1 = (BarSeries) BarSeriesImpl.create();
 		bs1.setSeriesIdentifier("North America");
 		bs1.setDataSet(seriesOneValues);
@@ -543,8 +567,7 @@ public final class PrimitiveCharts {
 		dp.getComponents().clear();
 		dp.getComponents().add(
 				DataPointComponentImpl.create(
-						DataPointComponentType.BASE_VALUE_LITERAL, null 
-						));
+						DataPointComponentType.BASE_VALUE_LITERAL, null));
 		dp.getComponents().add(
 				DataPointComponentImpl.create(
 						DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
@@ -590,7 +613,7 @@ public final class PrimitiveCharts {
 		ls1.setSeriesIdentifier("Expected Growth");
 		ls1.setDataSet(seriesTwoValues);
 		ls1.getMarker().setType(MarkerType.BOX_LITERAL);
-		ls1.getLabel().setVisible(true);		
+		ls1.getLabel().setVisible(true);
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create();
 		sdY1.getSeriesPalette().update(0);
@@ -611,7 +634,7 @@ public final class PrimitiveCharts {
 		SeriesDefinition sdY5 = SeriesDefinitionImpl.create();
 		sdY5.getSeriesPalette().update(ColorDefinitionImpl.YELLOW());
 		yAxisPrimary.getSeriesDefinitions().add(sdY5);
-	
+
 		sdY1.getSeries().add(bs1);
 		sdY1.getSeries().add(bs2);
 		sdY2.getSeries().add(bs3);
@@ -631,68 +654,70 @@ public final class PrimitiveCharts {
 	 */
 	public static final Chart createScatterChart() {
 		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
-		
-		//Plot
+
+		// Plot
 		cwaScatter.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 		cwaScatter.getPlot().getClientArea().getOutline().setVisible(false);
 		cwaScatter.getPlot().getClientArea().setBackground(
 				ColorDefinitionImpl.create(255, 255, 225));
-		
-		//Title
-		cwaScatter.getTitle().getLabel().getCaption().setValue(
-		"Numeric Scatter Chart");
 
-		//X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryBaseAxes()[0];
-		
+		// Title
+		cwaScatter.getTitle().getLabel().getCaption().setValue(
+				"Numeric Scatter Chart");
+
+		// X-Axis
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaScatter)
+				.getPrimaryBaseAxes()[0];
+
 		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
 		xAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		xAxisPrimary.getLabel().getCaption().setColor(
 				ColorDefinitionImpl.GREEN().darker());
 		xAxisPrimary.getTitle().setVisible(false);
-		
+
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.GREY());
 		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		
+
 		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
-		//Y-Axis
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryOrthogonalAxis(xAxisPrimary);
-		
+		// Y-Axis
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaScatter)
+				.getPrimaryOrthogonalAxis(xAxisPrimary);
+
 		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
 		yAxisPrimary.getLabel().getCaption().setColor(
 				ColorDefinitionImpl.BLUE());
 		yAxisPrimary.getTitle().setVisible(true);
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
-		
+
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
 		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.GREY());
 		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		
+
 		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
-		//Data Set
+		// Data Set
 		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] {
 				-46.55, 25.32, 84.46, 125.95, 38.65, -54.32, 30 });
 		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create(new double[] {
 				125.99, 352.95, -201.95, 299.95, -95.95, 65.95, 58.95 });
 
-		//X-Series
+		// X-Series
 		Series seBase = SeriesImpl.create();
 		seBase.setDataSet(dsNumericValues1);
-		
+
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seBase);
 
-		//Y-Series
+		// Y-Series
 		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create();
 		ss.setSeriesIdentifier("Unit Price");
 		ss.getMarker().setType(MarkerType.CIRCLE_LITERAL);
@@ -721,7 +746,6 @@ public final class PrimitiveCharts {
 		return cwaScatter;
 	}
 
-	
 	/**
 	 * Creates a stock chart instance
 	 * 
@@ -730,114 +754,115 @@ public final class PrimitiveCharts {
 	 */
 	public final static Chart createStockChart() {
 		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
-		
-		//Title
-		cwaStock .getTitle().getLabel().getCaption().setValue(
-				"Stock Chart");
-		TitleBlock tb = cwaStock .getTitle();
+
+		// Title
+		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
+		TitleBlock tb = cwaStock.getTitle();
 		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
 				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
 		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
-		
-		//Plot
-		cwaStock .getBlock().setBackground(
+
+		// Plot
+		cwaStock.getBlock().setBackground(
 				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
 						ColorDefinitionImpl.WHITE(), 90, false));
-		cwaStock .getPlot().getClientArea().getInsets()
-		.set(10, 10, 10, 10);
+		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
 
-		//Legend
-		cwaStock .getLegend().setBackground(ColorDefinitionImpl.ORANGE());
+		// Legend
+		cwaStock.getLegend().setBackground(ColorDefinitionImpl.ORANGE());
 
-		//X-Axis
-		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock ).getPrimaryBaseAxes()[0];
-		
+		// X-Axis
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+
 		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
-		xAxisPrimary.getTitle().getCaption().setColor(ColorDefinitionImpl.RED());
+		xAxisPrimary.getTitle().getCaption()
+				.setColor(ColorDefinitionImpl.RED());
 		xAxisPrimary.getTitle().getCaption().setValue("Date");
 		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
-			
-		xAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
-		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);		
+
+		xAxisPrimary.getLabel().getCaption()
+				.setColor(ColorDefinitionImpl.RED());
+		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
 		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
-		
+
 		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
 		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		
+
 		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.create(255, 196, 196));
 		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
 		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
-		
+
 		xAxisPrimary.setCategoryAxis(true);
 
-		//Y-Axis (1)
-		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock ).getPrimaryOrthogonalAxis(xAxisPrimary);
-		
+		// Y-Axis (1)
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
+				.getPrimaryOrthogonalAxis(xAxisPrimary);
+
 		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
 		yAxisPrimary.getLabel().getCaption().setColor(
 				ColorDefinitionImpl.BLUE());
 		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
-		
+
 		yAxisPrimary.getTitle().getCaption().setValue(
 				"Microsoft ($ Stock Price)");
 		yAxisPrimary.getTitle().getCaption().setColor(
 				ColorDefinitionImpl.BLUE());
 		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
-			
+
 		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
 		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
 		yAxisPrimary.getScale().setStep(0.5);
-		
+
 		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.create(196, 196, 255));
 		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
-		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);	
+		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
-		
+
 		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
 
-		//Y-Axis (2)
+		// Y-Axis (2)
 		Axis yAxisOverlay = AxisImpl.create(Axis.ORTHOGONAL);
-		
+
 		yAxisOverlay.getLabel().getCaption().setColor(
 				ColorDefinitionImpl.create(0, 128, 0));
 		yAxisOverlay.getLabel().getCaption().getFont().setRotation(-25);
 		yAxisOverlay.setLabelPosition(Position.RIGHT_LITERAL);
-		
+
 		yAxisOverlay.getTitle().getCaption().setValue("Volume");
-		yAxisOverlay.getTitle().getCaption().setColor(ColorDefinitionImpl.GREEN().darker());
+		yAxisOverlay.getTitle().getCaption().setColor(
+				ColorDefinitionImpl.GREEN().darker());
 		yAxisOverlay.getTitle().getCaption().getFont().setRotation(90);
 		yAxisOverlay.getTitle().getCaption().getFont().setSize(16);
 		yAxisOverlay.getTitle().getCaption().getFont().setBold(true);
 		yAxisOverlay.getTitle().setVisible(true);
 		yAxisOverlay.setTitlePosition(Position.RIGHT_LITERAL);
-		
+
 		yAxisOverlay.getLineAttributes().setColor(
 				ColorDefinitionImpl.create(0, 128, 0));
-		
-		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);		
+
+		yAxisOverlay.setType(AxisType.LINEAR_LITERAL);
 		yAxisOverlay.setOrientation(Orientation.VERTICAL_LITERAL);
-		
+
 		yAxisOverlay.getMajorGrid().getLineAttributes().setColor(
 				ColorDefinitionImpl.create(64, 196, 64));
 		yAxisOverlay.getMajorGrid().getLineAttributes().setStyle(
 				LineStyle.DOTTED_LITERAL);
-		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);	
-		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);	
-		
+		yAxisOverlay.getMajorGrid().getLineAttributes().setVisible(true);
+		yAxisOverlay.getMajorGrid().setTickStyle(TickStyle.RIGHT_LITERAL);
+
 		yAxisOverlay.getOrigin().setType(IntersectionType.MAX_LITERAL);
-		yAxisOverlay.getScale()
-				.setMax(NumberDataElementImpl.create(180000000));
+		yAxisOverlay.getScale().setMax(NumberDataElementImpl.create(180000000));
 		yAxisOverlay.getScale().setMin(NumberDataElementImpl.create(20000000));
-		
+
 		xAxisPrimary.getAssociatedAxes().add(yAxisOverlay);
 
-		//Data Set
+		// Data Set
 		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
 				.create(new Calendar[] { new CDateTime(2004, 12, 27),
 						new CDateTime(2004, 12, 23),
@@ -862,20 +887,20 @@ public final class PrimitiveCharts {
 				55958500, 65801900, 63651900, 94646096, 85552800, 126184400,
 				88997504, 106303904 });
 
-		//X-Series
+		// X-Series
 		Series seBase = SeriesImpl.create();
 		seBase.setDataSet(dsDateValues);
-		
+
 		SeriesDefinition sdX = SeriesDefinitionImpl.create();
 		sdX.getSeriesPalette().update(1);
 		xAxisPrimary.getSeriesDefinitions().add(sdX);
 		sdX.getSeries().add(seBase);
 
-		//Y-Series
+		// Y-Series
 		BarSeries bs = (BarSeries) BarSeriesImpl.create();
 		bs.setRiserOutline(null);
 		bs.setDataSet(dsStockVolume);
-		
+
 		StockSeries ss = (StockSeries) StockSeriesImpl.create();
 		ss.setSeriesIdentifier("Stock Price");
 		ss.getLineAttributes().setColor(ColorDefinitionImpl.BLUE());
@@ -893,4 +918,985 @@ public final class PrimitiveCharts {
 
 		return cwaStock;
 	}
+	
+	/**
+	 * Creates a Area chart model as a reference
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createAreaChart() {
+		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
+		
+		//Plot/Title
+		cwaArea.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwaArea.getPlot();
+		p.getClientArea().setBackground(
+				ColorDefinitionImpl.create(225, 225, 225));
+		cwaArea.getTitle().getLabel().getCaption().setValue("Area Chart");
+		cwaArea.getTitle().setVisible(true);
+		
+		//Legend
+		Legend lg = cwaArea.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+
+		//X-Axis
+		Axis xAxisPrimary = cwaArea.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getMajorGrid().setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.BLUE(),
+						LineStyle.SOLID_LITERAL, 1));
+		xAxisPrimary.getMinorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
+		xAxisPrimary.getTitle().getCaption().setValue("Month");
+		xAxisPrimary.getTitle().setVisible(true);
+		xAxisPrimary.getTitle().getCaption().getFont().setRotation(0);
+		xAxisPrimary.getLabel().setVisible(true);
+
+		//Y-Axis
+		Axis yAxisPrimary = cwaArea.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid().setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.BLACK(),
+						LineStyle.SOLID_LITERAL, 1));
+		yAxisPrimary.getMinorGrid().getLineAttributes().setVisible(true);
+		yAxisPrimary.setPercent(false);
+		yAxisPrimary.getTitle().getCaption().setValue("Net Profit");
+		yAxisPrimary.getTitle().setVisible(true);
+		yAxisPrimary.getTitle().getCaption().getFont().setRotation(90);
+		yAxisPrimary.getLabel().setVisible(true);
+
+		MarkerLine ml = MarkerLineImpl.create(yAxisPrimary,
+				NumberDataElementImpl.create(2));
+		yAxisPrimary.getMarkerLines().add(ml);
+
+		//Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+			"Jan.", "Feb.", "Mar.", "Apr", "May"});		
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create(new double[] {
+			14.32, -19.5, 8.38, 0.34, 9.22});		
+		NumberDataSet orthoValues2 = NumberDataSetImpl.create(new double[] {
+				4.2, -19.5, 0.0, 9.2, 7.6});	
+
+		//X-Series
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
+		
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().update(0); 
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
+
+		//Y-Series
+		AreaSeries as1 = (AreaSeries) AreaSeriesImpl.create();
+		as1.setSeriesIdentifier("Series 1");
+		as1.setDataSet(orthoValues1);
+		as1.setTranslucent(true);
+		as1.getLineAttributes().setColor(ColorDefinitionImpl.BLUE());
+		as1.getLabel().setVisible(true);
+		
+		AreaSeries as2 = (AreaSeries) AreaSeriesImpl.create();
+		as2.setSeriesIdentifier("Series 2");
+		as2.setDataSet(orthoValues2);
+		as2.setTranslucent(true);
+		as2.getLineAttributes().setColor(ColorDefinitionImpl.PINK());
+		as2.getLabel().setVisible(true);
+		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().update(1);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);	
+		sdY.getSeries().add(as1);
+		sdY.getSeries().add(as2);
+
+		return cwaArea;
+
+	}
+
+	/**
+	 * Creates a Single Dial, Multi Regions chart model as a reference
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createSDialMRegionChart() {
+		DialChart dChart = (DialChart) DialChartImpl.create();
+		dChart.setDialSuperimposition(false);
+		dChart.setGridColumnCount(2);
+		dChart.setSeriesThickness(25);
+
+		// Title/Plot
+		dChart.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = dChart.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.CREAM());
+		p.getClientArea().getOutline().setVisible(false);
+		p.getOutline().setVisible(false);
+
+		dChart.getTitle().getLabel().getCaption().setValue("City Temperature");
+		dChart.getTitle().getOutline().setVisible(false);
+
+		// Legend
+		Legend lg = dChart.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().setLeft(10);
+		lg.getInsets().setRight(10);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(false);
+		lg.setShowValue(true);
+		lg.getClientArea().setBackground(ColorDefinitionImpl.PINK());
+
+		lg.getClientArea().getOutline().setVisible(true);
+		lg.getTitle().getCaption().getFont().setSize(20);
+		lg.getTitle().setInsets(InsetsImpl.create(10, 10, 10, 10));
+		lg.setTitlePosition(Position.ABOVE_LITERAL);
+
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"London", "Madrid", "Rome", "Moscow" });
+		NumberDataSet seriesValues = NumberDataSetImpl.create(new double[] {
+				21.0, 39.0, 30.0, 10.0 });
+
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		dChart.getSeriesDefinitions().add(sd);
+		Series seCategory = (Series) SeriesImpl.create();
+
+		final Fill[] fiaBase = {
+				ColorDefinitionImpl.ORANGE(),
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false),
+				ColorDefinitionImpl.CREAM(), ColorDefinitionImpl.RED(),
+				ColorDefinitionImpl.GREEN(),
+				ColorDefinitionImpl.BLUE().brighter(),
+				ColorDefinitionImpl.CYAN().darker(), };
+		sd.getSeriesPalette().getEntries().clear();
+		for (int i = 0; i < fiaBase.length; i++) {
+			sd.getSeriesPalette().getEntries().add(fiaBase[i]);
+		}
+
+		seCategory.setDataSet(categoryValues);
+		sd.getSeries().add(seCategory);
+
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+
+		// Dial
+		DialSeries seDial = (DialSeries) DialSeriesImpl.create();
+		seDial.setDataSet(seriesValues);
+		seDial.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 255, 225),
+						ColorDefinitionImpl.create(225, 225, 255), 45, false));
+		NumberFormatSpecifier nfs = NumberFormatSpecifierImpl.create();
+		nfs.setSuffix("`C");
+		nfs.setFractionDigits(0);
+		seDial.getDial().setFormatSpecifier(nfs);
+		seDial.setSeriesIdentifier("Temperature");
+		seDial.getNeedle().setDecorator(LineDecorator.CIRCLE_LITERAL);
+		seDial.getDial().setStartAngle(-45);
+		seDial.getDial().setStopAngle(225);
+		seDial.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.BLACK());
+		seDial.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial.getDial().getScale().setMax(NumberDataElementImpl.create(90));
+		seDial.getDial().getScale().setStep(10);
+		seDial.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+
+		DialRegion dregion1 = DialRegionImpl.create();
+		dregion1.setFill(ColorDefinitionImpl.GREEN());
+		dregion1.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion1.setStartValue(NumberDataElementImpl.create(70));
+		dregion1.setEndValue(NumberDataElementImpl.create(90));
+		dregion1.setInnerRadius(40);
+		dregion1.setOuterRadius(-1);
+		seDial.getDial().getDialRegions().add(dregion1);
+
+		DialRegion dregion2 = DialRegionImpl.create();
+		dregion2.setFill(ColorDefinitionImpl.YELLOW());
+		dregion2.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion2.setStartValue(NumberDataElementImpl.create(40));
+		dregion2.setEndValue(NumberDataElementImpl.create(70));
+		dregion2.setOuterRadius(70);
+		seDial.getDial().getDialRegions().add(dregion2);
+
+		DialRegion dregion3 = DialRegionImpl.create();
+		dregion3.setFill(ColorDefinitionImpl.RED());
+		dregion3.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion3.setStartValue(NumberDataElementImpl.create(0));
+		dregion3.setEndValue(NumberDataElementImpl.create(40));
+		dregion3.setInnerRadius(40);
+		dregion3.setOuterRadius(90);
+		seDial.getDial().getDialRegions().add(dregion3);
+
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(seDial);
+
+		return dChart;
+	}
+
+	/**
+	 * Creates a Multi Dials, Multi Regions chart model as a reference
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createMDialMRegionChart() {
+		DialChart dChart = (DialChart) DialChartImpl.create();
+		dChart.setDialSuperimposition(false);
+		dChart.setGridColumnCount(2);
+		dChart.setSeriesThickness(25);
+
+		// Title/Plot
+		dChart.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = dChart.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.CREAM());
+		p.getClientArea().getOutline().setVisible(false);
+		p.getOutline().setVisible(false);
+
+		dChart.getTitle().getLabel().getCaption().setValue("Meter Chart");
+		dChart.getTitle().getOutline().setVisible(false);
+
+		// Legend
+		Legend lg = dChart.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().setLeft(10);
+		lg.getInsets().setRight(10);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(false);
+		lg.setShowValue(true);
+		lg.getClientArea().setBackground(ColorDefinitionImpl.PINK());
+
+		lg.getClientArea().getOutline().setVisible(true);
+		lg.getTitle().getCaption().getFont().setSize(20);
+		lg.getTitle().setInsets(InsetsImpl.create(10, 10, 10, 10));
+		lg.setTitlePosition(Position.ABOVE_LITERAL);
+		lg.setPosition(Position.BELOW_LITERAL);
+		lg.setItemType(LegendItemType.SERIES_LITERAL);
+
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Moto" });
+
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		dChart.getSeriesDefinitions().add(sd);
+		Series seCategory = (Series) SeriesImpl.create();
+
+		seCategory.setDataSet(categoryValues);
+		sd.getSeries().add(seCategory);
+
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();		
+
+		final Fill[] fiaOrth = {
+				ColorDefinitionImpl.PINK(),
+				ColorDefinitionImpl.ORANGE(),
+				ColorDefinitionImpl.WHITE() };
+		sdCity.getSeriesPalette().getEntries().clear();
+		for (int i = 0; i < fiaOrth.length; i++) {
+			sdCity.getSeriesPalette().getEntries().add(fiaOrth[i]);
+		}
+
+		// Dial 1
+		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create();
+		seDial1.setDataSet(NumberDataSetImpl.create(new double[]{20}));
+		seDial1.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 255, 225),
+						ColorDefinitionImpl.create(225, 225, 255), 45, false));
+		seDial1.setSeriesIdentifier("Temperature");
+		seDial1.getNeedle().setDecorator(LineDecorator.CIRCLE_LITERAL);
+		seDial1.getDial().setStartAngle(-45);
+		seDial1.getDial().setStopAngle(225);
+		seDial1.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial1.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.BLACK());
+		seDial1.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial1.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial1.getDial().getScale().setMax(NumberDataElementImpl.create(90));
+		seDial1.getDial().getScale().setStep(10);
+		seDial1.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial1.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+
+		DialRegion dregion1 = DialRegionImpl.create();
+		dregion1.setFill(ColorDefinitionImpl.GREEN());
+		dregion1.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion1.setStartValue(NumberDataElementImpl.create(70));
+		dregion1.setEndValue(NumberDataElementImpl.create(90));
+		dregion1.setInnerRadius(40);
+		dregion1.setOuterRadius(-1);
+		seDial1.getDial().getDialRegions().add(dregion1);
+
+		DialRegion dregion2 = DialRegionImpl.create();
+		dregion2.setFill(ColorDefinitionImpl.YELLOW());
+		dregion2.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion2.setStartValue(NumberDataElementImpl.create(40));
+		dregion2.setEndValue(NumberDataElementImpl.create(70));
+		dregion2.setOuterRadius(70);
+		seDial1.getDial().getDialRegions().add(dregion2);
+
+		DialRegion dregion3 = DialRegionImpl.create();
+		dregion3.setFill(ColorDefinitionImpl.RED());
+		dregion3.setOutline(LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK().darker(), LineStyle.SOLID_LITERAL, 1));
+		dregion3.setStartValue(NumberDataElementImpl.create(0));
+		dregion3.setEndValue(NumberDataElementImpl.create(40));
+		dregion3.setInnerRadius(40);
+		dregion3.setOuterRadius(90);
+		seDial1.getDial().getDialRegions().add(dregion3);
+		
+		//Dial 2
+		DialSeries seDial2 = (DialSeries) DialSeriesImpl.create();
+		seDial2.setDataSet(NumberDataSetImpl.create(new double[]{58}));
+		seDial2.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 255, 225),
+						ColorDefinitionImpl.create(225, 225, 255), 45, false));
+		seDial2.setSeriesIdentifier("Wind Speed");
+		seDial2.getNeedle().setDecorator(LineDecorator.CIRCLE_LITERAL);
+		seDial2.getDial().setStartAngle(-45);
+		seDial2.getDial().setStopAngle(225);
+		seDial2.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial2.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.BLACK());
+		seDial2.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial2.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial2.getDial().getScale().setMax(NumberDataElementImpl.create(90));
+		seDial2.getDial().getScale().setStep(10);
+		seDial2.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial2.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+		
+		seDial2.getDial().getDialRegions().add(dregion1);
+		seDial2.getDial().getDialRegions().add(dregion2);
+		seDial2.getDial().getDialRegions().add(dregion3);
+
+		//Dial 3
+		DialSeries seDial3 = (DialSeries) DialSeriesImpl.create();
+		seDial3.setDataSet(NumberDataSetImpl.create(new double[]{80}));
+		seDial3.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 255, 225),
+						ColorDefinitionImpl.create(225, 225, 255), 45, false));
+		seDial3.setSeriesIdentifier("Viscosity");
+		seDial3.getNeedle().setDecorator(LineDecorator.CIRCLE_LITERAL);
+		seDial3.getDial().setStartAngle(-45);
+		seDial3.getDial().setStopAngle(225);
+		seDial3.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial3.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.BLACK());
+		seDial3.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial3.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial3.getDial().getScale().setMax(NumberDataElementImpl.create(90));
+		seDial3.getDial().getScale().setStep(10);
+		seDial3.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial3.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+
+		seDial3.getDial().getDialRegions().add(dregion1);
+		seDial3.getDial().getDialRegions().add(dregion2);
+		seDial3.getDial().getDialRegions().add(dregion3);
+		
+		dChart.setDialSuperimposition(true);
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(seDial1);
+		sdCity.getSeries().add(seDial2);
+		sdCity.getSeries().add(seDial3);
+
+		return dChart;
+	}
+
+	/**
+	 * Creates a Single Dial, Single Region chart model as a reference
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createSDialSRegionChart() {
+		DialChart dChart = (DialChart) DialChartImpl.create();
+		dChart.setDialSuperimposition(false);
+		dChart.setGridColumnCount(2);
+		dChart.setSeriesThickness(25);
+
+		// Title/Plot
+		dChart.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = dChart.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.CREAM());
+		p.getClientArea().getOutline().setVisible(false);
+		p.getOutline().setVisible(false);
+
+		dChart.getTitle().getLabel().getCaption().setValue("Meter Chart");
+		dChart.getTitle().getOutline().setVisible(false);
+
+		// Legend
+		Legend lg = dChart.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().setLeft(10);
+		lg.getInsets().setRight(10);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(false);
+		lg.setShowValue(true);
+		lg.getClientArea().setBackground(ColorDefinitionImpl.PINK());
+
+		lg.getClientArea().getOutline().setVisible(true);
+		lg.getTitle().getCaption().getFont().setSize(20);
+		lg.getTitle().setInsets(InsetsImpl.create(10, 10, 10, 10));
+		lg.setTitlePosition(Position.ABOVE_LITERAL);
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "Speed" });
+
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		dChart.getSeriesDefinitions().add(sd);
+		Series seCategory = (Series) SeriesImpl.create();
+
+		final Fill[] fiaBase = {
+				ColorDefinitionImpl.ORANGE(),
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false),
+				ColorDefinitionImpl.CREAM(), ColorDefinitionImpl.RED(),
+				ColorDefinitionImpl.GREEN(),
+				ColorDefinitionImpl.BLUE().brighter(),
+				ColorDefinitionImpl.CYAN().darker(), };
+		sd.getSeriesPalette().getEntries().clear();
+		for (int i = 0; i < fiaBase.length; i++) {
+			sd.getSeriesPalette().getEntries().add(fiaBase[i]);
+		}
+
+		seCategory.setDataSet(categoryValues);
+		sd.getSeries().add(seCategory);
+
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+
+		// Dial
+		DialSeries seDial = (DialSeries) DialSeriesImpl.create();
+		seDial.setDataSet(NumberDataSetImpl.create(new double[] { 60 }));
+		seDial.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false));
+		seDial.getNeedle().setDecorator(LineDecorator.ARROW_LITERAL);
+		seDial.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.RED());
+		seDial.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial.getDial().getScale().setMax(NumberDataElementImpl.create(180));
+		seDial.getDial().getScale().setStep(30);
+		seDial.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+
+		DialRegion dregion21 = DialRegionImpl.create();
+		dregion21.setFill(ColorDefinitionImpl.GREEN());
+		dregion21.setStartValue(NumberDataElementImpl.create(0));
+		dregion21.setEndValue(NumberDataElementImpl.create(80));
+		seDial.getDial().getDialRegions().add(dregion21);
+
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(seDial);
+
+		return dChart;
+	}
+
+	/**
+	 * Creates a Multi Dials, Single Region chart model as a reference
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createMDialSRegionChart() {
+		DialChart dChart = (DialChart) DialChartImpl.create();
+		dChart.setDialSuperimposition(false);
+		dChart.setGridColumnCount(2);
+		dChart.setSeriesThickness(25);
+
+		// Title/Plot
+		dChart.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = dChart.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.CREAM());
+		p.getClientArea().getOutline().setVisible(false);
+		p.getOutline().setVisible(false);
+
+		dChart.getTitle().getLabel().getCaption().setValue("Meter Chart");
+		dChart.getTitle().getOutline().setVisible(false);
+
+		// Legend
+		Legend lg = dChart.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().setLeft(10);
+		lg.getInsets().setRight(10);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(false);
+		lg.setShowValue(true);
+		lg.getClientArea().setBackground(ColorDefinitionImpl.PINK());
+
+		lg.getClientArea().getOutline().setVisible(true);
+		lg.getTitle().getCaption().getFont().setSize(20);
+		lg.getTitle().setInsets(InsetsImpl.create(10, 10, 10, 10));
+		lg.setTitlePosition(Position.ABOVE_LITERAL);
+		lg.setItemType(LegendItemType.SERIES_LITERAL);
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "Speed" });
+
+		SeriesDefinition sdBase = SeriesDefinitionImpl.create();
+		dChart.getSeriesDefinitions().add(sdBase);
+
+		Series seCategory = (Series) SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
+		sdBase.getSeries().add(seCategory);
+
+		SeriesDefinition sdOrth = SeriesDefinitionImpl.create();
+		
+		final Fill[] fiaOrth = {
+				ColorDefinitionImpl.ORANGE(),
+				ColorDefinitionImpl.RED(),
+				ColorDefinitionImpl.GREEN() };
+		
+		sdOrth.getSeriesPalette().getEntries().clear();
+		for (int i = 0; i < fiaOrth.length; i++) {
+			sdOrth.getSeriesPalette().getEntries().add(fiaOrth[i]);
+		}
+
+		// Dial 1
+		DialSeries seDial1 = (DialSeries) DialSeriesImpl.create();
+		seDial1.setDataSet(NumberDataSetImpl.create(new double[] { 60 }));
+		seDial1.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false));
+		seDial1.getNeedle().setDecorator(LineDecorator.ARROW_LITERAL);
+		seDial1.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial1.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.RED());
+		seDial1.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial1.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial1.getDial().getScale().setMax(NumberDataElementImpl.create(180));
+		seDial1.getDial().getScale().setStep(30);
+		seDial1.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial1.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+		seDial1.setSeriesIdentifier("Speed 1");
+
+		// Dail 2
+		DialSeries seDial2 = (DialSeries) DialSeriesImpl.create();
+		seDial2.setDataSet(NumberDataSetImpl.create(new double[] { 90 }));
+		seDial2.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false));
+		seDial2.getNeedle().setDecorator(LineDecorator.ARROW_LITERAL);
+		seDial2.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial2.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.RED());
+		seDial2.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial2.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial2.getDial().getScale().setMax(NumberDataElementImpl.create(180));
+		seDial2.getDial().getScale().setStep(30);
+		seDial2.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial2.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+		seDial2.setSeriesIdentifier("Speed 2");
+
+		// Dial 3
+		DialSeries seDial3 = (DialSeries) DialSeriesImpl.create();
+		seDial3.setDataSet(NumberDataSetImpl.create(new double[] { 160 }));
+		seDial3.getDial().setFill(
+				GradientImpl.create(ColorDefinitionImpl.create(225, 225, 255),
+						ColorDefinitionImpl.create(255, 255, 225), -35, false));
+		seDial3.getNeedle().setDecorator(LineDecorator.ARROW_LITERAL);
+		seDial3.getDial().getMinorGrid().getTickAttributes().setVisible(true);
+		seDial3.getDial().getMinorGrid().getTickAttributes().setColor(
+				ColorDefinitionImpl.RED());
+		seDial3.getDial().getMinorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		seDial3.getDial().getScale().setMin(NumberDataElementImpl.create(0));
+		seDial3.getDial().getScale().setMax(NumberDataElementImpl.create(180));
+		seDial3.getDial().getScale().setStep(30);
+		seDial3.getLabel().setOutline(
+				LineAttributesImpl.create(ColorDefinitionImpl.GREY().darker(),
+						LineStyle.SOLID_LITERAL, 1));
+		seDial3.getLabel().setBackground(ColorDefinitionImpl.GREY().brighter());
+		seDial3.setSeriesIdentifier("Speed 3");
+
+		dChart.setDialSuperimposition(true);
+		sdBase.getSeriesDefinitions().add(sdOrth);
+		sdOrth.getSeries().add(seDial1);
+		sdOrth.getSeries().add(seDial2);
+		sdOrth.getSeries().add(seDial3);
+
+		return dChart;
+	}
+	
+	/**
+	 * Creates a bar chart model with curve fitting series.
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createCFBarChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+
+		// Plot
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getBlock().getOutline().setVisible(true);
+		Plot p = cwaBar.getPlot();
+		p.getClientArea().setBackground(
+				ColorDefinitionImpl.create(255, 255, 225));
+		p.getOutline().setVisible(false);
+
+		// Title
+		cwaBar.getTitle().getLabel().getCaption().setValue("Bar Chart");
+
+		// Legend
+		Legend lg = cwaBar.getLegend();
+		lg.getText().getFont().setSize(16);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
+
+		// X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Item 1", "Item 2", "Item 3" });
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25,
+				35, 15 });
+
+		// X-Series
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().update(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
+
+		// Y-Series
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setDataSet(orthoValues);
+		bs.setRiserOutline(null);
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+		bs.setCurveFitting(CurveFittingImpl.create());
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
+
+		return cwaBar;
+	}
+	
+	/**
+	 * Creates a line chart model with curve fitting series
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createCFLineChart() {
+		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
+
+		// Plot
+		cwaLine.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwaLine.getPlot();
+		p.getClientArea().setBackground(
+				ColorDefinitionImpl.create(255, 255, 225));
+
+		// Title
+		cwaLine.getTitle().getLabel().getCaption().setValue("Line Chart");
+
+		// Legend
+		cwaLine.getLegend().setVisible(false);
+
+		// X-Axis
+		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+
+		// Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+				"Item 1", "Item 2", "Item 3" });
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25,
+				35, 15 });
+
+		// X-Series
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
+
+		// Y-Sereis
+		LineSeries ls = (LineSeries) LineSeriesImpl.create();
+		ls.setDataSet(orthoValues);
+		ls.getLineAttributes().setColor(ColorDefinitionImpl.CREAM());
+		ls.getMarker().setType(MarkerType.TRIANGLE_LITERAL);
+		ls.getLabel().setVisible(true);
+		ls.setCurve(true);
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().update(-2);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(ls);
+
+		return cwaLine;
+	}
+	
+	/**
+	 * Creates a stock chart model with curve fitting series.
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public final static Chart createCFStockChart() {
+		ChartWithAxes cwaStock = ChartWithAxesImpl.create();
+
+		// Title
+		cwaStock.getTitle().getLabel().getCaption().setValue("Stock Chart");
+		TitleBlock tb = cwaStock.getTitle();
+		tb.setBackground(GradientImpl.create(ColorDefinitionImpl.create(0, 128,
+				0), ColorDefinitionImpl.create(128, 0, 0), 0, false));
+		tb.getLabel().getCaption().setColor(ColorDefinitionImpl.WHITE());
+
+		// Plot
+		cwaStock.getBlock().setBackground(
+				GradientImpl.create(ColorDefinitionImpl.create(196, 196, 196),
+						ColorDefinitionImpl.WHITE(), 90, false));
+		cwaStock.getPlot().getClientArea().getInsets().set(10, 10, 10, 10);
+
+		// Legend
+		cwaStock.getLegend().setBackground(ColorDefinitionImpl.ORANGE());
+
+		// X-Axis
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaStock).getPrimaryBaseAxes()[0];
+
+		xAxisPrimary.getTitle().getCaption().setValue("X Axis");
+		xAxisPrimary.getTitle().getCaption()
+				.setColor(ColorDefinitionImpl.RED());
+		xAxisPrimary.getTitle().getCaption().setValue("Date");
+		xAxisPrimary.setTitlePosition(Position.ABOVE_LITERAL);
+
+		xAxisPrimary.getLabel().getCaption()
+				.setColor(ColorDefinitionImpl.RED());
+		xAxisPrimary.getLabel().getCaption().getFont().setRotation(65);
+		xAxisPrimary.setLabelPosition(Position.ABOVE_LITERAL);
+
+		xAxisPrimary.setType(AxisType.DATE_TIME_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.MAX_LITERAL);
+
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.ABOVE_LITERAL);
+		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(
+				ColorDefinitionImpl.create(255, 196, 196));
+		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
+				LineStyle.DOTTED_LITERAL);
+		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+
+		xAxisPrimary.setCategoryAxis(true);
+
+		// Y-Axis 
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaStock)
+				.getPrimaryOrthogonalAxis(xAxisPrimary);
+
+		yAxisPrimary.getLabel().getCaption().setValue("Price Axis");
+		yAxisPrimary.getLabel().getCaption().setColor(
+				ColorDefinitionImpl.BLUE());
+		yAxisPrimary.setLabelPosition(Position.LEFT_LITERAL);
+
+		yAxisPrimary.getTitle().getCaption().setValue(
+				"Microsoft ($ Stock Price)");
+		yAxisPrimary.getTitle().getCaption().setColor(
+				ColorDefinitionImpl.BLUE());
+		yAxisPrimary.setTitlePosition(Position.LEFT_LITERAL);
+
+		yAxisPrimary.getScale().setMin(NumberDataElementImpl.create(24.5));
+		yAxisPrimary.getScale().setMax(NumberDataElementImpl.create(27.5));
+		yAxisPrimary.getScale().setStep(0.5);
+
+		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(
+				ColorDefinitionImpl.create(196, 196, 255));
+		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(
+				LineStyle.DOTTED_LITERAL);
+		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
+
+		// Data Set
+		DateTimeDataSet dsDateValues = DateTimeDataSetImpl
+				.create(new Calendar[] { new CDateTime(2004, 12, 27),
+						new CDateTime(2004, 12, 23),
+						new CDateTime(2004, 12, 22),
+						new CDateTime(2004, 12, 21),
+						new CDateTime(2004, 12, 20),
+						new CDateTime(2004, 12, 17),
+						new CDateTime(2004, 12, 16),
+						new CDateTime(2004, 12, 15) });
+
+		StockDataSet dsStockValues = StockDataSetImpl.create(new StockEntry[] {
+				new StockEntry(27.01, 27.10, 26.82, 26.85),
+				new StockEntry(26.87, 27.15, 26.83, 27.01),
+				new StockEntry(26.84, 27.15, 26.78, 26.97),
+				new StockEntry(27.00, 27.17, 26.94, 27.07),
+				new StockEntry(27.01, 27.15, 26.89, 26.95),
+				new StockEntry(27.00, 27.32, 26.80, 26.96),
+				new StockEntry(27.15, 27.28, 27.01, 27.16),
+				new StockEntry(27.22, 27.40, 27.07, 27.11), });
+
+		// X-Series
+		Series seBase = SeriesImpl.create();
+		seBase.setDataSet(dsDateValues);
+
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().update(1);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seBase);
+
+		// Y-Series
+		StockSeries ss = (StockSeries) StockSeriesImpl.create();
+		ss.setSeriesIdentifier("Stock Price");
+		ss.getLineAttributes().setColor(ColorDefinitionImpl.BLUE());
+		ss.setDataSet(dsStockValues);
+		ss.setCurveFitting(CurveFittingImpl.create());
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().update(ColorDefinitionImpl.CYAN());
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(ss);
+
+		return cwaStock;
+	}	
+	
+	/**
+	 * Creates a Area chart model with curve fitting series
+	 * implementation
+	 * 
+	 * @return An instance of the simulated runtime chart model (containing
+	 *         filled datasets)
+	 */
+	public static final Chart createCFAreaChart() {
+		ChartWithAxes cwaArea = ChartWithAxesImpl.create();
+		
+		//Plot/Title
+		cwaArea.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwaArea.getPlot();
+		p.getClientArea().setBackground(
+				ColorDefinitionImpl.create(225, 225, 225));
+		cwaArea.getTitle().getLabel().getCaption().setValue("Area Chart");
+		cwaArea.getTitle().setVisible(true);
+		
+		//Legend
+		Legend lg = cwaArea.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+
+		//X-Axis
+		Axis xAxisPrimary = cwaArea.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getMajorGrid().setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.BLUE(),
+						LineStyle.SOLID_LITERAL, 1));
+		xAxisPrimary.getMinorGrid().getLineAttributes().setVisible(true);
+		xAxisPrimary.getOrigin().setType(IntersectionType.MIN_LITERAL);
+		xAxisPrimary.getTitle().getCaption().setValue("Month");
+		xAxisPrimary.getTitle().setVisible(true);
+		xAxisPrimary.getTitle().getCaption().getFont().setRotation(0);
+		xAxisPrimary.getLabel().setVisible(true);
+
+		//Y-Axis
+		Axis yAxisPrimary = cwaArea.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid().setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.BLACK(),
+						LineStyle.SOLID_LITERAL, 1));
+		yAxisPrimary.getMinorGrid().getLineAttributes().setVisible(true);
+		yAxisPrimary.setPercent(false);
+		yAxisPrimary.getTitle().getCaption().setValue("Net Profit");
+		yAxisPrimary.getTitle().setVisible(true);
+		yAxisPrimary.getTitle().getCaption().getFont().setRotation(90);
+		yAxisPrimary.getLabel().setVisible(true);
+
+		MarkerLine ml = MarkerLineImpl.create(yAxisPrimary,
+				NumberDataElementImpl.create(2));
+		yAxisPrimary.getMarkerLines().add(ml);
+
+		//Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] {
+			"Jan.", "Feb.", "Mar.", "Apr", "May"});		
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] {
+			14.32, -19.5, 8.38, 0.34, 9.22});		
+
+		//X-Series
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
+		
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().update(0); 
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
+
+		//Y-Series
+		AreaSeries as = (AreaSeries) AreaSeriesImpl.create();
+		as.setSeriesIdentifier("Series");
+		as.setDataSet(orthoValues);
+		as.setTranslucent(true);
+		as.getLineAttributes().setColor(ColorDefinitionImpl.BLUE());
+		as.getLabel().setVisible(true);
+		as.setCurve(true);
+		
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().update(1);
+		yAxisPrimary.getSeriesDefinitions().add(sdY);	
+		sdY.getSeries().add(as);
+
+		return cwaArea;
+
+	}
+
 }

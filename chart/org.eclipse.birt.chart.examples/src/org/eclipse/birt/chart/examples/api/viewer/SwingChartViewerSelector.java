@@ -324,6 +324,7 @@ public final class SwingChartViewerSelector extends JPanel implements
 			jcbModels.addItem("Bar/Line Stacked Chart");
 			jcbModels.addItem("Scatter Chart");
 			jcbModels.addItem("Stock Chart");
+			jcbModels.addItem("Area Chart");
 
 			jcbModels.setSelectedIndex(0);
 			jp1.add(jcbModels);
@@ -417,6 +418,9 @@ public final class SwingChartViewerSelector extends JPanel implements
 				break;
 			case 7:
 				cm = PrimitiveCharts.createStockChart();
+				break;
+			case 8:
+				cm = PrimitiveCharts.createAreaChart();
 				break;
 			}
 

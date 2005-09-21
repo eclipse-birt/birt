@@ -1,8 +1,14 @@
 <div align="center"> 
   <p><font size="5" face="Times New Roman, Times, serif"><strong><font face="Arial, Helvetica, sans-serif">Chart 
     API Examples Plugin</font></strong></font></p>
+  <p><font face="Times New Roman, Times, serif">Last updated: Sep 20, 2005 </font></p>
   <p align="left"><font face="Arial, Helvetica, sans-serif"><strong>Table of Contents</strong></font></p>
+  <p align="left"><strong><font size="2" face="Arial, Helvetica, sans-serif">Prefix</font></strong></p>
 </div>
+<blockquote>
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif"> How to 
+    run the examples?</font></div>
+</blockquote>
 <div align="left">
   <p><font size="2" face="Arial, Helvetica, sans-serif"><strong>1. Sample Charts 
     written by API</strong></font></p>
@@ -23,6 +29,10 @@
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> </font></div>
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> 1.1.3 
       Live Bar and Line Combination Chart</font></div>
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.1.4 
+      Dial Chart Viewer</font></div>
+    <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.1.5 
+      Curve Fitting Chart Viewer</font></div>
   </blockquote>
   <div align="left"> 
     <p><font size="2" face="Arial, Helvetica, sans-serif">1.2- Databinding, Grouping 
@@ -32,6 +42,8 @@
   <blockquote> 
     <div align="left"> 
       <div align="left"></div>
+    </div>
+    <div align="left">
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.1 
         Bar Chart with multiple Y series</font></div>
     </div>
@@ -41,9 +53,17 @@
         Line Chart with multiple Y axis</font></div>
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.3 
         Bar Chart with grouping on Y axis</font></div>
+    </div>
+    <div align="left"> 
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.4 
         Pie Chart with min slice </font></div>
+    </div>
+    <div align="left"> 
       <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.5 
+        Pie Chart with min slice (New Feature)</font></div>
+    </div>
+    <div align="left"> 
+      <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">1.2.6 
         Bar Chart with sorting/grouping on X series</font></div>
     </div>
   </blockquote>
@@ -126,8 +146,41 @@
 </blockquote>
 <div align="center"> 
   <hr>
-  <p align="left"><font face="Arial, Helvetica, sans-serif"><strong>Description</strong></font></p>
-  <p align="left">&nbsp;</p>
+  <p align="left"><strong><font size="2" face="Arial, Helvetica, sans-serif">Prefix: 
+    <u>How to run the examples?</u></font></strong></p>
+  <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif">The chart 
+    examples could run by using SWT or Swing devices, the following shows how 
+    to set the configuration in VM arguments:</font></p>
+  <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif">For SWT 
+    devices:</font></p>
+</div>
+<blockquote> 
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">(Eclipse 
+    3.0.1)<br>
+    -DSTANDALONE<br>
+    -Djava.library.path=D:\Project\Eclipse_3.0.1\plugins\org.eclipse.swt.win32_3.0.1\os\win32\x86</font></div>
+  <div align="left"> 
+    <p><font size="-1" face="Arial, Helvetica, sans-serif"> (Eclipse 3.1)<br>
+      -DSTANDALONE<br>
+      -Djava.library.path=D:\Project\Eclipse_3.1\plugins\org.eclipse.swt.win32.x86_3.1.0.jar</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">Note: <br>
+      1. In the example, D:\Project is &lt;eclipse_install_directory&gt;, you 
+      could change it to be your own eclipse install directory.<br>
+      2. The above configuration is based on Win32 OS. If you&iexcl;&macr;re using others, 
+      please modify the configuration according to the following line:<br>
+      For Eclipse 3.0.1: org.eclipse.swt.&lt;windowing_system&gt;_&lt;eclipse_version_number&gt;/os/&lt;operating_system&gt;/&lt;processor_architecture&gt;<br>
+      For Eclipse 3.1: org.eclipse.swt.&lt;windowing_system&gt;.&lt;processor_architecture&gt;_&lt;eclipse_version_number&gt;.jar</font></p>
+  </div>
+  <div align="left"> 
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">For Swing devices:</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">(Eclipse 3.0 &amp; 
+      Eclipse 3.1)<br>
+      -DSTANDALONE<br>
+      </font></p>
+  </div>
+  </blockquote>
+<div align="center">
+  <hr>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Swing 
     / SWT Renderers</u></strong></font></p>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">Use Swing 
@@ -159,6 +212,7 @@
     <div align="left"><font size="2" face="Arial, Helvetica, sans-serif"> Stock 
       chart</font></div>
   </li>
+  <li><font size="2" face="Arial, Helvetica, sans-serif">Area chart</font></li>
 </ul>
 <div align="center"> 
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"> The renderers 
@@ -172,15 +226,101 @@
     They share the same X-Axis, and the chart graphics is keeping changing according 
     to the change of X-Axis. The example defines a background thread (extends 
     TimerTask) that scrolls/refreshes the chart (offscreeen).</font></p>
-  <hr>
-  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
-    Chart with multiple Y series</u></strong></font></p>
+  <p></p>
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Dial 
+    Chart Viewer (New Feature)</u></strong></font></p>
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif">The example 
-    shows a bar chart with 2 Y-series. The 2 groups of datas has the same X-Series 
-    value, but different in Y-Series value, which could be acheived in the report 
-    designer as follows: Chart Builder -&gt; Data -&gt; Y Axis -&gt; Set: Number 
-    of Series Definitions = 2. </font></p>
+    shows 4 types of dial / meter charts. Meter charts desplays the current value 
+    of a certain measurement. The value is indicated by a pointer and the scale 
+    of the meter dial. The background of the meter can be divided into regions. 
+    </font></p>
 </div>
+<blockquote> 
+  <div align="left"> <font size="-1" face="Arial, Helvetica, sans-serif">Single 
+    Dial, Multi Regions:</font></div>
+  <blockquote> 
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif"> DialSeries 
+      seDial = (DialSeries) DialSeriesImpl.create();</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialRegion 
+      dregion1 = DialRegionImpl.create();</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial.getDial().getDialRegions().add(dregion1);</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">....</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial.getDial().getDialRegions().add(dregion2); 
+      </font></div>
+  </blockquote>
+  <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">Multi 
+    Dials, Multi Regions:</font></div>
+  <blockquote> 
+    <div align="left"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialSeries 
+        seDial1 = (DialSeries) DialSeriesImpl.create();</font></div>
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialRegion 
+        dregion1 = DialRegionImpl.create();</font></div>
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial1.getDial().getDialRegions().add(dregion1);</font></div>
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">....</font></div>
+    </div>
+    <div align="left"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial1.getDial().getDialRegions().add(dregion2); 
+        </font></div>
+    </div>
+    <div align="left"> 
+      <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">...</font></div>
+    </div>
+    <div align="left"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialSeries 
+          seDial2 = (DialSeries) DialSeriesImpl.create();</font></div>
+        <div align="left"></div>
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial2.getDial().getDialRegions().add(dregion1);</font></div>
+        <div align="left"></div>
+      </div>
+    </div>
+    <div align="left"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">seDial2.getDial().getDialRegions().add(dregion2); 
+          </font></div>
+      </div>
+    </div>
+    <div align="left"> 
+      <div align="left"> 
+        <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">...</font></div>
+      </div>
+    </div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">dialChart.setDialSuperimposition(true); 
+      </font></div>
+  </blockquote>
+  <div><font size="-1" face="Arial, Helvetica, sans-serif">Single Dial, Single Region</font></div>
+  <blockquote> 
+    <div><font size="-1" face="Arial, Helvetica, sans-serif">DialSeries seDial 
+      = (DialSeries) DialSeriesImpl.create();</font></div>
+    <div><font size="-1" face="Arial, Helvetica, sans-serif">DialRegion dregion 
+      = DialRegionImpl.create();</font></div>
+    <div><font size="-1" face="Arial, Helvetica, sans-serif">seDial.getDial().getDialRegions().add(dregion);</font></div>
+  </blockquote>
+  <p align="left"><font size="-1" face="Arial, Helvetica, sans-serif">Multi Dials, 
+    Single Region</font></p>
+  <blockquote>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialSeries 
+      seDial1 = (DialSeries) DialSeriesImpl.create();</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">DialSeries 
+      seDial2 = (DialSeries) DialSeriesImpl.create();</font></div>
+    <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">dialChart.setDialSuperimposition(true);</font></div>
+  </blockquote>
+</blockquote>
+<p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Curve 
+  Fitting Chart Viewer (New Feature)</u></strong></font></p>
+<p align="left"><font size="2" face="Arial, Helvetica, sans-serif">Curve Fitting 
+  feature will be available for Series of ChartWithAxes, including Bar, Line, 
+  Area, Scatter and Stock charts. The curve line shows the general trend of data 
+  values.</font></p>
+<hr>
+<p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
+  Chart with multiple Y series</u></strong></font></p>
+<p align="left"><font size="2" face="Arial, Helvetica, sans-serif">The example 
+  shows a bar chart with 2 Y-series. The 2 groups of datas has the same X-Series 
+  value, but different in Y-Series value, which could be acheived in the report 
+  designer as follows: Chart Builder -&gt; Data -&gt; Y Axis -&gt; Set: Number 
+  of Series Definitions = 2. </font></p>
 <blockquote> 
   <div align="left"><font size="2" face="Arial, Helvetica, sans-serif">yAxis.getSeriesDefinitions().add(ySeriesDefinition1); 
     </font></div>
@@ -259,6 +399,28 @@
   <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">OdaDataSetHandle 
     dataSet = (OdaDataSetHandle) designHandle.getDataSets().get(0);</font></div>
   <div align="left"><font size="-1" face="Arial, Helvetica, sans-serif">dataSet.setQueryText(query);</font></div>
+</blockquote>
+<div align="center"> 
+  <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Pie 
+    Chart with min slice (New Feature)</u></strong></font></p>
+  <p align="left"><br>
+    <font size="-1" face="Arial, Helvetica, sans-serif">New Features added into 
+    Pie chart:</font><font size="-1" face="Arial, Helvetica, sans-serif"><br>
+    1. Pie chart slice can be exploded by setting expression to explosion attribute.<br>
+    2. Implement the same function with MinSlice.java. However, it used chart 
+    API to generate the aggregated values under the minimum value for a slice.</font></p>
+</div>
+<blockquote>
+  <div align="left">
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">//Explosion<br>
+      sePie.setExplosion(30);<br>
+      sePie.setExplosionExpression(&quot;orthogonalValue&lt;20 ||orthogonalValue&gt;50&quot;);</font></p>
+    <p><font size="-1" face="Arial, Helvetica, sans-serif">//Min Slice<br>
+      cwoaPie.setMinSlice(10);<br>
+      cwoaPie.setMinSlicePercent(false);<br>
+      cwoaPie.setMinSliceLabel(&quot;Others&quot;);<br>
+      </font> </p>
+  </div>
 </blockquote>
 <div align="center">
   <p align="left"><font size="2" face="Arial, Helvetica, sans-serif"><strong><u>Bar 
