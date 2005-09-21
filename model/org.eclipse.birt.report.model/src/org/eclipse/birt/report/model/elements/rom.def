@@ -2557,8 +2557,8 @@
     </Property>
     <Property displayNameID="Element.Image.uri" name="uri" returnType="string" runtimeSettable="false" since="1.0" type="expression"/>
 	<Property detailType="EmbeddedImage" displayNameID="Element.Image.imageName" name="imageName" returnType="string" runtimeSettable="false" since="1.0" type="structRef"/>
-    <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="reserved" type="expression"/>
-    <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="reserved" type="expression"/>
+    <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="2.0" type="expression"/>
+    <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="valueExpr" visibility="readonly"/>                
     <PropertyVisibility name="typeExpr" visibility="hide"/> 
