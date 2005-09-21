@@ -1,173 +1,254 @@
 <?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ *
+ *  Build.xml
+ *
+ *  Created on 09/07/2005
+ *  Build script for project org.eclipse.birt.tests.regression.data
+ *
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * The following are public targets callable by external users. 
+ * 
+ * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
+ *              so it needn't depend on Jar explicitly
+ *
+ * Usage:
+ *    ant [any one or more of the public targets] 
+ *        -Declipse.home=<your eclipse home> 
+ *
+ * Default target is "UnitTest".
+ *
+ * 
+ * This script may also additional targets. These targets are private to this build script only. 
+ *
+ *
+ * Notes:
+ *  1. classpath need to be set for junit.jar
+ *  2. This file now requires Ant 1.6
+ *
+ * Change History:
+ *
+ *
+-->
 
-<project name="testsuite" default="run" basedir=".">
-  <!-- The property ${eclipse-home} should be passed into this script -->
-  <!-- Set a meaningful default value for when it is not. -->
-  <property name="eclipse-home" value="c:/eclipse3.1"/>
-  <property name="axlan-home" value="c:/xalan-j_2_6_0"/>
-  <!-- sets the properties eclipse-home, and library-file -->
-  <property name="plugin-name" value="org.eclipse.birt.tests.data"/>
-  <property name="library-file"
-            value="${eclipse-home}/plugins/org.eclipse.test/library.xml"/>
-  <property name="JAVA_HOME" value="C:/j2sdk1.4.2_05" />
-  <property name="test.build.dir" value="./bin" />
-  <property name="test.src.dir" value="./src" />
-  <property name="test.doc.dir" value="./doc" />
-  <property name="eclipse.plugin.tests" value="${eclipse-home}/plugins/org.eclipse.birt.tests.data" />
-  
-  <property name="arch" value="x86" />
-	  <!-- set platform related properties-->
-	  <property name="nl" value="zh_CN" />	
-	  <condition property="ws" value="win32">
-	    <os family="windows"/>
-	  </condition>
-	  <condition property="ws" value="gtk">
-	       <not>
-				<os family="windows"/>
-			</not>
-		</condition>
-
-	  <condition property="os" value="win32">
-		 <os family="windows"/>
-	  </condition>
-		<condition property="os" value="linux">
-			<not>
-				<os family="windows"/>
-			</not>
-		</condition>
+<project name="BIRT Data Engine Regression Test Project" default="UnitTest" basedir=".">
+    <description>BIRT Data Engine Regression Test Project.</description>
+	<property file="build.properties"/>		
 	
-  <!-- This target holds all initialization code that needs to be done for -->
-  <!-- all tests that are to be run. Initialization for individual tests -->
-  <!-- should be done within the body of the suite target. -->
-  <target name="init">
-    <tstamp/>
-    <delete>
-      <fileset dir="${eclipse-home}" includes="org*.xml"/>
-    </delete>
-  </target>
+	<!-- set global properties for this build -->
+    <!-- Public properties, used by public targets, top level build script will pass on the value 
+	 	 at runtime. Properties will have there default value:
+		     eclipse.home
+		     utest.report.dir
+		     plugin.version 
+	-->
+	
+	<!-- ===== Default value for public properties ============= -->
+	<property name="utest.report.dir" location="utestreports" />
+	<property name="plugin.version" value="1.0.1" />
 
-  <!-- This target defines the tests that need to be run. -->
-  <target name="suite">
-    <echo message="${library-file}"  />
-    <property name="birt-model-folder" 
-              value="${eclipse-home}/birt-model-folder"/>
-          
-    <delete dir="${birt-model-folder}" quiet="true"/>
-    
-    
-    
-    <ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
-      <property name="data-dir" value="${birt-model-folder}"/>
-      <property name="plugin-name" value="${plugin-name}"/>
-      <property name="classname" 
-                value="org.eclipse.birt.tests.data.engine.BaseTestCase"/>
-      <property name="os" value="${os}" />
-      <property name="ws" value="${ws}" />
-      <property name="arch" value="${arch}" />
-      <property name="nl" value="${nl}" />
-      <property name="vmargs" value="-DBIRT_HOME='${eclipse-home}'"/>
-      <property name="vmargs" value="-Declipse.home='${eclipse-home}'"/>
-     </ant>
-    
-  </target>
-  
-  <target name="compileTest">
-    <mkdir dir="${test.build.dir}" />
-    <mkdir dir="${test.doc.dir}" />
-    
-		<!-- Copy resource files into build -->
-		<copy todir="${test.build.dir}">
-			<fileset dir="${test.src.dir}">
-				<include name="**/input/*.*" />
-				<include name="**/golden/*.*" />
-				<include name="**/output/*.*" />
-				<include name="**/*.properties" />
-			</fileset>
-		</copy>
+	<property name="eclipse.home" location="." />
+	
+	<property name="test.src" location="src" />
+	
+	<path id="class.path">
+		<pathelement path="${bin}" />
+		<pathelement path="${data.dir}/bin" />
+		<fileset dir="${core.dir}">
+			<include name="core.jar"/>
+		</fileset>
+		<fileset dir="${core.dir}/lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${oda.dir}">
+			<include name="oda.jar"/>
+		</fileset>
+		<fileset dir="${oda.jdbc.dir}">
+			<include name="derby.jar"/>
+		</fileset>
 
-		<!-- Compile API Test Source Files -->
-		
-		<echo message="${JAVA_HOME}" />
-		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" executable="c:/j2sdk1.4.2_05/bin/javac"  source="1.4" target="1.4" debug="true" encoding="gb2312" failonerror="true">
-			<classpath>
-			  <fileset dir="${basedir}/lib/">
-				    <include name="*.jar" />
-			  </fileset>
-		  </classpath>
-		</javac>
-</target>
- 
+		<fileset dir="test/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
+			<include name="*.jar"/>
+		</fileset>
 
-  <target name="jar" depends="compileTest">
-		<jar destfile="DTEtest.jar" >
-			<fileset dir="./bin">
-				<exclude name="**/*Test.class"/>
-			</fileset>
-		</jar>
+		<!-- dependend on eclipse due to Plugin class -->
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
+			<include name="org.eclipse.osgi_*/*.jar"/>
+			<include name="org.eclipse.core.runtime*.jar"/>
+			<include name="org.eclipse.osgi*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="class.path.test">
+		<path refid="class.path" />
+		<fileset dir="${core.dir}">
+			<include name="lib/*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
+	<!-- Run Unit test.
+			 Parameters:
+			 		- ${utest.report.dir} target directory to put the unit test report
+	-->
+	<target name="UnitTest" depends="cleanBuild,cleanUnitTest,compileTest, testDependency" description="run all the unit tests">
 		
-		<delete quiet="true">
-		<fileset dir="${eclipse.plugin.tests}" includes="**/*.*"/>
-		</delete>
-		
-		<javadoc packagenames="${plugin-name}.*"
-           sourcepath="${test.src.dir}"
-           defaultexcludes="yes"
-           destdir="${test.doc.dir}"
-           author="true"
-           version="true"
-           use="true"
-           windowtitle="BIRT API Test---DTE" >
-           <classpath>
-			  <fileset dir="${basedir}/lib/">
-				    <include name="*.jar" />
-			  </fileset>
-		  </classpath>
-		</javadoc>
-		
-		
-		<mkdir dir="${eclipse.plugin.tests}" />
-		<copy todir="${eclipse.plugin.tests}">
-		  <fileset dir="${basedir}">
-		    <include name="**/bin/**/*.*" />
-		    <include name="**/plugins/**/*.*" />
-		    <include name="*.*" />
-		    <include name="**/lib/*.jar" />
-		  </fileset>
-		
-		
-		</copy>
-		
-		
+		<!-- run all tests in current directory -->
+		<!-- Create the log directory -->
+		<delete dir="${utest.report.dir}"/>
+		<mkdir dir="${utest.report.dir}" />
+
+		<!-- If condition is satisfied, then executes test cases against JDBC -->
+		<antcall target="testJDBC"/>
+
 	</target>
-  
-  <target name="report">
-   <junitreport todir="${eclipse-home}">
-			<fileset dir="${eclipse-home}">
-				<include name="*.xml" />
-				<exclude name="*TestSuites.xml" />
-			</fileset>
+	
+	<!-- Clean all objects created by this script -->
+	<target name="Clean" depends="init" description="clean up">
+		<antcall target="cleanBuild"/>
+		<antcall target="cleanUnitTest"/>
+	</target>
+
+	<target name="init" description="initialization">
+		<condition property="url_isset">
+			<isset property="url" />
+		</condition>
+		<condition property="url" value="${def_url}">
+			<isfalse value="${url_isset}" />
+		</condition>
+		<condition property="logdir_isset">
+			<isset property="logdir" />
+		</condition>
+		<condition property="logdir" value="${def_logdir}">
+			<isfalse value="${logdir_isset}" />
+		</condition>
+		<condition property="database_isset">
+			<isset property="database" />
+		</condition>
+		<condition property="database" value="${def_database}">
+			<isfalse value="${database_isset}" />
+		</condition>
+		<condition property="user_isset">
+			<isset property="user" />
+		</condition>
+		<condition property="user" value="${def_user}">
+			<isfalse value="${user_isset}" />
+		</condition>
+		<condition property="password_isset">
+			<isset property="password" />
+		</condition>
+		<condition property="password" value="${def_password}">
+			<isfalse value="${password_isset}" />
+		</condition>
+		<condition property="host_isset">
+			<isset property="host" />
+		</condition>
+		<condition property="host" value="${def_host}">
+			<isfalse value="${host_isset}" />
+		</condition>
+	</target>
+	
+	<!-- Compile Data Test Files 
+		 javac.failonerror should be true.
+	-->
+	<target name="compileTest" depends="init" description="compile the test ">
+		<mkdir dir="${bin}" />
+	
+		<javac srcdir="${test.src}"
+			   destdir="${bin}" 
+			   encoding="utf-8" 
+			   source="1.4" 
+			   failonerror="true"
+			   debug="true">
+			<classpath refid="class.path" />
+		</javac>
+	</target>
+		
+	<target name="testJDBC">
+		<echo>Run jUnit test cases against JDBC</echo>
+		
+		<!-- run junit for each testcase -->
+		<junit dir="." fork="yes" taskname="Data Engine Tests">
+			<jvmarg value="-ea" />
+			<sysproperty key="DTETest.url" value="${url}" />
+			<sysproperty key="DTETest.user" value="${user}" />
+			<sysproperty key="DTETEst.password" value="${password}" />
+			<sysproperty key="DTETest.host" value="${host}" />
+			<sysproperty key="DTETest.database" value="${database}" />
 			
-			<report format="frames" todir="${basedir}/report/" />
+			<!-- The property "instance" has not been defined. ??-->
+			<sysproperty key="DTETest.instace" value="${instance}" />
+			
+			<sysproperty key="DTETest.driverLoc" value="${driverLoc}" />
+			<sysproperty key="DTETest.testSource" value="JDBC"/>
+			<sysproperty key="BIRT_HOME" value="./test"/>
+			<classpath refid="class.path.test" />
+			<formatter type="xml" />
+			<batchtest todir="${utest.report.dir}">
+				<fileset dir="${test.src}">
+					<include name="**/*Test.java" />
+					<exclude name="**/ConnectionTest.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<target name="cleanBuild" description= "clean files generated by build">
+		<delete dir="${bin}"/>
+	</target>
+	<target name="cleanUnitTest" description= "clean files generated by unit tests">
+		<delete dir="${utest.report.dir}" />
+		<delete>
+			<fileset dir="." includes="*junit*" />
+		</delete>
+	</target>
 
-  </junitreport>
-    </target>
-
-  <!-- This target holds code to cleanup the testing environment after -->
-  <!-- after all of the tests have been run. You can use this target to -->
-  <!-- delete temporary files that have been created. -->
-  <target name="cleanup">
-  </target>
-  
-
-  
-  <!-- This target runs the test suite. Any actions that need to happen -->
-  <!-- after all the tests have been run should go here. -->
-  <target name="run" depends="init,jar,suite,report,cleanup">
-    <ant target="collect" antfile="${library-file}" dir="${eclipse-home}">
-      <property name="includes" value="org*.xml"/>
-      <property name="output-file" value="${plugin-name}.xml"/>
-    </ant>
-  </target>
-
- 
+	<target name="buildDependency">
+		<echo message="start call Jar task in ${core.dir}"/>
+		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${core.dir}"/>
+		
+		<echo message="start call Jar task in ${oda.dir}"/>
+		<ant dir="${oda.dir}" antfile ="BuildOda.xml" target="Jar" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="eclipse.version" value="${eclipse.version}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.dir}"/>
+	</target>
+	
+	<target name="testDependency">
+		<echo message="start call Jar task in ${oda.jdbc.dir}"/>		
+		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/${oda.jdbc.jar}" file="${oda.jdbc.dir}/${oda.jdbc.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/plugin.xml" file="${oda.jdbc.dir}/plugin.xml"/>
+		
+		<echo message="start call Jar task in ${oda.flatfile.dir}"/>		
+		<ant dir="${oda.flatfile.dir}" antfile="BuildOdaFlatfile.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.flatfile.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/${oda.flatfile.jar}" file="${oda.flatfile.dir}/${oda.flatfile.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/plugin.xml" file="${oda.flatfile.dir}/plugin.xml"/>
+	</target>
 </project>
+
