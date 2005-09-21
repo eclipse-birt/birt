@@ -165,7 +165,7 @@
 	<target name="Clean"  description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${dir.bin}"/>
-		<delete file="chart-engine.jar"/>
+		<delete file="engine.jar"/>
 	</target>
 	
 	<!-- Compile Source Files -->
