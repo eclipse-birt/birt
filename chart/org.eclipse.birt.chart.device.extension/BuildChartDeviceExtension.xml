@@ -162,7 +162,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${dir.bin}"/>
-		<delete dir="device-extension.jar"/>
+		<delete file="device-extension.jar"/>
 	</target>
 	
 	

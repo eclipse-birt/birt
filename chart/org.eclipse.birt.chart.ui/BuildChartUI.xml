@@ -209,7 +209,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${bin}"/>
-		<delete dir="ui.jar"/>
+		<delete file="ui.jar"/>
 	</target>
 	
 	<!-- Generate the JavaDoc.

@@ -171,7 +171,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${dir.bin}"/>
-		<delete dir="engine-extension.jar"/>
+		<delete file="engine-extension.jar"/>
 	</target>
 
 	<!-- Compile Source Files -->

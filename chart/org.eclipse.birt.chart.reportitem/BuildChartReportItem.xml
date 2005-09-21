@@ -221,7 +221,7 @@
 	<target name="Clean" description="clean up">
 		<!-- Delete the binary directory trees -->
 		<delete dir="${bin}"/>
-		<delete dir="reportitem.jar"/>
+		<delete file="reportitem.jar"/>
 	</target>
 
 	<!-- Generate the JavaDoc.
