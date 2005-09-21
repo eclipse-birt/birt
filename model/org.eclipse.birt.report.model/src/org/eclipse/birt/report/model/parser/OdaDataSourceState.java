@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.data.oda.util.manifest.ExtensionManifest;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -19,6 +18,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.xml.sax.Attributes;
 
 /**
