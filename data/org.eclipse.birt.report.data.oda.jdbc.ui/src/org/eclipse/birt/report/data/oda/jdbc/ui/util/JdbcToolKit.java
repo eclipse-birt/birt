@@ -123,10 +123,16 @@ public class JdbcToolKit
 			Object ob = preferenceMap.get( info.toString( ) );
 			if ( ob != null )
 			{
-				String[] vals = (String[]) ob;
-				if ( vals[1] != null && vals[1].length( ) > 0 )
+				DriverInfo driverInfo = (DriverInfo) ob;
+				if ( driverInfo.getDisplayName( ) != null
+						&& driverInfo.getDisplayName( ).length( ) > 0 )
 				{
-					info.setUrlFormat( vals[1] );
+					info.setDisplayName( driverInfo.getDisplayName( ) );
+				}
+				if ( driverInfo.getUrlTemplate( ) != null
+						&& driverInfo.getUrlTemplate( ).length( ) > 0 )
+				{
+					info.setUrlFormat( driverInfo.getUrlTemplate( ) );
 				}
 			}
 		}

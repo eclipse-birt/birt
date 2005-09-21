@@ -43,15 +43,19 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.15 $ $Date: 2005/09/08 06:13:32 $
+ * @version $Revision: 1.16 $ $Date: 2005/09/19 07:54:47 $
  */
 public class Utility
 {
 
-//	 The suffix which will be used to create new names 
+	// The suffix which will be used to create new names 
 	// if duplicate objects are selected in the Table Selection Page
 	private static final String dupAffix = "_";
+	
+	// flag to indicate whether JarInfo and DriverInfo in preference page have
+	// been updated from String[] to JarFile and DriverInfo 
 	private static boolean updatedOfJarInfo = false;
+	private static boolean updatedOfDriverInfo = false;
     /**
      * 
      */
@@ -446,10 +450,7 @@ public class Utility
 
 				if ( obj instanceof Map )
 				{
-					if ( JdbcPlugin.JAR_MAP_PREFERENCE_KEY.equals( mapKey ) )
-						return updateJarInfoMap( (Map) obj );
-					else
-						return (Map) obj;
+					return updatePreferenceMap( (Map) obj, mapKey );
 				}
 			}
 		}
@@ -471,12 +472,26 @@ public class Utility
 	 * @param map
 	 * @return 
 	 */
-	private static Map updateJarInfoMap( Map map )
+	private static Map updatePreferenceMap( Map map, String mapKey )
 	{
-		if ( updatedOfJarInfo )
-			return map;
+		if ( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY.equals( mapKey ) )
+		{
+			if ( updatedOfDriverInfo )
+				return map;
 
-		updatedOfJarInfo = true;
+			updatedOfDriverInfo = true;
+		}
+		else if ( JdbcPlugin.JAR_MAP_PREFERENCE_KEY.equals( mapKey ) )
+		{
+			if ( updatedOfJarInfo )
+				return map;
+
+			updatedOfJarInfo = true;
+		}
+		else{
+			return map;
+		}
+		
 		Set entrySet = map.entrySet( );
 		Iterator it = entrySet.iterator( );
 		if ( !it.hasNext( ) )
@@ -487,7 +502,8 @@ public class Utility
 		else
 		{
 			Map.Entry entry = (Map.Entry) it.next( );
-			if ( entry.getValue( ) instanceof JarFile )
+			if ( ( entry.getValue( ) instanceof DriverInfo )
+					|| ( entry.getValue( ) instanceof JarFile ) )
 			{
 				return map;
 			}
@@ -496,15 +512,32 @@ public class Utility
 				it = entrySet.iterator( );
 				Map rMap = new HashMap( );
 				String[] entryValue;
-				JarFile jarFile;
-				while ( it.hasNext( ) )
+				if ( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY.equals( mapKey ) )
 				{
-					entry = (Map.Entry) it.next( );
-					entryValue = (String[]) entry.getValue( );
-					jarFile = new JarFile( entryValue[0], "", false );
-					rMap.put( entry.getKey( ), jarFile );
+					DriverInfo driverInfo;
+					while ( it.hasNext( ) )
+					{
+						entry = (Map.Entry) it.next( );
+						entryValue = (String[]) entry.getValue( );
+						driverInfo = new DriverInfo( entry.getKey( ).toString( ),
+								entryValue[0],
+								entryValue[1] );
+						rMap.put( entry.getKey( ), driverInfo );
+					}
 				}
-				setPreferenceStoredMap( JdbcPlugin.JAR_MAP_PREFERENCE_KEY, rMap );
+				else if ( JdbcPlugin.JAR_MAP_PREFERENCE_KEY.equals( mapKey ) )
+				{
+					JarFile jarFile;
+					while ( it.hasNext( ) )
+					{
+						entry = (Map.Entry) it.next( );
+						entryValue = (String[]) entry.getValue( );
+						jarFile = new JarFile( entryValue[0], "", false );
+						rMap.put( entry.getKey( ), jarFile );
+					}
+				}
+				setPreferenceStoredMap( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY,
+						rMap );
 				return rMap;
 			}
 		}
@@ -526,6 +559,25 @@ public class Utility
 	{
 		Map map = getPreferenceStoredMap( keyOfPreference );
 		map.put( keyInMap, value );
+		setPreferenceStoredMap( keyOfPreference, map );
+	}
+
+	/**
+	 * Removes map entry with key <tt>keyInMap</tt>from the map whose key
+	 * is <tt>keyOfPreference</tt>
+	 * @param keyOfPreference
+	 *            key of PreferenceStore Map
+	 * @param keyInMap
+	 * 			  key in the Map
+	 */
+	public static void removeMapEntryFromPreferenceStoredMap(
+			String keyOfPreference, String keyInMap )
+	{
+		Map map = getPreferenceStoredMap( keyOfPreference );
+		if ( map.containsKey( keyInMap ) )
+		{
+			map.remove( keyInMap );
+		}
 		setPreferenceStoredMap( keyOfPreference, map );
 	}
 

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JarFile;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverInfo;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -72,7 +73,13 @@ public class JdbcDriverManagerDialog extends Dialog
 	private Button addButton, restoreButton, deleteButton, editButton;
 
 	private Map jarMap, driverMap;
-
+	private TabFolder tabFolder;
+	
+	/**
+	 * a flag indicate whether the jar page has been changed
+	 */
+	private boolean jarChanged = false;
+	
 	/**
 	 * list of jars to be copied and deleted when okPressed
 	 */
@@ -121,12 +128,28 @@ public class JdbcDriverManagerDialog extends Dialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		TabFolder tabFolder = new TabFolder( composite, SWT.TOP );
+		tabFolder = new TabFolder( composite, SWT.TOP );
 		tabFolder.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		// add pages
 		addTabPages( tabFolder );
+		tabFolder.addSelectionListener(new SelectionListener( ) {
 
+			public void widgetSelected( SelectionEvent event )
+			{
+				int index = tabFolder.getSelectionIndex();
+				if ( index == 1 )
+				{
+					refreshDriverPage( );
+				}
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e)
+			{
+				
+			}
+			
+		});
 		initialize( );
 
 		return composite;
@@ -686,12 +709,10 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			if ( !driverMap.containsKey( info.toString( ) ) )
 			{
-				driverMap.put( info.toString( ), new String[]{
-						( info.getDisplayName( ) == null ) ? ""
-								: ( info.getDisplayName( ) ),
-						( info.getUrlFormat( ) == null ) ? ""
-								: ( info.getUrlFormat( ) )
-				} ); //$NON-NLS-1$ //$NON-NLS-2$
+				driverMap.put( info.toString( ),
+						new DriverInfo( info.toString( ),
+								info.getDisplayName( ),
+								info.getUrlFormat( ) ) ); 
 			}
 		}
 	}
@@ -703,7 +724,7 @@ public class JdbcDriverManagerDialog extends Dialog
 	{
 		//TODO: a temporary solution for table refresh error
 		driverViewer.setInput( null );
-		driverViewer.setInput(driverMap);
+		driverViewer.setInput( driverMap );
 
 		for ( int i = 0; i < driverViewer.getTable( ).getItemCount( ); i++ )
 		{
@@ -716,13 +737,11 @@ public class JdbcDriverManagerDialog extends Dialog
 			if ( element instanceof Map.Entry )
 			{
 				Map.Entry entry = (Map.Entry) element;
+				DriverInfo driverInfo = (DriverInfo) entry.getValue( );
 
 				c1 = entry.getKey( ).toString( );
-
-				String[] vals = (String[]) entry.getValue( );
-
-				c2 = vals[0];
-				c3 = vals[1];
+				c2 = driverInfo.getDisplayName( );
+				c3 = driverInfo.getUrlTemplate( );
 			}
 
 			ti.setText( 0, "" ); //$NON-NLS-1$
@@ -760,10 +779,28 @@ public class JdbcDriverManagerDialog extends Dialog
 	}
 	
 	/**
+	 * refresh the Driver Page when driver page is selected or 'OK' button is
+	 * pressed.
+	 */
+	private void refreshDriverPage( )
+	{
+		if ( jarChanged
+				&& ( jarsToBeCopied.size( ) > 0 || jarsToBeDeleted.size( ) > 0 ) )
+		{
+			JdbcToolKit.resetJdbcDriverNames( );
+			updateDriverMap( );
+			refreshDriverViewer( );
+			updateDriverButtons( );
+			jarChanged = false;
+		}
+	}
+	
+	/**
 	 * actions after add button is click in jarPage
 	 */
 	private void addJar( )
 	{
+		jarChanged=true;
 		FileDialog dlg = new FileDialog( getShell( ) );
 		dlg.setFilterExtensions( new String[]{
 			"*.jar", "*.zip" //$NON-NLS-1$, $NON-NLS-2$
@@ -784,6 +821,11 @@ public class JdbcDriverManagerDialog extends Dialog
 						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
 				return;
 			}
+			if ( jarsToBeDeleted.contains( dlg.getFileName( ) ) )
+			{
+				jarsToBeDeleted.remove( dlg.getFileName( ) );
+			}
+			
 
 			JarFile jarInfo = new JarFile( fn, "", false );
 
@@ -793,14 +835,6 @@ public class JdbcDriverManagerDialog extends Dialog
 			refreshJarViewer( );
 
 			updateJarButtons( );
-			
-			JdbcToolKit.resetJdbcDriverNames();
-			
-			updateDriverMap( );
-
-			refreshDriverViewer( );
-
-			updateDriverButtons( );
 		}
 	}
 
@@ -809,6 +843,8 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void restoreJar( )
 	{
+		jarChanged=true;
+
 		//restore jar.
 		if ( jarViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
@@ -816,8 +852,6 @@ public class JdbcDriverManagerDialog extends Dialog
 		{
 			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
 
-//			( (JarFile) fn.getValue( ) ).copyJarToODADir();
-			
 			( (JarFile) fn.getValue( ) ).setRestored( );
 			jarsToBeCopied.add( (JarFile) fn.getValue( ) );
 			
@@ -826,12 +860,6 @@ public class JdbcDriverManagerDialog extends Dialog
 			refreshJarViewer( );
 
 			updateJarButtons( );
-
-			updateDriverMap( );
-
-			refreshDriverViewer( );
-
-			updateDriverButtons( );
 		}
 	}
 
@@ -840,6 +868,8 @@ public class JdbcDriverManagerDialog extends Dialog
 	 */
 	private void deleteJar( )
 	{
+		jarChanged=true;
+
 		if ( jarViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& jarViewer.getTable( ).getSelectionIndex( ) < jarViewer.getTable( )
 						.getItemCount( ) )
@@ -850,16 +880,16 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			( (JarFile) fn.getValue( ) ).setToBeDeleted(true);
 
-			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
-					fn.getKey( ).toString( ),
-					fn.getValue( ) );
-//			((JarFile) fn.getValue( )).deleteJarFromODADir();
+//			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
+//					fn.getKey( ).toString( ),
+//					fn.getValue( ) );
+
 			if ( jarsToBeCopied.contains( (JarFile) fn.getValue( ) ) )
 			{
 				jarsToBeCopied.remove( (JarFile) fn.getValue( ) );
 			}
 			
-			jarsToBeDeleted.add((JarFile) fn.getValue( ));
+			jarsToBeDeleted.add( (JarFile) fn.getValue( ) );
 			
 			jarMap.remove( fn.getKey( ) );
 
@@ -877,14 +907,6 @@ public class JdbcDriverManagerDialog extends Dialog
 			refreshJarViewer( );
 
 			updateJarButtons( );
-
-			JdbcToolKit.resetJdbcDriverNames();
-
-			updateDriverMap( );
-
-			refreshDriverViewer( );
-
-			updateDriverButtons( );
 		}
 	}
 	
@@ -903,27 +925,25 @@ public class JdbcDriverManagerDialog extends Dialog
 					.getItem( driverViewer.getTable( ).getSelectionIndex( ) )
 					.getData( );
 
+			DriverInfo driverInfo = (DriverInfo) ( (Map.Entry) obj ).getValue( );
 			if ( obj instanceof Map.Entry )
 			{
 				dlg.setDriverClassName( ( (Map.Entry) obj ).getKey( )
 						.toString( ) );
-				dlg.setDisplayName( ( (String[]) ( (Map.Entry) obj ).getValue( ) )[0] );
-				dlg.setUrlTemplate( ( (String[]) ( (Map.Entry) obj ).getValue( ) )[1] );
+				dlg.setDisplayName( driverInfo.getDisplayName( ) );
+				dlg.setUrlTemplate( driverInfo.getUrlTemplate( ) );
 			}
 
 			if ( dlg.open( ) == Window.OK )
 			{
 				if ( obj instanceof Map.Entry )
 				{
-					( (String[]) ( (Map.Entry) obj ).getValue( ) )[0] = dlg.getDisplayName( );
-					( (String[]) ( (Map.Entry) obj ).getValue( ) )[1] = dlg.getUrlTemplate( );
+					driverInfo.setDisplayName( dlg.getDisplayName( ) );
+					driverInfo.setUrlTemplate( dlg.getUrlTemplate( ) );
 
-					driverMap.put( ( (Map.Entry) obj ).getKey( ),
-							( (Map.Entry) obj ).getValue( ) );
+					driverMap.put( ( (Map.Entry) obj ).getKey( ), driverInfo );
 				}
-
 				refreshDriverViewer( );
-
 				updateDriverButtons( );
 			}
 		}
@@ -952,13 +972,27 @@ public class JdbcDriverManagerDialog extends Dialog
 		{
 			JarFile jar = (JarFile) jarsToBeCopied.get( i );
 			jar.copyJarToODADir( );
+			Utility.removeMapEntryFromPreferenceStoredMap( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
+					getFileNameFromJarFile( jar ) );
 		}
 		for ( int i = 0; i < jarsToBeDeleted.size( ); i++ )
 		{
 			JarFile jar = (JarFile) jarsToBeDeleted.get( i );
 			jar.deleteJarFromODADir( );
+			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
+					getFileNameFromJarFile( jar ),
+					jar );
 		}
+		refreshDriverPage( );
 		super.okPressed( );
+	}
+
+	private String getFileNameFromJarFile( JarFile jar )
+	{
+		String fileName = jar.getFilePath( ).substring( jar.getFilePath( )
+				.lastIndexOf( File.separator )
+				+ File.separator.length( ) );
+		return fileName;
 	}
 	
 	/**
@@ -1091,6 +1125,5 @@ public class JdbcDriverManagerDialog extends Dialog
 		{
 			return template == null ? "" : template; //$NON-NLS-1$
 		}
-
 	}
 }
