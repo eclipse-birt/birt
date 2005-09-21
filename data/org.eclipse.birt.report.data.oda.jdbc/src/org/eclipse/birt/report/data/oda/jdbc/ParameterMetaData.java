@@ -14,13 +14,13 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IParameterMetaData;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
- * This class implements the org.eclipse.birt.data.oda.IParameterMetaData
+ * This class implements the org.eclipse.datatools.connectivity.IParameterMetaData
  * interface.
  *  
  */
@@ -65,7 +65,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getParameterCount()
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterCount()
 	 */
 	public int getParameterCount( ) throws OdaException
 	{
@@ -89,7 +89,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getParameterMode(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterMode(int)
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
@@ -119,7 +119,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getParameterType(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterType(int)
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
@@ -143,7 +143,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getParameterTypeName(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterTypeName(int)
 	 */
 	public String getParameterTypeName( int param ) throws OdaException
 	{
@@ -170,7 +170,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getPrecision(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getPrecision(int)
 	 */
 	public int getPrecision( int param ) throws OdaException
 	{
@@ -194,7 +194,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#getScale(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getScale(int)
 	 */
 	public int getScale( int param ) throws OdaException
 	{
@@ -218,7 +218,7 @@ public class ParameterMetaData implements IParameterMetaData
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IParameterMetaData#isNullable(int)
+	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#isNullable(int)
 	 */
 	public int isNullable( int param ) throws OdaException
 	{

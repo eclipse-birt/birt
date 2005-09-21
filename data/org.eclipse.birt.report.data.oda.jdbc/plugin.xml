@@ -17,14 +17,14 @@
    <requires>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
    </requires>
    
    <extension-point id="driverinfo" name="JDBC Driver Information Extension" 
    			schema="schema/driverinfo.exsd"/>
    			
    <extension
-         point="org.eclipse.birt.data.oda.dataSource">
+         point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSource
             odaVersion="2.0.0"
             driverClass="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver"
@@ -134,19 +134,27 @@
          <dataTypeMapping
                nativeDataType="BINARY"
                nativeDataTypeCode="-2"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="VARBINARY"
                nativeDataTypeCode="-3"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="LONGVARBINARY"
                nativeDataTypeCode="-4"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="BOOLEAN"
                nativeDataTypeCode="16"
                odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="BLOB"
+               nativeDataTypeCode="2004"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="CLOB"
+               nativeDataTypeCode="2005"
+               odaScalarDataType="Clob"/>
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
@@ -229,19 +237,27 @@
          <dataTypeMapping
                nativeDataType="BINARY"
                nativeDataTypeCode="-2"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="VARBINARY"
                nativeDataTypeCode="-3"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="LONGVARBINARY"
                nativeDataTypeCode="-4"
-               odaScalarDataType="String"/>
+               odaScalarDataType="Blob"/>
          <dataTypeMapping
                nativeDataType="BOOLEAN"
                nativeDataTypeCode="16"
                odaScalarDataType="Integer"/>
+         <dataTypeMapping
+               nativeDataType="BLOB"
+               nativeDataTypeCode="2004"
+               odaScalarDataType="Blob"/>
+         <dataTypeMapping
+               nativeDataType="CLOB"
+               nativeDataTypeCode="2005"
+               odaScalarDataType="Clob"/>
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"

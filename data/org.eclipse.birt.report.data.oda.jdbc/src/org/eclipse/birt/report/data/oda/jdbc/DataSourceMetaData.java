@@ -15,10 +15,10 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IDataSetMetaData;
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
@@ -53,7 +53,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getConnection()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getConnection()
 	 */
 	public IConnection getConnection( ) throws OdaException
 	{
@@ -67,7 +67,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceObjects(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceObjects(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public IResultSet getDataSourceObjects( String catalog, String schema,
@@ -83,7 +83,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceMajorVersion()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceMajorVersion()
 	 */
 	public int getDataSourceMajorVersion( ) throws OdaException
 	{
@@ -105,7 +105,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceMinorVersion()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceMinorVersion()
 	 */
 	public int getDataSourceMinorVersion( ) throws OdaException
 	{
@@ -127,7 +127,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceProductName()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceProductName()
 	 */
 	public String getDataSourceProductName( ) throws OdaException
 	{
@@ -149,7 +149,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getDataSourceProductVersion()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getDataSourceProductVersion()
 	 */
 	public String getDataSourceProductVersion( ) throws OdaException
 	{
@@ -171,7 +171,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getSQLStateType()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getSQLStateType()
 	 */
 	public int getSQLStateType( ) throws OdaException
 	{
@@ -204,7 +204,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsMultipleOpenResults()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsMultipleOpenResults()
 	 */
 	public boolean supportsMultipleOpenResults( ) throws OdaException
 	{
@@ -218,7 +218,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsMultipleResultSets()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsMultipleResultSets()
 	 */
 	public boolean supportsMultipleResultSets( ) throws OdaException
 	{
@@ -232,7 +232,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsNamedResultSets()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsNamedResultSets()
 	 */
 	public boolean supportsNamedResultSets( ) throws OdaException
 	{
@@ -246,7 +246,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsNamedParameters()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsNamedParameters()
 	 */
 	public boolean supportsNamedParameters( ) throws OdaException
 	{
@@ -260,7 +260,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsInParameters()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsInParameters()
 	 */
 	public boolean supportsInParameters( ) throws OdaException
 	{
@@ -274,7 +274,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#supportsOutParameters()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#supportsOutParameters()
 	 */
 	public boolean supportsOutParameters( ) throws OdaException
 	{
@@ -288,7 +288,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDataSetMetaData#getSortMode()
+	 * @see org.eclipse.datatools.connectivity.IDataSetMetaData#getSortMode()
 	 */
 	public int getSortMode( )
 	{

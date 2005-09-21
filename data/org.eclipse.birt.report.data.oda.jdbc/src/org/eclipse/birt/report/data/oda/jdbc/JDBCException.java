@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.sql.SQLException;
 
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * JDBCException is thrown when a JDBC call results in a java.sql.SQLException

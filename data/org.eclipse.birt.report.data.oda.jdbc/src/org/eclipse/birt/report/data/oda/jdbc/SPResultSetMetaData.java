@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * special case:if stored procedure does not return the resultset metadata, then
@@ -39,7 +39,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnCount()
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnCount()
 	 */
 	public int getColumnCount( ) throws OdaException
 	{
@@ -47,7 +47,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnName(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnName(int)
 	 */
 	public String getColumnName( int index ) throws OdaException
 	{
@@ -55,7 +55,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnLabel(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnLabel(int)
 	 */
 	public String getColumnLabel( int index ) throws OdaException
 	{
@@ -63,7 +63,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnType(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnType(int)
 	 */
 	public int getColumnType( int index ) throws OdaException
 	{
@@ -71,7 +71,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnTypeName(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnTypeName(int)
 	 */
 	public String getColumnTypeName( int index ) throws OdaException
 	{
@@ -79,7 +79,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getColumnDisplayLength(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnDisplayLength(int)
 	 */
 	public int getColumnDisplayLength( int index ) throws OdaException
 	{
@@ -87,7 +87,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getPrecision(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getPrecision(int)
 	 */
 	public int getPrecision( int index ) throws OdaException
 	{
@@ -95,7 +95,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#getScale(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getScale(int)
 	 */
 	public int getScale( int index ) throws OdaException
 	{
@@ -103,7 +103,7 @@ public class SPResultSetMetaData implements IResultSetMetaData
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IResultSetMetaData#isNullable(int)
+	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#isNullable(int)
 	 */
 	public int isNullable( int index ) throws OdaException
 	{

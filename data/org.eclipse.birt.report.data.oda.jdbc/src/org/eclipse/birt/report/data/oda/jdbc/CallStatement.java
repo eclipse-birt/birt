@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
@@ -23,13 +27,17 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IAdvancedQuery;
-import org.eclipse.birt.data.oda.IParameterMetaData;
-import org.eclipse.birt.data.oda.IParameterRowSet;
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IParameterRowSet;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.impl.Blob;
+import org.eclipse.datatools.connectivity.oda.impl.Clob;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
@@ -105,7 +113,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#prepare(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#prepare(java.lang.String)
 	 */
 	public void prepare( String command ) throws OdaException
 	{
@@ -140,8 +148,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setProperty(java.lang.String,
-	 *      java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setProperty(java.lang.String, java.lang.String)
 	 */
 	public void setProperty( String name, String value ) throws OdaException
 	{
@@ -188,7 +195,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#close()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#close()
 	 */
 	public void close( ) throws OdaException
 	{
@@ -211,7 +218,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setMaxRows(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setMaxRows(int)
 	 */
 	public void setMaxRows( int max )
 	{
@@ -227,7 +234,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getMaxRows()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMaxRows()
 	 */
 	public int getMaxRows( )
 	{
@@ -240,7 +247,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getMetaData()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getMetaData()
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
@@ -301,8 +308,9 @@ public class CallStatement implements IAdvancedQuery
 		return pstmtResultMetaData;
 	}
 
+
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#executeQuery()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#executeQuery()
 	 */
 	public IResultSet executeQuery( ) throws OdaException
 	{
@@ -370,7 +378,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#execute()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#execute()
 	 */
 	public boolean execute( ) throws OdaException
 	{
@@ -398,8 +406,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setInt(java.lang.String,
-	 *      int)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(java.lang.String, int)
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
@@ -421,7 +428,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setInt(int, int)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(int, int)
 	 */
 	public void setInt( int parameterId, int value ) throws OdaException
 	{
@@ -443,8 +450,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setDouble(java.lang.String,
-	 *      double)
+	 *  @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(java.lang.String, double)
 	 */
 	public void setDouble( String parameterName, double value )
 			throws OdaException
@@ -467,7 +473,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setDouble(int, double)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(int, double)
 	 */
 	public void setDouble( int parameterId, double value ) throws OdaException
 	{
@@ -489,8 +495,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setBigDecimal(java.lang.String,
-	 *      java.math.BigDecimal)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(java.lang.String, java.math.BigDecimal)
 	 */
 	public void setBigDecimal( String parameterName, BigDecimal value )
 			throws OdaException
@@ -516,8 +521,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setBigDecimal(int,
-	 *      java.math.BigDecimal)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(int, java.math.BigDecimal)
 	 */
 	public void setBigDecimal( int parameterId, BigDecimal value )
 			throws OdaException
@@ -543,8 +547,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setString(java.lang.String,
-	 *      java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setString(java.lang.String, java.lang.String)
 	 */
 	public void setString( String parameterName, String value )
 			throws OdaException
@@ -567,8 +570,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setString(int,
-	 *      java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setString(int, java.lang.String)
 	 */
 	public void setString( int parameterId, String value ) throws OdaException
 	{
@@ -590,8 +592,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setDate(java.lang.String,
-	 *      java.sql.Date)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(java.lang.String, java.sql.Date)
 	 */
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
@@ -613,7 +614,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setDate(int, java.sql.Date)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDate(int, java.sql.Date)
 	 */
 	public void setDate( int parameterId, Date value ) throws OdaException
 	{
@@ -635,8 +636,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setTime(java.lang.String,
-	 *      java.sql.Time)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(java.lang.String, java.sql.Time)
 	 */
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
@@ -658,7 +658,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setTime(int, java.sql.Time)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTime(int, java.sql.Time)
 	 */
 	public void setTime( int parameterId, Time value ) throws OdaException
 	{
@@ -680,8 +680,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setTimestamp(java.lang.String,
-	 *      java.sql.Timestamp)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(java.lang.String, java.sql.Timestamp)
 	 */
 	public void setTimestamp( String parameterName, Timestamp value )
 			throws OdaException
@@ -707,8 +706,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setTimestamp(int,
-	 *      java.sql.Timestamp)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(int, java.sql.Timestamp)
 	 */
 	public void setTimestamp( int parameterId, Timestamp value )
 			throws OdaException
@@ -734,7 +732,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setNewRow(String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(java.lang.String)
 	 */
 	public IParameterRowSet setNewRow( String parameterName )
 			throws OdaException
@@ -743,7 +741,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setNewRow(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(int)
 	 */
 	public IParameterRowSet setNewRow( int parameterId ) throws OdaException
 	{
@@ -751,7 +749,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setNewRowSet(String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRowSet(java.lang.String)
 	 */
 	public IParameterRowSet setNewRowSet( String parameterName )
 			throws OdaException
@@ -760,7 +758,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setNewRowSet(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRowSet(int)
 	 */
 	public IParameterRowSet setNewRowSet( int parameterId ) throws OdaException
 	{
@@ -768,7 +766,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getInt(String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getInt(java.lang.String)
 	 */
 	public int getInt( String parameterName ) throws OdaException
 	{
@@ -784,7 +782,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getInt(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getInt(int)
 	 */
 	public int getInt( int parameterId ) throws OdaException
 	{
@@ -800,7 +798,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getDouble(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDouble(java.lang.String)
 	 */
 	public double getDouble( String parameterName ) throws OdaException
 	{
@@ -816,7 +814,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getDouble(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDouble(int)
 	 */
 	public double getDouble( int parameterId ) throws OdaException
 	{
@@ -832,7 +830,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getBigDecimal(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBigDecimal(java.lang.String)
 	 */
 	public BigDecimal getBigDecimal( String parameterName ) throws OdaException
 	{
@@ -848,7 +846,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getBigDecimal(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBigDecimal(int)
 	 */
 	public BigDecimal getBigDecimal( int parameterId ) throws OdaException
 	{
@@ -864,7 +862,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getString(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getString(java.lang.String)
 	 */
 	public String getString( String parameterName ) throws OdaException
 	{
@@ -880,7 +878,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getString(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getString(int)
 	 */
 	public String getString( int parameterId ) throws OdaException
 	{
@@ -896,7 +894,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getDate(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDate(java.lang.String)
 	 */
 	public Date getDate( String parameterName ) throws OdaException
 	{
@@ -912,7 +910,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getDate(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getDate(int)
 	 */
 	public Date getDate( int parameterId ) throws OdaException
 	{
@@ -928,7 +926,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getTime(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTime(java.lang.String)
 	 */
 	public Time getTime( String parameterName ) throws OdaException
 	{
@@ -944,7 +942,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getTime(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTime(int)
 	 */
 	public Time getTime( int parameterId ) throws OdaException
 	{
@@ -960,7 +958,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getTimestamp(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTimestamp(java.lang.String)
 	 */
 	public Timestamp getTimestamp( String parameterName ) throws OdaException
 	{
@@ -976,7 +974,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getTimestamp(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getTimestamp(int)
 	 */
 	public Timestamp getTimestamp( int parameterId ) throws OdaException
 	{
@@ -991,8 +989,134 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.String)
+	 */
+	public IBlob getBlob( String parameterName ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			java.sql.Blob blob = callStat.getBlob( parameterName );
+
+			if ( blob == null )
+				return new Blob( null );
+			BufferedInputStream inputStream = null;
+			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
+			byte[] bytes = new byte[(int) blob.length( )];
+			inputStream.read( bytes );
+			inputStream.close( );
+			return new Blob( bytes );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(int)
+	 */
+	public IBlob getBlob( int parameterId ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			java.sql.Blob blob = callStat.getBlob( parameterId );
+
+			if ( blob == null )
+				return new Blob( null );
+			BufferedInputStream inputStream = null;
+			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
+			byte[] bytes = new byte[(int) blob.length( )];
+			inputStream.read( bytes );
+			inputStream.close( );
+			return new Blob( bytes );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(java.lang.String)
+	 */
+	public IClob getClob( String parameterName ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			java.sql.Clob clob = callStat.getClob( parameterName );
+
+			if ( clob == null )
+				return new Clob( null );
+			Reader reader = null;
+			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
+			StringBuffer buffer = new StringBuffer( );
+			while ( ( in.read( ) ) != -1 )
+			{
+				buffer.append( in.readLine( ) );
+			}
+			in.close( );
+			return new Clob( buffer.toString( ) );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(int)
+	 */
+	public IClob getClob( int parameterId ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			java.sql.Clob clob = callStat.getClob( parameterId );
+
+			if ( clob == null )
+				return new Clob( null );
+			Reader reader = null;
+			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
+			StringBuffer buffer = new StringBuffer( );
+			while ( ( in.read( ) ) != -1 )
+			{
+				buffer.append( in.readLine( ) );
+			}
+			in.close( );
+			return new Clob( buffer.toString( ) );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getRow(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(java.lang.String)
 	 */
 	public IParameterRowSet getRow( String parameterName ) throws OdaException
 	{
@@ -1000,7 +1124,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getResultSet()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSet()
 	 */
 	public IResultSet getResultSet( ) throws OdaException
 	{
@@ -1015,7 +1139,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getResultSet(String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSet(java.lang.String)
 	 */
 	public IResultSet getResultSet( String resultSetName ) throws OdaException
 	{
@@ -1030,7 +1154,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getMoreResults()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getMoreResults()
 	 */
 	public boolean getMoreResults( ) throws OdaException
 	{
@@ -1045,7 +1169,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getRow(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(int)
 	 */
 	public IParameterRowSet getRow( int parameterId ) throws OdaException
 	{
@@ -1053,7 +1177,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getMetaDataOf(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getMetaDataOf(java.lang.String)
 	 */
 	public IResultSetMetaData getMetaDataOf( String resultSetName )
 			throws OdaException
@@ -1062,7 +1186,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#findInParameter(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang.String)
 	 */
 	public int findInParameter( String parameterName ) throws OdaException
 	{
@@ -1077,7 +1201,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#findOutParameter(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#findOutParameter(java.lang.String)
 	 */
 	public int findOutParameter( String parameterName ) throws OdaException
 	{
@@ -1092,7 +1216,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getParameterMetaData()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getParameterMetaData()
 	 */
 	public IParameterMetaData getParameterMetaData( ) throws OdaException
 	{
@@ -1183,7 +1307,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setSortSpec(org.eclipse.birt.data.oda.SortSpec)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setSortSpec(org.eclipse.datatools.connectivity.oda.SortSpec)
 	 */
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
@@ -1191,8 +1315,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#setSortSpec(java.lang.String,
-	 *      org.eclipse.birt.data.oda.SortSpec)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setSortSpec(java.lang.String, org.eclipse.datatools.connectivity.oda.SortSpec)
 	 */
 	public void setSortSpec( String resultSetName, SortSpec sortBy )
 			throws OdaException
@@ -1208,7 +1331,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getSortSpec()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSortSpec()
 	 */
 	public SortSpec getSortSpec( ) throws OdaException
 	{
@@ -1222,7 +1345,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getSortSpec()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getSortSpec(java.lang.String)
 	 */
 	public SortSpec getSortSpec( String resultSetName ) throws OdaException
 	{
@@ -1237,7 +1360,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#clearInParameters()
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#clearInParameters()
 	 */
 	public void clearInParameters( ) throws OdaException
 	{
@@ -1318,7 +1441,7 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#wasNull()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#wasNull()
 	 */
 	public boolean wasNull( ) throws OdaException
 	{
@@ -1326,10 +1449,11 @@ public class CallStatement implements IAdvancedQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IAdvancedQuery#getResultSetNames()
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getResultSetNames()
 	 */
 	public String[] getResultSetNames( ) throws OdaException
 	{
 		return resultSetNames;
 	}
+	
 }

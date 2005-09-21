@@ -22,10 +22,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.manifest.ExtensionManifest;
-import org.eclipse.birt.data.oda.util.manifest.ManifestExplorer;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.birt.report.data.oda.jdbc.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
 

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.text.StringCharacterIterator;
 
 
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 

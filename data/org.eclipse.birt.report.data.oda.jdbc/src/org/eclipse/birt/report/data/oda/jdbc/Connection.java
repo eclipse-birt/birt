@@ -18,10 +18,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IDataSetMetaData;
-import org.eclipse.birt.data.oda.IQuery;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
@@ -95,7 +95,7 @@ public class Connection implements IConnection
 
 
 	/**
-	 * @see org.eclipse.birt.data.oda.IConnection#getMetaData(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.IConnection#getMetaData(java.lang.String)
 	 */
 	public IDataSetMetaData getMetaData( String dataSetType )
 			throws OdaException
@@ -253,7 +253,7 @@ public class Connection implements IConnection
 
 	
 	/** 
-	 * @see org.eclipse.birt.data.oda.IConnection#getMaxQueries()
+	 * @see org.eclipse.datatools.connectivity.IConnection#getMaxQueries()
 	 */
 	public int getMaxQueries() throws OdaException 
 	{

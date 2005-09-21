@@ -20,18 +20,18 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IParameterMetaData;
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.IQuery;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 
 /**
  * 
- * The class implements the org.eclipse.birt.data.oda.IQuery interface.
+ * The class implements the org.eclipse.datatools.connectivity.IQuery interface.
  * 
  */
 public class Statement implements IQuery
@@ -95,7 +95,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#prepare(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.IQuery#prepare(java.lang.String)
 	 */
 	public void prepare( String command ) throws OdaException
 	{
@@ -127,7 +127,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setProperty(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public void setProperty( String name, String value ) throws OdaException
@@ -168,7 +168,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#close()
+	 * @see org.eclipse.datatools.connectivity.IQuery#close()
 	 */
 	public void close( ) throws OdaException
 	{
@@ -191,7 +191,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setMaxRows(int)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setMaxRows(int)
 	 */
 	public void setMaxRows( int max )
 	{
@@ -207,7 +207,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getMaxRows()
+	 * @see org.eclipse.datatools.connectivity.IQuery#getMaxRows()
 	 */
 	public int getMaxRows( )
 	{
@@ -220,7 +220,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getMetaData()
+	 * @see org.eclipse.datatools.connectivity.IQuery#getMetaData()
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
@@ -281,7 +281,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#executeQuery()
+	 * @see org.eclipse.datatools.connectivity.IQuery#executeQuery()
 	 */
 	public IResultSet executeQuery( ) throws OdaException
 	{
@@ -341,7 +341,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setInt(java.lang.String, int)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setInt(java.lang.String, int)
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
@@ -356,7 +356,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setInt(int, int)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setInt(int, int)
 	 */
 	public void setInt( int parameterId, int value ) throws OdaException
 	{
@@ -378,7 +378,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setDouble(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setDouble(java.lang.String,
 	 *      double)
 	 */
 	public void setDouble( String parameterName, double value )
@@ -395,7 +395,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setDouble(int, double)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setDouble(int, double)
 	 */
 	public void setDouble( int parameterId, double value ) throws OdaException
 	{
@@ -417,7 +417,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setBigDecimal(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setBigDecimal(java.lang.String,
 	 *      java.math.BigDecimal)
 	 */
 	public void setBigDecimal( String parameterName, BigDecimal value )
@@ -434,7 +434,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setBigDecimal(int,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setBigDecimal(int,
 	 *      java.math.BigDecimal)
 	 */
 	public void setBigDecimal( int parameterId, BigDecimal value )
@@ -461,7 +461,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setString(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setString(java.lang.String,
 	 *      java.lang.String)
 	 */
 	public void setString( String parameterName, String value )
@@ -478,7 +478,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setString(int,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setString(int,
 	 *      java.lang.String)
 	 */
 	public void setString( int parameterId, String value ) throws OdaException
@@ -501,7 +501,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setDate(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setDate(java.lang.String,
 	 *      java.sql.Date)
 	 */
 	public void setDate( String parameterName, Date value ) throws OdaException
@@ -517,7 +517,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setDate(int, java.sql.Date)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setDate(int, java.sql.Date)
 	 */
 	public void setDate( int parameterId, Date value ) throws OdaException
 	{
@@ -539,7 +539,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setTime(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(java.lang.String,
 	 *      java.sql.Time)
 	 */
 	public void setTime( String parameterName, Time value ) throws OdaException
@@ -555,7 +555,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setTime(int, java.sql.Time)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(int, java.sql.Time)
 	 */
 	public void setTime( int parameterId, Time value ) throws OdaException
 	{
@@ -577,7 +577,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setTimestamp(java.lang.String,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setTimestamp(java.lang.String,
 	 *      java.sql.Timestamp)
 	 */
 	public void setTimestamp( String parameterName, Timestamp value )
@@ -594,7 +594,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setTimestamp(int,
+	 * @see org.eclipse.datatools.connectivity.IQuery#setTimestamp(int,
 	 *      java.sql.Timestamp)
 	 */
 	public void setTimestamp( int parameterId, Timestamp value )
@@ -621,7 +621,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#findInParameter(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.IQuery#findInParameter(java.lang.String)
 	 */
 	public int findInParameter( String parameterName ) throws OdaException
 	{
@@ -637,7 +637,7 @@ public class Statement implements IQuery
 
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getParameterMetaData()
+	 * @see org.eclipse.datatools.connectivity.IQuery#getParameterMetaData()
 	 */
 	public IParameterMetaData getParameterMetaData( ) throws OdaException
 	{
@@ -660,7 +660,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#setSortSpec(org.eclipse.birt.data.oda.SortSpec)
+	 * @see org.eclipse.datatools.connectivity.IQuery#setSortSpec(org.eclipse.datatools.connectivity.SortSpec)
 	 */
 	public void setSortSpec( SortSpec sortBy ) throws OdaException
 	{
@@ -675,7 +675,7 @@ public class Statement implements IQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.oda.IQuery#getSortSpec()
+	 * @see org.eclipse.datatools.connectivity.IQuery#getSortSpec()
 	 */
 	public SortSpec getSortSpec( ) throws OdaException
 	{

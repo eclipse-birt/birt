@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -18,14 +22,18 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IResultSet;
-import org.eclipse.birt.data.oda.IResultSetMetaData;
-import org.eclipse.birt.data.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
+import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.impl.Blob;
+import org.eclipse.datatools.connectivity.oda.impl.Clob;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
- * The class implements the org.eclipse.birt.data.oda.IResultSet interface.
+ * The class implements the org.eclipse.datatools.connectivity.oda.IResultSet interface.
  *  
  */
 public class ResultSet implements IResultSet
@@ -80,7 +88,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getMetaData()
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
@@ -105,8 +113,8 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#close()
+	 *  (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
 	 */
 	public void close( ) throws OdaException
 	{
@@ -131,7 +139,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#setMaxRows(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
 	public void setMaxRows( int max )
 	{
@@ -151,7 +159,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#next()
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
 	public boolean next( ) throws OdaException
 	{
@@ -180,7 +188,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getRow()
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
 	public int getRow( ) throws OdaException
 	{
@@ -194,7 +202,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getString(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
 	public String getString( int index ) throws OdaException
 	{
@@ -214,7 +222,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getString(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang.String)
 	 */
 	public String getString( String columnName ) throws OdaException
 	{
@@ -234,7 +242,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getInt(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
 	public int getInt( int index ) throws OdaException
 	{
@@ -254,7 +262,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getInt(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String)
 	 */
 	public int getInt( String columnName ) throws OdaException
 	{
@@ -274,7 +282,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getDouble(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
 	public double getDouble( int index ) throws OdaException
 	{
@@ -294,7 +302,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getDouble(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang.String)
 	 */
 	public double getDouble( String columnName ) throws OdaException
 	{
@@ -314,7 +322,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getBigDecimal(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
 	public BigDecimal getBigDecimal( int index ) throws OdaException
 	{
@@ -334,7 +342,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getBigDecimal(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.lang.String)
 	 */
 	public BigDecimal getBigDecimal( String columnName ) throws OdaException
 	{
@@ -354,7 +362,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getDate(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
 	public Date getDate( int index ) throws OdaException
 	{
@@ -375,7 +383,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getDate(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String)
 	 */
 	public Date getDate( String columnName ) throws OdaException
 	{
@@ -395,7 +403,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getTime(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
 	public Time getTime( int index ) throws OdaException
 	{
@@ -415,7 +423,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getTime(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
 	public Time getTime( String columnName ) throws OdaException
 	{
@@ -435,7 +443,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getTimestamp(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
 	public Timestamp getTimestamp( int index ) throws OdaException
 	{
@@ -455,7 +463,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#getTimestamp(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.String)
 	 */
 	public Timestamp getTimestamp( String columnName ) throws OdaException
 	{
@@ -472,10 +480,138 @@ public class ResultSet implements IResultSet
 					e );
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.String)
+	 */
+	public IBlob getBlob( String parameterName ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			java.sql.Blob blob = rs.getBlob( parameterName );
+
+			if ( blob == null )
+				return new Blob( null );
+			BufferedInputStream inputStream = null;
+			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
+			byte[] bytes = new byte[(int) blob.length( )];
+			inputStream.read( bytes );
+			inputStream.close( );
+			return new Blob( bytes );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(int)
+	 */
+	public IBlob getBlob( int parameterId ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			java.sql.Blob blob = rs.getBlob( parameterId );
+
+			if ( blob == null )
+				return new Blob( null );
+			BufferedInputStream inputStream = null;
+			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
+			byte[] bytes = new byte[(int) blob.length( )];
+			inputStream.read( bytes );
+			inputStream.close( );
+			return new Blob( bytes );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(java.lang.String)
+	 */
+	public IClob getClob( String parameterName ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			java.sql.Clob clob = rs.getClob( parameterName );
+
+			if ( clob == null )
+				return new Clob( null );
+			Reader reader = null;
+			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
+			StringBuffer buffer = new StringBuffer( );
+			String str;
+			while ( ( str = in.readLine( ) ) != null )
+			{
+				buffer.append( str );
+			}
+			in.close( );
+			return new Clob( buffer.toString( ) );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(int)
+	 */
+	public IClob getClob( int parameterId ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			java.sql.Clob clob = rs.getClob( parameterId );
+
+			if ( clob == null )
+				return new Clob( null );
+			Reader reader = null;
+			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
+			StringBuffer buffer = new StringBuffer( );
+			String str;
+			while ( ( str = in.readLine( ) ) != null )
+			{
+				buffer.append( str );
+			}
+			in.close( );
+			return new Clob( buffer.toString( ) );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
+		}
+	}
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#wasNull()
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
 	public boolean wasNull( ) throws OdaException
 	{
@@ -499,7 +635,7 @@ public class ResultSet implements IResultSet
 
 	/*
 	 * 
-	 * @see org.eclipse.birt.data.oda.IResultSet#findColumn(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang.String)
 	 */
 	public int findColumn( String columnName ) throws OdaException
 	{
@@ -520,4 +656,5 @@ public class ResultSet implements IResultSet
 					e );
 		}
 	}
+
 }

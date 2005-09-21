@@ -76,6 +76,8 @@ public class ResourceConstants
 	public final static String RESULTSET_CANNOT_GET_DATE_VALUE = "odajdbc.ResultSetCannotGetDateValue";
 	public final static String RESULTSET_CANNOT_GET_TIME_VALUE = "odajdbc.ResultSetCannotGetTimeValue";
 	public final static String RESULTSET_CANNOT_GET_TIMESTAMP_VALUE = "odajdbc.ResultSetCannotGetTimeStampValue";
+	public final static String RESULTSET_CANNOT_GET_BLOB_VALUE = "odajdbc.ResultSetCannotGetBlobValue";
+	public final static String RESULTSET_CANNOT_GET_CLOB_VALUE = "odajdbc.ResultSetCannotGetClobValue";
 	public final static String RESULTSET_DETERMINE_NULL = "odajdbc.ResultSetDetermineNull";
 	public final static String RESULTSET_CANNOT_FIND_COLUMN = "odajdbc.ResultSetCannotFindColumn";
 

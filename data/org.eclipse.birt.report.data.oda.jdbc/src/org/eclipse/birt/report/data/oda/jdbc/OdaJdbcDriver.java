@@ -27,13 +27,13 @@ import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.oda.IConnection;
-import org.eclipse.birt.data.oda.IDriver;
-import org.eclipse.birt.data.oda.LogConfiguration;
-import org.eclipse.birt.data.oda.OdaException;
-import org.eclipse.birt.data.oda.util.logging.Level;
-import org.eclipse.birt.data.oda.util.manifest.ExtensionManifest;
-import org.eclipse.birt.data.oda.util.manifest.ManifestExplorer;
+import org.eclipse.datatools.connectivity.oda.IConnection;
+import org.eclipse.datatools.connectivity.oda.IDriver;
+import org.eclipse.datatools.connectivity.oda.LogConfiguration;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.logging.Level;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
  * This class implements IDriver, which is the entry point for the
@@ -67,7 +67,7 @@ public class OdaJdbcDriver implements IDriver
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.oda.IDriver#getConnection(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.IDriver#getConnection(java.lang.String)
 	 */
 	public IConnection getConnection( String connectionClassName )
 			throws OdaException
@@ -80,7 +80,7 @@ public class OdaJdbcDriver implements IDriver
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.oda.IDriver#getMaxConnections()
+	 * @see org.eclipse.datatools.connectivity.IDriver#getMaxConnections()
 	 */
 	public int getMaxConnections() throws OdaException
 	{
@@ -91,7 +91,7 @@ public class OdaJdbcDriver implements IDriver
 	
 	
 	/**
-	 * @see org.eclipse.birt.data.oda.IDriver#setLogConfiguration(org.eclipse.birt.data.oda.LogConfiguration)
+	 * @see org.eclipse.datatools.connectivity.IDriver#setLogConfiguration(org.eclipse.birt.data.oda.LogConfiguration)
 	 */
 	public void setLogConfiguration( LogConfiguration logConfig )
 			throws OdaException
