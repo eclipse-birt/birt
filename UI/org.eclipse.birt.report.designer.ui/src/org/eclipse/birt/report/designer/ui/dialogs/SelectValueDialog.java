@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -29,6 +30,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -46,7 +49,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/07/05 07:29:42 $
+ * @version $Revision: 1.13 $ $Date: 2005/07/06 09:14:31 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -289,8 +292,13 @@ public class SelectValueDialog extends BaseDialog
 							if ( candiateValue != null )
 							{
 								modelValueList.add( candiateValue );
-								
-								String displayCandiateValue = DataTypeUtil.toString( candiateValue );								
+								String displayCandiateValue;
+								if ( candiateValue instanceof Date )
+									displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
+											null,
+											candiateValue );
+								else
+									displayCandiateValue = DataTypeUtil.toString( candiateValue );
 								viewerValueList.add( displayCandiateValue );
 								selectValueList.add( displayCandiateValue );
 							}
