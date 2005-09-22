@@ -7,6 +7,8 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
+import org.eclipse.birt.chart.computation.Vector;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Location3 D</b></em>'.
  * <!-- end-user-doc -->
@@ -111,4 +113,9 @@ public interface Location3D extends Location
 	 */
 	void set( double dX, double dY, double dZ );
 
+	/**
+	 * Used to link a Location3D to a Vector for live update of the coordinates.
+	 */
+	public void linkToVector( Vector vector );
+	
 } // Location3D

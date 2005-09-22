@@ -39,7 +39,7 @@ public class Object3D
 		for ( int i = 0; i < va.length; i++ )
 		{
 			va[i] = new Vector( loa[i] );
-			//loa[i].linkToVector( va[i] );
+			loa[i].linkToVector( va[i] );
 		}
 	}
 
