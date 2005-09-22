@@ -18,6 +18,8 @@ public class Object3D
 
 	private Vector[] va;
 
+	private Vector[] viewVa;
+
 	private Vector center;
 
 	private Vector normal;
@@ -109,7 +111,7 @@ public class Object3D
 	{
 		if ( normal == null )
 		{
-			if ( va == null || va.length < 3)
+			if ( va == null || va.length < 3 )
 			{
 				return null;
 			}
@@ -132,23 +134,23 @@ public class Object3D
 	 */
 	public boolean testAside( Object3D obj, boolean outside )
 	{
-		if ( va.length < 3 && obj.getVectors( ).length < 3 )
+		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
 		{
 			return true;
 		}
 
 		Vector normal = null;
-		Vector ov = va[0];
-		Vector[] tva = obj.getVectors( );
+		Vector ov = viewVa[0];
+		Vector[] tva = obj.getViewerVectors( );
 		Vector viewDirection = getCenter( );
 
-		if ( va.length < 3 )
+		if ( viewVa.length < 3 )
 		{
 			normal = new Vector( obj.getNormal( ) );
 			outside = !outside;
 			ov = tva[0];
-			tva = getVectors( );
-			viewDirection = obj.getCenter();
+			tva = getViewerVectors( );
+			viewDirection = obj.getCenter( );
 		}
 		else
 		{
@@ -158,7 +160,7 @@ public class Object3D
 		// check if the normal vector of face points to the same direction
 		// of the viewing direction
 		if ( ( outside && normal.scalarProduct( viewDirection ) <= 0 )
-				|| ( !outside && normal.scalarProduct( viewDirection ) > 0 ) )
+				|| ( !outside && normal.scalarProduct( viewDirection ) >= 0 ) )
 		{
 			normal.inverse( );
 		}
@@ -402,6 +404,13 @@ public class Object3D
 		computeExtremums( );
 		getNormal( );
 		getCenter( );
+
+		viewVa = new Vector[va.length];
+		for ( int i = 0; i < va.length; i++ )
+		{
+			viewVa[i] = new Vector( va[i] );
+		}
+
 	}
 
 	/**
@@ -429,6 +438,14 @@ public class Object3D
 	public Vector[] getVectors( )
 	{
 		return va;
+	}
+
+	/**
+	 * @return
+	 */
+	public Vector[] getViewerVectors( )
+	{
+		return viewVa;
 	}
 
 	/**

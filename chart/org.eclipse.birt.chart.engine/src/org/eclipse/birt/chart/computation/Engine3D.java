@@ -806,10 +806,10 @@ public final class Engine3D implements IConstants
 
 					order = -order;
 				}
-				else if ( farZMax == nearZMax )
-				{
-					order = 0;
-				}
+//				else if ( farZMax == nearZMax )
+//				{
+//					order = 0;
+//				}
 
 				if ( farZMin < nearZMax )
 				{
