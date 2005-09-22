@@ -79,6 +79,7 @@
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
+	<property name="chart.ui.prototype.dir" location="../org.eclipse.birt.chart.ui.prototype"/>
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
@@ -105,6 +106,7 @@
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
+		<pathelement path="${framework.taskwizard.dir}/taskwizardframework.jar"/>
 		
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -172,6 +174,12 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>	
 		<echo message="End call Jar task in ${chart.ui.dir}"/>
+		
+		<echo message="start call Jar task in ${framework.taskwizard.dir}"/>
+		<ant dir="${framework.taskwizard.dir}" antfile="BuildWizardFramework.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${framework.taskwizard.dir}"/>
 	</target>
 
 

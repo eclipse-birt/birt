@@ -79,8 +79,8 @@
 	<property name="data.dir" location="../org.eclipse.birt.data"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
-	
-	
+	<property name="framework.taskwizard.dir" location="../org.eclipse.birt.framework.taskwizard.prototype"/>
+	<property name="chart.ui.prototype.dir" location="../org.eclipse.birt.chart.ui.prototype"/>
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
@@ -139,6 +139,8 @@
 		<pathelement path="${data.dir}/dte.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
+		<pathelement path="${framework.taskwizard.dir}/taskwizardframework.jar"/>
+		<pathelement path="${chart.ui.prototype.dir}/chartwizard.jar"/>
 	</path>
 	
 	<path id="class.path.selective">
@@ -281,6 +283,18 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>		
 		<echo message="End call Jar task in ${designer.ui.dir}"/>
+		
+		<echo message="start call Jar task in ${framework.taskwizard.dir}"/>
+		<ant dir="${framework.taskwizard.dir}" antfile="BuildWizardFramework.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${framework.taskwizard.dir}"/>
+		
+		<echo message="start call Jar task in ${chart.ui.prototype.dir}"/>
+		<ant dir="${chart.ui.prototype.dir}" antfile="BuildChartUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${framework.taskwizard.dir}"/>
 	</target>
 
 	<target name="buildDependencySelective">
