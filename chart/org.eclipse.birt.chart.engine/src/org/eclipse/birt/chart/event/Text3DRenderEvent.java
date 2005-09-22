@@ -99,5 +99,10 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setLocation( points[0] );
 	}
+	
+	public void reset( )
+	{
+		object3D.reset();
+	}
 
 }

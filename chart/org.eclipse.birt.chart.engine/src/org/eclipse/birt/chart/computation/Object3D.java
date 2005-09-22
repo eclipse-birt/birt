@@ -1,9 +1,9 @@
-
 package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
@@ -43,9 +43,8 @@ public class Object3D
 	 */
 	public Object3D( Location3D la )
 	{
-		this( new Location3D[]{
-			la
-		} );
+		this( new Location3D[]
+		{ la } );
 	}
 
 	/**
@@ -94,8 +93,7 @@ public class Object3D
 		Location3D[] loa3d = new Location3D[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			loa3d[i] = Location3DImpl.create( va[i].get( 0 ),
-					va[i].get( 1 ),
+			loa3d[i] = Location3DImpl.create( va[i].get( 0 ), va[i].get( 1 ),
 					va[i].get( 2 ) );
 		}
 		return loa3d;
@@ -132,7 +130,7 @@ public class Object3D
 	 * @param obj
 	 * @return
 	 */
-	public boolean testAside( Object3D obj, boolean outside )
+	protected boolean testAside( Object3D obj, boolean outside )
 	{
 		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
 		{
@@ -142,7 +140,7 @@ public class Object3D
 		Vector normal = null;
 		Vector ov = viewVa[0];
 		Vector[] tva = obj.getViewerVectors( );
-		Vector viewDirection = getCenter( );
+		Vector viewDirection = new Vector( 0,0,1);
 
 		if ( viewVa.length < 3 )
 		{
@@ -159,8 +157,8 @@ public class Object3D
 
 		// check if the normal vector of face points to the same direction
 		// of the viewing direction
-		if ( ( outside && normal.scalarProduct( viewDirection ) <= 0 )
-				|| ( !outside && normal.scalarProduct( viewDirection ) >= 0 ) )
+		if (  normal.scalarProduct( viewDirection ) <= 0 )
+			
 		{
 			normal.inverse( );
 		}
@@ -174,21 +172,36 @@ public class Object3D
 
 		for ( int i = 0; i < tva.length; i++ )
 		{
-			if ( tva[i].get( 0 )
-					* normal.get( 0 )
-					+ tva[i].get( 1 )
-					* normal.get( 1 )
-					+ tva[i].get( 2 )
-					* normal.get( 2 )
-					+ d <= 0 )
+			if (outside)
 			{
-				return false;
+				if ( tva[i].get( 0 )
+						* normal.get( 0 )
+						+ tva[i].get( 1 )
+						* normal.get( 1 )
+						+ tva[i].get( 2 )
+						* normal.get( 2 )
+						+ d < 0 )
+				{
+					return false;
+				}
+			}
+			else 
+			{
+				if ( tva[i].get( 0 )
+						* normal.get( 0 )
+						+ tva[i].get( 1 )
+						* normal.get( 1 )
+						+ tva[i].get( 2 )
+						* normal.get( 2 )
+						+ d > 0 )
+				{
+					return false;
+				}
 			}
 		}
 
 		return true;
 	}
-
 	/**
 	 * Returns center of gravity of polygon
 	 * 
@@ -205,7 +218,7 @@ public class Object3D
 
 			double m = va.length;
 
-			center = new Vector( );
+			center = new Vector();
 
 			for ( int i = 0; i < m; i++ )
 			{
@@ -288,11 +301,11 @@ public class Object3D
 		}
 		if ( center != null )
 		{
-			center.multiply( m );
+			// center.multiply( m );
 		}
 		if ( normal != null )
 		{
-			normal.multiply( m );
+			// normal.multiply( m );
 		}
 	}
 
@@ -330,16 +343,57 @@ public class Object3D
 	{
 		byte retval;
 
-		List lst = new ArrayList( );
+		List lst = new ArrayList();
 
 		switch ( va.length )
 		{
-			case 0 :
-				break;
-			case 1 :
+		case 0:
+			break;
+		case 1:
+		{
+			Vector start = new Vector( va[0] );
+			Vector end = new Vector( va[0] );
+
+			retval = engine.checkClipping( start, end );
+
+			if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
 			{
-				Vector start = new Vector( va[0] );
-				Vector end = new Vector( va[0] );
+				lst.add( start );
+			}
+		}
+			break;
+		case 2:
+		{
+			Vector start = new Vector( va[0] );
+			Vector end = new Vector( va[1] );
+
+			retval = engine.checkClipping( start, end );
+
+			if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
+			{
+				lst.add( start );
+				lst.add( end );
+			}
+		}
+			break;
+
+		default:
+		{
+			for ( int i = 0; i < va.length; i++ )
+			{
+				Vector start = null;
+				Vector end = null;
+
+				if ( i == va.length - 1 )
+				{
+					start = new Vector( va[i] );
+					end = new Vector( va[0] );
+				}
+				else
+				{
+					start = new Vector( va[i] );
+					end = new Vector( va[i + 1] );
+				}
 
 				retval = engine.checkClipping( start, end );
 
@@ -348,50 +402,8 @@ public class Object3D
 					lst.add( start );
 				}
 			}
-				break;
-			case 2 :
-			{
-				Vector start = new Vector( va[0] );
-				Vector end = new Vector( va[1] );
-
-				retval = engine.checkClipping( start, end );
-
-				if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
-				{
-					lst.add( start );
-					lst.add( end );
-				}
-			}
-				break;
-
-			default :
-			{
-				for ( int i = 0; i < va.length; i++ )
-				{
-					Vector start = null;
-					Vector end = null;
-
-					if ( i == va.length - 1 )
-					{
-						start = new Vector( va[i] );
-						end = new Vector( va[0] );
-					}
-					else
-					{
-						start = new Vector( va[i] );
-						end = new Vector( va[i + 1] );
-					}
-
-					retval = engine.checkClipping( start, end );
-
-					if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
-					{
-						lst.add( start );
-						lst.add( end );
-					}
-				}
-			}
-				break;
+		}
+			break;
 		}
 		va = (Vector[]) lst.toArray( new Vector[0] );
 	}
@@ -401,9 +413,9 @@ public class Object3D
 	 */
 	public void prepareZSort( )
 	{
-		computeExtremums( );
-		getNormal( );
-		getCenter( );
+		computeExtremums();
+		getNormal();
+		getCenter();
 
 		viewVa = new Vector[va.length];
 		for ( int i = 0; i < va.length; i++ )
@@ -427,7 +439,7 @@ public class Object3D
 		}
 		if ( center != null )
 		{
-			center.perspective( distance );
+			 //center.perspective( distance );
 		}
 		// computeExtremums( );
 	}
@@ -458,10 +470,49 @@ public class Object3D
 		Location[] locations = new Location[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			locations[i] = LocationImpl.create( va[i].get( 0 ) + xOffset,
-					va[i].get( 1 ) + yOffset );
+			locations[i] = LocationImpl.create( va[i].get( 0 ) + xOffset, va[i]
+					.get( 1 )
+					+ yOffset );
 		}
 		return locations;
 	}
+	protected boolean testXOverlap( Object3D near )
+	{
+		return ( ( this.getXMax() > near.getXMax()
+				&& this.getXMin() < near.getXMax() )
+				|| ( this.getXMax() < near.getXMax()
+				&& this.getXMax() > near.getXMin() ) );
+	}
 
+	protected boolean testYOverlap( Object3D near )
+	{
+		return ( ( this.getYMax() > near.getYMax()
+				&& this.getYMin() < near.getYMax() )
+				|| ( this.getYMax() < near.getYMax()
+				&& this.getYMax() > near.getYMin() ) );
+	}
+
+	public boolean testSwap( Object3D near )
+	{
+		Object3D far = this;
+		boolean swap = false;
+		if ( far.testXOverlap( near ) && far.testYOverlap( near ))
+		{
+			if ( !( near.testAside( far, true ) ) )
+			{
+				if ( !( far.testAside( near, false ) ) )
+				{
+					
+					if ( far.testAside( near, true ) || near.testAside( far, false ))
+						swap = true;
+				}
+			}
+		}
+		return  swap;
+	}
+
+	public boolean testZOverlap( Object3D near )
+	{
+		return ( near.getZMax() >= this.getZMin() );
+	}
 }

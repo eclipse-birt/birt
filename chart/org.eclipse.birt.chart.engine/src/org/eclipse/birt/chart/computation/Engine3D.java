@@ -559,7 +559,7 @@ public final class Engine3D implements IConstants
 			if ( p3dre.isBehind( ) )
 			{
 				// optimize for culling face.
-				// return false;
+				return false;
 			}
 
 			double cosValue = object3D.getNormal( ).cosineValue( LDR );
@@ -597,15 +597,17 @@ public final class Engine3D implements IConstants
 
 			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
-
-			object3D.prepareZSort( );
-
+			
+			
 			object3D.clip( this );
+			object3D.prepareZSort( );
 			if ( object3D.getVectors( ).length < 2 )
 			{
 				return false;
 			}
 			object3D.perspective( PERSPECTIVE_VALUE );
+			
+
 			object3D.transform( V2C_MATRIX );
 
 			l3dre.prepare2D( xOffset, yOffset );
@@ -723,10 +725,70 @@ public final class Engine3D implements IConstants
 		}
 
 		zsort( rtList );
-
+		overlapSwap( rtList );
 		return rtList;
 	}
 
+	protected void overlapSwap( List rtList )
+	{
+		for ( int i = 0; i < rtList.size() ; i++ )
+		{
+			Object event = rtList.get( i );
+			Object3D far = getObjectFromEvent( event );
+			if ( far.getVectors().length < 3 )
+				continue;
+			
+			boolean restart = true;
+			while ( restart   )
+			{
+				restart = false;
+				
+				event = rtList.get( i );
+				far = getObjectFromEvent( event );
+				
+				for ( int j = i; j < rtList.size() ; j++ )
+				{
+					Object event2 = rtList.get( j );
+					Object3D near = getObjectFromEvent( event2 );
+					if ( near.getVectors().length < 3 )
+						continue;
+					if ( far.testZOverlap( near ) )
+					{
+						if ( far.testSwap( near ) )
+						{
+							rtList.set( i, event2);
+							rtList.set( j, event );
+							
+							restart = true; 
+							break;
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+
+	protected Object3D getObjectFromEvent( Object event )
+	{
+		if ( event instanceof WrappedInstruction )
+		{
+			event = ( (WrappedInstruction) event ).getEvent( );
+		}
+
+		if ( event instanceof I3DRenderEvent )
+		{
+			return ( (I3DRenderEvent) event ).getObject3D( );
+		}
+		else
+		{
+			throw new IllegalArgumentException( );
+		}
+	}
 	// z-sort
 	protected void zsort( List rtList )
 	{
@@ -734,108 +796,22 @@ public final class Engine3D implements IConstants
 
 			public int compare( Object o1, Object o2 )
 			{
-				double zmax1 = 0, zmax2 = 0;
-				double zmin1 = 0, zmin2 = 0;
-				double xmax1 = 0, xmax2 = 0;
-				double xmin1 = 0, xmin2 = 0;
-				double ymax1 = 0, ymax2 = 0;
-				double ymin1 = 0, ymin2 = 0;
-
-				if ( o1 instanceof WrappedInstruction )
-				{
-					o1 = ( (WrappedInstruction) o1 ).getEvent( );
-				}
-
-				if ( o1 instanceof I3DRenderEvent )
-				{
-					xmax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getXMax( );
-					xmin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getXMin( );
-					ymax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getYMax( );
-					ymin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getYMin( );
-					zmax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getZMax( );
-					zmin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getZMin( );
-				}
-				else
+				Object3D obj1 = getObjectFromEvent( o1 );
+				Object3D obj2 = getObjectFromEvent( o2 );
+				
+				if ( obj1.getZMax( ) > obj2.getZMax( ) )
 				{
 					return -1;
 				}
-
-				if ( o2 instanceof WrappedInstruction )
-				{
-					o2 = ( (WrappedInstruction) o2 ).getEvent( );
-				}
-
-				if ( o2 instanceof I3DRenderEvent )
-				{
-					xmax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getXMax( );
-					xmin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getXMin( );
-					ymax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getYMax( );
-					ymin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getYMin( );
-					zmax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getZMax( );
-					zmin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getZMin( );
-				}
-				else
+				else if ( obj1.getZMax( )  < obj2.getZMax( ) )
 				{
 					return 1;
 				}
-
-				double farXMax = xmax1, farXMin = xmin1;
-				double farYMax = ymax1, farYMin = ymin1;
-				double farZMax = zmax1, farZMin = zmin1;
-				double nearXMax = xmax2, nearXMin = xmin2;
-				double nearYMax = ymax2, nearYMin = ymin2;
-				double nearZMax = zmax2;// , nearZMin = zmin2;
-
-				int order = -1;
-
-				if ( farZMax < nearZMax )
+				else
 				{
-					farXMax = xmax2;
-					farXMin = xmin2;
-					farYMax = ymax2;
-					farYMin = ymin2;
-					farZMax = zmax2;
-					farZMin = zmin2;
-
-					nearXMax = xmax1;
-					nearXMin = xmin1;
-					nearYMax = ymax1;
-					nearYMin = ymin1;
-					nearZMax = zmax1;
-					// nearZMin = zmin1;
-
-					order = -order;
+					return 0;
 				}
-//				else if ( farZMax == nearZMax )
-//				{
-//					order = 0;
-//				}
-
-				if ( farZMin < nearZMax )
-				{
-					if ( ( farXMax > nearXMin && farXMax < nearXMax && farXMin < nearXMin )
-							|| ( farXMin < nearXMax && farXMin > nearXMin && farXMax > nearXMax ) )
-					{
-						if ( ( farYMax > nearYMin && farYMax < nearYMax && farYMin < nearYMin )
-								|| ( farYMin < nearYMax && farYMin > nearYMin && farYMax > nearYMax ) )
-						{
-							if ( !( (I3DRenderEvent) o2 ).getObject3D( )
-									.testAside( ( (I3DRenderEvent) o1 ).getObject3D( ),
-											true ) )
-							{
-								if ( !( (I3DRenderEvent) o1 ).getObject3D( )
-										.testAside( ( (I3DRenderEvent) o2 ).getObject3D( ),
-												false ) )
-								{
-									order = -order;
-								}
-
-							}
-						}
-					}
-				}
-
-				return order;
+		
 			}
 
 		} );

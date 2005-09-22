@@ -4557,7 +4557,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			ChartWithAxes cwa = (ChartWithAxes) getModel( );
 
 			// Use a fixed light direction here.
-			Vector lightDirection = new Vector( -1, -1, -1, false );
+			Vector lightDirection = new Vector( -1, 1, -1, false );
 			// Vector lightDirection = new Vector( 0, 0, -1, false );
 			Bounds bo = getPlotBounds( );
 
