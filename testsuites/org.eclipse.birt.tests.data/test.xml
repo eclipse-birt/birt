@@ -81,10 +81,10 @@
 			<include name="derby.jar"/>
 		</fileset>
 
-		<fileset dir="test/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
+	<!--<fileset dir="src/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
 			<include name="*.jar"/>
 		</fileset>
-
+-->
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -106,7 +106,7 @@
 			 Parameters:
 			 		- ${utest.report.dir} target directory to put the unit test report
 	-->
-	<target name="UnitTest" depends="cleanBuild,cleanUnitTest,compileTest, testDependency" description="run all the unit tests">
+	<target name="UnitTest" depends="cleanBuild,cleanUnitTest, testDependency,compileTest" description="run all the unit tests">
 		
 		<!-- run all tests in current directory -->
 		<!-- Create the log directory -->
