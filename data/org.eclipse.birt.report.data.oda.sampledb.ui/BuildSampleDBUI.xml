@@ -71,8 +71,8 @@
 		<fileset dir="${birt.core.dir}">
 			<include name="${birt.core.jar}"/>
 		</fileset>
-		<fileset dir="${oda.dir}">
-			<include name="${oda.jar}"/>
+		<fileset dir="${dtp.oda.dir}">
+			<include name="${dtp.oda.jar}"/>
 		</fileset>
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="${oda.jdbc.jar}"/>
