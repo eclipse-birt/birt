@@ -25,6 +25,8 @@
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.framework.taskwizard.prototype"/>
+      <import plugin="org.eclipse.birt.chart.ui.prototype"/>
    </requires>
    <extension
          id="chart"
