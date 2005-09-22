@@ -127,7 +127,7 @@
 		
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
-		<pathelement path="${framework.taskwizard.dir}/engine.jar"/>
+		<pathelement path="${framework.taskwizard.dir}/taskwizardframework.jar"/>
 	</path>
 	
 	
