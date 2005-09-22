@@ -487,19 +487,16 @@ public final class Engine3D implements IConstants
 	 */
 	boolean checkBehindFace( Polygon3DRenderEvent p3dre )
 	{
-		if ( p3dre.isDoubleSided())
+		if ( p3dre.isDoubleSided( ) )
 			return false;
-		
-		Vector viewDirection = p3dre.getObject3D().getCenter();
-		Vector normal = p3dre.getObject3D().getNormal();
-	
+
+		Vector viewDirection = p3dre.getObject3D( ).getCenter( );
+		Vector normal = p3dre.getObject3D( ).getNormal( );
+
 		// check if the normal vector of face points to the same direction
 		// of the viewing direction
 		return ( normal.scalarProduct( viewDirection ) <= 0 );
 	}
-
-	
-	
 
 	Matrix getTransformMatrix( )
 	{
@@ -543,11 +540,6 @@ public final class Engine3D implements IConstants
 		return m;
 	}
 
-
-
-	
-
-
 	private boolean translate3DEvent( Object obj, Matrix transMatrix,
 			double xOffset, double yOffset )
 	{
@@ -555,22 +547,21 @@ public final class Engine3D implements IConstants
 		{
 			Polygon3DRenderEvent p3dre = (Polygon3DRenderEvent) obj;
 			Object3D object3D = p3dre.getObject3D( );
-			
+
 			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
-			
-			
+
+			object3D.prepareZSort( );
+
 			boolean behind = checkBehindFace( p3dre );
 			p3dre.setBehind( behind );
 
-			
-			if (  p3dre.isBehind( ) )
+			if ( p3dre.isBehind( ) )
 			{
 				// optimize for culling face.
-				 return false;
+				// return false;
 			}
 
-			
 			double cosValue = object3D.getNormal( ).cosineValue( LDR );
 			if ( p3dre.isDoubleSided( ) )
 			{
@@ -580,15 +571,15 @@ public final class Engine3D implements IConstants
 			p3dre.setBrightness( brightnessRatio );
 
 			object3D.clip( this );
-			if ( object3D.getVectors().length < 3 )
+			if ( object3D.getVectors( ).length < 3 )
 			{
 				return false;
 			}
-			object3D.perspective(  PERSPECTIVE_VALUE );
+			object3D.perspective( PERSPECTIVE_VALUE );
 			object3D.transform( V2C_MATRIX );
 
 			p3dre.prepare2D( xOffset, yOffset );
-			
+
 			return true;
 		}
 		else if ( obj instanceof Line3DRenderEvent )
@@ -601,40 +592,43 @@ public final class Engine3D implements IConstants
 			{
 				return false;
 			}
-			
+
 			Object3D object3D = l3dre.getObject3D( );
-			
+
 			object3D.transform( transMatrix );
-			object3D.transform(  M2V_MATRIX );
+			object3D.transform( M2V_MATRIX );
+
+			object3D.prepareZSort( );
 
 			object3D.clip( this );
-			if ( object3D.getVectors().length < 2 )
+			if ( object3D.getVectors( ).length < 2 )
 			{
 				return false;
 			}
 			object3D.perspective( PERSPECTIVE_VALUE );
-			object3D.transform(  V2C_MATRIX );
+			object3D.transform( V2C_MATRIX );
 
 			l3dre.prepare2D( xOffset, yOffset );
 
-			
 		}
 		else if ( obj instanceof Text3DRenderEvent )
 		{
 			Text3DRenderEvent t3dre = (Text3DRenderEvent) obj;
 			Object3D object3D = t3dre.getObject3D( );
-			
-			object3D.transform(  transMatrix );
+
+			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
 
+			object3D.prepareZSort( );
+
 			object3D.clip( this );
-			if ( object3D.getVectors().length < 1 )
+			if ( object3D.getVectors( ).length < 1 )
 			{
 				return false;
 			}
 			object3D.perspective( PERSPECTIVE_VALUE );
-			object3D.transform(  V2C_MATRIX );
-			
+			object3D.transform( V2C_MATRIX );
+
 			t3dre.prepare2D( xOffset, yOffset );
 			if ( t3dre.getAction( ) == Text3DRenderEvent.RENDER_TEXT_IN_BLOCK )
 			{
@@ -645,41 +639,42 @@ public final class Engine3D implements IConstants
 		{
 			Oval3DRenderEvent o3dre = (Oval3DRenderEvent) obj;
 			Object3D object3D = o3dre.getObject3D( );
-			
-			
+
 			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
 
-			object3D.clip( this);
-			if ( object3D.getVectors().length < 3 )
-			{
-				return false;
-			}
-			object3D.perspective(  PERSPECTIVE_VALUE );
-			object3D.transform( V2C_MATRIX );
-
-			o3dre.prepare2D( xOffset, yOffset );
-			
-		}
-		else if ( obj instanceof Image3DRenderEvent )
-		{
-			Image3DRenderEvent i3dre = (Image3DRenderEvent) obj;
-			Object3D object3D = i3dre.getObject3D( );
-			
-			
-			object3D.transform( transMatrix );
-			object3D.transform( M2V_MATRIX );
+			object3D.prepareZSort( );
 
 			object3D.clip( this );
-			if ( object3D.getVectors().length < 1 )
+			if ( object3D.getVectors( ).length < 3 )
 			{
 				return false;
 			}
 			object3D.perspective( PERSPECTIVE_VALUE );
 			object3D.transform( V2C_MATRIX );
 
-			
-			i3dre.prepare2D( xOffset, yOffset ) ;
+			o3dre.prepare2D( xOffset, yOffset );
+
+		}
+		else if ( obj instanceof Image3DRenderEvent )
+		{
+			Image3DRenderEvent i3dre = (Image3DRenderEvent) obj;
+			Object3D object3D = i3dre.getObject3D( );
+
+			object3D.transform( transMatrix );
+			object3D.transform( M2V_MATRIX );
+
+			object3D.prepareZSort( );
+
+			object3D.clip( this );
+			if ( object3D.getVectors( ).length < 1 )
+			{
+				return false;
+			}
+			object3D.perspective( PERSPECTIVE_VALUE );
+			object3D.transform( V2C_MATRIX );
+
+			i3dre.prepare2D( xOffset, yOffset );
 		}
 
 		return true;
@@ -728,19 +723,23 @@ public final class Engine3D implements IConstants
 		}
 
 		zsort( rtList );
-		
+
 		return rtList;
 	}
 
-	// 	z-sort
+	// z-sort
 	protected void zsort( List rtList )
 	{
-		
 		Collections.sort( rtList, new Comparator( ) {
 
 			public int compare( Object o1, Object o2 )
 			{
-				double z1 = 0, z2 = 0;
+				double zmax1 = 0, zmax2 = 0;
+				double zmin1 = 0, zmin2 = 0;
+				double xmax1 = 0, xmax2 = 0;
+				double xmin1 = 0, xmin2 = 0;
+				double ymax1 = 0, ymax2 = 0;
+				double ymin1 = 0, ymin2 = 0;
 
 				if ( o1 instanceof WrappedInstruction )
 				{
@@ -749,7 +748,12 @@ public final class Engine3D implements IConstants
 
 				if ( o1 instanceof I3DRenderEvent )
 				{
-					z1 = ((I3DRenderEvent)o1).getObject3D().getCenter().get(2);
+					xmax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getXMax( );
+					xmin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getXMin( );
+					ymax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getYMax( );
+					ymin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getYMin( );
+					zmax1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getZMax( );
+					zmin1 = ( (I3DRenderEvent) o1 ).getObject3D( ).getZMin( );
 				}
 				else
 				{
@@ -763,26 +767,75 @@ public final class Engine3D implements IConstants
 
 				if ( o2 instanceof I3DRenderEvent )
 				{
-					z2 = ((I3DRenderEvent)o2).getObject3D().getCenter().get(2);
-					
+					xmax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getXMax( );
+					xmin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getXMin( );
+					ymax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getYMax( );
+					ymin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getYMin( );
+					zmax2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getZMax( );
+					zmin2 = ( (I3DRenderEvent) o2 ).getObject3D( ).getZMin( );
 				}
 				else
 				{
 					return 1;
 				}
 
-				if ( z1 > z2 )
+				double farXMax = xmax1, farXMin = xmin1;
+				double farYMax = ymax1, farYMin = ymin1;
+				double farZMax = zmax1, farZMin = zmin1;
+				double nearXMax = xmax2, nearXMin = xmin2;
+				double nearYMax = ymax2, nearYMin = ymin2;
+				double nearZMax = zmax2;// , nearZMin = zmin2;
+
+				int order = -1;
+
+				if ( farZMax < nearZMax )
 				{
-					return -1;
+					farXMax = xmax2;
+					farXMin = xmin2;
+					farYMax = ymax2;
+					farYMin = ymin2;
+					farZMax = zmax2;
+					farZMin = zmin2;
+
+					nearXMax = xmax1;
+					nearXMin = xmin1;
+					nearYMax = ymax1;
+					nearYMin = ymin1;
+					nearZMax = zmax1;
+					// nearZMin = zmin1;
+
+					order = -order;
 				}
-				else if ( z1 < z2 )
+				else if ( farZMax == nearZMax )
 				{
-					return 1;
+					order = 0;
 				}
-				else
+
+				if ( farZMin < nearZMax )
 				{
-					return 0;
+					if ( ( farXMax > nearXMin && farXMax < nearXMax && farXMin < nearXMin )
+							|| ( farXMin < nearXMax && farXMin > nearXMin && farXMax > nearXMax ) )
+					{
+						if ( ( farYMax > nearYMin && farYMax < nearYMax && farYMin < nearYMin )
+								|| ( farYMin < nearYMax && farYMin > nearYMin && farYMax > nearYMax ) )
+						{
+							if ( !( (I3DRenderEvent) o2 ).getObject3D( )
+									.testAside( ( (I3DRenderEvent) o1 ).getObject3D( ),
+											true ) )
+							{
+								if ( !( (I3DRenderEvent) o1 ).getObject3D( )
+										.testAside( ( (I3DRenderEvent) o2 ).getObject3D( ),
+												false ) )
+								{
+									order = -order;
+								}
+
+							}
+						}
+					}
 				}
+
+				return order;
 			}
 
 		} );

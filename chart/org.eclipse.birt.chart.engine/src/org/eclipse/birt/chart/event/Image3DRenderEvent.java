@@ -52,11 +52,8 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 	 */
 	public Location3D getLocation3D( )
 	{
-		return object3D.getLocation3D()[0];
+		return object3D.getLocation3D( )[0];
 	}
-
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -85,16 +82,21 @@ public final class Image3DRenderEvent extends ImageRenderEvent implements
 		return ire;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
+	 */
 	public Object3D getObject3D( )
 	{
 		return object3D;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
-		setLocation( points[ 0 ] );
-		 
+		setLocation( points[0] );
 	}
 
 }

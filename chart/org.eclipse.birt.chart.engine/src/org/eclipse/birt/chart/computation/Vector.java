@@ -277,6 +277,16 @@ public class Vector
 	}
 
 	/**
+	 * Returns the inverse direction of this vector. 
+	 */
+	public void inverse( )
+	{
+		v[0] = -v[0];
+		v[1] = -v[1];
+		v[2] = -v[2];
+	}
+
+	/**
 	 * @param m
 	 */
 	public void multiply( Matrix m )

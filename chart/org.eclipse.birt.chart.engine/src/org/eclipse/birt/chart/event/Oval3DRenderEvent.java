@@ -28,8 +28,6 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 
 	private static final long serialVersionUID = 3249838045689532033L;
 
-
-
 	private Object3D object3D;
 
 	/**
@@ -56,9 +54,6 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return object3D.getLocation3D( );
 	}
 
-	
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,10 +79,17 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return ore;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
+	 */
 	public Object3D getObject3D( )
 	{
 		return object3D;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );

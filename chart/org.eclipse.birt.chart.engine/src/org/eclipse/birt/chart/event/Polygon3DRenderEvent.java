@@ -44,8 +44,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 
 	private Fill runtimeBackground;
 
-
-
 	/**
 	 * @param oSource
 	 */
@@ -150,7 +148,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public final void setPoints3D( Location3D[] loa ) throws ChartException
 	{
-		
 
 		if ( loa.length < 3 )
 		{
@@ -169,14 +166,21 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public Location3D[] getPoints3D( )
 	{
-		return object3D.getLocation3D();
+		return object3D.getLocation3D( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
+	 *      double)
+	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setPoints( points );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -189,7 +193,6 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		{
 			pre.object3D = new Object3D( object3D );
 		}
-	
 
 		if ( _lia != null )
 		{
@@ -209,16 +212,24 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	}
 
 	// must be implemented as the object is cached and reused.
-	public void reset()
+	public void reset( )
 	{
-		object3D.reset( );
+		if ( object3D != null )
+		{
+			object3D.reset( );
+		}
 		this.bDoubleSided = false;
 		this.dBrightness = 1;
 		this.bBehind = false;
 		this.runtimeBackground = null;
-		super.reset();
+		super.reset( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
+	 */
 	public Object3D getObject3D( )
 	{
 		return object3D;

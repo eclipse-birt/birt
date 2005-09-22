@@ -2679,18 +2679,18 @@ public abstract class AxesRenderer extends BaseRenderer
 					l3dre.setLineAttributes( lia );
 
 					// center
-					l3dre.getStart3D( ).set( dX, dStart, dZ );
-					l3dre.getEnd3D( ).set( dX, dEnd, dZ );
+					l3dre.setStart3D( dX, dStart, dZ );
+					l3dre.setEnd3D( dX, dEnd, dZ );
 					dc.addLine( l3dre );
 
 					// left
-					l3dre.getStart3D( ).set( dXStart, dStart, dZEnd );
-					l3dre.getEnd3D( ).set( dXStart, dEnd, dZEnd );
+					l3dre.setStart3D( dXStart, dStart, dZEnd );
+					l3dre.setEnd3D( dXStart, dEnd, dZEnd );
 					dc.addLine( l3dre );
 
 					// right
-					l3dre.getStart3D( ).set( dXEnd, dStart, dZStart );
-					l3dre.getEnd3D( ).set( dXEnd, dEnd, dZStart );
+					l3dre.setStart3D( dXEnd, dStart, dZStart );
+					l3dre.setEnd3D( dXEnd, dEnd, dZStart );
 					dc.addLine( l3dre );
 				}
 				else
@@ -2864,8 +2864,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderOrthogonal3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dXTick1, y3d, dZ );
-								l3dre.getEnd3D( ).set( dXTick2, y3d, dZ );
+								l3dre.setStart3D( dXTick1, y3d, dZ );
+								l3dre.setEnd3D( dXTick2, y3d, dZ );
 								dc.addLine( l3dre );
 							}
 							else
@@ -2896,12 +2896,14 @@ public abstract class AxesRenderer extends BaseRenderer
 						{
 							// Left wall
 							lo3d.set( x, y3d + dOffset, dZEnd );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 
 							// Right wall
 							lo3d.set( dXEnd, y3d + dOffset, dZ );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -2931,8 +2933,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					if ( bRenderOrthogonal3DAxis )
 					{
 						l3dre.setLineAttributes( liaMajorTick );
-						l3dre.getStart3D( ).set( dXTick1, y3d, dZ );
-						l3dre.getEnd3D( ).set( dXTick2, y3d, dZ );
+						l3dre.setStart3D( dXTick1, y3d, dZ );
+						l3dre.setEnd3D( dXTick2, y3d, dZ );
 						dc.addLine( l3dre );
 					}
 					else
@@ -3047,8 +3049,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderOrthogonal3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dXTick1, y3d, dZ );
-								l3dre.getEnd3D( ).set( dXTick2, y3d, dZ );
+								l3dre.setStart3D( dXTick1, y3d, dZ );
+								l3dre.setEnd3D( dXTick2, y3d, dZ );
 								dc.addLine( l3dre );
 							}
 							else
@@ -3087,6 +3089,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Left wall
 							lo3d.set( x, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3094,6 +3097,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Right wall
 							lo3d.set( dXEnd, y3d, dZ );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3202,8 +3206,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderOrthogonal3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dXTick1, y3d, dZ );
-								l3dre.getEnd3D( ).set( dXTick2, y3d, dZ );
+								l3dre.setStart3D( dXTick1, y3d, dZ );
+								l3dre.setEnd3D( dXTick2, y3d, dZ );
 								dc.addLine( l3dre );
 							}
 							else
@@ -3241,6 +3245,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Left wall
 							lo3d.set( x, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3248,6 +3253,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Right wall
 							lo3d.set( dXEnd, y3d, dZ );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3355,8 +3361,8 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderOrthogonal3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dXTick1, y3d, dZ );
-								l3dre.getEnd3D( ).set( dXTick2, y3d, dZ );
+								l3dre.setStart3D( dXTick1, y3d, dZ );
+								l3dre.setEnd3D( dXTick2, y3d, dZ );
 								dc.addLine( l3dre );
 							}
 							else
@@ -3393,6 +3399,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Left wall
 							lo3d.set( x, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3400,6 +3407,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							// Right wall
 							lo3d.set( dXEnd, y3d, dZ );
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
@@ -3552,8 +3560,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					final double dStart = daEndPoints3D[0];
 					final double dEnd = daEndPoints3D[1];
 					l3dre.setLineAttributes( lia );
-					l3dre.getStart3D( ).set( dStart, dY, dZ );
-					l3dre.getEnd3D( ).set( dEnd, dY, dZ );
+					l3dre.setStart3D( dStart, dY, dZ );
+					l3dre.setEnd3D( dEnd, dY, dZ );
 					dc.addLine( l3dre );
 				}
 				else if ( bRenderAncillary3DAxis )
@@ -3561,8 +3569,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					final double dStart = daEndPoints3D[0];
 					final double dEnd = daEndPoints3D[1];
 					l3dre.setLineAttributes( lia );
-					l3dre.getStart3D( ).set( dX, dY, dStart );
-					l3dre.getEnd3D( ).set( dX, dY, dEnd );
+					l3dre.setStart3D( dX, dY, dStart );
+					l3dre.setEnd3D( dX, dY, dEnd );
 					dc.addLine( l3dre );
 				}
 				else
@@ -3700,15 +3708,15 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderBase3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( x3d, dYTick1, dZ );
-								l3dre.getEnd3D( ).set( x3d, dYTick2, dZ );
+								l3dre.setStart3D( x3d, dYTick1, dZ );
+								l3dre.setEnd3D( x3d, dYTick2, dZ );
 								dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dX, dYTick1, z3d );
-								l3dre.getEnd3D( ).set( dX, dYTick2, z3d );
+								l3dre.setStart3D( dX, dYTick1, z3d );
+								l3dre.setEnd3D( dX, dYTick2, z3d );
 								dc.addLine( l3dre );
 							}
 							else
@@ -3802,6 +3810,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							{
 								lo3d.set( dXEnd, y, z3d + dOffset );
 							}
+							t3dre.setLocation3D( lo3d );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 						}
@@ -3829,15 +3838,15 @@ public abstract class AxesRenderer extends BaseRenderer
 						if ( bRenderBase3DAxis )
 						{
 							l3dre.setLineAttributes( liaMajorTick );
-							l3dre.getStart3D( ).set( x3d, dYTick1, dZ );
-							l3dre.getEnd3D( ).set( x3d, dYTick2, dZ );
+							l3dre.setStart3D( x3d, dYTick1, dZ );
+							l3dre.setEnd3D( x3d, dYTick2, dZ );
 							dc.addLine( l3dre );
 						}
 						else if ( bRenderAncillary3DAxis )
 						{
 							l3dre.setLineAttributes( liaMajorTick );
-							l3dre.getStart3D( ).set( dX, dYTick1, z3d );
-							l3dre.getEnd3D( ).set( dX, dYTick2, z3d );
+							l3dre.setStart3D( dX, dYTick1, z3d );
+							l3dre.setEnd3D( dX, dYTick2, z3d );
 							dc.addLine( l3dre );
 						}
 						else
@@ -3955,15 +3964,15 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderBase3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( x3d, dYTick1, dZ );
-								l3dre.getEnd3D( ).set( x3d, dYTick2, dZ );
+								l3dre.setStart3D( x3d, dYTick1, dZ );
+								l3dre.setEnd3D( x3d, dYTick2, dZ );
 								dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dX, dYTick1, z3d );
-								l3dre.getEnd3D( ).set( dX, dYTick2, z3d );
+								l3dre.setStart3D( dX, dYTick1, z3d );
+								l3dre.setEnd3D( dX, dYTick2, z3d );
 								dc.addLine( l3dre );
 							}
 							else
@@ -4023,6 +4032,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								lo3d.set( dXEnd, y, z3d );
 							}
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 						}
@@ -4134,15 +4144,15 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderBase3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( x3d, dYTick1, dZ );
-								l3dre.getEnd3D( ).set( x3d, dYTick2, dZ );
+								l3dre.setStart3D( x3d, dYTick1, dZ );
+								l3dre.setEnd3D( x3d, dYTick2, dZ );
 								dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dX, dYTick1, z3d );
-								l3dre.getEnd3D( ).set( dX, dYTick2, z3d );
+								l3dre.setStart3D( dX, dYTick1, z3d );
+								l3dre.setEnd3D( dX, dYTick2, z3d );
 								dc.addLine( l3dre );
 							}
 							else
@@ -4205,6 +4215,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								lo3d.set( dXEnd, y, z3d );
 							}
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 						}
@@ -4322,15 +4333,15 @@ public abstract class AxesRenderer extends BaseRenderer
 							if ( bRenderBase3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( x3d, dYTick1, dZ );
-								l3dre.getEnd3D( ).set( x3d, dYTick2, dZ );
+								l3dre.setStart3D( x3d, dYTick1, dZ );
+								l3dre.setEnd3D( x3d, dYTick2, dZ );
 								dc.addLine( l3dre );
 							}
 							else if ( bRenderAncillary3DAxis )
 							{
 								l3dre.setLineAttributes( liaMajorTick );
-								l3dre.getStart3D( ).set( dX, dYTick1, z3d );
-								l3dre.getEnd3D( ).set( dX, dYTick2, z3d );
+								l3dre.setStart3D( dX, dYTick1, z3d );
+								l3dre.setEnd3D( dX, dYTick2, z3d );
 								dc.addLine( l3dre );
 							}
 							else
@@ -4388,6 +4399,7 @@ public abstract class AxesRenderer extends BaseRenderer
 								lo3d.set( dXEnd, y, z3d );
 							}
 							la.getCaption( ).setValue( sText );
+							t3dre.setLocation3D( lo3d );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 						}

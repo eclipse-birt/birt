@@ -14,10 +14,24 @@ package org.eclipse.birt.chart.event;
 import org.eclipse.birt.chart.computation.Object3D;
 
 /**
- * A tagging interface that all 3D rendering events must extend.
+ * An interface that all 3D rendering events must extend.
  */
 
 public interface I3DRenderEvent
 {
+
+	/**
+	 * Returns the 3D object associated with this event.
+	 * 
+	 * @return
+	 */
 	Object3D getObject3D( );
+
+	/**
+	 * Prepares the coordinates to render on 2D plane.
+	 * 
+	 * @param xOffset
+	 * @param yOffset
+	 */
+	void prepare2D( double xOffset, double yOffset );
 }

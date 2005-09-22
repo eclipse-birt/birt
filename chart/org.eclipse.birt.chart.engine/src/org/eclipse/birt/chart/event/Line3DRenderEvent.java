@@ -29,8 +29,6 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 
 	private Object3D object3D;
 
-
-
 	/**
 	 * @param oSource
 	 */
@@ -45,20 +43,27 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public void setStart3D( Location3D start )
 	{
-		object3D.getVectors()[0] = new Vector( start );
+		object3D.getVectors( )[0] = new Vector( start );
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public void setStart3D( double x, double y, double z )
 	{
-		object3D.getVectors()[0] = new Vector( x, y, z, true );
+		object3D.getVectors( )[0] = new Vector( x, y, z, true );
 	}
+
 	/**
 	 * not a live object
+	 * 
 	 * @return
 	 */
 	public Location3D getStart3D( )
 	{
-		return object3D.getLocation3D()[0];
+		return object3D.getLocation3D( )[0];
 	}
 
 	/**
@@ -66,25 +71,28 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 */
 	public void setEnd3D( Location3D end )
 	{
-		object3D.getVectors()[1] = new Vector( end );
-	}
-	
-	public void setEnd3D( double x, double y, double z )
-	{
-		object3D.getVectors()[1] = new Vector( x, y, z, true );
+		object3D.getVectors( )[1] = new Vector( end );
 	}
 
 	/**
-	 *  not a live object
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public void setEnd3D( double x, double y, double z )
+	{
+		object3D.getVectors( )[1] = new Vector( x, y, z, true );
+	}
+
+	/**
+	 * not a live object
+	 * 
 	 * @return
 	 */
 	public Location3D getEnd3D( )
 	{
-		return object3D.getLocation3D()[1];
+		return object3D.getLocation3D( )[1];
 	}
-
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -105,22 +113,31 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		return lre;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
+	 */
 	public Object3D getObject3D( )
 	{
 		return object3D;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
-		setStart( points[ 0 ] );
-		setEnd( points[ 1 ] );	 
-	
+		setStart( points[0] );
+		setEnd( points[1] );
 	}
-	public void reset()
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
+	 */
+	public void reset( )
 	{
 		object3D = new Object3D( 2 );
-		super.reset();
+		super.reset( );
 	}
 
 }

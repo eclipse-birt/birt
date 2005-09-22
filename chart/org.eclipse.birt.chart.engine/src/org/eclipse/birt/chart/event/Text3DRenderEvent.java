@@ -30,8 +30,6 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 
 	private Object3D object3D;
 
-	
-
 	/**
 	 * @param oSource
 	 */
@@ -53,10 +51,8 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 */
 	public Location3D getLocation3D( )
 	{
-		return object3D.getLocation3D()[0];
+		return object3D.getLocation3D( )[0];
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -78,7 +74,7 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		if ( object3D != null )
 		{
-			tre.object3D = new Object3D(  object3D  );
+			tre.object3D = new Object3D( object3D );
 		}
 		if ( _taBlock != null )
 		{
@@ -86,20 +82,22 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 		}
 		return tre;
 	}
-	
-	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
+	 */
 	public Object3D getObject3D( )
 	{
 		return object3D;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
 		setLocation( points[0] );
-
 	}
-		
-
 
 }
