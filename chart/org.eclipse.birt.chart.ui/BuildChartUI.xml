@@ -81,7 +81,7 @@
 		
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
-	
+	<property name="framework.taskwizard.dir" location="../org.eclipse.birt.framework.taskwizard.prototype"/>
 
 
 	<!-- set platform related properties-->
@@ -178,6 +178,12 @@
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>	
 		<echo message="end call Jar task in ${chart.engine.dir}"/>
+		
+		<echo message="start call Jar task in ${framework.taskwizard.dir}"/>
+		<ant dir="${framework.taskwizard.dir}" antfile="BuildWizardFramework.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>	
+		<echo message="end call Jar task in ${framework.taskwizard.dir}"/>
 	</target>
 
 
