@@ -63,7 +63,7 @@
 
 	<property name="eclipse.home" location="." />
 	
-	<property name="test.src" location="src" />
+	<property name="test.src" location="test" />
 	
 	<path id="class.path">
 		<pathelement path="${bin}" />
@@ -81,7 +81,7 @@
 			<include name="derby.jar"/>
 		</fileset>
 
-	<!--<fileset dir="src/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
+	<!--<fileset dir="test/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
 			<include name="*.jar"/>
 		</fileset>
 -->
