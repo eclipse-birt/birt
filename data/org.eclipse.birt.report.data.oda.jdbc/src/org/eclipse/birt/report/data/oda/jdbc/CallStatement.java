@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
@@ -36,8 +33,6 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
-import org.eclipse.datatools.connectivity.oda.impl.Blob;
-import org.eclipse.datatools.connectivity.oda.impl.Clob;
 
 /**
  * 
@@ -307,7 +302,6 @@ public class CallStatement implements IAdvancedQuery
 		return pstmtResultMetaData;
 	}
 
-
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#executeQuery()
 	 */
@@ -365,9 +359,9 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	void registerOutParameter( int position, int type ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
-			assertNotNull( callStat );
 			callStat.registerOutParameter( position, type );
 		}
 		catch ( SQLException e )
@@ -385,10 +379,10 @@ public class CallStatement implements IAdvancedQuery
 				CallStatement.class.getName( ),
 				"execute",
 				"CallableStatement.execute( )" );
+		assertNotNull( callStat );
 		try
 		{
 			{
-				assertNotNull( callStat );
 				if ( !maxRowsUpToDate )
 				{
 					callStat.setMaxRows( maxrows );
@@ -409,10 +403,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setInt(int,int) */
-			assertNotNull( callStat );
 			this.callStat.setInt( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -431,10 +425,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setInt( int parameterId, int value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setInt(int,int) */
-			assertNotNull( callStat );
 			this.callStat.setInt( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -454,10 +448,10 @@ public class CallStatement implements IAdvancedQuery
 	public void setDouble( String parameterName, double value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setDouble(int,double) */
-			assertNotNull( callStat );
 			this.callStat.setDouble( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -476,10 +470,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setDouble( int parameterId, double value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setDouble(int,double) */
-			assertNotNull( callStat );
 			this.callStat.setDouble( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -499,13 +493,13 @@ public class CallStatement implements IAdvancedQuery
 	public void setBigDecimal( String parameterName, BigDecimal value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/*
 			 * redirect the call to JDBC
 			 * callableStatement.setBigDecimal(int,BigDecimal)
 			 */
-			assertNotNull( callStat );
 			this.callStat.setBigDecimal( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -525,13 +519,13 @@ public class CallStatement implements IAdvancedQuery
 	public void setBigDecimal( int parameterId, BigDecimal value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/*
 			 * redirect the call to JDBC
 			 * callableStatement.setBigDecimal(int,BigDecimal)
 			 */
-			assertNotNull( callStat );
 			this.callStat.setBigDecimal( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -551,10 +545,10 @@ public class CallStatement implements IAdvancedQuery
 	public void setString( String parameterName, String value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC CallStatement.setString(int,String) */
-			assertNotNull( callStat );
 			this.callStat.setString( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -573,10 +567,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setString( int parameterId, String value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC CallStatement.setString(int,String) */
-			assertNotNull( callStat );
 			this.callStat.setString( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -595,10 +589,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setDate(int,Date) */
-			assertNotNull( callStat );
 			this.callStat.setDate( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -617,10 +611,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setDate( int parameterId, Date value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setDate(int,Date) */
-			assertNotNull( callStat );
 			this.callStat.setDate( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -639,10 +633,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setTime(int,Time) */
-			assertNotNull( callStat );
 			this.callStat.setTime( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -661,10 +655,10 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public void setTime( int parameterId, Time value ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/* redirect the call to JDBC callableStatement.setTime(int,Time) */
-			assertNotNull( callStat );
 			this.callStat.setTime( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -684,13 +678,13 @@ public class CallStatement implements IAdvancedQuery
 	public void setTimestamp( String parameterName, Timestamp value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/*
 			 * redirect the call to JDBC
 			 * callableStatement.setTimestamp(int,Timestamp)
 			 */
-			assertNotNull( callStat );
 			this.callStat.setTimestamp( parameterName, value );
 		}
 		catch ( SQLException e )
@@ -710,13 +704,13 @@ public class CallStatement implements IAdvancedQuery
 	public void setTimestamp( int parameterId, Timestamp value )
 			throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			/*
 			 * redirect the call to JDBC
 			 * callableStatement.setTimestamp(int,Timestamp)
 			 */
-			assertNotNull( callStat );
 			this.callStat.setTimestamp( parameterId, value );
 		}
 		catch ( SQLException e )
@@ -769,6 +763,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public int getInt( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getInt( parameterName );
@@ -785,6 +780,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public int getInt( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getInt( parameterId );
@@ -801,6 +797,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public double getDouble( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getDouble( parameterName );
@@ -817,6 +814,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public double getDouble( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getDouble( parameterId );
@@ -833,6 +831,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public BigDecimal getBigDecimal( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getBigDecimal( parameterName );
@@ -849,6 +848,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public BigDecimal getBigDecimal( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getBigDecimal( parameterId );
@@ -865,6 +865,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public String getString( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getString( parameterName );
@@ -881,6 +882,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public String getString( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getString( parameterId );
@@ -897,6 +899,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Date getDate( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getDate( parameterName );
@@ -913,6 +916,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Date getDate( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getDate( parameterId );
@@ -929,6 +933,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Time getTime( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getTime( parameterName );
@@ -945,6 +950,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Time getTime( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getTime( parameterId );
@@ -961,6 +967,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Timestamp getTimestamp( String parameterName ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getTimestamp( parameterName );
@@ -977,6 +984,7 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public Timestamp getTimestamp( int parameterId ) throws OdaException
 	{
+		assertNotNull( callStat );
 		try
 		{
 			return callStat.getTimestamp( parameterId );
@@ -997,24 +1005,12 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			java.sql.Blob blob = callStat.getBlob( parameterName );
-
-			if ( blob == null )
-				return new Blob( null );
-			BufferedInputStream inputStream = null;
-			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
-			byte[] bytes = new byte[(int) blob.length( )];
-			inputStream.read( bytes );
-			inputStream.close( );
-			return new Blob( bytes );
+			return new Blob( blob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
@@ -1027,24 +1023,12 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			java.sql.Blob blob = callStat.getBlob( parameterId );
-
-			if ( blob == null )
-				return new Blob( null );
-			BufferedInputStream inputStream = null;
-			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
-			byte[] bytes = new byte[(int) blob.length( )];
-			inputStream.read( bytes );
-			inputStream.close( );
-			return new Blob( bytes );
+			return new Blob( blob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
@@ -1057,26 +1041,12 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			java.sql.Clob clob = callStat.getClob( parameterName );
-
-			if ( clob == null )
-				return new Clob( null );
-			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
-			StringBuffer buffer = new StringBuffer( );
-			while ( ( in.read( ) ) != -1 )
-			{
-				buffer.append( in.readLine( ) );
-			}
-			in.close( );
-			return new Clob( buffer.toString( ) );
+			return new Clob( clob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
@@ -1089,26 +1059,12 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			java.sql.Clob clob = callStat.getClob( parameterId );
-
-			if ( clob == null )
-				return new Clob( null );
-			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
-			StringBuffer buffer = new StringBuffer( );
-			while ( ( in.read( ) ) != -1 )
-			{
-				buffer.append( in.readLine( ) );
-			}
-			in.close( );
-			return new Clob( buffer.toString( ) );
+			return new Clob( clob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
@@ -1452,5 +1408,5 @@ public class CallStatement implements IAdvancedQuery
 	{
 		return resultSetNames;
 	}
-	
+
 }

@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -27,8 +24,6 @@ import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.impl.Blob;
-import org.eclipse.datatools.connectivity.oda.impl.Clob;
 
 /**
  * 
@@ -483,126 +478,72 @@ public class ResultSet implements IResultSet
 	/* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.String)
 	 */
-	public IBlob getBlob( String parameterName ) throws OdaException
+	public IBlob getBlob( String columnName ) throws OdaException
 	{
 		assertNotNull( rs );
 		try
 		{
-			java.sql.Blob blob = rs.getBlob( parameterName );
-
-			if ( blob == null )
-				return new Blob( null );
-			BufferedInputStream inputStream = null;
-			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
-			byte[] bytes = new byte[(int) blob.length( )];
-			inputStream.read( bytes );
-			inputStream.close( );
-			return new Blob( bytes );
+			java.sql.Blob blob = rs.getBlob( columnName );
+			return new Blob( blob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(int)
 	 */
-	public IBlob getBlob( int parameterId ) throws OdaException
+	public IBlob getBlob( int index ) throws OdaException
 	{
 		assertNotNull( rs );
 		try
 		{
-			java.sql.Blob blob = rs.getBlob( parameterId );
-
-			if ( blob == null )
-				return new Blob( null );
-			BufferedInputStream inputStream = null;
-			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
-			byte[] bytes = new byte[(int) blob.length( )];
-			inputStream.read( bytes );
-			inputStream.close( );
-			return new Blob( bytes );
+			java.sql.Blob blob = rs.getBlob( index );
+			return new Blob( blob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(java.lang.String)
 	 */
-	public IClob getClob( String parameterName ) throws OdaException
+	public IClob getClob( String columnName ) throws OdaException
 	{
 		assertNotNull( rs );
 		try
 		{
-			java.sql.Clob clob = rs.getClob( parameterName );
-
-			if ( clob == null )
-				return new Clob( null );
-			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
-			StringBuffer buffer = new StringBuffer( );
-			String str;
-			while ( ( str = in.readLine( ) ) != null )
-			{
-				buffer.append( str );
-			}
-			in.close( );
-			return new Clob( buffer.toString( ) );
+			java.sql.Clob clob = rs.getClob( columnName );
+			return new Clob( clob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getClob(int)
 	 */
-	public IClob getClob( int parameterId ) throws OdaException
+	public IClob getClob( int index ) throws OdaException
 	{
 		assertNotNull( rs );
 		try
 		{
-			java.sql.Clob clob = rs.getClob( parameterId );
-
-			if ( clob == null )
-				return new Clob( null );
-			BufferedReader in = new BufferedReader( clob.getCharacterStream( ) );
-			StringBuffer buffer = new StringBuffer( );
-			String str;
-			while ( ( str = in.readLine( ) ) != null )
-			{
-				buffer.append( str );
-			}
-			in.close( );
-			return new Clob( buffer.toString( ) );
+			java.sql.Clob clob = rs.getClob( index );
+			return new Clob( clob );
 		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
 					e );
-		}
-		catch ( IOException e )
-		{
-			throw new OdaException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE );
 		}
 	}
 
