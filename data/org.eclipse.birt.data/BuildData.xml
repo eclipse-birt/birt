@@ -98,7 +98,10 @@
 		<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
 			<include name="odaconsumer-helper.jar"/>
-		</fileset>		
+		</fileset>
+		<fileset dir="${birt.oda.dir}">
+			<include name="oda.jar"/>
+		</fileset>	
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="derby.jar"/>
 		</fileset>	
