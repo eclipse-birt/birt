@@ -79,7 +79,7 @@
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
 	<property name="chart.ui.dir" location="../org.eclipse.birt.chart.ui"/>
-	<property name="chart.ui.prototype.dir" location="../org.eclipse.birt.chart.ui.prototype"/>
+	<property name="framework.taskwizard.dir" location="../org.eclipse.birt.framework.taskwizard.prototype"/>
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
