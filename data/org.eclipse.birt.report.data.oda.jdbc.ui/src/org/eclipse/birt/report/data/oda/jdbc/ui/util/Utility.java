@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -43,7 +44,7 @@ import org.eclipse.swt.widgets.TreeItem;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.16 $ $Date: 2005/09/19 07:54:47 $
+ * @version $Revision: 1.17 $ $Date: 2005/09/21 07:52:42 $
  */
 public class Utility
 {
@@ -532,7 +533,10 @@ public class Utility
 					{
 						entry = (Map.Entry) it.next( );
 						entryValue = (String[]) entry.getValue( );
-						jarFile = new JarFile( entryValue[0], "", false );
+						jarFile = new JarFile( getFileNameFromFilePath( (String) entryValue[0] ),
+								entryValue[0],
+								"",
+								false );
 						rMap.put( entry.getKey( ), jarFile );
 					}
 				}
@@ -541,6 +545,13 @@ public class Utility
 				return rMap;
 			}
 		}
+	}
+	
+	private static String getFileNameFromFilePath( String  filePath )
+	{
+		String fileName = filePath.substring( filePath.lastIndexOf( File.separator )
+				+ File.separator.length( ) );
+		return fileName;
 	}
 	
 	/**

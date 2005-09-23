@@ -38,6 +38,11 @@ import org.osgi.framework.Bundle;
 public class JarFile implements Serializable
 {
 	/**
+	 * File name of the Jar file
+	 */
+	private String fileName;
+	
+	/**
 	 * full path of the Jar file
 	 */
 	private String filePath;
@@ -67,8 +72,10 @@ public class JarFile implements Serializable
 	public static final String ODA_FILE_NOT_EXIST_TOKEN = "x"; //$NON-NLS-1$
 	public static final String ORIGINAL_FILE_NOT_EXIST_TOKEN = "*"; //$NON-NLS-1$
 
-	public JarFile( String filePath, String state, boolean toBeDeleted )
+	public JarFile( String fileName, String filePath, String state,
+			boolean toBeDeleted )
 	{
+		this.fileName = fileName;
 		this.filePath = filePath;
 		this.state = state;
 		this.toBeDeleted = toBeDeleted;
@@ -78,6 +85,11 @@ public class JarFile implements Serializable
 	public String getFilePath( )
 	{
 		return filePath;
+	}
+
+	public String getFileName( )
+	{
+		return fileName;
 	}
 	
 	public String getState( )

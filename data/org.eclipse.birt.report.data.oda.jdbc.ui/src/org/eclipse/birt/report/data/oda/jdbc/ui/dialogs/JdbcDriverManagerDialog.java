@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class JdbcDriverManagerDialog extends Dialog
 	/**
 	 * list of jars to be copied and deleted when okPressed
 	 */
-	private List jarsToBeCopied,jarsToBeDeleted;
+	private Hashtable jarsToBeCopied,jarsToBeDeleted;
 	
 	private static final int btnWidth = 90;
 	private static final int btnHeight = 24;
@@ -477,8 +478,8 @@ public class JdbcDriverManagerDialog extends Dialog
 	{
 		jarMap = new HashMap( );
 		driverMap = new HashMap( );
-		jarsToBeCopied = new ArrayList( );
-		jarsToBeDeleted = new ArrayList( );
+		jarsToBeCopied = new Hashtable( );
+		jarsToBeDeleted = new Hashtable( );
 		
 		updateJarMap( );
 		updateDriverMap( );
@@ -519,18 +520,12 @@ public class JdbcDriverManagerDialog extends Dialog
 
 			for ( int i = 0; i < jars.length; i++ )
 				jarMap.put( jars[i].getName( ),
-						new JarFile( jars[i].getAbsolutePath( ), "", false ) );
+						new JarFile( jars[i].getName( ),
+								jars[i].getAbsolutePath( ),
+								"",
+								false ) );
 			
 		}
-		
-//		Set entrySet = deletedJars.entrySet( );
-//		Iterator iterator = entrySet.iterator( );
-//		while ( iterator.hasNext( ) )
-//		{
-//			Map.Entry entry = (Map.Entry) iterator.next( );
-//			if ( !( (JarFile) entry.getValue( ) ).isToBeDeleted() )
-//				jarMap.put( entry.getKey( ), entry.getValue( ) );
-//		}
 		
 		jarMap.putAll( Utility.getPreferenceStoredMap( JdbcPlugin.JAR_MAP_PREFERENCE_KEY ));
 		
@@ -687,18 +682,20 @@ public class JdbcDriverManagerDialog extends Dialog
 		
 		// add drivers in to be copied Jars
 		List fileList = new ArrayList( );
-		for ( int i = 0; i < jarsToBeCopied.size( ); i++ )
+		Iterator jarsCopyIterator = jarsToBeCopied.values().iterator();
+		while(jarsCopyIterator.hasNext())
 		{
-			fileList.add(new File( ( (JarFile) jarsToBeCopied.get( i ) ).getFilePath( ) ) );
+			fileList.add(new File( ( (JarFile) jarsCopyIterator.next(  ) ).getFilePath( ) ) );
 		}
 		driverList.addAll( JdbcToolKit.getJdbcDriverFromFile( fileList ) );
 		
 		// remove drivers in to be deleted Jars
 		fileList.clear( );
-		for ( int i = 0; i < jarsToBeDeleted.size( ); i++ )
+		
+		Iterator jarsDeleteIterator = jarsToBeDeleted.values( ).iterator( );
+		while ( jarsDeleteIterator.hasNext( ) )
 		{
-			fileList.add( new File( ( (JarFile) jarsToBeDeleted.get( i ) ).getFilePath( ) ) );
-
+			fileList.add( new File( ( (JarFile) jarsDeleteIterator.next( ) ).getFilePath( ) ) );
 		}
 		driverList.removeAll( JdbcToolKit.getJdbcDriverFromFile( fileList ) );
 		
@@ -821,15 +818,15 @@ public class JdbcDriverManagerDialog extends Dialog
 						JdbcPlugin.getResourceString( "driverManagerDialog.error.CanNotAddDriver" ) );
 				return;
 			}
-			if ( jarsToBeDeleted.contains( dlg.getFileName( ) ) )
+			if ( jarsToBeDeleted.containsKey( dlg.getFileName( ) ) )
 			{
 				jarsToBeDeleted.remove( dlg.getFileName( ) );
 			}
 			
 
-			JarFile jarInfo = new JarFile( fn, "", false );
+			JarFile jarInfo = new JarFile( dlg.getFileName( ), fn, "", false );
 
-			jarsToBeCopied.add( jarInfo );
+			jarsToBeCopied.put( dlg.getFileName( ), jarInfo );
 			jarMap.put( dlg.getFileName( ), jarInfo );
 
 			refreshJarViewer( );
@@ -853,7 +850,8 @@ public class JdbcDriverManagerDialog extends Dialog
 			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
 
 			( (JarFile) fn.getValue( ) ).setRestored( );
-			jarsToBeCopied.add( (JarFile) fn.getValue( ) );
+			jarsToBeCopied.put( ( (JarFile) fn.getValue( ) ).getFileName( ),
+					(JarFile) fn.getValue( ) );
 			
 			checkJarState( );
 
@@ -877,19 +875,17 @@ public class JdbcDriverManagerDialog extends Dialog
 			int idx = jarViewer.getTable( ).getSelectionIndex( );
 
 			Map.Entry fn = (Map.Entry) jarViewer.getTable( ).getSelection( )[0].getData( );
+			JarFile jarFile = (JarFile) fn.getValue( );
 
-			( (JarFile) fn.getValue( ) ).setToBeDeleted(true);
+			jarFile.setToBeDeleted( true );
 
-//			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
-//					fn.getKey( ).toString( ),
-//					fn.getValue( ) );
-
-			if ( jarsToBeCopied.contains( (JarFile) fn.getValue( ) ) )
+			if ( jarsToBeCopied.containsKey( jarFile.getFileName() ) )
 			{
-				jarsToBeCopied.remove( (JarFile) fn.getValue( ) );
+				jarsToBeCopied.remove( jarFile );
 			}
 			
-			jarsToBeDeleted.add( (JarFile) fn.getValue( ) );
+			jarsToBeDeleted.put( jarFile.getFileName( ),
+					jarFile );
 			
 			jarMap.remove( fn.getKey( ) );
 
@@ -968,31 +964,28 @@ public class JdbcDriverManagerDialog extends Dialog
 				jarMap );
 		Utility.setPreferenceStoredMap( JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY,
 				driverMap );
-		for ( int i = 0; i < jarsToBeCopied.size( ); i++ )
+
+		Iterator jarsCopyIterator = jarsToBeCopied.values( ).iterator( );
+		while ( jarsCopyIterator.hasNext( ) )
 		{
-			JarFile jar = (JarFile) jarsToBeCopied.get( i );
+			JarFile jar = (JarFile) jarsCopyIterator.next( );
 			jar.copyJarToODADir( );
 			Utility.removeMapEntryFromPreferenceStoredMap( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
-					getFileNameFromJarFile( jar ) );
+					jar.getFileName( ) );
 		}
-		for ( int i = 0; i < jarsToBeDeleted.size( ); i++ )
+		
+		Iterator jarsDeleteIterator = jarsToBeDeleted.values( ).iterator( );
+		while ( jarsDeleteIterator.hasNext( ) )
 		{
-			JarFile jar = (JarFile) jarsToBeDeleted.get( i );
-			jar.deleteJarFromODADir( );
+			JarFile jar = (JarFile) jarsDeleteIterator.next( );
+			jar.copyJarToODADir( );
 			Utility.putPreferenceStoredMapValue( JdbcPlugin.DELETED_JAR_MAP_PREFERENCE_KEY,
-					getFileNameFromJarFile( jar ),
+					jar.getFileName( ),
 					jar );
 		}
+
 		refreshDriverPage( );
 		super.okPressed( );
-	}
-
-	private String getFileNameFromJarFile( JarFile jar )
-	{
-		String fileName = jar.getFilePath( ).substring( jar.getFilePath( )
-				.lastIndexOf( File.separator )
-				+ File.separator.length( ) );
-		return fileName;
 	}
 	
 	/**
