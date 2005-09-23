@@ -423,4 +423,15 @@ public class SessionHandle
 	{
 		return session.getLocale( );
 	}
+
+	/**
+	 * Gets the design session of the handle.
+	 * 
+	 * @return the design session of the handle
+	 */
+
+	DesignSession getSession( )
+	{
+		return this.session;
+	}
 }
