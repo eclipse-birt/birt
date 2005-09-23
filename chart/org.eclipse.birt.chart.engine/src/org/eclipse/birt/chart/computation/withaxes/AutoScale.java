@@ -378,7 +378,8 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( bStepFixed )
 			return false;
-		if ( ( (Number) oStep ).doubleValue( ) >= Double.POSITIVE_INFINITY )
+		if ( ( (Number) oStep ).doubleValue( ) >= Double.POSITIVE_INFINITY
+				|| ( (Number) oStep ).doubleValue( ) >= Double.MAX_VALUE )
 			return false; // CANNOT ZOOM ANY MORE
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
@@ -449,6 +450,12 @@ public final class AutoScale extends Methods implements Cloneable
 								},
 								ResourceBundle.getBundle( Messages.ENGINE,
 										rtc.getLocale( ) ) ) );
+					}
+
+					if ( ( (Number) oStep ).doubleValue( ) == dStep )
+					{
+						// Can not zoom any more, result is always the same;
+						return false;
 					}
 					oStep = new Double( dStep );
 				}
