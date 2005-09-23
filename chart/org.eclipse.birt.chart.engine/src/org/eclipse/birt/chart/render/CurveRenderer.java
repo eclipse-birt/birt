@@ -263,6 +263,7 @@ public final class CurveRenderer
 			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Polygon3DRenderEvent.class );
 			pre.setOutline( null );
+			pre.setDoubleSided(true);
 			pre.setBackground( tapeColor );
 
 			if ( !leftSide )

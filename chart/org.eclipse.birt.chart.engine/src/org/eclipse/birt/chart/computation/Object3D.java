@@ -1,13 +1,16 @@
+
 package org.eclipse.birt.chart.computation;
 
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.Matrix;
 
 /**
@@ -43,8 +46,9 @@ public class Object3D
 	 */
 	public Object3D( Location3D la )
 	{
-		this( new Location3D[]
-		{ la } );
+		this( new Location3D[]{
+			la
+		} );
 	}
 
 	/**
@@ -93,7 +97,8 @@ public class Object3D
 		Location3D[] loa3d = new Location3D[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			loa3d[i] = Location3DImpl.create( va[i].get( 0 ), va[i].get( 1 ),
+			loa3d[i] = Location3DImpl.create( va[i].get( 0 ),
+					va[i].get( 1 ),
 					va[i].get( 2 ) );
 		}
 		return loa3d;
@@ -127,82 +132,6 @@ public class Object3D
 	}
 
 	/**
-	 * @param obj
-	 * @return
-	 */
-	protected boolean testAside( Object3D obj, boolean outside )
-	{
-		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
-		{
-			return true;
-		}
-
-		Vector normal = null;
-		Vector ov = viewVa[0];
-		Vector[] tva = obj.getViewerVectors( );
-		Vector viewDirection = new Vector( 0,0,1);
-
-		if ( viewVa.length < 3 )
-		{
-			normal = new Vector( obj.getNormal( ) );
-			outside = !outside;
-			ov = tva[0];
-			tva = getViewerVectors( );
-			viewDirection = obj.getCenter( );
-		}
-		else
-		{
-			normal = new Vector( getNormal( ) );
-		}
-
-		// check if the normal vector of face points to the same direction
-		// of the viewing direction
-		if (  normal.scalarProduct( viewDirection ) <= 0 )
-			
-		{
-			normal.inverse( );
-		}
-
-		double d = -normal.get( 0 )
-				* ov.get( 0 )
-				- normal.get( 1 )
-				* ov.get( 1 )
-				- normal.get( 2 )
-				* ov.get( 2 );
-
-		for ( int i = 0; i < tva.length; i++ )
-		{
-			if (outside)
-			{
-				if ( tva[i].get( 0 )
-						* normal.get( 0 )
-						+ tva[i].get( 1 )
-						* normal.get( 1 )
-						+ tva[i].get( 2 )
-						* normal.get( 2 )
-						+ d < 0 )
-				{
-					return false;
-				}
-			}
-			else 
-			{
-				if ( tva[i].get( 0 )
-						* normal.get( 0 )
-						+ tva[i].get( 1 )
-						* normal.get( 1 )
-						+ tva[i].get( 2 )
-						* normal.get( 2 )
-						+ d > 0 )
-				{
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-	/**
 	 * Returns center of gravity of polygon
 	 * 
 	 * @return
@@ -218,7 +147,7 @@ public class Object3D
 
 			double m = va.length;
 
-			center = new Vector();
+			center = new Vector( );
 
 			for ( int i = 0; i < m; i++ )
 			{
@@ -237,9 +166,13 @@ public class Object3D
 		this.center = null;
 		this.normal = null;
 		this.va = null;
+		this.viewVa = null;
 		this.zMax = 0;
 		this.zMin = 0;
-
+		this.yMax = 0;
+		this.yMin = 0;
+		this.xMax = 0;
+		this.xMin = 0;
 	}
 
 	/**
@@ -343,57 +276,16 @@ public class Object3D
 	{
 		byte retval;
 
-		List lst = new ArrayList();
+		List lst = new ArrayList( );
 
 		switch ( va.length )
 		{
-		case 0:
-			break;
-		case 1:
-		{
-			Vector start = new Vector( va[0] );
-			Vector end = new Vector( va[0] );
-
-			retval = engine.checkClipping( start, end );
-
-			if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
+			case 0 :
+				break;
+			case 1 :
 			{
-				lst.add( start );
-			}
-		}
-			break;
-		case 2:
-		{
-			Vector start = new Vector( va[0] );
-			Vector end = new Vector( va[1] );
-
-			retval = engine.checkClipping( start, end );
-
-			if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
-			{
-				lst.add( start );
-				lst.add( end );
-			}
-		}
-			break;
-
-		default:
-		{
-			for ( int i = 0; i < va.length; i++ )
-			{
-				Vector start = null;
-				Vector end = null;
-
-				if ( i == va.length - 1 )
-				{
-					start = new Vector( va[i] );
-					end = new Vector( va[0] );
-				}
-				else
-				{
-					start = new Vector( va[i] );
-					end = new Vector( va[i + 1] );
-				}
+				Vector start = new Vector( va[0] );
+				Vector end = new Vector( va[0] );
 
 				retval = engine.checkClipping( start, end );
 
@@ -402,8 +294,50 @@ public class Object3D
 					lst.add( start );
 				}
 			}
-		}
-			break;
+				break;
+			case 2 :
+			{
+				Vector start = new Vector( va[0] );
+				Vector end = new Vector( va[1] );
+
+				retval = engine.checkClipping( start, end );
+
+				if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
+				{
+					lst.add( start );
+					lst.add( end );
+				}
+			}
+				break;
+
+			default :
+			{
+				for ( int i = 0; i < va.length; i++ )
+				{
+					Vector start = null;
+					Vector end = null;
+
+					if ( i == va.length - 1 )
+					{
+						start = new Vector( va[i] );
+						end = new Vector( va[0] );
+					}
+					else
+					{
+						start = new Vector( va[i] );
+						end = new Vector( va[i + 1] );
+					}
+
+					retval = engine.checkClipping( start, end );
+
+					if ( retval != Engine3D.OUT_OF_RANGE_BOTH )
+					{
+						lst.add( start );
+						lst.add( end );
+					}
+				}
+			}
+				break;
 		}
 		va = (Vector[]) lst.toArray( new Vector[0] );
 	}
@@ -413,9 +347,9 @@ public class Object3D
 	 */
 	public void prepareZSort( )
 	{
-		computeExtremums();
-		getNormal();
-		getCenter();
+		computeExtremums( );
+		getNormal( );
+		getCenter( );
 
 		viewVa = new Vector[va.length];
 		for ( int i = 0; i < va.length; i++ )
@@ -439,7 +373,7 @@ public class Object3D
 		}
 		if ( center != null )
 		{
-			 //center.perspective( distance );
+			// center.perspective( distance );
 		}
 		// computeExtremums( );
 	}
@@ -470,49 +404,186 @@ public class Object3D
 		Location[] locations = new Location[va.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			locations[i] = LocationImpl.create( va[i].get( 0 ) + xOffset, va[i]
-					.get( 1 )
-					+ yOffset );
+			locations[i] = LocationImpl.create( va[i].get( 0 ) + xOffset,
+					va[i].get( 1 ) + yOffset );
 		}
 		return locations;
 	}
+
+	/**
+	 * @param obj
+	 * @return
+	 */
+	protected boolean testAside( Object3D obj, boolean outside )
+	{
+		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
+		{
+			return true;
+		}
+
+		Vector normal = null;
+		Vector ov = viewVa[0];
+		Vector[] tva = obj.getViewerVectors( );
+		Vector viewDirection = new Vector( 0, 0, 1 );
+
+		if ( viewVa.length < 3 )
+		{
+			normal = new Vector( obj.getNormal( ) );
+			outside = !outside;
+			ov = tva[0];
+			tva = getViewerVectors( );
+			// viewDirection = obj.getCenter( );
+		}
+		else
+		{
+			normal = new Vector( getNormal( ) );
+		}
+
+		// check if the normal vector of face points to the same direction
+		// of the viewing direction
+		if ( normal.scalarProduct( viewDirection ) <= 0 )
+		{
+			normal.inverse( );
+		}
+
+		double d = -normal.get( 0 )
+				* ov.get( 0 )
+				- normal.get( 1 )
+				* ov.get( 1 )
+				- normal.get( 2 )
+				* ov.get( 2 );
+
+		for ( int i = 0; i < tva.length; i++ )
+		{
+			if ( outside )
+			{
+				double p = tva[i].get( 0 )
+						* normal.get( 0 )
+						+ tva[i].get( 1 )
+						* normal.get( 1 )
+						+ tva[i].get( 2 )
+						* normal.get( 2 )
+						+ d;
+				if ( ChartUtil.mathLT( p, 0 ) )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				double p = tva[i].get( 0 )
+						* normal.get( 0 )
+						+ tva[i].get( 1 )
+						* normal.get( 1 )
+						+ tva[i].get( 2 )
+						* normal.get( 2 )
+						+ d;
+				if ( ChartUtil.mathGT( p, 0 ) )
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param near
+	 * @return
+	 */
+	protected boolean testIntersect( Object3D near )
+	{
+		Vector[] va1 = getViewerVectors( );
+		Vector[] va2 = near.getViewerVectors( );
+
+		GeneralPath gp1 = new GeneralPath( );
+		for ( int i = 0; i < va1.length; i++ )
+		{
+			if ( i == 0 )
+			{
+				gp1.moveTo( (float) va1[i].get( 0 ), (float) va1[i].get( 1 ) );
+			}
+			else
+			{
+				gp1.lineTo( (float) va1[i].get( 0 ), (float) va1[i].get( 1 ) );
+			}
+		}
+		gp1.closePath( );
+
+		GeneralPath gp2 = new GeneralPath( );
+		for ( int i = 0; i < va2.length; i++ )
+		{
+			if ( i == 0 )
+			{
+				gp2.moveTo( (float) va2[i].get( 0 ), (float) va2[i].get( 1 ) );
+			}
+			else
+			{
+				gp2.lineTo( (float) va2[i].get( 0 ), (float) va2[i].get( 1 ) );
+			}
+		}
+		gp2.closePath( );
+
+		Area ar1 = new Area( gp1 );
+		Area ar2 = new Area( gp2 );
+
+		ar1.intersect( ar2 );
+
+		return ar1.isEmpty( );
+	}
+
+	/**
+	 * @param near
+	 * @return
+	 */
 	protected boolean testXOverlap( Object3D near )
 	{
-		return ( ( this.getXMax() > near.getXMax()
-				&& this.getXMin() < near.getXMax() )
-				|| ( this.getXMax() < near.getXMax()
-				&& this.getXMax() > near.getXMin() ) );
+		return ( ( this.getXMax( ) >= near.getXMax( ) && this.getXMin( ) < near.getXMax( ) ) || ( this.getXMax( ) < near.getXMax( ) && this.getXMax( ) > near.getXMin( ) ) );
 	}
 
+	/**
+	 * @param near
+	 * @return
+	 */
 	protected boolean testYOverlap( Object3D near )
 	{
-		return ( ( this.getYMax() > near.getYMax()
-				&& this.getYMin() < near.getYMax() )
-				|| ( this.getYMax() < near.getYMax()
-				&& this.getYMax() > near.getYMin() ) );
+		return ( ( this.getYMax( ) >= near.getYMax( ) && this.getYMin( ) < near.getYMax( ) ) || ( this.getYMax( ) < near.getYMax( ) && this.getYMax( ) > near.getYMin( ) ) );
 	}
 
+	/**
+	 * @param near
+	 * @return
+	 */
 	public boolean testSwap( Object3D near )
 	{
 		Object3D far = this;
 		boolean swap = false;
-		if ( far.testXOverlap( near ) && far.testYOverlap( near ))
+		if ( far.testXOverlap( near ) && far.testYOverlap( near ) )
 		{
 			if ( !( near.testAside( far, true ) ) )
 			{
 				if ( !( far.testAside( near, false ) ) )
 				{
-					
-					if ( far.testAside( near, true ) || near.testAside( far, false ))
+					if ( far.testIntersect( near ) )
+					{
+						//
+						// if ( far.testAside( near, true )
+						// || near.testAside( far, false ) )
 						swap = true;
+					}
 				}
 			}
 		}
-		return  swap;
+		return swap;
 	}
 
+	/**
+	 * @param near
+	 * @return
+	 */
 	public boolean testZOverlap( Object3D near )
 	{
-		return ( near.getZMax() >= this.getZMin() );
+		return ( near.getZMax( ) >= this.getZMin( ) );
 	}
 }

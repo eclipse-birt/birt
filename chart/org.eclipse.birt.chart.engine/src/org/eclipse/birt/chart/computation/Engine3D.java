@@ -597,8 +597,7 @@ public final class Engine3D implements IConstants
 
 			object3D.transform( transMatrix );
 			object3D.transform( M2V_MATRIX );
-			
-			
+
 			object3D.clip( this );
 			object3D.prepareZSort( );
 			if ( object3D.getVectors( ).length < 2 )
@@ -606,7 +605,6 @@ public final class Engine3D implements IConstants
 				return false;
 			}
 			object3D.perspective( PERSPECTIVE_VALUE );
-			
 
 			object3D.transform( V2C_MATRIX );
 
@@ -731,46 +729,46 @@ public final class Engine3D implements IConstants
 
 	protected void overlapSwap( List rtList )
 	{
-		for ( int i = 0; i < rtList.size() ; i++ )
+		for ( int i = 0; i < rtList.size( ); i++ )
 		{
 			Object event = rtList.get( i );
 			Object3D far = getObjectFromEvent( event );
-			if ( far.getVectors().length < 3 )
+			if ( far.getViewerVectors( ).length < 3 )
 				continue;
-			
+
 			boolean restart = true;
-			while ( restart   )
+			while ( restart )
 			{
 				restart = false;
-				
+
 				event = rtList.get( i );
 				far = getObjectFromEvent( event );
-				
-				for ( int j = i; j < rtList.size() ; j++ )
+
+				for ( int j = i; j < rtList.size( ); j++ )
 				{
 					Object event2 = rtList.get( j );
 					Object3D near = getObjectFromEvent( event2 );
-					if ( near.getVectors().length < 3 )
+					if ( near.getViewerVectors( ).length < 3 )
 						continue;
 					if ( far.testZOverlap( near ) )
 					{
 						if ( far.testSwap( near ) )
 						{
-							rtList.set( i, event2);
+							rtList.set( i, event2 );
 							rtList.set( j, event );
-							
-							restart = true; 
+
+							restart = true;
 							break;
 						}
 					}
 					else
 					{
-						break;
+						continue;
 					}
 				}
 			}
 		}
-		
+
 	}
 
 	protected Object3D getObjectFromEvent( Object event )
@@ -789,6 +787,7 @@ public final class Engine3D implements IConstants
 			throw new IllegalArgumentException( );
 		}
 	}
+
 	// z-sort
 	protected void zsort( List rtList )
 	{
@@ -798,12 +797,12 @@ public final class Engine3D implements IConstants
 			{
 				Object3D obj1 = getObjectFromEvent( o1 );
 				Object3D obj2 = getObjectFromEvent( o2 );
-				
+
 				if ( obj1.getZMax( ) > obj2.getZMax( ) )
 				{
 					return -1;
 				}
-				else if ( obj1.getZMax( )  < obj2.getZMax( ) )
+				else if ( obj1.getZMax( ) < obj2.getZMax( ) )
 				{
 					return 1;
 				}
@@ -811,7 +810,7 @@ public final class Engine3D implements IConstants
 				{
 					return 0;
 				}
-		
+
 			}
 
 		} );

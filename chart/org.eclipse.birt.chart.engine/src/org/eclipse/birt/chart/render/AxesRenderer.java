@@ -1275,6 +1275,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 					Polygon3DRenderEvent.class );
+			pre.setDoubleSided( true );
 
 			// DRAW THE WALL
 			if ( cwa.getWallFill( ) != null )
@@ -1307,6 +1308,17 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
+
+				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				// loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
+				// loa[2] = Location3DImpl.create( dXStart, dYEnd, dZEnd );
+				// loa[3] = Location3DImpl.create( dXStart, dYStart, dZEnd );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getWallFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
+
 				leftWallFill = true;
 
 				// Right Wall
@@ -1335,6 +1347,18 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
+
+				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				// loa[1] = Location3DImpl.create( dXStart, dYEnd, dZStart );
+				// loa[2] = Location3DImpl.create( dXEnd, dYEnd, dZStart );
+				// loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getWallFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW
+				// | PrimitiveRenderEvent.FILL );
+
 				rightWallFill = true;
 			}
 
@@ -1371,6 +1395,18 @@ public abstract class AxesRenderer extends BaseRenderer
 										| PrimitiveRenderEvent.FILL );
 					}
 				}
+
+				// loa[0] = Location3DImpl.create( dXStart, dYStart, dZStart );
+				// loa[1] = Location3DImpl.create( dXStart, dYStart, dZEnd );
+				// loa[2] = Location3DImpl.create( dXEnd, dYStart, dZEnd );
+				// loa[3] = Location3DImpl.create( dXEnd, dYStart, dZStart );
+				// pre.setPoints3D( loa );
+				// pre.setBackground( cwa.getFloorFill( ) );
+				// pre.setOutline( ca.getOutline( ) );
+				// getDeferredCache( ).addPlane( pre,
+				// PrimitiveRenderEvent.DRAW
+				// | PrimitiveRenderEvent.FILL );
+
 				floorFill = true;
 			}
 

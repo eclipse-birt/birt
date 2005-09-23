@@ -26,7 +26,7 @@ public class ChartUtil
 	 * Precision for chart rendering. Increase this to avoid unnecessary
 	 * precision check.
 	 */
-	private static final double EPS = 1E-10;
+	private static final double EPS = 1E-9;
 
 	/**
 	 * Returns if the given color definition is totally transparent. e.g.
