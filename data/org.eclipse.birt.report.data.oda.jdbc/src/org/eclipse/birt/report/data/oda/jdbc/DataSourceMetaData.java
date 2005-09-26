@@ -282,7 +282,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 				DataSourceMetaData.class.getName( ),
 				"supportsOutParameters",
 				"DataSourceMetaData.supportsOutParameters( )" );
-		return false;
+		return true;
 	}
 
 	/*
