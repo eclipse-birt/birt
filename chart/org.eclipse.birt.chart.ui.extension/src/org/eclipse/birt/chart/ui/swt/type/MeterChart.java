@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.type;
 
@@ -16,12 +18,10 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
@@ -32,11 +32,11 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
-import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
+import org.eclipse.birt.chart.model.impl.DialChartImpl;
+import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
-import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -48,31 +48,33 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * PieChart
+ * MeterChart
  */
-public class PieChart extends DefaultChartTypeImpl
+public class MeterChart extends DefaultChartTypeImpl
 {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
 
-	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
+	private static final String sStandardDescription = Messages.getString( "MeterChart.Txt.Description" ); //$NON-NLS-1$
+
+	private static final String sSuperimposedDescription = Messages.getString( "MeterChart.Txt.SuperimposedDescription" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
-	private transient Image img2D = null;
+	private transient Image imgStandard = null;
 
-	private transient Image img2DWithDepth = null;
+	private transient Image imgSuperimposed = null;
 
 	private static final String[] saDimensions = new String[]{
-			TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
+		TWO_DIMENSION_TYPE
 	};
 
-	public PieChart( )
+	public MeterChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/obj16/piecharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/metercharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -103,7 +105,7 @@ public class PieChart extends DefaultChartTypeImpl
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( TYPE_LITERAL,
-				Messages.getString( "PieChart.Txt.HelpText" ) ); //$NON-NLS-1$
+				Messages.getString( "MeterChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -123,16 +125,11 @@ public class PieChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
-			img2D = UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
+			imgStandard = UIHelper.getImage( "icons/wizban/meterchartimage.gif" ); //$NON-NLS-1$
+			imgSuperimposed = UIHelper.getImage( "icons/wizban/meterchartsuperimposedimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Pie Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$
-		}
-		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
-		{
-			img2DWithDepth = UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
-
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Pie Chart", img2DWithDepth, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Meter Chart", imgStandard, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Superimposed Meter Chart", imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -146,10 +143,10 @@ public class PieChart extends DefaultChartTypeImpl
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
 	{
-		ChartWithoutAxes newChart = null;
+		DialChart newChart = null;
 		if ( currentChart != null )
 		{
-			newChart = (ChartWithoutAxes) getConvertedChart( currentChart,
+			newChart = (DialChart) getConvertedChart( currentChart,
 					sSubType,
 					sDimension );
 			if ( newChart != null )
@@ -157,21 +154,20 @@ public class PieChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithoutAxesImpl.create( );
+		newChart = (DialChart) DialChartImpl.create( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
-		if ( newChart.getDimension( )
-				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
-		{
-			newChart.setSeriesThickness( 15 );
-		}
+
+		newChart.setDialSuperimposition( sSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
 
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ) ); //$NON-NLS-1$
+				.setValue( Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ) ); //$NON-NLS-1$
+
+		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		sdX.getSeriesPalette( ).update( 0 );
@@ -181,14 +177,8 @@ public class PieChart extends DefaultChartTypeImpl
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
-		Series valueSeries = PieSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
+		DialSeries valueSeries = (DialSeries) DialSeriesImpl.create( );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
-		( (PieSeries) valueSeries ).getTitle( )
-				.getCaption( )
-				.setValue( "valueSeries" ); //$NON-NLS-1$
-		( (PieSeries) valueSeries ).setStacked( false );
-		( (PieSeries) valueSeries ).setExplosion( 0 );
 		sdY.getSeries( ).add( valueSeries );
 
 		sdX.getSeriesDefinitions( ).add( sdY );
@@ -207,22 +197,15 @@ public class PieChart extends DefaultChartTypeImpl
 
 		// Create Base Sample Data
 		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
+		sdBase.setDataSetRepresentation( "A" ); //$NON-NLS-1$
 		sd.getBaseSampleData( ).add( sdBase );
 
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData oSample = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		oSample.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
+		oSample.setDataSetRepresentation( "5" ); //$NON-NLS-1$
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
-		/*
-		 * OrthogonalSampleData oSample2 =
-		 * DataFactory.eINSTANCE.createOrthogonalSampleData();
-		 * oSample2.setDataSetRepresentation("7,22,14");
-		 * oSample2.setSeriesDefinitionIndex(0);
-		 * sd.getOrthogonalSampleData().add(oSample2);
-		 */
 		newChart.setSampleData( sd );
 	}
 
@@ -230,11 +213,11 @@ public class PieChart extends DefaultChartTypeImpl
 			String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		if ( ( currentChart instanceof ChartWithAxes ) )
+		if ( currentChart instanceof ChartWithAxes )
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithoutAxesImpl.create( );
+			currentChart = DialChartImpl.create( );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
@@ -244,20 +227,13 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.setDescription( helperModel.getDescription( ) );
 			currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
 			if ( !currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
+					&& !currentChart.getType( ).equals( PieChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
 					&& !currentChart.getType( ).equals( AreaChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
 			currentChart.setScript( helperModel.getScript( ) );
-			if ( helperModel.isSetSeriesThickness( ) )
-			{
-				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
-			}
-			else
-			{
-				currentChart.setSeriesThickness( 15 );
-			}
 			currentChart.setUnits( helperModel.getUnits( ) );
 			if ( helperModel.getGridColumnCount( ) > 0 )
 			{
@@ -292,35 +268,30 @@ public class PieChart extends DefaultChartTypeImpl
 			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).addAll( vOSD );
 
-			// Set the legend item type t Categories to have the chart behave as
-			// expected by default.
 			currentChart.getLegend( )
-					.setItemType( LegendItemType.CATEGORIES_LITERAL );
+					.setItemType( LegendItemType.SERIES_LITERAL );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
 				currentChart.setSubType( sNewSubType );
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
 				if ( !currentChart.getDimension( )
 						.equals( getDimensionFor( sNewDimension ) ) )
 				{
 					currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				}
-
-				if ( !currentChart.isSetSeriesThickness( ) )
-				{
-					currentChart.setSeriesThickness( 15 );
 				}
 			}
 			else
 			{
 				// Create a new instance of the correct type and set initial
 				// properties
-				currentChart = ChartWithoutAxesImpl.create( );
+				currentChart = DialChartImpl.create( );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
+				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
 
 				// Copy generic chart properties from the old chart
 				currentChart.setBlock( helperModel.getBlock( ) );
@@ -328,7 +299,6 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.setGridColumnCount( helperModel.getGridColumnCount( ) );
 				currentChart.setSampleData( helperModel.getSampleData( ) );
 				currentChart.setScript( helperModel.getScript( ) );
-				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 				currentChart.setUnits( helperModel.getUnits( ) );
 
 				// Clear existing series definitions
@@ -337,7 +307,8 @@ public class PieChart extends DefaultChartTypeImpl
 
 				// Copy series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
-						.addAll( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( ) );
+						.add( ( (ChartWithoutAxes) helperModel ).getSeriesDefinitions( )
+								.get( 0 ) );
 
 				// Update the series
 				EList seriesdefinitions = ( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -359,7 +330,7 @@ public class PieChart extends DefaultChartTypeImpl
 				}
 
 				currentChart.getLegend( )
-						.setItemType( LegendItemType.CATEGORIES_LITERAL );
+						.setItemType( LegendItemType.SERIES_LITERAL );
 			}
 		}
 		else
@@ -378,49 +349,38 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			return series;
 		}
-		PieSeries pieseries = (PieSeries) PieSeriesImpl.create( );
-		pieseries.setExplosion( 10 );
-		pieseries.getLeaderLineAttributes( ).setVisible( true );
-		pieseries.getLeaderLineAttributes( )
-				.setColor( ColorDefinitionImpl.BLACK( ) );
-		pieseries.setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
+
+		DialSeries dialseries = (DialSeries) DialSeriesImpl.create( );
 
 		// Copy generic series properties
-		pieseries.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
-		{
-			pieseries.setLabelPosition( series.getLabelPosition( ) );
-		}
-		else
-		{
-			pieseries.setLabelPosition( Position.OUTSIDE_LITERAL );
-		}
-		pieseries.setVisible( series.isVisible( ) );
+		dialseries.setLabel( series.getLabel( ) );
+		dialseries.setVisible( series.isVisible( ) );
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
-			pieseries.getTriggers( ).addAll( series.getTriggers( ) );
+			dialseries.getTriggers( ).addAll( series.getTriggers( ) );
 		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataPoint( ) ) )
 		{
-			pieseries.setDataPoint( series.getDataPoint( ) );
+			dialseries.setDataPoint( series.getDataPoint( ) );
 		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_DataDefinition( ) ) )
 		{
-			pieseries.getDataDefinition( ).add( series.getDataDefinition( )
+			dialseries.getDataDefinition( ).add( series.getDataDefinition( )
 					.get( 0 ) );
 		}
 
 		// Copy series specific properties
 		if ( series instanceof LineSeries )
 		{
-			pieseries.setLeaderLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
+			dialseries.getDial( )
+					.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
 		}
 		else if ( series instanceof StockSeries )
 		{
-			pieseries.setLeaderLineAttributes( ( (StockSeries) series ).getLineAttributes( ) );
+			dialseries.getDial( )
+					.setLineAttributes( ( (StockSeries) series ).getLineAttributes( ) );
 		}
-		return pieseries;
+		return dialseries;
 	}
 
 	private SampleData getConvertedSampleData( SampleData currentSampleData )
@@ -549,10 +509,6 @@ public class PieChart extends DefaultChartTypeImpl
 
 	private ChartDimension getDimensionFor( String sDimension )
 	{
-		if ( sDimension == null || sDimension.equals( TWO_DIMENSION_TYPE ) )
-		{
-			return ChartDimension.TWO_DIMENSIONAL_LITERAL;
-		}
-		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
+		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
 }

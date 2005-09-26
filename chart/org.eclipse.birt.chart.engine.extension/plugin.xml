@@ -21,15 +21,15 @@
 
    <extension
          point="org.eclipse.birt.chart.engine.modelrenderers">
-      <!--modelRenderer
+      <modelRenderer
             renderer="org.eclipse.birt.chart.render.Area"
-            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/-->
+            series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Bar"
             series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
-      <!--modelRenderer
+      <modelRenderer
             renderer="org.eclipse.birt.chart.render.Dial"
-            series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/-->
+            series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
       <modelRenderer
             renderer="org.eclipse.birt.chart.render.Line"
             series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>

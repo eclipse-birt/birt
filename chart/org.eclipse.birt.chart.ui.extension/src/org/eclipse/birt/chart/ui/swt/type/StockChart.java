@@ -56,8 +56,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author Actuate Corporation
- * 
+ * StockChart
  */
 public class StockChart extends DefaultChartTypeImpl
 {
@@ -217,11 +216,10 @@ public class StockChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
-		// ChartWithAxes
+		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-																	// chart is
+			// chart is
 			// of this type
 			// (BarChart)
 			{
@@ -316,7 +314,8 @@ public class StockChart extends DefaultChartTypeImpl
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL ) )
+			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
+					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )

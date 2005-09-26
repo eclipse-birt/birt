@@ -30,15 +30,18 @@
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.types">
-      <!--chartType
+      <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.AreaChart"
-            name="Area Chart"/-->
+            name="Area Chart"/>
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.BarChart"
             name="Bar Chart"/>
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.LineChart"
             name="Line Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.MeterChart"
+            name="Meter Chart"/>
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.PieChart"
             name="Pie Chart"/>
@@ -168,12 +171,15 @@
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.BarSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
-      <!--seriescomposite
+      <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.AreaSeriesUIProvider"
-            seriesType="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/-->
+            seriesType="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.LineSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
+      <seriescomposite
+            seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.MeterSeriesUIProvider"
+            seriesType="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
       <seriescomposite
             seriesUIProvider="org.eclipse.birt.chart.ui.swt.series.PieSeriesUIProvider"
             seriesType="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>

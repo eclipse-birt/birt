@@ -18,23 +18,29 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.AreaSeries;
@@ -52,9 +58,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ * AreaChart
  */
-
 public class AreaChart extends DefaultChartTypeImpl
 {
 
@@ -86,7 +91,9 @@ public class AreaChart extends DefaultChartTypeImpl
 	private transient Image imgSideBySide3D = null;
 
 	private static final String[] saDimensions = new String[]{
-			TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
+			TWO_DIMENSION_TYPE,
+			TWO_DIMENSION_WITH_DEPTH_TYPE,
+			THREE_DIMENSION_TYPE
 	};
 
 	public AreaChart( )
@@ -181,7 +188,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		{
 			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysideareachart3dimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -288,6 +295,44 @@ public class AreaChart extends DefaultChartTypeImpl
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 					.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		}
+
+		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
+		{
+			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
+					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
+			} ) );
+
+			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
+
+			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
+			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			zAxisAncillary.getTitle( )
+					.getCaption( )
+					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
+			zAxisAncillary.getTitle( ).setVisible( true );
+			zAxisAncillary.setPrimaryAxis( true );
+			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
+			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
+			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+			zAxisAncillary.getOrigin( )
+					.setValue( NumberDataElementImpl.create( 0 ) );
+			zAxisAncillary.getTitle( ).setVisible( false );
+			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
+			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
+					.add( zAxisAncillary );
+
+			newChart.getPrimaryOrthogonalAxis( newChart.getPrimaryBaseAxes( )[0] )
+					.getTitle( )
+					.getCaption( )
+					.getFont( )
+					.setRotation( 0 );
+
+			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
+			sdZ.getSeriesPalette( ).update( 0 );
+			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
+		}
+
 		addSampleData( newChart );
 		return newChart;
 	}
@@ -309,13 +354,13 @@ public class AreaChart extends DefaultChartTypeImpl
 		oSample.setSeriesDefinitionIndex( 0 );
 		sd.getOrthogonalSampleData( ).add( oSample );
 
-		/*
-		 * OrthogonalSampleData oSample2 =
-		 * DataFactory.eINSTANCE.createOrthogonalSampleData();
-		 * oSample2.setDataSetRepresentation("7,22,14");
-		 * oSample2.setSeriesDefinitionIndex(0);
-		 * sd.getOrthogonalSampleData().add(oSample2);
-		 */
+		if ( newChart.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
+			sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+			sd.getAncillarySampleData( ).add( sdAncillary );
+		}
+
 		newChart.setSampleData( sd );
 	}
 
@@ -323,11 +368,10 @@ public class AreaChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
-		// ChartWithAxes
+		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-																	// chart is
+			// chart is
 			// of this type
 			// (AreaChart)
 			{
@@ -449,7 +493,8 @@ public class AreaChart extends DefaultChartTypeImpl
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL ) )
+			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
+					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -525,6 +570,50 @@ public class AreaChart extends DefaultChartTypeImpl
 		{
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
+
+		if ( sNewDimension.equals( THREE_DIMENSION_TYPE ) )
+		{
+			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
+					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
+			} ) );
+
+			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
+					.clear( );
+
+			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
+			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			zAxisAncillary.getTitle( )
+					.getCaption( )
+					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
+			zAxisAncillary.getTitle( ).setVisible( true );
+			zAxisAncillary.setPrimaryAxis( true );
+			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
+			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
+			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+			zAxisAncillary.getOrigin( )
+					.setValue( NumberDataElementImpl.create( 0 ) );
+			zAxisAncillary.getTitle( ).setVisible( false );
+			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
+			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
+					.add( zAxisAncillary );
+
+			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
+			sdZ.getSeriesPalette( ).update( 0 );
+			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
+
+			if ( currentChart.getSampleData( )
+					.getAncillarySampleData( )
+					.isEmpty( ) )
+			{
+				BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
+				sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+				currentChart.getSampleData( )
+						.getAncillarySampleData( )
+						.add( sdAncillary );
+			}
+		}
+
 		return currentChart;
 	}
 
@@ -701,6 +790,21 @@ public class AreaChart extends DefaultChartTypeImpl
 	public boolean supportsTransposition( )
 	{
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition(java.lang.String)
+	 */
+	public boolean supportsTransposition( String dimension )
+	{
+		if ( getDimensionFor( dimension ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			return false;
+		}
+
+		return supportsTransposition( );
 	}
 
 	private ChartDimension getDimensionFor( String sDimension )

@@ -55,8 +55,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * @author Actuate Corporation
- * 
+ * ScatterChart
  */
 public class ScatterChart extends DefaultChartTypeImpl
 {
@@ -234,10 +233,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
-		if ( ( currentChart instanceof ChartWithAxes ) ) // Chart is
-		// ChartWithAxes
+		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original chart is
+			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
+																	// chart is
 			// of this type
 			// (LineChart)
 			{
@@ -270,7 +269,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL ) )
 			{
 				currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
-						currentChart.getType( ).equals( StockChart.TYPE_LITERAL ) ) ); 
+						currentChart.getType( )
+								.equals( StockChart.TYPE_LITERAL ) ) );
 				currentChart.setType( TYPE_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
@@ -330,7 +330,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 			currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL ) )
+			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
+					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
