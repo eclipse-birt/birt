@@ -124,6 +124,7 @@ public class LineAttributesComposite extends Composite implements SelectionListe
         cmpContent = new Composite(this, SWT.NONE);
         cmpContent.setLayout(glContent);
 
+        bEnabled = laCurrent.isVisible();
         boolean bEnableUI = bEnabled;
         if (bEnableVisibility)
         {
@@ -314,6 +315,11 @@ public class LineAttributesComposite extends Composite implements SelectionListe
             // Notify Listeners that a change has occurred in the value
             fireValueChangedEvent(LineAttributesComposite.VISIBILITY_CHANGED_EVENT, new Boolean(cbVisible
                 .getSelection()));
+            //Notification may cause this class disposed
+        	if ( isDisposed( ) )
+    		{
+    			return;
+    		}
             // Enable/Disable UI Elements
             boolean bEnableUI = cbVisible.getSelection();
             if (bEnableStyles)
