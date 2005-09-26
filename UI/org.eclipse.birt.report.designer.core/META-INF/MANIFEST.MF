@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Designer Core
+Bundle-SymbolicName: org.eclipse.birt.report.designer.core
+Bundle-Version: 1.0.1
+Bundle-ClassPath: core.jar
+Bundle-Activator: org.eclipse.birt.report.designer.core.CorePlugin
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.report.designer.core,
+ org.eclipse.birt.report.designer.core.commands,
+ org.eclipse.birt.report.designer.core.model,
+ org.eclipse.birt.report.designer.core.model.schematic,
+ org.eclipse.birt.report.designer.core.model.views.data,
+ org.eclipse.birt.report.designer.core.model.views.outline,
+ org.eclipse.birt.report.designer.core.model.views.property,
+ org.eclipse.birt.report.designer.core.runtime,
+ org.eclipse.birt.report.designer.core.util.mediator,
+ org.eclipse.birt.report.designer.core.util.mediator.request,
+ org.eclipse.birt.report.designer.nls,
+ org.eclipse.birt.report.designer.util
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gef,
+ org.eclipse.birt.core,
+ org.eclipse.birt.report.model
+Eclipse-AutoStart: true
