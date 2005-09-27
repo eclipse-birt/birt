@@ -138,23 +138,23 @@
          <dataTypeMapping
                nativeDataType="BINARY"
                nativeDataTypeCode="-2"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="VARBINARY"
                nativeDataTypeCode="-3"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="LONGVARBINARY"
                nativeDataTypeCode="-4"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="BLOB"
                nativeDataTypeCode="2004"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>
          <dataTypeMapping
                nativeDataType="CLOB"
                nativeDataTypeCode="2005"
-               odaScalarDataType="Clob"/>
+               odaScalarDataType="Clob"/>-->
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
@@ -241,23 +241,23 @@
          <dataTypeMapping
                nativeDataType="BINARY"
                nativeDataTypeCode="-2"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="VARBINARY"
                nativeDataTypeCode="-3"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="LONGVARBINARY"
                nativeDataTypeCode="-4"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>-->
          <dataTypeMapping
                nativeDataType="BLOB"
                nativeDataTypeCode="2004"
-               odaScalarDataType="Blob"/>
+               odaScalarDataType="String"/><!--Blob"/>
          <dataTypeMapping
                nativeDataType="CLOB"
                nativeDataTypeCode="2005"
-               odaScalarDataType="Clob"/>
+               odaScalarDataType="Clob"/>-->
          <properties>
             <propertyGroup
                   defaultDisplayName="Query Properties"
