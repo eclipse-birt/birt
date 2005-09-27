@@ -15,6 +15,7 @@ import java.awt.Point;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -64,6 +65,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private transient double dStart, dEnd;
 
 	private transient double[] daTickCoordinates;
+
+	private transient boolean[] baTickLabelVisible;
 
 	private transient DataSetIterator dsiData;
 
@@ -725,6 +728,22 @@ public final class AutoScale extends Methods implements Cloneable
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) ) );
 		}
 		daTickCoordinates = da;
+	}
+
+	/**
+	 * @param index
+	 * @return
+	 */
+	public final boolean isTickLabelVisible( int index )
+	{
+		if ( baTickLabelVisible == null
+				|| index < 0
+				|| index > baTickLabelVisible.length - 1 )
+		{
+			return false;
+		}
+
+		return baTickLabelVisible[index];
 	}
 
 	/**
@@ -1411,6 +1430,119 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Calculates visibility for axis labels.
+	 * 
+	 * @param xs
+	 * @param la
+	 * @param iLabelLocation
+	 * @return
+	 * @throws ChartException
+	 */
+	final boolean[] checkTickLabelVisibility( IDisplayServer xs, Label la,
+			int iLabelLocation ) throws ChartException
+	{
+		boolean[] ba = new boolean[daTickCoordinates.length];
+
+		boolean vis = la.isSetVisible( ) && la.isVisible( );
+		Arrays.fill( ba, vis );
+
+		if ( !vis )
+		{
+			// all non-visible label, skip checking.
+			return ba;
+		}
+
+		if ( iType != TEXT && !bCategoryScale )
+		{
+			// Already auto scaled, just return all as true.
+			return ba;
+		}
+
+		final double dAngleInDegrees = la.getCaption( )
+				.getFont( )
+				.getRotation( );
+		double x = 0, y = 0;
+		int iPointToCheck = 0;
+		if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+		{
+			iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 3
+					: 0;
+		}
+		else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
+		{
+			iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 2
+					: 3;
+		}
+		double[] da = daTickCoordinates;
+		RotatedRectangle rrPrev = null, rr;
+
+		DataSetIterator dsi = getData( );
+		dsi.reset( );
+
+		final int iDateTimeUnit = ( iType == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
+				: IConstants.UNDEFINED;
+		String sText = null;
+
+		dsi.reset( );
+
+		for ( int i = 0; i < da.length - 1; i++ )
+		{
+			if ( dsi.hasNext( ) )
+			{
+				sText = formatCategoryValue( iType, dsi.next( ), iDateTimeUnit );
+			}
+			else
+			{
+				sText = NULL_STRING;
+			}
+
+			if ( iLabelLocation == ABOVE || iLabelLocation == BELOW )
+			{
+				x = da[i];
+			}
+			else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
+			{
+				y = da[i];
+			}
+
+			la.getCaption( ).setValue( sText );
+			try
+			{
+				rr = computePolygon( xs, iLabelLocation, la, x, y );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
+			}
+
+			Point p = rr.getPoint( iPointToCheck );
+			if ( i == 0 )
+			{
+				// Always show the first label.
+				ba[i] = true;
+
+				rrPrev = rr;
+			}
+			else if ( rrPrev.contains( p )
+					|| rrPrev.getPoint( iPointToCheck ).equals( p )
+					|| rr.intersects( rrPrev.getBounds2D( ) ) )
+			{
+				ba[i] = false;
+			}
+			else
+			{
+				ba[i] = true;
+				rrPrev = rr;
+			}
+		}
+
+		return ba;
+
+	}
+
+	/**
 	 * 
 	 */
 	final void resetShifts( )
@@ -2072,6 +2204,8 @@ public final class AutoScale extends Methods implements Cloneable
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( da );
+
+		baTickLabelVisible = checkTickLabelVisibility( xs, la, iLabelLocation );
 
 		return nTicks;
 	}

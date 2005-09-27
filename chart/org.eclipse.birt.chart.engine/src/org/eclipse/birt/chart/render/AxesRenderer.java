@@ -1162,11 +1162,11 @@ public abstract class AxesRenderer extends BaseRenderer
 		AutoScale scPrimaryOrthogonal = null;
 		AutoScale scAncillaryBase = null;
 		double dXStart = 0;
-		//double dXEnd = 0;
+		// double dXEnd = 0;
 		double dYStart = 0;
-		//double dYEnd = 0;
+		// double dYEnd = 0;
 		double dZStart = 0;
-		//double dZEnd = 0;
+		// double dZEnd = 0;
 		int baseTickCount = 0;
 		int ancillaryTickCount = 0;
 		int orthogonalTickCount = 0;
@@ -1181,11 +1181,11 @@ public abstract class AxesRenderer extends BaseRenderer
 			scAncillaryBase = aax.getAncillaryBase( ).getScale( );
 
 			dXStart = scPrimaryBase.getNormalizedStart( );
-			//dXEnd = scPrimaryBase.getNormalizedEnd( );
+			// dXEnd = scPrimaryBase.getNormalizedEnd( );
 			dYStart = scPrimaryOrthogonal.getNormalizedStart( );
-			//dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
+			// dYEnd = scPrimaryOrthogonal.getNormalizedEnd( );
 			dZStart = scAncillaryBase.getNormalizedStart( );
-			//dZEnd = scAncillaryBase.getNormalizedEnd( );
+			// dZEnd = scAncillaryBase.getNormalizedEnd( );
 
 			baseTickCount = scPrimaryBase.getTickCordinates( ).length;
 			ancillaryTickCount = scAncillaryBase.getTickCordinates( ).length;
@@ -2785,60 +2785,64 @@ public abstract class AxesRenderer extends BaseRenderer
 				dsi.reset( );
 				for ( int i = 0; i < da.length - 1; i++ )
 				{
-					if ( bRenderAxisLabels ) // PERFORM COMPUTATIONS ONLY IF
-					// AXIS LABEL IS VISIBLE
+					if ( bRenderAxisLabels )
 					{
 						la.getCaption( )
 								.setValue( sc.formatCategoryValue( sc.getType( ),
 										dsi.next( ),
 										iDateTimeUnit ) );
-						ScriptHandler.callFunction( sh,
-								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
-								axModel,
-								la );
-						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
-								la );
-						itmText.reuse( la ); // RECYCLED
-						dH = itmText.getFullHeight( );
-						dW = itmText.getFullWidth( );
-						dHCosTheta = dH * dCosTheta;
-						if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+
+						if ( sc.isTickLabelVisible( i ) )
 						{
-							if ( iLabelLocation == IConstants.LEFT )
+							ScriptHandler.callFunction( sh,
+									ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
+									axModel,
+									la );
+							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+									la );
+							itmText.reuse( la ); // RECYCLED
+							dH = itmText.getFullHeight( );
+							dW = itmText.getFullWidth( );
+							dHCosTheta = dH * dCosTheta;
+							if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dW
-										* dSineTheta;
+								if ( iLabelLocation == IConstants.LEFT )
+								{
+									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+											/ 2
+											- dW
+											* dSineTheta;
+								}
+								else if ( iLabelLocation == IConstants.RIGHT )
+								{
+									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+											/ 2
+											- dHCosTheta;
+								}
 							}
-							else if ( iLabelLocation == IConstants.RIGHT )
+							else if ( dAngleInDegrees < 0
+									&& dAngleInDegrees > -90 )
 							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dHCosTheta;
+								if ( iLabelLocation == IConstants.LEFT )
+								{
+									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+											/ 2
+											- dHCosTheta;
+								}
+								else if ( iLabelLocation == IConstants.RIGHT )
+								{
+									dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
+											/ 2
+											- dW
+											* dSineTheta;
+								}
 							}
-						}
-						else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-						{
-							if ( iLabelLocation == IConstants.LEFT )
+							else if ( dAngleInDegrees == 0
+									|| dAngleInDegrees == 90
+									|| dAngleInDegrees == -90 )
 							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dHCosTheta;
+								dOffset = -dUnitSize / 2;
 							}
-							else if ( iLabelLocation == IConstants.RIGHT )
-							{
-								dOffset = ( dHCosTheta + dW * dSineTheta - dUnitSize )
-										/ 2
-										- dW
-										* dSineTheta;
-							}
-						}
-						else if ( dAngleInDegrees == 0
-								|| dAngleInDegrees == 90
-								|| dAngleInDegrees == -90 )
-						{
-							dOffset = -dUnitSize / 2;
 						}
 					}
 
@@ -2925,8 +2929,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // RENDER AXIS LABELS ONLY IF
-					// REQUESTED
+					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
 						if ( bRendering3D )
 						{
@@ -3775,93 +3778,96 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 					}
 
-					if ( bRenderAxisLabels ) // OPTIMIZED: ONLY PROCESS IF
-					// AXES
-					// LABELS ARE VISIBLE OR REQUESTED
-					// FOR
+					if ( bRenderAxisLabels )
 					{
 						la.getCaption( )
 								.setValue( sc.formatCategoryValue( sc.getType( ),
-										dsi.next( ),
+										dsi.next( ), // step to next value.
 										iDateTimeUnit ) );
-						ScriptHandler.callFunction( sh,
-								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
-								axModel,
-								la );
-						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
-								la );
-						itmText.reuse( la );// RECYCLED
-						dH = itmText.getFullHeight( );
-						dW = itmText.getFullWidth( );
-						dHSineTheta = dH * dSineTheta;
-						if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-						{
-							if ( iLabelLocation == IConstants.ABOVE )
-							{
-								dOffset = dUnitSize
-										/ 2
-										- ( dW * dCosTheta + dHSineTheta )
-										/ 2
-										+ dHSineTheta;
-							}
-							else if ( iLabelLocation == IConstants.BELOW )
-							{
-								dOffset = dUnitSize
-										+ dHSineTheta
-										- ( dUnitSize - dW * dCosTheta + dHSineTheta )
-										/ 2
-										- dHSineTheta;
-							}
-						}
-						else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-						{
-							if ( iLabelLocation == IConstants.ABOVE )
-							{
-								dOffset = dUnitSize
-										/ 2
-										- dHSineTheta
-										/ 2
-										+ ( dW * dCosTheta + dHSineTheta )
-										/ 2;
-							}
-							else if ( iLabelLocation == IConstants.BELOW )
-							{
-								dOffset = ( dUnitSize - dW * dCosTheta + dHSineTheta ) / 2;
-							}
-						}
-						else if ( dAngleInDegrees == 0
-								|| dAngleInDegrees == 90
-								|| dAngleInDegrees == -90 )
-						{
-							dOffset = dUnitSize / 2;
-						}
 
-						if ( bRendering3D )
+						if ( sc.isTickLabelVisible( i ) )
 						{
-							if ( axisType == IConstants.BASE_AXIS )
+
+							ScriptHandler.callFunction( sh,
+									ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
+									axModel,
+									la );
+							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
+									la );
+							itmText.reuse( la );// RECYCLED
+							dH = itmText.getFullHeight( );
+							dW = itmText.getFullWidth( );
+							dHSineTheta = dH * dSineTheta;
+							if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
 							{
-								lo3d.set( x3d + dOffset, y, dZEnd );
+								if ( iLabelLocation == IConstants.ABOVE )
+								{
+									dOffset = dUnitSize
+											/ 2
+											- ( dW * dCosTheta + dHSineTheta )
+											/ 2
+											+ dHSineTheta;
+								}
+								else if ( iLabelLocation == IConstants.BELOW )
+								{
+									dOffset = dUnitSize
+											+ dHSineTheta
+											- ( dUnitSize - dW * dCosTheta + dHSineTheta )
+											/ 2
+											- dHSineTheta;
+								}
+							}
+							else if ( dAngleInDegrees < 0
+									&& dAngleInDegrees > -90 )
+							{
+								if ( iLabelLocation == IConstants.ABOVE )
+								{
+									dOffset = dUnitSize
+											/ 2
+											- dHSineTheta
+											/ 2
+											+ ( dW * dCosTheta + dHSineTheta )
+											/ 2;
+								}
+								else if ( iLabelLocation == IConstants.BELOW )
+								{
+									dOffset = ( dUnitSize - dW * dCosTheta + dHSineTheta ) / 2;
+								}
+							}
+							else if ( dAngleInDegrees == 0
+									|| dAngleInDegrees == 90
+									|| dAngleInDegrees == -90 )
+							{
+								dOffset = dUnitSize / 2;
+							}
+
+							if ( bRendering3D )
+							{
+								if ( axisType == IConstants.BASE_AXIS )
+								{
+									lo3d.set( x3d + dOffset, y, dZEnd );
+								}
+								else
+								{
+									lo3d.set( dXEnd, y, z3d + dOffset );
+								}
+								t3dre.setLocation3D( lo3d );
+								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								dc.addLabel( t3dre );
 							}
 							else
 							{
-								lo3d.set( dXEnd, y, z3d + dOffset );
+								lo.set( x + dOffset, y );
+								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+								ipr.drawText( tre );
 							}
-							t3dre.setLocation3D( lo3d );
-							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+							ScriptHandler.callFunction( sh,
+									ScriptHandler.AFTER_DRAW_AXIS_LABEL,
+									axModel,
+									la );
+							getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL,
+									la );
 						}
-						else
-						{
-							lo.set( x + dOffset, y );
-							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
-							ipr.drawText( tre );
-						}
-						ScriptHandler.callFunction( sh,
-								ScriptHandler.AFTER_DRAW_AXIS_LABEL,
-								axModel,
-								la );
-						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_AXIS_LABEL,
-								la );
 					}
 				}
 

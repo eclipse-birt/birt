@@ -213,6 +213,14 @@ public final class OneAxis
 	{
 		return bCategoryScale;
 	}
+	
+	/**
+	 * @return
+	 */
+	public final boolean isAxisLabelStaggered()
+	{
+		return axModel.isStaggered();
+	}
 
 	/**
 	 * 

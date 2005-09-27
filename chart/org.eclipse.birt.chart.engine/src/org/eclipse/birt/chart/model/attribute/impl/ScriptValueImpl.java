@@ -24,18 +24,19 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl#getScript <em>Script</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.ScriptValueImpl#getScript <em>Script</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 {
 
 	/**
-	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getScript() <em>Script</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -43,8 +44,9 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 	protected static final String SCRIPT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getScript() <em>Script</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getScript() <em>Script</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -53,6 +55,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ScriptValueImpl( )
@@ -62,6 +65,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -71,6 +75,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getScript( )
@@ -80,6 +85,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setScript( String newScript )
@@ -96,6 +102,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -110,6 +117,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -125,6 +133,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -140,6 +149,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -155,6 +165,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -167,6 +178,19 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue
 		result.append( script );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenience method provided to build a script action value when needed
+	 * 
+	 * @param script
+	 * @return
+	 */
+	public static final ScriptValue create( String script )
+	{
+		ScriptValue sv = AttributeFactoryImpl.eINSTANCE.createScriptValue( );
+		sv.setScript( script );
+		return sv;
 	}
 
 } // ScriptValueImpl

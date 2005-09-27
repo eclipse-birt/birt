@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
@@ -36,6 +36,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -45,6 +46,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -53,6 +55,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SeriesValueImpl( )
@@ -62,6 +65,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -71,6 +75,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getName( )
@@ -80,6 +85,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setName( String newName )
@@ -96,6 +102,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -110,6 +117,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -125,6 +133,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -140,6 +149,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -155,6 +165,7 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -167,6 +178,19 @@ public class SeriesValueImpl extends ActionValueImpl implements SeriesValue
 		result.append( name );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * A convenience method provided to build a series action value when needed
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static final SeriesValue create( String name )
+	{
+		SeriesValue sv = AttributeFactoryImpl.eINSTANCE.createSeriesValue( );
+		sv.setName( name );
+		return sv;
 	}
 
 } // SeriesValueImpl
