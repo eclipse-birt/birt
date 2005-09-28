@@ -6,7 +6,7 @@
    provider-name="Eclipse.org">
 
    <runtime>
-      <library name="uiide.jar">
+      <library name="library.jar">
          <export name="*"/>
       </library>
    </runtime>
