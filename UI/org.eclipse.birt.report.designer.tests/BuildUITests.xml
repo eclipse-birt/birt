@@ -133,9 +133,7 @@
 		</ant>
 	</target>
 
-	<target name="Export">
-		<include name="META-INF\*.*"/>
-	</target>
+	<target name="Export" />
 
 	<!-- No unit tests, dummy target -->
 	<target name="UnitTest">

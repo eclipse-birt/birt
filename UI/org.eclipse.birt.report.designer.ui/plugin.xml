@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin>
+<plugin
+   id="org.eclipse.birt.report.designer.ui"
+   name="BIRT Designer UI"
+   version="1.0.1"
+   provider-name="Eclipse.org"
+   class="org.eclipse.birt.report.designer.ui.ReportPlugin">
 
-     <!-- Extension points -->
+   <runtime>
+      <library name="ui.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/jseditor.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.report.engine"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
+      <import plugin="org.eclipse.birt.report.viewer"/>
+      <import plugin="org.eclipse.help.base"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="org.eclipse.birt.data.oda"/>
+      <import plugin="org.eclipse.birt.data"/>
+      <import plugin="org.eclipse.team.core"/>
+   </requires>
+   
+   <!-- Extension points -->
    <extension-point id="odadatasource" name="%extension.odadatasource" schema="schema/datasource.exsd"/>
    <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
    

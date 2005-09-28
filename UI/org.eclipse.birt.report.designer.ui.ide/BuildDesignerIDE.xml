@@ -156,7 +156,6 @@
 	 			<include name="${jar.name}"/>
  				<include name="plugin*.*"/>
 				<include name="About.html"/>
-				<include name="META-INF\*.*"/>
 			</fileset>
 		</copy>
 		<copy todir="${export.dir}\${plugin.name}" overwrite="true">

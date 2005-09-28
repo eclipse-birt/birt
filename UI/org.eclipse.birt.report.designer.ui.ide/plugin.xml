@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin>
+<plugin
+   id="org.eclipse.birt.report.designer.ui.ide"
+   name="BIRT Designer UI for IDE"
+   version="2.0.0"
+   provider-name="Eclipse.org"
+   >
 
-     <extension
+   <runtime>
+      <library name="uiide.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.birt.report.designer.ui"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.birt.core"/>
+      <import plugin="org.eclipse.birt.report.model"/>
+      <import plugin="org.eclipse.birt.report.designer.core"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.cheatsheets"/>
+   </requires>
+   
+   <extension
          point="org.eclipse.ui.editors">
       <editor
             class="org.eclipse.birt.report.designer.ui.editors.IDEReportEditor"
