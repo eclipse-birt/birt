@@ -257,18 +257,4 @@ public interface IResultIterator
      * whose resources can be safely released as appropriate.  
      */
     public void close();
-    
-    /**
-    * Move the current position of the iterator to the first element of the group with matching group key values.
-    * To locate the [n]th inner group, values for all outer groups’ keys need to be provided in the array
-    * groupKeyValues. groupKeyValue[0] is the key value for group 1 (outermost group), groupKeyValue[1] is the key value for
-    * group 2, etc. 
-    * 
-    * @param groupKeyValues Values of group keys 
-    * @return true if group located successfully and cursor is re-positioned. False if no group is found to match
-    * the group key values exactly, and iterator cursor is not moved.
-     * @throws DataException 
-    */
-    public boolean findGroup( Object[] groupKeyValues ) throws DataException;
-
 }
