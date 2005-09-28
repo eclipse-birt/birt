@@ -30,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -104,7 +103,6 @@ public class LibraryDropListener extends DesignerDropListener
 	
 	private boolean validateSameParent(Object targetObj, Object transferData)
 	{
-		boolean retValue = false;
 		if ( targetObj == null || transferData == null )
 			return false;
 
@@ -178,10 +176,5 @@ public class LibraryDropListener extends DesignerDropListener
 			return true;
 		}
 		return super.moveData( transfer, target );
-	}
-
-	private SlotHandle getTargetSlotHandle( Object target )
-	{
-		return null;
 	}
 }

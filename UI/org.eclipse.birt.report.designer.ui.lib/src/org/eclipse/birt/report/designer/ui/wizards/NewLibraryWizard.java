@@ -67,10 +67,8 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX
 			+ NEW_REPORT_FILE_EXTENSION;
-	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewLibraryWizard.text.SelectTemplate" ); //$NON-NLS-1$
 	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewLibraryWizard.text.CreateReport" ); //$NON-NLS-1$
 	private static final String REPORT = Messages.getString( "NewLibraryWizard.title.Report" ); //$NON-NLS-1$
-	private static final String TEMPLATECHOICEPAGE = Messages.getString( "NewLibraryWizard.title.Template" ); //$NON-NLS-1$
 	private static final String WIZARDPAGE = Messages.getString( "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
 	private static final String NEW = Messages.getString( "NewLibraryWizard.title.New" ); //$NON-NLS-1$
 	//	private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
