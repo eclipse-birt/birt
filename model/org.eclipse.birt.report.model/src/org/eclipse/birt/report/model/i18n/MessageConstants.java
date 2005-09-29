@@ -218,5 +218,16 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_NOT_FOUND = "Error.LibraryException.LIBRARY_NOT_FOUND"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE = "Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = "Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY"; //$NON-NLS-1$
-
+	
+	// StyleSheetException
+	public static final String STYLE_SHEET_EXCEPTION_STYLE_SHEET_NOT_FOUND = "Error.StyleSheetException.STYLE_SHEET_NOT_FOUND"; //$NON-NLS-1$
+	public static final String STYLE_SHEET_EXCEPTION_SYNTAX_ERROR = "Error.StyleSheetException.SYNTAX_ERROR"; //$NON-NLS-1$
+	
+	// StyleSheetParserException
+	public static final String STYLE_SHEET_PARSER_EXCEPTION_RULE_NOT_SUPPORTED = "Error.StyleSheetParserException.RULE_NOT_SUPPORTED"; //$NON-NLS-1$
+	public static final String STYLE_SHEET_PARSER_EXCEPTION_STYLE_NOT_SUPPORTED = "Error.StyleSheetParserException.STYLE_NOT_SUPPORTED"; //$NON-NLS-1$
+	public static final String STYLE_SHEET_PARSER_EXCEPTION_PROPERTY_NOT_SUPPORTED = "Error.StyleSheetParserException.PROPERTY_NOT_SUPPORTED"; //$NON-NLS-1$
+	public static final String STYLE_SHEET_PARSER_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE = "Error.StyleSheetParserException.INVALID_SHORT_HAND_CSSPROPERTY_VALUE"; //$NON-NLS-1$
+	public static final String STYLE_SHEET_PARSER_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE = "Error.StyleSheetParserException.INVALID_SIMPLE_CSSPROPERTY_VALUE"; //$NON-NLS-1$
+		
 }

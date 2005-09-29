@@ -1,0 +1,990 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+options {
+    IGNORE_CASE  = true;
+    STATIC = false;	  
+}
+
+PARSER_BEGIN(PropertyParser)
+
+package  org.eclipse.birt.report.model.css.property;
+
+import java.util.LinkedHashMap;
+import java.io.StringReader;
+import org.w3c.css.sac.CSSException;
+
+/**
+ * Parses the compound properties of CSS defined, such as background, font, 
+ * border, border-width and so on.  
+ *
+ * @version $Revision$ $Date$
+ */
+ 
+public class PropertyParser
+{
+	/**
+	 * Stores the CSS2.0 properties. 
+	 */
+	 
+	private LinkedHashMap cssProperties;
+	
+	public PropertyParser( String input )
+	{
+		this( new StringReader( input ) );
+	}
+       
+	/**
+	 * Adds the property value
+	 */
+	 
+	private void setValue( StringBuffer value, char operator, Token n, int token )
+			throws ParseException
+	{
+		if ( n != null )
+		{
+			if ( n.kind == PropertyParserConstants.IDENT )
+			{
+				value.append( convertIdent( operator + n.image ) );
+			}
+			else
+			{
+				value.append( operator + n.image );
+			}
+		}
+	}
+
+	/**
+	 * Returns the cssProperties.
+	 *  
+	 */
+	 
+	public LinkedHashMap getCssProperties( )
+	{
+		return cssProperties;
+	}	
+}
+PARSER_END(PropertyParser)
+
+
+/*
+ * The tokenizer 
+ */
+
+<DEFAULT>
+SKIP :
+{
+    < S : ( [ " ", "\t" , "\n" , "\r", "\f" ] )+ > 
+    |< INHERIT : "inherit">
+}
+
+
+<DEFAULT>
+TOKEN :
+{
+  < CDO : "<!--" >
+  | < CDC : "-->" >
+  | < LBRACE : "{" >
+  | < RBRACE : "}">
+  | < DASHMATCH : "|=" >
+  | < INCLUDES  : "~=" >
+  | < PREFIXMATCH : "^=" >
+  | < SUFFIXMATCH : "$=" >
+  | < SUBSTRINGMATCH : "*=" >
+  | < TILDE     : "~" >
+  | < EQ        : "=" >
+  | < PLUS      : "+" >
+  | < MINUS     : "-" >
+  | < COMMA     : "," >
+  | < SEMICOLON : ";" >
+  | < PRECEDES  : ">" >
+  | < DIV       : "/" >
+  | < LBRACKET  : "[" >
+  | < RBRACKET  : "]" >
+  | < ANY       : "*" >
+  | < DOT       : "." >
+  | < LPARAN    : ")" >
+  | < RPARAN    : "(">
+}
+
+<DEFAULT>
+TOKEN :
+{
+  < AND : "AND" | "and" >
+}  
+
+<DEFAULT>
+TOKEN :
+{
+  < MEDIARESTRICTOR : "ONLY" | "only" | "NOT" | "not" >
+}
+
+<DEFAULT>
+TOKEN : /* basic tokens */
+{ 
+    < NONASCII    : ["\200"-"\uffff"] >
+  | < #H          : ["0"-"9", "a"-"f"] >
+  | < #UNICODE    : "\\" <H> ( <H> )? /* I can't say {1,6} */
+                         ( <H> )? ( <H> )?
+                         ( <H> )? ( <H> )? 
+                    ( [ " ", "\t" , "\n" , "\r", "\f" ] )? >
+  | < #ESCAPE     : <UNICODE> | ( "\\" [ " "-"~","\200"-"\uffff" ] ) >
+  | < #NMSTART    : [ "a"-"z", "_" ] | <NONASCII> | <ESCAPE> >
+  | < #NMCHAR	  : ["a"-"z", "0"-"9", "-", "_"] | <NONASCII> | <ESCAPE> >
+  | < #STRINGCHAR : [ "\t"," ","!","#","$","%","&","("-"~" ] 
+                    | "\\\n" | "\\\r\n" | <NONASCII> | <ESCAPE> >
+  | < #D          : ["0"-"9"] >
+  | < #NAME       : ( <NMCHAR> )+ >
+}
+<DEFAULT>
+TOKEN :
+{
+  < STRING      : ( "\"" ( <STRINGCHAR> | "'" )* "\"" ) | 
+                  ( "'" ( <STRINGCHAR> | "\"" )* "'" ) >
+  | < NUMBER	  : ( <D> )+ | ( <D> )* "." ( <D> )+ > 
+  | < #_URL       : [ "!","#","$","%","&","*"-"~" ] | <NONASCII> | <ESCAPE> >
+  | < URL         : "url(" ( <S> )*
+                    ( <STRING> | ( <_URL> )* ) ( <S> )* ")" > 
+}
+
+<DEFAULT>
+TOKEN :
+{
+   < PERCENTAGE : <NUMBER> "%" >
+ | < LENGTH : <NUMBER> "pt" 
+            | <NUMBER> "mm" 
+            | <NUMBER> "cm" 
+            | <NUMBER> "pc" 
+            | <NUMBER> "in"
+	    	| <NUMBER> "gd" 
+            | <NUMBER> "px" 
+            | <NUMBER> "em" 
+            | <NUMBER> "ex" > 
+}
+/*************/
+<DEFAULT>
+TOKEN :
+{
+	<ABSOLUTE_SIZE : "xx-small" | "x-small" | "small" | "large" | "x-large" | "xx-large" >
+	| <RELATIVE_SIZE : "larger" | "smaller">
+	| <COLOR : "aqua" | "black"| "blue"| "fuchsia" |"gray"| "green"| "lime"| "maroon"| "navy"| "olive"| "orange"| "purple"| "red"| "silver"| "teal"| "white"|"yellow" |"#" <NAME>|("rgb"(<S>)*"("(~[")"])*(<S>)*")") >
+	
+}
+
+<DEFAULT>
+TOKEN :
+{
+	<NORMAL : "normal">
+	|<AUTO : "auto">
+	|<FONT_VAL : "caption" | "icon" |"menu" | "message-box" | "small-caption" | "status-bar" >
+	|<FONT_STYLE :  "italic" |"oblique"  >
+	|<FONT_VARIANT :  "small-caps" >
+	
+	|<FONT_WEIGHT :  "bold" | "bolder" | "lighter" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900"  >
+	
+	|<BACKGROUND_REPEAT : "repeat" | "repeat-x" | "repeat-y" | "no-repeat" >
+	|<BACKGROUND_ATTACHMENT : "scroll" | "fixed">
+	|<BACKGROUND_POSITION : "top" | "bottom" | "left"|"center"|"right" >
+	
+	|<BORDER_STYLE : "none" |"hidden" |"dotted" |"dashed" |"solid"|"double"|"groove"|"ridge" |"inset" |"outset" >
+	|<BORDER_WIDTH : "thin" | "medium" |"thick" >
+}
+//////////////////////////////////
+
+<DEFAULT>
+TOKEN :
+{
+ < IDENT   : <NMSTART> ( <NMCHAR> )* >  
+ | < DIMEN  : <NUMBER> <IDENT> >
+}
+
+
+<DEFAULT>
+TOKEN :
+{
+  < HASH : "#" <NAME> >  
+}
+
+<DEFAULT>
+TOKEN :
+{
+    < #RANGE0 : <H> <H> <H> <H>  <H> >
+    | < #RANGE1 : <H> <H> <H> <H> <H> ( "?" )? >
+    | < #RANGE2 : <H> <H> <H> <H> ( "?" )? ( "?" )? >
+    | < #RANGE3 : <H> <H> <H> ( "?" )? ( "?" )? ( "?" )? >
+    | < #RANGE4 : <H> <H> ( "?" )? ( "?" )? ( "?" )? ( "?" )? >
+    | < #RANGE5 : <H> ( "?" )? ( "?" )? ( "?" )? ( "?" )? ( "?" )? >
+    | < #RANGE6 : "?" ( "?" )? ( "?" )? ( "?" )? ( "?" )? ( "?" )? >
+    | < #RANGE  : <RANGE0> | <RANGE1> | <RANGE2> 
+                  | <RANGE3> | <RANGE4> | <RANGE5> | <RANGE6> >
+    | < #UNI    : <H> ( <H> )? ( <H> )? ( <H> )? ( <H> )? ( <H> )? >
+    | < UNICODERANGE : "U+" <RANGE>
+                        | "U+" <UNI> "-" <UNI> >
+}
+
+
+<DEFAULT>
+TOKEN :
+{
+ < FUNCTION : <IDENT> "(" > 
+}
+
+<DEFAULT, IN_COMMENT>
+TOKEN :
+{ /* avoid token manager error */
+    < UNKNOWN : ~[] >
+}
+
+/**
+ * @exception ParseException exception during the parse
+ */
+ 
+char unaryOperator() :
+{}
+{
+	"-" { return '-'; }
+	| "+" { return '+'; }
+}
+
+Token size() :
+{
+	Token n;
+}
+{
+	n=<ABSOLUTE_SIZE>{return n;} 
+	|n=<RELATIVE_SIZE>{return n;}
+	|n=<PERCENTAGE>{return n;}
+	|n=<LENGTH>{return n;}
+	|n=<BORDER_WIDTH>	{return n;}
+}
+
+/**
+ * Deals with the shorthand property font.
+ */
+ 
+void parseFont():
+{	
+	Token n;
+	String fontFamily = "" ;
+}
+{	
+	{
+		cssProperties=new LinkedHashMap();
+	}
+ try{
+	n=<FONT_VAL> 
+	{
+		cssProperties.put("font",n.image);
+		cssProperties.put("font-weight","");
+		cssProperties.put("font-style","");
+	}
+	
+	|(
+	(
+	{
+		String fontStyle = null;
+		String fontVariant = null;
+		String fontWeight = null ;
+	}
+	( n=<FONT_STYLE>
+	{	
+		fontStyle=n.image;
+	}
+	| n=<FONT_VARIANT>
+	{
+		fontVariant=n.image;
+		
+	}
+	|n=<FONT_WEIGHT>
+	{
+		fontWeight=n.image;
+	}
+	|n=<NORMAL>
+	{
+		if(fontStyle == null){fontStyle=n.image;}
+		if(fontVariant == null ){fontVariant = n.image;}
+		if(fontWeight == null ) {fontWeight = n.image;}
+	}
+	)*
+	{
+		cssProperties.put("font-style",fontStyle);
+		cssProperties.put("font-variant",fontVariant);
+		cssProperties.put("font-weight",fontWeight);
+	}
+	)
+	n=size()
+		{
+			if(n != null)
+			{
+				cssProperties.put("font-size",n.image);
+			}
+		}	
+	(<DIV> n=size()
+		{
+			if(n != null)
+			{
+				cssProperties.put("line-height",n.image);
+			}
+		}
+	)?
+	
+		(	
+			(
+			n=<IDENT>
+			{
+				if(n != null)
+				{
+					fontFamily += n.image ;					
+				}
+			}
+			|n=<STRING>
+			{
+				if(n != null)
+				{
+					fontFamily += n.image ;					
+				}
+			}
+			)
+			(
+			n=<COMMA>{fontFamily += "," ;}
+			(
+			n=<IDENT>
+			{
+				if(n != null)
+				{
+					fontFamily += n.image ;					
+				}
+			}
+			|n=<STRING>
+			{
+				if(n != null)
+				{
+					fontFamily += n.image ;					
+				}
+			}
+			)
+			)*
+		)
+	{cssProperties.put("font-family",fontFamily);}
+	
+	)
+  }
+  catch(Exception ex)
+  {
+  	System.out.println("The parse for the input font is failed!");
+  	throw new CSSException("The input font is invalid for the CSS2 grammar.");
+  }
+}
+
+/**
+ * Deals with the shorthand property background
+ *
+ */
+ 
+void parseBackground() :
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+ try{
+	((
+	(
+	 n=<COLOR>
+		 {
+		 	if( n != null ) cssProperties.put("background-color",n.image);
+		 }
+	 | n=<URL>
+		 {
+		 	if( n != null ) cssProperties.put("background-image",n.image);
+		 }
+	 | n=<BACKGROUND_REPEAT>
+		 {
+		 	if( n != null ) cssProperties.put("background-repeat",n.image);
+		 }
+	 | n=<BACKGROUND_ATTACHMENT>
+		 {
+		 	if( n != null ) cssProperties.put("background-attachment",n.image);
+		 }
+	 | n=background_position()
+		 {
+		 	if( n != null )
+		 	{
+		 		if (cssProperties.get("background-position")==null) cssProperties.put("background-position",n.image);
+		 		else cssProperties.put("background-position",(String)cssProperties.get("background-position")+" "+n.image);
+		 	} 
+		 }
+	))+)
+ }
+ catch (Exception ex)
+ {
+ 	System.out.println("The parse for the input background is failed!");
+ 	throw new CSSException("The input background is invalid for the CSS2 grammar.");
+ }
+}
+
+void parseBorder():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+(
+	n=size()
+	{
+		cssProperties.put("border-top-width",n.image);
+		cssProperties.put("border-right-width",n.image);
+		cssProperties.put("border-bottom-width",n.image);
+		cssProperties.put("border-left-width",n.image);
+	}
+	|n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-top-style",n.image);
+		cssProperties.put("border-right-style",n.image);
+		cssProperties.put("border-bottom-style",n.image);
+		cssProperties.put("border-left-style",n.image);
+	}
+	|n=<COLOR>
+	{
+		cssProperties.put("border-top-color",n.image);
+		cssProperties.put("border-right-color",n.image);
+		cssProperties.put("border-bottom-color",n.image);
+		cssProperties.put("border-left-color",n.image);
+	}
+)+
+}
+
+void parseBorderWidth():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+	n=size()
+	{
+		cssProperties.put("border-top-width",n.image);
+		cssProperties.put("border-right-width",n.image);
+		cssProperties.put("border-bottom-width",n.image);
+		cssProperties.put("border-left-width",n.image);
+	}
+	(
+		n=size()
+		{
+			cssProperties.put("border-right-width",n.image);
+			cssProperties.put("border-left-width",n.image);
+		}
+		(
+			n=size()
+			{
+				cssProperties.put("border-bottom-width",n.image);
+			}
+			(
+				n=size()
+				{
+					cssProperties.put("border-left-width",n.image);
+				}
+			)?
+		)?
+	)?
+}
+
+void parseBorderStyle():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+	n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-top-style",n.image);
+		cssProperties.put("border-right-style",n.image);
+		cssProperties.put("border-bottom-style",n.image);
+		cssProperties.put("border-left-style",n.image);
+	}
+	(
+		n=<BORDER_STYLE>
+		{
+			cssProperties.put("border-right-style",n.image);
+			cssProperties.put("border-left-style",n.image);
+		}
+		(
+			n=<BORDER_STYLE>
+			{
+				cssProperties.put("border-bottom-style",n.image);
+			}
+			(
+				n=<BORDER_STYLE>
+				{
+					cssProperties.put("border-left-style",n.image);
+				}
+			)?
+		)?
+	)?
+}
+
+void parseBorderColor():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+	n=<COLOR>
+	{
+		cssProperties.put("border-top-color",n.image);
+		cssProperties.put("border-right-color",n.image);
+		cssProperties.put("border-bottom-color",n.image);
+		cssProperties.put("border-left-color",n.image);
+	}
+	(
+		n=<COLOR>
+		{
+			cssProperties.put("border-right-color",n.image);
+			cssProperties.put("border-left-color",n.image);
+		}
+		(
+			n=<COLOR>
+			{
+				cssProperties.put("border-bottom-color",n.image);
+			}
+			(
+				n=<COLOR>
+				{
+					cssProperties.put("border-left-color",n.image);
+				}
+			)?
+		)?
+	)?
+}
+
+void parseBorderTop():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+(
+	n=size()
+	{
+		cssProperties.put("border-top-width",n.image);
+	}
+	|n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-top-style",n.image);
+	}
+	| n=<COLOR>
+	{
+		cssProperties.put("border-top-color",n.image);
+	}
+)+
+}
+
+void parseBorderRight():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+(
+	n=size()
+	{
+		cssProperties.put("border-right-width",n.image);
+	}
+	|n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-right-style",n.image);
+	}
+	| n=<COLOR>
+	{
+		cssProperties.put("border-right-color",n.image);
+	}
+)+
+}
+
+void parseBorderBottom():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+(
+	n=size()
+	{
+		cssProperties.put("border-bottom-width",n.image);
+	}
+	|n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-bottom-style",n.image);
+	}
+	| n=<COLOR>
+	{
+		cssProperties.put("border-bottom-color",n.image);
+	}
+)+
+}
+void parseBorderLeft():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+(
+	n=size()
+	{
+		cssProperties.put("border-left-width",n.image);
+	}
+	|n=<BORDER_STYLE>
+	{
+		cssProperties.put("border-left-style",n.image);
+	}
+	| n=<COLOR>
+	{
+		cssProperties.put("border-left-color",n.image);
+	}
+)+
+}
+Token getMarginWidth():
+{
+	Token n;
+}
+{
+	n=<LENGTH>{return n;}
+	|n=<PERCENTAGE>{return n;}
+	|n=<AUTO>{return n;}
+}
+void parseMargin():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+	n=getMarginWidth()
+	{
+		cssProperties.put("margin-top",n.image);
+		cssProperties.put("margin-right",n.image);
+		cssProperties.put("margin-bottom",n.image);
+		cssProperties.put("margin-left",n.image);
+	}
+	(
+		n=getMarginWidth()
+		{
+			cssProperties.put("margin-right",n.image);
+			cssProperties.put("margin-left",n.image);
+		}
+		(
+			n=getMarginWidth()
+			{
+				cssProperties.put("margin-bottom",n.image);
+			}
+			(
+				n=getMarginWidth()
+				{
+					cssProperties.put("margin-left",n.image);
+				}
+			)?
+		)?
+	)?
+}
+Token getPaddingWidth():
+{
+	Token n;
+}
+{
+	n=<LENGTH>{return n;}
+	|n=<PERCENTAGE>{return n;}
+}
+
+void parsePadding():
+{
+	Token n;
+}
+{
+	{
+		cssProperties=new LinkedHashMap();
+	}
+	n=getPaddingWidth()
+	{
+		cssProperties.put("padding-top",n.image);
+		cssProperties.put("padding-right",n.image);
+		cssProperties.put("padding-bottom",n.image);
+		cssProperties.put("padding-left",n.image);
+	}
+	(
+		n=getPaddingWidth()
+		{
+			cssProperties.put("padding-right",n.image);
+			cssProperties.put("padding-left",n.image);
+		}
+		(
+			n=getPaddingWidth()
+			{
+				cssProperties.put("padding-bottom",n.image);
+			}
+			(
+				n=getPaddingWidth()
+				{
+					cssProperties.put("padding-left",n.image);
+				}
+			)?
+		)?
+	)?
+}
+
+/**
+ *Returns the background-position token.
+ *@exception ParseException exception during the parsing
+ */
+ 
+Token background_position() :
+{
+	Token n;
+}
+{
+	n=<BACKGROUND_POSITION>{return n;} | n=size(){return n;}
+}
+
+/**
+ * @exception ParseException exception during the parsing
+ */
+ 
+StringBuffer expr() :
+{ 
+	StringBuffer value = new StringBuffer();
+}
+{	
+  term(value) ( ( operator(value) )? term(value) )*
+  {
+  	return value;
+  }
+}
+
+/**
+ * @exception ParseException exception during the parsing
+ */
+ 
+void operator(StringBuffer value) :
+{}
+{
+  "/"  {if(value.toString().length()>0) value.append("/"); }
+	| ","  { if(value.toString().length()>0) value.append(",");}
+}
+
+	/**
+ 	 * @exception ParseException exception during the parsing
+     */
+     
+	void term(StringBuffer value) :
+	{ Token n;
+ 	  char operator = ' ';
+ 	  String func;
+	}
+	{
+	  ( ( operator=unaryOperator() )?
+	    ( n=<NUMBER> { setValue( value,operator, n, NUMBER); }
+	    | n=size() { setValue( value,operator, n,LENGTH); }
+	    | n=<COLOR> { setValue( value,operator, n, COLOR); }
+	    | n=<DIMEN> {  System.out.println("Unknown dimension:"+n.image); }    
+	    | func=function() {value.append(func); }
+	     | n=getFromShorthand() {setValue( value,operator, n, NORMAL);}
+	      )  )
+	  | (( n=<STRING> { setValue(value,operator, n, STRING); }
+	    | n=<IDENT> {setValue( value,operator, n, IDENT);}	   
+	    | hexcolor(value)
+	    | n=<URL> { setValue( value,operator, n, URL);}
+	    | n=<UNICODERANGE> { setValue(value,operator, n,UNICODERANGE); }
+	    )  )   
+	}
+	/**
+	* Returns the the same token as those in shorthand properties.
+	**/
+	Token getFromShorthand():
+	{
+		Token n;
+	}
+	{
+		n=<FONT_VAL>{return n;}
+		| n=<FONT_STYLE>{return n;}
+		| n=<FONT_VARIANT>{return n;}
+		| n=<FONT_WEIGHT>{return n;}
+		| n=<BACKGROUND_REPEAT>{return n;}
+		| n=<BACKGROUND_ATTACHMENT>{return n;}
+		| n=<BACKGROUND_POSITION>{return n;}
+		| n=<AUTO>	{return n;}
+		| n=<NORMAL>{return n;}
+		| n=<BORDER_STYLE>{return n;}
+		
+	}
+	/**
+	 * @exception ParseException exception during the parsing
+	 */
+	String function() :
+	{
+	Token n = new Token();
+	StringBuffer exp;
+	}
+	{
+	    n=<FUNCTION>  exp=expr()")" 
+		{ 
+	    	return n.image+exp.toString()+")";
+		}
+	}
+
+	/**
+	 * @exception ParseException exception during the parsing
+	 */
+	void hexcolor(StringBuffer value) :
+	{
+		Token n; 
+	}
+	{
+		n=<HASH> 
+		{
+			setValue(value,' ', n, HASH); 
+		}
+	}
+
+JAVACODE
+	/**
+	 * 
+	 * @param s
+	 * @param start
+	 * @param len
+	 * @return @throws
+	 *         ParseException
+	 */
+	String convertStringIndex( String s, int start, int len )
+			throws ParseException
+	{
+		StringBuffer buf = new StringBuffer( len );
+		int index = start;
+
+		while ( index < len )
+		{
+			char c = s.charAt( index );
+			if ( c == '\\' )
+			{
+				if ( ++index < len )
+				{
+					c = s.charAt( index );
+					switch ( c )
+					{
+						case '0' :
+						case '1' :
+						case '2' :
+						case '3' :
+						case '4' :
+						case '5' :
+						case '6' :
+						case '7' :
+						case '8' :
+						case '9' :
+						case 'a' :
+						case 'b' :
+						case 'c' :
+						case 'd' :
+						case 'e' :
+						case 'f' :
+						case 'A' :
+						case 'B' :
+						case 'C' :
+						case 'D' :
+						case 'E' :
+						case 'F' :
+							int numValue = Character.digit( c, 16 );
+							int count = 0;
+							int p = 16;
+
+							while ( index + 1 < len && count < 6 )
+							{
+								c = s.charAt( index + 1 );
+
+								if ( Character.digit( c, 16 ) != -1 )
+								{
+									numValue = ( numValue * 16 )
+											+ Character.digit( c, 16 );
+									p *= 16;
+									index++;
+								}
+								else
+								{
+									if ( c == ' ' )
+									{
+										// skip the latest white space
+										index++;
+									}
+									break;
+								}
+							}
+
+							buf.append( (char) numValue );
+							break;
+						case '\n' :
+						case '\f' :
+							break;
+						case '\r' :
+							if ( index + 1 < len )
+							{
+								if ( s.charAt( index + 1 ) == '\n' )
+								{
+									index++;
+								}
+							}
+							break;
+						default :
+							buf.append( c );
+					}
+				}
+				else
+				{
+					throw new ParseException( "invalid string" );
+				}
+			}
+			else
+			{
+				buf.append( c );
+			}
+			index++;
+		}
+
+		return buf.toString( );
+	}
+
+JAVACODE
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 * @throws ParseException
+	 */
+	String convertIdent( String s ) throws ParseException
+	{
+		return convertStringIndex( s, 0, s.length( ) );
+	}
+

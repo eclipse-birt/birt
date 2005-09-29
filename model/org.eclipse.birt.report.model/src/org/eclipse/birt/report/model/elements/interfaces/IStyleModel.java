@@ -17,7 +17,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 public interface IStyleModel
 {
 
-	// Property names
+	// Property names: 57
 
 	public static final String BACKGROUND_ATTACHMENT_PROP = "backgroundAttachment"; //$NON-NLS-1$
 	public static final String BACKGROUND_COLOR_PROP = "backgroundColor"; //$NON-NLS-1$

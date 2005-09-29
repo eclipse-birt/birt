@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.ModelException;
 
 public class MetaDataException extends ModelException
 {
+
 	/**
 	 * Holds the metadata error informations.
 	 */
@@ -89,7 +90,7 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_STYLE_TYPE_MISSING = "STYLE_TYPE_MISSING"; //$NON-NLS-1$
-	
+
 	/**
 	 * Error code constant indicating that the Style element is missing from the
 	 * meta-data dictionary.
@@ -207,20 +208,20 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_CHOICE_NAME = "DUPLICATE_CHOICE_NAME"; //$NON-NLS-1$
-	
-    /**
+
+	/**
 	 * Error code constant indicating a duplicate choice set name.
 	 */
 
 	public static final String DESIGN_EXCEPTION_DUPLICATE_CHOICE_SET_NAME = "DUPLICATE_CHOICE_SET_NAME"; //$NON-NLS-1$
 
-    /**
-     * Error code constant indicating a property visibility name defined on element doesn't point to an existing property.
-     */
-    
-    public static final String DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND = "VISIBILITY_PROPERTY_NOT_FOUND";  //$NON-NLS-1$
-    
-    
+	/**
+	 * Error code constant indicating a property visibility name defined on
+	 * element doesn't point to an existing property.
+	 */
+
+	public static final String DESIGN_EXCEPTION_VISIBILITY_PROPERTY_NOT_FOUND = "VISIBILITY_PROPERTY_NOT_FOUND"; //$NON-NLS-1$
+
 	/**
 	 * Error code constant indicating a missing structure name.
 	 */
@@ -239,12 +240,12 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_STRUCT_DEFN = "MISSING_STRUCT_DEFN"; //$NON-NLS-1$
-	
+
 	/**
-	 * Error code constant indicating a structure definition is unreferencable for
-	 * a structure reference type property.
+	 * Error code constant indicating a structure definition is unreferencable
+	 * for a structure reference type property.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_UNREFERENCABLE_STRUCT_DEFN = "UNREFERENCABLE_STRUCT_DEFN"; //$NON-NLS-1$
 
 	/**
@@ -392,11 +393,11 @@ public class MetaDataException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_PROPERTY_TYPE = "INVALID_PROPERTY_TYPE"; //$NON-NLS-1$
-	
+
 	/**
 	 * The default unit set on the dimension type is not valid.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_UNIT = "INVALID_UNIT"; //$NON-NLS-1$
 
 	/**
@@ -409,6 +410,23 @@ public class MetaDataException extends ModelException
 	 */
 
 	public MetaDataException( String[] params, String errCode )
+	{
+		this( params, errCode, null );
+	}
+
+	/**
+	 * Constructs an exception given parameters, its error code and nested
+	 * exception.
+	 * 
+	 * @param params
+	 *            string arrays that will be placed into the error message.
+	 * @param errCode
+	 *            exception error code that identify the error.
+	 * @param cause
+	 *            the nested exception
+	 */
+
+	public MetaDataException( String[] params, String errCode, Throwable cause )
 	{
 		super( errCode, params, null );
 
@@ -486,8 +504,10 @@ public class MetaDataException extends ModelException
 
 		return sb.toString( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 	public String getLocalizedMessage( )

@@ -167,24 +167,6 @@ public class ExtendedElementException extends SemanticException
 	 * @param errorCode
 	 *            used to retrieve a piece of externalized message displayed to
 	 *            end user.
-	 * @param arg0
-	 *            first argument used to format error messages
-	 */
-
-	public ExtendedElementException( String pluginId, String errorCode, Object arg0 )
-	{
-		super( pluginId, errorCode, arg0 );
-	}
-
-	/**
-	 * Constructs a new model exception.
-	 * 
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
 	 * @param cause
 	 *            the nested exception
 	 * @param args

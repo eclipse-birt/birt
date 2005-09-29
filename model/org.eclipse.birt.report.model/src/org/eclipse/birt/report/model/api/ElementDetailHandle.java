@@ -45,6 +45,7 @@ public abstract class ElementDetailHandle
 	 * Returns the report design.
 	 * 
 	 * @return the report design
+	 * @deprecated
 	 */
 
 	public ReportDesign getDesign( )

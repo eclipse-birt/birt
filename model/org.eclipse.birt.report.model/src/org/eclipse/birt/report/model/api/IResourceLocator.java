@@ -46,6 +46,12 @@ public interface IResourceLocator
 	public final static int LIBRARY = 2;
 
 	/**
+	 * The type of the cascading style sheet to search.
+	 */
+
+	public final static int CASCADING_STYLE_SHEET = 3;
+
+	/**
 	 * Searches the file by the given file name. The actual search algorithm
 	 * will be different in different environment. The file type is just helpful
 	 * when different file searching steps for different files are required.
@@ -63,7 +69,8 @@ public interface IResourceLocator
 	 *            or a relative path.
 	 * @param type
 	 *            The type of the file to search. The value must be one of
-	 *            <code>IMAGE</code> and <code>LIBRARY</code>.
+	 *            <code>IMAGE</code>,<code>LIBRARY</code> and
+	 *            <code>CASCADING_STYLE_SHEET</code>.
 	 * @return The <code>URL</code> object. <code>null</code> if the file
 	 *         can not be found.
 	 */

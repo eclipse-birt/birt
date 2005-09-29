@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,13 +24,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -50,6 +56,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1814,6 +1821,90 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public URL findResource( String fileName, int fileType )
 	{
 		return module.findResource( fileName, fileType );
+	}
+
+	/**
+	 * Gets the result style sheet with given file name of an external CSS2
+	 * resource.
+	 * 
+	 * @param fileName
+	 *            the file name of the external CSS resource
+	 * @return the <code>CssStyleSheetHandle</code> if the external resource
+	 *         is successfully loaded
+	 * @throws StyleSheetException
+	 *             thrown if the resource is not found, or there are syntax
+	 *             errors in the resource
+	 */
+
+	public CssStyleSheetHandle openCssStyleSheet( String fileName )
+			throws StyleSheetException
+	{
+		StyleSheetLoader loader = new StyleSheetLoader( );
+		return loader.load( module, fileName ).handle( module );
+	}
+
+	/**
+	 * Gets the result style sheet with given file name of an external CSS2
+	 * resource.
+	 * 
+	 * @param is
+	 *            the input stream of the resource
+	 * @return the <code>CssStyleSheetHandle</code> if the external resource
+	 *         is successfully loaded
+	 * @throws StyleSheetException
+	 *             thrown if the resource is not found, or there are syntax
+	 *             errors in the resource
+	 */
+
+	public CssStyleSheetHandle openCssStyleSheet( InputStream is )
+			throws StyleSheetException
+	{
+		StyleSheetLoader loader = new StyleSheetLoader( );
+		return loader.load( module, is ).handle( module );
+	}
+
+	/**
+	 * Imports the selected styles in a <code>CssStyleSheetHandle</code> to
+	 * the module. Each in the list is instance of
+	 * <code>SharedStyleHandle</code> .If any style selected has a duplicate
+	 * name with that of one style already existing in the report design, this
+	 * method will rename it and then add it to the design.
+	 * 
+	 * @param stylesheet
+	 *            the style sheet handle that contains all the selected styles
+	 * @param selectedStyles
+	 *            the selected style list
+	 *  
+	 */
+
+	public void importCssStyles( CssStyleSheetHandle stylesheet,
+			List selectedStyles )
+	{
+		ActivityStack stack = module.getActivityStack( );
+		stack.startTrans( );
+		for ( int i = 0; i < selectedStyles.size( ); i++ )
+		{
+			SharedStyleHandle style = (SharedStyleHandle) selectedStyles
+					.get( i );
+			if ( stylesheet.findStyle( style.getName( ) ) != null )
+			{
+				try
+				{
+					module.makeUniqueName( style.getElement( ) );
+					addElement( style, IModuleModel.STYLE_SLOT );
+				}
+				catch ( ContentException e )
+				{
+					assert false;
+				}
+				catch ( NameException e )
+				{
+					assert false;
+				}
+			}
+		}
+
+		stack.commit( );
 	}
 
 }
