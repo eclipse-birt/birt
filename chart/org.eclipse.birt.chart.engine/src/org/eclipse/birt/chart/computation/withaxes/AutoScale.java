@@ -146,6 +146,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean bAlwaysForward = false;
 
+	private boolean bAxisLabelStaggered = false;
+
 	private FormatSpecifier fs = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
@@ -234,8 +236,11 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bStepFixed = bStepFixed;
 		sc.fs = fs;
 		sc.rtc = rtc;
+		sc.bIntegralZoom = bIntegralZoom;
 		sc.bCategoryScale = bCategoryScale;
 		sc.bAlwaysForward = bAlwaysForward;
+		sc.baTickLabelVisible = baTickLabelVisible;
+		sc.bAxisLabelStaggered = bAxisLabelStaggered;
 		return sc;
 	}
 
@@ -744,6 +749,14 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 
 		return baTickLabelVisible[index];
+	}
+
+	/**
+	 * @return
+	 */
+	public final boolean isAxisLabelStaggered( )
+	{
+		return bAxisLabelStaggered;
 	}
 
 	/**
@@ -1259,7 +1272,7 @@ public final class AutoScale extends Methods implements Cloneable
 					: 3;
 		}
 		double[] da = daTickCoordinates;
-		RotatedRectangle rrPrev = null, rr;
+		RotatedRectangle rrPrev = null, rrPrev2 = null, rr;
 
 		if ( ( iType & ( NUMERICAL | LINEAR ) ) == ( NUMERICAL | LINEAR ) )
 		{
@@ -1311,13 +1324,29 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
-				if ( rrPrev != null
-						&& ( rrPrev.contains( p )
-								|| rrPrev.getPoint( iPointToCheck ).equals( p ) || rr.intersects( rrPrev.getBounds2D( ) ) ) )
+
+				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
-					return false;
+					if ( rrPrev2 != null
+							&& ( rrPrev2.contains( p )
+									|| rrPrev2.getPoint( iPointToCheck )
+											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+					{
+						return false;
+					}
+					rrPrev2 = rr;
 				}
-				rrPrev = rr;
+				else
+				{
+					if ( rrPrev != null
+							&& ( rrPrev.contains( p )
+									|| rrPrev.getPoint( iPointToCheck )
+											.equals( p ) || rr.intersects( rrPrev.getBounds2D( ) ) ) )
+					{
+						return false;
+					}
+					rrPrev = rr;
+				}
 				dAxisValue += dAxisStep;
 			}
 		}
@@ -1371,13 +1400,28 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
-				if ( rrPrev != null
-						&& ( rrPrev.contains( p ) || rrPrev.getPoint( iPointToCheck )
-								.equals( p ) ) )
+
+				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
-					return false;
+					if ( rrPrev2 != null
+							&& ( rrPrev2.contains( p )
+									|| rrPrev2.getPoint( iPointToCheck )
+											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+					{
+						return false;
+					}
+					rrPrev2 = rr;
 				}
-				rrPrev = rr;
+				else
+				{
+					if ( rrPrev != null
+							&& ( rrPrev.contains( p ) || rrPrev.getPoint( iPointToCheck )
+									.equals( p ) ) )
+					{
+						return false;
+					}
+					rrPrev = rr;
+				}
 				dAxisValue *= dAxisStep;
 			}
 		}
@@ -1413,13 +1457,28 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				Point p = rr.getPoint( iPointToCheck );
-				if ( rrPrev != null
-						&& ( rrPrev.contains( p ) || rrPrev.getPoint( iPointToCheck )
-								.equals( p ) ) )
+
+				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
-					return false;
+					if ( rrPrev2 != null
+							&& ( rrPrev2.contains( p )
+									|| rrPrev2.getPoint( iPointToCheck )
+											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+					{
+						return false;
+					}
+					rrPrev2 = rr;
 				}
-				rrPrev = rr;
+				else
+				{
+					if ( rrPrev != null
+							&& ( rrPrev.contains( p ) || rrPrev.getPoint( iPointToCheck )
+									.equals( p ) ) )
+					{
+						return false;
+					}
+					rrPrev = rr;
+				}
 				cdt = cdtAxisValue.forward( iUnit, iStep * ( i + 1 ) ); // ALWAYS
 				// W.R.T
 				// START
@@ -1474,7 +1533,7 @@ public final class AutoScale extends Methods implements Cloneable
 					: 3;
 		}
 		double[] da = daTickCoordinates;
-		RotatedRectangle rrPrev = null, rr;
+		RotatedRectangle rrPrev = null, rrPrev2 = null, rr;
 
 		DataSetIterator dsi = getData( );
 		dsi.reset( );
@@ -1518,23 +1577,54 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 
 			Point p = rr.getPoint( iPointToCheck );
-			if ( i == 0 )
-			{
-				// Always show the first label.
-				ba[i] = true;
 
-				rrPrev = rr;
-			}
-			else if ( rrPrev.contains( p )
-					|| rrPrev.getPoint( iPointToCheck ).equals( p )
-					|| rr.intersects( rrPrev.getBounds2D( ) ) )
+			if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 			{
-				ba[i] = false;
+				if ( i == 1 )
+				{
+					// Always show the first label.
+					ba[i] = true;
+
+					rrPrev2 = rr;
+				}
+				else
+				{
+					if ( rrPrev2.contains( p )
+							|| rrPrev2.getPoint( iPointToCheck ).equals( p )
+							|| rr.intersects( rrPrev2.getBounds2D( ) ) )
+					{
+						ba[i] = false;
+					}
+					else
+					{
+						ba[i] = true;
+						rrPrev2 = rr;
+					}
+				}
 			}
 			else
 			{
-				ba[i] = true;
-				rrPrev = rr;
+				if ( i == 0 )
+				{
+					// Always show the first label.
+					ba[i] = true;
+
+					rrPrev = rr;
+				}
+				else
+				{
+					if ( rrPrev.contains( p )
+							|| rrPrev.getPoint( iPointToCheck ).equals( p )
+							|| rr.intersects( rrPrev.getBounds2D( ) ) )
+					{
+						ba[i] = false;
+					}
+					else
+					{
+						ba[i] = true;
+						rrPrev = rr;
+					}
+				}
 			}
 		}
 
@@ -1616,6 +1706,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.fs = fs;
 			sc.rtc = rtc;
 			sc.bCategoryScale = true;
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.setData( dsi );
 			sc.setAlwaysForward( forward );
 			sc.computeTicks( xs,
@@ -1666,6 +1757,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setAlwaysForward( forward );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )
@@ -1863,6 +1955,7 @@ public final class AutoScale extends Methods implements Cloneable
 					new Double( 10 ) );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.setData( dsi );
 			sc.setAlwaysForward( forward );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
@@ -1996,6 +2089,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
+			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			dStart = sc.dStart;
 			dEnd = sc.dEnd;
 
@@ -2653,21 +2747,30 @@ public final class AutoScale extends Methods implements Cloneable
 
 		if ( iOrientation == VERTICAL )
 		{
-			double dW, dMaxW = 0;
+			double dW, dMaxW = 0, dMaxW2 = 0;
 			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
 			{
 				final DataSetIterator dsi = getData( );
 				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
 						: IConstants.UNDEFINED;
 				dsi.reset( );
+				int i = 0;
 				while ( dsi.hasNext( ) )
 				{
 					la.getCaption( ).setValue( formatCategoryValue( getType( ),
 							dsi.next( ),
 							iDateTimeUnit ) );
 					dW = computeWidth( xs, la );
-					if ( dW > dMaxW )
+
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxW2 = Math.max( dW, dMaxW2 );
+					}
+					else if ( dW > dMaxW )
+					{
 						dMaxW = dW;
+					}
+					i++;
 				}
 			}
 			else if ( ( getType( ) & LINEAR ) == LINEAR )
@@ -2697,8 +2800,15 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
-					if ( dW > dMaxW )
+
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxW2 = Math.max( dW, dMaxW2 );
+					}
+					else if ( dW > dMaxW )
+					{
 						dMaxW = dW;
+					}
 					dAxisValue += dAxisStep;
 				}
 			}
@@ -2729,8 +2839,14 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
-					if ( dW > dMaxW )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxW2 = Math.max( dW, dMaxW2 );
+					}
+					else if ( dW > dMaxW )
+					{
 						dMaxW = dW;
+					}
 					dAxisValue *= dAxisStep;
 				}
 			}
@@ -2760,16 +2876,22 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dW = computeWidth( xs, la );
-					if ( dW > dMaxW )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxW2 = Math.max( dW, dMaxW2 );
+					}
+					else if ( dW > dMaxW )
+					{
 						dMaxW = dW;
+					}
 					cdtAxisValue = cdtAxisValue.forward( iUnit, iStep );
 				}
 			}
-			return dMaxW;
+			return dMaxW + dMaxW2;
 		}
 		else if ( iOrientation == HORIZONTAL )
 		{
-			double dH, dMaxH = 0;
+			double dH, dMaxH = 0, dMaxH2 = 0;
 			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
 			{
 				final DataSetIterator dsi = getData( );
@@ -2777,16 +2899,22 @@ public final class AutoScale extends Methods implements Cloneable
 						: IConstants.UNDEFINED;
 
 				dsi.reset( );
+				int i = 0;
 				while ( dsi.hasNext( ) )
 				{
 					la.getCaption( ).setValue( formatCategoryValue( getType( ),
 							dsi.next( ),
 							iDateTimeUnit ) );
 					dH = computeHeight( xs, la );
-					if ( dH > dMaxH )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxH2 = Math.max( dH, dMaxH2 );
+					}
+					else if ( dH > dMaxH )
 					{
 						dMaxH = dH;
 					}
+					i++;
 				}
 			}
 			else if ( ( getType( ) & LINEAR ) == LINEAR )
@@ -2816,8 +2944,14 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( dH > dMaxH )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxH2 = Math.max( dH, dMaxH2 );
+					}
+					else if ( dH > dMaxH )
+					{
 						dMaxH = dH;
+					}
 					dAxisValue += dAxisStep;
 				}
 			}
@@ -2848,8 +2982,14 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( dH > dMaxH )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxH2 = Math.max( dH, dMaxH2 );
+					}
+					else if ( dH > dMaxH )
+					{
 						dMaxH = dH;
+					}
 					dAxisValue *= dAxisStep;
 				}
 			}
@@ -2879,8 +3019,338 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					la.getCaption( ).setValue( sText );
 					dH = computeHeight( xs, la );
-					if ( dH > dMaxH )
+					if ( isAxisLabelStaggered( ) && i % 2 == 1 )
+					{
+						dMaxH2 = Math.max( dH, dMaxH2 );
+					}
+					else if ( dH > dMaxH )
+					{
 						dMaxH = dH;
+					}
+					cdtAxisValue.forward( iUnit, iStep );
+				}
+			}
+			return dMaxH + dMaxH2;
+		}
+		return 0;
+	}
+
+	/**
+	 * @param xs
+	 * @param la
+	 * @param iOrientation
+	 * @return
+	 * @throws ChartException
+	 */
+	public final double computeStaggeredAxisLabelOffset( IDisplayServer xs, Label la,
+			int iOrientation ) throws ChartException
+	{
+		if ( !la.isSetVisible( ) )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"exception.unset.label.visibility", //$NON-NLS-1$
+					new Object[]{
+						la.getCaption( ).getValue( )
+					},
+					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
+		}
+
+		if ( !la.isVisible( ) || !isAxisLabelStaggered( ) )
+		{
+			return 0;
+		}
+
+		String sText;
+		double[] da = getTickCordinates( );
+
+		if ( iOrientation == VERTICAL )
+		{
+			double dW, dMaxW = 0;
+			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			{
+				final DataSetIterator dsi = getData( );
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
+						: IConstants.UNDEFINED;
+				dsi.reset( );
+				int i = 0;
+				while ( dsi.hasNext( ) )
+				{
+					la.getCaption( ).setValue( formatCategoryValue( getType( ),
+							dsi.next( ),
+							iDateTimeUnit ) );
+					if ( i % 2 == 0 )
+					{
+						dW = computeWidth( xs, la );
+
+						if ( dW > dMaxW )
+						{
+							dMaxW = dW;
+						}
+					}
+					i++;
+				}
+			}
+			else if ( ( getType( ) & LINEAR ) == LINEAR )
+			{
+				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
+				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
+				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				DecimalFormat df = null;
+				if ( fs == null )
+				{
+					df = new DecimalFormat( getNumericPattern( ) );
+				}
+				for ( int i = 0; i < da.length; i++ )
+				{
+					nde.setValue( dAxisValue );
+					try
+					{
+						sText = ValueFormatter.format( nde,
+								fs,
+								rtc.getLocale( ),
+								df );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+					
+					if ( i % 2 == 0 )
+					{
+						dW = computeWidth( xs, la );
+
+						if ( dW > dMaxW )
+						{
+							dMaxW = dW;
+						}
+					}
+					dAxisValue += dAxisStep;
+				}
+			}
+			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
+			{
+				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
+				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
+				double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				DecimalFormat df = null;
+				for ( int i = 0; i < da.length; i++ )
+				{
+					if ( fs == null )
+					{
+						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+					}
+					nde.setValue( dAxisValue );
+					try
+					{
+						sText = ValueFormatter.format( nde,
+								fs,
+								rtc.getLocale( ),
+								df );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+					
+					if ( i % 2 == 0 )
+					{
+						dW = computeWidth( xs, la );
+
+						if ( dW > dMaxW )
+						{
+							dMaxW = dW;
+						}
+					}
+					dAxisValue *= dAxisStep;
+				}
+			}
+			else if ( ( getType( ) & DATE_TIME ) == DATE_TIME )
+			{
+				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
+				int iStep = asInteger( getStep( ) );
+				int iUnit = asInteger( getUnit( ) );
+				SimpleDateFormat sdf = null;
+				if ( fs == null )
+				{
+					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+				}
+				for ( int i = 0; i < da.length; i++ )
+				{
+					try
+					{
+						sText = ValueFormatter.format( cdtAxisValue,
+								fs,
+								rtc.getLocale( ),
+								sdf );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+					
+					if ( i % 2 == 0 )
+					{
+						dW = computeWidth( xs, la );
+
+						if ( dW > dMaxW )
+						{
+							dMaxW = dW;
+						}
+					}
+					cdtAxisValue = cdtAxisValue.forward( iUnit, iStep );
+				}
+			}
+			return dMaxW;
+		}
+		else if ( iOrientation == HORIZONTAL )
+		{
+			double dH, dMaxH = 0;
+			if ( ( getType( ) & TEXT ) == TEXT || bCategoryScale )
+			{
+				final DataSetIterator dsi = getData( );
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
+						: IConstants.UNDEFINED;
+
+				dsi.reset( );
+				int i = 0;
+				while ( dsi.hasNext( ) )
+				{
+					la.getCaption( ).setValue( formatCategoryValue( getType( ),
+							dsi.next( ),
+							iDateTimeUnit ) );
+
+					if ( i % 2 == 0 )
+					{
+						dH = computeHeight( xs, la );
+
+						if ( dH > dMaxH )
+						{
+							dMaxH = dH;
+						}
+					}
+					i++;
+				}
+			}
+			else if ( ( getType( ) & LINEAR ) == LINEAR )
+			{
+				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
+				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
+				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				DecimalFormat df = null;
+				if ( fs == null )
+				{
+					df = new DecimalFormat( getNumericPattern( ) );
+				}
+				for ( int i = 0; i < da.length; i++ )
+				{
+					nde.setValue( dAxisValue );
+					try
+					{
+						sText = ValueFormatter.format( nde,
+								fs,
+								rtc.getLocale( ),
+								df );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+
+					if ( i % 2 == 0 )
+					{
+						dH = computeHeight( xs, la );
+
+						if ( dH > dMaxH )
+						{
+							dMaxH = dH;
+						}
+					}
+					dAxisValue += dAxisStep;
+				}
+			}
+			else if ( ( getType( ) & LOGARITHMIC ) == LOGARITHMIC )
+			{
+				final NumberDataElement nde = NumberDataElementImpl.create( 0 );
+				double dAxisValue = asDouble( getMinimum( ) ).doubleValue( );
+				final double dAxisStep = asDouble( getStep( ) ).doubleValue( );
+				DecimalFormat df = null;
+				for ( int i = 0; i < da.length; i++ )
+				{
+					if ( fs == null )
+					{
+						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+					}
+					nde.setValue( dAxisValue );
+					try
+					{
+						sText = ValueFormatter.format( nde,
+								fs,
+								rtc.getLocale( ),
+								df );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+					
+					if ( i % 2 == 0 )
+					{
+						dH = computeHeight( xs, la );
+
+						if ( dH > dMaxH )
+						{
+							dMaxH = dH;
+						}
+					}
+					dAxisValue *= dAxisStep;
+				}
+			}
+			else if ( ( getType( ) & DATE_TIME ) == DATE_TIME )
+			{
+				CDateTime cdtAxisValue = asDateTime( getMinimum( ) );
+				final int iStep = asInteger( getStep( ) );
+				final int iUnit = asInteger( getUnit( ) );
+				SimpleDateFormat sdf = null;
+				if ( fs == null )
+				{
+					sdf = new SimpleDateFormat( CDateTime.getPreferredFormat( iUnit ) );
+				}
+				for ( int i = 0; i < da.length; i++ )
+				{
+					try
+					{
+						sText = ValueFormatter.format( cdtAxisValue,
+								fs,
+								rtc.getLocale( ),
+								sdf );
+					}
+					catch ( ChartException dfex )
+					{
+						logger.log( dfex );
+						sText = IConstants.NULL_STRING;
+					}
+					la.getCaption( ).setValue( sText );
+					
+					if ( i % 2 == 0 )
+					{
+						dH = computeHeight( xs, la );
+
+						if ( dH > dMaxH )
+						{
+							dMaxH = dH;
+						}
+					}
 					cdtAxisValue.forward( iUnit, iStep );
 				}
 			}

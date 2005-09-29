@@ -213,13 +213,19 @@ public final class OneAxis
 	{
 		return bCategoryScale;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public final boolean isAxisLabelStaggered()
+	final boolean isAxisLabelStaggered( )
 	{
-		return axModel.isStaggered();
+		if ( axModel == null || !axModel.isSetStaggered( ) )
+		{
+			return false;
+		}
+
+		//TODO only apply to horizontal/vertical label?
+		return axModel.isStaggered( );
 	}
 
 	/**

@@ -1100,16 +1100,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				// AND AXIS-PLOT SPACING
 				double dX = 0, dX1 = 0, dX2 = 0; // Y-AXIS BAND VERTICAL
 				// CO-ORDINATES
-				final boolean bTicksLeft = ( iTickStyle & TICK_LEFT ) == TICK_LEFT; // 'boolean'
-				// FOR
-				// CONVENIENCE
-				// &
-				// READABILITY
-				final boolean bTicksRight = ( iTickStyle & TICK_RIGHT ) == TICK_RIGHT; // 'boolean'
-				// FOR
-				// CONVENIENCE
-				// &
-				// READABILITY
+				final boolean bTicksLeft = ( iTickStyle & TICK_LEFT ) == TICK_LEFT; 
+				final boolean bTicksRight = ( iTickStyle & TICK_RIGHT ) == TICK_RIGHT; 
 				final double dAppliedYAxisPlotSpacing = dYAxisPlotSpacing;
 				if ( laAxisTitle.isVisible( ) )
 				{

@@ -646,6 +646,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ir ).getEventObject( StructureSource.createLegend( lg ),
 				RectangleRenderEvent.class );
+
+		// render client area shadow.
+		if ( ca.getShadowColor( ) != null )
+		{
+			rre.setBounds( bo.translateInstance( 3, 3 ) );
+			rre.setBackground( ca.getShadowColor( ) );
+			ipr.fillRectangle( rre );
+		}
+
+		// render client area
 		rre.setBounds( bo );
 		rre.setOutline( lia );
 		rre.setBackground( ca.getBackground( ) );
@@ -653,8 +663,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		ipr.drawRectangle( rre );
 		lia = (LineAttributes) EcoreUtil.copy( lia );
 		lia.setVisible( true ); // SEPARATOR LINES MUST BE VISIBLE
-
-		// TODO render client area shadow.
 
 		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
 
@@ -1883,6 +1891,19 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		if ( oComputations instanceof PlotWithoutAxes )
 		{
 			final ClientArea ca = p.getClientArea( );
+
+			Bounds cbo = rre.getBounds( );
+
+			// render client area shadow
+			if ( ca.getShadowColor( ) != null )
+			{
+				rre.setBounds( cbo.translateInstance( 3, 3 ) );
+				rre.setBackground( ca.getShadowColor( ) );
+				ipr.fillRectangle( rre );
+			}
+
+			// render client area
+			rre.setBounds( cbo );
 			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
 			ipr.drawRectangle( rre );

@@ -1141,6 +1141,16 @@ public abstract class AxesRenderer extends BaseRenderer
 		Bounds bo = pwa.getPlotBounds( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
+		
+		// render client area shadow
+		if ( ca.getShadowColor( ) != null )
+		{
+			rre.setBounds( bo.translateInstance( 3, 3 ) );
+			rre.setBackground( ca.getShadowColor( ) );
+			ipr.fillRectangle( rre );
+		}
+
+		// render client area
 		rre.setBounds( bo );
 		rre.setOutline( ca.getOutline( ) );
 		rre.setBackground( ca.getBackground( ) );
@@ -2579,7 +2589,8 @@ public abstract class AxesRenderer extends BaseRenderer
 		int iMinorTickStyle = ax.getGrid( ).getTickStyle( IConstants.MINOR );
 		int iLabelLocation = ax.getLabelPosition( );
 		int iOrientation = ax.getOrientation( );
-		IDisplayServer xs = this.getDevice( ).getDisplayServer( );
+		Label la = ax.getLabel( );
+		final IDisplayServer xs = this.getDevice( ).getDisplayServer( );
 
 		double[] daEndPoints = sc.getEndPoints( );
 		double[] da = sc.getTickCordinates( );
@@ -2591,6 +2602,10 @@ public abstract class AxesRenderer extends BaseRenderer
 		double dSeriesThickness = pwa.getSeriesThickness( );
 		final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 		final FormatSpecifier fs = ax.getModelAxis( ).getFormatSpecifier( );
+		final double dStaggeredLabelOffset = sc.computeStaggeredAxisLabelOffset( xs,
+				la,
+				iOrientation );
+		final boolean bAxisLabelStaggered = sc.isAxisLabelStaggered();
 
 		DecimalFormat df = null;
 
@@ -2608,7 +2623,6 @@ public abstract class AxesRenderer extends BaseRenderer
 					ResourceBundle.getBundle( Messages.ENGINE,
 							getRunTimeContext( ).getLocale( ) ) );
 		}
-		Label la = ax.getLabel( );
 		final boolean bRenderAxisLabels = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
 		Location lo = LocationImpl.create( 0, 0 );
 
@@ -2931,17 +2945,33 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					if ( bRenderAxisLabels && sc.isTickLabelVisible( i ) )
 					{
+						double sx = x;
+						double sx2 = dXEnd;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+						}
+
 						if ( bRendering3D )
 						{
 							// Left wall
-							lo3d.set( x, y3d + dOffset, dZEnd );
+							lo3d.set( sx, y3d + dOffset, dZEnd );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							dc.addLabel( t3dre );
 
 							// Right wall
-							lo3d.set( dXEnd, y3d + dOffset, dZ );
+							lo3d.set( sx2, y3d + dOffset, dZ );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
 							t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -2949,7 +2979,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y + dOffset );
+							lo.set( sx, y + dOffset );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
 						}
@@ -3117,6 +3147,22 @@ public abstract class AxesRenderer extends BaseRenderer
 					if ( bRenderAxisLabels ) // RENDER LABELS ONLY IF
 					// REQUESTED
 					{
+						double sx = x;
+						double sx2 = dXEnd;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+						}
+
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
@@ -3126,7 +3172,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						if ( bRendering3D )
 						{
 							// Left wall
-							lo3d.set( x, y3d, dZEnd );
+							lo3d.set( sx, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
@@ -3134,7 +3180,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							dc.addLabel( t3dre );
 
 							// Right wall
-							lo3d.set( dXEnd, y3d, dZ );
+							lo3d.set( sx2, y3d, dZ );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
@@ -3143,7 +3189,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( sx, y );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
@@ -3273,6 +3319,22 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					if ( bRenderAxisLabels )
 					{
+						double sx = x;
+						double sx2 = dXEnd;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+						}
+
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
@@ -3282,7 +3344,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						if ( bRendering3D )
 						{
 							// Left wall
-							lo3d.set( x, y3d, dZEnd );
+							lo3d.set( sx, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
@@ -3290,7 +3352,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							dc.addLabel( t3dre );
 
 							// Right wall
-							lo3d.set( dXEnd, y3d, dZ );
+							lo3d.set( sx2, y3d, dZ );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
@@ -3299,7 +3361,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( sx, y );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
@@ -3427,6 +3489,22 @@ public abstract class AxesRenderer extends BaseRenderer
 
 					if ( bRenderAxisLabels )
 					{
+						double sx = x;
+						double sx2 = dXEnd;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+						}
+
 						ScriptHandler.callFunction( sh,
 								ScriptHandler.BEFORE_DRAW_AXIS_LABEL,
 								axModel,
@@ -3436,7 +3514,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						if ( bRendering3D )
 						{
 							// Left wall
-							lo3d.set( x, y3d, dZEnd );
+							lo3d.set( sx, y3d, dZEnd );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.LEFT );
@@ -3444,7 +3522,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							dc.addLabel( t3dre );
 
 							// Right wall
-							lo3d.set( dXEnd, y3d, dZ );
+							lo3d.set( sx2, y3d, dZ );
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
 							t3dre.setTextPosition( TextRenderEvent.RIGHT );
@@ -3453,7 +3531,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( sx, y );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
@@ -3841,15 +3919,28 @@ public abstract class AxesRenderer extends BaseRenderer
 								dOffset = dUnitSize / 2;
 							}
 
+							double sy = y;
+							if ( bAxisLabelStaggered && i % 2 == 1 )
+							{
+								if ( iLabelLocation == IConstants.ABOVE )
+								{
+									sy -= dStaggeredLabelOffset;
+								}
+								else
+								{
+									sy += dStaggeredLabelOffset;
+								}
+							}
+
 							if ( bRendering3D )
 							{
 								if ( axisType == IConstants.BASE_AXIS )
 								{
-									lo3d.set( x3d + dOffset, y, dZEnd );
+									lo3d.set( x3d + dOffset, sy, dZEnd );
 								}
 								else
 								{
-									lo3d.set( dXEnd, y, z3d + dOffset );
+									lo3d.set( dXEnd, sy, z3d + dOffset );
 								}
 								t3dre.setLocation3D( lo3d );
 								t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
@@ -3857,7 +3948,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							}
 							else
 							{
-								lo.set( x + dOffset, y );
+								lo.set( x + dOffset, sy );
 								tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 								ipr.drawText( tre );
 							}
@@ -4063,15 +4154,28 @@ public abstract class AxesRenderer extends BaseRenderer
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
 
+						double sy = y;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.ABOVE )
+							{
+								sy -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sy += dStaggeredLabelOffset;
+							}
+						}
+
 						if ( bRendering3D )
 						{
 							if ( axisType == IConstants.BASE_AXIS )
 							{
-								lo3d.set( x3d, y, dZEnd );
+								lo3d.set( x3d, sy, dZEnd );
 							}
 							else
 							{
-								lo3d.set( dXEnd, y, z3d );
+								lo3d.set( dXEnd, sy, z3d );
 							}
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
@@ -4080,7 +4184,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( x, sy );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
@@ -4246,15 +4350,29 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
+
+						double sy = y;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.ABOVE )
+							{
+								sy -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sy += dStaggeredLabelOffset;
+							}
+						}
+
 						if ( bRendering3D )
 						{
 							if ( axisType == IConstants.BASE_AXIS )
 							{
-								lo3d.set( x3d, y, dZEnd );
+								lo3d.set( x3d, sy, dZEnd );
 							}
 							else
 							{
-								lo3d.set( dXEnd, y, z3d );
+								lo3d.set( dXEnd, sy, z3d );
 							}
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
@@ -4263,7 +4381,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( x, sy );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
@@ -4430,15 +4548,29 @@ public abstract class AxesRenderer extends BaseRenderer
 								la );
 						getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_AXIS_LABEL,
 								la );
+
+						double sy = y;
+						if ( bAxisLabelStaggered && i % 2 == 1 )
+						{
+							if ( iLabelLocation == IConstants.ABOVE )
+							{
+								sy -= dStaggeredLabelOffset;
+							}
+							else
+							{
+								sy += dStaggeredLabelOffset;
+							}
+						}
+
 						if ( bRendering3D )
 						{
 							if ( axisType == IConstants.BASE_AXIS )
 							{
-								lo3d.set( x3d, y, dZEnd );
+								lo3d.set( x3d, sy, dZEnd );
 							}
 							else
 							{
-								lo3d.set( dXEnd, y, z3d );
+								lo3d.set( dXEnd, sy, z3d );
 							}
 							la.getCaption( ).setValue( sText );
 							t3dre.setLocation3D( lo3d );
@@ -4447,7 +4579,7 @@ public abstract class AxesRenderer extends BaseRenderer
 						}
 						else
 						{
-							lo.set( x, y );
+							lo.set( x, sy );
 							la.getCaption( ).setValue( sText );
 							tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 							ipr.drawText( tre );
