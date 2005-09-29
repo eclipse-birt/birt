@@ -1584,9 +1584,7 @@
       <Type name="Grid"/>
       <Type name="Image"/>
       <Type name="Label"/>
-      <Type name="Line"/>
       <Type name="List"/>
-      <Type name="Rectangle"/>
       <Type name="Table"/>
       <Type name="Text"/>
       <Type name="ExtendedItem"/>
@@ -2093,8 +2091,8 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
-    <Property displayNameID="Element.ReportItem.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>
-    <Property displayNameID="Element.ReportItem.toc" name="toc" returnType="string" since="reserved" type="expression"/>
+    <Property displayNameID="Element.ReportItem.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>
+    <Property displayNameID="Element.ReportItem.toc" name="toc" returnType="string" since="2.0" type="expression"/>
     <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="element">
       <Trigger validator="DataSetRequiredValidator"/>
 	</Property>
@@ -2107,8 +2105,7 @@
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
     <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip"/>
     <!-- Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip"/ -->
-    <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-    <PropertyVisibility name="bookmark" visibility="hide"/>                
+    <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>               
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/>        
   </Element>
@@ -2576,8 +2573,6 @@
     <Property displayNameID="Element.Image.valueExpr" name="valueExpr" returnType="blob" since="2.0" type="expression"/>
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
-    <PropertyVisibility name="valueExpr" visibility="readonly"/>                
-    <PropertyVisibility name="typeExpr" visibility="hide"/> 
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
