@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -297,6 +298,24 @@ public class ElementFactory
 		return element.handle( module );
 	}
 
+	/**
+	 * Creates a new parameter group element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the optional parameter group name. Can be <code>null</code>.
+	 * @return a handle to the parameter group
+	 */
+
+	public CascadingParameterGroupHandle newCascadingParameterGroup( String name )
+	{
+		CascadingParameterGroup element = new CascadingParameterGroup( name );
+		module.makeUniqueName( element );
+		return (CascadingParameterGroupHandle)element.handle( module );
+	}
+
+		
+	
 	/**
 	 * Creates a new scalar parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.

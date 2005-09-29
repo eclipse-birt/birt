@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -415,10 +417,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	}
 
 	/**
-	 * Returns the iterator for selection list defined on this scalar parameter.
-	 * The element in the iterator is the corresponding
-	 * <code>StructureHandle</code> that deal with a
-	 * <code>SelectionChoice</code> in the list.
+	 * Returns the iterator for the static selection list defined on this scalar
+	 * parameter. Each element in the iterator is the an instance of
+	 * <code>SelectionChoiceHandle</code>.
 	 * 
 	 * @return the iterator for selection list defined on this scalar parameter.
 	 * 
@@ -428,7 +429,6 @@ public class ScalarParameterHandle extends ParameterHandle
 	public Iterator choiceIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( ScalarParameter.SELECTION_LIST_PROP );
-		assert propHandle != null;
 		return propHandle.iterator( );
 	}
 
@@ -635,6 +635,52 @@ public class ScalarParameterHandle extends ParameterHandle
 	}
 
 	/**
+	 * Returns the parameter type for this scalar parameter. Types are defined
+	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * 
+	 * <ul>
+	 * <li><code>PARAM_VALUE_TYPE_STATIC</code>
+	 * <li><code>PARAM_VALUE_TYPE_DYNAMIC</code>
+	 * </ul>
+	 * 
+	 * @return the type for the scalar parameter
+	 * 
+	 * @see #setValueType(String)
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 * 
+	 */
+
+	public String getValueType( )
+	{
+		return getStringProperty( IScalarParameterModel.VALUE_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the parameter value type for this scalar parameter. Types are
+	 * defined in <code>DesignChoiceConstants</code> can be one of the
+	 * followings:
+	 * 
+	 * <ul>
+	 * <li><code>PARAM_TYPE_STATIC</code>
+	 * <li><code>PARAM_TYPE_DYNAMIC</code>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type for the scalar parameter
+	 * 
+	 * @throws SemanticException
+	 *             if the input type is not one of above choices.
+	 * @see #getValueType()
+	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
+	 * 
+	 */
+
+	public void setValueType( String type ) throws SemanticException
+	{
+		setStringProperty( IScalarParameterModel.VALUE_TYPE_PROP, type );
+	}
+
+	/**
 	 * Set the value for the display prompt context.
 	 * 
 	 * @param promptValue
@@ -643,9 +689,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @throws SemanticException
 	 * @deprecated
 	 */
-	
+
 	public void setDisplayPrompt( String promptValue ) throws SemanticException
-	{		
+	{
 	}
 
 	/**
@@ -654,7 +700,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * @return the display prompt.
 	 * @deprecated
 	 */
-	
+
 	public String getDisplayPrompt( )
 	{
 		return null;

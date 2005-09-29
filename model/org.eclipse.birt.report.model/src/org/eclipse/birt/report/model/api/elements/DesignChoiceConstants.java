@@ -221,6 +221,12 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_DATETIME = "dateTime"; //$NON-NLS-1$
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
 
+	// paramValueType
+	
+	public static final String CHOICE_PARAM_VALUE_TYPE = "paramType"; //$NON-NLS-1$
+	public static final String PARAM_VALUE_TYPE_STATIC = "static"; //$NON-NLS-1$
+	public static final String PARAM_VALUE_TYPE_DYNAMIC = "dynamic"; //$NON-NLS-1$
+	
 	// paramControl
 
 	public static final String CHOICE_PARAM_CONTROL = "paramControl"; //$NON-NLS-1$

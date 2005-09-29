@@ -40,7 +40,8 @@ public interface ReportDesignConstants
 	String LIST_ITEM = "List"; //$NON-NLS-1$
 	String LISTING_ITEM = "Listing"; //$NON-NLS-1$
 	String MASTER_PAGE_ELEMENT = "MasterPage"; //$NON-NLS-1$
-	String PARAMETER_GROUP_ELEMENT = "ParameterGroup"; //$NON-NLS-1$ 
+	String PARAMETER_GROUP_ELEMENT = "ParameterGroup"; //$NON-NLS-1$
+	String CASCADING_PARAMETER_GROUP_ELEMENT = "CascadingParameterGroup"; //$NON-NLS-1$
 	String RECTANGLE_ITEM = "Rectangle"; //$NON-NLS-1$
 	String REPORT_DESIGN_ELEMENT = "ReportDesign"; //$NON-NLS-1$ 
 	String REPORT_ITEM = "ReportItem"; //$NON-NLS-1$ 

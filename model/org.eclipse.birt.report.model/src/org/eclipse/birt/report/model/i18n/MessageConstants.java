@@ -154,7 +154,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_COLUMN_PASTE_FORBIDDEN = "Error.SemanticError.COLUMN_PASTE_FORBIDDEN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_COLUMN_PASTE_DIFFERENT_LAYOUT = "Error.SemanticError.COLUMN_PASTE_DIFFERENT_LAYOUT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_STRUCTURE_REF = "Error.SemanticError.INVALID_STRUCTURE_REF"; //$NON-NLS-1$
-	
+	public static final String SEMANTIC_ERROR_INVALID_SCALAR_PARAMETER_TYPE = "Error.SemanticError.INVALID_SCALAR_PARAMETER_TYPE"; //$NON-NLS-1$
 	public static final String STYLE_EXCEPTION_FORBIDDEN = "Error.StyleException.FORBIDDEN"; //$NON-NLS-1$
 	public static final String STYLE_EXCEPTION_NOT_FOUND = "Error.StyleException.NOT_FOUND"; //$NON-NLS-1$
 

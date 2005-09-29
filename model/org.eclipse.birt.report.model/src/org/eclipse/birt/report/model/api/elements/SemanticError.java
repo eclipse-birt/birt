@@ -207,6 +207,14 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT = MessageConstants.SEMANTIC_ERROR_COLUMN_PASTE_DIFFERENT_LAYOUT;
 
+	
+	/**
+	 * Error code indicating the a cascading parameter is not typed as "dynamic".
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INVALID_SCALAR_PARAMETER_TYPE ;
+
+	
 	/**
 	 * The constant for the semantic error.
 	 */

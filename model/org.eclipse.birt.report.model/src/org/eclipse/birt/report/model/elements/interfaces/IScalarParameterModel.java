@@ -24,11 +24,17 @@ public interface IScalarParameterModel
 	public static final String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$ 
 
 	/**
-	 * Name of the data type property.
+	 * Name of the parameter data type property.
 	 */
 
 	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 
+	/**
+	 * Name of the parameter value type property.
+	 */
+	
+	public static final String VALUE_TYPE_PROP = "valueType";  //$NON-NLS-1$
+	
 	/**
 	 * Name of the conceal-value property.
 	 */

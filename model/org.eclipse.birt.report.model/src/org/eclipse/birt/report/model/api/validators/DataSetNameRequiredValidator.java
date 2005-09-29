@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -31,7 +32,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  * <h3>Applicability</h3>
  * This validator is only applied to <code>ScalarParameter</code>.
- *  
+ * 
  */
 
 public class DataSetNameRequiredValidator extends AbstractElementValidator
@@ -73,6 +74,9 @@ public class DataSetNameRequiredValidator extends AbstractElementValidator
 				ScalarParameter.LABEL_EXPR_PROP );
 		String valueExpr = toValidate.getStringProperty( module,
 				ScalarParameter.VALUE_EXPR_PROP );
+
+		if ( toValidate.getContainer( ) instanceof CascadingParameterGroup )
+			return list;
 
 		if ( !StringUtil.isBlank( labelExpr )
 				|| !StringUtil.isBlank( valueExpr ) )

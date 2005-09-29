@@ -336,6 +336,18 @@ public class ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
+	
+	/**
+	 * Visits the cascading parameter group element.
+	 * 
+	 * @param obj
+	 *            the cascading parameter group to traverse
+	 */
+
+	public void visitCascadingParameterGroup( CascadingParameterGroup obj )
+	{
+		visitParameterGroup( obj );
+	}
 
 	/**
 	 * Visits the report design element.

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator;
 import org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
@@ -116,6 +117,8 @@ public class ScalarParameter extends Parameter implements IScalarParameterModel
 		List list = super.validate( module );
 
 		list.addAll( DataSetNameRequiredValidator.getInstance( ).validate(
+				module, this ) );
+		list.addAll( CascadingParameterTypeValidator.getInstance( ).validate(
 				module, this ) );
 
 		return list;

@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -1613,6 +1614,29 @@ public abstract class ModuleWriter extends ElementVisitor
 	}
 
 	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCascadingParameterGroup(org.eclipse.birt.report.model.elements.CascadingParameterGroup)
+	 */
+	
+	public void visitCascadingParameterGroup( CascadingParameterGroup obj )
+	{
+		writer.startElement( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG );
+		
+		super.visitParameterGroup( obj );
+		
+		property( obj, CascadingParameterGroup.START_EXPANDED_PROP );
+		resourceKey( obj, CascadingParameterGroup.HELP_TEXT_KEY_PROP,
+				CascadingParameterGroup.HELP_TEXT_PROP );
+		property( obj, CascadingParameterGroup.DATA_SET_PROP );
+		
+		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
+				DesignSchemaConstants.PARAMETERS_TAG );
+		
+		writer.endElement( );
+	}
+	
+	
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter)
@@ -1624,6 +1648,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitScalarParameter( obj );
 
+		property( obj, ScalarParameter.VALUE_TYPE_PROP );
 		property( obj, ScalarParameter.DATA_TYPE_PROP );
 		property( obj, ScalarParameter.DISPLAY_PROMPT_PROP );
 		property( obj, ScalarParameter.CONCEAL_VALUE_PROP );

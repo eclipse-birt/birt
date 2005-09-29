@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -326,6 +327,17 @@ public class DesignVisitor
 	}
 
 	/**
+	 * Visits the cascading parameter group element.
+	 * 
+	 * @param obj
+	 *            the handle of the cascading parameter group to traverse
+	 */
+	protected void visitCascadingParameterGroup( CascadingParameterGroupHandle obj )
+	{
+		visitParameterGroup( obj );
+	}
+
+	/**
 	 * Visits the module element
 	 * 
 	 * @param obj
@@ -549,7 +561,7 @@ public class DesignVisitor
 	{
 
 		/**
-		 * The report design which this visitor visits.
+		 * The module which this visitor visits.
 		 */
 
 		Module module = null;
@@ -567,10 +579,10 @@ public class DesignVisitor
 		}
 
 		/**
-		 * The report design which this visitor visits.
+		 * The module which this visitor visits.
 		 * 
-		 * @param design
-		 *            report design
+		 * @param module
+		 *            the module
 		 */
 
 		void setModule( Module module )
@@ -747,17 +759,29 @@ public class DesignVisitor
 		}
 
 		/**
+		 * Visits the cascading parameter group element.
+		 * 
+		 * @param obj
+		 *            the cascading parameter group to traverse
+		 */
+
+		public void visitCascadingParameterGroup( CascadingParameterGroup obj )
+		{
+			DesignVisitor.this.visitCascadingParameterGroup( (CascadingParameterGroupHandle)obj.handle( module ) );
+		}
+		
+		/**
 		 * Visits the library.
 		 * 
 		 * @param obj
 		 *            the library to traverse
 		 */
-		
+
 		public void visitLibrary( Library obj )
 		{
 			DesignVisitor.this.visitLibrary( obj.handle( ) );
 		}
-		
+
 		/**
 		 * Visits the report design.
 		 * 
@@ -769,7 +793,7 @@ public class DesignVisitor
 		{
 			DesignVisitor.this.visitReportDesign( obj.handle( ) );
 		}
-		
+
 		/**
 		 * Visits the scalar parameter.
 		 * 

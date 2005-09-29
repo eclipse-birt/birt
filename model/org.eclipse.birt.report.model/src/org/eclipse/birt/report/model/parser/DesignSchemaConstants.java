@@ -119,7 +119,8 @@ public interface DesignSchemaConstants
 	static final String	PAGE_HEADER_TAG							= "page-header";				//$NON-NLS-1$
 	static final String	PAGE_SEQUENCE_TAG						= "page-sequence";				//$NON-NLS-1$ 
 	static final String	PAGE_SETUP_TAG							= "page-setup";					//$NON-NLS-1$ 
-	static final String	PARAMETER_GROUP_TAG						= "parameter-group";			//$NON-NLS-1$ 
+	static final String	PARAMETER_GROUP_TAG						= "parameter-group";			//$NON-NLS-1$
+	static final String	CASCADING_PARAMETER_GROUP_TAG			= "cascading-parameter-group";  //$NON-NLS-1$
 	static final String	PARAMETER_TAG							= "parameter";					//$NON-NLS-1$
 	static final String	PARAMETERS_TAG							= "parameters";					//$NON-NLS-1$
 	static final String	PROPERTY_DEFN_TAG						= "property-defn";				//$NON-NLS-1$ 

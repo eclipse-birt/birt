@@ -175,6 +175,10 @@
     <Choice displayNameID="Choices.paramType.dateTime" name="dateTime"/>
     <Choice displayNameID="Choices.paramType.boolean" name="boolean"/>
   </ChoiceType>
+  <ChoiceType name="paramValueType">
+    <Choice displayNameID="Choices.paramValueType.static" name="static"/>
+    <Choice displayNameID="Choices.paramValueType.dynamic" name="dynamic"/>
+  </ChoiceType>
   <ChoiceType name="paramControl">
     <Choice displayNameID="Choices.paramControl.text-box" name="text-box"/>
     <Choice displayNameID="Choices.paramControl.list-box" name="list-box"/>
@@ -1331,6 +1335,7 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ValueRequiredValidator" modules="design, library" name="ValueRequiredValidator"/>
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" modules="design, library" name="StructureReferenceValidator" />
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
+   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1741,6 +1746,10 @@
     <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
       <Default>string</Default>
     </Property>
+    <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.type" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
+      	<Default>static</Default>
+		<Trigger validator="CascadingParameterTypeValidator"/>
+    </Property>
     <Property displayNameID="Element.ScalarParameter.concealValue" name="concealValue" runtimeSettable="false" since="1.0" type="boolean">
       <Default>false</Default>
     </Property>
@@ -1757,13 +1766,13 @@
     </Property>
     <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" returnType="any" runtimeSettable="true" since="1.0" type="expression"/>
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
-      <Property displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="reserved" type="string">
+      <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="element">
 		<Trigger validator="DataSetNameRequiredValidator"/>
 	  </Property>
-      <Property displayNameID="Element.ScalarParameter.dynamicList.valueExpr" name="valueExpr" returnType="any" runtimeSettable="false" since="reserved" type="expression">
+      <Property displayNameID="Element.ScalarParameter.dynamicList.valueExpr" name="valueExpr" returnType="any" runtimeSettable="false" since="2.0" type="expression">
 		<Trigger validator="DataSetNameRequiredValidator"/>
 	  </Property>
-      <Property displayNameID="Element.ScalarParameter.dynamicList.labelExpr" name="labelExpr" returnType="string" runtimeSettable="false" since="reserved" type="expression">
+      <Property displayNameID="Element.ScalarParameter.dynamicList.labelExpr" name="labelExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression">
 		<Trigger validator="DataSetNameRequiredValidator"/>
 	  </Property>
     </PropertyGroup>
@@ -1785,6 +1794,13 @@
     <Property displayNameID="Element.ParameterGroup.helpTextID" name="helpTextID" runtimeSettable="false" since="1.0" type="resourceKey"/>
     <Slot displayNameID="Element.ParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="1.0" xmlName="parameters">
       <Type name="Parameter"/>
+    </Slot>
+  </Element>
+  <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.CascadingParameterGroup" extends="ParameterGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.CascadingParameterGroup" name="CascadingParameterGroup" since="2.0" xmlName="cascading-parameter-group">
+    <Property detailType="DataSet" displayNameID="Element.Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="element" />
+    <Slot displayNameID="Element.CascadingParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="2.0" xmlName="parameters">
+      <Type name="Parameter"/>
+      <Trigger validator="CascadingParameterTypeValidator"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Style" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Style" name="Style" nameSpace="style" since="1.0" xmlName="style">

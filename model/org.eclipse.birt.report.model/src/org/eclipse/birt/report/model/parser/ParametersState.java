@@ -82,6 +82,8 @@ public class ParametersState extends AbstractParseState
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.PARAMETER_GROUP_TAG ) )
 				return new ParameterGroupState( handler );
+			if( tagName.equalsIgnoreCase( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG ) )
+				return new CascadingParameterGroupState( handler );
 		}
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.SCALAR_PARAMETER_TAG ) )
