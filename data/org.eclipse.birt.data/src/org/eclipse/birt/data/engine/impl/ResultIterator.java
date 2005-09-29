@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.JSRowObject;
@@ -53,7 +55,8 @@ class ResultIterator implements IResultIterator
 	// used in (usesDetails == false)
 	final private boolean 			useDetails;
 	final private int 				lowestGroupLevel;
-	private int 					savedStartingGroupLevel;	
+	private int 					savedStartingGroupLevel;
+
 	protected static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 	
 	/**
@@ -75,7 +78,6 @@ class ResultIterator implements IResultIterator
 		assert queryDefn != null;
 		this.useDetails = queryDefn.usesDetails( );
 		this.lowestGroupLevel = queryDefn.getGroups( ).size( );
-
 		start();
 	    logger.logp( Level.FINER,
 	    		ResultIterator.class.getName( ),
@@ -726,6 +728,97 @@ class ResultIterator implements IResultIterator
 	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult()
 	{
 		return odiResult;
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
+	 */
+	public boolean findGroup( Object[] groupKeyValues ) throws DataException
+	{
+		List groups = query.getQueryDefn( ).getGroups( );
+		if ( groupKeyValues.length > groups.size( ) )
+			throw new DataException( ResourceConstants.INCORRECT_GROUP_KEY_VALUES );
+
+		GroupDefinition group = null;
+
+		String[] columnNames = new String[groupKeyValues.length];
+
+		for ( int i = 0; i < columnNames.length; i++ )
+		{
+			group = (GroupDefinition) groups.get( i );
+
+			columnNames[i] = getGroupKeyColumnName( group );
+		}
+
+		//Return to first row.
+		odiResult.first( 0 );
+		do
+		{
+			for ( int i = 0; i < columnNames.length; i++ )
+			{
+				if ( groupKeyValuesEqual( groupKeyValues, columnNames, i ) )
+				{
+					if ( i == columnNames.length - 1 )
+						return true;
+				}
+				else
+				{
+					// because group level is 1-based. We should use "i+1" to indicate current group.
+					this.skipToEnd( i + 1 );
+					break;
+				}
+			}
+		} while ( odiResult.next( ) );
+		
+		return false;
+	}
+
+
+	/**
+	 * @param groupKeyValues
+	 * @param columnNames
+	 * @param i
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean groupKeyValuesEqual( Object[] groupKeyValues, String[] columnNames, int i ) throws DataException
+	{
+		return ( odiResult.getCurrentResult( )
+				.getFieldValue( columnNames[i] ) == null && groupKeyValues[i] == null )
+				|| ( odiResult.getCurrentResult( )
+						.getFieldValue( columnNames[i] ).equals( groupKeyValues[i] ) );
+	}
+
+
+	/**
+	 * The method which extracts column name from group definition.
+	 * @param group
+	 * @return
+	 */
+	private String getGroupKeyColumnName( GroupDefinition group )
+	{
+		String columnName;
+		if ( group.getKeyColumn( ) != null )
+		{
+			columnName = group.getKeyColumn( );
+		}
+		else
+		{
+			columnName = group.getKeyExpression( );
+			if ( columnName.toUpperCase( ).startsWith( "ROW." ) )
+				columnName = columnName.toUpperCase( )
+						.replaceFirst( "\\QROW.\\E", "" );
+			else if ( columnName.toUpperCase( ).startsWith( "ROW[" ) )
+			{
+				columnName = columnName.toUpperCase( )
+						.replaceFirst( "\\QROW\\E\\s*\\Q[\\E", "" );
+				columnName = columnName.trim().substring( 0, columnName.length( ) - 1 ).trim();	
+			}
+			if(columnName!=null && columnName.matches("\\Q\"\\E.*\\Q\"\\E"))
+				columnName = columnName.substring(1,columnName.length()-1);
+		}
+		return columnName;
 	}
 
 }
