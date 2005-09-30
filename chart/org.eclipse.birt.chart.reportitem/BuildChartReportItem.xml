@@ -172,9 +172,15 @@
 		<pathelement path="${model.dir}/model.jar"/>
 		<pathelement path="${engine.dir}/engine.jar"/>
 		<pathelement path="${designer.core.dir}/core.jar"/>
+		<pathelement path="${designer.ui.dir}/ui.jar"/>
+		<fileset dir="${designer.ui.dir}/lib">
+				<include name="**/*.jar"/>
+		</fileset>
 		<pathelement path="${data.dir}/dte.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
 		<pathelement path="${chart.ui.dir}/ui.jar"/>
+		<pathelement path="${framework.taskwizard.dir}/taskwizardframework.jar"/>
+		<pathelement path="${chart.ui.prototype.dir}/chartwizard.jar"/>
 	</path>
 	
 	<!-- Compile source code and generate jar for this project.
