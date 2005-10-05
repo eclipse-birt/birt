@@ -49,6 +49,16 @@ public class Clob implements IClob
 		}
 	}
 
+    /* 
+     * @see org.eclipse.datatools.connectivity.oda.IClob#getSubString()
+     */
+	public String getSubString( long position, int length ) 
+		throws OdaException
+	{
+        // TODO - replace with call to underlying JDBC driver
+	    throw new UnsupportedOperationException();
+	}
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IClob#length()
 	 */

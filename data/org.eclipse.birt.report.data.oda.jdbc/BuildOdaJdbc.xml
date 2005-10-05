@@ -34,6 +34,7 @@
  * Usage:
  *    ant [any one or more of the public targets] 
  *        -Declipse.home=<your eclipse home> 
+ *		  -Ddtp.home=<your DTP plugins source home>  [optional]
  *
  * Default target is "Jar".
  *
@@ -71,6 +72,7 @@
 	<property name="plugin.version" value="1.0.1" />
 	<property name="export.dir" location="export" />
 	<property name="eclipse.home" location="." />
+	<property name="dtp.home" location=".." />
 	
 	<property name="dir.utest" value="utest" />
  	<property name="dir.src" value="src" />
@@ -81,7 +83,7 @@
 
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.jdbc"/>
     <property name="core.dir" location="../org.eclipse.birt.core" />
-	<property name="dtp.oda.dir" location="../org.eclipse.datatools.connectivity.oda" />
+	<property name="dtp.oda.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda" />
 	<property name="user" value="Actuate" />
 	<property name="password" value="Actuate" />
 	<property name="host" value="localhost" />
@@ -115,6 +117,7 @@
 	<!-- Compile source code and generate jar for this project.
 		 Input parameters:
 		 	eclipse.home
+		 	dtp.home
 
 	-->
 	<target name="Jar" depends="compileSource">

@@ -26,7 +26,7 @@
    <extension
          point="org.eclipse.datatools.connectivity.oda.dataSource">
       <dataSource
-            odaVersion="2.0.0"
+            odaVersion="3.0"
             driverClass="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver"
             defaultDisplayName="JDBC Data Source"
             setThreadContextClassLoader="false"
