@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
-import org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
+import org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -109,7 +113,20 @@ public class GlobalInsertAction extends AbstractGlobalSelectionAction
 				ExceptionHandler.handle( e );
 			}
 			stack.commit( );
+			synWithMediator(handle);
 		}
 		super.run( );
+	}
+
+	private void synWithMediator(DesignElementHandle handle)
+	{
+		List list = new ArrayList();
+
+		list.add(handle);
+		ReportRequest r = new ReportRequest();
+		r.setType(ReportRequest.CREATE_ELEMENT);
+		
+		r.setSelectionObject(list);
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 	}
 }

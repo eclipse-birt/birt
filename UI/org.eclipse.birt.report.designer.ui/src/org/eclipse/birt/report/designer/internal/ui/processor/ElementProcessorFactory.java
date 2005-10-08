@@ -24,18 +24,14 @@ public class ElementProcessorFactory
 
 	public static IElementProcessor createProcessor( String elementType )
 	{
-		if ( ReportDesignConstants.IMAGE_ITEM.equals( elementType ) )
+		if(ReportDesignConstants.IMAGE_ITEM.equals(elementType))
 		{
-			return new ImageItemProcessor( );
+			return new ImageItemProcessor();
 		}
-		else if ( ReportDesignConstants.GRID_ITEM.equals( elementType )
+		if ( ReportDesignConstants.GRID_ITEM.equals( elementType )
 				|| ReportDesignConstants.TABLE_ITEM.equals( elementType ) )
 		{
 			return new TableGridProcessor( elementType );
-		}
-		else if ( ReportDesignConstants.IMAGE_ITEM.equals( elementType ) )
-		{
-			return new ImageItemProcessor( );
 		}
 		else
 		{
