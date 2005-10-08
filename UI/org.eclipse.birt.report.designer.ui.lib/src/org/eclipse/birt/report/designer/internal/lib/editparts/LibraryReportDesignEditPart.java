@@ -21,6 +21,8 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
@@ -32,6 +34,8 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
@@ -122,8 +126,8 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void activate( )
 	{
-		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter((LibraryHandle)getModel() )
-				.addPropertyChangeListener( this );
+		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter(
+				(LibraryHandle) getModel( ) ).addPropertyChangeListener( this );
 		super.activate( );
 	}
 
@@ -134,8 +138,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void deactivate( )
 	{
-		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter((LibraryHandle)getModel() )
-				.removePropertyChangeListener( this );
+		HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter(
+				(LibraryHandle) getModel( ) ).removePropertyChangeListener(
+				this );
 		super.deactivate( );
 	}
 
@@ -154,14 +159,17 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 
 				public void run( )
 				{
-					List mediatorSelection = SessionHandleAdapter.getInstance().getMediator().getCurrentState().getSelectionObject();
-					if (mediatorSelection.size() == 1 && mediatorSelection.get(0) instanceof LibraryHandle)	
+					List mediatorSelection = SessionHandleAdapter.getInstance( )
+							.getMediator( ).getCurrentState( )
+							.getSelectionObject( );
+					if ( mediatorSelection.size( ) == 1
+							&& mediatorSelection.get( 0 ) instanceof LibraryHandle )
 					{
-						return ;
+						return;
 					}
-					List list = getChildren();
-					
-					EditPartViewer viewer = getViewer();
+					List list = getChildren( );
+
+					EditPartViewer viewer = getViewer( );
 					if ( viewer instanceof DeferredGraphicalViewer )
 					{
 						( (DeferredGraphicalViewer) viewer ).setSelection(
@@ -184,5 +192,28 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies( )
+	{
+		installEditPolicy( EditPolicy.LAYOUT_ROLE,
+				new ReportFlowLayoutEditPolicy( )
+				{
+
+					protected org.eclipse.gef.commands.Command getCreateCommand(
+							CreateRequest request )
+					{
+						return null;
+					}
+				}
+
+		);
+		installEditPolicy( EditPolicy.CONTAINER_ROLE,
+				new ReportContainerEditPolicy( ) );
 	}
 }
