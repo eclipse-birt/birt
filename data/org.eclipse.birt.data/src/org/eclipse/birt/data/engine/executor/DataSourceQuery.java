@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
+import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -502,6 +503,110 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		return new CachedResultSet( this, resultMetadata, rs );
     }
     
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterValue(int)
+	 */
+	public Object getOutputParameterValue( int index ) throws DataException
+	{
+		assert odaStatement != null;
+		
+		int newIndex = getCorrectParamIndex( index );
+		return odaStatement.getParameterValue( newIndex );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#getParameterValue(java.lang.String)
+	 */
+	public Object getOutputParameterValue( String name ) throws DataException
+	{
+		assert odaStatement != null;
+				
+		checkOutputParamNameValid( name );
+		return odaStatement.getParameterValue( name );
+	}
+    
+	/**
+	 * In oda layer, it does not differentiate the value retrievation of input
+	 * parameter value and ouput parameter value. They will be put in a same
+	 * sequence list. However, in odi layer, we need to clearly distinguish them
+	 * since only retrieving output parameter is suppored and it should be based
+	 * on its own output parameter index. Therefore, this method will do such a
+	 * conversion from the output parameter index to the parameter index.
+	 * 
+	 * @param index based on output parameter order
+	 * @return index based on the whole parameters order
+	 * @throws DataException
+	 */
+	private int getCorrectParamIndex( int index ) throws DataException
+	{
+		if ( index <= 0 )
+			throw new DataException( "Invalid output parameter index: " + index );
+		
+		int newIndex = 0; // 1-based
+		int curOutputIndex = 0; // 1-based
+		
+		Collection collection = getParameterMetaData( );
+		if ( collection != null )
+		{
+			Iterator it = collection.iterator( );
+			while ( it.hasNext( ) )
+			{
+				newIndex++;
+				
+				IParameterMetaData metaData = (IParameterMetaData) it.next( );
+				if ( metaData.isOutputMode( ).booleanValue( ) == true )
+				{
+					curOutputIndex++;
+					
+					if ( curOutputIndex == index )
+						break;
+				}
+			}
+		}
+
+		if ( curOutputIndex < index )
+			throw new DataException( "Output parameter index is out of bound"
+					+ index );
+
+		return newIndex;
+	}
+	
+	/**
+	 * Validate the name of output parameter
+	 * 
+	 * @param name
+	 * @throws DataException
+	 */
+	private void checkOutputParamNameValid( String name ) throws DataException
+	{
+		assert name != null;
+
+		boolean isValid = false;
+
+		Collection collection = getParameterMetaData( );
+		if ( collection != null )
+		{
+			Iterator it = collection.iterator( );
+			while ( it.hasNext( ) )
+			{
+				IParameterMetaData metaData = (IParameterMetaData) it.next( );
+
+				String paramName = metaData.getName( );
+				if ( paramName.equals( name ) )
+				{
+					isValid = metaData.isOutputMode( ).booleanValue( );
+					break;
+				}
+			}
+		}
+
+		if ( isValid == false )
+			throw new DataException( "Invalid output parameter name" + name );
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
+	 */
     public void close()
     {
         if ( odaStatement != null )

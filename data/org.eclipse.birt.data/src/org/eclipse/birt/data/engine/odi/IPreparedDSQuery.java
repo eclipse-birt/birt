@@ -54,6 +54,30 @@ public interface IPreparedDSQuery
     public Collection getParameterMetaData()
     					throws DataException;
     
+    /**
+	 * Retrieve utput parameters value.This method corresponds to the
+	 * IAdvancedQuery of ODA, which might produce the output parameters when it
+	 * is executed.
+	 * 
+	 * @param index,
+	 *            parameter index, 1-based
+	 * @return value of parameter
+	 * @throws DataException
+	 */
+    public Object getOutputParameterValue( int index ) throws DataException;
+    
+    /**
+	 * Retrieve utput parameters value.This method corresponds to the
+	 * IAdvancedQuery of ODA, which might produce the output parameters when it
+	 * is executed.
+	 *  
+	 * @param name,
+	 *            parameter name
+	 * @return value of parameter
+	 * @throws DataException
+	 */
+    public Object getOutputParameterValue( String name ) throws DataException;
+    
     /** 
      * Binds an input value to the query's input parameter.
      * <br>

@@ -42,6 +42,7 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.eclipse.birt.data.engine.script.JSOutputParams;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.JSRows;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
@@ -389,6 +390,7 @@ abstract class PreparedQuery
 		protected 	IResultIterator	odiResult;
 		protected 	JSRowObject		rowObject;
 		protected 	JSRows			rowsObject;
+		protected   JSOutputParams 	outputParamsJSObject;
 		protected	Scriptable		scope;
 		protected 	IQueryResults outerResults;
 		private 	boolean 		isPrepared = false;
@@ -554,6 +556,9 @@ abstract class PreparedQuery
 			// Set the Javascript "rows" object and bind it to our result
 			rowsObject = new JSRows( this.outerResults, rowObject );
 			scope.put( "rows", scope, rowsObject );
+
+			outputParamsJSObject = new JSOutputParams( );
+			scope.put( "outputParams", scope, outputParamsJSObject );
 			
 			// Execute the query
 			odiResult = executeOdiQuery( );
