@@ -175,33 +175,35 @@ public class WizardSelectCssStylePage extends WizardPage
 				| SWT.BORDER
 				| SWT.CHECK );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 80;
+		data.heightHint = 100;
 		stylesTable.setLayoutData( data );
 
-		stylesTable.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				TableItem[] children = notificationsTable.getItems( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					children[i].dispose( );
-				}
-
-				String styleName = ( (TableItem) e.item ).getText( );
-
-				// SharedStyleHandle sh = (SharedStyleHandle) styleMap.get(
-				// styleName );
-
-				{
-					TableItem notify = new TableItem( notificationsTable,
-							SWT.NULL );
-					notify.setText( styleName
-							+ Messages.getString( "WizardSelectCssStylePage.info.canNotImport" ) ); //$NON-NLS-1$
-					notify.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
-				}
-			}
-		} );
+		// stylesTable.addSelectionListener( new SelectionAdapter( ) {
+		//
+		// public void widgetSelected( SelectionEvent e )
+		// {
+		// TableItem[] children = notificationsTable.getItems( );
+		// for ( int i = 0; i < children.length; i++ )
+		// {
+		// children[i].dispose( );
+		// }
+		//
+		// String styleName = ( (TableItem) e.item ).getText( );
+		//
+		// // SharedStyleHandle sh = (SharedStyleHandle) styleMap.get(
+		// // styleName );
+		//
+		// {
+		// TableItem notify = new TableItem( notificationsTable,
+		// SWT.NULL );
+		// notify.setText( styleName
+		// + Messages.getString( "WizardSelectCssStylePage.info.canNotImport" )
+		// ); //$NON-NLS-1$
+		// notify.setImage( ReportPlatformUIImages.getImage(
+		// IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
+		// }
+		// }
+		// } );
 
 		new Label( styleComposite, SWT.NULL ).setText( Messages.getString( "WizardSelectCssStylePage.label.notifications" ) ); //$NON-NLS-1$
 
@@ -209,7 +211,7 @@ public class WizardSelectCssStylePage extends WizardPage
 				| SWT.FULL_SELECTION
 				| SWT.BORDER );
 		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 80;
+		data.heightHint = 60;
 		notificationsTable.setLayoutData( data );
 
 	}
