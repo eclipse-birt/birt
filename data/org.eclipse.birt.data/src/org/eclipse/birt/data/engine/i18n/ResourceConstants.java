@@ -87,6 +87,12 @@ public class ResourceConstants
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	
+	// clob and blob
+	public final static String CLOB_OPEN_ERROR = "data.engine.opencloberror";
+	public final static String CLOB_READ_ERROR = "data.engine.readcloberror";
+	public final static String BLOB_OPEN_ERROR = "data.engine.openbloberror";
+	public final static String BLOB_READ_ERROR = "data.engine.readbloberror";
+	
 	// resultsetcache exception
 	public final static String DESTINDEX_OUTOF_RANGE = "data.engine.BadDestIndex";
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";

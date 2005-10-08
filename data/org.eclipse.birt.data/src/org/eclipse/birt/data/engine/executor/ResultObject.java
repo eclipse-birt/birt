@@ -11,10 +11,17 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * <code>ResultObject</code> contains the field values 
@@ -36,61 +43,190 @@ public class ResultObject implements IResultObject
 		assert( resultClass.getFieldCount() == fields.length );
 		
 		m_resultClass = resultClass;
-		m_fields = fields;
+		// m_fields = fields;
+		
+		// set field value
+		int length = fields.length;
+		m_fields = new Object[length];
+		for ( int i = 0; i < length; i++ )
+		{
+			try
+			{
+				if ( fields[i] != null )
+				{
+					Object value = fields[i];
+
+					// process IClob data and IBlob data
+					String typeName = m_resultClass.getFieldNativeTypeName( i + 1 );
+					assert typeName != null;					
+					if ( typeName.equalsIgnoreCase( "CLOB" ) )
+						value = getClobValue( (IClob) fields[i] );
+					else if ( typeName.equalsIgnoreCase( "BLOB" ) )
+						value = getBlobValue( (IBlob) fields[i] );
+
+					m_fields[i] = value;
+				}
+			}
+			catch ( DataException e )
+			{
+				throw new IllegalArgumentException( e.getMessage( ) );
+			}
+		}
 	}
 	
-	public IResultClass getResultClass()
+	/**
+	 * Retrieve the String value for Clob type
+	 * 
+	 * @param clob
+	 * @return String value of Clob type
+	 * @throws DataException
+	 */
+	private String getClobValue( IClob clob ) throws DataException
+	{
+		BufferedReader in = null;
+		try
+		{
+			in = new BufferedReader( clob.getCharacterStream( ) );
+		}
+		catch ( OdaException e )
+		{
+			throw new DataException( ResourceConstants.CLOB_OPEN_ERROR, e );
+		}
+
+		StringBuffer buffer = new StringBuffer( );
+		try
+		{
+			String str;
+			while ( ( str = in.readLine( ) ) != null )
+			{
+				buffer.append( str );
+			}
+			in.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.CLOB_READ_ERROR, e );
+		}
+
+		return buffer.toString( );
+	}
+
+	/**
+	 * Retrieve the byte array value for Blob type
+	 * 
+	 * @param blob
+	 * @return byte array value of Blob type
+	 * @throws DataException
+	 */
+	private byte[] getBlobValue( IBlob blob ) throws DataException
+	{
+		BufferedInputStream inputStream = null;
+		byte[] bytes = null;
+		try
+		{
+			inputStream = new BufferedInputStream( blob.getBinaryStream( ) );
+			bytes = new byte[ (int) blob.length( )]; // a potential bug ???
+		}
+		catch ( OdaException e )
+		{
+			throw new DataException( ResourceConstants.BLOB_OPEN_ERROR, e );
+		}
+
+		try
+		{
+			inputStream.read( bytes );
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.BLOB_READ_ERROR, e );
+		}
+
+		return bytes;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getResultClass()
+	 */
+	public IResultClass getResultClass( )
 	{
 		return m_resultClass;
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(java.lang.String)
+	 */
 	public Object getFieldValue( String fieldName ) throws DataException
 	{
 		int fieldIndex = m_resultClass.getFieldIndex( fieldName );
-		
-		if( fieldIndex < 1 )
-			throw new DataException( ResourceConstants.INVALID_FIELD_NAME, fieldName );
-		
+
+		if ( fieldIndex < 1 )
+			throw new DataException( ResourceConstants.INVALID_FIELD_NAME,
+					fieldName );
+
 		return getFieldValue( fieldIndex );
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultObject#getFieldValue(int)
+	 */
 	public Object getFieldValue( int fieldIndex ) throws DataException
 	{
 		validateFieldIndex( fieldIndex );
-		return m_fields[ fieldIndex - 1 ];
+		return m_fields[fieldIndex - 1];
 	}
 
-	public void setCustomFieldValue( String fieldName, Object value ) throws DataException
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(java.lang.String, java.lang.Object)
+	 */
+	public void setCustomFieldValue( String fieldName, Object value )
+			throws DataException
 	{
 		int idx = m_resultClass.getFieldIndex( fieldName );
 		setCustomFieldValue( idx, value );
 	}
 
-	// fieldIndex is 1-based
-	public void setCustomFieldValue( int fieldIndex, Object value ) throws DataException
+	/*
+	 * fieldIndex is 1-based
+	 * @see org.eclipse.birt.data.engine.odi.IResultObject#setCustomFieldValue(int, java.lang.Object)
+	 */
+	public void setCustomFieldValue( int fieldIndex, Object value )
+			throws DataException
 	{
 		if ( m_resultClass.isCustomField( fieldIndex ) )
 			m_fields[fieldIndex - 1] = value;
 		else
-			throw new DataException( ResourceConstants.INVALID_CUSTOM_FIELD_INDEX, new Integer(fieldIndex) );
+			throw new DataException( ResourceConstants.INVALID_CUSTOM_FIELD_INDEX,
+					new Integer( fieldIndex ) );
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @throws DataException
+	 */
 	private void validateFieldIndex( int index ) throws DataException
 	{
-		if( index < 1 || index > m_fields.length )
-			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX, new Integer(index) );
+		if ( index < 1 || index > m_fields.length )
+			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
+					new Integer( index ) );
 	}
 	
-	// To help with debugging and tracing
-	public String toString()
+	/*
+	 * To help with debugging and tracing
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString( )
 	{
-		StringBuffer buf = new StringBuffer( m_fields.length*10 );
-		for (int i = 0; i < m_fields.length; i++)
+		StringBuffer buf = new StringBuffer( m_fields.length * 10 );
+		for ( int i = 0; i < m_fields.length; i++ )
 		{
-			if ( i > 0 ) buf.append( ',');
-	     	buf.append( m_fields[i].toString());
+			if ( i > 0 )
+				buf.append( ',' );
+			buf.append( m_fields[i].toString( ) );
 		}
-	      	return buf.toString();
+		return buf.toString( );
 	}
 	
 }

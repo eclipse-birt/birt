@@ -198,6 +198,20 @@ public interface IResultIterator
     public Blob getBlob( IBaseExpression dataExpr ) throws BirtException;
 
     /**
+     * Returns the value of a query result expression 
+     * representing Binary data.
+     * <br>
+     * If the expression value has an incompatible type,  
+     * a <code>DataException</code> is thrown at runtime.
+     * @param dataExpr 	An <code>IBaseExpression</code> object provided in
+     * 					the <code>IQueryDefinition</code> at the time of prepare.
+     * @return			The value of the given Blob expression.
+     * 					It could be null.
+     * @throws 			BirtException if error occurs in Data Engine
+     */
+    public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException;
+    
+    /**
      * Advances the iterator, skipping rows to the last row in the current group 
      * at the specified group level.
      * This is for result sets that do not use detail rows to advance

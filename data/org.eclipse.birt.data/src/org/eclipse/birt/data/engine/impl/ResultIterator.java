@@ -529,6 +529,27 @@ class ResultIterator implements IResultIterator
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getBytes(org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public byte[] getBytes( IBaseExpression dataExpr ) throws BirtException
+	{
+		try
+		{
+			return DataTypeUtil.toBytes( getValue( dataExpr ) );
+		}
+		catch ( BirtException e )
+		{
+	    	DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+			logger.logp( Level.FINE,
+					ResultIterator.class.getName( ),
+					"getBytes",
+					"An error is thrown by DataTypeUtil.",
+					e1 );
+			throw e1;
+		}		
+	}
+	
 	/**
 	 * Advances the iterator, skipping rows to the last row in the current group 
 	 * at the specified group level.

@@ -563,6 +563,24 @@ public final class DataTypeUtil
 	}
 
 	/**
+	 * @param source
+	 * @return byte array
+	 * @throws BirtException
+	 */
+	public static byte[] toBytes( Object source ) throws BirtException
+	{
+		// Converting Blob to/from other types is not currently supported
+		if ( source == null )
+			return null;
+		else if ( source instanceof byte[] )
+			return (byte[]) source;
+		else
+			throw new BirtException( ResourceConstants.CONVERT_FAILS,
+					"Blob",
+					resourceBundle );
+	}
+	
+	/**
 	 * A utility method to convert an ODI data type class value to a BIRT data
 	 * type integer, as defined in org.eclipse.birt.core.data.DataType .
 	 */
@@ -585,6 +603,17 @@ public final class DataTypeUtil
 		if ( odiDataType == Date.class || odiDataType == Time.class
 				|| odiDataType == Timestamp.class )
 			return DataType.DATE_TYPE;
+		
+		// this is only a temporary solution for Clob type and Blob type
+		if ( odiDataType == byte[].class )
+			return DataType.BINARY_TYPE;
+		if ( odiDataType.getName( )
+				.equals( "org.eclipse.datatools.connectivity.oda.IClob" ) )
+			return DataType.STRING_TYPE;
+		if ( odiDataType.getName( )
+				.equals( "org.eclipse.datatools.connectivity.oda.IBlob" ) )
+			return DataType.BINARY_TYPE;
+		
 
 		// any other types are not recognized nor supported;
 		// BOOLEAN_TYPE and BLOB_TYPE are not supported yet
