@@ -59,6 +59,7 @@ abstract class PreparedQuery
 	private 	IBaseQueryDefinition 	queryDefn;
 	private 	DataEngineImpl	engine;
 	private  	AggregateTable	aggrTable;
+	private 	Object appContext;
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
@@ -92,6 +93,16 @@ abstract class PreparedQuery
 	AggregateTable getAggrTable()
 	{
 		return aggrTable;
+	}
+
+	protected Object getAppContext()
+	{
+	    return appContext;	    
+	}
+	
+	protected void setAppContext( Object context )
+	{
+	    appContext = context;
 	}
 	
 	/** Gets the appropriate subclass of the Executor */
@@ -161,6 +172,9 @@ abstract class PreparedQuery
 		}
 		
 		Executor executor = newExecutor();
+		
+		// pass the prepared query's pass thru context to its executor
+		executor.setAppContext( this.getAppContext() );
 		
 		//here prepare the execution. After the preparation the result metadata is available by
 		//calling getResultClass, and the query is ready for execution.
@@ -395,6 +409,8 @@ abstract class PreparedQuery
 		protected 	IQueryResults outerResults;
 		private 	boolean 		isPrepared = false;
 		private 	boolean			isExecuted = false;
+		private		Object			queryAppContext;
+		
 		/**
 		 * Overridden by subclass to create a new unopened odiDataSource given the data 
 		 * source runtime definition
@@ -433,6 +449,16 @@ abstract class PreparedQuery
 		 */
 		public Executor( )
 		{
+		}
+
+		protected Object getAppContext()
+		{
+		    return queryAppContext;	    
+		}
+		
+		protected void setAppContext( Object context )
+		{
+		    queryAppContext = context;
 		}
 		
 		/*
@@ -556,7 +582,7 @@ abstract class PreparedQuery
 			// Set the Javascript "rows" object and bind it to our result
 			rowsObject = new JSRows( this.outerResults, rowObject );
 			scope.put( "rows", scope, rowsObject );
-
+			
 			outputParamsJSObject = new JSOutputParams( );
 			scope.put( "outputParams", scope, outputParamsJSObject );
 			
@@ -703,6 +729,10 @@ abstract class PreparedQuery
 					// Let subclass create a new unopened odi data source
 					odiDataSource = createOdiDataSource( ); 
 					
+					// Passes thru the prepared query executor's 
+					// context to the new odi data source
+				    odiDataSource.setAppContext( getAppContext() );
+
 					// Open the odi data source
 					dataSource.openOdiDataSource( odiDataSource );
 					
@@ -712,6 +742,10 @@ abstract class PreparedQuery
 				{
 					// Use existing odiDataSource created for the data source runtime
 					odiDataSource = dataSource.getOdiDataSource();
+					
+					// Passes thru the prepared query executor's 
+					// current context to existing data source
+				    odiDataSource.setAppContext( getAppContext() );
 				}
 			}
 		}

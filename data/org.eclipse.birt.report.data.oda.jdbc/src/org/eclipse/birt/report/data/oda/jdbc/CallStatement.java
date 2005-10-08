@@ -140,6 +140,14 @@ public class CallStatement implements IAdvancedQuery
 					e );
 		}
 	}
+	
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang.Object)
+	 */
+	public void setAppContext( Object context ) throws OdaException
+	{
+	    // do nothing; no support for pass-through application context
+	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setProperty(java.lang.String, java.lang.String)

@@ -104,7 +104,31 @@ abstract public class DataEngine
 	 */
 	abstract public IPreparedQuery prepare( IQueryDefinition querySpec )
 			throws BirtException;
-	
+
+	/**
+	 * Verifies the elements of a report query spec,
+	 * and provides a hint and application context object to the 
+	 * query to prepare and optimize an execution plan.
+	 * <br>This has the same behavior as the 
+	 * prepare( IQueryDefinition querySpec ) method,
+	 * with an additional argument for an application to pass in 
+	 * a context object to the underlying data provider, 
+	 * e.g. an ODA run-time driver.
+	 * @param	querySpec	Specifies
+	 * 				the data access and data transforms services
+	 * 				needed from DtE to produce a set of query results.
+	 * @param appContext	The application context object for 
+	 * 				preparation and execution of the querySpec; 
+	 * 				could be null.
+	 * @return		The <code>IPreparedQuery</code> object that contains a prepared 
+	 * 				query ready for execution.
+	 * @throws 		BirtException if error occurs during the preparation of querySpec
+	 * @since		2.0
+	 */
+	abstract public IPreparedQuery prepare( IQueryDefinition querySpec, 
+	        								Object appContext )
+			throws BirtException;
+
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given 
 	 * data source, and 

@@ -51,7 +51,6 @@ public class DataEngineImpl extends DataEngine
 	
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
-	
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -329,7 +328,17 @@ public class DataEngineImpl extends DataEngine
 	 * @throws 		DataException if error occurs in Data Engine
 	 */
 	public IPreparedQuery prepare( IQueryDefinition querySpec )
-			throws DataException
+		throws DataException
+	{
+	    return prepare( querySpec, null );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition, java.lang.Object)
+	 */
+	public IPreparedQuery prepare( IQueryDefinition querySpec,
+	        						Object appContext )
+		throws DataException
 	{
 		if ( logger.isLoggable( Level.FINER ) )
 			logger.entering( DataEngineImpl.class.getName( ),
@@ -349,10 +358,11 @@ public class DataEngineImpl extends DataEngine
 		if ( logger.isLoggable( Level.FINE ) )
 			logger.fine( "Start to prepare query: "
 					+ LogUtil.toString( querySpec ) );
-		PreparedDataSourceQuery result = PreparedDataSourceQuery.newInstance( this,
-				querySpec );
-		logger.fine( "Finished preparing query." );
 
+		IPreparedQuery result = PreparedDataSourceQuery.newInstance( this,
+				querySpec, appContext );
+
+		logger.fine( "Finished preparing query." );
 		logger.exiting( DataEngineImpl.class.getName( ), "prepare" );
 		return result;
 	}

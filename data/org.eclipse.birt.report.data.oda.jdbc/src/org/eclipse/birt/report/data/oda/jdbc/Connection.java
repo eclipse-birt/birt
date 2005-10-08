@@ -117,7 +117,15 @@ public class Connection implements IConnection
 				throw new JDBCException( ResourceConstants.CONN_CANNOT_GET_METADATA, e );
 			}
 		}
-		return new DataSourceMetaData( (IConnection) this, dbMetadata );
+		return new DataSourceMetaData( this, dbMetadata );
+	}
+
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.Object)
+	 */
+	public void setAppContext( Object context ) throws OdaException
+	{
+	    // do nothing; no support for pass-through application context
 	}
 
 	public boolean isOpen( ) throws OdaException

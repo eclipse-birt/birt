@@ -32,7 +32,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class ConnectionManager
 {
-	private static ConnectionManager sm_instance = new ConnectionManager( );
+	private static ConnectionManager sm_instance = null;
 	
     // trace logging variables
 	private static String sm_className = ConnectionManager.class.getName();
@@ -40,7 +40,7 @@ public class ConnectionManager
 	private static String sm_loggerName = sm_packageName;
 	private static LogHelper sm_logger = LogHelper.getInstance( sm_loggerName );
 	
-	private ConnectionManager( )
+	protected ConnectionManager( )
 	{
 	}
 	
@@ -55,8 +55,11 @@ public class ConnectionManager
 	{
 		String methodName = "getInstance";		
 		sm_logger.entering( sm_className, methodName );
-		sm_logger.exiting( sm_className, methodName, sm_instance );
-		
+
+		if( sm_instance == null )
+		    sm_instance = new ConnectionManager( );		
+
+		sm_logger.exiting( sm_className, methodName, sm_instance );		
 		return sm_instance;
 	}
 
@@ -70,7 +73,25 @@ public class ConnectionManager
 	 * @throws DataException	if data source error occurs.
 	 */
 	public Connection openConnection( String dataSourceElementId, 
-									  Properties connectionProperties )
+			  						  Properties connectionProperties )
+		throws DataException
+    {
+	    return openConnection( dataSourceElementId, 
+	            				connectionProperties, null );
+    }
+	
+	/**
+	 * Same functionality as the first openConnection method, but
+	 * with an additional argument to pass in an application context 
+	 * to the underlying ODA driver.
+	 * @param appContext	Application context object to pass thru to 
+	 * 						the underlying ODA driver.
+	 * @return	an opened <code>Connection</code> instance. 
+	 * @throws DataException	if data source error occurs
+	 */
+	public Connection openConnection( String dataSourceElementId, 
+									  Properties connectionProperties,
+									  Object appContext )
 		throws DataException
 	{
 		String methodName = "openConnection";
@@ -92,6 +113,12 @@ public class ConnectionManager
                 driverMgr.getDriverHelper( dataSourceElementId );
 			String dataSourceId = 
                 driverMgr.getExtensionDataSourceId( dataSourceElementId );          
+
+			// before calling getConnection, passes application context
+			// to the oda driver, which in turn takes care of 
+			// passing thru to the driver's connection(s) and quer(ies)
+			driverHelper.setAppContext( appContext );
+			
 			IConnection connection = driverHelper.getConnection( dataSourceId );
 			connection.open( connectionProperties );
 			

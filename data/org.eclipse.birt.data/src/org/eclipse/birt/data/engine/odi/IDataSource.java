@@ -58,6 +58,23 @@ public interface IDataSource
 	public void addProperty( String name, String value )
 					throws DataException;
     
+	/**
+	 * Sets the data source's context provided by an 
+	 * application, which is passed through to the underlying physical
+	 * data source driver.
+	 * <br>Its processing is implementation-dependent on the 
+	 * underlying data source. <p>
+	 * The application context object being set here gets applied and 
+	 * passed through in subsequent calls to open() or newQuery().
+	 * <br>An optional method.
+	 * @param context	Pass-through application context object; 
+	 * 					could be null to override any previously 
+	 * 					set context.
+	 * @throws DataException  if data source error occurs
+	 * @since		2.0
+	 */
+	public void setAppContext( Object context ) throws DataException;
+	
     /**
 	 * Instantiates a new query instance that represents the 
      * specified a query text in the queryType.

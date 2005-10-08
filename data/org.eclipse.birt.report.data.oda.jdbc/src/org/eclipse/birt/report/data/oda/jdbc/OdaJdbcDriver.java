@@ -89,6 +89,13 @@ public class OdaJdbcDriver implements IDriver
 		return 0;
 	}
 	
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setAppContext(java.lang.Object)
+	 */
+	public void setAppContext( Object context ) throws OdaException
+	{
+	    // do nothing; no support for pass-through application context
+	}	
 	
 	/**
 	 * @see org.eclipse.datatools.connectivity.IDriver#setLogConfiguration(org.eclipse.birt.data.oda.LogConfiguration)
@@ -190,27 +197,42 @@ public class OdaJdbcDriver implements IDriver
                     methodName, "Cannot setup Formatter object.", ex );
         }
 	}
+
+	private static URL getInstallDirectory() throws OdaException, IOException
+	{
+		ExtensionManifest extMF = null;
+		try
+        {
+            extMF = ManifestExplorer.getInstance().
+            			getExtensionManifest( Constants.DATA_SOURCE_ID );
+        }
+        catch( IllegalArgumentException e )
+        {
+            // ignore and continue to return null
+        }
+		if ( extMF != null )
+		    return extMF.getDriverLocation();
+		return null;
+	}
 	
 	/**
      * Gets the location of the "drivers" subdirectory of this plugin
      */
 	public static File getDriverDirectory() throws OdaException, IOException
 	{
+	    URL url = getInstallDirectory();
+		if ( url == null )
+		    return null;
+
 		File result = null;
-		ExtensionManifest extMF = 
-			ManifestExplorer.getInstance().getExtensionManifest( Constants.DATA_SOURCE_ID );
-		if ( extMF != null )
+	    try
 		{
-		    URL url = extMF.getRuntimeInterface().getLibraryLocation();
-		    try
-			{
-		    	URI uri = new URI(url.toString());
-				result = new File( uri.getPath(), Constants.DRIVER_DIRECTORY );
-			}
-			catch ( URISyntaxException e )
-			{
-				result = new File( url.getFile(), Constants.DRIVER_DIRECTORY );
-			}
+	    	URI uri = new URI( url.toString() );
+			result = new File( uri.getPath(), Constants.DRIVER_DIRECTORY );
+		}
+		catch ( URISyntaxException e )
+		{
+			result = new File( url.getFile(), Constants.DRIVER_DIRECTORY );
 		}
 		
 		return result;
@@ -307,6 +329,33 @@ public class OdaJdbcDriver implements IDriver
     private static String generateFileName( String logDirectory,
     										String logPrefix )
     {
+        // if the log directory is a relative path, the working directory is
+        // not necessarily the same as the plugin installation directory;
+        // we must ensure that the log files are in the installation directory
+		File logDir = new File( logDirectory );
+        if ( ( logDir.isDirectory() && ! logDir.isAbsolute() ) ||
+             logDirectory.startsWith( "." ) )
+        {
+            try
+            {
+        	    URL url = getInstallDirectory();
+        	    if( url != null )
+        	    {
+	                String driverHomeDir = url.getPath();
+	                logDir = new File( driverHomeDir, logDirectory );
+	                logDirectory = logDir.getPath();
+        	    }
+            }
+            catch( OdaException e )
+            {
+                // ignore and use original logDirectory
+            }
+            catch( IOException e )
+            {
+                // ignore and use original logDirectory
+            }
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyyMMdd-HHmmss" );
     	String logfileName = ( logDirectory.endsWith( "/" ) ||
     						   logDirectory.endsWith( "\\" ) ) ?

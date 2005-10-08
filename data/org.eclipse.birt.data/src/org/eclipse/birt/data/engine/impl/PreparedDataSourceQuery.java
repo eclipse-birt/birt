@@ -39,11 +39,13 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 * query passed in.
 	 * @param dataEngine
 	 * @param queryDefn
+	 * @param applContext	Application context object; could be null.
 	 * @return PreparedReportQuery
 	 * @throws DataException
 	 */
 	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn ) throws DataException
+			IQueryDefinition queryDefn, Object applContext ) 
+		throws DataException
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
@@ -60,14 +62,15 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 					e );
 			throw e;
 		}
-			
+		
+		PreparedDataSourceQuery preparedQuery;
 		if ( dset instanceof IScriptDataSetDesign )
 		{
-			return new PreparedScriptDSQuery( dataEngine, queryDefn, dset );
+		    preparedQuery = new PreparedScriptDSQuery( dataEngine, queryDefn, dset );
 		}
-		if ( dset instanceof IOdaDataSetDesign )
+		else if ( dset instanceof IOdaDataSetDesign )
 		{
-			return new PreparedExtendedDSQuery( dataEngine, queryDefn, dset );
+		    preparedQuery = new PreparedExtendedDSQuery( dataEngine, queryDefn, dset );
 		}
 		else
 		{
@@ -80,6 +83,10 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 					e );
 			throw e;
 		}
+		
+		if( preparedQuery != null )
+		    preparedQuery.setAppContext( applContext );
+		return preparedQuery;
 	}
 	
 	protected PreparedDataSourceQuery( DataEngineImpl dataEngine, IQueryDefinition queryDefn, 

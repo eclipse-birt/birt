@@ -56,6 +56,7 @@ class DataSource implements IDataSource
 	private HashMap statementMap = new HashMap();
 	
     protected Properties	connectionProps = new Properties();
+    private Object appContext;
 
     DataSource( String driverName )
     {
@@ -95,6 +96,14 @@ class DataSource implements IDataSource
         checkState( false );
         connectionProps.put( name, value );
     }
+
+	/*
+	 * @see org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.lang.Object)
+	 */
+	public void setAppContext( Object context ) throws DataException
+	{
+	    appContext = context;
+	}
 
     /**
      * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String, java.lang.String)
@@ -145,7 +154,7 @@ class DataSource implements IDataSource
     {
     	OpenConnection conn = new OpenConnection();
     	conn.connection = ConnectionManager.getInstance().openConnection( 
-    			driverName, connectionProps );
+    			driverName, connectionProps, appContext );
     	int max = conn.connection.getMaxQueries();
     	if ( max != 0 )		//	0 means no limit
     		conn.maxStatements = max;
