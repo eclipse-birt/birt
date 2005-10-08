@@ -31,6 +31,8 @@ import javax.swing.JComponent;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
+import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -149,26 +151,31 @@ public final class SwingEventHandler implements
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
-						final Series seRT = (Series) sa.getSource( );
-						logger.log( ILogger.INFORMATION,
-								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
-										lcl ) + seRT );
-						Series seDT = null;
-						try
+						final StructureSource src = (StructureSource) sa.getSource( );
+						if ( src.getType( ) == StructureType.SERIES )
 						{
-							seDT = findDesignTimeSeries( seRT ); // LOCATE
-							// THE
-							// CORRESPONDING
-							// DESIGN-TIME
-							// SERIES
+							final Series seRT = (Series) src.getSource( );
+							logger.log( ILogger.INFORMATION,
+									Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+											lcl )
+											+ seRT );
+							Series seDT = null;
+							try
+							{
+								seDT = findDesignTimeSeries( seRT ); // LOCATE
+								// THE
+								// CORRESPONDING
+								// DESIGN-TIME
+								// SERIES
+							}
+							catch ( ChartException oosx )
+							{
+								logger.log( oosx );
+								return;
+							}
+							seDT.setVisible( !seDT.isVisible( ) );
+							iun.regenerateChart( );
 						}
-						catch ( ChartException oosx )
-						{
-							logger.log( oosx );
-							return;
-						}
-						seDT.setVisible( !seDT.isVisible( ) );
-						iun.regenerateChart( );
 						break;
 				}
 			}

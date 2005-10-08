@@ -1804,7 +1804,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
 					InteractionEvent.class );
-			iev.reuse( se );
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
 				tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );

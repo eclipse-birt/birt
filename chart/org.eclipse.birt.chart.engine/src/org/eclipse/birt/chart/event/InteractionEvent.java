@@ -100,8 +100,19 @@ public final class InteractionEvent extends PrimitiveRenderEvent
 		return tga;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
+	 */
+	public void reset( )
+	{
+		super.reset( );
+
+		_pre = null;
+		_lhmTriggers.clear( );
+	}
+
 	/**
-	 *  
+	 * @param oNewSource
 	 */
 	public final void reuse( Object oNewSource )
 	{
