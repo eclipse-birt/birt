@@ -163,7 +163,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
-			renderBlock( idr, bl, StructureSource.createUnknown( bl ) );
+			renderChartBlock( idr, bl, StructureSource.createUnknown( bl ) );
 			ScriptHandler.callFunction( sh, ScriptHandler.AFTER_DRAW_BLOCK, bl );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 					bl );
@@ -1141,7 +1141,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		Bounds bo = pwa.getPlotBounds( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
-		
+
 		// render client area shadow
 		if ( ca.getShadowColor( ) != null )
 		{
@@ -2605,7 +2605,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final double dStaggeredLabelOffset = sc.computeStaggeredAxisLabelOffset( xs,
 				la,
 				iOrientation );
-		final boolean bAxisLabelStaggered = sc.isAxisLabelStaggered();
+		final boolean bAxisLabelStaggered = sc.isAxisLabelStaggered( );
 
 		DecimalFormat df = null;
 

@@ -746,4 +746,33 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.attribute.Bounds#contains(org.eclipse.birt.chart.model.attribute.Location)
+	 */
+	public boolean contains( Location lo )
+	{
+		double w = getWidth( );
+		double h = getHeight( );
+		if ( w < 0 || h < 0 )
+		{
+			// At least one of the dimensions is negative...
+			return false;
+		}
+
+		// Note: if either dimension is zero, tests below must return false...
+		double x = getLeft( );
+		double y = getTop( );
+		if ( lo.getX( ) < x || lo.getY( ) < y )
+		{
+			return false;
+		}
+
+		w += x;
+		h += y;
+		// overflow || intersect
+		return ( ( w < x || w > lo.getX( ) ) && ( h < y || h > lo.getY( ) ) );
+	}
+
 } // BoundsImpl

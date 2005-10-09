@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class LocationImpl extends EObjectImpl implements Location
@@ -57,9 +57,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double x = X_EDEFAULT;
 
 	/**
-	 * This is true if the X attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the X attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -86,9 +86,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double y = Y_EDEFAULT;
 
 	/**
-	 * This is true if the Y attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Y attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -96,6 +96,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected LocationImpl( )
@@ -105,6 +106,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -114,6 +116,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getX( )
@@ -123,6 +126,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setX( double newX )
@@ -142,6 +146,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetX( )
@@ -161,6 +166,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetX( )
@@ -170,6 +176,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getY( )
@@ -179,6 +186,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setY( double newY )
@@ -198,6 +206,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetY( )
@@ -217,6 +226,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetY( )
@@ -226,6 +236,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -242,6 +253,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -260,6 +272,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -278,6 +291,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -294,6 +308,7 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -405,6 +420,21 @@ public class LocationImpl extends EObjectImpl implements Location
 	{
 		setX( getX( ) * dScale );
 		setY( getY( ) * dScale );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object obj )
+	{
+		if ( obj instanceof Location )
+		{
+			Location lo = (Location) obj;
+			return getX( ) == lo.getX( ) && getY( ) == lo.getY( );
+		}
+		return super.equals( obj );
 	}
 
 } // LocationImpl

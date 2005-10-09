@@ -256,8 +256,7 @@ public interface Bounds extends EObject
 	void unsetHeight( );
 
 	/**
-	 * Returns whether the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}'
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Bounds#getHeight <em>Height</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @return whether the value of the '<em>Height</em>' attribute is set.
@@ -353,4 +352,13 @@ public interface Bounds extends EObject
 	 * @param loa
 	 */
 	void updateFrom( Location[] loa );
+
+	/**
+	 * Returns if the given point is within this bounds.
+	 * 
+	 * @param lo
+	 * @return
+	 */
+	boolean contains( Location lo );
+
 } // Bounds

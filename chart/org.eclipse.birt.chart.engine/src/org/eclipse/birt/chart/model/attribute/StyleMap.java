@@ -39,7 +39,7 @@ public interface StyleMap extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Component Name</b></em>' attribute.
-	 * The default value is <code>"Chart_Title"</code>.
+	 * The default value is <code>"Chart_All"</code>.
 	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.StyledComponent}.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -53,7 +53,7 @@ public interface StyleMap extends EObject
 	 * @see #unsetComponentName()
 	 * @see #setComponentName(StyledComponent)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_ComponentName()
-	 * @model default="Chart_Title" unique="false" unsettable="true" required="true"
+	 * @model default="Chart_All" unique="false" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='ComponentName'"
 	 * @generated
 	 */

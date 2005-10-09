@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
+import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -64,6 +65,7 @@ import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -73,6 +75,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -99,6 +102,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -359,7 +363,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_BLOCK,
 					bl );
 			bge.updateBlock( bl );
-			renderBlock( idr, bl, StructureSource.createUnknown( bl ) );
+			renderChartBlock( idr, bl, StructureSource.createUnknown( bl ) );
 			ScriptHandler.callFunction( sh, ScriptHandler.AFTER_DRAW_BLOCK, bl );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_BLOCK,
 					bl );
@@ -1977,6 +1981,44 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
+		ipr.fillRectangle( rre );
+		ipr.drawRectangle( rre );
+	}
+
+	/**
+	 * 
+	 * @param ipr
+	 * @param b
+	 * 
+	 * @throws RenderingException
+	 */
+	protected void renderChartBlock( IPrimitiveRenderer ipr, Block b,
+			Object oSource ) throws ChartException
+	{
+		final double dScale = getDevice( ).getDisplayServer( )
+				.getDpiResolution( ) / 72d;
+		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				RectangleRenderEvent.class );
+		rre.updateFrom( b, dScale );
+
+		if ( rre.getBackground( ) == null
+				|| ( rre.getBackground( ) instanceof ColorDefinition && ( (ColorDefinition) rre.getBackground( ) ).getTransparency( ) == 0 ) )
+		{
+			IStyle defaultStyle = Generator.instance( )
+					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL );
+			ColorDefinition backcolor = defaultStyle.getBackgroundColor( );
+			Image backimage = defaultStyle.getBackgroundImage( );
+
+			if ( backcolor != null )
+			{
+				rre.setBackground( backcolor );
+			}
+			if ( backimage != null )
+			{
+				rre.setBackground( backimage );
+			}
+		}
+
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
 	}

@@ -328,6 +328,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Chart_All"/>
 			<xsd:enumeration value="Chart_Title"/>
 			<xsd:enumeration value="Chart_Background"/>
 			<xsd:enumeration value="Plot_Background"/>
@@ -588,6 +589,11 @@
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="Angles" type="Angle3D" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Polygon">
+		<xsd:sequence>
+			<xsd:element name="Points" type="Location" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:simpleType name="ID">

@@ -117,5 +117,5 @@ public interface Location3D extends Location
 	 * Used to link a Location3D to a Vector for live update of the coordinates.
 	 */
 	public void linkToVector( Vector vector );
-	
+
 } // Location3D

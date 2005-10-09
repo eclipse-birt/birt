@@ -45,7 +45,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	 * @generated
 	 * @ordered
 	 */
-	protected static final StyledComponent COMPONENT_NAME_EDEFAULT = StyledComponent.CHART_TITLE_LITERAL;
+	protected static final StyledComponent COMPONENT_NAME_EDEFAULT = StyledComponent.CHART_ALL_LITERAL;
 
 	/**
 	 * The cached value of the '

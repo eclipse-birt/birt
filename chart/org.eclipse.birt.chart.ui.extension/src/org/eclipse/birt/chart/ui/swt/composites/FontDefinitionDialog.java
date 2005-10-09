@@ -559,6 +559,7 @@ public class FontDefinitionDialog implements SelectionListener, Listener, IAngle
         }
         else if (oSource.equals(btnAccept))
         {
+        	bCancelled = false;
             shell.dispose();
         }
         else if (oSource.equals(btnCancel))

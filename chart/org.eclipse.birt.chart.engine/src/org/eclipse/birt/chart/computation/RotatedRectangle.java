@@ -11,16 +11,14 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.awt.Point;
-import java.awt.Polygon;
-
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
 
 /**
  * RotatedRectangle
  */
-public final class RotatedRectangle extends Polygon
+public final class RotatedRectangle extends PolygonImpl
 {
 
 	private static final long serialVersionUID = 1L;
@@ -38,22 +36,12 @@ public final class RotatedRectangle extends Polygon
 	RotatedRectangle( double dX0, double dY0, double dX1, double dY1,
 			double dX2, double dY2, double dX3, double dY3 )
 	{
-		super( new int[]{
-				(int) dX0, (int) dX1, (int) dX2, (int) dX3
-		}, new int[]{
-				(int) dY0, (int) dY1, (int) dY2, (int) dY3
-		}, 4 );
-	}
+		super( );
 
-	/**
-	 * Returns the n-th point.
-	 * 
-	 * @param iOffset
-	 * @return
-	 */
-	public final Point getPoint( int iOffset )
-	{
-		return new Point( xpoints[iOffset], ypoints[iOffset] );
+		getPoints( ).add( LocationImpl.create( dX0, dY0 ) );
+		getPoints( ).add( LocationImpl.create( dX1, dY1 ) );
+		getPoints( ).add( LocationImpl.create( dX2, dY2 ) );
+		getPoints( ).add( LocationImpl.create( dX3, dY3 ) );
 	}
 
 	/**
@@ -66,8 +54,9 @@ public final class RotatedRectangle extends Polygon
 		int[] iaXY = new int[8];
 		for ( int i = 0; i < 4; i++ )
 		{
-			iaXY[2 * i] = xpoints[i];
-			iaXY[2 * i + 1] = ypoints[i];
+			Location lo = (Location) getPoints( ).get( i );
+			iaXY[2 * i] = (int) lo.getX( );
+			iaXY[2 * i + 1] = (int) lo.getY( );
 		}
 		return iaXY;
 	}
@@ -81,7 +70,8 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			xpoints[i] += dOffset;
+			Location lo = (Location) getPoints( ).get( i );
+			lo.setX( lo.getX( ) + dOffset );
 		}
 	}
 
@@ -94,7 +84,8 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			ypoints[i] += dOffset;
+			Location lo = (Location) getPoints( ).get( i );
+			lo.setY( lo.getY( ) + dOffset );
 		}
 	}
 
@@ -107,8 +98,8 @@ public final class RotatedRectangle extends Polygon
 	{
 		for ( int i = 0; i < 4; i++ )
 		{
-			xpoints[i] += dOffset;
-			ypoints[i] += dOffset;
+			Location lo = (Location) getPoints( ).get( i );
+			lo.translate( dOffset, dOffset );
 		}
 	}
 
@@ -119,11 +110,6 @@ public final class RotatedRectangle extends Polygon
 	 */
 	public final Location[] asLocations( )
 	{
-		final Location[] loa = new Location[4];
-		for ( int i = 0; i < 4; i++ )
-		{
-			loa[i] = LocationImpl.create( xpoints[i], ypoints[i] );
-		}
-		return loa;
+		return (Location[]) getPoints( ).toArray( new Location[0] );
 	}
 }

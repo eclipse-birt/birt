@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
-import java.awt.Point;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -32,6 +31,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
@@ -1323,14 +1323,14 @@ public final class AutoScale extends Methods implements Cloneable
 							uiex );
 				}
 
-				Point p = rr.getPoint( iPointToCheck );
+				Location p = rr.getPoint( iPointToCheck );
 
 				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+											.equals( p ) || rr.intersects( rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1341,7 +1341,7 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( rrPrev != null
 							&& ( rrPrev.contains( p )
 									|| rrPrev.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev.getBounds2D( ) ) ) )
+											.equals( p ) || rr.intersects( rrPrev ) ) )
 					{
 						return false;
 					}
@@ -1399,14 +1399,14 @@ public final class AutoScale extends Methods implements Cloneable
 							uiex );
 				}
 
-				Point p = rr.getPoint( iPointToCheck );
+				Location p = rr.getPoint( iPointToCheck );
 
 				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+											.equals( p ) || rr.intersects( rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1456,14 +1456,14 @@ public final class AutoScale extends Methods implements Cloneable
 							uiex );
 				}
 
-				Point p = rr.getPoint( iPointToCheck );
+				Location p = rr.getPoint( iPointToCheck );
 
 				if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 				{
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2.getBounds2D( ) ) ) )
+											.equals( p ) || rr.intersects( rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1576,7 +1576,7 @@ public final class AutoScale extends Methods implements Cloneable
 						uiex );
 			}
 
-			Point p = rr.getPoint( iPointToCheck );
+			Location p = rr.getPoint( iPointToCheck );
 
 			if ( isAxisLabelStaggered( ) && i % 2 == 1 )
 			{
@@ -1591,7 +1591,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( rrPrev2.contains( p )
 							|| rrPrev2.getPoint( iPointToCheck ).equals( p )
-							|| rr.intersects( rrPrev2.getBounds2D( ) ) )
+							|| rr.intersects( rrPrev2 ) )
 					{
 						ba[i] = false;
 					}
@@ -1615,7 +1615,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( rrPrev.contains( p )
 							|| rrPrev.getPoint( iPointToCheck ).equals( p )
-							|| rr.intersects( rrPrev.getBounds2D( ) ) )
+							|| rr.intersects( rrPrev ) )
 					{
 						ba[i] = false;
 					}

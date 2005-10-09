@@ -1,15 +1,15 @@
 
 package org.eclipse.birt.chart.computation;
 
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.Matrix;
 
@@ -488,6 +488,22 @@ public class Object3D
 		return true;
 	}
 
+	Location[] vectors2locations( Vector[] va )
+	{
+		if ( va != null )
+		{
+			Location[] loa = new Location[va.length];
+
+			for ( int i = 0; i < va.length; i++ )
+			{
+				loa[i] = LocationImpl.create( va[i].get( 0 ), va[i].get( 1 ) );
+			}
+
+			return loa;
+		}
+		return null;
+	}
+
 	/**
 	 * @param near
 	 * @return
@@ -497,40 +513,10 @@ public class Object3D
 		Vector[] va1 = getViewerVectors( );
 		Vector[] va2 = near.getViewerVectors( );
 
-		GeneralPath gp1 = new GeneralPath( );
-		for ( int i = 0; i < va1.length; i++ )
-		{
-			if ( i == 0 )
-			{
-				gp1.moveTo( (float) va1[i].get( 0 ), (float) va1[i].get( 1 ) );
-			}
-			else
-			{
-				gp1.lineTo( (float) va1[i].get( 0 ), (float) va1[i].get( 1 ) );
-			}
-		}
-		gp1.closePath( );
+		Polygon p1 = PolygonImpl.create( vectors2locations( va1 ) );
+		Polygon p2 = PolygonImpl.create( vectors2locations( va2 ) );
 
-		GeneralPath gp2 = new GeneralPath( );
-		for ( int i = 0; i < va2.length; i++ )
-		{
-			if ( i == 0 )
-			{
-				gp2.moveTo( (float) va2[i].get( 0 ), (float) va2[i].get( 1 ) );
-			}
-			else
-			{
-				gp2.lineTo( (float) va2[i].get( 0 ), (float) va2[i].get( 1 ) );
-			}
-		}
-		gp2.closePath( );
-
-		Area ar1 = new Area( gp1 );
-		Area ar2 = new Area( gp2 );
-
-		ar1.intersect( ar2 );
-
-		return ar1.isEmpty( );
+		return p1.intersects( p2 );
 	}
 
 	/**

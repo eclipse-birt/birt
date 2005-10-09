@@ -157,6 +157,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createNumberFormatSpecifier( );
 			case AttributePackage.PALETTE :
 				return createPalette( );
+			case AttributePackage.POLYGON :
+				return createPolygon( );
 			case AttributePackage.ROTATION3_D :
 				return createRotation3D( );
 			case AttributePackage.SCRIPT_VALUE :
@@ -885,6 +887,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		PaletteImpl palette = new PaletteImpl( );
 		return palette;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Polygon createPolygon( )
+	{
+		PolygonImpl polygon = new PolygonImpl( );
+		return polygon;
 	}
 
 	/**

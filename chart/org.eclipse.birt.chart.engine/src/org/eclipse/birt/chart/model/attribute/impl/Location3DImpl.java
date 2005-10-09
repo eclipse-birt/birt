@@ -7,8 +7,6 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-
-
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
@@ -351,7 +349,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 			vector.set( dX, dY, dZ );
 		}
 	}
-	
+
 	public void linkToVector( Vector vector )
 	{
 		this.vector = vector;

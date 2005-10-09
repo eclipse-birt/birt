@@ -33,6 +33,21 @@ public final class StyledComponent extends AbstractEnumerator
 {
 
 	/**
+	 * The '<em><b>Chart All</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Chart All</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CHART_ALL_LITERAL
+	 * @model name="Chart_All"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CHART_ALL = 0;
+
+	/**
 	 * The '<em><b>Chart Title</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #CHART_TITLE_LITERAL
@@ -40,7 +55,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CHART_TITLE = 0;
+	public static final int CHART_TITLE = 1;
 
 	/**
 	 * The '<em><b>Chart Background</b></em>' literal value.
@@ -50,7 +65,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CHART_BACKGROUND = 1;
+	public static final int CHART_BACKGROUND = 2;
 
 	/**
 	 * The '<em><b>Plot Background</b></em>' literal value.
@@ -60,7 +75,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PLOT_BACKGROUND = 2;
+	public static final int PLOT_BACKGROUND = 3;
 
 	/**
 	 * The '<em><b>Legend Background</b></em>' literal value.
@@ -70,7 +85,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int LEGEND_BACKGROUND = 3;
+	public static final int LEGEND_BACKGROUND = 4;
 
 	/**
 	 * The '<em><b>Legend Label</b></em>' literal value.
@@ -80,7 +95,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int LEGEND_LABEL = 4;
+	public static final int LEGEND_LABEL = 5;
 
 	/**
 	 * The '<em><b>Data Label</b></em>' literal value.
@@ -90,7 +105,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int DATA_LABEL = 5;
+	public static final int DATA_LABEL = 6;
 
 	/**
 	 * The '<em><b>Axis Title</b></em>' literal value.
@@ -100,7 +115,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_TITLE = 6;
+	public static final int AXIS_TITLE = 7;
 
 	/**
 	 * The '<em><b>Axis Label</b></em>' literal value.
@@ -110,7 +125,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_LABEL = 7;
+	public static final int AXIS_LABEL = 8;
 
 	/**
 	 * The '<em><b>Axis Line</b></em>' literal value.
@@ -120,7 +135,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_LINE = 8;
+	public static final int AXIS_LINE = 9;
 
 	/**
 	 * The '<em><b>Series Title</b></em>' literal value.
@@ -130,7 +145,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SERIES_TITLE = 9;
+	public static final int SERIES_TITLE = 10;
 
 	/**
 	 * The '<em><b>Series Label</b></em>' literal value.
@@ -140,7 +155,18 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SERIES_LABEL = 10;
+	public static final int SERIES_LABEL = 11;
+
+	/**
+	 * The '<em><b>Chart All</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CHART_ALL
+	 * @generated
+	 * @ordered
+	 */
+	public static final StyledComponent CHART_ALL_LITERAL = new StyledComponent( CHART_ALL,
+			"Chart_All" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Chart Title</b></em>' literal object.
@@ -314,6 +340,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 */
 	private static final StyledComponent[] VALUES_ARRAY = new StyledComponent[]{
+			CHART_ALL_LITERAL,
 			CHART_TITLE_LITERAL,
 			CHART_BACKGROUND_LITERAL,
 			PLOT_BACKGROUND_LITERAL,
@@ -364,6 +391,8 @@ public final class StyledComponent extends AbstractEnumerator
 	{
 		switch ( value )
 		{
+			case CHART_ALL :
+				return CHART_ALL_LITERAL;
 			case CHART_TITLE :
 				return CHART_TITLE_LITERAL;
 			case CHART_BACKGROUND :

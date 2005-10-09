@@ -30,180 +30,193 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
-public class FontDefinitionComposite extends Composite implements SelectionListener
+public class FontDefinitionComposite extends Composite implements
+		SelectionListener
 {
 
-    private transient Composite cmpContent = null;
+	private transient Composite cmpContent = null;
 
-    private transient FontCanvas cnvSelection = null;
+	private transient FontCanvas cnvSelection = null;
 
-    private transient Button btnEllipsis = null;
+	private transient Button btnEllipsis = null;
 
-    private transient FontDefinition fdCurrent = null;
+	private transient FontDefinition fdCurrent = null;
 
-    private transient ColorDefinition cdCurrent = null;
+	private transient ColorDefinition cdCurrent = null;
 
-    private transient Vector vListeners = null;
+	private transient Vector vListeners = null;
 
-    public static final int FONT_CHANTED_EVENT = 1;
+	public static final int FONT_CHANTED_EVENT = 1;
 
-    public static final int FONT_DATA = 0;
+	public static final int FONT_DATA = 0;
 
-    public static final int COLOR_DATA = 1;
+	public static final int COLOR_DATA = 1;
 
-    private transient int iSize = 18;
+	private transient int iSize = 18;
 
-    private transient boolean bEnabled = true;
+	private transient boolean bEnabled = true;
 
-    /**
-     * @param parent
-     * @param style
-     */
-    public FontDefinitionComposite(Composite parent, int style, FontDefinition fdSelected, ColorDefinition cdSelected)
-    {
-        super(parent, style);
-        this.fdCurrent = fdSelected;
-        this.cdCurrent = cdSelected;
-        init();
-        placeComponents();
-    }
+	/**
+	 * @param parent
+	 * @param style
+	 */
+	public FontDefinitionComposite( Composite parent, int style,
+			FontDefinition fdSelected, ColorDefinition cdSelected )
+	{
+		super( parent, style );
+		this.fdCurrent = fdSelected;
+		this.cdCurrent = cdSelected;
+		init( );
+		placeComponents( );
+	}
 
-    /**
-     *  
-     */
-    private void init()
-    {
-        this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-        vListeners = new Vector();
-    }
+	/**
+	 * 
+	 */
+	private void init( )
+	{
+		this.setSize( getParent( ).getClientArea( ).width,
+				getParent( ).getClientArea( ).height );
+		vListeners = new Vector( );
+	}
 
-    /**
-     *  
-     */
-    private void placeComponents()
-    {
-        FillLayout flMain = new FillLayout();
-        flMain.marginHeight = 0;
-        flMain.marginWidth = 0;
+	/**
+	 * 
+	 */
+	private void placeComponents( )
+	{
+		FillLayout flMain = new FillLayout( );
+		flMain.marginHeight = 0;
+		flMain.marginWidth = 0;
 
-        GridLayout glContent = new GridLayout();
-        glContent.verticalSpacing = 0;
-        glContent.horizontalSpacing = 2;
-        glContent.marginHeight = 0;
-        glContent.marginWidth = 0;
-        glContent.numColumns = 2;
+		GridLayout glContent = new GridLayout( );
+		glContent.verticalSpacing = 0;
+		glContent.horizontalSpacing = 2;
+		glContent.marginHeight = 0;
+		glContent.marginWidth = 0;
+		glContent.numColumns = 2;
 
-        this.setLayout(flMain);
+		this.setLayout( flMain );
 
-        cmpContent = new Composite(this, SWT.NONE);
-        cmpContent.setLayout(glContent);
-        GridData gdCContent = new GridData(GridData.FILL_BOTH);
-        cmpContent.setLayoutData(gdCContent);
+		cmpContent = new Composite( this, SWT.NONE );
+		cmpContent.setLayout( glContent );
+		GridData gdCContent = new GridData( GridData.FILL_BOTH );
+		cmpContent.setLayoutData( gdCContent );
 
-        cnvSelection = new FontCanvas(cmpContent, SWT.BORDER, fdCurrent, cdCurrent, false, false, false);
-        GridData gdCNVSelection = new GridData(GridData.FILL_HORIZONTAL);
-        gdCNVSelection.heightHint = iSize;
-        cnvSelection.setLayoutData(gdCNVSelection);
+		cnvSelection = new FontCanvas( cmpContent,
+				SWT.BORDER,
+				fdCurrent,
+				cdCurrent,
+				false,
+				false,
+				false );
+		GridData gdCNVSelection = new GridData( GridData.FILL_HORIZONTAL );
+		gdCNVSelection.heightHint = iSize;
+		cnvSelection.setLayoutData( gdCNVSelection );
 
-        btnEllipsis = new Button(cmpContent, SWT.NONE);
-        GridData gdBEllipsis = new GridData();
-        gdBEllipsis.widthHint = iSize - 2;
-        gdBEllipsis.heightHint = iSize + 4;
-        btnEllipsis.setLayoutData(gdBEllipsis);
-        btnEllipsis.setText("..."); //$NON-NLS-1$
-        btnEllipsis.setToolTipText(Messages.getString("FontDefinitionComposite.Tooltip.FontDialog")); //$NON-NLS-1$
-        btnEllipsis.addSelectionListener(this);
-    }
+		btnEllipsis = new Button( cmpContent, SWT.NONE );
+		GridData gdBEllipsis = new GridData( );
+		gdBEllipsis.widthHint = iSize - 2;
+		gdBEllipsis.heightHint = iSize + 4;
+		btnEllipsis.setLayoutData( gdBEllipsis );
+		btnEllipsis.setText( "..." ); //$NON-NLS-1$
+		btnEllipsis.setToolTipText( Messages.getString( "FontDefinitionComposite.Tooltip.FontDialog" ) ); //$NON-NLS-1$
+		btnEllipsis.addSelectionListener( this );
+	}
 
-    public void setEnabled(boolean bState)
-    {
-        this.btnEllipsis.setEnabled(bState);
-        this.cnvSelection.setEnabled(bState);
-        cnvSelection.redraw();
-        this.bEnabled = bState;
-    }
+	public void setEnabled( boolean bState )
+	{
+		this.btnEllipsis.setEnabled( bState );
+		this.cnvSelection.setEnabled( bState );
+		cnvSelection.redraw( );
+		this.bEnabled = bState;
+	}
 
-    public boolean isEnabled()
-    {
-        return this.bEnabled;
-    }
+	public boolean isEnabled( )
+	{
+		return this.bEnabled;
+	}
 
-    public FontDefinition getFontDefinition()
-    {
-        return this.fdCurrent;
-    }
+	public FontDefinition getFontDefinition( )
+	{
+		return this.fdCurrent;
+	}
 
-    public ColorDefinition getFontColor()
-    {
-        return this.cdCurrent;
-    }
+	public ColorDefinition getFontColor( )
+	{
+		return this.cdCurrent;
+	}
 
-    public void setFontDefinition(FontDefinition fd)
-    {
-        this.fdCurrent = fd;
-        cnvSelection.setFontDefinition(fdCurrent);
-        cnvSelection.redraw();
-    }
+	public void setFontDefinition( FontDefinition fd )
+	{
+		this.fdCurrent = fd;
+		cnvSelection.setFontDefinition( fdCurrent );
+		cnvSelection.redraw( );
+	}
 
-    public void setFontColor(ColorDefinition cd)
-    {
-        this.cdCurrent = cd;
-    }
+	public void setFontColor( ColorDefinition cd )
+	{
+		this.cdCurrent = cd;
+	}
 
-    public void addListener(Listener listener)
-    {
-        vListeners.add(listener);
-    }
+	public void addListener( Listener listener )
+	{
+		vListeners.add( listener );
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-     */
-    public void widgetSelected(SelectionEvent e)
-    {
-        Object oSource = e.getSource();
-        if (oSource.equals(btnEllipsis))
-        {
-            // Launch the font selection dialog
-            FontDefinitionDialog fontDlg = new FontDefinitionDialog(this.getShell(), fdCurrent, cdCurrent);
-            fdCurrent = fontDlg.getFontDefinition();
-            cdCurrent = fontDlg.getFontColor();
-            cnvSelection.setFontDefinition(fdCurrent);
-            cnvSelection.redraw();
-            fireEvent();
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		Object oSource = e.getSource( );
+		if ( oSource.equals( btnEllipsis ) )
+		{
+			// Launch the font selection dialog
+			FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
+					fdCurrent,
+					cdCurrent );
+			if ( !fontDlg.wasCancelled( ) )
+			{
+				fdCurrent = fontDlg.getFontDefinition( );
+				cdCurrent = fontDlg.getFontColor( );
+				cnvSelection.setFontDefinition( fdCurrent );
+				cnvSelection.redraw( );
+				fireEvent( );
+			}
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-     */
-    public void widgetDefaultSelected(SelectionEvent e)
-    {
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+	}
 
-    private void fireEvent()
-    {
-        for (int iL = 0; iL < vListeners.size(); iL++)
-        {
-            Event se = new Event();
-            se.widget = this;
-            Object[] data = new Object[]
-            {
-                fdCurrent, cdCurrent
-            };
-            se.data = data;
-            se.type = FONT_CHANTED_EVENT;
-            ((Listener) vListeners.get(iL)).handleEvent(se);
-        }
-    }
+	private void fireEvent( )
+	{
+		for ( int iL = 0; iL < vListeners.size( ); iL++ )
+		{
+			Event se = new Event( );
+			se.widget = this;
+			Object[] data = new Object[]{
+					fdCurrent, cdCurrent
+			};
+			se.data = data;
+			se.type = FONT_CHANTED_EVENT;
+			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+		}
+	}
 
-    public Point getPreferredSize()
-    {
-        return new Point(120, 24);
-    }
+	public Point getPreferredSize( )
+	{
+		return new Point( 120, 24 );
+	}
 }

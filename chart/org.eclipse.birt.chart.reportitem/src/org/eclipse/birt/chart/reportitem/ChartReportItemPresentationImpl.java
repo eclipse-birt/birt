@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -56,6 +57,8 @@ public final class ChartReportItemPresentationImpl extends
 	private String sExtension = null;
 
 	private Chart cm = null;
+
+	private DesignElementHandle handle;
 
 	private RunTimeContext rtc = null;
 
@@ -105,6 +108,7 @@ public final class ChartReportItemPresentationImpl extends
 			}
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
+		handle = eih;
 	}
 
 	/*
@@ -273,6 +277,7 @@ public final class ChartReportItemPresentationImpl extends
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
+			gr.setStyleProcessor( new ChartReportStyleProcessor( handle ) );
 			gcs = gr.build( idr.getDisplayServer( ), cm, null, bo, rtc );
 
 			// WRITE TO THE IMAGE FILE
@@ -282,6 +287,7 @@ public final class ChartReportItemPresentationImpl extends
 					fChartImage.getPath( ) );
 
 			gr.render( idr, gcs );
+			gr.setStyleProcessor( null );
 
 			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 			try

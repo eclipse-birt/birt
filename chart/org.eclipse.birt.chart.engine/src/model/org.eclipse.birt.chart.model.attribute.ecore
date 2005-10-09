@@ -1209,6 +1209,19 @@
       <details key="baseType" value="Percentage"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Polygon">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Polygon"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
+        eType="#//Location" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Points"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Position">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the possible values for component (Label, Block etc.) positions.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -1424,17 +1437,18 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StyledComponent"/>
     </eAnnotations>
-    <eLiterals name="Chart_Title"/>
-    <eLiterals name="Chart_Background" value="1"/>
-    <eLiterals name="Plot_Background" value="2"/>
-    <eLiterals name="Legend_Background" value="3"/>
-    <eLiterals name="Legend_Label" value="4"/>
-    <eLiterals name="Data_Label" value="5"/>
-    <eLiterals name="Axis_Title" value="6"/>
-    <eLiterals name="Axis_Label" value="7"/>
-    <eLiterals name="Axis_Line" value="8"/>
-    <eLiterals name="Series_Title" value="9"/>
-    <eLiterals name="Series_Label" value="10"/>
+    <eLiterals name="Chart_All"/>
+    <eLiterals name="Chart_Title" value="1"/>
+    <eLiterals name="Chart_Background" value="2"/>
+    <eLiterals name="Plot_Background" value="3"/>
+    <eLiterals name="Legend_Background" value="4"/>
+    <eLiterals name="Legend_Label" value="5"/>
+    <eLiterals name="Data_Label" value="6"/>
+    <eLiterals name="Axis_Title" value="7"/>
+    <eLiterals name="Axis_Label" value="8"/>
+    <eLiterals name="Axis_Line" value="9"/>
+    <eLiterals name="Series_Title" value="10"/>
+    <eLiterals name="Series_Label" value="11"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="StyledComponentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1451,7 +1465,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentName" unique="false"
-        lowerBound="1" eType="#//StyledComponent" defaultValueLiteral="Chart_Title"
+        lowerBound="1" eType="#//StyledComponent" defaultValueLiteral="Chart_All"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the name of a chart component that can have styles associated with it.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

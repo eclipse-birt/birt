@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -238,6 +240,8 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.PALETTE :
 				return validatePalette( (Palette) value, diagnostics, context );
+			case AttributePackage.POLYGON :
+				return validatePolygon( (Polygon) value, diagnostics, context );
 			case AttributePackage.ROTATION3_D :
 				return validateRotation3D( (Rotation3D) value,
 						diagnostics,
@@ -762,6 +766,17 @@ public class AttributeValidator extends EObjectValidator
 			DiagnosticChain diagnostics, Map context )
 	{
 		return validate_EveryDefaultConstraint( palette, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validatePolygon( Polygon polygon,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( polygon, diagnostics, context );
 	}
 
 	/**
@@ -1310,7 +1325,7 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public static final PatternMatcher[][] ID__PATTERN__VALUES = new PatternMatcher[][]{
 		new PatternMatcher[]{
-			XMLTypeUtil.createPatternMatcher( "[A-Z]" ) //$NON-NLS-1$ 
+			XMLTypeUtil.createPatternMatcher( "[A-Z]" ) //$NON-NLS-1$
 		}
 	};
 

@@ -38,12 +38,16 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
+import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutManager;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
+import org.eclipse.birt.chart.style.IStyle;
+import org.eclipse.birt.chart.style.IStyleProcessor;
+import org.eclipse.birt.chart.style.SimpleProcessor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
@@ -70,6 +74,10 @@ public final class Generator
 	 */
 	static final int WITHOUT_AXES = 2;
 
+	private IStyleProcessor processor;
+
+	private IStyleProcessor implicitProcessor;
+
 	/**
 	 * Internally used.
 	 */
@@ -87,7 +95,7 @@ public final class Generator
 	 */
 	private Generator( )
 	{
-
+		implicitProcessor = new SimpleProcessor( );
 	}
 
 	/**
@@ -102,6 +110,35 @@ public final class Generator
 			g = new Generator( );
 		}
 		return g;
+	}
+
+	/**
+	 * Sets the style processor explicitly.
+	 * 
+	 * @param processor
+	 */
+	public void setStyleProcessor( IStyleProcessor processor )
+	{
+		this.processor = processor;
+	}
+
+	/**
+	 * Returns the default style for chart, can't return null.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public IStyle getDefaultStyle( StyledComponent name )
+	{
+		// TODO generates default style as per explicit and implicit style
+		// processor.
+
+		if ( processor != null )
+		{
+			return processor.getStyle( name );
+		}
+
+		return implicitProcessor.getStyle( name );
 	}
 
 	/**

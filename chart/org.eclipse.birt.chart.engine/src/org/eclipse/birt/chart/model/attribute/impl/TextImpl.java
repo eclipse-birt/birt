@@ -11,14 +11,17 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -31,20 +34,20 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
  * </ul>
  * </p>
- *
- * @generated
+ * 
  */
-public class TextImpl extends EObjectImpl implements Text
+public class TextImpl extends EObjectImpl implements Text, Adapter
 {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -54,6 +57,7 @@ public class TextImpl extends EObjectImpl implements Text
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -61,8 +65,9 @@ public class TextImpl extends EObjectImpl implements Text
 	protected String value = VALUE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFont()
 	 * @generated
 	 * @ordered
@@ -70,8 +75,9 @@ public class TextImpl extends EObjectImpl implements Text
 	protected FontDefinition font = null;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getColor() <em>Color</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -80,6 +86,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TextImpl( )
@@ -89,6 +96,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -98,6 +106,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getValue( )
@@ -107,6 +116,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setValue( String newValue )
@@ -123,15 +133,25 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
 	 */
 	public FontDefinition getFont( )
 	{
+		if ( font == null )
+		{
+			FontDefinition fd = Generator.instance( )
+					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL )
+					.getFont( );
+			fd.eAdapters( ).add( this );
+
+			return fd;
+		}
+
 		return font;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFont( FontDefinition newFont,
@@ -156,6 +176,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setFont( FontDefinition newFont )
@@ -187,15 +208,22 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
 	 */
 	public ColorDefinition getColor( )
 	{
+		if ( color == null )
+		{
+			return Generator.instance( )
+					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL )
+					.getColor( );
+		}
+
 		return color;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetColor( ColorDefinition newColor,
@@ -220,6 +248,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setColor( ColorDefinition newColor )
@@ -251,6 +280,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -276,6 +306,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -294,6 +325,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -315,6 +347,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -336,6 +369,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -355,6 +389,7 @@ public class TextImpl extends EObjectImpl implements Text
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -376,11 +411,13 @@ public class TextImpl extends EObjectImpl implements Text
 	 */
 	protected final void initialize( )
 	{
-		setColor( ColorDefinitionImpl.BLACK( ) );
-		final TextAlignment ta = AttributeFactory.eINSTANCE.createTextAlignment( );
-		( (TextAlignmentImpl) ta ).initialize( );
-		setFont( FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
-				12, false, false, false, false, false, 0, ta ) );
+		// SET NOTHING DURING INITILIZATION NOW
+		// setColor( ColorDefinitionImpl.BLACK( ) );
+		// final TextAlignment ta =
+		// AttributeFactory.eINSTANCE.createTextAlignment( );
+		// ( (TextAlignmentImpl) ta ).initialize( );
+		// setFont( FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
+		// 12, false, false, false, false, false, 0, ta ) );
 	}
 
 	/**
@@ -398,5 +435,50 @@ public class TextImpl extends EObjectImpl implements Text
 		}
 		tx.setValue( sValue );
 		return tx;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged( Notification notification )
+	{
+		if ( notification.getNotifier( ) instanceof FontDefinition
+				&& notification.getEventType( ) == Notification.SET )
+		{
+			( (FontDefinition) notification.getNotifier( ) ).eAdapters( )
+					.remove( this );
+			setFont( (FontDefinition) notification.getNotifier( ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
+	public Notifier getTarget( )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void setTarget( Notifier newTarget )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
+	public boolean isAdapterForType( Object type )
+	{
+		return false;
 	}
 } // TextImpl
