@@ -180,7 +180,7 @@ public class StructureState extends AbstractPropertyState
 		{
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler.semanticError( new DesignParserException(
+				handler.getErrorHandler( ).semanticError( new DesignParserException(
 						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
@@ -190,7 +190,7 @@ public class StructureState extends AbstractPropertyState
 			if ( propDefn == null )
 			{
 				handler
-						.semanticError( new DesignParserException(
+						.getErrorHandler( ).semanticError( new DesignParserException(
 								DesignParserException.DESIGN_EXCEPTION_INVALID_STRUCTURE_NAME ) );
 				valid = false;
 				return;

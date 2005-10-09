@@ -96,11 +96,11 @@ public class UserPropertyStructureState extends StructureState
 		}
 		catch ( UserPropertyException e )
 		{
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 		}
 		catch ( MetaDataException e )
 		{
-			handler.semanticError( new UserPropertyException( element,
+			handler.getErrorHandler( ).semanticError( new UserPropertyException( element,
 					( (UserPropertyDefn) struct ).getName( ),
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_DEFINITION,
 					e ) );
@@ -146,7 +146,7 @@ public class UserPropertyStructureState extends StructureState
 			String name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 			if ( StringUtil.isBlank( name ) )
 			{
-				handler.semanticError( new DesignParserException(
+				handler.getErrorHandler( ).semanticError( new DesignParserException(
 						DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				valid = false;
 				return;
@@ -290,7 +290,7 @@ public class UserPropertyStructureState extends StructureState
 					catch ( PropertyValueException e )
 					{
 						handler
-								.semanticError( new UserPropertyException(
+								.getErrorHandler( ).semanticError( new UserPropertyException(
 										element,
 										name,
 										UserPropertyException.DESIGN_EXCEPTION_INVALID_CHOICE_VALUE ) );
@@ -393,7 +393,7 @@ public class UserPropertyStructureState extends StructureState
 				if ( typeDefn == null )
 				{
 					handler
-							.semanticError( new UserPropertyException(
+							.getErrorHandler( ).semanticError( new UserPropertyException(
 									element,
 									( (UserPropertyDefn) struct ).getName( ),
 									UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE ) );

@@ -68,7 +68,7 @@ public class TextPropertyState extends AbstractPropertyState
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 		if ( StringUtil.isBlank( name ) )
 		{
-			handler.semanticError( new DesignParserException(
+			handler.getErrorHandler( ).semanticError( new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			valid = false;
 			return;

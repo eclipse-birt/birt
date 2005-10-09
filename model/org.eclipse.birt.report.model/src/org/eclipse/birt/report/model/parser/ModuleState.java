@@ -24,11 +24,9 @@ import org.xml.sax.SAXException;
 
 
 /**
- * @author qliang
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This class provides parser state for the top-level module element.
  */
+
 public abstract class ModuleState extends DesignParseState
 {
 	protected Module module = null;
@@ -230,7 +228,7 @@ public abstract class ModuleState extends DesignParseState
 			if ( StringUtil.isEmpty( key ) )
 			{
 				handler
-						.semanticError( new DesignParserException(
+						.getErrorHandler( ).semanticError( new DesignParserException(
 								DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
 				return;
 			}
@@ -287,7 +285,7 @@ public abstract class ModuleState extends DesignParseState
 			if ( module.findTranslation( resourceKey, locale ) != null )
 			{
 				handler
-						.semanticError( new DesignParserException(
+						.getErrorHandler( ).semanticError( new DesignParserException(
 								DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
 				return;
 			}

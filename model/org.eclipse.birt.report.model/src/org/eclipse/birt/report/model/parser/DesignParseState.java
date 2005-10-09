@@ -93,7 +93,7 @@ public abstract class DesignParseState extends AbstractParseState
 		{
 			ex.setElement( element );
 			ex.setPropertyName( propName );
-			handler.semanticError( ex );
+			handler.getErrorHandler( ).semanticError( ex );
 			return;
 		}
 		element.setProperty( propName, propValue );

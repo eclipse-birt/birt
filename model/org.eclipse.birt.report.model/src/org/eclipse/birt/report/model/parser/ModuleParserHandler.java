@@ -67,6 +67,7 @@ abstract class ModuleParserHandler extends XMLParserHandler
 
 	ModuleParserHandler( DesignSession theSession )
 	{
+		super( new ModuleParserErrorHandler( ) );
 		session = theSession;
 	}
 
@@ -122,36 +123,6 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
-	 * Adds a recoverable semantic error to the error list on the report design.
-	 * 
-	 * @param e
-	 *            The exception to log.
-	 */
-
-	public void semanticError( XMLParserException e )
-	{
-		e.setLineNumber( locator.getLineNumber( ) );
-		e.setTag( currentElement );
-		module.getAllExceptions( ).add( e );
-	}
-
-	/**
-	 * Adds a warning to the warning list inherited from XMLParserHandler during
-	 * parsing the design file.
-	 * 
-	 * @param e
-	 *            the exception to log
-	 */
-
-	void semanticWarning( Exception e )
-	{
-		XMLParserException xmlException = new XMLParserException( e );
-		xmlException.setLineNumber( locator.getLineNumber( ) );
-		xmlException.setTag( currentElement );
-		getErrors( ).add( xmlException );
-	}
-
-	/**
 	 * Overrides the super method. This method first parses attributes of the
 	 * current state, and then query whether to use a new state or the current
 	 * one according to the attributes value.
@@ -163,7 +134,7 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	public void startElement( String namespaceURI, String localName,
 			String qName, Attributes atts ) throws SAXException
 	{
-		currentElement = qName;
+		errorHandler.setCurrentElement( qName );
 		AbstractParseState newState = topState( ).startElement( qName );
 		newState.parseAttrs( atts );
 		AbstractParseState jumpToState = newState.jumpTo( );
@@ -173,7 +144,7 @@ abstract class ModuleParserHandler extends XMLParserHandler
 			return;
 		}
 
-		newState.setElementName( currentElement );
+		newState.setElementName( qName );
 		pushState( newState );
 	}
 
@@ -186,6 +157,10 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	public void endDocument( ) throws SAXException
 	{
 		super.endDocument( );
+
+		// add all the exceptions to the module
+
+		module.getAllExceptions( ).addAll( getErrorHandler( ).getErrors( ) );
 
 		// Check whether duplicate library namespace exists.
 
@@ -203,7 +178,11 @@ abstract class ModuleParserHandler extends XMLParserHandler
 					Exception fatalException = ModelUtil
 							.getFirstFatalException( library.getAllExceptions( ) );
 					if ( fatalException != null )
-						semanticError( fatalException );
+					{
+						XMLParserException exception = errorHandler
+								.semanticError( fatalException );
+						module.getAllExceptions( ).add( exception );
+					}
 				}
 			}
 		}
@@ -221,7 +200,7 @@ abstract class ModuleParserHandler extends XMLParserHandler
 			module.setValid( false );
 			List allExceptions = new ArrayList( );
 			allExceptions.addAll( module.getAllExceptions( ) );
-			allExceptions.addAll( getErrors( ) );
+			allExceptions.addAll( errorHandler.getWarnings( ) );
 
 			DesignFileException exception = new DesignFileException( module
 					.getFileName( ), allExceptions );
@@ -235,9 +214,9 @@ abstract class ModuleParserHandler extends XMLParserHandler
 
 		// translates warnings during parsing design files to ErrorDetail.
 
-		if ( getErrors( ) != null )
+		if ( errorHandler.getWarnings( ) != null )
 		{
-			module.getAllExceptions( ).addAll( getErrors( ) );
+			module.getAllExceptions( ).addAll( errorHandler.getWarnings( ) );
 		}
 	}
 }

@@ -82,7 +82,7 @@ public class EncryptedPropertyState extends PropertyState
 			DesignParserException e = new DesignParserException(
 					new String[]{propDefn.getName( )},
 					DesignParserException.DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE );
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 			valid = false;
 			return;
 		}

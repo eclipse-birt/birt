@@ -131,7 +131,7 @@ public abstract class ReportElementState extends DesignParseState
 		if ( !slotInfo.isMultipleCardinality( )
 				&& container.getSlot( slotID ).getCount( ) > 0 )
 		{
-			handler.semanticError( new ContentException( container, slotID,
+			handler.getErrorHandler( ).semanticError( new ContentException( container, slotID,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
 			return false;
 		}
@@ -153,7 +153,7 @@ public abstract class ReportElementState extends DesignParseState
 			if ( name == null
 					&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 			{
-				handler.semanticError( new NameException( container, name,
+				handler.getErrorHandler( ).semanticError( new NameException( container, name,
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				return false;
 			}
@@ -163,7 +163,7 @@ public abstract class ReportElementState extends DesignParseState
 				if ( !module.getModuleNameSpace( id ).canContain( name ) )
 				// if ( module.resolveElement( name, id ) != null )
 				{
-					handler.semanticError( new NameException( container, name,
+					handler.getErrorHandler( ).semanticError( new NameException( container, name,
 							NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 					return false;
 				}
@@ -175,7 +175,7 @@ public abstract class ReportElementState extends DesignParseState
 					// parent ) )
 					{
 						handler
-								.semanticError( new ExtendsException(
+								.getErrorHandler( ).semanticError( new ExtendsException(
 										content,
 										content.getElementName( ),
 										ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
@@ -223,7 +223,7 @@ public abstract class ReportElementState extends DesignParseState
 		if ( StringUtil.isBlank( name ) )
 		{
 			if ( nameRequired )
-				handler.semanticError( new NameException( element, null,
+				handler.getErrorHandler( ).semanticError( new NameException( element, null,
 						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 		}
 		else
@@ -248,7 +248,7 @@ public abstract class ReportElementState extends DesignParseState
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
 				handler
-						.semanticError( new DesignParserException(
+						.getErrorHandler( ).semanticError( new DesignParserException(
 								DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
 		
@@ -286,7 +286,7 @@ public abstract class ReportElementState extends DesignParseState
 		}
 		catch ( ExtendsException ex )
 		{
-			handler.semanticError( ex );
+			handler.getErrorHandler( ).semanticError( ex );
 		}
 	}
 

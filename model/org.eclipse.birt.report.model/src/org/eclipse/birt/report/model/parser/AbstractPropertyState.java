@@ -137,7 +137,7 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED );
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 			valid = false;
 			return;
 		}
@@ -241,7 +241,7 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 			valid = false;
 			return;
 		}
@@ -298,7 +298,7 @@ public class AbstractPropertyState extends AbstractParseState
 				.getElement( ).getPropertyDefn( propName ) ) )
 			RecoverableError.dealInvalidPropertyValue( handler, e );
 		else
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class AbstractPropertyState extends AbstractParseState
 			RecoverableError.dealInvalidMemberValue( handler, e, struct,
 					memberDefn );
 		else
-			handler.semanticError( e );
+			handler.getErrorHandler( ).semanticError( e );
 	}
 
 	/**

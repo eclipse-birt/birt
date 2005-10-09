@@ -43,7 +43,7 @@ public class ExtendedPropertyState extends StructureState
 				.equalsIgnoreCase( propDefn.getName( ) ) )
 			struct = new ExtendedProperty( );
 		else
-			handler.semanticError( new DesignParserException(
+			handler.getErrorHandler( ).semanticError( new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_WRONG_EXTENDED_PROPERTY_TYPE ) );
 	}
 

@@ -43,7 +43,7 @@ class RecoverableError
 		String propName = valueException.getPropertyName( );
 
 		element.setProperty( propName, retValue );
-		handler.semanticWarning( valueException );
+		handler.getErrorHandler( ).semanticWarning( valueException );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class RecoverableError
 
 		Object retValue = valueException.getInvalidValue( );
 		structre.setProperty( memberDefn, retValue );
-		handler.semanticWarning( valueException );
+		handler.getErrorHandler( ).semanticWarning( valueException );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class RecoverableError
 	protected static void dealUndefinedProperty( ModuleParserHandler handler,
 			DesignParserException exception )
 	{
-		handler.semanticWarning( exception );
+		handler.getErrorHandler( ).semanticWarning( exception );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class RecoverableError
 	protected static void dealMissingInvalidExtension(
 			ModuleParserHandler handler, SemanticError exception )
 	{
-		handler.semanticWarning( exception );
+		handler.getErrorHandler( ).semanticWarning( exception );
 	}
 
 }

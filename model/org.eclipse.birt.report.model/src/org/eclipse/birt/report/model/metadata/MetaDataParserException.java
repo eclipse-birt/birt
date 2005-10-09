@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.report.model.util.XMLParserException;
 
@@ -247,7 +247,7 @@ public class MetaDataParserException extends XMLParserException
 	 * @param errors list of errors
 	 */
 	
-	public MetaDataParserException( ArrayList errors )
+	public MetaDataParserException( List errors )
 	{
 		super( errors );
 	}

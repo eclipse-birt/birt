@@ -51,7 +51,7 @@ abstract class ModuleReader
 	 *            the parser handler
 	 * @param fileName
 	 *            the design file that the input stream is associated to.
-	 * @param systemId 
+	 * @param systemId
 	 *            the uri path for the design file
 	 * @param inputStream
 	 *            the input stream that reads the design file
@@ -102,18 +102,18 @@ abstract class ModuleReader
 
 			// Invalid xml error is found
 
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllExceptions( ), e );
+			throw new DesignFileException( fileName, handler.getErrorHandler( )
+					.getErrors( ), e );
 		}
 		catch ( ParserConfigurationException e )
 		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllExceptions( ), e );
+			throw new DesignFileException( fileName, handler.getErrorHandler( )
+					.getErrors( ), e );
 		}
 		catch ( IOException e )
 		{
-			throw new DesignFileException( fileName, handler.getModule( )
-					.getAllExceptions( ), e );
+			throw new DesignFileException( fileName, handler.getErrorHandler( )
+					.getErrors( ), e );
 		}
 
 		module.setValid( true );

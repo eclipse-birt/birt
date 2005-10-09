@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -55,7 +54,7 @@ public class XMLParserException extends SAXException
 	 * Additional exceptions, if any, associated with the error.
 	 */
 
-	protected ArrayList errorList = null;
+	protected List errorList = null;
 
 	/**
 	 * The XML file contains an unsupported element.
@@ -155,7 +154,7 @@ public class XMLParserException extends SAXException
 	 *            list of errors
 	 */
 
-	public XMLParserException( ArrayList errors )
+	public XMLParserException( List errors )
 	{
 		super( (String) null );
 		errorCode = DESIGN_EXCEPTION_WARNINGS_FOUND;
