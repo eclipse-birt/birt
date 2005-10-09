@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -63,9 +64,9 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	private Map styleMap = new HashMap( );
 
-	private ArrayList styleNames = new ArrayList( );
+	private List styleNames = new ArrayList( );
 
-	private String errorFileMsg;
+	private List unSupportedStyleNames = new ArrayList( );
 
 	private Label title;
 
@@ -278,6 +279,13 @@ public class WizardSelectCssStylePage extends WizardPage
 		{
 			ch[i].dispose( );
 		}
+
+		ch = notificationsTable.getItems( );
+		for ( int i = 0; i < ch.length; i++ )
+		{
+			ch[i].dispose( );
+		}
+
 		title.setText( "" ); //$NON-NLS-1$
 
 		if ( validateFileName( ) )
@@ -301,14 +309,17 @@ public class WizardSelectCssStylePage extends WizardPage
 
 					styleNames.add( styleHandle.getName( ) );
 				}
+
+				List unSupportedStyles = cssHandle.getUnsupportedStyles( );
+				for ( Iterator iter = unSupportedStyles.iterator( ); iter.hasNext( ); )
+				{
+					String name = (String) iter.next( );
+					unSupportedStyleNames.add( name + " - Cannot import style" );
+				}
 			}
 			catch ( StyleSheetException e )
 			{
-				errorFileMsg = e.getLocalizedMessage( );
-
-				System.out.println( errorFileMsg );
-
-				e.printStackTrace( );
+				ExceptionHandler.handle( e );
 			}
 
 			TableItem item;
@@ -316,6 +327,14 @@ public class WizardSelectCssStylePage extends WizardPage
 			{
 				String sn = (String) styleNames.get( i );
 				item = new TableItem( stylesTable, SWT.NULL );
+				item.setText( sn );
+				item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
+			}
+
+			for ( int i = 0; i < unSupportedStyleNames.size( ); i++ )
+			{
+				String sn = (String) unSupportedStyleNames.get( i );
+				item = new TableItem( notificationsTable, SWT.NULL );
 				item.setText( sn );
 				item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
 			}
