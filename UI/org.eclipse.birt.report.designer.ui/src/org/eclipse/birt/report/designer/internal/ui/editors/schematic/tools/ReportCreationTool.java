@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
@@ -288,7 +289,7 @@ public class ReportCreationTool extends CreationTool
 	 */
 	protected boolean handleMove( )
 	{
-		if (isCreating)
+		if (isCreating || SessionHandleAdapter.getInstance().getReportDesignHandle() instanceof LibraryHandle)
 		{
 			return true;
 		}
