@@ -534,13 +534,36 @@ public final class DataTypeUtil
 		if ( source == null )
 			return null;
 		
-		if(source instanceof Date )
+		if ( source instanceof Date )
 		{
 			return toString( (Date) source, locale );
 		}
 		else
 		{
-			return source.toString();
+			String str = "";
+			if ( source instanceof byte[] )
+			{
+				final int strLength = 8;
+
+				byte[] sourceValue = (byte[]) source;
+				int length = Math.min( sourceValue.length, strLength );
+				for ( int i = 0; i < length; i++ )
+				{
+					str += Integer.toHexString( sourceValue[i] )
+							.toUpperCase( )
+							+ " ";
+				}
+				if ( sourceValue.length > strLength )
+				{					
+					str += "...";
+				}
+			}
+			else
+			{
+				str = source.toString( );
+			}
+
+			return str;
 		}
 	}
 
