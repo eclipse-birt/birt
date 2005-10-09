@@ -179,6 +179,7 @@ public class ElementFactory
 	public FreeFormHandle newFreeForm( String name )
 	{
 		FreeForm element = new FreeForm( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -193,6 +194,7 @@ public class ElementFactory
 	public DataItemHandle newDataItem( String name )
 	{
 		DataItem element = new DataItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -207,6 +209,7 @@ public class ElementFactory
 	public LabelHandle newLabel( String name )
 	{
 		Label element = new Label( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -221,6 +224,7 @@ public class ElementFactory
 	public ImageHandle newImage( String name )
 	{
 		ImageItem element = new ImageItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -233,6 +237,7 @@ public class ElementFactory
 	public ListGroupHandle newListGroup( )
 	{
 		ListGroup element = new ListGroup( );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -247,6 +252,7 @@ public class ElementFactory
 	public ListHandle newList( String name )
 	{
 		ListItem element = new ListItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -359,6 +365,7 @@ public class ElementFactory
 	public TextItemHandle newTextItem( String name )
 	{
 		TextItem element = new TextItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -373,6 +380,7 @@ public class ElementFactory
 	public TableHandle newTableItem( String name )
 	{
 		TableItem element = new TableItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -474,6 +482,7 @@ public class ElementFactory
 	public TableGroupHandle newTableGroup( )
 	{
 		TableGroup element = new TableGroup( );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -486,6 +495,7 @@ public class ElementFactory
 	public ColumnHandle newTableColumn( )
 	{
 		TableColumn element = new TableColumn( );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -498,6 +508,7 @@ public class ElementFactory
 	public RowHandle newTableRow( )
 	{
 		TableRow element = new TableRow( );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -536,6 +547,7 @@ public class ElementFactory
 	public CellHandle newCell( )
 	{
 		Cell element = new Cell( );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -550,6 +562,7 @@ public class ElementFactory
 	public GridHandle newGridItem( String name )
 	{
 		GridItem element = new GridItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -604,6 +617,7 @@ public class ElementFactory
 	public LineHandle newLineItem( String name )
 	{
 		LineItem element = new LineItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -618,6 +632,7 @@ public class ElementFactory
 	public RectangleHandle newRectangle( String name )
 	{
 		RectangleItem element = new RectangleItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
@@ -632,6 +647,7 @@ public class ElementFactory
 	public TextDataHandle newTextData( String name )
 	{
 		TextDataItem element = new TextDataItem( name );
+		module.makeUniqueName( element );
 		return element.handle( module );
 	}
 
