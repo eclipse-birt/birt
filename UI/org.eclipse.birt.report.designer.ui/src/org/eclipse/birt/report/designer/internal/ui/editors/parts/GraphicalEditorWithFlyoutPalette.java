@@ -104,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.16 $ $Date: 2005/08/25 01:45:02 $
+ * @version $Revision: 1.17 $ $Date: 2005/08/25 06:31:03 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -114,7 +114,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
-	private ButtonPaneComposite bPane;
+	//private ButtonPaneComposite bPane;
 
 	/**
 	 * the list of action ids that are to CommandStack actions
@@ -368,10 +368,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	/**
 	 * @return button pane that provides function to change pages.
 	 */
-	public ButtonPaneComposite getButtonPane( )
-	{
-		return bPane;
-	}
+//	public ButtonPaneComposite getButtonPane( )
+//	{
+//		return bPane;
+//	}
 
 	protected boolean hasRuler( )
 	{
@@ -388,11 +388,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void createPartControl( Composite parent )
 	{
-		if ( hasButtonPane( ) )
-		{
-			bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
-			parent = bPane;
-		}
+//		if ( hasButtonPane( ) )
+//		{
+//			bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
+//			parent = bPane;
+//		}
 
 		splitter = new FlyoutPaletteComposite( parent,
 				SWT.NONE,
@@ -405,10 +405,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		splitter.setGraphicalControl( ctrl );
 
-		if ( hasButtonPane( ) )
-		{
-			bPane.setGraphicalControl( splitter );
-		}
+//		if ( hasButtonPane( ) )
+//		{
+//			bPane.setGraphicalControl( splitter );
+//		}
 
 		if ( page != null )
 		{
@@ -459,7 +459,9 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		if ( type == DataViewPage.class )
 		{
-			DataViewTreeViewerPage page = new DataViewTreeViewerPage( (ModuleHandle) ( (MultiEditorProvider) getMultiPageEditor( ) ).getModel( ) );
+			DataViewTreeViewerPage page = new DataViewTreeViewerPage( 
+					(ModuleHandle) ( (AbstractMultiPageEditor) getMultiPageEditor( ) )
+										.getInputContext().getModel() );
 			return page;
 		}
 

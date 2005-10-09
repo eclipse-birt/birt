@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 public class SessionHandleAdapter
 {
-
+	public static final int UNKNOWFILE = -1;
 	public static int DESIGNEFILE = 0;
 	public static int LIBRARYFILE = 1;
 	

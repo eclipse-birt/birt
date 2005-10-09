@@ -17,9 +17,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.core.resources.IEncodedStorage;
-import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -37,10 +34,9 @@ import org.eclipse.ui.texteditor.AbstractDocumentProvider;
 import org.osgi.framework.Bundle;
 
 /**
- * General document provider specialized for
- * {@link org.eclipse.core.resources.IStorage}s.
+ * General document provider specialized for IStorage.
  */
-public class DocumentProvider extends AbstractDocumentProvider
+public abstract class DocumentProvider extends AbstractDocumentProvider
 {
 
 	/**
@@ -173,31 +169,8 @@ public class DocumentProvider extends AbstractDocumentProvider
 	 * @throws CoreException
 	 *             if the given editor input cannot be accessed
 	 */
-	protected boolean setDocumentContent( IDocument document,
-			IEditorInput editorInput, String encoding ) throws CoreException
-	{
-		if ( editorInput instanceof IStorageEditorInput )
-		{
-			IStorage storage = ( (IStorageEditorInput) editorInput ).getStorage( );
-			InputStream stream = storage.getContents( );
-			try
-			{
-				setDocumentContent( document, stream, encoding );
-			}
-			finally
-			{
-				try
-				{
-					stream.close( );
-				}
-				catch ( IOException x )
-				{
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+	abstract protected boolean setDocumentContent( IDocument document,
+			IEditorInput editorInput, String encoding ) throws CoreException;
 
 	/*
 	 * @see AbstractDocumentProvider#createAnnotationModel(Object)
@@ -300,24 +273,7 @@ public class DocumentProvider extends AbstractDocumentProvider
 	 *            the element for which to get the persisted encoding
 	 * @return the persisted encoding
 	 */
-	protected String getPersistedEncoding( Object element )
-	{
-		if ( element instanceof IStorageEditorInput )
-		{
-			IStorage storage;
-			try
-			{
-				storage = ( (IStorageEditorInput) element ).getStorage( );
-				if ( storage instanceof IEncodedStorage )
-					return ( (IEncodedStorage) storage ).getCharset( );
-			}
-			catch ( CoreException e )
-			{
-				return null;
-			}
-		}
-		return null;
-	}
+	abstract protected String getPersistedEncoding( Object element );
 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#getOperationRunner(org.eclipse.core.runtime.IProgressMonitor)
@@ -325,39 +281,5 @@ public class DocumentProvider extends AbstractDocumentProvider
 	protected IRunnableContext getOperationRunner( IProgressMonitor monitor )
 	{
 		return null;
-	}
-
-	public boolean isModifiable( Object element )
-	{
-		if ( element instanceof IStorageEditorInput )
-		{
-			try
-			{
-				return !( (IStorageEditorInput) element ).getStorage( )
-						.isReadOnly( );
-			}
-			catch ( CoreException x )
-			{
-				ExceptionHandler.handle( x );
-			}
-		}
-		return super.isModifiable( element );
-	}
-
-	public boolean isReadOnly( Object element )
-	{
-		if ( element instanceof IStorageEditorInput )
-		{
-			try
-			{
-				return ( (IStorageEditorInput) element ).getStorage( )
-						.isReadOnly( );
-			}
-			catch ( CoreException x )
-			{
-				ExceptionHandler.handle( x );
-			}
-		}
-		return super.isReadOnly( element );
 	}
 }
