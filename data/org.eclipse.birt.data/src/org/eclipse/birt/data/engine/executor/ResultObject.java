@@ -43,33 +43,42 @@ public class ResultObject implements IResultObject
 		assert( resultClass.getFieldCount() == fields.length );
 		
 		m_resultClass = resultClass;
-		// m_fields = fields;
 		
-		// set field value
+		try
+		{
+			initFieldValue( fields );
+		}
+		catch ( DataException e )
+		{
+			throw new IllegalStateException( e.getMessage( ) );
+		}
+	}
+	
+	/**
+	 * @param fields
+	 * @throws DataException
+	 */
+	private void initFieldValue( Object[] fields ) throws DataException
+	{
 		int length = fields.length;
 		m_fields = new Object[length];
+		
 		for ( int i = 0; i < length; i++ )
 		{
-			try
+			if ( fields[i] != null )
 			{
-				if ( fields[i] != null )
-				{
-					Object value = fields[i];
+				Object value = fields[i];
 
-					// process IClob data and IBlob data
-					String typeName = m_resultClass.getFieldNativeTypeName( i + 1 );
-					assert typeName != null;					
-					if ( typeName.equalsIgnoreCase( "CLOB" ) )
-						value = getClobValue( (IClob) fields[i] );
-					else if ( typeName.equalsIgnoreCase( "BLOB" ) )
-						value = getBlobValue( (IBlob) fields[i] );
+				// computed column has no information of field native type,
+				// so a safe approach is by judging the value class.
+				Class valueClass = m_resultClass.getFieldValueClass( i + 1 );
+				assert valueClass != null;
+				if ( valueClass!=null && valueClass.isAssignableFrom( IClob.class ) )
+					value = getClobValue( (IClob) fields[i] );
+				else if ( valueClass!=null && valueClass.isAssignableFrom( IBlob.class ) )
+					value = getBlobValue( (IBlob) fields[i] );
 
-					m_fields[i] = value;
-				}
-			}
-			catch ( DataException e )
-			{
-				throw new IllegalArgumentException( e.getMessage( ) );
+				m_fields[i] = value;
 			}
 		}
 	}
