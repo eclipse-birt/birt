@@ -104,7 +104,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  * @author Pratik Shah
  * @since 3.0
- * @version $Revision: 1.17 $ $Date: 2005/08/25 06:31:03 $
+ * @version $Revision: 1.18 $ $Date: 2005/10/09 07:21:03 $
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
@@ -807,8 +807,15 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		if ( size == 1 && list.get( 0 ) instanceof RowHandle )
 		{
+			//Fix Bugzilla Bug 109571
+			RowHandle handle = (RowHandle)list.get( 0 );
+			if (handle.getRoot() == null)
+			{
+				return null;
+			}
+			//end
 			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( list.get( 0 ) );
+					.getRowHandleAdapter( handle );
 			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
 					.get( adapter.getTableParent( ) );
 			if ( part != null )
