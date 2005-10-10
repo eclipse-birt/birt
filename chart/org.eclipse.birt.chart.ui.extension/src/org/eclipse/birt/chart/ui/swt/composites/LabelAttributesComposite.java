@@ -49,7 +49,7 @@ public class LabelAttributesComposite extends Composite
 
 	private transient Composite cmpGeneral = null;
 
-	private transient Group grpAttributes = null;
+	private transient Composite grpAttributes = null;
 
 	private transient Group grpOutline = null;
 
@@ -223,8 +223,15 @@ public class LabelAttributesComposite extends Composite
 
 		this.setLayout( flMain );
 
-		grpAttributes = new Group( this, SWT.NONE );
-		grpAttributes.setText( sGroupName );
+		if ( sGroupName == null || sGroupName.length( ) == 0 )
+		{
+			grpAttributes = new Composite( this, SWT.NONE );
+		}
+		else
+		{
+			grpAttributes = new Group( this, SWT.NONE );
+			( (Group) grpAttributes ).setText( sGroupName );
+		}
 		grpAttributes.setLayout( glAttributes );
 
 		cmpGeneral = new Composite( grpAttributes, SWT.NONE );

@@ -654,7 +654,10 @@ public class FillChooserComposite extends Composite implements
 		fireHandleEvent( MOUSE_CLICKED_EVENT );
 		if ( e.getSource( ).equals( cnvSelection ) )
 		{
-			toggleDropDown( );
+			if ( !cnvSelection.isDisposed( ) )
+			{
+				toggleDropDown( );
+			}
 		}
 		else if ( e.getSource( ) instanceof ColorSelectionCanvas )
 		{
