@@ -386,6 +386,22 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Gets the value of a property as a list.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param propName
+	 *            the name of the property to get
+	 * @return the value as an <code>ArrayList</code>, or null if the
+	 *         property is not set or the value is not a list
+	 */
+
+	public List getListProperty( Module module, String propName )
+	{
+		return getElement( ).getListProperty( module, propName );
+	}
+
+	/**
 	 * Sets the value of a property from a generic object. The value can be any
 	 * of the supported types: String, Double, Integer, BigDecimal or one of the
 	 * specialized property types. The type of object allowed depends on the
