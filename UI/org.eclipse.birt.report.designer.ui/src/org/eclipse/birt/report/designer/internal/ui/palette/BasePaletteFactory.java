@@ -26,10 +26,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -54,7 +54,8 @@ import org.eclipse.jface.window.Window;
  */
 public class BasePaletteFactory
 {
-  private static final String POINTER_SELECT_LABEL = Messages.getString( "BasePaletteFactory.categoryName.PointerSelect" );//$NON-NLS-1$
+
+	private static final String POINTER_SELECT_LABEL = Messages.getString( "BasePaletteFactory.categoryName.PointerSelect" );//$NON-NLS-1$
 	private static final String RECTANGEL_SELECT_LABEL = Messages.getString( "BasePaletteFactory.categoryName.RectangleSelect" );//$NON-NLS-1$
 	private static final String TOOL_TIP_POINTER_SELECT = Messages.getString( "BasePaletteFactory.toolTip.PointerSelect" );//$NON-NLS-1$
 	private static final String TOOL_TIP_RECTANGLE_SELECT = Messages.getString( "BasePaletteFactory.toolTip.RectangleSelect" );//$NON-NLS-1$
@@ -65,8 +66,8 @@ public class BasePaletteFactory
 	private static final String AUTOTEXT_LABEL_CREATE_BY = Messages.getString( "BasePaletteFactory.AutoTextLabel.CreatedBy" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_CREATE_ON = Messages.getString( "BasePaletteFactory.AutoTextLabel.CreatedOn" ); //$NON-NLS-1$
 	private static final String AUTOTEXT_LABEL_PAGE = Messages.getString( "BasePaletteFactory.AutoTextLabel.Page" ); //$NON-NLS-1$
-	private static final String AUTOTEXT_TEXT_CONFIDENTIAL = Messages.getString("BasePaletteFactory.AutoText.Confidential"); //$NON-NLS-1$
-	
+	private static final String AUTOTEXT_TEXT_CONFIDENTIAL = Messages.getString( "BasePaletteFactory.AutoText.Confidential" ); //$NON-NLS-1$
+
 	protected static PaletteRoot createPalette( )
 	{
 		PaletteRoot root = new PaletteRoot( );
@@ -87,11 +88,13 @@ public class BasePaletteFactory
 
 		List entries = new ArrayList( );
 
-		ToolEntry tool = new PanningSelectionToolEntry( POINTER_SELECT_LABEL, TOOL_TIP_POINTER_SELECT );
+		ToolEntry tool = new PanningSelectionToolEntry( POINTER_SELECT_LABEL,
+				TOOL_TIP_POINTER_SELECT );
 		entries.add( tool );
 		root.setDefaultEntry( tool );
 
-		tool = new MarqueeToolEntry( RECTANGEL_SELECT_LABEL, TOOL_TIP_RECTANGLE_SELECT);
+		tool = new MarqueeToolEntry( RECTANGEL_SELECT_LABEL,
+				TOOL_TIP_RECTANGLE_SELECT );
 		entries.add( tool );
 
 		controlGroup.addAll( entries );
@@ -120,9 +123,14 @@ public class BasePaletteFactory
 						&& dlg.getResult( ) instanceof int[] )
 				{
 					int[] data = (int[]) dlg.getResult( );
-					TableHandle table = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getElementFactory( )
+					// String name = ReportPlugin.getDefault().getCustomName(
+					// ReportDesignConstants.TABLE_ITEM);
+					//					
+					// TableHandle table = SessionHandleAdapter.getInstance( )
+					// .getReportDesignHandle( )
+					// .getElementFactory( )
+					// .newTableItem( name, data[1], 1, data[0], 1 );
+					TableHandle table = DesignElementFactory.getInstance( )
 							.newTableItem( null, data[1], 1, data[0], 1 );
 					InsertInLayoutUtil.setInitWidth( table );
 					setModel( table );
@@ -159,9 +167,12 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getElementFactory( )
+				// DataItemHandle dataHandle = SessionHandleAdapter.getInstance(
+				// )
+				// .getReportDesignHandle( )
+				// .getElementFactory( )
+				// .newDataItem( null );
+				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 						.newDataItem( null );
 				setModel( dataHandle );
 				return super.preHandleMouseUp( );
@@ -198,13 +209,13 @@ public class BasePaletteFactory
 
 			if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				//Open the builder for new image
+				// Open the builder for new image
 				ImageBuilderDialog dialog = new ImageBuilderDialog( );
 				if ( Window.OK == dialog.open( ) )
 				{
 					setModel( dialog.getResult( ) );
 
-					//If the dialog popup, mouse up event will not be called
+					// If the dialog popup, mouse up event will not be called
 					// automatically, call it explicit
 					return super.preHandleMouseUp( );
 				}
@@ -245,9 +256,12 @@ public class BasePaletteFactory
 			ModuleHandle reportHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 
-			TextItemHandle textItemHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getElementFactory( )
+			// TextItemHandle textItemHandle = SessionHandleAdapter.getInstance(
+			// )
+			// .getReportDesignHandle( )
+			// .getElementFactory( )
+			// .newTextItem( null );
+			TextItemHandle textItemHandle = DesignElementFactory.getInstance( )
 					.newTextItem( null );
 			try
 			{
@@ -316,10 +330,10 @@ public class BasePaletteFactory
 			setModel( textItemHandle );
 			return super.preHandleMouseUp( );
 		} /*
-		   * (non-Javadoc)
-		   * 
-		   * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
-		   */
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+			 */
 
 		public boolean preHandleMouseDown( )
 		{
@@ -338,9 +352,13 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				LabelHandle labelItemHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getElementFactory( )
+				// LabelHandle labelItemHandle =
+				// SessionHandleAdapter.getInstance( )
+				// .getReportDesignHandle( )
+				// .getElementFactory( )
+				// .newLabel( null );
+
+				LabelHandle labelItemHandle = DesignElementFactory.getInstance( )
 						.newLabel( null );
 
 				setModel( labelItemHandle );
@@ -377,9 +395,12 @@ public class BasePaletteFactory
 			CreateRequest request = getRequest( );
 			if ( IReportElementConstants.REPORT_ELEMENT_LIST.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
 			{
-				ListHandle list = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getElementFactory( )
+				// ListHandle list = SessionHandleAdapter.getInstance( )
+				// .getReportDesignHandle( )
+				// .getElementFactory( )
+				// .newList( null );
+
+				ListHandle list = DesignElementFactory.getInstance( )
 						.newList( null );
 
 				setModel( list );
@@ -414,7 +435,8 @@ public class BasePaletteFactory
 		{
 			ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			ElementFactory factory = reportDesignHandle.getElementFactory( );
+			// ElementFactory factory = reportDesignHandle.getElementFactory( );
+			DesignElementFactory factory = DesignElementFactory.getInstance( reportDesignHandle.getModule( ) );
 			String type = (String) getRequest( ).getNewObjectType( );
 			GridHandle grid = null;
 
@@ -436,11 +458,11 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-//					Remove unsupported function					
-//					textHandle = factory.newTextItem( null );
-//					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-//					( (CellHandle) cellList.get( 1 ) ).getContent( )
-//							.add( textHandle );
+					// Remove unsupported function
+					// textHandle = factory.newTextItem( null );
+					// textHandle.setContent( AUTOTEXT_LABEL_PAGE );
+					// ( (CellHandle) cellList.get( 1 ) ).getContent( )
+					// .add( textHandle );
 
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
@@ -462,16 +484,16 @@ public class BasePaletteFactory
 							.getContents( );
 
 					TextItemHandle textHandle = factory.newTextItem( null );
-					textHandle.setContent( AUTOTEXT_TEXT_CONFIDENTIAL ); 
+					textHandle.setContent( AUTOTEXT_TEXT_CONFIDENTIAL );
 					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-//					Remove unsupported function					
-//					textHandle = factory.newTextItem( null );
-//					textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-//					( (CellHandle) cellList.get( 1 ) ).getContent( )
-//							.add( textHandle );
+					// Remove unsupported function
+					// textHandle = factory.newTextItem( null );
+					// textHandle.setContent( AUTOTEXT_LABEL_PAGE );
+					// ( (CellHandle) cellList.get( 1 ) ).getContent( )
+					// .add( textHandle );
 				}
 				catch ( SemanticException e )
 				{
@@ -559,8 +581,9 @@ public class BasePaletteFactory
 	/**
 	 * Provides element building support for data set column.
 	 */
-	public static class DataSetColumnToolExtends extends
-			AbstractToolHandleExtends
+	public static class DataSetColumnToolExtends
+			extends
+				AbstractToolHandleExtends
 	{
 
 		/*
@@ -646,46 +669,47 @@ public class BasePaletteFactory
 		}
 	}
 
-	public static AbstractToolHandleExtends getAbstractToolHandleExtendsFromPalletName(Object str)
+	public static AbstractToolHandleExtends getAbstractToolHandleExtendsFromPalletName(
+			Object str )
 	{
-		if (!(str instanceof String))
+		if ( !( str instanceof String ) )
 		{
-			throw new Error("Don't support the other type expect String");
+			throw new Error( "Don't support the other type expect String" ); //$NON-NLS-1$
 		}
-		String template = (String)str;
+		String template = (String) str;
 		AbstractToolHandleExtends preHandle = null;
-		if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase(  template ) )
+		if ( IReportElementConstants.REPORT_ELEMENT_IMAGE.equalsIgnoreCase( template ) )
 		{
 			preHandle = new ImageToolExtends( );
 
 		}
-		else if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase(  template ) )
+		else if ( IReportElementConstants.REPORT_ELEMENT_TABLE.equalsIgnoreCase( template ) )
 		{
 			preHandle = new TableToolExtends( );
 
 		}
-		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase(  template )
+		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_CREATEDON.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_CREATEDBY.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_FILENAME.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_LASTPRINTED.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_PAGEXOFY.equalsIgnoreCase( template ) )
 		{
 			preHandle = new TextToolExtends( );
 		}
-		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase(  template )
-				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase(  template )
-				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase(  template ) )
+		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( template )
+				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( template )
+				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template ) )
 		{
 			preHandle = new GridToolExtends( );
 		}
-		else if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase(  template ) )
+		else if ( IReportElementConstants.REPORT_ELEMENT_LABEL.equalsIgnoreCase( template ) )
 		{
 			preHandle = new LabelToolExtends( );
 		}
-		else if ( IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase(  template ) )
+		else if ( IReportElementConstants.REPORT_ELEMENT_DATA.equalsIgnoreCase( template ) )
 		{
 			preHandle = new DataToolExtends( );
 		}
@@ -693,15 +717,15 @@ public class BasePaletteFactory
 		{
 			preHandle = new ListToolExtends( );
 		}
-		else if ( (  template ).startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
+		else if ( ( template ).startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 		{
 			String extensionName = ( (String) template ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
 			preHandle = new ExtendedElementToolExtends( extensionName );
 		}
-		
-		if (preHandle == null)
+
+		if ( preHandle == null )
 		{
-			throw new Error("Don't find the AbstractToolHandleExtends");
+			throw new Error( "Don't find the AbstractToolHandleExtends" );
 		}
 		return preHandle;
 	}

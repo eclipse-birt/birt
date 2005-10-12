@@ -14,12 +14,13 @@ package org.eclipse.birt.report.designer.internal.ui.processor;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.window.Window;
 
 /**
- *  
+ * 
  */
 
 public class ExtenedElementProcessor extends AbstractElementProcessor
@@ -43,8 +44,11 @@ public class ExtenedElementProcessor extends AbstractElementProcessor
 	 */
 	public DesignElementHandle createElement( Object extendedData )
 	{
-		ExtendedItemHandle handle = getElementFactory( ).newExtendedItem( getNewName( extendedData ),
-				getElementType( ) );
+		// ExtendedItemHandle handle = getElementFactory( ).newExtendedItem(
+		// getNewName( extendedData ),
+		// getElementType( ) );
+		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
+				.newExtendedItem( getNewName( extendedData ), getElementType( ) );
 		if ( getBuilder( ) != null )
 		{
 			if ( !editElement( handle ) )

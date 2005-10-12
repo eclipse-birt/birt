@@ -107,7 +107,7 @@
    
    <!-- Popup menu -->
 
-   <!-- Preference pages -->
+   <!-- Preference pages --> 
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -129,6 +129,11 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.datasetpreview"
             id="org.eclipse.birt.report.designer.ui.preferences.DateSetPreviewPreferencePage"/>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.elementnames"
+            id="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"/>
    </extension>
 
    <!-- Preview browsers -->

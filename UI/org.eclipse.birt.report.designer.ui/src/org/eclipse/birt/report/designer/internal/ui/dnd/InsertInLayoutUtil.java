@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
@@ -23,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.DataSetManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -102,7 +102,7 @@ public class InsertInLayoutUtil
 
 			CellHandle cell = (CellHandle) container;
 
-			//Validates source position of data item
+			// Validates source position of data item
 			boolean canInsert = false;
 			if ( cell.getContainer( ).getContainer( ) instanceof TableGroupHandle )
 			{
@@ -116,7 +116,7 @@ public class InsertInLayoutUtil
 				}
 			}
 
-			//Validates column count and gets the target
+			// Validates column count and gets the target
 			if ( canInsert )
 			{
 				TableHandle table = null;
@@ -220,7 +220,7 @@ public class InsertInLayoutUtil
 				int columnDiff = currentColumn
 						+ items.length - tableAdapter.getColumnCount( ) - 1;
 
-				//Insert columns if table can not contain all items
+				// Insert columns if table can not contain all items
 				if ( columnDiff > 0 )
 				{
 					int insertColumn = tableAdapter.getColumnCount( );
@@ -402,7 +402,7 @@ public class InsertInLayoutUtil
 		}
 		else if ( insertObj instanceof String )
 		{
-			//Such as invalid group key
+			// Such as invalid group key
 			return performInsertString( (String) insertObj, target );
 		}
 		else if ( insertObj instanceof Object[] )
@@ -490,9 +490,11 @@ public class InsertInLayoutUtil
 	protected static DataItemHandle performInsertParameter(
 			ScalarParameterHandle model ) throws SemanticException
 	{
-		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( )
+		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getElementFactory( )
+		// .newDataItem( null );
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
 		return dataHandle;
@@ -515,14 +517,16 @@ public class InsertInLayoutUtil
 			DataSetItemModel model, Object target, Object targetParent )
 			throws SemanticException
 	{
-		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( )
+		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getElementFactory( )
+		// .newDataItem( null );
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		DataSetHandle dataSet = (DataSetHandle) model.getParent( );
 
 		dataHandle.setValueExpr( DEUtil.getExpression( model ) );
-				
+
 		if ( targetParent instanceof ReportItemHandle )
 		{
 			ReportItemHandle container = (ReportItemHandle) targetParent;
@@ -536,16 +540,18 @@ public class InsertInLayoutUtil
 		}
 		else
 		{
-			//Adds dataset to the single query in the top level of the report
+			// Adds dataset to the single query in the top level of the report
 			dataHandle.setDataSet( dataSet );
 		}
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
 		{
-			LabelHandle label = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getElementFactory( )
+			// LabelHandle label = SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getElementFactory( )
+			// .newLabel( null );
+			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
 			label.setText( model.getDisplayName( ) );
 			rule.insert( label );
@@ -559,7 +565,7 @@ public class InsertInLayoutUtil
 
 		return dataHandle;
 	}
-	
+
 	/**
 	 * Inserts invalid column string into the target. Add label if possible
 	 * 
@@ -570,21 +576,25 @@ public class InsertInLayoutUtil
 	 * @return to be inserted data item
 	 * @throws SemanticException
 	 */
-	protected static DesignElementHandle performInsertString( String expression,
-			Object target ) throws SemanticException
+	protected static DesignElementHandle performInsertString(
+			String expression, Object target ) throws SemanticException
 	{
-		DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( )
+		// DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getElementFactory( )
+		// .newDataItem( null );
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
 		dataHandle.setValueExpr( expression );
 
 		InsertInLayoutRule rule = new LabelAddRule( target );
 		if ( rule.canInsert( ) )
 		{
-			LabelHandle label = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getElementFactory( )
+			// LabelHandle label = SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getElementFactory( )
+			// .newLabel( null );
+			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
 			label.setText( expression );
 			rule.insert( label );
@@ -602,10 +612,13 @@ public class InsertInLayoutUtil
 		{
 			return null;
 		}
-		TableHandle tableHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( )
+		// TableHandle tableHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getElementFactory( )
+		// .newTableItem( null, columns.length );
+		TableHandle tableHandle = DesignElementFactory.getInstance( )
 				.newTableItem( null, columns.length );
+
 		setInitWidth( tableHandle );
 		insertToCell( tableHandle.getHeader( ), columns, true );
 		insertToCell( tableHandle.getDetail( ), columns, false );
@@ -792,12 +805,12 @@ public class InsertInLayoutUtil
 				&& DNDUtil.handleValidateTargetCanContainType( target.getModel( ),
 						ReportDesignConstants.DATA_ITEM ) )
 		{
-			//Validates target is report root
+			// Validates target is report root
 			if ( target.getModel( ) instanceof ModuleHandle )
 			{
 				return true;
 			}
-			//Validates target's dataset is null or the same with the inserted
+			// Validates target's dataset is null or the same with the inserted
 			DesignElementHandle handle = (DesignElementHandle) target.getParent( )
 					.getModel( );
 			if ( handle instanceof ReportItemHandle
@@ -863,18 +876,24 @@ public class InsertInLayoutUtil
 				{
 					if ( isLabel )
 					{
-						LabelHandle labelItemHandle = SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getElementFactory( )
+						// LabelHandle labelItemHandle =
+						// SessionHandleAdapter.getInstance( )
+						// .getReportDesignHandle( )
+						// .getElementFactory( )
+						// .newLabel( null );
+						LabelHandle labelItemHandle = DesignElementFactory.getInstance( )
 								.newLabel( null );
 						labelItemHandle.setText( columns[j].getDisplayName( ) );
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
 					else
 					{
-						DataItemHandle dataHandle = SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getElementFactory( )
+						// DataItemHandle dataHandle =
+						// SessionHandleAdapter.getInstance( )
+						// .getReportDesignHandle( )
+						// .getElementFactory( )
+						// .newDataItem( null );
+						DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 								.newDataItem( null );
 						dataHandle.setValueExpr( DEUtil.getExpression( columns[j] ) );
 						cell.addElement( dataHandle, cells.getSlotID( ) );
@@ -924,7 +943,7 @@ public class InsertInLayoutUtil
 	{
 		return handle.isValid( ) && handle.getSemanticErrors( ).isEmpty( );
 	}
-	
+
 	/**
 	 * Converts edit part selection into model selection.
 	 * 

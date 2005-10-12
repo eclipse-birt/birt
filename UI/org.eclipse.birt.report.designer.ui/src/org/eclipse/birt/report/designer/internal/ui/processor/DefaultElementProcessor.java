@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -37,8 +38,11 @@ public class DefaultElementProcessor extends AbstractElementProcessor
 	 */
 	public DesignElementHandle createElement( Object extendedData )
 	{
-		DesignElementHandle handle = getElementFactory( ).newElement( getElementType( ),
-				getNewName( extendedData ) );
+		// DesignElementHandle handle = getElementFactory( ).newElement(
+		// getElementType( ),
+		// getNewName( extendedData ) );
+		DesignElementHandle handle = DesignElementFactory.getInstance( )
+				.newElement( getElementType( ), getNewName( extendedData ) );
 		if ( initElement( handle, extendedData ) )
 		{
 			return handle;

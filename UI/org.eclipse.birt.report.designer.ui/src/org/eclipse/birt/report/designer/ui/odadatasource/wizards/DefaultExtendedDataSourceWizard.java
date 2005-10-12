@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.ui.odadatasource.wizards;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -19,8 +20,9 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
  * 
  */
 
-public abstract class DefaultExtendedDataSourceWizard extends
-		AbstractDataSourceConnectionWizard
+public abstract class DefaultExtendedDataSourceWizard
+		extends
+			AbstractDataSourceConnectionWizard
 {
 
 	/**
@@ -32,7 +34,7 @@ public abstract class DefaultExtendedDataSourceWizard extends
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	public DefaultExtendedDataSourceWizard( )
 	{
@@ -46,17 +48,22 @@ public abstract class DefaultExtendedDataSourceWizard extends
 	 */
 	public DataSourceHandle createDataSource( ModuleHandle handle )
 	{
-  //      String modelExtension = null;
-          String dataSourceType = getConfigurationElement( ).getAttribute( "id" ); //$NON-NLS-1$
-  //      if(Utility.doesDataSourceModelExtensionExist(dataSourceType))
-  //      {
-  //          modelExtension = dataSourceType; 
-  //      }
-		OdaDataSourceHandle dsHandle = handle.getDataSources( )
+		// String modelExtension = null;
+		String dataSourceType = getConfigurationElement( ).getAttribute( "id" ); //$NON-NLS-1$
+		// if(Utility.doesDataSourceModelExtensionExist(dataSourceType))
+		// {
+		// modelExtension = dataSourceType;
+		// }
+		// OdaDataSourceHandle dsHandle = handle.getDataSources( )
+		// .getElementHandle( )
+		// .getElementFactory( )
+		// .newOdaDataSource( Messages.getString("datasource.new.defaultName"),
+		// dataSourceType); //$NON-NLS-1$
+		OdaDataSourceHandle dsHandle = DesignElementFactory.getInstance( handle.getDataSources( )
 				.getElementHandle( )
-				.getElementFactory( )
-				.newOdaDataSource( Messages.getString("datasource.new.defaultName"), dataSourceType); //$NON-NLS-1$
-        
+				.getModule( ) )
+				.newOdaDataSource( Messages.getString( "datasource.new.defaultName" ), //$NON-NLS-1$
+						dataSourceType );
 		return dsHandle;
 	}
 }

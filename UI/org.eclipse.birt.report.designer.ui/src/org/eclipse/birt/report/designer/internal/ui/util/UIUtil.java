@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
 import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -370,7 +371,8 @@ public class UIUtil
 	{
 		GroupHandle groupHandle = null;
 		SlotHandle slotHandle = null;
-		ElementFactory factory = parent.getElementFactory( );
+		// ElementFactory factory = parent.getElementFactory( );
+		DesignElementFactory factory = DesignElementFactory.getInstance( parent.getModule( ) );
 		if ( parent instanceof TableHandle )
 		{
 			groupHandle = factory.newTableGroup( );
@@ -613,8 +615,7 @@ public class UIUtil
 			}
 			// Check if select only one table
 			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}
@@ -659,8 +660,7 @@ public class UIUtil
 			}
 			// Check if select only one list
 			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
+					|| currentEditPart != null && part != currentEditPart )
 			{
 				return null;
 			}
@@ -781,8 +781,7 @@ public class UIUtil
 	public static void resetViewSelection( final EditPartViewer viewer,
 			final boolean notofyToMedia )
 	{
-		final List list = new ArrayList( ( (StructuredSelection) viewer
-				.getSelection( ) ).toList( ) );
+		final List list = new ArrayList( ( (StructuredSelection) viewer.getSelection( ) ).toList( ) );
 
 		boolean hasColumnOrRow = false;
 		for ( int i = 0; i < list.size( ); i++ )
@@ -797,7 +796,7 @@ public class UIUtil
 
 		if ( hasColumnOrRow )
 		{
-			int selectionType = 0;//0 select row 1select colum
+			int selectionType = 0;// 0 select row 1select colum
 			TableEditPart part = null;
 			int[] selectContents = new int[0];
 			for ( int i = 0; i < list.size( ); i++ )
@@ -806,20 +805,17 @@ public class UIUtil
 				int number = -1;
 				if ( obj instanceof TableEditPart.DummyRowEditPart )
 				{
-					selectionType = 0;//select row
-					number = ( (TableEditPart.DummyRowEditPart) obj )
-							.getRowNumber( );
+					selectionType = 0;// select row
+					number = ( (TableEditPart.DummyRowEditPart) obj ).getRowNumber( );
 				}
 				else if ( obj instanceof TableEditPart.DummyColumnEditPart )
 				{
-					selectionType = 1;//select column
-					number = ( (TableEditPart.DummyColumnEditPart) obj )
-							.getColumnNumber( );
+					selectionType = 1;// select column
+					number = ( (TableEditPart.DummyColumnEditPart) obj ).getColumnNumber( );
 				}
 				else if ( obj instanceof TableCellEditPart )
 				{
-					part = (TableEditPart) ( (TableCellEditPart) obj )
-							.getParent( );
+					part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
 				}
 				if ( number != -1 )
 				{
@@ -831,7 +827,8 @@ public class UIUtil
 					selectContents = temp;
 				}
 			}
-			if ( part == null || selectContents.length == 0
+			if ( part == null
+					|| selectContents.length == 0
 					|| !viewer.getControl( ).isVisible( ) )
 			{
 				return;
@@ -852,23 +849,27 @@ public class UIUtil
 			if ( viewer.getControl( ).isVisible( ) )
 			{
 				if ( viewer instanceof DeferredGraphicalViewer )
-					( (DeferredGraphicalViewer) viewer ).setSelection(
-							new StructuredSelection( list ), notofyToMedia );
+					( (DeferredGraphicalViewer) viewer ).setSelection( new StructuredSelection( list ),
+							notofyToMedia );
 			}
 
 		}
 	}
-	
-    /**
-     * Creates a folder resource given the folder handle.
-     *
-     * @param folderHandle the folder handle to create a folder resource for
-     * @param monitor the progress monitor to show visual progress with
-     * @exception CoreException if the operation fails
-     * @exception OperationCanceledException if the operation is canceled
-     */
-    public static void createFolder( IFolder folderHandle, IProgressMonitor monitor )
-			throws CoreException
+
+	/**
+	 * Creates a folder resource given the folder handle.
+	 * 
+	 * @param folderHandle
+	 *            the folder handle to create a folder resource for
+	 * @param monitor
+	 *            the progress monitor to show visual progress with
+	 * @exception CoreException
+	 *                if the operation fails
+	 * @exception OperationCanceledException
+	 *                if the operation is canceled
+	 */
+	public static void createFolder( IFolder folderHandle,
+			IProgressMonitor monitor ) throws CoreException
 	{
 		try
 		{

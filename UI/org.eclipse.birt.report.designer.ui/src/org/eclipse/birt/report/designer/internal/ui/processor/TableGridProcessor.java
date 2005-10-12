@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.processor;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TableOptionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.window.Window;
@@ -38,7 +39,7 @@ public class TableGridProcessor extends AbstractElementProcessor
 	 *            <li>ReportDesignConstants.GRID_ITEM
 	 *            </ul>
 	 * 
-	 *  
+	 * 
 	 */
 	TableGridProcessor( String elementType )
 	{
@@ -62,17 +63,29 @@ public class TableGridProcessor extends AbstractElementProcessor
 			DesignElementHandle handle = null;
 			if ( isTable )
 			{
-				handle = getElementFactory( ).newTableItem( getNewName( extendedData ),
-						data[1],
-						1,
-						data[0],
-						1 );
+				// handle = getElementFactory( ).newTableItem( getNewName(
+				// extendedData ),
+				// data[1],
+				// 1,
+				// data[0],
+				// 1 );
+				handle = DesignElementFactory.getInstance( )
+						.newTableItem( getNewName( extendedData ),
+								data[1],
+								1,
+								data[0],
+								1 );
 			}
 			else
 			{
-				handle = getElementFactory( ).newGridItem( getNewName( extendedData ),
-						data[1],
-						data[0] );
+				// handle = getElementFactory( ).newGridItem( getNewName(
+				// extendedData ),
+				// data[1],
+				// data[0] );
+				handle = DesignElementFactory.getInstance( )
+						.newGridItem( getNewName( extendedData ),
+								data[1],
+								data[0] );
 			}
 			InsertInLayoutUtil.setInitWidth( handle );
 			return handle;
@@ -87,7 +100,7 @@ public class TableGridProcessor extends AbstractElementProcessor
 	 */
 	public boolean editElement( DesignElementHandle handle )
 	{
-		//Do nothing
+		// Do nothing
 		return false;
 	}
 

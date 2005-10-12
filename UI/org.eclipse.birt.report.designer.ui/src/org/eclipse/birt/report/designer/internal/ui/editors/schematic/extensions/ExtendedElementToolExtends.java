@@ -11,16 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.window.Window;
 
 /**
  * Provides creation function for extended element
- *  
+ * 
  */
 public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 {
@@ -38,9 +38,11 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 
 	public boolean preHandleMouseUp( )
 	{
-		ExtendedItemHandle handle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( )
+		// ExtendedItemHandle handle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getElementFactory( )
+		// .newExtendedItem( null, extensionName );
+		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
 				.newExtendedItem( null, extensionName );
 		if ( handle == null )
 		{
@@ -49,7 +51,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		IReportItemBuilderUI builder = getbuilder( );
 		if ( builder != null )
 		{
-			//Open the builder for new element
+			// Open the builder for new element
 			if ( builder.open( handle ) == Window.CANCEL )
 			{
 				return false;
@@ -57,11 +59,13 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		}
 		setModel( handle );
 		return super.preHandleMouseUp( );
-	} /*
-	   * (non-Javadoc)
-	   * 
-	   * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
-	   */
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+	 */
 
 	public boolean preHandleMouseDown( )
 	{
@@ -78,7 +82,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 		return ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( extensionName )
 				.getReportItemBuilderUI( );
-				
+
 	}
 
 }

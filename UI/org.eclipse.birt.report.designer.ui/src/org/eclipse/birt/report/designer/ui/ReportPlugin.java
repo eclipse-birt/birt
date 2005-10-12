@@ -12,15 +12,23 @@
 package org.eclipse.birt.report.designer.ui;
 
 import java.net.URL;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
@@ -31,7 +39,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
- *  
+ * 
  */
 public class ReportPlugin extends AbstractUIPlugin
 {
@@ -51,13 +59,22 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	private Cursor cellLeftCursor, cellRightCursor;
 
+	// The entry delimiter
+	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
+	public static final String SPACE = " "; //$NON-NLS-1$
+
+	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
+	public static final String CUSTOM_NAME_PREFERENCE = "designer.preview.preference.elementname.customname.preferencestore"; //$NON-NLS-1$
+	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
+
+	private int nameCount = 0;
+
 	/**
 	 * The constructor.
 	 */
 	public ReportPlugin( )
 	{
 		super( );
-
 		plugin = this;
 	}
 
@@ -70,7 +87,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		//set preference default value
+		// set preference default value
 		getPreferenceStore( ).setDefault( IPreferenceConstants.PALETTE_DOCK_LOCATION,
 				IPreferenceConstants.DEFAULT_PALETTE_SIZE );
 
@@ -78,6 +95,9 @@ public class ReportPlugin extends AbstractUIPlugin
 				IPreferenceConstants.DEFAULT_PALETTE_STATE );
 
 		initCellCursor( );
+
+		// set default Element names
+		setDefaultElementNamePreference( getPreferenceStore( ) );
 
 	}
 
@@ -166,7 +186,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public static ReportPlugin getDefault( )
 	{
-
 		return plugin;
 	}
 
@@ -276,6 +295,287 @@ public class ReportPlugin extends AbstractUIPlugin
 		{
 			e.printStackTrace( );
 		}
+	}
+
+	/**
+	 * Returns the workspace instance.
+	 */
+	public static IWorkspace getWorkspace( )
+	{
+		return ResourcesPlugin.getWorkspace( );
+	}
+
+	/**
+	 * Set default element names for preference
+	 * 
+	 * @param store
+	 *            The preference for store
+	 */
+	private void setDefaultElementNamePreference( IPreferenceStore store )
+	{
+		List tmpList;
+		tmpList = DesignEngine.getMetaDataDictionary( ).getElements( );
+		int i;
+		StringBuffer bufferDefaultName = new StringBuffer( );
+		StringBuffer bufferCustomName = new StringBuffer( );
+		StringBuffer bufferPreference = new StringBuffer( );
+
+		int nameOption;
+		IElementDefn elementDefn;
+		for ( i = 0; i < tmpList.size( ); i++ )
+		{
+			elementDefn = (IElementDefn) ( tmpList.get( i ) );
+			nameOption = elementDefn.getNameOption( );
+
+			// only set names for the elements when the element can have a name
+			if ( nameOption == MetaDataConstants.NO_NAME )
+			{
+				continue;
+			}
+			nameCount++;
+			bufferDefaultName.append( elementDefn.getName( ) );
+			bufferDefaultName.append( PREFERENCE_DELIMITER );
+
+			bufferCustomName.append( "" ); //$NON-NLS-1$
+			bufferCustomName.append( PREFERENCE_DELIMITER );
+
+			appendDefaultPreference( elementDefn.getName( ), bufferPreference );
+		}
+		store.setDefault( DEFAULT_NAME_PREFERENCE, bufferDefaultName.toString( ) );
+		store.setDefault( CUSTOM_NAME_PREFERENCE, bufferCustomName.toString( ) );
+		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
+	}
+
+	/**
+	 * Append default description to the Stringbuffer according to each
+	 * defaultName
+	 * 
+	 * @param defaultName
+	 *            The default Name preference The Stringbuffer which string
+	 *            added to
+	 */
+	private void appendDefaultPreference( String defaultName,
+			StringBuffer preference )
+	{
+		if ( defaultName.equals( ReportDesignConstants.DATA_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.dataReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.GRID_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.gridReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.IMAGE_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.imageReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.LABEL_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.labelReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.LIST_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.listReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.TABLE_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.tableReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equals( ReportDesignConstants.TEXT_ITEM ) ) //$NON-NLS-1$
+		{
+			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.textReportItem" ) ); //$NON-NLS-1$
+		}
+		else if ( defaultName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
+		{
+			preference.append( "Insert chart" ); //$NON-NLS-1$
+		}
+		else
+		{
+			preference.append( "" ); //$NON-NLS-1$
+		}
+
+		preference.append( PREFERENCE_DELIMITER );
+
+	}
+
+	public String[] getDefaultDefaultNamePreference( )
+	{
+		return convert( getPreferenceStore( ).getDefaultString( DEFAULT_NAME_PREFERENCE ) );
+	}
+
+	public String[] getDefaultCustomNamePreference( )
+	{
+		return convert( getPreferenceStore( ).getDefaultString( CUSTOM_NAME_PREFERENCE ) );
+	}
+
+	public String[] getDefaultDescriptionPreference( )
+	{
+		return convert( getPreferenceStore( ).getDefaultString( DESCRIPTION_PREFERENCE ) );
+	}
+
+	public String[] getDefaultNamePreference( )
+	{
+		return convert( getPreferenceStore( ).getString( DEFAULT_NAME_PREFERENCE ) );
+	}
+
+	public String[] getCustomNamePreference( )
+	{
+		return convert( getPreferenceStore( ).getString( CUSTOM_NAME_PREFERENCE ) );
+	}
+
+	public String[] getDescriptionPreference( )
+	{
+		return convert( getPreferenceStore( ).getString( DESCRIPTION_PREFERENCE ) );
+	}
+
+	public String getCustomName( Object defaultName )
+	{
+		int i;
+		String[] defaultNameArray = getDefaultNamePreference( );
+		String[] customNameArray = getCustomNamePreference( );
+
+		// if the length of elememnts is not equal,it means error
+		if ( defaultNameArray.length != customNameArray.length )
+		{
+			return null;
+		}
+		for ( i = 0; i < defaultNameArray.length; i++ )
+		{
+			if ( defaultNameArray[i].trim( ).equals( defaultName ) )
+			{
+				if ( customNameArray[i].equals( "" ) ) //$NON-NLS-1$
+				{
+					return null;
+				}
+				return new String( customNameArray[i] );
+			}
+		}
+		return null;
+	}
+
+	private String[] convert( String preferenceValue )
+	{
+
+		String preferenceValueCopy = new String( );
+		preferenceValueCopy = new String( PREFERENCE_DELIMITER )
+				+ preferenceValue;
+		String replaceString = new String( PREFERENCE_DELIMITER )
+				+ new String( PREFERENCE_DELIMITER );
+		String regrex = new String( PREFERENCE_DELIMITER )
+				+ SPACE + new String( PREFERENCE_DELIMITER );
+		while ( preferenceValueCopy.indexOf( replaceString ) != -1 )
+		{
+			preferenceValueCopy = preferenceValueCopy.replaceFirst( replaceString,
+					regrex );
+		}
+
+		StringTokenizer tokenizer = new StringTokenizer( preferenceValueCopy,
+				PREFERENCE_DELIMITER );
+		int tokenCount = tokenizer.countTokens( );
+		String[] elements = new String[tokenCount];
+
+		int i;
+		for ( i = 0; i < tokenCount; i++ )
+		{
+			elements[i] = tokenizer.nextToken( ).trim( );
+		}
+		return elements;
+
+	}
+
+	/**
+	 * Convert Sting[] to String
+	 * 
+	 * @param elements []
+	 *            elements - the Strings to be converted to the preference value
+	 */
+	public String ConvertStrArray2Str( String[] elements )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		for ( int i = 0; i < elements.length; i++ )
+		{
+			buffer.append( elements[i] );
+			buffer.append( PREFERENCE_DELIMITER );
+		}
+		return buffer.toString( );
+	}
+
+	/**
+	 * Set element names from string[]
+	 * 
+	 * @param elements
+	 *            the array of element names
+	 */
+	public void setDefaultNamePreference( String[] elements )
+	{
+		getPreferenceStore( ).setValue( DEFAULT_NAME_PREFERENCE,
+				ConvertStrArray2Str( elements ) );
+	}
+
+	/**
+	 * Set element names from string
+	 * 
+	 * @param element
+	 *            the string of element names
+	 */
+	public void setDefaultNamePreference( String element )
+	{
+		getPreferenceStore( ).setValue( DEFAULT_NAME_PREFERENCE, element );
+	}
+
+	/**
+	 * Set default names for the element names from String[]
+	 * 
+	 * @param elements
+	 *            the array of default names
+	 */
+	public void setCustomNamePreference( String[] elements )
+	{
+		getPreferenceStore( ).setValue( CUSTOM_NAME_PREFERENCE,
+				ConvertStrArray2Str( elements ) );
+	}
+
+	/**
+	 * Set default names for the element names from String
+	 * 
+	 * @param element
+	 *            the string of default names
+	 */
+	public void setCustomNamePreference( String element )
+	{
+		getPreferenceStore( ).setValue( CUSTOM_NAME_PREFERENCE, element );
+	}
+
+	/**
+	 * Set descriptions for the element names from String[]
+	 * 
+	 * @param elements
+	 *            the array of descriptions
+	 */
+	public void setDescriptionPreference( String[] elements )
+	{
+		getPreferenceStore( ).setValue( DESCRIPTION_PREFERENCE,
+				ConvertStrArray2Str( elements ) );
+	}
+
+	/**
+	 * Set descriptions for the element names from String
+	 * 
+	 * @param element
+	 *            the string of descriptions
+	 */
+	public void setDescriptionPreference( String element )
+	{
+		getPreferenceStore( ).setValue( DESCRIPTION_PREFERENCE, element );
+	}
+
+	/**
+	 * Get the count of the element names
+	 * 
+	 */
+	public int getCount( )
+	{
+		return nameCount;
 	}
 
 }
