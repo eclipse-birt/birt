@@ -67,7 +67,9 @@ public class PasteStructureCommand extends Command
 						+ ",Target: " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( container ) );
 			}
-			( (ModuleHandle) container ).addImage( (EmbeddedImage) copyData.copy( ) );
+			EmbeddedImage image = (EmbeddedImage) copyData.copy( );
+			( (ModuleHandle) container ).rename(image);
+			( (ModuleHandle) container ).addImage( image );
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "PasteStructureCommand >>  Finished" ); //$NON-NLS-1$

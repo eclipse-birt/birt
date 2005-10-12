@@ -952,7 +952,8 @@ public class DNDUtil
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ModuleHandle )
 		{
-			return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			//return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			return true;
 		}
 		return false;
 	}
