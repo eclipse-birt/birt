@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -113,8 +114,10 @@ public class ApplyStyleAction extends DynamicItemAction
 	protected List getElementHandles( )
 	{
 		if ( selectionHandles == null )
-			selectionHandles = InsertInLayoutUtil.editPart2Model( getSelection( ) )
+		{
+			selectionHandles = InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart(getSelection( )))
 					.toList( );
+		}
 		return selectionHandles;
 	}
 }

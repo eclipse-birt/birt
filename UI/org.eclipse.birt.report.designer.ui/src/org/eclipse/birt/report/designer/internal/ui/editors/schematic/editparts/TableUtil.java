@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
@@ -24,6 +25,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * Table Utility class
@@ -269,6 +273,41 @@ public class TableUtil
 		return temp;
 	}
 
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static ISelection filletCellInSelectionEditorpart(ISelection selection)
+	{
+		if ( selection == null || !( selection instanceof IStructuredSelection ) )
+			return new StructuredSelection( Collections.EMPTY_LIST );
+		List list = ( (IStructuredSelection) selection ).toList( );
+		ArrayList retValue = new ArrayList(list); 
+		boolean hasRowOrColumn = false;
+		int size = list.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get(i);
+			if (obj instanceof TableEditPart.DummyColumnEditPart
+					|| obj instanceof TableEditPart.DummyRowEditPart)
+			{
+				hasRowOrColumn = true;
+				break;
+			}
+		}
+		if (hasRowOrColumn)
+		{
+			for ( int i = 0; i < size; i++ )
+			{
+				Object obj = list.get(i);
+				if (obj instanceof TableCellEditPart)
+				{
+					retValue.remove(obj);
+				}
+			}
+		}
+		return new StructuredSelection(retValue);
+	}
 	/**
 	 * Get minimum height of row.
 	 * 
