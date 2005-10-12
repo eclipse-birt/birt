@@ -459,5 +459,38 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		return ( getFooter( ).getCount( ) != 0 );
 	}
+	
+
+	/**
+	 * Sets a table of contents entry for this item. The TOC property defines an
+	 * expression that returns a string that is to appear in the Table of
+	 * Contents for this item or its container.
+	 * 
+	 * @param expression
+	 *            the expression that returns a string
+	 * @throws SemanticException
+	 *             if the TOC property is locked by the property mask.
+	 * 
+	 * @see #getTocExpression()
+	 */
+
+	public void setTocExpression( String expression ) throws SemanticException
+	{
+		setStringProperty( GroupElement.TOC_PROP, expression );
+	}
+
+	/**
+	 * Returns the expression evalueated as a table of contents entry for this
+	 * item.
+	 * 
+	 * @return the expression evaluated as a table of contents entry for this
+	 *         item
+	 * @see #setTocExpression(String)
+	 */
+
+	public String getTocExpression( )
+	{
+		return getStringProperty( GroupElement.TOC_PROP );
+	}
 
 }
