@@ -45,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.18 $ $Date: 2005/06/01 07:57:46 $
+ * @version $Revision: 1.19 $ $Date: 2005/06/22 02:48:16 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -129,7 +129,11 @@ public class DteDataEngine implements IDataEngine
 	 * 
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report)
 	 */
-	public void prepare( Report report )
+	public void prepare(Report report) {
+		prepare( report, null );
+	}
+
+	public void prepare( Report report, Object appContext )
 	{
 		assert ( report != null );
 
@@ -179,7 +183,7 @@ public class DteDataEngine implements IDataEngine
 					.get( i );
 			try
 			{
-				IPreparedQuery preparedQuery = engine.prepare( query );
+				IPreparedQuery preparedQuery = engine.prepare( query, appContext );
 				queryMap.put( query, preparedQuery );
 
 			}

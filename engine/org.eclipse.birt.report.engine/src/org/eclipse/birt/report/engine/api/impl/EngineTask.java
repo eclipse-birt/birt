@@ -41,7 +41,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * the context for running this task
 	 */
-	protected Object renderContext;
+	protected Object context;
 	
 	/**
 	 * a reference to the report engine
@@ -107,7 +107,8 @@ public abstract class EngineTask implements IEngineTask
 	 * @param context the task context
 	 */
 	public void setContext(Object context) {
-		this.renderContext = context;
+		this.context = context;
+		executionContext.setAppContext( context );
 	}
 	
 	/**
@@ -116,7 +117,7 @@ public abstract class EngineTask implements IEngineTask
 	 * @return Returns the context.
 	 */
 	public Object getContext() {
-		return renderContext;
+		return context;
 	}
 
 	/* (non-Javadoc)

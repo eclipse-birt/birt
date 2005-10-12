@@ -55,7 +55,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/06/23 02:51:26 $
+ * @version $Revision: 1.18 $ $Date: 2005/07/05 09:12:49 $
  */
 public class ReportExecutor
 {
@@ -129,7 +129,7 @@ public class ReportExecutor
 		
 		// Prepare necessary data for this report
 		timer.restart();
-		context.getDataEngine( ).prepare( report );
+		context.getDataEngine( ).prepare( report, context.getAppContext() );
 		timer.stop();
 		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare report queries");	// $NON-NLS-1$
 		

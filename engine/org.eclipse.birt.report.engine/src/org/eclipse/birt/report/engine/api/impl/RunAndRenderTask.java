@@ -110,7 +110,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		EngineConfig config = engine.getConfig();
 		if ( config != null )
 			services.setEmitterConfig(engine.getConfig().getEmitterConfigs());
-		services.setRenderContext(renderContext);
+		services.setRenderContext(context);
 		services.setReportRunnable(runnable);
 				
 		//register default parameters

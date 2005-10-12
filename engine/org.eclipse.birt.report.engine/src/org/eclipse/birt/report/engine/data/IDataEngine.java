@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Defines a set of data-related functions that engine needs from a data engine 
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.8 $ $Date: 2005/05/08 06:59:45 $
  */
 public interface IDataEngine
 {
@@ -35,8 +35,9 @@ public interface IDataEngine
 	 * query spec and provides a hint to the query to prepare and optimize an execution plan.
 	 * <p>
 	 * @param report the report design
-	 */
-	void prepare(Report report);
+	 * @param appContext - the context object that will be passed to the data engine
+	 */	
+	void prepare(Report report, Object appContext);
 	
 	/**
 	 * Executes the prepared (data) execution plan of a report item.  Returns
