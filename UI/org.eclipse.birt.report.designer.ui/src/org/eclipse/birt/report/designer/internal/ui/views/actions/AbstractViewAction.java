@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
@@ -22,7 +21,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public abstract class AbstractViewAction extends Action
 {
 
-	protected Object selection;
+	private Object selection;
 
 	/**
 	 * Creates a new action with given selection and no text
@@ -32,7 +31,7 @@ public abstract class AbstractViewAction extends Action
 	 */
 	public AbstractViewAction( Object selectedObject )
 	{
-		Assert.isNotNull( selectedObject );
+		//Assert.isNotNull( selectedObject );
 		this.selection = selectedObject;
 		setId( getId( ) );
 	}
@@ -64,6 +63,10 @@ public abstract class AbstractViewAction extends Action
 		if ( selection instanceof Object[] )
 		{
 			return new StructuredSelection( (Object[]) selection );
+		}
+		else if (selection == null)
+		{
+			return new StructuredSelection( );
 		}
 		return selection;
 	}

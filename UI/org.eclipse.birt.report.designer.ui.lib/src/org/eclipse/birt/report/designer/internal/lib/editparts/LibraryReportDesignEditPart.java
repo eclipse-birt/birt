@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapt;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.ReportDesignMarginBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
@@ -53,7 +54,6 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	public LibraryReportDesignEditPart( Object obj )
 	{
 		super( obj );
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -149,21 +149,22 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	{
 		if ( evt.getPropertyName( ).equals( LibraryHandleAdapt.CURRENTMODEL ) )
 		{
+			
 			refresh( );
 			Display.getCurrent( ).asyncExec( new Runnable( )
 			{
 
 				public void run( )
 				{
-					List mediatorSelection = SessionHandleAdapter.getInstance( )
-							.getMediator( ).getCurrentState( )
-							.getSelectionObject( );
+					final List mediatorSelection = SessionHandleAdapter.getInstance( )
+					.getMediator( ).getCurrentState( )
+					.getSelectionObject( );
 					if ( mediatorSelection.size( ) == 1
 							&& mediatorSelection.get( 0 ) instanceof LibraryHandle )
 					{
 						return;
 					}
-					List list = getChildren( );
+					List list =getChildren( );
 
 					EditPartViewer viewer = getViewer( );
 					if ( viewer instanceof DeferredGraphicalViewer )
@@ -186,7 +187,30 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
-		// TODO Auto-generated method stub
+		if (!isModelInModuleHandle())
+		{
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(null);
+			command.execute();
+		}
 
+	}
+	
+	private boolean isModelInModuleHandle()
+	{
+		List list = getModelChildren();
+		int size = list.size();
+		for (int i=0; i<size; i++)
+		{
+			Object obj = list.get(i);
+			if (obj instanceof DesignElementHandle)
+			{
+				DesignElementHandle handle = (DesignElementHandle)obj;
+				if (handle.getRoot() == null)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
