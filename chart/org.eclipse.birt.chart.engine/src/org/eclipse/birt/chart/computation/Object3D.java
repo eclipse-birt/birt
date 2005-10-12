@@ -516,7 +516,7 @@ public class Object3D
 		Polygon p1 = PolygonImpl.create( vectors2locations( va1 ) );
 		Polygon p2 = PolygonImpl.create( vectors2locations( va2 ) );
 
-		return p1.intersects( p2 );
+		return !p1.intersects( p2 );
 	}
 
 	/**
@@ -553,9 +553,6 @@ public class Object3D
 				{
 					if ( far.testIntersect( near ) )
 					{
-						//
-						// if ( far.testAside( near, true )
-						// || near.testAside( far, false ) )
 						swap = true;
 					}
 				}
