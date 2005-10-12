@@ -70,6 +70,10 @@ public class WizardSelectCssStylePage extends WizardPage
 
 	private Label title;
 
+	private Button selectAll;
+
+	private Button deselectAll;
+
 	public WizardSelectCssStylePage( String pageName )
 	{
 		super( pageName );
@@ -178,6 +182,13 @@ public class WizardSelectCssStylePage extends WizardPage
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 100;
 		stylesTable.setLayoutData( data );
+		stylesTable.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				refreshButtons( );
+			}
+		} );
 
 		// stylesTable.addSelectionListener( new SelectionAdapter( ) {
 		//
@@ -226,7 +237,7 @@ public class WizardSelectCssStylePage extends WizardPage
 		buttonsComposite.setLayout( layout );
 		buttonsComposite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 
-		Button selectAll = new Button( buttonsComposite, SWT.PUSH );
+		selectAll = new Button( buttonsComposite, SWT.PUSH );
 		selectAll.setText( Messages.getString( "WizardSelectCssStylePage.button.label.selectAll" ) ); //$NON-NLS-1$
 		selectAll.addSelectionListener( new SelectionAdapter( ) {
 
@@ -237,12 +248,13 @@ public class WizardSelectCssStylePage extends WizardPage
 				{
 					ch[i].setChecked( true );
 				}
+				refreshButtons( );
 			}
 		} );
 
 		setButtonLayoutData( selectAll );
 
-		Button deselectAll = new Button( buttonsComposite, SWT.PUSH );
+		deselectAll = new Button( buttonsComposite, SWT.PUSH );
 		deselectAll.setText( Messages.getString( "WizardSelectCssStylePage.button.label.deselectAll" ) ); //$NON-NLS-1$
 		deselectAll.addSelectionListener( new SelectionAdapter( ) {
 
@@ -253,6 +265,7 @@ public class WizardSelectCssStylePage extends WizardPage
 				{
 					ch[i].setChecked( false );
 				}
+				refreshButtons( );
 			}
 		} );
 		setButtonLayoutData( deselectAll );
@@ -314,7 +327,8 @@ public class WizardSelectCssStylePage extends WizardPage
 				for ( Iterator iter = unSupportedStyles.iterator( ); iter.hasNext( ); )
 				{
 					String name = (String) iter.next( );
-					unSupportedStyleNames.add( name + " - Cannot import style" );
+					unSupportedStyleNames.add( name
+							+ Messages.getString( "WizardSelectCssStylePage.text.cannot.import.style" ) ); //$NON-NLS-1$
 				}
 			}
 			catch ( StyleSheetException e )
@@ -338,12 +352,19 @@ public class WizardSelectCssStylePage extends WizardPage
 				item.setText( sn );
 				item.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE ) );
 			}
+
+			refreshButtons( );
 		}
 	}
 
 	public CssStyleSheetHandle getCssHandle( )
 	{
 		return cssHandle;
+	}
+
+	private void refreshButtons( )
+	{
+		deselectAll.setEnabled( getStyleList( ).size( ) > 0 );
 	}
 
 	public List getStyleList( )
