@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -43,6 +44,12 @@ public abstract class PropertyType implements IPropertyType
 	 */
 
 	private String displayNameKey = null;
+	
+	/**
+	 * The default locale of all the BIRT meta-data.
+	 */
+	
+	protected static final Locale DEFAULT_LOCALE = Locale.ENGLISH; 
 
 	/**
 	 * Constructs a property type given its display name id.

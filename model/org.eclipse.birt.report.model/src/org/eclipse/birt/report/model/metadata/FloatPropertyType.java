@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -38,10 +39,11 @@ public class FloatPropertyType extends PropertyType
 
 	/**
 	 * The decimal formatter for locale independent string.
-	 */
-
-	private static final DecimalFormat formatter = new DecimalFormat( "#0.0#" ); //$NON-NLS-1$
-
+	 */	
+	
+	private static final DecimalFormat formatter = new DecimalFormat(
+			"#0.0#", new DecimalFormatSymbols( DEFAULT_LOCALE ) ); //$NON-NLS-1$
+		
 	/**
 	 * Constructor.
 	 */

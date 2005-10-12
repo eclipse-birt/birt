@@ -42,7 +42,7 @@ public class DateTimePropertyType extends PropertyType
 	 */
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss", Locale.ENGLISH ); //$NON-NLS-1$
+			"yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.

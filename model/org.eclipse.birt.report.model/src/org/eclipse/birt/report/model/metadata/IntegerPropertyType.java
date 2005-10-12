@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 /**
  * Represents the integer property type. Integer property values are stored as
@@ -30,7 +32,7 @@ public class IntegerPropertyType extends PropertyType
 	 */
 
 	private static final String DISPLAY_NAME_KEY = "Property.integer"; //$NON-NLS-1$
-
+	
 	/**
 	 * Constructor.
 	 */
@@ -118,7 +120,28 @@ public class IntegerPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		return value.toString( );
+		return ( (Integer) value ).toString( );
+	}
+	
+	/**
+	 * Returns the localized string representation of the input integer property
+	 * value. The integer property value is represented by a
+	 * <code>Integer</code> object. The value will be formatted in a
+	 * locale-dependent way.
+	 * 
+	 * @return locale-dependent string representation of the integer property
+	 *         value. Return null if value is null.
+	 */
+
+	public String toDisplayString( Module module, PropertyDefn defn,
+			Object value )
+	{
+		if ( value == null )
+			return null;
+
+		NumberFormat formatter = NumberFormat
+				.getIntegerInstance( ThreadResources.getLocale( ) );
+		return formatter.format( ( (Integer) value ).doubleValue( ) );
 	}
 
 	/*

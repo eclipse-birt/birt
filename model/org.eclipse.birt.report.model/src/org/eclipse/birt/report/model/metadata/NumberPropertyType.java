@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.metadata;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Locale;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -41,7 +40,7 @@ public class NumberPropertyType extends PropertyType
 	 */
 
 	private static final NumberFormat formatter = NumberFormat
-			.getInstance( Locale.ENGLISH );
+			.getNumberInstance( DEFAULT_LOCALE );
 
 	/**
 	 * Constructor.
@@ -175,7 +174,6 @@ public class NumberPropertyType extends PropertyType
 		if ( value == null )
 			return null;
 
-		NumberFormat formatter = NumberFormat.getNumberInstance( );
 		return formatter.format( ( (BigDecimal) value ).doubleValue( ) );
 	}
 
