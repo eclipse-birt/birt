@@ -45,9 +45,8 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -57,7 +56,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -65,9 +63,8 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 	protected String value = VALUE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFont() <em>Font</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFont()
 	 * @generated
 	 * @ordered
@@ -75,9 +72,8 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 	protected FontDefinition font = null;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -86,7 +82,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TextImpl( )
@@ -96,7 +91,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -106,7 +100,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getValue( )
@@ -116,7 +109,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setValue( String newValue )
@@ -151,7 +143,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFont( FontDefinition newFont,
@@ -176,7 +167,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFont( FontDefinition newFont )
@@ -223,7 +213,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetColor( ColorDefinition newColor,
@@ -248,7 +237,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setColor( ColorDefinition newColor )
@@ -280,7 +268,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -306,7 +293,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -325,7 +311,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -347,7 +332,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -369,7 +353,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -389,7 +372,6 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

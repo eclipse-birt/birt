@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
+import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -68,22 +74,13 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	protected boolean componentNameESet = false;
 
 	/**
-	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute.
+	 * The cached value of the '{@link #getStyle() <em>Style</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String STYLE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getStyle()
-	 * @generated
-	 * @ordered
-	 */
-	protected String style = STYLE_EDEFAULT;
+	protected Style style = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -164,7 +161,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getStyle( )
+	public Style getStyle( )
 	{
 		return style;
 	}
@@ -173,16 +170,80 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setStyle( String newStyle )
+	public NotificationChain basicSetStyle( Style newStyle,
+			NotificationChain msgs )
 	{
-		String oldStyle = style;
+		Style oldStyle = style;
 		style = newStyle;
 		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
 					Notification.SET,
 					AttributePackage.STYLE_MAP__STYLE,
 					oldStyle,
-					style ) );
+					newStyle );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStyle( Style newStyle )
+	{
+		if ( newStyle != style )
+		{
+			NotificationChain msgs = null;
+			if ( style != null )
+				msgs = ( (InternalEObject) style ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.STYLE_MAP__STYLE,
+						null,
+						msgs );
+			if ( newStyle != null )
+				msgs = ( (InternalEObject) newStyle ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- AttributePackage.STYLE_MAP__STYLE,
+						null,
+						msgs );
+			msgs = basicSetStyle( newStyle, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.STYLE_MAP__STYLE,
+					newStyle,
+					newStyle ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove( InternalEObject otherEnd,
+			int featureID, Class baseClass, NotificationChain msgs )
+	{
+		if ( featureID >= 0 )
+		{
+			switch ( eDerivedStructuralFeatureID( featureID, baseClass ) )
+			{
+				case AttributePackage.STYLE_MAP__STYLE :
+					return basicSetStyle( null, msgs );
+				default :
+					return eDynamicInverseRemove( otherEnd,
+							featureID,
+							baseClass,
+							msgs );
+			}
+		}
+		return eBasicSetContainer( null, featureID, msgs );
 	}
 
 	/**
@@ -213,7 +274,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 				setComponentName( (StyledComponent) newValue );
 				return;
 			case AttributePackage.STYLE_MAP__STYLE :
-				setStyle( (String) newValue );
+				setStyle( (Style) newValue );
 				return;
 		}
 		eDynamicSet( eFeature, newValue );
@@ -231,7 +292,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 				unsetComponentName( );
 				return;
 			case AttributePackage.STYLE_MAP__STYLE :
-				setStyle( STYLE_EDEFAULT );
+				setStyle( (Style) null );
 				return;
 		}
 		eDynamicUnset( eFeature );
@@ -248,8 +309,7 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 			case AttributePackage.STYLE_MAP__COMPONENT_NAME :
 				return isSetComponentName( );
 			case AttributePackage.STYLE_MAP__STYLE :
-				return STYLE_EDEFAULT == null ? style != null
-						: !STYLE_EDEFAULT.equals( style );
+				return style != null;
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -269,10 +329,21 @@ public class StyleMapImpl extends EObjectImpl implements StyleMap
 			result.append( componentName );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", style: " ); //$NON-NLS-1$
-		result.append( style );
 		result.append( ')' );
 		return result.toString( );
+	}
+
+	/**
+	 * @param name
+	 * @param style
+	 * @return
+	 */
+	public static StyleMap create( StyledComponent name, Style style )
+	{
+		StyleMap sm = AttributeFactory.eINSTANCE.createStyleMap( );
+		sm.setComponentName( name );
+		sm.setStyle( style );
+		return sm;
 	}
 
 } // StyleMapImpl

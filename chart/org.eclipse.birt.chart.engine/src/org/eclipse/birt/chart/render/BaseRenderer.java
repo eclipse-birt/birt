@@ -599,6 +599,13 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
 		{
+			lgTitle = (Label) EcoreUtil.copy( lgTitle );
+
+			// handle external resource string 
+			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
+			lgTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) );
+
 			BoundingBox bb = null;
 			try
 			{

@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getGridColumnCount <em>Grid Column Count</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}</li>
  * </ul>
  * </p>
  *
@@ -481,6 +482,22 @@ public interface Chart extends EObject
 	 * @generated
 	 */
 	void setSampleData( SampleData value );
+
+	/**
+	 * Returns the value of the '<em><b>Styles</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.birt.chart.model.attribute.StyleMap}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Holds a collection of style maps for use by the chart.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Styles</em>' containment reference list.
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Styles()
+	 * @model type="org.eclipse.birt.chart.model.attribute.StyleMap" containment="true" resolveProxies="false"
+	 *        extendedMetaData="kind='element' name='Styles'"
+	 * @generated
+	 */
+	EList getStyles( );
 
 	/**
 	 * Convenience method that gets the Legend Block for the chart.

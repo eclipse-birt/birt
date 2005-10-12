@@ -261,6 +261,15 @@ public interface AttributeFactory extends EFactory
 	Size createSize( );
 
 	/**
+	 * Returns a new object of class '<em>Style</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Style</em>'.
+	 * @generated
+	 */
+	Style createStyle( );
+
+	/**
 	 * Returns a new object of class '<em>Style Map</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Style Map</em>'.

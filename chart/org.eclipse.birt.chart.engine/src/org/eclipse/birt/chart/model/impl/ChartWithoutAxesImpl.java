@@ -325,6 +325,9 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 							msgs );
 				case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA :
 					return basicSetSampleData( null, msgs );
+				case ModelPackage.CHART_WITHOUT_AXES__STYLES :
+					return ( (InternalEList) getStyles( ) ).basicRemove( otherEnd,
+							msgs );
 				case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 					return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
 							msgs );
@@ -370,6 +373,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 				return getExtendedProperties( );
 			case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA :
 				return getSampleData( );
+			case ModelPackage.CHART_WITHOUT_AXES__STYLES :
+				return getStyles( );
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				return getSeriesDefinitions( );
 			case ModelPackage.CHART_WITHOUT_AXES__MIN_SLICE :
@@ -426,6 +431,10 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA :
 				setSampleData( (SampleData) newValue );
+				return;
+			case ModelPackage.CHART_WITHOUT_AXES__STYLES :
+				getStyles( ).clear( );
+				getStyles( ).addAll( (Collection) newValue );
 				return;
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
@@ -488,6 +497,9 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA :
 				setSampleData( (SampleData) null );
 				return;
+			case ModelPackage.CHART_WITHOUT_AXES__STYLES :
+				getStyles( ).clear( );
+				return;
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
 				return;
@@ -541,6 +553,8 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 						&& !extendedProperties.isEmpty( );
 			case ModelPackage.CHART_WITHOUT_AXES__SAMPLE_DATA :
 				return sampleData != null;
+			case ModelPackage.CHART_WITHOUT_AXES__STYLES :
+				return styles != null && !styles.isEmpty( );
 			case ModelPackage.CHART_WITHOUT_AXES__SERIES_DEFINITIONS :
 				return seriesDefinitions != null
 						&& !seriesDefinitions.isEmpty( );

@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * SimpleStyle
@@ -58,6 +59,73 @@ public final class SimpleStyle implements IStyle
 		setBackgroundColor( backcolor );
 		setBackgroundImage( backimage );
 		setPadding( padding );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param src
+	 */
+	public SimpleStyle( IStyle src )
+	{
+		super( );
+
+		if ( src != null )
+		{
+			if ( src.getFont( ) != null )
+			{
+				setFont( (FontDefinition) EcoreUtil.copy( src.getFont( ) ) );
+			}
+			if ( src.getColor( ) != null )
+			{
+				setColor( (ColorDefinition) EcoreUtil.copy( src.getColor( ) ) );
+			}
+			if ( src.getBackgroundColor( ) != null )
+			{
+				setBackgroundColor( (ColorDefinition) EcoreUtil.copy( src.getBackgroundColor( ) ) );
+			}
+			if ( src.getBackgroundImage( ) != null )
+			{
+				setBackgroundImage( (Image) EcoreUtil.copy( src.getBackgroundImage( ) ) );
+			}
+			if ( src.getPadding( ) != null )
+			{
+				setPadding( (Insets) EcoreUtil.copy( src.getPadding( ) ) );
+			}
+		}
+	}
+
+	/**
+	 * Returns a copy of current instance.
+	 * 
+	 * @return
+	 */
+	public SimpleStyle copy( )
+	{
+		SimpleStyle ss = new SimpleStyle( );
+
+		if ( font != null )
+		{
+			ss.setFont( (FontDefinition) EcoreUtil.copy( font ) );
+		}
+		if ( color != null )
+		{
+			ss.setColor( (ColorDefinition) EcoreUtil.copy( color ) );
+		}
+		if ( backcolor != null )
+		{
+			ss.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( backcolor ) );
+		}
+		if ( backimage != null )
+		{
+			ss.setBackgroundImage( (Image) EcoreUtil.copy( backimage ) );
+		}
+		if ( padding != null )
+		{
+			ss.setPadding( (Insets) EcoreUtil.copy( padding ) );
+		}
+
+		return ss;
 	}
 
 	/**

@@ -178,12 +178,21 @@ public interface ModelPackage extends EPackage
 	int CHART__SAMPLE_DATA = 11;
 
 	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART__STYLES = 12;
+
+	/**
 	 * The number of structural features of the the '<em>Chart</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_FEATURE_COUNT = 12;
+	int CHART_FEATURE_COUNT = 13;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl <em>Chart With Axes</em>}' class.
@@ -295,6 +304,15 @@ public interface ModelPackage extends EPackage
 	 * @ordered
 	 */
 	int CHART_WITH_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
+
+	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITH_AXES__STYLES = CHART__STYLES;
 
 	/**
 	 * The feature id for the '<em><b>Axes</b></em>' containment reference list.
@@ -466,6 +484,15 @@ public interface ModelPackage extends EPackage
 	int CHART_WITHOUT_AXES__SAMPLE_DATA = CHART__SAMPLE_DATA;
 
 	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITHOUT_AXES__STYLES = CHART__STYLES;
+
+	/**
 	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -626,6 +653,15 @@ public interface ModelPackage extends EPackage
 	 * @ordered
 	 */
 	int DIAL_CHART__SAMPLE_DATA = CHART_WITHOUT_AXES__SAMPLE_DATA;
+
+	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAL_CHART__STYLES = CHART_WITHOUT_AXES__STYLES;
 
 	/**
 	 * The feature id for the '<em><b>Series Definitions</b></em>' containment reference list.
@@ -813,6 +849,17 @@ public interface ModelPackage extends EPackage
 	 * @generated
 	 */
 	EReference getChart_SampleData( );
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Styles</em>'.
+	 * @see org.eclipse.birt.chart.model.Chart#getStyles()
+	 * @see #getChart()
+	 * @generated
+	 */
+	EReference getChart_Styles( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithAxes <em>Chart With Axes</em>}'.

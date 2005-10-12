@@ -11,14 +11,11 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
-import java.util.Locale;
-
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -50,15 +47,19 @@ import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.model.attribute.RuleType;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.ScriptValue;
@@ -66,6 +67,7 @@ import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
@@ -167,6 +169,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createSeriesValue( );
 			case AttributePackage.SIZE :
 				return createSize( );
+			case AttributePackage.STYLE :
+				return createStyle( );
 			case AttributePackage.STYLE_MAP :
 				return createStyleMap( );
 			case AttributePackage.TEXT :
@@ -200,6 +204,13 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.ANCHOR :
 			{
 				Anchor result = Anchor.get( initialValue );
+				if ( result == null )
+					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				return result;
+			}
+			case AttributePackage.ANGLE_TYPE :
+			{
+				AngleType result = AngleType.get( initialValue );
 				if ( result == null )
 					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return result;
@@ -405,6 +416,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						initialValue );
 			case AttributePackage.ANCHOR_OBJECT :
 				return createAnchorObjectFromString( eDataType, initialValue );
+			case AttributePackage.ANGLE_TYPE_OBJECT :
+				return createAngleTypeObjectFromString( eDataType, initialValue );
 			case AttributePackage.AXIS_TYPE_OBJECT :
 				return createAxisTypeObjectFromString( eDataType, initialValue );
 			case AttributePackage.CHART_DIMENSION_OBJECT :
@@ -497,7 +510,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * @generated
 	 */
 	public String convertToString( EDataType eDataType, Object instanceValue )
 	{
@@ -506,6 +519,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.ACTION_TYPE :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.ANCHOR :
+				return instanceValue == null ? null : instanceValue.toString( );
+			case AttributePackage.ANGLE_TYPE :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.AXIS_TYPE :
 				return instanceValue == null ? null : instanceValue.toString( );
@@ -532,6 +547,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.LEADER_LINE_STYLE :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.LEGEND_ITEM_TYPE :
+				return instanceValue == null ? null : instanceValue.toString( );
+			case AttributePackage.LINE_DECORATOR :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.LINE_STYLE :
 				return instanceValue == null ? null : instanceValue.toString( );
@@ -566,6 +583,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						instanceValue );
 			case AttributePackage.ANCHOR_OBJECT :
 				return convertAnchorObjectToString( eDataType, instanceValue );
+			case AttributePackage.ANGLE_TYPE_OBJECT :
+				return convertAngleTypeObjectToString( eDataType, instanceValue );
 			case AttributePackage.AXIS_TYPE_OBJECT :
 				return convertAxisTypeObjectToString( eDataType, instanceValue );
 			case AttributePackage.CHART_DIMENSION_OBJECT :
@@ -602,6 +621,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 						instanceValue );
 			case AttributePackage.LEGEND_ITEM_TYPE_OBJECT :
 				return convertLegendItemTypeObjectToString( eDataType,
+						instanceValue );
+			case AttributePackage.LINE_DECORATOR_OBJECT :
+				return convertLineDecoratorObjectToString( eDataType,
 						instanceValue );
 			case AttributePackage.LINE_STYLE_OBJECT :
 				return convertLineStyleObjectToString( eDataType, instanceValue );
@@ -649,11 +671,7 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return convertVerticalAlignmentObjectToString( eDataType,
 						instanceValue );
 			default :
-				throw new IllegalArgumentException( Messages.getString( "error.invalid.classifier",//$NON-NLS-1$
-						new Object[]{
-							eDataType.getName( )
-						},
-						Locale.getDefault( ) ) );
+				throw new IllegalArgumentException( "The datatype '" + eDataType.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -942,6 +960,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Style createStyle( )
+	{
+		StyleImpl style = new StyleImpl( );
+		return style;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1032,6 +1061,30 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getAnchor( ),
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AngleType createAngleTypeObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (AngleType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getAngleType( ),
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAngleTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getAngleType( ),
 				instanceValue );
 	}
 

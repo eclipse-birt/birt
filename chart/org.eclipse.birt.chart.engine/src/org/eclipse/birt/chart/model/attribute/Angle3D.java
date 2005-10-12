@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Angle3D#getXAngle <em>XAngle</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Angle3D#getYAngle <em>YAngle</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.Angle3D#getZAngle <em>ZAngle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,23 +34,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Angle3D extends EObject
 {
-
-	/**
-	 * Comment for <code>AXIS_NONE</code>
-	 */
-	public static final int AXIS_NONE = -1;
-	/**
-	 * Comment for <code>AXIS_X</code>
-	 */
-	public static final int AXIS_X = 1;
-	/**
-	 * Comment for <code>AXIS_Y</code>
-	 */
-	public static final int AXIS_Y = 2;
-	/**
-	 * Comment for <code>AXIS_Z</code>
-	 */
-	public static final int AXIS_Z = 3;
 
 	/**
 	 * Returns the value of the '<em><b>XAngle</b></em>' attribute. <!--
@@ -211,6 +195,61 @@ public interface Angle3D extends EObject
 	boolean isSetZAngle( );
 
 	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The default value is <code>"None"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.AngleType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear, there
+	 * really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.AngleType
+	 * @see #isSetType()
+	 * @see #unsetType()
+	 * @see #setType(AngleType)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAngle3D_Type()
+	 * @model default="None" unique="false" unsettable="true" required="true"
+	 *        extendedMetaData="kind='element' name='Type'"
+	 * @generated
+	 */
+	AngleType getType( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.AngleType
+	 * @see #isSetType()
+	 * @see #unsetType()
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType( AngleType value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #isSetType()
+	 * @see #getType()
+	 * @see #setType(AngleType)
+	 * @generated
+	 */
+	void unsetType( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.Angle3D#getType <em>Type</em>}' attribute is set.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Type</em>' attribute is set.
+	 * @see #unsetType()
+	 * @see #getType()
+	 * @see #setType(AngleType)
+	 * @generated
+	 */
+	boolean isSetType( );
+
+	/**
 	 * Sets the x,y,z angle in one punch.
 	 * 
 	 * @param x
@@ -222,12 +261,14 @@ public interface Angle3D extends EObject
 	/**
 	 * Returns the angle axis if set.
 	 * 
+	 * @deprecated use getType() instead.
+	 * 
 	 * @return
 	 */
 	int getAxisType( );
 
 	/**
-	 * Returns the specific axis angle value if axis specified, or just returns
+	 * Returns the specific axis angle value if axis type specified, or just returns
 	 * Zero.
 	 * 
 	 * @return

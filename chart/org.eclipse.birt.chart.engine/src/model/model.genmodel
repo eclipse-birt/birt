@@ -202,6 +202,12 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//Anchor/West"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//Anchor/North_West"/>
     </genEnums>
+    <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//AngleType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AngleType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AngleType/X"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AngleType/Y"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AngleType/Z"/>
+    </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//AxisType">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AxisType/Linear"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//AxisType/Logarithmic"/>
@@ -367,6 +373,7 @@
     </genEnums>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ActionTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//AnchorObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//AngleTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//AxisTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ChartDimensionObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ChartTypeObject"/>
@@ -405,6 +412,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/xAngle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/yAngle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/zAngle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Angle3D/type"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//AxisOrigin">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//AxisOrigin/type"/>
@@ -523,9 +531,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Size/height"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Size/width"/>
     </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Style">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Style/font"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Style/color"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Style/backgroundColor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Style/backgroundImage"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//Style/padding"/>
+    </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//StyleMap">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//StyleMap/componentName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//StyleMap/style"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.attribute.ecore#//StyleMap/style"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Text">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Text/value"/>
@@ -563,6 +578,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.ecore#//Chart/gridColumnCount"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/extendedProperties"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/sampleData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/styles"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//ChartWithAxes">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//ChartWithAxes/axes"/>

@@ -281,6 +281,16 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getChart_Styles( )
+	{
+		return (EReference) chartEClass.getEStructuralFeatures( ).get( 12 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -461,6 +471,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		createEAttribute( chartEClass, CHART__GRID_COLUMN_COUNT );
 		createEReference( chartEClass, CHART__EXTENDED_PROPERTIES );
 		createEReference( chartEClass, CHART__SAMPLE_DATA );
+		createEReference( chartEClass, CHART__STYLES );
 
 		chartWithAxesEClass = createEClass( CHART_WITH_AXES );
 		createEReference( chartWithAxesEClass, CHART_WITH_AXES__AXES );
@@ -563,6 +574,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				theDataPackage.getSampleData( ),
 				null,
 				"sampleData", null, 0, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getChart_Styles( ),
+				theAttributePackage.getStyleMap( ),
+				null,
+				"styles", null, 0, -1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartWithAxesEClass,
 				ChartWithAxes.class,
@@ -683,6 +698,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		addAnnotation( getChart_SampleData( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "SampleData" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getChart_Styles( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Styles" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartWithAxesEClass, source, new String[]{
 				"name", "ChartWithAxes", //$NON-NLS-1$ //$NON-NLS-2$

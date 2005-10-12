@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
 import org.eclipse.birt.chart.util.Matrix;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -508,7 +509,7 @@ public final class Engine3D implements IConstants
 		for ( Iterator itr = ROT.getAngles( ).iterator( ); itr.hasNext( ); )
 		{
 			Angle3D agl = (Angle3D) itr.next( );
-			if ( agl.getAxisType( ) == Angle3D.AXIS_NONE )
+			if ( agl.getType( ) == AngleType.NONE_LITERAL )
 			{
 				m = rotateMatrixY( m, agl.getYAngle( ) );
 				m = rotateMatrixX( m, agl.getXAngle( ) );
@@ -516,15 +517,15 @@ public final class Engine3D implements IConstants
 			}
 			else
 			{
-				switch ( agl.getAxisType( ) )
+				switch ( agl.getType( ).getValue( ) )
 				{
-					case Angle3D.AXIS_X :
+					case AngleType.X :
 						m = rotateMatrixX( m, agl.getAxisAngle( ) );
 						break;
-					case Angle3D.AXIS_Y :
+					case AngleType.Y :
 						m = rotateMatrixY( m, agl.getAxisAngle( ) );
 						break;
-					case Angle3D.AXIS_Z :
+					case AngleType.Z :
 						m = rotateMatrixZ( m, agl.getAxisAngle( ) );
 						break;
 				}

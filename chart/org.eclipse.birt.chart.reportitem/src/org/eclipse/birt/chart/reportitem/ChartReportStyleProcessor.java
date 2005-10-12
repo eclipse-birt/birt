@@ -61,12 +61,32 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 
 	private DesignElementHandle handle;
 
+	private boolean useCache;
+
+	private SimpleStyle cache = null;
+
 	/**
+	 * The constructor. Default not using cache.
+	 * 
 	 * @param handle
 	 */
 	public ChartReportStyleProcessor( DesignElementHandle handle )
 	{
+		this( handle, false );
+	}
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param handle
+	 * @param useCache
+	 *            specify if use cache.
+	 */
+	public ChartReportStyleProcessor( DesignElementHandle handle,
+			boolean useCache )
+	{
 		this.handle = handle;
+		this.useCache = useCache;
 	}
 
 	/*
@@ -76,86 +96,101 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 */
 	public IStyle getStyle( StyledComponent name )
 	{
-		StyleHandle style = handle.getPrivateStyle( );
+		SimpleStyle ss = null;
 
-		SimpleStyle ss = new SimpleStyle( );
-
-		String fname = style.getFontFamilyHandle( ).getStringValue( );
-		int fsize = getFontSizeIntValue( handle );
-		boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
-		boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
-		boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
-		boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
-
-		HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
-		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( style.getTextAlign( ) ) )
+		if ( cache == null || !useCache )
 		{
-			ha = HorizontalAlignment.CENTER_LITERAL;
-		}
-		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( style.getTextAlign( ) ) )
-		{
-			ha = HorizontalAlignment.RIGHT_LITERAL;
+			StyleHandle style = handle.getPrivateStyle( );
+
+			ss = new SimpleStyle( );
+
+			String fname = style.getFontFamilyHandle( ).getStringValue( );
+			int fsize = getFontSizeIntValue( handle );
+			boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
+			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
+			boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
+			boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
+
+			HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
+			if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( style.getTextAlign( ) ) )
+			{
+				ha = HorizontalAlignment.CENTER_LITERAL;
+			}
+			else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( style.getTextAlign( ) ) )
+			{
+				ha = HorizontalAlignment.RIGHT_LITERAL;
+			}
+
+			VerticalAlignment va = VerticalAlignment.TOP_LITERAL;
+			if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( style.getVerticalAlign( ) ) )
+			{
+				va = VerticalAlignment.CENTER_LITERAL;
+			}
+			else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( style.getVerticalAlign( ) ) )
+			{
+				va = VerticalAlignment.BOTTOM_LITERAL;
+			}
+
+			TextAlignment ta = TextAlignmentImpl.create( );
+			ta.setHorizontalAlignment( ha );
+			ta.setVerticalAlignment( va );
+			FontDefinition fd = FontDefinitionImpl.create( fname,
+					(float) fsize,
+					fbold,
+					fitalic,
+					funder,
+					fstrike,
+					true,
+					0,
+					ta );
+			ss.setFont( fd );
+
+			ColorHandle ch = style.getColor( );
+			if ( ch != null && ch.getRGB( ) != -1 )
+			{
+				int rgb = ch.getRGB( );
+				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
+						( rgb >> 8 ) & 0xff,
+						rgb & 0xff );
+				ss.setColor( cd );
+			}
+			else
+			{
+				ss.setColor( ColorDefinitionImpl.BLACK( ) );
+			}
+
+			ch = style.getBackgroundColor( );
+			if ( ch != null && ch.getRGB( ) != -1 )
+			{
+				int rgb = ch.getRGB( );
+				ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
+						( rgb >> 8 ) & 0xff,
+						rgb & 0xff );
+				ss.setBackgroundColor( cd );
+			}
+
+			if ( style.getBackgroundImage( ) != null
+					&& style.getBackgroundImage( ).length( ) > 0 )
+			{
+				ss.setBackgroundImage( ImageImpl.create( style.getBackgroundImage( ) ) );
+			}
+
+			double pt = convertToPixel( style.getPaddingTop( ) );
+			double pb = convertToPixel( style.getPaddingBottom( ) );
+			double pl = convertToPixel( style.getPaddingLeft( ) );
+			double pr = convertToPixel( style.getPaddingRight( ) );
+			ss.setPadding( InsetsImpl.create( pt, pl, pb, pr ) );
+
+			if ( useCache )
+			{
+				cache = ss;
+			}
 		}
 
-		VerticalAlignment va = VerticalAlignment.TOP_LITERAL;
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( style.getVerticalAlign( ) ) )
+		if ( useCache )
 		{
-			va = VerticalAlignment.CENTER_LITERAL;
+			ss = cache.copy( );
 		}
-		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( style.getVerticalAlign( ) ) )
-		{
-			va = VerticalAlignment.BOTTOM_LITERAL;
-		}
-
-		TextAlignment ta = TextAlignmentImpl.create( );
-		ta.setHorizontalAlignment( ha );
-		ta.setVerticalAlignment( va );
-		FontDefinition fd = FontDefinitionImpl.create( fname,
-				(float) fsize,
-				fbold,
-				fitalic,
-				funder,
-				fstrike,
-				true,
-				0,
-				ta );
-		ss.setFont( fd );
-
-		ColorHandle ch = style.getColor( );
-		if ( ch != null && ch.getRGB( ) != -1 )
-		{
-			int rgb = ch.getRGB( );
-			ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
-					( rgb >> 8 ) & 0xff,
-					rgb & 0xff );
-			ss.setColor( cd );
-		}
-		else
-		{
-			ss.setColor( ColorDefinitionImpl.BLACK( ) );
-		}
-
-		ch = style.getBackgroundColor( );
-		if ( ch != null && ch.getRGB( ) != -1 )
-		{
-			int rgb = ch.getRGB( );
-			ColorDefinition cd = ColorDefinitionImpl.create( ( rgb >> 16 ) & 0xff,
-					( rgb >> 8 ) & 0xff,
-					rgb & 0xff );
-			ss.setBackgroundColor( cd );
-		}
-
-		if ( style.getBackgroundImage( ) != null
-				&& style.getBackgroundImage( ).length( ) > 0 )
-		{
-			ss.setBackgroundImage( ImageImpl.create( style.getBackgroundImage( ) ) );
-		}
-
-		double pt = convertToPixel( style.getPaddingTop( ) );
-		double pb = convertToPixel( style.getPaddingBottom( ) );
-		double pl = convertToPixel( style.getPaddingLeft( ) );
-		double pr = convertToPixel( style.getPaddingRight( ) );
-		ss.setPadding( InsetsImpl.create( pt, pl, pb, pr ) );
 
 		return ss;
 	}

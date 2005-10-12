@@ -93,29 +93,30 @@ public interface StyleMap extends EObject
 	boolean isSetComponentName( );
 
 	/**
-	 * Returns the value of the '<em><b>Style</b></em>' attribute.
+	 * Returns the value of the '<em><b>Style</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
 	 * 					Defines the style identifier(s) to be associated with this entry.
 	 * 					
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Style</em>' attribute.
-	 * @see #setStyle(String)
+	 * @return the value of the '<em>Style</em>' containment reference.
+	 * @see #setStyle(Style)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getStyleMap_Style()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model containment="true" resolveProxies="false" required="true"
 	 *        extendedMetaData="kind='element' name='Style'"
 	 * @generated
 	 */
-	String getStyle( );
+	Style getStyle( );
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Style</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.StyleMap#getStyle <em>Style</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Style</em>' containment reference.
 	 * @see #getStyle()
 	 * @generated
 	 */
-	void setStyle( String value );
+	void setStyle( Style value );
 
 } // StyleMap

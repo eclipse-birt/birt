@@ -172,6 +172,9 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 							msgs );
 				case ModelPackage.DIAL_CHART__SAMPLE_DATA :
 					return basicSetSampleData( null, msgs );
+				case ModelPackage.DIAL_CHART__STYLES :
+					return ( (InternalEList) getStyles( ) ).basicRemove( otherEnd,
+							msgs );
 				case ModelPackage.DIAL_CHART__SERIES_DEFINITIONS :
 					return ( (InternalEList) getSeriesDefinitions( ) ).basicRemove( otherEnd,
 							msgs );
@@ -217,6 +220,8 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 				return getExtendedProperties( );
 			case ModelPackage.DIAL_CHART__SAMPLE_DATA :
 				return getSampleData( );
+			case ModelPackage.DIAL_CHART__STYLES :
+				return getStyles( );
 			case ModelPackage.DIAL_CHART__SERIES_DEFINITIONS :
 				return getSeriesDefinitions( );
 			case ModelPackage.DIAL_CHART__MIN_SLICE :
@@ -275,6 +280,10 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 				return;
 			case ModelPackage.DIAL_CHART__SAMPLE_DATA :
 				setSampleData( (SampleData) newValue );
+				return;
+			case ModelPackage.DIAL_CHART__STYLES :
+				getStyles( ).clear( );
+				getStyles( ).addAll( (Collection) newValue );
 				return;
 			case ModelPackage.DIAL_CHART__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
@@ -340,6 +349,9 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 			case ModelPackage.DIAL_CHART__SAMPLE_DATA :
 				setSampleData( (SampleData) null );
 				return;
+			case ModelPackage.DIAL_CHART__STYLES :
+				getStyles( ).clear( );
+				return;
 			case ModelPackage.DIAL_CHART__SERIES_DEFINITIONS :
 				getSeriesDefinitions( ).clear( );
 				return;
@@ -396,6 +408,8 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 						&& !extendedProperties.isEmpty( );
 			case ModelPackage.DIAL_CHART__SAMPLE_DATA :
 				return sampleData != null;
+			case ModelPackage.DIAL_CHART__STYLES :
+				return styles != null && !styles.isEmpty( );
 			case ModelPackage.DIAL_CHART__SERIES_DEFINITIONS :
 				return seriesDefinitions != null
 						&& !seriesDefinitions.isEmpty( );

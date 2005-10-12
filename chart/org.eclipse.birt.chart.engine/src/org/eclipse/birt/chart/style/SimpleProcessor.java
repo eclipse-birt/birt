@@ -11,12 +11,21 @@
 
 package org.eclipse.birt.chart.style;
 
+import java.util.Iterator;
+
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Image;
+import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.Style;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * SimpleProcessor
@@ -24,12 +33,46 @@ import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 public final class SimpleProcessor implements IStyleProcessor
 {
 
+	private SimpleStyle defaultStyle = null;
+
+	private Chart model = null;
+
 	/**
 	 * The constructor.
 	 */
 	public SimpleProcessor( )
 	{
+		this( null );
+	}
+
+	public SimpleProcessor( Chart model )
+	{
 		super( );
+
+		this.model = model;
+
+		initialize( );
+	}
+
+	private void initialize( )
+	{
+		TextAlignment ta = TextAlignmentImpl.create( );
+		FontDefinition font = FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
+				12, false, false, false, false, false, 0, ta );
+
+		defaultStyle = new SimpleStyle( font,
+				ColorDefinitionImpl.BLACK( ),
+				null,
+				null,
+				null );
+	}
+
+	/**
+	 * @param model
+	 */
+	public void setModel( Chart model )
+	{
+		this.model = model;
 	}
 
 	/*
@@ -39,16 +82,45 @@ public final class SimpleProcessor implements IStyleProcessor
 	 */
 	public IStyle getStyle( StyledComponent name )
 	{
+		if ( model != null && model.getStyles( ).size( ) > 0 )
+		{
+			for ( Iterator itr = model.getStyles( ).iterator( ); itr.hasNext( ); )
+			{
+				StyleMap sm = (StyleMap) itr.next( );
+
+				if ( sm.getComponentName( ).equals( name ) )
+				{
+					Style ss = sm.getStyle( );
+
+					SimpleStyle rt = new SimpleStyle( defaultStyle );
+
+					if ( ss.getFont( ) != null )
+					{
+						rt.setFont( (FontDefinition) EcoreUtil.copy( ss.getFont( ) ) );
+					}
+					if ( ss.getColor( ) != null )
+					{
+						rt.setColor( (ColorDefinition) EcoreUtil.copy( ss.getColor( ) ) );
+					}
+					if ( ss.getBackgroundColor( ) != null )
+					{
+						rt.setBackgroundColor( (ColorDefinition) EcoreUtil.copy( ss.getBackgroundColor( ) ) );
+					}
+					if ( ss.getBackgroundImage( ) != null )
+					{
+						rt.setBackgroundImage( (Image) EcoreUtil.copy( ss.getBackgroundImage( ) ) );
+					}
+					if ( ss.getPadding( ) != null )
+					{
+						rt.setPadding( (Insets) EcoreUtil.copy( ss.getPadding( ) ) );
+					}
+
+					return rt;
+				}
+			}
+		}
+
 		// Always return the default value.
-		TextAlignment ta = TextAlignmentImpl.create( );
-		FontDefinition font = FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
-				12, false, false, false, false, false, 0, ta );
-
-		return new SimpleStyle( font,
-				ColorDefinitionImpl.BLACK( ),
-				null,
-				null,
-				null );
+		return defaultStyle.copy( );
 	}
-
 }

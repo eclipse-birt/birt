@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
@@ -67,6 +68,7 @@ import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
@@ -280,6 +282,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EClass sizeEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass styleEClass = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -320,6 +329,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EEnum anchorEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum angleTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -500,6 +516,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EDataType anchorObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType angleTypeObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -851,6 +874,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EAttribute getAngle3D_ZAngle( )
 	{
 		return (EAttribute) angle3DEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAngle3D_Type( )
+	{
+		return (EAttribute) angle3DEClass.getEStructuralFeatures( ).get( 3 );
 	}
 
 	/**
@@ -1719,6 +1752,66 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStyle( )
+	{
+		return styleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStyle_Font( )
+	{
+		return (EReference) styleEClass.getEStructuralFeatures( ).get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStyle_Color( )
+	{
+		return (EReference) styleEClass.getEStructuralFeatures( ).get( 1 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStyle_BackgroundColor( )
+	{
+		return (EReference) styleEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStyle_BackgroundImage( )
+	{
+		return (EReference) styleEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStyle_Padding( )
+	{
+		return (EReference) styleEClass.getEStructuralFeatures( ).get( 4 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1740,9 +1833,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStyleMap_Style( )
+	public EReference getStyleMap_Style( )
 	{
-		return (EAttribute) styleMapEClass.getEStructuralFeatures( ).get( 1 );
+		return (EReference) styleMapEClass.getEStructuralFeatures( ).get( 1 );
 	}
 
 	/**
@@ -1909,6 +2002,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EEnum getAnchor( )
 	{
 		return anchorEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getAngleType( )
+	{
+		return angleTypeEEnum;
 	}
 
 	/**
@@ -2161,6 +2264,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EDataType getAnchorObject( )
 	{
 		return anchorObjectEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getAngleTypeObject( )
+	{
+		return angleTypeObjectEDataType;
 	}
 
 	/**
@@ -2513,6 +2626,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( angle3DEClass, ANGLE3_D__XANGLE );
 		createEAttribute( angle3DEClass, ANGLE3_D__YANGLE );
 		createEAttribute( angle3DEClass, ANGLE3_D__ZANGLE );
+		createEAttribute( angle3DEClass, ANGLE3_D__TYPE );
 
 		axisOriginEClass = createEClass( AXIS_ORIGIN );
 		createEAttribute( axisOriginEClass, AXIS_ORIGIN__TYPE );
@@ -2642,9 +2756,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( sizeEClass, SIZE__HEIGHT );
 		createEAttribute( sizeEClass, SIZE__WIDTH );
 
+		styleEClass = createEClass( STYLE );
+		createEReference( styleEClass, STYLE__FONT );
+		createEReference( styleEClass, STYLE__COLOR );
+		createEReference( styleEClass, STYLE__BACKGROUND_COLOR );
+		createEReference( styleEClass, STYLE__BACKGROUND_IMAGE );
+		createEReference( styleEClass, STYLE__PADDING );
+
 		styleMapEClass = createEClass( STYLE_MAP );
 		createEAttribute( styleMapEClass, STYLE_MAP__COMPONENT_NAME );
-		createEAttribute( styleMapEClass, STYLE_MAP__STYLE );
+		createEReference( styleMapEClass, STYLE_MAP__STYLE );
 
 		textEClass = createEClass( TEXT );
 		createEAttribute( textEClass, TEXT__VALUE );
@@ -2671,6 +2792,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		// Create enums
 		actionTypeEEnum = createEEnum( ACTION_TYPE );
 		anchorEEnum = createEEnum( ANCHOR );
+		angleTypeEEnum = createEEnum( ANGLE_TYPE );
 		axisTypeEEnum = createEEnum( AXIS_TYPE );
 		chartDimensionEEnum = createEEnum( CHART_DIMENSION );
 		chartTypeEEnum = createEEnum( CHART_TYPE );
@@ -2703,6 +2825,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		// Create data types
 		actionTypeObjectEDataType = createEDataType( ACTION_TYPE_OBJECT );
 		anchorObjectEDataType = createEDataType( ANCHOR_OBJECT );
+		angleTypeObjectEDataType = createEDataType( ANGLE_TYPE_OBJECT );
 		axisTypeObjectEDataType = createEDataType( AXIS_TYPE_OBJECT );
 		chartDimensionObjectEDataType = createEDataType( CHART_DIMENSION_OBJECT );
 		chartTypeObjectEDataType = createEDataType( CHART_TYPE_OBJECT );
@@ -2801,6 +2924,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getAngle3D_ZAngle( ),
 				theXMLTypePackage.getDouble( ),
 				"zAngle", null, 1, 1, Angle3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAngle3D_Type( ),
+				this.getAngleType( ),
+				"type", "None", 1, 1, Angle3D.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( axisOriginEClass,
 				AxisOrigin.class,
@@ -3115,15 +3241,40 @@ public class AttributePackageImpl extends EPackageImpl implements
 				theXMLTypePackage.getDouble( ),
 				"width", null, 1, 1, Size.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
+		initEClass( styleEClass,
+				Style.class,
+				"Style", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEReference( getStyle_Font( ),
+				this.getFontDefinition( ),
+				null,
+				"font", null, 1, 1, Style.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getStyle_Color( ),
+				this.getColorDefinition( ),
+				null,
+				"color", null, 1, 1, Style.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getStyle_BackgroundColor( ),
+				this.getColorDefinition( ),
+				null,
+				"backgroundColor", null, 0, 1, Style.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getStyle_BackgroundImage( ),
+				this.getImage( ),
+				null,
+				"backgroundImage", null, 0, 1, Style.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getStyle_Padding( ),
+				this.getInsets( ),
+				null,
+				"padding", null, 0, 1, Style.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
 		initEClass( styleMapEClass,
 				StyleMap.class,
 				"StyleMap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getStyleMap_ComponentName( ),
 				this.getStyledComponent( ),
 				"componentName", "Chart_All", 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
-		initEAttribute( getStyleMap_Style( ),
-				theXMLTypePackage.getString( ),
-				"style", null, 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getStyleMap_Style( ),
+				this.getStyle( ),
+				null,
+				"style", null, 1, 1, StyleMap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( textEClass,
 				Text.class,
@@ -3195,6 +3346,12 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( anchorEEnum, Anchor.SOUTH_WEST_LITERAL );
 		addEEnumLiteral( anchorEEnum, Anchor.WEST_LITERAL );
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_WEST_LITERAL );
+
+		initEEnum( angleTypeEEnum, AngleType.class, "AngleType" ); //$NON-NLS-1$
+		addEEnumLiteral( angleTypeEEnum, AngleType.NONE_LITERAL );
+		addEEnumLiteral( angleTypeEEnum, AngleType.X_LITERAL );
+		addEEnumLiteral( angleTypeEEnum, AngleType.Y_LITERAL );
+		addEEnumLiteral( angleTypeEEnum, AngleType.Z_LITERAL );
 
 		initEEnum( axisTypeEEnum, AxisType.class, "AxisType" ); //$NON-NLS-1$
 		addEEnumLiteral( axisTypeEEnum, AxisType.LINEAR_LITERAL );
@@ -3420,6 +3577,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( anchorObjectEDataType,
 				Anchor.class,
 				"AnchorObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( angleTypeObjectEDataType,
+				AngleType.class,
+				"AngleTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( axisTypeObjectEDataType,
 				AxisType.class,
 				"AxisTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -3571,6 +3731,17 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getAngle3D_ZAngle( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "ZAngle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAngle3D_Type( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Type" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( angleTypeEEnum, source, new String[]{
+				"name", "AngleType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( angleTypeObjectEDataType, source, new String[]{
+				"name", "AngleType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "AngleType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( axisOriginEClass, source, new String[]{
 				"name", "AxisOrigin", //$NON-NLS-1$ //$NON-NLS-2$
@@ -4149,6 +4320,30 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( stretchObjectEDataType, source, new String[]{
 				"name", "Stretch:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "Stretch" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( styleEClass, source, new String[]{
+				"name", "Style", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStyle_Font( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Font" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStyle_Color( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Color" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStyle_BackgroundColor( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BackgroundColor" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStyle_BackgroundImage( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "BackgroundImage" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getStyle_Padding( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Padding" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( styledComponentEEnum, source, new String[]{
 				"name", "StyledComponent" //$NON-NLS-1$ //$NON-NLS-2$

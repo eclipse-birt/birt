@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft <em>Left</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop <em>Top</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth <em>Width</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getLeft <em>Left</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getTop <em>Top</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.BoundsImpl#getHeight <em>Height</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class BoundsImpl extends EObjectImpl implements Bounds
@@ -44,7 +44,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * The default value of the '{@link #getLeft() <em>Left</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getLeft()
 	 * @generated
 	 * @ordered
@@ -54,7 +53,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * The cached value of the '{@link #getLeft() <em>Left</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getLeft()
 	 * @generated
 	 * @ordered
@@ -62,9 +60,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	protected double left = LEFT_EDEFAULT;
 
 	/**
-	 * This is true if the Left attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Left attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -73,7 +71,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * The default value of the '{@link #getTop() <em>Top</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getTop()
 	 * @generated
 	 * @ordered
@@ -83,7 +80,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * The cached value of the '{@link #getTop() <em>Top</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getTop()
 	 * @generated
 	 * @ordered
@@ -91,18 +87,17 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	protected double top = TOP_EDEFAULT;
 
 	/**
-	 * This is true if the Top attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Top attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean topESet = false;
 
 	/**
-	 * The default value of the '{@link #getWidth() <em>Width</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -112,7 +107,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	/**
 	 * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -120,18 +114,17 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	protected double width = WIDTH_EDEFAULT;
 
 	/**
-	 * This is true if the Width attribute has been set. <!-- begin-user-doc -->
+	 * This is true if the Width attribute has been set.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean widthESet = false;
 
 	/**
-	 * The default value of the '{@link #getHeight() <em>Height</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -139,9 +132,8 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	protected static final double HEIGHT_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getHeight() <em>Height</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -149,9 +141,9 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * This is true if the Height attribute has been set. <!-- begin-user-doc
+	 * This is true if the Height attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -159,7 +151,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected BoundsImpl( )
@@ -169,7 +160,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -179,7 +169,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getLeft( )
@@ -189,7 +178,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLeft( double newLeft )
@@ -209,7 +197,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLeft( )
@@ -229,7 +216,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLeft( )
@@ -239,7 +225,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getTop( )
@@ -249,7 +234,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setTop( double newTop )
@@ -269,7 +253,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetTop( )
@@ -289,7 +272,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetTop( )
@@ -299,7 +281,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getWidth( )
@@ -309,7 +290,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setWidth( double newWidth )
@@ -329,7 +309,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetWidth( )
@@ -349,7 +328,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetWidth( )
@@ -359,7 +337,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getHeight( )
@@ -369,7 +346,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setHeight( double newHeight )
@@ -389,7 +365,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetHeight( )
@@ -409,7 +384,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetHeight( )
@@ -419,7 +393,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -440,7 +413,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -465,7 +437,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -490,7 +461,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -511,7 +481,6 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

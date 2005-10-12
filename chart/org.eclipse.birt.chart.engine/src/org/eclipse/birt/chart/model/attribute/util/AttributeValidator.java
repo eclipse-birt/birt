@@ -13,12 +13,11 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.attribute.*;
-
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -58,6 +57,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
@@ -68,6 +68,7 @@ import org.eclipse.birt.chart.model.attribute.SeriesValue;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.Stretch;
+import org.eclipse.birt.chart.model.attribute.Style;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
@@ -256,6 +257,8 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.SIZE :
 				return validateSize( (Size) value, diagnostics, context );
+			case AttributePackage.STYLE :
+				return validateStyle( (Style) value, diagnostics, context );
 			case AttributePackage.STYLE_MAP :
 				return validateStyleMap( (StyleMap) value, diagnostics, context );
 			case AttributePackage.TEXT :
@@ -274,6 +277,8 @@ public class AttributeValidator extends EObjectValidator
 				return validateActionType( (Object) value, diagnostics, context );
 			case AttributePackage.ANCHOR :
 				return validateAnchor( (Object) value, diagnostics, context );
+			case AttributePackage.ANGLE_TYPE :
+				return validateAngleType( (Object) value, diagnostics, context );
 			case AttributePackage.AXIS_TYPE :
 				return validateAxisType( (Object) value, diagnostics, context );
 			case AttributePackage.CHART_DIMENSION :
@@ -368,6 +373,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.ANCHOR_OBJECT :
 				return validateAnchorObject( (Anchor) value,
+						diagnostics,
+						context );
+			case AttributePackage.ANGLE_TYPE_OBJECT :
+				return validateAngleTypeObject( (AngleType) value,
 						diagnostics,
 						context );
 			case AttributePackage.AXIS_TYPE_OBJECT :
@@ -518,8 +527,7 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateAngle3D( Angle3D angle3D,
@@ -723,8 +731,7 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateLocation3D( Location3D location3D,
@@ -769,8 +776,7 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validatePolygon( Polygon polygon,
@@ -780,8 +786,7 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean validateRotation3D( Rotation3D rotation3D,
@@ -824,6 +829,16 @@ public class AttributeValidator extends EObjectValidator
 			Map context )
 	{
 		return validate_EveryDefaultConstraint( size, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateStyle( Style style, DiagnosticChain diagnostics,
+			Map context )
+	{
+		return validate_EveryDefaultConstraint( style, diagnostics, context );
 	}
 
 	/**
@@ -896,6 +911,16 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateAnchor( Object anchor, DiagnosticChain diagnostics,
 			Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAngleType( Object angleType,
+			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
@@ -1196,6 +1221,16 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateAnchorObject( Anchor anchorObject,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateAngleTypeObject( AngleType angleTypeObject,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;

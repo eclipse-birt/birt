@@ -571,6 +571,18 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:simpleType name="AngleType">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the angle type of an Angle3D</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="X"/>
+			<xsd:enumeration value="Y"/>
+			<xsd:enumeration value="Z"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	<xsd:complexType name="Angle3D">
 		<xsd:annotation>
 			<xsd:documentation>
@@ -580,6 +592,7 @@
 			<xsd:element name="XAngle" type="xsd:double"/>
 			<xsd:element name="YAngle" type="xsd:double"/>
 			<xsd:element name="ZAngle" type="xsd:double"/>
+			<xsd:element name="Type" type="AngleType"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Rotation3D">
@@ -1236,11 +1249,43 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Style" type="xsd:string">
+			<xsd:element name="Style" type="Style">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Defines the style identifier(s) to be associated with this entry.
 					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Style">
+		<xsd:annotation>
+			<xsd:documentation>			This type holds the style values for component.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Font" type="FontDefinition">
+				<xsd:annotation>
+					<xsd:documentation>Speicifies the font setting for this style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Color" type="ColorDefinition">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the font color for this style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BackgroundColor" type="ColorDefinition" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the background color for this style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BackgroundImage" type="Image" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the background image for this style.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Padding" type="Insets" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the padding for this style.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 		</xsd:sequence>

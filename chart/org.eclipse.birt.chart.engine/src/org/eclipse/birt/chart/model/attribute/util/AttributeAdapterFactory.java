@@ -250,6 +250,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createSizeAdapter( );
 		}
 
+		public Object caseStyle( Style object )
+		{
+			return createStyleAdapter( );
+		}
+
 		public Object caseStyleMap( StyleMap object )
 		{
 			return createStyleMapAdapter( );
@@ -686,6 +691,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createSizeAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.Style <em>Style</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.Style
+	 * @generated
+	 */
+	public Adapter createStyleAdapter( )
 	{
 		return null;
 	}

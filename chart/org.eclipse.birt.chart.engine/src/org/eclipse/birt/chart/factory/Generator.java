@@ -130,7 +130,7 @@ public final class Generator
 	 */
 	public IStyle getDefaultStyle( StyledComponent name )
 	{
-		// TODO generates default style as per explicit and implicit style
+		// TODO merge default style as per explicit and implicit style
 		// processor.
 
 		if ( processor != null )
@@ -187,6 +187,12 @@ public final class Generator
 		if ( rtc.getLocale( ) == null )
 		{
 			rtc.setLocale( Locale.getDefault( ) );
+		}
+
+		// INITIALIZE IMPLICIT PROCESSOR
+		if ( implicitProcessor instanceof SimpleProcessor )
+		{
+			( (SimpleProcessor) implicitProcessor ).setModel( cmRunTime );
 		}
 
 		// INITIALIZE THE SCRIPT HANDLER
@@ -426,6 +432,13 @@ public final class Generator
 	public final void refresh( GeneratedChartState gcs ) throws ChartException
 	{
 		Chart cm = gcs.getChartModel( );
+		
+		// INITIALIZE IMPLICIT PROCESSOR
+		if ( implicitProcessor instanceof SimpleProcessor )
+		{
+			( (SimpleProcessor) implicitProcessor ).setModel( cm );
+		}
+		
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_COMPUTATIONS,
 				gcs );
@@ -497,6 +510,13 @@ public final class Generator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
+		
+		// INITIALIZE IMPLICIT PROCESSOR
+		if ( implicitProcessor instanceof SimpleProcessor )
+		{
+			( (SimpleProcessor) implicitProcessor ).setModel( cm );
+		}
+		
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.START_RENDERING,
 				gcs );

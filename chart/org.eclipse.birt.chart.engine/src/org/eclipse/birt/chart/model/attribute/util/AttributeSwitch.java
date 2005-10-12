@@ -370,6 +370,14 @@ public class AttributeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.STYLE :
+			{
+				Style style = (Style) theEObject;
+				Object result = caseStyle( style );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.STYLE_MAP :
 			{
 				StyleMap styleMap = (StyleMap) theEObject;
@@ -816,6 +824,22 @@ public class AttributeSwitch
 	 * @generated
 	 */
 	public Object caseSize( Size object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Style</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Style</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseStyle( Style object )
 	{
 		return null;
 	}

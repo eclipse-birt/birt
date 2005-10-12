@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -72,6 +73,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
  * </ul>
  * </p>
  *
@@ -304,6 +306,16 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @ordered
 	 */
 	protected SampleData sampleData = null;
+
+	/**
+	 * The cached value of the '{@link #getStyles() <em>Styles</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStyles()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList styles = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -859,6 +871,22 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getStyles( )
+	{
+		if ( styles == null )
+		{
+			styles = new EObjectContainmentEList( StyleMap.class,
+					this,
+					ModelPackage.CHART__STYLES );
+		}
+		return styles;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -878,6 +906,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 							msgs );
 				case ModelPackage.CHART__SAMPLE_DATA :
 					return basicSetSampleData( null, msgs );
+				case ModelPackage.CHART__STYLES :
+					return ( (InternalEList) getStyles( ) ).basicRemove( otherEnd,
+							msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -920,6 +951,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return getExtendedProperties( );
 			case ModelPackage.CHART__SAMPLE_DATA :
 				return getSampleData( );
+			case ModelPackage.CHART__STYLES :
+				return getStyles( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -969,6 +1002,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__SAMPLE_DATA :
 				setSampleData( (SampleData) newValue );
 				return;
+			case ModelPackage.CHART__STYLES :
+				getStyles( ).clear( );
+				getStyles( ).addAll( (Collection) newValue );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -1017,6 +1054,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__SAMPLE_DATA :
 				setSampleData( (SampleData) null );
 				return;
+			case ModelPackage.CHART__STYLES :
+				getStyles( ).clear( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -1058,6 +1098,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 						&& !extendedProperties.isEmpty( );
 			case ModelPackage.CHART__SAMPLE_DATA :
 				return sampleData != null;
+			case ModelPackage.CHART__STYLES :
+				return styles != null && !styles.isEmpty( );
 		}
 		return eDynamicIsSet( eFeature );
 	}

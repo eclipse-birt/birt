@@ -8,6 +8,7 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.emf.common.notify.Notification;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getXAngle <em>XAngle</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getYAngle <em>YAngle</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getZAngle <em>ZAngle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,7 +47,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		angle.setXAngle( x );
 		angle.setYAngle( y );
 		angle.setZAngle( z );
-		( (Angle3DImpl) angle ).axis = AXIS_NONE;
+		angle.setType( AngleType.NONE_LITERAL );
 		return angle;
 	}
 
@@ -57,7 +59,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	{
 		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
 		angle.setXAngle( val );
-		( (Angle3DImpl) angle ).axis = AXIS_X;
+		angle.setType( AngleType.X_LITERAL );
 		return angle;
 	}
 
@@ -69,7 +71,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	{
 		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
 		angle.setYAngle( val );
-		( (Angle3DImpl) angle ).axis = AXIS_Y;
+		angle.setType( AngleType.Y_LITERAL );
 		return angle;
 	}
 
@@ -81,11 +83,9 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	{
 		final Angle3D angle = AttributeFactory.eINSTANCE.createAngle3D( );
 		angle.setZAngle( val );
-		( (Angle3DImpl) angle ).axis = AXIS_Z;
+		angle.setType( AngleType.Z_LITERAL );
 		return angle;
 	}
-
-	protected int axis = AXIS_NONE;
 
 	/**
 	 * The default value of the '{@link #getXAngle() <em>XAngle</em>}' attribute.
@@ -167,6 +167,33 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @ordered
 	 */
 	protected boolean zAngleESet = false;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final AngleType TYPE_EDEFAULT = AngleType.NONE_LITERAL;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected AngleType type = TYPE_EDEFAULT;
+
+	/**
+	 * This is true if the Type attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean typeESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -358,6 +385,62 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	public AngleType getType( )
+	{
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType( AngleType newType )
+	{
+		AngleType oldType = type;
+		type = newType == null ? TYPE_EDEFAULT : newType;
+		boolean oldTypeESet = typeESet;
+		typeESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.ANGLE3_D__TYPE,
+					oldType,
+					type,
+					!oldTypeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetType( )
+	{
+		AngleType oldType = type;
+		boolean oldTypeESet = typeESet;
+		type = TYPE_EDEFAULT;
+		typeESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					AttributePackage.ANGLE3_D__TYPE,
+					oldType,
+					TYPE_EDEFAULT,
+					oldTypeESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetType( )
+	{
+		return typeESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
 	{
 		switch ( eDerivedStructuralFeatureID( eFeature ) )
@@ -368,6 +451,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 				return new Double( getYAngle( ) );
 			case AttributePackage.ANGLE3_D__ZANGLE :
 				return new Double( getZAngle( ) );
+			case AttributePackage.ANGLE3_D__TYPE :
+				return getType( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -388,6 +473,9 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 				return;
 			case AttributePackage.ANGLE3_D__ZANGLE :
 				setZAngle( ( (Double) newValue ).doubleValue( ) );
+				return;
+			case AttributePackage.ANGLE3_D__TYPE :
+				setType( (AngleType) newValue );
 				return;
 		}
 		eDynamicSet( eFeature, newValue );
@@ -410,6 +498,9 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 			case AttributePackage.ANGLE3_D__ZANGLE :
 				unsetZAngle( );
 				return;
+			case AttributePackage.ANGLE3_D__TYPE :
+				unsetType( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -428,6 +519,8 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 				return isSetYAngle( );
 			case AttributePackage.ANGLE3_D__ZANGLE :
 				return isSetZAngle( );
+			case AttributePackage.ANGLE3_D__TYPE :
+				return isSetType( );
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -457,37 +550,44 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 			result.append( zAngle );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", type: " ); //$NON-NLS-1$
+		if ( typeESet )
+			result.append( type );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
 
-	/**
-	 * Returns the angle axis if set.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#getAxisType()
 	 */
 	public int getAxisType( )
 	{
-		return axis;
+		if ( getType( ) != null )
+		{
+			return getType( ).getValue( );
+		}
+
+		return AngleType.NONE;
 	}
 
-	/**
-	 * Returns the specific axis angle value if axis specified, or just returns
-	 * Zero.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#getAxisAngle()
 	 */
 	public double getAxisAngle( )
 	{
-		if ( axis == AXIS_X )
+		AngleType at = getType( );
+
+		if ( at == AngleType.X_LITERAL )
 		{
 			return getXAngle( );
 		}
-		else if ( axis == AXIS_Y )
+		else if ( at == AngleType.Y_LITERAL )
 		{
 			return getYAngle( );
 		}
-		else if ( axis == AXIS_Z )
+		else if ( at == AngleType.Z_LITERAL )
 		{
 			return getZAngle( );
 		}
@@ -505,7 +605,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 		setXAngle( x );
 		setYAngle( y );
 		setZAngle( z );
-		axis = AXIS_NONE;
+		setType( AngleType.NONE_LITERAL );
 	}
 
 } // Angle3DImpl
