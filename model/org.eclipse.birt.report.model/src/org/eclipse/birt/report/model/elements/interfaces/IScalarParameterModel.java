@@ -32,9 +32,9 @@ public interface IScalarParameterModel
 	/**
 	 * Name of the parameter value type property.
 	 */
-	
-	public static final String VALUE_TYPE_PROP = "valueType";  //$NON-NLS-1$
-	
+
+	public static final String VALUE_TYPE_PROP = "valueType"; //$NON-NLS-1$
+
 	/**
 	 * Name of the conceal-value property.
 	 */
@@ -106,10 +106,9 @@ public interface IScalarParameterModel
 	 */
 
 	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$ 
-
+	
 	/**
-	 * Name of the display prompt property.
+	 * Name of the prompt text property
 	 */
-
-	public static final String DISPLAY_PROMPT_PROP = "displayPrompt"; //$NON-NLS-1$ 
+	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
 }

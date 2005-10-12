@@ -1759,6 +1759,7 @@
     </Property>
     <Property displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="string"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
+    <Property displayNameID="Element.ScalarParameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>

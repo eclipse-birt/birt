@@ -96,8 +96,8 @@ public class ImageState extends ReportItemState
 			type++;
 		}
 
-		StructRefValue imageName = (StructRefValue) image.getLocalProperty( module,
-				ImageItem.IMAGE_NAME_PROP );
+		StructRefValue imageName = (StructRefValue) image.getLocalProperty(
+				module, ImageItem.IMAGE_NAME_PROP );
 		if ( imageName != null )
 		{
 			setProperty( ImageItem.SOURCE_PROP,
@@ -141,12 +141,9 @@ public class ImageState extends ReportItemState
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( refType ) )
 		{
-			String typeExpr = image.getStringProperty( module,
-					ImageItem.TYPE_EXPR_PROP );
 			String valueExpr = image.getStringProperty( module,
 					ImageItem.VALUE_EXPR_PROP );
-			if ( StringUtil.isEmpty( typeExpr )
-					|| StringUtil.isEmpty( valueExpr ) )
+			if ( StringUtil.isEmpty( valueExpr ) )
 			{
 				handler
 						.getErrorHandler( ).semanticError( new DesignParserException(

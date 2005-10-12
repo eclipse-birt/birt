@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -687,22 +685,23 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *            The display prompt context.
 	 * 
 	 * @throws SemanticException
-	 * @deprecated
+	 * 
 	 */
 
-	public void setDisplayPrompt( String promptValue ) throws SemanticException
+	public void setPromptText( String promptValue ) throws SemanticException
 	{
+		setStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP, promptValue );
 	}
 
 	/**
-	 * get the display prompt context.
+	 * get the display prompt text.
 	 * 
 	 * @return the display prompt.
-	 * @deprecated
+	 * 
 	 */
 
-	public String getDisplayPrompt( )
+	public String getPromptText( )
 	{
-		return null;
+		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP );
 	}
 }
