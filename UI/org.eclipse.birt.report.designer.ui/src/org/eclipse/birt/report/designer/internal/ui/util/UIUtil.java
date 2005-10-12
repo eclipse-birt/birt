@@ -372,7 +372,7 @@ public class UIUtil
 		GroupHandle groupHandle = null;
 		SlotHandle slotHandle = null;
 		// ElementFactory factory = parent.getElementFactory( );
-		DesignElementFactory factory = DesignElementFactory.getInstance( parent.getModule( ) );
+		DesignElementFactory factory = DesignElementFactory.getInstance( parent.getModuleHandle( ) );
 		if ( parent instanceof TableHandle )
 		{
 			groupHandle = factory.newTableGroup( );

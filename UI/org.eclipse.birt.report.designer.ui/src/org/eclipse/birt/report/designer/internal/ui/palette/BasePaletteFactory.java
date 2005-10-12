@@ -436,7 +436,7 @@ public class BasePaletteFactory
 			ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			// ElementFactory factory = reportDesignHandle.getElementFactory( );
-			DesignElementFactory factory = DesignElementFactory.getInstance( reportDesignHandle.getModule( ) );
+			DesignElementFactory factory = DesignElementFactory.getInstance( reportDesignHandle );
 			String type = (String) getRequest( ).getNewObjectType( );
 			GridHandle grid = null;
 

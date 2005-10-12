@@ -60,7 +60,7 @@ public abstract class DefaultExtendedDataSetWizard
 		// .newOdaDataSet( newName, dataSetType ); //$NON-NLS-1$
 		OdaDataSetHandle dataSetHandle = DesignElementFactory.getInstance( handle.getDataSets( )
 				.getElementHandle( )
-				.getModule( ) )
+				.getModuleHandle( ) )
 				.newOdaDataSet( newName, dataSetType );
 		return dataSetHandle;
 	}

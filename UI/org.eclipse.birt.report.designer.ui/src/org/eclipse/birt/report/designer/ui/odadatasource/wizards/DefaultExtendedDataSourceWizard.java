@@ -61,7 +61,7 @@ public abstract class DefaultExtendedDataSourceWizard
 		// dataSourceType); //$NON-NLS-1$
 		OdaDataSourceHandle dsHandle = DesignElementFactory.getInstance( handle.getDataSources( )
 				.getElementHandle( )
-				.getModule( ) )
+				.getModuleHandle( ) )
 				.newOdaDataSource( Messages.getString( "datasource.new.defaultName" ), //$NON-NLS-1$
 						dataSourceType );
 		return dsHandle;

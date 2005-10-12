@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LineHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -37,7 +38,6 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.Module;
 
 /**
  * This class is a heritor of ElementFactory,which is used to new elements
@@ -54,11 +54,10 @@ public class DesignElementFactory extends ElementFactory
 	public static DesignElementFactory getInstance( )
 	{
 		return new DesignElementFactory( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getModule( ) );
+				.getReportDesignHandle( ) );
 	}
 
-	public static DesignElementFactory getInstance( Module module )
+	public static DesignElementFactory getInstance( ModuleHandle module )
 	{
 		return new DesignElementFactory( module );
 	}
@@ -68,10 +67,10 @@ public class DesignElementFactory extends ElementFactory
 	 * 
 	 * @param module
 	 */
-	protected DesignElementFactory( Module module )
+	protected DesignElementFactory( ModuleHandle module )
 	{
-		super( module );
-		factory = new ElementFactory( module );
+		super( module.getModule() );
+		factory = new ElementFactory( module.getModule() );
 	}
 
 	/**
