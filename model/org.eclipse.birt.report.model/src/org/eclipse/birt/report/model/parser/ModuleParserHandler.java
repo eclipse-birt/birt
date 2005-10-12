@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  * Abstract handler for the XML module files. Holds the module being created.
  */
 
-abstract class ModuleParserHandler extends XMLParserHandler
+public abstract class ModuleParserHandler extends XMLParserHandler
 {
 
 	/**
@@ -45,6 +45,12 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	protected Module module = null;
+
+	/**
+	 * Catched name of the module file.
+	 */
+
+	protected String fileName = null;
 
 	/**
 	 * The version of the module file this handle is parsing.
@@ -63,12 +69,26 @@ abstract class ModuleParserHandler extends XMLParserHandler
 	 * 
 	 * @param theSession
 	 *            the design session that is to own this module
+	 * @param fileName
+	 *            name of the module file
 	 */
 
-	ModuleParserHandler( DesignSession theSession )
+	public ModuleParserHandler( DesignSession theSession, String fileName )
 	{
 		super( new ModuleParserErrorHandler( ) );
-		session = theSession;
+		this.session = theSession;
+		this.fileName = fileName;
+	}
+
+	/**
+	 * Returns the file name the handler is treating.
+	 * 
+	 * @return the file name the handler is treating.
+	 */
+
+	String getFileName( )
+	{
+		return this.fileName;
 	}
 
 	/**

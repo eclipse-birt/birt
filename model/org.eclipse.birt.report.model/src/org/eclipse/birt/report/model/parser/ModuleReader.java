@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ import org.xml.sax.SAXException;
  * with the returned module.
  */
 
-abstract class ModuleReader
+public abstract class ModuleReader
 {
 
 	/**
@@ -49,10 +48,6 @@ abstract class ModuleReader
 	 * 
 	 * @param handler
 	 *            the parser handler
-	 * @param fileName
-	 *            the design file that the input stream is associated to.
-	 * @param systemId
-	 *            the uri path for the design file
 	 * @param inputStream
 	 *            the input stream that reads the design file
 	 * @return the internal representation of the design
@@ -62,8 +57,8 @@ abstract class ModuleReader
 	 *             unsupported tags and there is run-time exception.
 	 */
 
-	protected Module readModule( ModuleParserHandler handler, String fileName,
-			URL systemId, InputStream inputStream ) throws DesignFileException
+	protected Module readModule( ModuleParserHandler handler,
+			InputStream inputStream ) throws DesignFileException
 	{
 		assert handler != null;
 
@@ -73,18 +68,10 @@ abstract class ModuleReader
 
 		assert internalStream.markSupported( );
 
-		// set file name of the design file. Used to search relative path
-		// to the file.
-
-		Module module = handler.getModule( );
-		module.setFileName( fileName );
-		module.setSystemId( systemId );
-
+		String signature = null;
 		try
 		{
-			String signature = checkUTFSignature( internalStream, fileName );
-			module.setUTFSignature( signature );
-
+			signature = checkUTFSignature( internalStream, handler.getFileName() );
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
 			InputSource inputSource = new InputSource( internalStream );
@@ -102,42 +89,41 @@ abstract class ModuleReader
 
 			// Invalid xml error is found
 
-			throw new DesignFileException( fileName, handler.getErrorHandler( )
+			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
 					.getErrors( ), e );
 		}
 		catch ( ParserConfigurationException e )
 		{
-			throw new DesignFileException( fileName, handler.getErrorHandler( )
+			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
 					.getErrors( ), e );
 		}
 		catch ( IOException e )
 		{
-			throw new DesignFileException( fileName, handler.getErrorHandler( )
+			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
 					.getErrors( ), e );
 		}
 
+		Module module = handler.getModule( );
+		module.setUTFSignature( signature );
 		module.setValid( true );
+		
 		return module;
 	}
 
+	
 	/**
 	 * Parses an XML design file given a file name. Creates and returns the
 	 * internal representation of the report design
 	 * 
 	 * @param handler
 	 *            the parser handler
-	 * @param fileName
-	 *            the design file to parse
-	 * @param systemId
-	 *            the uri path for the design file
 	 * 
 	 * @return the internal representation of the design
 	 * @throws DesignFileException
 	 *             if file is not found
 	 */
 
-	public Module readModule( ModuleParserHandler handler, String fileName,
-			URL systemId ) throws DesignFileException
+	public Module readModule( ModuleParserHandler handler ) throws DesignFileException
 	{
 		assert handler != null;
 
@@ -145,20 +131,20 @@ abstract class ModuleReader
 		try
 		{
 			inputStream = new BufferedInputStream( new FileInputStream(
-					fileName ) );
+					handler.getFileName() ) );
 		}
 		catch ( FileNotFoundException e )
 		{
 			DesignParserException ex = new DesignParserException(
-					new String[]{fileName},
+					new String[]{handler.getFileName()},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
 			List exceptionList = new ArrayList( );
 			exceptionList.add( ex );
-			throw new DesignFileException( fileName, exceptionList );
+			throw new DesignFileException( handler.getFileName(), exceptionList );
 		}
 
 		assert inputStream.markSupported( );
-		return readModule( handler, fileName, systemId, inputStream );
+		return readModule( handler, inputStream );
 	}
 
 	/**
@@ -176,7 +162,7 @@ abstract class ModuleReader
 	 *             if the stream has unexpected encoding signature
 	 */
 
-	private static String checkUTFSignature( InputStream inputStream,
+	protected String checkUTFSignature( InputStream inputStream,
 			String fileName ) throws IOException, SAXException
 	{
 

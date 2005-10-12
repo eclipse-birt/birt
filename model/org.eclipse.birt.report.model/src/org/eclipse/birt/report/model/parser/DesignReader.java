@@ -82,9 +82,8 @@ public final class DesignReader extends ModuleReader
 			InputStream inputStream ) throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		DesignParserHandler handler = new DesignParserHandler( session );
-		return (ReportDesign) readModule( handler, fileName, systemId,
-				inputStream );
+		DesignParserHandler handler = new DesignParserHandler( session, systemId, fileName );
+		return (ReportDesign) readModule( handler, inputStream );
 	}
 
 	/**
@@ -107,8 +106,8 @@ public final class DesignReader extends ModuleReader
 	public ReportDesign read( DesignSession session, URL systemId,
 			InputStream inputStream ) throws DesignFileException
 	{
-		DesignParserHandler handler = new DesignParserHandler( session );
-		return (ReportDesign) readModule( handler, null, systemId, inputStream );
+		DesignParserHandler handler = new DesignParserHandler( session, systemId, null );
+		return (ReportDesign) readModule( handler, inputStream );
 	}
 
 	/**
@@ -132,7 +131,7 @@ public final class DesignReader extends ModuleReader
 			throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		DesignParserHandler handler = new DesignParserHandler( session );
-		return (ReportDesign) readModule( handler, fileName, systemId );
+		DesignParserHandler handler = new DesignParserHandler( session, systemId, fileName );
+		return (ReportDesign) readModule( handler );
 	}
 }

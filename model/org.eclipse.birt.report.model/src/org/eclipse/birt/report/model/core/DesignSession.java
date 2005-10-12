@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
+import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 
 /**
@@ -218,6 +219,60 @@ public class DesignSession
 		return design;
 	}
 
+	/**
+	 * Open a module regardless of the module type(library or report design).
+	 * 
+	 * @param fileName
+	 *            file name of the module
+	 *            This url is treated as an absolute directory.
+	 * @param is
+	 *            the input stream to read the module
+	 * @return the opened module
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Module openModule( String fileName, InputStream is )
+			throws DesignFileException
+	{
+		Module module = GenericModuleReader.getInstance( ).read( this,
+				fileName, is );
+		assert module instanceof Library || module instanceof ReportDesign;
+
+		if ( module instanceof ReportDesign )
+			designs.add( module );
+		else
+			libraries.add( module );
+
+		return module;
+	}
+
+	/**
+	 * Open a module regardless of the module type(library or report design).
+	 * 
+	 * @param fileName
+	 *            file name of the module
+	 * @return the opened module
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public Module openModule( String fileName )
+			throws DesignFileException
+	{
+		Module module = GenericModuleReader.getInstance( ).read( this,
+				fileName );
+		assert module instanceof Library || module instanceof ReportDesign;
+
+		if ( module instanceof ReportDesign )
+			designs.add( module );
+		else
+			libraries.add( module );
+
+		return module;
+	}
+
+	
 	/**
 	 * Opens a library with the given library file name.
 	 * 

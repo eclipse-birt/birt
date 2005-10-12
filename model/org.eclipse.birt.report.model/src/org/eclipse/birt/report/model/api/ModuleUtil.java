@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.parser.LibraryReader;
 
 public class ModuleUtil
 {
-
 	/**
 	 * Justifies whether a given input stream is a valid report design.
 	 * 

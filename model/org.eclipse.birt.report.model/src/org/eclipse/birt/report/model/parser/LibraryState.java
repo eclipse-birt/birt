@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.XMLParserException;
-import org.xml.sax.Attributes;
 
 /**
  * This class provides parser state for the top-level Library element.
@@ -31,7 +28,7 @@ public class LibraryState extends ModuleState
 	 *            The library parser handler.
 	 */
 
-	public LibraryState( LibraryParserHandler theHandler )
+	public LibraryState( ModuleParserHandler theHandler )
 	{
 		super( theHandler );
 	}

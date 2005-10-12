@@ -75,6 +75,45 @@ public class SessionHandle
 	}
 
 	/**
+	 * Opens a module regardless of the module type(library or report design).
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open.
+	 * @param is
+	 *            stream to read the design
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ModuleHandle openModule( String fileName, InputStream is )
+			throws DesignFileException
+	{
+		Module module = session.openModule( fileName, is );
+		return module.getModuleHandle();
+	}
+
+	/**
+	 * Opens a module regardless of the module type(library or report design).
+	 * design.
+	 * 
+	 * @param fileName
+	 *            name of the file to open.
+	 * @return handle to the report design
+	 * @throws DesignFileException
+	 *             If the file is not found, or the file contains fatal errors.
+	 */
+
+	public ModuleHandle openModule( String fileName )
+			throws DesignFileException
+	{
+		Module module = session.openModule( fileName );
+		return module.getModuleHandle();
+	}
+
+	
+	/**
 	 * Opens a design with the given the file name.
 	 * 
 	 * @param fileName

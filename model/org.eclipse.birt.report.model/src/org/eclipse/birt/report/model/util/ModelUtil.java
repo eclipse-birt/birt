@@ -36,13 +36,20 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.parser.ModuleParserHandler;
+import org.eclipse.birt.report.model.parser.ModuleReader;
 import org.xml.sax.SAXException;
 
 /**
@@ -51,7 +58,6 @@ import org.xml.sax.SAXException;
 
 public class ModelUtil
 {
-
 	/**
 	 * Clone the structure list, a list value contains a list of
 	 * <code>IStructure</code>.
@@ -206,7 +212,7 @@ public class ModelUtil
 				{
 					String errorCode = ( (LibraryException) parserException
 							.getException( ) ).getErrorCode( );
-					
+
 					if ( errorCode == LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY
 							|| errorCode == LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE )
 					{

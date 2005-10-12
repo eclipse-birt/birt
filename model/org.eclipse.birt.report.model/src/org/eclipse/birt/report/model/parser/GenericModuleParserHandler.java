@@ -14,42 +14,30 @@ package org.eclipse.birt.report.model.parser;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.core.DesignSession;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 
 /**
- * Top-level handler for the XML design file. Recognizes the top-level tags in
- * the file.
+ * Generic module parser handler, used to parse a design file or a library file.
  * 
  */
 
-public class DesignParserHandler extends ModuleParserHandler
+public class GenericModuleParserHandler extends ModuleParserHandler
 {
-
 	/**
-	 * Constructs the design parser handler with the design session.
-	 * 
-	 * @param theSession
-	 *            the design session that is to own the design
-	 * @param systemId
-	 *            the uri path for the design file
-	 * @param fileName 
-	 * 			  name of the design file
+	 * Catched system ID.
 	 */
-
-	public DesignParserHandler( DesignSession theSession, URL systemId, String fileName )	
+	
+	private URL systemID = null;
+	
+	GenericModuleParserHandler( DesignSession theSession, URL systemID,
+			String fileName )
 	{
 		super( theSession, fileName );
-		module = new ReportDesign( session );
-		module.setSystemId( systemId );
-		module.setFileName( fileName );
+		this.systemID = systemID;
+		this.fileName = fileName;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
-	 */
 
 	public AbstractParseState createStartState( )
 	{
@@ -57,7 +45,7 @@ public class DesignParserHandler extends ModuleParserHandler
 	}
 
 	/**
-	 * Recognizes the top-level tags: Report.
+	 * Recognizes the top-level tags: Report or Library
 	 */
 
 	class StartState extends InnerParseState
@@ -71,8 +59,21 @@ public class DesignParserHandler extends ModuleParserHandler
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.REPORT_TAG ) )
-				return new ReportState( DesignParserHandler.this );
+			if ( DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase( tagName ) )
+			{
+				module = new ReportDesign( session );
+				module.setSystemId( systemID );
+				module.setFileName( fileName );
+				return new ReportState( GenericModuleParserHandler.this );
+			}
+			else if ( DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase( tagName ) )
+			{
+				module = new Library( session );
+				module.setSystemId( systemID );
+				module.setFileName( fileName );
+				return new LibraryState( GenericModuleParserHandler.this );
+			}
+
 			return super.startElement( tagName );
 		}
 	}

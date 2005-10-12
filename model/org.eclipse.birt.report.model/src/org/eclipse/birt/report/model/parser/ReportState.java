@@ -30,7 +30,7 @@ public class ReportState extends ModuleState
 	 *            The design parser handler.
 	 */
 
-	public ReportState( DesignParserHandler theHandler )
+	public ReportState( ModuleParserHandler theHandler )
 	{
 		super( theHandler );
 	}

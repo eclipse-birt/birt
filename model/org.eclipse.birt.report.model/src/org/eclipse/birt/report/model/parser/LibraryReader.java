@@ -89,10 +89,10 @@ public final class LibraryReader extends ModuleReader
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
 
-		LibraryParserHandler handler = new LibraryParserHandler( session, host );
+		LibraryParserHandler handler = new LibraryParserHandler( session, host, systemId, fileName );
 		( (Library) handler.getModule( ) ).setNamespace( namespace );
 
-		return (Library) readModule( handler, fileName, systemId, inputStream );
+		return (Library) readModule( handler, inputStream );
 	}
 
 	/**
@@ -118,8 +118,8 @@ public final class LibraryReader extends ModuleReader
 			InputStream inputStream ) throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		LibraryParserHandler handler = new LibraryParserHandler( session, null );
-		return (Library) readModule( handler, fileName, systemId, inputStream );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null, systemId, fileName );
+		return (Library) readModule( handler, inputStream );
 	}
 
 	/**
@@ -141,8 +141,8 @@ public final class LibraryReader extends ModuleReader
 	public Library read( DesignSession session, URL systemId,
 			InputStream inputStream ) throws DesignFileException
 	{
-		LibraryParserHandler handler = new LibraryParserHandler( session, null );
-		return (Library) readModule( handler, null, systemId, inputStream );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null, systemId, null );
+		return (Library) readModule( handler, inputStream );
 	}
 
 	/**
@@ -166,8 +166,8 @@ public final class LibraryReader extends ModuleReader
 			throws DesignFileException
 	{
 		URL systemId = URIUtil.getDirectory( fileName );
-		LibraryParserHandler handler = new LibraryParserHandler( session, null );
-		return (Library) readModule( handler, fileName, systemId );
+		LibraryParserHandler handler = new LibraryParserHandler( session, null, systemId, fileName );
+		return (Library) readModule( handler );
 	}
 
 }

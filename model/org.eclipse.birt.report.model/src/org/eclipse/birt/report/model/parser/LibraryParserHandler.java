@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.net.URL;
+
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -24,10 +26,12 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 public class LibraryParserHandler extends ModuleParserHandler
 {
 
-	LibraryParserHandler( DesignSession theSession, Module host )
+	LibraryParserHandler( DesignSession theSession, Module host, URL systemId, String fileName )
 	{
-		super( theSession );
+		super( theSession, fileName );
 		module = new Library( theSession, host );
+		module.setSystemId( systemId );
+		module.setFileName( fileName );
 	}
 
 	/*
