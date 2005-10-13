@@ -131,7 +131,6 @@ public class CallStatement implements IAdvancedQuery
 			 * callableStatement
 			 */
 			procedureName = getProcedureName( command );
-			command = "{" + command + "}";
 			this.callStat = conn.prepareCall( formatQueryText( command ) );
 		}
 		catch ( SQLException e )
