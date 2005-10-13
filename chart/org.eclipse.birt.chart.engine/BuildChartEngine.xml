@@ -241,28 +241,8 @@
 					./src/org/eclipse/birt/chart/util/PluginSettings.java
 					"
 		sourcepath="./src" splitindex="true" use="true" failonerror="true" version="true">
-				<classpath>
-					<pathelement path="${bin}"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/defaultAdaptor.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/eclipseAdaptor.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/osgi.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/resolver.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/core.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.osgi_${eclipse.version}/console.jar"/>
-					<pathelement path="${eclipse.home}/plugins/org.eclipse.core.runtime_${eclipse.version}/runtime.jar"/>
-					<pathelement path="${eclipse.home}/plugins/${emf.ecore.dir}_${emf.version}/runtime/ecore.jar"/>
-					<pathelement path="${eclipse.home}/plugins/${emf.common.dir}_${emf.version}/runtime/common.jar"/>
-					<pathelement path="${eclipse.home}/plugins/${emf.ecore.xmi.dir}_${emf.version}/runtime/ecore.xmi.jar"/>
-					<pathelement path="org.eclipse.osgi*.jar"/>
-					<pathelement path="org.eclipse.core.runtime_*.jar"/>
-					<pathelement path="org.eclipse.emf.common_*.jar"/>
-					<pathelement path="org.eclipse.emf.ecore_*.jar"/>
-					<pathelement path="org.eclipse.emf.ecore.xmi_*.jar"/>
-					<fileset dir="${core.dir}/lib">
-							<include name="**/*.jar"/>
-					</fileset>
-					<pathelement path="${core.dir}/bin"/>
-				</classpath>
+			<packageset dir="${dir.src}" defaultexcludes="yes" />
+			<classpath refid="class.path" />
 				<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 	</target>
