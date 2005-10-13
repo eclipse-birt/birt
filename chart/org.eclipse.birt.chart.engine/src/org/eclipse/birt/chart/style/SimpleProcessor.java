@@ -33,28 +33,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class SimpleProcessor implements IStyleProcessor
 {
 
-	private SimpleStyle defaultStyle = null;
+	private static final SimpleStyle defaultStyle;
 
-	private Chart model = null;
+	private static SimpleProcessor instance;
 
-	/**
-	 * The constructor.
-	 */
-	public SimpleProcessor( )
-	{
-		this( null );
-	}
-
-	public SimpleProcessor( Chart model )
-	{
-		super( );
-
-		this.model = model;
-
-		initialize( );
-	}
-
-	private void initialize( )
+	static
 	{
 		TextAlignment ta = TextAlignmentImpl.create( );
 		FontDefinition font = FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
@@ -68,11 +51,24 @@ public final class SimpleProcessor implements IStyleProcessor
 	}
 
 	/**
-	 * @param model
+	 * @return
 	 */
-	public void setModel( Chart model )
+	synchronized public static SimpleProcessor instance( )
 	{
-		this.model = model;
+		if ( instance == null )
+		{
+			instance = new SimpleProcessor( );
+		}
+
+		return instance;
+	}
+
+	/**
+	 * The constructor.
+	 */
+	private SimpleProcessor( )
+	{
+		super( );
 	}
 
 	/*
@@ -80,7 +76,7 @@ public final class SimpleProcessor implements IStyleProcessor
 	 * 
 	 * @see org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.model.attribute.StyledComponent)
 	 */
-	public IStyle getStyle( StyledComponent name )
+	public IStyle getStyle( Chart model, StyledComponent name )
 	{
 		if ( model != null && model.getStyles( ).size( ) > 0 )
 		{

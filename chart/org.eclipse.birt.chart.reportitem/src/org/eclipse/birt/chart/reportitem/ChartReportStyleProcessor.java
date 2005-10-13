@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
@@ -94,7 +95,7 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 	 * 
 	 * @see org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.model.attribute.StyledComponent)
 	 */
-	public IStyle getStyle( StyledComponent name )
+	public IStyle getStyle( Chart model, StyledComponent name )
 	{
 		SimpleStyle ss = null;
 

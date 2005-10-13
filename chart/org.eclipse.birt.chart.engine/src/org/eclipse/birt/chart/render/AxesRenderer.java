@@ -2624,6 +2624,7 @@ public abstract class AxesRenderer extends BaseRenderer
 							getRunTimeContext( ).getLocale( ) ) );
 		}
 		final boolean bRenderAxisLabels = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS && la.isVisible( ) );
+		final boolean bRenderAxisTitle = ( ( iWhatToDraw & IConstants.LABELS ) == IConstants.LABELS );
 		Location lo = LocationImpl.create( 0, 0 );
 
 		final TransformationEvent trae = (TransformationEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -3552,7 +3553,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			la = ax.getTitle( ); // TEMPORARILY USE FOR AXIS TITLE
-			if ( la.isVisible( ) && bRenderAxisLabels )
+			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,
@@ -4601,7 +4602,7 @@ public abstract class AxesRenderer extends BaseRenderer
 
 			// RENDER THE AXIS TITLE
 			la = ax.getTitle( ); // TEMPORARILY USE FOR AXIS TITLE
-			if ( la.isVisible( ) && bRenderAxisLabels )
+			if ( la.isVisible( ) && bRenderAxisTitle )
 			{
 				ScriptHandler.callFunction( sh,
 						ScriptHandler.BEFORE_DRAW_AXIS_TITLE,

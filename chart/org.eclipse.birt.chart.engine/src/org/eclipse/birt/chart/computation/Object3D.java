@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
-import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
-import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.Matrix;
 
@@ -510,13 +508,17 @@ public class Object3D
 	 */
 	protected boolean testIntersect( Object3D near )
 	{
-		Vector[] va1 = getViewerVectors( );
-		Vector[] va2 = near.getViewerVectors( );
+		// Vector[] va1 = getViewerVectors( );
+		// Vector[] va2 = near.getViewerVectors( );
+		//
+		// Polygon p1 = PolygonImpl.create( vectors2locations( va1 ) );
+		// Polygon p2 = PolygonImpl.create( vectors2locations( va2 ) );
 
-		Polygon p1 = PolygonImpl.create( vectors2locations( va1 ) );
-		Polygon p2 = PolygonImpl.create( vectors2locations( va2 ) );
+		// return p1.intersects( p2 );
 
-		return !p1.intersects( p2 );
+		// Temporarily disable this check, because it may cause an infinite loop
+		// occasionally.
+		return false;
 	}
 
 	/**

@@ -294,6 +294,8 @@ public class BarChart extends DefaultChartTypeImpl
 			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
 					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
 			} ) );
+			
+			newChart.setUnitSpacing( 50 );
 
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
@@ -350,7 +352,7 @@ public class BarChart extends DefaultChartTypeImpl
 		if ( newChart.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 		{
 			BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
-			sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+			sdAncillary.setDataSetRepresentation( "Series 1" ); //$NON-NLS-1$
 			sd.getAncillarySampleData( ).add( sdAncillary );
 		}
 
@@ -570,6 +572,8 @@ public class BarChart extends DefaultChartTypeImpl
 					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
 			} ) );
 
+			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
+			
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
@@ -600,7 +604,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.isEmpty( ) )
 			{
 				BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
-				sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+				sdAncillary.setDataSetRepresentation( "Series 1" ); //$NON-NLS-1$
 				currentChart.getSampleData( )
 						.getAncillarySampleData( )
 						.add( sdAncillary );

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.style;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
 
 /**
@@ -25,5 +26,5 @@ public interface IStyleProcessor
 	 * @param name
 	 * @return
 	 */
-	IStyle getStyle( StyledComponent name );
+	IStyle getStyle( Chart model, StyledComponent name );
 }

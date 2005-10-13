@@ -296,6 +296,8 @@ public class LineChart extends DefaultChartTypeImpl
 					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
 			} ) );
 
+			newChart.setUnitSpacing( 50 );
+			
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
 			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
@@ -351,7 +353,7 @@ public class LineChart extends DefaultChartTypeImpl
 		if ( newChart.getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL )
 		{
 			BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
-			sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+			sdAncillary.setDataSetRepresentation( "Series 1" ); //$NON-NLS-1$
 			sd.getAncillarySampleData( ).add( sdAncillary );
 		}
 
@@ -571,6 +573,8 @@ public class LineChart extends DefaultChartTypeImpl
 					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
 			} ) );
 
+			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
+			
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
@@ -601,7 +605,7 @@ public class LineChart extends DefaultChartTypeImpl
 					.isEmpty( ) )
 			{
 				BaseSampleData sdAncillary = DataFactory.eINSTANCE.createBaseSampleData( );
-				sdAncillary.setDataSetRepresentation( "Alpha" ); //$NON-NLS-1$
+				sdAncillary.setDataSetRepresentation( "Series 1" ); //$NON-NLS-1$
 				currentChart.getSampleData( )
 						.getAncillarySampleData( )
 						.add( sdAncillary );

@@ -74,7 +74,9 @@ public final class Generator
 	 */
 	static final int WITHOUT_AXES = 2;
 
-	private IStyleProcessor processor;
+	private ThreadLocal externalProcessor;
+
+	private ThreadLocal localModel;
 
 	private IStyleProcessor implicitProcessor;
 
@@ -95,7 +97,10 @@ public final class Generator
 	 */
 	private Generator( )
 	{
-		implicitProcessor = new SimpleProcessor( );
+		implicitProcessor = SimpleProcessor.instance( );
+
+		localModel = new ThreadLocal( );
+		externalProcessor = new ThreadLocal( );
 	}
 
 	/**
@@ -119,7 +124,7 @@ public final class Generator
 	 */
 	public void setStyleProcessor( IStyleProcessor processor )
 	{
-		this.processor = processor;
+		externalProcessor.set( processor );
 	}
 
 	/**
@@ -133,12 +138,13 @@ public final class Generator
 		// TODO merge default style as per explicit and implicit style
 		// processor.
 
-		if ( processor != null )
+		if ( externalProcessor.get( ) != null )
 		{
-			return processor.getStyle( name );
+			return ( (IStyleProcessor) externalProcessor.get( ) ).getStyle( (Chart) localModel.get( ),
+					name );
 		}
 
-		return implicitProcessor.getStyle( name );
+		return implicitProcessor.getStyle( (Chart) localModel.get( ), name );
 	}
 
 	/**
@@ -189,11 +195,8 @@ public final class Generator
 			rtc.setLocale( Locale.getDefault( ) );
 		}
 
-		// INITIALIZE IMPLICIT PROCESSOR
-		if ( implicitProcessor instanceof SimpleProcessor )
-		{
-			( (SimpleProcessor) implicitProcessor ).setModel( cmRunTime );
-		}
+		// UPDATE LOCAL MODEL
+		localModel.set( cmRunTime );
 
 		// INITIALIZE THE SCRIPT HANDLER
 		final String sScriptContent = cmRunTime.getScript( );
@@ -414,6 +417,10 @@ public final class Generator
 					ScriptHandler.FINISH_GENERATION,
 					gcs );
 		}
+		
+		// CLEAN LOCALMODEL STATE
+		localModel.set(null);
+		
 		return gcs;
 	}
 
@@ -432,13 +439,10 @@ public final class Generator
 	public final void refresh( GeneratedChartState gcs ) throws ChartException
 	{
 		Chart cm = gcs.getChartModel( );
-		
-		// INITIALIZE IMPLICIT PROCESSOR
-		if ( implicitProcessor instanceof SimpleProcessor )
-		{
-			( (SimpleProcessor) implicitProcessor ).setModel( cm );
-		}
-		
+
+		// UPDATE LOCAL MODEL
+		localModel.set( cm );
+
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_COMPUTATIONS,
 				gcs );
@@ -492,6 +496,9 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
 				gcs );
+		
+		// CLEAN LOCALMODEL STATE
+		localModel.set(null);
 	}
 
 	/**
@@ -510,13 +517,10 @@ public final class Generator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
-		
-		// INITIALIZE IMPLICIT PROCESSOR
-		if ( implicitProcessor instanceof SimpleProcessor )
-		{
-			( (SimpleProcessor) implicitProcessor ).setModel( cm );
-		}
-		
+
+		// UPDATE LOCAL MODEL
+		localModel.set( cm );
+
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.START_RENDERING,
 				gcs );
@@ -616,6 +620,9 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.FINISH_RENDERING,
 				gcs );
+		
+		// CLEAN LOCALMODEL STATE
+		localModel.set(null);
 	}
 
 	/**
