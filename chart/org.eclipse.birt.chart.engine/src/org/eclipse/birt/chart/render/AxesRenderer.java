@@ -630,13 +630,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			if ( curve.getLabel( ).isSetVisible( )
 					&& curve.getLabel( ).isVisible( ) )
 			{
-				Label lb = curve.getLabel( );
+				Label lb = (Label) EcoreUtil.copy( curve.getLabel( ) );
+
+				// handle external resource string
+				final String sPreviousValue = lb.getCaption( ).getValue( );
+				lb.getCaption( )
+						.setValue( getRunTimeContext( ).externalizedMessage( sPreviousValue ) );
 
 				if ( isTransposed )
 				{
 					// transpose text angel.
-					lb = (Label) EcoreUtil.copy( lb );
-
 					double rot = lb.getCaption( ).getFont( ).getRotation( );
 
 					if ( rot >= 0 && rot <= 90 )

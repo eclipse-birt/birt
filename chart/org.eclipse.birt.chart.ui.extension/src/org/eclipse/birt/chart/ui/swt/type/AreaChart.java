@@ -370,6 +370,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			Orientation newOrientation, String sNewDimension )
 	{
 		Chart helperModel = (Chart) EcoreUtil.copy( currentChart );
+		ChartDimension oldDimension = currentChart.getDimension( );
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
@@ -573,7 +574,8 @@ public class AreaChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 		}
 
-		if ( sNewDimension.equals( THREE_DIMENSION_TYPE ) )
+		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
+				&& getDimensionFor( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
 					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
