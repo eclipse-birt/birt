@@ -92,7 +92,8 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	protected List getModelChildren( )
 	{
-		return HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter( )
+		
+		return HandleAdapterFactory.getInstance( ).getLibraryHandleAdapter( getModel())
 				.getChildren( );
 	}
 
