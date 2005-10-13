@@ -1148,12 +1148,16 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 						sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
 					}
 				}
+
 				axaAncillary = getAncillaryBaseAxis( axaBase[i] );
-				el = axaAncillary.getSeriesDefinitions( );
-				for ( int k = 0; k < el.size( ); k++ )
+				if ( axaAncillary != null )
 				{
-					sd = (SeriesDefinition) el.get( k );
-					sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+					el = axaAncillary.getSeriesDefinitions( );
+					for ( int k = 0; k < el.size( ); k++ )
+					{
+						sd = (SeriesDefinition) el.get( k );
+						sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+					}
 				}
 			}
 		}
