@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.FlowBoxWrapper;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.MarginBorder;
@@ -62,7 +61,6 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public LabelFigure( int borderSize )
 	{
-		setForegroundColor( ReportColorConstants.ShadowLineColor );
 		setBorder( new MarginBorder( borderSize ) );
 
 		label = new TextFlow( ) {
@@ -339,8 +337,8 @@ public class LabelFigure extends ReportElementFigure
 		{
 			LabelFigure tooltip = new LabelFigure(  );
 			tooltip.setText(toolTip);
-			
 			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+			
 			setToolTip( tooltip );
 		}
 	}
