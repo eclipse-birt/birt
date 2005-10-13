@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
@@ -33,7 +34,9 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ExpressionProcessorManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExpressionCompiler.AggregateRegistry;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -63,6 +66,7 @@ abstract class PreparedQuery
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
+	private boolean isCurrentGroupKeyComplexExpression;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -126,6 +130,26 @@ abstract class PreparedQuery
 			// Prepare all groups; note that the report query iteself
 			// is treated as a group (with group level 0 )
 			List groups = queryDefn.getGroups( );
+			IGroupDefinition group;
+			//If there are group definitions that of invalid or duplicate group name ,then
+			//throw exceptions.
+			for ( int i = 0; i < groups.size( ); i++ )
+			{
+				group = (IGroupDefinition) groups.get( i );
+				if ( group.getName( ) == null
+						|| group.getName( ).trim( ).length( ) == 0 )
+					continue;
+				for ( int j = 0; j < groups.size( ); j++ )
+				{
+					if ( group.getName( )
+							.equals( ( (IGroupDefinition) groups.get( j ) ).getName( ) == null
+									? ""
+									: ( (IGroupDefinition) groups.get( j ) ).getName( ) )
+							&& j != i )
+						throw new DataException( ResourceConstants.DUPLICATE_GROUP_NAME );
+				}
+			}
+			
 			for ( int i = 0; i <= groups.size( ); i++ )
 			{
 				// Group 0
@@ -173,9 +197,12 @@ abstract class PreparedQuery
 		
 		Executor executor = newExecutor();
 		
+
+		
 		// pass the prepared query's pass thru context to its executor
 		executor.setAppContext( this.getAppContext() );
 		
+
 		//here prepare the execution. After the preparation the result metadata is available by
 		//calling getResultClass, and the query is ready for execution.
 		logger.finer( "Start to prepare the execution." );
@@ -276,7 +303,7 @@ abstract class PreparedQuery
 	 * @return
 	 * @throws DataException
 	 */
-	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src ) throws DataException
+	protected IQuery.GroupSpec groupDefnToSpec( Context cx, IGroupDefinition src, String columnName, int index ) throws DataException
 	{
 		int groupIndex = -1;
 		String groupKey = src.getKeyColumn();
@@ -286,13 +313,18 @@ abstract class PreparedQuery
 			// TODO support key expression in the future by creating implicit
 			// computed columns
 			ColumnInfo groupKeyInfo = getColInfoFromJSExpr( cx,
-					src.getKeyExpression( ) );
+				src.getKeyExpression( ) );
+			//getColInfoFromJSExpr( cx,src.getKeyExpression( ) );
 			groupIndex = groupKeyInfo.getColumnIndex( );
 			groupKey = groupKeyInfo.getColumnName();
+			isCurrentGroupKeyComplexExpression = false;
 		}
 		if ( groupKey == null && groupIndex < 0 )
 		{
-			throw new DataException( ResourceConstants.INVALID_GROUP_EXPR, src.getKeyExpression() );
+			ColumnInfo groupKeyInfo = new ColumnInfo(index, columnName );
+			groupIndex = groupKeyInfo.getColumnIndex( );
+			groupKey = groupKeyInfo.getColumnName();
+			isCurrentGroupKeyComplexExpression = true;
 		}
 		
 		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupIndex, groupKey );
@@ -515,6 +547,9 @@ abstract class PreparedQuery
 				dataSet.beforeOpen();
 			}
 			
+
+			ExpressionProcessorManager.registerInstance(new ExpressionProcessor( null, null, scope, null ));
+			
 			// Let subclass create a new and empty intance of the appropriate odi IQuery
 			odiQuery = createOdiQuery( );
 			populateOdiQuery( );
@@ -583,9 +618,11 @@ abstract class PreparedQuery
 			rowsObject = new JSRows( this.outerResults, rowObject );
 			scope.put( "rows", scope, rowsObject );
 			
+
 			outputParamsJSObject = new JSOutputParams( );
 			scope.put( "outputParams", scope, outputParamsJSObject );
 			
+
 			// Execute the query
 			odiResult = executeOdiQuery( );
 
@@ -762,6 +799,8 @@ abstract class PreparedQuery
 			Context cx = Context.enter();
 			try
 			{
+				List ar = new ArrayList();
+				
 				// Set grouping
 				List groups = queryDefn.getGroups();
 				if ( groups != null && ! groups.isEmpty() )
@@ -771,12 +810,15 @@ abstract class PreparedQuery
 					for ( int i = 0; it.hasNext(); i++ )
 					{
 						IGroupDefinition src = (IGroupDefinition) it.next();
-						IQuery.GroupSpec dest = groupDefnToSpec(cx, src);
+						//TODO does the index of column significant?
+						IQuery.GroupSpec dest = groupDefnToSpec(cx, src,"_{$TEMP_GROUP_"+i+"$}_", -1 );
 						groupSpecs[i] = dest;
+						
+						if(isCurrentGroupKeyComplexExpression)
+							ar.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), DataType.ANY_TYPE));
 					}
 					odiQuery.setGrouping( Arrays.asList( groupSpecs));
-				}
-				
+				}		
 				// Set sorting
 				List sorts = queryDefn.getSorts();
 				if ( sorts != null && !sorts.isEmpty( ) )
@@ -790,18 +832,20 @@ abstract class PreparedQuery
 						String sortKey = src.getColumn();
 						if ( sortKey == null || sortKey.length() == 0 )
 						{
-							// Group key expressed as expression; convert it to column name
-							// TODO support key expression in the future by creating implicit
-							// computed columns
+							//Firstly try to treat sort key as a column reference expression
 							ColumnInfo columnInfo = getColInfoFromJSExpr( cx,
 									src.getExpression( ) );
+														
 							sortIndex = columnInfo.getColumnIndex(); 
 							sortKey = columnInfo.getColumnName( );
 						}
 						if ( sortKey == null && sortIndex < 0 )
 						{
-							throw new DataException( ResourceConstants.INVALID_SORT_EXPR,
-									src.getColumn( ) );
+							//If failed to treate sort key as a column reference expression
+							//then treat it as a computed column expression
+							ar.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression(), DataType.ANY_TYPE));
+							sortIndex = -1; 
+							sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
 						}
 						
 						IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
@@ -812,19 +856,26 @@ abstract class PreparedQuery
 					odiQuery.setOrdering( Arrays.asList( sortSpecs));
 				}
 
+				
+				List computedColumns = null;
 			    // set computed column event
 			    if ( dataSet != null )
 				{
-					List computedColumns = this.dataSet.getComputedColumns( );
-					if ( computedColumns != null && computedColumns.size( ) > 0 )
+					computedColumns = this.dataSet.getComputedColumns( );
+					if ( computedColumns != null )
 					{
-						IResultObjectEvent objectEvent = new ComputedColumnHelper( this.scope,
-								this.rowObject,
-								computedColumns );
-						odiQuery.addOnFetchEvent( objectEvent );
+						computedColumns.addAll( ar );
+						
 					}
 				}
-			    
+				if ( computedColumns != null || ar.size( ) > 0 )
+				{
+					IResultObjectEvent objectEvent = new ComputedColumnHelper( ExpressionProcessorManager.getInstance( )
+							.getScope( ),
+							this.rowObject,
+							computedColumns == null ? ar : computedColumns );
+					odiQuery.addOnFetchEvent( objectEvent );
+				}
 			    // set Onfetch event - this should be added after computed column and before filtering
 			    if ( dataSet != null )
 			    {
@@ -856,7 +907,7 @@ abstract class PreparedQuery
 			    if ( mergedFilters.size() > 0 )
 			    {
 			    	IResultObjectEvent objectEvent = new FilterByRow( mergedFilters, 
-							scope,  rowObject );
+			    			ExpressionProcessorManager.getInstance().getScope(),  rowObject );
 			    	odiQuery.addOnFetchEvent( objectEvent );
 			    }
 			    

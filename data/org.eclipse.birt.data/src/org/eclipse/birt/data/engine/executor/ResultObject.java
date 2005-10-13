@@ -73,9 +73,9 @@ public class ResultObject implements IResultObject
 				// so a safe approach is by judging the value class.
 				Class valueClass = m_resultClass.getFieldValueClass( i + 1 );
 				assert valueClass != null;
-				if ( valueClass!=null && valueClass.isAssignableFrom( IClob.class ) )
+				if ( valueClass.isAssignableFrom( IClob.class ) && fields[i] instanceof IClob )
 					value = getClobValue( (IClob) fields[i] );
-				else if ( valueClass!=null && valueClass.isAssignableFrom( IBlob.class ) )
+				else if ( valueClass.isAssignableFrom( IBlob.class ) && fields[i] instanceof IBlob )
 					value = getBlobValue( (IBlob) fields[i] );
 
 				m_fields[i] = value;

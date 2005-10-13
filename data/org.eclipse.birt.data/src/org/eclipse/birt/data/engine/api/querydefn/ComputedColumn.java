@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.api.querydefn;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 
 /**
@@ -21,7 +22,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 public class ComputedColumn implements IComputedColumn
 {
     protected String name;
-	protected String expr;
+	protected IBaseExpression expr;
 	protected int dataType;
     
     /**
@@ -33,7 +34,7 @@ public class ComputedColumn implements IComputedColumn
     public ComputedColumn( String name, String expr, int dataType )
 	{
 		this.name = name;
-		this.expr = expr;
+		this.expr = new ScriptExpression(expr);
 		this.dataType = dataType;
     }
     
@@ -50,7 +51,7 @@ public class ComputedColumn implements IComputedColumn
      *  (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IComputedColumn#getExpression()
      */
-    public String getExpression()
+    public IBaseExpression getExpression()
     {
         return expr;
     }

@@ -195,6 +195,7 @@ public interface IQuery
         private int interval = NO_INTERVAL;
         private double intervalRange = 0;
         private Object intervalStart;
+        private int dataType;
 
     	/**
     	 * Instantiates a groupSpec defining a column name
@@ -257,6 +258,15 @@ public interface IQuery
     	    return name;
     	}
 
+    	public void setDataType(int type)
+    	{
+    		this.dataType = type;
+    	}
+    	
+    	public int getDataType()
+    	{
+    		return this.dataType;
+    	}
     	/**
     	 * Specifies the sort direction on the group key. 
     	 * Use this method to specify a sort in the common case

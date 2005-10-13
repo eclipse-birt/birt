@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
@@ -174,7 +175,13 @@ public class SmartCache implements ResultSetCache
 			// notice. it is less than or equal
 			if ( dataCount <= memoryCacheRowCount ) 
 			{
-				resultObjectsList.add( odaObject );
+				//Populate Data according to the given meta data.
+				Object[] obs = new Object[rsMeta.getFieldCount()];
+				for(int i = 1; i <= rsMeta.getFieldCount(); i++)
+				{
+					obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
+				}
+				resultObjectsList.add( new ResultObject( rsMeta, obs) );
 			}
 			else
 			{
@@ -388,7 +395,7 @@ public class SmartCache implements ResultSetCache
 				for ( int i = 0; i < sortKeyIndexes.length; i++ )
 				{
 					int colIndex = sortKeyIndexes[i];
-
+				
 					try
 					{
 						Object colObj1 = row1.getFieldValue( colIndex );

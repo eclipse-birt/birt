@@ -23,7 +23,7 @@ public class ResourceConstants
 	public final static String UNSUPPORTED_DATASET_TYPE = "data.engine.UnsupportedDataSetType";
 	public final static String UNSUPPORTED_GROUP_ON_BLOBAndCLOB ="data.engine.UnsupportedGroupOnClobAndBLOB";
 	public final static String UNSUPPORTED_SORT_ON_BLOBAndCLOB ="data.engine.UnsupportedSortOnClobAndBLOB";
-
+	public final static String UNSUPPORTED_DIRECT_NESTED_AGGREGATE="data.engine.UnsupportedDirectNestedAggregate";
 	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
 	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
 	public final static String INVALID_AGGR_PARAMETER  = "data.engine.WrongNumAggrArgs";
@@ -47,7 +47,8 @@ public class ResourceConstants
 	public final static String INVALID_GROUP_KEY_COLUMN = "data.engine.InvalidGroupKeyName";
 	public final static String INVALID_CLOSESCRIPT = "data.engine.BadCloseScript";
 	public final static String INVALID_CUSTOM_FIELD_INDEX = "data.engine.InvalidCustomFieldIdx";
-	
+	public final static String INVALID_GROUP_NAME = "data.engine.InvalidGroupName";
+	public final static String DUPLICATE_GROUP_NAME = "data.engine.DuplicateGroupName";
 	public final static String INVALID_OPENSCRIPT = "data.engine.BadOpenScript";
 	public final static String DS_HAS_OPENED = "data.engine.DataSourceIsOpen";
 	public final static String DS_NOT_OPEN = "data.engine.DataSourceNotOpen";
@@ -115,6 +116,7 @@ public class ResourceConstants
 	public static final String CANNOT_INSTANTIATE_AGGREGATION_FACTORY = "data.engine.CannotInstantiateAggregationFactory";
 	public static final String DUPLICATE_AGGREGATION_NAME = "date.engine.DuplicateAggregationName";
 	public static final String INCORRECT_GROUP_KEY_VALUES = "data.engine.incorrectGroupKeyValues";
+	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

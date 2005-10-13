@@ -27,7 +27,7 @@ public interface IComputedColumn
     /**
      * Gets the expression of the computed column
      */
-    public abstract String getExpression();
+    public abstract IBaseExpression getExpression();
 
 	/**
 	 * Gets the data type of the computed column.

@@ -27,7 +27,7 @@ class OdiAdapter
 
 	// from odi
 	private ICustomDataSet customDataSet;
-
+	
 	// from parent query in sub query
 	private ResultSetCache resultSetCache;
 
@@ -78,6 +78,7 @@ class OdiAdapter
 			return customDataSet.fetch( );
 		else
 			return resultSetCache.fetch( );
+	
 	}
 
 }

@@ -65,7 +65,7 @@ public abstract class BaseQuery implements IQuery
     /**
      * Gets the query's grouping specification. Returns null if no groups are defined.
      */
-    GroupSpec[] getGrouping()
+    public GroupSpec[] getGrouping()
     {
         return groups;
     }

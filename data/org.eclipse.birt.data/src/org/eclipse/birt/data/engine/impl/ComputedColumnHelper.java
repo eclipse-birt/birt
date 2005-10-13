@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -25,7 +26,6 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -46,7 +46,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private List ccList;
 	
 	// computed column string array which will be evaluated
-	private String[] columnExprArray;
+	private IBaseExpression[] columnExprArray;
 	
 	// computed column position index array
 	private int[] columnIndexArray;
@@ -56,7 +56,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
-	ComputedColumnHelper( Scriptable scope, JSRowObject rowObject, List ccList )
+	ComputedColumnHelper( Scriptable scope, JSRowObject rowObject, List ccList)
 	{
 		logger.log( Level.FINER, "ComputedColumnHelper starts up" );
 		assert scope != null;
@@ -68,6 +68,11 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.isPrepared = false;
 	}
 
+	public List getComputedColumnList()
+	{
+		return this.ccList;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
@@ -100,14 +105,10 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			// and assign it the computed value
 			for ( int i = 0; i < columnExprArray.length; i++ )
 			{
-				if ( columnExprArray[i] != null
-						&& columnExprArray[i].trim( ).length( ) >0 )
+				if ( columnExprArray[i] != null )
 				{
-					Object value = ScriptEvalUtil.evaluateJSAsExpr( cx,
-							scope,
-							columnExprArray[i],
-							"ComputedColumn",
-							0 );
+					Object value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,scope);
+				
 					try
 					{
 						value = DataTypeUtil.convert( value,
@@ -142,7 +143,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
 		return true;
 	}
-
+	
+	/**
+	 * Indicate the ComputedColumnHelper to reprepare.
+	 * @param rePrepare
+	 */
+	public void setRePrepare( boolean rePrepare)
+	{
+		this.isPrepared = !rePrepare;
+	}
 	/*
 	 * Convert ccList to projComputedColumns, only prepare once.
 	 */
@@ -168,7 +177,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		}
 		
 		int size = cmptList.size( );
-		columnExprArray = new String[size];
+		columnExprArray = new IBaseExpression[size];
 		columnIndexArray = new int[size];
 
 		for ( int i = 0; i < size; i++ )
