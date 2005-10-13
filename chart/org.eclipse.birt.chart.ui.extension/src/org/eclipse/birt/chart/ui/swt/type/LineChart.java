@@ -293,7 +293,7 @@ public class LineChart extends DefaultChartTypeImpl
 		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
 			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
-					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
+					Angle3DImpl.create( -20, 45, 0 )
 			} ) );
 
 			newChart.setUnitSpacing( 50 );
@@ -572,7 +572,7 @@ public class LineChart extends DefaultChartTypeImpl
 				&& getDimensionFor( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
-					Angle3DImpl.createY( 45 ), Angle3DImpl.createX( -20 ),
+					Angle3DImpl.create( -20, 45, 0 )
 			} ) );
 
 			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
