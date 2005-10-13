@@ -267,7 +267,8 @@ public class BasePaletteFactory
 			{
 				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
 				{
-					text = AUTOTEXT_LABEL_PAGE;
+					text = AUTOTEXT_LABEL_PAGE
+					+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
 				}
 				else if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
@@ -442,7 +443,7 @@ public class BasePaletteFactory
 
 			if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equals( type ) )
 			{
-				grid = factory.newGridItem( null, 2, 1 );
+				grid = factory.newGridItem( null, 3, 1 );
 				try
 				{
 					List cellList = ( (RowHandle) grid.getRows( ).get( 0 ) ).getCells( )
@@ -458,16 +459,18 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					// Remove unsupported function
-					// textHandle = factory.newTextItem( null );
-					// textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-					// ( (CellHandle) cellList.get( 1 ) ).getContent( )
-					// .add( textHandle );
+					text = AUTOTEXT_LABEL_PAGE
+							+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
+					 textHandle = factory.newTextItem( null );
+					 textHandle.setContent( text );
+					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
+					 .add( textHandle );
 
+					
 					textHandle = factory.newTextItem( null );
 					textHandle.setContent( "<value-of>new Date()</value-of>" ); //$NON-NLS-1$
 					textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-					( (CellHandle) cellList.get( 1 ) ).getContent( )
+					( (CellHandle) cellList.get( 2 ) ).getContent( )
 							.add( textHandle );
 				}
 				catch ( SemanticException e )
@@ -477,7 +480,7 @@ public class BasePaletteFactory
 			}
 			else if ( IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equals( type ) )
 			{
-				grid = factory.newGridItem( null, 1, 1 );
+				grid = factory.newGridItem( null, 2, 1 );
 				try
 				{
 					List cellList = ( (RowHandle) grid.getRows( ).get( 0 ) ).getCells( )
@@ -489,11 +492,14 @@ public class BasePaletteFactory
 					( (CellHandle) cellList.get( 0 ) ).getContent( )
 							.add( textHandle );
 
-					// Remove unsupported function
-					// textHandle = factory.newTextItem( null );
-					// textHandle.setContent( AUTOTEXT_LABEL_PAGE );
-					// ( (CellHandle) cellList.get( 1 ) ).getContent( )
-					// .add( textHandle );
+					String text = AUTOTEXT_LABEL_PAGE
+							+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
+					 textHandle = factory.newTextItem( null );
+					 textHandle.setContent( text );
+					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
+					 .add( textHandle );
+					
+			
 				}
 				catch ( SemanticException e )
 				{
@@ -725,7 +731,7 @@ public class BasePaletteFactory
 
 		if ( preHandle == null )
 		{
-			throw new Error( "Don't find the AbstractToolHandleExtends" );
+			throw new Error( "Don't find the AbstractToolHandleExtends" ); //$NON-NLS-1$
 		}
 		return preHandle;
 	}
