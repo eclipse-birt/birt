@@ -697,6 +697,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( peer == null )
 		{
+			HandleAdapterFactory.getInstance( ).remove( getModel( ) );
 			peer = HandleAdapterFactory.getInstance( )
 					.getDesignElementHandleAdapter( getModel( ), this );
 		}
