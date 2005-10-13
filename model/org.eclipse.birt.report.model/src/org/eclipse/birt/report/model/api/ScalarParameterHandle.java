@@ -704,4 +704,33 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		return getStringProperty( IScalarParameterModel.PROMPT_TEXT_PROP );
 	}
+
+	/**
+	 * Set the value for the list limitation number. This property is used to
+	 * limit the parameter display list. 
+	 * 
+	 * @param listLimit
+	 *            The limited number.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+
+	public void setListlimit( int listLimit ) throws SemanticException
+	{
+		setIntProperty( IScalarParameterModel.LIST_LIMIT_PROP, listLimit );
+	}
+
+	/**
+	 * get the list limited number.
+	 * 
+	 * @return the display prompt.
+	 * 
+	 */
+
+	public int getListlimit( )
+	{
+		return getIntProperty( IScalarParameterModel.LIST_LIMIT_PROP );
+	}
+
 }

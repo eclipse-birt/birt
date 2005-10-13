@@ -111,4 +111,9 @@ public interface IScalarParameterModel
 	 * Name of the prompt text property
 	 */
 	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the Limited-list property
+	 */
+	public static final String LIST_LIMIT_PROP = "listLimit"; //$NON-NLS-1$
 }
