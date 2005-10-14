@@ -349,21 +349,29 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			if ( ( iType & NUMERICAL ) == NUMERICAL )
 			{
+				//TODO consistent with orthogonal sereis length;
 				return new DataSetIterator( new Double[]{
 						new Double( 1 ), new Double( 2 )
 				} );
 			}
 			else if ( ( iType & DATE_TIME ) == DATE_TIME )
 			{
+				//TODO consistent with orthogonal sereis length;
 				return new DataSetIterator( new Calendar[]{
 						new CDateTime( ), new CDateTime( )
 				} );
 			}
 			else if ( ( iType & TEXT ) == TEXT )
 			{
-				return new DataSetIterator( new String[]{
-						"Category1", "Category2", "Category3" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				} );
+				// use orthogonal sereis identifier instead.
+				List data = new ArrayList( );
+
+				for ( int i = 0; i < osea.length; i++ )
+				{
+					data.add( String.valueOf( osea[i].getSeriesIdentifier( ) ) );
+				}
+
+				return new DataSetIterator( (String[]) data.toArray( new String[0] ) );
 			}
 		}
 
@@ -465,7 +473,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			final Object[] oaMinMax = scY.getMinMax( );
 			while ( !scY.checkFit( ids, laYAxisLabels, iYLabelLocation ) )
 			{
-				if (!scY.zoomOut( ))
+				if ( !scY.zoomOut( ) )
 				{
 					break;
 				}
@@ -619,7 +627,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
 				{
-					if (!scZ.zoomOut( ))
+					if ( !scZ.zoomOut( ) )
 					{
 						break;
 					}
@@ -743,7 +751,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 				final Object[] oaMinMax = scZ.getMinMax( );
 				while ( !scZ.checkFit( ids, laZAxisLabels, iZLabelLocation ) )
 				{
-					if (!scZ.zoomOut( ))
+					if ( !scZ.zoomOut( ) )
 					{
 						break;
 					}
@@ -855,7 +863,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							if (!scZ.zoomOut( ))
+							if ( !scZ.zoomOut( ) )
 							{
 								break;
 							}
@@ -903,7 +911,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							if (!scZ.zoomOut( ))
+							if ( !scZ.zoomOut( ) )
 							{
 								break;
 							}
@@ -994,7 +1002,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 									laZAxisLabels,
 									iZLabelLocation ) )
 							{
-								if (!scZ.zoomOut( ))
+								if ( !scZ.zoomOut( ) )
 								{
 									break;
 								}
@@ -1044,7 +1052,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 								laZAxisLabels,
 								iZLabelLocation ) )
 						{
-							if (!scZ.zoomOut( ))
+							if ( !scZ.zoomOut( ) )
 							{
 								break;
 							}
