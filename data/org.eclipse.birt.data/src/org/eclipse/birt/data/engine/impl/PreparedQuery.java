@@ -868,7 +868,7 @@ abstract class PreparedQuery
 						
 					}
 				}
-				if ( computedColumns != null || ar.size( ) > 0 )
+				if ( (computedColumns != null && computedColumns.size() > 0)|| ar.size( ) > 0 )
 				{
 					IResultObjectEvent objectEvent = new ComputedColumnHelper( ExpressionProcessorManager.getInstance( )
 							.getScope( ),
