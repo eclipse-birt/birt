@@ -11,10 +11,17 @@
 
 package org.eclipse.birt.chart.device.svg;
 
+import java.awt.Shape;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ResourceBundle;
 
+import javax.swing.JComponent;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -24,7 +31,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.device.extension.i18n.Messages;
+import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
+import org.eclipse.birt.chart.device.swing.SwingEventHandler;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.InteractionEvent;
@@ -32,21 +43,27 @@ import org.eclipse.birt.chart.event.OvalRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
+import org.eclipse.birt.chart.event.StructureSource;
+import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.emf.common.util.EList;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -61,6 +78,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 
+	/**
+	 * 
+	 */
+	private IUpdateNotifier _iun = null;
+	
 	/**
 	 * 
 	 */
@@ -120,7 +142,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public final void setProperty( String sProperty, Object oValue )
 	{
 		super.setProperty( sProperty, oValue );
-		if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
+		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
+		{
+			_iun = (IUpdateNotifier) oValue;
+		}		
+		else if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
 		{
 			final Bounds bo = (Bounds) oValue;
 			try
@@ -368,39 +394,110 @@ public class SVGRendererImpl extends SwingRendererImpl
 		else if ( pre instanceof ArcRenderEvent )
 		{
 			final ArcRenderEvent are = (ArcRenderEvent) pre;
-			final Bounds boEllipse = are.getEllipseBounds( );
-			double dStart = are.getStartAngle( );
-			double dExtent = are.getAngleExtent( );
-
-			elm = svggc.createArc( boEllipse.getLeft( ),
-					boEllipse.getTop( ),
-					boEllipse.getWidth( ),
-					boEllipse.getHeight( ),
-					dStart,
-					dExtent );
-		}
-
-		if ( elm != null )
-		{
-			for ( int x = 0; x < triggers.length; x++ )
+			
+			if ( are.getInnerRadius( ) >= 0
+					&& are.getOuterRadius( ) > 0
+					&& are.getInnerRadius( ) < are.getOuterRadius( ) )
 			{
+				Shape outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
+								/ 2,
+						2 * are.getOuterRadius( ),
+						2 * are.getOuterRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+				Shape innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+								/ 2,
+						2 * are.getInnerRadius( ),
+						2 * are.getInnerRadius( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						Arc2D.PIE );
+
+				Area fArea = new Area( outerArc );
+				fArea.exclusiveOr( new Area( innerArc ) );
+
+				Shape prevClip = _g2d.getClip( );
+//				_g2d.setClip( fArea );
+				elm = svggc.createGeneralPath( fArea );
+//				_g2d.setClip( prevClip );
+			}
+			else
+			{
+				elm = svggc.createGeneralPath( new Arc2D.Double( are.getTopLeft( ).getX( ),
+						are.getTopLeft( ).getY( ),
+						are.getWidth( ),
+						are.getHeight( ),
+						are.getStartAngle( ),
+						are.getAngleExtent( ),
+						toSwingArcType( are.getStyle( ) ) ) );
+			}
+			
+		}
+		
+
+		if (elm != null) {
+			for (int x = 0; x < triggers.length; x++) {
 				Trigger tg = triggers[x];
-				if ( tg.getAction( ).getType( ) == ActionType.SHOW_TOOLTIP_LITERAL )
-				{
-					Element title = svggc.dom.createElement( "title" ); //$NON-NLS-1$
-					title.appendChild( svggc.dom.createTextNode( ( (TooltipValue) tg.getAction( )
-							.getValue( ) ).getText( ) ) );
-					elm.appendChild( title );
-					elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
-					elm.setAttribute( "onmouseover", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$		
-				}
-				else if ( tg.getAction( ).getType( ) == ActionType.URL_REDIRECT_LITERAL )
-				{
-					elm.setAttribute( "onmousedown", //$NON-NLS-1$
+				
+				switch (tg.getAction().getType().getValue()) {
+				case ActionType.SHOW_TOOLTIP:
+					Element title = svggc.dom.createElement("title"); //$NON-NLS-1$
+					title.appendChild(svggc.dom
+							.createTextNode(((TooltipValue) tg.getAction()
+									.getValue()).getText()));
+					elm.appendChild(title);
+					elm.setAttribute("onmouseout", "TM.remove()"); //$NON-NLS-1$ //$NON-NLS-2$
+					elm.setAttribute("onmouseover", "TM.show(evt)"); //$NON-NLS-1$ //$NON-NLS-2$		
+					break;
+				case ActionType.URL_REDIRECT:
+					elm.setAttribute("onmousedown", //$NON-NLS-1$
 							"parent.location='" //$NON-NLS-1$
-									+ ( (URLValue) tg.getAction( ).getValue( ) ).getBaseUrl( )
-									+ "'" ); //$NON-NLS-1$
-					setCursor( elm );
+									+ ((URLValue) tg.getAction().getValue())
+											.getBaseUrl() + "'"); //$NON-NLS-1$
+					setCursor(elm);
+					break;
+/*
+				case ActionType.TOGGLE_VISIBILITY :
+					final StructureSource src = (StructureSource) pre.getSource( );
+					System.out.println(" " + src.getType() + " "  + StructureType.LEGEND);
+					if ( src.getType( ) == StructureType.LEGEND )
+					{						
+						final Legend seRT = (Legend)src.getSource( );
+//						
+//						logger.log( ILogger.INFORMATION,
+//								Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+//										getLocale() )
+//										+ seRT );
+//						Series seDT = null;
+//						try
+//						{
+//							seDT = findDesignTimeSeries( seRT ); // LOCATE
+							// THE
+							// CORRESPONDING
+							// DESIGN-TIME
+							// SERIES
+							elm.setAttribute("onmousedown", //$NON-NLS-1$
+									"toggleVisibility('" //$NON-NLS-1$
+											+ seRT.hashCode() + "')"); //$NON-NLS-1$
+							setCursor(elm);
+//						}
+//						catch ( ChartException oosx )
+//						{
+//							logger.log( oosx );
+//							return;
+//						}
+					}
+					break;
+*/										
 				}
 			}
 
@@ -417,6 +514,26 @@ public class SVGRendererImpl extends SwingRendererImpl
 			style = ""; //$NON-NLS-1$
 		}
 		currentElement.setAttribute( "style", style + "cursor:pointer;" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+		
+
+	/**
+	 * 
+	 * @param iArcStyle
+	 * @return
+	 */
+	private static final int toSwingArcType( int iArcStyle )
+	{
+		switch ( iArcStyle )
+		{
+			case ArcRenderEvent.OPEN :
+				return Arc2D.OPEN;
+			case ArcRenderEvent.CLOSED :
+				return Arc2D.CHORD;
+			case ArcRenderEvent.SECTOR :
+				return Arc2D.PIE;
+		}
+		return -1;
 	}
 	
 }
