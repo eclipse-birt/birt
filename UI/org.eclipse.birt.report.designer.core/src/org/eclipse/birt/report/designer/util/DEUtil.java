@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
@@ -792,13 +793,7 @@ public class DEUtil
 				colName = ( (DataSetItemModel) model ).getName( );
 			}
 
-			return /*
-					 * Roll back because engine hasn't support full path yet
-					 * IReportElementConstants.DATA_SET_PREFIX + "[\"" + (
-					 * (DataSetHandle) ( (DataSetItemModel) model ).getParent( )
-					 * ).getName( ) + "\"]." +
-					 */IReportElementConstants.DATA_COLUMN_PREFIX
-					+ "[\"" + DEUtil.escape( colName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+			return getColumnExpression(colName);
 		}
 		return null;
 	}
@@ -1385,5 +1380,17 @@ public class DEUtil
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Create a row expression base on column name.
+	 * @param columnName
+	 * @return
+	 */
+	public static String getColumnExpression(String columnName)
+	{
+		Assert.isNotNull( columnName);
+		return IReportElementConstants.DATA_COLUMN_PREFIX
+			+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
