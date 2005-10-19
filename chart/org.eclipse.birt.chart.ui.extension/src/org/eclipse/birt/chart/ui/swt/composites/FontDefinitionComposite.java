@@ -102,8 +102,6 @@ public class FontDefinitionComposite extends Composite implements
 
 		cmpContent = new Composite( this, SWT.NONE );
 		cmpContent.setLayout( glContent );
-		GridData gdCContent = new GridData( GridData.FILL_BOTH );
-		cmpContent.setLayoutData( gdCContent );
 
 		cnvSelection = new FontCanvas( cmpContent,
 				SWT.BORDER,
