@@ -128,7 +128,7 @@
 		 	eclipse.home
 		 	dtp.home
 	-->
-	<target name="Jar" depends="compileSource">		
+	<target name="Jar" depends="compileSource" description="package the classes of source file">
 		<jar destfile="dte.jar">
 			<fileset dir="${bin}">
 				<include name="**/*.class" />
@@ -139,11 +139,34 @@
 				<include name="**/*.jar" />
 				<exclude name="**/*Test.class" />
 				<exclude name="testutil/**" />
-				<exclude name="drivers/**" />
+				<exclude name="**/regre/**" />
+				<exclude name="**/perf/**" />
+				<exclude name="plugins/**" />
+				<exclude name="**/input/**" />
+				<exclude name="**/output/**" />
+				<exclude name="**/golden/**" />
 			</fileset>
 		</jar>
 	</target>
-	
+
+	<!-- Jar all code, since some project might have interest on it.
+	-->
+	<target name="JarAll" depends="compileSource, compileTest" description="package all classes including test cases">		
+		<jar destfile="dte.jar">
+			<fileset dir="${bin}">
+				<include name="**/*.class" />
+				<include name="**/*.txt" />
+				<include name="**/*.xml" />
+				<include name="**/*.def" />
+				<include name="**/*.properties" />
+				<include name="**/*.jar" />
+				<exclude name="plugins/**" />
+				<exclude name="**/input/**" />
+				<exclude name="**/output/**" />
+				<exclude name="**/golden/**" />
+			</fileset>
+		</jar>
+	</target>	
 	
 	<!-- Export the project, for instance, jar files are copied to a designated folder
 			 the dependency on Jar should implement in top level script by call sequence	
