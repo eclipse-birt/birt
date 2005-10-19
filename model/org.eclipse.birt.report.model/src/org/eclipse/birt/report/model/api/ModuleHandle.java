@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -1061,6 +1062,26 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public SlotHandle getParameters( )
 	{
 		return getSlot( PARAMETER_SLOT );
+	}
+
+	/**
+	 * Returns a cascading parameter group handle with the given group name
+	 * 
+	 * @param groupName
+	 *            name of the cascading parameter group.
+	 * @return a handle to the cascading parameter group. Returns
+	 *         <code>null</code> if the cascading group with the given name is
+	 *         not found.
+	 */
+
+	public CascadingParameterGroupHandle findCascadingParameterGroup(
+			String groupName )
+	{
+		DesignElement element = module.findParameter( groupName );
+		if ( element == null || ! ( element instanceof CascadingParameterGroup ))
+			return null;
+		return (CascadingParameterGroupHandle) element.getHandle( module );
+		
 	}
 
 	/**
