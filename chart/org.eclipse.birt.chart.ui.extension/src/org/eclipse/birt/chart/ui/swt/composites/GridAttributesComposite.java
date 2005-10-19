@@ -61,6 +61,8 @@ public class GridAttributesComposite extends Composite implements
 	private transient Vector vListeners = null;
 
 	private int orientation;
+	
+	private transient boolean bLineGroupEnabled = true;
 
 	// Grid Attribute Change Events
 	public static final int LINE_STYLE_CHANGED_EVENT = 1;
@@ -86,6 +88,15 @@ public class GridAttributesComposite extends Composite implements
 	{
 		super( parent, style );
 		this.orientation = orientation;
+		init( grid );
+		placeComponents( );
+	}
+	
+	public GridAttributesComposite(Composite parent, int style, Grid grid, 
+			boolean bLineGroupEnabled)
+	{
+		super( parent, style );
+		this.bLineGroupEnabled = bLineGroupEnabled;
 		init( grid );
 		placeComponents( );
 	}
@@ -119,11 +130,6 @@ public class GridAttributesComposite extends Composite implements
 		glContent.marginWidth = 0;
 		glContent.numColumns = 2;
 
-		// Layout for Grid Lines group
-		FillLayout flLines = new FillLayout( );
-		flLines.marginHeight = 1;
-		flLines.marginWidth = 1;
-
 		// Layout for Ticks group
 		GridLayout glTicks = new GridLayout( );
 		glTicks.marginHeight = 4;
@@ -139,6 +145,14 @@ public class GridAttributesComposite extends Composite implements
 		cmpContent.setLayout( glContent );
 
 		// Grid Lines group
+		
+		if (bLineGroupEnabled)
+		{
+		// Layout for Grid Lines group
+		FillLayout flLines = new FillLayout( );
+		flLines.marginHeight = 1;
+		flLines.marginWidth = 1;
+		
 		cmpLines = new Composite( cmpContent, SWT.NONE );
 		GridData gdCMPLines = new GridData( GridData.FILL_BOTH );
 		gdCMPLines.horizontalSpan = 2;
@@ -153,6 +167,7 @@ public class GridAttributesComposite extends Composite implements
 				true,
 				true );
 		liacLines.addListener( this );
+		}
 
 		// Ticks group
 		grpTicks = new Group( cmpContent, SWT.NONE );
