@@ -55,7 +55,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/07/05 09:12:49 $
+ * @version $Revision: 1.19 $ $Date: 2005/10/12 19:15:47 $
  */
 public class ReportExecutor
 {
@@ -310,25 +310,22 @@ public class ReportExecutor
 	
 	private void appendErrorMessage(int index, StringBuffer errMsg, ElementExceptionInfo info)
 	{
+		EngineResourceHandle rc = EngineResourceHandle.getInstance();
 		errMsg.append("<div><span id=\"error_icon" + index +"\"  style=\"cursor:pointer\" onclick=\"expand(" + index +  ")\" > + </span>");
-		errMsg.append("<span  id=\"error_title\">There are error(s) in "+ info.getType() +":" + info.getElementInfo() + "</span>");
+		errMsg.append(
+				"<span  id=\"error_title\">" +
+				rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE, new Object[]{ info.getType( ), info.getElementInfo( ) } ) +
+				"</span>");
 		errMsg.append("<pre id=\"error_detail" + index+ "\" style=\"display:block\" >");
 		ArrayList errorList = info.getErrorList();
 		ArrayList countList = info.getCountList();
 		for(int i=0; i<errorList.size(); i++)
 		{
 			BirtException ex = (BirtException)errorList.get(i);
-			int count = ((Integer)countList.get(i)).intValue();
-			if(count==1)
-			{
-				errMsg.append("Error" + i + " : "+ ex.getErrorCode() + "(1 time)"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			else
-			{
-				errMsg.append("Error" + i + " : " + ex.getErrorCode() + "(" + count + "times)"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+
+			errMsg.append( rc.getMessage( MessageConstants.REPORT_ERROR_ID, new Object[]{ new Integer( i ), ex.getErrorCode( ), countList.get( i ) } ) );
 			errMsg.append((char) Character.LINE_SEPARATOR);
-			errMsg.append("detail: " + getDetailMessage(ex)); //$NON-NLS-1$
+			errMsg.append( rc.getMessage( MessageConstants.REPORT_ERROR_DETAIL ) + getDetailMessage(ex)); //$NON-NLS-1$
 		}
 		errMsg.append("</pre></div>"); //$NON-NLS-1$
 	}

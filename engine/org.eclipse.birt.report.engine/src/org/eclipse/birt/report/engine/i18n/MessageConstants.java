@@ -49,8 +49,10 @@ public class MessageConstants
 	public static final String  INVALID_EXPRESSION_ERROR = "Error.InvalidExpressionError";	//$NON-NLS-1$
 	public static final String  LIST_PROCESSING_ERROR = "Error.ListProcessingError";	//$NON-NLS-1$	
 	public static final String  ERRORS_ON_REPORT_PAGE = "Error.ErrorOnReportPage"; //$NON-NLS-1$
-	
 
+	public static final String	REPORT_ERROR_MESSAGE = "Error.ReportErrorMessage"; //$NON-NLS-1$
+	public static final String	REPORT_ERROR_ID = "Error.ReportErrorID";
+	public static final String	REPORT_ERROR_DETAIL = "Error.ReportErrorDetail";
 }
 
 
