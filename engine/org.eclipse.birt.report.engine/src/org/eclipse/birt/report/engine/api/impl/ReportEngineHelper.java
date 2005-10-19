@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataPreviewTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
@@ -166,6 +167,11 @@ public class ReportEngineHelper
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable reportRunnable)
 	{
 		return new GetParameterDefinitionTask(engine, reportRunnable);
+	}
+
+	public IDataPreviewTask createDataPreviewTask(IReportRunnable reportRunnable)
+	{
+		return new DataPreviewTask(engine, reportRunnable);
 	}
 	
 	/**

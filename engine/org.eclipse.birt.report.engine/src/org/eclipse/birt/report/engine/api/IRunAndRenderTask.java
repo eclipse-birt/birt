@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.util.HashMap;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats 
@@ -29,33 +28,6 @@ public interface IRunAndRenderTask extends IEngineTask {
 	 * @return the render option
 	 */
 	public abstract IRenderOption getRenderOption();
-
-	/**
-	 * set all parameter valuess
-	 * 
-	 * @param params a hash map with all parameters
-	 */
-	public abstract void setParameterValues(HashMap params);
-	
-	/**
-	 * sets one parameter value
-	 * 
-	 * @param name parameter name
-	 * @param value parameter value
-	 */
-	public abstract void setParameterValue(String name, Object value);
-	
-	/**
-	 * returns the parameter name/value collection
-	 * 
-	 * @return the parameter names/values in a hash map 
-	 */
-	public abstract HashMap getParameterValues();
-	
-	/**
-	 * @return whether the parameter validation succeeds <br>
-	 */
-	public boolean validateParameters( );
 
 	/**
 	 * runs the task to generate report document or other output format

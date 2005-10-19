@@ -1,20 +1,15 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.FORenderOption;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IReportEmitter;
@@ -28,17 +23,6 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
  */
 public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 {
-	/**
-	 * The parameter values that the caller has set explicitly
-	 */
-	protected HashMap inputValues = new HashMap();
-	
-	/**
-	 * The parameter values that will be used to run the report. It is a merged map between
-	 * the input value and the default values.
-	 */
-	protected HashMap runValues = new HashMap();
-
 	/**
 	 * options for rendering the report
 	 */
@@ -68,29 +52,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		super(engine, runnable);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#validateParameters()
-	 */
-	public boolean validateParameters()
-	{
-		// evaluate default and combines it with the parameter values that are set
-		Collection paramDefns = ((ReportRunnable)runnable).getParameterDefns(false);
-		runValues.putAll(evaluateDefaults(paramDefns));
-		runValues.putAll(inputValues);
-		
-		// Validate each parameter. Ideally, we will return all validation failures. 
-		// For now, just return false on first failure.
-		Iterator iter = paramDefns.iterator();
-		while(iter.hasNext())
-		{
-			IParameterDefnBase p = (IParameterDefnBase) iter.next();
-
-			if ( ! validateParameter( p, runValues.get(p.getName()) ) )
-				return false;
-		}
-		return true;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -114,8 +75,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		services.setReportRunnable(runnable);
 				
 		//register default parameters
-		if( runValues != null)
-			executionContext.getParams().putAll(runValues); //$NON-NLS-1$
+		usingParameterValues();
 		
 		//setup runtime configurations
 		//user defined configs are overload using system properties.
@@ -169,75 +129,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 	}
 
-	/**
-	 * validate whether the parameter value is a valid value for the parameter
-	 * 
-	 * @param p the parameter to be verified
-	 * @param paramValue the value for the parameter
-	 * @return true if the given parameter value is valid; false otherwise
-	 */
-	private boolean validateParameter(IParameterDefnBase p, Object paramValue)
-	{
-		// Only support validation for scalar parameter
-		if (IParameterDefnBase.SCALAR_PARAMETER != p.getParameterType())
-			return false;
-		
-		assert p instanceof IScalarParameterDefn;
-		IScalarParameterDefn paramHandle = (IScalarParameterDefn) p;
-		String 	paramName = paramHandle.getName();
-		int 	type = paramHandle.getDataType();
-		
-		// Handle null parameter values
-		if (paramValue == null)
-		{
-			if (paramHandle.allowNull())
-				return true;
-
-			log.log(Level.SEVERE, 
-						"Parameter {0} doesn't allow a null value.",	//$NON-NLS-1$ 
-						paramName); 
-			return false;
-		}
-
-		/*
-		 * Validate based on parameter type
-		 */
-		if (type == IScalarParameterDefn.TYPE_DECIMAL || type == IScalarParameterDefn.TYPE_FLOAT)
-		{
-			if (paramValue instanceof Number)
-				return true;
-
-			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a number.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
-			return false;
-		}
-		else if (type == IScalarParameterDefn.TYPE_DATE_TIME)
-		{
-			if (paramValue instanceof Date)
-				return true;
-			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a valid date.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
-			return false;
-		}
-		else if (type == IScalarParameterDefn.TYPE_STRING)
-		{
-			String value = paramValue.toString().trim();
-			if (value.equals("") && !paramHandle.allowBlank()) //$NON-NLS-1$
-			{
-				log.log(Level.SEVERE, "parameter {0} can't be blank.", paramName); //$NON-NLS-1$
-				return false;
-			}
-			return true;
-		}
-		else if (type == IScalarParameterDefn.TYPE_BOOLEAN)
-		{
-			if (paramValue instanceof Boolean)
-				return true;
-			log.log(Level.SEVERE, "The supplied value {0} for parameter {1} is not a boolean.", new String[] {paramValue.toString(), paramName}); //$NON-NLS-1$
-			return false;
-		}
-		assert type == IScalarParameterDefn.TYPE_ANY;
-		return true;
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -256,28 +147,5 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public IRenderOption getRenderOption()
 	{
 		return renderOption;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#setParameterValues(java.util.HashMap)
-	 */
-	public void setParameterValues(HashMap params)
-	{
-		inputValues = params;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#getParameterValues()
-	 */
-	public HashMap getParameterValues()
-	{
-		return inputValues;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setParameterValue(java.lang.String, java.lang.Object)
-	 */
-	public void setParameterValue(String name, Object value) {
-		inputValues.put(name, value);
 	}
 }

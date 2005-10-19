@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -20,24 +20,31 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Defines an engine task that could be executed, debugged (runs step by step),
- * inform caller for progress, etc. 
+ * inform caller for progress, etc.
  */
-public abstract class EngineTask implements IEngineTask 
+public abstract class EngineTask implements IEngineTask
 {
-	protected static Logger log = Logger.getLogger( EngineTask.class.getName( ) );
-	
+
+	protected static Logger log = Logger
+			.getLogger( EngineTask.class.getName( ) );
+
 	protected static int id = 0;
-	
+
 	/**
 	 * the context for running this task
 	 */
@@ -47,72 +54,93 @@ public abstract class EngineTask implements IEngineTask
 	 * a reference to the report engine
 	 */
 	protected ReportEngine engine;
-	
+
 	/**
 	 * Comment for <code>locale</code>
 	 */
-	protected Locale locale = Locale.getDefault();
-	
+	protected Locale locale = Locale.getDefault( );
+
 	/**
 	 * the execution context
 	 */
 	protected ExecutionContext executionContext;
-	
+
 	/**
 	 * task identifier. Could be used for logging
 	 */
 	protected int taskID;
-	
+
 	protected IReportRunnable runnable;
 
-	
 	/**
-	 * @param engine reference to report engine 
-	 * @param context a user-defined object that capsulates the context for running a task. 
-	 * The context object is passed to callback functions (i.e., functions 
-	 * in image handlers, action handlers, etc. ) that are written by those who embeds 
-	 * engine in their applications 
+	 * does the parameter has been changed by the user.
 	 */
-	protected EngineTask(ReportEngine engine, IReportRunnable runnable)
-	{	
+	protected boolean parameterChanged = true;
+	/**
+	 * The parameter values that the caller has set explicitly
+	 */
+	protected HashMap inputValues = new HashMap( );
+
+	/**
+	 * The parameter values that will be used to run the report. It is a merged
+	 * map between the input value and the default values.
+	 */
+	protected HashMap runValues = new HashMap( );
+
+	/**
+	 * @param engine
+	 *            reference to report engine
+	 * @param context
+	 *            a user-defined object that capsulates the context for running
+	 *            a task. The context object is passed to callback functions
+	 *            (i.e., functions in image handlers, action handlers, etc. )
+	 *            that are written by those who embeds engine in their
+	 *            applications
+	 */
+	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
+	{
 		this.runnable = runnable;
 		this.engine = engine;
 		taskID = id++;
-		
+
 		executionContext = new ExecutionContext( engine, taskID );
-		executionContext.setRunnable(runnable);
-		executionContext.registerBeans(runnable.getTestConfig());
+		executionContext.setRunnable( runnable );
+		executionContext.registerBeans( runnable.getTestConfig( ) );
 	}
-	
+
 	/**
 	 * @return Returns the locale.
 	 */
-	public Locale getLocale() {
+	public Locale getLocale( )
+	{
 		return locale;
 	}
-	
+
 	/**
 	 * sets the task locale
 	 * 
-	 * @param locale the task locale
+	 * @param locale
+	 *            the task locale
 	 */
-	public void setLocale(Locale locale) {
+	public void setLocale( Locale locale )
+	{
 		this.locale = locale;
-		executionContext.setLocale(locale);
+		executionContext.setLocale( locale );
 	}
-	
+
 	/**
 	 * sets the task context
 	 * 
-	 * @param context the task context
+	 * @param context
+	 *            the task context
 	 */
 	public void setContext(Object context) {
 		this.context = context;
 		executionContext.setAppContext( context );
 	}
-	
+
 	/**
-	 * returns the  object that encapsulates the context for running the task
+	 * returns the object that encapsulates the context for running the task
 	 * 
 	 * @return Returns the context.
 	 */
@@ -120,124 +148,353 @@ public abstract class EngineTask implements IEngineTask
 		return context;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getEngine()
 	 */
-	public ReportEngine getEngine()
+	public ReportEngine getEngine( )
 	{
 		return engine;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#addScriptableJavaObject(java.lang.String, java.lang.Object)
-	 */
-	public void addScriptableJavaObject(String jsName, Object obj)
+	public DataEngine getDataEngine()
 	{
-		executionContext.registerBean(jsName, obj);
+		return executionContext.getDataEngine().getDataEngine();
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#addScriptableJavaObject(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public void addScriptableJavaObject( String jsName, Object obj )
+	{
+		executionContext.registerBean( jsName, obj );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getID()
 	 */
-	public int getID()
+	public int getID( )
 	{
 		return taskID;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IEngineTask#getReportRunnable()
 	 */
-	public IReportRunnable getReportRunnable()
+	public IReportRunnable getReportRunnable( )
 	{
 		return this.runnable;
 	}
-	
+
 	/**
-	 * @param params a collection of parameter definitions
+	 * evaluate a script and convert the value to specified type.
+	 * @param expr exprestion statement
+	 * @param type value type
+	 * @return result with the specified type.
 	 */
-	protected HashMap evaluateDefaults(Collection params) 
+	protected Object evaluate( String expr, String type )
 	{
-		HashMap values = new HashMap();
-		if (params != null)
+		if ( expr == null || expr.length( ) == 0 )
 		{
-			Iterator iter = params.iterator();
-			while (iter.hasNext())
-			{
-				IParameterDefnBase pBase = (IParameterDefnBase) iter.next();
-				if (pBase instanceof ScalarParameterDefn) 
-				{
-					Object val = evaluateDefault((ScalarParameterDefn) pBase, ((ScalarParameterDefn) pBase).getDefaultValueExpr());
-					values.put(pBase.getName(), val);
-				}
-				else if (pBase instanceof ParameterGroupDefn)
-				{
-					executionContext.pushReportItem(((ParameterGroupDefn) pBase).getHandle());
-					Iterator iter2 = ((ParameterGroupDefn) pBase).getContents().iterator();
-					while (iter2.hasNext())
-					{
-							IParameterDefnBase p = (IParameterDefnBase) iter2.next();
-							if (p instanceof ScalarParameterDefn) 
-							{
-								Object val = evaluateDefault((ScalarParameterDefn) p,((ScalarParameterDefn) p).getDefaultValueExpr() );
-								values.put(pBase.getName(), val);
-							}
-					}
-					
-					executionContext.popReportItem();
-				}
-			}
+			return null;
 		}
-		return values;
+		try
+		{
+			Object value = executionContext.evaluate( expr );
+			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+			{
+				return DataTypeUtil.toBoolean( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+			{
+				return DataTypeUtil.toDate( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
+			{
+				return DataTypeUtil.toBigDecimal( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+			{
+				return DataTypeUtil.toDouble( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+			{
+				return DataTypeUtil.toString( value );
+			}
+			return value;
+
+		}
+		catch ( BirtException e )
+		{
+			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#validateParameters()
+	 */
+	public boolean validateParameters( )
+	{
+		//set the parameter values into the execution context 
+		usingParameterValues();
+
+		//validate each parameter to see if it is validate
+		return new ParameterVisitor( ) {
+
+			boolean visitScalarParameter( ScalarParameterHandle param )
+			{
+				return validateScalarParameter( param );
+			}
+
+			boolean visitParameterGroup( ParameterGroupHandle group )
+			{
+				return visitParametersInGroup( group );
+			}
+		}.visit( );
 	}
 
 	/**
-	 * @param p the scalar parameter
-	 * @param expr the default value expression 
+	 * validate whether the parameter value is a valid value for the parameter
+	 * 
+	 * @param p
+	 *            the parameter to be verified
+	 * @param paramValue
+	 *            the value for the parameter
+	 * @return true if the given parameter value is valid; false otherwise
 	 */
-	private Object evaluateDefault(ScalarParameterDefn p, String expr)
+	private boolean validateScalarParameter( ScalarParameterHandle paramHandle)
 	{
-		executionContext.pushReportItem(p.getHandle());
-		Object value = null;
-		int type = p.getDataType();
-		
-		// evaluate the default value expression
-		if (expr != null)
+
+		String paramName = paramHandle.getName( );
+		Object paramValue = runValues.get( paramName );
+		String type = paramHandle.getDataType( );
+
+		// Handle null parameter values
+		if ( paramValue == null )
 		{
-			value = executionContext.evaluate(expr);
-			if( value == null && expr != null && expr.length() > 0)
-				value = expr;
-			try
-			{
-				switch (type)
-				{
-					case IScalarParameterDefn.TYPE_BOOLEAN :
-						value = DataTypeUtil.toBoolean(value);
-						break;
-					case IScalarParameterDefn.TYPE_DATE_TIME :
-						value = DataTypeUtil.toDate(value);
-						break;
-					case IScalarParameterDefn.TYPE_DECIMAL :
-						value = DataTypeUtil.toBigDecimal(value);
-						break;
-					case IScalarParameterDefn.TYPE_FLOAT :
-						value = DataTypeUtil.toDouble(value);
-						break;
-					case IScalarParameterDefn.TYPE_STRING:
-						value = DataTypeUtil.toString(value);
-						break;
-					default:
-						value = null;
-						break;
-				}
-	
-			}
-			catch (BirtException e)
-			{
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				value = null;
-			}
+			if ( paramHandle.allowNull( ) )
+				return true;
+
+			log.log( Level.SEVERE, "Parameter {0} doesn't allow a null value.", //$NON-NLS-1$ 
+					paramName );
+			return false;
 		}
-		executionContext.popReportItem();
-		return value;
+
+		/*
+		 * Validate based on parameter type
+		 */
+		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
+				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+		{
+			if ( paramValue instanceof Number )
+				return true;
+
+			log
+					.log(
+							Level.SEVERE,
+							"The supplied value {0} for parameter {1} is not a number.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
+			return false;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+		{
+			if ( paramValue instanceof Date )
+				return true;
+			log
+					.log(
+							Level.SEVERE,
+							"The supplied value {0} for parameter {1} is not a valid date.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
+			return false;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+		{
+			String value = paramValue.toString( ).trim( );
+			if ( value.equals( "" ) && !paramHandle.allowBlank( ) ) //$NON-NLS-1$
+			{
+				log.log( Level.SEVERE,
+						"parameter {0} can't be blank.", paramName ); //$NON-NLS-1$
+				return false;
+			}
+			return true;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+		{
+			if ( paramValue instanceof Boolean )
+				return true;
+			log
+					.log(
+							Level.SEVERE,
+							"The supplied value {0} for parameter {1} is not a boolean.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#setParameterValues(java.util.HashMap)
+	 */
+	public void setParameterValues( HashMap params )
+	{
+		parameterChanged = true;
+		inputValues.putAll(params);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setParameterValue(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public void setParameterValue( String name, Object value )
+	{
+		parameterChanged = true;
+		inputValues.put( name, value );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#getParameterValues()
+	 */
+	public HashMap getParameterValues( )
+	{
+		return (HashMap)inputValues.clone();
+	}
+	
+	public Object getParameterValue(String name)
+	{
+		return inputValues.get(name);
+	}
+	
+
+	/**
+	 * class used to visit all parameters
+	 * 
+	 * @version $Revision:$ $Date:$
+	 */
+	abstract class ParameterVisitor
+	{
+
+		boolean visitParametersInGroup( ParameterGroupHandle group )
+		{
+			SlotHandle parameters = group.getParameters( );
+			Iterator iter = parameters.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object param = iter.next( );
+				if ( param instanceof ParameterGroupHandle )
+				{
+					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					{
+						return false;
+					}
+				}
+				else if ( param instanceof ScalarParameterHandle )
+				{
+					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		boolean visitParameterGroup( ParameterGroupHandle group )
+		{
+			return false;
+		}
+
+		boolean visitScalarParameter( ScalarParameterHandle param )
+		{
+			return false;
+		}
+
+		boolean visit( )
+		{
+			ReportDesignHandle report = (ReportDesignHandle) runnable
+					.getDesignHandle( );
+			SlotHandle parameters = report.getParameters( );
+			Iterator iter = parameters.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object param = iter.next( );
+				if ( param instanceof ParameterGroupHandle )
+				{
+					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					{
+						return false;
+					}
+				}
+				else if ( param instanceof ScalarParameterHandle )
+				{
+					if ( !visitScalarParameter( (ScalarParameterHandle) param ) )
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+
+	protected IQueryResults executeDataSet(DataSetHandle hDataSet, HashMap parameters)
+	{
+		return null;
+	}
+	
+	/**
+	 * use the user setting parameters values to setup the execution context.
+	 * the user setting values and default values are merged here.
+	 */
+	protected void usingParameterValues()
+	{
+		if (!parameterChanged)
+		{
+			return;
+		}
+		
+		parameterChanged = false;
+		
+		//clear previous settings
+		executionContext.getParams().clear();
+		runValues.clear();
+		
+		//set the user setting values into the execution context
+		executionContext.getParams().putAll(inputValues);
+		runValues.putAll(inputValues);
+		
+		//use default value for the parameter without user value.
+		new ParameterVisitor()
+		{
+			boolean visitScalaraParameter( ScalarParameterHandle param )
+			{
+				String name = param.getName();
+				if (!inputValues.containsKey(name))
+				{
+					Object value = evaluate(param.getDefaultValue(), param.getDataType());
+					executionContext.getParams().put(name, value);
+					runValues.put(name, value);
+				}
+				return true;
+			}
+
+			boolean visitParameterGroup( ParameterGroupHandle group )
+			{
+				return visitParametersInGroup( group );
+			}
+		}.visit();
 	}
 }

@@ -277,6 +277,11 @@ public class ReportEngine
 	{
 		return helper.createGetParameterDefinitionTask( reportRunnable );
 	}
+	
+	public IDataPreviewTask createDataPreviewTask(IReportRunnable reportRunnable)
+	{
+		return helper.createDataPreviewTask(reportRunnable);
+	}
 
 	/**
 	 * returns all supported output formats through BIRT engine emitter
