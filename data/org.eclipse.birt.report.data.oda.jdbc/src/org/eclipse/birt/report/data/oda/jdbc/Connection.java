@@ -85,9 +85,11 @@ public class Connection implements IConnection
 				Connection.class.getName( ),
 				"createStatement",
 				"Connection.createStatement(" + dataSourceType + ")" );
+		
 		// only one data source type, ignoring the argument.
 		assertOpened( );
-		if ( dataSourceType.equalsIgnoreCase( advancedDataType ) )
+		if ( dataSourceType != null
+				&& dataSourceType.equalsIgnoreCase( advancedDataType ) )
 			return new CallStatement( jdbcConn );
 		else
 			return new Statement( jdbcConn );
