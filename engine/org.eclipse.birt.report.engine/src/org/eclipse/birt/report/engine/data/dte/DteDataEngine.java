@@ -45,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.19 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.20 $ $Date: 2005/10/12 19:15:47 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -121,7 +121,7 @@ public class DteDataEngine implements IDataEngine
 	{
 		this.context = context;
 
-		engine = DataEngine.newDataEngine( context.getScope( ) );
+		engine = DataEngine.newDataEngine( context.getSharedScope( ) );
 	}
 
 	/*
@@ -207,7 +207,7 @@ public class DteDataEngine implements IDataEngine
 
 		if ( query instanceof IQueryDefinition )
 		{
-			Scriptable scope = context.getScope( );
+			Scriptable scope = context.getSharedScope( );
 			IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
 			assert ( pQuery != null );
 			if ( pQuery != null )
@@ -253,7 +253,7 @@ public class DteDataEngine implements IDataEngine
 				IResultIterator ri = ( (DteResultSet) rsStack.getLast( ) )
 						.getRs( ).getSecondaryIterator(
 								( (ISubqueryDefinition) query ).getName( ),
-								context.getScope( ) );
+								context.getSharedScope( ) );
 				assert ri != null;
 				DteResultSet dRS = new DteResultSet( ri, this );
 				rsStack.addLast( dRS );

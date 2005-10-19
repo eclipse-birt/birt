@@ -42,7 +42,7 @@ import org.w3c.dom.Node;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.18 $ $Date: 2005/06/22 02:48:16 $
  */
 public class TextItemExecutor extends StyledItemExecutor
 {
@@ -80,6 +80,8 @@ public class TextItemExecutor extends StyledItemExecutor
 		IResultSet rs = null;
 		try
 		{
+			context.enterScope(textContent);
+			
 			rs = openResultSet( item );
 			if ( rs != null )
 			{
@@ -144,6 +146,7 @@ public class TextItemExecutor extends StyledItemExecutor
 				textContent.setBookmarkValue( bookmarkStr );
 			}
 
+			context.evaluate(item.getOnCreate());
 			textEmitter.start( textContent );
 			textEmitter.end( );
 		}
@@ -158,6 +161,7 @@ public class TextItemExecutor extends StyledItemExecutor
 		finally
 		{
 			closeResultSet( rs );
+			context.exitScope();
 		}		
 	}
 

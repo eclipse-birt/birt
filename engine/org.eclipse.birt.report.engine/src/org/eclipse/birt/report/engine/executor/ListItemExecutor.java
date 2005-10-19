@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.17 $ $Date: 2005/06/22 02:48:16 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {
@@ -70,6 +70,8 @@ public class ListItemExecutor extends ListingElementExecutor
 		ContainerContent listContent = (ContainerContent) ContentFactory
 				.createContainerContent( item, context.getContentObject( ) );
 		context.pushContentObject( listContent );
+		
+		context.enterScope(listContent);
 				
 		try
 		{
@@ -90,6 +92,8 @@ public class ListItemExecutor extends ListingElementExecutor
 
 			setVisibility( item, listContent );
 			setStyles( listContent, item );
+
+			context.evaluate(item.getOnCreate());
 			
 			emitter.getContainerEmitter( ).start( listContent );
 
@@ -115,6 +119,7 @@ public class ListItemExecutor extends ListingElementExecutor
 		{
 			closeResultSet( rs );			
 			context.popContentObject( );
+			context.exitScope();
 			logger.log( Level.FINE, "end list item" ); //$NON-NLS-1$
 		}
 		

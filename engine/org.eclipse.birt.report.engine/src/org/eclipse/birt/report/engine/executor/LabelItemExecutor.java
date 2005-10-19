@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.9 $ $Date: 2005/05/11 08:18:32 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -47,20 +47,23 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 */
 	public void execute( ReportItemDesign item, IReportEmitter emitter )
 	{
-		LabelItemDesign labelItem = ( LabelItemDesign ) item;
-		TextItemContent textObj =(TextItemContent) ContentFactory
-				.createTextContent( labelItem, context.getContentObject( ) );
-		textObj
-				.setHelpText(
-						getLocalizedString( labelItem.getHelpTextKey( ), labelItem.getHelpText( ) ) );
-		textObj.setValue( getLocalizedString( labelItem.getTextKey( ), labelItem.getText( ) ) );
-		setStyles( textObj, item );
-		setVisibility( item, textObj );
+		LabelItemDesign labelItem = (LabelItemDesign) item;
 		IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
 		if ( textEmitter == null )
 		{
 			return;
 		}
+		TextItemContent textObj = (TextItemContent) ContentFactory
+				.createTextContent( labelItem, context.getContentObject( ) );
+
+		context.enterScope( textObj );
+
+		textObj.setHelpText( getLocalizedString( labelItem.getHelpTextKey( ),
+				labelItem.getHelpText( ) ) );
+		textObj.setValue( getLocalizedString( labelItem.getTextKey( ),
+				labelItem.getText( ) ) );
+		setStyles( textObj, item );
+		setVisibility( item, textObj );
 
 		processAction( labelItem.getAction( ), textObj );
 		String bookmarkStr = evalBookmark( item );
@@ -69,7 +72,7 @@ public class LabelItemExecutor extends StyledItemExecutor
 
 		Object value = textObj.getValue( );
 		value = getMapVal( value, item );
-		if( value == null )
+		if ( value == null )
 		{
 			textObj.setValue( "" ); //$NON-NLS-1$
 		}
@@ -77,7 +80,10 @@ public class LabelItemExecutor extends StyledItemExecutor
 		{
 			textObj.setValue( value.toString( ) );
 		}
-		
+
+		context.evaluate( labelItem.getOnCreate( ) );
+		context.exitScope( );
+
 		textEmitter.start( textObj );
 		textEmitter.end( );
 	}

@@ -26,7 +26,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.16 $ $Date: 2005/06/01 10:53:44 $
+ * @version $Revision: 1.17 $ $Date: 2005/07/04 09:06:11 $
  */
 public class ScriptContext
 {
@@ -42,6 +42,9 @@ public class ScriptContext
 	 */
 	protected Context context;
 
+	protected ImporterTopLevel global;
+	
+	protected Scriptable sharedScope;
 	/**
 	 * The JavaScript scope used for script execution
 	 */
@@ -72,13 +75,15 @@ public class ScriptContext
 		try
 		{
 			this.context = Context.enter( );
-			ImporterTopLevel global = new ImporterTopLevel();
+			global = new ImporterTopLevel();
 			if (root != null)
 			{
 				global.setPrototype( root );
 			}
 			global.initStandardObjects(context, true);
 			this.scope = global;
+			sharedScope = context.newObject(scope);
+			
 		}
 		catch ( Exception ex )
 		{
@@ -148,6 +153,7 @@ public class ScriptContext
 		}
 		newScope.setParentScope( scope );
 		scope = newScope;
+		sharedScope.setParentScope(scope);
 		return newScope;
 	}
 
@@ -160,6 +166,7 @@ public class ScriptContext
 		Scriptable parentScope = scope.getParentScope( );
 		if ( parentScope != null )
 			scope = parentScope;
+		sharedScope.setParentScope(scope);
 	}
 
 	/**
@@ -168,6 +175,16 @@ public class ScriptContext
 	public Scriptable getScope( )
 	{
 		return scope;
+	}
+	
+	public Scriptable getSharedScope()
+	{
+		return sharedScope;
+	}
+	
+	public Scriptable getRootScope()
+	{
+		return global;
 	}
 
 	public Context getContext( )
@@ -245,6 +262,11 @@ public class ScriptContext
 			return jsValue;
 		}
 		return Context.toType( jsValue, Object.class );
+	}
+	
+	public Object javaToJs(Object value)
+	{
+		return Context.javaToJS(value, scope);
 	}
 
 	/**

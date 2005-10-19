@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/08 06:59:45 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -52,7 +52,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * scripted called while on created
 	 */
-	protected String onCreate;
+	protected Expression onCreate;
 	
 	/**
 	 * script called while on render
@@ -189,14 +189,14 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the onCreate.
 	 */
-	public String getOnCreate( )
+	public Expression getOnCreate( )
 	{
 		return onCreate;
 	}
 	/**
 	 * @param onCreate The onCreate to set.
 	 */
-	public void setOnCreate( String onCreate )
+	public void setOnCreate( Expression onCreate )
 	{
 		this.onCreate = onCreate;
 	}

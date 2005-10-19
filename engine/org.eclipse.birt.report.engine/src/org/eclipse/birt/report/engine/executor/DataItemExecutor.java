@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**
@@ -34,7 +33,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * text content instance, set bookmark, action and help text property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.13 $ $Date: 2005/05/12 07:18:53 $
+ * @version $Revision: 1.14 $ $Date: 2005/06/22 02:48:16 $
  */
 public class DataItemExecutor extends StyledItemExecutor
 {
@@ -79,6 +78,7 @@ public class DataItemExecutor extends StyledItemExecutor
 		IResultSet rs = null;
 		try
 		{
+			context.enterScope(textObj);
 			rs = openResultSet( item );
 			if ( rs != null )
 			{
@@ -100,8 +100,7 @@ public class DataItemExecutor extends StyledItemExecutor
 			{
 				if ( value instanceof Number )
 				{
-					String numberAlign = ( (StyleDesign) textObj
-							.getMergedStyle( ) ).getNumberAlign( );
+					String numberAlign = textObj.getStyle( ).getNumberAlign();
 					if ( numberAlign != null )
 					{
 						// set number alignment
@@ -116,6 +115,9 @@ public class DataItemExecutor extends StyledItemExecutor
 			String bookmarkStr = evalBookmark( item );
 			if ( bookmarkStr != null )
 				textObj.setBookmarkValue( bookmarkStr );
+			
+			context.evaluate(dataItem.getOnCreate());
+			
 			//pass the text content instance to emitter
 			textEmitter.start( textObj );
 			textEmitter.end( );
@@ -130,6 +132,7 @@ public class DataItemExecutor extends StyledItemExecutor
 		finally
 		{
 			closeResultSet( rs );
+			context.exitScope();
 		}
 	}
 

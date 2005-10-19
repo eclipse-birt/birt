@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.report.engine.content.IStyle;
+
 
 /**
  * Master Page
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/18 04:47:49 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {
@@ -54,7 +56,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 */
 	protected String orientation;
 
-	protected StyleDesign contentStyle = null;
+	protected IStyle contentStyle = null;
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
@@ -198,12 +200,12 @@ abstract public class MasterPageDesign extends StyledElementDesign
 		this.orientation = orientation;
 	}
 	
-	public StyleDesign getContentStyle( )
+	public IStyle getContentStyle( )
 	{
 		return contentStyle;
 	}
 	
-	public void setContentStyle( StyleDesign contentStyle)
+	public void setContentStyle( IStyle contentStyle)
 	{
 		this.contentStyle = contentStyle;
 	}

@@ -27,7 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>HTMLTableEmitter</code> is a concrete subclass of
  * <code>HTMLBaseEmitter</code> that outputs a table to HTML file.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/23 11:57:39 $
+ * @version $Revision: 1.18 $ $Date: 2005/08/26 02:13:48 $
  */
 public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 {
@@ -37,7 +37,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 	 * so that <code>HTMLTableEmitter</code> can fill the missing cells, get
 	 * the colAlign attribute for a cell, etc.
 	 * 
-	 * @version $Revision: 1.17 $ $Date: 2005/05/23 11:57:39 $
+	 * @version $Revision: 1.18 $ $Date: 2005/08/26 02:13:48 $
 	 */
 	private class PersistData
 	{
@@ -223,13 +223,13 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		DimensionType y = tableObj.getY( );
 		StringBuffer styleBuffer = new StringBuffer( );
 
-		IStyle mergedStyle = tableObj.getMergedStyle( );
+		IStyle mergedStyle = tableObj.getStyle( );
 		addDefaultTableStyles( mergedStyle, styleBuffer );
 
 		writer.openTag( HTMLTags.TAG_TABLE );
 
 		// style string
-		setStyleName( tableObj.getStyle( ) );
+		setStyleName( tableObj.getNamedStyle( ) );
 		int display = checkElementType( x, y, mergedStyle, styleBuffer );
 		setDisplayProperty( display, DISPLAY_INLINE, styleBuffer );
 
@@ -325,7 +325,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 
 		writer.openTag( HTMLTags.TAG_COL );
 
-		setStyleName( columnObj.getStyle( ) );
+		setStyleName( columnObj.getNamedStyle( ) );
 
 		// width
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -371,7 +371,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 		}
 		writer.openTag( HTMLTags.TAG_TR );
 
-		setStyleName( rowObj.getStyle( ) );
+		setStyleName( rowObj.getNamedStyle( ) );
 
 		// bookmark
 		setBookmark( null, rowObj.getBookmarkValue( ) );
@@ -429,7 +429,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 			writer.openTag( HTMLTags.TAG_TD ); //$NON-NLS-1$
 
 			// set the 'name' property
-			setStyleName( cellObj.getStyle( ) );
+			setStyleName( cellObj.getNamedStyle( ) );
 
 			// colspan
 			if ( ( cellObj.getColSpan( ) ) > 1 )
@@ -443,7 +443,7 @@ public class HTMLTableEmitter extends HTMLBaseEmitter implements ITableEmitter
 				writer.attribute( HTMLTags.ATTR_ROWSPAN, cellObj.getRowSpan( ) );
 			}
 
-			IStyle mergedStyle = cellObj.getMergedStyle( ); 
+			IStyle mergedStyle = cellObj.getStyle( ); 
 			StringBuffer styleBuffer = new StringBuffer( );
 			if ( isEmbedded && ( mergedStyle == null || mergedStyle.getVerticalAlign( ) == null ) )
 			{

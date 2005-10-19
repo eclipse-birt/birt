@@ -39,7 +39,6 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.elements.Style;
 
@@ -281,8 +280,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				{
 					if ( value instanceof Number )
 					{
-						String numberAlign = ( (StyleDesign) customContent
-								.getMergedStyle( ) ).getNumberAlign( );
+						String numberAlign = customContent
+								.getStyle( ).getNumberAlign( );
 						if ( numberAlign != null )
 						{
 							// set number alignment
@@ -363,7 +362,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		IBaseQueryDefinition[] queries = extItem.getQueries( );
 		if ( queries != null )
 		{
-			context.newScope( );
+			//context.newScope( );
 			rowSets = new IRowSet[queries.length];
 			for ( int i = 0; i < rowSets.length; i++ )
 			{
@@ -392,7 +391,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 					rowSets[i].close( );
 				}
 			}
-			context.exitScope( );
+			//context.exitScope( );
 		}
 	}
 }

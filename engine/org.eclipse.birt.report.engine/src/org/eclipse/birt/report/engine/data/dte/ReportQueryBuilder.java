@@ -96,7 +96,7 @@ import org.w3c.dom.Node;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.31 $ $Date: 2005/06/20 02:58:06 $
+ * @version $Revision: 1.32 $ $Date: 2005/06/22 02:48:16 $
  */
 public class ReportQueryBuilder
 {
@@ -545,6 +545,7 @@ public class ReportQueryBuilder
 				}
 			}
 			addExpression( item.getBookmark( ) );
+			addExpression( item.getOnCreate( ) );
 			handleStyle( item.getStyle( ) );
 			handleHighlightExpressions( item.getHighlight( ) );
 			handleMapExpressions( item.getMap( ) );

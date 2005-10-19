@@ -32,7 +32,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/18 02:15:18 $
+ * @version $Revision: 1.13 $ $Date: 2005/06/22 02:48:16 $
  */
 public class GridItemExecutor extends StyledItemExecutor
 {
@@ -69,6 +69,7 @@ public class GridItemExecutor extends StyledItemExecutor
 		IResultSet rs = null;
 		try
 		{
+			context.enterScope(tableObj);
 			rs = openResultSet( item );
 			if ( rs != null )
 			{
@@ -80,6 +81,8 @@ public class GridItemExecutor extends StyledItemExecutor
 			String bookmarkStr = evalBookmark( gridItem );
 			if ( bookmarkStr != null )
 				tableObj.setBookmarkValue( bookmarkStr );
+
+			context.evaluate(item.getOnCreate());
 			
 			tableEmitter.start( tableObj );
 
@@ -151,7 +154,8 @@ public class GridItemExecutor extends StyledItemExecutor
 		}
 		finally
 		{
-			closeResultSet( rs );			
+			closeResultSet( rs );
+			context.exitScope();
 		}
 	}
 

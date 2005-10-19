@@ -64,7 +64,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.31 $ $Date: 2005/08/09 03:49:04 $
+ * @version $Revision: 1.32 $ $Date: 2005/10/12 19:15:47 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -170,7 +170,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 		}
 
 		initailizeScriptContext( scriptContext.getContext( ), scriptContext
-				.getScope( ) );
+				.getRootScope( ) );
 		// create script context used to execute the script statements
 		// register the global variables in the script context
 		scriptContext.registerBean( "report", new ReportObject( ) );
@@ -234,6 +234,19 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public void newScope( )
 	{
 		scriptContext.enterScope( );
+	}
+	
+	public void enterScope(Object object)
+	{
+		Object jsObject = scriptContext.javaToJs(object);
+		if (jsObject instanceof Scriptable)
+		{
+			scriptContext.enterScope((Scriptable)jsObject);
+		}
+		else
+		{
+			scriptContext.enterScope();
+		}
 	}
 
 	/**
@@ -685,6 +698,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 	public Scriptable getScope( )
 	{
 		return scriptContext.getScope( );
+	}
+	
+	public Scriptable getSharedScope()
+	{
+		return scriptContext.getSharedScope();
 	}
 
 	/**

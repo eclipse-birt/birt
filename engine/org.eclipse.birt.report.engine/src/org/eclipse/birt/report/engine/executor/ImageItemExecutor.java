@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.logging.Level;
@@ -56,7 +55,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.19 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.20 $ $Date: 2005/10/18 09:27:59 $
  */
 public class ImageItemExecutor extends StyledItemExecutor
 {
@@ -85,7 +84,6 @@ public class ImageItemExecutor extends StyledItemExecutor
 	{
 		assert item instanceof ImageItemDesign;
 		ImageItemDesign imageItem = (ImageItemDesign) item;
-		String itemName = item.getName( );
 
 		IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
 		if ( imageEmitter == null )
@@ -96,6 +94,9 @@ public class ImageItemExecutor extends StyledItemExecutor
 		// Initializes
 		ImageItemContent imageContent = (ImageItemContent)ContentFactory
 				.createImageContent( imageItem, context.getContentObject( ) );
+
+		context.enterScope(imageContent);
+		
 		imageContent.setHelpText( getLocalizedString( imageItem
 				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
 		imageContent.setAltText( getLocalizedString(
@@ -301,6 +302,10 @@ public class ImageItemExecutor extends StyledItemExecutor
 		setVisibility( item, imageContent );
 		// forward to emitter for further processing
 
+		context.evaluate(item.getOnCreate());
+		
+		context.exitScope();
+		
 		imageEmitter.start( imageContent );
 		imageEmitter.end( );
 		

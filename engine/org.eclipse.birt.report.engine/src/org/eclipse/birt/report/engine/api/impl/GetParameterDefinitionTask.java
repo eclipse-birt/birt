@@ -445,7 +445,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				IPreparedQuery query = dataEngine.prepare(queryDefn);
 				
-				IQueryResults result = query.execute(executionContext.getScope());
+				IQueryResults result = query.execute(executionContext.getSharedScope());
 				IResultIterator iter = result.getResultIterator();
 				while (iter.next())
 				{
@@ -533,7 +533,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				}
 
 				IPreparedQuery query = dataEngine.prepare(queryDefn);				
-				IQueryResults result = query.execute(executionContext.getScope());
+				IQueryResults result = query.execute(executionContext.getSharedScope());
 				IResultIterator resultIter = result.getResultIterator();
 				dataCache.put( parameterGroup.getName(), resultIter );
 				return;

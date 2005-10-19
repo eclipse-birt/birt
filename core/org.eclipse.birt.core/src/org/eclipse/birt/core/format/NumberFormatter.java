@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/13 05:51:41 $
+ * @version $Revision: 1.11 $ $Date: 2005/08/26 06:37:11 $
  * 
  * Defines a number formatting class. It does the following:
  * 1. In constructor, convert format string to Java format string. 
@@ -205,6 +205,26 @@ public class NumberFormatter
 			return null;
 		}
 	}
+	
+	public String format( Number number )
+	{
+		try
+		{
+			if ( hexFlag == true )
+			{
+				return Long.toHexString( number.longValue());
+			}
+
+			return numberFormat.format( number );
+
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e ); //$NON-NLS-1$
+			return null;
+		}
+	}
+	
 
 	/**
 	 * formats a long integer

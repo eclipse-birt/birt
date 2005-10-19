@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ReportElementContent;
 import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
 import org.eclipse.birt.report.engine.content.impl.RowContent;
@@ -34,7 +35,6 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
-import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * Defines an abstract base class for all styled element executors, including
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.17 $ $Date: 2005/05/20 03:39:29 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -76,11 +76,10 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	{
 		StyleDesign style = design.getStyle( );
 		StyleDesign highlightStyle;
-		StyleDesign mergedStyle;
 
 		assert style != null;
 
-		content.setStyle( style );
+		content.setNamedStyle( style );
 
 		handleBackgroundImage( style );
 
@@ -88,72 +87,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 		if ( highlightStyle != null && highlightStyle.entrySet( ).size( ) > 0 )
 		{
 			handleBackgroundImage( highlightStyle );
-			content.setHighlightStyle( highlightStyle );
-			mergedStyle = style.mergeWithInlineStyle( highlightStyle );
+			content.setInlineStyle( highlightStyle );
 		}
-		else
-		{
-			mergedStyle = style;
-		}
-
-		content.setMergedStyle( mergedStyle );
-	}
-
-	/**
-	 * Get the real style of the report item.
-	 * 
-	 * @param item
-	 *            The report item design with style.
-	 * @return The real style of the report item for presentation.
-	 */
-	protected StyleDesign getActualStyle( StyledElementDesign item )
-	{
-		//TODO performance may be enhanced in this function. Also we only
-		// handle the highlight of this item's style.
-		StyleDesign style = new StyleDesign( );
-		//Expression defaultTestExp = null;
-		//if ( item instanceof DataItemDesign )
-		//{
-		//	defaultTestExp = ( (DataItemDesign) item ).getValue( );
-		//}
-		style = mergeStyle( style, item );
-		handleBackgroundImage( style );
-		//selector style
-		//		StyleDesign selectorStyle=null;
-		//		mergeStyle(style,selectorStyle);
-		//		//named style
-		//		StyleDesign namedStyle=null;
-		//		mergeStyle(style,namedStyle);
-		//		//inline style
-		//		StyleDesign inlineStyle=null;
-		//		mergeStyle(style,inlineStyle);
-
-		return style;
-	}
-
-	/**
-	 * Merges the style and the highlight style.
-	 * 
-	 * @param mergingStyle
-	 *            The style merging with others.
-	 * @param mergedStyle
-	 *            The merged style with highlight style.
-	 * @return The style after merging.
-	 */
-	private StyleDesign mergeStyle( StyleDesign mergingStyle,
-			StyledElementDesign item )
-	{
-		if ( item.getStyle( ) != null )
-		{
-			mergingStyle = mergingStyle.mergeWithInlineStyle( item.getStyle( ) );
-			StyleDesign highlightStyle = getStyleFromHighlight( item );
-			if ( highlightStyle != null )
-			{
-				mergingStyle = mergingStyle
-						.mergeWithInlineStyle( highlightStyle );
-			}
-		}
-		return mergingStyle;
 	}
 
 	/**
@@ -247,7 +182,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            string will be appended.
 	 */
 	protected void formatValue( Object value, String formatStr,
-			StyleDesign style, StringBuffer formattedStr,ReportElementContent reportContent )
+			IStyle style, StringBuffer formattedStr,ReportElementContent reportContent )
 	{
 		if ( value == null )
 		{
@@ -306,7 +241,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param style
 	 *            the style that defines background image related properties
 	 */
-	protected void handleBackgroundImage( StyleDesign style )
+	protected void handleBackgroundImage( IStyle style )
 	{
 		if ( style == null )
 			return;
@@ -321,7 +256,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					.getBasePath( ), image );
 			if ( image != null && image.length( ) > 0 )
 			{
-				style.put( Style.BACKGROUND_IMAGE_PROP, image );
+				style.setBackgroundImage(image );
 			}
 		}
 	}

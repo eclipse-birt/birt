@@ -15,7 +15,7 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the ROM style
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:45 $
  */
 public interface IStyle
 {
@@ -27,7 +27,9 @@ public interface IStyle
 	 *            property name
 	 * @return property value, null if the property is not set.
 	 */
-	public String getStyleProperty( String styleName );
+	public String getProperty( String styleName );
+	
+	public void setProperty(String styleName, String value);
 
 	public String getFontFamily( );
 
@@ -132,8 +134,131 @@ public interface IStyle
 	public String getShowIfBlank( );
 
 	public String getCanShrink( );
-
+	
 	public String getName( );
+	
+	public String getNumberAlign();
+	
+	public String getNumberFormat();
+	
+	public String getStringFormat();
+	
+	public String getDateTimeFormat();
+	
+	public void setFontFamily(String v);
+
+	public void setFontStyle(String v);
+
+	public void setFontVariant(String v);
+
+	public void setFontWeight(String v);
+
+	public void setFontSize(String v);
+
+	public void setColor(String v);
+
+	public void setBackgroundColor(String v);
+
+	public void setBackgroundImage(String v);
+
+	public void setBackgroundRepeat(String v);
+
+	public void setBackgroundAttachment(String v);
+
+	public void setBackgroundPositionX(String v);
+
+	public void setBackgroundPositionY(String v);
+
+	public void setWordSpacing(String v);
+
+	public void setLetterSpacing(String v);
+
+	public void setTextUnderline(String v);
+
+	public void setTextOverline(String v);
+
+	public void setTextLineThrough(String v);
+
+	public void setVerticalAlign(String v);
+
+	public void setTextTransform(String v);
+
+	public void setTextAlign(String v);
+
+	public void setTextIndent(String v);
+
+	public void setLineHeight(String v);
+
+	public void setWhiteSpace(String v);
+
+	public void setMarginTop(String v);
+
+	public void setMarginBottom(String v);
+
+	public void setMarginLeft(String v);
+
+	public void setMarginRight(String v);
+
+	public void setPaddingTop(String v);
+
+	public void setPaddingBottom(String v);
+
+	public void setPaddingLeft(String v);
+
+	public void setPaddingRight(String v);
+
+	public void setBorderTopWidth(String v);
+
+	public void setBorderBottomWidth(String v);
+
+	public void setBorderLeftWidth(String v);
+
+	public void setBorderRightWidth(String v);
+
+	public void setBorderTopColor(String v);
+
+	public void setBorderBottomColor(String v);
+
+	public void setBorderLeftColor(String v);
+
+	public void setBorderRightColor(String v);
+
+	public void setBorderTopStyle(String v);
+
+	public void setBorderBottomStyle(String v);
+
+	public void setBorderLeftStyle(String v);
+
+	public void setBorderRightStyle(String v);
+
+	public void setDisplay(String v);
+
+	public void setOrphans(String v);
+
+	public void setWidows(String v);
+
+	public void setPageBreakAfter(String v);
+
+	public void setPageBreakBefore(String v);
+
+	public void setPageBreakInside(String v);
+
+	public void setMasterPage(String v);
+
+	public void setShowIfBlank(String v);
+
+	public void setCanShrink(String v);
+	
+	public void setName(String v);
+	
+	public void setNumberAlign(String v);
+	
+	public void setNumberFormat(String v);
+	
+	public void setStringFormat(String v);
+	
+	public void setDateTimeFormat(String v);
+
 
 	public boolean isSameStyle( Object o );
 

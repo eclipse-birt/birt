@@ -134,7 +134,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.46 $ $Date: 2005/07/05 06:43:33 $
+ * @version $Revision: 1.47 $ $Date: 2005/07/11 05:55:42 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1101,7 +1101,11 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			item.setBookmark( new Expression( bookmark ) );
 		}
-		item.setOnCreate( handle.getOnCreate( ) );
+		String onCreate = handle.getOnCreate( );
+		if (onCreate != null)
+		{
+			item.setOnCreate( new Expression(onCreate) );
+		}
 		item.setOnRender( handle.getOnRender( ) );
 
 		//Sets up the visibility

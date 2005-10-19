@@ -46,7 +46,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.18 $ $Date: 2005/05/23 11:57:54 $
+ * @version $Revision: 1.19 $ $Date: 2005/06/22 02:48:16 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -125,11 +125,13 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		this.table = (TableItemDesign) item;
 		logger.log( Level.FINE, "start table item" ); //$NON-NLS-1$
-		//execute the on start script
-		context.execute( table.getOnStart( ) );
 		TableContent tableObj = (TableContent) ContentFactory
 				.createTableContent( table, context.getContentObject( ) );
 		context.pushContentObject( tableObj );
+		context.enterScope(tableObj);
+
+		//execute the on start script
+		context.execute( table.getOnStart( ) );
 
 		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
 				.getCaption( ) ) );
@@ -151,6 +153,7 @@ public class TableItemExecutor extends ListingElementExecutor
 			if ( bookmarkStr != null )
 				tableObj.setBookmarkValue( bookmarkStr );
 
+			context.evaluate(item.getOnCreate());
 			tableEmitter.start( tableObj );
 
 			accessColumns( );
@@ -190,6 +193,8 @@ public class TableItemExecutor extends ListingElementExecutor
 			closeResultSet( rs );
 			logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
 			context.popContentObject( );
+			context.exitScope();
+
 		}
 		timer.stop( );
 		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
