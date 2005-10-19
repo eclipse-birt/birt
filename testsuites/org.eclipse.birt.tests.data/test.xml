@@ -14,8 +14,8 @@
  *
  *  Build.xml
  *
- *  Created on 09/07/2005
- *  Build script for project org.eclipse.birt.tests.regression.data
+ *  Created on 03/15/2005
+ *  Build script for project org.eclipse.birt.data
  *
  * 
  * The following are public targets callable by external users. 
@@ -23,14 +23,22 @@
  * The following are public targets callable by external users. 
  * 
  * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
+ * "Jar" - Compile source code and generate jar for this project.
+ *          The compile dependency on other projects should be defined explicitly.
+ *         eclipse.home should be passed in when Individual project build script  call this target; 
+ *          the property of "failonerror" should be set true(default) when compiling source code
  * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
  *              so it needn't depend on Jar explicitly
+ * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
+ *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "JavaDoc" - generate java documents
  *
  * Usage:
  *    ant [any one or more of the public targets] 
  *        -Declipse.home=<your eclipse home> 
+ *        -Ddtp.home=<your DTP plugins source home>   [optional]
  *
- * Default target is "UnitTest".
+ * Default target is "Jar".
  *
  * 
  * This script may also additional targets. These targets are private to this build script only. 
@@ -42,11 +50,12 @@
  *
  * Change History:
  *
+ *    1. 03/15/2005: initial version
  *
 -->
 
-<project name="BIRT Data Engine Regression Test Project" default="UnitTest" basedir=".">
-    <description>BIRT Data Engine Regression Test Project.</description>
+<project name="BIRT Data Engine Project" default="UnitTest" basedir=".">
+    <description>BIRT Data Engine Project.</description>
 	<property file="build.properties"/>		
 	
 	<!-- set global properties for this build -->
@@ -54,37 +63,49 @@
 	 	 at runtime. Properties will have there default value:
 		     eclipse.home
 		     utest.report.dir
+		     javadoc.dir
 		     plugin.version 
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
 	<property name="utest.report.dir" location="utestreports" />
+	<property name="javadoc.dir" location="docs/api" />
+	<property name="api.javadoc.dir" location="docs/birt/api"/>
 	<property name="plugin.version" value="1.0.1" />
+	<property name="export.dir" location="export" />
 
 	<property name="eclipse.home" location="." />
+	<property name="dtp.home" location=".." />
 	
+	<property name="core.dir" location="../org.eclipse.birt.core" />
+	<property name="dtp.oda.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda" />
+	<property name="oda.jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
+	<property name="module.name" value = "org.eclipse.birt.data" />
+	<property name="src" location="test" />
 	<property name="test.src" location="test" />
 	
 	<path id="class.path">
 		<pathelement path="${bin}" />
-		<pathelement path="${data.dir}/bin" />
 		<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 		</fileset>
 		<fileset dir="${core.dir}/lib">
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${oda.dir}">
+		<fileset dir="${dtp.oda.dir}">
 			<include name="oda.jar"/>
+			<include name="odaconsumer-helper.jar"/>
 		</fileset>
+		<fileset dir="${birt.oda.dir}">
+			<include name="oda.jar"/>
+		</fileset>	
 		<fileset dir="${oda.jdbc.dir}">
 			<include name="derby.jar"/>
 		</fileset>
+		<fileset dir="${dte.dir}">
+			<include name="dte.jar"/>
+		</fileset>	
 
-	<!--<fileset dir="test/plugins/org.eclipse.birt.report.data.oda.jdbc/drivers">
-			<include name="*.jar"/>
-		</fileset>
--->
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.eclipse.core.runtime_*/runtime.jar"/>
@@ -92,6 +113,7 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
 		</fileset>
+		
 	</path>
 	
 	<path id="class.path.test">
@@ -100,13 +122,13 @@
 			<include name="lib/*.jar"/>
 		</fileset>
 	</path>
-	
+
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
 	<!-- Run Unit test.
 			 Parameters:
 			 		- ${utest.report.dir} target directory to put the unit test report
 	-->
-	<target name="UnitTest" depends="cleanBuild,cleanUnitTest, testDependency,compileTest" description="run all the unit tests">
+	<target name="UnitTest" depends="compileTest, testDependency" description="run all the unit tests">
 		
 		<!-- run all tests in current directory -->
 		<!-- Create the log directory -->
@@ -123,7 +145,7 @@
 		<antcall target="cleanBuild"/>
 		<antcall target="cleanUnitTest"/>
 	</target>
-
+	
 	<target name="init" description="initialization">
 		<condition property="url_isset">
 			<isset property="url" />
@@ -162,13 +184,13 @@
 			<isfalse value="${host_isset}" />
 		</condition>
 	</target>
-	
+
 	<!-- Compile Data Test Files 
 		 javac.failonerror should be true.
 	-->
-	<target name="compileTest" depends="init" description="compile the test ">
+	<target name="compileTest" depends="init, buildDependency" description="compile the test ">
 		<mkdir dir="${bin}" />
-	
+		
 		<javac srcdir="${test.src}"
 			   destdir="${bin}" 
 			   encoding="utf-8" 
@@ -196,13 +218,11 @@
 			
 			<sysproperty key="DTETest.driverLoc" value="${driverLoc}" />
 			<sysproperty key="DTETest.testSource" value="JDBC"/>
-			<sysproperty key="BIRT_HOME" value="./test"/>
 			<classpath refid="class.path.test" />
 			<formatter type="xml" />
 			<batchtest todir="${utest.report.dir}">
 				<fileset dir="${test.src}">
 					<include name="**/*Test.java" />
-					<exclude name="**/ConnectionTest.java" />
 				</fileset>
 			</batchtest>
 		</junit>
@@ -217,7 +237,7 @@
 			<fileset dir="." includes="*junit*" />
 		</delete>
 	</target>
-
+	
 	<target name="buildDependency">
 		<echo message="start call Jar task in ${core.dir}"/>
 		<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
@@ -225,15 +245,37 @@
 		</ant>
 		<echo message="end call Jar task in ${core.dir}"/>
 		
-		<echo message="start call Jar task in ${oda.dir}"/>
-		<ant dir="${oda.dir}" antfile ="BuildOda.xml" target="Jar" inheritAll="false">
+		<echo message="start call Jar task in ${dtp.oda.dir}"/>
+		<ant dir="${dtp.oda.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="eclipse.version" value="${eclipse.version}" />
 		</ant>
-		<echo message="end call Jar task in ${oda.dir}"/>
+		<echo message="end call Jar task in ${dtp.oda.dir}"/>
+		
+		<echo message="start call Jar task in ${dte.dir}"/>
+		<ant dir="${dte.dir}" antfile ="BuildData.xml" target="JarAll" inheritAll="false">
+			<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${dte.dir}"/>
 	</target>
 	
 	<target name="testDependency">
+		<echo message="start call Jar task in ${birt.oda.dir}"/>		
+		<ant dir="${birt.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${birt.oda.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/${birt.oda.jar}" file="${birt.oda.dir}/${birt.oda.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/plugin.xml" file="${birt.oda.dir}/plugin.xml"/>
+		
+		<echo message="start call Jar task in ${dtp.oda.adapter.dir}"/>		
+		<ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
+		 	<property name="eclipse.home" value="${eclipse.home}" />
+		</ant>
+		<echo message="end call Jar task in ${oda.dtp.adapter.dir}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/${dtp.oda.adapter.jar}" file="${dtp.oda.adapter.dir}/${dtp.oda.adapter.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/plugin.xml" file="${dtp.oda.adapter.dir}/plugin.xml"/>
+
+		
 		<echo message="start call Jar task in ${oda.jdbc.dir}"/>		
 		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
