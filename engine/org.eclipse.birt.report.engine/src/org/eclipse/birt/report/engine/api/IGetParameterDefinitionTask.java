@@ -153,6 +153,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * @param groupKeyValues - the array of known parameter values (see the example above)  
 	 * @return the selection list of the parameter to work on 
 	 */
-	public Collection getSelectionChoicesForCascadingGroup( String parameterGroupName, Object[] groupKeyValues )
+	public Collection getSelectionChoicesForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
 	
 }
