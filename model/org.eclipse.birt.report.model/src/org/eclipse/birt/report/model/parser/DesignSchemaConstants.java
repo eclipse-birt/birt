@@ -22,7 +22,7 @@ public interface DesignSchemaConstants
 	 * The version of report design.
 	 */
 
-	public final static String REPORT_VERSION = "2"; //$NON-NLS-1$
+	public final static String REPORT_VERSION = "3"; //$NON-NLS-1$
 
 	static final String	BACKGROUND_ATTACHMENT_ATTRIB			= "background-attachment";		//$NON-NLS-1$
 	static final String	BACKGROUND_COLOR_ATTRIB					= "background-color";			//$NON-NLS-1$
@@ -82,6 +82,7 @@ public interface DesignSchemaConstants
 	static final String	HEADER_TAG								= "header";						//$NON-NLS-1$ 
 	static final String	HEADLINE_TAG							= "headline";					//$NON-NLS-1$ 
 	static final String HTML_PROPERTY_TAG						= "html-property"; 				//$NON-NLS-1$
+	static final String ID_ATTRIB 								= "id";							//$NON-NLS-1$
 	static final String	IMAGE_TAG								= "image";						//$NON-NLS-1$ 
 	static final String IMPORT_TAG 								= "import"; 					//$NON-NLS-1$
 	static final String	INCLUDE_LIBRARY_TAG						= "include-library";			//$NON-NLS-1$ 
@@ -181,6 +182,8 @@ public interface DesignSchemaConstants
 	 * @deprecated by the {@link #TEXT_DATA_TAG}
 	 */
 
-	static final String MULTI_LINE_DATA_TAG = "multi-line-data"; //$NON-NLS-1$
+	static final String MULTI_LINE_DATA_TAG = "multi-line-data"; //$NON-NLS-1$	
+
+	
 	
 }

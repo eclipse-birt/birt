@@ -121,7 +121,7 @@ public class ContentCommand extends AbstractElementCommand
 			throws ContentException, NameException
 	{
 		doAdd( content, slotID, -1 );
-	}
+	}	
 
 	/**
 	 * Adds a new element into a container. Virtually all elements must reside
@@ -201,18 +201,13 @@ public class ContentCommand extends AbstractElementCommand
 			addRecord = new ContentRecord( element, slotID, content, newPos );
 		}
 
-		// If we are using element IDs, allocate a new one.
-
-		if ( MetaDataDictionary.getInstance( ).useID( ) )
-		{
-			content.setID( module.getNextID( ) );
-			addRecord.setModule( module );
-		}
+		addRecord.setModule( module );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
 		stack.execute( addRecord );
 		nameCmd.addElement( );
+		
 		stack.commit( );
 	}
 
@@ -312,7 +307,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 
-		stack.startFilterEventTrans( dropRecord.getLabel() );
+		stack.startFilterEventTrans( dropRecord.getLabel( ) );
 		try
 		{
 			// Remove contents.
@@ -771,27 +766,29 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_MOVE_FORBIDDEN );
 
 		int oldPosn = slot.findPosn( content );
-		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, slot.getCount( ) );
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, slot
+				.getCount( ) );
 		if ( oldPosn == adjustedNewPosn )
 			return;
-		
+
 		// Move the new position so that it is in range.
 
-//		if ( newPosn < 0 )
-//			newPosn = 0;
-//		if ( newPosn > slot.getCount( ) - 1 )
-//			newPosn = slot.getCount( );
-//
-//		// If the new position is the same as the old, then skip the operation.
-//
-//		if ( ( posn == newPosn ) || ( posn + 1 == newPosn ) )
-//			return;
-//
-//		// adjust the position when move a item from a position with a small
-//		// index to another position with a bigger index.
-//
-//		if ( posn < newPosn )
-//			newPosn -= 1;
+		// if ( newPosn < 0 )
+		// newPosn = 0;
+		// if ( newPosn > slot.getCount( ) - 1 )
+		// newPosn = slot.getCount( );
+		//
+		// // If the new position is the same as the old, then skip the
+		// operation.
+		//
+		// if ( ( posn == newPosn ) || ( posn + 1 == newPosn ) )
+		// return;
+		//
+		// // adjust the position when move a item from a position with a small
+		// // index to another position with a bigger index.
+		//
+		// if ( posn < newPosn )
+		// newPosn -= 1;
 
 		// Do the move.
 

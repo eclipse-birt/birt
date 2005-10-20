@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.ModelUtil;
@@ -135,16 +134,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * The number of the next element ID.
 	 */
 
-	protected int elementIDCounter = 1;
+	protected long elementIDCounter = 1;
 
 	/**
-	 * The hash map for the id-to-element lookup. Created only if ID support has
-	 * been enabled in the
-	 * {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary MetaDataDictionary}
-	 * class.
+	 * The hash map for the id-to-element lookup. 
 	 */
 
-	protected HashMap idMap = null;
+	protected HashMap idMap = new HashMap( );
 
 	/**
 	 * The undo/redo stack for operations on this module.
@@ -283,19 +279,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 					.createElementNameSpace( this, i );
 		}
 
-		// Create the id map for id-to-element lookup if IDs were enabled
-		// in the data dictionary.
+		// Put this element into the ID map.
 
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		if ( dd.useID( ) )
-		{
-			idMap = new HashMap( );
+		setID( getNextID( ) );
+		addElementID( this );
 
-			// Put this element into the ID map.
-
-			setID( getNextID( ) );
-			addElementID( this );
-		}
 	}
 
 	/**
@@ -438,7 +426,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return The ID to assign to the new element.
 	 */
 
-	public int getNextID( )
+	public long getNextID( )
 	{
 		return elementIDCounter++;
 	}
@@ -454,12 +442,20 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void addElementID( DesignElement element )
 	{
-		if ( idMap == null )
-			return;
+		assert idMap != null;
+		
 		assert element.getID( ) > 0;
-		Integer idObj = new Integer( element.getID( ) );
+		Long idObj = new Long( element.getID( ) );
 		assert !idMap.containsKey( idObj );
 		idMap.put( idObj, element );
+		
+		// let elementIDCounter is the current max id
+		
+		long id = element.getID( );
+		if ( this.elementIDCounter <= id )
+		{
+			this.elementIDCounter = id + 1;
+		}
 	}
 
 	/**
@@ -476,7 +472,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		if ( idMap == null )
 			return;
 		assert element.getID( ) > 0;
-		Integer idObj = new Integer( element.getID( ) );
+		Long idObj = new Long( element.getID( ) );
 		assert idMap.containsKey( idObj );
 		idMap.remove( idObj );
 	}
@@ -495,11 +491,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *         IDs are not enabled.
 	 */
 
-	public DesignElement getElementByID( int id )
+	public DesignElement getElementByID( long id )
 	{
 		if ( idMap == null )
 			return null;
-		return (DesignElement) idMap.get( new Integer( id ) );
+		return (DesignElement) idMap.get( new Long( id ) );
 	}
 
 	/**

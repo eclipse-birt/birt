@@ -905,7 +905,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         was not found or this session does not use IDs.
 	 */
 
-	public DesignElementHandle getElementByID( int id )
+	public DesignElementHandle getElementByID( long id )
 	{
 		DesignElement element = module.getElementByID( id );
 		if ( element == null )
@@ -1942,7 +1942,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the style sheet handle that contains all the selected styles
 	 * @param selectedStyles
 	 *            the selected style list
-	 * 
+	 *  
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,

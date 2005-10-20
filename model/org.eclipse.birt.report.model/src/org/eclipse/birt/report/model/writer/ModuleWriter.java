@@ -967,6 +967,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				DEFAULT_NAME_SPACE );
 		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
 				DesignSchemaConstants.REPORT_VERSION );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 		property( obj, Module.AUTHOR_PROP );
 		property( obj, Module.HELP_GUIDE_PROP );
 		property( obj, Module.CREATED_BY_PROP );
@@ -2086,10 +2087,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDesignElement( obj );
 
-		// The element name and extends should be written in the tag.
+		// The element name, id and extends should be written in the tag.
 
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				DesignElement.NAME_PROP );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
 				DesignElement.EXTENDS_PROP );
 

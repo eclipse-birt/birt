@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -217,22 +218,69 @@ public class ContentRecord extends SimpleRecord
 			// Add the item to the element ID map if we are using
 			// element IDs.
 
-			if ( module != null )
-				module.addElementID( content );
+			if ( content.getRoot( ) != null )
+				manageId( content, true );
 		}
 		else
 		{
 			slot.remove( content );
+			
+			// Remove the element from the ID map if we are using
+			// IDs.
+
+			if ( content.getRoot( ) != null )
+				manageId( content, false );
 
 			// Clear the inverse relationship.
 
 			content.setContainer( null, DesignElement.NO_SLOT );
 
-			// Remove the element from the ID map if we are using
-			// IDs.
+			
+		}
+	}
 
-			if ( module != null )
-				module.dropElementID( content );
+	/**
+	 * Resets the element Id for the content element and its sub elements.
+	 * 
+	 * @param element
+	 *            the element to add
+	 * @param isAdd
+	 *            whether to add or remove the element id
+	 */
+
+	private void manageId( DesignElement element, boolean isAdd )
+	{
+		if ( element == null )
+			return;
+
+		// if the element is hanging and not in the module, return
+
+		if ( element.getRoot( ) != module )
+			return;
+
+		IElementDefn defn = element.getDefn( );
+		if ( isAdd )
+		{
+			element.setID( module.getNextID( ) );
+			module.addElementID( element );
+		}
+		else
+		{
+			module.dropElementID( element );
+		}
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = element.getSlot( i );
+
+			if ( slot == null )
+				continue;
+
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			{
+				DesignElement innerElement = slot.getContent( pos );
+				manageId( innerElement, isAdd );
+			}
 		}
 	}
 

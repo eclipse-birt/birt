@@ -182,7 +182,8 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE = "Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION = "Error.DesignParserException.UNSUPPORTED_VERSION"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_VERSION = "Error.DesignParserException.INVALID_VERSION"; //$NON-NLS-1$
-
+	public static final String DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID = "Error.DesignParserException.INVALID_ELEMENT_ID"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID = "Error.DesignParserException.DUPLICATE_ELEMENT_ID"; //$NON-NLS-1$
 
 	// DesignFileException
 	public static final String DESIGN_FILE_EXCEPTION_SYNTAX_ERROR = "Error.DesignFileException.SYNTAX_ERROR"; //$NON-NLS-1$

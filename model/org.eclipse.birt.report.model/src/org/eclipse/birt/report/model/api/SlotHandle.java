@@ -228,40 +228,7 @@ public class SlotHandle extends ElementDetailHandle
 
 		return checkPostPasteErrors( (DesignElement) content );
 
-	}
-
-	/**
-	 * Reset the element Id for the pasted element and its sub elements.
-	 * 
-	 * @param element
-	 *            the element new added in the design.
-	 */
-
-	private void resetId( DesignElement element )
-	{
-		if ( element == null )
-			return;
-
-		Module module = getModule( );
-		IElementDefn defn = element.getDefn( );
-		int id = module.getNextID( );
-		element.setID( id );
-		module.addElementID( element );
-
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = element.getSlot( i );
-
-			if ( slot == null )
-				continue;
-
-			for ( int pos = 0; pos < slot.getCount( ); pos++ )
-			{
-				DesignElement innerElement = slot.getContent( pos );
-				resetId( innerElement );
-			}
-		}
-	}
+	}	
 
 	/**
 	 * Checks the element after the paste action.

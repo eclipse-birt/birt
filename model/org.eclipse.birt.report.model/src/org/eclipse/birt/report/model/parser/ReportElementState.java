@@ -131,8 +131,9 @@ public abstract class ReportElementState extends DesignParseState
 		if ( !slotInfo.isMultipleCardinality( )
 				&& container.getSlot( slotID ).getCount( ) > 0 )
 		{
-			handler.getErrorHandler( ).semanticError( new ContentException( container, slotID,
-					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
+			handler.getErrorHandler( ).semanticError(
+					new ContentException( container, slotID,
+							ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
 			return false;
 		}
 
@@ -153,8 +154,9 @@ public abstract class ReportElementState extends DesignParseState
 			if ( name == null
 					&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
 			{
-				handler.getErrorHandler( ).semanticError( new NameException( container, name,
-						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				handler.getErrorHandler( ).semanticError(
+						new NameException( container, name,
+								NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				return false;
 			}
 
@@ -163,8 +165,9 @@ public abstract class ReportElementState extends DesignParseState
 				if ( !module.getModuleNameSpace( id ).canContain( name ) )
 				// if ( module.resolveElement( name, id ) != null )
 				{
-					handler.getErrorHandler( ).semanticError( new NameException( container, name,
-							NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+					handler.getErrorHandler( ).semanticError(
+							new NameException( container, name,
+									NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 					return false;
 				}
 				DesignElement parent = content.getExtendsElement( );
@@ -175,10 +178,12 @@ public abstract class ReportElementState extends DesignParseState
 					// parent ) )
 					{
 						handler
-								.getErrorHandler( ).semanticError( new ExtendsException(
-										content,
-										content.getElementName( ),
-										ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
+								.getErrorHandler( )
+								.semanticError(
+										new ExtendsException(
+												content,
+												content.getElementName( ),
+												ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
 						return false;
 					}
 				}
@@ -186,13 +191,25 @@ public abstract class ReportElementState extends DesignParseState
 			}
 		}
 
-		// Add the item to the element ID map if we are using
-		// element IDs.
+		// Add the item to the element ID map, check whether the id is unique
 
-		if ( MetaDataDictionary.getInstance( ).useID( ) )
+		long elementID = content.getID( );
+		if ( elementID > 0 )
 		{
-			content.setID( module.getNextID( ) );
-			module.addElementID( content );
+			DesignElement element = module.getElementByID( elementID );
+			if ( element == null )
+				module.addElementID( content );
+			else
+			{
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										new String[]{content.getIdentifier( ),
+												element.getIdentifier( )},
+										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
+				return false;
+			}
 		}
 
 		// Add the item to the container.
@@ -223,8 +240,9 @@ public abstract class ReportElementState extends DesignParseState
 		if ( StringUtil.isBlank( name ) )
 		{
 			if ( nameRequired )
-				handler.getErrorHandler( ).semanticError( new NameException( element, null,
-						NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				handler.getErrorHandler( ).semanticError(
+						new NameException( element, null,
+								NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 		}
 		else
 		{
@@ -237,7 +255,7 @@ public abstract class ReportElementState extends DesignParseState
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
 
 			element.setExtendsName( extendsName );
-			
+
 			resolveExtendsElement( );
 		}
 		else
@@ -248,10 +266,44 @@ public abstract class ReportElementState extends DesignParseState
 			if ( !StringUtil.isBlank( attrs
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB ) ) )
 				handler
-						.getErrorHandler( ).semanticError( new DesignParserException(
-								DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
-		
+
+		// get the "id" of the element
+
+		try
+		{
+			String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
+
+			// if the id is null, generate a unique one and set it
+
+			if ( StringUtil.isBlank( theID ) )
+				element.setID( handler.getModule( ).getNextID( ) );
+
+			else
+			{
+				// if the id is not null, parse it
+
+				long id = Long.parseLong( theID );
+				element.setID( id );
+			}
+		}
+		catch ( NumberFormatException e )
+		{
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									new String[]{
+											element.getIdentifier( ),
+											attrs
+													.getValue( DesignSchemaConstants.ID_ATTRIB )},
+									DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+		}
+
 		if ( !addToSlot( container, slotID, element ) )
 			return;
 

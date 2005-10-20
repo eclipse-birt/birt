@@ -165,6 +165,18 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_INVALID_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_VERSION;
 
 	/**
+	 * The element id is invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID;
+
+	/**
+	 * The element id is duplicate.
+	 */
+
+	public static final String DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID;
+
+	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
@@ -208,8 +220,15 @@ public class DesignParserException extends ModelException
 
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_ID
+				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID )
+		{
+			assert oaMessageArguments.length == 2;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
 
 		return ModelMessages.getMessage( sResourceKey );
+
 	}
 
 	/*

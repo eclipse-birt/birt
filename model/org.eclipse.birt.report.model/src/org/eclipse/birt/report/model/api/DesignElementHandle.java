@@ -914,7 +914,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @see org.eclipse.birt.report.model.metadata.MetaDataDictionary#enableElementID
 	 */
 
-	public int getID( )
+	public long getID( )
 	{
 		return getElement( ).getID( );
 	}

@@ -571,7 +571,7 @@ public abstract class DesignElement
 	 * Allows web applications to refer to the element by ID.
 	 */
 
-	protected int id = 0;
+	protected long id = 0;
 
 	/**
 	 * Cached element definition. Cached for speed since the definition cannot
@@ -2141,10 +2141,8 @@ public abstract class DesignElement
 	 *            The id to set.
 	 */
 
-	public void setID( int newID )
+	public void setID( long newID )
 	{
-		assert id == 0;
-		assert container == null;
 		id = newID;
 	}
 
@@ -2155,9 +2153,9 @@ public abstract class DesignElement
 	 * @return The unique ID. Returns 0 if element IDs are not enabled.
 	 */
 
-	public int getID( )
+	public long getID( )
 	{
-		return id;
+		return this.id;
 	}
 
 	/**
