@@ -382,7 +382,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.14 $ $Date: 2005/10/19 06:09:07 $
+	 * @version $Revision: 1.15 $ $Date: 2005/10/20 05:16:33 $
 	 */
 	abstract class ParameterVisitor
 	{
@@ -403,7 +403,7 @@ public abstract class EngineTask implements IEngineTask
 				}
 				else if ( param instanceof ScalarParameterHandle )
 				{
-					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					if ( !visitScalarParameter( (ScalarParameterHandle) param ) )
 					{
 						return false;
 					}
