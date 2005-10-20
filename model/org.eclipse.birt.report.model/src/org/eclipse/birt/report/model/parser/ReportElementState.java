@@ -207,7 +207,7 @@ public abstract class ReportElementState extends DesignParseState
 
 		assert elementID > 0;
 		DesignElement element = module.getElementByID( elementID );
-		if ( element == null )
+		if ( element == null || element == content )
 			module.addElementID( content );
 		else
 		{
