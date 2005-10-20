@@ -623,7 +623,8 @@ public abstract class AxesRenderer extends BaseRenderer
 					-1,
 					bDeferred,
 					false,
-					null );
+					null,
+					false );
 			crdr.draw( ipr );
 
 			// Render curve label.
@@ -2358,13 +2359,16 @@ public abstract class AxesRenderer extends BaseRenderer
 				// ADJUST FOR 2D PLOTS AS NEEDED
 				if ( pwa.getDimension( ) == IConstants.TWO_5_D )
 				{
-					/*
-					 * if (iOrientation == Orientation.HORIZONTAL) {
-					 * loStart.translate(0, pw2da.getSeriesThickness());
-					 * loEnd.translate(0, pw2da.getSeriesThickness()); } else {
-					 * loStart.translate(-pw2da.getSeriesThickness(), 0);
-					 * loEnd.translate(-pw2da.getSeriesThickness(), 0); }
-					 */
+					if ( iOrientation == Orientation.HORIZONTAL )
+					{
+						loStart.translate( 0, pwa.getSeriesThickness( ) );
+						loEnd.translate( 0, pwa.getSeriesThickness( ) );
+					}
+					else
+					{
+						loStart.translate( -pwa.getSeriesThickness( ), 0 );
+						loEnd.translate( -pwa.getSeriesThickness( ), 0 );
+					}
 				}
 
 				// DRAW THE MARKER LINE

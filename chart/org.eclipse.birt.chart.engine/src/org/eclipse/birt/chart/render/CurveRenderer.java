@@ -100,7 +100,7 @@ public final class CurveRenderer
 	public CurveRenderer( ChartWithAxes _cwa, BaseRenderer _render,
 			LineAttributes _lia, Location[] _lo, boolean _bShowAsTape,
 			double _tapeWidth, boolean _bDeferred, boolean _bKeepState,
-			Fill paletteEntry )
+			Fill paletteEntry, boolean usePaletteLineColor )
 	{
 		this( _cwa,
 				_render,
@@ -114,7 +114,8 @@ public final class CurveRenderer
 				false,
 				_bDeferred,
 				_bKeepState,
-				paletteEntry );
+				paletteEntry,
+				usePaletteLineColor );
 	}
 
 	/**
@@ -129,7 +130,7 @@ public final class CurveRenderer
 			LineAttributes _lia, Location[] _lo, double _zeroLocation,
 			boolean _bShowAsTape, double _tapeWidth, boolean _bFillArea,
 			boolean _bTranslucent, boolean _bUseLastState, boolean _bDeferred,
-			boolean _bKeepState, Fill paletteEntry )
+			boolean _bKeepState, Fill paletteEntry, boolean usePaletteLineColor )
 	{
 		cwa = _cwa;
 		loPoints = _lo;
@@ -185,15 +186,27 @@ public final class CurveRenderer
 		bUseLastState = _bUseLastState;
 		bKeepState = _bKeepState;
 
-		if ( paletteEntry instanceof ColorDefinition )
+		if ( paletteEntry instanceof ColorDefinition && usePaletteLineColor )
 		{
 			lia = (LineAttributes) EcoreUtil.copy( lia );
 			lia.setColor( (ColorDefinition) EcoreUtil.copy( paletteEntry ) );
 		}
 
-		fillColor = lia.getColor( );
-		tapeColor = lia.getColor( ).brighter( );
-		sideColor = lia.getColor( ).darker( );
+		if ( bFillArea && paletteEntry instanceof ColorDefinition )
+		{
+			// TODO support gradient and image.
+
+			fillColor = (ColorDefinition) EcoreUtil.copy( paletteEntry );
+			tapeColor = fillColor.brighter( );
+			sideColor = fillColor.darker( );
+		}
+		else
+		{
+			fillColor = lia.getColor( );
+			tapeColor = lia.getColor( ).brighter( );
+			sideColor = lia.getColor( ).darker( );
+		}
+
 		if ( bTranslucent )
 		{
 			fillColor = fillColor.translucent( );
@@ -218,7 +231,7 @@ public final class CurveRenderer
 							iRender.getRunTimeContext( ).getLocale( ) ) );
 		}
 
-		if ( !lia.isVisible( ) )
+		if ( !bFillArea && !lia.isVisible( ) )
 		{
 			return;
 		}
@@ -263,7 +276,7 @@ public final class CurveRenderer
 			final Polygon3DRenderEvent pre = (Polygon3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 					Polygon3DRenderEvent.class );
 			pre.setOutline( null );
-			pre.setDoubleSided(true);
+			pre.setDoubleSided( true );
 			pre.setBackground( tapeColor );
 
 			if ( !leftSide )
@@ -447,6 +460,10 @@ public final class CurveRenderer
 			return;
 		}
 
+		final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
+				LineRenderEvent.class );
+		lre.setLineAttributes( lia );
+
 		final PolygonRenderEvent pre = bRendering3D ? null
 				: (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 						PolygonRenderEvent.class );
@@ -518,6 +535,23 @@ public final class CurveRenderer
 				else
 				{
 					ipr.fillPolygon( pre );
+				}
+
+				if ( lia.isSetVisible( ) && lia.isVisible( ) )
+				{
+					for ( int i = 0; i < points.size( ) - 1; i++ )
+					{
+						lre.setStart( pa[i] );
+						lre.setEnd( pa[i + 1] );
+						if ( bDeferred )
+						{
+							dc.addLine( lre );
+						}
+						else
+						{
+							ipr.drawLine( lre );
+						}
+					}
 				}
 
 				return;
@@ -614,6 +648,24 @@ public final class CurveRenderer
 			{
 				ipr.fillPolygon( pre );
 			}
+			
+			if ( lia.isSetVisible( ) && lia.isVisible( ) )
+			{
+				for ( int i = 0; i < points.size( ) - 1; i++ )
+				{
+					lre.setStart( pa[i] );
+					lre.setEnd( pa[i + 1] );
+					if ( bDeferred )
+					{
+						dc.addLine( lre );
+					}
+					else
+					{
+						ipr.drawLine( lre );
+					}
+				}
+			}
+			
 		}
 	}
 
