@@ -515,15 +515,19 @@ public class GetParameterDefinitionTask extends EngineTask
 					Object param = iter.next( );
 					if ( param instanceof ScalarParameterHandle )
 					{
-						String labelExpString = ((ScalarParameterHandle)param).getLabelExpr();
-						Object labelExpObject = new ScriptExpression(labelExpString);
-						labelMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), labelExpObject);
-						queryDefn.getRowExpressions().add( labelExpObject );
-
 						String valueExpString = ((ScalarParameterHandle)param).getValueExpr();
 						Object valueExpObject = new ScriptExpression(valueExpString);
 						valueMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), valueExpObject);
 						queryDefn.getRowExpressions().add( valueExpObject );
+
+						String labelExpString = ((ScalarParameterHandle)param).getLabelExpr();
+						if (labelExpString == null)
+						{
+							labelExpString = valueExpString;
+						}
+						Object labelExpObject = new ScriptExpression(labelExpString);
+						labelMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), labelExpObject);
+						queryDefn.getRowExpressions().add( labelExpObject );
 						
 						GroupDefinition groupDef = new GroupDefinition( );
 						groupDef.setKeyExpression( valueExpString );
