@@ -1449,6 +1449,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// written.
 
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 
 		super.visitColumn( obj );
 
@@ -1469,6 +1470,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitRow( TableRow obj )
 	{
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 
 		super.visitRow( obj );
 
@@ -1492,6 +1494,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitCell( Cell obj )
 	{
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 
 		super.visitCell( obj );
 
@@ -2292,6 +2295,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitGroup( GroupElement obj )
 	{
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );

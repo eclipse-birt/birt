@@ -194,22 +194,29 @@ public abstract class ReportElementState extends DesignParseState
 		// Add the item to the element ID map, check whether the id is unique
 
 		long elementID = content.getID( );
-		if ( elementID > 0 )
+
+		// if the id is not set, generate one
+
+		if ( elementID == 0 )
 		{
-			DesignElement element = module.getElementByID( elementID );
-			if ( element == null )
-				module.addElementID( content );
-			else
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										new String[]{content.getIdentifier( ),
-												element.getIdentifier( )},
-										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
-				return false;
-			}
+			content.setID( handler.getModule( ).getNextID( ) );
+			elementID = content.getID( );
+		}
+
+		assert elementID > 0;
+		DesignElement element = module.getElementByID( elementID );
+		if ( element == null )
+			module.addElementID( content );
+		else
+		{
+			handler
+					.getErrorHandler( )
+					.semanticError(
+							new DesignParserException(
+									new String[]{content.getIdentifier( ),
+											element.getIdentifier( )},
+									DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
+			return false;
 		}
 
 		// Add the item to the container.
@@ -278,12 +285,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
 
-			// if the id is null, generate a unique one and set it
-
-			if ( StringUtil.isBlank( theID ) )
-				element.setID( handler.getModule( ).getNextID( ) );
-
-			else
+			if ( !StringUtil.isBlank( theID ) )
 			{
 				// if the id is not null, parse it
 
