@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * base class of all elements in the report design.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public abstract class ReportElementDesign
 {
@@ -32,7 +32,7 @@ public abstract class ReportElementDesign
 	/**
 	 * ID of the object.
 	 */
-	int ID;
+	long ID;
 	/**
 	 * name of this element
 	 */
@@ -89,7 +89,7 @@ public abstract class ReportElementDesign
 	/**
 	 * @return Returns the iD.
 	 */
-	public int getID( )
+	public long getID( )
 	{
 		return ID;
 	}
@@ -98,7 +98,7 @@ public abstract class ReportElementDesign
 	 * @param id
 	 *            The iD to set.
 	 */
-	public void setID( int id )
+	public void setID( long id )
 	{
 		ID = id;
 	}
