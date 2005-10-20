@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -2668,7 +2669,8 @@ public abstract class DesignElement
 
 		while ( tmpContainer != null )
 		{
-			if ( tmpContainer instanceof ListingElement )
+			if ( tmpContainer instanceof ListingElement
+					|| tmpContainer instanceof Theme )
 			{
 				List errors = tmpContainer.checkContent( module, this, slotId,
 						element );

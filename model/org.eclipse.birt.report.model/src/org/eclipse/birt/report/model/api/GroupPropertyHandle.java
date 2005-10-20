@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -269,7 +268,12 @@ public class GroupPropertyHandle
 		{
 			elementList = handle.getModuleHandle( ).getAllStyles( );
 		}
-		
+		else if ( ReportDesignConstants.THEME_ITEM.equals( elementDefn
+				.getName( ) ) )
+		{
+			elementList = handle.getModuleHandle( ).getAllThemes( );
+		}
+
 		return ModelUtil.sortElementsByName( elementList );
 	}
 

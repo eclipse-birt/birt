@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
@@ -67,6 +68,10 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	public StyleHandle findStyle( String name )
 	{
 		Theme theme = (Theme) getElement( );
-		return (StyleHandle) theme.findStyle( name ).getHandle( getModule( ) );
+		StyleElement style = theme.findStyle( name );
+		if ( style == null )
+			return null;
+
+		return (StyleHandle) style.getHandle( getModule( ) );
 	}
 }

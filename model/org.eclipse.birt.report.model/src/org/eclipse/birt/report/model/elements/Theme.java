@@ -11,11 +11,19 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
+import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -39,7 +47,6 @@ public class Theme extends ReferenceableElement implements IThemeModel
 		super( );
 	}
 
-	
 	/**
 	 * Constructor with the element name.
 	 * 
@@ -51,7 +58,7 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	{
 		super( theName );
 	}
-	
+
 	/**
 	 * Holds the cells that reside directly on the row.
 	 */
@@ -154,5 +161,28 @@ public class Theme extends ReferenceableElement implements IThemeModel
 			}
 		}
 		return style;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement, int,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 */
+
+	protected List checkContent( Module module, DesignElement container,
+			int slotId, DesignElement content )
+	{
+		List errors = super.checkContent( module, container, slotId, content );
+		if ( !errors.isEmpty( ) )
+			return errors;
+
+		errors.addAll( ThemeStyleNameValidator.getInstance( )
+				.validateForAddingStyle( (ThemeHandle) getHandle( module ),
+						content.getName( ) ) );
+
+		return errors;
+
 	}
 }

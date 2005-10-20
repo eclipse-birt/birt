@@ -31,10 +31,14 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
@@ -223,8 +227,8 @@ public class DesignSession
 	 * Open a module regardless of the module type(library or report design).
 	 * 
 	 * @param fileName
-	 *            file name of the module
-	 *            This url is treated as an absolute directory.
+	 *            file name of the module This url is treated as an absolute
+	 *            directory.
 	 * @param is
 	 *            the input stream to read the module
 	 * @return the opened module
@@ -257,11 +261,10 @@ public class DesignSession
 	 *             If the file is not found, or the file contains fatal errors.
 	 */
 
-	public Module openModule( String fileName )
-			throws DesignFileException
+	public Module openModule( String fileName ) throws DesignFileException
 	{
-		Module module = GenericModuleReader.getInstance( ).read( this,
-				fileName );
+		Module module = GenericModuleReader.getInstance( )
+				.read( this, fileName );
 		assert module instanceof Library || module instanceof ReportDesign;
 
 		if ( module instanceof ReportDesign )
@@ -272,7 +275,6 @@ public class DesignSession
 		return module;
 	}
 
-	
 	/**
 	 * Opens a library with the given library file name.
 	 * 
@@ -352,6 +354,13 @@ public class DesignSession
 	public Library createLibrary( )
 	{
 		Library library = new Library( this );
+
+		Theme theme = new Theme( ModelMessages
+				.getMessage( Theme.DEFAULT_THEME_NAME ) );
+		library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
+		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
+				theme ) );
+
 		library.setValid( true );
 		libraries.add( library );
 		return library;

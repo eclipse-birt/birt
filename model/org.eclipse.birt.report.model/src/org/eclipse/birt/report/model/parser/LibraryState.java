@@ -11,9 +11,17 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.xml.sax.SAXException;
 
 /**
  * This class provides parser state for the top-level Library element.
@@ -32,6 +40,50 @@ public class LibraryState extends ModuleState
 	public LibraryState( ModuleParserHandler theHandler )
 	{
 		super( theHandler );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+
+	public void end( ) throws SAXException
+	{
+		Library library = (Library) getElement( );
+
+		Object themeObj = getElement( ).getLocalProperty( module,
+				IModuleModel.THEME_PROP );
+		if ( themeObj != null )
+			return;
+
+		// do the compatibility work for the library without the theme
+		
+		Theme theme = null;
+
+		ContainerSlot themes = module.getSlot( ILibraryModel.THEMES_SLOT );
+		for ( int i = 0; i < themes.getCount( ); i++ )
+		{
+			Theme tmpTheme = (Theme) themes.getContent( i );
+			if ( ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME )
+					.equalsIgnoreCase( tmpTheme.getName( ) ) )
+			{
+				theme = tmpTheme;
+				break;
+			}
+		}
+
+		if ( theme == null )
+		{
+			theme = new Theme( ModelMessages
+					.getMessage( Theme.DEFAULT_THEME_NAME ) );
+			library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
+		}
+
+		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
+				theme ) );
+
+		super.end( );
 	}
 
 	/*

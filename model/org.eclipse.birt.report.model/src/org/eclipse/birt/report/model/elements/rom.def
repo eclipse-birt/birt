@@ -1336,6 +1336,7 @@
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StructureReferenceValidator" modules="design, library" name="StructureReferenceValidator" />
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
    	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	  
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1560,6 +1561,7 @@
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
     <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip"/>
+	<PropertyVisibility name="theme" visibility="hide"/>	  
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
@@ -2728,6 +2730,7 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
     <Slot displayNameID="Element.Theme.slot.styles" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
       <Type name="Style"/>
+	  <Trigger validator="ThemeStyleNameValidator"/>		
     </Slot>
   </Element>	
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
