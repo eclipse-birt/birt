@@ -262,12 +262,11 @@ public class GetParameterDefinitionTask extends EngineTask
 		//using current parameter settings to evaluate the default parameters
 		usingParameterValues();
 		
-		HashMap values = new HashMap( );
+		final HashMap values = new HashMap( );
 		//reset the context parameters
 		new ParameterVisitor( ) {
 
-			boolean visitScalarParameter( ScalarParameterHandle param,
-					HashMap values )
+			boolean visitScalarParameter( ScalarParameterHandle param )
 			{
 				String name = param.getName( );
 				String expr = param.getDefaultValue( );

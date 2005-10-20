@@ -382,7 +382,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision:$ $Date:$
+	 * @version $Revision: 1.14 $ $Date: 2005/10/19 06:09:07 $
 	 */
 	abstract class ParameterVisitor
 	{
@@ -479,7 +479,7 @@ public abstract class EngineTask implements IEngineTask
 		//use default value for the parameter without user value.
 		new ParameterVisitor()
 		{
-			boolean visitScalaraParameter( ScalarParameterHandle param )
+			boolean visitScalarParameter( ScalarParameterHandle param )
 			{
 				String name = param.getName();
 				if (!inputValues.containsKey(name))
