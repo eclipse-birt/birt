@@ -725,7 +725,7 @@ public final class CurveRenderer
 					boolean drawLeftSide = ( i == 0 )
 							&& ( j == 0 )
 							&& bKeepState
-							&& bRendering3D;
+							&& bRendering3D && bFillArea;
 
 					if ( drawLeftSide )
 					{
@@ -742,7 +742,7 @@ public final class CurveRenderer
 
 					// TODO user a single surface to draw the tape.
 					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 && bKeepState );
+							&& ( j == iNumberOfDivisions - 1 && bKeepState && bFillArea);
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,
