@@ -106,7 +106,6 @@ public interface IModuleModel
 
 	public static final String DESCRIPTION_ID_PROP = "descriptionID"; //$NON-NLS-1$
 
-	
 	/**
 	 * Name of the custom color palette property.
 	 */
@@ -137,12 +136,12 @@ public interface IModuleModel
 
 	public static final String INCLUDE_SCRIPTS_PROP = "includeScripts"; //$NON-NLS-1$
 
-    /**
-     * Base name of the included resource bundle file.
-     */
-    
-    public static final String INCLUDE_RESOURCE_PROP = "includeResource";   //$NON-NLS-1$
-    
+	/**
+	 * Base name of the included resource bundle file.
+	 */
+
+	public static final String INCLUDE_RESOURCE_PROP = "includeResource"; //$NON-NLS-1$
+
 	/**
 	 * Name of the method called when the report starts executing in the BIRT
 	 * Report Engine.
@@ -153,8 +152,19 @@ public interface IModuleModel
 	/**
 	 * Name of the theme property.
 	 */
-	
+
 	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
 
-	
+	// Design slots
+	// See constants defined in the module class.
+
+	/**
+	 * Identifier of the slot that holds styles.
+	 * 
+	 * @deprecated use IReportDesignModel.STYLE_SLOT and
+	 *             ILibraryModel.THEMES_SLOT instead
+	 */
+
+	public static final int STYLE_SLOT = 0;
+
 }
