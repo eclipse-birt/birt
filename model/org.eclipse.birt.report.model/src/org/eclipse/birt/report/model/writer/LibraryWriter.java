@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.model.writer;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -57,6 +60,7 @@ public class LibraryWriter extends ModuleWriter
 		writer.startElement( DesignSchemaConstants.LIBRARY_TAG );
 		super.visitLibrary( obj );
 		property( obj, Module.INITIALIZE_METHOD );
+		property( obj, IModuleModel.THEME_PROP );
 		
 		// include libraries and scripts
 
@@ -65,6 +69,7 @@ public class LibraryWriter extends ModuleWriter
 		// writeStructureList( obj, Library.INCLUDE_LIBRARIES_PROP );
 		writeSimpleStructureList( obj, Library.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
+
 
 		// config variables
 
@@ -85,8 +90,8 @@ public class LibraryWriter extends ModuleWriter
 
 		writeTranslations( obj );
 
-		writeContents( obj, Library.STYLE_SLOT,
-				DesignSchemaConstants.STYLES_TAG );
+		writeContents( obj, ILibraryModel.THEMES_SLOT,
+				DesignSchemaConstants.THEMES_TAG );
 		writeArrangedContents( obj, Library.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
 		writeArrangedContents( obj, Library.PAGE_SLOT,
@@ -96,6 +101,22 @@ public class LibraryWriter extends ModuleWriter
 
 		writeEmbeddedImages( obj );
 		
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.eclipse.birt.report.model.elements.Theme)
+	 */
+
+	public void visitTheme( Theme obj )
+	{
+		writer.startElement( DesignSchemaConstants.THEME_TAG );
+		
+		super.visitDesignElement( obj );
+		
+		writeContents( obj, Theme.STYLES_SLOT, DesignSchemaConstants.STYLES_TAG );
 		writer.endElement( );
 	}
 }

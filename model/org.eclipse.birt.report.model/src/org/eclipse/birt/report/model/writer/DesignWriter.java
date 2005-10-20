@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.model.writer;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -78,13 +80,14 @@ public class DesignWriter extends ModuleWriter
 		property( obj, ReportDesign.AFTER_CLOSE_DOC_METHOD );
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
-
+		property( obj, IModuleModel.THEME_PROP );
+		
 		// include libraries and scripts
 
 		writeStructureList( obj, ReportDesign.INCLUDE_LIBRARIES_PROP );
 		writeSimpleStructureList( obj, ReportDesign.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
-
+		
 		// config variables
 
 		writeStructureList( obj, ReportDesign.CONFIG_VARS_PROP );
@@ -104,7 +107,7 @@ public class DesignWriter extends ModuleWriter
 
 		writeTranslations( obj );
 
-		writeContents( obj, ReportDesign.STYLE_SLOT,
+		writeContents( obj, IReportDesignModel.STYLE_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
 		writeArrangedContents( obj, ReportDesign.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );

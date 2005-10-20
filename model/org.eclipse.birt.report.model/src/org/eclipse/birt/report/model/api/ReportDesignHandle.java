@@ -99,29 +99,32 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * </table>
  * 
  * <p>
- * Module allow to use the components defined in <code>Library</code>. 
+ * Module allow to use the components defined in <code>Library</code>.
  * <ul>
- * <li> User can call {@link #includeLibrary(String, String)}to include one library.
- * <li> User can create one report item based on the one in library, and add it into design file.
- * <li> User can use style, data source, and data set, which are defined in library, in design file. 
+ * <li> User can call {@link #includeLibrary(String, String)}to include one
+ * library.
+ * <li> User can create one report item based on the one in library, and add it
+ * into design file.
+ * <li> User can use style, data source, and data set, which are defined in
+ * library, in design file.
  * </ul>
  * 
  * <pre>
- *   // Include one library
- *   
- *   ReportDesignHandle designHandle = ...;
- *   designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *   LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *    
- *   // Create one label based on the one in library
- *  
- *   LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *   LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *  
- *   // Add the new label into design file
- *  
- *   designHandle.getBody().add(myLabelHandle);
- *
+ *            // Include one library
+ *            
+ *            ReportDesignHandle designHandle = ...;
+ *            designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *            LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *             
+ *            // Create one label based on the one in library
+ *           
+ *            LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *            LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *           
+ *            // Add the new label into design file
+ *           
+ *            designHandle.getBody().add(myLabelHandle);
+ *         
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -132,7 +135,6 @@ public class ReportDesignHandle extends ModuleHandle
 			IReportDesignModel
 {
 
-	
 	/**
 	 * Constructs a handle with the given design. The application generally does
 	 * not create handles directly. Instead, it uses one of the navigation
@@ -288,7 +290,6 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getSlot( SCRATCH_PAD_SLOT );
 	}
-
 
 	/**
 	 * Returns the iterator over all included scripts. Each one is the instance
@@ -502,4 +503,14 @@ public class ReportDesignHandle extends ModuleHandle
 		}
 	}
 
+	/**
+	 * Returns a slot handle to work with the styles within the report. Note
+	 * that the order of the styles within the slot is unimportant.
+	 * 
+	 * @return A handle for working with the styles.
+	 */
+	public SlotHandle getStyles( )
+	{
+		return getSlot( IReportDesignModel.STYLE_SLOT );
+	}
 }

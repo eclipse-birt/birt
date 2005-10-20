@@ -81,6 +81,13 @@ public interface IReportDesignModel
 	// Design slots
 	// See constants defined in the module class.
 
+
+	/**
+	 * Identifier of the slot that holds styles.
+	 */
+	
+	public static final int STYLE_SLOT = 0;
+	
 	/**
 	 * Identifier of the body slot that contains the report sections.
 	 */
@@ -98,5 +105,6 @@ public interface IReportDesignModel
 	 */
 
 	public static final int SLOT_COUNT = 8;
+
 
 }

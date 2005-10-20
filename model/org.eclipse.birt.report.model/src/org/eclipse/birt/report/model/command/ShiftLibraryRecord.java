@@ -86,7 +86,7 @@ public class ShiftLibraryRecord extends SimpleRecord
 
 		List librariesToUpdate = module.getLibraries( ).subList(
 				Math.min( oldPosn, newPosn ), Math.max( oldPosn, newPosn ) );
-		module.updateStyleClients( librariesToUpdate );
+		module.updateReferenceableClients( librariesToUpdate );
 	}
 
 	/*

@@ -95,7 +95,7 @@ class LibraryRecord extends SimpleRecord
 
 			List librariesToUpdate = module.getLibraries( ).subList( 0,
 					toUpdateLibraryCount );
-			module.updateStyleClients( librariesToUpdate );
+			module.updateReferenceableClients( librariesToUpdate );
 		}
 		else
 		{
@@ -104,7 +104,7 @@ class LibraryRecord extends SimpleRecord
 			// The update is performed only on the referred elements in the
 			// dropped library.
 
-			module.updateStyleClients( library );
+			module.updateReferenceableClients( library );
 		}
 	}
 

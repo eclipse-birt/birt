@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.Theme;
 
 /**
  * Applies logic customized to each type of report element. This is an
@@ -551,6 +552,18 @@ public class DesignVisitor
 	{
 		visitDataSet( obj );
 	}
+	
+	/**
+	 * Visits the extended data set element.
+	 * 
+	 * @param obj
+	 *            the extended data set to traverse
+	 */
+
+	protected void visitTheme( ThemeHandle obj )
+	{
+		visitDesignElement( obj );
+	}
 
 	/**
 	 * A class forward the visit of an element to its handle.
@@ -924,6 +937,18 @@ public class DesignVisitor
 		public void visitOdaDataSet( OdaDataSet obj )
 		{
 			DesignVisitor.this.visitExtendedDataSet( obj.handle( module ) );
+		}
+		
+		/**
+		 * Visits the theme element.
+		 * 
+		 * @param obj
+		 *            the theme to traverse
+		 */
+
+		public void visitTheme( Theme obj )
+		{
+			DesignVisitor.this.visitTheme( obj.handle( module ) );
 		}
 	}
 }

@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -34,6 +36,8 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -280,6 +284,12 @@ class ElementExporter
 	void exportElement( DesignElementHandle elementToExport, boolean canOverride )
 			throws SemanticException
 	{
+		if ( elementToExport instanceof StyleHandle )
+		{
+			exportStyle( (StyleHandle) elementToExport, canOverride );
+			return;
+		}
+
 		if ( canOverride )
 		{
 			int nameSpaceID = ( (ElementDefn) elementToExport.getDefn( ) )
@@ -314,6 +324,79 @@ class ElementExporter
 	}
 
 	/**
+	 * Export the given style to the target library.
+	 * 
+	 * @param elementToExport
+	 *            the style to export
+	 * @param canOverride
+	 *            <code>true</code> indicates the element with the same name
+	 *            in target library will be overriden. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 */
+
+	void exportStyle( StyleHandle elementToExport, boolean canOverride )
+			throws SemanticException
+	{
+		SlotHandle themes = targetLibraryHandle.getThemes( );
+		String defaultThemeName = ModelMessages
+				.getMessage( Theme.DEFAULT_THEME_NAME );
+
+		// find the default theme
+
+		NameSpace nameSpace = targetLibraryHandle.getModule( ).getNameSpace(
+				Module.THEME_NAME_SPACE );
+
+		Theme theme = (Theme) nameSpace.getElement( defaultThemeName );
+		ThemeHandle themeHandle = null;
+
+		// if no default theme, create it in the themes slot.
+		
+		if ( theme == null )
+		{
+			themeHandle = targetLibraryHandle.getElementFactory( ).newTheme(
+					defaultThemeName );
+			themes.add( themeHandle );
+		}
+		else
+			themeHandle = (ThemeHandle) theme.getHandle( targetLibraryHandle
+					.getModule( ) );
+
+		exportStyle( elementToExport, themeHandle, canOverride );
+	}
+
+	/**
+	 * Export the given style to the target library.
+	 * 
+	 * @param elementToExport
+	 *            the style to export
+	 * @param theme
+	 *            the theme where the style exports.
+	 * @param canOverride
+	 *            <code>true</code> indicates the element with the same name
+	 *            in target library will be overriden. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 */
+
+	void exportStyle( StyleHandle elementToExport, ThemeHandle theme,
+			boolean canOverride ) throws SemanticException
+	{
+		assert theme != null;
+
+		if ( canOverride )
+		{
+			StyleHandle style = theme.findStyle( elementToExport.getName( ) );
+			if ( style != null )
+				style.drop( );
+		}
+
+		DesignElementHandle newElementHandle = duplicateElement(
+				elementToExport, false );
+		addToSlot( theme.getStyles( ), newElementHandle );
+	}
+
+	/**
 	 * Exports the given design. The following rules are applied on exporting.
 	 * <ul>
 	 * <li>Only properties supported by library are exported.
@@ -338,7 +421,8 @@ class ElementExporter
 		for ( int i = 0; i < slotCount; i++ )
 		{
 			SlotHandle sourceSlotHandle = designToExport.getSlot( i );
-			SlotHandle destinationSlotHandle = targetLibraryHandle.getSlot( i );
+			// SlotHandle destinationSlotHandle = targetLibraryHandle.getSlot( i
+			// );
 
 			Iterator iter = sourceSlotHandle.iterator( );
 			while ( iter.hasNext( ) )
@@ -351,7 +435,8 @@ class ElementExporter
 					DesignElementHandle newContentHandle = duplicateElement(
 							contentHandle, false );
 
-					addToSlot( destinationSlotHandle, newContentHandle );
+					exportElement( newContentHandle, false );
+					// addToSlot( destinationSlotHandle, newContentHandle );
 				}
 			}
 		}

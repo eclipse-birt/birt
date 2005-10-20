@@ -190,5 +190,4 @@ public class ReportDesign extends Module implements IReportDesignModel
 	{
 		return new DesignWriter( this );
 	}
-
 }

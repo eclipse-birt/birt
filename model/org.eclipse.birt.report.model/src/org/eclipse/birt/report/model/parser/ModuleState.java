@@ -22,37 +22,43 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-
 /**
  * This class provides parser state for the top-level module element.
  */
 
 public abstract class ModuleState extends DesignParseState
 {
-	protected Module module = null;
+
+	/**
+	 * 
+	 */
 	
+	protected Module module = null;
+
 	/**
 	 * Constructs the module state with the module file parser handler.
 	 * 
 	 * @param theHandler
 	 *            The module parser handler.
 	 */
-	
+
 	public ModuleState( ModuleParserHandler theHandler )
 	{
 		super( theHandler );
 		module = theHandler.getModule( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
-	
+
 	public DesignElement getElement( )
 	{
 		return module;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -74,13 +80,13 @@ public abstract class ModuleState extends DesignParseState
 			catch ( Exception ex )
 			{
 				// The format of version string is invalid.
-				
+
 				DesignParserException e = new DesignParserException(
 						new String[]{version},
 						DesignParserException.DESIGN_EXCEPTION_INVALID_VERSION );
 				throw new XMLParserException( e );
 			}
-			
+
 			if ( result < 0 )
 			{
 				DesignParserException e = new DesignParserException(
@@ -106,27 +112,6 @@ public abstract class ModuleState extends DesignParseState
 		public XMLParserHandler getHandler( )
 		{
 			return handler;
-		}
-	}
-
-	/**
-	 * Parses the contents of the list of styles.
-	 */
-
-	class StylesState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-				return new StyleState( handler );
-			return super.startElement( tagName );
 		}
 	}
 
@@ -405,5 +390,5 @@ public abstract class ModuleState extends DesignParseState
 			return super.startElement( tagName );
 		}
 	}
-	
+
 }

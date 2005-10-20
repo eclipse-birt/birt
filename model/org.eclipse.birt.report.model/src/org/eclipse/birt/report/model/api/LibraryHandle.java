@@ -127,4 +127,33 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	{
 		return ( (Library) module ).getNamespace( );
 	}
+
+	/**
+	 * Returns a slot handle to work with the themes within the library. Note
+	 * that the order of the data sets within the slot is unimportant.
+	 * 
+	 * @return A handle for working with the themes.
+	 */
+
+	public SlotHandle getThemes( )
+	{
+		return getSlot( THEMES_SLOT );
+	}
+
+	/**
+	 * Returns a slot handle to work with the styles within the library. 
+	 * 
+	 * @return A handle for working with the styles. Or <code>null</code> if
+	 *         the library has no values for the theme property
+	 * @deprecated uses the theme instead
+	 */
+
+	public SlotHandle getStyles( )
+	{
+		ThemeHandle theme = getTheme( );
+		if ( theme == null )
+			return null;
+
+		return theme.getStyles( );
+	}
 }

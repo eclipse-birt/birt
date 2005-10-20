@@ -49,8 +49,10 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameSpaceFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
+import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -119,10 +121,16 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public static final int PAGE_NAME_SPACE = 5;
 
 	/**
+	 * Identifier for the master page name space.
+	 */
+
+	public static final int THEME_NAME_SPACE = 6;
+
+	/**
 	 * Number of defined name spaces.
 	 */
 
-	public static final int NAME_SPACE_COUNT = 6;
+	public static final int NAME_SPACE_COUNT = 7;
 
 	/**
 	 * The session that owns this module.
@@ -1536,13 +1544,29 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            library list
 	 */
 
-	public void updateStyleClients( List librariesToUpdate )
+	public void updateReferenceableClients( List librariesToUpdate )
 	{
 		int size = librariesToUpdate.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			updateStyleClients( (Library) libraries.get( i ) );
+			updateReferenceableClients( (Library) libraries.get( i ) );
+
+			// updateReferenceableClients( (Library) libraries.get( i ),
+			// IReportDesignModel.STYLE_SLOT );
 		}
+	}
+
+	/**
+	 * Updates the theme/style element reference which refers to the given
+	 * library.
+	 * 
+	 * @param library
+	 *            the library whose element references are updated.
+	 */
+
+	public void updateReferenceableClients( Library library )
+	{
+		updateReferenceableClients( library, ILibraryModel.THEMES_SLOT );
 	}
 
 	/**
@@ -1550,11 +1574,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * 
 	 * @param library
 	 *            the library whose element references are updated.
+	 * @param slotId
+	 *            the id of themes/styles slot
 	 */
 
-	public void updateStyleClients( Library library )
+	private void updateReferenceableClients( DesignElement target, int slotId )
 	{
-		ContainerSlot slot = library.getSlot( Library.STYLE_SLOT );
+		ContainerSlot slot = target.getSlot( slotId );
 		Iterator iter = slot.iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -1563,7 +1589,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 			ReferenceableElement referenceableElement = (ReferenceableElement) element;
 
+			// removes references of styles in the theme
+
+			if ( referenceableElement instanceof Theme )
+				updateReferenceableClients( referenceableElement,
+						Theme.STYLES_SLOT );
+
 			updateClientReferences( referenceableElement );
+
 		}
 	}
 
@@ -1575,7 +1608,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            the element whose element references are updated
 	 */
 
-	private void updateClientReferences( ReferenceableElement referred )
+	public void updateClientReferences( ReferenceableElement referred )
 	{
 		List clients = referred.getClientList( );
 		Iterator iter = clients.iterator( );
@@ -1907,5 +1940,36 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void setSystemId( URL systemId )
 	{
 		this.systemId = systemId;
+	}
+
+	/**
+	 * Finds a theme in this module and its included modules.
+	 * 
+	 * @param name
+	 *            Name of the style to find.
+	 * @return The style, or null if the style is not found.
+	 */
+
+	public Theme findTheme( String name )
+	{
+		return (Theme) resolveElement( name, THEME_NAME_SPACE );
+	}
+
+	/**
+	 * Returns the theme of the report design/library.
+	 * 
+	 * @return the theme of the report design/library
+	 */
+
+	public Theme getTheme( )
+	{
+		Object value = getLocalProperty( this, IModuleModel.THEME_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof ElementRefValue;
+
+		ElementRefValue refValue = (ElementRefValue) value;
+		return (Theme) refValue.getElement( );
 	}
 }

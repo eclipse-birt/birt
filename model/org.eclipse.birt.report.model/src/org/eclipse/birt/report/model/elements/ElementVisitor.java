@@ -509,5 +509,16 @@ public class ElementVisitor
 		visitDesignElement( obj );
 	}
 	
+	/**
+	 * Visits the module.
+	 * 
+	 * @param obj
+	 *            the module to traverse
+	 */
+	
+	public void visitTheme( Theme obj )
+	{
+		visitDesignElement( obj );
+	}
 }
 

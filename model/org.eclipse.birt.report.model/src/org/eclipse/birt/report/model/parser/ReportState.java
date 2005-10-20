@@ -61,10 +61,10 @@ public class ReportState extends ModuleState
 			return new BodyState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
 			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
-        if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-            return new CompatibleReportPropertyState( handler, getElement() );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+			return new CompatibleReportPropertyState( handler, getElement( ) );
 		return super.startElement( tagName );
-	}	
+	}
 
 	/**
 	 * Parses the contents of the body tag that contains the list of top-level
@@ -122,5 +122,25 @@ public class ReportState extends ModuleState
 		}
 	}
 
-	
+	/**
+	 * Parses the contents of the list of styles.
+	 */
+
+	private class StylesState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
+				return new StyleState( handler );
+			return super.startElement( tagName );
+		}
+	}
+
 }

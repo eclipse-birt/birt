@@ -1539,7 +1539,7 @@
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
   </Structure>   
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="reserved">
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
     <Property canInherit="false" displayNameID="Element.Module.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
@@ -1558,11 +1558,12 @@
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
     <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.Module.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
     <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
-    <Slot displayNameID="Element.Library.slot.styles" multipleCardinality="true" name="styles" since="1.0" xmlName="styles">
-      <Type name="Style"/>
+    <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
+      <Type name="Theme"/>
     </Slot>
     <Slot displayNameID="Element.Library.slot.parameters" multipleCardinality="true" name="parameters" since="1.0" xmlName="parameters">
       <Type name="Parameter"/>
@@ -2724,6 +2725,11 @@
 	</Property>
 	<PropertyVisibility name="extensionName" visibility="hide"/>
   </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
+    <Slot displayNameID="Element.Theme.slot.styles" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
+      <Type name="Style"/>
+    </Slot>
+  </Element>	
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
   <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
   <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />

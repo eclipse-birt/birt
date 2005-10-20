@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
+import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -59,7 +60,9 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
@@ -773,6 +776,23 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Finds a theme by its name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            name of the style
+	 * @return a handle to the style, or <code>null</code> if the style is not
+	 *         found
+	 */
+
+	public ThemeHandle findTheme( String name )
+	{
+		Theme theme = module.findTheme( name );
+		if ( theme == null )
+			return null;
+		return (ThemeHandle) theme.getHandle( module );
+	}
+
+	/**
 	 * Returns the name of the author of the design report.
 	 * 
 	 * @return the name of the author.
@@ -1093,7 +1113,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public SlotHandle getStyles( )
 	{
-		return getSlot( STYLE_SLOT );
+		return getSlot( IReportDesignModel.STYLE_SLOT );
 	}
 
 	/**
@@ -1513,6 +1533,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return generateHandleList( elementList );
 	}
 
+	/**
+	 * Returns all theme element handles that this modules and the included
+	 * modules contain.
+	 * 
+	 * @return all theme element handles that this modules and the included
+	 *         modules contain.
+	 */
+
+	public List getAllThemes( )
+	{
+		List elementList = module.getModuleNameSpace( Module.THEME_NAME_SPACE )
+				.getElements( );
+
+		return generateHandleList( elementList );
+	}
+	
 	/**
 	 * Returns all data source handles that this modules and the included
 	 * modules contain.
@@ -1959,7 +1995,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 				try
 				{
 					module.makeUniqueName( style.getElement( ) );
-					addElement( style, IModuleModel.STYLE_SLOT );
+					addElement( style, IReportDesignModel.STYLE_SLOT );
 				}
 				catch ( ContentException e )
 				{
@@ -1973,6 +2009,64 @@ public abstract class ModuleHandle extends DesignElementHandle
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Sets the theme to a report.
+	 * 
+	 * @param themeName
+	 *            the name of the theme
+	 * @throws SemanticException
+	 */
+	public void setThemeName( String themeName ) throws SemanticException
+	{
+		ThemeCommand command = new ThemeCommand( getModule( ) );
+		command.setTheme( themeName );
+	}
+
+	/**
+	 * Returns the refresh rate when viewing the report.
+	 * 
+	 * @return the refresh rate
+	 */
+
+	public ThemeHandle getTheme( )
+	{
+		Theme theme = getModule( ).getTheme( );
+		if ( theme == null )
+			return null;
+
+		return (ThemeHandle) theme.getHandle( getModule( ) );
+	}
+
+	/**
+	 * Sets the theme to a report.
+	 * 
+	 * @param theme
+	 *            the theme instance
+	 * @throws SemanticException
+	 */
+
+	public void setTheme( ThemeHandle theme ) throws SemanticException
+	{
+		if ( theme == null )
+			setThemeElement( null );
+		else
+			setThemeElement( (Theme) theme.getElement( ) );
+	}
+
+	/**
+	 * Sets the theme to a report.
+	 * 
+	 * @param theme
+	 *            the theme instance
+	 * @throws SemanticException
+	 */
+
+	private void setThemeElement( Theme theme ) throws SemanticException
+	{
+		ThemeCommand command = new ThemeCommand( getModule( ) );
+		command.setThemeElement( theme );
 	}
 
 }

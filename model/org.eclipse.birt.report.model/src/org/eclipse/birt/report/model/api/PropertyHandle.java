@@ -190,8 +190,8 @@ public class PropertyHandle extends SimpleValueHandle
 		ElementDefn elementDefn = (ElementDefn) propDefn.getTargetElementType( );
 		assert elementDefn != null;
 
-		ModuleHandle moduleHandle = ( (ModuleHandle) getModule( )
-				.getHandle( getModule( ) ) );
+		ModuleHandle moduleHandle = ( (ModuleHandle) getModule( ).getHandle(
+				getModule( ) ) );
 
 		if ( ReportDesignConstants.DATA_SET_ELEMENT.equals( elementDefn
 				.getName( ) ) )
@@ -202,8 +202,10 @@ public class PropertyHandle extends SimpleValueHandle
 			return moduleHandle.getDataSources( ).getContents( );
 
 		else if ( ReportDesignConstants.STYLE_ELEMENT.equals( elementDefn
-				.getName( ) ) )
-			return moduleHandle.getStyles( ).getContents( );
+				.getName( ) )
+				&& moduleHandle instanceof ReportDesignHandle )
+			return ( (ReportDesignHandle) moduleHandle ).getStyles( )
+					.getContents( );
 
 		return list;
 

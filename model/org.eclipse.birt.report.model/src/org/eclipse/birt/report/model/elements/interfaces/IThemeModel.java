@@ -12,24 +12,22 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * The interface for report design element to store the constants.
+ * The interface for theme elements to store the constants.
  */
 
-public interface ILibraryModel
+public interface IThemeModel
 {
-	// Design slots
-	// See constants defined in the module class.
 
 	/**
-	 * Identifier of the slot that holds themes.
+	 * Identifier of the slot that holds the cells in row.
 	 */
-	
-	public static final int THEMES_SLOT = 0;
+
+	public static final int STYLES_SLOT = 0;
 
 	/**
-	 * Number of slots in the report design element.
+	 * The name of the default theme.
 	 */
 
-	public static final int SLOT_COUNT = 6;
+	public final static String DEFAULT_THEME_NAME = "Theme.defaultThemeName"; //$NON-NLS-1$
 
 }

@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -28,7 +29,7 @@ import org.xml.sax.Attributes;
  * for a report item. Since both contexts use exactly the same XML (except for
  * the name and extends attributes), and both use the same property names,
  * having one state handle both contexts makes the parser simpler.
- *  
+ * 
  */
 
 class StyleState extends ReportElementState
@@ -74,7 +75,7 @@ class StyleState extends ReportElementState
 
 	StyleState( ModuleParserHandler handler )
 	{
-		super( handler, handler.getModule( ), ReportDesign.STYLE_SLOT );
+		super( handler, handler.getModule( ), IReportDesignModel.STYLE_SLOT );
 	}
 
 	/**
@@ -94,6 +95,19 @@ class StyleState extends ReportElementState
 		element = obj;
 	}
 
+	/**
+	 * Constructs for creating a named shared style with the design file parser
+	 * handler.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 */
+
+	StyleState( ModuleParserHandler handler, Theme element, int slotId )
+	{
+		super( handler, element, slotId );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -109,7 +123,8 @@ class StyleState extends ReportElementState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
+	 * @see org.eclipse.birt.report.model.parser.ReportElementState#isNameSpaceRequired(org.eclipse.birt.report.model.core.DesignElement,
+	 *      int, org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public DesignElement getElement( )

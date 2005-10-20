@@ -169,6 +169,8 @@ public interface DesignSchemaConstants
 	static final String	TEXT_WHITE_SPACE_ATTRIB					= "white-space";				//$NON-NLS-1$
 	static final String	TEXT_WIDOWS_ATTRIB						= "widows";						//$NON-NLS-1$
 	static final String	TEXT_WORD_SPACING_ATTRIB				= "word-spacing";				//$NON-NLS-1$
+	static final String	THEME_TAG								= "theme";						//$NON-NLS-1$
+	static final String	THEMES_TAG								= "themes";						//$NON-NLS-1$	
 	static final String	TOC_TAG									= "toc";						//$NON-NLS-1$ 
 	static final String	TRANSLATION_TAG							= "translation";				//$NON-NLS-1$
 	static final String	TRANSLATIONS_TAG						= "translations";				//$NON-NLS-1$

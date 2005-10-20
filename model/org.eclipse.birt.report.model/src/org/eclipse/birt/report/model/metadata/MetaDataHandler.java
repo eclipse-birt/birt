@@ -22,6 +22,8 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.validators.SimpleValueValidator;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -505,6 +507,7 @@ class MetaDataHandler extends XMLParserHandler
 		private static final String DATA_SOURCE_NS_NAME = "dataSource"; //$NON-NLS-1$
 		private static final String DATA_SET_NS_NAME = "dataSet"; //$NON-NLS-1$
 		private static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
+		private static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -559,7 +562,9 @@ class MetaDataHandler extends XMLParserHandler
 				// Inherit default name space
 			}
 			else if ( ns.equalsIgnoreCase( STYLE_NS_NAME ) )
-				elementDefn.setNameSpaceID( Module.STYLE_NAME_SPACE );
+				elementDefn.setNameSpaceID( ReportDesign.STYLE_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( THEME_NS_NAME ) )
+				elementDefn.setNameSpaceID( Library.THEME_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SET_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( DATA_SOURCE_NS_NAME ) )

@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -85,8 +88,7 @@ public abstract class StyleElement extends ReferenceableElement
 	 * @return the value of the property.
 	 */
 
-	public Object getFactoryProperty( Module module,
-			ElementPropertyDefn prop )
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
 	{
 		return getLocalProperty( module, prop );
 	}
@@ -175,26 +177,64 @@ public abstract class StyleElement extends ReferenceableElement
 
 		if ( selector != null )
 		{
-			// Work around for renaming selector style.
-			if ( REPORT_SELECTOR.equals( selector ) )
-			{
-				NotificationEvent event = null;
-				event = new StyleEvent( module );
-				event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
-				module.broadcast( event );
+			// broadcast the change to theme references.
+			
+			DesignElement tmpContainer = getContainer( );
+			List modules = new ArrayList( );
 
+			if ( getContainer( ) instanceof Theme )
+			{
+				Theme containerTheme = (Theme) tmpContainer;
+				if ( containerTheme.hasReferences( ) )
+				{
+					List refs = ( (Theme) tmpContainer ).getClientList( );
+					for ( int i = 0; i < refs.size( ); i++ )
+						modules.add( ( (BackRef) refs.get( i ) ).getElement( ) );
+				}
 			}
 			else
+				modules.add( module );
+			
+			for ( int i = 0; i < modules.size( ); i++ )
+				broadcastToModule( (Module) modules.get( i ), selector );
+		}
+	}
+
+	/**
+	 * @param module
+	 * @param slot
+	 * @param selectorName
+	 */
+
+	private void broadcastToModule( Module module, String selectorName )
+	{
+		assert selectorName != null;
+
+		// Work around for renaming selector style.
+		if ( REPORT_SELECTOR.equals( selectorName ) )
+		{
+			NotificationEvent event = null;
+			event = new StyleEvent( module );
+			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
+			module.broadcast( event );
+
+		}
+		else
+		{
+			broadcastToSelectedElementsInSlot( module, module
+					.getSlot( Module.COMPONENT_SLOT ), selectorName );
+			broadcastToSelectedElementsInSlot( module, module
+					.getSlot( Module.PAGE_SLOT ), selectorName );
+
+			// only report design has the body, scratch pad slots.
+
+			if ( module instanceof ReportDesign )
 			{
+				broadcastToSelectedElementsInSlot( module, module
+						.getSlot( ReportDesign.BODY_SLOT ), selectorName );
 
 				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.COMPONENT_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.PAGE_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.BODY_SLOT ), selector );
-				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selector );
+						.getSlot( ReportDesign.SCRATCH_PAD_SLOT ), selectorName );
 			}
 		}
 

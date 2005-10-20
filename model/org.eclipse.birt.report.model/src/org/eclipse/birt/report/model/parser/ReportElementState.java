@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -147,48 +148,49 @@ public abstract class ReportElementState extends DesignParseState
 		// Disallow duplicate names.
 
 		Module module = handler.getModule( );
+
+		if ( name == null
+				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+		{
+			handler.getErrorHandler( ).semanticError(
+					new NameException( container, name,
+							NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+			return false;
+		}
+
 		int id = contentDefn.getNameSpaceID( );
-		if ( id != MetaDataConstants.NO_NAME_SPACE )
+		if ( name != null
+				&& id != MetaDataConstants.NO_NAME_SPACE
+				&& !( container instanceof Theme && slotID == Theme.STYLES_SLOT ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
-			if ( name == null
-					&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+
+			if ( !module.getModuleNameSpace( id ).canContain( name ) )
+			// if ( module.resolveElement( name, id ) != null )
 			{
 				handler.getErrorHandler( ).semanticError(
 						new NameException( container, name,
-								NameException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+								NameException.DESIGN_EXCEPTION_DUPLICATE ) );
 				return false;
 			}
-
-			if ( name != null )
+			DesignElement parent = content.getExtendsElement( );
+			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
 			{
-				if ( !module.getModuleNameSpace( id ).canContain( name ) )
-				// if ( module.resolveElement( name, id ) != null )
+				if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
+				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
+				// parent ) )
 				{
-					handler.getErrorHandler( ).semanticError(
-							new NameException( container, name,
-									NameException.DESIGN_EXCEPTION_DUPLICATE ) );
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new ExtendsException(
+											content,
+											content.getElementName( ),
+											ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
 					return false;
 				}
-				DesignElement parent = content.getExtendsElement( );
-				if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
-				{
-					if ( parent.getContainerSlot( ) != Module.COMPONENT_SLOT )
-					// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
-					// parent ) )
-					{
-						handler
-								.getErrorHandler( )
-								.semanticError(
-										new ExtendsException(
-												content,
-												content.getElementName( ),
-												ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ) );
-						return false;
-					}
-				}
-				ns.insert( content );
 			}
+			ns.insert( content );
 		}
 
 		// Add the item to the element ID map, check whether the id is unique
@@ -278,6 +280,7 @@ public abstract class ReportElementState extends DesignParseState
 								new DesignParserException(
 										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
+
 
 		// get the "id" of the element
 

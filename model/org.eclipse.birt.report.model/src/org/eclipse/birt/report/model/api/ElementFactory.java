@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -839,5 +840,21 @@ public class ElementFactory
 			assert false;
 			return null;
 		}
+	}
+	
+	/**
+	 * Creates a new theme element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the theme item name. 
+	 * @return a handle to the theme item
+	 */
+
+	public ThemeHandle newTheme( String name )
+	{
+		Theme element = new Theme( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
 	}
 }

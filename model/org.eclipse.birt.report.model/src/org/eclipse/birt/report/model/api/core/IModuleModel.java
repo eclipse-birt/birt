@@ -19,12 +19,6 @@ public interface IModuleModel
 {
 
 	/**
-	 * Identifier of the slot that holds styles.
-	 */
-
-	public static final int STYLE_SLOT = 0;
-
-	/**
 	 * Identifier of the parameter slot.
 	 */
 
@@ -155,6 +149,12 @@ public interface IModuleModel
 	 */
 
 	public static final String INITIALIZE_METHOD = "initialize"; //$NON-NLS-1$
+
+	/**
+	 * Name of the theme property.
+	 */
+	
+	public static final String THEME_PROP = "theme"; //$NON-NLS-1$
 
 	
 }

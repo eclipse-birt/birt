@@ -25,6 +25,7 @@ public interface ReportDesignConstants
 	String DATA_ITEM = "Data"; //$NON-NLS-1$ 
 	String DATA_SET_ELEMENT = "DataSet"; //$NON-NLS-1$ 
 	String DATA_SOURCE_ELEMENT = "DataSource"; //$NON-NLS-1$ 
+	String DESIGN_ELEMENT = "DesignElement"; //$NON-NLS-1$	
 	String ODA_DATA_SET = "OdaDataSet"; //$NON-NLS-1$
 	String ODA_DATA_SOURCE = "OdaDataSource"; //$NON-NLS-1$
 	String EXTENDED_ITEM = "ExtendedItem"; //$NON-NLS-1$
@@ -40,6 +41,7 @@ public interface ReportDesignConstants
 	String LIST_ITEM = "List"; //$NON-NLS-1$
 	String LISTING_ITEM = "Listing"; //$NON-NLS-1$
 	String MASTER_PAGE_ELEMENT = "MasterPage"; //$NON-NLS-1$
+	String MODULE_ELEMENT = "Module"; //$NON-NLS-1$	
 	String PARAMETER_GROUP_ELEMENT = "ParameterGroup"; //$NON-NLS-1$
 	String CASCADING_PARAMETER_GROUP_ELEMENT = "CascadingParameterGroup"; //$NON-NLS-1$
 	String RECTANGLE_ITEM = "Rectangle"; //$NON-NLS-1$
@@ -55,8 +57,7 @@ public interface ReportDesignConstants
 	String TABLE_ITEM = "Table"; //$NON-NLS-1$ 
 	String TEXT_ITEM = "Text"; //$NON-NLS-1$
 	String TEXT_DATA_ITEM = "TextData"; //$NON-NLS-1$
-	String MODULE_ELEMENT = "Module"; //$NON-NLS-1$
-	String DESIGN_ELEMENT = "DesignElement"; //$NON-NLS-1$
+	String THEME_ITEM = "Theme"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

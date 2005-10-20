@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<xs:schema targetNamespace="http://www.eclipse.org/birt/2005/design" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.eclipse.org/birt/2005/design" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema targetNamespace="http://www.eclipse.org/birt/2005/design" xmlns="http://www.eclipse.org/birt/2005/design" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="report">
 		<xs:annotation>
 			<xs:documentation>A BIRT report design.</xs:documentation>
@@ -9,6 +9,7 @@
 			<xs:complexContent>
 				<xs:extension base="ModuleType">
 					<xs:sequence>
+						<xs:element name="styles" type="StylesType" minOccurs="0"/>
 						<xs:element name="body">
 							<xs:annotation>
 								<xs:documentation>Report content. Content is implied to fill the width of the page.</xs:documentation>
@@ -46,10 +47,19 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="library" type="ModuleType">
+	<xs:element name="library">
 		<xs:annotation>
 			<xs:documentation>Root tag for a library file.</xs:documentation>
 		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ModuleType">
+					<xs:sequence>
+						<xs:element name="themes" type="ThemesType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="BrowserControlType">
 		<xs:complexContent>
@@ -682,6 +692,26 @@
 		<xs:complexContent>
 			<xs:extension base="ReportItemType"/>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ThemeType">
+		<xs:annotation>
+			<xs:documentation>An element that defined a group of styles.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ReportElementType">
+				<xs:sequence>
+					<xs:element name="Styles" type="StylesType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ThemesType">
+		<xs:annotation>
+			<xs:documentation>List of themes.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Theme" type="ThemeType"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ValueType">
 		<xs:annotation>
@@ -1362,11 +1392,6 @@
 					<xs:element name="data-sets" type="DataSetSlotType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>List of queries, stored procedures, etc. used by the report.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="styles" type="StylesType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>List of reusable styles defined in this report.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="page-setup" type="PageSetupType" minOccurs="0">
