@@ -560,19 +560,6 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#getAxisType()
-	 */
-	public int getAxisType( )
-	{
-		if ( getType( ) != null )
-		{
-			return getType( ).getValue( );
-		}
-
-		return AngleType.NONE;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.attribute.Angle3D#getAxisAngle()
 	 */
 	public double getAxisAngle( )

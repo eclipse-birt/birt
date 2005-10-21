@@ -259,15 +259,6 @@ public interface Angle3D extends EObject
 	void set( double x, double y, double z );
 
 	/**
-	 * Returns the angle axis if set.
-	 * 
-	 * @deprecated use getType() instead.
-	 * 
-	 * @return
-	 */
-	int getAxisType( );
-
-	/**
 	 * Returns the specific axis angle value if axis type specified, or just returns
 	 * Zero.
 	 * 
