@@ -333,9 +333,13 @@ public class GetParameterDefinitionTask extends EngineTask
 		if (DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals(selectionType))
 		{
 			String dataSetName = parameter.getDataSetName();
-			String labelExpr = parameter.getLabelExpr();
 			String valueExpr = parameter.getValueExpr();
-			return createDynamicSelectionChoices(dataSetName, labelExpr, valueExpr);
+			String labelExpr = parameter.getLabelExpr();
+			if (labelExpr == null)
+			{
+				labelExpr = valueExpr;
+			}
+			return createDynamicSelectionChoices(dataSetName, labelExpr, valueExpr, dataType);
 		}
 		else if (DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals(selectionType))
 		{
@@ -390,9 +394,10 @@ public class GetParameterDefinitionTask extends EngineTask
 	 * @param dataSetName data set name
 	 * @param labelStmt label statement
 	 * @param valueStmt value statement
+	 * @param dataType value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices(String dataSetName, String labelStmt, String valueStmt)
+	private Collection createDynamicSelectionChoices(String dataSetName, String labelStmt, String valueStmt, String dataType)
 	{
 		ArrayList choices = new ArrayList();
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
@@ -450,7 +455,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				{
 						String label = iter.getString(labelExpr);
 						Object value = iter.getValue(valueExpr);
-						choices.add(new SelectionChoice(label, value));
+						choices.add(new SelectionChoice(label, convertToType(value, dataType)));
 						iter.skipToEnd( 1 ); // Skip all of the duplicate values
 				}
 			}
@@ -583,6 +588,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		
 		ScalarParameterHandle requestedParam =  (ScalarParameterHandle) slotHandle.get( groupKeyValues.length ); // The parameters in parameterGroup must be scalar parameters.
 		int listLimit = requestedParam.getListlimit();
+		String valueType = requestedParam.getDataType();
 		// We need to cache the expression object in function evaluateQuery and 
 		// use the cached object here instead of creating a new one because 
 		// according to DtE API for IResultIterator.getString, 
@@ -604,6 +610,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				String label = iter.getString( labelExpr );
 				Object value = iter.getValue( valueExpr );
+				value = convertToType(value, valueType);
 				choices.add( new SelectionChoice(label, value) );
 				count++;
 				if ( (listLimit != 0) &&

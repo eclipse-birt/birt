@@ -49,7 +49,7 @@ public abstract class EngineTask implements IEngineTask
 	 * the context for running this task
 	 */
 	protected Object context;
-	
+
 	/**
 	 * a reference to the report engine
 	 */
@@ -134,7 +134,8 @@ public abstract class EngineTask implements IEngineTask
 	 * @param context
 	 *            the task context
 	 */
-	public void setContext(Object context) {
+	public void setContext( Object context )
+	{
 		this.context = context;
 		executionContext.setAppContext( context );
 	}
@@ -144,7 +145,8 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @return Returns the context.
 	 */
-	public Object getContext() {
+	public Object getContext( )
+	{
 		return context;
 	}
 
@@ -158,11 +160,11 @@ public abstract class EngineTask implements IEngineTask
 		return engine;
 	}
 
-	public DataEngine getDataEngine()
+	public DataEngine getDataEngine( )
 	{
-		return executionContext.getDataEngine().getDataEngine();
+		return executionContext.getDataEngine( ).getDataEngine( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -194,21 +196,10 @@ public abstract class EngineTask implements IEngineTask
 		return this.runnable;
 	}
 
-	/**
-	 * evaluate a script and convert the value to specified type.
-	 * @param expr exprestion statement
-	 * @param type value type
-	 * @return result with the specified type.
-	 */
-	protected Object evaluate( String expr, String type )
+	protected Object convertToType( Object value, String type )
 	{
-		if ( expr == null || expr.length( ) == 0 )
-		{
-			return null;
-		}
 		try
 		{
-			Object value = executionContext.evaluate( expr );
 			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 			{
 				return DataTypeUtil.toBoolean( value );
@@ -230,13 +221,31 @@ public abstract class EngineTask implements IEngineTask
 				return DataTypeUtil.toString( value );
 			}
 			return value;
-
 		}
 		catch ( BirtException e )
 		{
 			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 		return null;
+	}
+
+	/**
+	 * evaluate a script and convert the value to specified type.
+	 * 
+	 * @param expr
+	 *            exprestion statement
+	 * @param type
+	 *            value type
+	 * @return result with the specified type.
+	 */
+	protected Object evaluate( String expr, String type )
+	{
+		if ( expr == null || expr.length( ) == 0 )
+		{
+			return null;
+		}
+		Object value = executionContext.evaluate( expr );
+		return convertToType( value, type );
 	}
 
 	/*
@@ -246,10 +255,10 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public boolean validateParameters( )
 	{
-		//set the parameter values into the execution context 
-		usingParameterValues();
+		// set the parameter values into the execution context
+		usingParameterValues( );
 
-		//validate each parameter to see if it is validate
+		// validate each parameter to see if it is validate
 		return new ParameterVisitor( ) {
 
 			boolean visitScalarParameter( ScalarParameterHandle param )
@@ -273,7 +282,7 @@ public abstract class EngineTask implements IEngineTask
 	 *            the value for the parameter
 	 * @return true if the given parameter value is valid; false otherwise
 	 */
-	private boolean validateScalarParameter( ScalarParameterHandle paramHandle)
+	private boolean validateScalarParameter( ScalarParameterHandle paramHandle )
 	{
 
 		String paramName = paramHandle.getName( );
@@ -348,7 +357,7 @@ public abstract class EngineTask implements IEngineTask
 	public void setParameterValues( HashMap params )
 	{
 		parameterChanged = true;
-		inputValues.putAll(params);
+		inputValues.putAll( params );
 	}
 
 	/*
@@ -362,7 +371,7 @@ public abstract class EngineTask implements IEngineTask
 		parameterChanged = true;
 		inputValues.put( name, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -370,19 +379,18 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public HashMap getParameterValues( )
 	{
-		return (HashMap)inputValues.clone();
+		return (HashMap) inputValues.clone( );
 	}
-	
-	public Object getParameterValue(String name)
+
+	public Object getParameterValue( String name )
 	{
-		return inputValues.get(name);
+		return inputValues.get( name );
 	}
-	
 
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.15 $ $Date: 2005/10/20 05:16:33 $
+	 * @version $Revision: 1.16 $ $Date: 2005/10/20 07:25:37 $
 	 */
 	abstract class ParameterVisitor
 	{
@@ -450,43 +458,45 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
-	protected IQueryResults executeDataSet(DataSetHandle hDataSet, HashMap parameters)
+	protected IQueryResults executeDataSet( DataSetHandle hDataSet,
+			HashMap parameters )
 	{
 		return null;
 	}
-	
+
 	/**
 	 * use the user setting parameters values to setup the execution context.
 	 * the user setting values and default values are merged here.
 	 */
-	protected void usingParameterValues()
+	protected void usingParameterValues( )
 	{
-		if (!parameterChanged)
+		if ( !parameterChanged )
 		{
 			return;
 		}
-		
+
 		parameterChanged = false;
-		
-		//clear previous settings
-		executionContext.getParams().clear();
-		runValues.clear();
-		
-		//set the user setting values into the execution context
-		executionContext.getParams().putAll(inputValues);
-		runValues.putAll(inputValues);
-		
-		//use default value for the parameter without user value.
-		new ParameterVisitor()
-		{
+
+		// clear previous settings
+		executionContext.getParams( ).clear( );
+		runValues.clear( );
+
+		// set the user setting values into the execution context
+		executionContext.getParams( ).putAll( inputValues );
+		runValues.putAll( inputValues );
+
+		// use default value for the parameter without user value.
+		new ParameterVisitor( ) {
+
 			boolean visitScalarParameter( ScalarParameterHandle param )
 			{
-				String name = param.getName();
-				if (!inputValues.containsKey(name))
+				String name = param.getName( );
+				if ( !inputValues.containsKey( name ) )
 				{
-					Object value = evaluate(param.getDefaultValue(), param.getDataType());
-					executionContext.getParams().put(name, value);
-					runValues.put(name, value);
+					Object value = evaluate( param.getDefaultValue( ), param
+							.getDataType( ) );
+					executionContext.getParams( ).put( name, value );
+					runValues.put( name, value );
 				}
 				return true;
 			}
@@ -495,6 +505,6 @@ public abstract class EngineTask implements IEngineTask
 			{
 				return visitParametersInGroup( group );
 			}
-		}.visit();
+		}.visit( );
 	}
 }
