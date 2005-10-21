@@ -109,6 +109,21 @@ public class ReportParameterConverter
 			{
 				reportParameterValue = ( ( Boolean ) reportParameterObj ).toString( );
 			}
+			else if ( reportParameterObj instanceof Number )
+			{
+				NumberFormatter nf = new NumberFormatter( locale );
+				
+				if ( format != null )
+				{
+					nf.applyPattern( format );
+				}
+
+				reportParameterValue = nf.format( ( ( Number ) reportParameterObj ) );
+			}
+			else
+			{
+				reportParameterValue = ( reportParameterObj.toString( ) );
+			}
 		}
 		
 		return reportParameterValue;
