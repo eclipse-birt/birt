@@ -39,6 +39,7 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -70,6 +71,10 @@ public class SVGGraphics2D extends Graphics2D
 	protected AffineTransform transforms;
 	protected List paints = new ArrayList( );
 	protected Element definitions;
+	protected Element styles;
+	protected String styleClass;
+	protected String id;
+	protected StringBuffer styleBuffer = new StringBuffer();
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
 
@@ -757,7 +762,12 @@ public class SVGGraphics2D extends Graphics2D
 
 		}
 		currentElement.setAttribute( "style", style ); //$NON-NLS-1$
+		if (styleClass != null)
+			currentElement.setAttribute("class", styleClass); //$NON-NLS-1$
+		if (id != null)
+			currentElement.setAttribute("id", id); //$NON-NLS-1$
 	}
+	
 
 	protected void setFillColor( Element currentElement )
 	{
@@ -778,6 +788,11 @@ public class SVGGraphics2D extends Graphics2D
 			if ( paint instanceof SVGGradientPaint )
 				currentElement.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
+		if (styleClass != null)
+			currentElement.setAttribute("class", styleClass); //$NON-NLS-1$
+		if (id != null)
+			currentElement.setAttribute("id", id); //$NON-NLS-1$
+		
 	}
 
 	/**
@@ -1013,6 +1028,9 @@ public class SVGGraphics2D extends Graphics2D
 		return true;
 	}
 
+	public void flush(){
+		styles.appendChild( dom.createCDATASection( EventHandlers.styles.append(styleBuffer).toString( ) ) );		
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1290,9 +1308,8 @@ public class SVGGraphics2D extends Graphics2D
 		Element codeScript = dom.createElement( "script" ); //$NON-NLS-1$
 		codeScript.appendChild( dom.createCDATASection( EventHandlers.content.toString( ) ) );
 		appendChild( codeScript );
-		Element styles = dom.createElement( "style" ); //$NON-NLS-1$
+		styles = dom.createElement( "style" ); //$NON-NLS-1$
 		styles.setAttribute( "type", "text/css" ); //$NON-NLS-1$ //$NON-NLS-2$
-		styles.appendChild( dom.createCDATASection( EventHandlers.styles.toString( ) ) );
 		appendChild( styles );
 
 	}
@@ -1325,5 +1342,25 @@ public class SVGGraphics2D extends Graphics2D
 	public Element getCurrentParent( )
 	{
 		return currentParent;
+	}
+
+	public String getStyleClass() {
+		return styleClass;
+	}
+
+	public void setStyleClass(String styleClass) {
+		this.styleClass = styleClass;
+	}
+	
+	public void addCSSStyle(String className, String styleName, String styleValue){
+		styleBuffer.append(className).append("{").append(styleName).append(":").append(styleValue).append("}");				 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

@@ -147,5 +147,25 @@ public final class EventHandlers
 			.append( "		  return childs.item(x).nodeValue;\n" ) //$NON-NLS-1$
 			.append( "	   return \"\";\n" ) //$NON-NLS-1$
 			.append( "	}\n" ) //$NON-NLS-1$
-			.append( "		\n" ); //$NON-NLS-1$
+			.append( "	        function toggleVisibility(evt, id, compList){\n" ) //$NON-NLS-1$
+		.append( "       var mainSvg = evt.target.ownerDocument.documentElement;\n" ) //$NON-NLS-1$
+		.append( "    for (i = 0; i < compList.length; i=i+1){\n" ) //$NON-NLS-1$
+			.append( "         var comp = mainSvg.getElementById(id+'_'+compList[i]);\n" ) //$NON-NLS-1$
+			.append( "         var styleStr = comp.getAttribute(\"style\");\n" ) //$NON-NLS-1$
+			.append( "        rVisibleExp=/visibility:visible/g;\n" ) //$NON-NLS-1$
+			.append( "        rHiddenExp=/visibility:hidden/g;\n" ) //$NON-NLS-1$
+			.append( "        results = styleStr.search(rVisibleExp);\n" ) //$NON-NLS-1$
+			.append( "        if (results == -1){\n" ) //$NON-NLS-1$
+ 			.append( "           results = styleStr.search(rHiddenExp);\n" ) //$NON-NLS-1$
+			.append( "            if (results == -1)\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr + \"visibility:hidden;\";\n" ) //$NON-NLS-1$
+    			.append( "            else\n" ) //$NON-NLS-1$
+			.append( "                styleStr = styleStr.replace(rHiddenExp,\"visibility:visible\");\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+			.append( "         else{\n" ) //$NON-NLS-1$
+ 			.append( "                styleStr = styleStr.replace(rVisibleExp,\"visibility:hidden\");\n" ) //$NON-NLS-1$
+    			.append( "         }\n" ) //$NON-NLS-1$
+			.append( "         comp.setAttributeNS(null, \"style\", styleStr);\n" ) //$NON-NLS-1$
+			.append( "     }\n" ) //$NON-NLS-1$
+		.append( "     }			\n" ); //$NON-NLS-1$
 }
