@@ -803,12 +803,13 @@ class ResultIterator implements IResultIterator
 	 * @return
 	 * @throws DataException
 	 */
-	private boolean groupKeyValuesEqual( Object[] groupKeyValues, String[] columnNames, int i ) throws DataException
+	private boolean groupKeyValuesEqual( Object[] groupKeyValues,
+			String[] columnNames, int i ) throws DataException
 	{
-		return ( odiResult.getCurrentResult( )
-				.getFieldValue( columnNames[i] ) == null && groupKeyValues[i] == null )
-				|| ( odiResult.getCurrentResult( )
-						.getFieldValue( columnNames[i] ).equals( groupKeyValues[i] ) );
+		Object fieldValue = odiResult.getCurrentResult( ).getFieldValue( columnNames[i] );
+		return ( fieldValue == null && groupKeyValues[i] == null )
+				|| ( ( fieldValue != null && groupKeyValues[i] != null )
+				&&   ( fieldValue.equals( groupKeyValues[i] ) ) );
 	}
 
 
