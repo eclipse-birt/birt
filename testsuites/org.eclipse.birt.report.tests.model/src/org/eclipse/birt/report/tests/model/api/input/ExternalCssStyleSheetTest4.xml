@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 1.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="2">
+    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
+    <property name="units">in</property>
+    <styles>
+        <style name="STYLE1">
+            <property name="fontSize">2em</property>
+            <property name="fontStyle">italic</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage">
+            <page-footer>
+                <text>
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label name="MyLabel">
+            <text-property name="text">abc</text-property>
+        </label>
+        <table name="MyTable">
+            <property name="width">100%</property>
+            <column/>
+            <column/>
+            <column/>
+            <header>
+                <row>
+                    <cell>
+                        <text>
+                            <property name="contentType">plain</property>
+                            <text-property name="content"><![CDATA[bbb]]></text-property>
+                        </text>
+                    </cell>
+                    <cell/>
+                    <cell/>
+                </row>
+            </header>
+            <detail>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </detail>
+            <footer>
+                <row>
+                    <cell/>
+                    <cell/>
+                    <cell/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
