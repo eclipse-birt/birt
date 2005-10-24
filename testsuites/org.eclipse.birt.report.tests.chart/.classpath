@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.device.extension"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.chart.engine.extension"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.birt.core"/>
+	<classpathentry kind="lib" path="D:/20051012/blank Eclipse3.1/plugins/org.eclipse.emf.ecore_2.0.1/runtime/ecore.jar"/>
+	<classpathentry kind="lib" path="D:/20051012/blank Eclipse3.1/plugins/org.eclipse.emf.common_2.0.1/runtime/common.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
