@@ -671,7 +671,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				String label = (labelExpr != null ? iter.getString( labelExpr ) : null);
 				Object value = iter.getValue( valueExpr );
-				value = convertToType( value, valueType );
+				//value = convertToType( value, valueType );
 				choices.add( new SelectionChoice( label, value ) );
 				count++;
 				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
