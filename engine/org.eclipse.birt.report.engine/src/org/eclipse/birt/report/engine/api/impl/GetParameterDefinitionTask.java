@@ -150,17 +150,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#setValue(java.lang.String,
-	 *      java.lang.Object)
-	 */
-	public void setValue( String name, Object value )
-	{
-		setParameterValue( name, value );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getDefaultValues()
 	 */
 	public HashMap getDefaultValues( )
