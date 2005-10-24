@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/05/20 03:39:29 $
+ * @version $Revision: 1.16 $ $Date: 2005/07/05 09:12:49 $
  */
 public class Report
 {
@@ -332,7 +332,8 @@ public class Report
 		for ( int n = 0; n < params.size( ); n++ )
 		{
 			param = (IParameterDefnBase) params.get( n );
-			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP )
+			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP || 
+				param.getParameterType() == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
 			{
 				flattenParameter( ( (IParameterGroupDefn) param )
 						.getContents() );
