@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -79,7 +80,13 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * The session handle.
 	 */
+	
+	protected LibraryHandle libraryHandle = null;
 
+	/**
+	 * The session handle.
+	 */
+	
 	protected SessionHandle sessionHandle = null;
 
 	/**
@@ -128,7 +135,7 @@ public abstract class BaseTestCase extends TestCase
 
 		ThreadResources.setLocale( Locale.getDefault( ) );
 		MetaDataDictionary.reset( );
-		System.out.println("PluginPath"+PLUGIN_PATH);
+	
 		try
 		{   
 			MetaDataReader.read( ReportDesign.class
@@ -206,6 +213,8 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception.
 	 */
 
+
+	
 	protected void openDesign( String fileName, Locale locale )
 			throws DesignFileException
 	{
@@ -229,7 +238,32 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws DesignFileException
 	 *             if any exception.
 	 */
+	protected void openLibrary( String fileName ) throws DesignFileException
+	{
+		openLibrary( fileName, Locale.getDefault( ) );
+	}
 
+	/**
+	 * Opens library file with given file name and locale.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param locale
+	 *            the user locale
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, Locale locale )
+			throws DesignFileException
+	{
+//		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		sessionHandle = DesignEngine.newSession( locale );
+		assertNotNull( sessionHandle );
+
+		libraryHandle = sessionHandle.openLibrary( fileName );
+	}
+	
 	protected void openDesignAsResource( Class theClass, String fileName )
 			throws DesignFileException
 	{
@@ -558,7 +592,7 @@ public abstract class BaseTestCase extends TestCase
 			for ( Iterator iter = errors.iterator( ); iter.hasNext( ); )
 			{
 				ErrorDetail ex = (ErrorDetail) iter.next( );
-				System.out.println( ex );
+		
 			}
 		}
 	}
