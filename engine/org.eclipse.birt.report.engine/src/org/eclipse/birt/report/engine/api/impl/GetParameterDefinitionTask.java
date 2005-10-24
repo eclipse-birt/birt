@@ -10,6 +10,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -337,18 +338,15 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
-		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
-				.equals( selectionType ) )
+        boolean fixedOrder = parameter.isFixedOrder();
+		if (DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals(selectionType))
 		{
-			String dataSetName = parameter.getDataSetName( );
-			String valueExpr = parameter.getValueExpr( );
-			String labelExpr = parameter.getLabelExpr( );
-			if ( labelExpr == null )
-			{
-				labelExpr = valueExpr;
-			}
-			return createDynamicSelectionChoices( dataSetName, labelExpr,
-					valueExpr, dataType );
+			String dataSetName = parameter.getDataSetName();
+			String valueExpr = parameter.getValueExpr();
+			String labelExpr = parameter.getLabelExpr();
+            int limit = parameter.getListlimit();
+			
+			return createDynamicSelectionChoices(dataSetName, labelExpr, valueExpr, dataType, limit, fixedOrder);
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
 				.equals( selectionType ) )
@@ -370,7 +368,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				Object value = getStringValue( choice.getValue( ), dataType );
 				choices.add( new SelectionChoice( label, value ) );
 			}
+            if(!fixedOrder)
+                Collections.sort(choices, new SelectionChoiceComparator(true));
 			return choices;
+            
 		}
 		return null;
 	}
@@ -417,8 +418,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *            value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices( String dataSetName,
-			String labelStmt, String valueStmt, String dataType )
+	private Collection createDynamicSelectionChoices(String dataSetName, String labelStmt, String valueStmt, String dataType, int limit, boolean fixedOrder)
 	{
 		ArrayList choices = new ArrayList( );
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
@@ -443,18 +443,21 @@ public class GetParameterDefinitionTask extends EngineTask
 				}
 				catch ( BirtException e )
 				{
-					log.log( Level.SEVERE, e.getMessage( ) );
-				}
-
-				ScriptExpression labelExpr = new ScriptExpression( labelStmt );
-				ScriptExpression valueExpr = new ScriptExpression( valueStmt );
-
-				QueryDefinition queryDefn = new QueryDefinition( );
-				queryDefn.setDataSetName( dataSetName );
-
-				// add parameters if have any
-				Iterator paramIter = dataSet.paramBindingsIterator( );
-				while ( paramIter.hasNext( ) )
+					log.log( Level.SEVERE, e.getMessage());
+				}				
+                ScriptExpression labelExpr = null;
+				if(labelStmt!=null && labelStmt.length()>0)
+                {
+				    labelExpr = new ScriptExpression(labelStmt);
+                }
+				ScriptExpression valueExpr = new ScriptExpression(valueStmt);
+				
+				QueryDefinition queryDefn = new QueryDefinition();
+				queryDefn.setDataSetName(dataSetName);
+				
+				//add parameters if have any
+				Iterator paramIter = dataSet.paramBindingsIterator();
+				while (paramIter.hasNext())
 				{
 					ParamBindingHandle binding = (ParamBindingHandle) paramIter
 							.next( );
@@ -464,26 +467,39 @@ public class GetParameterDefinitionTask extends EngineTask
 							new InputParameterBinding( paramName,
 									new ScriptExpression( paramExpr ) ) );
 				}
-				queryDefn.getRowExpressions( ).add( labelExpr );
-				queryDefn.getRowExpressions( ).add( valueExpr );
-
+                if(labelExpr!=null)
+                {
+                    queryDefn.getRowExpressions().add(labelExpr);
+                }
+				queryDefn.getRowExpressions().add(valueExpr);
+				
 				// Create a group to skip all of the duplicate values
 				GroupDefinition groupDef = new GroupDefinition( );
 				groupDef.setKeyExpression( valueStmt );
 				queryDefn.addGroup( groupDef );
 
-				IPreparedQuery query = dataEngine.prepare( queryDefn );
-
-				IQueryResults result = query.execute( executionContext
-						.getSharedScope( ) );
-				IResultIterator iter = result.getResultIterator( );
-				while ( iter.next( ) )
+				IPreparedQuery query = dataEngine.prepare(queryDefn);
+				
+				IQueryResults result = query.execute(executionContext.getSharedScope());
+				IResultIterator iter = result.getResultIterator();
+                int count = 0;
+				while (iter.next())
 				{
-					String label = iter.getString( labelExpr );
-					Object value = iter.getValue( valueExpr );
-					choices.add( new SelectionChoice( label, convertToType(
-							value, dataType ) ) );
+                    String label = null;
+                    if(labelExpr!=null)
+                    {
+						label = iter.getString(labelExpr);
+                    }
+					Object value = iter.getValue(valueExpr);
+					choices.add(new SelectionChoice(label, convertToType(value, dataType)));
+                    count++;
+                    if ( (limit != 0) &&
+                         (count >= limit) )
+                    {
+                        break;
+                    }
 					iter.skipToEnd( 1 ); // Skip all of the duplicate values
+                        
 				}
 			}
 			catch ( BirtException ex )
@@ -491,6 +507,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				ex.printStackTrace( );
 			}
 		}
+        if(!fixedOrder)
+            Collections.sort(choices, new SelectionChoiceComparator(true));
 		return choices;
 
 	}
@@ -558,19 +576,15 @@ public class GetParameterDefinitionTask extends EngineTask
 								valueExpObject );
 						queryDefn.getRowExpressions( ).add( valueExpObject );
 
-						String labelExpString = ( (ScalarParameterHandle) param )
-								.getLabelExpr( );
-						if ( labelExpString == null )
+						String labelExpString = ((ScalarParameterHandle)param).getLabelExpr();
+						
+						if (labelExpString != null && labelExpString.length() > 0)
 						{
-							labelExpString = valueExpString;
+    						Object labelExpObject = new ScriptExpression(labelExpString);
+    						labelMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), labelExpObject);
+    						queryDefn.getRowExpressions().add( labelExpObject );
 						}
-						Object labelExpObject = new ScriptExpression(
-								labelExpString );
-						labelMap.put( parameterGroup.getName( ) + "_"
-								+ ( (ScalarParameterHandle) param ).getName( ),
-								labelExpObject );
-						queryDefn.getRowExpressions( ).add( labelExpObject );
-
+						
 						GroupDefinition groupDef = new GroupDefinition( );
 						groupDef.setKeyExpression( valueExpString );
 						queryDefn.addGroup( groupDef );
@@ -638,22 +652,17 @@ public class GetParameterDefinitionTask extends EngineTask
 		SlotHandle slotHandle = parameterGroup.getParameters( );
 		assert ( groupKeyValues.length < slotHandle.getCount( ) );
 		int skipLevel = groupKeyValues.length + 1;
-
-		ScalarParameterHandle requestedParam = (ScalarParameterHandle) slotHandle
-				.get( groupKeyValues.length ); // The parameters in
-												// parameterGroup must be scalar
-												// parameters.
-		int listLimit = requestedParam.getListlimit( );
-		String valueType = requestedParam.getDataType( );
-		// We need to cache the expression object in function evaluateQuery and
-		// use the cached object here instead of creating a new one because
-		// according to DtE API for IResultIterator.getString,
-		// the expression object must be the same object created at the time of
-		// preparation.
-		// Actually, the prepare process will modify the expression object ,
-		// only after which
-		// the expression object can be used to get the real value from the
-		// result set.
+		
+		ScalarParameterHandle requestedParam =  (ScalarParameterHandle) slotHandle.get( groupKeyValues.length ); // The parameters in parameterGroup must be scalar parameters.
+		int listLimit = requestedParam.getListlimit();
+        boolean fixedOrder = requestedParam.isFixedOrder();
+		String valueType = requestedParam.getDataType();
+		// We need to cache the expression object in function evaluateQuery and 
+		// use the cached object here instead of creating a new one because 
+		// according to DtE API for IResultIterator.getString, 
+		// the expression object must be the same object created at the time of preparation. 
+		// Actually, the prepare process will modify the expression object , only after which 
+		// the expression object can be used to get the real value from the result set. 
 		// If we create a new expression object here, it won't work.
 		ScriptExpression labelExpr = (ScriptExpression) labelMap
 				.get( parameterGroup.getName( ) + "_"
@@ -671,7 +680,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			int count = 0;
 			while ( iter.next( ) )
 			{
-				String label = iter.getString( labelExpr );
+				String label = (labelExpr != null ? iter.getString( labelExpr ) : null);
 				Object value = iter.getValue( valueExpr );
 				value = convertToType( value, valueType );
 				choices.add( new SelectionChoice( label, value ) );
@@ -686,7 +695,8 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			e.printStackTrace( );
 		}
-
+        if(!fixedOrder)
+            Collections.sort(choices, new SelectionChoiceComparator(true));
 		return choices;
 	}
 

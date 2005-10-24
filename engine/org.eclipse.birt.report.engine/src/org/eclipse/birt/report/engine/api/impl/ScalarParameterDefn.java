@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -312,54 +311,8 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 			
 			//sort
 			if(!fixedOrder)
-				Collections.sort(selectionList, new SelectionChoiceCompartor(sortDisplayValue));
+				Collections.sort(selectionList, new SelectionChoiceComparator(sortDisplayValue));
 		}
 	}
-		
-	protected class SelectionChoiceCompartor implements Comparator
-	{
-		protected boolean sortDisplayValue;
-		
-		public SelectionChoiceCompartor(boolean sortDisplayValue)
-		{
-			this.sortDisplayValue = sortDisplayValue;
-		}
-		
-		public int compare(Object o1, Object o2)
-		{
-			if ((o1 instanceof ParameterSelectionChoice)
-					&& (o2 instanceof ParameterSelectionChoice))
-			{
-				Object value1;
-				Object value2;
-				if(sortDisplayValue)
-				{
-					value1 = ((ParameterSelectionChoice) o1).getLabel();
-					value2 = ((ParameterSelectionChoice) o2).getLabel();
-				}
-				else
-				{
-					value1 = ((ParameterSelectionChoice) o1).getValue();
-					value2 = ((ParameterSelectionChoice) o2).getValue();
-				}
-				if (value1 != null && value2 != null)
-				{
-					if((value1 instanceof Boolean)&&(value2 instanceof Boolean))
-					{
-						if(((Boolean)value1).booleanValue() ^ ((Boolean)value1).booleanValue())
-						{
-							return 0;
-						}
-						return ((Boolean)value1).booleanValue() ? 1: -1;
-					}
-					if(!(value1 instanceof Boolean)&&!(value2 instanceof Boolean))
-					{					
-						return ((Comparable) value1).compareTo(value2);
-					}
-				}
-					
-			}
-			return -1;
-		}
-	}
+
 }
