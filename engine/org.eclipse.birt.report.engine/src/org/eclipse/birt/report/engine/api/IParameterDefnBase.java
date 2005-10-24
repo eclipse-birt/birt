@@ -27,6 +27,7 @@ public interface IParameterDefnBase
 	public static final int LIST_PARAMETER = 2;
 	public static final int TABLE_PARAMETER = 3;
 	public static final int PARAMETER_GROUP = 4;
+	public static final int CASCADING_PARAMETER_GROUP = 5;
 
 	/**
 	 * @return the parameter type, i.e., scalar, filter, list, table or

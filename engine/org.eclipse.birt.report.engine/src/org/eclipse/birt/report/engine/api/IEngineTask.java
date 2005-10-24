@@ -14,8 +14,6 @@ package org.eclipse.birt.report.engine.api;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
-
 /**
  * defines common features for an engine task. A task captures a set of operations that engine
  * performs to get a unit of work done.  
@@ -83,29 +81,38 @@ public interface IEngineTask {
 	 * set all parameter valuess
 	 * 
 	 * @param params a hash map with all parameters
+	 * @deprecated
 	 */
 	public abstract void setParameterValues(HashMap params);
+	
+	public void setValues(HashMap params);
 	
 	/**
 	 * sets one parameter value
 	 * 
 	 * @param name parameter name
 	 * @param value parameter value
+	 * @deprecated
 	 */
 	public abstract void setParameterValue(String name, Object value);
+	void setValue(String name, Object value);
 	
 	/**
 	 * returns the parameter name/value collection
 	 * 
-	 * @return the parameter names/values in a hash map 
+	 * @return the parameter names/values in a hash map
+	 * @deprecated 
 	 */
 	public abstract HashMap getParameterValues();
+	public HashMap getValues();
 	
 	/**
      * returns the value of a parameter.
      * @return the parameter value.
+     * @deprecated
      */
 	public abstract Object getParameterValue(String name);
+	public Object getValue(String name);
 	
 	/**
 	 * @return whether the parameter validation succeeds <br>

@@ -257,16 +257,17 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	}
 
-	public HashMap getDefaultParameterValues()
+	public HashMap getDefaultParameterValues( )
 	{
-		//using current parameter settings to evaluate the default parameters
-		usingParameterValues();
-		
+		// using current parameter settings to evaluate the default parameters
+		usingParameterValues( );
+
 		final HashMap values = new HashMap( );
-		//reset the context parameters
+		// reset the context parameters
 		new ParameterVisitor( ) {
 
-			boolean visitScalarParameter( ScalarParameterHandle param )
+			boolean visitScalarParameter( ScalarParameterHandle param,
+					Object userData )
 			{
 				String name = param.getName( );
 				String expr = param.getDefaultValue( );
@@ -276,11 +277,12 @@ public class GetParameterDefinitionTask extends EngineTask
 				return true;
 			}
 
-			boolean visitParameterGroup( ParameterGroupHandle group )
+			boolean visitParameterGroup( ParameterGroupHandle group,
+					Object userData )
 			{
-				return visitParametersInGroup( group );
+				return visitParametersInGroup( group, userData );
 			}
-		}.visit( );
+		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
 		return values;
 	}
 
@@ -299,10 +301,10 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			return null;
 		}
-		
-		usingParameterValues();
-		
-		//using the current setting to evaluate the parameter values.
+
+		usingParameterValues( );
+
+		// using the current setting to evaluate the parameter values.
 		String expr = parameter.getDefaultValue( );
 		if ( expr == null || expr.length( ) == 0 )
 		{
@@ -310,7 +312,12 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		return evaluate( expr, parameter.getDataType( ) );
 	}
-	
+
+	public Collection getSelectionList( String name )
+	{
+		return getSelectionChoice( name );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -318,8 +325,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getSelectionChoice( String name )
 	{
-		usingParameterValues();
-		
+		usingParameterValues( );
+
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
 		ScalarParameterHandle parameter = (ScalarParameterHandle) report
@@ -328,29 +335,34 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			return null;
 		}
-		String selectionType = parameter.getValueType();
+		String selectionType = parameter.getValueType( );
 		String dataType = parameter.getDataType( );
-		if (DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals(selectionType))
+		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+				.equals( selectionType ) )
 		{
-			String dataSetName = parameter.getDataSetName();
-			String valueExpr = parameter.getValueExpr();
-			String labelExpr = parameter.getLabelExpr();
-			if (labelExpr == null)
+			String dataSetName = parameter.getDataSetName( );
+			String valueExpr = parameter.getValueExpr( );
+			String labelExpr = parameter.getLabelExpr( );
+			if ( labelExpr == null )
 			{
 				labelExpr = valueExpr;
 			}
-			return createDynamicSelectionChoices(dataSetName, labelExpr, valueExpr, dataType);
+			return createDynamicSelectionChoices( dataSetName, labelExpr,
+					valueExpr, dataType );
 		}
-		else if (DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals(selectionType))
+		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
+				.equals( selectionType ) )
 		{
 			Iterator iter = parameter.choiceIterator( );
 			ArrayList choices = new ArrayList( );
 			while ( iter.hasNext( ) )
 			{
-	
-				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter.next( );
-	
-				String label = report.getMessage( choice.getLabelKey( ), locale );
+
+				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter
+						.next( );
+
+				String label = report
+						.getMessage( choice.getLabelKey( ), locale );
 				if ( label != null )
 				{
 					label = choice.getLabel( );
@@ -362,11 +374,14 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		return null;
 	}
-	
+
 	/**
 	 * convert the string to value.
-	 * @param value value string
-	 * @param valueType value type
+	 * 
+	 * @param value
+	 *            value string
+	 * @param valueType
+	 *            value type
 	 * @return object with the specified value
 	 */
 	private Object getStringValue( String value, String valueType )
@@ -391,251 +406,299 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	/**
 	 * get selection choices from the data set.
-	 * @param dataSetName data set name
-	 * @param labelStmt label statement
-	 * @param valueStmt value statement
-	 * @param dataType value type
+	 * 
+	 * @param dataSetName
+	 *            data set name
+	 * @param labelStmt
+	 *            label statement
+	 * @param valueStmt
+	 *            value statement
+	 * @param dataType
+	 *            value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices(String dataSetName, String labelStmt, String valueStmt, String dataType)
+	private Collection createDynamicSelectionChoices( String dataSetName,
+			String labelStmt, String valueStmt, String dataType )
 	{
-		ArrayList choices = new ArrayList();
+		ArrayList choices = new ArrayList( );
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
-		.getDesignHandle( );
-		
-		DataSetHandle dataSet = report.findDataSet(dataSetName);
-		if (dataSet != null)
+				.getDesignHandle( );
+
+		DataSetHandle dataSet = report.findDataSet( dataSetName );
+		if ( dataSet != null )
 		{
 			try
 			{
-				DataEngine dataEngine = getDataEngine();
+				DataEngine dataEngine = getDataEngine( );
 
 				// Define data source and data set
-				DataSourceHandle dataSource = dataSet.getDataSource();
+				DataSourceHandle dataSource = dataSet.getDataSource( );
 				try
 				{
-					dataEngine.defineDataSource( ModelDteApiAdapter.getInstance( )
-							.createDataSourceDesign(dataSource));
+					dataEngine
+							.defineDataSource( ModelDteApiAdapter.getInstance( )
+									.createDataSourceDesign( dataSource ) );
 					dataEngine.defineDataSet( ModelDteApiAdapter.getInstance( )
-							.createDataSetDesign(dataSet) );
+							.createDataSetDesign( dataSet ) );
 				}
 				catch ( BirtException e )
 				{
-					log.log( Level.SEVERE, e.getMessage());
-				}				
-				
-				ScriptExpression labelExpr = new ScriptExpression(labelStmt);
-				ScriptExpression valueExpr = new ScriptExpression(valueStmt);
-				
-				QueryDefinition queryDefn = new QueryDefinition();
-				queryDefn.setDataSetName(dataSetName);
-				
-				//add parameters if have any
-				Iterator paramIter = dataSet.paramBindingsIterator();
-				while (paramIter.hasNext())
-				{
-					ParamBindingHandle binding = (ParamBindingHandle)paramIter.next();
-					String paramName = binding.getParamName();
-					String paramExpr = binding.getExpression();
-					queryDefn.getInputParamBindings().add(new InputParameterBinding( paramName, new ScriptExpression(paramExpr)));
+					log.log( Level.SEVERE, e.getMessage( ) );
 				}
-				queryDefn.getRowExpressions().add(labelExpr);
-				queryDefn.getRowExpressions().add(valueExpr);
-				
+
+				ScriptExpression labelExpr = new ScriptExpression( labelStmt );
+				ScriptExpression valueExpr = new ScriptExpression( valueStmt );
+
+				QueryDefinition queryDefn = new QueryDefinition( );
+				queryDefn.setDataSetName( dataSetName );
+
+				// add parameters if have any
+				Iterator paramIter = dataSet.paramBindingsIterator( );
+				while ( paramIter.hasNext( ) )
+				{
+					ParamBindingHandle binding = (ParamBindingHandle) paramIter
+							.next( );
+					String paramName = binding.getParamName( );
+					String paramExpr = binding.getExpression( );
+					queryDefn.getInputParamBindings( ).add(
+							new InputParameterBinding( paramName,
+									new ScriptExpression( paramExpr ) ) );
+				}
+				queryDefn.getRowExpressions( ).add( labelExpr );
+				queryDefn.getRowExpressions( ).add( valueExpr );
+
 				// Create a group to skip all of the duplicate values
 				GroupDefinition groupDef = new GroupDefinition( );
 				groupDef.setKeyExpression( valueStmt );
 				queryDefn.addGroup( groupDef );
 
-				IPreparedQuery query = dataEngine.prepare(queryDefn);
-				
-				IQueryResults result = query.execute(executionContext.getSharedScope());
-				IResultIterator iter = result.getResultIterator();
-				while (iter.next())
+				IPreparedQuery query = dataEngine.prepare( queryDefn );
+
+				IQueryResults result = query.execute( executionContext
+						.getSharedScope( ) );
+				IResultIterator iter = result.getResultIterator( );
+				while ( iter.next( ) )
 				{
-						String label = iter.getString(labelExpr);
-						Object value = iter.getValue(valueExpr);
-						choices.add(new SelectionChoice(label, convertToType(value, dataType)));
-						iter.skipToEnd( 1 ); // Skip all of the duplicate values
+					String label = iter.getString( labelExpr );
+					Object value = iter.getValue( valueExpr );
+					choices.add( new SelectionChoice( label, convertToType(
+							value, dataType ) ) );
+					iter.skipToEnd( 1 ); // Skip all of the duplicate values
 				}
 			}
-			catch(BirtException ex)
+			catch ( BirtException ex )
 			{
-				ex.printStackTrace();
+				ex.printStackTrace( );
 			}
 		}
 		return choices;
-		
+
 	}
 
 	/**
-	 * The first step to work with the cascading parameters. 
-	 * Create the query definition, prepare and execute the query.
-	 * Cache the iterator of the result set and also cache the IBaseExpression used in the prepare.
+	 * The first step to work with the cascading parameters. Create the query
+	 * definition, prepare and execute the query. Cache the iterator of the
+	 * result set and also cache the IBaseExpression used in the prepare.
 	 * 
-	 * @param parameterGroupName - the cascading parameter group name
+	 * @param parameterGroupName -
+	 *            the cascading parameter group name
 	 */
 	public void evaluateQuery( String parameterGroupName )
-	{	
+	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
-		
+
 		if ( dataCache == null )
-			dataCache = new HashMap(); 
-		
+			dataCache = new HashMap( );
+
 		if ( parameterGroup == null )
 			return;
-		
-		DataSetHandle dataSet = parameterGroup.getDataSet();
-		if (dataSet != null)
+
+		DataSetHandle dataSet = parameterGroup.getDataSet( );
+		if ( dataSet != null )
 		{
 			try
 			{
 				// Handle data source and data set
-				DataEngine dataEngine = getDataEngine();
-				DataSourceHandle dataSource = dataSet.getDataSource();
+				DataEngine dataEngine = getDataEngine( );
+				DataSourceHandle dataSource = dataSet.getDataSource( );
 				try
 				{
-					dataEngine.defineDataSource( ModelDteApiAdapter.getInstance( )
-							.createDataSourceDesign(dataSource));
+					dataEngine
+							.defineDataSource( ModelDteApiAdapter.getInstance( )
+									.createDataSourceDesign( dataSource ) );
 					dataEngine.defineDataSet( ModelDteApiAdapter.getInstance( )
-							.createDataSetDesign(dataSet) );
+							.createDataSetDesign( dataSet ) );
 				}
 				catch ( BirtException e )
 				{
-					log.log( Level.SEVERE, e.getMessage());
+					log.log( Level.SEVERE, e.getMessage( ) );
 				}
-				
-				QueryDefinition queryDefn = new QueryDefinition();
-				queryDefn.setDataSetName( dataSet.getName() );
+
+				QueryDefinition queryDefn = new QueryDefinition( );
+				queryDefn.setDataSetName( dataSet.getName( ) );
 				SlotHandle parameters = parameterGroup.getParameters( );
 				Iterator iter = parameters.iterator( );
-				
+
 				if ( labelMap == null )
-					labelMap = new HashMap();
+					labelMap = new HashMap( );
 				if ( valueMap == null )
-					valueMap = new HashMap();
-				
+					valueMap = new HashMap( );
+
 				while ( iter.hasNext( ) )
 				{
 					Object param = iter.next( );
 					if ( param instanceof ScalarParameterHandle )
 					{
-						String valueExpString = ((ScalarParameterHandle)param).getValueExpr();
-						Object valueExpObject = new ScriptExpression(valueExpString);
-						valueMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), valueExpObject);
-						queryDefn.getRowExpressions().add( valueExpObject );
+						String valueExpString = ( (ScalarParameterHandle) param )
+								.getValueExpr( );
+						Object valueExpObject = new ScriptExpression(
+								valueExpString );
+						valueMap.put( parameterGroup.getName( ) + "_"
+								+ ( (ScalarParameterHandle) param ).getName( ),
+								valueExpObject );
+						queryDefn.getRowExpressions( ).add( valueExpObject );
 
-						String labelExpString = ((ScalarParameterHandle)param).getLabelExpr();
-						if (labelExpString == null)
+						String labelExpString = ( (ScalarParameterHandle) param )
+								.getLabelExpr( );
+						if ( labelExpString == null )
 						{
 							labelExpString = valueExpString;
 						}
-						Object labelExpObject = new ScriptExpression(labelExpString);
-						labelMap.put(parameterGroup.getName() + "_" + ((ScalarParameterHandle)param).getName(), labelExpObject);
-						queryDefn.getRowExpressions().add( labelExpObject );
-						
+						Object labelExpObject = new ScriptExpression(
+								labelExpString );
+						labelMap.put( parameterGroup.getName( ) + "_"
+								+ ( (ScalarParameterHandle) param ).getName( ),
+								labelExpObject );
+						queryDefn.getRowExpressions( ).add( labelExpObject );
+
 						GroupDefinition groupDef = new GroupDefinition( );
 						groupDef.setKeyExpression( valueExpString );
 						queryDefn.addGroup( groupDef );
 					}
 				}
 
-				IPreparedQuery query = dataEngine.prepare(queryDefn);				
-				IQueryResults result = query.execute(executionContext.getSharedScope());
-				IResultIterator resultIter = result.getResultIterator();
-				dataCache.put( parameterGroup.getName(), resultIter );
+				IPreparedQuery query = dataEngine.prepare( queryDefn );
+				IQueryResults result = query.execute( executionContext
+						.getSharedScope( ) );
+				IResultIterator resultIter = result.getResultIterator( );
+				dataCache.put( parameterGroup.getName( ), resultIter );
 				return;
 			}
-			catch(BirtException ex)
+			catch ( BirtException ex )
 			{
-				ex.printStackTrace();
+				ex.printStackTrace( );
 			}
 		}
-		
-		dataCache.put( parameterGroup.getName(), null );
+
+		dataCache.put( parameterGroup.getName( ), null );
 	}
-	
+
+	public Collection getSelectionListForCascadingGroup(
+			String parameterGroupName, Object[] groupKeyValues )
+	{
+		return getSelectionChoicesForCascadingGroup( parameterGroupName,
+				groupKeyValues );
+
+	}
+
 	/**
-	 * The second step to work with the cascading parameters.
-	 * Get the selection choices for a parameter in the cascading group.
-	 * The parameter to work on is the parameter on the next level in the parameter cascading hierarchy.
-	 * For the "parameter to work on", please see the following example. 
-	 * Assume we have a cascading parameter group as Country - State - City.
-	 * If user specified an empty array in groupKeyValues (meaning user doesn't have any parameter value), 
-	 * the parameter to work on will be the first level which is Country in this case.
-	 * If user specified groupKeyValues as Object[]{"USA"} (meaning user has set the value of the top level),
-	 * the parameter to work on will be the second level which is State in "USA" in this case.
-	 * If user specified groupKeyValues as Object[]{"USA", "CA"} (meaning user has set the values of the top and the second level),
-	 * the parameter to work on will be the third level which is City in "USA, CA" in this case.
+	 * The second step to work with the cascading parameters. Get the selection
+	 * choices for a parameter in the cascading group. The parameter to work on
+	 * is the parameter on the next level in the parameter cascading hierarchy.
+	 * For the "parameter to work on", please see the following example. Assume
+	 * we have a cascading parameter group as Country - State - City. If user
+	 * specified an empty array in groupKeyValues (meaning user doesn't have any
+	 * parameter value), the parameter to work on will be the first level which
+	 * is Country in this case. If user specified groupKeyValues as
+	 * Object[]{"USA"} (meaning user has set the value of the top level), the
+	 * parameter to work on will be the second level which is State in "USA" in
+	 * this case. If user specified groupKeyValues as Object[]{"USA", "CA"}
+	 * (meaning user has set the values of the top and the second level), the
+	 * parameter to work on will be the third level which is City in "USA, CA"
+	 * in this case.
 	 * 
-	 * @param parameterGroupName - the cascading parameter group name
-	 * @param groupKeyValues - the array of known parameter values (see the example above)  
-	 * @return the selection list of the parameter to work on 
+	 * @param parameterGroupName -
+	 *            the cascading parameter group name
+	 * @param groupKeyValues -
+	 *            the array of known parameter values (see the example above)
+	 * @return the selection list of the parameter to work on
 	 */
-	public Collection getSelectionChoicesForCascadingGroup( String parameterGroupName, Object[] groupKeyValues )
+	public Collection getSelectionChoicesForCascadingGroup(
+			String parameterGroupName, Object[] groupKeyValues )
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
 			return null;
-		
-		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroup.getName() );
+
+		IResultIterator iter = (IResultIterator) dataCache.get( parameterGroup
+				.getName( ) );
 		if ( iter == null )
 			return null;
-		
-		SlotHandle slotHandle = parameterGroup.getParameters();
-		assert ( groupKeyValues.length < slotHandle.getCount() );
+
+		SlotHandle slotHandle = parameterGroup.getParameters( );
+		assert ( groupKeyValues.length < slotHandle.getCount( ) );
 		int skipLevel = groupKeyValues.length + 1;
-		
-		ScalarParameterHandle requestedParam =  (ScalarParameterHandle) slotHandle.get( groupKeyValues.length ); // The parameters in parameterGroup must be scalar parameters.
-		int listLimit = requestedParam.getListlimit();
-		String valueType = requestedParam.getDataType();
-		// We need to cache the expression object in function evaluateQuery and 
-		// use the cached object here instead of creating a new one because 
-		// according to DtE API for IResultIterator.getString, 
-		// the expression object must be the same object created at the time of preparation. 
-		// Actually, the prepare process will modify the expression object , only after which 
-		// the expression object can be used to get the real value from the result set. 
+
+		ScalarParameterHandle requestedParam = (ScalarParameterHandle) slotHandle
+				.get( groupKeyValues.length ); // The parameters in
+												// parameterGroup must be scalar
+												// parameters.
+		int listLimit = requestedParam.getListlimit( );
+		String valueType = requestedParam.getDataType( );
+		// We need to cache the expression object in function evaluateQuery and
+		// use the cached object here instead of creating a new one because
+		// according to DtE API for IResultIterator.getString,
+		// the expression object must be the same object created at the time of
+		// preparation.
+		// Actually, the prepare process will modify the expression object ,
+		// only after which
+		// the expression object can be used to get the real value from the
+		// result set.
 		// If we create a new expression object here, it won't work.
-		ScriptExpression labelExpr = (ScriptExpression)labelMap.get(parameterGroup.getName() + "_" + requestedParam.getName());
-		ScriptExpression valueExpr = (ScriptExpression)valueMap.get(parameterGroup.getName() + "_" + requestedParam.getName());
-		
-		ArrayList choices = new ArrayList();
-		try 
+		ScriptExpression labelExpr = (ScriptExpression) labelMap
+				.get( parameterGroup.getName( ) + "_"
+						+ requestedParam.getName( ) );
+		ScriptExpression valueExpr = (ScriptExpression) valueMap
+				.get( parameterGroup.getName( ) + "_"
+						+ requestedParam.getName( ) );
+
+		ArrayList choices = new ArrayList( );
+		try
 		{
 			if ( skipLevel > 1 )
 				iter.findGroup( groupKeyValues );
 
 			int count = 0;
-			while ( iter.next() )
+			while ( iter.next( ) )
 			{
 				String label = iter.getString( labelExpr );
 				Object value = iter.getValue( valueExpr );
-				value = convertToType(value, valueType);
-				choices.add( new SelectionChoice(label, value) );
+				value = convertToType( value, valueType );
+				choices.add( new SelectionChoice( label, value ) );
 				count++;
-				if ( (listLimit != 0) &&
-					 (count >= listLimit) )
+				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
 					break;
-				
+
 				iter.skipToEnd( skipLevel );
 			}
-		} 
-		catch (BirtException e) 
-		{
-			e.printStackTrace();
 		}
-	
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+
 		return choices;
 	}
-	
-	private CascadingParameterGroupHandle getCascadingParameterGroup( String name )
+
+	private CascadingParameterGroupHandle getCascadingParameterGroup(
+			String name )
 	{
 		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
-		
-		return report.findCascadingParameterGroup(name); 
+
+		return report.findCascadingParameterGroup( name );
 	}
-	
+
 	static class SelectionChoice implements IParameterSelectionChoice
 	{
 

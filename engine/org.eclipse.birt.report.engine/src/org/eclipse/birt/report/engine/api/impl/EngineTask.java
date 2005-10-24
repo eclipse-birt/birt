@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -261,16 +262,19 @@ public abstract class EngineTask implements IEngineTask
 		// validate each parameter to see if it is validate
 		return new ParameterVisitor( ) {
 
-			boolean visitScalarParameter( ScalarParameterHandle param )
+			boolean visitScalarParameter( ScalarParameterHandle param,
+					Object value )
 			{
 				return validateScalarParameter( param );
 			}
 
-			boolean visitParameterGroup( ParameterGroupHandle group )
+			boolean visitParameterGroup( ParameterGroupHandle group,
+					Object value )
 			{
-				return visitParametersInGroup( group );
+				return visitParametersInGroup( group, value );
 			}
-		}.visit( );
+		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ), null );
+
 	}
 
 	/**
@@ -354,10 +358,15 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#setParameterValues(java.util.HashMap)
 	 */
-	public void setParameterValues( HashMap params )
+	public void setValues( HashMap params )
 	{
 		parameterChanged = true;
 		inputValues.putAll( params );
+	}
+	
+	public void setParameterValues(HashMap params)
+	{
+		setValues(params);
 	}
 
 	/*
@@ -366,10 +375,15 @@ public abstract class EngineTask implements IEngineTask
 	 * @see org.eclipse.birt.report.engine.api.IRunAndRenderTask#setParameterValue(java.lang.String,
 	 *      java.lang.Object)
 	 */
-	public void setParameterValue( String name, Object value )
+	public void setValue( String name, Object value )
 	{
 		parameterChanged = true;
 		inputValues.put( name, value );
+	}
+	
+	public void setParameterValue( String name, Object value )
+	{
+		setValue(name, value);
 	}
 
 	/*
@@ -377,41 +391,62 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IRunAndRenderTask#getParameterValues()
 	 */
-	public HashMap getParameterValues( )
+	public HashMap getValues( )
 	{
 		return (HashMap) inputValues.clone( );
 	}
+	
+	public HashMap getParameterValues( )
+	{
+		return getValues();
+	}
 
-	public Object getParameterValue( String name )
+	public Object getValue( String name )
 	{
 		return inputValues.get( name );
 	}
+	
+	public Object getParameterValue( String name )
+	{
+		return getValue(name);
+	}
+	
 
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.16 $ $Date: 2005/10/20 07:25:37 $
+	 * @version $Revision: 1.17 $ $Date: 2005/10/21 09:31:52 $
 	 */
-	abstract class ParameterVisitor
+	static abstract class ParameterVisitor
 	{
 
-		boolean visitParametersInGroup( ParameterGroupHandle group )
+		boolean visitParametersInGroup( ParameterGroupHandle group, Object value )
 		{
 			SlotHandle parameters = group.getParameters( );
 			Iterator iter = parameters.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				Object param = iter.next( );
-				if ( param instanceof ParameterGroupHandle )
+				if ( param instanceof CascadingParameterGroupHandle )
 				{
-					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					if ( !visitCascadingParamterGroup(
+							(CascadingParameterGroupHandle) param, value ) )
+					{
+						return false;
+					}
+				}
+				else if ( param instanceof ParameterGroupHandle )
+				{
+					if ( !visitParameterGroup( (ParameterGroupHandle) param,
+							value ) )
 					{
 						return false;
 					}
 				}
 				else if ( param instanceof ScalarParameterHandle )
 				{
-					if ( !visitScalarParameter( (ScalarParameterHandle) param ) )
+					if ( !visitScalarParameter( (ScalarParameterHandle) param,
+							value ) )
 					{
 						return false;
 					}
@@ -420,35 +455,54 @@ public abstract class EngineTask implements IEngineTask
 			return true;
 		}
 
-		boolean visitParameterGroup( ParameterGroupHandle group )
+		boolean visitCascadingParamterGroup(
+				CascadingParameterGroupHandle group, Object value )
+		{
+			return visitParameterGroup( group, value );
+		}
+
+		boolean visitParameterGroup( ParameterGroupHandle group, Object value )
 		{
 			return false;
 		}
 
-		boolean visitScalarParameter( ScalarParameterHandle param )
+		boolean visitScalarParameter( ScalarParameterHandle param, Object value )
 		{
 			return false;
 		}
 
-		boolean visit( )
+		boolean visit( ReportDesignHandle report )
 		{
-			ReportDesignHandle report = (ReportDesignHandle) runnable
-					.getDesignHandle( );
+			return visit( report, null );
+		}
+
+		boolean visit( ReportDesignHandle report, Object value )
+		{
 			SlotHandle parameters = report.getParameters( );
 			Iterator iter = parameters.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				Object param = iter.next( );
-				if ( param instanceof ParameterGroupHandle )
+				if ( param instanceof CascadingParameterGroupHandle )
 				{
-					if ( !visitParameterGroup( (ParameterGroupHandle) param ) )
+					if ( !visitCascadingParamterGroup(
+							(CascadingParameterGroupHandle) param, value ) )
+					{
+						return false;
+					}
+				}
+				else if ( param instanceof ParameterGroupHandle )
+				{
+					if ( !visitParameterGroup( (ParameterGroupHandle) param,
+							value ) )
 					{
 						return false;
 					}
 				}
 				else if ( param instanceof ScalarParameterHandle )
 				{
-					if ( !visitScalarParameter( (ScalarParameterHandle) param ) )
+					if ( !visitScalarParameter( (ScalarParameterHandle) param,
+							value ) )
 					{
 						return false;
 					}
@@ -488,7 +542,8 @@ public abstract class EngineTask implements IEngineTask
 		// use default value for the parameter without user value.
 		new ParameterVisitor( ) {
 
-			boolean visitScalarParameter( ScalarParameterHandle param )
+			boolean visitScalarParameter( ScalarParameterHandle param,
+					Object userData )
 			{
 				String name = param.getName( );
 				if ( !inputValues.containsKey( name ) )
@@ -501,10 +556,11 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			}
 
-			boolean visitParameterGroup( ParameterGroupHandle group )
+			boolean visitParameterGroup( ParameterGroupHandle group,
+					Object value )
 			{
-				return visitParametersInGroup( group );
+				return visitParametersInGroup( group, value );
 			}
-		}.visit( );
+		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
 	}
 }

@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.impl.ParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
@@ -65,9 +66,11 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -134,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.48 $ $Date: 2005/10/19 11:03:07 $
+ * @version $Revision: 1.49 $ $Date: 2005/10/21 02:02:56 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -471,6 +474,42 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		currentElement = paramGroup;
+	}
+	
+	public void visitCascadingParameterGroup(CascadingParameterGroupHandle handle)
+	{
+		CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
+		paramGroup.setHandle(handle);
+		paramGroup.setParameterType(IParameterDefnBase.CASCADING_PARAMETER_GROUP);
+		paramGroup.setName(handle.getName());
+		paramGroup.setDisplayName( handle.getDisplayName( ) );
+		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
+		paramGroup.setHelpText( handle.getHelpText( ) );
+		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
+		DataSetHandle dset = handle.getDataSet();
+		if (dset != null)
+		{
+			paramGroup.setDataSet(dset.getName());
+		}
+		SlotHandle parameters = handle.getParameters( );
+		
+		//set custom properties
+		List properties = handle.getUserProperties();
+		for(int i=0; i<properties.size(); i++)
+		{
+			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
+			paramGroup.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
+		}
+		
+		int size = parameters.getCount( );
+		for ( int n = 0; n < size; n++ )
+		{
+			apply( parameters.get( n ) );
+			paramGroup.addParameter( (IParameterDefnBase) currentElement );
+		}
+
+		currentElement = paramGroup;
+		
 	}
 
 	public void visitScalarParameter( ScalarParameterHandle handle )

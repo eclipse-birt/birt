@@ -34,7 +34,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 *         IParameterDefnBase if includeParameterGroups = false, a
 	 *         collection of parameters. Each item in the collection is of type
 	 *         IParameterDefn.
-	 * @deprecated use getParameters() directly.
 	 */
 	public abstract Collection getParameterDefns(boolean includeParameterGroups);
 
@@ -43,7 +42,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * 
 	 * @param name the parameter name
 	 * @return the definition
-	 * @deprecated use getParameter(String) directly
 	 */
 	public abstract IParameterDefnBase getParameterDefn(String name);
 	
@@ -75,7 +73,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * 
 	 * @param name the parameter
 	 * @param value the value of the parameter
-	 * @deprecated using setParameterValue(String, Object) instead
 	 */
 	public void setValue( String name, Object value );
 
@@ -83,7 +80,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * get all default values
 	 * 
 	 * @return the default value map
-	 * @deprecated use getDefaultParameterValues() instead
 	 */
 	public HashMap getDefaultValues();
 	
@@ -92,7 +88,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * 
 	 * @param param reference to a parameter 
 	 * @return default value for a parameter
-	 * @deprecated use getDefaultParameterValue(String) instead 
 	 */
 	public Object getDefaultValue(IParameterDefnBase param);
 	
@@ -100,23 +95,27 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * get parameter definitions.
 	 * @param name parameter name
 	 * @return
+	 * @deprecated
 	 */
 	public ParameterHandle getParameter(String name);
 	/**
 	 * get all the parameters & parameter groups defined in the 
 	 * report design.
 	 * @return SlotHandle get from MODEL.
+	 * @deprecated
 	 */
 	public SlotHandle getParameters();
 	/**
 	 * get the default value of parameter.
 	 * @param name parameter name
 	 * @return the default value defined in the design. null if not defined.
+	 * @deprecated
 	 */
 	public Object getDefaultParameterValue(String name);
 	/**
 	 * get all defined default parameter values.
 	 * @return hash map contains the parameter names and value pair.
+	 * @deprecated
 	 */
 	public HashMap getDefaultParameterValues();
 	/**
@@ -124,8 +123,10 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * if the name is dynamic selection choice, the engine query the data base, return the choice.
 	 * @param name parameter name
 	 * @return collection of IParameterSelectionChoice
+	 * @deprecated
 	 */
 	public Collection getSelectionChoice(String name);
+	public Collection getSelectionList(String name);
 	
 	/**
 	 * The first step to work with the cascading parameters. 
@@ -151,8 +152,10 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * 
 	 * @param parameterGroupName - the cascading parameter group name
 	 * @param groupKeyValues - the array of known parameter values (see the example above)  
-	 * @return the selection list of the parameter to work on 
+	 * @return the selection list of the parameter to work on
+	 * @deprecated 
 	 */
 	public Collection getSelectionChoicesForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
+	public Collection getSelectionListForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
 	
 }
