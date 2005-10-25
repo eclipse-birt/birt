@@ -666,9 +666,11 @@ public class GetParameterDefinitionTask extends EngineTask
 			if ( skipLevel > 1 )
 				iter.findGroup( groupKeyValues );
 
+			int startGroupLevel = skipLevel -1;
 			int count = 0;
 			while ( iter.next( ) )
 			{
+				//startGroupLevel = iter.getStartingGroupLevel();
 				String label = (labelExpr != null ? iter.getString( labelExpr ) : null);
 				Object value = iter.getValue( valueExpr );
 				//value = convertToType( value, valueType );
@@ -678,6 +680,12 @@ public class GetParameterDefinitionTask extends EngineTask
 					break;
 
 				iter.skipToEnd( skipLevel );
+				
+				int endGroupLevel = iter.getEndingGroupLevel();
+				if (endGroupLevel <= startGroupLevel)
+				{
+					break;
+				}
 			}
 		}
 		catch ( BirtException e )
