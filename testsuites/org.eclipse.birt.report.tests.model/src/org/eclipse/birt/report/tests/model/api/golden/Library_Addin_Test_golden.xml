@@ -5,21 +5,13 @@
     <list-property name="includeLibraries">
         <structure>
             <property name="fileName">C:\Eclipse\Eclipse3.1-test\plugins\org.eclipse.birt.report.tests.model/bin/org\eclipse\birt\report\tests\model\api/input/LibraryCreatLib_golden.xml</property>
+            <property name="namespace">LibB</property>
+        </structure>
+        <structure>
+            <property name="fileName">../input/LibA.xml</property>
             <property name="namespace">LibA</property>
         </structure>
     </list-property>
-    <parameters>
-        <scalar-parameter name="Parameter1" id="8" extends="LibA.Parameter1"/>
-    </parameters>
-    <data-sources>
-        <oda-data-source name="db2d" id="4"/>
-    </data-sources>
-    <data-sets>
-        <oda-data-set name="db2ds" id="5"/>
-    </data-sets>
-    <styles>
-        <style name="myStyle" id="6"/>
-    </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>
@@ -30,11 +22,4 @@
             </page-footer>
         </simple-master-page>
     </page-setup>
-    <body>
-        <data name="myData" id="7" extends="LibA.myData"/>
-        <text name="myText" id="9" extends="LibA.myText"/>
-        <label name="myLabel" id="10" extends="LibA.myLabel"/>
-        <table name="myTable" id="11" extends="LibA.myTable"/>
-        <image name="myImage" id="12" extends="LibA.myImage"/>
-    </body>
 </report>
