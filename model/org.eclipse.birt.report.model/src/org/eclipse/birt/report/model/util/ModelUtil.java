@@ -33,23 +33,21 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.DesignSession;
-import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.parser.DesignParserException;
-import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
-import org.eclipse.birt.report.model.parser.ModuleParserHandler;
-import org.eclipse.birt.report.model.parser.ModuleReader;
 import org.xml.sax.SAXException;
 
 /**
@@ -58,6 +56,7 @@ import org.xml.sax.SAXException;
 
 public class ModelUtil
 {
+
 	/**
 	 * Clone the structure list, a list value contains a list of
 	 * <code>IStructure</code>.
@@ -388,5 +387,43 @@ public class ModelUtil
 		} );
 
 		return temp;
+	}
+
+	/**
+	 * Inserts a default theme to the library slot.
+	 * 
+	 * @param library
+	 *            the target library
+	 * @param theme
+	 *            the theme to insert
+	 */
+
+	public static void insertCompatibleThemeToLibrary( Library library,
+			Theme theme )
+	{
+		assert library != null;
+		assert theme != null;
+
+		// The name should not be null if it is required. The parser state
+		// should have already caught this case.
+
+		String name = theme.getName( );
+		assert !StringUtil.isBlank( name )
+				&& ModelMessages.getMessage( Theme.DEFAULT_THEME_NAME ).equals(
+						name );
+
+		NameSpace ns = library.getNameSpace( Library.THEME_NAME_SPACE );
+		assert library.getModuleNameSpace( Library.THEME_NAME_SPACE )
+				.canContain( name );
+
+		ns.insert( theme );
+
+		// Add the item to the container.
+
+		library.getSlot( Library.THEMES_SLOT ).add( theme );
+
+		// Cache the inverse relationship.
+
+		theme.setContainer( library, Library.THEMES_SLOT );
 	}
 }

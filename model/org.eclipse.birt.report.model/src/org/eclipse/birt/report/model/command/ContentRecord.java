@@ -80,12 +80,14 @@ public class ContentRecord extends SimpleRecord
 	 * The module set when using element IDs.
 	 */
 
-	protected Module module = null;
+	protected final Module module;
 
 	/**
 	 * Constructs the record with container element, slot id, content element,
 	 * and flag for adding or dropping.
 	 * 
+	 * @param module
+	 *            the module in which this record executes
 	 * @param containerObj
 	 *            The container element.
 	 * @param theSlot
@@ -96,16 +98,20 @@ public class ContentRecord extends SimpleRecord
 	 *            Whether to add or remove the item.
 	 */
 
-	public ContentRecord( DesignElement containerObj, int theSlot,
-			DesignElement contentObj, boolean isAdd )
+	public ContentRecord( Module module, DesignElement containerObj,
+			int theSlot, DesignElement contentObj, boolean isAdd )
 	{
 		init( containerObj, theSlot, contentObj, -1, isAdd );
+		this.module = module;
+		assert module != null;
 	}
 
 	/**
 	 * Constructs the record for adding with container element, slot id, content
 	 * element, and position in container.
 	 * 
+	 * @param module
+	 *            the module in which this record executes
 	 * @param containerObj
 	 *            The container element.
 	 * @param theSlot
@@ -116,10 +122,12 @@ public class ContentRecord extends SimpleRecord
 	 *            The position index where to insert the content.
 	 */
 
-	public ContentRecord( DesignElement containerObj, int theSlot,
-			DesignElement contentObj, int newPos )
+	public ContentRecord( Module module, DesignElement containerObj,
+			int theSlot, DesignElement contentObj, int newPos )
 	{
 		init( containerObj, theSlot, contentObj, newPos, true );
+		this.module = module;
+		assert module != null;
 	}
 
 	/**
@@ -219,68 +227,22 @@ public class ContentRecord extends SimpleRecord
 			// element IDs.
 
 			if ( content.getRoot( ) != null )
-				manageId( content, true );
+				module.manageId( content, true, true );
 		}
 		else
 		{
 			slot.remove( content );
-			
+
 			// Remove the element from the ID map if we are using
 			// IDs.
 
 			if ( content.getRoot( ) != null )
-				manageId( content, false );
+				module.manageId( content, false, false );
 
 			// Clear the inverse relationship.
 
 			content.setContainer( null, DesignElement.NO_SLOT );
 
-			
-		}
-	}
-
-	/**
-	 * Resets the element Id for the content element and its sub elements.
-	 * 
-	 * @param element
-	 *            the element to add
-	 * @param isAdd
-	 *            whether to add or remove the element id
-	 */
-
-	private void manageId( DesignElement element, boolean isAdd )
-	{
-		if ( element == null )
-			return;
-
-		// if the element is hanging and not in the module, return
-
-		if ( element.getRoot( ) != module )
-			return;
-
-		IElementDefn defn = element.getDefn( );
-		if ( isAdd )
-		{
-			element.setID( module.getNextID( ) );
-			module.addElementID( element );
-		}
-		else
-		{
-			module.dropElementID( element );
-		}
-
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
-		{
-			ContainerSlot slot = element.getSlot( i );
-
-			if ( slot == null )
-				continue;
-
-			for ( int pos = 0; pos < slot.getCount( ); pos++ )
-			{
-				DesignElement innerElement = slot.getContent( pos );
-				manageId( innerElement, isAdd );
-			}
 		}
 	}
 
@@ -299,19 +261,6 @@ public class ContentRecord extends SimpleRecord
 
 		return MetaDataDictionary.getInstance( ).getPredefinedStyle(
 				content.getName( ) ) != null;
-	}
-
-	/**
-	 * Sets the module if element IDs are in use. If set, the record will manage
-	 * the ID map in the module.
-	 * 
-	 * @param theModule
-	 *            The module to set.
-	 */
-
-	public void setModule( Module theModule )
-	{
-		module = theModule;
 	}
 
 	/*

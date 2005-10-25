@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
@@ -145,7 +146,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	protected long elementIDCounter = 1;
 
 	/**
-	 * The hash map for the id-to-element lookup. 
+	 * The hash map for the id-to-element lookup.
 	 */
 
 	protected HashMap idMap = new HashMap( );
@@ -451,14 +452,14 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public void addElementID( DesignElement element )
 	{
 		assert idMap != null;
-		
+
 		assert element.getID( ) > 0;
 		Long idObj = new Long( element.getID( ) );
 		assert !idMap.containsKey( idObj );
 		idMap.put( idObj, element );
-		
+
 		// let elementIDCounter is the current max id
-		
+
 		long id = element.getID( );
 		if ( this.elementIDCounter <= id )
 		{
@@ -1971,5 +1972,60 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		ElementRefValue refValue = (ElementRefValue) value;
 		return (Theme) refValue.getElement( );
+	}
+
+	/**
+	 * Resets the element Id for the content element and its sub elements.
+	 * 
+	 * @param element
+	 *            the element to add
+	 * @param isAdd
+	 *            whether to add or remove the element id
+	 * @param forceReSet
+	 *            status identifying whether to force to create an id for the
+	 *            element and its contents, if true, generate a new id for them
+	 *            even though they already have a non-zero and unique one,
+	 *            otherwise false
+	 */
+
+	public void manageId( DesignElement element, boolean isAdd,
+			boolean forceReSet )
+	{
+		if ( element == null )
+			return;
+
+		// if the element is hanging and not in the module, return
+
+		if ( element.getRoot( ) != this )
+			return;
+
+		IElementDefn defn = element.getDefn( );
+		if ( isAdd )
+		{
+			if ( forceReSet || element.getID( ) == 0 )
+			{
+				element.setID( getNextID( ) );
+				assert getElementByID( element.getID( ) ) == null;
+				addElementID( element );
+			}
+		}
+		else
+		{
+			dropElementID( element );
+		}
+
+		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = element.getSlot( i );
+
+			if ( slot == null )
+				continue;
+
+			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			{
+				DesignElement innerElement = slot.getContent( pos );
+				manageId( innerElement, isAdd, forceReSet );
+			}
+		}
 	}
 }

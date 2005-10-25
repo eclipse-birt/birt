@@ -32,7 +32,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -44,6 +43,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
 import org.eclipse.birt.report.model.parser.GenericModuleReader;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents a design session for a user of the application based on the Design
@@ -356,10 +356,15 @@ public class DesignSession
 		Library library = new Library( this );
 
 		Theme theme = new Theme( ModelMessages
-				.getMessage( Theme.DEFAULT_THEME_NAME ) );
-		library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
+				.getMessage( Theme.DEFAULT_THEME_NAME ) );		
 		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
 				theme ) );
+		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
+		
+		// set initial id.
+		
+		theme.setID( library.getNextID( ) );
+		library.addElementID( theme );
 
 		library.setValid( true );
 		libraries.add( library );

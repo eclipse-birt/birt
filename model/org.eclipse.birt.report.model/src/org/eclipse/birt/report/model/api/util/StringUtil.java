@@ -348,6 +348,32 @@ public class StringUtil
 
 		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
 	}
+	
+	/**
+	 * Extract file name (without path but with suffix) from file name with path and
+	 * suffix.
+	 * <p>
+	 * For example:
+	 * <p>
+	 * <ul>
+	 * <li>"c:\home\abc.xml" => "abc.xml"
+	 * <li>"c:\home\abc" => "abc"
+	 * <li>"/home/user/abc.xml" => "abc.xml"
+	 * <li>"/home/user/abc" => "abc"
+	 * </ul>
+	 * 
+	 * @param filePathName
+	 *            the file name with path and suffix
+	 * @return the file name without path but with suffix
+	 */
+
+	public static String extractFileNameWithSuffix( String filePathName )
+	{
+		int slashPos = filePathName.lastIndexOf( '\\' );
+		if ( slashPos == -1 )
+			slashPos = filePathName.lastIndexOf( '/' );
+		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
+	}
 
 	/**
 	 * Extracts the libaray namespace from the given qualified reference value.

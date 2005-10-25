@@ -194,31 +194,30 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		// Add the item to the element ID map, check whether the id is unique
+		// if the element has no ID, we will allocate it in the endDocument
 
 		long elementID = content.getID( );
 
-		// if the id is not set, generate one
-
-		if ( elementID == 0 )
+		if ( elementID > 0 )
 		{
-			content.setID( handler.getModule( ).getNextID( ) );
-			elementID = content.getID( );
-		}
+			DesignElement element = module.getElementByID( elementID );
 
-		assert elementID > 0;
-		DesignElement element = module.getElementByID( elementID );
-		if ( element == null || element == content )
-			module.addElementID( content );
-		else
-		{
-			handler
-					.getErrorHandler( )
-					.semanticError(
-							new DesignParserException(
-									new String[]{content.getIdentifier( ),
-											element.getIdentifier( )},
-									DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
-			return false;
+			// the content never add to the container before
+
+			assert element != content;
+			if ( element == null )
+				module.addElementID( content );
+			else
+			{
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new DesignParserException(
+										new String[]{content.getIdentifier( ),
+												element.getIdentifier( )},
+										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID ) );
+				return false;
+			}
 		}
 
 		// Add the item to the container.
@@ -233,13 +232,15 @@ public abstract class ReportElementState extends DesignParseState
 	}
 
 	/**
-	 * Initializes a report element.
+	 * Initializes a report element with "name" and "extends" property.
 	 * 
 	 * @param attrs
 	 *            the SAX attributes object
 	 * @param nameRequired
 	 *            true if this element requires a name, false if the name is
 	 *            optional.
+	 * 
+	 * @see #initSimpleElement(Attributes)
 	 */
 
 	protected void initElement( Attributes attrs, boolean nameRequired )
@@ -281,6 +282,27 @@ public abstract class ReportElementState extends DesignParseState
 										DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS ) );
 		}
 
+		initSimpleElement( attrs );
+	}
+
+	/**
+	 * Initializes the "id" property of the element and add it to the container.
+	 * Some simple elements, such as rows, columns, cells, and groups will call
+	 * this method in <code>parseAttrs</code>. These kinds of element has no
+	 * names and no extends property definition while they have "id" property.
+	 * Other complicate elements, such as report items, master pages, data sets,
+	 * data souces, will call <code>initElement</code> in
+	 * <code>parseAttrs</code> to initialize the name and extends properties.
+	 * This method will handle the "id" property and add it to the container.
+	 * 
+	 * @param attrs
+	 *            the SAX attributes object
+	 * @see #initElement(Attributes, boolean)
+	 */
+
+	protected final void initSimpleElement( Attributes attrs )
+	{
+		DesignElement element = getElement( );
 
 		// get the "id" of the element
 
@@ -293,6 +315,18 @@ public abstract class ReportElementState extends DesignParseState
 				// if the id is not null, parse it
 
 				long id = Long.parseLong( theID );
+				if ( id < 0 )
+				{
+					handler
+							.getErrorHandler( )
+							.semanticError(
+									new DesignParserException(
+											new String[]{
+													element.getIdentifier( ),
+													attrs
+															.getValue( DesignSchemaConstants.ID_ATTRIB )},
+											DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
+				}
 				element.setID( id );
 			}
 		}

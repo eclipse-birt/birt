@@ -864,8 +864,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
-	 * Returns the qualified name of this element. The qualified name is the
-	 * name of this element if this element is in module user is editing.
+	 * Gets the name of this element. The returned element name will be the same
+	 * as <CODE>getName()</CODE>, plus the namespace of the module that the
+	 * elment is contained, if any. If the element is existed in the current
+	 * module,this method and <CODE>getName()</CODE> will return identical
+	 * results.
 	 * 
 	 * @return the qualified name of thie element.
 	 */

@@ -194,14 +194,12 @@ public class ContentCommand extends AbstractElementCommand
 		ContentRecord addRecord;
 		if ( newPos == -1 )
 		{
-			addRecord = new ContentRecord( element, slotID, content, true );
+			addRecord = new ContentRecord( module, element, slotID, content, true );
 		}
 		else
 		{
-			addRecord = new ContentRecord( element, slotID, content, newPos );
+			addRecord = new ContentRecord( module, element, slotID, content, newPos );
 		}
-
-		addRecord.setModule( module );
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
@@ -295,15 +293,8 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Prepare the transaction.
 
-		ContentRecord dropRecord = new ContentRecord( element, slotID, content,
+		ContentRecord dropRecord = new ContentRecord( module, element, slotID, content,
 				false );
-
-		// Tell the record if we are using element IDs.
-
-		if ( MetaDataDictionary.getInstance( ).useID( ) )
-		{
-			dropRecord.setModule( module );
-		}
 
 		ActivityStack stack = getActivityStack( );
 
@@ -658,10 +649,10 @@ public class ContentCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label );
 
-		ContentRecord record = new ContentRecord( element, fromSlotID, content,
+		ContentRecord record = new ContentRecord( module, element, fromSlotID, content,
 				false );
 		stack.execute( record );
-		record = new ContentRecord( to, toSlotID, content, newPos );
+		record = new ContentRecord( module, to, toSlotID, content, newPos );
 		stack.execute( record );
 		stack.commit( );
 	}

@@ -227,6 +227,10 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 			throw new SAXException( exception );
 		}
+		
+		// the module is ok, then allocate the id for it and its contents
+		
+		module.manageId( module, true, false );
 
 		// Perform semantic check. The semantic error is recoverable.
 

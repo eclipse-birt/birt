@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -72,34 +71,7 @@ public class CellState extends ReportElementState
 	{
 		element = new Cell( );
 		
-		// get the "id" of the element
-
-		try
-		{
-			String theID = attrs.getValue( DesignSchemaConstants.ID_ATTRIB );
-
-			if ( !StringUtil.isBlank( theID ) )
-			{
-				// if the id is not null, parse it
-
-				long id = Long.parseLong( theID );
-				element.setID( id );
-			}
-		}
-		catch ( NumberFormatException e )
-		{
-			handler
-					.getErrorHandler( )
-					.semanticError(
-							new DesignParserException(
-									new String[]{
-											element.getIdentifier( ),
-											attrs
-													.getValue( DesignSchemaConstants.ID_ATTRIB )},
-									DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID ) );
-		}
-		if ( !addToSlot( container, slotID, element ) )
-			return;
+		initSimpleElement( attrs );
 	}	
 
 	/*

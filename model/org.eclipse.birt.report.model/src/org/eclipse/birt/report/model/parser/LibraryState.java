@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -58,7 +59,7 @@ public class LibraryState extends ModuleState
 			return;
 
 		// do the compatibility work for the library without the theme
-		
+
 		Theme theme = null;
 
 		ContainerSlot themes = module.getSlot( ILibraryModel.THEMES_SLOT );
@@ -77,7 +78,8 @@ public class LibraryState extends ModuleState
 		{
 			theme = new Theme( ModelMessages
 					.getMessage( Theme.DEFAULT_THEME_NAME ) );
-			library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
+			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
+
 		}
 
 		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
