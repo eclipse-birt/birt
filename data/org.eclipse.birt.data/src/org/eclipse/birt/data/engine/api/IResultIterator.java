@@ -283,6 +283,6 @@ public interface IResultIterator
     * the group key values exactly, and iterator cursor is not moved.
      * @throws DataException 
     */
-    public boolean findGroup( Object[] groupKeyValues ) throws DataException;
+    public boolean findGroup( Object[] groupKeyValues ) throws BirtException;
 
 }

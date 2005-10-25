@@ -755,7 +755,7 @@ class ResultIterator implements IResultIterator
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#findGroup(java.lang.Object[])
 	 */
-	public boolean findGroup( Object[] groupKeyValues ) throws DataException
+	public boolean findGroup( Object[] groupKeyValues ) throws BirtException
 	{
 		List groups = query.getQueryDefn( ).getGroups( );
 		if ( groupKeyValues.length > groups.size( ) )
@@ -801,15 +801,34 @@ class ResultIterator implements IResultIterator
 	 * @param columnNames
 	 * @param i
 	 * @return
-	 * @throws DataException
+	 * @throws BirtException
 	 */
 	private boolean groupKeyValuesEqual( Object[] groupKeyValues,
-			String[] columnNames, int i ) throws DataException
+			String[] columnNames, int i ) throws BirtException
 	{
-		Object fieldValue = odiResult.getCurrentResult( ).getFieldValue( columnNames[i] );
-		return ( fieldValue == null && groupKeyValues[i] == null )
-				|| ( ( fieldValue != null && groupKeyValues[i] != null )
-				&&   ( fieldValue.equals( groupKeyValues[i] ) ) );
+		Object fieldValue = odiResult.getCurrentResult( )
+				.getFieldValue( columnNames[i] );
+
+		boolean retValue = false;
+		if ( fieldValue == groupKeyValues[i] )
+		{
+			retValue = true;
+		}
+		else if ( fieldValue != null && groupKeyValues[i] != null )
+		{
+			if ( fieldValue.getClass( ).equals( groupKeyValues[i].getClass( ) ) )
+			{
+				retValue = fieldValue.equals( groupKeyValues[i] );
+			}
+			else
+			{
+				Object convertedOb = DataTypeUtil.convert( groupKeyValues[i],
+						fieldValue.getClass( ) );
+				retValue = fieldValue.equals( convertedOb );
+			}
+		}
+
+		return retValue;
 	}
 
 
