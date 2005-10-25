@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="2">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
     <translations>
         <resource key="ResourceKey.testKey1">
             <translation locale="en_AF">text for AF</translation>
@@ -14,7 +14,7 @@
         </resource>
     </translations>
     <page-setup>
-        <graphic-master-page name="My Page">
+        <graphic-master-page name="My Page" id="2">
             <property name="columnSpacing">0.25mm</property>
         </graphic-master-page>
     </page-setup>

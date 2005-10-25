@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 1.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="2">
-   <parameters>
-        <scalar-parameter name="Parameter1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3" id="1">
+    <property name="theme">defaultTheme</property>
+    <parameters>
+        <scalar-parameter name="Parameter1" id="30">
             <property name="dataType">string</property>
             <property name="format">Unformatted</property>
             <property name="controlType">text-box</property>
@@ -10,7 +11,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="db2d" id="2">
             <property name="odaDriverClass">com.ibm.db2.jcc.DB2Driver</property>
             <property name="odaURL">jdbc:db2://spmdb:1527/gui</property>
             <property name="odaUser">root</property>
@@ -18,127 +19,132 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="db2ds" id="3">
             <property name="dataSource">db2d</property>
             <property name="queryText">select *
 from ROOT.SAMPLEDATA</property>
         </oda-data-set>
     </data-sets>
-    <styles>
-        <style name="myStyle">
-            <property name="backgroundColor">#8080FF</property>
-            <property name="color">#FF0000</property>
-        </style>
-    </styles>
+    <themes>
+        <theme name="defaultTheme" id="0"/>
+        <theme name="defaultTheme" id="28">
+            <styles>
+                <style name="myStyle" id="29">
+                    <property name="backgroundColor">#8080FF</property>
+                    <property name="color">#FF0000</property>
+                </style>
+            </styles>
+        </theme>
+    </themes>
     <components>
-    <label name="myLabel">
+        <label name="myLabel" id="4">
             <text-property name="text">Label</text-property>
         </label>
-        <text name="myText">
+        <text name="myText" id="5">
             <property name="contentType">plain</property>
             <text-property name="content"><![CDATA[Text]]></text-property>
         </text>
-         <table name="myTable">
-  <property name="width">100%</property> 
-  <property name="dataSet">db2ds</property> 
-  <column>
-  <property name="repeat">1</property> 
-  </column>
-  <column>
-  <property name="repeat">1</property> 
-  </column>
-  <column>
-  <property name="repeat">1</property> 
-  </column>
-  <header>
-  <row>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <label>
-  <text-property name="text">CATEGORY</text-property> 
-  </label>
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <label>
-  <text-property name="text">VALUE1</text-property> 
-  </label>
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <label>
-  <text-property name="text">VALUE2</text-property> 
-  </label>
-  </cell>
-  </row>
-  </header>
-  <detail>
-  <row>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <data>
-  <expression name="valueExpr">row["CATEGORY"]</expression> 
-  </data>
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <data>
-  <expression name="valueExpr">row["VALUE1"]</expression> 
-  </data>
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  <data>
-  <expression name="valueExpr">row["VALUE2"]</expression> 
-  </data>
-  </cell>
-  </row>
-  </detail>
-  <footer>
-  <row>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  </cell>
-  <cell>
-  <property name="column">0</property> 
-  <property name="colSpan">1</property> 
-  <property name="rowSpan">1</property> 
-  <property name="drop">none</property> 
-  </cell>
-  </row>
-  </footer>
-  </table>
-  <image name="myImage">
+        <table name="myTable" id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">db2ds</property>
+            <column id="25">
+                <property name="repeat">1</property>
+            </column>
+            <column id="26">
+                <property name="repeat">1</property>
+            </column>
+            <column id="27">
+                <property name="repeat">1</property>
+            </column>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <label id="9">
+                            <text-property name="text">CATEGORY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <label id="11">
+                            <text-property name="text">VALUE1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="12">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <label id="13">
+                            <text-property name="text">VALUE2</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="14">
+                    <cell id="15">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <data id="16">
+                            <expression name="valueExpr">row["CATEGORY"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <data id="18">
+                            <expression name="valueExpr">row["VALUE1"]</expression>
+                        </data>
+                    </cell>
+                    <cell id="19">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                        <data id="20">
+                            <expression name="valueExpr">row["VALUE2"]</expression>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="21">
+                    <cell id="22">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                    </cell>
+                    <cell id="23">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                    </cell>
+                    <cell id="24">
+                        <property name="column">0</property>
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">1</property>
+                        <property name="drop">none</property>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <image name="myImage" id="31">
             <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
         </image>
-        <data name="myData">
+        <data name="myData" id="32">
             <expression name="valueExpr">new Date()</expression>
         </data>
     </components>
