@@ -180,7 +180,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		}
 		catch(Exception e)
 		{
-			System.out.println("Duplicate name of design element");
+			assertNotNull(e);
 		}
 	}
 	
@@ -198,7 +198,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		}
 		catch( Exception e)
 		{
-			System.out.println("Library is not exiting");
+			assertNotNull(e);
 		}
 	}
 	

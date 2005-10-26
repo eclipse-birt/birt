@@ -61,7 +61,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		}
 		catch(Exception e)
 		{
-			System.out.println( "Library2 has the same namespace" );
+			assertNotNull(e);
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		}
 		catch(Exception e)
 		{
-			System.out.println( "Library3 has the same namespace" );
+			assertNotNull(e);
 		}
 	}
 	
