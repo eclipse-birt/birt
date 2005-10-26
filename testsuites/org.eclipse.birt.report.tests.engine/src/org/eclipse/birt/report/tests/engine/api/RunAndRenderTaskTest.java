@@ -57,14 +57,17 @@ public class RunAndRenderTaskTest extends EngineCase {
 			task.setRenderOption(option);
 			optionGet=(RenderOptionBase)task.getRenderOption();
 			assertEquals("set/getRenderOption fail",option,optionGet);
-			//parameters
-			task.setParameterValue("p1","p1value");
-			assertEquals("Set/getParameterValues fail",task.getParameterValues().get("p1"),"p1value");
+
 			
+			//parameters
 			HashMap hm=new HashMap(),hmGet;
 			task.setParameterValues(hm);
 			hmGet=task.getParameterValues();
-			assertEquals("set/getParameterValues fail",hm,hmGet);
+			assertEquals("set/getParameterValues(hashmap) fail",hm,hmGet);
+
+			task.setParameterValue("p1","p1value");
+			assertEquals("Set/getParameterValues fail",task.getParameterValues().get("p1"),"p1value");
+			
 			
 					
 		//shut down engine

@@ -4,5 +4,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/junit.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-ant-1.6.2/lib/ant-xalan2.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-ant-1.6.2/lib/junit.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-ant-1.6.2/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-ant-1.6.2/lib/ant.jar"/>
+	<classpathentry kind="lib" path="C:/apps/apache-ant-1.6.2/lib/ant-xalan1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

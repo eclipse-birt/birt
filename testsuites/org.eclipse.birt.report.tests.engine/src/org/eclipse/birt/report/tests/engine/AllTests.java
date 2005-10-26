@@ -33,7 +33,7 @@ import junit.framework.TestSuite;
 /**
  *  Put your comments  
  *
- * @ @version $Revision: 1.2 $Date: 2005-6-27 
+ * @ @version $Revision: 1.4 $Date: 2005-6-27 
  */
 public class AllTests {
 
@@ -50,7 +50,7 @@ public class AllTests {
 		suite.addTestSuite(HTMLEmitterConfigTest.class);
 		suite.addTestSuite(HTMLRenderContextTest.class);
 		suite.addTestSuite(HTMLRenderOptionTest.class);
-		//suite.addTestSuite(HTMLServerImageHandlerTest.class);
+		suite.addTestSuite(HTMLServerImageHandlerTest.class);
 		suite.addTestSuite(RenderOptionBaseTest.class);
 		suite.addTestSuite(ReportEngineTest.class);
 		suite.addTestSuite(ReportParameterConverterTest.class);

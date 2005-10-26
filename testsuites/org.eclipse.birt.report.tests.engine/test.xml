@@ -4,7 +4,7 @@
   <!-- The property ${eclipse-home} should be passed into this script -->
   <!-- Set a meaningful default value for when it is not. -->
   <property name="eclipse-home" value="D:/TEMP/eclipse"/>
-  <property name="axlan-home" value=""/>
+  <property name="axlan-home" value="C:/apps/apache-ant-1.6.2/lib"/>
   <!-- sets the properties eclipse-home, and library-file -->
   <property name="plugin-name" value="org.eclipse.birt.report.tests.engine"/>
   <property name="library-file"
@@ -19,6 +19,7 @@
   <property name="arch" value="x86" />
   <condition property="ws" value="win32">
     <os family="windows"/>
+
   </condition>
   <condition property="ws" value="gtk">
        <not>
@@ -78,6 +79,7 @@
 				<include name="**/golden/*.*" />
 				<include name="**/output/*.*" />
 				<include name="**/*.properties" />
+				<exclude name="org.eclipse.birt.report.tests.engine.smoke"/>
 			</fileset>
 		</copy>
 

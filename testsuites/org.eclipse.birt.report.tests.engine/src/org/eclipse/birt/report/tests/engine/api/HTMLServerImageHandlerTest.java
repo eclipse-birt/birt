@@ -63,6 +63,8 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			//Test onDesignImage()
 			
 			HTMLRenderContext context=new HTMLRenderContext();
+			context.setBaseImageURL(".");
+			context.setImageDirectory(".");
 			HTMLServerImageHandler imageHandler=new HTMLServerImageHandler();
 			Image image=new Image(imageBytes,"image1");
 			RenderOptionBase option=new RenderOptionBase();
@@ -125,6 +127,8 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 			//Test onDesignImage()
 			
 			HTMLRenderContext context=new HTMLRenderContext();
+			context.setBaseImageURL(".");
+			context.setImageDirectory(".");
 			HTMLServerImageHandler imageHandler=new HTMLServerImageHandler();
 			Image image=new Image(imageBytes,"image1");
 			RenderOptionBase option=new RenderOptionBase();
