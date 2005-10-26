@@ -11,10 +11,9 @@ import java.io.File;
 public class IncludeLibraryRuleTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml";
-//	private String inputLibraryName = "LibA.xml"; //$NON-NLS-1$
+
 	private String outputFileName = "IncludeLibraryRuleTest10.xml";
 	
-//	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
 	private String LibA = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibA.xml";
 	private String LibB = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibB.xml";
 	private String LibC = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "LibC.xml";
@@ -23,7 +22,6 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	private String outLibB = PLUGIN_PATH + getClassFolder() + GOLDEN_FOLDER + "LibB.xml";
 	private String outLibC = PLUGIN_PATH + getClassFolder() + GOLDEN_FOLDER + "LibC.xml";
 	
-//	private String design = PLUGIN_PATH + getClassFolder() + INPUT_FOLDER + "DesignIncludeLibraryTest.xml";
 	
 	public IncludeLibraryRuleTest(String name) 
 	{	

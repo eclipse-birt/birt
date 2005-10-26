@@ -141,7 +141,7 @@ public class DesignIncludeLibraryTest extends BaseTestCase
 		assertEquals( null , labelDesignHandle.getStringProperty( "backgroundColor" ));
 		
 
-//		designHandle.saveAs("d:/DesignIncludeLibraryDpt_golden.xml");
+
 		designHandle.saveAs( outFileName ); //$NON-NLS-1$
 		
 	}
