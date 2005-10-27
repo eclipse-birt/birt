@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -197,6 +198,7 @@ public abstract class BaseTestCase extends TestCase
 	 *             if any exception
 	 */
 
+
 	protected void openDesign( String fileName ) throws DesignFileException
 	{
 		openDesign( fileName, Locale.getDefault( ) );
@@ -262,6 +264,27 @@ public abstract class BaseTestCase extends TestCase
 		assertNotNull( sessionHandle );
 
 		libraryHandle = sessionHandle.openLibrary( fileName );
+	}
+	
+	/**
+	 * Opens library file with given file name and locale.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param locale
+	 *            the user locale
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( URL systemId, InputStream is )
+			throws DesignFileException
+	{
+//		fileName = getClassFolder( ) + INPUT_FOLDER + fileName;
+		sessionHandle = DesignEngine.newSession( Locale.getDefault( ) );
+		assertNotNull( sessionHandle );
+
+		libraryHandle = sessionHandle.openLibrary( systemId, is );
 	}
 	
 	protected void openDesignAsResource( Class theClass, String fileName )
@@ -592,7 +615,7 @@ public abstract class BaseTestCase extends TestCase
 			for ( Iterator iter = errors.iterator( ); iter.hasNext( ); )
 			{
 				ErrorDetail ex = (ErrorDetail) iter.next( );
-		
+				System.out.println( ex );
 			}
 		}
 	}
@@ -666,7 +689,28 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws IOException
 	 *             if any exception
 	 */
-
+	protected void saveLibraryAs( String filename ) throws IOException
+	{
+		if ( libraryHandle == null )
+			return;
+		String outputPath = PLUGIN_PATH + getClassFolder( ) + OUTPUT_FOLDER;
+		File outputFolder = new File( outputPath );
+		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
+		{
+			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
+		}
+		libraryHandle.saveAs( outputPath + filename );
+	}
+	/**
+	 * Saves the library file to temp directory.
+	 * 
+	 * @param filename
+	 *            the new file name to save
+	 * @throws IOException
+	 *             if any exception
+	 */
+	
+	
 	protected void saveAsInTempDir( String filename ) throws IOException
 	{
 		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$

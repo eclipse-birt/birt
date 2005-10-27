@@ -13,6 +13,7 @@ package org.eclipse.birt.report.tests.model.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Locale;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -28,7 +30,9 @@ import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -36,8 +40,13 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TranslationHandle;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
+import org.eclipse.birt.report.model.api.core.AttributeEvent;
+import org.eclipse.birt.report.model.api.core.DisposeEvent;
+import org.eclipse.birt.report.model.api.core.IAttributeListener;
+import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
@@ -107,7 +116,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class ReportDesignHandleTest extends BaseTestCase
 {
 
-	
+	protected static final String pluginpath = System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
 	/**
 	 * @param name
 	 */
@@ -219,7 +228,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	/**
 	 * Tests cases for methods on ReportDesignHandle.
-	 *  
+	 * 
 	 */
 
 	public void testReportDesignOtherMethods( )
@@ -264,7 +273,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 	/**
 	 * Tests cases for methods on slots.
-	 *  
+	 * 
 	 */
 
 	public void testReportDesignSlots( )
@@ -317,7 +326,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( getClassFolder( ) + INPUT_FOLDER
+		assertEquals( pluginpath.replace('/','\\')+getClassFolder( ).replace('/','\\') + INPUT_FOLDER.replace('/','\\')
 				+ "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
@@ -348,7 +357,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * current name space
 	 * 
 	 * @throws Exception
-	 *  
+	 * 
 	 */
 	public void testRename( ) throws Exception
 	{
@@ -372,18 +381,18 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests iterator methods of a report design.
 	 * 
 	 * @throws Exception
-	 *  
+	 * 
 	 */
 
 	public void testIteratorMethods( ) throws Exception
 	{
 		Iterator iter = designHandle.imagesIterator( );
-		assertNull( iter.next( ) );
+		assertFalse( iter.hasNext( ) );
 
 		iter = designHandle.configVariablesIterator( );
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
-		assertNull( iter.next( ) );
+		assertFalse( iter.hasNext( ) );
 	}
 
 	/**
@@ -395,7 +404,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	public void testNeedsSave( ) throws Exception
 	{
 
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
+		String outputPath = pluginpath+getClassFolder( ) + OUTPUT_FOLDER; //$NON-NLS-1$
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
@@ -564,33 +573,267 @@ public class ReportDesignHandleTest extends BaseTestCase
 		PropertyHandle images = designHandle
 				.getPropertyHandle( ReportDesign.IMAGES_PROP );
 		assertNotNull( images );
-		
+
 		// get the embedded images
-		
-		EmbeddedImageHandle image1 = (EmbeddedImageHandle)images.getAt( 0 );
-		EmbeddedImageHandle image2 = (EmbeddedImageHandle)images.getAt( 1 );
+
+		EmbeddedImageHandle image1 = (EmbeddedImageHandle) images.getAt( 0 );
+		EmbeddedImageHandle image2 = (EmbeddedImageHandle) images.getAt( 1 );
+		String image1Name = image1.getName( );
+		String image2Name = image2.getName( );
 		ArrayList imageList = new ArrayList( );
 		imageList.add( image1 );
 		imageList.add( image2 );
 		designHandle.dropImage( imageList );
-		
-		// unod and test again
+
+		// undo and test again
 		design.getActivityStack( ).undo( );
-		image1 = (EmbeddedImageHandle)images.getAt( 0 );
-		image2 = (EmbeddedImageHandle)images.getAt( 1 );
-		
+		image1 = (EmbeddedImageHandle) images.getAt( 0 );
+		image2 = (EmbeddedImageHandle) images.getAt( 1 );
+
 		design.getActivityStack( ).redo( );
 		assertEquals( 0, images.getListValue( ).size( ) );
 		try
 		{
-		designHandle.dropImage( image1.getName( ) );
-		designHandle.dropImage( image2.getName( ) );
-		fail( );
+			designHandle.dropImage( image1Name );
+			designHandle.dropImage( image2Name );
+			fail( );
 		}
-		catch( PropertyValueException e )
+		catch ( PropertyValueException e )
 		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e.getErrorCode( ) );
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e
+							.getErrorCode( ) );
 		}
 	}
+
+	/**
+	 * Tests attribute and dispose listeners in module.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testFileNameAndDisposeListener( ) throws Exception
+	{
+		FileNameListener fListener = new FileNameListener( );
+		designHandle.addAttributeListener( fListener );
+		DisposeListener dListener = new DisposeListener( );
+		designHandle.addDisposeListener( dListener );
+
+		designHandle.setFileName( "test file" ); //$NON-NLS-1$
+		designHandle.close( );
+		assertEquals( "test file", fListener.getStatus( ) ); //$NON-NLS-1$
+		assertEquals( "disposed", dListener.getStatus( ) ); //$NON-NLS-1$
+		openDesign( "ReportDesignHandleTest.xml" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the function to find the resource with the given file name. Test
+	 * cases are:
+	 * 
+	 * <ul>
+	 * <li>Uses the file path to find the relative resource.</li>
+	 * <li>Uses network protocol to find the relative resource.</li>
+	 * <li>Uses the file protcol to find the relative resource</li>
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testFindResource( ) throws Exception
+	{
+		designHandle.setFileName( null );
+		designHandle.getModule( ).setSystemId( null );
+
+		// uses the file path to find, file exists
+
+		String filePath = pluginpath+getClassFolder( ) + INPUT_FOLDER
+				+ "ReportDesignHandleTest.xml"; //$NON-NLS-1$
+
+		designHandle.getModule( ).setSystemId( null );
+		designHandle.setFileName( filePath );
+		URL url = designHandle.findResource( "ReportDesignHandleTest.xml",IResourceLocator.LIBRARY );
+		assertNotNull( url );
+
+		// a file not existed.
+
+		url = designHandle.findResource( "NoExistedDesign.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNull( url );
+
+		// resources with relative uri file path
+
+		designHandle.setFileName( pluginpath+getClassFolder( ) + INPUT_FOLDER
+				+ "NoExistedDesign.xml" ); //$NON-NLS-1$
+
+		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNotNull( url );
+
+		url = designHandle.findResource( "NoExistedDesign.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNull( url );
+
+		// resources with HTTP protocols.
+
+		designHandle.getModule( ).setSystemId(
+				new URL( "http://www.eclipse.org/" ) ); //$NON-NLS-1$
+
+		url = designHandle.findResource( "images/EclipseBannerPic.jpg", //$NON-NLS-1$
+				IResourceLocator.IMAGE );
+
+		assertEquals( "http://www.eclipse.org/images/EclipseBannerPic.jpg", //$NON-NLS-1$
+				url.toString( ) ); //$NON-NLS-1$
+
+		// resources with HTTP protocols.
+
+		url = designHandle.findResource( "/NoExistedDesign.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNotNull( url );
+
+		// resources with both system id and path.
+
+		File f = new File( filePath ).getParentFile( );
+
+		designHandle.getModule( ).setSystemId( f.toURL( ) );
+
+		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNotNull( url );
+
+		url = designHandle.findResource( "NoExistedDesign.xml", //$NON-NLS-1$
+				IResourceLocator.LIBRARY );
+		assertNull( url );
+	}
+
+	/**
+	 * Tests <code>setFileName</code> function. Cases are
+	 * 
+	 * <ul>
+	 * <li>setFileName with HTTP protocol</li>
+	 * <li>setFileName with HTTP protocol and Chinese character.</li>
+	 * <li>setFileName with unix file schema.</li>
+	 * <li>setFileName with windows file schema.</li>
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSetFileName( ) throws Exception
+	{
+
+		// resources with HTTP protocols.
+
+		designHandle.setFileName( "http://www.eclipse.org/ima#ge  \\s/" ); //$NON-NLS-1$
+		assertEquals( "http://www.eclipse.org/ima%23ge  /s/", designHandle //$NON-NLS-1$
+				.getModule( ).getSystemId( ).toString( ) );
+
+		designHandle
+				.setFileName( "http://hello.com/\u4e0d\u5b58\u5728\u7684\u5355\u4f4d" ); //$NON-NLS-1$
+		assertEquals( "http://hello.com/", designHandle //$NON-NLS-1$
+				.getModule( ).getSystemId( ).toString( ) );
+
+		designHandle
+				.setFileName( "http://hello.com/\u4e0d\u5b58/index.rtpdesign" ); //$NON-NLS-1$
+		assertEquals( "http://hello.com/\u4e0d\u5b58/", designHandle //$NON-NLS-1$
+				.getModule( ).getSystemId( ).toString( ) );
+
+		designHandle.setFileName( "/usr/home/birt/report.xml" ); //$NON-NLS-1$
+		assertEquals(
+				new File( "/usr/home/birt/report.xml" ).getParentFile( ).toURL( ) //$NON-NLS-1$
+						.toString( ), designHandle.getModule( ).getSystemId( )
+						.toString( ) );
+
+		designHandle.setFileName( "C:\\reports\\1.xml" ); //$NON-NLS-1$
+		assertEquals( "file:/C:/reports", designHandle.getModule( ) //$NON-NLS-1$
+				.getSystemId( ).toString( ) );
+	}
+	
+	/**
+	 * Tests the copy-rename-add methods about the embedded images.
+	 * @throws Exception
+	 */
+	
+	public void testCopyAndPasteEmbeddedImage( ) throws Exception
+	{
+		openDesign( "EmbeddedImageTest.xml" ); //$NON-NLS-1$
+		
+		EmbeddedImage image = designHandle.findImage( "image one" ); //$NON-NLS-1$
+		assertNotNull( image );
+		
+		EmbeddedImage newImage = (EmbeddedImage)image.copy( );
+		assertNotNull( newImage );
+		assertEquals( image.getName( ), newImage.getName( ) );
+		designHandle.rename( newImage );
+		assertEquals( image.getName() + "1", newImage.getName( ) ); //$NON-NLS-1$
+		designHandle.addImage( newImage );
+		assertEquals( newImage, designHandle.findImage( image.getName( ) + "1" ) ); //$NON-NLS-1$
+	}
+
+	class FileNameListener implements IAttributeListener
+	{
+
+		private String status = null;
+
+		public void fileNameChanged( ModuleHandle targetElement,
+				AttributeEvent ev )
+		{
+			status = targetElement.getFileName( );
+		}
+
+		public String getStatus( )
+		{
+			return status;
+		}
+	}
+
+	class DisposeListener implements IDisposeListener
+	{
+
+		private String status = null;
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed(org.eclipse.birt.report.model.api.ModuleHandle,
+		 *      org.eclipse.birt.report.model.api.core.DisposeEvent)
+		 */
+		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
+		{
+			status = "disposed"; //$NON-NLS-1$
+
+		}
+
+		public String getStatus( )
+		{
+			return status;
+		}
+
+	}
+	
+	/**
+	 * @throws DesignFileException 
+	 * 
+	 *
+	 */
+	
+	public void testCascadingParameters() throws DesignFileException
+	{
+		openDesign( "ReportDesignHandleTest2.xml" ); //$NON-NLS-1$
+		CascadingParameterGroupHandle group1 = designHandle.findCascadingParameterGroup( "Country-State-City" ); //$NON-NLS-1$
+		assertNotNull(group1);
+		assertEquals( 3, group1.getParameters().getCount() );
+		
+		CascadingParameterGroupHandle group2 = designHandle.findCascadingParameterGroup( "group2" ); //$NON-NLS-1$
+		assertNotNull(group2);
+		assertEquals( "Group2 displayName", group2.getDisplayName() ); //$NON-NLS-1$
+		
+		CascadingParameterGroupHandle group3 = designHandle.findCascadingParameterGroup( "group3" ); //$NON-NLS-1$
+		assertNotNull(group3);
+		assertEquals( "Group3 displayName", group3.getDisplayName() ); //$NON-NLS-1$
+		
+		CascadingParameterGroupHandle group4 = designHandle.findCascadingParameterGroup( "non-exsit-group" ); //$NON-NLS-1$
+		assertNull(group4);
+	}
+
 
 }

@@ -4,7 +4,7 @@
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
     <property name="units">in</property>
     <parameters>
-        <scalar-parameter name="Param 1">
+        <scalar-parameter name="Param 1" id="2">
             <property name="valueType">dynamic</property>
             <property name="dataType">dateTime</property>
             <property name="promptText">abc</property>
@@ -17,7 +17,7 @@
             <property name="fixedOrder">true</property>
             <expression name="defaultValue">10/15/2005</expression>
         </scalar-parameter>
-        <scalar-parameter name="Param 2">
+        <scalar-parameter name="Param 2" id="3">
             <property name="hidden">false</property>
             <text-property name="helpText" key="help">scalar para help</text-property>
             <property name="valueType">dynamic</property>
@@ -34,28 +34,28 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.sampledb" name="Data Source">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.sampledb" name="Data Source" id="4">
             <property name="odaDriverClass">org.apache.derby.jdbc.EmbeddedDriver</property>
             <property name="odaURL">jdbc:derby:jar:(d:\eclipse\plugins\org.eclipse.birt.report.data.oda.sampledb_1.0.1\db\BirtSample.jar)BirtSample</property>
             <property name="odaUser">ClassicModels</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset1">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset1" id="5">
             <property name="dataSource">dataSource</property>
             <property name="queryText">select *
 from CLASSICMODELS.ORDERS</property>
         </oda-data-set>
-         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset2">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="dataset2" id="6">
             <property name="dataSource">Data Source</property>
             <property name="queryText">select *
 from CLASSICMODELS.PAYMENTS</property>
         </oda-data-set>
     </data-sets>
     <page-setup>
-      <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="7">
             <page-footer>
-                <text>
+                <text id="8">
                     <property name="contentType">html</property>
                     <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>

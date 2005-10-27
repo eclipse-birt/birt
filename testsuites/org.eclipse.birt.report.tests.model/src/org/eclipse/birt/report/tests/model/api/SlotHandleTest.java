@@ -22,10 +22,15 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleException;
@@ -34,6 +39,7 @@ import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -79,7 +85,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 public class SlotHandleTest extends BaseTestCase
 {
-
+	String fileName = "Improved_test4.xml";
 	/**
 	 * @param name
 	 */
@@ -198,5 +204,50 @@ public class SlotHandleTest extends BaseTestCase
 		assertEquals( 2, count );
 
 	}
+	
+	public void testcanContainGroupName( ) throws SemanticException
+	{
+		
+		sessionHandle = DesignEngine.newSession( Locale.ENGLISH );
+		designHandle = sessionHandle.createDesign( );
+		design = (ReportDesign) designHandle.getModule();
+
+		ElementFactory factory = new ElementFactory( design );
+
+		TableHandle table = factory.newTableItem( "table", 1 ); //$NON-NLS-1$
+
+		// test two table group or list groups with same names without datasets.
+
+		TableGroupHandle tableGroup = table.getElementFactory().newTableGroup( );
+		tableGroup.setName( "Group1" ); //$NON-NLS-1$
+		SlotHandle slot = table.getSlot(TableItem.GROUP_SLOT);
+        assertTrue(slot.canContain(tableGroup));
+		table.getGroups( ).add( tableGroup );
+		assertFalse( slot.canContain(tableGroup));
+
+		tableGroup = table.getElementFactory().newTableGroup( );
+		tableGroup.setName( "Group2" ); //$NON-NLS-1$
+		assertTrue( slot.canContain(tableGroup));
+	}
+	
+	
+	public void testcanContainSimpleMasterPage( ) throws Exception
+	{
+		openDesign( fileName );
+		SimpleMasterPageHandle mHandle = (SimpleMasterPageHandle) designHandle
+				.findMasterPage( "Page1" ); //$NON-NLS-1$
+		assertNotNull("should not be null", mHandle);
+		SlotHandle slot = mHandle.getPageHeader( );
+		GridHandle grid = mHandle.getElementFactory().newGridItem("grid");
+		assertEquals( 1, slot.getCount( ) );
+		assertEquals( "text_1", slot.get( 0 ).getName( ) ); //$NON-NLS-1$
+		assertFalse(slot.canContain(grid));
+		slot = mHandle.getPageFooter( );
+		assertEquals( 1, slot.getCount( ) );
+		assertEquals( "text_2", slot.get( 0 ).getName( ) ); //$NON-NLS-1$
+		assertFalse(slot.canContain(grid));
+	}
+
+	
 
 }
