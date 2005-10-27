@@ -673,42 +673,47 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * 
 	 * @param pre primitive render event
 	 */
-	protected void groupPrimitive(PrimitiveRenderEvent pre){
-		SVGGraphics2D svg_g2d = (SVGGraphics2D)_g2d;
-		
-		//For now only group series elements
-		final StructureSource src = isSeries((StructureSource) pre.getSource( ));
-		if ( src != null ){
-			try {
-				Series seDT = findDesignTimeSeries( (Series)src.getSource() ); // LOCATE
-				String id  =Integer.toString(pre.hashCode());
-//				svg_g2d.setStyleClass("class"+seDT.hashCode());
-				List components = (List)componentPrimitives.get(seDT);
-				if (components == null){					
-					components = new ArrayList();
-					componentPrimitives.put(seDT, components);
+	protected void groupPrimitive(PrimitiveRenderEvent pre) {
+		SVGGraphics2D svg_g2d = (SVGGraphics2D) _g2d;
+
+		// For now only group series elements
+		if (pre.getSource() instanceof StructureSource) {
+			final StructureSource src = isSeries((StructureSource) pre
+					.getSource());
+			if (src != null) {
+				try {
+					Series seDT = findDesignTimeSeries((Series) src.getSource()); // LOCATE
+					String id = Integer.toString(pre.hashCode());
+					// svg_g2d.setStyleClass("class"+seDT.hashCode());
+					List components = (List) componentPrimitives.get(seDT);
+					if (components == null) {
+						components = new ArrayList();
+						componentPrimitives.put(seDT, components);
+					}
+
+					// May have to group drawing instructions that come from the
+					// same primitive render events.
+					String idTemp = id;
+					int counter = 1;
+					while (components.contains(idTemp)) {
+						idTemp = id + "@" + counter; //$NON-NLS-1$
+						counter++;
+					}
+
+					components.add(idTemp);
+
+					// Create group element that will contain the drawing
+					// instructions that corresponds to the event
+					Element primGroup = svg_g2d.createElement("g"); //$NON-NLS-1$
+					svg_g2d.pushParent(primGroup);
+					primGroup
+							.setAttribute("id", seDT.hashCode() + "_" + idTemp); //$NON-NLS-1$ //$NON-NLS-2$
+					primGroup.setAttribute("style", "visibility:visible"); //$NON-NLS-1$ //$NON-NLS-2$
+
+				} catch (ChartException e) {
+					logger.log(e);
+					return;
 				}
-				
-				//May have to group drawing instructions that come from the same primitive render events.
-				String idTemp = id;
-				int counter = 1;
-				while (components.contains(idTemp)){  
-					idTemp = id+"@"+counter; //$NON-NLS-1$
-					counter++;
-				}				
-				
-				components.add(idTemp);
-				
-				//Create group element that will contain the drawing instructions that corresponds to the event
-				Element primGroup = svg_g2d.createElement("g");				 //$NON-NLS-1$
-				svg_g2d.pushParent(primGroup);
-				primGroup.setAttribute("id", seDT.hashCode()+"_"+idTemp); //$NON-NLS-1$ //$NON-NLS-2$
-				primGroup.setAttribute("style", "visibility:visible"); //$NON-NLS-1$ //$NON-NLS-2$
-				
-				
-			} catch (ChartException e) {
-				logger.log( e );
-				return;
 			}
 		}
 	}
@@ -724,9 +729,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 //		svg_g2d.setId(null);
 		
 		//For now only ungroup series elements
-		final StructureSource src = isSeries((StructureSource) pre.getSource( ));
-		if ( src != null ){
-		   svg_g2d.popParent();
+		if (pre.getSource() instanceof StructureSource) {
+			final StructureSource src = isSeries((StructureSource) pre.getSource( ));
+			if ( src != null ){
+				svg_g2d.popParent();
+			}
 		}
 	}
 	
