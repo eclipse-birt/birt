@@ -70,7 +70,9 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_MOVE_FORBIDDEN = "Error.ContentException.MOVE_FORBIDDEN"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_HAS_DESCENDENTS = "Error.ContentException.HAS_DESCENDENTS"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_INVALID_CONTEXT_CONTAINMENT = "Error.ContentException.INVALID_CONTEXT_CONTAINMENT"; //$NON-NLS-1$
+	public static final String CONTENT_EXCEPTION_CONTENT_NAME_REQUIRED = "Error.ContentException.CONTENT_NAME_REQUIRED"; //$NON-NLS-1$
 
+	
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
 

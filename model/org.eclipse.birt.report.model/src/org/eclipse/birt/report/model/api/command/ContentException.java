@@ -105,6 +105,12 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT = MessageConstants.CONTENT_EXCEPTION_INVALID_CONTEXT_CONTAINMENT;
 
 	/**
+	 * The content is not allowed to added into the container without name.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NAME_REQUIRED;
+
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -206,7 +212,13 @@ public class ContentException extends SemanticException
 					getElementName( content ), element.getElementName( ),
 					element.getDefn( ).getSlot( slot ).getName( )} );
 		}
-
+		
+		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					getElementName( content ), element.getElementName( ),
+					element.getDefn( ).getSlot( slot ).getName( )} );
+		}
 		return ModelMessages.getMessage( sResourceKey );
 	}
 }

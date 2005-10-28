@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -37,7 +38,6 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
@@ -121,7 +121,7 @@ public class ContentCommand extends AbstractElementCommand
 			throws ContentException, NameException
 	{
 		doAdd( content, slotID, -1 );
-	}	
+	}
 
 	/**
 	 * Adds a new element into a container. Virtually all elements must reside
@@ -178,6 +178,13 @@ public class ContentCommand extends AbstractElementCommand
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 		}
 
+		if ( slotID == Module.COMPONENT_SLOT )
+		{
+			if ( StringUtil.isBlank( content.getName( ) ) )
+				throw new ContentException( element, slotID,content,
+						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
+		}
+		
 		if ( !element.canContain( module, slotID, content ) )
 			throw new ContentException(
 					element,
@@ -194,18 +201,20 @@ public class ContentCommand extends AbstractElementCommand
 		ContentRecord addRecord;
 		if ( newPos == -1 )
 		{
-			addRecord = new ContentRecord( module, element, slotID, content, true );
+			addRecord = new ContentRecord( module, element, slotID, content,
+					true );
 		}
 		else
 		{
-			addRecord = new ContentRecord( module, element, slotID, content, newPos );
+			addRecord = new ContentRecord( module, element, slotID, content,
+					newPos );
 		}
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
 		stack.execute( addRecord );
 		nameCmd.addElement( );
-		
+
 		stack.commit( );
 	}
 
@@ -293,8 +302,8 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Prepare the transaction.
 
-		ContentRecord dropRecord = new ContentRecord( module, element, slotID, content,
-				false );
+		ContentRecord dropRecord = new ContentRecord( module, element, slotID,
+				content, false );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -649,8 +658,8 @@ public class ContentCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label );
 
-		ContentRecord record = new ContentRecord( module, element, fromSlotID, content,
-				false );
+		ContentRecord record = new ContentRecord( module, element, fromSlotID,
+				content, false );
 		stack.execute( record );
 		record = new ContentRecord( module, to, toSlotID, content, newPos );
 		stack.execute( record );

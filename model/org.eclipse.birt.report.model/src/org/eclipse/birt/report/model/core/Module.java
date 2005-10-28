@@ -1369,8 +1369,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 		{
 			Library library = LibraryReader.getInstance( ).read( session, this,
 					url.toString( ), namespace, url.openStream( ) );
-			library.setNamespace( namespace );
 
+			if ( StringUtil.isBlank( namespace ) )
+			{
+				library.setNamespace( StringUtil
+						.extractFileName( libraryFileName ) );
+			}
 			return library;
 		}
 		catch ( IOException e )
