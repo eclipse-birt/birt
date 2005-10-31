@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
@@ -553,7 +554,7 @@ public class DesignElementFactory extends ElementFactory
 	 */
 
 	public DesignElementHandle newElementFrom( DesignElementHandle element,
-			String name )
+			String name ) throws ExtendsException
 	{
 		String newName = getNewName( element.getElement( ).getElementName( ),
 				name );
