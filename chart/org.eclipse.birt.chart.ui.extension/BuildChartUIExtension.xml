@@ -121,6 +121,8 @@
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
+			<include name="${eclipse.jface.dir}_*/jface.jar"/>
+			<include name="org.eclipse.jface*.jar"/>			
 		</fileset>
 	</path>
 		
