@@ -17,6 +17,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
@@ -239,6 +242,27 @@ public class ChartUIUtil
 	public static boolean is3DType( Chart chart )
 	{
 		return chart.getDimension( ).getValue( ) == ChartDimension.THREE_DIMENSIONAL;
+	}
+
+	public static int getFontSize( FontDefinition font )
+	{
+		return font.isSetSize( ) ? (int) font.getSize( ) : 9;
+	}
+
+	public static int getFontRotation( FontDefinition font )
+	{
+		return font.isSetRotation( ) ? (int) font.getRotation( ) : 0;
+	}
+
+	public static String getFontName( FontDefinition font )
+	{
+		return font.getName( ) == null ? "Default" : font.getName( ); //$NON-NLS-1$
+	}
+
+	public static TextAlignment getFontTextAlignment( FontDefinition font )
+	{
+		return font.getAlignment( ) == null ? TextAlignmentImpl.create( )
+				: font.getAlignment( );
 	}
 
 }

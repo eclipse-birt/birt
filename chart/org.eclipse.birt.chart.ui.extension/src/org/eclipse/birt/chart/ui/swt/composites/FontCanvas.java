@@ -15,6 +15,9 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -61,8 +64,11 @@ public class FontCanvas extends Canvas implements PaintListener
 	{
 		super( parent, style );
 		this.setSize( parent.getClientArea( ).x, parent.getClientArea( ).x );
-		this.fdCurrent = fdSelected;
-		this.cdCurrent = cdSelected;
+		this.fdCurrent = fdSelected == null ? FontDefinitionImpl.createEmpty( )
+				: fdSelected;
+		this.cdCurrent = cdSelected == null ? ColorDefinitionImpl.create( 0,
+				0,
+				0 ) : cdSelected;
 		this.bUseColor = bUseColor;
 		this.bUseAlignment = bUseAlignment;
 		this.bUseSize = bUseSize;
@@ -126,23 +132,25 @@ public class FontCanvas extends Canvas implements PaintListener
 		if ( fdCurrent != null )
 		{
 			// Handle styles
-			int iStyle = ( fdCurrent.isBold( ) ) ? SWT.BOLD : SWT.NORMAL;
-			iStyle |= ( fdCurrent.isItalic( ) ) ? SWT.ITALIC : iStyle;
+			int iStyle = ( fdCurrent.isSetBold( ) && fdCurrent.isBold( ) )
+					? SWT.BOLD : SWT.NORMAL;
+			iStyle |= ( fdCurrent.isSetItalic( ) && fdCurrent.isItalic( ) )
+					? SWT.ITALIC : iStyle;
 
-			String sFontName = fdCurrent.getName( );
+			String sFontName = ChartUIUtil.getFontName( fdCurrent );
 			if ( !bUseSize )
 			{
 				gc.setClipping( 2, 2, this.getSize( ).x - 40, 26 );
 				fCurrent = new Font( this.getDisplay( ),
-						fdCurrent.getName( ),
+						ChartUIUtil.getFontName( fdCurrent ),
 						fOld.getFontData( )[0].getHeight( ),
 						iStyle );
 			}
 			else
 			{
 				fCurrent = new Font( this.getDisplay( ),
-						fdCurrent.getName( ),
-						(int) fdCurrent.getSize( ),
+						ChartUIUtil.getFontName( fdCurrent ),
+						ChartUIUtil.getFontSize( fdCurrent ),
 						iStyle );
 			}
 			gc.setFont( fCurrent );
@@ -152,34 +160,33 @@ public class FontCanvas extends Canvas implements PaintListener
 			int iStartY = 3;
 			if ( bUseAlignment )
 			{
-				if ( fdCurrent.getAlignment( )
+				if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getHorizontalAlignment( )
 						.equals( HorizontalAlignment.LEFT_LITERAL ) )
 				{
 					iStartX = 5;
 				}
-				else if ( fdCurrent.getAlignment( )
+				else if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getHorizontalAlignment( )
 						.equals( HorizontalAlignment.CENTER_LITERAL ) )
 				{
 					iStartX = this.getSize( ).x
-							/ 2
-							- ( getStringWidth( gc, sFontName ).x / 2 );
+							/ 2 - ( getStringWidth( gc, sFontName ).x / 2 );
 				}
-				else if ( fdCurrent.getAlignment( )
+				else if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getHorizontalAlignment( )
 						.equals( HorizontalAlignment.RIGHT_LITERAL ) )
 				{
 					iStartX = this.getSize( ).x
 							- getStringWidth( gc, sFontName ).x;
 				}
-				if ( fdCurrent.getAlignment( )
+				if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getVerticalAlignment( )
 						.equals( VerticalAlignment.TOP_LITERAL ) )
 				{
 					iStartY = 3;
 				}
-				else if ( fdCurrent.getAlignment( )
+				else if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getVerticalAlignment( )
 						.equals( VerticalAlignment.CENTER_LITERAL ) )
 				{
@@ -193,7 +200,7 @@ public class FontCanvas extends Canvas implements PaintListener
 						iStartY -= 15;
 					}
 				}
-				else if ( fdCurrent.getAlignment( )
+				else if ( ChartUIUtil.getFontTextAlignment( fdCurrent )
 						.getVerticalAlignment( )
 						.equals( VerticalAlignment.BOTTOM_LITERAL ) )
 				{
@@ -237,12 +244,11 @@ public class FontCanvas extends Canvas implements PaintListener
 						"Sans-Serif", fOld.getFontData( )[0].getHeight( ), SWT.NORMAL ); //$NON-NLS-1$
 				gc.setFont( fSize );
 
-				String sizeString = "(" + String.valueOf( fdCurrent.getSize( ) ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				String sizeString = "(" + String.valueOf( ChartUIUtil.getFontSize( fdCurrent ) ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 				Point pt = gc.textExtent( sizeString );
-				gc.drawText( sizeString, this.getSize( ).x
-						- pt.x
-						- this.getBorderWidth( )
-						- 2, ( this.getSize( ).y - pt.y ) / 2 - 1 );
+				gc.drawText( sizeString,
+						this.getSize( ).x - pt.x - this.getBorderWidth( ) - 2,
+						( this.getSize( ).y - pt.y ) / 2 - 1 );
 
 				fSize.dispose( );
 			}
@@ -260,4 +266,5 @@ public class FontCanvas extends Canvas implements PaintListener
 	{
 		return gc.textExtent( sText );
 	}
+
 }

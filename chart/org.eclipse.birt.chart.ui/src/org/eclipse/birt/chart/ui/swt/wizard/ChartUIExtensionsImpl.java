@@ -104,7 +104,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cSheets == null )
 		{
 			cSheets = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null )
+			if ( Platform.getExtensionRegistry( ) != null
+					&& Platform.runningEclipse( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui",//$NON-NLS-1$
@@ -182,7 +183,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cChartTypes == null )
 		{
 			cChartTypes = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null )
+			if ( Platform.getExtensionRegistry( ) != null
+					&& Platform.runningEclipse( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", "types" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -241,7 +243,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cListeners == null )
 		{
 			cListeners = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null )
+			if ( Platform.getExtensionRegistry( ) != null
+					&& Platform.runningEclipse( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -300,7 +303,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		if ( cSeriesUI == null )
 		{
 			cSeriesUI = new Vector( );
-			if ( Platform.getExtensionRegistry( ) != null )
+			if ( Platform.getExtensionRegistry( ) != null
+					&& Platform.runningEclipse( ) )
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
