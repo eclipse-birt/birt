@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -75,7 +74,7 @@ public class ReportEngineHelper
 	 */
 	public IReportRunnable openReportDesign(String designName) throws EngineException
 	{
-		Report report;
+		ReportDesignHandle designHandle;
 		File file = new File(designName);
 		if(!file.exists())
 		{
@@ -85,15 +84,15 @@ public class ReportEngineHelper
 		
 		try 
 		{
-			report = new ReportParser( ).parse(designName);
+			designHandle = new ReportParser().getDesignHandle(designName, null);
 		} 
 		catch (DesignFileException e) 
 		{
 			logger.log(Level.SEVERE, "invalid design file {0}", file.getAbsolutePath( ) ); //$NON-NLS-1$
 			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
 		}
-		assert(report != null);
-		ReportRunnable runnable = new ReportRunnable(report);
+		assert(designHandle != null);
+		ReportRunnable runnable = new ReportRunnable(designHandle);
 		runnable.setReportName(designName);
 		runnable.setReportEngine(engine);
 		return runnable;
@@ -111,19 +110,19 @@ public class ReportEngineHelper
 	 */
 	public IReportRunnable openReportDesign(InputStream designStream) throws EngineException
 	{
-		Report report;
+		ReportDesignHandle designHandle;
 		String designName = "<stream>";	//$NON-NLS-1$
 		try 
 		{
-			report = new ReportParser( ).parse(designName, designStream);
+			designHandle = new ReportParser().getDesignHandle(designName, designStream);
 		} 
 		catch (DesignFileException e) 
 		{
 			logger.log(Level.SEVERE, "invalid design file {0}", designName); //$NON-NLS-1$
 			throw new EngineException(MessageConstants.INVALID_DESIGN_FILE_EXCEPTION, designName, e);
 		}
-		assert(report != null);
-		ReportRunnable runnable = new ReportRunnable(report);
+		assert(designHandle != null);
+		ReportRunnable runnable = new ReportRunnable( designHandle );
 		runnable.setReportName(designName);
 		runnable.setReportEngine(engine);
 		return runnable;
@@ -142,10 +141,7 @@ public class ReportEngineHelper
 	public IReportRunnable openReportDesign(DesignElementHandle designHandle) throws EngineException
 	{
 		assert (designHandle instanceof ReportDesignHandle);
-		Report report = new ReportParser( ).parse((ReportDesignHandle)designHandle);
-				
-		assert(report != null);
-		ReportRunnable ret = new ReportRunnable(report);
+		ReportRunnable ret = new ReportRunnable( (ReportDesignHandle)designHandle );
 		ret.setReportName(((ReportDesignHandle)designHandle).getFileName());
 		ret.setReportEngine(engine);
 		return ret;

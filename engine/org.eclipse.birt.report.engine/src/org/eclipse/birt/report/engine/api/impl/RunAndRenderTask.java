@@ -16,6 +16,8 @@ import org.eclipse.birt.report.engine.emitter.IReportEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -116,7 +118,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 		try
 		{
-			executor.execute(((ReportRunnable)runnable).getReport(), inputValues);
+			Report report = new ReportParser().parse( ((ReportRunnable)runnable).getReport() );
+			executor.execute(report, inputValues);
 		}
 		catch (Exception ex)
 		{

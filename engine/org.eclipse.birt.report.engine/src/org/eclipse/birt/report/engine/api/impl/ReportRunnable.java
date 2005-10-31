@@ -11,13 +11,16 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
-import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 /**
@@ -28,7 +31,7 @@ public class ReportRunnable implements IReportRunnable
 	/**
 	 * the report
 	 */
-	protected Report report;
+	protected ReportDesignHandle designHandle;
 
 	/**
 	 * report file name
@@ -45,9 +48,9 @@ public class ReportRunnable implements IReportRunnable
 	 * 
 	 * @param report reference to report
 	 */
-	ReportRunnable(Report report)
+	ReportRunnable(ReportDesignHandle designHandle)
 	{
-		this.report = report;
+		this.designHandle = designHandle;
 	}
 
 	/**
@@ -69,9 +72,9 @@ public class ReportRunnable implements IReportRunnable
 	/**
 	 * @return reference to the report object
 	 */
-	public Report getReport()
+	public ReportDesignHandle getReport()
 	{
-		return report;
+		return designHandle;
 	}
 
 
@@ -80,8 +83,7 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public IImage getImage(String name)
 	{
-		EmbeddedImage embeddedImage = report.getReportDesign()
-				.findImage(name);
+		EmbeddedImage embeddedImage = designHandle.findImage(name);
 
 		if (embeddedImage != null)
 		{
@@ -118,7 +120,7 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public DesignElementHandle getDesignHandle()
 	{
-		return report.getReportDesign().handle();
+		return designHandle;
 	}
 	
 	/**
@@ -136,7 +138,7 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public Collection getParameterDefns(boolean includeParameterGroups)
 	{
-		ArrayList params = report.getParameters(includeParameterGroups);
+		ArrayList params = new ReportParser().getParameters( designHandle, includeParameterGroups );
 		return params;
 	}
 
@@ -145,7 +147,20 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public HashMap getTestConfig()
 	{
-		return report.getConfigs();
+		HashMap configs = new HashMap( );
+		Iterator iter = designHandle.configVariablesIterator( );
+		if ( iter != null )
+		{
+			while ( iter.hasNext( ) )
+			{
+				ConfigVariableHandle handle = (ConfigVariableHandle) iter
+						.next( );
+				String name = handle.getName( );
+				String value = handle.getValue( );
+				configs.put( name, value );
+			}
+		}
+		return configs;
 	}
 
     /* (non-Javadoc)

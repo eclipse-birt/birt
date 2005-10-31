@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.49 $ $Date: 2005/10/21 02:02:56 $
+ * @version $Revision: 1.50 $ $Date: 2005/10/24 05:09:31 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -225,17 +225,6 @@ class EngineIRVisitor extends DesignVisitor
 		// INCLUDE LIBRARY
 		// INCLUDE SCRIPT
 		// CODE MODULES
-
-		// PARAMETERS: Handle parameter definitions
-		SlotHandle paramSlot = handle.getParameters( );
-		IParameterDefnBase param;
-		for ( int i = 0; i < paramSlot.getCount( ); i++ )
-		{
-			apply( paramSlot.get( i ) );
-			assert ( currentElement != null );
-			param = (IParameterDefnBase) currentElement;
-			report.addParameter( param );
-		}
 
 		// Sets the report default style
 		StyleHandle reportStyleHandle = handle.findStyle( "report" );//$NON-NLS-1$		

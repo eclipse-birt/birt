@@ -18,8 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
@@ -28,16 +26,10 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.16 $ $Date: 2005/07/05 09:12:49 $
+ * @version $Revision: 1.17 $ $Date: 2005/10/24 08:54:00 $
  */
 public class Report
 {
-
-	/**
-	 * A collection that stores all the report parameters.
-	 */
-	protected ArrayList allParameters = null;
-
 	/**
 	 * report design get from Model
 	 */
@@ -57,12 +49,6 @@ public class Report
 	 * style-name mapping table
 	 */
 	protected HashMap styleTable = new HashMap( );
-
-	/**
-	 * A collection that stores the top level report parameters and parameter
-	 * groups.
-	 */
-	protected ArrayList parameters = new ArrayList( );
 
 	/**
 	 * queries used by this report.
@@ -220,21 +206,6 @@ public class Report
 	}
 
 	/**
-	 * Appends a top-level parameter or parameter group in the report.
-	 * 
-	 * @param parameter
-	 *            The parameter or parameter group object.
-	 */
-	public void addParameter( IParameterDefnBase parameter )
-	{
-		assert ( parameter != null );
-		assert ( parameter.getName( ) != null );
-		this.parameters.add( parameter );
-	}
-
-
-
-	/**
 	 * Finds a master page with given name.
 	 * 
 	 * @param name
@@ -315,62 +286,6 @@ public class Report
 	public ArrayList getQueries( )
 	{
 		return this.queries;
-	}
-
-	/**
-	 * Puts all the report parameters including those appear inside parameter
-	 * groups to the <code>allParameters</code> object.
-	 * 
-	 * @param params
-	 *            A collection of parameters and parameter groups.
-	 */
-	protected void flattenParameter( ArrayList params )
-	{
-		assert allParameters != null;
-		assert params != null;
-		IParameterDefnBase param;
-		for ( int n = 0; n < params.size( ); n++ )
-		{
-			param = (IParameterDefnBase) params.get( n );
-			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP || 
-				param.getParameterType() == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
-			{
-				flattenParameter( ( (IParameterGroupDefn) param )
-						.getContents() );
-			}
-			else
-			{
-				allParameters.add( param );
-			}
-		}
-	}
-
-	/**
-	 * Gets the parameter list of the report.
-	 * 
-	 * @param includeParameterGroups
-	 *            A <code>boolean</code> value specifies whether to include
-	 *            parameter groups or not.
-	 * @return The collection of top-level report parameters and parameter
-	 *         groups if <code>includeParameterGroups</code> is set to
-	 *         <code>true</code>; otherwise, returns all the report
-	 *         parameters.
-	 */
-	public ArrayList getParameters( boolean includeParameterGroups )
-	{
-		if ( includeParameterGroups )
-		{
-			return parameters;
-		}
-
-		if ( allParameters != null )
-		{
-			return allParameters;
-		}
-
-		allParameters = new ArrayList( );
-		flattenParameter( parameters );
-		return allParameters;
 	}
 
 	public HashMap getConfigs( )
