@@ -50,7 +50,7 @@ public class SetConstraintCommand extends Command
 		super( Command_Label_Resize );
 	}
 
-	private static final String Command_Label_Resize = "resize command"; //$NON-NLS-1$
+	private static final String Command_Label_Resize = "Resize Command"; //$NON-NLS-1$
 
 	private Dimension newSize;
 
