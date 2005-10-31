@@ -57,25 +57,21 @@ public class HeadStyleCanvas extends Canvas implements PaintListener
 		GC gc = pe.gc;
 		gc.setBackground(cBackground);
 		gc.setForeground(cForeground);
-		gc.setLineWidth(5);
+		gc.setLineWidth(1);
 		gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
 
+		gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this
+				.getSize().y / 2);
 		if (iLineDecorator == LineDecorator.ARROW) {
-			int[] points = { this.getSize().x - 50, this.getSize().y / 2 - 4,
-					this.getSize().x - 50, this.getSize().y / 2 + 4,
-					this.getSize().x - 40, this.getSize().y / 2 };
-			gc.drawLine(20, this.getSize().y / 2, this.getSize().x - 50, this
-					.getSize().y / 2);
+			int[] points = { this.getSize().x - 15, this.getSize().y / 2 - 3,
+					this.getSize().x - 15, this.getSize().y / 2 + 3,
+					this.getSize().x - 10, this.getSize().y / 2 };	
+			gc.setLineWidth(3);
 			gc.drawPolygon(points);
 		} else if (iLineDecorator == LineDecorator.CIRCLE) {
-			gc.drawLine(20, this.getSize().y / 2, this.getSize().x - 50, this
-					.getSize().y / 2);
-			gc
-					.drawOval(this.getSize().x - 50, this.getSize().y / 2 - 5,
-							10, 10);
-		} else if (iLineDecorator == LineDecorator.NONE) {
-			gc.drawLine(20, this.getSize().y / 2, this.getSize().x - 40, this
-					.getSize().y / 2);
+			gc.setLineWidth(4);
+			gc.drawOval(this.getSize().x - 14, this.getSize().y / 2 - 3,
+							6, 6);
 		}
 	}
 }

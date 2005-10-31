@@ -90,7 +90,7 @@ public class HeadStyleAttributeComposite extends Composite implements
 				.getString("HeadStyleAttributeComposite.Lbl.HeadStyle")); //$NON-NLS-1$
 
 		cmbHeadStyle = new HeadStyleChooserComposite(cmpContent, SWT.DROP_DOWN
-				| SWT.READ_ONLY, LineDecorator.ARROW);
+				| SWT.READ_ONLY, laCurrent.getValue());
 		GridData gdCBHeadStyle = new GridData(GridData.FILL_HORIZONTAL);
 		gdCBHeadStyle.horizontalSpan = 5;
 		cmbHeadStyle.setLayoutData(gdCBHeadStyle);

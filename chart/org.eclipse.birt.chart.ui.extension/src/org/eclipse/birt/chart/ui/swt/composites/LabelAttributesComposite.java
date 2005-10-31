@@ -192,7 +192,7 @@ public class LabelAttributesComposite extends Composite implements
 	}
 
 	public LabelAttributesComposite(Composite parent, int style,
-			String sGroupName,
+			String sGroupName, 
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
 			String sUnits, boolean bPositionEnabled,
 			boolean bVisibilityEnabled, IUIServiceProvider serviceprovider,
