@@ -20,7 +20,7 @@
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.birt.chart.engine"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.framework.taskwizard.prototype"/>
+      <import plugin="org.eclipse.birt.core.ui"/>
    </requires>
 
 	<!-- Chart Library UI Framework Extension Points -->

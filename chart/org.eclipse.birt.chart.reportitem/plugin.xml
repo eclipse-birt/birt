@@ -25,8 +25,7 @@
       <import plugin="org.eclipse.jface"/>
       <import plugin="org.eclipse.birt.data"/>
       <import plugin="org.eclipse.birt.core"/>
-      <import plugin="org.eclipse.birt.framework.taskwizard.prototype"/>
-      <import plugin="org.eclipse.birt.chart.ui.prototype"/>
+      <import plugin="org.eclipse.birt.core.ui"/>
    </requires>
    <extension
          id="chart"
@@ -65,15 +64,6 @@
                visibility="hide"
                name="xmlRepresentation"/>
       </reportItem>
-   </extension>
-   <extension
-         id="chart"
-         name="The chart extension"
-         point="org.eclipse.birt.chart.ui.uisheets">
-      <propertySheet
-            classDefinition="org.eclipse.birt.chart.reportitem.ui.ChartDataSetBindingSheetImpl"
-            nodePath="Data"
-            nodeIndex="50"/>
    </extension>
    <extension
          id="chart"

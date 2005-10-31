@@ -19,6 +19,10 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -133,6 +137,13 @@ public class DefaultChartTypeImpl implements IChartType
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( "{Title}", "{Description}" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public ISelectDataComponent getBaseUI( Chart chart,
+			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
+			Object oContext, String sTitle )
+	{
+		return new BlankSelectDataComponent( );
 	}
 
 }

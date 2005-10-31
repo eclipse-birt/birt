@@ -1,0 +1,2 @@
+org.eclipse.birt.core.ui/debug = true
+org.eclipse.birt.core.ui/extensions = true

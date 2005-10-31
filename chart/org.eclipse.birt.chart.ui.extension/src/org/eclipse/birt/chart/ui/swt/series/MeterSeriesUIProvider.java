@@ -18,8 +18,13 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.DataDefinitionComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.BlankSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -115,5 +120,20 @@ public class MeterSeriesUIProvider implements ISeriesUIProvider
 	public String getSeriesClass( )
 	{
 		return SERIES_CLASS;
+	}
+
+    public ISelectDataComponent getSeriesDataComponent( int seriesType,
+			SeriesDefinition seriesDefn, IUIServiceProvider builder,
+			Object oContext, String sTitle )
+	{
+		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
+		{
+			return new BaseDataDefinitionComponent( seriesDefn,
+					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
+					builder,
+					oContext,
+					sTitle );
+		}
+		return new BlankSelectDataComponent( );
 	}
 }

@@ -129,4 +129,18 @@ public interface IChartType
 	 * @return
 	 */
 	public IHelpContent getHelp( );
+	
+	/**
+	 * Returns base UI in data sheet
+	 * 
+	 * @param chart
+	 * @param selectDataUI
+	 * @param builder
+	 * @param oContext
+	 * @param sTitle
+	 * @return UI componnet
+	 */
+	public ISelectDataComponent getBaseUI( Chart chart,
+			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
+			Object oContext, String sTitle );
 }

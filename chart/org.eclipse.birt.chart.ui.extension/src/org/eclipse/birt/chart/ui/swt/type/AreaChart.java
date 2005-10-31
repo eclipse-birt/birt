@@ -52,6 +52,11 @@ import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -825,5 +830,16 @@ public class AreaChart extends DefaultChartTypeImpl
 			return ChartDimension.THREE_DIMENSIONAL_LITERAL;
 		}
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
+	}
+	
+	public ISelectDataComponent getBaseUI( Chart chart,
+			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
+			Object oContext, String sTitle )
+	{
+		return new DefaultBaseSeriesComponent( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 ),
+				builder,
+				oContext,
+				sTitle );
 	}
 }

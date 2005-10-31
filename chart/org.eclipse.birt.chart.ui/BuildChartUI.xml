@@ -81,7 +81,7 @@
 		
 	<property name="core.dir" location="../org.eclipse.birt.core"/>
 	<property name="chart.engine.dir" location="../org.eclipse.birt.chart.engine"/>
-	<property name="framework.taskwizard.dir" location="../org.eclipse.birt.framework.taskwizard.prototype"/>
+	<property name="core.ui.dir" location="../org.eclipse.birt.core.ui"/>
 
 
 	<!-- set platform related properties-->
@@ -127,7 +127,7 @@
 		
 		<pathelement path="${core.dir}/core.jar"/>
 		<pathelement path="${chart.engine.dir}/engine.jar"/>
-		<pathelement path="${framework.taskwizard.dir}/taskwizardframework.jar"/>
+		<pathelement path="${core.ui.dir}/coreui.jar"/>
 	</path>
 	
 	
@@ -180,11 +180,11 @@
 		</ant>	
 		<echo message="end call Jar task in ${chart.engine.dir}"/>
 		
-		<echo message="start call Jar task in ${framework.taskwizard.dir}"/>
-		<ant dir="${framework.taskwizard.dir}" antfile="BuildWizardFramework.xml" target="Jar" inheritAll="false" inheritRefs="false" >
+		<echo message="start call Jar task in ${core.ui.dir}"/>
+		<ant dir="${core.ui.dir}" antfile="BuildCoreUI.xml" target="Jar" inheritAll="false" inheritRefs="false" >
 		 	<property name="eclipse.home" value="${eclipse.home}" />
 		</ant>	
-		<echo message="end call Jar task in ${framework.taskwizard.dir}"/>
+		<echo message="end call Jar task in ${core.ui.dir}"/>
 	</target>
 
 

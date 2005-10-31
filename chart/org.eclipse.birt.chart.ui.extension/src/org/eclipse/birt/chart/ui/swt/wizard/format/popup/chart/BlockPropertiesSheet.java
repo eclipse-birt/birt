@@ -1,0 +1,170 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
+
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
+
+/**
+ * 
+ */
+
+public class BlockPropertiesSheet extends AbstractPopupSheet
+		implements
+			SelectionListener,
+			Listener
+{
+
+	private transient Composite cmpContent;
+
+	private transient Button cbVisible;
+
+	private transient Button btnTriggers;
+
+	private transient Group grpOutline;
+
+	private transient LineAttributesComposite liacOutline;
+
+	private transient InsetsComposite ic;
+
+	public BlockPropertiesSheet( Composite parent, Chart chart )
+	{
+		super( parent, chart, true );
+		cmpTop = getComponent( parent );
+	}
+
+	protected Composite getComponent( Composite parent )
+	{
+		// Sheet content composite
+		cmpContent = new Composite( parent, SWT.NONE );
+		{
+			// Layout for the content composite
+			GridLayout glContent = new GridLayout( );
+			cmpContent.setLayout( glContent );
+		}
+
+		ic = new InsetsComposite( cmpContent,
+				SWT.NONE,
+				getBlockForProcessing( ).getInsets( ),
+				chart.getUnits( ),
+				serviceprovider );
+		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
+		gdInsets.widthHint = 300;
+		ic.setLayoutData( gdInsets );
+
+		grpOutline = new Group( cmpContent, SWT.NONE );
+		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
+		grpOutline.setLayoutData( gdGRPOutline );
+		grpOutline.setLayout( new FillLayout( ) );
+		grpOutline.setText( Messages.getString( "BlockPropertiesSheet.Label.Outline" ) ); //$NON-NLS-1$
+
+		liacOutline = new LineAttributesComposite( grpOutline,
+				SWT.NONE,
+				getBlockForProcessing( ).getOutline( ),
+				true,
+				true,
+				false );
+		liacOutline.addListener( this );
+
+		btnTriggers = new Button( cmpContent, SWT.PUSH );
+		GridData gdBTNTriggers = new GridData( );
+		btnTriggers.setLayoutData( gdBTNTriggers );
+		btnTriggers.setText( Messages.getString( "BlockPropertiesSheet.Label.Interactivity" ) ); //$NON-NLS-1$
+		btnTriggers.addSelectionListener( this );
+
+		return cmpContent;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 */
+	public void handleEvent( Event event )
+	{
+		if ( event.widget.equals( this.liacOutline ) )
+		{
+			switch ( event.type )
+			{
+				case LineAttributesComposite.STYLE_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setStyle( (LineStyle) event.data );
+					break;
+				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setThickness( ( (Integer) event.data ).intValue( ) );
+					break;
+				case LineAttributesComposite.COLOR_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setColor( (ColorDefinition) event.data );
+					break;
+				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
+					getBlockForProcessing( ).getOutline( )
+							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					break;
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		Object oSource = e.getSource( );
+		if ( oSource.equals( cbVisible ) )
+		{
+			getBlockForProcessing( ).setVisible( cbVisible.getSelection( ) );
+		}
+		else if ( oSource.equals( btnTriggers ) )
+		{
+			new TriggerEditorDialog( cmpContent.getShell( ),
+					getBlockForProcessing( ).getTriggers( ),
+					Messages.getString( "TitleBlockAttributeSheetImpl.Lbl.ChartTitle" ) ); //$NON-NLS-1$
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent e )
+	{
+	}
+
+	private Block getBlockForProcessing( )
+	{
+		return chart.getBlock( );
+	}
+
+}
