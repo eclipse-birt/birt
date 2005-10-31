@@ -76,7 +76,7 @@ public class ResourceConstants
 	public final static String BAD_GROUP_INTERVAL_TYPE = "data.engine.group.interval";
 	public final static String BAD_GROUP_INTERVAL_TYPE_ROWID = "data.engine.group.interval.Rowid";
 	public final static String UNSUPPORTED_FILTER_ON_GROUP="data.engine.NoSupportFilterOnGroup";
-	
+	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
 	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";
 	public final static String RESET_RATE = "data.engine.ResetRateGuess";
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";

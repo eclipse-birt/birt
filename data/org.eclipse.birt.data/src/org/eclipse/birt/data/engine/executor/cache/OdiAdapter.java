@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -27,6 +28,12 @@ class OdiAdapter
 
 	// from odi
 	private ICustomDataSet customDataSet;
+	
+	// from odi 
+	private IResultIterator resultIterator;
+
+	boolean riStarted = false;
+	
 	
 	// from parent query in sub query
 	private ResultSetCache resultSetCache;
@@ -65,8 +72,18 @@ class OdiAdapter
 	}
 
 	/**
-	 * Fetch data from Oda or Odi
+	 * Construction
 	 * 
+	 * @param customDataSet
+	 */
+	OdiAdapter( IResultIterator resultSetCache )
+	{
+		assert resultSetCache != null;
+		this.resultIterator = resultSetCache;
+	}
+	/**
+	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
+	 * must stay at the row which is fetched.
 	 * @return IResultObject
 	 * @throws DataException
 	 */
@@ -76,9 +93,17 @@ class OdiAdapter
 			return resultSet.fetch( );
 		else if ( customDataSet != null )
 			return customDataSet.fetch( );
+		else if ( resultIterator != null )
+		{
+			if(!riStarted)
+			{
+				riStarted = true;
+			}else
+				this.resultIterator.next();
+			return this.resultIterator.getCurrentResult();
+		}
 		else
 			return resultSetCache.fetch( );
-	
 	}
 
 }

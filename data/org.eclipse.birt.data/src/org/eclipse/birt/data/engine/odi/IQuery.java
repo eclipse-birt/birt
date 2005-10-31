@@ -193,6 +193,7 @@ public interface IQuery
         private String name;
     	private int sortDirection = NO_SORT;        
         private int interval = NO_INTERVAL;
+        private boolean isComplexExpression = false;
         private double intervalRange = 0;
         private Object intervalStart;
         private int dataType;
@@ -355,6 +356,16 @@ public interface IQuery
         public void setIntervalStart( Object intervalStart )
         {
             this.intervalStart = intervalStart;
+        }
+        
+        public void setIsComplexExpression( boolean isComplexExpr )
+		{
+			this.isComplexExpression = isComplexExpr;
+		}
+       
+        public boolean isCompleteExpression()
+        {
+        	return this.isComplexExpression;
         }
     }
 

@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -73,6 +74,25 @@ public class SmartCache implements ResultSetCache
 	}
 
 	/**
+	 * Retrieve data from ODI, used in multipass query
+	 * 
+	 * @param odaResultSet
+	 * @param query
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( BaseQuery query, IResultIterator odaResultSet,
+			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
+	{
+		assert odaResultSet != null;
+		assert query != null;
+		assert rsMeta != null;
+
+		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
+		initInstance( odiAdpater, query, rsMeta, sortSpec );
+	}
+	/**
 	 * Retrieve data from ODI, used in candidate query, such as Scripted DataSet
 	 * 
 	 * @param customDataSet
@@ -115,6 +135,13 @@ public class SmartCache implements ResultSetCache
 		initInstance2( resultCache, odiAdpater, query, startIndex, endIndex, rsMeta, sortSpec );
 	}
 	
+/*	public SmartCache( ResultSetCache resultCache, OrderingInfo oInfo )
+	{
+		assert resultCache !=null;
+		assert oInfo != null;
+		
+		//TODO to be finished.
+	}*/
 	/**
 	 * Especially used for sub query
 	 * 
@@ -158,6 +185,7 @@ public class SmartCache implements ResultSetCache
 			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
 	{	
 		long startTime = System.currentTimeMillis( );
+		
 		
 		// compute the number of rows which can be cached in memory
 		int memoryCacheRowCount = computeCacheRowCount( rsMeta );

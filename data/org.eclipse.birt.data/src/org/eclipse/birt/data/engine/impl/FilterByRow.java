@@ -33,7 +33,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Implementation of IFilter, which will do filtering on row data.
  */
-class FilterByRow implements IResultObjectEvent
+public class FilterByRow implements IResultObjectEvent
 {
 
 	protected List filters;
@@ -107,6 +107,11 @@ class FilterByRow implements IResultObjectEvent
 			Context.exit();
 			logger.exiting( FilterByRow.class.getName( ), "process" );
 		}
+	}
+	
+	public List getFilterList()
+	{
+		return filters;
 	}
 
 }

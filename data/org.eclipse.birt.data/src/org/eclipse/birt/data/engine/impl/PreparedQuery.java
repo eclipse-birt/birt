@@ -66,7 +66,6 @@ abstract class PreparedQuery
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
-	private boolean isCurrentGroupKeyComplexExpression;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -307,6 +306,7 @@ abstract class PreparedQuery
 	{
 		int groupIndex = -1;
 		String groupKey = src.getKeyColumn();
+		boolean isComplexExpression = false;
 		if ( groupKey == null || groupKey.length() == 0 )
 		{
 			// Group key expressed as expression; convert it to column name
@@ -317,14 +317,13 @@ abstract class PreparedQuery
 			//getColInfoFromJSExpr( cx,src.getKeyExpression( ) );
 			groupIndex = groupKeyInfo.getColumnIndex( );
 			groupKey = groupKeyInfo.getColumnName();
-			isCurrentGroupKeyComplexExpression = false;
 		}
 		if ( groupKey == null && groupIndex < 0 )
 		{
 			ColumnInfo groupKeyInfo = new ColumnInfo(index, columnName );
 			groupIndex = groupKeyInfo.getColumnIndex( );
 			groupKey = groupKeyInfo.getColumnName();
-			isCurrentGroupKeyComplexExpression = true;
+			isComplexExpression = true;
 		}
 		
 		IQuery.GroupSpec dest = new IQuery.GroupSpec( groupIndex, groupKey );
@@ -333,6 +332,7 @@ abstract class PreparedQuery
 		dest.setIntervalRange( src.getIntervalRange());
 		dest.setIntervalStart( src.getIntervalStart());
 		dest.setSortDirection( src.getSortDirection());
+		dest.setIsComplexExpression( isComplexExpression );
 		return dest;
 		
 	}
@@ -799,7 +799,7 @@ abstract class PreparedQuery
 			Context cx = Context.enter();
 			try
 			{
-				List ar = new ArrayList();
+				List temporaryComputedColumns = new ArrayList();
 				
 				// Set grouping
 				List groups = queryDefn.getGroups();
@@ -814,8 +814,8 @@ abstract class PreparedQuery
 						IQuery.GroupSpec dest = groupDefnToSpec(cx, src,"_{$TEMP_GROUP_"+i+"$}_", -1 );
 						groupSpecs[i] = dest;
 						
-						if(isCurrentGroupKeyComplexExpression)
-							ar.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), DataType.ANY_TYPE));
+						if( groupSpecs[i].isCompleteExpression() )
+							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_GROUP_"+i+"$}_", src.getKeyExpression(), DataType.ANY_TYPE));
 					}
 					odiQuery.setGrouping( Arrays.asList( groupSpecs));
 				}		
@@ -831,7 +831,7 @@ abstract class PreparedQuery
 						int sortIndex = -1;
 						String sortKey = src.getColumn();
 						if ( sortKey == null || sortKey.length() == 0 )
-						{
+						{ 
 							//Firstly try to treat sort key as a column reference expression
 							ColumnInfo columnInfo = getColInfoFromJSExpr( cx,
 									src.getExpression( ) );
@@ -843,7 +843,7 @@ abstract class PreparedQuery
 						{
 							//If failed to treate sort key as a column reference expression
 							//then treat it as a computed column expression
-							ar.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression(), DataType.ANY_TYPE));
+							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression(), DataType.ANY_TYPE));
 							sortIndex = -1; 
 							sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
 						}
@@ -864,16 +864,16 @@ abstract class PreparedQuery
 					computedColumns = this.dataSet.getComputedColumns( );
 					if ( computedColumns != null )
 					{
-						computedColumns.addAll( ar );
+						computedColumns.addAll( temporaryComputedColumns );
 						
 					}
 				}
-				if ( (computedColumns != null && computedColumns.size() > 0)|| ar.size( ) > 0 )
+				if ( (computedColumns != null && computedColumns.size() > 0)|| temporaryComputedColumns.size( ) > 0 )
 				{
 					IResultObjectEvent objectEvent = new ComputedColumnHelper( ExpressionProcessorManager.getInstance( )
 							.getScope( ),
 							this.rowObject,
-							computedColumns == null ? ar : computedColumns );
+							(computedColumns == null&&computedColumns.size()>0) ? temporaryComputedColumns : computedColumns );
 					odiQuery.addOnFetchEvent( objectEvent );
 				}
 			    // set Onfetch event - this should be added after computed column and before filtering

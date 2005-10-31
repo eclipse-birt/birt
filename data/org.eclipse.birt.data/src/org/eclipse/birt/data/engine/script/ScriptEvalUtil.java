@@ -18,13 +18,15 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
+
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.CompiledExpression;
 import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
@@ -104,13 +106,11 @@ public class ScriptEvalUtil
 				result = like( resultObject, resultOp1 );
 				break;
 			case IConditionalExpression.OP_TOP_N :
-			//TODO
-				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "TopN" );
+				result = isTopN( resultObject, resultOp1 );
+				break;
 			case IConditionalExpression.OP_BOTTOM_N :
-			//TODO
-				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "BottomN" );
+				result = isBottomN( resultObject, resultOp1 );
+				break;
 			case IConditionalExpression.OP_TOP_PERCENT :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "TopNPercent" );
@@ -130,7 +130,6 @@ public class ScriptEvalUtil
 				new Boolean( result ) );
 		return new Boolean( result );
 	}
-
 
 	private static boolean isSameType( Object resultExpr, Object resultOp1 )
 	{
@@ -175,6 +174,19 @@ public class ScriptEvalUtil
 		}
 	}
 
+	private static boolean isTopN( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
+				.evaluate( resultObject, resultOp1 );
+	}
+
+	private static boolean isBottomN( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
+				.evaluate( resultObject, resultOp1 );
+	}
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
 	    if (obj1 == null || obj2 == null) 
@@ -388,6 +400,8 @@ public class ScriptEvalUtil
 								jsExpr.getText( ),
 								source,
 								lineNo ) );
+			if(jsExpr.getText()!=null && jsExpr.getHandle()!=null)
+				return ((CompiledExpression)jsExpr.getHandle()).evaluate( cx, scope );
 			return evaluateJSAsExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
 	}
@@ -527,3 +541,4 @@ public class ScriptEvalUtil
 	
 	
 }
+
