@@ -51,7 +51,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 	private transient Composite cmpGeneral = null;
 
-	private transient Composite cmpGapWidth = null;
+	// private transient Composite cmpGapWidth = null;
 
 	private transient FillChooserComposite fccLine = null;
 

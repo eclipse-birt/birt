@@ -164,7 +164,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void placeComponents( )
 	{
-		ChartPreviewPainter.ignoreNotifications( true );
+		ChartAdapter.ignoreNotifications( true );
 		try
 		{
 			createHeadArea( );// place two rows
@@ -190,7 +190,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			// THIS IS IN A FINALLY BLOCK TO ENSURE THAT NOTIFICATIONS ARE
 			// ENABLED EVEN IF ERRORS OCCUR DURING UI INITIALIZATION
-			ChartPreviewPainter.ignoreNotifications( false );
+			ChartAdapter.ignoreNotifications( false );
 		}
 	}
 
@@ -438,17 +438,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			return null;
 		}
-		return ( (ChartWizardContext) getContext( ) ).getModel( );
-	}
-
-	protected Composite getDataBindingUI( Composite parent )
-	{
-		return null;
-	}
-
-	protected Canvas getChartPreview( )
-	{
-		return null;
+		return getWizardContext( ).getModel( );
 	}
 
 	private void switchDataSet( String datasetName ) throws ChartException
@@ -754,7 +744,8 @@ public class TaskSelectData extends SimpleTask
 	public void handleEvent( Event event )
 	{
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE
-				&& event.data instanceof Integer )
+				&& getWizardContext( ).getDataServiceProvider( )
+						.getCurrentDataSet( ) != null )
 		{
 			MenuManager menuManager = new MenuManager( );
 			menuManager.setRemoveAllWhenShown( true );

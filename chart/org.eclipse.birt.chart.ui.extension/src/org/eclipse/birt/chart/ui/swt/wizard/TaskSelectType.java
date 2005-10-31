@@ -831,7 +831,7 @@ public class TaskSelectType extends SimpleTask
 			int iOverlaySeriesCount = ( (Axis) XAxis.getAssociatedAxes( )
 					.get( 1 ) ).getSeriesDefinitions( ).size( );
 			// DISABLE NOTIFICATIONS WHILE MODEL UPDATE TAKES PLACE
-			ChartPreviewPainter.ignoreNotifications( true );
+			ChartAdapter.ignoreNotifications( true );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
 				Series newSeries = (Series) createMethod.invoke( seriesClass,
@@ -859,7 +859,7 @@ public class TaskSelectType extends SimpleTask
 		finally
 		{
 			// ENABLE NOTIFICATIONS IN CASE EXCEPTIONS OCCUR
-			ChartPreviewPainter.ignoreNotifications( true );
+			ChartAdapter.ignoreNotifications( true );
 		}
 	}
 

@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitlePropertiesSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -169,7 +170,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		btnEnablePreview = new Button( cmpBasic, SWT.CHECK );
 		{
 			btnEnablePreview.setText( Messages.getString( "ChartSheetImpl.Label.EnableInPreview" ) ); //$NON-NLS-1$
-			btnEnablePreview.setEnabled( false );
+			btnEnablePreview.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
+			btnEnablePreview.addSelectionListener( this );
 		}
 
 		populateLists( );
@@ -296,7 +298,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			getChart( ).getBlock( )
 					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
+					.setVisible( btnVisible.getSelection( ) );
 			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( cmbColorBy ) )
@@ -313,8 +315,25 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			}
 			( (ChartWizardContext) super.getContext( ) ).getDataServiceProvider( )
 					.setStyle( sStyleName );
+			refreshPreview( );
+		}
+		else if ( e.widget.equals( btnEnablePreview ) )
+		{
+			ChartPreviewPainter.enableProcessor( btnEnablePreview.getSelection( ) );
+			refreshPreview( );
 		}
 
+	}
+
+	/**
+	 * Refreshes the preview by model modification. Used by non-model change.
+	 * 
+	 */
+	private void refreshPreview( )
+	{
+		boolean currentValue = btnVisible.getSelection( );
+		getChart( ).getBlock( ).getOutline( ).setVisible( true );
+		getChart( ).getBlock( ).getOutline( ).setVisible( currentValue );
 	}
 
 	protected void selectAllButtons( boolean isSelected )
