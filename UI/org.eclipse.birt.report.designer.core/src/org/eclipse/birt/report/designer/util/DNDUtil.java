@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnBandData;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -952,7 +953,8 @@ public class DNDUtil
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ModuleHandle )
 		{
-			//return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			// return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage)
+			// transferData ).getName( ) ) == null;
 			return true;
 		}
 		return false;
@@ -1046,7 +1048,12 @@ public class DNDUtil
 			DesignElementHandle targetHandle, DesignElementHandle childHandle,
 			boolean validateContainer )
 	{
-		if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
+		if ( targetHandle instanceof CascadingParameterGroupHandle )
+		{
+			return childHandle.getContainer( ) == targetHandle ? CONTAIN_THIS
+					: CONTAIN_NO;
+		}
+		else if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
 				childHandle ) )
 		{
 			return CONTAIN_THIS;
