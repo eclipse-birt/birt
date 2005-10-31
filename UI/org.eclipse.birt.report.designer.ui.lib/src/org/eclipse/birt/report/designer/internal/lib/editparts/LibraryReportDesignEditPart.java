@@ -15,7 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapt;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
@@ -148,7 +148,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart
 	 */
 	public void propertyChange( PropertyChangeEvent evt )
 	{
-		if ( evt.getPropertyName( ).equals( LibraryHandleAdapt.CURRENTMODEL ) )
+		if ( evt.getPropertyName( ).equals( LibraryHandleAdapter.CURRENTMODEL ) )
 		{
 			
 			refresh( );

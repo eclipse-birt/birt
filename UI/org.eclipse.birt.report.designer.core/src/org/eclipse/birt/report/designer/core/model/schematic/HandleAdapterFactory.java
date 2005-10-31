@@ -17,7 +17,7 @@ import java.util.WeakHashMap;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ExtendedItemHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
-import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapt;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -252,13 +252,13 @@ public class HandleAdapterFactory
 	 * 
 	 * @return Design handle adapter
 	 */
-	public LibraryHandleAdapt getLibraryHandleAdapter(Object obj )
+	public LibraryHandleAdapter getLibraryHandleAdapter(Object obj )
 	{
-		LibraryHandleAdapt retValue = (LibraryHandleAdapt) map
+		LibraryHandleAdapter retValue = (LibraryHandleAdapter) map
 				.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new LibraryHandleAdapt( (LibraryHandle)obj );
+			retValue = new LibraryHandleAdapter( (LibraryHandle)obj );
 			map.put( obj, retValue );
 		}
 		return retValue;
@@ -267,7 +267,7 @@ public class HandleAdapterFactory
 	/**
 	 * @return
 	 */
-	public LibraryHandleAdapt getLibraryHandleAdapter( )
+	public LibraryHandleAdapter getLibraryHandleAdapter( )
 	{
 		return getLibraryHandleAdapter(SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( ));
