@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -519,6 +520,7 @@ public class DNDUtil
 				// || selection instanceof RowHandle
 				|| selection instanceof GroupHandle
 				|| selection instanceof StyleHandle
+				|| selection instanceof ThemeHandle
 				|| selection instanceof EmbeddedImageHandle;
 	}
 
@@ -953,8 +955,7 @@ public class DNDUtil
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ModuleHandle )
 		{
-			// return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage)
-			// transferData ).getName( ) ) == null;
+			//return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
 			return true;
 		}
 		return false;

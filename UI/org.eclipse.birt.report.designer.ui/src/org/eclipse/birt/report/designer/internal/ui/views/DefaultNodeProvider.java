@@ -70,6 +70,8 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String DATASETS = Messages.getString( "DefaultNodeProvider.Tree.DataSets" ); //$NON-NLS-1$
 
 	public static final String STYLES = Messages.getString( "DefaultNodeProvider.Tree.Styles" ); //$NON-NLS-1$
+	
+	public static final String THEMES = Messages.getString( "DefaultNodeProvider.Tree.Themes" ); //$NON-NLS-1$
 
 	public static final String IMAGES = Messages.getString( "DefaultNodeProvider.Tree.Images" ); //$NON-NLS-1$
 

@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -319,6 +320,10 @@ public class DEUtil
 		else if ( parent instanceof GridHandle )
 		{
 			slotID = GridHandle.ROW_SLOT;
+		}
+		else if ( parent instanceof ThemeHandle )
+		{
+			slotID = ThemeHandle.STYLES_SLOT;
 		}
 		return slotID;
 	}
