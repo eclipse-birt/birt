@@ -117,6 +117,7 @@ public class ResourceConstants
 	public static final String DUPLICATE_AGGREGATION_NAME = "date.engine.DuplicateAggregationName";
 	public static final String INCORRECT_GROUP_KEY_VALUES = "data.engine.incorrectGroupKeyValues";
 	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
+	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

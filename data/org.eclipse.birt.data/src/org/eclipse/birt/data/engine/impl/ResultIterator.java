@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -273,14 +274,28 @@ class ResultIterator implements IResultIterator
 	    if(handle instanceof CompiledExpression){
 	    	CompiledExpression expr = (CompiledExpression) handle;
 			Context cx = Context.enter( );
+			Object value = null;
 			try
 			{
-				return evaluateCompiledExpression( expr, odiResult, cx, scope );
+				value = evaluateCompiledExpression( expr, odiResult, cx, scope );
 			}
 			finally
 			{
 				Context.exit( );
 			}
+			try
+			{
+				return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+			}
+			catch ( BirtException e )
+			{
+				throw new DataException( ResourceConstants.INCONVERTIBLE_DATATYPE,
+						new Object[]{
+								value,
+								value.getClass( ),
+								DataType.getClass( dataExpr.getDataType( ) )
+						} );
+			}	
 	    }
 	    else if(handle instanceof ConditionalExpression){
 	    	ConditionalExpression ce = (ConditionalExpression) handle;
