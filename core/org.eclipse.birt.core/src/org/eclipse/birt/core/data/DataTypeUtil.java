@@ -64,10 +64,12 @@ public final class DataTypeUtil
 	public static Object convert( Object source, int toType )
 			throws BirtException
 	{
+		// here we assume the efficiency of if else is higher than switch case
+		if ( toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE )
+			return source;
+		
 		switch ( toType )
 		{
-			case DataType.ANY_TYPE :
-				return source;
 			case DataType.INTEGER_TYPE :
 				return toInteger( source );
 			case DataType.DECIMAL_TYPE :
@@ -82,6 +84,8 @@ public final class DataTypeUtil
 				return toString( source );
 			case DataType.BLOB_TYPE :
 				return toBlob( source );
+			case DataType.BINARY_TYPE :
+				return toBytes( source );
 			default :
 				throw new BirtException( pluginId, ResourceConstants.INVALID_TYPE,
 						resourceBundle );
@@ -599,7 +603,7 @@ public final class DataTypeUtil
 			return (byte[]) source;
 		else
 			throw new BirtException( pluginId, ResourceConstants.CONVERT_FAILS,
-					"Blob",
+					"Binary",
 					resourceBundle );
 	}
 	
