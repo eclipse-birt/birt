@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.component.Series;
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle <em>Leader Line Style</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}</li>
  * </ul>
  * </p>
  *
@@ -366,5 +367,59 @@ public interface PieSeries extends Series
 	 * @generated
 	 */
 	void setSliceOutline( ColorDefinition value );
+
+	/**
+	 * Returns the value of the '<em><b>Ratio</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Ratio</em>' attribute.
+	 * @see #isSetRatio()
+	 * @see #unsetRatio()
+	 * @see #setRatio(double)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Ratio()
+	 * @model default="0" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 *        extendedMetaData="kind='element' name='Ratio'"
+	 * @generated
+	 */
+	double getRatio( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ratio</em>' attribute.
+	 * @see #isSetRatio()
+	 * @see #unsetRatio()
+	 * @see #getRatio()
+	 * @generated
+	 */
+	void setRatio( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetRatio()
+	 * @see #getRatio()
+	 * @see #setRatio(double)
+	 * @generated
+	 */
+	void unsetRatio( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Ratio</em>' attribute is set.
+	 * @see #unsetRatio()
+	 * @see #getRatio()
+	 * @see #setRatio(double)
+	 * @generated
+	 */
+	boolean isSetRatio( );
 
 } // PieSeries

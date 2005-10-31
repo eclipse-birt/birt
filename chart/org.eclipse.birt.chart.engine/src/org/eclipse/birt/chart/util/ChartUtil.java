@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.util;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
@@ -154,4 +156,67 @@ public class ChartUtil
 		}
 	}
 
+	/**
+	 * Returns if two polygons intersect.
+	 * 
+	 * @param pg1
+	 * @param pg2
+	 * @return
+	 */
+	public static boolean intersects( Polygon pg1, Polygon pg2 )
+	{
+		Polygon result = Clip.intersection( pg1, pg2 );
+
+		return !result.isEmpty( );
+	}
+
+	/**
+	 * Merges two fonts to the original one from a source. The original one can
+	 * not be null. Only consider inheritable properties.
+	 * 
+	 * @param original
+	 * @param source
+	 * @return
+	 */
+	public static void mergeFont( FontDefinition original, FontDefinition source )
+	{
+		if ( source != null )
+		{
+			if ( original.getAlignment( ) == null )
+			{
+				original.setAlignment( source.getAlignment( ) );
+			}
+			else if ( !original.getAlignment( ).isSetHorizontalAlignment( )
+					&& source.getAlignment( ) != null )
+			{
+				original.getAlignment( )
+						.setHorizontalAlignment( source.getAlignment( )
+								.getHorizontalAlignment( ) );
+			}
+			if ( original.getName( ) == null )
+			{
+				original.setName( source.getName( ) );
+			}
+			if ( !original.isSetBold( ) )
+			{
+				original.setBold( source.isBold( ) );
+			}
+			if ( !original.isSetItalic( ) )
+			{
+				original.setItalic( source.isItalic( ) );
+			}
+			if ( !original.isSetRotation( ) )
+			{
+				original.setRotation( source.getRotation( ) );
+			}
+			if ( !original.isSetSize( ) )
+			{
+				original.setSize( source.getSize( ) );
+			}
+			if ( !original.isSetWordWrap( ) )
+			{
+				original.setWordWrap( source.isWordWrap( ) );
+			}
+		}
+	}
 }

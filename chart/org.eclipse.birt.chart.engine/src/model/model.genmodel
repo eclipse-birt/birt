@@ -182,6 +182,7 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Trigger">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/condition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Trigger/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Trigger/triggerFlow"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Attribute" basePackage="org.eclipse.birt.chart.model" resource="XML"
@@ -191,6 +192,7 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/Show_Tooltip"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/Toggle_Visibility"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/Invoke_Script"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//ActionType/Highlight"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//Anchor">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//Anchor/North"/>
@@ -273,6 +275,11 @@
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyle">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyle/Fixed_Length"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyle/Stretch_To_Side"/>
+    </genEnums>
+    <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorType/ToggleSerieVisibility"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorType/HighlightSerie"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//LegendItemType">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//LegendItemType/Series"/>
@@ -359,6 +366,24 @@
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/Mouse_Hover"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/Mouse_Click"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onclick"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/ondblclick"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onmousedown"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onmouseup"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onmouseover"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onmousemove"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onmouseout"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onfocus"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onblur"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeydown"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeypress"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onkeyup"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition/onload"/>
+    </genEnums>
+    <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow/Capture"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow/Bubble"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow/BubbleAndStop"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//UnitsOfMeasurement">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//UnitsOfMeasurement/Pixels"/>
@@ -387,6 +412,7 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//ID"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyleObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LegendBehaviorTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LegendItemTypeObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineDecoratorObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//LineStyleObject"/>
@@ -405,6 +431,7 @@
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//StyledComponentObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//TickStyleObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//TriggerConditionObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlowObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//UnitsOfMeasurementObject"/>
     <genDataTypes ecoreDataType="org.eclipse.birt.chart.model.attribute.ecore#//VerticalAlignmentObject"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//ActionValue"/>
@@ -478,6 +505,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Insets/left"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Insets/bottom"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Insets/right"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//Interactivity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Interactivity/enable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//Interactivity/legendBehavior"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.attribute.ecore#//JavaDateFormatSpecifier">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//JavaDateFormatSpecifier/pattern"/>
@@ -579,6 +610,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/extendedProperties"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/sampleData"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/styles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//Chart/interactivity"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.ecore#//ChartWithAxes">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.ecore#//ChartWithAxes/axes"/>
@@ -675,6 +707,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineStyle"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/leaderLineLength"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.type.ecore#//PieSeries/sliceOutline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/ratio"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//ScatterSeries"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">

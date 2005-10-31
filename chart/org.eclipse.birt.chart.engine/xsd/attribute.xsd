@@ -57,6 +57,7 @@
 			<xsd:enumeration value="Show_Tooltip"/>
 			<xsd:enumeration value="Toggle_Visibility"/>
 			<xsd:enumeration value="Invoke_Script"/>
+			<xsd:enumeration value="Highlight"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="TriggerCondition">
@@ -66,8 +67,73 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="Mouse_Hover"/>
-			<xsd:enumeration value="Mouse_Click"/>
+			<xsd:enumeration value="Mouse_Hover">
+				<xsd:annotation>
+					<xsd:documentation>deprecated</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Mouse_Click">
+				<xsd:annotation>
+					<xsd:documentation>deprecated</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="onclick"/>
+			<xsd:enumeration value="ondblclick"/>
+			<xsd:enumeration value="onmousedown"/>
+			<xsd:enumeration value="onmouseup"/>
+			<xsd:enumeration value="onmouseover"/>
+			<xsd:enumeration value="onmousemove"/>
+			<xsd:enumeration value="onmouseout"/>
+			<xsd:enumeration value="onfocus"/>
+			<xsd:enumeration value="onblur"/>
+			<xsd:enumeration value="onkeydown"/>
+			<xsd:enumeration value="onkeypress"/>
+			<xsd:enumeration value="onkeyup"/>
+			<xsd:enumeration value="onload"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TriggerFlow">
+		<xsd:annotation>
+			<xsd:documentation>
+			The TriggerFlow defines whether it reacts to the capturing or bubbling sequence 
+Capture: the trigger’s action will be triggered in the capturing phase
+Bubble (default): the trigger’s action will be triggered in the bubbling phase
+BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Capture"/>
+			<xsd:enumeration value="Bubble"/>
+			<xsd:enumeration value="BubbleAndStop"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Interactivity">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the interactiviy settings for the chart.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Enable" type="xsd:boolean" default="true" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Enable/Disable all interactive features, true by default</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LegendBehavior" type="LegendBehaviorType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Three possible behaviours: None, Toggle the Serie visibility, Highlight the serie.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="LegendBehaviorType">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the allowed values for Legend behaviors.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="ToggleSerieVisibility"/>
+			<xsd:enumeration value="HighlightSerie"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="DataPointComponentType">

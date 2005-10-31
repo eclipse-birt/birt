@@ -291,6 +291,16 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getChart_Interactivity( )
+	{
+		return (EReference) chartEClass.getEStructuralFeatures( ).get( 13 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -472,6 +482,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		createEReference( chartEClass, CHART__EXTENDED_PROPERTIES );
 		createEReference( chartEClass, CHART__SAMPLE_DATA );
 		createEReference( chartEClass, CHART__STYLES );
+		createEReference( chartEClass, CHART__INTERACTIVITY );
 
 		chartWithAxesEClass = createEClass( CHART_WITH_AXES );
 		createEReference( chartWithAxesEClass, CHART_WITH_AXES__AXES );
@@ -578,6 +589,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 				theAttributePackage.getStyleMap( ),
 				null,
 				"styles", null, 0, -1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getChart_Interactivity( ),
+				theAttributePackage.getInteractivity( ),
+				null,
+				"interactivity", null, 1, 1, Chart.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( chartWithAxesEClass,
 				ChartWithAxes.class,
@@ -702,6 +717,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage
 		addAnnotation( getChart_Styles( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Styles" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getChart_Interactivity( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Interactivity" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartWithAxesEClass, source, new String[]{
 				"name", "ChartWithAxes", //$NON-NLS-1$ //$NON-NLS-2$

@@ -811,12 +811,21 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__SLICE_OUTLINE = ComponentPackage.SERIES_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Ratio</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PIE_SERIES__RATIO = ComponentPackage.SERIES_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the the '<em>Pie Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 8;
+	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.
@@ -1314,6 +1323,17 @@ public interface TypePackage extends EPackage
 	 * @generated
 	 */
 	EReference getPieSeries_SliceOutline( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ratio</em>'.
+	 * @see org.eclipse.birt.chart.model.type.PieSeries#getRatio()
+	 * @see #getPieSeries()
+	 * @generated
+	 */
+	EAttribute getPieSeries_Ratio( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.

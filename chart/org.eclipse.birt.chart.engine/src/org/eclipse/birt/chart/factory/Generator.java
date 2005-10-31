@@ -12,9 +12,11 @@
 package org.eclipse.birt.chart.factory;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.withaxes.LegendItemRenderingHints;
@@ -35,19 +37,37 @@ import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutManager;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.model.type.TypePackage;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
+import org.eclipse.birt.chart.style.SimpleStyle;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Scriptable;
 
@@ -74,10 +94,9 @@ public final class Generator
 	 */
 	static final int WITHOUT_AXES = 2;
 
-	private ThreadLocal externalProcessor;
-
-	private ThreadLocal localModel;
-
+	/**
+	 * An internal style processor.
+	 */
 	private IStyleProcessor implicitProcessor;
 
 	/**
@@ -98,9 +117,6 @@ public final class Generator
 	private Generator( )
 	{
 		implicitProcessor = SimpleProcessor.instance( );
-
-		localModel = new ThreadLocal( );
-		externalProcessor = new ThreadLocal( );
 	}
 
 	/**
@@ -118,33 +134,313 @@ public final class Generator
 	}
 
 	/**
-	 * Sets the style processor explicitly.
+	 * Prepare all default styles for various StyledComponent.
 	 * 
-	 * @param processor
+	 * @param model
+	 * @param externalProcessor
 	 */
-	public void setStyleProcessor( IStyleProcessor processor )
+	protected final void prepareStyles( Chart model, IStyleProcessor externalProcessor )
 	{
-		externalProcessor.set( processor );
+		Stack token = new Stack( );
+
+		token.push( StyledComponent.CHART_ALL_LITERAL );
+
+		prepareComponent( model, token, model, externalProcessor );
+
+		token.clear( );
+
 	}
 
-	/**
-	 * Returns the default style for chart, can't return null.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public IStyle getDefaultStyle( StyledComponent name )
+	private void prepareComponent( Chart model, Stack token, Object component,
+			IStyleProcessor externalProcessor )
 	{
-		// TODO merge default style as per explicit and implicit style
-		// processor.
-
-		if ( externalProcessor.get( ) != null )
+		// check and apply styles
+		if ( component instanceof EObject )
 		{
-			return ( (IStyleProcessor) externalProcessor.get( ) ).getStyle( (Chart) localModel.get( ),
-					name );
+			StyledComponent currentToken = getStyledComponent( (EObject) component );
+
+			boolean pushed = false;
+
+			if ( currentToken != null )
+			{
+				token.push( currentToken );
+				pushed = true;
+			}
+
+			applyStyles( model,
+					(StyledComponent) token.peek( ),
+					(EObject) component,
+					externalProcessor );
+
+			// prepare children
+			for ( Iterator itr = ( (EObject) component ).eContents( )
+					.iterator( ); itr.hasNext( ); )
+			{
+				prepareComponent( model, token, itr.next( ), externalProcessor );
+			}
+
+			if ( pushed && !token.empty( ) )
+			{
+				token.pop( );
+			}
+
+		}
+		else if ( component instanceof EList )
+		{
+			for ( Iterator litr = ( (EList) component ).iterator( ); litr.hasNext( ); )
+			{
+				prepareComponent( model, token, litr.next( ), externalProcessor );
+			}
+		}
+	}
+
+	private StyledComponent getStyledComponent( EObject obj )
+	{
+		if ( obj instanceof Block && obj.eContainer( ) instanceof Chart )
+		{
+			return StyledComponent.CHART_BACKGROUND_LITERAL;
+		}
+		if ( obj instanceof Plot )
+		{
+			return StyledComponent.PLOT_BACKGROUND_LITERAL;
+		}
+		if ( obj instanceof Legend )
+		{
+			return StyledComponent.LEGEND_BACKGROUND_LITERAL;
+		}
+		if ( obj instanceof TitleBlock )
+		{
+			return StyledComponent.CHART_TITLE_LITERAL;
+		}
+		if ( obj instanceof Label )
+		{
+			if ( obj.eContainer( ) instanceof Axis )
+			{
+				if ( obj.eContainmentFeature( ).getFeatureID( ) == ComponentPackage.AXIS__TITLE )
+				{
+					return StyledComponent.AXIS_TITLE_LITERAL;
+				}
+				else if ( obj.eContainmentFeature( ).getFeatureID( ) == ComponentPackage.AXIS__LABEL )
+				{
+					return StyledComponent.AXIS_LABEL_LITERAL;
+				}
+			}
+			if ( obj.eContainer( ) instanceof Series )
+			{
+				if ( obj.eContainmentFeature( ).getFeatureID( ) == ComponentPackage.SERIES__LABEL )
+				{
+					return StyledComponent.SERIES_LABEL_LITERAL;
+				}
+				if ( obj.eContainmentFeature( ).getFeatureID( ) == TypePackage.PIE_SERIES__TITLE )
+				{
+					return StyledComponent.SERIES_TITLE_LITERAL;
+				}
+			}
+		}
+		if ( obj instanceof Text )
+		{
+			if ( obj.eContainer( ) instanceof Legend )
+			{
+				return StyledComponent.LEGEND_LABEL_LITERAL;
+			}
+		}
+		if ( obj instanceof LineAttributes && obj.eContainer( ) instanceof Axis )
+		{
+			return StyledComponent.AXIS_LINE_LITERAL;
 		}
 
-		return implicitProcessor.getStyle( (Chart) localModel.get( ), name );
+		return null;
+	}
+
+	private void applyStyles( Chart model, StyledComponent type,
+			EObject component, IStyleProcessor externalProcessor )
+	{
+		if ( component instanceof Block )
+		{
+			// only apply to chart block.
+			if ( component.eContainer( ) instanceof Chart )
+			{
+				IStyle style = getMingledStyle( model, type, externalProcessor );
+
+				// apply background.
+				ColorDefinition newBackcolor = style.getBackgroundColor( );
+				Image newBackimage = style.getBackgroundImage( );
+
+				Fill background = ( (Block) component ).getBackground( );
+
+				if ( background == null
+						|| ( background instanceof ColorDefinition && ( (ColorDefinition) background ).getTransparency( ) == 0 ) )
+				{
+					if ( newBackcolor != null )
+					{
+						( (Block) component ).setBackground( newBackcolor );
+					}
+					if ( newBackimage != null )
+					{
+						( (Block) component ).setBackground( newBackimage );
+					}
+				}
+
+				// apply padding.
+				Insets ins = ( (Block) component ).getInsets( );
+				Insets padding = style.getPadding( );
+
+				if ( padding != null )
+				{
+					if ( ins == null )
+					{
+						ins = InsetsImpl.create( 0, 0, 0, 0 );
+						( (Block) component ).setInsets( ins );
+					}
+					ins.setTop( ins.getTop( ) + padding.getTop( ) );
+					ins.setLeft( ins.getLeft( ) + padding.getLeft( ) );
+					ins.setBottom( ins.getBottom( ) + padding.getBottom( ) );
+					ins.setRight( ins.getRight( ) + padding.getRight( ) );
+				}
+			}
+		}
+		// check Text items.
+		else if ( component instanceof Text )
+		{
+			IStyle style = getMingledStyle( model, type, externalProcessor );
+			Text text = (Text) component;
+
+			if ( text.getFont( ) == null )
+			{
+				text.setFont( style.getFont( ) );
+			}
+			else
+			{
+				FontDefinition newFont = style.getFont( );
+				FontDefinition font = text.getFont( );
+
+				ChartUtil.mergeFont( font, newFont );
+			}
+
+			if ( text.getColor( ) == null )
+			{
+				text.setColor( style.getColor( ) );
+			}
+		}
+	}
+
+	private IStyle getMingledStyle( Chart model, StyledComponent type,
+			IStyleProcessor externalProcessor )
+	{
+		SimpleContainer rStyle = new SimpleContainer( );
+
+		if ( externalProcessor != null )
+		{
+			while ( !updateHierarchyStyle( model,
+					type,
+					externalProcessor,
+					rStyle )
+					&& type != null )
+			{
+				type = getParentType( type );
+			}
+		}
+
+		while ( !updateHierarchyStyle( model, type, implicitProcessor, rStyle )
+				&& type != null )
+		{
+			type = getParentType( type );
+		}
+
+		return rStyle.style;
+	}
+
+	private StyledComponent getParentType( StyledComponent type )
+	{
+		switch ( type.getValue( ) )
+		{
+			case StyledComponent.CHART_ALL :
+				return null;
+			case StyledComponent.CHART_TITLE :
+				return StyledComponent.CHART_BACKGROUND_LITERAL;
+			case StyledComponent.CHART_BACKGROUND :
+				return StyledComponent.CHART_ALL_LITERAL;
+			case StyledComponent.PLOT_BACKGROUND :
+				return StyledComponent.CHART_BACKGROUND_LITERAL;
+			case StyledComponent.LEGEND_BACKGROUND :
+				return StyledComponent.CHART_BACKGROUND_LITERAL;
+			case StyledComponent.LEGEND_LABEL :
+				return StyledComponent.LEGEND_BACKGROUND_LITERAL;
+			case StyledComponent.DATA_LABEL :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+			case StyledComponent.AXIS_TITLE :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+			case StyledComponent.AXIS_LABEL :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+			case StyledComponent.AXIS_LINE :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+			case StyledComponent.SERIES_TITLE :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+			case StyledComponent.SERIES_LABEL :
+				return StyledComponent.PLOT_BACKGROUND_LITERAL;
+		}
+
+		return null;
+	}
+
+	private boolean updateHierarchyStyle( Chart model, StyledComponent type,
+			IStyleProcessor processor, SimpleContainer currentContainer )
+	{
+		SimpleStyle currentStyle = currentContainer.style;
+		IStyle newStyle = null;
+
+		if ( currentStyle == null )
+		{
+			currentContainer.style = new SimpleStyle( processor.getStyle( model,
+					type ) );
+			currentStyle = currentContainer.style;
+		}
+		else
+		{
+			newStyle = processor.getStyle( model, type );
+		}
+
+		if ( newStyle != null )
+		{
+			if ( currentStyle.getFont( ) == null )
+			{
+				if ( newStyle.getFont( ) != null )
+				{
+					currentStyle.setFont( (FontDefinition) EcoreUtil.copy( newStyle.getFont( ) ) );
+				}
+			}
+			else if ( newStyle.getFont( ) != null )
+			{
+				FontDefinition fd = currentStyle.getFont( );
+				FontDefinition newFd = (FontDefinition) EcoreUtil.copy( newStyle.getFont( ) );
+
+				ChartUtil.mergeFont( fd, newFd );
+			}
+
+			if ( currentStyle.getColor( ) == null
+					&& newStyle.getColor( ) != null )
+			{
+				currentStyle.setColor( (ColorDefinition) EcoreUtil.copy( newStyle.getColor( ) ) );
+			}
+		}
+
+		// check inherited styles.
+		FontDefinition fd = currentStyle.getFont( );
+		if ( fd != null
+				&& fd.getName( ) != null
+				&& fd.isSetSize( )
+				&& fd.isSetBold( )
+				&& fd.isSetItalic( )
+				&& fd.isSetRotation( )
+				&& fd.isSetWordWrap( )
+				&& fd.getAlignment( ) != null
+				&& fd.getAlignment( ).isSetHorizontalAlignment( )
+				&& currentStyle.getColor( ) != null )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -172,6 +468,36 @@ public final class Generator
 			Chart cmDesignTime, Scriptable scParent, Bounds bo,
 			RunTimeContext rtc ) throws ChartException
 	{
+		return build( ids, cmDesignTime, scParent, bo, rtc, null );
+	}
+
+	/**
+	 * Builds and computes preferred sizes of various chart components offscreen
+	 * using the provided display server.
+	 * 
+	 * @param ids
+	 *            A display server using which the chart may be built.
+	 * @param cmDesignTime
+	 *            The design time chart model (bound to a dataset).
+	 * @param scParent
+	 *            A parent script handler that may be attached to the existing
+	 *            chart model script handler.
+	 * @param bo
+	 *            The bounds associated with the chart being built.
+	 * @param rtc
+	 *            Encapsulates the runtime environment for the build process.
+	 * @param externalProcessor
+	 *            An external style processor.
+	 * @return An instance of a generated chart state that encapsulates built
+	 *         chart information that may be subsequently rendered.
+	 * 
+	 * @throws GenerationException
+	 */
+	public final GeneratedChartState build( IDisplayServer ids,
+			Chart cmDesignTime, Scriptable scParent, Bounds bo,
+			RunTimeContext rtc, IStyleProcessor externalProcessor )
+			throws ChartException
+	{
 		if ( ids == null || cmDesignTime == null || bo == null )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
@@ -195,8 +521,7 @@ public final class Generator
 			rtc.setLocale( Locale.getDefault( ) );
 		}
 
-		// UPDATE LOCAL MODEL
-		localModel.set( cmRunTime );
+		prepareStyles( cmRunTime, externalProcessor );
 
 		// INITIALIZE THE SCRIPT HANDLER
 		final String sScriptContent = cmRunTime.getScript( );
@@ -417,10 +742,7 @@ public final class Generator
 					ScriptHandler.FINISH_GENERATION,
 					gcs );
 		}
-		
-		// CLEAN LOCALMODEL STATE
-		localModel.set(null);
-		
+
 		return gcs;
 	}
 
@@ -439,9 +761,6 @@ public final class Generator
 	public final void refresh( GeneratedChartState gcs ) throws ChartException
 	{
 		Chart cm = gcs.getChartModel( );
-
-		// UPDATE LOCAL MODEL
-		localModel.set( cm );
 
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.BEFORE_COMPUTATIONS,
@@ -496,9 +815,6 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.AFTER_COMPUTATIONS,
 				gcs );
-		
-		// CLEAN LOCALMODEL STATE
-		localModel.set(null);
 	}
 
 	/**
@@ -517,9 +833,6 @@ public final class Generator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
-
-		// UPDATE LOCAL MODEL
-		localModel.set( cm );
 
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.START_RENDERING,
@@ -620,9 +933,6 @@ public final class Generator
 		ScriptHandler.callFunction( gcs.getRunTimeContext( ).getScriptHandler( ),
 				ScriptHandler.FINISH_RENDERING,
 				gcs );
-		
-		// CLEAN LOCALMODEL STATE
-		localModel.set(null);
 	}
 
 	/**
@@ -716,5 +1026,14 @@ public final class Generator
 		}
 
 		lg.getBounds( ).set( dX, dY, sz.getWidth( ), sz.getHeight( ) );
+	}
+
+	/**
+	 * SimpleContainer
+	 */
+	class SimpleContainer
+	{
+
+		SimpleStyle style = null;
 	}
 }

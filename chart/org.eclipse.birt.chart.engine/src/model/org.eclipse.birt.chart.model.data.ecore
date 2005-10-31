@@ -443,5 +443,16 @@
         <details key="name" value="Action"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerFlow" unique="false"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow"
+        defaultValueLiteral="Capture" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Specifies the bubbling behavior of the Trigger."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="TriggerFlow"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
 </ecore:EPackage>

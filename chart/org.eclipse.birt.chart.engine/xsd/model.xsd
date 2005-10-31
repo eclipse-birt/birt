@@ -107,6 +107,11 @@
 					<xsd:documentation>Holds a collection of style maps for use by the chart.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Interactivity" type="attribute:Interactivity">
+				<xsd:annotation>
+					<xsd:documentation>Holds the settings for interacive features.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<!--	Chart With Axes	-->

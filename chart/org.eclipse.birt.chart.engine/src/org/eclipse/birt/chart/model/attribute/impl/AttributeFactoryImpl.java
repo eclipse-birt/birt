@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -143,6 +145,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createImage( );
 			case AttributePackage.INSETS :
 				return createInsets( );
+			case AttributePackage.INTERACTIVITY :
+				return createInteractivity( );
 			case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER :
 				return createJavaDateFormatSpecifier( );
 			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER :
@@ -299,6 +303,13 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return result;
 			}
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
+			{
+				LegendBehaviorType result = LegendBehaviorType.get( initialValue );
+				if ( result == null )
+					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				return result;
+			}
 			case AttributePackage.LEGEND_ITEM_TYPE :
 			{
 				LegendItemType result = LegendItemType.get( initialValue );
@@ -397,6 +408,13 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				return result;
 			}
+			case AttributePackage.TRIGGER_FLOW :
+			{
+				TriggerFlow result = TriggerFlow.get( initialValue );
+				if ( result == null )
+					throw new IllegalArgumentException( "The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName( ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				return result;
+			}
 			case AttributePackage.UNITS_OF_MEASUREMENT :
 			{
 				UnitsOfMeasurement result = UnitsOfMeasurement.get( initialValue );
@@ -452,6 +470,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.LEADER_LINE_STYLE_OBJECT :
 				return createLeaderLineStyleObjectFromString( eDataType,
 						initialValue );
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE_OBJECT :
+				return createLegendBehaviorTypeObjectFromString( eDataType,
+						initialValue );
 			case AttributePackage.LEGEND_ITEM_TYPE_OBJECT :
 				return createLegendItemTypeObjectFromString( eDataType,
 						initialValue );
@@ -496,6 +517,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createTickStyleObjectFromString( eDataType, initialValue );
 			case AttributePackage.TRIGGER_CONDITION_OBJECT :
 				return createTriggerConditionObjectFromString( eDataType,
+						initialValue );
+			case AttributePackage.TRIGGER_FLOW_OBJECT :
+				return createTriggerFlowObjectFromString( eDataType,
 						initialValue );
 			case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT :
 				return createUnitsOfMeasurementObjectFromString( eDataType,
@@ -546,6 +570,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.LEADER_LINE_STYLE :
 				return instanceValue == null ? null : instanceValue.toString( );
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
+				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.LEGEND_ITEM_TYPE :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.LINE_DECORATOR :
@@ -573,6 +599,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.TICK_STYLE :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.TRIGGER_CONDITION :
+				return instanceValue == null ? null : instanceValue.toString( );
+			case AttributePackage.TRIGGER_FLOW :
 				return instanceValue == null ? null : instanceValue.toString( );
 			case AttributePackage.UNITS_OF_MEASUREMENT :
 				return instanceValue == null ? null : instanceValue.toString( );
@@ -619,6 +647,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			case AttributePackage.LEADER_LINE_STYLE_OBJECT :
 				return convertLeaderLineStyleObjectToString( eDataType,
 						instanceValue );
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE_OBJECT :
+				return convertLegendBehaviorTypeObjectToString( eDataType,
+						instanceValue );
 			case AttributePackage.LEGEND_ITEM_TYPE_OBJECT :
 				return convertLegendItemTypeObjectToString( eDataType,
 						instanceValue );
@@ -663,6 +694,9 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return convertTickStyleObjectToString( eDataType, instanceValue );
 			case AttributePackage.TRIGGER_CONDITION_OBJECT :
 				return convertTriggerConditionObjectToString( eDataType,
+						instanceValue );
+			case AttributePackage.TRIGGER_FLOW_OBJECT :
+				return convertTriggerFlowObjectToString( eDataType,
 						instanceValue );
 			case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT :
 				return convertUnitsOfMeasurementObjectToString( eDataType,
@@ -824,6 +858,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		InsetsImpl insets = new InsetsImpl( );
 		return insets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Interactivity createInteractivity( )
+	{
+		InteractivityImpl interactivity = new InteractivityImpl( );
+		return interactivity;
 	}
 
 	/**
@@ -1373,6 +1418,30 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LegendBehaviorType createLegendBehaviorTypeObjectFromString(
+			EDataType eDataType, String initialValue )
+	{
+		return (LegendBehaviorType) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getLegendBehaviorType( ),
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertLegendBehaviorTypeObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getLegendBehaviorType( ),
+				instanceValue );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1765,6 +1834,30 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 			Object instanceValue )
 	{
 		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getTriggerCondition( ),
+				instanceValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TriggerFlow createTriggerFlowObjectFromString( EDataType eDataType,
+			String initialValue )
+	{
+		return (TriggerFlow) AttributeFactory.eINSTANCE.createFromString( AttributePackage.eINSTANCE.getTriggerFlow( ),
+				initialValue );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertTriggerFlowObjectToString( EDataType eDataType,
+			Object instanceValue )
+	{
+		return AttributeFactory.eINSTANCE.convertToString( AttributePackage.eINSTANCE.getTriggerFlow( ),
 				instanceValue );
 	}
 

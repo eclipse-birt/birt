@@ -277,8 +277,7 @@ public final class ChartReportItemPresentationImpl extends
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
-			gr.setStyleProcessor( new ChartReportStyleProcessor( handle ) );
-			gcs = gr.build( idr.getDisplayServer( ), cm, null, bo, rtc );
+			gcs = gr.build( idr.getDisplayServer( ), cm, null, bo, rtc, new ChartReportStyleProcessor( handle ) );
 
 			// WRITE TO THE IMAGE FILE
 			logger.log( ILogger.INFORMATION,
@@ -287,7 +286,6 @@ public final class ChartReportItemPresentationImpl extends
 					fChartImage.getPath( ) );
 
 			gr.render( idr, gcs );
-			gr.setStyleProcessor( null );
 
 			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 			try

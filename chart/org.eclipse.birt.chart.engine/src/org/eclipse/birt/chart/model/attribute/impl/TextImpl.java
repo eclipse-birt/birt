@@ -11,17 +11,13 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
-import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
-import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -34,14 +30,15 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getFont <em>Font</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.TextImpl#getColor <em>Color</em>}</li>
  * </ul>
  * </p>
- * 
+ *
+ * @generated
  */
-public class TextImpl extends EObjectImpl implements Text, Adapter
+public class TextImpl extends EObjectImpl implements Text
 {
 
 	/**
@@ -125,19 +122,10 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
 	 */
 	public FontDefinition getFont( )
 	{
-		if ( font == null )
-		{
-			FontDefinition fd = Generator.instance( )
-					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL )
-					.getFont( );
-			fd.eAdapters( ).add( this );
-
-			return fd;
-		}
-
 		return font;
 	}
 
@@ -198,16 +186,10 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
 	 */
 	public ColorDefinition getColor( )
 	{
-		if ( color == null )
-		{
-			return Generator.instance( )
-					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL )
-					.getColor( );
-		}
-
 		return color;
 	}
 
@@ -393,13 +375,8 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 	 */
 	protected final void initialize( )
 	{
-		// SET NOTHING DURING INITILIZATION NOW
-		// setColor( ColorDefinitionImpl.BLACK( ) );
-		// final TextAlignment ta =
-		// AttributeFactory.eINSTANCE.createTextAlignment( );
-		// ( (TextAlignmentImpl) ta ).initialize( );
-		// setFont( FontDefinitionImpl.create( "SansSerif", //$NON-NLS-1$
-		// 12, false, false, false, false, false, 0, ta ) );
+		// only initialize empty font here.
+		setFont( FontDefinitionImpl.createEmpty( ) );
 	}
 
 	/**
@@ -419,48 +396,4 @@ public class TextImpl extends EObjectImpl implements Text, Adapter
 		return tx;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-	 */
-	public void notifyChanged( Notification notification )
-	{
-		if ( notification.getNotifier( ) instanceof FontDefinition
-				&& notification.getEventType( ) == Notification.SET )
-		{
-			( (FontDefinition) notification.getNotifier( ) ).eAdapters( )
-					.remove( this );
-			setFont( (FontDefinition) notification.getNotifier( ) );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-	 */
-	public Notifier getTarget( )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-	 */
-	public void setTarget( Notifier newTarget )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-	 */
-	public boolean isAdapterForType( Object type )
-	{
-		return false;
-	}
 } // TextImpl

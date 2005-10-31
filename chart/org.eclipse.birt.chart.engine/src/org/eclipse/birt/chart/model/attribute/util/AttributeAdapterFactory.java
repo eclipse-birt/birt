@@ -183,6 +183,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createInsetsAdapter( );
 		}
 
+		public Object caseInteractivity( Interactivity object )
+		{
+			return createInteractivityAdapter( );
+		}
+
 		public Object caseJavaDateFormatSpecifier(
 				JavaDateFormatSpecifier object )
 		{
@@ -506,6 +511,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createInsetsAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.Interactivity <em>Interactivity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.Interactivity
+	 * @generated
+	 */
+	public Adapter createInteractivityAdapter( )
 	{
 		return null;
 	}

@@ -42,20 +42,19 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl#getDial <em>Dial</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl#getNeedle <em>Needle</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl#getDial <em>Dial</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.DialSeriesImpl#getNeedle <em>Needle</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class DialSeriesImpl extends SeriesImpl implements DialSeries
 {
 
 	/**
-	 * The cached value of the '{@link #getDial() <em>Dial</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDial() <em>Dial</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDial()
 	 * @generated
 	 * @ordered
@@ -63,9 +62,8 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	protected Dial dial = null;
 
 	/**
-	 * The cached value of the '{@link #getNeedle() <em>Needle</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getNeedle() <em>Needle</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNeedle()
 	 * @generated
 	 * @ordered
@@ -74,7 +72,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected DialSeriesImpl( )
@@ -84,7 +81,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -94,7 +90,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Dial getDial( )
@@ -104,7 +99,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDial( Dial newDial, NotificationChain msgs )
@@ -128,7 +122,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setDial( Dial newDial )
@@ -160,7 +153,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Needle getNeedle( )
@@ -170,7 +162,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetNeedle( Needle newNeedle,
@@ -195,7 +186,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setNeedle( Needle newNeedle )
@@ -229,7 +219,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -269,7 +258,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -308,7 +296,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -362,7 +349,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -414,7 +400,6 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -473,8 +458,8 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 	{
 		super.initialize( );
 
-		getLabel().setVisible(true);
-		
+		getLabel( ).setVisible( true );
+
 		setDial( DialImpl.create( ) );
 		setNeedle( NeedleImpl.create( ) );
 	}

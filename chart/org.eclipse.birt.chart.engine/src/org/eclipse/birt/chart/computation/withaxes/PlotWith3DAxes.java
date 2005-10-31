@@ -349,14 +349,14 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			if ( ( iType & NUMERICAL ) == NUMERICAL )
 			{
-				//TODO consistent with orthogonal sereis length;
+				// TODO consistent with orthogonal sereis length;
 				return new DataSetIterator( new Double[]{
 						new Double( 1 ), new Double( 2 )
 				} );
 			}
 			else if ( ( iType & DATE_TIME ) == DATE_TIME )
 			{
-				//TODO consistent with orthogonal sereis length;
+				// TODO consistent with orthogonal sereis length;
 				return new DataSetIterator( new Calendar[]{
 						new CDateTime( ), new CDateTime( )
 				} );
@@ -865,6 +865,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 						{
 							if ( !scZ.zoomOut( ) )
 							{
+								bForceBreak = true;
 								break;
 							}
 							scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -880,6 +881,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 									&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
 									&& tickCount <= 3 )
 							{
+								bForceBreak = true;
 								break;
 							}
 						}
@@ -1004,6 +1006,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 							{
 								if ( !scZ.zoomOut( ) )
 								{
+									bForceBreak = true;
 									break;
 								}
 								scZ.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -1019,6 +1022,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 										&& asInteger( scZ.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
+									bForceBreak = true;
 									break;
 								}
 							}
@@ -1193,7 +1197,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 			// 3D Chart axis doesn't support Percent.
 			throw new IllegalArgumentException( MessageFormat.format( ResourceBundle.getBundle( Messages.ENGINE,
 					rtc.getLocale( ) )
-					.getString( "exception.3D.axis.percent" ), //$NON-NLS-1$
+					.getString( "exception.no.stack.percent.3D.chart" ), //$NON-NLS-1$
 					new Object[]{
 						ax
 					} ) );
@@ -1302,10 +1306,6 @@ public class PlotWith3DAxes extends PlotWithAxes
 				.get( 0 );
 
 		final OneAxis oaxAncillaryBase = aax.getAncillaryBase( );
-		final SeriesDefinition sdAncillaryBase = (SeriesDefinition) oaxAncillaryBase.getModelAxis( )
-				.getSeriesDefinitions( )
-				.get( 0 );
-
 		final AutoScale scBase = oaxBase.getScale( );
 		final AutoScale scOrthogonal = oaxOrthogonal.getScale( );
 		final AutoScale scAncillary = oaxAncillaryBase.getScale( );
@@ -1391,6 +1391,17 @@ public class PlotWith3DAxes extends PlotWithAxes
 			dpa = new DataPointHints[iBaseCount];
 			final boolean bScatter = ( oaxBase.getScale( ).getType( ) != IConstants.TEXT && !oaxBase.isCategoryScale( ) );
 
+			FormatSpecifier fsSDAncillary = null;
+
+			if ( oaxAncillaryBase.getModelAxis( )
+					.getSeriesDefinitions( )
+					.size( ) > 0 )
+			{
+				fsSDAncillary = ( (SeriesDefinition) oaxAncillaryBase.getModelAxis( )
+						.getSeriesDefinitions( )
+						.get( 0 ) ).getFormatSpecifier( );
+			}
+
 			// OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
 			final DataPoint dp = seOrthogonal.getDataPoint( );
 			final EList el = dp.getComponents( );
@@ -1422,7 +1433,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 					fsSeries = dpc.getFormatSpecifier( );
 					if ( fsSeries == null )
 					{
-						fsSeries = sdAncillaryBase.getFormatSpecifier( );
+						fsSeries = fsSDAncillary;
 					}
 				}
 			}
@@ -1470,7 +1481,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							dX = dOrthogonalZero;
+							//dX = dOrthogonalZero;
+							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{
@@ -1511,7 +1523,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							dY = dOrthogonalZero;
+							//dY = dOrthogonalZero;
+							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{

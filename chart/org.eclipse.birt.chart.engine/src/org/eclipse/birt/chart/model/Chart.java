@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model;
 
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -47,6 +48,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getExtendedProperties <em>Extended Properties</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getSampleData <em>Sample Data</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.Chart#getStyles <em>Styles</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.Chart#getInteractivity <em>Interactivity</em>}</li>
  * </ul>
  * </p>
  *
@@ -498,6 +500,32 @@ public interface Chart extends EObject
 	 * @generated
 	 */
 	EList getStyles( );
+
+	/**
+	 * Returns the value of the '<em><b>Interactivity</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Holds the settings for interacive features.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Interactivity</em>' containment reference.
+	 * @see #setInteractivity(Interactivity)
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChart_Interactivity()
+	 * @model containment="true" resolveProxies="false" required="true"
+	 *        extendedMetaData="kind='element' name='Interactivity'"
+	 * @generated
+	 */
+	Interactivity getInteractivity( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.Chart#getInteractivity <em>Interactivity</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Interactivity</em>' containment reference.
+	 * @see #getInteractivity()
+	 * @generated
+	 */
+	void setInteractivity( Interactivity value );
 
 	/**
 	 * Convenience method that gets the Legend Block for the chart.

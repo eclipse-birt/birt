@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.model.data;
 
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.TriggerFlow;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getCondition <em>Condition</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getAction <em>Action</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}</li>
  * </ul>
  * </p>
  *
@@ -119,5 +122,62 @@ public interface Trigger extends EObject
 	 * @generated
 	 */
 	void setAction( Action value );
+
+	/**
+	 * Returns the value of the '<em><b>Trigger Flow</b></em>' attribute.
+	 * The default value is <code>"Capture"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.birt.chart.model.attribute.TriggerFlow}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the bubbling behavior of the Trigger.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Trigger Flow</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.TriggerFlow
+	 * @see #isSetTriggerFlow()
+	 * @see #unsetTriggerFlow()
+	 * @see #setTriggerFlow(TriggerFlow)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getTrigger_TriggerFlow()
+	 * @model default="Capture" unique="false" unsettable="true"
+	 *        extendedMetaData="kind='element' name='TriggerFlow'"
+	 * @generated
+	 */
+	TriggerFlow getTriggerFlow( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Trigger Flow</em>' attribute.
+	 * @see org.eclipse.birt.chart.model.attribute.TriggerFlow
+	 * @see #isSetTriggerFlow()
+	 * @see #unsetTriggerFlow()
+	 * @see #getTriggerFlow()
+	 * @generated
+	 */
+	void setTriggerFlow( TriggerFlow value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTriggerFlow()
+	 * @see #getTriggerFlow()
+	 * @see #setTriggerFlow(TriggerFlow)
+	 * @generated
+	 */
+	void unsetTriggerFlow( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Trigger Flow</em>' attribute is set.
+	 * @see #unsetTriggerFlow()
+	 * @see #getTriggerFlow()
+	 * @see #setTriggerFlow(TriggerFlow)
+	 * @generated
+	 */
+	boolean isSetTriggerFlow( );
 
 } // Trigger

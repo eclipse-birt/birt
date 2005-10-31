@@ -151,6 +151,15 @@ public interface AttributeFactory extends EFactory
 	Insets createInsets( );
 
 	/**
+	 * Returns a new object of class '<em>Interactivity</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Interactivity</em>'.
+	 * @generated
+	 */
+	Interactivity createInteractivity( );
+
+	/**
 	 * Returns a new object of class '<em>Java Date Format Specifier</em>'.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->

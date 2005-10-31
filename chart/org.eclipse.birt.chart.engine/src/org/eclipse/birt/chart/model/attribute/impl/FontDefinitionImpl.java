@@ -1028,4 +1028,16 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 		return fd;
 	}
 
+	/**
+	 * Creates an empty FontDefinition instance.
+	 * 
+	 * @return
+	 */
+	public static final FontDefinition createEmpty( )
+	{
+		FontDefinition fd = AttributeFactory.eINSTANCE.createFontDefinition( );
+		fd.setAlignment( AttributeFactory.eINSTANCE.createTextAlignment( ) );
+		return fd;
+	}
+
 } // FontDefinitionImpl

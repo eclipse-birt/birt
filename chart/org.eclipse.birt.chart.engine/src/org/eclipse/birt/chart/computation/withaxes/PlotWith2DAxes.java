@@ -1614,7 +1614,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							dX = dOrthogonalZero;
+							//dX = dOrthogonalZero;
+							dX = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{
@@ -1630,7 +1631,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						}
 						catch ( IllegalArgumentException nvex )
 						{
-							dY = dOrthogonalZero;
+							//dY = dOrthogonalZero;
+							dY = Double.NaN;
 						}
 						catch ( ChartException dfex )
 						{
@@ -1660,7 +1662,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					catch ( IllegalArgumentException nvex )
 					{
-						dY = dOrthogonalZero; // MAP TO ZERO
+						//dY = dOrthogonalZero; // MAP TO ZERO
+						dX = Double.NaN;
 					}
 					catch ( ChartException dfex )
 					{

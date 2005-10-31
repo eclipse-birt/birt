@@ -42,10 +42,12 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
@@ -76,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.TriggerFlow;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
@@ -199,6 +202,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass insetsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass interactivityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -410,6 +420,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EEnum leaderLineStyleEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum legendBehaviorTypeEEnum = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -492,6 +509,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EEnum triggerConditionEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum triggerFlowEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -603,6 +627,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	private EDataType leaderLineStyleObjectEDataType = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType legendBehaviorTypeObjectEDataType = null;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -709,6 +740,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EDataType triggerConditionObjectEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType triggerFlowObjectEDataType = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1380,6 +1418,38 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EAttribute getInsets_Right( )
 	{
 		return (EAttribute) insetsEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInteractivity( )
+	{
+		return interactivityEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInteractivity_Enable( )
+	{
+		return (EAttribute) interactivityEClass.getEStructuralFeatures( )
+				.get( 0 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInteractivity_LegendBehavior( )
+	{
+		return (EAttribute) interactivityEClass.getEStructuralFeatures( )
+				.get( 1 );
 	}
 
 	/**
@@ -2105,6 +2175,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getLegendBehaviorType( )
+	{
+		return legendBehaviorTypeEEnum;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2228,6 +2308,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EEnum getTriggerCondition( )
 	{
 		return triggerConditionEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getTriggerFlow( )
+	{
+		return triggerFlowEEnum;
 	}
 
 	/**
@@ -2412,6 +2502,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getLegendBehaviorTypeObject( )
+	{
+		return legendBehaviorTypeObjectEDataType;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2574,6 +2674,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getTriggerFlowObject( )
+	{
+		return triggerFlowObjectEDataType;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -2697,6 +2807,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( insetsEClass, INSETS__BOTTOM );
 		createEAttribute( insetsEClass, INSETS__RIGHT );
 
+		interactivityEClass = createEClass( INTERACTIVITY );
+		createEAttribute( interactivityEClass, INTERACTIVITY__ENABLE );
+		createEAttribute( interactivityEClass, INTERACTIVITY__LEGEND_BEHAVIOR );
+
 		javaDateFormatSpecifierEClass = createEClass( JAVA_DATE_FORMAT_SPECIFIER );
 		createEAttribute( javaDateFormatSpecifierEClass,
 				JAVA_DATE_FORMAT_SPECIFIER__PATTERN );
@@ -2805,6 +2919,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		horizontalAlignmentEEnum = createEEnum( HORIZONTAL_ALIGNMENT );
 		intersectionTypeEEnum = createEEnum( INTERSECTION_TYPE );
 		leaderLineStyleEEnum = createEEnum( LEADER_LINE_STYLE );
+		legendBehaviorTypeEEnum = createEEnum( LEGEND_BEHAVIOR_TYPE );
 		legendItemTypeEEnum = createEEnum( LEGEND_ITEM_TYPE );
 		lineDecoratorEEnum = createEEnum( LINE_DECORATOR );
 		lineStyleEEnum = createEEnum( LINE_STYLE );
@@ -2819,6 +2934,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		styledComponentEEnum = createEEnum( STYLED_COMPONENT );
 		tickStyleEEnum = createEEnum( TICK_STYLE );
 		triggerConditionEEnum = createEEnum( TRIGGER_CONDITION );
+		triggerFlowEEnum = createEEnum( TRIGGER_FLOW );
 		unitsOfMeasurementEEnum = createEEnum( UNITS_OF_MEASUREMENT );
 		verticalAlignmentEEnum = createEEnum( VERTICAL_ALIGNMENT );
 
@@ -2839,6 +2955,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		idEDataType = createEDataType( ID );
 		intersectionTypeObjectEDataType = createEDataType( INTERSECTION_TYPE_OBJECT );
 		leaderLineStyleObjectEDataType = createEDataType( LEADER_LINE_STYLE_OBJECT );
+		legendBehaviorTypeObjectEDataType = createEDataType( LEGEND_BEHAVIOR_TYPE_OBJECT );
 		legendItemTypeObjectEDataType = createEDataType( LEGEND_ITEM_TYPE_OBJECT );
 		lineDecoratorObjectEDataType = createEDataType( LINE_DECORATOR_OBJECT );
 		lineStyleObjectEDataType = createEDataType( LINE_STYLE_OBJECT );
@@ -2857,6 +2974,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		styledComponentObjectEDataType = createEDataType( STYLED_COMPONENT_OBJECT );
 		tickStyleObjectEDataType = createEDataType( TICK_STYLE_OBJECT );
 		triggerConditionObjectEDataType = createEDataType( TRIGGER_CONDITION_OBJECT );
+		triggerFlowObjectEDataType = createEDataType( TRIGGER_FLOW_OBJECT );
 		unitsOfMeasurementObjectEDataType = createEDataType( UNITS_OF_MEASUREMENT_OBJECT );
 		verticalAlignmentObjectEDataType = createEDataType( VERTICAL_ALIGNMENT_OBJECT );
 	}
@@ -3106,6 +3224,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 				theXMLTypePackage.getDouble( ),
 				"right", null, 1, 1, Insets.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
+		initEClass( interactivityEClass,
+				Interactivity.class,
+				"Interactivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEAttribute( getInteractivity_Enable( ),
+				theXMLTypePackage.getBoolean( ),
+				"enable", "true", 0, 1, Interactivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getInteractivity_LegendBehavior( ),
+				this.getLegendBehaviorType( ),
+				"legendBehavior", "None", 0, 1, Interactivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+
 		initEClass( javaDateFormatSpecifierEClass,
 				JavaDateFormatSpecifier.class,
 				"JavaDateFormatSpecifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -3336,6 +3464,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( actionTypeEEnum, ActionType.SHOW_TOOLTIP_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.TOGGLE_VISIBILITY_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.INVOKE_SCRIPT_LITERAL );
+		addEEnumLiteral( actionTypeEEnum, ActionType.HIGHLIGHT_LITERAL );
 
 		initEEnum( anchorEEnum, Anchor.class, "Anchor" ); //$NON-NLS-1$
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_LITERAL );
@@ -3445,6 +3574,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( leaderLineStyleEEnum,
 				LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 
+		initEEnum( legendBehaviorTypeEEnum,
+				LegendBehaviorType.class,
+				"LegendBehaviorType" ); //$NON-NLS-1$
+		addEEnumLiteral( legendBehaviorTypeEEnum,
+				LegendBehaviorType.NONE_LITERAL );
+		addEEnumLiteral( legendBehaviorTypeEEnum,
+				LegendBehaviorType.TOGGLE_SERIE_VISIBILITY_LITERAL );
+		addEEnumLiteral( legendBehaviorTypeEEnum,
+				LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
+
 		initEEnum( legendItemTypeEEnum, LegendItemType.class, "LegendItemType" ); //$NON-NLS-1$
 		addEEnumLiteral( legendItemTypeEEnum, LegendItemType.SERIES_LITERAL );
 		addEEnumLiteral( legendItemTypeEEnum, LegendItemType.CATEGORIES_LITERAL );
@@ -3548,6 +3687,35 @@ public class AttributePackageImpl extends EPackageImpl implements
 				TriggerCondition.MOUSE_HOVER_LITERAL );
 		addEEnumLiteral( triggerConditionEEnum,
 				TriggerCondition.MOUSE_CLICK_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONCLICK_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONDBLCLICK_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONMOUSEDOWN_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONMOUSEUP_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONMOUSEOVER_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONMOUSEMOVE_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONMOUSEOUT_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONFOCUS_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum, TriggerCondition.ONBLUR_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONKEYDOWN_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONKEYPRESS_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum,
+				TriggerCondition.ONKEYUP_LITERAL );
+		addEEnumLiteral( triggerConditionEEnum, TriggerCondition.ONLOAD_LITERAL );
+
+		initEEnum( triggerFlowEEnum, TriggerFlow.class, "TriggerFlow" ); //$NON-NLS-1$
+		addEEnumLiteral( triggerFlowEEnum, TriggerFlow.CAPTURE_LITERAL );
+		addEEnumLiteral( triggerFlowEEnum, TriggerFlow.BUBBLE_LITERAL );
+		addEEnumLiteral( triggerFlowEEnum, TriggerFlow.BUBBLE_AND_STOP_LITERAL );
 
 		initEEnum( unitsOfMeasurementEEnum,
 				UnitsOfMeasurement.class,
@@ -3619,6 +3787,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( leaderLineStyleObjectEDataType,
 				LeaderLineStyle.class,
 				"LeaderLineStyleObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( legendBehaviorTypeObjectEDataType,
+				LegendBehaviorType.class,
+				"LegendBehaviorTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( legendItemTypeObjectEDataType,
 				LegendItemType.class,
 				"LegendItemTypeObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -3673,6 +3844,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEDataType( triggerConditionObjectEDataType,
 				TriggerCondition.class,
 				"TriggerConditionObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
+		initEDataType( triggerFlowObjectEDataType,
+				TriggerFlow.class,
+				"TriggerFlowObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEDataType( unitsOfMeasurementObjectEDataType,
 				UnitsOfMeasurement.class,
 				"UnitsOfMeasurementObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
@@ -4040,6 +4214,20 @@ public class AttributePackageImpl extends EPackageImpl implements
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Right" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
+		addAnnotation( interactivityEClass, source, new String[]{
+				"name", "Interactivity", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getInteractivity_Enable( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Enable" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getInteractivity_LegendBehavior( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "LegendBehavior" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
 		addAnnotation( intersectionTypeEEnum, source, new String[]{
 				"name", "IntersectionType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
@@ -4079,6 +4267,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( leaderLineStyleObjectEDataType, source, new String[]{
 				"name", "LeaderLineStyle:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "LeaderLineStyle" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( legendBehaviorTypeEEnum, source, new String[]{
+				"name", "LegendBehaviorType" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( legendBehaviorTypeObjectEDataType, source, new String[]{
+				"name", "LegendBehaviorType:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "LegendBehaviorType" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( legendItemTypeEEnum, source, new String[]{
 				"name", "LegendItemType" //$NON-NLS-1$ //$NON-NLS-2$
@@ -4421,6 +4616,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( triggerConditionObjectEDataType, source, new String[]{
 				"name", "TriggerCondition:Object", //$NON-NLS-1$ //$NON-NLS-2$
 				"baseType", "TriggerCondition" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( triggerFlowEEnum, source, new String[]{
+				"name", "TriggerFlow" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( triggerFlowObjectEDataType, source, new String[]{
+				"name", "TriggerFlow:Object", //$NON-NLS-1$ //$NON-NLS-2$
+				"baseType", "TriggerFlow" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( unitsOfMeasurementEEnum, source, new String[]{
 				"name", "UnitsOfMeasurement" //$NON-NLS-1$ //$NON-NLS-2$

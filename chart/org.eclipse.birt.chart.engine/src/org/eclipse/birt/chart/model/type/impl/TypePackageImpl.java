@@ -386,6 +386,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPieSeries_Ratio( )
+	{
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 8 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -476,6 +486,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEAttribute( pieSeriesEClass, PIE_SERIES__LEADER_LINE_STYLE );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__LEADER_LINE_LENGTH );
 		createEReference( pieSeriesEClass, PIE_SERIES__SLICE_OUTLINE );
+		createEAttribute( pieSeriesEClass, PIE_SERIES__RATIO );
 
 		scatterSeriesEClass = createEClass( SCATTER_SERIES );
 
@@ -607,6 +618,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				theAttributePackage.getColorDefinition( ),
 				null,
 				"sliceOutline", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getPieSeries_Ratio( ),
+				theXMLTypePackage.getDouble( ),
+				"ratio", "0", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,
@@ -733,6 +747,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getPieSeries_SliceOutline( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "SliceOutline" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPieSeries_Ratio( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Ratio" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scatterSeriesEClass, source, new String[]{
 				"name", "ScatterSeries", //$NON-NLS-1$ //$NON-NLS-2$

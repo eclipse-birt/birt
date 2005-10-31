@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -47,7 +49,6 @@ import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DeferredCache;
-import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -65,7 +66,6 @@ import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -75,7 +75,6 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
-import org.eclipse.birt.chart.model.attribute.StyledComponent;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
@@ -102,7 +101,6 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.style.IStyle;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -601,7 +599,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			lgTitle = (Label) EcoreUtil.copy( lgTitle );
 
-			// handle external resource string 
+			// handle external resource string
 			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
 			lgTitle.getCaption( )
 					.setValue( rtc.externalizedMessage( sPreviousValue ) );
@@ -1818,7 +1816,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			for ( int t = 0; t < elTriggers.size( ); t++ )
 			{
 				tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
-				if ( tg.getCondition( ) == TriggerCondition.MOUSE_CLICK_LITERAL )
+				if ( tg.getCondition( ) == TriggerCondition.MOUSE_CLICK_LITERAL
+						|| tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL )
 				{
 					iev.addTrigger( tg );
 				}
@@ -2007,24 +2006,6 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				RectangleRenderEvent.class );
 		rre.updateFrom( b, dScale );
-
-		if ( rre.getBackground( ) == null
-				|| ( rre.getBackground( ) instanceof ColorDefinition && ( (ColorDefinition) rre.getBackground( ) ).getTransparency( ) == 0 ) )
-		{
-			IStyle defaultStyle = Generator.instance( )
-					.getDefaultStyle( StyledComponent.CHART_ALL_LITERAL );
-			ColorDefinition backcolor = defaultStyle.getBackgroundColor( );
-			Image backimage = defaultStyle.getBackgroundImage( );
-
-			if ( backcolor != null )
-			{
-				rre.setBackground( backcolor );
-			}
-			if ( backimage != null )
-			{
-				rre.setBackground( backimage );
-			}
-		}
 
 		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
@@ -2778,17 +2759,18 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			valid = false;
 		}
-		else
-		{
-			for ( int i = 0; i < dphs.length; i++ )
-			{
-				if ( dphs[i].getOrthogonalValue( ) == null )
-				{
-					valid = false;
-					break;
-				}
-			}
-		}
+		// !Ignore this check, now we support the null values.
+		// else
+		// {
+		// for ( int i = 0; i < dphs.length; i++ )
+		// {
+		// if ( dphs[i].getOrthogonalValue( ) == null )
+		// {
+		// // valid = false;
+		// break;
+		// }
+		// }
+		// }
 
 		if ( !valid )
 		{
@@ -2817,4 +2799,70 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					ResourceBundle.getBundle( Messages.ENGINE, rtc.getLocale( ) ) );
 		}
 	}
+
+	/**
+	 * Filters the Null or invalid entry(contains NaN value) from the list. Each
+	 * entry should be a double[2] or double[3] array object.
+	 * 
+	 * @param ll
+	 * @return
+	 */
+	protected List filterNull( List ll )
+	{
+		ArrayList al = new ArrayList( );
+		for ( Iterator itr = ll.iterator( ); itr.hasNext( ); )
+		{
+			double[] obj = (double[]) itr.next( );
+
+			if ( obj == null || Double.isNaN( obj[0] ) || Double.isNaN( obj[1] ) )
+			{
+				continue;
+			}
+
+			al.add( obj );
+		}
+
+		return al;
+	}
+
+	/**
+	 * Filters the Null or invalid entry(contains NaN value) from the array.
+	 * 
+	 * @param ll
+	 * @return
+	 */
+	protected Location[] filterNull( Location[] ll )
+	{
+		ArrayList al = new ArrayList( );
+		for ( int i = 0; i < ll.length; i++ )
+		{
+			if ( Double.isNaN( ll[i].getX( ) ) || Double.isNaN( ll[i].getY( ) ) )
+			{
+				continue;
+			}
+
+			al.add( ll[i] );
+		}
+
+		if ( ll instanceof Location3D[] )
+		{
+			return (Location3D[]) al.toArray( new Location3D[0] );
+		}
+		else
+		{
+			return (Location[]) al.toArray( new Location[0] );
+		}
+	}
+
+	/**
+	 * Check the if the given value is NaN.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	protected boolean isNaN( Object value )
+	{
+		return ( !( value instanceof Number ) || Double.isNaN( ( (Number) value ).doubleValue( ) ) );
+	}
+
 }

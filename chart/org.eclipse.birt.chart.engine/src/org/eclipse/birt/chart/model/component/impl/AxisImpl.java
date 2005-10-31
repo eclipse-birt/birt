@@ -54,32 +54,32 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubTitle <em>Sub Title</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAncillaryAxes <em>Ancillary Axes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitle <em>Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSubTitle <em>Sub Title</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getTitlePosition <em>Title Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAssociatedAxes <em>Associated Axes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getAncillaryAxes <em>Ancillary Axes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getSeriesDefinitions <em>Series Definitions</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getGapWidth <em>Gap Width</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrientation <em>Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLineAttributes <em>Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getFormatSpecifier <em>Format Specifier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getLabelPosition <em>Label Position</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isStaggered <em>Staggered</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerLines <em>Marker Lines</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMarkerRanges <em>Marker Ranges</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMajorGrid <em>Major Grid</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getMinorGrid <em>Minor Grid</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getScale <em>Scale</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#getOrigin <em>Origin</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class AxisImpl extends EObjectImpl implements Axis
@@ -88,6 +88,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -97,6 +98,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -104,17 +106,18 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected AxisType type = TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Type attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Type attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean typeESet = false;
 
 	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
@@ -122,8 +125,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Label title = null;
 
 	/**
-	 * The cached value of the '{@link #getSubTitle() <em>Sub Title</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSubTitle() <em>Sub Title</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSubTitle()
 	 * @generated
 	 * @ordered
@@ -162,8 +166,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean titlePositionESet = false;
 
 	/**
-	 * The cached value of the '{@link #getAssociatedAxes() <em>Associated Axes</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAssociatedAxes() <em>Associated Axes</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAssociatedAxes()
 	 * @generated
 	 * @ordered
@@ -171,9 +176,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList associatedAxes = null;
 
 	/**
-	 * The cached value of the '{@link #getAncillaryAxes() <em>Ancillary Axes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAncillaryAxes() <em>Ancillary Axes</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAncillaryAxes()
 	 * @generated
 	 * @ordered
@@ -181,8 +186,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList ancillaryAxes = null;
 
 	/**
-	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeriesDefinitions()
 	 * @generated
 	 * @ordered
@@ -190,8 +196,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList seriesDefinitions = null;
 
 	/**
-	 * The default value of the '{@link #getGapWidth() <em>Gap Width</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getGapWidth() <em>Gap Width</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGapWidth()
 	 * @generated
 	 * @ordered
@@ -199,8 +206,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected static final double GAP_WIDTH_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getGapWidth() <em>Gap Width</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGapWidth() <em>Gap Width</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGapWidth()
 	 * @generated
 	 * @ordered
@@ -208,17 +216,18 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected double gapWidth = GAP_WIDTH_EDEFAULT;
 
 	/**
-	 * This is true if the Gap Width attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Gap Width attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean gapWidthESet = false;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -226,8 +235,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -244,8 +254,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean orientationESet = false;
 
 	/**
-	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineAttributes() <em>Line Attributes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLineAttributes()
 	 * @generated
 	 * @ordered
@@ -253,8 +264,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected LineAttributes lineAttributes = null;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -262,8 +274,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Label label = null;
 
 	/**
-	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFormatSpecifier()
 	 * @generated
 	 * @ordered
@@ -302,8 +315,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean labelPositionESet = false;
 
 	/**
-	 * The default value of the '{@link #isStaggered() <em>Staggered</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isStaggered() <em>Staggered</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isStaggered()
 	 * @generated
 	 * @ordered
@@ -311,8 +325,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected static final boolean STAGGERED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isStaggered() <em>Staggered</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isStaggered() <em>Staggered</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isStaggered()
 	 * @generated
 	 * @ordered
@@ -320,17 +335,18 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean staggered = STAGGERED_EDEFAULT;
 
 	/**
-	 * This is true if the Staggered attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Staggered attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean staggeredESet = false;
 
 	/**
-	 * The cached value of the '{@link #getMarkerLines() <em>Marker Lines</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMarkerLines() <em>Marker Lines</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMarkerLines()
 	 * @generated
 	 * @ordered
@@ -338,8 +354,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList markerLines = null;
 
 	/**
-	 * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMarkerRanges() <em>Marker Ranges</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMarkerRanges()
 	 * @generated
 	 * @ordered
@@ -347,8 +364,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected EList markerRanges = null;
 
 	/**
-	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMajorGrid() <em>Major Grid</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMajorGrid()
 	 * @generated
 	 * @ordered
@@ -356,8 +374,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Grid majorGrid = null;
 
 	/**
-	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMinorGrid() <em>Minor Grid</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMinorGrid()
 	 * @generated
 	 * @ordered
@@ -365,8 +384,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Grid minorGrid = null;
 
 	/**
-	 * The cached value of the '{@link #getScale() <em>Scale</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getScale() <em>Scale</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScale()
 	 * @generated
 	 * @ordered
@@ -374,8 +394,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected Scale scale = null;
 
 	/**
-	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOrigin() <em>Origin</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOrigin()
 	 * @generated
 	 * @ordered
@@ -383,8 +404,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected AxisOrigin origin = null;
 
 	/**
-	 * The default value of the '{@link #isPrimaryAxis() <em>Primary Axis</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isPrimaryAxis() <em>Primary Axis</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isPrimaryAxis()
 	 * @generated
 	 * @ordered
@@ -392,8 +414,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected static final boolean PRIMARY_AXIS_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPrimaryAxis() <em>Primary Axis</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isPrimaryAxis() <em>Primary Axis</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isPrimaryAxis()
 	 * @generated
 	 * @ordered
@@ -441,8 +464,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean categoryAxisESet = false;
 
 	/**
-	 * The default value of the '{@link #isPercent() <em>Percent</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isPercent() <em>Percent</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isPercent()
 	 * @generated
 	 * @ordered
@@ -450,8 +474,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected static final boolean PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isPercent() <em>Percent</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isPercent() <em>Percent</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isPercent()
 	 * @generated
 	 * @ordered
@@ -459,9 +484,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 	protected boolean percent = PERCENT_EDEFAULT;
 
 	/**
-	 * This is true if the Percent attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Percent attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -483,6 +508,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -492,6 +518,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public AxisType getType( )
@@ -501,6 +528,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setType( AxisType newType )
@@ -520,6 +548,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetType( )
@@ -539,6 +568,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetType( )
@@ -548,6 +578,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Label getTitle( )
@@ -557,6 +588,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetTitle( Label newTitle,
@@ -581,6 +613,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setTitle( Label newTitle )
@@ -612,6 +645,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Label getSubTitle( )
@@ -621,6 +655,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSubTitle( Label newSubTitle,
@@ -645,6 +680,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSubTitle( Label newSubTitle )
@@ -678,6 +714,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Position getTitlePosition( )
@@ -687,6 +724,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setTitlePosition( Position newTitlePosition )
@@ -707,6 +745,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetTitlePosition( )
@@ -726,6 +765,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetTitlePosition( )
@@ -735,6 +775,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getAssociatedAxes( )
@@ -749,8 +790,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getAncillaryAxes( )
@@ -766,6 +807,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getSeriesDefinitions( )
@@ -781,6 +823,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getGapWidth( )
@@ -790,6 +833,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setGapWidth( double newGapWidth )
@@ -809,6 +853,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetGapWidth( )
@@ -828,6 +873,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetGapWidth( )
@@ -837,6 +883,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Orientation getOrientation( )
@@ -846,6 +893,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setOrientation( Orientation newOrientation )
@@ -866,6 +914,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetOrientation( )
@@ -885,6 +934,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetOrientation( )
@@ -894,6 +944,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public LineAttributes getLineAttributes( )
@@ -903,6 +954,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLineAttributes(
@@ -927,6 +979,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setLineAttributes( LineAttributes newLineAttributes )
@@ -960,6 +1013,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Label getLabel( )
@@ -969,6 +1023,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel( Label newLabel,
@@ -993,6 +1048,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setLabel( Label newLabel )
@@ -1024,6 +1080,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public FormatSpecifier getFormatSpecifier( )
@@ -1033,6 +1090,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFormatSpecifier(
@@ -1057,6 +1115,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setFormatSpecifier( FormatSpecifier newFormatSpecifier )
@@ -1090,6 +1149,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Position getLabelPosition( )
@@ -1099,6 +1159,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setLabelPosition( Position newLabelPosition )
@@ -1119,6 +1180,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetLabelPosition( )
@@ -1138,6 +1200,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetLabelPosition( )
@@ -1147,6 +1210,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isStaggered( )
@@ -1156,6 +1220,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setStaggered( boolean newStaggered )
@@ -1175,6 +1240,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetStaggered( )
@@ -1194,6 +1260,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetStaggered( )
@@ -1203,6 +1270,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getMarkerLines( )
@@ -1218,6 +1286,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getMarkerRanges( )
@@ -1233,6 +1302,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Grid getMajorGrid( )
@@ -1242,6 +1312,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMajorGrid( Grid newMajorGrid,
@@ -1266,6 +1337,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setMajorGrid( Grid newMajorGrid )
@@ -1299,6 +1371,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Grid getMinorGrid( )
@@ -1308,6 +1381,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetMinorGrid( Grid newMinorGrid,
@@ -1332,6 +1406,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setMinorGrid( Grid newMinorGrid )
@@ -1365,6 +1440,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Scale getScale( )
@@ -1374,6 +1450,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetScale( Scale newScale,
@@ -1398,6 +1475,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setScale( Scale newScale )
@@ -1429,6 +1507,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public AxisOrigin getOrigin( )
@@ -1438,6 +1517,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOrigin( AxisOrigin newOrigin,
@@ -1462,6 +1542,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setOrigin( AxisOrigin newOrigin )
@@ -1493,6 +1574,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isPrimaryAxis( )
@@ -1502,6 +1584,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setPrimaryAxis( boolean newPrimaryAxis )
@@ -1521,6 +1604,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetPrimaryAxis( )
@@ -1540,6 +1624,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetPrimaryAxis( )
@@ -1549,6 +1634,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isCategoryAxis( )
@@ -1558,6 +1644,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setCategoryAxis( boolean newCategoryAxis )
@@ -1577,6 +1664,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetCategoryAxis( )
@@ -1596,6 +1684,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetCategoryAxis( )
@@ -1605,6 +1694,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isPercent( )
@@ -1614,6 +1704,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setPercent( boolean newPercent )
@@ -1633,6 +1724,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetPercent( )
@@ -1652,6 +1744,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetPercent( )
@@ -1661,6 +1754,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -1715,6 +1809,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -1773,6 +1868,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -1859,6 +1955,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -1940,6 +2037,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -1999,6 +2097,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -2101,7 +2200,6 @@ public class AxisImpl extends EObjectImpl implements Axis
 		la.getCaption( ).setValue( "Axis Title" ); //$NON-NLS-1$
 		la.getCaption( ).getFont( ).setSize( 16 );
 		la.getCaption( ).getFont( ).setBold( true );
-		la.getCaption( ).getFont( ).setName( "SansSerif" ); //$NON-NLS-1$
 		la.setVisible( false );
 		setTitle( la );
 

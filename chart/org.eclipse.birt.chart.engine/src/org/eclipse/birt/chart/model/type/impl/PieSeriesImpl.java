@@ -53,6 +53,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineStyle <em>Leader Line Style</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRatio <em>Ratio</em>}</li>
  * </ul>
  * </p>
  *
@@ -217,6 +218,35 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @ordered
 	 */
 	protected ColorDefinition sliceOutline = null;
+
+	/**
+	 * The default value of the '{@link #getRatio() <em>Ratio</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRatio()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double RATIO_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getRatio() <em>Ratio</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRatio()
+	 * @generated
+	 * @ordered
+	 */
+	protected double ratio = RATIO_EDEFAULT;
+
+	/**
+	 * This is true if the Ratio attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean ratioESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -684,6 +714,66 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getRatio( )
+	{
+		return ratio;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRatio( double newRatio )
+	{
+		double oldRatio = ratio;
+		ratio = newRatio;
+		boolean oldRatioESet = ratioESet;
+		ratioESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__RATIO,
+					oldRatio,
+					ratio,
+					!oldRatioESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetRatio( )
+	{
+		double oldRatio = ratio;
+		boolean oldRatioESet = ratioESet;
+		ratio = RATIO_EDEFAULT;
+		ratioESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__RATIO,
+					oldRatio,
+					RATIO_EDEFAULT,
+					oldRatioESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetRatio( )
+	{
+		return ratioESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -770,6 +860,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return new Double( getLeaderLineLength( ) );
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				return getSliceOutline( );
+			case TypePackage.PIE_SERIES__RATIO :
+				return new Double( getRatio( ) );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -841,6 +933,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				setSliceOutline( (ColorDefinition) newValue );
 				return;
+			case TypePackage.PIE_SERIES__RATIO :
+				setRatio( ( (Double) newValue ).doubleValue( ) );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -910,6 +1005,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				setSliceOutline( (ColorDefinition) null );
 				return;
+			case TypePackage.PIE_SERIES__RATIO :
+				unsetRatio( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -962,6 +1060,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return isSetLeaderLineLength( );
 			case TypePackage.PIE_SERIES__SLICE_OUTLINE :
 				return sliceOutline != null;
+			case TypePackage.PIE_SERIES__RATIO :
+				return isSetRatio( );
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -996,6 +1096,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		result.append( ", leaderLineLength: " ); //$NON-NLS-1$
 		if ( leaderLineLengthESet )
 			result.append( leaderLineLength );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", ratio: " ); //$NON-NLS-1$
+		if ( ratioESet )
+			result.append( ratio );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

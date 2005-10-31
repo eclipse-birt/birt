@@ -640,12 +640,21 @@ public interface DataPackage extends EPackage
 	int TRIGGER__ACTION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Trigger Flow</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRIGGER__TRIGGER_FLOW = 2;
+
+	/**
 	 * The number of structural features of the the '<em>Trigger</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRIGGER_FEATURE_COUNT = 2;
+	int TRIGGER_FEATURE_COUNT = 3;
 
 	/**
 	 * Returns the meta object for class '
@@ -1108,6 +1117,17 @@ public interface DataPackage extends EPackage
 	 * @generated
 	 */
 	EReference getTrigger_Action( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow <em>Trigger Flow</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Trigger Flow</em>'.
+	 * @see org.eclipse.birt.chart.model.data.Trigger#getTriggerFlow()
+	 * @see #getTrigger()
+	 * @generated
+	 */
+	EAttribute getTrigger_TriggerFlow( );
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!--

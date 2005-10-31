@@ -133,8 +133,9 @@ public final class CurveRenderer
 			boolean _bKeepState, Fill paletteEntry, boolean usePaletteLineColor )
 	{
 		cwa = _cwa;
-		loPoints = _lo;
-		bRendering3D = loPoints instanceof Location3D[];
+		bRendering3D = _lo instanceof Location3D[];
+
+		loPoints = filterNull( _lo );
 
 		bFillArea = _bFillArea;
 		bShowAsTape = _bShowAsTape;
@@ -212,6 +213,29 @@ public final class CurveRenderer
 			fillColor = fillColor.translucent( );
 			tapeColor = tapeColor.translucent( );
 			sideColor = sideColor.translucent( );
+		}
+	}
+
+	private Location[] filterNull( Location[] ll )
+	{
+		ArrayList al = new ArrayList( );
+		for ( int i = 0; i < ll.length; i++ )
+		{
+			if ( Double.isNaN( ll[i].getX( ) ) || Double.isNaN( ll[i].getY( ) ) )
+			{
+				continue;
+			}
+
+			al.add( ll[i] );
+		}
+
+		if ( ll instanceof Location3D[] )
+		{
+			return (Location3D[]) al.toArray( new Location3D[0] );
+		}
+		else
+		{
+			return (Location[]) al.toArray( new Location[0] );
 		}
 	}
 
@@ -648,7 +672,7 @@ public final class CurveRenderer
 			{
 				ipr.fillPolygon( pre );
 			}
-			
+
 			if ( lia.isSetVisible( ) && lia.isVisible( ) )
 			{
 				for ( int i = 0; i < points.size( ) - 1; i++ )
@@ -665,7 +689,7 @@ public final class CurveRenderer
 					}
 				}
 			}
-			
+
 		}
 	}
 
@@ -725,7 +749,8 @@ public final class CurveRenderer
 					boolean drawLeftSide = ( i == 0 )
 							&& ( j == 0 )
 							&& bKeepState
-							&& bRendering3D && bFillArea;
+							&& bRendering3D
+							&& bFillArea;
 
 					if ( drawLeftSide )
 					{
@@ -742,7 +767,7 @@ public final class CurveRenderer
 
 					// TODO user a single surface to draw the tape.
 					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 && bKeepState && bFillArea);
+							&& ( j == iNumberOfDivisions - 1 && bKeepState && bFillArea );
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,

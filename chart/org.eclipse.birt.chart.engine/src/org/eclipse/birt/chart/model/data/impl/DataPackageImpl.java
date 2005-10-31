@@ -696,6 +696,16 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTrigger_TriggerFlow( )
+	{
+		return (EAttribute) triggerEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -797,6 +807,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		triggerEClass = createEClass( TRIGGER );
 		createEAttribute( triggerEClass, TRIGGER__CONDITION );
 		createEReference( triggerEClass, TRIGGER__ACTION );
+		createEAttribute( triggerEClass, TRIGGER__TRIGGER_FLOW );
 	}
 
 	/**
@@ -1008,6 +1019,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				this.getAction( ),
 				null,
 				"action", null, 1, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getTrigger_TriggerFlow( ),
+				theAttributePackage.getTriggerFlow( ),
+				"triggerFlow", "Capture", 0, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1236,6 +1250,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		addAnnotation( getTrigger_Action( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Action" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getTrigger_TriggerFlow( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TriggerFlow" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 	}
 

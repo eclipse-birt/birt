@@ -79,6 +79,21 @@ public final class ActionType extends AbstractEnumerator
 	public static final int INVOKE_SCRIPT = 3;
 
 	/**
+	 * The '<em><b>Highlight</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Highlight</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #HIGHLIGHT_LITERAL
+	 * @model name="Highlight"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int HIGHLIGHT = 4;
+
+	/**
 	 * The '<em><b>URL Redirect</b></em>' literal object. <!--
 	 * begin-user-doc -->
 	 * <p>
@@ -143,6 +158,17 @@ public final class ActionType extends AbstractEnumerator
 			"Invoke_Script" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Highlight</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #HIGHLIGHT
+	 * @generated
+	 * @ordered
+	 */
+	public static final ActionType HIGHLIGHT_LITERAL = new ActionType( HIGHLIGHT,
+			"Highlight" ); //$NON-NLS-1$
+
+	/**
 	 * An array of all the '<em><b>Action Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -153,6 +179,7 @@ public final class ActionType extends AbstractEnumerator
 			SHOW_TOOLTIP_LITERAL,
 			TOGGLE_VISIBILITY_LITERAL,
 			INVOKE_SCRIPT_LITERAL,
+			HIGHLIGHT_LITERAL,
 	};
 
 	/**
@@ -197,6 +224,8 @@ public final class ActionType extends AbstractEnumerator
 				return TOGGLE_VISIBILITY_LITERAL;
 			case INVOKE_SCRIPT :
 				return INVOKE_SCRIPT_LITERAL;
+			case HIGHLIGHT :
+				return HIGHLIGHT_LITERAL;
 		}
 		return null;
 	}

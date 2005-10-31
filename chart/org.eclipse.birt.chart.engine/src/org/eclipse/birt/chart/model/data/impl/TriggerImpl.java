@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.TriggerFlow;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
@@ -32,6 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getAction <em>Action</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.TriggerImpl#getTriggerFlow <em>Trigger Flow</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,7 +49,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * @generated
 	 * @ordered
 	 */
-	protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.MOUSE_HOVER_LITERAL;
+	protected static final TriggerCondition CONDITION_EDEFAULT = TriggerCondition.ONCLICK_LITERAL;
 
 	/**
 	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' attribute.
@@ -75,6 +77,35 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	 * @ordered
 	 */
 	protected Action action = null;
+
+	/**
+	 * The default value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggerFlow()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final TriggerFlow TRIGGER_FLOW_EDEFAULT = TriggerFlow.CAPTURE_LITERAL;
+
+	/**
+	 * The cached value of the '{@link #getTriggerFlow() <em>Trigger Flow</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggerFlow()
+	 * @generated
+	 * @ordered
+	 */
+	protected TriggerFlow triggerFlow = TRIGGER_FLOW_EDEFAULT;
+
+	/**
+	 * This is true if the Trigger Flow attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean triggerFlowESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -215,6 +246,67 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TriggerFlow getTriggerFlow( )
+	{
+		return triggerFlow;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTriggerFlow( TriggerFlow newTriggerFlow )
+	{
+		TriggerFlow oldTriggerFlow = triggerFlow;
+		triggerFlow = newTriggerFlow == null ? TRIGGER_FLOW_EDEFAULT
+				: newTriggerFlow;
+		boolean oldTriggerFlowESet = triggerFlowESet;
+		triggerFlowESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.TRIGGER__TRIGGER_FLOW,
+					oldTriggerFlow,
+					triggerFlow,
+					!oldTriggerFlowESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTriggerFlow( )
+	{
+		TriggerFlow oldTriggerFlow = triggerFlow;
+		boolean oldTriggerFlowESet = triggerFlowESet;
+		triggerFlow = TRIGGER_FLOW_EDEFAULT;
+		triggerFlowESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					DataPackage.TRIGGER__TRIGGER_FLOW,
+					oldTriggerFlow,
+					TRIGGER_FLOW_EDEFAULT,
+					oldTriggerFlowESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTriggerFlow( )
+	{
+		return triggerFlowESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -249,6 +341,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 				return getCondition( );
 			case DataPackage.TRIGGER__ACTION :
 				return getAction( );
+			case DataPackage.TRIGGER__TRIGGER_FLOW :
+				return getTriggerFlow( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -266,6 +360,9 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 				return;
 			case DataPackage.TRIGGER__ACTION :
 				setAction( (Action) newValue );
+				return;
+			case DataPackage.TRIGGER__TRIGGER_FLOW :
+				setTriggerFlow( (TriggerFlow) newValue );
 				return;
 		}
 		eDynamicSet( eFeature, newValue );
@@ -285,6 +382,9 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 			case DataPackage.TRIGGER__ACTION :
 				setAction( (Action) null );
 				return;
+			case DataPackage.TRIGGER__TRIGGER_FLOW :
+				unsetTriggerFlow( );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -301,6 +401,8 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 				return isSetCondition( );
 			case DataPackage.TRIGGER__ACTION :
 				return action != null;
+			case DataPackage.TRIGGER__TRIGGER_FLOW :
+				return isSetTriggerFlow( );
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -320,6 +422,11 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 			result.append( condition );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", triggerFlow: " ); //$NON-NLS-1$
+		if ( triggerFlowESet )
+			result.append( triggerFlow );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
@@ -337,7 +444,7 @@ public class TriggerImpl extends EObjectImpl implements Trigger
 		final Trigger tg = DataFactory.eINSTANCE.createTrigger( );
 		if ( tc == null )
 		{
-			tc = TriggerCondition.MOUSE_CLICK_LITERAL;
+			tc = TriggerCondition.ONCLICK_LITERAL;
 		}
 		tg.setCondition( tc );
 		tg.setAction( a );

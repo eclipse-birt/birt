@@ -386,8 +386,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		if ( bStepFixed )
 			return false;
-		if ( ( (Number) oStep ).doubleValue( ) >= Double.POSITIVE_INFINITY
-				|| ( (Number) oStep ).doubleValue( ) >= Double.MAX_VALUE )
+		if ( ( (Number) oStep ).doubleValue( ) >= Double.MAX_VALUE )
 			return false; // CANNOT ZOOM ANY MORE
 
 		if ( ( iType & NUMERICAL ) == NUMERICAL )
@@ -1330,7 +1329,8 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2 ) ) )
+											.equals( p ) || ChartUtil.intersects( rr,
+									rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1341,7 +1341,8 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( rrPrev != null
 							&& ( rrPrev.contains( p )
 									|| rrPrev.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev ) ) )
+											.equals( p ) || ChartUtil.intersects( rr,
+									rrPrev ) ) )
 					{
 						return false;
 					}
@@ -1406,7 +1407,8 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2 ) ) )
+											.equals( p ) || ChartUtil.intersects( rr,
+									rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1463,7 +1465,8 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( rrPrev2 != null
 							&& ( rrPrev2.contains( p )
 									|| rrPrev2.getPoint( iPointToCheck )
-											.equals( p ) || rr.intersects( rrPrev2 ) ) )
+											.equals( p ) || ChartUtil.intersects( rr,
+									rrPrev2 ) ) )
 					{
 						return false;
 					}
@@ -1591,7 +1594,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( rrPrev2.contains( p )
 							|| rrPrev2.getPoint( iPointToCheck ).equals( p )
-							|| rr.intersects( rrPrev2 ) )
+							|| ChartUtil.intersects( rr, rrPrev2 ) )
 					{
 						ba[i] = false;
 					}
@@ -1615,7 +1618,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( rrPrev.contains( p )
 							|| rrPrev.getPoint( iPointToCheck ).equals( p )
-							|| rr.intersects( rrPrev ) )
+							|| ChartUtil.intersects( rr, rrPrev ) )
 					{
 						ba[i] = false;
 					}
@@ -3042,8 +3045,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @return
 	 * @throws ChartException
 	 */
-	public final double computeStaggeredAxisLabelOffset( IDisplayServer xs, Label la,
-			int iOrientation ) throws ChartException
+	public final double computeStaggeredAxisLabelOffset( IDisplayServer xs,
+			Label la, int iOrientation ) throws ChartException
 	{
 		if ( !la.isSetVisible( ) )
 		{
@@ -3117,7 +3120,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					
+
 					if ( i % 2 == 0 )
 					{
 						dW = computeWidth( xs, la );
@@ -3156,7 +3159,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					
+
 					if ( i % 2 == 0 )
 					{
 						dW = computeWidth( xs, la );
@@ -3194,7 +3197,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					
+
 					if ( i % 2 == 0 )
 					{
 						dW = computeWidth( xs, la );
@@ -3303,7 +3306,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					
+
 					if ( i % 2 == 0 )
 					{
 						dH = computeHeight( xs, la );
@@ -3341,7 +3344,7 @@ public final class AutoScale extends Methods implements Cloneable
 						sText = IConstants.NULL_STRING;
 					}
 					la.getCaption( ).setValue( sText );
-					
+
 					if ( i % 2 == 0 )
 					{
 						dH = computeHeight( xs, la );

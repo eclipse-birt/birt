@@ -16,14 +16,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element minOccurs="0" name="Riser" type="attribute:RiserType">
+					<xsd:element name="Riser" type="attribute:RiserType" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the 'Riser' to be used for displaying the data values in the chart.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element minOccurs="0" name="RiserOutline" type="attribute:ColorDefinition">
+					<xsd:element name="RiserOutline" type="attribute:ColorDefinition" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Defines the color to be used for the Riser outline.
@@ -44,14 +44,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element minOccurs="0" name="Explosion" type="xsd:int">
+					<xsd:element name="Explosion" type="xsd:int" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the 'Explosion' value to be used while displaying the pie slices.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element minOccurs="0" name="ExplosionExpression" type="xsd:string">
+					<xsd:element name="ExplosionExpression" type="xsd:string" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation>Specifies an expression to determine if the explosion will be applied to each slice.</xsd:documentation>
 						</xsd:annotation>
@@ -91,11 +91,16 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element minOccurs="0" name="SliceOutline" type="attribute:ColorDefinition">
+					<xsd:element name="SliceOutline" type="attribute:ColorDefinition" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Defines the color to be used for the slice outline.
 							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="Ratio" type="xsd:double" default="0">
+						<xsd:annotation>
+							<xsd:documentation>Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>
@@ -112,14 +117,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element minOccurs="0" name="Marker" type="attribute:Marker">
+					<xsd:element name="Marker" type="attribute:Marker" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the marker to be used for displaying the data point on the line in the chart.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element minOccurs="0" name="LineAttributes" type="attribute:LineAttributes">
+					<xsd:element name="LineAttributes" type="attribute:LineAttributes" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the attributes for the line used to represent this series.
@@ -170,14 +175,14 @@
 		<xsd:complexContent>
 			<xsd:extension base="component:Series">
 				<xsd:sequence>
-					<xsd:element minOccurs="0" name="Fill" type="attribute:Fill">
+					<xsd:element name="Fill" type="attribute:Fill" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Defines the fill to be used for the Candle.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element minOccurs="0" name="LineAttributes" type="attribute:LineAttributes">
+					<xsd:element name="LineAttributes" type="attribute:LineAttributes" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies the style to be used to display the lines for this series.

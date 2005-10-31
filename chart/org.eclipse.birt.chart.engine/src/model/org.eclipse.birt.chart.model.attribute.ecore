@@ -17,6 +17,7 @@
     <eLiterals name="Show_Tooltip" value="1"/>
     <eLiterals name="Toggle_Visibility" value="2"/>
     <eLiterals name="Invoke_Script" value="3"/>
+    <eLiterals name="Highlight" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ActionTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -829,6 +830,36 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Interactivity">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the interactiviy settings for the chart."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="Interactivity"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enable" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        defaultValueLiteral="true" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Enable/Disable all interactive features, true by default"/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Enable"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="legendBehavior" unique="false"
+        eType="#//LegendBehaviorType" defaultValueLiteral="None" unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Three possible behaviours: None, Toggle the Serie visibility, Highlight the serie."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="LegendBehavior"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntersectionType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type represents the possible values for axis intersection locations.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -909,6 +940,23 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="LeaderLineStyle:Object"/>
       <details key="baseType" value="LeaderLineStyle"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LegendBehaviorType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the allowed values for Legend behaviors."/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="LegendBehaviorType"/>
+    </eAnnotations>
+    <eLiterals name="None"/>
+    <eLiterals name="ToggleSerieVisibility" value="1"/>
+    <eLiterals name="HighlightSerie" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="LegendBehaviorTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="LegendBehaviorType:Object"/>
+      <details key="baseType" value="LegendBehaviorType"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LegendItemType">
@@ -1687,13 +1735,51 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition"/>
     </eAnnotations>
-    <eLiterals name="Mouse_Hover"/>
-    <eLiterals name="Mouse_Click" value="1"/>
+    <eLiterals name="Mouse_Hover">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="deprecated"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="Mouse_Click" value="1">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="deprecated"/>
+      </eAnnotations>
+    </eLiterals>
+    <eLiterals name="onclick" value="2"/>
+    <eLiterals name="ondblclick" value="3"/>
+    <eLiterals name="onmousedown" value="4"/>
+    <eLiterals name="onmouseup" value="5"/>
+    <eLiterals name="onmouseover" value="6"/>
+    <eLiterals name="onmousemove" value="7"/>
+    <eLiterals name="onmouseout" value="8"/>
+    <eLiterals name="onfocus" value="9"/>
+    <eLiterals name="onblur" value="10"/>
+    <eLiterals name="onkeydown" value="11"/>
+    <eLiterals name="onkeypress" value="12"/>
+    <eLiterals name="onkeyup" value="13"/>
+    <eLiterals name="onload" value="14"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="TriggerConditionObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="TriggerCondition:Object"/>
       <details key="baseType" value="TriggerCondition"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TriggerFlow">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;The TriggerFlow defines whether it reacts to the capturing or bubbling sequence &#xD;&#xA;Capture: the trigger’s action will be triggered in the capturing phase&#xD;&#xA;Bubble (default): the trigger’s action will be triggered in the bubbling phase&#xD;&#xA;BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, and will stop the bubbling flow.&#xD;&#xA;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="TriggerFlow"/>
+    </eAnnotations>
+    <eLiterals name="Capture"/>
+    <eLiterals name="Bubble" value="1"/>
+    <eLiterals name="BubbleAndStop" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="TriggerFlowObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="TriggerFlow:Object"/>
+      <details key="baseType" value="TriggerFlow"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="UnitsOfMeasurement">

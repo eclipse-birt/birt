@@ -23,9 +23,11 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -74,6 +76,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
  * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity <em>Interactivity</em>}</li>
  * </ul>
  * </p>
  * 
@@ -334,6 +337,16 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * @ordered
 	 */
 	protected EList styles = null;
+
+	/**
+	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @see #getInteractivity()
+	 * @generated
+	 * @ordered
+	 */
+	protected Interactivity interactivity = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -945,6 +958,75 @@ public class ChartImpl extends EObjectImpl implements Chart
 	 * 
 	 * @generated
 	 */
+	public Interactivity getInteractivity( )
+	{
+		return interactivity;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public NotificationChain basicSetInteractivity(
+			Interactivity newInteractivity, NotificationChain msgs )
+	{
+		Interactivity oldInteractivity = interactivity;
+		interactivity = newInteractivity;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART__INTERACTIVITY,
+					oldInteractivity,
+					newInteractivity );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	public void setInteractivity( Interactivity newInteractivity )
+	{
+		if ( newInteractivity != interactivity )
+		{
+			NotificationChain msgs = null;
+			if ( interactivity != null )
+				msgs = ( (InternalEObject) interactivity ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART__INTERACTIVITY,
+						null,
+						msgs );
+			if ( newInteractivity != null )
+				msgs = ( (InternalEObject) newInteractivity ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- ModelPackage.CHART__INTERACTIVITY,
+						null,
+						msgs );
+			msgs = basicSetInteractivity( newInteractivity, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART__INTERACTIVITY,
+					newInteractivity,
+					newInteractivity ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, Class baseClass, NotificationChain msgs )
 	{
@@ -964,6 +1046,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				case ModelPackage.CHART__STYLES :
 					return ( (InternalEList) getStyles( ) ).basicRemove( otherEnd,
 							msgs );
+				case ModelPackage.CHART__INTERACTIVITY :
+					return basicSetInteractivity( null, msgs );
 				default :
 					return eDynamicInverseRemove( otherEnd,
 							featureID,
@@ -1009,6 +1093,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return getSampleData( );
 			case ModelPackage.CHART__STYLES :
 				return getStyles( );
+			case ModelPackage.CHART__INTERACTIVITY :
+				return getInteractivity( );
 		}
 		return eDynamicGet( eFeature, resolve );
 	}
@@ -1063,6 +1149,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 				getStyles( ).clear( );
 				getStyles( ).addAll( (Collection) newValue );
 				return;
+			case ModelPackage.CHART__INTERACTIVITY :
+				setInteractivity( (Interactivity) newValue );
+				return;
 		}
 		eDynamicSet( eFeature, newValue );
 	}
@@ -1115,6 +1204,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 			case ModelPackage.CHART__STYLES :
 				getStyles( ).clear( );
 				return;
+			case ModelPackage.CHART__INTERACTIVITY :
+				setInteractivity( (Interactivity) null );
+				return;
 		}
 		eDynamicUnset( eFeature );
 	}
@@ -1159,6 +1251,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 				return sampleData != null;
 			case ModelPackage.CHART__STYLES :
 				return styles != null && !styles.isEmpty( );
+			case ModelPackage.CHART__INTERACTIVITY :
+				return interactivity != null;
 		}
 		return eDynamicIsSet( eFeature );
 	}
@@ -1290,6 +1384,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 		// 4. SETUP OTHER BASIC PROPERTIES
 		setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		setSeriesThickness( 10 );
+
+		// 5. SETUP INTERACTIVITY
+		setInteractivity( InteractivityImpl.create( ) );
 	}
 
 	/*

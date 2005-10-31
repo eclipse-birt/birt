@@ -1409,6 +1409,7 @@ public abstract class PlotWithAxes extends Methods
 						{
 							if (!scX.zoomOut( ))
 							{
+								bForceBreak = true;
 								break;
 							}
 							scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -1424,6 +1425,7 @@ public abstract class PlotWithAxes extends Methods
 									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 									&& tickCount <= 3 )
 							{
+								bForceBreak = true;
 								break;
 							}
 						}
@@ -1548,6 +1550,7 @@ public abstract class PlotWithAxes extends Methods
 							{
 								if (!scX.zoomOut( ))
 								{
+									bForceBreak = true;
 									break;
 								}
 								scX.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -1563,6 +1566,7 @@ public abstract class PlotWithAxes extends Methods
 										&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
+									bForceBreak = true;
 									break;
 								}
 							}
@@ -2006,6 +2010,7 @@ public abstract class PlotWithAxes extends Methods
 							{
 								if (!scY.zoomOut( ))
 								{
+									bForceBreak = true;
 									break;
 								}
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -2021,6 +2026,7 @@ public abstract class PlotWithAxes extends Methods
 										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
+									bForceBreak = true;
 									break;
 								}
 							}
@@ -2111,6 +2117,7 @@ public abstract class PlotWithAxes extends Methods
 							{
 								if (!scY.zoomOut( ))
 								{
+									bForceBreak = true;
 									break;
 								}
 								scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
@@ -2126,6 +2133,7 @@ public abstract class PlotWithAxes extends Methods
 										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 										&& tickCount <= 3 )
 								{
+									bForceBreak = true;
 									break;
 								}
 							}

@@ -42,10 +42,12 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Image;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
@@ -76,6 +78,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.TriggerFlow;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
@@ -215,6 +218,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateImage( (Image) value, diagnostics, context );
 			case AttributePackage.INSETS :
 				return validateInsets( (Insets) value, diagnostics, context );
+			case AttributePackage.INTERACTIVITY :
+				return validateInteractivity( (Interactivity) value,
+						diagnostics,
+						context );
 			case AttributePackage.JAVA_DATE_FORMAT_SPECIFIER :
 				return validateJavaDateFormatSpecifier( (JavaDateFormatSpecifier) value,
 						diagnostics,
@@ -319,6 +326,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateLeaderLineStyle( (Object) value,
 						diagnostics,
 						context );
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE :
+				return validateLegendBehaviorType( (Object) value,
+						diagnostics,
+						context );
 			case AttributePackage.LEGEND_ITEM_TYPE :
 				return validateLegendItemType( (Object) value,
 						diagnostics,
@@ -357,6 +368,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateTickStyle( (Object) value, diagnostics, context );
 			case AttributePackage.TRIGGER_CONDITION :
 				return validateTriggerCondition( (Object) value,
+						diagnostics,
+						context );
+			case AttributePackage.TRIGGER_FLOW :
+				return validateTriggerFlow( (Object) value,
 						diagnostics,
 						context );
 			case AttributePackage.UNITS_OF_MEASUREMENT :
@@ -429,6 +444,10 @@ public class AttributeValidator extends EObjectValidator
 				return validateLeaderLineStyleObject( (LeaderLineStyle) value,
 						diagnostics,
 						context );
+			case AttributePackage.LEGEND_BEHAVIOR_TYPE_OBJECT :
+				return validateLegendBehaviorTypeObject( (LegendBehaviorType) value,
+						diagnostics,
+						context );
 			case AttributePackage.LEGEND_ITEM_TYPE_OBJECT :
 				return validateLegendItemTypeObject( (LegendItemType) value,
 						diagnostics,
@@ -499,6 +518,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.TRIGGER_CONDITION_OBJECT :
 				return validateTriggerConditionObject( (TriggerCondition) value,
+						diagnostics,
+						context );
+			case AttributePackage.TRIGGER_FLOW_OBJECT :
+				return validateTriggerFlowObject( (TriggerFlow) value,
 						diagnostics,
 						context );
 			case AttributePackage.UNITS_OF_MEASUREMENT_OBJECT :
@@ -680,6 +703,19 @@ public class AttributeValidator extends EObjectValidator
 			Map context )
 	{
 		return validate_EveryDefaultConstraint( insets, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateInteractivity( Interactivity interactivity,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( interactivity,
+				diagnostics,
+				context );
 	}
 
 	/**
@@ -1047,6 +1083,17 @@ public class AttributeValidator extends EObjectValidator
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLegendBehaviorType( Object legendBehaviorType,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1181,6 +1228,17 @@ public class AttributeValidator extends EObjectValidator
 	 * @generated
 	 */
 	public boolean validateTriggerCondition( Object triggerCondition,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTriggerFlow( Object triggerFlow,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
@@ -1398,6 +1456,18 @@ public class AttributeValidator extends EObjectValidator
 	public boolean validateLeaderLineStyleObject(
 			LeaderLineStyle leaderLineStyleObject, DiagnosticChain diagnostics,
 			Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateLegendBehaviorTypeObject(
+			LegendBehaviorType legendBehaviorTypeObject,
+			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
 	}
@@ -1712,6 +1782,17 @@ public class AttributeValidator extends EObjectValidator
 	 */
 	public boolean validateTriggerConditionObject(
 			TriggerCondition triggerConditionObject,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return true;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateTriggerFlowObject( TriggerFlow triggerFlowObject,
 			DiagnosticChain diagnostics, Map context )
 	{
 		return true;
