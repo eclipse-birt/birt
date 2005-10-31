@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ChartType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -136,6 +137,13 @@ public class AttributePackageImpl extends EPackageImpl implements
 	 * @generated
 	 */
 	private EClass boundsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass callBackValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -994,6 +1002,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	public EAttribute getBounds_Height( )
 	{
 		return (EAttribute) boundsEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCallBackValue( )
+	{
+		return callBackValueEClass;
 	}
 
 	/**
@@ -2748,6 +2766,8 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( boundsEClass, BOUNDS__WIDTH );
 		createEAttribute( boundsEClass, BOUNDS__HEIGHT );
 
+		callBackValueEClass = createEClass( CALL_BACK_VALUE );
+
 		colorDefinitionEClass = createEClass( COLOR_DEFINITION );
 		createEAttribute( colorDefinitionEClass, COLOR_DEFINITION__TRANSPARENCY );
 		createEAttribute( colorDefinitionEClass, COLOR_DEFINITION__RED );
@@ -3008,6 +3028,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		DataPackageImpl theDataPackage = (DataPackageImpl) EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI );
 
 		// Add supertypes to classes
+		callBackValueEClass.getESuperTypes( ).add( this.getActionValue( ) );
 		colorDefinitionEClass.getESuperTypes( ).add( this.getFill( ) );
 		dateFormatSpecifierEClass.getESuperTypes( )
 				.add( this.getFormatSpecifier( ) );
@@ -3072,6 +3093,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getBounds_Height( ),
 				theXMLTypePackage.getDouble( ),
 				"height", null, 1, 1, Bounds.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+
+		initEClass( callBackValueEClass,
+				CallBackValue.class,
+				"CallBackValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 
 		initEClass( colorDefinitionEClass,
 				ColorDefinition.class,
@@ -3465,6 +3490,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( actionTypeEEnum, ActionType.TOGGLE_VISIBILITY_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.INVOKE_SCRIPT_LITERAL );
 		addEEnumLiteral( actionTypeEEnum, ActionType.HIGHLIGHT_LITERAL );
+		addEEnumLiteral( actionTypeEEnum, ActionType.CALL_BACK_LITERAL );
 
 		initEEnum( anchorEEnum, Anchor.class, "Anchor" ); //$NON-NLS-1$
 		addEEnumLiteral( anchorEEnum, Anchor.NORTH_LITERAL );
@@ -3955,6 +3981,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addAnnotation( getBounds_Height( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Height" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( callBackValueEClass, source, new String[]{
+				"name", "CallBackValue", //$NON-NLS-1$ //$NON-NLS-2$
+				"kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartDimensionEEnum, source, new String[]{
 				"name", "ChartDimension" //$NON-NLS-1$ //$NON-NLS-2$

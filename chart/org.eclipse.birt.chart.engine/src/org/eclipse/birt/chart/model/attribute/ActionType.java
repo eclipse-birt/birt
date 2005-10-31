@@ -94,6 +94,21 @@ public final class ActionType extends AbstractEnumerator
 	public static final int HIGHLIGHT = 4;
 
 	/**
+	 * The '<em><b>Call Back</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Call Back</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #CALL_BACK_LITERAL
+	 * @model name="CallBack"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CALL_BACK = 5;
+
+	/**
 	 * The '<em><b>URL Redirect</b></em>' literal object. <!--
 	 * begin-user-doc -->
 	 * <p>
@@ -169,6 +184,17 @@ public final class ActionType extends AbstractEnumerator
 			"Highlight" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Call Back</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CALL_BACK
+	 * @generated
+	 * @ordered
+	 */
+	public static final ActionType CALL_BACK_LITERAL = new ActionType( CALL_BACK,
+			"CallBack" ); //$NON-NLS-1$
+
+	/**
 	 * An array of all the '<em><b>Action Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -180,6 +206,7 @@ public final class ActionType extends AbstractEnumerator
 			TOGGLE_VISIBILITY_LITERAL,
 			INVOKE_SCRIPT_LITERAL,
 			HIGHLIGHT_LITERAL,
+			CALL_BACK_LITERAL,
 	};
 
 	/**
@@ -226,6 +253,8 @@ public final class ActionType extends AbstractEnumerator
 				return INVOKE_SCRIPT_LITERAL;
 			case HIGHLIGHT :
 				return HIGHLIGHT_LITERAL;
+			case CALL_BACK :
+				return CALL_BACK_LITERAL;
 		}
 		return null;
 	}

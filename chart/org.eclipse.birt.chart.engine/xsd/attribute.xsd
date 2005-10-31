@@ -58,6 +58,7 @@
 			<xsd:enumeration value="Toggle_Visibility"/>
 			<xsd:enumeration value="Invoke_Script"/>
 			<xsd:enumeration value="Highlight"/>
+			<xsd:enumeration value="CallBack"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="TriggerCondition">
@@ -570,6 +571,16 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CallBackValue">
+		<xsd:annotation>
+			<xsd:documentation>
+			This type defines the value for a 'CallBack' action.
+		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ActionValue"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="Text">

@@ -46,7 +46,6 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @model name="Mouse_Hover"
 	 * @generated
 	 * @ordered
-	 * @deprecated
 	 */
 	public static final int MOUSE_HOVER = 0;
 
@@ -61,7 +60,6 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @model name="Mouse_Click"
 	 * @generated
 	 * @ordered
-	 * @deprecated
 	 */
 	public static final int MOUSE_CLICK = 1;
 

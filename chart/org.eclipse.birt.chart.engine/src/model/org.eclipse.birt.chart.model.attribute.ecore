@@ -18,6 +18,7 @@
     <eLiterals name="Toggle_Visibility" value="2"/>
     <eLiterals name="Invoke_Script" value="3"/>
     <eLiterals name="Highlight" value="4"/>
+    <eLiterals name="CallBack" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="ActionTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -210,6 +211,15 @@
         <details key="name" value="Height"/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CallBackValue" eSuperTypes="#//ActionValue">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines the value for a 'CallBack' action.&#xD;&#xA;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="CallBackValue"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ChartDimension">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -158,6 +158,16 @@ public class AttributeSwitch
 					result = defaultCase( theEObject );
 				return result;
 			}
+			case AttributePackage.CALL_BACK_VALUE :
+			{
+				CallBackValue callBackValue = (CallBackValue) theEObject;
+				Object result = caseCallBackValue( callBackValue );
+				if ( result == null )
+					result = caseActionValue( callBackValue );
+				if ( result == null )
+					result = defaultCase( theEObject );
+				return result;
+			}
 			case AttributePackage.COLOR_DEFINITION :
 			{
 				ColorDefinition colorDefinition = (ColorDefinition) theEObject;
@@ -489,6 +499,22 @@ public class AttributeSwitch
 	 * @generated
 	 */
 	public Object caseBounds( Bounds object )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Call Back Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Call Back Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseCallBackValue( CallBackValue object )
 	{
 		return null;
 	}

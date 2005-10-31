@@ -26,20 +26,19 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl#isEnable <em>Enable</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl#getLegendBehavior <em>Legend Behavior</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl#isEnable <em>Enable</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl#getLegendBehavior <em>Legend Behavior</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class InteractivityImpl extends EObjectImpl implements Interactivity
 {
 
 	/**
-	 * The default value of the '{@link #isEnable() <em>Enable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isEnable() <em>Enable</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isEnable()
 	 * @generated
 	 * @ordered
@@ -47,9 +46,8 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	protected static final boolean ENABLE_EDEFAULT = true;
 
 	/**
-	 * The cached value of the '{@link #isEnable() <em>Enable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isEnable() <em>Enable</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isEnable()
 	 * @generated
 	 * @ordered
@@ -57,18 +55,17 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	protected boolean enable = ENABLE_EDEFAULT;
 
 	/**
-	 * This is true if the Enable attribute has been set. <!-- begin-user-doc
+	 * This is true if the Enable attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean enableESet = false;
 
 	/**
-	 * The default value of the '{@link #getLegendBehavior() <em>Legend Behavior</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getLegendBehavior() <em>Legend Behavior</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLegendBehavior()
 	 * @generated
 	 * @ordered
@@ -76,9 +73,8 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 	protected static final LegendBehaviorType LEGEND_BEHAVIOR_EDEFAULT = LegendBehaviorType.NONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getLegendBehavior() <em>Legend Behavior</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLegendBehavior() <em>Legend Behavior</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLegendBehavior()
 	 * @generated
 	 * @ordered
@@ -96,7 +92,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected InteractivityImpl( )
@@ -106,7 +101,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -116,7 +110,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isEnable( )
@@ -126,7 +119,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setEnable( boolean newEnable )
@@ -146,7 +138,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetEnable( )
@@ -166,7 +157,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetEnable( )
@@ -176,7 +166,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LegendBehaviorType getLegendBehavior( )
@@ -186,7 +175,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setLegendBehavior( LegendBehaviorType newLegendBehavior )
@@ -207,7 +195,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetLegendBehavior( )
@@ -227,7 +214,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetLegendBehavior( )
@@ -237,7 +223,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( EStructuralFeature eFeature, boolean resolve )
@@ -254,7 +239,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( EStructuralFeature eFeature, Object newValue )
@@ -273,7 +257,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( EStructuralFeature eFeature )
@@ -292,7 +275,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( EStructuralFeature eFeature )
@@ -309,7 +291,6 @@ public class InteractivityImpl extends EObjectImpl implements Interactivity
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

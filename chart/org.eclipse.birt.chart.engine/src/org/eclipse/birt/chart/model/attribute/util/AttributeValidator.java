@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.model.attribute.util;
 
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.*;
+
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ActionValue;
 import org.eclipse.birt.chart.model.attribute.Anchor;
@@ -182,6 +184,10 @@ public class AttributeValidator extends EObjectValidator
 						context );
 			case AttributePackage.BOUNDS :
 				return validateBounds( (Bounds) value, diagnostics, context );
+			case AttributePackage.CALL_BACK_VALUE :
+				return validateCallBackValue( (CallBackValue) value,
+						diagnostics,
+						context );
 			case AttributePackage.COLOR_DEFINITION :
 				return validateColorDefinition( (ColorDefinition) value,
 						diagnostics,
@@ -579,6 +585,19 @@ public class AttributeValidator extends EObjectValidator
 			Map context )
 	{
 		return validate_EveryDefaultConstraint( bounds, diagnostics, context );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateCallBackValue( CallBackValue callBackValue,
+			DiagnosticChain diagnostics, Map context )
+	{
+		return validate_EveryDefaultConstraint( callBackValue,
+				diagnostics,
+				context );
 	}
 
 	/**

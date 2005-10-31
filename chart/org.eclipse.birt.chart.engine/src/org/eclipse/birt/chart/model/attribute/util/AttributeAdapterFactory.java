@@ -128,6 +128,11 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 			return createBoundsAdapter( );
 		}
 
+		public Object caseCallBackValue( CallBackValue object )
+		{
+			return createCallBackValueAdapter( );
+		}
+
 		public Object caseColorDefinition( ColorDefinition object )
 		{
 			return createColorDefinitionAdapter( );
@@ -357,6 +362,21 @@ public class AttributeAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createBoundsAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.attribute.CallBackValue <em>Call Back Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.attribute.CallBackValue
+	 * @generated
+	 */
+	public Adapter createCallBackValueAdapter( )
 	{
 		return null;
 	}

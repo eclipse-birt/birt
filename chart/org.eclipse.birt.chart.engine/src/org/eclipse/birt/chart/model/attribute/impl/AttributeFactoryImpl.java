@@ -123,6 +123,8 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 				return createAxisOrigin( );
 			case AttributePackage.BOUNDS :
 				return createBounds( );
+			case AttributePackage.CALL_BACK_VALUE :
+				return createCallBackValue( );
 			case AttributePackage.COLOR_DEFINITION :
 				return createColorDefinition( );
 			case AttributePackage.DATA_POINT :
@@ -748,6 +750,17 @@ public class AttributeFactoryImpl extends EFactoryImpl implements
 	{
 		BoundsImpl bounds = new BoundsImpl( );
 		return bounds;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CallBackValue createCallBackValue( )
+	{
+		CallBackValueImpl callBackValue = new CallBackValueImpl( );
+		return callBackValue;
 	}
 
 	/**

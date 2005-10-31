@@ -63,6 +63,15 @@ public interface AttributeFactory extends EFactory
 	Bounds createBounds( );
 
 	/**
+	 * Returns a new object of class '<em>Call Back Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Call Back Value</em>'.
+	 * @generated
+	 */
+	CallBackValue createCallBackValue( );
+
+	/**
 	 * Returns a new object of class '<em>Color Definition</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Color Definition</em>'.
