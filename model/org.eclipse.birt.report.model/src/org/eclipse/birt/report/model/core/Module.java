@@ -1577,7 +1577,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	/**
 	 * Updates the element reference which refers to the given library.
 	 * 
-	 * @param library
+	 * @param target
 	 *            the library whose element references are updated.
 	 * @param slotId
 	 *            the id of themes/styles slot
@@ -2032,4 +2032,51 @@ public abstract class Module extends DesignElement implements IModuleModel
 			}
 		}
 	}
+	
+	/**
+	 * Gets the location information of the module.
+	 * 
+	 * @return the location information of the module
+	 */
+
+	public String getLocation( )
+	{
+		assert systemId != null;
+
+		if ( fileName == null )
+			return systemId.toString( );
+		return systemId + StringUtil.extractFileNameWithSuffix( fileName );
+	}
+
+	/**
+	 * Gets the library with the given location path.
+	 * 
+	 * @param theLocation
+	 *            the location path to find
+	 * @return the library with the given location path if found, otherwise null
+	 */
+
+	public Library getLibraryByLocation( String theLocation )
+	{
+		// if the location path is null or empty, return null
+
+		if ( StringUtil.isBlank( theLocation ) )
+			return null;
+
+		// look up the library with the location path in the included library
+		// list
+
+		List libraries = getAllLibraries( );
+		for ( int i = 0; i < libraries.size( ); i++ )
+		{
+			Library library = (Library) libraries.get( i );
+			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
+				return library;
+		}
+
+		// the library with the given location path is not found, return null
+
+		return null;
+	}
+
 }

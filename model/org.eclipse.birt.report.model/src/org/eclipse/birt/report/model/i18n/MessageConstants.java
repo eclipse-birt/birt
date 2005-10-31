@@ -89,7 +89,8 @@ public interface MessageConstants
 	public static final String EXTENDS_EXCEPTION_CIRCULAR = "Error.ExtendsException.CIRCULAR"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_UNNAMED_PARENT = "Error.ExtendsException.UNNAMED_PARENT"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_PARENT_NOT_IN_COMPONENT = "Error.ExtendsException.PARENT_NOT_IN_COMPONENT"; //$NON-NLS-1$
-
+	public static final String EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE = "Error.ExtendsException.PARENT_NOT_INCLUDE";
+	
 	// NameException
 	public static final String NAME_EXCEPTION_NAME_REQUIRED = "Error.NameException.NAME_REQUIRED"; //$NON-NLS-1$
 	public static final String NAME_EXCEPTION_NAME_FORBIDDEN = "Error.NameException.NAME_FORBIDDEN"; //$NON-NLS-1$

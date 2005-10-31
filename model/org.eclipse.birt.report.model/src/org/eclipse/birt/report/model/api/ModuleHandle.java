@@ -198,7 +198,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		ElementPropertyDefn propDefn = module.getPropertyDefn( IMAGES_PROP );
 		cmd.addItem( new CachedMemberRef( propDefn ), image );
 	}
-	
+
 	/**
 	 * Checks the name of the embedded image in this report. If duplicate, get a
 	 * unique name and rename it.
@@ -1098,7 +1098,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			String groupName )
 	{
 		DesignElement element = module.findParameter( groupName );
-		if ( element == null || ! ( element instanceof CascadingParameterGroup ))
+		if ( element == null || !( element instanceof CascadingParameterGroup ))
 			return null;
 		return (CascadingParameterGroupHandle) element.getHandle( module );
 		
@@ -2067,6 +2067,32 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		ThemeCommand command = new ThemeCommand( getModule( ) );
 		command.setThemeElement( theme );
+	}
+
+	/**
+	 * Gets the location information of the module.
+	 * 
+	 * @return the location information of the module
+	 */
+
+	String getLocation( )
+	{
+		return getModule( ).getLocation( );
+	}
+
+	/**
+	 * Checks whether there is an included library in this module, which has the
+	 * same absolute path as that of the given library.
+	 * 
+	 * @param library
+	 *            the library to check
+	 * @return true if there is an included library in this module, which has
+	 *         the same absolute path as that the given library, otherwise false
+	 */
+	
+	public boolean isInclude( LibraryHandle library )
+	{
+		return getModule( ).getLibraryByLocation( library.getLocation( ) ) != null;
 	}
 
 }

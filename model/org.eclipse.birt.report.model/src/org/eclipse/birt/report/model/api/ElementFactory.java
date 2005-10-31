@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.GraphicMasterPage;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
@@ -816,30 +817,72 @@ public class ElementFactory
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
 	 * 
-	 * @param element
+	 * @param baseElement
 	 *            the base element.
 	 * @param name
 	 *            the optional new element name
 	 * @return the handle to the new element.
+	 * @throws ExtendsException
+	 *             if the the base element is in a library that is not included
+	 *             in this module, or if the "extends" relationship is illegal
 	 */
 
-	public DesignElementHandle newElementFrom( DesignElementHandle element,
-			String name )
+	public DesignElementHandle newElementFrom( DesignElementHandle baseElement,
+			String name ) throws ExtendsException
 	{
-		try
-		{
-			DesignElementHandle childElement = newElement( element.getElement( )
-					.getElementName( ), name );
+		if ( baseElement == null )
+			return null;
 
-			childElement.setExtends( element );
+		// if the base element is in the module, just generate a child element
+
+		if ( baseElement.getModule( ) == this.module )
+		{
+			DesignElementHandle childElement = newElement( baseElement
+					.getElement( ).getElementName( ), name );
+
+			childElement.setExtends( baseElement );
 
 			return childElement;
 		}
-		catch ( ExtendsException e )
+
+		// the base element is not in the module, check whether the root module
+		// of the base element is included
+
+		Module root = baseElement.getModule( );
+		if ( root instanceof Library )
 		{
-			assert false;
-			return null;
+			// the library with the location path is never included
+
+			Library lib = module.getLibraryByLocation( root.getLocation( ) );
+			if ( lib == null )
+			{
+				throw new ExtendsException( null, baseElement.getElement( ),
+						ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
+			}
+			else
+			{
+				DesignElement base = lib.getElementByID( baseElement.getID( ) );
+
+				// if the element with the name is not found or the element type
+				// is inconsistent, throw an exception
+				
+				if ( base == null || base.getDefn( ) != baseElement.getDefn( ) )
+				{
+					throw new ExtendsException( null, baseElement.getName( ),
+							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
+				}
+
+				DesignElementHandle childElement = newElement( base
+						.getElementName( ), name );
+				childElement.setExtends( base.getHandle( lib ) );
+				return childElement;
+			}
 		}
+
+		// if the root element is report design, return null
+
+		return null;
+
 	}
 	
 	/**

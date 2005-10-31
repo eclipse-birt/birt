@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error while setting the extends property of an element.
- *  
+ * 
  */
 
 public class ExtendsException extends SemanticException
@@ -84,6 +84,12 @@ public class ExtendsException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT = MessageConstants.EXTENDS_EXCEPTION_PARENT_NOT_IN_COMPONENT;
+
+	/**
+	 * The library of the parent element is not included.
+	 */
+
+	public static final String DESIGN_EXCEPTION_PARENT_NOT_INCLUDE = MessageConstants.EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE;
 
 	/**
 	 * Constructor.
@@ -158,6 +164,11 @@ public class ExtendsException extends SemanticException
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_INCLUDE )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{parent
+					.getIdentifier( )} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );
