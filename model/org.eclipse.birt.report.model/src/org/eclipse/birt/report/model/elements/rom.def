@@ -893,6 +893,8 @@
     <Member dataType="DataRow" displayNameID="Class.GlobalBirt.row" name="row" toolTipID="Class.GlobalBirt.row.toolTip" />
     <Member dataType="DataRow[]" displayNameID="Class.GlobalBirt.rows" name="rows" toolTipID="Class.GlobalBirt.rows.toolTip" />
     -->
+    <Member dataType="number" displayNameID="Class.GlobalBirt.CurrentPage" name="CurrentPage" toolTipID="Class.GlobalBirt.CurrentPage.toolTip"/>
+    <Member dataType="number" displayNameID="Class.GlobalBirt.TotalPage" name="TotalPage" toolTipID="Class.GlobalBirt.TotalPage.toolTip"/>
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.params" name="params" toolTipID="Class.GlobalBirt.params.toolTip" />    
     <Member dataType="Object[]" displayNameID="Class.GlobalBirt.config" name="config" toolTipID="Class.GlobalBirt.config.toolTip" />
     <Member dataType="Report" displayNameID="Class.GlobalBirt.report" name="report" toolTipID="Class.GlobalBirt.report.toolTip" />
