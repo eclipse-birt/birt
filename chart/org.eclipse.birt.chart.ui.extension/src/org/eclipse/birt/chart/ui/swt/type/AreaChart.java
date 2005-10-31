@@ -228,6 +228,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
+		sdX.getSeriesPalette( ).update( 0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
@@ -578,7 +579,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				&& getDimensionFor( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
-					Angle3DImpl.create( -20, 45, 0 )
+				Angle3DImpl.create( -20, 45, 0 )
 			} ) );
 
 			( (ChartWithAxes) currentChart ).setUnitSpacing( 50 );
