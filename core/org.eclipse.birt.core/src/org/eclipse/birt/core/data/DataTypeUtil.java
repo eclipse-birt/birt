@@ -64,6 +64,9 @@ public final class DataTypeUtil
 	public static Object convert( Object source, int toType )
 			throws BirtException
 	{
+		if ( source == null )
+			return null;
+		
 		// here we assume the efficiency of if else is higher than switch case
 		if ( toType == DataType.UNKNOWN_TYPE || toType == DataType.ANY_TYPE )
 			return source;
