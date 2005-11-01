@@ -15,15 +15,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -48,17 +46,6 @@ class ResultObjectUtil
 	// meta data of result set
 	private IResultClass rsMetaData;
 
-	// how many bytes is used for int value
-	private static int FixedBytesLengOfInt = 8;
-
-	// object index for read and write
-	private int writeIndex;
-	
-	// store the null object information with its row index and
-	// column index
-	private Set nullObjectSet;
-	private Set tempNullObjectSet;
-	
 	/**
 	 * In serializaing data to file and deserializing it from file, metadata
 	 * information is necessary to know which data type a column is, and then
@@ -90,9 +77,6 @@ class ResultObjectUtil
 		instance.columnCount = rsMetaData.getFieldCount( );
 		instance.rsMetaData = rsMetaData;
 		
-		instance.writeIndex = 0;
-		instance.nullObjectSet = new HashSet( );
-		
 		return instance;
 	}
 
@@ -102,40 +86,6 @@ class ResultObjectUtil
 	private ResultObjectUtil( )
 	{
 	}
-
-	/**
-	 * Reset write index to 0. This method is closely coupled with current
-	 * implementation of treating Null object. Null object is not suitable to
-	 * serialize or deserialize, since there is no proper way to handle it.
-	 * 
-	 * The approach adoped here is to keep a Set in memory which stores the Null
-	 * object data with its rowIndex and colIndex. In serialization procedure,
-	 * first checking whether the data is Null, if yes, the index info of the
-	 * data will be stored in the nullObjectSet and the serialization action
-	 * will be skipped. In de-serialization procedure, first looking for Null
-	 * object information from nullObjectSet, if it can be found, then directly
-	 * give it the Null value and de-serialization action will be skipped.
-	 * 
-	 * Below is accurate analysis of algorithm for read/write in export. When
-	 * there is no sort, data will not be read but be written once. So this
-	 * method will not be called. When there is sort, data will be read once and
-	 * be written twice. So in the twic write, this method needs to be called
-	 * explicitly.
-	 */
-	void startSecondWrite( )
-	{
-		writeIndex = 0;
-		tempNullObjectSet = nullObjectSet;
-		nullObjectSet = new HashSet( );
-	}
-	
-	/**
-	 * End second write. Do a clean job.
-	 */
-	void endSecondWrite( )
-	{
-		tempNullObjectSet = null;
-	}	
 	
 	/**
 	 * New a instance of ResultObject according to the parameter of object array
@@ -159,62 +109,63 @@ class ResultObjectUtil
 	 *            input stream
 	 * @param length
 	 *            how many objects needs to be read
-	 * @param posHint
-	 *            hint info of current read position, this value does not affect
-	 *            the sequence reading
 	 * @return result object array
 	 * @throws IOException
 	 */
-	IResultObject[] readData( BufferedInputStream bis, int length, int posHint )
+	IResultObject[] readData( BufferedInputStream bis, int length )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
 
-		byte[] intBytes = new byte[FixedBytesLengOfInt];
-		int rowDataLen;
+		int rowLen;
+		byte[] lenBytes;
 		byte[] rowDataBytes;
-
+				
 		ByteArrayInputStream bais;
-		ObjectInputStream ois;
+		DataInputStream dis;
 
 		for ( int i = 0; i < length; i++ )
 		{
-			bis.read( intBytes );
-			rowDataLen = getIntOfBytes( intBytes );
-			rowDataBytes = new byte[rowDataLen];
+			lenBytes = new byte[4];
+			bis.read( lenBytes );
+			rowLen = bytesToInt( lenBytes );
+			rowDataBytes = new byte[rowLen];
 			bis.read( rowDataBytes );
 			bais = new ByteArrayInputStream( rowDataBytes );
-			ois = new ObjectInputStream( bais );
+			dis = new DataInputStream( bais );
 
 			Object[] obs = new Object[columnCount];
 			for ( int j = 0; j < columnCount; j++ )
 			{
 				Class fieldType = typeArray[j];
-				if ( isNullObject( posHint + i, j ) )
-					obs[j] = null;	
+				if ( dis.readByte( ) == 0 )
+				{
+					obs[j] = null;
+					continue;
+				}
 				else if ( fieldType.equals( Integer.class ) )
-					obs[j] = new Integer( ois.readInt( ) );
+					obs[j] = new Integer( dis.readInt( ) );
 				else if ( fieldType.equals( Double.class ) )
-					obs[j] = new Double( ois.readDouble( ) );
+					obs[j] = new Double( dis.readDouble( ) );
 				else if ( fieldType.equals( BigDecimal.class ) )
-					obs[j] = new BigDecimal( ois.readUTF( ) );
+					obs[j] = new BigDecimal( dis.readUTF( ) );
 				else if ( fieldType.equals( Date.class ) )
-					obs[j] = new Date( ois.readLong( ) );
+					obs[j] = new Date( dis.readLong( ) );
 				else if ( fieldType.equals( Time.class ) )
-					obs[j] = new Time( ois.readLong( ) );
+					obs[j] = new Time( dis.readLong( ) );
 				else if ( fieldType.equals( Timestamp.class ) )
-					obs[j] = new Timestamp( ois.readLong( ) );
+					obs[j] = new Timestamp( dis.readLong( ) );
 				else if ( fieldType.equals( Boolean.class ) )
-					obs[j] = new Boolean( ois.readBoolean( ) );
+					obs[j] = new Boolean( dis.readBoolean( ) );
 				else if ( fieldType.equals( String.class )
 						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-					obs[j] = ois.readUTF( );
+					obs[j] = dis.readUTF( );
 			}
 			rowDatas[i] = newResultObject( obs );
 
-			rowDataBytes = null;
+			rowDataBytes = null;			
+			dis = null;
 			bais = null;
-			ois = null;
 		}
 
 		return rowDatas;
@@ -232,15 +183,15 @@ class ResultObjectUtil
 	void writeData( BufferedOutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
 	{
-		byte[] rowsDataByte = new byte[0];
+		byte[] rowsDataBytes;
 
 		ByteArrayOutputStream baos;
-		ObjectOutputStream oos;
+		DataOutputStream dos;
 		
 		for ( int i = 0; i < length; i++ )
 		{
 			baos = new ByteArrayOutputStream( );
-			oos = new ObjectOutputStream( baos );
+			dos = new DataOutputStream( baos );
 			for ( int j = 0; j < columnCount; j++ )
 			{
 				Object fieldValue = null;
@@ -250,130 +201,76 @@ class ResultObjectUtil
 				}
 				catch ( DataException e )
 				{
-					// should never get here since the index value is always
-					// correct
+					// never get here since the index value is always value
 				}
 				
 				Class fieldType = typeArray[j];
 				if ( fieldValue == null )
-					putNullObject( writeIndex, j );
-				else if ( fieldType.equals( Integer.class ) )
-					oos.writeInt( ( (Integer) fieldValue ).intValue( ) );
+				{
+					// indicate null object
+					dos.writeByte( 0 );
+					continue;
+				}
+				
+				dos.writeByte( 1 );
+				if ( fieldType.equals( Integer.class ) )
+					dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
 				else if ( fieldType.equals( Double.class ) )
-					oos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
+					dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
 				else if ( fieldType.equals( BigDecimal.class ) )
-					oos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
+					dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
 				else if ( fieldType.equals( Date.class ) )
-					oos.writeLong( ( (Date) fieldValue ).getTime( ) );
+					dos.writeLong( ( (Date) fieldValue ).getTime( ) );
 				else if ( fieldType.equals( Time.class ) )
-					oos.writeLong( ( (Time) fieldValue ).getTime( ) );
+					dos.writeLong( ( (Time) fieldValue ).getTime( ) );
 				else if ( fieldType.equals( Timestamp.class ) )
-					oos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
+					dos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
 				else if ( fieldType.equals( Boolean.class ) )
-					oos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
+					dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
 				else if ( fieldType.equals( String.class )
 						|| fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-					oos.writeUTF( fieldValue.toString( ) );
+					dos.writeUTF( fieldValue.toString( ) );
 			}
-			oos.flush( );
+			dos.flush( );
 
-			rowsDataByte = baos.toByteArray( );
-			bos.write( getBytesOfInt( rowsDataByte.length ) );
-			bos.write( rowsDataByte );
+			rowsDataBytes = baos.toByteArray( );
+			bos.write( intToBytes( rowsDataBytes.length ) );
+			bos.write( rowsDataBytes );
 
-			rowsDataByte = null;
+			rowsDataBytes = null;
+			dos = null;
 			baos = null;
-			oos = null;
-			
-			writeIndex++;
 		}
-	}
-
-	/**
-	 * Convert int to byte array with fixed byte array length
-	 * 
-	 * @param intValue
-	 * @return bytes array of an int value
-	 */
-	private static byte[] getBytesOfInt( int intValue )
-	{
-		byte[] byteOfInt = new byte[FixedBytesLengOfInt];
-		for ( int i = 0; i < 8; i++ )
-			byteOfInt[i] = 30;
-
-		byte[] tempByte = Integer.toString( intValue ).getBytes( );
-		System.arraycopy( tempByte, 0, byteOfInt, 0, tempByte.length );
-		return byteOfInt;
-	}
-
-	/**
-	 * Convert byte array to its corresponding int value
-	 * 
-	 * @param byteOfInt
-	 * @return int value converted from bytes
-	 */
-	private static int getIntOfBytes( byte[] byteOfInt )
-	{
-		return Integer.parseInt( new String( byteOfInt ).trim( ) );
 	}
 	
 	/**
-	 * @param rowIndex
-	 * @param colIndex
+	 * @param i
+	 * @see DataOutputStream#writeInt(int)
+	 * @return byte array of int value
 	 */
-	private void putNullObject( int rowIndex, int colIndex )
+	private final static byte[] intToBytes( int i )
 	{
-		DataIndex index = new DataIndex( rowIndex, colIndex );
-		nullObjectSet.add( index );
+		byte[] bytes = new byte[4];
+		bytes[0] = (byte) ( ( i >>> 24 ) & 0xFF );
+		bytes[1] = (byte) ( ( i >>> 16 ) & 0xFF );
+		bytes[2] = (byte) ( ( i >>> 8 ) & 0xFF );
+		bytes[3] = (byte) ( ( i >>> 0 ) & 0xFF );
+		return bytes;
 	}
-
+	
 	/**
-	 * @param rowIndex
-	 * @param colIndex
-	 * @return true, Null object
+	 * @param bytes
+	 * @see DataInputStream#readInt()
+	 * @return int value of byte array
 	 */
-	private boolean isNullObject( int rowIndex, int colIndex )
+	private final static int bytesToInt( byte[] bytes )
 	{
-		DataIndex index = new DataIndex( rowIndex, colIndex );
-		if ( tempNullObjectSet != null )
-			return tempNullObjectSet.contains( index );
-		else
-			return nullObjectSet.contains( index );
-	}
-
-	/**
-	 * Save the row and col index information
-	 */
-	private class DataIndex
-	{
-		private int rowIndex, colIndex;
-
-		/**
-		 * @param rowIndex
-		 * @param colIndex
-		 */
-		DataIndex( int rowIndex, int colIndex )
-		{
-			this.rowIndex = rowIndex;
-			this.colIndex = colIndex;
-		}
-
-		/*
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
-		public boolean equals( Object obj )
-		{
-			DataIndex index = (DataIndex) obj;
-			return rowIndex == index.rowIndex && colIndex == index.colIndex;
-		}
-
-		/*
-		 * @see java.lang.Object#hashCode()
-		 */
-		public int hashCode( )
-		{
-			return 0;
-		}
+		byte ch1 = bytes[0];
+		byte ch2 = bytes[1];
+		byte ch3 = bytes[2];
+		byte ch4 = bytes[3];
+		
+		return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 	}
 	
 }
