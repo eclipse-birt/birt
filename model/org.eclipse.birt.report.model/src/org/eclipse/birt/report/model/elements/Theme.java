@@ -11,16 +11,12 @@
 
 package org.eclipse.birt.report.model.elements;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -161,6 +157,23 @@ public class Theme extends ReferenceableElement implements IThemeModel
 			}
 		}
 		return style;
+	}
+
+	/**
+	 * Makes a clone of this theme element. The cloned theme contains the cloned
+	 * content which was in the original theme if any.
+	 * 
+	 * @return the cloned theme.
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+
+	public Object clone( ) throws CloneNotSupportedException
+	{
+		Theme newTheme = (Theme) super.clone( );
+		newTheme.contents = (ContainerSlot) contents.copy( newTheme,
+				STYLES_SLOT );
+		return newTheme;
 	}
 
 	/*

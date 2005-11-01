@@ -18,6 +18,9 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 
 /**
@@ -87,27 +90,16 @@ public class NameCommand extends AbstractElementCommand
 	 * Checks the current element name. Done when adding a newly created element
 	 * where the element name is already set on the new element.
 	 * 
-	 * @throws NameException
-	 *             if the element name is not allowed to change.
-	 */
-
-	public void checkName( ) throws NameException
-	{
-		checkName( element.getName( ) );
-	}
-
-	/**
-	 * Checks that the given name is legal for the element.
-	 * 
 	 * @param name
 	 *            the name to check.
 	 * @throws NameException
 	 *             if the element name is not allowed to change.
 	 */
 
-	private void checkName( String name ) throws NameException
+	public void checkName( String name ) throws NameException
 	{
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
+
 		if ( name == null )
 		{
 			// Cannot clear the name when there are references. It would leave
@@ -131,11 +123,34 @@ public class NameCommand extends AbstractElementCommand
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
-			// Ensure that the name is not a duplicate.
+			// if it is a style in the theme, no need to check duplicate names.
+			// In the library, style names can be duplicate.
 
 			int ns = metaData.getNameSpaceID( );
-			// if ( getModule( ).getNameSpace( ns ).getElement( name ) != null )
-			if ( !getModule( ).getModuleNameSpace( ns ).canContain( name ) )
+			if ( ns == Module.STYLE_NAME_SPACE
+					&& element instanceof StyleElement
+					&& getModule( ) instanceof Library )
+			{
+				return;
+			}
+
+			// first found the element with the given name. Since the library
+			// has it own namespace -- prefix, the range of name check should be
+			// in the current module.
+
+			DesignElement existedElement = getModule( ).getNameSpace( ns )
+					.getElement( name );
+
+			// if the element is null, then the name is OK. Otherwise, if the
+			// found element is the same as the current element, do not consider
+			// as a duplicate. Consider a case: 1. new a compound element from
+			// ElementFactory; 2. add elements ( names of these elements have
+			// been added into namespaces through element handles) into the new
+			// compound element (still not in the design tree); 3. add the
+			// compound element to the design tree; 4. for this case, should
+			// have no exception thrown.
+
+			if ( existedElement != null && existedElement != element )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
 		}
@@ -176,11 +191,29 @@ public class NameCommand extends AbstractElementCommand
 		if ( element.getName( ) == null )
 			return;
 
+		// if it is a style in the theme, no need to check duplicate names.
+		// In the library, style names can be duplicate.
+
+		if ( element instanceof StyleElement
+				&& element.getContainer( ) instanceof Theme )
+			return;
+
 		if ( element.getContainer( ) != null )
 		{
 			int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-			getActivityStack( ).execute(
-					new NameSpaceRecord( getModule( ), ns, element, true ) );
+
+			// if the element has been in the name space, that is, the element
+			// is added to another element through handels but the outermost
+			// compound element is not in the design tree, then do not insert
+			// the element
+			// to the name space agian.
+
+			DesignElement existedElement = getModule( ).getNameSpace( ns )
+					.getElement( element.getName( ) );
+
+			if ( existedElement != element )
+				getActivityStack( ).execute(
+						new NameSpaceRecord( getModule( ), ns, element, true ) );
 		}
 	}
 

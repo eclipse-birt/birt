@@ -170,6 +170,9 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName )
 			throws DesignFileException
 	{
+		if ( fileName == null )
+			throw new IllegalArgumentException(
+					"The file name must not be null" ); //$NON-NLS-1$
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName );
 		designs.add( design );
 		return design;
@@ -194,6 +197,10 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
+		if ( is == null )
+			throw new IllegalArgumentException(
+					"The input stream must not be null" ); //$NON-NLS-1$
+
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
 				is );
 		designs.add( design );
@@ -217,6 +224,10 @@ public class DesignSession
 	public ReportDesign openDesign( URL systemId, InputStream is )
 			throws DesignFileException
 	{
+		if ( is == null )
+			throw new IllegalArgumentException(
+					"The input stream must not be null" ); //$NON-NLS-1$
+		
 		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
 				is );
 		designs.add( design );
@@ -239,6 +250,10 @@ public class DesignSession
 	public Module openModule( String fileName, InputStream is )
 			throws DesignFileException
 	{
+		if ( is == null )
+			throw new IllegalArgumentException(
+					"The input stream must not be null" ); //$NON-NLS-1$
+		
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, is );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -263,6 +278,10 @@ public class DesignSession
 
 	public Module openModule( String fileName ) throws DesignFileException
 	{
+		if ( fileName == null )
+			throw new IllegalArgumentException(
+					"The file name must not be null" ); //$NON-NLS-1$
+		
 		Module module = GenericModuleReader.getInstance( )
 				.read( this, fileName );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -288,6 +307,10 @@ public class DesignSession
 
 	public Library openLibrary( String fileName ) throws DesignFileException
 	{
+		if ( fileName == null )
+			throw new IllegalArgumentException(
+					"The file name must not be null" ); //$NON-NLS-1$
+		
 		Library library = LibraryReader.getInstance( ).read( this, fileName );
 		libraries.add( library );
 		return library;
@@ -310,6 +333,10 @@ public class DesignSession
 	public Library openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
+		if ( is == null )
+			throw new IllegalArgumentException(
+					"The input stream must not be null" ); //$NON-NLS-1$
+		
 		Library library = LibraryReader.getInstance( )
 				.read( this, systemId, is );
 		libraries.add( library );
@@ -356,13 +383,13 @@ public class DesignSession
 		Library library = new Library( this );
 
 		Theme theme = new Theme( ModelMessages
-				.getMessage( Theme.DEFAULT_THEME_NAME ) );		
+				.getMessage( Theme.DEFAULT_THEME_NAME ) );
 		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
 				theme ) );
 		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
-		
+
 		// set initial id.
-		
+
 		theme.setID( library.getNextID( ) );
 		library.addElementID( theme );
 

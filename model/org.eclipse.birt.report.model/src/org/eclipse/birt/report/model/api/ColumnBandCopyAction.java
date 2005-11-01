@@ -281,6 +281,11 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 			CellHandle cell = contextInfo.getCell( ).handle(
 					adapter.getModule( ) );
 
+			// to avoid duplicate names in the same name space, rename nested
+			// elements here.
+
+			adapter.getModule( ).getModuleHandle( ).rename( cell );
+
 			// if this is only paste operation, then paste it to the old
 			// position. Otherwise, append it to the next available position.
 

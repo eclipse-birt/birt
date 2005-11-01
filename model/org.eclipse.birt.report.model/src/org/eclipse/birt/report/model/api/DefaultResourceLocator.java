@@ -53,7 +53,8 @@ public class DefaultResourceLocator implements IResourceLocator
 			return null;
 
 		URL systemId = moduleHandle.getModule( ).getSystemId( );
-		assert systemId != null;
+		if ( systemId == null )
+			return null;
 
 		URL url = tryFileSearch( systemId, fileName );
 		if ( url != null )

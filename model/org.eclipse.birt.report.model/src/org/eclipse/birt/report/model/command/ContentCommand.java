@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -181,10 +182,10 @@ public class ContentCommand extends AbstractElementCommand
 		if ( slotID == Module.COMPONENT_SLOT )
 		{
 			if ( StringUtil.isBlank( content.getName( ) ) )
-				throw new ContentException( element, slotID,content,
+				throw new ContentException( element, slotID, content,
 						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
-		
+
 		if ( !element.canContain( module, slotID, content ) )
 			throw new ContentException(
 					element,
@@ -194,10 +195,10 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Ensure we can add the name.
 
-		NameCommand nameCmd = new NameCommand( module, content );
-		nameCmd.checkName( );
+		checkElementNames( content );
 
 		// Add the item to the container.
+
 		ContentRecord addRecord;
 		if ( newPos == -1 )
 		{
@@ -213,9 +214,64 @@ public class ContentCommand extends AbstractElementCommand
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
 		stack.execute( addRecord );
-		nameCmd.addElement( );
+		addElementNames( content );
 
 		stack.commit( );
+	}
+
+	/**
+	 * Checks the element name and names of nested element in it.
+	 * 
+	 * @param element
+	 *            the element to check
+	 * @throws NameException
+	 *             if any element has duplicate name with elements already on
+	 *             the design tree.
+	 */
+
+	private void checkElementNames( DesignElement element )
+			throws NameException
+	{
+		NameCommand nameCmd = new NameCommand( module, element );
+		nameCmd.checkName( element.getName( ) );
+
+		ContentIterator iterator = new ContentIterator( element );
+		while ( iterator.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) iterator.next( );
+			nameCmd = new NameCommand( module, tmpElement );
+			nameCmd.checkName( tmpElement.getName( ) );
+		}
+	}
+
+	/**
+	 * Adds the element name and names of nested element in it to name spaces.
+	 * 
+	 * @param element
+	 *            the element to add
+	 */
+
+	private void addElementNames( DesignElement element )
+	{
+		try
+		{
+			NameCommand nameCmd = new NameCommand( module, element );
+			nameCmd.addElement( );
+
+			ContentIterator iterator = new ContentIterator( element );
+			while ( iterator.hasNext( ) )
+			{
+				DesignElement tmpElement = (DesignElement) iterator.next( );
+				nameCmd = new NameCommand( module, tmpElement );
+				nameCmd.addElement( );
+			}
+		}
+		catch ( NameException e )
+		{
+			// names have been check, there should be no exception here.
+
+			assert false;
+		}
 	}
 
 	/**

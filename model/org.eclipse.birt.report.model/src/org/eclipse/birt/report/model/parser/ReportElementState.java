@@ -165,8 +165,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			NameSpace ns = module.getNameSpace( id );
 
-			if ( !module.getModuleNameSpace( id ).canContain( name ) )
-			// if ( module.resolveElement( name, id ) != null )
+			if ( module.getNameSpace( id ).contains( name ) )
 			{
 				handler.getErrorHandler( ).semanticError(
 						new NameException( container, name,
