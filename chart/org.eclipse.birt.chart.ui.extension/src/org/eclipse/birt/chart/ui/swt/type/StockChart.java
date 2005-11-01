@@ -403,10 +403,9 @@ public class StockChart extends DefaultChartTypeImpl
 			return series;
 		}
 		StockSeries stockseries = (StockSeries) StockSeriesImpl.create( );
-		stockseries.getLineAttributes( ).setVisible( true );
 		stockseries.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.BLACK( ) );
-
+		.setColor( ColorDefinitionImpl.BLACK( ) );
+		
 		// Copy generic series properties
 		stockseries.setLabel( series.getLabel( ) );
 		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
@@ -465,6 +464,8 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			stockseries.setLineAttributes( ( (LineSeries) series ).getLineAttributes( ) );
 		}
+		
+		stockseries.getLineAttributes( ).setVisible( true );
 
 		return stockseries;
 	}
