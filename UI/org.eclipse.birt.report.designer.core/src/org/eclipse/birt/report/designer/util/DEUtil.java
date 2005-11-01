@@ -798,7 +798,7 @@ public class DEUtil
 				colName = ( (DataSetItemModel) model ).getName( );
 			}
 
-			return getColumnExpression(colName);
+			return getColumnExpression( colName );
 		}
 		return null;
 	}
@@ -1163,10 +1163,8 @@ public class DEUtil
 			{
 				return 1;
 			}
-			else
-			{
-				return size;
-			}
+			return size;
+
 		}
 		else if ( fontSizeValue instanceof String )
 		{
@@ -1386,16 +1384,21 @@ public class DEUtil
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Create a row expression base on column name.
+	 * 
 	 * @param columnName
 	 * @return
 	 */
-	public static String getColumnExpression(String columnName)
+	public static String getColumnExpression( String columnName )
 	{
-		Assert.isNotNull( columnName);
+		Assert.isNotNull( columnName );
+		if ( StringUtil.isBlank( columnName ) )
+		{
+			return null;
+		}
 		return IReportElementConstants.DATA_COLUMN_PREFIX
-			+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

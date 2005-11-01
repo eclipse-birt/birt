@@ -66,6 +66,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
 	public static final String CUSTOM_NAME_PREFERENCE = "designer.preview.preference.elementname.customname.preferencestore"; //$NON-NLS-1$
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
+	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 
 	private int nameCount = 0;
 
@@ -98,6 +99,9 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default Element names
 		setDefaultElementNamePreference( getPreferenceStore( ) );
+
+		// set default library
+		setDefaultLibraryPreference( );
 
 	}
 
@@ -398,36 +402,73 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	}
 
+	/**
+	 * Get default element name preference
+	 * 
+	 * @return String[] the array of Strings of default element name preference
+	 */
 	public String[] getDefaultDefaultNamePreference( )
 	{
 		return convert( getPreferenceStore( ).getDefaultString( DEFAULT_NAME_PREFERENCE ) );
 	}
 
+	/**
+	 * Get default custom name preference
+	 * 
+	 * @return String[] the array of Strings of custom element name preference
+	 */
 	public String[] getDefaultCustomNamePreference( )
 	{
 		return convert( getPreferenceStore( ).getDefaultString( CUSTOM_NAME_PREFERENCE ) );
 	}
 
+	/**
+	 * Get default description preference
+	 * 
+	 * @return String[] the array of Strings of default description preference
+	 */
 	public String[] getDefaultDescriptionPreference( )
 	{
 		return convert( getPreferenceStore( ).getDefaultString( DESCRIPTION_PREFERENCE ) );
 	}
 
+	/**
+	 * Get element name preference
+	 * 
+	 * @return String[] the array of Strings of element name preference
+	 */
 	public String[] getDefaultNamePreference( )
 	{
 		return convert( getPreferenceStore( ).getString( DEFAULT_NAME_PREFERENCE ) );
 	}
 
+	/**
+	 * Get custom element preference
+	 * 
+	 * @return String[] the array of Strings of custom name preference
+	 */
 	public String[] getCustomNamePreference( )
 	{
 		return convert( getPreferenceStore( ).getString( CUSTOM_NAME_PREFERENCE ) );
 	}
 
+	/**
+	 * Get description preference
+	 * 
+	 * @return String[] the array of Strings of description preference
+	 */
 	public String[] getDescriptionPreference( )
 	{
 		return convert( getPreferenceStore( ).getString( DESCRIPTION_PREFERENCE ) );
 	}
 
+	/**
+	 * Get the custom name preference of specified element name
+	 * 
+	 * @param defaultName
+	 *            The specified element name
+	 * @return String The custom name gotten
+	 */
 	public String getCustomName( Object defaultName )
 	{
 		int i;
@@ -453,6 +494,13 @@ public class ReportPlugin extends AbstractUIPlugin
 		return null;
 	}
 
+	/**
+	 * Convert the single string of preference into string array
+	 * 
+	 * @param preferenceValue
+	 *            The specified element name
+	 * @return String[] The array of strings
+	 */
 	private String[] convert( String preferenceValue )
 	{
 
@@ -489,7 +537,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * @param elements []
 	 *            elements - the Strings to be converted to the preference value
 	 */
-	public String ConvertStrArray2Str( String[] elements )
+	public String convertStrArray2Str( String[] elements )
 	{
 		StringBuffer buffer = new StringBuffer( );
 		for ( int i = 0; i < elements.length; i++ )
@@ -509,7 +557,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultNamePreference( String[] elements )
 	{
 		getPreferenceStore( ).setValue( DEFAULT_NAME_PREFERENCE,
-				ConvertStrArray2Str( elements ) );
+				convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -532,7 +580,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setCustomNamePreference( String[] elements )
 	{
 		getPreferenceStore( ).setValue( CUSTOM_NAME_PREFERENCE,
-				ConvertStrArray2Str( elements ) );
+				convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -555,7 +603,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDescriptionPreference( String[] elements )
 	{
 		getPreferenceStore( ).setValue( DESCRIPTION_PREFERENCE,
-				ConvertStrArray2Str( elements ) );
+				convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -576,6 +624,51 @@ public class ReportPlugin extends AbstractUIPlugin
 	public int getCount( )
 	{
 		return nameCount;
+	}
+
+	/**
+	 * Set the bad words preference
+	 * 
+	 * @param elements []
+	 *            elements - the Strings to be converted to the preference value
+	 */
+	public void setLibraryPreference( String[] elements )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		for ( int i = 0; i < elements.length; i++ )
+		{
+			buffer.append( elements[i] );
+			buffer.append( PREFERENCE_DELIMITER );
+		}
+		getPreferenceStore( ).setValue( LIBRARY_PREFERENCE, buffer.toString( ) );
+	}
+
+	/**
+	 * Return the library preference as an array of Strings.
+	 * 
+	 * @return String[] The array of strings of library preference
+	 */
+	public String[] getLibraryPreference( )
+	{
+		return convert( getPreferenceStore( ).getString( LIBRARY_PREFERENCE ) );
+	}
+
+	/**
+	 * Set default library preference
+	 */
+	public void setDefaultLibraryPreference( )
+	{
+		getPreferenceStore( ).setDefault( LIBRARY_PREFERENCE, "" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Return default library preference as an array of Strings.
+	 * 
+	 * @return String[] The array of strings of default library preference
+	 */
+	public String[] getDefaultLibraryPreference( )
+	{
+		return convert( getPreferenceStore( ).getDefaultString( LIBRARY_PREFERENCE ) );
 	}
 
 }

@@ -1,0 +1,63 @@
+/*******************************************************************************
+* Copyright (c) 2004 Actuate Corporation.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+*  Actuate Corporation  - initial API and implementation
+*******************************************************************************/ 
+package org.eclipse.birt.report.designer.internal.ui.views.actions;
+
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
+
+
+/**
+ * 
+ */
+
+public class GlobalInsertRowAction extends AbstractGlobalSelectionAction
+{
+
+	/**
+	 * @param provider
+	 * @param id
+	 */
+	private String pos;
+	public GlobalInsertRowAction( ISelectionProvider provider, String id , String pos)
+	{
+		super( provider, id );
+		this.pos = pos;
+	}
+	
+	public void run( )
+	{
+		new InsertAction(((StructuredSelection)getSelection()).toArray()[0],
+				Messages.getString( "RowProvider.action.text.above" ), //$NON-NLS-1$
+				ReportDesignConstants.ROW_ELEMENT,
+				pos ).run();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+	 */
+	protected boolean calculateEnabled( )
+	{		
+		if(((StructuredSelection)getSelection()).toArray().length == 0
+		||   ((StructuredSelection)getSelection()).toArray()[0] == null
+		|| ((StructuredSelection)getSelection()).toArray()[0] instanceof RowHandle == false)
+		{
+			return false;
+		}
+		return new InsertAction( ((StructuredSelection)getSelection()).toArray()[0],
+				Messages.getString( "RowProvider.action.text.above" ), //$NON-NLS-1$
+				ReportDesignConstants.ROW_ELEMENT,
+				pos ).isEnabled() ;
+	}
+
+}
