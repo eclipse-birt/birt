@@ -175,7 +175,10 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP,
 				ICONS_PATH + OBJ16_PATH + "parameter_group.gif" ); //$NON-NLS-1$
-
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_CASCADING_PARAMETER_GROUP,
+				ICONS_PATH + OBJ16_PATH + "parameter_group.gif" ); //$NON-NLS-1$
+		
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_ROW, ICONS_PATH
 				+ OBJ16_PATH + "row.gif" ); //$NON-NLS-1$
 

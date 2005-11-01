@@ -25,8 +25,10 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
@@ -278,10 +280,27 @@ public class ExpressionProvider implements IExpressionProvider
 			if ( PARAMETERS.equals( parent ) )
 			{
 				childrenList.add( ALL );
+				for ( Iterator iter = moduleHandle.getAllParameters( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					Object obj = iter.next( );
+					if ( obj instanceof ParameterGroupHandle )
+					{
+						childrenList.add( obj );
+					}
+				}
 			}
 			else if ( ALL.equals( parent ) )
 			{
-				childrenList.addAll( moduleHandle.getAllParameters( ) );
+				for ( Iterator iter = moduleHandle.getAllParameters( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					Object obj = iter.next( );
+					if ( obj instanceof ParameterHandle )
+					{
+						childrenList.add( obj );
+					}
+				}
 			}
 			else
 			{
@@ -329,6 +348,11 @@ public class ExpressionProvider implements IExpressionProvider
 			DataSetItemModel[] models = DataSetManager.getCurrentInstance( )
 					.getColumns( ( (DataSetHandle) parent ), false );
 			childrenList.addAll( Arrays.asList( models ) );
+		}
+		else if ( parent instanceof ParameterGroupHandle )
+		{
+			childrenList.addAll( ( (ParameterGroupHandle) parent ).getParameters( )
+					.getContents( ) );
 		}
 		Object[] children = childrenList.toArray( );
 		if ( filterList != null && !filterList.isEmpty( ) )
@@ -423,13 +447,9 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (Operator) element ).symbol;
 		}
-		else if ( element instanceof ParameterHandle )
+		else if ( element instanceof DesignElementHandle )
 		{
-			return ( (ParameterHandle) element ).getName( );
-		}
-		else if ( element instanceof DataSetHandle )
-		{
-			return ( (DataSetHandle) element ).getName( );
+			return ( (DesignElementHandle) element ).getName( );
 		}
 		else if ( element instanceof DataSetItemModel )
 		{
@@ -491,7 +511,7 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return IMAGE_COLUMN;
 		}
-		else if ( element instanceof ParameterHandle )
+		else if ( element instanceof DesignElementHandle )
 		{
 			return ReportPlatformUIImages.getImage( element );
 		}

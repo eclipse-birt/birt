@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
-
 /**
  * This class defines constants for looking up resources that are available only
  * within the Report Designer UI.
@@ -35,7 +34,7 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_REPORT_PROJECT = "Report project"; //$NON-NLS-1$
 
-	//element icons, most of them are same as model defined for convenience
+	// element icons, most of them are same as model defined for convenience
 	public final static String ICON_ELEMENT_CELL = ReportDesignConstants.CELL_ELEMENT;
 
 	public final static String ICON_ELEMENT_DATA = ReportDesignConstants.DATA_ITEM;
@@ -69,12 +68,14 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_LIST_GROUP = ReportDesignConstants.LIST_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMNET_MASTERPAGE = ReportDesignConstants.MASTER_PAGE_ELEMENT;
-	
+
 	public final static String ICON_ELEMNET_GRAPHICMASTERPAGE = ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
 
 	public final static String ICON_ELEMENT_PARAMETER = "Parameter"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_PARAMETER_GROUP = ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
+
+	public final static String ICON_ELEMENT_CASCADING_PARAMETER_GROUP = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_ROW = ReportDesignConstants.ROW_ELEMENT;
 
@@ -90,7 +91,7 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_TEXT = ReportDesignConstants.TEXT_ITEM;
 
-	//outline view icons
+	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$
 
 	public final static String ICON_NODE_MASTERPAGES = "Master Pages"; //$NON-NLS-1$
@@ -109,7 +110,7 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_NODE_GROUP_FOOTER = "Group Footer"; //$NON-NLS-1$
 
-	//icons for layout
+	// icons for layout
 	public final static String ICON_LAYOUT_NORMAL = "Layout Normal"; //$NON-NLS-1$
 
 	public final static String ICON_LAYOUT_MASTERPAGE = "Layout Master Page"; //$NON-NLS-1$
@@ -143,7 +144,7 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_DATA_COLUMN = "DataColumn"; //$NON-NLS-1$
 
-	//auto text icon
+	// auto text icon
 	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 
 	public final static String ICON_AUTOTEXT_PAGE = "Page"; //$NON-NLS-1$
@@ -164,32 +165,32 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_AUTOTEXT_CONFIDENTIAL_PAGE = "ConfidentalPage";//$NON-NLS-1$
 
-	//expression builder icons
-	
+	// expression builder icons
+
 	public final static String ICON_EXPRESSION_BUILDER = "Expression Builder";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_DATA_TABLE = "DataTable";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_OPERATOR = "Operator";//$NON-NLS-1$
-	
+
 	public final static String ICON_EXPRESSION_GLOBAL = "Global";//$NON-NLS-1$
-	
+
 	public final static String ICON_EXPRESSION_METHOD = "Method";//$NON-NLS-1$
-	
+
 	public final static String ICON_EXPRESSION_STATIC_METHOD = "Static Method";//$NON-NLS-1$
-	
+
 	public final static String ICON_EXPRESSION_MEMBER = "Member";//$NON-NLS-1$
-	
+
 	public final static String ICON_EXPRESSION_STATIC_MEMBER = "Static Member";//$NON-NLS-1$
 
-	//data wizards
+	// data wizards
 	public final static String ICON_WIZARD_DATASOURCE = "DataSourceBasePage";//$NON-NLS-1$
 
 	public final static String ICON_WIZARD_DATASET = "DataSetBasePage";//$NON-NLS-1$
 
 	public final static String ICON_WIZARDPAGE_DATASETSELECTION = "DataSetSelectionPage";//$NON-NLS-1$
 
-	//attribute icon constants
+	// attribute icon constants
 	public final static String DIS = "DIS";//$NON-NLS-1$	
 
 	public final static String ICON_ATTRIBUTE_FONT_WIDTH = StyleHandle.FONT_WEIGHT_PROP;
@@ -228,17 +229,17 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ATTRIBUTE_RIGHT_MARGIN = MasterPageHandle.RIGHT_MARGIN_PROP;
 
-	//Preview editer icons
+	// Preview editer icons
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$	
 	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$	
 
 	public final static String ICON_PREVIEW_REFRESH = "Refresh";//$NON-NLS-1$
 
-	//Parameter dialog icon
+	// Parameter dialog icon
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
 
 	public static final String ICON_DATAEDIT_DLG_TITLE_BANNER = "org.eclipse.birt.report.designer.property"; //$NON-NLS-1$
-	
+
 	// Open file flag image
 	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
 
