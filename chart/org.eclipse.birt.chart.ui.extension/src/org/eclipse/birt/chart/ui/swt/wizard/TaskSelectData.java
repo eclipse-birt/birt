@@ -93,7 +93,8 @@ public class TaskSelectData extends SimpleTask
 	private transient Button btnFilters = null;
 	private transient Button btnParameters = null;
 
-	private transient Action actionInsertAggregation = new InsertAggregationAction( );
+	// private transient Action actionInsertAggregation = new
+	// InsertAggregationAction( );
 
 	private transient SelectDataDynamicArea dynamicArea;
 	private boolean isInited = false;
@@ -532,8 +533,7 @@ public class TaskSelectData extends SimpleTask
 					.getAllDataSets( );
 			// Update UI with DS list
 			cmbDataSet.setItems( sAllDS );
-			btnFilters.setEnabled( true );
-			btnParameters.setEnabled( true );
+			checkUseDataSet( true );
 
 			if ( sCurrentDS.length( ) > 0 )
 			{
@@ -710,26 +710,29 @@ public class TaskSelectData extends SimpleTask
 		}
 	}
 
-	class InsertAggregationAction extends Action
-	{
-
-		InsertAggregationAction( )
-		{
-			super( Messages.getString( "TaskSelectData.Label.InsertAggregation" ) ); //$NON-NLS-1$
-		}
-
-		public void run( )
-		{
-			// TODO: Invoke expression builder...create a column with the
-			// resulting expression as header
-			String sExpr = getWizardContext( ).getUIServiceProvider( )
-					.invoke( "", //$NON-NLS-1$
-							getWizardContext( ).getExtendedItem( ),
-							Messages.getString( "TaskSelectData.Label.DataExpressionBuilder" ) ); //$NON-NLS-1$
-			tablePreview.addColumn( sExpr, null, 200 );
-			tablePreview.layout( );
-		}
-	}
+	// This popup menu action is removed
+	// class InsertAggregationAction extends Action
+	// {
+	//
+	// InsertAggregationAction( )
+	// {
+	// super( Messages.getString( "TaskSelectData.Label.InsertAggregation" ) );
+	// //$NON-NLS-1$
+	// }
+	//
+	// public void run( )
+	// {
+	// // TODO: Invoke expression builder...create a column with the
+	// // resulting expression as header
+	// String sExpr = getWizardContext( ).getUIServiceProvider( )
+	// .invoke( "", //$NON-NLS-1$
+	// getWizardContext( ).getExtendedItem( ),
+	// Messages.getString( "TaskSelectData.Label.DataExpressionBuilder" ) );
+	// //$NON-NLS-1$
+	// tablePreview.addColumn( sExpr, null, 200 );
+	// tablePreview.layout( );
+	// }
+	// }
 
 	class HeaderShowAction extends Action
 	{
@@ -766,7 +769,7 @@ public class TaskSelectData extends SimpleTask
 								getOrthogonalSeriesMenu( getChartModel( ) ) );
 						addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );
 					}
-					manager.add( actionInsertAggregation );
+					// manager.add( actionInsertAggregation );
 				}
 
 				private void addMenu( IMenuManager manager, Object item )

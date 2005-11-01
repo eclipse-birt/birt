@@ -45,6 +45,9 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -777,6 +780,11 @@ public class TaskSelectType extends SimpleTask
 		refreshChart( );
 		if ( oSelected.getClass( ).equals( Table.class ) )
 		{
+			// Refresh all adapters
+			removeAllAdapters( chartModel,
+					( (ChartWizard) container ).getAdapter( ) );
+			chartModel.eAdapters( )
+					.add( ( (ChartWizard) container ).getAdapter( ) );
 			// Ensure populate list after chart model generated
 			populateSeriesTypesList( );
 		}
@@ -795,6 +803,20 @@ public class TaskSelectType extends SimpleTask
 								.getClass( )
 								.getName( ) );
 				cbSeriesType.select( cbSeriesType.indexOf( sDisplayName ) );
+			}
+		}
+	}
+
+	private void removeAllAdapters( Chart chart, EContentAdapter adapter )
+	{
+		chart.eAdapters( ).remove( adapter );
+		TreeIterator iterator = chart.eAllContents( );
+		while ( iterator.hasNext( ) )
+		{
+			Object oModel = iterator.next( );
+			if ( oModel instanceof EObject )
+			{
+				( (EObject) oModel ).eAdapters( ).remove( adapter );
 			}
 		}
 	}
