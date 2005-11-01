@@ -16,10 +16,15 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -31,7 +36,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * This class implements the delete action in the outline view
  * 
- *  
+ * 
  */
 public class DeleteAction extends AbstractElementAction
 {
@@ -55,7 +60,7 @@ public class DeleteAction extends AbstractElementAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public DeleteAction( Object selectedObject )
 	{
@@ -132,6 +137,30 @@ public class DeleteAction extends AbstractElementAction
 							CONFIRM_PARAM_DELETE_MESSAGE ) )
 					{
 						return false;
+					}
+					for ( Iterator iter = ( (ParameterGroupHandle) handle ).getParameters( )
+							.iterator( ); iter.hasNext( ); )
+					{
+						Object obj = iter.next( );
+						if ( obj instanceof ParameterHandle )
+						{
+							ParameterHandle parameter = (ParameterHandle) obj;
+							ConfigVariable cv = parameter.getModuleHandle( )
+									.findConfigVariable( parameter.getName( ) );
+							try
+							{
+								if ( cv != null )
+								{
+									parameter.getModuleHandle( )
+											.getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
+											.removeItem( cv );
+								}
+							}
+							catch ( SemanticException e )
+							{
+								ExceptionHandler.handle( e );
+							}
+						}
 					}
 				}
 			}
