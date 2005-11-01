@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.type.ScatterChart;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -57,7 +56,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 
 	private transient Label cmbOrientation = null;
 
-	private transient IntegerSpinControl iscGapWidth = null;
+	// private transient IntegerSpinControl iscGapWidth = null;
 
 	private transient Button cbHidden = null;
 
@@ -263,14 +262,14 @@ public class AxisGridLinesSheet extends AbstractPopupSheet
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( this.iscGapWidth.equals( event.widget ) )
-		{
-			if ( event.type == IntegerSpinControl.VALUE_CHANGED_EVENT )
-			{
-				getAxisForProcessing( ).setGapWidth( iscGapWidth.getValue( ) );
-			}
-		}
-		else if ( this.fccLine.equals( event.widget ) )
+		// if ( this.iscGapWidth.equals( event.widget ) )
+		// {
+		// if ( event.type == IntegerSpinControl.VALUE_CHANGED_EVENT )
+		// {
+		// getAxisForProcessing( ).setGapWidth( iscGapWidth.getValue( ) );
+		// }
+		// }
+		if ( this.fccLine.equals( event.widget ) )
 		{
 			if ( event.type == FillChooserComposite.FILL_CHANGED_EVENT )
 			{

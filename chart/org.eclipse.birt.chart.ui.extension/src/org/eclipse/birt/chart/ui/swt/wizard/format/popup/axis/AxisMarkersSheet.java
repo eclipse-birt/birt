@@ -1005,7 +1005,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 	private void setAllEnabled( boolean isEnabled )
 	{
-		setState( isEnabled );
+		setState( isEnabled && lstMarkers.getItemCount( ) > 0 );
 		lacLabel.setEnabled( isEnabled || lacLabel.isEnabled( ) );
 
 		setEnabled( cmpContent, isEnabled );
