@@ -19,11 +19,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
@@ -47,7 +49,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
  * creates HTMLWriter and HTML related Emitters say, HTMLTextEmitter,
  * HTMLTableEmitter, etc. Only one copy of each Emitter class exists.
  * 
- * @version $Revision: 1.37 $ $Date: 2005/07/07 06:16:56 $
+ * @version $Revision: 1.38 $ $Date: 2005/07/08 04:31:50 $
  */
 public class HTMLReportEmitter implements IReportEmitter
 {
@@ -212,8 +214,16 @@ public class HTMLReportEmitter implements IReportEmitter
 		{
 			actionHandler = (IHTMLActionHandler)ac;
 		}
-				
-		renderContext = services.getRenderContext();
+
+		if ( services.getRenderContext() instanceof Map )
+		{
+			renderContext = ((Map)services.getRenderContext()).get( HTMLRenderContext.CONTEXT_NAME );
+		}
+		else
+		{
+			renderContext = services.getRenderContext(); // Handle the old-style render context, follow the same code path as before.
+		}
+		
 		renderOption = services.getRenderOption();
 		runnable = services.getReportRunnable();
 		HTMLRenderOption renderOption = (HTMLRenderOption)services.getRenderOption();

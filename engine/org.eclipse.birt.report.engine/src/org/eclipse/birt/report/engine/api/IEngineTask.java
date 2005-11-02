@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * defines common features for an engine task. A task captures a set of operations that engine
@@ -29,9 +30,9 @@ public interface IEngineTask {
 	/**
 	 * sets the task context
 	 * 
-	 * @param context the task context
+	 * @param context - task contexts in a map. The map contains name-value pairs
 	 */
-	public abstract void setContext(Object context);
+	public abstract void setContext(Map context);
 	
 	/**
 	 * returns the locale for running the task
@@ -41,11 +42,11 @@ public interface IEngineTask {
 	public abstract Locale getLocale();
 	
 	/**
-	 * returns the context object for the task
+	 * returns the context objects for the task
 	 * 
-	 * @return the task context
+	 * @return the task contexts
 	 */
-	public abstract Object getContext();
+	public abstract Map getContext();
 	
 	/**
 	 * returns the report engine object

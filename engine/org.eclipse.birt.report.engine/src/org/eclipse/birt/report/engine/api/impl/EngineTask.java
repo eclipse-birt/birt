@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,9 +49,9 @@ public abstract class EngineTask implements IEngineTask
 	protected static int id = 0;
 
 	/**
-	 * the context for running this task
+	 * the contexts for running this task
 	 */
-	protected Object context;
+	protected Map context;
 
 	/**
 	 * a reference to the report engine
@@ -135,10 +137,29 @@ public abstract class EngineTask implements IEngineTask
 	 * @param context
 	 *            the task context
 	 */
-	public void setContext( Object context )
+	public void setContext( Map context )
 	{
 		this.context = context;
 		executionContext.setAppContext( context );
+		
+		// add the contexts into ScriptableJavaObject
+		if ( !context.isEmpty() )
+		{
+			Set entries = context.entrySet();
+			for ( Iterator iter = entries.iterator(); iter.hasNext( ); )
+			{
+				Map.Entry entry = (Map.Entry) iter.next();
+				if ( entry.getKey() instanceof String )
+				{
+					addScriptableJavaObject( (String)entry.getKey(), entry.getValue() );
+				}
+				else
+				{
+					log.log( Level.WARNING, "Map entry {0} is invalid and ignored, because its key is a string.", //$NON-NLS-1$ 
+							 entry.getKey().toString() );
+				}
+			}
+		}
 	}
 
 	/**
@@ -146,7 +167,7 @@ public abstract class EngineTask implements IEngineTask
 	 * 
 	 * @return Returns the context.
 	 */
-	public Object getContext( )
+	public Map getContext( )
 	{
 		return context;
 	}
@@ -415,7 +436,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.17 $ $Date: 2005/10/21 09:31:52 $
+	 * @version $Revision: 1.18 $ $Date: 2005/10/24 05:09:30 $
 	 */
 	static abstract class ParameterVisitor
 	{

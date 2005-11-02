@@ -64,7 +64,7 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.32 $ $Date: 2005/10/12 19:15:47 $
+ * @version $Revision: 1.33 $ $Date: 2005/10/19 11:03:05 $
  */
 public class ExecutionContext implements IFactoryContext, IPrensentationContext
 {
@@ -137,7 +137,7 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	protected Object designObj;
 	
-	protected Object appContext;
+	protected Map appContext;
 
 	/**
 	 * create a new context. Call close to finish using the execution context
@@ -969,11 +969,11 @@ public class ExecutionContext implements IFactoryContext, IPrensentationContext
 
 	}
 
-	public Object getAppContext() {
+	public Map getAppContext() {
 		return appContext;
 	}
 
-	public void setAppContext(Object appContext) {
+	public void setAppContext(Map appContext) {
 		this.appContext = appContext;
 	}
 
