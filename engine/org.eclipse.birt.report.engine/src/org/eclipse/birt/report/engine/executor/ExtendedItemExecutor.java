@@ -16,12 +16,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IExtendedItemContent;
 import org.eclipse.birt.report.engine.content.impl.ExtendedItemContent;
@@ -161,7 +163,19 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			itemPresentation.setReportQueries(((ExtendedItemDesign)item).getQueries());
 			//itemPresentation.setResolution();
 			itemPresentation.setLocale(context.getLocale());
-			itemPresentation.setSupportedImageFormats( "GIF;PNG;JPG;BMP" );
+
+			Object renderContext = null;
+			if ( context.getAppContext() instanceof Map )
+				renderContext = ((Map)context.getAppContext()).get( HTMLRenderContext.CONTEXT_NAME );
+			else
+				renderContext = context.getAppContext(); // Handle the old-style render context, follow the same code path as before.
+				
+			if ( (renderContext instanceof HTMLRenderContext) &&
+				 ((HTMLRenderContext)renderContext).getSupportedImageFormats() != null )				
+				itemPresentation.setSupportedImageFormats( ((HTMLRenderContext)renderContext).getSupportedImageFormats() );
+			else
+				itemPresentation.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); // Default value
+			
 			itemPresentation.setOutputFormat( emitter.getOutputFormat( ) );
 			if ( generationStatus != null )
 			{
@@ -227,17 +241,31 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	 */
 	protected void handleItemContent( ExtendedItemDesign item,
 			IReportEmitter emitter, IExtendedItemContent content, int type,
-			Object output )
+			Object outputObject )
 	{
 		switch ( type )
 		{
 			case IReportItemPresentation.OUTPUT_NONE :
 				break;
 			case IReportItemPresentation.OUTPUT_AS_IMAGE :
+			case IReportItemPresentation.OUTPUT_AS_IMAGE_WITH_MAP :
 				// the output object is a image, so create a image content
 				// object
 				ImageItemContent image = (ImageItemContent) ContentFactory
 						.createImageContent( item , context.getContentObject() );
+				
+				Object output = null;
+				Object imageMap = null;
+				if ( type == IReportItemPresentation.OUTPUT_AS_IMAGE )
+				{
+					output = outputObject;
+				}
+				else
+				{	// OUTPUT_AS_IMAGE_WITH_MAP
+					output = ((Object[])outputObject)[0];
+					imageMap = ((Object[])outputObject)[1];;
+				}
+				
 				if ( output instanceof InputStream )
 				{
 					image.setData( readContent( (InputStream) output ) );
@@ -253,6 +281,10 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 							"unsupported image type:{0}", output ); //$NON-NLS-1$
 
 				}
+				
+				// Set image map
+				image.setImageMap( imageMap );
+				
 				setStyles( image, item );
 				setVisibility( item, image );				
 				String bookmarkStr = evalBookmark( item );
@@ -270,7 +302,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 			case IReportItemPresentation.OUTPUT_AS_CUSTOM :
 				ExtendedItemContent customContent= (ExtendedItemContent) content ;
 				
-				customContent.setContent( output );
+				customContent.setContent( outputObject );
 				Object value = getMapVal( customContent.getContent(), item );
 				StringBuffer formattedString = new StringBuffer( );
 				formatValue( value, null, item.getStyle( ), formattedString ,customContent);

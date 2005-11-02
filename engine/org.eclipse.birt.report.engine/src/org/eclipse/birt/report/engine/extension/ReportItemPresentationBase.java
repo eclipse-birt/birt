@@ -109,5 +109,12 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
 	public Object onRowSets(IRowSet[] rowSets) throws BirtException {
 		return null;
 	}
+
+	/**
+	 * @return the image MIME type (e.g. "image/svg+xml")
+	 */
+	public String getImageMIMEType() {
+		return null;
+	}
 	
 }

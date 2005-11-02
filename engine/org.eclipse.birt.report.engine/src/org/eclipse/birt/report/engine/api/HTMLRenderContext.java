@@ -18,6 +18,8 @@ package org.eclipse.birt.report.engine.api;
  */
 public class HTMLRenderContext {
 	
+	public final static String CONTEXT_NAME = "HTML_RENDER_CONTEXT"; 
+	
 	/**
 	 * base URL used for action handler
 	 */
@@ -27,6 +29,11 @@ public class HTMLRenderContext {
      * base URL used for image
      */
     protected String baseImageURL;
+    
+    /**
+	 * the image formats supported by the browser
+	 */
+    protected String supportedImageFormats;
 	
 	/**
 	 * directory to store image
@@ -93,5 +100,19 @@ public class HTMLRenderContext {
     public void setBaseImageURL(String baseImageURL) {
         this.baseImageURL = baseImageURL;
     }
+    
+    /**
+     * @param formats - the image format supported by the browser
+     */
+	public void setSupportedImageFormats(String formats) {
+		supportedImageFormats = formats;
+	}
 
+	/**
+	 * @return the image format supported by the browser
+	 */
+	public String getSupportedImageFormats() {
+		return supportedImageFormats;
+	}
+	
 }

@@ -38,6 +38,7 @@ public interface IReportItemPresentation {
     public static int OUTPUT_AS_HTML_TEXT = 3;
     public static int OUTPUT_AS_DRAWING = 4;
     public static int OUTPUT_AS_CUSTOM = 5;
+    public static int OUTPUT_AS_IMAGE_WITH_MAP = 6;
     
 	/**
 	 * passes a handle to the extended report item model to the extension
@@ -45,6 +46,10 @@ public interface IReportItemPresentation {
 	 * @param modelHandle a handle to the extended item model object 
 	 */
 	public abstract void setModelObject(ExtendedItemHandle modelHandle);	
+	
+	/**
+	 * pass the prepared query definition to extended item implementation, so that it can access data.
+	 */
 	public void setReportQueries(IBaseQueryDefinition[] queries);
 
 	/**
@@ -66,6 +71,11 @@ public interface IReportItemPresentation {
 	 * @param outputFormat the output format, i.e., html, pdf, etc.
 	 */
 	public abstract void setOutputFormat(String outputFormat);
+	
+	/**
+	 * @return the image MIME type (e.g. "image/svg+xml") 
+	 */
+	public abstract String getImageMIMEType( );
 	
 	/**
 	 * sets the image formats that are supported for this output format. Formats are separated 
