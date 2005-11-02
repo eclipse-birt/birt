@@ -60,6 +60,9 @@ public class LibraryCommand extends AbstractElementCommand
 	public void addLibrary( String libraryFileName, String namespace )
 			throws DesignFileException, SemanticException
 	{
+		if ( StringUtil.isBlank( namespace ) )
+			namespace = StringUtil.extractFileName( libraryFileName );
+
 		if ( isDuplicateNamespace( namespace ) )
 		{
 			throw new LibraryException(
@@ -79,17 +82,9 @@ public class LibraryCommand extends AbstractElementCommand
 		// Add includedLibraries
 
 		IncludeLibrary includeLibrary = StructureFactory.createIncludeLibrary( );
-		includeLibrary.setFileName( libraryFileName );
-		if ( StringUtil.isBlank( namespace ) )
-		{
-			includeLibrary.setNamespace( StringUtil
-					.extractFileName( libraryFileName ) );
-		}
-		else
-		{
-			includeLibrary.setNamespace( namespace );
-		}
-
+		includeLibrary.setFileName( libraryFileName );	
+		includeLibrary.setNamespace( namespace );
+	
 		ElementPropertyDefn propDefn = module
 				.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
 		PropertyCommand propCommand = new PropertyCommand( module, module );
