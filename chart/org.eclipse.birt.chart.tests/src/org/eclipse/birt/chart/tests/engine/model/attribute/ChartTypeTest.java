@@ -33,15 +33,15 @@ public class ChartTypeTest extends TestCase {
 		assertEquals( ChartType.COMBO_LITERAL, ChartType.get(ChartType.COMBO) );
 		assertEquals( ChartType.SCATTER_LITERAL, ChartType.get(4) );
 		assertEquals( ChartType.STOCK_LITERAL, ChartType.get(5) );
-		assertNull(ChartType.get("6") );
+		assertNull(ChartType.get("6") ); //$NON-NLS-1$
 		
-		assertEquals( ChartType.PIE_LITERAL, ChartType.get("Pie") );
-		assertEquals( ChartType.BAR_LITERAL, ChartType.get("Bar") );
-		assertEquals( ChartType.LINE_LITERAL, ChartType.get("Line") );
-		assertEquals( ChartType.COMBO_LITERAL, ChartType.get("Combo") );
-		assertEquals( ChartType.SCATTER_LITERAL, ChartType.get("Scatter") );
-		assertEquals( ChartType.STOCK_LITERAL, ChartType.get("Stock") );
-		assertNull(ChartType.get("No Match") );
+		assertEquals( ChartType.PIE_LITERAL, ChartType.get("Pie") ); //$NON-NLS-1$
+		assertEquals( ChartType.BAR_LITERAL, ChartType.get("Bar") ); //$NON-NLS-1$
+		assertEquals( ChartType.LINE_LITERAL, ChartType.get("Line") ); //$NON-NLS-1$
+		assertEquals( ChartType.COMBO_LITERAL, ChartType.get("Combo") ); //$NON-NLS-1$
+		assertEquals( ChartType.SCATTER_LITERAL, ChartType.get("Scatter") ); //$NON-NLS-1$
+		assertEquals( ChartType.STOCK_LITERAL, ChartType.get("Stock") ); //$NON-NLS-1$
+		assertNull(ChartType.get("No Match") ); //$NON-NLS-1$
 	}
 }
 

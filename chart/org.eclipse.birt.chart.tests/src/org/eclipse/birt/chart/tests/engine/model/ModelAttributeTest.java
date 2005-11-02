@@ -48,7 +48,7 @@ public class ModelAttributeTest {
 	public static Test suite() {
 		
 		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.chart.model.attribute");
+				"Test for org.eclipse.birt.chart.model.attribute"); //$NON-NLS-1$
 		
 		//$JUnit-BEGIN$
 		suite.addTestSuite(ActionTypeTest.class);

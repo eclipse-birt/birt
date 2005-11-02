@@ -233,6 +233,7 @@ public class SvgPrimitiveGen {
 				}
 				Text text = TextImpl.create(strLabel);
 				text.setFont(font);
+				text.setColor(ColorDefinitionImpl.BLACK());
 				label.setCaption(text);
 				if (shadowColor != null)
 				label.setShadowColor(shadowColor);

@@ -28,11 +28,11 @@ public class ChartDimensionTest extends TestCase {
 		assertEquals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, ChartDimension.get(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH) );
 		assertEquals( ChartDimension.THREE_DIMENSIONAL_LITERAL, ChartDimension.get(2) );
 		
-		assertEquals( ChartDimension.TWO_DIMENSIONAL_LITERAL, ChartDimension.get("Two_Dimensional") );
-		assertEquals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, ChartDimension.get("Two_Dimensional_With_Depth") );
-		assertEquals( ChartDimension.THREE_DIMENSIONAL_LITERAL, ChartDimension.get("Three_Dimensional") );
+		assertEquals( ChartDimension.TWO_DIMENSIONAL_LITERAL, ChartDimension.get("Two_Dimensional") ); //$NON-NLS-1$
+		assertEquals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL, ChartDimension.get("Two_Dimensional_With_Depth") ); //$NON-NLS-1$
+		assertEquals( ChartDimension.THREE_DIMENSIONAL_LITERAL, ChartDimension.get("Three_Dimensional") ); //$NON-NLS-1$
 		
-		assertNull(ChartDimension.get("No Match") );
+		assertNull(ChartDimension.get("No Match") ); //$NON-NLS-1$
 		assertNull(ChartDimension.get(4) );
 	}
 }

@@ -23,13 +23,11 @@ public class TriggerConditionTest extends TestCase {
 	
 	public void testGet() 
 	{
-		assertEquals( TriggerCondition.MOUSE_HOVER_LITERAL, TriggerCondition.get(TriggerCondition.MOUSE_HOVER) );
-		assertEquals( TriggerCondition.MOUSE_CLICK_LITERAL, TriggerCondition.get(1) );
+		assertEquals( TriggerCondition.ONCLICK_LITERAL, TriggerCondition.get(TriggerCondition.ONCLICK) );
+		assertEquals( TriggerCondition.ONLOAD_LITERAL, TriggerCondition.get(14) );		
+		assertEquals( TriggerCondition.ONMOUSEOVER_LITERAL, TriggerCondition.get("onmouseover") ); //$NON-NLS-1$
 		
-		assertEquals( TriggerCondition.MOUSE_HOVER_LITERAL, TriggerCondition.get("Mouse_Hover") );
-		assertEquals( TriggerCondition.MOUSE_CLICK_LITERAL, TriggerCondition.get("Mouse_Click") );
-		
-		assertNull( TriggerCondition.get("No Match") );
-		assertNull( TriggerCondition.get(2) );
+		assertNull( TriggerCondition.get("No Match") ); //$NON-NLS-1$
+		assertNull( TriggerCondition.get(15) );
 	}
 }

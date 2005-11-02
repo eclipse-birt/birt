@@ -126,5 +126,25 @@ TM.setParent = function TooltipManager_setParent(parent, mainSvg){
 		  return childs.item(x).nodeValue;
 	   return "";
 	}
-		
-]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 0.0 L10.0 0.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 10.0 L50.0 10.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 20.0 L50.0 20.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 30.0 L50.0 30.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 40.0 L50.0 40.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 6.0 4.0 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 60.0 L50.0 60.0" style="stroke:#7b1819;stroke-width:2.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 60.0 L50.0 60.0" style="stroke:#7b1819;stroke-width:5.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 80.0 L50.0 80.0" style="stroke:#7b1819;stroke-width:10.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M80.0 80.0 L200.0 200.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 90.0 L50.0 90.0" style="stroke:#585e7d;stroke-width:1.0;stroke-dasharray: 6.0 4.0 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 100.0 L50.0 100.0" style="stroke:#585e7d;stroke-width:2.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 110.0 L50.0 110.0" style="stroke:#585e7d;stroke-width:5.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 120.0 L50.0 120.0" style="stroke:#585e7d;stroke-width:10.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/></g></svg>
+	        function toggleVisibility(evt, id, compList){
+       var mainSvg = evt.target.ownerDocument.documentElement;
+    for (i = 0; i < compList.length; i=i+1){
+         var comp = mainSvg.getElementById(id+'_'+compList[i]);
+         var styleStr = comp.getAttribute("style");
+        rVisibleExp=/visibility:visible/g;
+        rHiddenExp=/visibility:hidden/g;
+        results = styleStr.search(rVisibleExp);
+        if (results == -1){
+           results = styleStr.search(rHiddenExp);
+            if (results == -1)
+                styleStr = styleStr + "visibility:hidden;";
+            else
+                styleStr = styleStr.replace(rHiddenExp,"visibility:visible");
+         }
+         else{
+                styleStr = styleStr.replace(rVisibleExp,"visibility:hidden");
+         }
+         comp.setAttributeNS(null, "style", styleStr);
+     }
+     }			
+]]></script><style type="text/css"><![CDATA[.tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}]]></style><path d=" M10.0 0.0 L10.0 0.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 10.0 L50.0 10.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 20.0 L50.0 20.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 30.0 L50.0 30.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 40.0 L50.0 40.0" style="stroke:#7b1819;stroke-width:1.0;stroke-dasharray: 6.0 4.0 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 60.0 L50.0 60.0" style="stroke:#7b1819;stroke-width:2.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 60.0 L50.0 60.0" style="stroke:#7b1819;stroke-width:5.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 80.0 L50.0 80.0" style="stroke:#7b1819;stroke-width:10.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M80.0 80.0 L200.0 200.0" style="stroke:#7b1819;stroke-width:1.0;stroke-miterlimit:10.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 90.0 L50.0 90.0" style="stroke:#585e7d;stroke-width:1.0;stroke-dasharray: 6.0 4.0 1.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 100.0 L50.0 100.0" style="stroke:#585e7d;stroke-width:2.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 110.0 L50.0 110.0" style="stroke:#585e7d;stroke-width:5.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/><path d=" M10.0 120.0 L50.0 120.0" style="stroke:#585e7d;stroke-width:10.0;stroke-dasharray: 6.0 4.0;stroke-miterlimit:0.0;stroke-linejoin:round;stroke-linecap:round;"/></g><g style="fill-opacity:0.01;fill:#FFFFFF;"/></svg>

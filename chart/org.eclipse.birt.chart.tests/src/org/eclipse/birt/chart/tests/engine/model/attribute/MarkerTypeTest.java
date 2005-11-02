@@ -30,13 +30,13 @@ public class MarkerTypeTest extends TestCase {
 		assertEquals( MarkerType.BOX_LITERAL, MarkerType.get(2) );
 		assertEquals( MarkerType.CIRCLE_LITERAL, MarkerType.get(3) );
 		
-		assertEquals( MarkerType.CROSSHAIR_LITERAL, MarkerType.get("Crosshair") );
-		assertEquals( MarkerType.TRIANGLE_LITERAL, MarkerType.get("Triangle") );
-		assertEquals( MarkerType.BOX_LITERAL, MarkerType.get("Box") );
-		assertEquals( MarkerType.CIRCLE_LITERAL, MarkerType.get("Circle") );
+		assertEquals( MarkerType.CROSSHAIR_LITERAL, MarkerType.get("Crosshair") ); //$NON-NLS-1$
+		assertEquals( MarkerType.TRIANGLE_LITERAL, MarkerType.get("Triangle") ); //$NON-NLS-1$
+		assertEquals( MarkerType.BOX_LITERAL, MarkerType.get("Box") ); //$NON-NLS-1$
+		assertEquals( MarkerType.CIRCLE_LITERAL, MarkerType.get("Circle") ); //$NON-NLS-1$
 		
-		assertNull(MarkerType.get("No Match") );
-		assertNull(MarkerType.get(4) );
+		assertNull(MarkerType.get("No Match") ); //$NON-NLS-1$
+		assertNull(MarkerType.get(5) );
 	}
 }
 

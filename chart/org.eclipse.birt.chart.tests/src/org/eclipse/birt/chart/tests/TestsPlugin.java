@@ -25,7 +25,7 @@ public class TestsPlugin extends AbstractUIPlugin {
 		super();
 		plugin = this;
 		try {
-			resourceBundle = ResourceBundle.getBundle("org.eclipse.birt.chart.tests.TestsPluginResources");
+			resourceBundle = ResourceBundle.getBundle("org.eclipse.birt.chart.tests.TestsPluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}

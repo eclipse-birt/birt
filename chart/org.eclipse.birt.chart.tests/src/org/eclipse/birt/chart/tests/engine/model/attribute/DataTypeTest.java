@@ -28,11 +28,11 @@ public class DataTypeTest extends TestCase {
 		assertEquals( DataType.DATE_TIME_LITERAL, DataType.get(1) );
 		assertEquals( DataType.TEXT_LITERAL, DataType.get(DataType.TEXT) );
 		
-		assertEquals( DataType.NUMERIC_LITERAL, DataType.get("Numeric") );
-		assertEquals( DataType.DATE_TIME_LITERAL, DataType.get("DateTime") );
-		assertEquals( DataType.TEXT_LITERAL, DataType.get("Text") );
+		assertEquals( DataType.NUMERIC_LITERAL, DataType.get("Numeric") ); //$NON-NLS-1$
+		assertEquals( DataType.DATE_TIME_LITERAL, DataType.get("DateTime") ); //$NON-NLS-1$
+		assertEquals( DataType.TEXT_LITERAL, DataType.get("Text") ); //$NON-NLS-1$
 		
-		assertNull(DataType.get("No Match") );
+		assertNull(DataType.get("No Match") ); //$NON-NLS-1$
 		assertNull(DataType.get(3) );
 	}
 }

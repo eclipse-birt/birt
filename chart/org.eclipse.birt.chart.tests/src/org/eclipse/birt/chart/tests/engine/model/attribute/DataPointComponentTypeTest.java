@@ -28,11 +28,11 @@ public class DataPointComponentTypeTest extends TestCase {
 		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, DataPointComponentType.get(1) );
 		assertEquals( DataPointComponentType.SERIES_VALUE_LITERAL, DataPointComponentType.get(DataPointComponentType.SERIES_VALUE) );
 		
-		assertEquals( DataPointComponentType.BASE_VALUE_LITERAL, DataPointComponentType.get("Base_Value") );
-		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, DataPointComponentType.get("Orthogonal_Value") );
-		assertEquals( DataPointComponentType.SERIES_VALUE_LITERAL, DataPointComponentType.get("Series_Value") );
+		assertEquals( DataPointComponentType.BASE_VALUE_LITERAL, DataPointComponentType.get("Base_Value") ); //$NON-NLS-1$
+		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, DataPointComponentType.get("Orthogonal_Value") ); //$NON-NLS-1$
+		assertEquals( DataPointComponentType.SERIES_VALUE_LITERAL, DataPointComponentType.get("Series_Value") ); //$NON-NLS-1$
 		
-		assertNull(DataPointComponentType.get("No Match") );
+		assertNull(DataPointComponentType.get("No Match") ); //$NON-NLS-1$
 		assertNull(DataPointComponentType.get(3) );
 	}
 }

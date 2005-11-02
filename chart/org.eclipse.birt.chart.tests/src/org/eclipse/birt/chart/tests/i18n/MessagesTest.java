@@ -26,42 +26,42 @@ public class MessagesTest extends TestCase
 	//org.eclipse.birt.chart.device.extension
 	public void testDeviceGetString( )
 	{
-		assertEquals("Message:", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "message.caption", new Locale("en") ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "chart", new Locale("en") ) );
+		assertEquals("Message:", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "message.caption", new Locale("en") ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertEquals("!chart!", org.eclipse.birt.chart.device.extension.i18n.Messages.getString( "chart", new Locale("en") ) ); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
 	//org.eclipse.birt.chart.engine
 	public void testEngineGetString( )
 	{
-		assertEquals("null", org.eclipse.birt.chart.engine.i18n.Messages.getString( "constant.null.string", new Locale("en") ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.engine.i18n.Messages.getString( "chart", new Locale("en") ) );
+		assertEquals("null", org.eclipse.birt.chart.engine.i18n.Messages.getString( "constant.null.string", new Locale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		assertEquals("!chart!", org.eclipse.birt.chart.engine.i18n.Messages.getString( "chart", new Locale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
 	//org.eclipse.birt.chart.engine.extension
 	public void testEngineExtGetString( )
 	{
-		assertEquals("Empty dataset found", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "exception.empty.dataset", new Locale("en") ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "chart", new Locale("en") ) );
+		assertEquals("Empty dataset found", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "exception.empty.dataset", new Locale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		assertEquals("!chart!", org.eclipse.birt.chart.engine.extension.i18n.Messages.getString( "chart", new Locale("en") ) );//$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 	}
 	
 	//org.eclipse.birt.chart.reportitem
 	public void testItemGetString( )
 	{
-		assertEquals("Value", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartDataBindingPage.Lbl.Value" ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "chart") );
+		assertEquals("Value", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartDataBindingPage.Lbl.Value" ) );//$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("!chart!", org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
 	}
 	
 	//org.eclipse.birt.chart.ui
 	public void testUIGetString( )
 	{
-		assertEquals("Cancel", org.eclipse.birt.chart.ui.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.ui.i18n.Messages.getString( "chart") );
+		assertEquals("Cancel", org.eclipse.birt.chart.ui.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );//$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("!chart!", org.eclipse.birt.chart.ui.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
 	}
 	
 	//org.eclipse.birt.chart.ui.extension
 	public void testUIExtGetString( )
 	{
-		assertEquals("Cancel", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );
-		assertEquals("!chart!", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "chart") );
+		assertEquals("Cancel", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "Shared.Lbl.Cancel" ) );//$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("!chart!", org.eclipse.birt.chart.ui.extension.i18n.Messages.getString( "chart") );//$NON-NLS-1$//$NON-NLS-2$
 	}
 }

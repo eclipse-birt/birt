@@ -300,6 +300,7 @@ public class Png24PrimitiveGen
 				}
 				Text text = TextImpl.create( strLabel );
 				text.setFont( font );
+				text.setColor(ColorDefinitionImpl.BLACK());
 				label.setCaption( text );
 				if ( shadowColor != null )
 					label.setShadowColor( shadowColor );

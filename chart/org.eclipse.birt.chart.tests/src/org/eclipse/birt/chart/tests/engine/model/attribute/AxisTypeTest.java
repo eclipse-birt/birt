@@ -31,11 +31,11 @@ public class AxisTypeTest extends TestCase {
 		assertEquals( AxisType.DATE_TIME_LITERAL, AxisType.get(3) );
 		assertNull(AxisType.get(4) );
 		
-		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get("Linear") );
-		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get("Logarithmic") );
-		assertEquals( AxisType.TEXT_LITERAL, AxisType.get("Text") );
-		assertEquals( AxisType.DATE_TIME_LITERAL, AxisType.get("DateTime") );
-		assertNull(AxisType.get("No Match") );
+		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get("Linear") ); //$NON-NLS-1$
+		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get("Logarithmic") ); //$NON-NLS-1$
+		assertEquals( AxisType.TEXT_LITERAL, AxisType.get("Text") ); //$NON-NLS-1$
+		assertEquals( AxisType.DATE_TIME_LITERAL, AxisType.get("DateTime") ); //$NON-NLS-1$
+		assertNull(AxisType.get("No Match") ); //$NON-NLS-1$
 		
 	}
 }

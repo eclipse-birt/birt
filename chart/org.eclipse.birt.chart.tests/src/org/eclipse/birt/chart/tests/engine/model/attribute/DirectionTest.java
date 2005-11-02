@@ -26,10 +26,10 @@ public class DirectionTest extends TestCase {
 		assertEquals( Direction.LEFT_RIGHT_LITERAL, Direction.get(Direction.LEFT_RIGHT) );
 		assertEquals( Direction.TOP_BOTTOM_LITERAL, Direction.get(1) );
 		
-		assertEquals( Direction.LEFT_RIGHT_LITERAL, Direction.get("Left_Right") );
-		assertEquals( Direction.TOP_BOTTOM_LITERAL, Direction.get("Top_Bottom") );
+		assertEquals( Direction.LEFT_RIGHT_LITERAL, Direction.get("Left_Right") ); //$NON-NLS-1$
+		assertEquals( Direction.TOP_BOTTOM_LITERAL, Direction.get("Top_Bottom") ); //$NON-NLS-1$
 		
-		assertNull(Direction.get("No Match") );
+		assertNull(Direction.get("No Match") ); //$NON-NLS-1$
 		assertNull(Direction.get(2));
 	}
 }

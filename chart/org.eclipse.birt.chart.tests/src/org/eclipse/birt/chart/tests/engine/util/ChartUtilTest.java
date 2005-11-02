@@ -13,37 +13,129 @@ package org.eclipse.birt.chart.tests.engine.util;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.chart.model.attribute.Polygon;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.PolygonImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.component.Label;
 
-public class ChartUtilTest extends TestCase {
+public class ChartUtilTest extends TestCase
+{
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	/**
+	 * Construct and initialize any objects that will be used in multiple tests.
+	 * Currently Empty.
+	 */
+	protected void setUp( ) throws Exception
+	{
+
 	}
-	
-	protected void tearDown() throws Exception {
-		super.tearDown();
+
+	/**
+	 * Collect and empty any objects that are used in multiple tests. 
+	 * Currently Empty.
+	 */
+	protected void tearDown( ) throws Exception
+	{
+
 	}
-	
-	public void testIsColorTransparent() {
-		assertFalse(ChartUtil.isColorTransparent(ColorDefinitionImpl.BLUE()));
-		assertTrue(ChartUtil.isColorTransparent(ColorDefinitionImpl.TRANSPARENT()));
+
+	/**
+	 * Test whether the given color definition is transparent.
+	 * 
+	 */
+	public void testIsColorTransparent( )
+	{
+		assertFalse( ChartUtil.isColorTransparent( ColorDefinitionImpl.BLUE( ) ) );
+		assertTrue( ChartUtil.isColorTransparent( ColorDefinitionImpl.TRANSPARENT( ) ) );
 	}
-	
-	public void testMathGT(){
-		assertTrue(ChartUtil.mathGT(1.0 + 1.0 * 1E-9, 1.0));
-		assertFalse(ChartUtil.mathGT(1.0 + 1.0 * 1E-11, 1.0));
+
+	/**
+	 * Test whether the given label defines a shadow.
+	 * 
+	 */
+	public void testIsShadowDefined( )
+	{
+		Label label = LabelImpl.create( );
+		assertFalse( ChartUtil.isShadowDefined( label ) );
+		label.setShadowColor( ColorDefinitionImpl.BLACK( ) );
+		assertTrue( ChartUtil.isShadowDefined( label ) );
 	}
-	
-	public void testMathLT(){
-		assertTrue(ChartUtil.mathLT(1.0, 1.0 + 1.0 * 1E-9));
-		assertFalse(ChartUtil.mathLT(1.0, 1.0 + 1.0 * 1E-11));
+
+	/**
+	 * Test whether the given left double value is greater than the given right
+	 * value within a small precision.
+	 * 
+	 */
+	public void testMathGT( )
+	{
+		assertTrue( ChartUtil.mathGT( 1.0 + 1.0 * 1E-9, 1.0 ) );
+		assertFalse( ChartUtil.mathGT( 1.0 + 1.0 * 1E-11, 1.0 ) );
 	}
-	
-	public void testMathEqual(){
-		assertFalse(ChartUtil.mathEqual(1.0 + 1.0 * 1E-9, 1.0));
-		assertTrue(ChartUtil.mathEqual(1.0 + 1.0 * 1E-11, 1.0));
-		assertTrue(ChartUtil.mathEqual(1.0, 1.0 + 1.0 * 1E-11));
+
+	/**
+	 * Test whether the given left double value is less than the given right
+	 * value within a small precision
+	 */
+	public void testMathLT( )
+	{
+		assertTrue( ChartUtil.mathLT( 1.0, 1.0 + 1.0 * 1E-9 ) );
+		assertFalse( ChartUtil.mathLT( 1.0, 1.0 + 1.0 * 1E-11 ) );
+	}
+
+	/**
+	 * Test whether the given two double values are equal within a small
+	 * precision.
+	 * 
+	 */
+	public void testMathEqual( )
+	{
+		assertFalse( ChartUtil.mathEqual( 1.0 + 1.0 * 1E-9, 1.0 ) );
+		assertTrue( ChartUtil.mathEqual( 1.0 + 1.0 * 1E-11, 1.0 ) );
+		assertTrue( ChartUtil.mathEqual( 1.0, 1.0 + 1.0 * 1E-11 ) );
+	}
+
+	/**
+	 * Test the quadrant for given angle in degree.
+	 */
+	public void testGetQuadrant( )
+	{
+		assertEquals( -1, ChartUtil.getQuadrant( 0 ) );
+		assertEquals( -2, ChartUtil.getQuadrant( 90 ) );
+		assertEquals( -3, ChartUtil.getQuadrant( 180 ) );
+		assertEquals( -4, ChartUtil.getQuadrant( 270 ) );
+		assertEquals( 1, ChartUtil.getQuadrant( 45 ) );
+		assertEquals( 2, ChartUtil.getQuadrant( -200 ) );
+		assertEquals( 3, ChartUtil.getQuadrant( -100 ) );
+		assertEquals( 4, ChartUtil.getQuadrant( -45 ) );
+	}
+
+	/**
+	 * Test whether two polygons intersect.
+	 * 
+	 */
+	public void testIntersects( )
+	{
+		Polygon p1 = PolygonImpl.create( null );
+		p1.add( 0.0, 1.0 );
+		p1.add( 4.0, 1.0 );
+		p1.add( 4.0, 5.0 );
+		p1.add( 0.0, 5.0 );
+
+		Polygon p2 = PolygonImpl.create( null );
+		p2.add( -1.0, 2.0 );
+		p2.add( -2.0, 2.0 );
+		p2.add( -2.0, 4.0 );
+		p2.add( -1.0, 4.0 );
+		
+		Polygon p3 = PolygonImpl.create( null );
+		p2.add( -1.0, 2.0 );
+		p2.add( 1.0, 2.0 );
+		p2.add( 1.0, 4.0 );
+		p2.add( -1.0, 4.0 );
+		
+		assertTrue( ChartUtil.intersects( p1, p2 ) );
+		assertFalse( ChartUtil.intersects( p1, p3 ) );
 	}
 }

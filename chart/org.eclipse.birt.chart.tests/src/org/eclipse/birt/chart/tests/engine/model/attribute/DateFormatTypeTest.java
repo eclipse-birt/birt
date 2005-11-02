@@ -31,12 +31,12 @@ public class DateFormatTypeTest extends TestCase {
 		assertEquals( DateFormatType.MEDIUM_LITERAL, DateFormatType.get(DateFormatType.MEDIUM) );
 		assertEquals( DateFormatType.FULL_LITERAL, DateFormatType.get(DateFormatType.FULL) );
 		
-		assertEquals( DateFormatType.LONG_LITERAL, DateFormatType.get("Long") );
-		assertEquals( DateFormatType.SHORT_LITERAL, DateFormatType.get("Short") );
-		assertEquals( DateFormatType.MEDIUM_LITERAL, DateFormatType.get("Medium") );
-		assertEquals( DateFormatType.FULL_LITERAL, DateFormatType.get("Full") );
+		assertEquals( DateFormatType.LONG_LITERAL, DateFormatType.get("Long") ); //$NON-NLS-1$
+		assertEquals( DateFormatType.SHORT_LITERAL, DateFormatType.get("Short") ); //$NON-NLS-1$
+		assertEquals( DateFormatType.MEDIUM_LITERAL, DateFormatType.get("Medium") ); //$NON-NLS-1$
+		assertEquals( DateFormatType.FULL_LITERAL, DateFormatType.get("Full") ); //$NON-NLS-1$
 		
-		assertNull(DateFormatType.get("No Match") );
+		assertNull(DateFormatType.get("No Match") ); //$NON-NLS-1$
 		assertNull(DateFormatType.get(4) );
 	}
 }

@@ -23,7 +23,7 @@ public class AllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite(
-				"Test for all chart-related projects");
+				"Test for all chart-related projects"); //$NON-NLS-1$
 		//$JUnit-BEGIN$
 		suite.addTest(DeviceTest.suite());
 		suite.addTest(I18nTest.suite());

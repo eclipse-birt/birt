@@ -26,10 +26,10 @@ public class DateFormatDetailTest extends TestCase {
 		assertEquals( DateFormatDetail.DATE_LITERAL, DateFormatDetail.get(DateFormatDetail.DATE) );
 		assertEquals( DateFormatDetail.DATE_TIME_LITERAL, DateFormatDetail.get(1) );
 		
-		assertEquals( DateFormatDetail.DATE_LITERAL, DateFormatDetail.get("Date") );
-		assertEquals( DateFormatDetail.DATE_TIME_LITERAL, DateFormatDetail.get("Date_Time") );
+		assertEquals( DateFormatDetail.DATE_LITERAL, DateFormatDetail.get("Date") ); //$NON-NLS-1$
+		assertEquals( DateFormatDetail.DATE_TIME_LITERAL, DateFormatDetail.get("Date_Time") ); //$NON-NLS-1$
 		
-		assertNull(DateFormatDetail.get("No Match") );
+		assertNull(DateFormatDetail.get("No Match") ); //$NON-NLS-1$
 		assertNull(DateFormatDetail.get(2));
 	}
 }

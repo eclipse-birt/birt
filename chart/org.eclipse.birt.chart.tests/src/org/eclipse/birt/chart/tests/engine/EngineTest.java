@@ -11,52 +11,56 @@ package org.eclipse.birt.chart.tests.engine;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 import org.eclipse.birt.chart.tests.engine.aggregate.AverageTest;
 import org.eclipse.birt.chart.tests.engine.aggregate.SumTest;
 import org.eclipse.birt.chart.tests.engine.computation.ValueFormatterTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.DataSetProcessorImplTest;
-import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetWrapperTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetDataSetTest;
+import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetWrapperTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.StockEntryTest;
-import org.eclipse.birt.chart.tests.engine.exception.ChartExceptionTest;
 import org.eclipse.birt.chart.tests.engine.model.ModelAttributeTest;
 import org.eclipse.birt.chart.tests.engine.util.CDateTimeTest;
 import org.eclipse.birt.chart.tests.engine.util.ChartUtilTest;
+import org.eclipse.birt.chart.tests.engine.util.ClipTest;
 import org.eclipse.birt.chart.tests.engine.util.LUDecompositionTest;
-import org.eclipse.birt.chart.tests.engine.util.QRDecompositionTest;
-import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
+import org.eclipse.birt.chart.tests.engine.util.LiteralHelperTest;
+import org.eclipse.birt.chart.tests.engine.util.LowessTest;
 import org.eclipse.birt.chart.tests.engine.util.MatrixTest;
+import org.eclipse.birt.chart.tests.engine.util.NameSetTest;
+import org.eclipse.birt.chart.tests.engine.util.QRDecompositionTest;
 
-public class EngineTest {
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.chart.engine"
-						+ "and org.eclipse.birt.chart.engine.extension");
+public class EngineTest
+{
 
-		//$JUnit-BEGIN$
-		suite.addTestSuite(AverageTest.class);
-		suite.addTestSuite(SumTest.class);
+	public static Test suite( )
+	{
+		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.chart.engine" //$NON-NLS-1$
+				+ "and org.eclipse.birt.chart.engine.extension" ); //$NON-NLS-1$
 
-		suite.addTestSuite(ValueFormatterTest.class);
+		// $JUnit-BEGIN$
+		suite.addTestSuite( AverageTest.class );
+		suite.addTestSuite( SumTest.class );
 
-		suite.addTestSuite(DataSetProcessorImplTest.class);
-		suite.addTestSuite(ResultSetDataSetTest.class);
-		suite.addTestSuite(ResultSetWrapperTest.class);
-		suite.addTestSuite(StockEntryTest.class);
+		suite.addTestSuite( ValueFormatterTest.class );
 
-		suite.addTestSuite(ChartExceptionTest.class);
-		
-		suite.addTest(ModelAttributeTest.suite());
+		suite.addTestSuite( DataSetProcessorImplTest.class );
+		suite.addTestSuite( ResultSetDataSetTest.class );
+		suite.addTestSuite( ResultSetWrapperTest.class );
+		suite.addTestSuite( StockEntryTest.class );
 
-		suite.addTestSuite(CDateTimeTest.class);
-		suite.addTestSuite(ChartUtilTest.class);
-		suite.addTestSuite(LUDecompositionTest.class);
-		suite.addTestSuite(QRDecompositionTest.class);
-		suite.addTestSuite(NameSetTest.class);
-		suite.addTestSuite(MatrixTest.class);
+		suite.addTest( ModelAttributeTest.suite( ) );
 
-		//$JUnit-END$
+		suite.addTestSuite( CDateTimeTest.class );
+		suite.addTestSuite( ChartUtilTest.class );
+		suite.addTestSuite( ClipTest.class );
+		suite.addTestSuite( LiteralHelperTest.class );
+		suite.addTestSuite( LowessTest.class );
+		suite.addTestSuite( LUDecompositionTest.class );
+		suite.addTestSuite( MatrixTest.class );
+		suite.addTestSuite( NameSetTest.class );
+		suite.addTestSuite( QRDecompositionTest.class );
+
+		// $JUnit-END$
 		return suite;
 	}
 

@@ -35,15 +35,15 @@ public class GroupingUnitTypeTest extends TestCase {
 		assertEquals( GroupingUnitType.WEEKS_LITERAL, GroupingUnitType.get(4) );
 		assertEquals( GroupingUnitType.MONTHS_LITERAL, GroupingUnitType.get(5) );
 		assertEquals( GroupingUnitType.YEARS_LITERAL, GroupingUnitType.get(6) );
-		assertNull(GroupingUnitType.get("7") );
+		assertNull(GroupingUnitType.get("7") ); //$NON-NLS-1$
 		
-		assertEquals( GroupingUnitType.SECONDS_LITERAL, GroupingUnitType.get("Seconds") );
-		assertEquals( GroupingUnitType.MINUTES_LITERAL, GroupingUnitType.get("Minutes") );
-		assertEquals( GroupingUnitType.HOURS_LITERAL, GroupingUnitType.get("Hours") );
-		assertEquals( GroupingUnitType.DAYS_LITERAL, GroupingUnitType.get("Days") );
-		assertEquals( GroupingUnitType.WEEKS_LITERAL, GroupingUnitType.get("Weeks") );
-		assertEquals( GroupingUnitType.MONTHS_LITERAL, GroupingUnitType.get("Months") );
-		assertEquals( GroupingUnitType.YEARS_LITERAL, GroupingUnitType.get("Years") );
-		assertNull(GroupingUnitType.get("No Match") );
+		assertEquals( GroupingUnitType.SECONDS_LITERAL, GroupingUnitType.get("Seconds") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.MINUTES_LITERAL, GroupingUnitType.get("Minutes") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.HOURS_LITERAL, GroupingUnitType.get("Hours") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.DAYS_LITERAL, GroupingUnitType.get("Days") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.WEEKS_LITERAL, GroupingUnitType.get("Weeks") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.MONTHS_LITERAL, GroupingUnitType.get("Months") ); //$NON-NLS-1$
+		assertEquals( GroupingUnitType.YEARS_LITERAL, GroupingUnitType.get("Years") ); //$NON-NLS-1$
+		assertNull(GroupingUnitType.get("No Match") ); //$NON-NLS-1$
 	}
 }
