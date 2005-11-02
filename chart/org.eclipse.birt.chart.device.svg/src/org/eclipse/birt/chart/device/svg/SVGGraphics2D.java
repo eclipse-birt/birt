@@ -39,7 +39,6 @@ import java.awt.image.RenderedImage;
 import java.awt.image.renderable.RenderableImage;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -72,8 +71,10 @@ public class SVGGraphics2D extends Graphics2D
 	protected List paints = new ArrayList( );
 	protected Element definitions;
 	protected Element styles;
+	protected Element codeScript;
 	protected String styleClass;
 	protected String id;
+	protected StringBuffer scriptBuffer = new StringBuffer();
 	protected StringBuffer styleBuffer = new StringBuffer();
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
@@ -1028,8 +1029,15 @@ public class SVGGraphics2D extends Graphics2D
 		return true;
 	}
 
+	/**
+	 * Unload any resources associated with the graphic context
+	 */
 	public void flush(){
-		styles.appendChild( dom.createCDATASection( EventHandlers.styles.append(styleBuffer).toString( ) ) );		
+		codeScript.appendChild( dom.createCDATASection( EventHandlers.content.append(scriptBuffer).toString( ) ) );
+		styles.appendChild( dom.createCDATASection( EventHandlers.styles.append(styleBuffer).toString( ) ) );
+		///clear buffer
+		scriptBuffer = new StringBuffer();
+		styleBuffer = new StringBuffer();
 	}
 	/*
 	 * (non-Javadoc)
@@ -1305,8 +1313,7 @@ public class SVGGraphics2D extends Graphics2D
 
 	protected void initializeScriptStyles( )
 	{
-		Element codeScript = dom.createElement( "script" ); //$NON-NLS-1$
-		codeScript.appendChild( dom.createCDATASection( EventHandlers.content.toString( ) ) );
+		codeScript = dom.createElement( "script" ); //$NON-NLS-1$
 		appendChild( codeScript );
 		styles = dom.createElement( "style" ); //$NON-NLS-1$
 		styles.setAttribute( "type", "text/css" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1354,6 +1361,28 @@ public class SVGGraphics2D extends Graphics2D
 	
 	public void addCSSStyle(String className, String styleName, String styleValue){
 		styleBuffer.append(className).append("{").append(styleName).append(":").append(styleValue).append("}");				 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+	
+	/**
+	 * Inlines the script code in the generated svg output
+	 * 
+	 * @param script the code that will be inlined in the generated svg output
+	 */
+	public void addScript(String script){
+		scriptBuffer.append(script);	
+	}
+	
+	/**
+	 * Adds a script reference in the generated svg output.
+	 * 
+	 * @param ref the script reference that will be added to the generated svg output.
+	 */
+	public void addScriptRef(String ref){
+		Element rootElem = dom.getDocumentElement( );
+		Element scriptElem = dom.createElement( "script" ); //$NON-NLS-1$
+		rootElem.appendChild( scriptElem );
+		scriptElem.setAttribute( "language", "JavaScript" ); //$NON-NLS-1$ //$NON-NLS-2$
+		scriptElem.setAttribute( "xlink:href", ref ); //$NON-NLS-1$		
 	}
 
 	public String getId() {

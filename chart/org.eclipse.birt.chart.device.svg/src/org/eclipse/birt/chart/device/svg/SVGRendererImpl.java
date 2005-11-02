@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -59,7 +60,9 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Location;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -91,6 +94,10 @@ public class SVGRendererImpl extends SwingRendererImpl
 	private IUpdateNotifier _iun = null;
 	
 	private Map componentPrimitives = new Hashtable();
+	private List scripts = new Vector();
+	protected List scriptRefList = null;
+	protected List scriptCodeList = null;
+	
 	/**
 	 * 
 	 */
@@ -174,12 +181,35 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			oOutputIdentifier = oValue;
 		}
+		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_CODE_LIST ) )
+		{
+			scriptCodeList = (List)oValue;
+		}
+		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_URL_REF_LIST ) )
+		{
+			scriptRefList = (List)oValue;
+		}
 	}
 	
 	protected Element createHotspotLayer(Document dom){
 		Element hotspot = dom.createElement("g"); //$NON-NLS-1$
 		hotspot.setAttribute( "style", "fill-opacity:0.01;fill:#FFFFFF;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return hotspot;		
+	}
+	
+	protected void addScripts(){
+		if (this.scriptCodeList != null){
+			for (int x = 0; x< scriptCodeList.size(); x++){
+				String code = (String)scriptCodeList.get(x);
+				((SVGGraphics2D)_g2d).addScript(code);				
+			}
+		}
+		if (this.scriptRefList != null){
+			for (int x = 0; x< scriptRefList.size(); x++){
+				String ref = (String)scriptRefList.get(x);
+				((SVGGraphics2D)_g2d).addScriptRef(ref);				
+			}
+		}
 	}
 
 	/**
@@ -190,6 +220,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public final void after( ) throws ChartException
 	{
 		super.after( );
+		addScripts();
 		((SVGGraphics2D)_g2d).flush();		
 		
 		//make sure we add the hotspot layer to the bottom layer of the svg
@@ -235,6 +266,9 @@ public class SVGRendererImpl extends SwingRendererImpl
 					},
 					null );
 		}
+		
+		componentPrimitives.clear();
+		scripts.clear();
 	}
 
 	/**
@@ -438,7 +472,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 				Area fArea = new Area( outerArc );
 				fArea.exclusiveOr( new Area( innerArc ) );
 
-				Shape prevClip = _g2d.getClip( );
+//				Shape prevClip = _g2d.getClip( );
 //				_g2d.setClip( fArea );
 				elm = svggc.createGeneralPath( fArea );
 //				_g2d.setClip( prevClip );
@@ -464,6 +498,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		if (elm != null) {
 			for (int x = 0; x < triggers.length; x++) {
 				Trigger tg = triggers[x];
+				
 				
 				switch (tg.getAction().getType().getValue()) {
 				case ActionType.SHOW_TOOLTIP:
@@ -529,6 +564,69 @@ public class SVGRendererImpl extends SwingRendererImpl
 						}
 					}
 					break;
+				case ActionType.INVOKE_SCRIPT:
+					final StructureSource sructSource = (StructureSource) ie.getSource( );
+					String scriptEvent = null;
+					switch(tg.getCondition().getValue()){
+					case TriggerCondition.MOUSE_HOVER :
+						scriptEvent = "onmouseover";
+						break;
+					case TriggerCondition.MOUSE_CLICK :
+						scriptEvent = "onclick";
+						break;
+					case TriggerCondition.ONCLICK :
+						scriptEvent = "onclick";
+						break;
+					case TriggerCondition.ONDBLCLICK :
+						scriptEvent = "onclick";
+						break;
+					case TriggerCondition.ONMOUSEDOWN :
+						scriptEvent = "onmousedown";
+						break;
+					case TriggerCondition.ONMOUSEUP :
+						scriptEvent = "onmouseup";
+						break;
+					case TriggerCondition.ONMOUSEOVER :
+						scriptEvent = "onmouseover";
+						break;
+					case TriggerCondition.ONMOUSEMOVE :
+						scriptEvent = "onmousemove";
+						break;
+					case TriggerCondition.ONMOUSEOUT :
+						scriptEvent = "onmouseout";
+						break;
+					case TriggerCondition.ONFOCUS :
+						scriptEvent = "onfocusin";
+						break;
+					case TriggerCondition.ONBLUR :
+						scriptEvent = "onfocusout";
+						break;
+					case TriggerCondition.ONKEYDOWN :
+						scriptEvent = "onkeydown";
+						break;
+					case TriggerCondition.ONKEYPRESS :
+						scriptEvent = "onkeypress";
+						break;
+					case TriggerCondition.ONKEYUP :
+						scriptEvent = "onkeyup";
+						break;
+					case TriggerCondition.ONLOAD :
+						scriptEvent = "onload";
+						break;
+					}
+					if (scriptEvent != null){
+						String script = ((ScriptValue) tg.getAction().getValue()).getScript();
+						String callbackFunction = "callback"+Math.abs(script.hashCode())+"(evt,"+sructSource.getSource().hashCode()+");";
+						elm.setAttribute(scriptEvent, callbackFunction); 
+						setCursor(elm);
+						if (!(scripts.contains(script))){
+							
+							((SVGGraphics2D)_g2d).addScript("function callback"+Math.abs(script.hashCode())+"(evt,source)" +"{"+script+"}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							scripts.add(script);
+						}
+					}
+					break;
+
 										
 				}
 			}
