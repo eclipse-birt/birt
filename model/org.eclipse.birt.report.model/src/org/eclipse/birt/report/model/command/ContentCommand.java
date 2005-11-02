@@ -164,6 +164,17 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 
+		// Can not change the structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( element.isVirtualElement( )
+				|| element.getExtendsElement( ) != null )
+			throw new ContentException(
+					element,
+					slotID,
+					content,
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+
 		// This element is already the content of the element to add.
 
 		if ( element.isContentOf( content ) )
@@ -329,6 +340,27 @@ public class ContentCommand extends AbstractElementCommand
 	public void remove( DesignElement content, int slotID,
 			boolean unresolveReference ) throws SemanticException
 	{
+		doRemove( content, slotID, unresolveReference, false );
+	}
+
+	/**
+	 * @see #remove(DesignElement, int, boolean)
+	 * @param content
+	 *            the element to remove
+	 * @param slotID
+	 *            the slot from which to remove the content
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references
+	 * @param flag
+	 *            Use the flag to indicate whether this method is do with the
+	 *            element itself or do with its contents.
+	 * @throws SemanticException
+	 *             if this content cannot be removed from container.
+	 */
+
+	private void doRemove( DesignElement content, int slotID,
+			boolean unresolveReference, boolean flag ) throws SemanticException
+	{
 		assert content != null;
 
 		// Ensure that the content can be dropped from the container.
@@ -346,6 +378,17 @@ public class ContentCommand extends AbstractElementCommand
 		if ( !slot.canDrop( content ) )
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
+
+		// Can not drop a virtual element.
+		// However, if it is called when dropping the child element, the check should
+		// be ignored.
+		
+		if ( content.isVirtualElement( ) && !flag )
+			throw new ContentException(
+					element,
+					slotID,
+					content,
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
@@ -614,7 +657,7 @@ public class ContentCommand extends AbstractElementCommand
 			while ( !slot.isEmpty( ) )
 			{
 				DesignElement content = slot.getContent( 0 );
-				contentCmd.remove( content, slotID, false );
+				contentCmd.doRemove( content, slotID, false, true );
 			}
 		}
 	}
@@ -654,6 +697,17 @@ public class ContentCommand extends AbstractElementCommand
 
 		if ( element == to && fromSlotID == toSlotID )
 			return;
+
+		// Can not change the structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( content.isVirtualElement( )
+				|| content.getExtendsElement( ) != null )
+			throw new ContentException(
+					element,
+					fromSlotID,
+					content,
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		// Cannot put an element inside itself.
 
@@ -816,6 +870,16 @@ public class ContentCommand extends AbstractElementCommand
 		SlotDefn slotInfo = (SlotDefn) element.getDefn( ).getSlot( slotID );
 		if ( !slotInfo.isMultipleCardinality( ) )
 			return;
+
+		// Can not change the structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( content.isVirtualElement( ) )
+			throw new ContentException(
+					element,
+					slotID,
+					content,
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		if ( !canMovePosition( content, slotID, newPosn ) )
 			throw new ContentException( element, slotID,

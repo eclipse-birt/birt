@@ -98,6 +98,20 @@ public class SingleElementSlot extends ContainerSlot
 		assert content != null && content == element;
 		content = null;
 	}
+	
+	/**
+	 * Removes an element at the given position.
+	 * 
+	 * @param posn
+	 *            position of the element that is to be removed.
+	 * @return the element that was removed from the list.
+	 */
+
+	public Object remove( int posn )
+	{
+		assert posn == 0;
+		return content = null;
+	}
 
 	/**
 	 * Checks whether the element can be dropped from this slot.

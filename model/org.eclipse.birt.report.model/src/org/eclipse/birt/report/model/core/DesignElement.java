@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
@@ -601,6 +602,13 @@ public abstract class DesignElement
 	protected List errors;
 
 	/**
+	 * Support for id inheritance. If it is set, base id must be larger than
+	 * <code>0</code>.
+	 */
+
+	protected long baseId = -1;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -788,6 +796,136 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Returns <code>true</code> if the element is within a child element
+	 * which extends from another. Returns <code>false</code> otherwise. <br>
+	 * <strong>Notice:</strong> <br>
+	 * If the element is a virtual element, it must have defined a <code>
+	 * baseId<code> which point to the ID of its virtual parent. 
+	 * 
+	 * @return Returns <code>true</code> if the element is within a child element
+	 * which extends from another.
+	 */
+
+	public final boolean isVirtualElement( )
+	{
+		return baseId > 0;
+	}
+
+	/**
+	 * Copied the structure of extended element to the element itself. Local
+	 * properties will all be cleared.Please note that the containment
+	 * relationship is kept while property values are not copied.
+	 * 
+	 * @return <code>true</code> if the refresh action is successful.
+	 *         <code>false</code> othersize.
+	 * 
+	 */
+
+	public boolean refreshStructureFromParent( )
+	{
+		DesignElement parent = getExtendsElement( );
+		if ( parent == null )
+			return false;
+		
+		if( getDefn().getSlotCount() == 0 )
+			return true;
+
+		DesignElement cloned = null;
+		try
+		{
+			cloned = (DesignElement) parent.clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+			return false;
+		}
+
+		// Parent element and the cloned one must have the same structures.
+
+		Iterator parentIter = new ContentIterator( parent );
+		Iterator childIter = new ContentIterator( cloned );
+		while ( childIter.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) parentIter.next( );
+			DesignElement virtualChild = (DesignElement) childIter.next( );
+
+			// 1. clear all childrens' properties.
+
+			virtualChild.clearAllProperties( );
+
+			// 2. set base id reference.
+
+			// assert virtualParent.getID() > 0;
+			virtualChild.setBaseId( virtualParent.getID( ) );
+		}
+
+		// Copies top level slots from cloned element to the target element.
+
+		for ( int i = 0; i < parent.getDefn( ).getSlotCount( ); i++ )
+		{
+			ContainerSlot sourceSlot = cloned.getSlot( i );
+			ContainerSlot targetSlot = this.getSlot( i );
+
+			// clear the slot contents of the this element.
+
+			int count = targetSlot.getCount( );
+			while ( --count >= 0 )
+			{
+				targetSlot.remove( count );
+			}
+
+			for ( int j = 0; j < sourceSlot.getCount( ); j++ )
+			{
+				DesignElement content = sourceSlot.getContent( j );
+
+				// setup the containment relationship
+
+				targetSlot.add( content );
+				content.setContainer( this, i );
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Resolve and returns the virtual parent element. If the element is not
+	 * virtual element, <code>null</code> will be returned. Otherwise, find
+	 * and returns the virtual parent using the <code>baseId</code>.
+	 * 
+	 * @return the virtual parent element.
+	 */
+
+	public DesignElement getVirtualParent( )
+	{
+		if ( !isVirtualElement( ) )
+			return null;
+
+		// Find the out-most child element.
+
+		DesignElement parent = null;
+		DesignElement cur = this;
+		while ( cur.getContainer( ) != null )
+		{
+			DesignElement container = cur.getContainer( );
+			if ( container.getExtendsElement( ) != null )
+			{
+				parent = container.getExtendsElement( );
+				break;
+			}
+
+			cur = cur.getContainer( );
+		}
+
+		assert parent != null;
+		assert parent.getContainer( ) instanceof Module;
+
+		return parent.getRoot( ).getElementByID( baseId );
+
+	}
+
+	/**
 	 * Gets a property value given its internal name. This version does the full
 	 * property search as defined by the given derived component. That is, it
 	 * gets the "effective" property value. The name can be a built-in property
@@ -929,9 +1067,20 @@ public abstract class DesignElement
 
 		if ( isInheritableProperty( prop ) )
 		{
-			// Does the parent provide the value of this property?
+			if ( isVirtualElement( ) )
+			{
+				assert getExtendsElement( ) == null;
+				DesignElement virtualParent = getVirtualParent( );
+				if ( virtualParent != null )
+					value = virtualParent.getPropertyFromSelf( module, prop );
+			}
+			else
+			{
+				// Does the parent provide the value of this property?
 
-			value = getPropertyFromParent( module, prop );
+				value = getPropertyFromParent( module, prop );
+			}
+
 			if ( value != null )
 				return value;
 		}
@@ -2644,6 +2793,24 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Determines if this element can be dropped from its container.
+	 * 
+	 * @return <code>true</code> if it can be dropped. Returns
+	 *         <code>false</code> otherwise.
+	 */
+
+	public boolean canDrop( )
+	{
+		// Can not change the structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( isVirtualElement( ) )
+			return false;
+
+		return true;
+	}
+
+	/**
 	 * Determines if the slot can contain a given element.
 	 * 
 	 * @param module
@@ -2661,12 +2828,17 @@ public abstract class DesignElement
 	{
 		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
 		if ( !retValue )
-			return retValue;
+			return false;
+
+		// Can not change the structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( isVirtualElement( ) || getExtendsElement( ) != null )
+			return false;
 
 		// special cases check table header containment.
 
 		DesignElement tmpContainer = this;
-
 		while ( tmpContainer != null )
 		{
 			if ( tmpContainer instanceof ListingElement
@@ -2704,12 +2876,17 @@ public abstract class DesignElement
 
 		boolean retValue = canContainInRom( slotId, defn );
 		if ( !retValue )
-			return retValue;
+			return false;
 
-		DesignElement tmpContainer = this;
+		// Can not change structure of child element or a virtual element(
+		// inside the child ).
+
+		if ( isVirtualElement( ) || getExtendsElement( ) != null )
+			return false;
 
 		// special cases check table header containment.
 
+		DesignElement tmpContainer = this;
 		while ( tmpContainer != null )
 		{
 			if ( tmpContainer instanceof ListingElement )
@@ -3324,5 +3501,40 @@ public abstract class DesignElement
 		sb.append( "]" ); //$NON-NLS-1$
 
 		return sb.toString( );
+	}
+
+	/**
+	 * Sets the element with the id reference.
+	 * <p>
+	 * Part of: Inheritance system.
+	 * 
+	 * @param baseId
+	 *            The id reference element.
+	 */
+
+	public void setBaseId( long baseId )
+	{
+		this.baseId = baseId;
+	}
+
+	/**
+	 * @return Returns the idRef.
+	 */
+
+	public long getBaseId( )
+	{
+		return baseId;
+	}
+
+	/**
+	 * Clears local properties of the element.
+	 */
+
+	public void clearAllProperties( )
+	{
+		this.name = null;
+		this.extendsRef = null;
+
+		propValues.clear( );
 	}
 }

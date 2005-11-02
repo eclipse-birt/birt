@@ -20,9 +20,9 @@ import java.util.List;
  * slots. The slot itself can contain either a single element (see the
  * {@link SingleElementSlot}class), or multiple elements (see the
  * {@link MultiElementSlot}class.) See the
- * {@link org.eclipse.birt.report.model.api.metadata.ISlotDefn}class for more information
- * about slots.
- *  
+ * {@link org.eclipse.birt.report.model.api.metadata.ISlotDefn}class for more
+ * information about slots.
+ * 
  */
 
 public abstract class ContainerSlot implements Cloneable
@@ -59,6 +59,18 @@ public abstract class ContainerSlot implements Cloneable
 	 */
 
 	public abstract void remove( DesignElement content );
+
+	/**
+	 * Removes an element at the given position.
+	 * 
+	 * @param posn
+	 *            position of the element that is to be removed.
+	 * @return the element that was removed from the list.
+	 * @throws    IndexOutOfBoundsException if index out of range <tt>(posn
+     * 		  &lt; 0 || posn &gt;= getCount())</tt>.
+	 */
+
+	public abstract Object remove( int posn );
 
 	/**
 	 * Checks if the element can be dropped. One case where this will return

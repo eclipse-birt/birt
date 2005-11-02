@@ -171,6 +171,13 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID;
 
 	/**
+	 * The virtual parent element reference by baseId is not found in the parent.
+	 */
+
+	public static final String DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND = MessageConstants.DESIGN_PARSER_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND;
+	
+	
+	/**
 	 * The element id is duplicate.
 	 */
 
@@ -214,14 +221,16 @@ public class DesignParserException extends ModelException
 		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
-				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION )
+				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION
+				|| sResourceKey == DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND )
 		{
 			assert oaMessageArguments.length == 1;
 
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_ID
-				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID )
+				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID
+				)
 		{
 			assert oaMessageArguments.length == 2;
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );

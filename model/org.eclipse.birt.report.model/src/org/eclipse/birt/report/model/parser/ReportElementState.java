@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -34,6 +36,9 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.CompoundElementExtendsUtil;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.xml.sax.Attributes;
 
 /**
@@ -126,6 +131,22 @@ public abstract class ReportElementState extends DesignParseState
 		SlotDefn slotInfo = (SlotDefn) containerDefn.getSlot( slotID );
 		assert slotInfo != null;
 		assert slotInfo.canContain( content );
+
+		// Can not change the structure of an element if it is a child element
+		// or it is within a child element.
+
+		if ( container.getExtendsElement( ) != null )
+		{
+			handler
+					.getErrorHandler( )
+					.semanticWarning(
+							new ContentException(
+									container,
+									slotID,
+									content,
+									ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
+			return false;
+		}
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
@@ -264,7 +285,6 @@ public abstract class ReportElementState extends DesignParseState
 					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
 
 			element.setExtendsName( extendsName );
-
 			resolveExtendsElement( );
 		}
 		else
@@ -373,6 +393,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			element.checkExtends( refValue.getElement( ) );
 			element.setExtendsElement( refValue.getElement( ) );
+			element.refreshStructureFromParent();
 		}
 		catch ( ExtendsException ex )
 		{
@@ -476,6 +497,27 @@ public abstract class ReportElementState extends DesignParseState
 			}
 			handler.tempValue.remove( Style.MAP_RULES_PROP );
 		}
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 */
+
+	public AbstractParseState startElement( String tagName )
+	{
+		ElementDefn defn = (ElementDefn) getElement( ).getDefn( );
+
+		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
+				.equalsIgnoreCase( tagName ) )
+		{
+			if ( defn.getSlotCount( ) > 0 && defn.canExtend( ) )
+			{
+				return new OverriddenValuesState(
+						(ModuleParserHandler) getHandler( ), getElement( ) );
+			}
+		}
+		return super.startElement( tagName );
 	}
 }

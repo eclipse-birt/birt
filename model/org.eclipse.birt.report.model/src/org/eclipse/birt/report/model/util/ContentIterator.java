@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 
@@ -69,9 +68,7 @@ public class ContentIterator implements Iterator
 
 	private void buildContentsList( DesignElement element )
 	{
-		IElementDefn elementDefn = element.getDefn( );
-		int slotCount = elementDefn.getSlotCount( );
-		for ( int i = 0; i < slotCount; i++ )
+		for ( int i = 0; i < element.getDefn().getSlotCount(); i++ )
 		{
 			ContainerSlot slot = element.getSlot( i );
 			assert slot != null;

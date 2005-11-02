@@ -1,0 +1,254 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.parser;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.eclipse.birt.report.model.util.XMLParserHandler;
+import org.xml.sax.Attributes;
+
+/**
+ * Parses overridden values in the element.
+ * 
+ */
+
+class OverriddenValuesState extends AbstractParseState
+{
+
+	/**
+	 * The handler to parse the file.
+	 */
+
+	private ModuleParserHandler handler;
+
+	/**
+	 * Link baseId to the virtual child element.
+	 */
+
+	private Map baseIdMap = new HashMap( );
+
+	/**
+	 * Establishes the id reference relationship between the parent element and
+	 * the extended element.
+	 * 
+	 * @param element
+	 *            the element to setup the id reference
+	 * @return a map to store the base id and the corresponding child element.
+	 */
+
+	private static Map setupIdRef( DesignElement element )
+	{
+		assert element != null;
+
+		// Parent and the child must have the same structures.
+
+		DesignElement source = element.getExtendsElement( );
+		if ( source == null )
+			return Collections.EMPTY_MAP;
+
+		Map idMap = new HashMap( );
+
+		Iterator parentIter = new ContentIterator( source );
+		Iterator childIter = new ContentIterator( element );
+		while ( childIter.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) parentIter.next( );
+			DesignElement virtualChild = (DesignElement) childIter.next( );
+
+			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
+					.getName( );
+			assert virtualParent.getID( ) > 0;
+
+			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
+		}
+
+		return idMap;
+	}
+
+	/**
+	 * Constructs <code>OverriddenValuesState</code> with the given handler
+	 * and the root element.
+	 * 
+	 * @param handler
+	 *            the handler to parse the file.
+	 * @param element
+	 *            the root element where overridden-values tags residents.
+	 */
+
+	OverriddenValuesState( ModuleParserHandler handler, DesignElement element )
+	{
+
+		this.handler = handler;
+
+		assert element.getExtendsElement( ) != null;
+		baseIdMap = setupIdRef( element );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
+	 */
+
+	public XMLParserHandler getHandler( )
+	{
+		return handler;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 */
+
+	public AbstractParseState startElement( String tagName )
+	{
+		if ( DesignSchemaConstants.REF_ENTRY_TAG.equalsIgnoreCase( tagName ) )
+			return new RefEntryState( handler );
+		return super.startElement( tagName );
+	}
+
+	/**
+	 * Parses overridden values for one extended element.
+	 */
+
+	class RefEntryState extends DesignParseState
+	{
+
+		/**
+		 * The base id of the extended element.
+		 */
+
+		private long baseId = 0;
+
+		/**
+		 * The flag to indicate that whether the element with base id is
+		 * existed.
+		 */
+
+		private boolean isBaseValid = true;
+
+		/**
+		 * Constrcuts <code>RefEntryState</code> with the given handler.
+		 * 
+		 * @param handler
+		 *            the handler to parse the file
+		 */
+
+		RefEntryState( ModuleParserHandler handler )
+		{
+			super( handler );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
+		 */
+
+		public XMLParserHandler getHandler( )
+		{
+			return handler;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+		 */
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			String baseIdStr = attrs
+					.getValue( DesignSchemaConstants.BASE_ID_ATTRIB );
+
+			if ( baseIdStr == null )
+			{
+				// log this semantic warning.
+				return;
+			}
+
+			try
+			{
+				baseId = Long.parseLong( baseIdStr );
+			}
+			catch ( NumberFormatException e )
+			{
+				DesignParserException ex = new DesignParserException(
+						new String[]{baseIdStr},
+						DesignParserException.DESIGN_EXCEPTION_INVALID_ELEMENT_ID );
+				handler.getErrorHandler( ).semanticError( ex );
+				isBaseValid = false;
+				return;
+			}
+
+			// The element with the given base id is not found in the map(
+			// baseId:virtualChild )
+
+			DesignElement virtualChild = getElement( );
+			if ( virtualChild == null )
+			{
+				isBaseValid = false;
+
+				DesignParserException ex = new DesignParserException(
+						new String[]{baseIdStr},
+						DesignParserException.DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND );
+				handler.getErrorHandler( ).semanticWarning( ex );
+				return;
+			}
+
+			String name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
+			if ( !StringUtil.isBlank( name ) )
+			{
+				virtualChild.setName( name );
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
+		 */
+
+		public DesignElement getElement( )
+		{
+			Object obj = baseIdMap.get( new Long( baseId ) );
+			return (DesignElement) obj;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			// if the base id is invalid, do not parse the child tag under the
+			// <ref-entry>.
+
+			if ( !isBaseValid )
+				return new AnyElementState( getHandler( ) );
+
+			return super.startElement( tagName );
+		}
+	}
+}

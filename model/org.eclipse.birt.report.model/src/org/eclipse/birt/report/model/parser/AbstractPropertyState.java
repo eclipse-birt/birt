@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -40,14 +41,14 @@ import org.xml.sax.Attributes;
  * Parses the abstract property. The XML file is like:
  * 
  * <pre>
- * 
  *  
  *   
+ *    
+ *      
+ *      &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *     
- *     &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  *    
  *   
- *  
  * </pre>
  * 
  * The supported tags are:
@@ -90,8 +91,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * The library which the element reference is using.
 	 */
 
-//	protected String library = null;
-
+	// protected String library = null;
 	/**
 	 * The structure which holds this property as a member.
 	 */
@@ -130,8 +130,8 @@ public class AbstractPropertyState extends AbstractParseState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-//		library = attrs.getValue( DesignSchemaConstants.LIBRARY_ATTRIB );
-//
+		// library = attrs.getValue( DesignSchemaConstants.LIBRARY_ATTRIB );
+		//
 		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
 		if ( StringUtil.isBlank( name ) )
 		{
@@ -246,6 +246,30 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
+		// Avoid overriden properties that may cause structure change.
+		
+		if ( element.isVirtualElement( ) )
+		{
+			if ( element instanceof Cell )
+			{
+				if ( Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
+						|| Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+						|| Cell.DROP_PROP.equalsIgnoreCase( propName )
+						|| Cell.COLUMN_PROP.equalsIgnoreCase( propName ) )
+				{
+					PropertyValueException e = new PropertyValueException(
+							element,
+							propName,
+							value,
+							PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN );
+
+					handler.getErrorHandler( ).semanticWarning( e );
+					valid = false;
+					return;
+				}
+			}
+		}
+
 		// The property definition is not found, including user
 		// properties.
 
@@ -324,7 +348,7 @@ public class AbstractPropertyState extends AbstractParseState
 	/**
 	 * Checks whether the given exception is an error that the parser can
 	 * recover.
-	 * 
+	 * @param invalidValue 
 	 * @param errorCode
 	 *            the error code of the property value exception
 	 * @param propDefn

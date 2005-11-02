@@ -319,11 +319,9 @@ public class ElementFactory
 	{
 		CascadingParameterGroup element = new CascadingParameterGroup( name );
 		module.makeUniqueName( element );
-		return (CascadingParameterGroupHandle)element.handle( module );
+		return (CascadingParameterGroupHandle) element.handle( module );
 	}
 
-		
-	
 	/**
 	 * Creates a new scalar parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
@@ -839,8 +837,8 @@ public class ElementFactory
 		{
 			DesignElementHandle childElement = newElement( baseElement
 					.getElement( ).getElementName( ), name );
-
 			childElement.setExtends( baseElement );
+			childElement.getElement( ).refreshStructureFromParent( );
 
 			return childElement;
 		}
@@ -859,24 +857,23 @@ public class ElementFactory
 				throw new ExtendsException( null, baseElement.getElement( ),
 						ExtendsException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
 			}
-			else
+
+			DesignElement base = lib.getElementByID( baseElement.getID( ) );
+
+			// if the element with the name is not found or the element type
+			// is inconsistent, throw an exception
+
+			if ( base == null || base.getDefn( ) != baseElement.getDefn( ) )
 			{
-				DesignElement base = lib.getElementByID( baseElement.getID( ) );
-
-				// if the element with the name is not found or the element type
-				// is inconsistent, throw an exception
-				
-				if ( base == null || base.getDefn( ) != baseElement.getDefn( ) )
-				{
-					throw new ExtendsException( null, baseElement.getName( ),
-							ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
-				}
-
-				DesignElementHandle childElement = newElement( base
-						.getElementName( ), name );
-				childElement.setExtends( base.getHandle( lib ) );
-				return childElement;
+				throw new ExtendsException( null, baseElement.getName( ),
+						ExtendsException.DESIGN_EXCEPTION_NOT_FOUND );
 			}
+
+			DesignElementHandle childElement = newElement( base
+					.getElementName( ), name );
+			childElement.setExtends( base.getHandle( lib ) );
+			childElement.getElement( ).refreshStructureFromParent( );
+			return childElement;
 		}
 
 		// if the root element is report design, return null
@@ -884,13 +881,13 @@ public class ElementFactory
 		return null;
 
 	}
-	
+
 	/**
 	 * Creates a new theme element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the theme item name. 
+	 *            the theme item name.
 	 * @return a handle to the theme item
 	 */
 

@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -124,6 +125,26 @@ public class PropertyCommand extends AbstractElementCommand
 		{
 			throw new PropertyValueException( element, prop, value,
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_LOCKED );
+		}
+
+		// Within child element, properties that can cause structure change are
+		// not allowed to set.
+
+		if ( element.isVirtualElement( ) && element instanceof Cell )
+		{
+			String propName = prop.getName( );
+			if ( Cell.COL_SPAN_PROP.equalsIgnoreCase( propName )
+					|| Cell.ROW_SPAN_PROP.equalsIgnoreCase( propName )
+					|| Cell.DROP_PROP.equalsIgnoreCase( propName )
+					|| Cell.COLUMN_PROP.equalsIgnoreCase( propName ) )
+			{
+				throw new PropertyValueException(
+						element,
+						prop,
+						value,
+						PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN );
+			}
+
 		}
 
 		value = validateValue( prop, value );

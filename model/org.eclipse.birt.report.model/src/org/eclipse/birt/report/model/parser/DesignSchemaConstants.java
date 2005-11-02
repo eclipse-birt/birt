@@ -30,6 +30,7 @@ public interface DesignSchemaConstants
 	static final String	BACKGROUND_POSITION_X_ATTRIB			= "background-position-x";		//$NON-NLS-1$
 	static final String	BACKGROUND_POSITION_Y_ATTRIB			= "background-position-y";		//$NON-NLS-1$
 	static final String	BACKGROUND_REPEAT_ATTRIB				= "background-repeat";			//$NON-NLS-1$
+	static final String	BASE_ID_ATTRIB							= "baseId";						//$NON-NLS-1$	
 	static final String	BODY_TAG								= "body";						//$NON-NLS-1$ 
 	static final String	BORDER_BOTTOM_COLOR_ATTRIB				= "border-bottom-color";		//$NON-NLS-1$
 	static final String	BORDER_BOTTOM_STYLE_ATTRIB				= "border-bottom-style";		//$NON-NLS-1$
@@ -110,6 +111,7 @@ public interface DesignSchemaConstants
 	static final String	NUMBER_FORMAT_ATTRIB					= "number-format";				//$NON-NLS-1$
 	static final String ODA_DATA_SET_TAG						= "oda-data-set"; 				//$NON-NLS-1$
 	static final String ODA_DATA_SOURCE_TAG						= "oda-data-source"; 			//$NON-NLS-1$
+	static final String OVERRIDDEN_VALUES_TAG					= "overridden-values"; 			//$NON-NLS-1$
 	static final String	PADDING_BOTTOM_ATTRIB					= "padding-bottom";				//$NON-NLS-1$
 	static final String	PADDING_LEFT_ATTRIB						= "padding-left";				//$NON-NLS-1$
 	static final String	PADDING_RIGHT_ATTRIB					= "padding-right";				//$NON-NLS-1$
@@ -130,6 +132,7 @@ public interface DesignSchemaConstants
 	static final String	PROPERTY_TAG							= "property";					//$NON-NLS-1$ 
 	static final String	PROPERTY_VALUE_TAG						= "property-value";				//$NON-NLS-1$
 	static final String	RECTANGLE_TAG							= "rectangle";					//$NON-NLS-1$ 
+	static final String	REF_ENTRY_TAG							= "ref-entry";					//$NON-NLS-1$	
 	static final String	REPORT_ITEMS_TAG						= "report-items";				//$NON-NLS-1$ 
 	static final String	REPORT_TAG								= "report";						//$NON-NLS-1$
 	static final String	RESOURCE_KEY_ATTRIB						= "resource-key";				//$NON-NLS-1$

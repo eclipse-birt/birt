@@ -57,6 +57,7 @@ public interface MessageConstants
 	// Errors
 
 	// ContentException
+	public static final String CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = "Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN";  //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_SLOT_NOT_FOUND = "Error.ContentException.SLOT_NOT_FOUND"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_WRONG_TYPE = "Error.ContentException.WRONG_TYPE"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_DROP_FORBIDDEN = "Error.ContentException.DROP_FORBIDDEN"; //$NON-NLS-1$
@@ -84,6 +85,7 @@ public interface MessageConstants
 	public static final String EXTENDS_EXCEPTION_NOT_FOUND = "Error.ExtendsException.NOT_FOUND"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_WRONG_TYPE = "Error.ExtendsException.WRONG_TYPE"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_WRONG_EXTENSION_TYPE = "Error.ExtendsException.WRONG_EXTENSION_TYPE"; //$NON-NLS-1$
+	public static final String EXTENDS_EXCEPTION_EXTENDS_FORBIDDEN = "Error.ExtendsException.EXTENDS_FORBIDDEN"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_CANT_EXTEND = "Error.ExtendsException.CANT_EXTEND"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_SELF_EXTEND = "Error.ExtendsException.SELF_EXTEND"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_CIRCULAR = "Error.ExtendsException.CIRCULAR"; //$NON-NLS-1$
@@ -106,6 +108,7 @@ public interface MessageConstants
 	public static final String PROPERTY_VALUE_EXCEPTION_INVALID_VALUE = "Error.PropertyValueException.INVALID_VALUE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_CHOICE_NOT_FOUND = "Error.PropertyValueException.CHOICE_NOT_FOUND"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXTENSION_SETTING_FORBIDDEN = "Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN"; //$NON-NLS-1$
+	public static final String PROPERTY_VALUE_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN = "Error.PropertyValueException.PROPERTY_CHANGE_FORBIDDEN"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_NOT_LIST_TYPE = "Error.PropertyValueException.NOT_LIST_TYPE"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_ITEM_NOT_FOUND = "Error.PropertyValueException.ITEM_NOT_FOUND"; //$NON-NLS-1$
 	public static final String PROPERTY_VALUE_EXCEPTION_WRONG_ELEMENT_TYPE = "Error.PropertyValueException.WRONG_ELEMENT_TYPE"; //$NON-NLS-1$
@@ -186,6 +189,7 @@ public interface MessageConstants
 	public static final String DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION = "Error.DesignParserException.UNSUPPORTED_VERSION"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_VERSION = "Error.DesignParserException.INVALID_VERSION"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID = "Error.DesignParserException.INVALID_ELEMENT_ID"; //$NON-NLS-1$
+	public static final String DESIGN_PARSER_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND = "Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND"; //$NON-NLS-1$
 	public static final String DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID = "Error.DesignParserException.DUPLICATE_ELEMENT_ID"; //$NON-NLS-1$
 
 	// DesignFileException

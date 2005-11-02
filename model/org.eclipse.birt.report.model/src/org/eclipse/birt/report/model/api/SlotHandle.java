@@ -492,6 +492,7 @@ public class SlotHandle extends ElementDetailHandle
 		return slotID;
 	}
 
+	
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.

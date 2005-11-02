@@ -56,6 +56,12 @@ public class ExtendsException extends SemanticException
 	public static final String DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE = MessageConstants.EXTENDS_EXCEPTION_WRONG_EXTENSION_TYPE;
 
 	/**
+	 * The element does not allow to set extends explicitly.
+	 */
+
+	public static final String DESIGN_EXCEPTION_EXTENDS_FORBIDDEN = MessageConstants.EXTENDS_EXCEPTION_EXTENDS_FORBIDDEN;
+
+	/**
 	 * The element does not allow extensions.
 	 */
 
@@ -160,7 +166,8 @@ public class ExtendsException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( parent ), getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND )
+		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND
+				|| sResourceKey == DESIGN_EXCEPTION_EXTENDS_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );

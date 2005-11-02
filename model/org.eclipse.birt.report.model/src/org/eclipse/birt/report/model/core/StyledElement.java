@@ -259,4 +259,15 @@ public abstract class StyledElement extends DesignElement
 
 		return null;
 	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
+	 */
+	public void clearAllProperties( )
+	{
+		super.clearAllProperties( );
+		this.style = null;
+	}
+
 }

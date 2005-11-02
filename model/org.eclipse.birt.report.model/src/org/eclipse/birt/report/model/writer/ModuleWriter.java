@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -85,6 +86,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -99,7 +101,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * means that the writer has to do a bit more work to write the design, the the
  * extra work here is well worth the savings to the many customers who will read
  * the design format.
- *  
+ * 
  */
 
 public abstract class ModuleWriter extends ElementVisitor
@@ -967,7 +969,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				DEFAULT_NAME_SPACE );
 		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
 				DesignSchemaConstants.REPORT_VERSION );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 		property( obj, Module.AUTHOR_PROP );
 		property( obj, Module.HELP_GUIDE_PROP );
 		property( obj, Module.CREATED_BY_PROP );
@@ -978,7 +981,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		resourceKey( obj, Module.TITLE_ID_PROP, Module.TITLE_PROP );
 		property( obj, Module.COMMENTS_PROP );
 
-		resourceKey( obj, Module.DESCRIPTION_ID_PROP, Module.DESCRIPTION_PROP );		
+		resourceKey( obj, Module.DESCRIPTION_ID_PROP, Module.DESCRIPTION_PROP );
 	}
 
 	/**
@@ -1079,8 +1082,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeCustomColors( Module obj )
 	{
-		List list = (List) obj.getLocalProperty( obj,
-				Module.COLOR_PALETTE_PROP );
+		List list = (List) obj
+				.getLocalProperty( obj, Module.COLOR_PALETTE_PROP );
 		if ( list != null && list.size( ) > 0 )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
@@ -1449,7 +1452,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		// written.
 
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 
 		super.visitColumn( obj );
 
@@ -1470,7 +1474,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitRow( TableRow obj )
 	{
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 
 		super.visitRow( obj );
 
@@ -1494,7 +1499,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitCell( Cell obj )
 	{
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 
 		super.visitCell( obj );
 
@@ -1618,28 +1624,29 @@ public abstract class ModuleWriter extends ElementVisitor
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCascadingParameterGroup(org.eclipse.birt.report.model.elements.CascadingParameterGroup)
 	 */
-	
+
 	public void visitCascadingParameterGroup( CascadingParameterGroup obj )
 	{
-		writer.startElement( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG );
-		
+		writer
+				.startElement( DesignSchemaConstants.CASCADING_PARAMETER_GROUP_TAG );
+
 		super.visitParameterGroup( obj );
-		
+
 		property( obj, CascadingParameterGroup.START_EXPANDED_PROP );
 		resourceKey( obj, CascadingParameterGroup.HELP_TEXT_KEY_PROP,
 				CascadingParameterGroup.HELP_TEXT_PROP );
 		property( obj, CascadingParameterGroup.DATA_SET_PROP );
-		
+
 		writeContents( obj, CascadingParameterGroup.PARAMETERS_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
-		
+
 		writer.endElement( );
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1894,6 +1901,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( list.isEmpty( ) )
 			return;
 
+		// if there is "extneds" element, do not write out the conent.
+
+		if ( obj.getExtendsElement( ) != null )
+			return;
+
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
 
@@ -2094,7 +2106,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				DesignElement.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
 				DesignElement.EXTENDS_PROP );
 
@@ -2211,6 +2224,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, ReportItem.ON_CREATE_METHOD );
 		property( obj, ReportItem.ON_RENDER_METHOD );
+
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*
@@ -2295,7 +2310,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitGroup( GroupElement obj )
 	{
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
 		super.visitGroup( obj );
 
 		property( obj, GroupElement.GROUP_NAME_PROP );
@@ -2410,6 +2426,64 @@ public abstract class ModuleWriter extends ElementVisitor
 				( (DesignElement) iter.next( ) ).apply( this );
 			}
 		}
+	}
+
+	/**
+	 * Writes the values for user properties.
+	 * 
+	 * @param obj
+	 *            the element that has user properties.
+	 */
+
+	protected void writeOverridenPropertyValues( DesignElement obj )
+	{
+		// if no extends do not write this part.
+
+		if ( obj.getExtendsElement( ) == null )
+			return;
+
+		writer
+				.conditionalStartElement( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG );
+
+		Iterator iter = new ContentIterator( obj );
+		while ( iter.hasNext( ) ) // for each virtual element in the child
+		{
+			DesignElement virtualElement = (DesignElement) iter.next( );
+
+			if ( !virtualElement.hasLocalPropertyValues( )
+					&& virtualElement.getStyle( ) == null
+					&& StringUtil.isBlank( virtualElement.getName( ) ) )
+				continue;
+
+			writer
+					.conditionalStartElement( DesignSchemaConstants.REF_ENTRY_TAG );
+
+			long baseId = virtualElement.getBaseId( );
+			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, new Long(
+					baseId ).toString( ) );
+			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement.getName() );
+			
+			assert virtualElement.getExtendsElement() == null;
+			List propDefns = virtualElement.getPropertyDefns( );
+			for ( int i = 0; i < propDefns.size( ); i++ )
+			{
+				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
+				if( DesignElement.NAME_PROP.equalsIgnoreCase( propDefn.getName() ) )
+					continue;
+				
+				boolean cdata = false;
+				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
+					cdata = true;
+
+				writeProperty( virtualElement, null, propDefn.getName( ), cdata );
+			}
+
+			writer.endElement( ); // end ¡°ref-entry¡±
+
+		}
+
+		writer.endElement( ); // end ¡°Overridden-values¡±
+
 	}
 
 }

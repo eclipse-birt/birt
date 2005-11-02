@@ -64,6 +64,13 @@ public class ExtendsCommand extends AbstractElementCommand
 	{
 		base = StringUtil.trimString( base );
 
+		// Can not set extends explicitly if the element is a virtual element
+		// (inside a child) or the element already extends from another.
+
+		if ( element.isVirtualElement( ) )
+			throw new ExtendsException( element, base,
+					ExtendsException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
+
 		DesignElement parent = null;
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		int ns = metaData.getNameSpaceID( );
@@ -167,20 +174,22 @@ public class ExtendsCommand extends AbstractElementCommand
 	public void setExtendsElement( DesignElement parent )
 			throws ExtendsException
 	{
-		String name = null;
-		if ( parent != null )
+		if ( parent == null )
 		{
-			name = parent.getName( );
-			if ( StringUtil.isBlank( name ) )
-				throw new ExtendsException( element, "", //$NON-NLS-1$
-						ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
-			
-			Module module = parent.getRoot();
-			if ( module instanceof Library )
-			{
-				String namespace  = ((Library) module).getNamespace();
-				name = StringUtil.buildQualifiedReference( namespace, name );
-			}
+			setExtendsName( null );
+			return;
+		}
+
+		String name = parent.getName( );
+		if ( StringUtil.isBlank( name ) )
+			throw new ExtendsException( element, "", //$NON-NLS-1$
+					ExtendsException.DESIGN_EXCEPTION_UNNAMED_PARENT );
+
+		Module module = parent.getRoot( );
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			name = StringUtil.buildQualifiedReference( namespace, name );
 		}
 		setExtendsName( name );
 	}

@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * A slot that contains an ordered list of elements.
- *  
+ * 
  */
 
 public class MultiElementSlot extends ContainerSlot
@@ -89,7 +89,7 @@ public class MultiElementSlot extends ContainerSlot
 	 * 
 	 * @param element
 	 *            design element to be removed.
-	 *  
+	 * 
 	 */
 
 	public void remove( DesignElement element )
@@ -105,18 +105,31 @@ public class MultiElementSlot extends ContainerSlot
 	}
 
 	/**
+	 * Removes an element at the given position.
+	 * 
+	 * @param posn
+	 *            position of the element that is to be removed.
+	 * @return the element that was removed from the list.
+	 */
+
+	public Object remove( int posn )
+	{
+		assert posn >= 0 && posn < getCount();
+		return contents.remove( posn );
+	}
+
+	/**
 	 * Determines if the design element can be removed.
 	 * 
 	 * @param element
 	 *            design element
 	 * 
 	 * @return true if the element existed in this slot.
-	 *  
+	 * 
 	 */
 
 	public boolean canDrop( DesignElement element )
 	{
-
 		return contents.contains( element );
 	}
 

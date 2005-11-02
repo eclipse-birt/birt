@@ -1188,14 +1188,6 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		assert 0 <= slotID && slotID < slotCount;
 
-		// The slot and contents information should be from parent element.
-
-		DesignElementHandle extendedElementHandle = getExtends( );
-		if ( extendedElementHandle != null )
-		{
-			return extendedElementHandle.getSlot( slotID );
-		}
-
 		if ( slotHandles == null )
 		{
 			slotHandles = new SlotHandle[slotCount];
@@ -1585,6 +1577,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		return errorDetailList;
 	}
 
+	/**
+	 * Determines if this element can be dropped from its container.
+	 * 
+	 * @return <code>true</code> if it can be dropped. Returns <code>false</code>
+	 * otherwise.
+	 */
+
+	public boolean canDrop( )
+	{
+		return getElement().canDrop();
+	}
+	
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.

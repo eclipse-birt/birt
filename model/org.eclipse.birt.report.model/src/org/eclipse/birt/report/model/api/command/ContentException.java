@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Reports an error during a container operation.
- *  
+ * 
  */
 
 public class ContentException extends SemanticException
@@ -35,6 +35,13 @@ public class ContentException extends SemanticException
 	 */
 
 	protected DesignElement content = null;
+
+	/**
+	 * Can not change the structure of an element if it is a child element, or
+	 * it is within a child element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN;
 
 	/**
 	 * The operation referenced a slot that does not exist.
@@ -212,13 +219,17 @@ public class ContentException extends SemanticException
 					getElementName( content ), element.getElementName( ),
 					element.getDefn( ).getSlot( slot ).getName( )} );
 		}
-		
+		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{ getElementName( element )} );
+		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), element.getElementName( ),
 					element.getDefn( ).getSlot( slot ).getName( )} );
 		}
+
 		return ModelMessages.getMessage( sResourceKey );
 	}
 }
