@@ -94,7 +94,8 @@ public class WizardBase implements IRegistrationListener, SelectionListener, Con
         glShell.marginWidth = 5;
 
         display = Display.getDefault( );
-        shell = new Shell( display );
+        shell = new Shell( display, SWT.DIALOG_TRIM
+				| SWT.RESIZE | SWT.APPLICATION_MODAL );
 
         // Set shell properties
         shell.setLayout( glShell );

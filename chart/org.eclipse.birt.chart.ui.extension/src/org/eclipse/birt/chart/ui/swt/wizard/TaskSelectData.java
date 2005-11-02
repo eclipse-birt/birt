@@ -612,16 +612,19 @@ public class TaskSelectData extends SimpleTask
 
 	public void widgetDisposed( DisposeEvent e )
 	{
-		isInited = false;
-		getCustomizeUI( ).dispose( );
-
+		// Not dispose other widgets any more
 		cmpTask = null;
-		cmpPreview = null;
-		previewCanvas = null;
+
 		previewPainter = null;
+		isInited = false;
+		dynamicArea.dispose( );
+		dynamicArea = null;
+		reportDataSet = null;
 
 		disposeResource( whiteColor );
 		whiteColor = null;
+
+		// Restore color registry
 		ColorPalette.getInstance( ).restore( );
 
 		// Remove all registered data definition text

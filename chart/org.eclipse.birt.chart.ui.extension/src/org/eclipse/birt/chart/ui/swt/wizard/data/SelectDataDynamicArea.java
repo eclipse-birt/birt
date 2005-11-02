@@ -197,18 +197,22 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		}
 		else
 		{
-			if ( !( getChartModel( ) instanceof DialChart ) )
+			MultipleSeriesSelectorComponent component = new MultipleSeriesSelectorComponent( getChartModel( ),
+					getValueSeriesDefinitionForProcessing( ),
+					getContext( ).getUIServiceProvider( ),
+					getContext( ).getExtendedItem( ),
+					"", //$NON-NLS-1$
+					this );
+			if ( getChartModel( ) instanceof DialChart )
 			{
-				MultipleSeriesSelectorComponent component = new MultipleSeriesSelectorComponent( getChartModel( ),
-						getValueSeriesDefinitionForProcessing( ),
-						getContext( ).getUIServiceProvider( ),
-						getContext( ).getExtendedItem( ),
-						"", //$NON-NLS-1$
-						this );
-				component.setAreaTitle( Messages.getString( "PieLeftAreaComponent.Label.SliceSizeDefinition" ) ); //$NON-NLS-1$
-				component.createArea( cmpLeftArea );
-				subLeftAreas.add( component );
+				component.setAreaTitle( Messages.getString( "DialBottomAreaComponent.Label.GaugeValueDefinition" ) ); //$NON-NLS-1$
 			}
+			else
+			{
+				component.setAreaTitle( Messages.getString( "PieLeftAreaComponent.Label.SliceSizeDefinition" ) ); //$NON-NLS-1$
+			}
+			component.createArea( cmpLeftArea );
+			subLeftAreas.add( component );
 		}
 	}
 

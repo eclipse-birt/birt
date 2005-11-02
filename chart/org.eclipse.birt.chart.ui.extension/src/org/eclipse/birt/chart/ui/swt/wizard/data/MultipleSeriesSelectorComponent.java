@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -103,6 +104,10 @@ public class MultipleSeriesSelectorComponent implements ISelectDataComponent
 					oContext,
 					sTitle,
 					selectDataUI );
+			if ( chart instanceof DialChart )
+			{
+				selectors[i].setSelectionPrefix( Messages.getString( "DialBottomAreaComponent.Label.Dial" ) ); //$NON-NLS-1$
+			}
 			selectors[i].createArea( cmpLeft );
 		}
 

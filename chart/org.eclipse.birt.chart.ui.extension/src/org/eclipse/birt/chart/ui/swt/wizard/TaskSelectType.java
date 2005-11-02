@@ -1029,21 +1029,17 @@ public class TaskSelectType extends SimpleTask
 
 	public void widgetDisposed( DisposeEvent e )
 	{
-		chartModel = null;
+		// Not dispose other widgets any more
 		cmpTask = null;
-		cmpPreview = null;
-		cmpType = null;
-		cmpMisc = null;
-		cmpLabels = null;
-		cmpTypeButtons = null;
-		cmpSubTypes = null;
-		previewCanvas = null;
-		table = null;
-		cbDimension = null;
-		cbMultipleY = null;
-		cbSeriesType = null;
-		cbOutput = null;
-		cbOrientation = null;
+
+		chartModel = null;
+		previewPainter = null;
+		sSubType = null;
+		sType = null;
+		sDimension = null;
+		vSubTypeNames = null;
+		orientation = null;
+
 		if ( whiteColor != null && !whiteColor.isDisposed( ) )
 		{
 			whiteColor.dispose( );
