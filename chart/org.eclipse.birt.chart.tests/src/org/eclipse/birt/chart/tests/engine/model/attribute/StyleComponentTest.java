@@ -22,7 +22,6 @@ public class StyleComponentTest extends TestCase {
 		assertEquals( StyledComponent.PLOT_BACKGROUND, 3 );		
 		assertEquals( StyledComponent.LEGEND_BACKGROUND, 4 );
 		assertEquals( StyledComponent.LEGEND_LABEL, 5 );
-		assertEquals( StyledComponent.DATA_LABEL, 6 );
 		assertEquals( StyledComponent.AXIS_TITLE, 7 );
 		assertEquals( StyledComponent.AXIS_LABEL, 8 );
 		assertEquals( StyledComponent.AXIS_LINE, 9 );
@@ -37,7 +36,6 @@ public class StyleComponentTest extends TestCase {
 		assertEquals( StyledComponent.PLOT_BACKGROUND_LITERAL, StyledComponent.get(StyledComponent.PLOT_BACKGROUND) );
 		assertEquals( StyledComponent.LEGEND_BACKGROUND_LITERAL, StyledComponent.get(StyledComponent.LEGEND_BACKGROUND) );
 		assertEquals( StyledComponent.LEGEND_LABEL_LITERAL, StyledComponent.get(5) );
-		assertEquals( StyledComponent.DATA_LABEL_LITERAL, StyledComponent.get(6) );
 		assertEquals( StyledComponent.AXIS_TITLE_LITERAL, StyledComponent.get(7) );
 		assertEquals( StyledComponent.AXIS_LABEL_LITERAL, StyledComponent.get(8) );
 		assertEquals( StyledComponent.AXIS_LINE_LITERAL, StyledComponent.get(9) );
@@ -50,7 +48,6 @@ public class StyleComponentTest extends TestCase {
 		assertEquals( StyledComponent.PLOT_BACKGROUND_LITERAL, StyledComponent.get("Plot_Background") );
 		assertEquals( StyledComponent.LEGEND_BACKGROUND_LITERAL, StyledComponent.get("Legend_Background") );
 		assertEquals( StyledComponent.LEGEND_LABEL_LITERAL, StyledComponent.get("Legend_Label") );
-		assertEquals( StyledComponent.DATA_LABEL_LITERAL, StyledComponent.get("Data_Label") );
 		assertEquals( StyledComponent.AXIS_TITLE_LITERAL, StyledComponent.get("Axis_Title") );
 		assertEquals( StyledComponent.AXIS_LABEL_LITERAL, StyledComponent.get("Axis_Label") );
 		assertEquals( StyledComponent.AXIS_LINE_LITERAL, StyledComponent.get("Axis_Line") );
