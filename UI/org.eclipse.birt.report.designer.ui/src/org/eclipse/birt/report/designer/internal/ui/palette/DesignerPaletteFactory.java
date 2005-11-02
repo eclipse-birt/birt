@@ -25,40 +25,61 @@ import org.eclipse.gef.palette.PaletteRoot;
 
 /**
  * Factory to populate report graphical editor palette root.
- *  
+ * 
  */
 public class DesignerPaletteFactory extends BasePaletteFactory
 {
 
-	private static final String ELEMENT_NAME_TEXT = Messages.getString( "DesignerPaletteFactory.elementName.text" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_TEXT = Messages
+			.getString( "DesignerPaletteFactory.elementName.text" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_LABEL = Messages.getString( "DesignerPaletteFactory.elementName.label" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_TEXTDATA = Messages
+			.getString( "DesignerPaletteFactory.elementName.textdata" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_DATA = Messages.getString( "DesignerPaletteFactory.elementName.data" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_LABEL = Messages
+			.getString( "DesignerPaletteFactory.elementName.label" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_IMAGE = Messages.getString( "DesignerPaletteFactory.elementName.image" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_DATA = Messages
+			.getString( "DesignerPaletteFactory.elementName.data" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_GRID = Messages.getString( "DesignerPaletteFactory.elementName.grid" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_IMAGE = Messages
+			.getString( "DesignerPaletteFactory.elementName.image" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_LIST = Messages.getString( "DesignerPaletteFactory.elementName.list" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_GRID = Messages
+			.getString( "DesignerPaletteFactory.elementName.grid" ); //$NON-NLS-1$
 
-	private static final String ELEMENT_NAME_TABLE = Messages.getString( "DesignerPaletteFactory.elementName.table" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_LIST = Messages
+			.getString( "DesignerPaletteFactory.elementName.list" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TEXT_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.textReportItem" ); //$NON-NLS-1$
+	private static final String ELEMENT_NAME_TABLE = Messages
+			.getString( "DesignerPaletteFactory.elementName.table" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_LABEL_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.labelReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXT_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.textReportItem" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_DATA_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.dataReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_TEXTDATA_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.textDataReportItem" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_IMAGE_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.imageReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_LABEL_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.labelReportItem" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_GRID_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.gridReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_DATA_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.dataReportItem" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_LIST_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.listReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_IMAGE_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.imageReportItem" ); //$NON-NLS-1$
 
-	private static final String TOOL_TIP_TABLE_REPORT_ITEM = Messages.getString( "DesignerPaletteFactory.toolTip.tableReportItem" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_GRID_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.gridReportItem" ); //$NON-NLS-1$
 
-	private static final String REPORT_ITEMS_LABEL = Messages.getString( "DesignerPaletteFactory.categoryName.reportItems" ); //$NON-NLS-1$
+	private static final String TOOL_TIP_LIST_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.listReportItem" ); //$NON-NLS-1$
+
+	private static final String TOOL_TIP_TABLE_REPORT_ITEM = Messages
+			.getString( "DesignerPaletteFactory.toolTip.tableReportItem" ); //$NON-NLS-1$
+
+	private static final String REPORT_ITEMS_LABEL = Messages
+			.getString( "DesignerPaletteFactory.categoryName.reportItems" ); //$NON-NLS-1$
 
 	/**
 	 * Creates the palette and returns the palette
@@ -100,77 +121,118 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	 */
 	private static PaletteContainer createContentCategory( )
 	{
-		PaletteCategory category = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
-				REPORT_ITEMS_LABEL,
-				null );		
+		PaletteCategory category = new PaletteCategory(
+				IPreferenceConstants.PALETTE_CONTENT, REPORT_ITEMS_LABEL, null );
 		List entries = new ArrayList( );
 
-		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LABEL,
+		CombinedTemplateCreationEntry combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_LABEL,
 				TOOL_TIP_LABEL_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_LABEL,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_LABEL ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_LABEL) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_LABEL ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LABEL ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_LABEL ) );
 
 		entries.add( combined );
-		
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_TEXT,
+
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_TEXT,
 				TOOL_TIP_TEXT_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_TEXT,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_TEXT) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_TEXT ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXT ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_TEXT ) );
 
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_DATA,
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_TEXTDATA,
+				TOOL_TIP_TEXTDATA_REPORT_ITEM,
+				IReportElementConstants.REPORT_ELEMENT_TEXTDATA,
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_TEXTDATA ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_TEXTDATA ) );
+
+		entries.add( combined );
+
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_DATA,
 				TOOL_TIP_DATA_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_DATA,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_DATA ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_DATA) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_DATA ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_DATA ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_DATA ) );
 
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_IMAGE,
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_IMAGE,
 				TOOL_TIP_IMAGE_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_IMAGE,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_IMAGE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_IMAGE) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_IMAGE ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_IMAGE ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_IMAGE ) );
 
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_GRID,
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_GRID,
 				TOOL_TIP_GRID_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_GRID,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_GRID ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_GRID) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_GRID ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_GRID ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_GRID ) );
 
 		entries.add( combined );
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_LIST,
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_LIST,
 				TOOL_TIP_LIST_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_LIST,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_LIST ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_LIST) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_LIST ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_LIST ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_LIST ) );
 
 		entries.add( combined );
 
-		combined = new ReportCombinedTemplateCreationEntry( ELEMENT_NAME_TABLE,
+		combined = new ReportCombinedTemplateCreationEntry(
+				ELEMENT_NAME_TABLE,
 				TOOL_TIP_TABLE_REPORT_ITEM,
 				IReportElementConstants.REPORT_ELEMENT_TABLE,
-				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_TABLE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
-				getAbstractToolHandleExtendsFromPalletName(IReportElementConstants.REPORT_ELEMENT_TABLE) );
+				new ReportElementFactory(
+						IReportElementConstants.REPORT_ELEMENT_TABLE ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
+				ReportPlatformUIImages
+						.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TABLE ),
+				getAbstractToolHandleExtendsFromPalletName( IReportElementConstants.REPORT_ELEMENT_TABLE ) );
 
 		entries.add( combined );
 

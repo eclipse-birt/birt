@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
 /**
@@ -108,6 +109,10 @@ public class HandleAdapterFactory
 		{
 			return getLabelHandleAdapter( obj, mark );
 		}
+		if ( obj instanceof TextDataHandle )
+		{
+			return getTextDataHandleAdapter( obj, mark );
+		}
 		if ( obj instanceof DataItemHandle )
 		{
 			return getDataItemHandleAdapter( obj, mark );
@@ -123,6 +128,27 @@ public class HandleAdapterFactory
 
 		return null;
 	}
+	
+	/**
+	 * Get TextData Item Handle Adapter
+	 * 
+	 * @param obj
+	 *            TextData instance
+	 * @param mark
+	 *            Helper instance
+	 * 
+	 * @return TextData Handle Adapter
+	 */
+	private TextDataHandleAdapter getTextDataHandleAdapter( Object obj, IModelAdapterHelper mark )
+	{
+			TextDataHandleAdapter retValue = (TextDataHandleAdapter) map.get( obj );
+			if ( retValue == null )
+			{
+				retValue = new TextDataHandleAdapter( (TextDataHandle) obj, mark );
+				map.put( obj, retValue );
+			}
+			return retValue;
+		}
 
 	/**
 	 * @param obj
@@ -565,6 +591,20 @@ public class HandleAdapterFactory
 	{
 		return getTextItemHandleAdapter( obj, null );
 	}
+	
+	/**
+	 * Get TextData Handle Adapter
+	 * 
+	 * @param obj
+	 *            TextData instance
+	 * @return TextData Handle Adapter
+	 */
+
+	public TextDataHandleAdapter getTextDataHandleAdapter( Object obj )
+	{
+		return getTextDataHandleAdapter( obj, null );
+	}
+
 
 	/**
 	 * Get Data Item Handle Adapter

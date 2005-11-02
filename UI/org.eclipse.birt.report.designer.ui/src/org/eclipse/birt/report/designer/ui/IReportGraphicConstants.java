@@ -90,6 +90,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_TABLE_GROUP = ReportDesignConstants.TABLE_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_TEXT = ReportDesignConstants.TEXT_ITEM;
+	
+	public final static String ICON_ELEMENT_TEXTDATA = ReportDesignConstants.TEXT_DATA_ITEM;
 
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$

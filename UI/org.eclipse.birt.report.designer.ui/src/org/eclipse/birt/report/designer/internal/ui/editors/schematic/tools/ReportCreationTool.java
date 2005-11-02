@@ -224,6 +224,11 @@ public class ReportCreationTool extends CreationTool
 		{
 			type = ReportDesignConstants.TABLE_ITEM;
 		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase( template ) )
+		{
+			type = ReportDesignConstants.TEXT_DATA_ITEM;
+		}
+
 		else if ( IReportElementConstants.REPORT_ELEMENT_TEXT.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( template )

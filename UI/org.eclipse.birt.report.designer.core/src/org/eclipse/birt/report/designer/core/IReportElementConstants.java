@@ -41,6 +41,8 @@ public interface IReportElementConstants
 	public static final String REPORT_ELEMENT_TABLE = "Table";//$NON-NLS-1$
 
 	public static final String REPORT_ELEMENT_LABEL = "Label";//$NON-NLS-1$
+	
+	public static final String REPORT_ELEMENT_TEXTDATA = "TextData";//$NON-NLS-1$
 
 	public static final String REPORT_ELEMENT_IMAGE = "Image";//$NON-NLS-1$
 

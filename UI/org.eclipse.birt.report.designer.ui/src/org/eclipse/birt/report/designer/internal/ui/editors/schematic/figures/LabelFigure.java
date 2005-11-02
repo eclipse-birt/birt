@@ -341,5 +341,9 @@ public class LabelFigure extends ReportElementFigure
 			
 			setToolTip( tooltip );
 		}
+		else
+		{
+			setToolTip(null);
+		}
 	}
 }

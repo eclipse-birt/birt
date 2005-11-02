@@ -82,13 +82,11 @@ public class DEUtil
 		propertiesMap.put( TextItemHandle.CONTENT_PROP,
 				ELEMENT_LABELCONTENT_PROPERTY );
 
-		// do not support following element in release 1
+		// do not support following element in release 2
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.LINE_ITEM ) );
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
-		notSupportList.add( DesignEngine.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.TEXT_DATA_ITEM ) );
 		notSupportList.add( DesignEngine.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -379,6 +380,44 @@ public class BasePaletteFactory
 			return false;
 		}
 	}
+	
+	/**
+	 * Provides element building support for TextData element.
+	 */
+	public static class TextDataToolExtends extends AbstractToolHandleExtends
+	{
+
+		public boolean preHandleMouseUp( )
+		{
+			CreateRequest request = getRequest( );
+			if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase( (String) request.getNewObjectType( ) ) )
+			{
+				// LabelHandle labelItemHandle =
+				// SessionHandleAdapter.getInstance( )
+				// .getReportDesignHandle( )
+				// .getElementFactory( )
+				// .newLabel( null );
+
+				TextDataHandle textItemHandle = DesignElementFactory.getInstance( )
+						.newTextData( null );
+
+				setModel( textItemHandle );
+				return super.preHandleMouseUp( );
+
+			}
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 */
+		public boolean preHandleMouseDown( )
+		{
+			return false;
+		}
+	}
 
 	/**
 	 * Provides element building support for List element.
@@ -705,6 +744,10 @@ public class BasePaletteFactory
 		{
 			preHandle = new TextToolExtends( );
 		}
+		else if ( IReportElementConstants.REPORT_ELEMENT_TEXTDATA.equalsIgnoreCase( template ) )
+		{
+			preHandle = new TextDataToolExtends( );
+		}		
 		else if ( IReportElementConstants.AUTOTEXT_AUTHOR_PAGE_DATE.equalsIgnoreCase( template )
 				|| IReportElementConstants.AUTOTEXT_CONFIDENTIAL_PAGE.equalsIgnoreCase( template )
 				|| IReportElementConstants.REPORT_ELEMENT_GRID.equalsIgnoreCase( template ) )

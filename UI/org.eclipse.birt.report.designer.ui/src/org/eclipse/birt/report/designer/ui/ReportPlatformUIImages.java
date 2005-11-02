@@ -144,6 +144,9 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GRID, ICONS_PATH
 				+ PAL_PATH + "grid.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA, ICONS_PATH
+				+ PAL_PATH + "textdata.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_GROUP, ICONS_PATH
 				+ OBJ16_PATH + "group.gif" ); //$NON-NLS-1$
@@ -393,7 +396,7 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_OPEN_FILE,
 				ICONS_PATH + ETOOL16_PATH + "open_file.gif" ); //$NON-NLS-1$
 		
-		declareImage("TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$
+		declareImage("TableRowSelector", ICONS_PATH + OBJ16_PATH + "tablerowselector.gif" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -89,7 +90,10 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new DataEditPart( model );
 		}
-
+		if ( model instanceof TextDataHandle )
+		{
+			return new TextDataEditPart( model );
+		}
 		if ( model instanceof ReportElementModel &&
 			(((ReportElementModel)model).getElementHandle() instanceof SimpleMasterPageHandle))
 		{
