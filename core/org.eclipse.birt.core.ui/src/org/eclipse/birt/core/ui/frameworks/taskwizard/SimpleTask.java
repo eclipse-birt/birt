@@ -92,4 +92,22 @@ public class SimpleTask implements ITask
 	{
 		this.container = wizard;
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
+     */
+    public String[] getErrors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints(java.lang.Object[])
+     */
+    public void setErrorHints(Object[] errorHints)
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }
