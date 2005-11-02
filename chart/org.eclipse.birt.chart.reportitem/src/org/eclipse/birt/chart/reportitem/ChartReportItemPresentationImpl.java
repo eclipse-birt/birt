@@ -56,6 +56,8 @@ public final class ChartReportItemPresentationImpl extends
 
 	private String sExtension = null;
 
+	private String sSupportedFormats = null;
+
 	private Chart cm = null;
 
 	private DesignElementHandle handle;
@@ -160,7 +162,7 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public void setSupportedImageFormats( String sSupportedFormats )
 	{
-		// UNUSED BY CHART EXTENSION
+		this.sSupportedFormats = sSupportedFormats;
 	}
 
 	/*
@@ -277,7 +279,12 @@ public final class ChartReportItemPresentationImpl extends
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
-			gcs = gr.build( idr.getDisplayServer( ), cm, null, bo, rtc, new ChartReportStyleProcessor( handle ) );
+			gcs = gr.build( idr.getDisplayServer( ),
+					cm,
+					null,
+					bo,
+					rtc,
+					new ChartReportStyleProcessor( handle ) );
 
 			// WRITE TO THE IMAGE FILE
 			logger.log( ILogger.INFORMATION,

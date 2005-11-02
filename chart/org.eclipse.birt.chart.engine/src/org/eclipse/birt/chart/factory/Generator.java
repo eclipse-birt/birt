@@ -366,8 +366,6 @@ public final class Generator
 				return StyledComponent.CHART_BACKGROUND_LITERAL;
 			case StyledComponent.LEGEND_LABEL :
 				return StyledComponent.LEGEND_BACKGROUND_LITERAL;
-			case StyledComponent.DATA_LABEL :
-				return StyledComponent.PLOT_BACKGROUND_LITERAL;
 			case StyledComponent.AXIS_TITLE :
 				return StyledComponent.PLOT_BACKGROUND_LITERAL;
 			case StyledComponent.AXIS_LABEL :

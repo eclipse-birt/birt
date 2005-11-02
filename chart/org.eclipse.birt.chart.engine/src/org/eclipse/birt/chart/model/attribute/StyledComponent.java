@@ -98,16 +98,6 @@ public final class StyledComponent extends AbstractEnumerator
 	public static final int LEGEND_LABEL = 5;
 
 	/**
-	 * The '<em><b>Data Label</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #DATA_LABEL_LITERAL
-	 * @model name="Data_Label"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int DATA_LABEL = 6;
-
-	/**
 	 * The '<em><b>Axis Title</b></em>' literal value.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #AXIS_TITLE_LITERAL
@@ -115,7 +105,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_TITLE = 7;
+	public static final int AXIS_TITLE = 6;
 
 	/**
 	 * The '<em><b>Axis Label</b></em>' literal value.
@@ -125,7 +115,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_LABEL = 8;
+	public static final int AXIS_LABEL = 7;
 
 	/**
 	 * The '<em><b>Axis Line</b></em>' literal value.
@@ -135,7 +125,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int AXIS_LINE = 9;
+	public static final int AXIS_LINE = 8;
 
 	/**
 	 * The '<em><b>Series Title</b></em>' literal value.
@@ -145,7 +135,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SERIES_TITLE = 10;
+	public static final int SERIES_TITLE = 9;
 
 	/**
 	 * The '<em><b>Series Label</b></em>' literal value.
@@ -155,7 +145,7 @@ public final class StyledComponent extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SERIES_LABEL = 11;
+	public static final int SERIES_LABEL = 10;
 
 	/**
 	 * The '<em><b>Chart All</b></em>' literal object.
@@ -242,21 +232,6 @@ public final class StyledComponent extends AbstractEnumerator
 	 */
 	public static final StyledComponent LEGEND_LABEL_LITERAL = new StyledComponent( LEGEND_LABEL,
 			"Legend_Label" ); //$NON-NLS-1$
-
-	/**
-	 * The '<em><b>Data Label</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Data Label</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #DATA_LABEL
-	 * @generated
-	 * @ordered
-	 */
-	public static final StyledComponent DATA_LABEL_LITERAL = new StyledComponent( DATA_LABEL,
-			"Data_Label" ); //$NON-NLS-1$
 
 	/**
 	 * The '<em><b>Axis Title</b></em>' literal object.
@@ -346,7 +321,6 @@ public final class StyledComponent extends AbstractEnumerator
 			PLOT_BACKGROUND_LITERAL,
 			LEGEND_BACKGROUND_LITERAL,
 			LEGEND_LABEL_LITERAL,
-			DATA_LABEL_LITERAL,
 			AXIS_TITLE_LITERAL,
 			AXIS_LABEL_LITERAL,
 			AXIS_LINE_LITERAL,
@@ -403,8 +377,6 @@ public final class StyledComponent extends AbstractEnumerator
 				return LEGEND_BACKGROUND_LITERAL;
 			case LEGEND_LABEL :
 				return LEGEND_LABEL_LITERAL;
-			case DATA_LABEL :
-				return DATA_LABEL_LITERAL;
 			case AXIS_TITLE :
 				return AXIS_TITLE_LITERAL;
 			case AXIS_LABEL :

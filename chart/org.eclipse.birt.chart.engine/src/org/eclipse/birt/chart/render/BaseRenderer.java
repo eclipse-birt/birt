@@ -1796,38 +1796,42 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			ipr.drawText( tre );
 		}
 
-		// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
-		Trigger tg;
-		EList elTriggers = lg.getTriggers( );
-		Location[] loaHotspot = new Location[4];
-		double dTextStartX = tre.getLocation( ).getX( ) - 1;
-		loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
-		loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
-		loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
-				+ dItemHeight
-				+ dValueHeight );
-		loaHotspot[3] = LocationImpl.create( dTextStartX, dY
-				+ dItemHeight
-				+ dValueHeight );
-		if ( !elTriggers.isEmpty( ) )
+		if ( isInteractivityEnabled( ) )
 		{
-			final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
-					InteractionEvent.class );
-			for ( int t = 0; t < elTriggers.size( ); t++ )
+			// PROCESS 'SERIES LEVEL' TRIGGERS USING SOURCE='bs'
+			Trigger tg;
+			EList elTriggers = lg.getTriggers( );
+			Location[] loaHotspot = new Location[4];
+			double dTextStartX = tre.getLocation( ).getX( ) - 1;
+			loaHotspot[0] = LocationImpl.create( dTextStartX, dY );
+			loaHotspot[1] = LocationImpl.create( dTextStartX + dW, dY + 1 );
+			loaHotspot[2] = LocationImpl.create( dTextStartX + dW, dY
+					+ dItemHeight
+					+ dValueHeight );
+			loaHotspot[3] = LocationImpl.create( dTextStartX, dY
+					+ dItemHeight
+					+ dValueHeight );
+			if ( !elTriggers.isEmpty( ) )
 			{
-				tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
-				if ( tg.getCondition( ) == TriggerCondition.MOUSE_CLICK_LITERAL
-						|| tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL )
+				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
+						InteractionEvent.class );
+				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
-					iev.addTrigger( tg );
+					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
+					if ( tg.getCondition( ) == TriggerCondition.MOUSE_CLICK_LITERAL
+							|| tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL )
+					{
+						iev.addTrigger( tg );
+					}
 				}
+				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
+						PolygonRenderEvent.class );
+				pre.setPoints( loaHotspot );
+				iev.setHotSpot( pre );
+				ipr.enableInteraction( iev );
 			}
-			final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
-					PolygonRenderEvent.class );
-			pre.setPoints( loaHotspot );
-			iev.setHotSpot( pre );
-			ipr.enableInteraction( iev );
 		}
+		
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.AFTER_DRAW_LEGEND_ENTRY,
 				la );
@@ -2863,6 +2867,17 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	protected boolean isNaN( Object value )
 	{
 		return ( !( value instanceof Number ) || Double.isNaN( ( (Number) value ).doubleValue( ) ) );
+	}
+
+	/**
+	 * Returns if interactivity is enabled on the model.
+	 * 
+	 * @return
+	 */
+	protected boolean isInteractivityEnabled( )
+	{
+		return ( cm.getInteractivity( ) == null || cm.getInteractivity( )
+				.isEnable( ) );
 	}
 
 }

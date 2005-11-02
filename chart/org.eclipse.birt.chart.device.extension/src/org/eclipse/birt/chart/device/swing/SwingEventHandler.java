@@ -18,11 +18,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -31,6 +34,7 @@ import javax.swing.JComponent;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
+import org.eclipse.birt.chart.device.util.DeviceUtil;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -38,6 +42,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.CallBackValue;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -45,6 +50,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.interactivity.ICallBackAction;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -53,7 +59,8 @@ import org.eclipse.emf.common.util.EList;
  */
 public final class SwingEventHandler implements
 		MouseListener,
-		MouseMotionListener
+		MouseMotionListener,
+		KeyListener
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
@@ -67,33 +74,22 @@ public final class SwingEventHandler implements
 			},
 			0 );
 
-	/**
-	 * 
-	 */
 	private ShapedAction saTooltip = null;
 
-	/**
-	 * 
-	 */
 	private ShapedAction saHighlighted = null;
 
-	/**
-	 * 
-	 */
 	private final LinkedHashMap lhmAllTriggers;
 
-	/**
-	 * 
-	 */
 	private final IUpdateNotifier iun;
 
-	/**
-	 * 
-	 */
 	private final Locale lcl;
 
 	/**
+	 * The constructor.
 	 * 
+	 * @param _lhmAllTriggers
+	 * @param _jc
+	 * @param _lcl
 	 */
 	SwingEventHandler( LinkedHashMap _lhmAllTriggers, IUpdateNotifier _jc,
 			Locale _lcl )
@@ -103,42 +99,67 @@ public final class SwingEventHandler implements
 		lcl = _lcl;
 	}
 
-	/**
-	 * 
-	 */
 	private final boolean isLeftButton( MouseEvent e )
 	{
 		return ( ( e.getButton( ) & MouseEvent.BUTTON1 ) == MouseEvent.BUTTON1 );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-	 */
-	public void mouseClicked( MouseEvent e )
+	private final List getActionsForConditions( TriggerCondition[] tca )
 	{
-		if ( !isLeftButton( e ) )
+		if ( tca == null || tca.length == 0 )
+		{
+			return null;
+		}
+
+		ArrayList al = new ArrayList( );
+
+		for ( int i = 0; i < tca.length; i++ )
+		{
+			ArrayList tal = (ArrayList) lhmAllTriggers.get( tca[i] );
+
+			if ( tal != null )
+			{
+				al.addAll( tal );
+			}
+		}
+
+		if ( al.size( ) > 0 )
+		{
+			return al;
+		}
+
+		return null;
+	}
+
+	private void handleAction( List al, Object event )
+	{
+		if ( al == null || event == null )
 		{
 			return;
 		}
 
-		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
-		final Point p = e.getPoint( );
-		final ArrayList al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_CLICK_LITERAL );
-		if ( al == null )
-			return;
-
 		ShapedAction sa;
 		Shape sh;
 		Action ac;
+
+		Point p = null;
+
+		if ( event instanceof MouseEvent )
+		{
+			p = ( (MouseEvent) event ).getPoint( );
+		}
+
+		if ( event instanceof KeyEvent )
+		{
+			// TODO filter key ?
+		}
 
 		// POLL EACH EVENT REGISTERED FOR MOUSE CLICKS
 		for ( int i = 0; i < al.size( ); i++ )
 		{
 			sa = (ShapedAction) al.get( i );
 			sh = sa.getShape( );
-			if ( sh.contains( p ) )
+			if ( p == null || sh.contains( p ) )
 			{
 				ac = sa.getAction( );
 				switch ( ac.getType( ).getValue( ) )
@@ -148,6 +169,7 @@ public final class SwingEventHandler implements
 						logger.log( ILogger.INFORMATION,
 								Messages.getString( "info.redirect.url", lcl ) //$NON-NLS-1$
 										+ uv.getBaseUrl( ) );
+						DeviceUtil.openURL( uv.getBaseUrl( ) );
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
@@ -177,9 +199,42 @@ public final class SwingEventHandler implements
 							iun.regenerateChart( );
 						}
 						break;
+					case ActionType.HIGHLIGHT :
+						// TODO
+						break;
+					case ActionType.CALL_BACK :
+						final CallBackValue cv = (CallBackValue) ac.getValue( );
+						ICallBackAction callbackAction = cv.getCallBackAction( );
+						if ( callbackAction != null )
+						{
+							callbackAction.execute( event, sa.getSource( ) );
+						}
+						break;
 				}
 			}
 		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	public void mouseClicked( MouseEvent e )
+	{
+		if ( !isLeftButton( e ) )
+		{
+			return;
+		}
+
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+				TriggerCondition.MOUSE_CLICK_LITERAL,
+				TriggerCondition.ONCLICK_LITERAL
+		} );
+
+		handleAction( al, e );
 	}
 
 	/**
@@ -265,44 +320,6 @@ public final class SwingEventHandler implements
 	{
 	}
 
-	/**
-	 * 
-	 * @param sa
-	 */
-	private final void showTooltip( ShapedAction sa )
-	{
-		Action ac = sa.getAction( );
-		TooltipValue tv = (TooltipValue) ac.getValue( );
-		String s = tv.getText( );
-
-		( (JComponent) iun.peerInstance( ) ).setToolTipText( s );
-	}
-
-	/**
-	 * 
-	 * 
-	 */
-	private final void hideTooltip( )
-	{
-		( (JComponent) iun.peerInstance( ) ).setToolTipText( null );
-	}
-
-	/**
-	 * 
-	 * @param sh
-	 */
-	private final void toggle( Shape sh )
-	{
-		final Graphics2D g2d = (Graphics2D) ( (JComponent) iun.peerInstance( ) ).getGraphics( );
-		final Color c = g2d.getColor( );
-		final Stroke st = g2d.getStroke( );
-		g2d.setXORMode( Color.white );
-		g2d.setStroke( bs );
-		g2d.fill( sh );
-		g2d.setStroke( st );
-		g2d.setColor( c );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -319,6 +336,17 @@ public final class SwingEventHandler implements
 	 */
 	public void mousePressed( MouseEvent e )
 	{
+		if ( !isLeftButton( e ) )
+		{
+			return;
+		}
+
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONMOUSEDOWN_LITERAL
+		} );
+
+		handleAction( al, e );
 	}
 
 	/*
@@ -328,6 +356,17 @@ public final class SwingEventHandler implements
 	 */
 	public void mouseReleased( MouseEvent e )
 	{
+		if ( !isLeftButton( e ) )
+		{
+			return;
+		}
+
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONMOUSEUP_LITERAL
+		} );
+
+		handleAction( al, e );
 	}
 
 	/*
@@ -349,7 +388,11 @@ public final class SwingEventHandler implements
 		final Point p = e.getPoint( );
 
 		// 1. CHECK FOR MOUSE-CLICK TRIGGERS
-		ArrayList al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_CLICK_LITERAL );
+		List al = getActionsForConditions( new TriggerCondition[]{
+				TriggerCondition.MOUSE_CLICK_LITERAL,
+				TriggerCondition.ONCLICK_LITERAL
+		} );
+
 		if ( al != null )
 		{
 			ShapedAction sa;
@@ -388,7 +431,12 @@ public final class SwingEventHandler implements
 		}
 
 		// 2. CHECK FOR MOUSE-HOVER CONDITION
-		al = (ArrayList) lhmAllTriggers.get( TriggerCondition.MOUSE_HOVER_LITERAL );
+		al = getActionsForConditions( new TriggerCondition[]{
+				TriggerCondition.MOUSE_HOVER_LITERAL,
+				TriggerCondition.ONMOUSEMOVE_LITERAL,
+				TriggerCondition.ONMOUSEOVER_LITERAL
+		} );
+
 		if ( al != null )
 		{
 			ShapedAction sa;
@@ -420,5 +468,71 @@ public final class SwingEventHandler implements
 				bFound = false;
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	public void keyPressed( KeyEvent e )
+	{
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONKEYDOWN_LITERAL
+		} );
+
+		handleAction( al, e );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	public void keyReleased( KeyEvent e )
+	{
+		// FILTER OUT ALL TRIGGERS FOR MOUSE CLICKS ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+				TriggerCondition.ONKEYUP_LITERAL,
+				TriggerCondition.ONKEYPRESS_LITERAL
+		} );
+
+		handleAction( al, e );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
+	public void keyTyped( KeyEvent e )
+	{
+	}
+
+	private final void hideTooltip( )
+	{
+		( (JComponent) iun.peerInstance( ) ).setToolTipText( null );
+	}
+
+	private final void showTooltip( ShapedAction sa )
+	{
+		Action ac = sa.getAction( );
+		TooltipValue tv = (TooltipValue) ac.getValue( );
+		String s = tv.getText( );
+
+		( (JComponent) iun.peerInstance( ) ).setToolTipText( s );
+	}
+
+	private final void toggle( Shape sh )
+	{
+		final Graphics2D g2d = (Graphics2D) ( (JComponent) iun.peerInstance( ) ).getGraphics( );
+		final Color c = g2d.getColor( );
+		final Stroke st = g2d.getStroke( );
+		g2d.setXORMode( Color.white );
+		g2d.setStroke( bs );
+		g2d.fill( sh );
+		g2d.setStroke( st );
+		g2d.setColor( c );
 	}
 }

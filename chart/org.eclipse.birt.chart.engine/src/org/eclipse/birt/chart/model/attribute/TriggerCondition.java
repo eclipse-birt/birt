@@ -270,7 +270,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @see #MOUSE_HOVER
 	 * @generated
 	 * @ordered
-	 * @deprecated
+	 * @deprecated use ONMOUSEOVER_LITERAL instead.
 	 */
 	public static final TriggerCondition MOUSE_HOVER_LITERAL = new TriggerCondition( MOUSE_HOVER,
 			"Mouse_Hover" ); //$NON-NLS-1$
@@ -287,7 +287,7 @@ public final class TriggerCondition extends AbstractEnumerator
 	 * @see #MOUSE_CLICK
 	 * @generated
 	 * @ordered
-	 * @deprecated
+	 * @deprecated use ONCLICK_LITERAL instead.
 	 */
 	public static final TriggerCondition MOUSE_CLICK_LITERAL = new TriggerCondition( MOUSE_CLICK,
 			"Mouse_Click" ); //$NON-NLS-1$

@@ -1585,12 +1585,11 @@
     <eLiterals name="Plot_Background" value="3"/>
     <eLiterals name="Legend_Background" value="4"/>
     <eLiterals name="Legend_Label" value="5"/>
-    <eLiterals name="Data_Label" value="6"/>
-    <eLiterals name="Axis_Title" value="7"/>
-    <eLiterals name="Axis_Label" value="8"/>
-    <eLiterals name="Axis_Line" value="9"/>
-    <eLiterals name="Series_Title" value="10"/>
-    <eLiterals name="Series_Label" value="11"/>
+    <eLiterals name="Axis_Title" value="6"/>
+    <eLiterals name="Axis_Label" value="7"/>
+    <eLiterals name="Axis_Line" value="8"/>
+    <eLiterals name="Series_Title" value="9"/>
+    <eLiterals name="Series_Label" value="10"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="StyledComponentObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

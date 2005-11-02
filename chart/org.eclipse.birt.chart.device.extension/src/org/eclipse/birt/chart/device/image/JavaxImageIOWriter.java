@@ -16,9 +16,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
+import java.awt.Shape;
+import java.awt.geom.PathIterator;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -30,12 +35,19 @@ import javax.imageio.stream.ImageOutputStream;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
+import org.eclipse.birt.chart.device.swing.ShapedAction;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.ScriptValue;
+import org.eclipse.birt.chart.model.attribute.TooltipValue;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.data.Action;
 
 /**
  * JavaxImageIOWriter
@@ -104,6 +116,298 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	}
 
 	/**
+	 * Returns the image map string generated using associated trigger list and
+	 * given id.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public String getImageMap( String id )
+	{
+		Map triggerMap = getTriggers( );
+
+		if ( triggerMap == null )
+		{
+			return null;
+		}
+
+		// Generate image map using associated trigger list.
+		StringBuffer sb = new StringBuffer( );
+		sb.append( "<MAP name=\"" + id + "\">" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// 1. onfocus
+		List al = (List) triggerMap.get( TriggerCondition.ONFOCUS_LITERAL );
+		if ( al != null )
+		{
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				ShapedAction sa = (ShapedAction) itr.next( );
+				Action ac = sa.getAction( );
+				String coords = shape2polyCoords( sa.getShape( ) );
+
+				if ( coords != null )
+				{
+					if ( checkSupportedAction( ac ) )
+					{
+						switch ( ac.getType( ).getValue( ) )
+						{
+							case ActionType.URL_REDIRECT :
+								URLValue uv = (URLValue) ac.getValue( );
+								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
+								sb.append( "window.location.href='" ); //$NON-NLS-1$
+								sb.append( uv.getBaseUrl( ) );
+								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+							case ActionType.SHOW_TOOLTIP :
+								// for onmouseover only.
+								break;
+							case ActionType.INVOKE_SCRIPT :
+								ScriptValue sv = (ScriptValue) ac.getValue( );
+								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
+								sb.append( sv.getScript( ) );
+								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+						}
+					}
+					else
+					{
+						// not supported by image map.
+					}
+				}
+			}
+		}
+
+		// 2. onblur
+		al = (List) triggerMap.get( TriggerCondition.ONBLUR_LITERAL );
+		if ( al != null )
+		{
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				ShapedAction sa = (ShapedAction) itr.next( );
+				Action ac = sa.getAction( );
+				String coords = shape2polyCoords( sa.getShape( ) );
+
+				if ( coords != null )
+				{
+					if ( checkSupportedAction( ac ) )
+					{
+						switch ( ac.getType( ).getValue( ) )
+						{
+							case ActionType.URL_REDIRECT :
+								URLValue uv = (URLValue) ac.getValue( );
+								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
+								sb.append( "window.location.href='" ); //$NON-NLS-1$
+								sb.append( uv.getBaseUrl( ) );
+								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+							case ActionType.SHOW_TOOLTIP :
+								// for onmouseover only.
+								break;
+							case ActionType.INVOKE_SCRIPT :
+								ScriptValue sv = (ScriptValue) ac.getValue( );
+								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
+								sb.append( sv.getScript( ) );
+								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+						}
+					}
+					else
+					{
+						// not supported by image map.
+					}
+				}
+			}
+		}
+
+		// 3. onclick
+		al = (List) triggerMap.get( TriggerCondition.ONCLICK_LITERAL );
+		if ( al != null )
+		{
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				ShapedAction sa = (ShapedAction) itr.next( );
+				Action ac = sa.getAction( );
+				String coords = shape2polyCoords( sa.getShape( ) );
+
+				if ( coords != null )
+				{
+					if ( checkSupportedAction( ac ) )
+					{
+						switch ( ac.getType( ).getValue( ) )
+						{
+							case ActionType.URL_REDIRECT :
+								URLValue uv = (URLValue) ac.getValue( );
+								sb.append( "<AREA href=\"" ); //$NON-NLS-1$
+								sb.append( uv.getBaseUrl( ) );
+								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+							case ActionType.SHOW_TOOLTIP :
+								// for onmouseover only.
+								break;
+							case ActionType.INVOKE_SCRIPT :
+								ScriptValue sv = (ScriptValue) ac.getValue( );
+								sb.append( "<AREA href=\"javascript:void(0)\" onclick=\"" ); //$NON-NLS-1$
+								sb.append( sv.getScript( ) );
+								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+						}
+					}
+					else
+					{
+						// not supported by image map.
+					}
+				}
+			}
+		}
+
+		// 4. onmouseover
+		al = (List) triggerMap.get( TriggerCondition.ONMOUSEOVER_LITERAL );
+		if ( al != null )
+		{
+			for ( Iterator itr = al.iterator( ); itr.hasNext( ); )
+			{
+				ShapedAction sa = (ShapedAction) itr.next( );
+				Action ac = sa.getAction( );
+				String coords = shape2polyCoords( sa.getShape( ) );
+
+				if ( coords != null )
+				{
+					if ( checkSupportedAction( ac ) )
+					{
+						switch ( ac.getType( ).getValue( ) )
+						{
+							case ActionType.URL_REDIRECT :
+								// not for onmouseover.
+								break;
+							case ActionType.SHOW_TOOLTIP :
+								TooltipValue tv = (TooltipValue) ac.getValue( );
+								sb.append( "<AREA alt=\"" ); //$NON-NLS-1$
+								sb.append( tv.getText( ) );
+								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
+								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
+								break;
+							case ActionType.INVOKE_SCRIPT :
+								// not for onmouseover.
+								break;
+						}
+					}
+					else
+					{
+						// not supported by image map.
+					}
+				}
+			}
+		}
+
+		sb.append( "</MAP>" ); //$NON-NLS-1$
+
+		return sb.toString( );
+	}
+
+	// private String escapeString( String src )
+	// {
+	// if ( src == null )
+	// {
+	// return ""; //$NON-NLS-1$
+	// }
+	//
+	// String rt = src;
+	// rt = rt.replaceAll( "\"", "\\\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+	// rt = rt.replaceAll( "<", "\\<" ); //$NON-NLS-1$ //$NON-NLS-2$
+	// rt = rt.replaceAll( ">", "\\>" ); //$NON-NLS-1$ //$NON-NLS-2$
+	// rt = rt.replaceAll( "&", "\\&" ); //$NON-NLS-1$ //$NON-NLS-2$
+	//
+	// return rt;
+	// }
+
+	/**
+	 * Convert AWT shape to image map coordinates.
+	 * 
+	 * @param shape
+	 * @return
+	 */
+	private String shape2polyCoords( Shape shape )
+	{
+		if ( shape == null )
+		{
+			return null;
+		}
+
+		ArrayList al = new ArrayList( );
+
+		PathIterator pitr = shape.getPathIterator( null );
+		double[] data = new double[6];
+
+		// TODO improve to support precise curve coordinates.
+
+		while ( !pitr.isDone( ) )
+		{
+			int type = pitr.currentSegment( data );
+
+			switch ( type )
+			{
+				case PathIterator.SEG_MOVETO :
+					al.add( new Double( data[0] ) );
+					al.add( new Double( data[1] ) );
+					break;
+				case PathIterator.SEG_LINETO :
+					al.add( new Double( data[0] ) );
+					al.add( new Double( data[1] ) );
+					break;
+				case PathIterator.SEG_QUADTO :
+					al.add( new Double( data[0] ) );
+					al.add( new Double( data[1] ) );
+					al.add( new Double( data[2] ) );
+					al.add( new Double( data[3] ) );
+					break;
+				case PathIterator.SEG_CUBICTO :
+					al.add( new Double( data[0] ) );
+					al.add( new Double( data[1] ) );
+					al.add( new Double( data[2] ) );
+					al.add( new Double( data[3] ) );
+					al.add( new Double( data[4] ) );
+					al.add( new Double( data[5] ) );
+					break;
+				case PathIterator.SEG_CLOSE :
+					break;
+			}
+
+			pitr.next( );
+		}
+
+		if ( al.size( ) == 0 )
+		{
+			return null;
+		}
+
+		StringBuffer sb = new StringBuffer( );
+
+		for ( int i = 0; i < al.size( ); i++ )
+		{
+			Double db = (Double) al.get( i );
+			if ( i > 0 )
+			{
+				sb.append( "," ); //$NON-NLS-1$
+			}
+			sb.append( (int) db.doubleValue( ) );
+		}
+
+		return sb.toString( );
+	}
+
+	private boolean checkSupportedAction( Action action )
+	{
+		return ( action.getType( ) == ActionType.URL_REDIRECT_LITERAL
+				|| action.getType( ) == ActionType.SHOW_TOOLTIP_LITERAL || action.getType( ) == ActionType.INVOKE_SCRIPT_LITERAL );
+	}
+
+	/**
 	 * Returns if the given format type or MIME type is supported by the
 	 * registered JavaxImageIO writers.
 	 * 
@@ -149,6 +453,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	public void before( ) throws ChartException
 	{
 		super.before( );
+
 		_bImageExternallySpecified = ( _img != null );
 
 		// IF A CACHED IMAGE STRATEGY IS NOT USED, CREATE A NEW INSTANCE
@@ -180,6 +485,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					getImageType( ) );
 		}
 		super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics( ) );
+
 	}
 
 	/*

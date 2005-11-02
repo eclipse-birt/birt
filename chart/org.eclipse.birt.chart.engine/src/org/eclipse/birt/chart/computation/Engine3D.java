@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.event.Image3DRenderEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.Oval3DRenderEvent;
 import org.eclipse.birt.chart.event.Polygon3DRenderEvent;
+import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
@@ -679,6 +680,23 @@ public final class Engine3D implements IConstants
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param renderingEvents
+	 * @return
+	 */
+	public PrimitiveRenderEvent processEvent( PrimitiveRenderEvent event,
+			double xOffset, double yOffset )
+	{
+		Matrix transMatrix = getTransformMatrix( );
+
+		if ( translate3DEvent( event, transMatrix, xOffset, yOffset ) )
+		{
+			return event;
+		}
+
+		return null;
 	}
 
 	/**

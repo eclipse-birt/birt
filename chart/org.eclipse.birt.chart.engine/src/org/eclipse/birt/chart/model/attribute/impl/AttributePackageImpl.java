@@ -3687,8 +3687,6 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( styledComponentEEnum,
 				StyledComponent.LEGEND_LABEL_LITERAL );
 		addEEnumLiteral( styledComponentEEnum,
-				StyledComponent.DATA_LABEL_LITERAL );
-		addEEnumLiteral( styledComponentEEnum,
 				StyledComponent.AXIS_TITLE_LITERAL );
 		addEEnumLiteral( styledComponentEEnum,
 				StyledComponent.AXIS_LABEL_LITERAL );

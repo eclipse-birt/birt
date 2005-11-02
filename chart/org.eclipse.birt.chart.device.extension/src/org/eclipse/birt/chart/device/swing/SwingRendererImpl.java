@@ -20,6 +20,7 @@ import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Arc2D;
@@ -35,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
@@ -71,6 +73,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -87,39 +90,22 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	private final LinkedHashMap _lhmAllTriggers = new LinkedHashMap( );
 
-	/**
-	 * 
-	 */
 	private final Hashtable _htLineStyles = new Hashtable( );
 
-	/**
-	 * 
-	 */
 	protected Graphics2D _g2d;
 
-	/**
-	 * 
-	 */
 	// private FontRenderContext _frc = null;
-	/**
-	 * 
-	 */
+
 	protected IDisplayServer _ids;
 
-	/**
-	 * 
-	 */
 	private IUpdateNotifier _iun = null;
 
-	/**
-	 * 
-	 */
 	private SwingEventHandler _eh = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
 	/**
-	 * 
+	 * The constructor.
 	 */
 	public SwingRendererImpl( )
 	{
@@ -145,30 +131,45 @@ public class SwingRendererImpl extends DeviceAdapter
 		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
 		{
 			_iun = (IUpdateNotifier) oValue;
-			JComponent jc = (JComponent) _iun.peerInstance( );
 			_lhmAllTriggers.clear( );
+			Object obj = _iun.peerInstance( );
 
-			MouseListener[] mla = jc.getMouseListeners( );
-			for ( int i = 0; i < mla.length; i++ )
+			if ( obj instanceof JComponent )
 			{
-				if ( mla[i] instanceof SwingEventHandler )
-				{
-					jc.removeMouseListener( mla[i] );
-				}
-			}
+				JComponent jc = (JComponent) obj;
 
-			MouseMotionListener[] mmla = jc.getMouseMotionListeners( );
-			for ( int i = 0; i < mmla.length; i++ )
-			{
-				if ( mmla[i] instanceof SwingEventHandler )
+				MouseListener[] mla = jc.getMouseListeners( );
+				for ( int i = 0; i < mla.length; i++ )
 				{
-					jc.removeMouseMotionListener( mmla[i] );
+					if ( mla[i] instanceof SwingEventHandler )
+					{
+						jc.removeMouseListener( mla[i] );
+					}
 				}
-			}
 
-			_eh = new SwingEventHandler( _lhmAllTriggers, _iun, getLocale( ) );
-			jc.addMouseListener( _eh );
-			jc.addMouseMotionListener( _eh );
+				MouseMotionListener[] mmla = jc.getMouseMotionListeners( );
+				for ( int i = 0; i < mmla.length; i++ )
+				{
+					if ( mmla[i] instanceof SwingEventHandler )
+					{
+						jc.removeMouseMotionListener( mmla[i] );
+					}
+				}
+
+				KeyListener[] kla = jc.getKeyListeners( );
+				for ( int i = 0; i < kla.length; i++ )
+				{
+					if ( kla[i] instanceof SwingEventHandler )
+					{
+						jc.removeKeyListener( kla[i] );
+					}
+				}
+
+				_eh = new SwingEventHandler( _lhmAllTriggers, _iun, getLocale( ) );
+				jc.addMouseListener( _eh );
+				jc.addMouseMotionListener( _eh );
+				jc.addKeyListener( _eh );
+			}
 		}
 		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )
 		{
@@ -1357,6 +1358,33 @@ public class SwingRendererImpl extends DeviceAdapter
 						tga[i].getAction( ) ) );
 			}
 		}
+		else if ( pre instanceof RectangleRenderEvent )
+		{
+			final Bounds bo = ( (RectangleRenderEvent) pre ).getBounds( );
+
+			final Location[] loa = new Location[4];
+			loa[0] = LocationImpl.create( bo.getLeft( ), bo.getTop( ) );
+			loa[1] = LocationImpl.create( bo.getLeft( ), bo.getTop( )
+					+ bo.getHeight( ) );
+			loa[2] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+					bo.getTop( ) + bo.getHeight( ) );
+			loa[3] = LocationImpl.create( bo.getLeft( ) + bo.getWidth( ),
+					bo.getTop( ) );
+
+			for ( int i = 0; i < tga.length; i++ )
+			{
+				tc = tga[i].getCondition( );
+				al = (ArrayList) _lhmAllTriggers.get( tc );
+				if ( al == null )
+				{
+					al = new ArrayList( 4 ); // UNDER NORMAL CONDITIONS
+					_lhmAllTriggers.put( tc, al );
+				}
+				al.add( new ShapedAction( iev.getSource( ),
+						loa,
+						tga[i].getAction( ) ) );
+			}
+		}
 		else if ( pre instanceof OvalRenderEvent )
 		{
 			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
@@ -1684,6 +1712,16 @@ public class SwingRendererImpl extends DeviceAdapter
 		return _ids;
 	}
 
+	/**
+	 * Returns the triggers associated with current renderer.
+	 * 
+	 * @return
+	 */
+	protected Map getTriggers( )
+	{
+		return _lhmAllTriggers;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1715,7 +1753,8 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void before( ) throws ChartException
 	{
-		// NOT YET USED
+		// Clean previous status.
+		_lhmAllTriggers.clear( );
 	}
 
 	/*

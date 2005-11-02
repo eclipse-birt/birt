@@ -24,22 +24,13 @@ import org.eclipse.birt.chart.model.data.Action;
  * This class provides a shape definition and an associated action that is
  * invoked when interaction occurs with a chart rendered on a SWING device.
  */
-final class ShapedAction
+public final class ShapedAction
 {
 
-	/**
-	 *  
-	 */
 	private final Object _oSource;
 
-	/**
-	 *  
-	 */
 	private final Shape _sh;
 
-	/**
-	 *  
-	 */
 	private final Action _ac;
 
 	/**
@@ -99,28 +90,31 @@ final class ShapedAction
 	}
 
 	/**
+	 * Returns the shape associated with current ShapedAction.
 	 * 
 	 * @return
 	 */
-	final Shape getShape( )
+	public final Shape getShape( )
 	{
 		return _sh;
 	}
 
 	/**
+	 * Returns the action associated with current ShapedAction.
 	 * 
 	 * @return
 	 */
-	final Action getAction( )
+	public final Action getAction( )
 	{
 		return _ac;
 	}
 
 	/**
+	 * Returns the source object associated with current ShapedAction.
 	 * 
 	 * @return
 	 */
-	final Object getSource( )
+	public final Object getSource( )
 	{
 		return _oSource;
 	}

@@ -401,7 +401,6 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			<xsd:enumeration value="Plot_Background"/>
 			<xsd:enumeration value="Legend_Background"/>
 			<xsd:enumeration value="Legend_Label"/>
-			<xsd:enumeration value="Data_Label"/>
 			<xsd:enumeration value="Axis_Title"/>
 			<xsd:enumeration value="Axis_Label"/>
 			<xsd:enumeration value="Axis_Line"/>
