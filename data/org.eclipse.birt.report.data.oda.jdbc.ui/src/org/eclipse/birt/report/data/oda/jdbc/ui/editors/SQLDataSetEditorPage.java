@@ -94,7 +94,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.28 $ $Date: 2005/09/20 09:41:56 $
+ * @version $Revision: 1.29 $ $Date: 2005/09/21 09:24:25 $
  */
 
 public class SQLDataSetEditorPage extends AbstractPropertyPage implements SelectionListener
@@ -441,18 +441,23 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 	protected void populateAvailableDbObjects()
 	{
 		
-		if ( (cachedSearchTxt == searchTxt.getText( ) ||(cachedSearchTxt!=null&& cachedSearchTxt.equals( searchTxt.getText( ) ))) 
-				&& (cachedDbType == getSelectedDbType( )  ||(cachedDbType!=null&& cachedDbType.equals( getSelectedDbType( ) )) ))
+		OdaDataSourceHandle curDataSourceHandle = (OdaDataSourceHandle) ((OdaDataSetHandle) getContainer( ).getModel( )).getDataSource();
+		
+		if ( curDataSourceHandle == prevDataSourceHandle )
 		{
-			if ( schemaList != null && schemaList.size( ) > 0 )
+			if ( ( cachedSearchTxt == searchTxt.getText( ) || ( cachedSearchTxt != null && cachedSearchTxt.equals( searchTxt.getText( ) ) ) )
+					&& ( cachedDbType == getSelectedDbType( ) || ( cachedDbType != null && cachedDbType.equals( getSelectedDbType( ) ) ) ) )
 			{
-				if ( cachedSchemaComboIndex == schemaCombo.getSelectionIndex( ) )
+				if ( schemaList != null && schemaList.size( ) > 0 )
 				{
-					return;
+					if ( cachedSchemaComboIndex == schemaCombo.getSelectionIndex( ) )
+					{
+						return;
+					}
 				}
+				else
+					return;
 			}
-			else
-				return;
 		}
 		
 		// Clear of the Old values in the Available Db objects 
@@ -1023,9 +1028,9 @@ public class SQLDataSetEditorPage extends AbstractPropertyPage implements Select
 			enableSchemaComponent( isSchemaSupported );
 			setRootElement();
             sourceViewerConfiguration.getContentAssistProcessor().setDataSourceHandle(curDataSourceHandle);
-			prevDataSourceHandle = curDataSourceHandle;
 			
 			populateAvailableDbObjects();
+			prevDataSourceHandle = curDataSourceHandle;
 		}
 	}	
 	
