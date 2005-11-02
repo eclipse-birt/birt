@@ -215,12 +215,18 @@ public class WizardBase implements IRegistrationListener, SelectionListener, Con
     public void switchTo(String sTaskID)
     {
         // Update the context from the current task...if available
-        if(sCurrentActiveTask != null)
-        {
-            this.context = ((ITask) availableTasks.get(sCurrentActiveTask)).getContext();
-            String[] sErrors = ((ITask) availableTasks.get(sCurrentActiveTask)).getErrors();
-            new ErrorDialog("WizardBase: Errors Encountered", "The following errors were reported by the task panel you just left", sErrors, new String[] { });
-        }
+        if ( sCurrentActiveTask != null )
+		{
+			this.context = ( (ITask) availableTasks.get( sCurrentActiveTask ) ).getContext( );
+			String[] sErrors = ( (ITask) availableTasks.get( sCurrentActiveTask ) ).getErrors( );
+			if ( sErrors != null && sErrors.length > 0 )
+			{
+				new ErrorDialog( "WizardBase: Errors Encountered",
+						"The following errors were reported by the task panel you just left",
+						sErrors,
+						new String[]{} );
+			}
+		}
         // Clear any existing popup
         if(shellPopup != null && !shellPopup.isDisposed())
         {
@@ -362,16 +368,22 @@ public class WizardBase implements IRegistrationListener, SelectionListener, Con
      */
     public void displayError(String[] sErrors, String[] sFixes, String[] sTaskIDs, IWizardContext currentContext, Object[] hints)
     {
-        this.errorHints = hints;
-        ErrorDialog dlg = new ErrorDialog("WizardBase: Exception Encountered", "The following exception was encountered in WizardBase", sErrors, sFixes/*, currentContext, errorHints*/);
-        if(dlg.getOption() == ErrorDialog.OPTION_ACCEPT)
-        {
-            // TODO: FIX THE PROBLEM
-        }
-        else
-        {
-            // TODO: PROCEED WITHOUT FIXING THE PROBLEM
-        }
+		if ( sErrors != null && sErrors.length > 0 )
+		{
+			this.errorHints = hints;
+			ErrorDialog dlg = new ErrorDialog( "WizardBase: Exception Encountered",
+					"The following exception was encountered in WizardBase",
+					sErrors,
+					sFixes/* , currentContext, errorHints */);
+			if ( dlg.getOption( ) == ErrorDialog.OPTION_ACCEPT )
+			{
+				// TODO: FIX THE PROBLEM
+			}
+			else
+			{
+				// TODO: PROCEED WITHOUT FIXING THE PROBLEM
+			}
+		}
     }
     
     public void setSize(int iWidth, int iHeight)
