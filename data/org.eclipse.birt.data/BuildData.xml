@@ -62,6 +62,7 @@
     <!-- Public properties, used by public targets, top level build script will pass on the value 
 	 	 at runtime. Properties will have there default value:
 		     eclipse.home
+		     dtp.home
 		     utest.report.dir
 		     javadoc.dir
 		     plugin.version 
@@ -373,6 +374,7 @@
 		<echo message="start call Jar task in ${dtp.oda.dir}"/>
 		<ant dir="${dtp.oda.dir}" antfile ="build.xml" target="build.jars" inheritAll="false">
 			<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="end call Jar task in ${dtp.oda.dir}"/>
 	</target>
@@ -381,6 +383,7 @@
 		<echo message="start call Jar task in ${birt.oda.dir}"/>		
 		<ant dir="${birt.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="end call Jar task in ${birt.oda.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/${birt.oda.jar}" file="${birt.oda.dir}/${birt.oda.jar}"/>
@@ -389,15 +392,16 @@
 		<echo message="start call Jar task in ${dtp.oda.adapter.dir}"/>		
 		<ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.dtp.adapter.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/${dtp.oda.adapter.jar}" file="${dtp.oda.adapter.dir}/${dtp.oda.adapter.jar}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda.adapter.dtp/plugin.xml" file="${dtp.oda.adapter.dir}/plugin.xml"/>
-
 		
 		<echo message="start call Jar task in ${oda.jdbc.dir}"/>		
 		<ant dir="${oda.jdbc.dir}" antfile="BuildOdaJdbc.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.jdbc.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.jdbc/${oda.jdbc.jar}" file="${oda.jdbc.dir}/${oda.jdbc.jar}"/>
@@ -406,10 +410,13 @@
 		<echo message="start call Jar task in ${oda.flatfile.dir}"/>		
 		<ant dir="${oda.flatfile.dir}" antfile="BuildOdaFlatfile.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
+			<property name="dtp.home" value="${dtp.home}" />
 		</ant>
 		<echo message="end call Jar task in ${oda.flatfile.dir}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/${oda.flatfile.jar}" file="${oda.flatfile.dir}/${oda.flatfile.jar}"/>
 		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.report.data.oda.flatfile/plugin.xml" file="${oda.flatfile.dir}/plugin.xml"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/${oda.flatfile.jar}" file="${dtp.oda-flatfile.dir}/${oda.flatfile.jar}"/>
+		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.datatools.connectivity.oda.flatfile/plugin.xml" file="${dtp.oda-flatfile.dir}/plugin.xml"/>
 	</target>
 </project>
 
