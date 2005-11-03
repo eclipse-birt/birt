@@ -186,8 +186,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		// Layout for the Needle group
 		GridLayout glNeedle = new GridLayout( 1, true );
 		glNeedle.verticalSpacing = 0;
-		glNeedle.marginLeft = 5;
-		glNeedle.marginRight = 10;
+		glNeedle.marginWidth = 10;
 		glNeedle.marginHeight = 0;
 
 		// Needle
