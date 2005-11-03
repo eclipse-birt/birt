@@ -1060,8 +1060,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		// Some elements can have a blank name.
 
-		if ( eDefn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME
-				&& name == null )
+		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+			return;
+
+		if ( eDefn.getNameOption( ) == MetaDataConstants.OPTIONAL_NAME
+				&& name == null && this instanceof ReportDesign )
 			return;
 
 		// If the element already has a unique name, us it.
@@ -2032,7 +2035,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the location information of the module.
 	 * 
