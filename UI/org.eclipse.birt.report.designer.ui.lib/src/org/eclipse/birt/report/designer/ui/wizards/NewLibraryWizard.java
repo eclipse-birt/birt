@@ -53,6 +53,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 
 /**
@@ -466,6 +467,7 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
 				try
 				{
 					IDE.openEditor( page, file, true );
+					BasicNewProjectResourceWizard.updatePerspective( getConfigElement() );
 				}
 				catch ( Exception e )
 				{
@@ -485,4 +487,10 @@ public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableE
     {
        this.configElement = config;
     }
+
+	
+	public IConfigurationElement getConfigElement( )
+	{
+		return configElement;
+	}
 }
