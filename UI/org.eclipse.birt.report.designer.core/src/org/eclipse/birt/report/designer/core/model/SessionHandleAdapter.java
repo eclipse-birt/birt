@@ -42,6 +42,7 @@ public class SessionHandleAdapter
 	public static final int UNKNOWFILE = -1;
 	public static int DESIGNEFILE = 0;
 	public static int LIBRARYFILE = 1;
+	public static int TEMPLATEFILE = 2;
 	
 	private int type = DESIGNEFILE;
 	
@@ -120,7 +121,7 @@ public class SessionHandleAdapter
 		try
 		{
 			ModuleHandle handle = null;
-			if (type == DESIGNEFILE)
+			if (type == DESIGNEFILE || type == TEMPLATEFILE)
 			{
 				handle = getSessionHandle( ).openDesign( fileName,
 					input );
@@ -132,7 +133,7 @@ public class SessionHandleAdapter
 			}
 			else
 			{
-				throw new RuntimeException("Not support the file type");
+				throw new RuntimeException("Not support this type of file");
 			}
 			postInit( handle );
 

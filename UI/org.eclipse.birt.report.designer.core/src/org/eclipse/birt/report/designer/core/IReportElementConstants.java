@@ -59,4 +59,10 @@ public interface IReportElementConstants
 	public static final String DATA_SET_PREFIX = "dataSets";//$NON-NLS-1$
 
 	public static final String PARAMETER_PREFIX = "params";//$NON-NLS-1$
+	
+	public static final String TEMPLATE_FILE_EXTENSION = "rpttemplate";
+	
+	public static final String LIBRARY_FILE_EXTENSION = "rptlibrary";
+	
+	public static final String DESIGN_FILE_EXTENSION = "rptdesign";
 }

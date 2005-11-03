@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.ide.wizards;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IWorkspace;
@@ -29,7 +30,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  */
 public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 {
-
+	String fileExtension = IReportElementConstants.DESIGN_FILE_EXTENSION;
+	
 	/**
 	 * The Constructor.
 	 * 
@@ -42,6 +44,21 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		super( pageName, selection );
 	}
 
+	/**
+	 * The Constructor.
+	 * 
+	 * @param pageName
+	 * @param selection
+	 * @param fileType
+	 */
+	public WizardNewReportCreationPage( String pageName,
+			IStructuredSelection selection,String fileType )
+	{
+		this( pageName, selection );
+		
+		fileExtension = fileType;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,10 +95,10 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		{
 			String fn = getFileName( );
 
-			if ( !fn.endsWith( ".rptdesign" ) ) //$NON-NLS-1$
+			if ( !fn.endsWith( "." + fileExtension) ) //$NON-NLS-1$
 			{
 				IPath resourcePath = getContainerFullPath( ).append( getFileName( )
-						+ ".rptdesign" ); //$NON-NLS-1$
+						+ "." + fileExtension ); //$NON-NLS-1$
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 
 				if ( workspace.getRoot( ).getFolder( resourcePath ).exists( )
@@ -96,6 +113,18 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 		}
 
 		return rt;
+	}
+
+	
+	public String getFileExtension( )
+	{
+		return fileExtension;
+	}
+
+	
+	public void setFileExtension( String fileExtension )
+	{
+		this.fileExtension = fileExtension;
 	}
 
 }

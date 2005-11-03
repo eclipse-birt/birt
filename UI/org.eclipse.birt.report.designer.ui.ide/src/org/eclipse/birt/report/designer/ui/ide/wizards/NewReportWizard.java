@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
@@ -71,11 +72,10 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	private static final String CREATING = Messages.getString( "NewReportWizard.text.Creating" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewReportWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX
-			+ NEW_REPORT_FILE_EXTENSION;
+	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX;
 	private static final String SELECT_A_REPORT_TEMPLATE = Messages.getString( "NewReportWizard.text.SelectTemplate" ); //$NON-NLS-1$
 	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewReportWizard.text.CreateReport" ); //$NON-NLS-1$
-	private static final String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
+	String REPORT = Messages.getString( "NewReportWizard.title.Report" ); //$NON-NLS-1$
 	private static final String TEMPLATECHOICEPAGE = Messages.getString( "NewReportWizard.title.Template" ); //$NON-NLS-1$
 	private static final String WIZARDPAGE = Messages.getString( "NewReportWizard.title.WizardPage" ); //$NON-NLS-1$
 	private static final String NEW = Messages.getString( "NewReportWizard.title.New" ); //$NON-NLS-1$
@@ -85,15 +85,29 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	/** Holds selected project resource for run method access */
 	private IStructuredSelection selection;
 
-	private WizardNewReportCreationPage newReportFileWizardPage;
+	WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardTemplateChoicePage templateChoicePage;
 
 	private int UNIQUE_COUNTER = 0;
+	
+	private String fileExtension = IReportElementConstants.DESIGN_FILE_EXTENSION;
 
 	//	private WizardChoicePage choicePage;
 	//	private WizardCustomTemplatePage customTemplatePage;
 
+	public NewReportWizard()
+	{
+		super( );
+	}
+	
+	public NewReportWizard(String fileType )
+	{
+		super( );
+		this.fileExtension = fileType;
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -104,9 +118,9 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		final IPath containerName = newReportFileWizardPage.getContainerFullPath( );
 		String fn = newReportFileWizardPage.getFileName( );
 		final String fileName;
-		if ( !fn.endsWith( ".rptdesign" ) ) //$NON-NLS-1$
+		if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
 		{
-			fileName = fn + ".rptdesign"; //$NON-NLS-1$
+			fileName = fn + "." + fileExtension; //$NON-NLS-1$
 		}
 		else
 		{
@@ -290,7 +304,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	public void addPages( )
 	{
 		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE,
-				selection );
+				selection,fileExtension );
 		addPage( newReportFileWizardPage );
 		//		Temporary remark the choice page for that feature is not supported in
 		// R1
@@ -315,16 +329,16 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		//		choicePage.setDescription( CHOOSE_FROM_TEMPLATE );
 
 		resetUniqueCount( );
-		newReportFileWizardPage.setFileName( getUniqueReportName( ) );
+		newReportFileWizardPage.setFileName( getUniqueReportName( ) + "." + fileExtension );//$NON-NLS-1$
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 	}
 
-	private void resetUniqueCount( )
+	void resetUniqueCount( )
 	{
 		UNIQUE_COUNTER = 0;
 	}
 
-	private IPath getDefaultContainerPath( )
+	IPath getDefaultContainerPath( )
 	{
 		IWorkbenchWindow benchWindow = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -386,7 +400,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		return ct;
 	}
 
-	private String getUniqueReportName( )
+	String getUniqueReportName( )
 	{
 		IProject[] pjs = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
@@ -424,7 +438,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			return NEW_REPORT_FILE_NAME;
 		}
 		return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
-				+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+				+ UNIQUE_COUNTER; //$NON-NLS-1$
 
 	}
 
@@ -675,4 +689,26 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
     {
        this.configElement = config;
     }
+	
+	public String getFileExtension( )
+	{
+		return fileExtension;
+	}
+
+	public void setFileExtension( String fileExtension )
+	{
+		this.fileExtension = fileExtension;
+	}
+
+	
+	public IStructuredSelection getSelection( )
+	{
+		return selection;
+	}
+
+	
+	public IConfigurationElement getConfigElement( )
+	{
+		return configElement;
+	}
 }

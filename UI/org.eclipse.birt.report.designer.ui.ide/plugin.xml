@@ -36,7 +36,7 @@
             contributorClass="org.eclipse.birt.report.designer.ui.actions.DesignerActionBarContributor"
             name="%ReportEditor"
             id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"
-            extensions="rptdesign"/>  
+            extensions="rptdesign,rpttemplate"/>  
    </extension>
    
    <extension
@@ -53,14 +53,17 @@
       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
          <perspectiveShortcut id="org.eclipse.birt.report.designer.ui.ReportPerspective"/>
          <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard"/>
+         <newWizardShortcut id="org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard"/>
       </perspectiveExtension>
    </extension>
    
@@ -79,6 +82,18 @@
             id="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard">
       <description>%ReportWizardDescription</description>
       </wizard>
+      
+      <wizard
+            finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/obj16/new_template.gif"
+            class="org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard"
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            project="false"
+            name="%TemplateWizard"
+            id="org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard">
+      <description>%TemplateWizardDescription</description>
+      </wizard>
+      
       <wizard
             finalPerspective="org.eclipse.birt.report.designer.ui.ReportPerspective"
             class="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportProjectWizard"

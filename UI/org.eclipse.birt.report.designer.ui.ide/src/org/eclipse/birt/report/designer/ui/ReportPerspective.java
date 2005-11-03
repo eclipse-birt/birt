@@ -30,6 +30,8 @@ public class ReportPerspective implements IPerspectiveFactory
 	public static final String BIRT_REPORT_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.ReportPerspective"; //$NON-NLS-1$
 
 	public static final String NEW_REPORT_ID = "org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard";//$NON-NLS-1$
+	
+	public static final String NEW_TEMPLATE_ID = "org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard";//$NON-NLS-1$
 
 	/**
 	 * Constructs a new Default layout engine.
@@ -69,6 +71,7 @@ public class ReportPerspective implements IPerspectiveFactory
 		// Add "new wizards".
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
 		layout.addNewWizardShortcut( NEW_REPORT_ID );
+		layout.addNewWizardShortcut( NEW_TEMPLATE_ID );
 		
 		// Add "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
