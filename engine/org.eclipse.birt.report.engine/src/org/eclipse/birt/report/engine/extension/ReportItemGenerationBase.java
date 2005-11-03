@@ -23,6 +23,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 
 	protected ExtendedItemHandle modelHandle;
 	protected IBaseQueryDefinition[] queries;
+	protected IEngineService service;
 	
     /**
      * Constructor that does nothing
@@ -73,4 +74,13 @@ public class ReportItemGenerationBase implements IReportItemGeneration {
 	public boolean needSerialization() {
 		return false;
 	}
+
+	public void setEngineService( IEngineService service ) {
+		this.service = service;
+	}
+
+	public IEngineService getEngineService() {
+		return service;
+	}
+
 }

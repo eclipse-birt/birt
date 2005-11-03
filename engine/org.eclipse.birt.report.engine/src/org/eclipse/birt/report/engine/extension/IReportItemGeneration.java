@@ -28,7 +28,21 @@ public interface IReportItemGeneration {
 	 * @param modelHandle a handle to the extended item model object 
 	 */
 	public abstract void setModelObject(ExtendedItemHandle modelHandle);
+	
+	/**
+	 * pass the prepared query definition to extended item implementation, so that it can access data.
+	 */
 	public void setReportQueries(IBaseQueryDefinition[] queries);
+
+	/**
+	 * set the engine service
+	 */
+	public void setEngineService( IEngineService service );
+
+	/**
+	 * @return the engine service
+	 */
+	public IEngineService getEngineService();
 
 	/**
 	 * processes the extended item in report generation environment. 

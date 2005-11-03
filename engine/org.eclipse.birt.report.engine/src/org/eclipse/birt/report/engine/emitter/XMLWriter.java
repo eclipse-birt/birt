@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/13 07:39:02 $
+ * @version $Revision: 1.18 $ $Date: 2005/05/20 19:17:55 $
  */
 public class XMLWriter
 {
@@ -289,6 +289,11 @@ public class XMLWriter
 	 */
 	public void text( String value, boolean whitespace )
 	{
+		text( value, whitespace, true );
+	}
+	
+	public void text( String value, boolean whitespace, boolean escapeString )
+	{
 		if ( value == null || value.length( ) == 0 )
 		{
 			return;
@@ -305,7 +310,9 @@ public class XMLWriter
 			}
 			bPairedFlag = true;
 		}
-		printWriter.print( getEscapedStr( value, whitespace ) );
+		
+		String stringToPrint = escapeString ? getEscapedStr(value, whitespace) : value;
+		printWriter.print( stringToPrint );
 	}
 
 	/**

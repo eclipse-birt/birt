@@ -98,6 +98,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		{
 			itemGeneration.setModelObject( handle );
 			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
+			itemGeneration.setEngineService( new EngineService(context) );
 			IRowSet[] rowSets = null;
 			try
 			{
@@ -161,6 +162,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		{
 			itemPresentation.setModelObject( handle );
 			itemPresentation.setReportQueries(((ExtendedItemDesign)item).getQueries());
+			itemPresentation.setEngineService( new EngineService(context) );
 			//itemPresentation.setResolution();
 			itemPresentation.setLocale(context.getLocale());
 
@@ -206,7 +208,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				if ( output != null )
 				{
 					int type = itemPresentation.getOutputType( );
-					handleItemContent( item, emitter, content, type, output );
+					String imageMIMEType = itemPresentation.getImageMIMEType();
+					handleItemContent( item, emitter, content, type, imageMIMEType, output );
 				}
 				itemPresentation.finish( );
 			}
@@ -240,7 +243,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 	 *            output
 	 */
 	protected void handleItemContent( ExtendedItemDesign item,
-			IReportEmitter emitter, IExtendedItemContent content, int type,
+			IReportEmitter emitter, IExtendedItemContent content, int type, String imageMIMEType,
 			Object outputObject )
 	{
 		switch ( type )
@@ -256,6 +259,7 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				
 				Object output = null;
 				Object imageMap = null;
+				String imageMapID = null;
 				if ( type == IReportItemPresentation.OUTPUT_AS_IMAGE )
 				{
 					output = outputObject;
@@ -263,7 +267,9 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				else
 				{	// OUTPUT_AS_IMAGE_WITH_MAP
 					output = ((Object[])outputObject)[0];
-					imageMap = ((Object[])outputObject)[1];;
+					imageMap = ((Object[])outputObject)[1];
+					if ( ((Object[])outputObject)[2] instanceof String )
+						imageMapID = (String)((Object[])outputObject)[2];
 				}
 				
 				if ( output instanceof InputStream )
@@ -284,6 +290,8 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				
 				// Set image map
 				image.setImageMap( imageMap );
+				image.setImageMapID( imageMapID );
+				image.setMIMEType( imageMIMEType );
 				
 				setStyles( image, item );
 				setVisibility( item, image );				
