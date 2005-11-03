@@ -401,7 +401,7 @@ public class ScriptEvalUtil
 								source,
 								lineNo ) );
 			if(jsExpr.getText()!=null && jsExpr.getHandle()!=null)
-				return ((CompiledExpression)jsExpr.getHandle()).evaluate( cx, scope );
+				return convertNativeObjToJavaObj(((CompiledExpression)jsExpr.getHandle()).evaluate( cx, scope ));
 			return evaluateJSAsExpr( cx, scope, jsExpr.getText(), source, lineNo );
 		}
 	}
