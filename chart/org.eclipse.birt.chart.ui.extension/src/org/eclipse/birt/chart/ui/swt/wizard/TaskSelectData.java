@@ -760,16 +760,11 @@ public class TaskSelectData extends SimpleTask
 				public void menuAboutToShow( IMenuManager manager )
 				{
 					addMenu( manager, new HeaderShowAction( ) );
-					if ( getChartModel( ) instanceof DialChart )
+					addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
+					addMenu( manager,
+							getOrthogonalSeriesMenu( getChartModel( ) ) );
+					if ( !( getChartModel( ) instanceof DialChart ) )
 					{
-						addMenu( manager,
-								getOrthogonalSeriesMenu( getChartModel( ) ) );
-					}
-					else
-					{
-						addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
-						addMenu( manager,
-								getOrthogonalSeriesMenu( getChartModel( ) ) );
 						addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );
 					}
 					// manager.add( actionInsertAggregation );

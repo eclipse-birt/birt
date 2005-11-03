@@ -12,6 +12,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -62,6 +63,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	 */
 	public void getComponent( Composite parent )
 	{
+		init( );
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( 2, true );
@@ -146,6 +149,18 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		createButtonGroup( cmpContent );
+	}
+
+	private void init( )
+	{
+		//Make it compatible with old model
+		if ( getChart( ).getLegend( ).getTitle( ) == null )
+		{
+			org.eclipse.birt.chart.model.component.Label label = LabelImpl.create( );
+			label.eAdapters( ).addAll( getChart( ).getLegend( ).eAdapters( ) );
+			getChart( ).getLegend( ).setTitle( label );
+		}
+
 	}
 
 	private void createButtonGroup( Composite parent )
