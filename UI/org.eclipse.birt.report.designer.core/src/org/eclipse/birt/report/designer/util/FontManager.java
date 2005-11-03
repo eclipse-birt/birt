@@ -29,6 +29,11 @@ public class FontManager
 	public static Font getFont( String family, int size, int style )
 	{
 		Font font = null;
+		
+		if(size<0)
+		{
+			size = 0;
+		}
 
 		String key = family
 				+ Integer.toString( size )
