@@ -35,7 +35,6 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.keys.IBindingService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -106,7 +105,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		setDefaultLibraryPreference( );
 		
 		//Biding default short cut services
-		((IBindingService)PlatformUI.getWorkbench().getAdapter(IBindingService.class)).setKeyFilterEnabled(true);
+		//Using 3.0 compatible api
+		PlatformUI.getWorkbench().getContextSupport().setKeyFilterEnabled(true);
 		
 
 	}
