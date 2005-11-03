@@ -11,17 +11,21 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.editors.js.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -345,9 +349,26 @@ public class ExpressionBuilder extends TitleAreaDialog
 		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
 		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		Document doc = new Document( expression );
-		sourceViewer.setDocument( doc );
-		sourceViewer.configure( new SourceViewerConfiguration( ) );
+		sourceViewer.configure( new JSSourceViewerConfiguration( ) );
+		// sourceViewer.configure( new SourceViewerConfiguration( ) );
+		// Document doc = new Document( expression );
+		// sourceViewer.setDocument( doc );
+		if ( expression != null )
+		{
+			JSEditorInput editorInput = new JSEditorInput( expression );
+			JSDocumentProvider documentProvider = new JSDocumentProvider( );
+			try
+			{
+				documentProvider.connect( editorInput );
+			}
+			catch ( CoreException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+
+			IDocument document = documentProvider.getDocument( editorInput );
+			sourceViewer.setDocument( document );
+		}
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		sourceViewer.getControl( ).setLayoutData( gd );
