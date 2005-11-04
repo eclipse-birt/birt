@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
-import org.eclipse.birt.report.designer.internal.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
