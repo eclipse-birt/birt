@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -26,6 +28,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 public final class MetaDataReader
 {
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( MetaDataReader.class
+			.getName( ) );
 
 	/**
 	 * Parses the source metadata config file, retrieve the data into data
@@ -48,6 +56,7 @@ public final class MetaDataReader
 		}
 		catch ( FileNotFoundException e )
 		{
+			logger.log(Level.SEVERE, e.getMessage());
 			MetaLogManager.log( "Metadata definition file not found", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( fileName,
 					MetaDataParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
@@ -99,6 +108,7 @@ public final class MetaDataReader
 		}
 		catch ( Exception e )
 		{
+			logger.log(Level.SEVERE, e.getMessage());
 			MetaLogManager.log( "Metadata parsing error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR );

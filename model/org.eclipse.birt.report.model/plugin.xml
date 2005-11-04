@@ -5,7 +5,7 @@
    name="BIRT Model"
    version="1.0.1"
    provider-name="Eclipse.org"
->
+   class="org.eclipse.birt.report.model.plugin.ModelPlugin">
    <runtime>
       <library name="model.jar">
          <export name="*"/>

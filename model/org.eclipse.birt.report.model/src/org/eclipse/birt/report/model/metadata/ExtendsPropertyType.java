@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -28,6 +31,12 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 public class ExtendsPropertyType extends PropertyType
 {
 
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( ExtendsPropertyType.class
+			.getName( ) );
 	/**
 	 * Display name key.
 	 */
@@ -75,7 +84,7 @@ public class ExtendsPropertyType extends PropertyType
 	 *         the target element.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn, Object value )
+public Object validateValue( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		if ( value == null )
@@ -88,11 +97,14 @@ public class ExtendsPropertyType extends PropertyType
 		{
 			String name = StringUtil.trimString( (String) value );
 			if ( name == null )
+			{
+				logger.log( Level.SEVERE, "The value of the extends property is an empty string" ); //$NON-NLS-1$
 				return null;
+			}
 
 			String namespace = StringUtil.extractNamespace( name );
 			name = StringUtil.extractName( name );
-			
+
 			// Element is unresolved.
 
 			return new ElementRefValue( namespace, name );
@@ -107,21 +119,19 @@ public class ExtendsPropertyType extends PropertyType
 
 			// Resolved reference.
 
-			return refValue; // new ElementRefValue( null, (DesignElement) value );
+			return refValue; // new ElementRefValue( null, (DesignElement)
+								// value );
 		}
-
 		// Invalid property value.
-
+		logger.log( Level.SEVERE, "The value of the extends property is not a valid type " ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
-	}
-
-	/**
-	 * Returns the referenced element name if the input value is an
-	 * <code>ElementRefValue</code>, return <code>null</code> if the value
-	 * is null.
-	 */
+	}	/**
+		 * Returns the referenced element name if the input value is an
+		 * <code>ElementRefValue</code>, return <code>null</code> if the
+		 * value is null.
+		 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{
@@ -129,7 +139,7 @@ public class ExtendsPropertyType extends PropertyType
 		if ( refValue == null )
 			return null;
 
-		return refValue.getQualifiedReference();
+		return refValue.getQualifiedReference( );
 	}
 
 }

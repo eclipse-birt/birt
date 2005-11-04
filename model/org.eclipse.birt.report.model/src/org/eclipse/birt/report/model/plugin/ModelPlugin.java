@@ -9,25 +9,14 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model.elements.interfaces;
+package org.eclipse.birt.report.model.plugin;
+
+import org.eclipse.birt.core.plugin.BIRTPlugin;
 
 /**
- * The interface for ExtendedItem to store the constants.
+ * The class to use the eclipse tracing facilities.
  */
 
-public interface IExtendedItemModel
+public class ModelPlugin extends BIRTPlugin
 {
-
-	/**
-	 * Name of the property that identifies the name of the extension. BIRT uses
-	 * the property to find extension definition in our meta-data dictionary.
-	 */
-
-	public static final String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
-
-	/**
-	 * The property name of the filters to apply to the extended item.
-	 */
-
-	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 }

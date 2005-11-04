@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -32,6 +35,13 @@ import org.eclipse.birt.report.model.core.Module;
 
 public class ColorPropertyType extends PropertyType
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( ColorPropertyType.class
+			.getName( ) );
 
 	/**
 	 * ChoiceSet name for color set.
@@ -174,8 +184,8 @@ public class ColorPropertyType extends PropertyType
 	{
 		if ( colorChoices == null )
 		{
-			colorChoices = (ChoiceSet)MetaDataDictionary.getInstance( ).getChoiceSet(
-					COLORS_CHOICE_SET );
+			colorChoices = (ChoiceSet) MetaDataDictionary.getInstance( )
+					.getChoiceSet( COLORS_CHOICE_SET );
 			assert colorChoices != null;
 		}
 
@@ -211,11 +221,16 @@ public class ColorPropertyType extends PropertyType
 	 *         design, or null if the value is null
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
+		{
+			logger.log( Level.FINE,
+					"The value of color property is null or a blank string." ); //$NON-NLS-1$
 			return null;
+		}
+
 		if ( value instanceof String )
 			return validateInputString( module, defn, (String) value );
 		if ( value instanceof Integer )
@@ -223,36 +238,54 @@ public class ColorPropertyType extends PropertyType
 			int intValue = ( (Integer) value ).intValue( );
 
 			if ( intValue >= 0 && intValue <= 0xFFFFFF )
+			{
+				logger.log( Level.FINE,
+						"the validated color value " + value ); //$NON-NLS-1$
 				return value;
+			}
 		}
+		logger.log( Level.SEVERE, "Invalid color value " + value ); //$NON-NLS-1$
+
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				COLOR_TYPE );
 	}
 
 	/**
 	 * Validate a xml color property value. The possible valid values are the
-	 * same to {@link #validateValue(module, PropertyDefn, Object)}except
-	 * that the input <code>value</code> is a String, and it can not be a
-	 * localized color name.
+	 * same to {@link #validateValue(Module, PropertyDefn, Object)}except that
+	 * the input <code>value</code> is a String, and it can not be a localized
+	 * color name.
 	 * 
-	 * @see #validateValue(module, PropertyDefn, Object)
+	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
+		{
+			logger.log( Level.FINE,
+					"The value of color property is null or a blank string." ); //$NON-NLS-1$
 			return null;
+		}
 
 		Object validValue = validateColor( module, value );
 		if ( validValue != null )
+		{
+			logger.log( Level.FINE,
+					"The validated color property value " + validValue ); //$NON-NLS-1$
 			return validValue;
+		}
 
 		// String does not make sense.
 
+		logger.log( Level.SEVERE, "Invalid color property value " + value ); //$NON-NLS-1$
+
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				COLOR_TYPE );
 	}
 
 	/*
@@ -315,7 +348,7 @@ public class ColorPropertyType extends PropertyType
 	 *         <code>value</code> is null or the <code>value</code> is not a
 	 *         valid internal value for a color.
 	 * 
-	 *  
+	 * 
 	 */
 
 	public int toInteger( Module module, Object value )
@@ -463,10 +496,10 @@ public class ColorPropertyType extends PropertyType
 	/**
 	 * Validate a color value in locale-dependent way. The possible color valid
 	 * values are the same to
-	 * {@link #validateValue(module, PropertyDefn, Object)}except that
-	 * the input <code>value</code> is a String.
+	 * {@link #validateValue(Module, PropertyDefn, Object)}except that the
+	 * input <code>value</code> is a String.
 	 * 
-	 * @see #validateValue(module, PropertyDefn, Object)
+	 * @see #validateValue(Module, PropertyDefn, Object)
 	 */
 
 	public Object validateInputString( Module module, PropertyDefn defn,
@@ -474,11 +507,17 @@ public class ColorPropertyType extends PropertyType
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
+		{
+			logger.log( Level.FINE, "empty color value" ); //$NON-NLS-1$
 			return null;
+		}
 
 		Object validValue = validateColor( module, value );
 		if ( validValue != null )
+		{
+			logger.log( Level.FINE, "The validated color " + validValue ); //$NON-NLS-1$
 			return validValue;
+		}
 
 		// Assume that user input a localized color name.
 		// Convert the localized color name into internal name.
@@ -488,11 +527,19 @@ public class ColorPropertyType extends PropertyType
 		{
 			IChoice color = choices.findChoiceByDisplayName( value );
 			if ( color != null )
+			{
+				logger.log( Level.FINE,
+						"Returns the color internal name for the color " //$NON-NLS-1$
+								+ value );
 				return color.getName( );
+			}
 		}
 
+		logger.log( Level.SEVERE, "Invalid color value " + value ); //$NON-NLS-1$
+
 		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				COLOR_TYPE );
 	}
 
 	/**
@@ -520,44 +567,53 @@ public class ColorPropertyType extends PropertyType
 	 * 
 	 * @throws PropertyValueException
 	 *             if color value is invalid.
-	 *  
+	 * 
 	 */
 
 	private Object validateColor( Module module, String value )
 			throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
+		{
 			return null;
+		}
 
 		// 1. If the value matches a predefined choice, return its name.
-		//    This check should be put in the first, because ColorUtil.parseColor()
-		//    will also do predefined color check but return an integer value.
+		// This check should be put in the first, because ColorUtil.parseColor()
+		// will also do predefined color check but return an integer value.
 
 		IChoiceSet choices = getChoices( );
 		if ( choices != null )
 		{
 			IChoice choice = choices.findChoice( value );
 			if ( choice != null )
+			{
 				return choice.getName( );
+			}
 		}
 
 		// 2.check the followings:
-		//   1) decimal number
-		//   2) "#FFFF00"
-		//   3) "#FF0"
-		//   4) "0xFF00FF"
-		//   5) "rgb(r,g,b)" or "rgb(r%,g%,b%)"
+		// 1) decimal number
+		// 2) "#FFFF00"
+		// 3) "#FF0"
+		// 4) "0xFF00FF"
+		// 5) "rgb(r,g,b)" or "rgb(r%,g%,b%)"
 
 		try
 		{
 			int retValue = ColorUtil.parseColor( value );
 			if ( retValue != -1 )
+			{
 				return new Integer( retValue );
+			}
 		}
 		catch ( NumberFormatException e )
 		{
+			logger.log( Level.SEVERE, "Invalid color value " + value ); //$NON-NLS-1$
+
 			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, COLOR_TYPE );
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					COLOR_TYPE );
 		}
 
 		// 3. Checks in the customer color pallete.
@@ -566,7 +622,9 @@ public class ColorPropertyType extends PropertyType
 		{
 			CustomColor customColor = module.findColor( value );
 			if ( customColor != null )
+			{
 				return value;
+			}
 		}
 
 		return null;
@@ -582,7 +640,7 @@ public class ColorPropertyType extends PropertyType
 	 *            the property value
 	 * @return a CSS-compatible color value, return <code>null</code> if
 	 *         <code>value</code> is null
-	 *  
+	 * 
 	 */
 
 	public String toCSSCompatibleColor( Module module, Object value )

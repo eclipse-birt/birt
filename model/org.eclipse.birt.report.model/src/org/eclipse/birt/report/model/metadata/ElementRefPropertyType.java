@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -41,6 +44,12 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 public class ElementRefPropertyType extends PropertyType
 {
 
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( ElementRefPropertyType.class.getName( ) );
 	/**
 	 * Display name key.
 	 */
@@ -101,16 +110,23 @@ public class ElementRefPropertyType extends PropertyType
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType( );
 		if ( value instanceof String )
 		{
+			logger.log( Level.FINE,
+					"Validate the value of the element reference property as a string: " //$NON-NLS-1$
+							+ value );
 			return validateStringValue( module, targetDefn, (String) value );
 		}
 		if ( value instanceof DesignElement )
 		{
+			logger.log( Level.FINE,
+					"Validate the value of the element reference property as a DesignElement " //$NON-NLS-1$
+							+ ( (DesignElement) value ).getName( ) );
 			DesignElement target = (DesignElement) value;
 			return validateElementValue( module, targetDefn, target );
 		}
 
 		// Invalid property value.
-
+		
+		logger.log( Level.SEVERE, "Invalid value type: " + value ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );

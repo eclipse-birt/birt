@@ -15,7 +15,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -25,11 +26,18 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 /**
  * Date-time property type. Date-time property is stored as
  * <code>java.util.Date</code>
- *  
+ * 
  */
 
 public class DateTimePropertyType extends PropertyType
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( DateTimePropertyType.class
+			.getName( ) );
 
 	/**
 	 * Display name key.
@@ -64,18 +72,26 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 
 		if ( value == null )
+		{
+			logger.log( Level.FINE, "Blank date value." ); //$NON-NLS-1$
 			return null;
+		}
 		if ( value instanceof Date )
+		{
+			logger.log( Level.FINE, "Validate the value as a date " + value ); //$NON-NLS-1$
 			return value;
+		}
 		if ( value instanceof String )
 		{
 			return validateInputString( module, defn, (String) value );
 		}
+
+		logger.log( Level.SEVERE, "Invalid date value type:" + value ); //$NON-NLS-1$
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -89,20 +105,25 @@ public class DateTimePropertyType extends PropertyType
 	 * @return object of type Date or null if <code>value</code> is null.
 	 */
 
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
+	public Object validateXml( Module module, PropertyDefn defn, String value )
+			throws PropertyValueException
 	{
 		value = StringUtil.trimString( value );
 		if ( value == null )
+		{
+			logger.log( Level.FINE, "Blank date value." ); //$NON-NLS-1$
 			return null;
+		}
 
 		// fixed xml format.
 		try
 		{
+			logger.log( Level.FINE, "Valid date value:" + value ); //$NON-NLS-1$
 			return formatter.parse( value );
 		}
 		catch ( ParseException e )
 		{
+			logger.log( Level.SEVERE, "Invalid date value:" + value ); //$NON-NLS-1$
 			throw new PropertyValueException( value,
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 					getTypeCode( ) );
@@ -164,29 +185,33 @@ public class DateTimePropertyType extends PropertyType
 			String value ) throws PropertyValueException
 	{
 		if ( StringUtil.isBlank( value ) )
+		{
+			logger.log( Level.FINE, "Blank date value" ); //$NON-NLS-1$
 			return null;
+		}
 
-        // Parse the input in locale-dependent way.
-        
-        DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
-                ThreadResources.getLocale( ) );
-        try
-        {
-            return formatter.parse( value );
-        }
-        catch ( ParseException e )
-        {
-            throw new PropertyValueException( value,
-                    PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-                    DATE_TIME_TYPE );
-        }
+		// Parse the input in locale-dependent way.
+
+		DateFormat formatter = DateFormat.getDateInstance( DateFormat.SHORT,
+				ThreadResources.getLocale( ) );
+		try
+		{
+			logger.log( Level.FINE, "Valid data value:" + value ); //$NON-NLS-1$
+			return formatter.parse( value );
+		}
+		catch ( ParseException e )
+		{
+			logger.log( Level.SEVERE, "Invalid date value:" + value ); //$NON-NLS-1$
+			throw new PropertyValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DATE_TIME_TYPE );
+		}
 	}
 
-	
-    /**
-     * Converts the Date object into a string presentation in a fixed xml format
-     * "yyyy-MM-dd HH:mm:ss".
-     */
+	/**
+	 * Converts the Date object into a string presentation in a fixed xml format
+	 * "yyyy-MM-dd HH:mm:ss".
+	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{

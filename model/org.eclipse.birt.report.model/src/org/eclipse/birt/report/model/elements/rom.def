@@ -2727,6 +2727,7 @@
     <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string">
 		<Trigger validator="ExtensionValidator"/>
 	</Property>
+    <Property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" runtimeSettable="false" since="2.0" type="structure"/>	  
 	<PropertyVisibility name="extensionName" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">

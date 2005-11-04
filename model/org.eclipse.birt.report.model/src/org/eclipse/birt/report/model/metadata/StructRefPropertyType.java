@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -42,6 +44,12 @@ import org.eclipse.birt.report.model.core.Structure;
 public class StructRefPropertyType extends PropertyType
 {
 
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( StructRefPropertyType.class.getName( ) );
 	/**
 	 * Display name key.
 	 */
@@ -87,26 +95,30 @@ public class StructRefPropertyType extends PropertyType
 	 *      java.lang.Object)
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
+		{
+			logger.log( Level.WARNING, "The value of the structure property is null" ); //$NON-NLS-1$
 			return null;
-
+		}
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
 		if ( value instanceof String )
 		{
+			logger.log( Level.INFO, "The value of the structure property is a string" ); //$NON-NLS-1$
 			String name = StringUtil.trimString( (String) value );
 			return validateStringValue( module, targetDefn, name );
 		}
 		if ( value instanceof Structure )
 		{
+			logger.log( Level.INFO, "The value of the structure is a structure" ); //$NON-NLS-1$
 			Structure target = (Structure) value;
 			return validateStructValue( module, targetDefn, target );
 		}
 
 		// Invalid property value.
-
+		logger.log( Level.INFO, "The value of the structure property is invalid type" ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
@@ -155,8 +167,8 @@ public class StructRefPropertyType extends PropertyType
 		return new StructRefValue( target );
 	}
 
-	private Structure getStructure( Module module,
-			StructureDefn targetDefn, String name )
+	private Structure getStructure( Module module, StructureDefn targetDefn,
+			String name )
 	{
 		if ( StringUtil.isBlank( name ) || targetDefn == null )
 			return null;
@@ -178,7 +190,7 @@ public class StructRefPropertyType extends PropertyType
 		if ( defn == null )
 			return null;
 		assert defn.getTypeCode( ) == PropertyType.STRUCT_TYPE;
-		
+
 		if ( defn.isList( ) )
 		{
 			List list = module.getListProperty( module, defn.getName( ) );
@@ -265,8 +277,7 @@ public class StructRefPropertyType extends PropertyType
 	 *            the structure reference
 	 */
 
-	public void resolve( Module module, PropertyDefn defn,
-			StructRefValue ref )
+	public void resolve( Module module, PropertyDefn defn, StructRefValue ref )
 	{
 		if ( ref.isResolved( ) )
 			return;

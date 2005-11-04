@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
@@ -29,7 +31,13 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  */
 
 public abstract class ExtensionLoader
-{
+{	
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( ExtensionLoader.class
+			.getName( ) );
 
 	private String extensionPointer = null;
 
@@ -64,12 +72,14 @@ public abstract class ExtensionLoader
 		}
 		catch ( ExtensionException e )
 		{
+			logger.log(Level.SEVERE, e.getMessage());
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );
 		}
 		catch ( MetaDataException e )
 		{
+			logger.log(Level.SEVERE, e.getMessage());
 			MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_EXTENSION_ERROR );

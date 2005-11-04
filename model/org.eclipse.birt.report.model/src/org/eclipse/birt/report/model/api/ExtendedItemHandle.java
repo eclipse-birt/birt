@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -139,4 +140,20 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	}
 
+	/**
+	 * Returns an iterator over filter. The iterator returns instances of
+	 * <code>FilterConditionHandle</code> that represents filter condition
+	 * object.
+	 * 
+	 * @return iterator over filters.
+	 * 
+	 * @see org.eclipse.birt.report.model.api.elements.structures.FilterCondition
+	 */
+
+	public Iterator filtersIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( ExtendedItem.FILTER_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
 }

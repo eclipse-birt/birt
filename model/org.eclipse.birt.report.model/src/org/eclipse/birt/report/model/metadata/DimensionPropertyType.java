@@ -125,14 +125,27 @@ public class DimensionPropertyType extends PropertyType
 			throws PropertyValueException
 	{
 		if ( value == null )
+		{
+			logger.log( Level.FINE, "The input value object is null." ); //$NON-NLS-1$
 			return null;
+		}
 
 		if ( value instanceof String )
 			return validateInputString( module, defn, (String) value );
 		if ( value instanceof DimensionValue )
 		{
 			if ( !StringUtil.isBlank( ( (DimensionValue) value ).getUnits( ) ) )
+			{
+				logger
+						.log(
+								Level.FINE,
+								"Validate the dimension value with defined unit " + value ); //$NON-NLS-1$
 				return value;
+			}
+
+			logger.log( Level.FINE,
+					"return dimension value with default unit " + value ); //$NON-NLS-1$
+
 			return new DimensionValue(
 					( (DimensionValue) value ).getMeasure( ), getDefaultUnit(
 							module, defn ) );
@@ -144,6 +157,8 @@ public class DimensionPropertyType extends PropertyType
 		if ( value instanceof BigDecimal )
 			return fromDouble( module, defn, ( (BigDecimal) value )
 					.doubleValue( ) );
+
+		logger.log( Level.SEVERE, "invalid dimension value type:" + value ); //$NON-NLS-1$
 
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
@@ -172,7 +187,7 @@ public class DimensionPropertyType extends PropertyType
 		unit = module.getUnits( );
 		if ( !StringUtil.isBlank( unit ) )
 			return unit;
-		if ( module.getSession() != null )
+		if ( module.getSession( ) != null )
 			return module.getSession( ).getUnits( );
 		return DesignChoiceConstants.UNITS_IN;
 	}
@@ -188,7 +203,7 @@ public class DimensionPropertyType extends PropertyType
 	 * @param value
 	 *            the double value of the measure.
 	 * @return an <code>DimensionValue</code> Object in session unit.
-	 *  
+	 * 
 	 */
 
 	private DimensionValue fromDouble( Module module, PropertyDefn defn,
@@ -204,7 +219,7 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return a <code>DimensionValue</code> that holds the measure and unit
 	 *         parsed from the xml value.
-	 *  
+	 * 
 	 */
 
 	public Object validateXml( Module module, PropertyDefn defn, String value )
@@ -212,11 +227,25 @@ public class DimensionPropertyType extends PropertyType
 	{
 		DimensionValue dim = DimensionValue.parse( value );
 		if ( dim == null )
+		{
+			logger.log( Level.FINE,
+					"The input string may be a blank string or without measure." //$NON-NLS-1$
+							+ value );
 			return null;
+		}
 
 		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+		{
+			logger.log( Level.FINE,
+					"return dimension value with user defined unit " //$NON-NLS-1$
+							+ dim.toString( ) );
 			return dim;
+		}
+
+		logger.log( Level.FINE, "return dimension value with default unit " //$NON-NLS-1$
+				+ dim.getMeasure( ) );
+
 		return new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
 
@@ -236,7 +265,7 @@ public class DimensionPropertyType extends PropertyType
 	 * </ul>
 	 * 
 	 * @return object is of type <code>DimensionValue</code> or null.
-	 *  
+	 * 
 	 */
 
 	public Object validateInputString( Module module, PropertyDefn defn,
@@ -244,15 +273,26 @@ public class DimensionPropertyType extends PropertyType
 	{
 		DimensionValue dim = DimensionValue.parseInput( value );
 		if ( dim == null )
+		{
+			logger.log( Level.FINE,
+					"The input string may be a blank string or without measure." //$NON-NLS-1$
+							+ value );
 			return null;
+		}
+
 		validateUnits( module, defn, dim );
 		if ( !DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
+		{
+			logger.log( Level.FINE, "return dimension with user-defined unit " //$NON-NLS-1$
+					+ dim.toString( ) );
 			return dim;
+		}
 
 		dim = new DimensionValue( dim.getMeasure( ), getDefaultUnit( module,
 				defn ) );
 
-		logger.log( Level.INFO, "Read in dimension value: " + dim.toString( ) ); //$NON-NLS-1$
+		logger.log( Level.FINE,
+				"return dimension with default unit " + dim.toString( ) ); //$NON-NLS-1$
 		return dim;
 	}
 
@@ -273,6 +313,7 @@ public class DimensionPropertyType extends PropertyType
 
 		// Return the measure and unit of this DimensionValue in localized
 		// format.
+
 		return ( (DimensionValue) value ).toDisplayString( );
 	}
 
@@ -288,7 +329,7 @@ public class DimensionPropertyType extends PropertyType
 	 *            the dimension value of the dimension.
 	 * @throws PropertyValueException
 	 *             if unit is not allowed.
-	 *  
+	 * 
 	 */
 
 	private void validateUnits( Module module, PropertyDefn defn,
@@ -307,6 +348,8 @@ public class DimensionPropertyType extends PropertyType
 		if ( !StringUtil.isBlank( unit ) && !units.contains( unit ) )
 		{
 			// unit not allowed.
+
+			logger.log( Level.SEVERE, "unit:" + unit + " not allowed " ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			throw new PropertyValueException( null, defn, value,
 					PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED );
@@ -358,7 +401,7 @@ public class DimensionPropertyType extends PropertyType
 	 * 
 	 * @return double value of the dimension value in session unit. Return
 	 *         <code>0.0</code> if <code>value</code> is null.
-	 *  
+	 * 
 	 */
 
 	public double toDouble( Module module, Object value )

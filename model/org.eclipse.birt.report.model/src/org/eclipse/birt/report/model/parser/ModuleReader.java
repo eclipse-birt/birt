@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -41,6 +43,13 @@ import org.xml.sax.SAXException;
 
 public abstract class ModuleReader
 {
+
+	/**
+	 * 
+	 */
+
+	private static Logger logger = Logger.getLogger( ModuleReader.class
+			.getName( ) );
 
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
@@ -68,10 +77,13 @@ public abstract class ModuleReader
 
 		assert internalStream.markSupported( );
 
+		logger.log( Level.INFO, "start parsing the file..." ); //$NON-NLS-1$
+
 		String signature = null;
 		try
 		{
-			signature = checkUTFSignature( internalStream, handler.getFileName() );
+			signature = checkUTFSignature( internalStream, handler
+					.getFileName( ) );
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
 			SAXParser parser = saxParserFactory.newSAXParser( );
 			InputSource inputSource = new InputSource( internalStream );
@@ -80,6 +92,15 @@ public abstract class ModuleReader
 		}
 		catch ( SAXException e )
 		{
+			// output errors to the logger
+
+			List errors = handler.getErrorHandler( ).getErrors( );
+			for ( int i = 0; i < errors.size( ); i++ )
+			{
+				Exception exception = (Exception) errors.get( i );
+				logger.log( Level.SEVERE, exception.getMessage( ) );
+			}
+
 			// Syntax error is found
 
 			if ( e.getException( ) instanceof DesignFileException )
@@ -89,28 +110,31 @@ public abstract class ModuleReader
 
 			// Invalid xml error is found
 
-			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
-					.getErrors( ), e );
+			throw new DesignFileException( handler.getFileName( ), errors, e );
 		}
 		catch ( ParserConfigurationException e )
 		{
-			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
-					.getErrors( ), e );
+			throw new DesignFileException( handler.getFileName( ), handler
+					.getErrorHandler( ).getErrors( ), e );
 		}
 		catch ( IOException e )
 		{
-			throw new DesignFileException( handler.getFileName(), handler.getErrorHandler( )
-					.getErrors( ), e );
+			logger.log( Level.SEVERE, "IO error occurs" //$NON-NLS-1$
+					+ e.getLocalizedMessage( ) );
+
+			throw new DesignFileException( handler.getFileName( ), handler
+					.getErrorHandler( ).getErrors( ), e );
 		}
 
 		Module module = handler.getModule( );
 		module.setUTFSignature( signature );
 		module.setValid( true );
-		
+
+		logger.log( Level.INFO, "The file has bee parsed successfully." ); //$NON-NLS-1$
+
 		return module;
 	}
 
-	
 	/**
 	 * Parses an XML design file given a file name. Creates and returns the
 	 * internal representation of the report design
@@ -123,24 +147,31 @@ public abstract class ModuleReader
 	 *             if file is not found
 	 */
 
-	public Module readModule( ModuleParserHandler handler ) throws DesignFileException
+	public Module readModule( ModuleParserHandler handler )
+			throws DesignFileException
 	{
 		assert handler != null;
+
+		logger.log( Level.INFO, "start preparing for the file" ); //$NON-NLS-1$
 
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = new BufferedInputStream( new FileInputStream(
-					handler.getFileName() ) );
+			inputStream = new BufferedInputStream( new FileInputStream( handler
+					.getFileName( ) ) );
 		}
 		catch ( FileNotFoundException e )
 		{
 			DesignParserException ex = new DesignParserException(
-					new String[]{handler.getFileName()},
+					new String[]{handler.getFileName( )},
 					DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND );
 			List exceptionList = new ArrayList( );
 			exceptionList.add( ex );
-			throw new DesignFileException( handler.getFileName(), exceptionList );
+
+			logger.log( Level.SEVERE, "Parsed file was not found." ); //$NON-NLS-1$
+
+			throw new DesignFileException( handler.getFileName( ),
+					exceptionList );
 		}
 
 		assert inputStream.markSupported( );
@@ -162,9 +193,11 @@ public abstract class ModuleReader
 	 *             if the stream has unexpected encoding signature
 	 */
 
-	protected String checkUTFSignature( InputStream inputStream,
-			String fileName ) throws IOException, SAXException
+	protected String checkUTFSignature( InputStream inputStream, String fileName )
+			throws IOException, SAXException
 	{
+
+		logger.log( Level.FINE, "check the file encoding..." ); //$NON-NLS-1$
 
 		// This may fail if there are a lot of space characters before the end
 		// of the encoding declaration

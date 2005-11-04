@@ -1269,6 +1269,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitExtendedItem( obj );
 
+		// write the extension item local properties
+
 		ExtensionElementDefn extDefn = obj.getExtDefn( );
 		if ( extDefn != null )
 		{
@@ -1294,6 +1296,11 @@ public abstract class ModuleWriter extends ElementVisitor
 				}
 			}
 		}
+
+		// write filter properties for the extended item
+
+		writeStructureList( obj, ExtendedItem.FILTER_PROP );
+
 		writer.endElement( );
 	}
 
@@ -2461,16 +2468,18 @@ public abstract class ModuleWriter extends ElementVisitor
 			long baseId = virtualElement.getBaseId( );
 			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, new Long(
 					baseId ).toString( ) );
-			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement.getName() );
-			
-			assert virtualElement.getExtendsElement() == null;
+			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement
+					.getName( ) );
+
+			assert virtualElement.getExtendsElement( ) == null;
 			List propDefns = virtualElement.getPropertyDefns( );
 			for ( int i = 0; i < propDefns.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
-				if( DesignElement.NAME_PROP.equalsIgnoreCase( propDefn.getName() ) )
+				if ( DesignElement.NAME_PROP.equalsIgnoreCase( propDefn
+						.getName( ) ) )
 					continue;
-				
+
 				boolean cdata = false;
 				if ( propDefn.getTypeCode( ) == PropertyType.SCRIPT_TYPE )
 					cdata = true;
