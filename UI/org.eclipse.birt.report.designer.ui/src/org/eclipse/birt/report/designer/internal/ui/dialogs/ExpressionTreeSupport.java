@@ -311,7 +311,7 @@ public class ExpressionTreeSupport
 	public void createNativeObjectsTree( )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
+		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
 		createObjects( topItem, OBJECTS_TYPE_NATIVE );
 	}
 
@@ -395,7 +395,7 @@ public class ExpressionTreeSupport
 	public void createBirtObjectsTree( )
 	{
 		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
+		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
 		createObjects( topItem, OBJECTS_TYPE_BIRT );
 	}
 

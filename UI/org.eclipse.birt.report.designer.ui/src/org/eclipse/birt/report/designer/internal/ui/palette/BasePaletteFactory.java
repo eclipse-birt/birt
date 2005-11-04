@@ -269,7 +269,7 @@ public class BasePaletteFactory
 				if ( IReportElementConstants.AUTOTEXT_PAGE.equalsIgnoreCase( type ) )
 				{
 					text = AUTOTEXT_LABEL_PAGE
-					+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
+					+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
 				}
 				else if ( IReportElementConstants.AUTOTEXT_DATE.equalsIgnoreCase( type ) )
 				{
@@ -499,7 +499,7 @@ public class BasePaletteFactory
 							.add( textHandle );
 
 					text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
+							+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
 					 textHandle = factory.newTextItem( null );
 					 textHandle.setContent( text );
 					 ( (CellHandle) cellList.get( 1 ) ).getContent( )
@@ -532,7 +532,7 @@ public class BasePaletteFactory
 							.add( textHandle );
 
 					String text = AUTOTEXT_LABEL_PAGE
-							+ "<value-of>globalBIRT.currentPage</value-of>" ; //$NON-NLS-1$
+							+ "<value-of>GlobalBirt.CurrentPage</value-of>" ; //$NON-NLS-1$
 					 textHandle = factory.newTextItem( null );
 					 textHandle.setContent( text );
 					 ( (CellHandle) cellList.get( 1 ) ).getContent( )

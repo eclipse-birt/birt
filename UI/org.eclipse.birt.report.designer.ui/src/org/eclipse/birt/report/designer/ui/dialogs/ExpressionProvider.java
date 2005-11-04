@@ -198,8 +198,6 @@ public class ExpressionProvider implements IExpressionProvider
 	 * Create a new expression provider with the current module and the given
 	 * dataset list
 	 * 
-	 * @param moduleHandle
-	 *            the handle of the module
 	 * @param dataSetList
 	 *            the list of the data set
 	 */

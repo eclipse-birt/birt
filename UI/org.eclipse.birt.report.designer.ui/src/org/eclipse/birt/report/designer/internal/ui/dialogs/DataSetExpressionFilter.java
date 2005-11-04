@@ -37,8 +37,7 @@ public class DataSetExpressionFilter extends ExpressionFilter
 	 */
 	public boolean select( Object parentElement, Object element )
 	{
-		if ( ExpressionProvider.BIRT_OBJECTS.equals( element )
-				|| ExpressionProvider.PARAMETERS.equals( element ) )
+		if ( ExpressionProvider.PARAMETERS.equals( element ) )
 		{
 			return false;
 		}
