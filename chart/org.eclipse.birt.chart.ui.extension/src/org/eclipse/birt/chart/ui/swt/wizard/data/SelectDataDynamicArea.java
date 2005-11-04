@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
@@ -157,8 +158,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		cmpRightArea.dispose( );
 		createRightBindingArea( cmpContainer );
 		cmpRightArea.pack( );
-
-		cmpContainer.getParent( ).layout( );
 	}
 
 	public void refreshBottomBindingArea( )
@@ -172,7 +171,11 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	public void createLeftBindingArea( Composite parent )
 	{
 		cmpLeftArea = ChartUIUtil.createCompositeWrapper( parent );
-		cmpLeftArea.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_CENTER ) );
+		{
+			GridData gd = new GridData( GridData.VERTICAL_ALIGN_CENTER );
+			gd.horizontalAlignment = SWT.END;
+			cmpLeftArea.setLayoutData( gd );
+		}
 
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
@@ -290,5 +293,13 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	public void setCustomPreviewTable( CustomPreviewTable customTable )
 	{
 		this.customTable = customTable;
+	}
+
+	public void layoutAll( )
+	{
+		if ( cmpBottomArea != null && !cmpBottomArea.isDisposed( ) )
+		{
+			cmpBottomArea.getParent( ).getParent( ).layout( );
+		}
 	}
 }

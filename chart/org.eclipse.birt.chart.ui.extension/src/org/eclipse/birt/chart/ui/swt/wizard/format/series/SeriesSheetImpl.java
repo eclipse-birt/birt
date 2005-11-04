@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -89,7 +88,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
 
-		EList seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
+		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			Composite cmpY = new SeriesOptionComposite( cmpContent,

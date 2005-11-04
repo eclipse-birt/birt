@@ -219,23 +219,35 @@ public class IntegerSpinControl extends Composite implements SelectionListener, 
      */
     public void widgetSelected(SelectionEvent e)
     {
-        Object oSource = e.getSource();
-        if (oSource.equals(btnIncrement))
-        {
-            if (iCurrentValue < iMaxValue)
-            {
-                iCurrentValue = (Integer.valueOf(txtValue.getText()).intValue() + iIncrement);
-                txtValue.setText(String.valueOf(iCurrentValue));
-            }
-        }
-        else if (oSource.equals(btnDecrement))
-        {
-            if (iCurrentValue > iMinValue)
-            {
-                iCurrentValue = (Integer.valueOf(txtValue.getText()).intValue() - iIncrement);
-                txtValue.setText(String.valueOf(iCurrentValue));
-            }
-        }
+    	int iTextValue = iCurrentValue;
+		try
+		{
+			iTextValue = Integer.valueOf( txtValue.getText( ) ).intValue( );
+		}
+		catch ( NumberFormatException e1 )
+		{
+			return;
+		}
+
+		Object oSource = e.getSource( );
+		if ( oSource.equals( btnIncrement ) )
+		{
+			if ( iCurrentValue < iMaxValue
+					&& iTextValue >= iMinValue && iTextValue < iMaxValue )
+			{
+				iCurrentValue = ( iTextValue + iIncrement );
+				txtValue.setText( String.valueOf( iCurrentValue ) );
+			}
+		}
+		else if ( oSource.equals( btnDecrement ) )
+		{
+			if ( iCurrentValue > iMinValue
+					&& iTextValue > iMinValue && iTextValue <= iMaxValue )
+			{
+				iCurrentValue = ( iTextValue - iIncrement );
+				txtValue.setText( String.valueOf( iCurrentValue ) );
+			}
+		}
         // Notify Listeners that a change has occurred in the value
         fireValueChangedEvent();
     }

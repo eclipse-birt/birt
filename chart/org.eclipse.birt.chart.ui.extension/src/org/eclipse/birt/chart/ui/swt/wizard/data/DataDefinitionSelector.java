@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -54,6 +55,10 @@ public class DataDefinitionSelector
 
 	private transient Object oContext = null;
 
+	private transient Composite cmpTop = null;
+
+	private transient Composite cmpData = null;
+
 	private transient ISelectDataComponent dateComponent = null;
 
 	private transient Button btnSeriesAdd;
@@ -89,7 +94,7 @@ public class DataDefinitionSelector
 
 	public Composite createArea( Composite parent )
 	{
-		Composite cmpTop = null;
+		cmpTop = null;
 		{
 			if ( axisIndex > 0 )
 			{
@@ -123,14 +128,33 @@ public class DataDefinitionSelector
 			btnSeriesAdd.addSelectionListener( this );
 		}
 
-		dateComponent = getDataDefinitionComponent( getCurrentSeriesDefinition( ) );
-		Composite cmp = dateComponent.createArea( cmpTop );
+		createDataDefinition( );
+
+		return cmpTop;
+	}
+
+	private void createDataDefinition( )
+	{
+		ISelectDataComponent newComponent = getDataDefinitionComponent( getCurrentSeriesDefinition( ) );
+		if ( dateComponent != null
+				&& dateComponent.getClass( ) == newComponent.getClass( ) )
+		{
+			// No change if new UI is same with the old
+			return;
+		}
+
+		if ( cmpData != null && !cmpData.isDisposed( ) )
+		{
+			cmpData.dispose( );
+		}
+
+		dateComponent = newComponent;
+		cmpData = dateComponent.createArea( cmpTop );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
-			cmp.setLayoutData( gd );
+			cmpData.setLayoutData( gd );
 		}
-		return cmpTop;
 	}
 
 	private SeriesDefinition getCurrentSeriesDefinition( )
@@ -175,20 +199,37 @@ public class DataDefinitionSelector
 							ColorPalette.getInstance( )
 									.getColor( getCustomTable( ).getColumnHeading( i ) ) );
 				}
+
+				// Remove sample data and series
+				EList list = chart.getSampleData( ).getOrthogonalSampleData( );
+				for ( int i = 0; i < list.size( ); i++ )
+				{
+					// Check each entry if it is associated with the series
+					// definition
+					// to be removed
+					if ( ( (OrthogonalSampleData) list.get( i ) ).getSeriesDefinitionIndex( ) == cmbSeriesSelect.getSelectionIndex( ) )
+					{
+						list.remove( i );
+						// Reset counter
+						i--;
+					}
+				}
 				seriesDefns.remove( cmbSeriesSelect.getSelectionIndex( ) );
 			}
 			refreshButton( );
 			refreshCombo( );
 			refreshQuery( );
 
-			if ( selectDataUI != null )
-			{
-				selectDataUI.refreshRightBindingArea( );
-			}
+			createDataDefinition( );
+			refreshQuery( );
+			selectDataUI.refreshRightBindingArea( );
+			selectDataUI.layoutAll( );
 		}
 		else if ( e.widget.equals( cmbSeriesSelect ) )
 		{
+			createDataDefinition( );
 			refreshQuery( );
+			selectDataUI.layoutAll( );
 		}
 	}
 

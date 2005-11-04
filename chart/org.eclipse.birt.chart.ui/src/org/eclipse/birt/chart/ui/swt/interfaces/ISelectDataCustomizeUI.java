@@ -72,4 +72,6 @@ public interface ISelectDataCustomizeUI
 	 */
 	public Object getCustomPreviewTable( );
 
+	public void layoutAll( );
+
 }

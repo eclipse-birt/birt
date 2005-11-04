@@ -75,6 +75,7 @@ public class TaskSelectData extends SimpleTask
 			Listener
 {
 
+	private final static int CENTER_WIDTH_HINT = 500;
 	private transient ChartPreviewPainter previewPainter = null;
 
 	private transient Composite cmpTask = null;
@@ -90,7 +91,7 @@ public class TaskSelectData extends SimpleTask
 	private transient Button btnNewData = null;
 
 	private transient CustomPreviewTable tablePreview = null;
-	private transient Button btnFilters = null;
+	// private transient Button btnFilters = null;
 	private transient Button btnParameters = null;
 
 	// private transient Action actionInsertAggregation = new
@@ -179,9 +180,10 @@ public class TaskSelectData extends SimpleTask
 			createDataPreviewButtonArea( cmpTask );
 
 			new Label( cmpTask, SWT.NONE );
-			Label description = new Label( cmpTask, SWT.NONE );
+			Label description = new Label( cmpTask, SWT.WRAP );
 			{
 				GridData gd = new GridData( );
+				gd.widthHint = CENTER_WIDTH_HINT;
 				description.setLayoutData( gd );
 				description.setText( Messages.getString( "TaskSelectData.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 			}
@@ -241,7 +243,7 @@ public class TaskSelectData extends SimpleTask
 		cmpPreview = createCompositeWrapper( cmpTask );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
-			gridData.widthHint = 500;
+			gridData.widthHint = CENTER_WIDTH_HINT;
 			gridData.heightHint = 300;
 			cmpPreview.setLayoutData( gridData );
 		}
@@ -318,7 +320,7 @@ public class TaskSelectData extends SimpleTask
 				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
-			gridData.widthHint = 500;
+			gridData.widthHint = CENTER_WIDTH_HINT;
 			gridData.heightHint = 250;
 			tablePreview.setLayoutData( gridData );
 			tablePreview.setHeaderAlignment( SWT.LEFT );
@@ -335,15 +337,16 @@ public class TaskSelectData extends SimpleTask
 			composite.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_END ) );
 		}
 
-		btnFilters = new Button( composite, SWT.NONE );
-		{
-			btnFilters.setAlignment( SWT.CENTER );
-			GridData gridData = new GridData( );
-			gridData.widthHint = 80;
-			btnFilters.setLayoutData( gridData );
-			btnFilters.setText( Messages.getString( "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
-			btnFilters.addSelectionListener( this );
-		}
+		// btnFilters = new Button( composite, SWT.NONE );
+		// {
+		// btnFilters.setAlignment( SWT.CENTER );
+		// GridData gridData = new GridData( );
+		// gridData.widthHint = 80;
+		// btnFilters.setLayoutData( gridData );
+		// btnFilters.setText( Messages.getString(
+		// "TaskSelectData.Label.Filters" ) ); //$NON-NLS-1$
+		// btnFilters.addSelectionListener( this );
+		// }
 
 		btnParameters = new Button( composite, SWT.NONE );
 		{
@@ -557,14 +560,14 @@ public class TaskSelectData extends SimpleTask
 				}
 			}
 		}
-		else if ( e.getSource( ).equals( btnFilters ) )
-		{
-			if ( getWizardContext( ).getDataServiceProvider( )
-					.invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
-			{
-				refreshTablePreview( );
-			}
-		}
+		// else if ( e.getSource( ).equals( btnFilters ) )
+		// {
+		// if ( getWizardContext( ).getDataServiceProvider( )
+		// .invoke( IDataServiceProvider.COMMAND_EDIT_FILTER ) == Window.OK )
+		// {
+		// refreshTablePreview( );
+		// }
+		// }
 		else if ( e.getSource( ).equals( btnParameters ) )
 		{
 			if ( getWizardContext( ).getDataServiceProvider( )
@@ -606,7 +609,7 @@ public class TaskSelectData extends SimpleTask
 		boolean hasDataset = cmbDataSet.getItems( ).length > 0;
 		cmbDataSet.setEnabled( checked );
 		btnNewData.setEnabled( checked );
-		btnFilters.setEnabled( checked && hasDataset );
+		// btnFilters.setEnabled( checked && hasDataset );
 		btnParameters.setEnabled( checked && hasDataset );
 	}
 
@@ -804,7 +807,7 @@ public class TaskSelectData extends SimpleTask
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
 		for ( int axisIndex = 0; axisIndex < axisNum; axisIndex++ )
 		{
-			EList sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+			List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 					axisIndex );
 			for ( int i = 0; i < sds.size( ); i++ )
 			{
@@ -847,7 +850,7 @@ public class TaskSelectData extends SimpleTask
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
 		for ( int axisIndex = 0; axisIndex < axisNum; axisIndex++ )
 		{
-			EList sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+			List sds = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
 					axisIndex );
 			for ( int i = 0; i < sds.size( ); i++ )
 			{

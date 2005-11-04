@@ -780,13 +780,13 @@ public class TaskSelectType extends SimpleTask
 		refreshChart( );
 		if ( oSelected.getClass( ).equals( Table.class ) )
 		{
-			// Refresh all adapters
-			removeAllAdapters( chartModel,
-					( (ChartWizard) container ).getAdapter( ) );
-			chartModel.eAdapters( )
-					.add( ( (ChartWizard) container ).getAdapter( ) );
+			updateAdapters( );
 			// Ensure populate list after chart model generated
 			populateSeriesTypesList( );
+		}
+		else if ( oSelected.equals( cbDimension ) )
+		{
+			updateAdapters( );
 		}
 
 		if ( chartModel != null && chartModel instanceof ChartWithAxes )
@@ -807,10 +807,12 @@ public class TaskSelectType extends SimpleTask
 		}
 	}
 
-	private void removeAllAdapters( Chart chart, EContentAdapter adapter )
+	private void updateAdapters( )
 	{
-		chart.eAdapters( ).remove( adapter );
-		TreeIterator iterator = chart.eAllContents( );
+		// Refresh all adapters
+		EContentAdapter adapter = ( (ChartWizard) container ).getAdapter( );
+		chartModel.eAdapters( ).remove( adapter );
+		TreeIterator iterator = chartModel.eAllContents( );
 		while ( iterator.hasNext( ) )
 		{
 			Object oModel = iterator.next( );
@@ -819,6 +821,7 @@ public class TaskSelectType extends SimpleTask
 				( (EObject) oModel ).eAdapters( ).remove( adapter );
 			}
 		}
+		chartModel.eAdapters( ).add( adapter );
 	}
 
 	private boolean is3D( )

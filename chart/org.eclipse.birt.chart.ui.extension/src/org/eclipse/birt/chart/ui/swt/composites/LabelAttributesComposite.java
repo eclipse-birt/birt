@@ -372,7 +372,7 @@ public class LabelAttributesComposite extends Composite implements
 	public void setEnabled(boolean bState) {
 		boolean bEnableUI = true;
 		if (this.bVisibilityEnabled) {
-			// cbVisible.setEnabled( bState );
+			cbVisible.setEnabled( bState );
 			bEnableUI = cbVisible.getSelection();
 		}
 		if (this.bPositionEnabled) {

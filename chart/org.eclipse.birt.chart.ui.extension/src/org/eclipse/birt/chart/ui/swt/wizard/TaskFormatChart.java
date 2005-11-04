@@ -18,7 +18,6 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -554,17 +553,11 @@ public class TaskFormatChart extends TreeCompoundTask
 			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 
-			if ( chartModel instanceof DialChart )
+			for ( int iBS = 1; iBS < iBaseSeriesCount; iBS++ )
 			{
-				uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 			}
-			else
-			{
-				for ( int iBS = 1; iBS < iBaseSeriesCount; iBS++ )
-				{
-					uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-				}
-			}
+
 			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 			{
 				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );

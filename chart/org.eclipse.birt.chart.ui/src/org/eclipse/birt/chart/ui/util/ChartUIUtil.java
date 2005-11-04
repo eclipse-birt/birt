@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -170,7 +172,7 @@ public class ChartUIUtil
 	 *            -1 means all. If chart is without axis type, it's useless.
 	 * @return specified axis definitions or all series definitions
 	 */
-	public static EList getOrthogonalSeriesDefinitions( Chart chart,
+	public static List getOrthogonalSeriesDefinitions( Chart chart,
 			int axisIndex )
 	{
 		if ( chart instanceof ChartWithAxes )
@@ -182,17 +184,10 @@ public class ChartUIUtil
 				return ( (Axis) axisList.get( axisIndex ) ).getSeriesDefinitions( );
 			}
 
-			EList seriesList = null;
+			List seriesList = new ArrayList( );
 			for ( int i = 0; i < axisList.size( ); i++ )
 			{
-				if ( seriesList == null )
-				{
-					seriesList = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
-				}
-				else
-				{
-					seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
-				}
+				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
 			}
 			return seriesList;
 		}

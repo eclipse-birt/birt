@@ -133,8 +133,13 @@ public class MultipleSeriesComponent implements ISelectDataComponent
 			{
 				cmpGroup = ChartUIUtil.createCompositeWrapper( parent );
 
-				lblRightYGrouping = new Label( cmpGroup, SWT.NONE );
-				lblRightYGrouping.setText( label );
+				lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
+				{
+					GridData gd = new GridData( );
+					gd.widthHint = 100;
+					lblRightYGrouping.setLayoutData( gd );
+					lblRightYGrouping.setText( label );
+				}
 
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
