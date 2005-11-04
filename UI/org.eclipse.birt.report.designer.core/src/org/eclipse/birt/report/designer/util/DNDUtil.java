@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -485,6 +486,13 @@ public class DNDUtil
 					return false;
 			}
 			return true;
+		}
+		if ( selection instanceof DesignElementHandle )
+		{
+			if ( ( (DesignElementHandle) selection ).getRoot( ) instanceof LibraryHandle )
+			{
+				return false;
+			}
 		}
 		if ( selection instanceof ReportElementModel )
 		{
@@ -955,7 +963,8 @@ public class DNDUtil
 		if ( transferData instanceof EmbeddedImage
 				&& targetObj instanceof ModuleHandle )
 		{
-			//return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage) transferData ).getName( ) ) == null;
+			// return ( (ModuleHandle) targetObj ).findImage( ( (EmbeddedImage)
+			// transferData ).getName( ) ) == null;
 			return true;
 		}
 		return false;
@@ -1019,8 +1028,8 @@ public class DNDUtil
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
 			return targetHandle.getElementHandle( )
-					.canContain( targetHandle.getSlotID( ), childHandle )
-					? CONTAIN_THIS : CONTAIN_NO;
+					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
+					: CONTAIN_NO;
 		}
 		return CONTAIN_NO;
 	}
@@ -1143,7 +1152,8 @@ public class DNDUtil
 					.getDefn( )
 					.getSlot( slot.getSlotID( ) )
 					.isMultipleCardinality( )
-					|| slot.getCount( ) < 1 && length <= 1;
+					|| slot.getCount( ) < 1
+					&& length <= 1;
 		}
 		return targetObj instanceof DesignElementHandle
 				|| targetObj instanceof EmbeddedImageNode;

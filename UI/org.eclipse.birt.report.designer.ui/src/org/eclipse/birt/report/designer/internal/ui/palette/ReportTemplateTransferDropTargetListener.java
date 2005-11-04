@@ -6,6 +6,7 @@
  * 
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.palette;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
@@ -17,10 +18,17 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Repo
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransfer;
@@ -33,9 +41,8 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 /**
  * Drag&Drop listener
  */
-public class ReportTemplateTransferDropTargetListener
-		extends
-			TemplateTransferDropTargetListener
+public class ReportTemplateTransferDropTargetListener extends
+		TemplateTransferDropTargetListener
 {
 
 	private static final String TRANS_LABEL_CREATE_ELEMENT = Messages.getString( "ReportTemplateTransferDropTargetListener.transLabel.createElement" ); //$NON-NLS-1$
@@ -76,7 +83,7 @@ public class ReportTemplateTransferDropTargetListener
 	 */
 	protected void handleDrop( )
 	{
-		Object template = TemplateTransfer.getInstance( ).getTemplate( );
+		final Object template = TemplateTransfer.getInstance( ).getTemplate( );
 		Assert.isNotNull( template );
 
 		Assert.isTrue( handleValidateDrag( template ) );
@@ -89,7 +96,7 @@ public class ReportTemplateTransferDropTargetListener
 		if ( template instanceof String )
 		{
 			transName = TRANS_LABEL_CREATE_ELEMENT;
-			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName(template);
+			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPalletName( template );
 		}
 		else if ( handleValidateInsert( template ) )
 		{
@@ -107,6 +114,35 @@ public class ReportTemplateTransferDropTargetListener
 			{
 				preHandle = new ParameterToolExtends( );
 			}
+		}
+		else if ( handleValidateLibrary( template ) )
+		{
+			preHandle = new AbstractToolHandleExtends( ) {
+
+				public boolean preHandleMouseUp( )
+				{
+					Object newObj = getSingleTransferData( template );
+					try
+					{
+						setModel( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.getElementFactory( )
+								.newElementFrom( (DesignElementHandle) newObj,
+										null ) );
+					}
+					catch ( ExtendsException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+					return super.preHandleMouseUp( );
+				}
+
+				public boolean preHandleMouseDown( )
+				{
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
 		}
 
 		if ( preHandle != null )
@@ -150,7 +186,8 @@ public class ReportTemplateTransferDropTargetListener
 	{
 		return dragObj != null
 				&& ( handleValidatePalette( dragObj )
-						|| handleValidateOutline( dragObj ) || handleValidateInsert( dragObj ) );
+						|| handleValidateOutline( dragObj )
+						|| handleValidateInsert( dragObj ) || handleValidateLibrary( dragObj ) );
 	}
 
 	private boolean handleValidatePalette( Object dragObj )
@@ -180,15 +217,66 @@ public class ReportTemplateTransferDropTargetListener
 	 */
 	private boolean handleValidateOutline( Object dragSource )
 	{
-
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
-	 */
+	private boolean handleValidateLibrary( Object dragObj )
+	{
+		EditPart targetEditPart = getTargetEditPart( );
+		if ( targetEditPart == null )
+		{
+			return true;
+		}
+		if ( dragObj != null )
+		{
+			Object[] dragObjs;
+			if ( dragObj instanceof Object[] )
+			{
+				dragObjs = (Object[]) dragObj;
+			}
+			else
+			{
+				dragObjs = new Object[]{
+					dragObj
+				};
+			}
+			if ( dragObjs.length == 0 )
+			{
+				return false;
+			}
+			for ( int i = 0; i < dragObjs.length; i++ )
+			{
+				dragObj = dragObjs[i];
+				if ( dragObj instanceof ReportElementHandle )
+				{
+					if ( ( (ReportElementHandle) dragObj ).getRoot( ) instanceof LibraryHandle )
+					{
+						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
+								dragObj )
+								|| !DNDUtil.handleValidateTargetCanContainMore( targetEditPart.getModel( ),
+										1 ) )
+						{
+							return false;
+						}
+					}
+					else {
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	} /*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+		 */
+
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
@@ -204,7 +292,7 @@ public class ReportTemplateTransferDropTargetListener
 	private void selectAddedObject( )
 	{
 		final Object model = getCreateRequest( ).getExtendedData( )
-				.get( DesignerConstants.KEY_NEWOBJECT ); 
+				.get( DesignerConstants.KEY_NEWOBJECT );
 		final EditPartViewer viewer = getViewer( );
 		viewer.getControl( ).setFocus( );
 		ReportCreationTool.selectAddedObject( model, viewer );
@@ -227,4 +315,3 @@ public class ReportTemplateTransferDropTargetListener
 	}
 
 }
-

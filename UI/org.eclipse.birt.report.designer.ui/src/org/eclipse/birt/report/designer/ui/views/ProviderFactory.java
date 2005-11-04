@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.views;
 
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.LibraryNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.data.providers.CascadingParameterGroupNodeProvider;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.Embe
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.GridProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.GroupProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LabelProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibrariesNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibraryHandleNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ListBandProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ListProvider;
@@ -266,6 +268,10 @@ public class ProviderFactory
 		else if ( object instanceof EmbeddedImageHandle )
 		{
 			return new EmbeddedImageNodeProvider( );
+		}
+		else if ( object instanceof LibraryNode )
+		{
+			return new LibrariesNodeProvider( );
 		}
 
 		return getDefaultProvider( );
