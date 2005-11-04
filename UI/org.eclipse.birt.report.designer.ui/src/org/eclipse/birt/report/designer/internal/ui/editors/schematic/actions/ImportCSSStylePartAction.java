@@ -23,10 +23,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class ImportCSSStylePartAction extends WrapperSelectionAction
 {
-
 	public ImportCSSStylePartAction( IWorkbenchPart part )
 	{
 		super( part );
+		setText(ImportCSSStyleAction.ACTION_TEXT);
 	}
 
 	public String getId( )

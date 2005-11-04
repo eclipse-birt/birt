@@ -49,6 +49,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
@@ -535,6 +536,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		menu.add( subMenu );
 		menu.add( new Separator( ) );
+		menu.add(getAction(ImportCSSStyleAction.ID));
 		menu.add( getAction( AddStyleRuleAction.ID ) );
 		menuManager.appendToGroup( group_name, menu );
 	}
