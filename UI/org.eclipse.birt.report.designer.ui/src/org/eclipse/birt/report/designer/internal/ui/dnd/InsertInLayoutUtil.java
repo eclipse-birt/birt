@@ -846,6 +846,10 @@ public class InsertInLayoutUtil
 		if ( insertObj instanceof Object[] )
 		{
 			Object[] array = (Object[]) insertObj;
+			if(array.length == 0)
+			{
+				return false;
+			}
 			for ( int i = 0; i < array.length; i++ )
 			{
 				if ( !handleValidateInsert( array[i] ) )
