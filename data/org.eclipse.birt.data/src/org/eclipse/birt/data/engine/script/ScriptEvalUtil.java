@@ -112,11 +112,11 @@ public class ScriptEvalUtil
 				result = isBottomN( resultObject, resultOp1 );
 				break;
 			case IConditionalExpression.OP_TOP_PERCENT :
-				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "TopNPercent" );
+				result = isTopPercent( resultObject, resultOp1 );
+				break;
 			case IConditionalExpression.OP_BOTTOM_PERCENT :
-				throw new DataException(
-						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "BottomNPercent" );
+				result = isBottomPercent( resultObject, resultOp1 );
+				break;
 			case IConditionalExpression.OP_ANY :
 				throw new DataException(
 						ResourceConstants.UNSUPPORTTED_COND_OPERATOR, "ANY" );
@@ -178,14 +178,28 @@ public class ScriptEvalUtil
 			throws DataException
 	{
 		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
-				.evaluate( resultObject, resultOp1 );
+				.evaluate( resultObject, resultOp1, false );
 	}
 
 	private static boolean isBottomN( Object resultObject, Object resultOp1 )
 			throws DataException
 	{
 		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
-				.evaluate( resultObject, resultOp1 );
+				.evaluate( resultObject, resultOp1, false );
+	}
+	
+	private static boolean isTopPercent( Object resultObject, Object resultOp1 )
+			throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.TOP_INSTANCE )
+				.evaluate( resultObject, resultOp1, true );
+	}
+
+	private static boolean isBottomPercent( Object resultObject,
+			Object resultOp1 ) throws DataException
+	{
+		return NEvaluator.getInstance( NEvaluator.BOTTOM_INSTANCE )
+				.evaluate( resultObject, resultOp1, true );
 	}
 	private static int compare( Object obj1, Object obj2 ) throws DataException
 	{
@@ -400,9 +414,14 @@ public class ScriptEvalUtil
 								jsExpr.getText( ),
 								source,
 								lineNo ) );
-			if(jsExpr.getText()!=null && jsExpr.getHandle()!=null)
-				return convertNativeObjToJavaObj(((CompiledExpression)jsExpr.getHandle()).evaluate( cx, scope ));
-			return evaluateJSAsExpr( cx, scope, jsExpr.getText(), source, lineNo );
+			if ( jsExpr.getText( ) != null && jsExpr.getHandle( ) != null )
+				return convertNativeObjToJavaObj( ( (CompiledExpression) jsExpr.getHandle( ) ).evaluate( cx,
+						scope ) );
+			return evaluateJSAsExpr( cx,
+					scope,
+					jsExpr.getText( ),
+					source,
+					lineNo );
 		}
 	}
 	

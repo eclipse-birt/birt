@@ -197,6 +197,8 @@ public interface IQuery
         private double intervalRange = 0;
         private Object intervalStart;
         private int dataType;
+        private List filters;
+        private List sorts;
 
     	/**
     	 * Instantiates a groupSpec defining a column name
@@ -366,6 +368,28 @@ public interface IQuery
         public boolean isCompleteExpression()
         {
         	return this.isComplexExpression;
+        }
+        
+        public void setSorts( List sorts )
+        {
+        	if( sorts!= null )
+        		this.sorts = sorts;
+        }
+        
+        public List getSorts( )
+        {
+        	return this.sorts;
+        }
+        
+        public void setFilters( List filters )
+        {
+        	if( filters!= null )
+        		this.filters = filters;
+        }
+        
+        public List getFilters( )
+        {
+        	return this.filters;
         }
     }
 

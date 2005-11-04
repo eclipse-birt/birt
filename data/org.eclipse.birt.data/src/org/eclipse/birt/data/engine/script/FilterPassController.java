@@ -22,8 +22,10 @@ public class FilterPassController
 	public static final int FIRST_PASS = 1;
 	public static final int SECOND_PASS = 2;
 	public static final int DEFAULT_PASS = 0;
+	public static final int DEFAULT_ROW_COUNT = -1;
 	private static int passLevel = DEFAULT_PASS;
 	
+	private static int rowCount = DEFAULT_ROW_COUNT;
 	public static int getPassLevel()
 	{
 		return passLevel;
@@ -32,5 +34,15 @@ public class FilterPassController
 	public static void setPassLevel( int i )
 	{
 		passLevel = i;
+	}
+	
+	public static int getRowCount( )
+	{
+		return rowCount;
+	}
+	
+	public static void setRowCount( int i )
+	{
+		rowCount = i;
 	}
 }

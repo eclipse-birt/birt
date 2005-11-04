@@ -53,12 +53,20 @@ abstract class NEvaluator extends FilterPassController
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean evaluate(Object value, Object n) throws DataException
+	public boolean evaluate(Object value, Object n, boolean calculatePercent) throws DataException
 	{
 		if( N == -1)
 		{
 			try{
-				N = Double.valueOf( n.toString() ).intValue();
+				if( calculatePercent )
+				{
+					double temp = Double.valueOf( n.toString() ).doubleValue()/100;
+					if( temp > 1 || temp < 0)
+						throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+					
+					N = (int)Math.round( temp*getRowCount() );
+				}else				
+					N = Double.valueOf( n.toString() ).intValue();
 			}catch (NumberFormatException e)
 			{
 				
@@ -67,6 +75,8 @@ abstract class NEvaluator extends FilterPassController
 			//remains "-1"
 			if( N < 0 )
 				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
+			
+			
 		}
 		if ( getPassLevel( ) == FIRST_PASS )
 		{

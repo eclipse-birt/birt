@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  * a passive model, which will give caller more flexibility for upper level
  * control. This feature is showed in DiskMergeSort.
  */
-class RowResultSet
+class RowResultSet implements IRowResultSet
 {
 	// query information provider
 	private BaseQuery query;
@@ -62,7 +62,7 @@ class RowResultSet
 	/**
 	 * @return result meta data
 	 */
-	IResultClass getMetaData( )
+	public IResultClass getMetaData( )
 	{
 		return resultClass;
 	}
@@ -74,7 +74,7 @@ class RowResultSet
 	 * @return next result data
 	 * @throws DataException
 	 */
-	IResultObject next( ) throws DataException
+	public IResultObject next( ) throws DataException
 	{
 		if ( currIndex >= maxRows )
 			return null;

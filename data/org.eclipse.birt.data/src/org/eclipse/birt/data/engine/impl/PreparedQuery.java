@@ -159,8 +159,8 @@ abstract class PreparedQuery
 					groupDefn = (IGroupDefinition) groups.get( i - 1 );
 					// Filter on group is not supported now, throw exception
 					// TODO support filter on group in the future
-					if ( groupDefn.getFilters( ).size( ) > 0 )
-						throw new DataException( ResourceConstants.UNSUPPORTED_FILTER_ON_GROUP );
+					//if ( groupDefn.getFilters( ).size( ) > 0 )
+					//	throw new DataException( ResourceConstants.UNSUPPORTED_FILTER_ON_GROUP );
 				}
 				prepareGroup( groupDefn, i, cx );
 			}			
@@ -331,6 +331,8 @@ abstract class PreparedQuery
 		dest.setIntervalRange( src.getIntervalRange());
 		dest.setIntervalStart( src.getIntervalStart());
 		dest.setSortDirection( src.getSortDirection());
+		dest.setFilters( src.getFilters());
+		dest.setSorts( src.getSorts() );
 		dest.setIsComplexExpression( isComplexExpression );
 		return dest;
 		
@@ -833,7 +835,7 @@ abstract class PreparedQuery
 						{ 
 							//Firstly try to treat sort key as a column reference expression
 							ColumnInfo columnInfo = getColInfoFromJSExpr( cx,
-									src.getExpression( ) );
+									src.getExpression( ).getText() );
 														
 							sortIndex = columnInfo.getColumnIndex(); 
 							sortKey = columnInfo.getColumnName( );
@@ -842,7 +844,7 @@ abstract class PreparedQuery
 						{
 							//If failed to treate sort key as a column reference expression
 							//then treat it as a computed column expression
-							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression(), DataType.ANY_TYPE));
+							temporaryComputedColumns.add(new ComputedColumn( "_{$TEMP_SORT_"+i+"$}_", src.getExpression().getText(), DataType.ANY_TYPE));
 							sortIndex = -1; 
 							sortKey = String.valueOf("_{$TEMP_SORT_"+i+"$}_");
 						}

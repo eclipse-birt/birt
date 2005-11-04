@@ -29,9 +29,12 @@ class OdiAdapter
 	// from odi
 	private ICustomDataSet customDataSet;
 	
-	// from odi 
+	// from IResultIterator
 	private IResultIterator resultIterator;
 
+	//The behavior of "next" method in IResultIterator is slightly
+	//different from that of "fetch" method.To mimic the behavior of 
+	//fetch method we define a boolean to mark the beginning of an IResultIterator
 	boolean riStarted = false;
 	
 	
@@ -90,20 +93,26 @@ class OdiAdapter
 	IResultObject fetch( ) throws DataException
 	{
 		if ( resultSet != null )
+		{
 			return resultSet.fetch( );
+		}
 		else if ( customDataSet != null )
+		{
 			return customDataSet.fetch( );
+		}
 		else if ( resultIterator != null )
 		{
 			if(!riStarted)
-			{
 				riStarted = true;
-			}else
+			else
 				this.resultIterator.next();
+			
 			return this.resultIterator.getCurrentResult();
 		}
 		else
+		{
 			return resultSetCache.fetch( );
+		}
 	}
 
 }

@@ -20,12 +20,14 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.JSRowObject;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -107,8 +109,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			{
 				if ( columnExprArray[i] != null )
 				{
-					Object value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,scope);
-				
+					Object value = null;
+					if ( columnExprArray[i].getHandle() != null)
+						value = ((CompiledExpression)columnExprArray[i].getHandle()).evaluate(cx,scope);
+					else
+						value = ScriptEvalUtil.evaluateJSAsExpr( cx,
+								scope,
+								((IScriptExpression)columnExprArray[i]).getText(),
+								"ComputedColumn",
+								0 );
 					try
 					{
 						value = DataTypeUtil.convert( value,

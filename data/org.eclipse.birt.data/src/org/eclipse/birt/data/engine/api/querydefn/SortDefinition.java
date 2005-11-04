@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.api.querydefn;
 
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 
@@ -22,7 +23,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 public class SortDefinition implements ISortDefinition
 {
-    protected String keyExpr;
+    protected IScriptExpression keyExpr;
 	protected String keyColumn;
 	protected int direction;
 	
@@ -38,7 +39,7 @@ public class SortDefinition implements ISortDefinition
 	/**
 	 * Returns the JavaScript expression that defines the group key. <br>
 	 */
-	public String getExpression( )
+	public IScriptExpression getExpression( )
 	{
 		return keyExpr;
 	}
@@ -57,7 +58,7 @@ public class SortDefinition implements ISortDefinition
 	 */
 	public void setExpression( String keyExpr) 
 	{
-		this.keyExpr = keyExpr;
+		this.keyExpr = new ScriptExpression(keyExpr);
 		this.keyColumn = null;
 	}
 	

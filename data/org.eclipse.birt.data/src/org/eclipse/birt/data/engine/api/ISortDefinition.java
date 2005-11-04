@@ -41,7 +41,7 @@ public interface ISortDefinition
     /**
      * Returns the JavaScript expression that defines the group key. <br>
      */
-    public abstract String getExpression();
+    public abstract IScriptExpression getExpression();
 
     /**
      * Returns the sort direction.
