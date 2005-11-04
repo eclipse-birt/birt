@@ -232,10 +232,10 @@ public class DeleteCommand extends Command
 			{
 				if ( DNDUtil.checkContainerExists( array[i], array ) )
 					continue;
-				if ( !canDrop( array[i] ) )
-					return false;
+				if ( canDrop( array[i] ) )
+					return true;
 			}
-			return true;
+			return false;
 		}
 		source = DNDUtil.unwrapToModel( source );
 		if ( source instanceof SlotHandle )
