@@ -28,7 +28,6 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
     protected String supportedImageFormats;
     protected Locale locale;
     protected IBaseQueryDefinition[] queries;
-    protected IEngineService service;
 
 	/**
      * Constructor that does nothing
@@ -116,14 +115,5 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
 	 */
 	public String getImageMIMEType() {
 		return ""; //$NON-NLS-1$
-	}
-
-	public void setEngineService( IEngineService service ) {
-		this.service = service;
-	}
-
-	public IEngineService getEngineService() {
-		return service;
-	}
-	
+	}	
 }

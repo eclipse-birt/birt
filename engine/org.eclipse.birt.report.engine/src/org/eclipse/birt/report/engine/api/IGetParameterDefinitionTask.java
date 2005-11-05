@@ -55,18 +55,6 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * @deprecated use getDefaultParameterValues() directly.
 	 */
 	public abstract void evaluateDefaults() throws EngineException;
-	
-	/**
-	 * runs the query associated with a parameter with a given name, and fills the dynamic parameter list. 
-	 * Before calling this function, other parameter values may have been set. If getSelectionList is called 
-	 * on the report parameter before this function is called, the function returns null if the parameter 
-	 * has a dynamic selection list; if it is called after this function, getSelectionList returns the 
-	 * selection list. 
-	 * 
-	 * @param parameterName the name of the parameter
-	 * @throws EngineException throws exception if the query for dynamic selection list has problem to run 
-	 */
-	//public abstract void fillDynamicSelectionList(String parameterName) throws EngineException;
 
 	/**
 	 * Set one parameter value. If parameter does not exist in report design, do nothing. 
@@ -92,6 +80,13 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	public Object getDefaultValue(IParameterDefnBase param);
 	
 	/**
+	 * get the default value of parameter.
+	 * @param name parameter name
+	 * @return the default value defined in the design. null if not defined.
+	 */
+	public Object getDefaultValue(String name);
+
+	/**
 	 * get parameter definitions.
 	 * @param name parameter name
 	 * @return
@@ -106,26 +101,11 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 */
 	public SlotHandle getParameters();
 	/**
-	 * get the default value of parameter.
-	 * @param name parameter name
-	 * @return the default value defined in the design. null if not defined.
-	 * @deprecated
-	 */
-	public Object getDefaultParameterValue(String name);
-	/**
-	 * get all defined default parameter values.
-	 * @return hash map contains the parameter names and value pair.
-	 * @deprecated
-	 */
-	public HashMap getDefaultParameterValues();
-	/**
 	 * get the collections of a selection choices.
 	 * if the name is dynamic selection choice, the engine query the data base, return the choice.
 	 * @param name parameter name
 	 * @return collection of IParameterSelectionChoice
-	 * @deprecated
 	 */
-	public Collection getSelectionChoice(String name);
 	public Collection getSelectionList(String name);
 	
 	/**
@@ -153,9 +133,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * @param parameterGroupName - the cascading parameter group name
 	 * @param groupKeyValues - the array of known parameter values (see the example above)  
 	 * @return the selection list of the parameter to work on
-	 * @deprecated 
 	 */
-	public Collection getSelectionChoicesForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
 	public Collection getSelectionListForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
 	
 }

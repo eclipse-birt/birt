@@ -150,26 +150,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getDefaultValues()
-	 */
-	public HashMap getDefaultValues( )
-	{
-		return getDefaultParameterValues( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api2.IGetParameterDefinitionTask#getDefaultValue(org.eclipse.birt.report.engine.api2.IParameterDefnBase)
-	 */
-	public Object getDefaultValue( IParameterDefnBase param )
-	{
-		return getDefaultParameterValue( param.getName( ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getParameterDefn(java.lang.String)
 	 */
 	public IParameterDefnBase getParameterDefn( String name )
@@ -247,7 +227,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	}
 
-	public HashMap getDefaultParameterValues( )
+	public HashMap getDefaultValues( )
 	{
 		// using current parameter settings to evaluate the default parameters
 		usingParameterValues( );
@@ -281,7 +261,15 @@ public class GetParameterDefinitionTask extends EngineTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getDefaultParameter(java.lang.String)
 	 */
-	public Object getDefaultParameterValue( String name )
+	public Object getDefaultValue( IParameterDefnBase param )
+	{
+		if (param == null)
+			return null;
+		else
+			return getDefaultValue( param.getName() );
+	}
+	
+	public Object getDefaultValue( String name )
 	{
 		ReportDesignHandle report = (ReportDesignHandle) runnable
 				.getDesignHandle( );
@@ -303,17 +291,12 @@ public class GetParameterDefinitionTask extends EngineTask
 		return evaluate( expr, parameter.getDataType( ) );
 	}
 
-	public Collection getSelectionList( String name )
-	{
-		return getSelectionChoice( name );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask#getSelectionChoice(java.lang.String)
 	 */
-	public Collection getSelectionChoice( String name )
+	public Collection getSelectionList( String name )
 	{
 		usingParameterValues( );
 
@@ -596,14 +579,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		dataCache.put( parameterGroup.getName( ), null );
 	}
 
-	public Collection getSelectionListForCascadingGroup(
-			String parameterGroupName, Object[] groupKeyValues )
-	{
-		return getSelectionChoicesForCascadingGroup( parameterGroupName,
-				groupKeyValues );
-
-	}
-
 	/**
 	 * The second step to work with the cascading parameters. Get the selection
 	 * choices for a parameter in the cascading group. The parameter to work on
@@ -626,7 +601,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *            the array of known parameter values (see the example above)
 	 * @return the selection list of the parameter to work on
 	 */
-	public Collection getSelectionChoicesForCascadingGroup(
+	public Collection getSelectionListForCascadingGroup(
 			String parameterGroupName, Object[] groupKeyValues )
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );

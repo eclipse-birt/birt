@@ -35,16 +35,6 @@ public interface IReportItemGeneration {
 	public void setReportQueries(IBaseQueryDefinition[] queries);
 
 	/**
-	 * set the engine service
-	 */
-	public void setEngineService( IEngineService service );
-
-	/**
-	 * @return the engine service
-	 */
-	public IEngineService getEngineService();
-
-	/**
 	 * processes the extended item in report generation environment. 
 	 *
 	 * @param rowSets rowSets an array of row sets that is passed to the extension

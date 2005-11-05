@@ -111,6 +111,7 @@ public interface IScalarParameterDefn extends IParameterDefn
 	/**
 	 * @return get a parameter value selection object, from which a list of
 	 *         parameter values and label values can be retrieved.
+	 * @deprecated
 	 */
 	public ArrayList getSelectionList( );
 

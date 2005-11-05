@@ -53,16 +53,6 @@ public interface IReportItemPresentation {
 	public void setReportQueries(IBaseQueryDefinition[] queries);
 
 	/**
-	 * set the engine service
-	 */
-	public void setEngineService( IEngineService service );
-
-	/**
-	 * @return the engine service
-	 */
-	public IEngineService getEngineService();
-
-	/**
 	 * passes the locale used in the presentation.
 	 * @param locale locale
 	 */

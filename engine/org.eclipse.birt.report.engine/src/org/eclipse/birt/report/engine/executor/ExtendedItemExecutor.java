@@ -98,7 +98,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		{
 			itemGeneration.setModelObject( handle );
 			itemGeneration.setReportQueries(((ExtendedItemDesign)item).getQueries());
-			itemGeneration.setEngineService( new EngineService(context) );
 			IRowSet[] rowSets = null;
 			try
 			{
@@ -162,7 +161,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 		{
 			itemPresentation.setModelObject( handle );
 			itemPresentation.setReportQueries(((ExtendedItemDesign)item).getQueries());
-			itemPresentation.setEngineService( new EngineService(context) );
 			//itemPresentation.setResolution();
 			itemPresentation.setLocale(context.getLocale());
 
