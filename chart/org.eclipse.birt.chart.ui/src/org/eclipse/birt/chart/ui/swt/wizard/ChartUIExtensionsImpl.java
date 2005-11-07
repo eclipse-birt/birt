@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import java.util.Collection;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIExtensions;
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -77,6 +79,8 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 
 	private static ChartUIExtensionsImpl uiExtensions = null;
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt.wizard" ); //$NON-NLS-1$
+
 	/**
 	 * 
 	 */
@@ -116,6 +120,11 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 				{
 					IExtension extension = extensions[iC];
 					IConfigurationElement[] configElements = extension.getConfigurationElements( );
+					// FIXME #115262
+					if ( configElements.length == 0 )
+					{
+						logger.log( 0, "config is null" ); //$NON-NLS-1$
+					}
 					for ( int i = 0; i < configElements.length; i++ )
 					{
 						IConfigurationElement currentTag = configElements[i];
@@ -129,7 +138,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 							}
 							catch ( FrameworkException e )
 							{
-								e.printStackTrace( );
+								logger.log( e );
 							}
 						}
 					}
