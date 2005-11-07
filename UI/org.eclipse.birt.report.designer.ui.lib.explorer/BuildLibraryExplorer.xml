@@ -174,7 +174,7 @@
 <target name="generateBuildScript">
 	<echo>Executing target generateBuildScript, eclipse.home=${eclipse.home}</echo>
 	<java classpath="${eclipse.home}/startup.jar" classname="org.eclipse.core.launcher.Main" fork="true" dir="." failonerror="true">
-		<arg line="-application org.eclipse.ant.core.antRunner -file BuildDesignerCore.xml doGenerateBuildScript -Declipse.home=${eclipse.home} -Dclean=true" />
+		<arg line="-application org.eclipse.ant.core.antRunner -file BuildLibraryExplorer.xml doGenerateBuildScript -Declipse.home=${eclipse.home} -Dclean=true" />
 	</java>
 	<delete dir="workspace" />
 </target>
