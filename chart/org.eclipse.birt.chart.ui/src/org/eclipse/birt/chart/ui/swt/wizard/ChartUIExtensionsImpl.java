@@ -109,7 +109,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		{
 			cSheets = new Vector( );
 			if ( Platform.getExtensionRegistry( ) != null
-					&& Platform.runningEclipse( ) )
+					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui",//$NON-NLS-1$
@@ -120,11 +120,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 				{
 					IExtension extension = extensions[iC];
 					IConfigurationElement[] configElements = extension.getConfigurationElements( );
-					// FIXME #115262
-					if ( configElements.length == 0 )
-					{
-						logger.log( 0, "config is null" ); //$NON-NLS-1$
-					}
+
 					for ( int i = 0; i < configElements.length; i++ )
 					{
 						IConfigurationElement currentTag = configElements[i];
@@ -193,7 +189,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		{
 			cChartTypes = new Vector( );
 			if ( Platform.getExtensionRegistry( ) != null
-					&& Platform.runningEclipse( ) )
+					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", "types" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -253,7 +249,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		{
 			cListeners = new Vector( );
 			if ( Platform.getExtensionRegistry( ) != null
-					&& Platform.runningEclipse( ) )
+					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
@@ -313,7 +309,7 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 		{
 			cSeriesUI = new Vector( );
 			if ( Platform.getExtensionRegistry( ) != null
-					&& Platform.runningEclipse( ) )
+					&& System.getProperty( "STANDALONE" ) == null ) //$NON-NLS-1$
 			{
 				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
 				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", //$NON-NLS-1$
