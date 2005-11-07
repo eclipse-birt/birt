@@ -134,6 +134,8 @@ public class WizardSelectCssStylePage extends WizardPage
 						.getDisplay( )
 						.getActiveShell( ),
 						SWT.NULL );
+				
+				fileSelector.setFilterExtensions(new String[]{"*.css;*.CSS"});//$NON-NLS-1$ //$NON-NLS-2$
 
 				String fileName = fileSelector.open( );
 				if ( fileName != null )
