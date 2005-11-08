@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +46,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.20 $ $Date: 2005/10/12 19:15:47 $
+ * @version $Revision: 1.21 $ $Date: 2005/10/19 11:03:06 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -139,10 +140,10 @@ public class DteDataEngine implements IDataEngine
 
 		// Handle data sources
 		ReportDesignHandle handle = report.getReportDesign( ).handle( );
-		SlotHandle dataSourceSlot = handle.getDataSources( );
-		for ( int i = 0; i < dataSourceSlot.getCount( ); i++ )
+		List dataSourceList = handle.getAllDataSources();
+		for ( int i = 0; i < dataSourceList.size(); i++ )
 		{
-			DataSourceHandle dataSource = (DataSourceHandle) dataSourceSlot.get( i )  ;
+			DataSourceHandle dataSource = (DataSourceHandle) dataSourceList.get( i )  ;
 
 			try
 			{
@@ -157,10 +158,10 @@ public class DteDataEngine implements IDataEngine
 		} // End of data source handling
 
 		// Handle data sets
-		SlotHandle dataSetSlot = handle.getDataSets( );
-		for ( int i = 0; i < dataSetSlot.getCount( ); i++ )
+		List dataSetList = handle.getAllDataSets();
+		for ( int i = 0; i < dataSetList.size(); i++ )
 		{
-			DataSetHandle dataset = (DataSetHandle) dataSetSlot.get( i ) ;
+			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i ) ;
 			try
 			{
 				engine.defineDataSet( ModelDteApiAdapter.getInstance( )
