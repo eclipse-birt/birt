@@ -257,7 +257,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				
 				Object output = null;
 				Object imageMap = null;
-				String imageMapID = null;
 				if ( type == IReportItemPresentation.OUTPUT_AS_IMAGE )
 				{
 					output = outputObject;
@@ -266,8 +265,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				{	// OUTPUT_AS_IMAGE_WITH_MAP
 					output = ((Object[])outputObject)[0];
 					imageMap = ((Object[])outputObject)[1];
-					if ( ((Object[])outputObject)[2] instanceof String )
-						imageMapID = (String)((Object[])outputObject)[2];
 				}
 				
 				if ( output instanceof InputStream )
@@ -288,7 +285,6 @@ public class ExtendedItemExecutor extends StyledItemExecutor
 				
 				// Set image map
 				image.setImageMap( imageMap );
-				image.setImageMapID( imageMapID );
 				image.setMIMEType( imageMIMEType );
 				
 				setStyles( image, item );
