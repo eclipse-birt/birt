@@ -816,18 +816,21 @@ public abstract class DesignElement
 	 * properties will all be cleared.Please note that the containment
 	 * relationship is kept while property values are not copied.
 	 * 
+	 * @param module
+	 *            the module
+	 * 
 	 * @return <code>true</code> if the refresh action is successful.
 	 *         <code>false</code> othersize.
 	 * 
 	 */
 
-	public boolean refreshStructureFromParent( )
+	public boolean refreshStructureFromParent( Module module )
 	{
 		DesignElement parent = getExtendsElement( );
 		if ( parent == null )
 			return false;
-		
-		if( getDefn().getSlotCount() == 0 )
+
+		if ( getDefn( ).getSlotCount( ) == 0 )
 			return true;
 
 		DesignElement cloned = null;

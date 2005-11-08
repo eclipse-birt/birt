@@ -838,7 +838,7 @@ public class ElementFactory
 			DesignElementHandle childElement = newElement( baseElement
 					.getElement( ).getElementName( ), name );
 			childElement.setExtends( baseElement );
-			childElement.getElement( ).refreshStructureFromParent( );
+			childElement.getElement( ).refreshStructureFromParent( module );
 
 			return childElement;
 		}
@@ -872,7 +872,7 @@ public class ElementFactory
 			DesignElementHandle childElement = newElement( base
 					.getElementName( ), name );
 			childElement.setExtends( base.getHandle( lib ) );
-			childElement.getElement( ).refreshStructureFromParent( );
+			childElement.getElement( ).refreshStructureFromParent( module );
 			return childElement;
 		}
 

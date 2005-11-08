@@ -141,6 +141,11 @@ public class LayoutUtil
 	{
 		LayoutSlot layoutSlot = getLayoutSlotOfCell( cell );
 
+		// if the cell is in the grid, do not call the layout for this method
+
+		if ( layoutSlot == null )
+			return cell.getColumnSpan( );
+
 		int rowId = cell.getContainer( ).getContainerSlotHandle( ).findPosn(
 				cell.getContainer( ) );
 		LayoutRow layoutRow = (LayoutRow) layoutSlot.getLayoutRow( rowId );
@@ -176,6 +181,11 @@ public class LayoutUtil
 	{
 		LayoutSlot layoutSlot = getLayoutSlotOfCell( cell );
 
+		// if the cell is in the grid, do not call the layout for this method
+
+		if ( layoutSlot == null )
+			return cell.getColumnSpan( );
+		
 		int rowId = cell.getContainer( ).getContainerSlotHandle( ).findPosn(
 				cell.getContainer( ) );
 

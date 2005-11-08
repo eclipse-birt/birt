@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -22,7 +21,6 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -37,8 +35,6 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.CompoundElementExtendsUtil;
-import org.eclipse.birt.report.model.util.ContentIterator;
 import org.xml.sax.Attributes;
 
 /**
@@ -393,7 +389,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			element.checkExtends( refValue.getElement( ) );
 			element.setExtendsElement( refValue.getElement( ) );
-			element.refreshStructureFromParent();
+			element.refreshStructureFromParent( module );
 		}
 		catch ( ExtendsException ex )
 		{

@@ -338,4 +338,21 @@ public class TableItem extends ListingElement implements ITableItemModel
 		return errors;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#refreshStructureFromParent(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public boolean refreshStructureFromParent( Module module )
+	{
+		boolean retValue = super.refreshStructureFromParent( module );
+		
+		assert retValue;
+		
+		table = LayoutHelper.applyLayout( module, this );
+
+		return retValue;
+	}
+
 }
