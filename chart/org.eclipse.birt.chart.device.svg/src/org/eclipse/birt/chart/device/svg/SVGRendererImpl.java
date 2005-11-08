@@ -407,7 +407,13 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void enableInteraction( InteractionEvent ie ) throws ChartException
 	{
-
+		if ( _iun == null )
+		{
+			logger.log( ILogger.WARNING,
+					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+			return;
+		}
+		
 		Trigger[] triggers = ie.getTriggers( );
 		if ( triggers == null )
 		{
@@ -772,6 +778,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @param pre primitive render event
 	 */
 	protected void groupPrimitive(PrimitiveRenderEvent pre) {
+		if ( _iun == null )
+		{
+			logger.log( ILogger.WARNING,
+					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+			return;
+		}		
 		SVGGraphics2D svg_g2d = (SVGGraphics2D) _g2d;
 
 		// For now only group series elements
@@ -822,6 +834,12 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 * @param pre primitive render event
 	 */
 	protected void ungroupPrimitive(PrimitiveRenderEvent pre){
+		if ( _iun == null )
+		{
+			logger.log( ILogger.WARNING,
+					Messages.getString( "exception.missing.component.interaction", getLocale( ) ) ); //$NON-NLS-1$
+			return;
+		}		
 		SVGGraphics2D svg_g2d = (SVGGraphics2D)_g2d;
 //		svg_g2d.setStyleClass(null);		
 //		svg_g2d.setId(null);
