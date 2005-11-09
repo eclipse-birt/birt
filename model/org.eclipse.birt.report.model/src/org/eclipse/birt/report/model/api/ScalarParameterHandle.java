@@ -14,10 +14,13 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Represents a scalar (single-value) report parameter. If the user enters no
@@ -438,7 +441,42 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public String getDataSetName( )
 	{
-		return getStringProperty( ScalarParameter.DATASET_NAME_PROP );
+		if ( getElement( ).getLocalProperty( getModule( ),
+				ScalarParameter.DATASET_NAME_PROP ) != null )
+		{
+			return ( (ElementRefValue) getElement( ).getLocalProperty(
+					getModule( ), ScalarParameter.DATASET_NAME_PROP ) )
+					.getName( );
+		}
+
+		String name = getStringProperty( ScalarParameter.DATASET_NAME_PROP );
+		if ( name == null )
+			return null;
+
+		// must be extends
+
+		Module module = getModule( );
+		DesignElementHandle parent = getExtends( );
+
+		while ( parent != null )
+		{
+			if ( parent.getElement( ).getLocalProperty( parent.getModule( ),
+					ScalarParameter.DATASET_NAME_PROP ) != null )
+			{
+				module = (Module) parent.getRoot( ).getElement( );
+				break;
+			}
+
+			parent = parent.getExtends( );
+		}
+
+		if ( module instanceof Library )
+		{
+			String namespace = ( (Library) module ).getNamespace( );
+			return StringUtil.buildQualifiedReference( namespace, name );
+		}
+
+		return name;
 	}
 
 	/**
@@ -707,7 +745,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	/**
 	 * Set the value for the list limitation number. This property is used to
-	 * limit the parameter display list. 
+	 * limit the parameter display list.
 	 * 
 	 * @param listLimit
 	 *            The limited number.

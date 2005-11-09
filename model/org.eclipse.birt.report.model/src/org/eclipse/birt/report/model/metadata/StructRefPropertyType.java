@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.Library;
 
 /**
  * Represents a reference to a structure. A structure reference is different
@@ -100,25 +101,30 @@ public class StructRefPropertyType extends PropertyType
 	{
 		if ( value == null )
 		{
-			logger.log( Level.WARNING, "The value of the structure property is null" ); //$NON-NLS-1$
+			logger.log( Level.WARNING,
+					"The value of the structure property is null" ); //$NON-NLS-1$
 			return null;
 		}
 		StructureDefn targetDefn = (StructureDefn) defn.getStructDefn( );
 		if ( value instanceof String )
 		{
-			logger.log( Level.INFO, "The value of the structure property is a string" ); //$NON-NLS-1$
+			logger.log( Level.INFO,
+					"The value of the structure property is a string" ); //$NON-NLS-1$
 			String name = StringUtil.trimString( (String) value );
 			return validateStringValue( module, targetDefn, name );
 		}
 		if ( value instanceof Structure )
 		{
-			logger.log( Level.INFO, "The value of the structure is a structure" ); //$NON-NLS-1$
+			logger
+					.log( Level.INFO,
+							"The value of the structure is a structure" ); //$NON-NLS-1$
 			Structure target = (Structure) value;
 			return validateStructValue( module, targetDefn, target );
 		}
 
 		// Invalid property value.
-		logger.log( Level.INFO, "The value of the structure property is invalid type" ); //$NON-NLS-1$
+		logger.log( Level.INFO,
+				"The value of the structure property is invalid type" ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
@@ -148,11 +154,15 @@ public class StructRefPropertyType extends PropertyType
 			return null;
 
 		Structure target = getStructure( module, targetDefn, name );
-
+		
+		String namespace = null;
+		if ( module instanceof Library )
+			namespace  = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
+		
 		// Element is unresolved.
 
 		if ( target == null )
-			return new StructRefValue( name );
+			return new StructRefValue(namespace, name );
 
 		// Check type.
 
@@ -163,8 +173,8 @@ public class StructRefPropertyType extends PropertyType
 					PropertyType.STRUCT_REF_TYPE );
 
 		// Resolved reference.
-
-		return new StructRefValue( target );
+	
+		return new StructRefValue(namespace, target );
 	}
 
 	private Structure getStructure( Module module, StructureDefn targetDefn,
@@ -241,8 +251,11 @@ public class StructRefPropertyType extends PropertyType
 					PropertyType.STRUCT_REF_TYPE );
 
 		// Resolved reference.
-
-		return new StructRefValue( target );
+		String namespace = null;		
+		if ( module instanceof Library )
+			namespace  = ( (Library) module ).getNamespace( ); //$NON-NLS-1$
+		
+		return new StructRefValue( namespace, target );
 	}
 
 	/*
@@ -260,7 +273,7 @@ public class StructRefPropertyType extends PropertyType
 
 		if ( value instanceof String )
 			return (String) value;
-
+		
 		return ( (StructRefValue) value ).getName( );
 	}
 

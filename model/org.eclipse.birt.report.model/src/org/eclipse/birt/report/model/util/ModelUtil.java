@@ -129,7 +129,7 @@ public class ModelUtil
 			case PropertyType.STRUCT_REF_TYPE :
 
 				StructRefValue structRefValue = (StructRefValue) value;
-				return new StructRefValue( structRefValue.getName( ) );
+				return new StructRefValue( null,structRefValue.getName( ) );
 		}
 
 		return value;
