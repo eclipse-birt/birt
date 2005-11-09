@@ -435,7 +435,7 @@ public class LayoutSlot
 
 	protected int getColumnPos( int rowId, Cell cell )
 	{
-		if ( rowId < 0 || rowId > rows.size( ) )
+		if ( rowId < 0 || rowId >= rows.size( ) )
 			return 0;
 
 		LayoutRow row = (LayoutRow) getLayoutRow( rowId );

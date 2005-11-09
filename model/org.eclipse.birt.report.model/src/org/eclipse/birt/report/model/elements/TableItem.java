@@ -204,7 +204,10 @@ public class TableItem extends ListingElement implements ITableItemModel
 		if ( columnNum == 0 )
 			columnNum = getColumnPosition4Cell( module, target );
 
-		assert columnNum != 0;
+		// if the layout still not updated yet.
+
+		if ( columnNum == 0 )
+			return null;
 
 		TableColumn column = ColumnHelper.findColumn( module,
 				slots[COLUMN_SLOT], columnNum );
@@ -347,9 +350,9 @@ public class TableItem extends ListingElement implements ITableItemModel
 	public boolean refreshStructureFromParent( Module module )
 	{
 		boolean retValue = super.refreshStructureFromParent( module );
-		
+
 		assert retValue;
-		
+
 		table = LayoutHelper.applyLayout( module, this );
 
 		return retValue;

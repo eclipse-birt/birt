@@ -15,6 +15,9 @@ import java.lang.reflect.Constructor;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IMessages;
+import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -47,9 +50,13 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.extension.oda.ODAManifestUtil;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 
 /**
@@ -669,8 +676,41 @@ public class ElementFactory
 				.getExtension( extensionName );
 		if ( extDefn == null )
 			return null;
-		ExtendedItem element = new ExtendedItem( name );
+
+		if ( !( extDefn instanceof PeerExtensionElementDefn ) )
+			throw new IllegalOperationException(
+					"Only report item extension can be created through this method." ); //$NON-NLS-1$
+
+		String defaultName = name;
+
+		if ( module instanceof Library && StringUtil.isBlank( defaultName ) )
+		{
+			PeerExtensionElementDefn peerDefn = (PeerExtensionElementDefn) extDefn;
+			IReportItemFactory peerFactory = peerDefn.getReportItemFactory( );
+
+			assert peerFactory != null;
+
+			IMessages msgs = peerFactory.getMessages( );
+			if ( msgs == null )
+				throw new IllegalArgumentException(
+						"The name parameter must not be empty since report item extension doesn't provides default extension element name." ); //$NON-NLS-1$
+
+			String extensionDefaultName = msgs.getMessage( (String) extDefn
+					.getDisplayNameKey( ), ThreadResources.getLocale( ) );
+
+			if ( extensionDefaultName == null )
+				throw new IllegalArgumentException(
+						"The name parameter must not be empty since report item extension doesn't provides default extension element name." ); //$NON-NLS-1$
+
+			defaultName = ModelMessages
+					.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
+
+			defaultName = defaultName + extensionDefaultName;
+		}
+
+		ExtendedItem element = new ExtendedItem( defaultName );
 		element.setProperty( ExtendedItem.EXTENSION_NAME_PROP, extensionName );
+		module.makeUniqueName( element );
 		ExtendedItemHandle handle = element.handle( module );
 		try
 		{

@@ -46,7 +46,6 @@ public abstract class GroupElement extends DesignElement
 
 	protected int groupLevel = LEVEL_NOT_SET;
 
-
 	/**
 	 * The set of slots for the group.
 	 */
@@ -94,11 +93,9 @@ public abstract class GroupElement extends DesignElement
 
 	public int getGroupLevel( )
 	{
-		if ( groupLevel == LEVEL_NOT_SET )
-		{
-			ContainerSlot slot = container.getSlot( containerSlotID );
-			groupLevel = slot.findPosn( this ) + 1;
-		}
+		ContainerSlot slot = container.getSlot( containerSlotID );
+		groupLevel = slot.findPosn( this ) + 1;
+
 		return groupLevel;
 	}
 

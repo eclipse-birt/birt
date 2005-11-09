@@ -77,8 +77,6 @@ public abstract class ModuleReader
 
 		assert internalStream.markSupported( );
 
-		logger.log( Level.INFO, "start parsing the file..." ); //$NON-NLS-1$
-
 		String signature = null;
 		try
 		{
@@ -129,9 +127,6 @@ public abstract class ModuleReader
 		Module module = handler.getModule( );
 		module.setUTFSignature( signature );
 		module.setValid( true );
-
-		logger.log( Level.INFO, "The file has bee parsed successfully." ); //$NON-NLS-1$
-
 		return module;
 	}
 
@@ -151,8 +146,6 @@ public abstract class ModuleReader
 			throws DesignFileException
 	{
 		assert handler != null;
-
-		logger.log( Level.INFO, "start preparing for the file" ); //$NON-NLS-1$
 
 		InputStream inputStream = null;
 		try
@@ -196,9 +189,6 @@ public abstract class ModuleReader
 	protected String checkUTFSignature( InputStream inputStream, String fileName )
 			throws IOException, SAXException
 	{
-
-		logger.log( Level.FINE, "check the file encoding..." ); //$NON-NLS-1$
-
 		// This may fail if there are a lot of space characters before the end
 		// of the encoding declaration
 
