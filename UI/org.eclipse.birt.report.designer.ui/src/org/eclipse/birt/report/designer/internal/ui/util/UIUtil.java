@@ -26,7 +26,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
-import org.eclipse.birt.report.designer.ui.editors.ReportEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -101,7 +100,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static ReportEditor getActiveReportEditor( )
+	public static AbstractMultiPageLayoutEditor getActiveReportEditor( )
 	{
 		return getActiveReportEditor( true );
 	}
@@ -117,7 +116,7 @@ public class UIUtil
 	 * @return the current active report editor, or null if no report editor is
 	 *         active.
 	 */
-	public static ReportEditor getActiveReportEditor( boolean activePageOnly )
+	public static AbstractMultiPageLayoutEditor getActiveReportEditor( boolean activePageOnly )
 	{
 		IWorkbenchWindow window = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
@@ -135,9 +134,9 @@ public class UIUtil
 					if ( editor != null
 							&& editor.getEditorInput( ) instanceof IReportEditorInput )
 					{
-						if ( editor instanceof ReportEditor )
+						if ( editor instanceof AbstractMultiPageLayoutEditor )
 						{
-							return (ReportEditor) editor;
+							return (AbstractMultiPageLayoutEditor) editor;
 						}
 					}
 				}
@@ -157,9 +156,9 @@ public class UIUtil
 						if ( editor != null
 								&& editor.getEditorInput( ) instanceof IReportEditorInput )
 						{
-							if ( editor instanceof ReportEditor )
+							if ( editor instanceof AbstractMultiPageLayoutEditor )
 							{
-								return (ReportEditor) editor;
+								return (AbstractMultiPageLayoutEditor) editor;
 							}
 						}
 					}
