@@ -718,6 +718,14 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
 			bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
 			sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+			if ( sMinSliceLabel == null || sMinSliceLabel.length( ) == 0 )
+			{
+				sMinSliceLabel = IConstants.UNDEFINED_STRING;
+			}
+			else
+			{
+				sMinSliceLabel = rtc.externalizedMessage( sMinSliceLabel );
+			}
 		}
 
 		// calculate if need an extra legend item when minSlice defined.

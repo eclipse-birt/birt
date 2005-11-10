@@ -1725,7 +1725,7 @@ public class LegendImpl extends BlockImpl implements Legend
 		final SeriesDefinition[] seda = cm.getSeriesForLegend( );
 
 		Size sz = null;
-		sz = lb.compute( xs, cm, seda );
+		sz = lb.compute( xs, cm, seda, rtc );
 		sz.scale( 72d / xs.getDpiResolution( ) ); // CONVERT TO POINTS
 		final Insets ins = this.getInsets( );
 		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );

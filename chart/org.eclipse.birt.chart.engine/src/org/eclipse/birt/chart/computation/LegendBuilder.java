@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -70,7 +71,7 @@ public final class LegendBuilder
 	 * @throws GenerationException
 	 */
 	public final Size compute( IDisplayServer xs, Chart cm,
-			SeriesDefinition[] seda ) throws ChartException
+			SeriesDefinition[] seda, RunTimeContext rtc ) throws ChartException
 	{
 		// THREE CASES:
 		// 1. ALL SERIES IN ONE ARRAYLIST
@@ -130,6 +131,14 @@ public final class LegendBuilder
 			dMinSlice = ( (ChartWithoutAxes) cm ).getMinSlice( );
 			bPercentageMinSlice = ( (ChartWithoutAxes) cm ).isMinSlicePercent( );
 			sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+			if ( sMinSliceLabel == null || sMinSliceLabel.length( ) == 0 )
+			{
+				sMinSliceLabel = IConstants.UNDEFINED_STRING;
+			}
+			else
+			{
+				sMinSliceLabel = rtc.externalizedMessage( sMinSliceLabel );
+			}
 		}
 
 		// calculate if need an extra legend item when minSlice defined.
