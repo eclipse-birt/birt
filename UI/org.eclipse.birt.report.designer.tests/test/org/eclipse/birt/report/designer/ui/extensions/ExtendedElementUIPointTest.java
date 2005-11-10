@@ -44,9 +44,9 @@ public class ExtendedElementUIPointTest extends TestCase
 
 	public void testGetAttribute( )
 	{
-		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.EDITOR_CAN_RESIZE ) ).booleanValue( ) );
-		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( ) );
-		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE ) ).booleanValue( ) );
+		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE ) ).booleanValue( ) );
+		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) ).booleanValue( ) );
+		assertTrue( ( (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE ) ).booleanValue( ) );
 	}
 
 }

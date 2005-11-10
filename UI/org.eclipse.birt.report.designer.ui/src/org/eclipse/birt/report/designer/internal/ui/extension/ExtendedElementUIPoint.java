@@ -43,11 +43,11 @@ public class ExtendedElementUIPoint {
 	 */
 	ExtendedElementUIPoint() {
 		//Default value
-		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_DESIGNER, Boolean.TRUE);
-		setAttribute(IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE,
+		setAttribute(IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER, Boolean.TRUE);
+		setAttribute(IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE,
 				Boolean.TRUE);
-		setAttribute(IExtensionConstants.EDITOR_CAN_RESIZE, Boolean.TRUE);
-		setAttribute(IExtensionConstants.PALETTE_CATEGORY,
+		setAttribute(IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE, Boolean.TRUE);
+		setAttribute(IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY,
 				IPreferenceConstants.PALETTE_CONTENT);
 	}
 
@@ -70,12 +70,12 @@ public class ExtendedElementUIPoint {
 	}
 
 	public IReportItemBuilderUI getReportItemBuilderUI() {
-		return (IReportItemBuilderUI) classMap.get(IExtensionConstants.BUILDER);
+		return (IReportItemBuilderUI) classMap.get(IExtensionConstants.ELEMENT_BUILDER);
 	}
 
 	public IReportItemPropertyEditUI getReportItemPropertyEditUI() {
 		return (IReportItemPropertyEditUI) classMap
-				.get(IExtensionConstants.PROPERTYEDIT);
+				.get(IExtensionConstants.ELEMENT_PROPERTYEDIT);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class ExtendedElementUIPoint {
 	 *            the Builder UI instance to set.It can be null
 	 */
 	void setReportItemBuilderUI(IReportItemBuilderUI reportItemBuilderUI) {
-		classMap.put(IExtensionConstants.BUILDER, reportItemBuilderUI);
+		classMap.put(IExtensionConstants.ELEMENT_BUILDER, reportItemBuilderUI);
 	}
 
 	/**

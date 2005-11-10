@@ -189,7 +189,7 @@ public class ExtendedEditPart extends ReportElementEditPart
 		String id = GuiExtensionManager.getExtendedElementID( getExtendedItemHandle( ) );
 		Boolean bool = (Boolean) ExtensionPointManager.getInstance( )
 				.getExtendedElementPoint( id )
-				.getAttribute( IExtensionConstants.EDITOR_CAN_RESIZE );
+				.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE );
 
 		return bool.booleanValue( );
 	}

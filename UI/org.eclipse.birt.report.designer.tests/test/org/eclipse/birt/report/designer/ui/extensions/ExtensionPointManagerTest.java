@@ -50,28 +50,28 @@ public class ExtensionPointManagerTest extends BaseTestCase
 
 		
 		assertEquals( Boolean.TRUE,
-				point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER ) );
+				point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER ) );
 		assertEquals( Boolean.TRUE,
-				point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE ) );
+				point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE ) );
 		assertEquals( Boolean.FALSE,
-				point.getAttribute( IExtensionConstants.EDITOR_CAN_RESIZE ) );
+				point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE ) );
 
 		String paletteIconSymbol = ReportPlatformUIImages.getIconSymbolName( ITestConstants.TEST_EXTENSION_NAME,
-				IExtensionConstants.PALETTE_ICON );
+				IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
 		assertEquals( "TestCategory", //$NON-NLS-1$
-				point.getAttribute( IExtensionConstants.PALETTE_CATEGORY ) );
-		assertNull( point.getAttribute( IExtensionConstants.PALETTE_CATEGORY_DISPLAYNAME ) );
-		assertNull( point.getAttribute( IExtensionConstants.PALETTE_ICON ) );
+				point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY ) );
+		assertNull( point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME ) );
+		assertNull( point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON ) );
 		assertNull( ReportPlatformUIImages.getImageDescriptor( paletteIconSymbol ) );
 		assertNull( ReportPlatformUIImages.getImage( paletteIconSymbol ) );
 
 		String outlineIconSymbol = ReportPlatformUIImages.getIconSymbolName( ITestConstants.TEST_EXTENSION_NAME,
-				IExtensionConstants.OUTLINE_ICON );
+				IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON );
 		ImageDescriptor descriptor = ReportPlatformUIImages.getImageDescriptor( outlineIconSymbol );
-		assertNotNull( point.getAttribute( IExtensionConstants.OUTLINE_ICON ) );
+		assertNotNull( point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
 		assertNotNull( descriptor );
 		assertEquals( descriptor,
-				point.getAttribute( IExtensionConstants.OUTLINE_ICON ) );
+				point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
 		assertNotNull( ReportPlatformUIImages.getImage( outlineIconSymbol ) );
 	}
 }

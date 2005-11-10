@@ -185,9 +185,9 @@ public class GuiExtensionManager
 			{
 				return root;
 			}
-			String category = (String) point.getAttribute( IExtensionConstants.PALETTE_CATEGORY );
+			String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
 
-			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.PALETTE_ICON );
+			ImageDescriptor icon = (ImageDescriptor) point.getAttribute( IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
 
 			IReportItemFigureProvider UI = point.getReportItemUI( );
 			if ( UI == null )
@@ -197,7 +197,7 @@ public class GuiExtensionManager
 
 			if ( PALETTE_DESIGNER.equals( type ) )
 			{
-				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_DESIGNER );
+				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER );
 				if ( !bool.booleanValue( ) )
 				{
 					continue;
@@ -205,7 +205,7 @@ public class GuiExtensionManager
 			}
 			else if ( PALETTE_MASTERPAGE.equals( type ) )
 			{
-				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE );
+				Boolean bool = (Boolean) point.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
 				if ( !bool.booleanValue( ) )
 				{
 					continue;
@@ -225,7 +225,7 @@ public class GuiExtensionManager
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
 			{
-				String categoryLabel = (String) point.getAttribute( IExtensionConstants.PALETTE_CATEGORY_DISPLAYNAME );
+				String categoryLabel = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME );
 				if ( categoryLabel == null )
 				{
 					categoryLabel = category;

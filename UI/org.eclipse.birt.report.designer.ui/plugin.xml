@@ -40,6 +40,8 @@
    <!-- Extension points -->
    <extension-point id="odadatasource" name="%extension.odadatasource" schema="schema/datasource.exsd"/>
    <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
+   <extension-point id="menuBuilders" name="%extension.menuBuilders" schema="schema/menuBuilders.exsd"/>
+   <extension-point id="providerFactories" name="%extension.providerFactories" schema="schema/providerFactories.exsd"/>
    
 
    <extension

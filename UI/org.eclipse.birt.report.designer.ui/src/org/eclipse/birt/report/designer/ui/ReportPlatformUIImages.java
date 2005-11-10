@@ -474,7 +474,7 @@ public class ReportPlatformUIImages
 		if ( model instanceof ExtendedItemHandle )
 		{
 			image = getImage( getIconSymbolName( ( (ExtendedItemHandle) model )
-					.getExtensionName( ), IExtensionConstants.OUTLINE_ICON ) );
+					.getExtensionName( ), IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
 			if ( image == null )
 			{
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );
@@ -504,7 +504,7 @@ public class ReportPlatformUIImages
 		{
 			imageDescriptor = getImageDescriptor( getIconSymbolName(
 					( (ExtendedItemHandle) model ).getExtensionName( ),
-					IExtensionConstants.OUTLINE_ICON ) );
+					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON ) );
 			if ( imageDescriptor == null )
 			{
 				imageDescriptor = getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_EXTENDED_ITEM );

@@ -23,6 +23,8 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
+import org.eclipse.birt.report.designer.ui.extensions.IProviderFactory;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -42,7 +44,11 @@ import org.eclipse.jface.util.Assert;
 public class ExtensionPointManager
 {
 
-	private Map pointsMap = null;
+	private Map reportItemUIMap = null;
+
+	private Map menuBuilderMap = null;
+
+	private Map providerFactoryMap = null;
 
 	private static ExtensionPointManager instance = null;
 
@@ -73,7 +79,7 @@ public class ExtensionPointManager
 	 */
 	public List getExtendedElementPoints( )
 	{
-		return Arrays.asList( getPointsMap( ).values( ).toArray( ) );
+		return Arrays.asList( getReportItemUIMap( ).values( ).toArray( ) );
 	}
 
 	/**
@@ -87,44 +93,136 @@ public class ExtensionPointManager
 	public ExtendedElementUIPoint getExtendedElementPoint( String extensionName )
 	{
 		Assert.isLegal( extensionName != null );
-		return (ExtendedElementUIPoint) getPointsMap( ).get( extensionName );
+		return (ExtendedElementUIPoint) getReportItemUIMap( ).get( extensionName );
 	}
 
 	/**
+	 * Returns the menu builder for the given element.
 	 * 
+	 * @param elementName
+	 *            the name of the element
+	 * @return the menu builder, or null if there's no builder defined for the
+	 *         element
 	 */
-	private Map getPointsMap( )
+	public IMenuBuilder getMenuBuilder( String elementName )
 	{
-		if ( pointsMap == null )
+		return (IMenuBuilder) getMenuBuilderMap( ).get( elementName );
+	}
+
+	/**
+	 * Returns the provider factory for the given element.
+	 * 
+	 * @param elementName
+	 *            the name of the element
+	 * @return the provider factory, or null if there's no factory defined for
+	 *         the element
+	 */
+	public IProviderFactory getProviderFactory( String elementName )
+	{
+		return (IProviderFactory) getProviderFactoryMap( ).get( elementName );
+	}
+
+	private Map getReportItemUIMap( )
+	{
+		synchronized ( this )
 		{
-			synchronized ( this )
+			if ( reportItemUIMap == null )
 			{
-				if ( pointsMap == null )
+				reportItemUIMap = new HashMap( );
+
+				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_REPORT_ITEM_UI ).iterator( ); iter.hasNext( ); )
 				{
-					pointsMap = new HashMap( );
+					IExtension extension = (IExtension) iter.next( );
 
-					for ( Iterator iter = getExtensionElements( ).iterator( ); iter.hasNext( ); )
+					ExtendedElementUIPoint point = createReportItemUIPoint( extension );
+					if ( point != null )
+						reportItemUIMap.put( point.getExtensionName( ), point );
+				}
+			}
+		}
+		return reportItemUIMap;
+	}
+
+	private Map getMenuBuilderMap( )
+	{
+		synchronized ( this )
+		{
+			if ( menuBuilderMap == null )
+			{
+				menuBuilderMap = new HashMap( );
+
+				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_MENU_BUILDERS ).iterator( ); iter.hasNext( ); )
+				{
+					IExtension extension = (IExtension) iter.next( );
+					IConfigurationElement[] elements = extension.getConfigurationElements( );
+					for ( int i = 0; i < elements.length; i++ )
 					{
-						IExtension extension = (IExtension) iter.next( );
-
-						ExtendedElementUIPoint point = createExtendedElementPoint( extension );
-						if ( point != null )
-							pointsMap.put( point.getExtensionName( ), point );
+						if ( IExtensionConstants.ELEMENT_MENU_BUILDER.equals( elements[i].getName( ) ) )
+						{
+							String elementId = elements[i].getAttribute( IExtensionConstants.ATTRIBUTE_ELEMENT_NAME );
+							try
+							{
+								Object menuBuilder = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
+								if (  menuBuilder instanceof IMenuBuilder )
+								{
+									menuBuilderMap.put( elementId, menuBuilder );
+								}
+							}
+							catch ( CoreException e )
+							{
+							}
+						}
 					}
 				}
 			}
 		}
-		return pointsMap;
+		return menuBuilderMap;
 	}
 
-	private List getExtensionElements( )
+	private Map getProviderFactoryMap( )
+	{
+		synchronized ( this )
+		{
+			if ( providerFactoryMap == null )
+			{
+				providerFactoryMap = new HashMap( );
+
+				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_PROVIDER_FACTORIES ).iterator( ); iter.hasNext( ); )
+				{
+					IExtension extension = (IExtension) iter.next( );
+					IConfigurationElement[] elements = extension.getConfigurationElements( );
+					for ( int i = 0; i < elements.length; i++ )
+					{
+						if ( IExtensionConstants.ELEMENT_PROVIDER_FACTORY.equals( elements[i].getName( ) ) )
+						{
+							String elementId = elements[i].getAttribute( IExtensionConstants.ATTRIBUTE_ELEMENT_NAME );
+							try
+							{
+								Object factory = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
+								if ( factory instanceof  IProviderFactory )
+								{
+									providerFactoryMap.put( elementId, factory );
+								}
+							}
+							catch ( CoreException e )
+							{
+							}
+						}
+					}
+				}
+			}
+		}
+		return providerFactoryMap;
+	}
+
+	private List getExtensionElements( String id )
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
 		if ( registry == null )
 		{// extension registry cannot be resolved
 			return Collections.EMPTY_LIST;
 		}
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( IExtensionConstants.EXTENSIONPOINT_ID );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint( id );
 		if ( extensionPoint == null )
 		{// extension point cannot be resolved
 			return Collections.EMPTY_LIST;
@@ -132,8 +230,7 @@ public class ExtensionPointManager
 		return Arrays.asList( extensionPoint.getExtensions( ) );
 	}
 
-	private ExtendedElementUIPoint createExtendedElementPoint(
-			IExtension extension )
+	private ExtendedElementUIPoint createReportItemUIPoint( IExtension extension )
 	{
 		IConfigurationElement[] elements = extension.getConfigurationElements( );
 		if ( elements != null && elements.length > 0 )
@@ -183,67 +280,67 @@ public class ExtensionPointManager
 			IConfigurationElement element ) throws CoreException
 	{
 		String elementName = element.getName( );
-		if ( IExtensionConstants.MODEL.equals( elementName ) )
+		if ( IExtensionConstants.ELEMENT_MODEL.equals( elementName ) )
 		{
-			String value = element.getAttribute( IExtensionConstants.EXTENSION_NAME );
+			String value = element.getAttribute( IExtensionConstants.ATTRIBUTE_EXTENSION_NAME );
 			newPoint.setExtensionName( value );
 		}
-		else if ( IExtensionConstants.REPORT_ITEM_FIGURE_UI.equals( elementName )
-				|| IExtensionConstants.REPORT_ITEM_IMAGE_UI.equals( elementName )
-				|| IExtensionConstants.REPORT_ITEM_LABEL_UI.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_REPORT_ITEM_FIGURE_UI.equals( elementName )
+				|| IExtensionConstants.ELEMENT_REPORT_ITEM_IMAGE_UI.equals( elementName )
+				|| IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI.equals( elementName ) )
 		{
-			String className = element.getAttribute( IExtensionConstants.CLASS );
+			String className = element.getAttribute( IExtensionConstants.ATTRIBUTE_CLASS );
 			if ( className != null )
 			{
-				Object ui = element.createExecutableExtension( IExtensionConstants.CLASS );
+				Object ui = element.createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
 				newPoint.setReportItemUI( new ExtendedUIAdapter( ui ) );
 			}
 		}
-		else if ( IExtensionConstants.BUILDER.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_BUILDER.equals( elementName ) )
 		{
 			loadClass( newPoint,
 					element,
-					IExtensionConstants.CLASS,
-					IExtensionConstants.BUILDER );
+					IExtensionConstants.ATTRIBUTE_CLASS,
+					IExtensionConstants.ELEMENT_BUILDER );
 		}
-		else if ( IExtensionConstants.PROPERTYEDIT.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_PROPERTYEDIT.equals( elementName ) )
 		{
 			loadClass( newPoint,
 					element,
-					IExtensionConstants.CLASS,
-					IExtensionConstants.PROPERTYEDIT );
+					IExtensionConstants.ATTRIBUTE_CLASS,
+					IExtensionConstants.ELEMENT_PROPERTYEDIT );
 		}
 
-		else if ( IExtensionConstants.PALETTE.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_PALETTE.equals( elementName ) )
 		{
 			loadIconAttribute( newPoint,
 					element,
-					IExtensionConstants.PALETTE_ICON,
+					IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON,
 					false );
 			loadStringAttribute( newPoint,
 					element,
-					IExtensionConstants.PALETTE_CATEGORY );
+					IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
 			loadStringAttribute( newPoint,
 					element,
-					IExtensionConstants.PALETTE_CATEGORY_DISPLAYNAME );
+					IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY_DISPLAYNAME );
 		}
-		else if ( IExtensionConstants.EDITOR.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_EDITOR.equals( elementName ) )
 		{
 			loadBooleanAttribute( newPoint,
 					element,
-					IExtensionConstants.EDITOR_SHOW_IN_DESIGNER );
+					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_DESIGNER );
 			loadBooleanAttribute( newPoint,
 					element,
-					IExtensionConstants.EDITOR_SHOW_IN_MASTERPAGE );
+					IExtensionConstants.ATTRIBUTE_EDITOR_SHOW_IN_MASTERPAGE );
 			loadBooleanAttribute( newPoint,
 					element,
-					IExtensionConstants.EDITOR_CAN_RESIZE );
+					IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE );
 		}
-		else if ( IExtensionConstants.OUTLINE.equals( elementName ) )
+		else if ( IExtensionConstants.ELEMENT_OUTLINE.equals( elementName ) )
 		{
 			loadIconAttribute( newPoint,
 					element,
-					IExtensionConstants.OUTLINE_ICON,
+					IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON,
 					true );
 		}
 	}
@@ -279,7 +376,7 @@ public class ExtensionPointManager
 	{
 		Assert.isLegal( element != null );
 		IExtension extension = element.getDeclaringExtension( );
-		String iconPath = element.getAttribute( IExtensionConstants.ICON );
+		String iconPath = element.getAttribute( IExtensionConstants.ATTRIBUTE_ICON );
 		if ( iconPath == null )
 		{
 			return null;
