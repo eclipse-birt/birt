@@ -17,19 +17,16 @@ public class AxisTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( AxisType.LINEAR, 0 );
-		assertEquals( AxisType.LOGARITHMIC, 1 );		
-		assertEquals( AxisType.TEXT, 2 );
-		assertEquals( AxisType.DATE_TIME, 3 );
+		assertEquals( AxisType.LINEAR, AxisType.LINEAR_LITERAL.getValue() );
+		assertEquals( AxisType.LOGARITHMIC, AxisType.LOGARITHMIC_LITERAL.getValue() );		
+		assertEquals( AxisType.TEXT, AxisType.TEXT_LITERAL.getValue() );
+		assertEquals( AxisType.DATE_TIME, AxisType.DATE_TIME_LITERAL.getValue() );
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get(AxisType.LINEAR) );
 		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get(AxisType.LOGARITHMIC) );
-		assertEquals( AxisType.TEXT_LITERAL, AxisType.get(2) );
-		assertEquals( AxisType.DATE_TIME_LITERAL, AxisType.get(3) );
-		assertNull(AxisType.get(4) );
 		
 		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get("Linear") ); //$NON-NLS-1$
 		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get("Logarithmic") ); //$NON-NLS-1$

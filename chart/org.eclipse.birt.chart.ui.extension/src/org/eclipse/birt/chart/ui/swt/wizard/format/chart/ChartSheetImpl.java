@@ -57,7 +57,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnBlockProp;
 
-	private transient Button btnMoreOpt;
+	private transient Button btnGeneralProp;
 
 	private transient Button btnVisible;
 
@@ -224,11 +224,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnBlockProp.addSelectionListener( this );
 		}
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
+		btnGeneralProp = new Button( cmp, SWT.TOGGLE );
 		{
-			btnMoreOpt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			btnMoreOpt.setText( Messages.getString( "ChartSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-			btnMoreOpt.addSelectionListener( this );
+			btnGeneralProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			btnGeneralProp.setText( Messages.getString( "ChartSheetImpl.Label.GeneralProperties" ) ); //$NON-NLS-1$
+			btnGeneralProp.addSelectionListener( this );
 		}
 	}
 
@@ -287,11 +287,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			popupSheet = new BlockPropertiesSheet( popupShell, getChart( ) );
 			getWizard( ).attachPopup( btnBlockProp.getText( ), -1, -1 );
 		}
-		else if ( e.widget.equals( btnMoreOpt ) )
+		else if ( e.widget.equals( btnGeneralProp ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsChartSheet( popupShell, getChart( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnGeneralProp.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnVisible ) )
@@ -340,7 +340,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	{
 		btnTitleProp.setSelection( isSelected );
 		btnBlockProp.setSelection( isSelected );
-		btnMoreOpt.setSelection( isSelected );
+		btnGeneralProp.setSelection( isSelected );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )

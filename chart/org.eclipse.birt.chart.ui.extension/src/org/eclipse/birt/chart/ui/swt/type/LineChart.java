@@ -83,21 +83,14 @@ public class LineChart extends DefaultChartTypeImpl
 
 	private transient Image imgStacked = null;
 
-	private transient Image imgStackedWithDepth = null;
-
 	private transient Image imgPercentStacked = null;
 
-	private transient Image imgPercentStackedWithDepth = null;
-
 	private transient Image imgSideBySide = null;
-
-	private transient Image imgSideBySideWithDepth = null;
 
 	private transient Image imgSideBySide3D = null;
 
 	private static final String[] saDimensions = new String[]{
 			TWO_DIMENSION_TYPE,
-			TWO_DIMENSION_WITH_DEPTH_TYPE,
 			THREE_DIMENSION_TYPE
 	};
 
@@ -162,38 +155,16 @@ public class LineChart extends DefaultChartTypeImpl
 				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidelinechartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStacked, sStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStacked, sPercentStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySide, sOverlayDescription ) ); //$NON-NLS-1$
-		}
-		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
-		{
-			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
-			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
-			}
-			else
-			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedlinechartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidelinechartwithdepthimage.gif" ); //$NON-NLS-1$
-
-			}
-
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStackedWithDepth, sStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
-					sPercentStackedDescription ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySideWithDepth, sOverlayDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("AreaChart.Tooltip.Stacked"), imgStacked, sStackedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("AreaChart.Tooltip.PercentStacked"), imgPercentStacked, sPercentStackedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("AreaChart.Tooltip.Overlay"), imgSideBySide, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
 			imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidelinechart3dimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Overlay", imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("AreaChart.Tooltip.Overlay"), imgSideBySide3D, sOverlayDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

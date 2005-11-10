@@ -19,14 +19,14 @@ public class AnchorTest extends TestCase
 
 	public void testConstant( )
 	{
-		assertEquals( Anchor.NORTH, 0 );
-		assertEquals( Anchor.NORTH_EAST, 1 );
-		assertEquals( Anchor.EAST, 2 );
-		assertEquals( Anchor.SOUTH_EAST, 3 );
-		assertEquals( Anchor.SOUTH, 4 );
-		assertEquals( Anchor.SOUTH_WEST, 5 );
-		assertEquals( Anchor.WEST, 6 );
-		assertEquals( Anchor.NORTH_WEST, 7 );
+		assertEquals( Anchor.NORTH, Anchor.NORTH_LITERAL.getValue() );
+		assertEquals( Anchor.NORTH_EAST, Anchor.NORTH_EAST_LITERAL.getValue() );
+		assertEquals( Anchor.EAST, Anchor.EAST_LITERAL.getValue() );
+		assertEquals( Anchor.SOUTH_EAST, Anchor.SOUTH_EAST_LITERAL.getValue() );
+		assertEquals( Anchor.SOUTH, Anchor.SOUTH_LITERAL.getValue() );
+		assertEquals( Anchor.SOUTH_WEST, Anchor.SOUTH_WEST_LITERAL.getValue() );
+		assertEquals( Anchor.WEST, Anchor.WEST_LITERAL.getValue() );
+		assertEquals( Anchor.NORTH_WEST, Anchor.NORTH_WEST_LITERAL.getValue() );
 	}
 
 	public void testGet( )
@@ -35,11 +35,6 @@ public class AnchorTest extends TestCase
 		assertEquals( Anchor.NORTH_EAST_LITERAL, Anchor.get( Anchor.NORTH_EAST ) );
 		assertEquals( Anchor.EAST_LITERAL, Anchor.get( Anchor.EAST ) );
 		assertEquals( Anchor.SOUTH_EAST_LITERAL, Anchor.get( Anchor.SOUTH_EAST ) );
-		assertEquals( Anchor.SOUTH_LITERAL, Anchor.get( 4 ) );
-		assertEquals( Anchor.SOUTH_WEST_LITERAL, Anchor.get( 5 ) );
-		assertEquals( Anchor.WEST_LITERAL, Anchor.get( 6 ) );
-		assertEquals( Anchor.NORTH_WEST_LITERAL, Anchor.get( 7 ) );
-		assertNull( Anchor.get( "8" ) ); //$NON-NLS-1$
 
 		assertEquals( Anchor.NORTH_LITERAL, Anchor.get( "North" ) );//$NON-NLS-1$
 		assertEquals( Anchor.NORTH_EAST_LITERAL, Anchor.get( "North_East" ) );//$NON-NLS-1$

@@ -46,7 +46,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 	private transient FillChooserComposite cmbClientAreaColor;
 
-	private transient Button btnMoreOpt;
+	private transient Button btnArea;
 
 	/*
 	 * (non-Javadoc)
@@ -151,10 +151,10 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
-		btnMoreOpt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		btnMoreOpt.setText( Messages.getString( "ChartPlotSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-		btnMoreOpt.addSelectionListener( this );
+		btnArea = new Button( cmp, SWT.TOGGLE );
+		btnArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		btnArea.setText( Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$
+		btnArea.addSelectionListener( this );
 	}
 
 	public Object onHide( )
@@ -219,11 +219,11 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					.setVisible( ( (Button) e.widget ).getSelection( ) );
 			refreshPopupSheet( );
 		}
-		else if ( e.widget.equals( btnMoreOpt ) )
+		else if ( e.widget.equals( btnArea ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsChartPlotSheet( popupShell, getChart( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnArea.getText( ), -1, -1 );
 		}
 
 	}
@@ -235,7 +235,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 	protected void selectAllButtons( boolean isSelected )
 	{
-		btnMoreOpt.setSelection( isSelected );
+		btnArea.setSelection( isSelected );
 	}
 
 }

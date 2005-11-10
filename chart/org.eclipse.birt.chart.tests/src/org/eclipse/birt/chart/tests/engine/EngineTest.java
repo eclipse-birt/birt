@@ -13,7 +13,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import org.eclipse.birt.chart.tests.engine.aggregate.AverageTest;
 import org.eclipse.birt.chart.tests.engine.aggregate.SumTest;
+import org.eclipse.birt.chart.tests.engine.computation.BoundingBoxTest;
 import org.eclipse.birt.chart.tests.engine.computation.ValueFormatterTest;
+import org.eclipse.birt.chart.tests.engine.computation.VectorTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.DataSetProcessorImplTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetDataSetTest;
 import org.eclipse.birt.chart.tests.engine.datafeed.ResultSetWrapperTest;
@@ -42,6 +44,8 @@ public class EngineTest
 		suite.addTestSuite( SumTest.class );
 
 		suite.addTestSuite( ValueFormatterTest.class );
+		suite.addTestSuite( VectorTest.class );
+		suite.addTestSuite( BoundingBoxTest.class );
 
 		suite.addTestSuite( DataSetProcessorImplTest.class );
 		suite.addTestSuite( ResultSetDataSetTest.class );

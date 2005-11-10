@@ -49,7 +49,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
-	private transient Button btnMoreOpt;
+	private transient Button btnSeriesPal;
 
 	/*
 	 * (non-Javadoc)
@@ -109,12 +109,12 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmp.setLayoutData( gridData );
 		}
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
+		btnSeriesPal = new Button( cmp, SWT.TOGGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnMoreOpt.setLayoutData( gd );
-			btnMoreOpt.setText( Messages.getString( "SeriesXSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-			btnMoreOpt.addSelectionListener( this );
+			btnSeriesPal.setLayoutData( gd );
+			btnSeriesPal.setText( Messages.getString( "SeriesXSheetImpl.Label.SeriesPalette" ) ); //$NON-NLS-1$
+			btnSeriesPal.addSelectionListener( this );
 		}
 	}
 
@@ -191,13 +191,13 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			( (Button) e.widget ).setSelection( true );
 		}
 
-		if ( e.widget.equals( btnMoreOpt ) )
+		if ( e.widget.equals( btnSeriesPal ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsSeriesXSheet( popupShell,
 					getChart( ),
 					getSeriesDefinitionForProcessing( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnSeriesPal.getText( ), -1, -1 );
 		}
 
 		if ( e.getSource( ).equals( cmbSorting ) )
@@ -221,7 +221,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	protected void selectAllButtons( boolean isSelected )
 	{
-		btnMoreOpt.setSelection( isSelected );
+		btnSeriesPal.setSelection( isSelected );
 	}
 
 }

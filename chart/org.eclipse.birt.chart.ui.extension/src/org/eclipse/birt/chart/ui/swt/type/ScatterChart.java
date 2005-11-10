@@ -137,7 +137,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				img2D = UIHelper.getImage( "icons/wizban/horizontalscatterchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Scatter Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("ScatterChart.Tooltip.StandardScatterChart"), img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

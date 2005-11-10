@@ -17,15 +17,14 @@ public class DataPointComponentTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( DataPointComponentType.BASE_VALUE, 0 );
-		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE, 1 );	
-		assertEquals( DataPointComponentType.SERIES_VALUE, 2 );	
+		assertEquals( DataPointComponentType.BASE_VALUE, DataPointComponentType.BASE_VALUE_LITERAL.getValue() );
+		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE, DataPointComponentType.ORTHOGONAL_VALUE_LITERAL.getValue() );	
+		assertEquals( DataPointComponentType.SERIES_VALUE, DataPointComponentType.SERIES_VALUE_LITERAL.getValue() );	
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( DataPointComponentType.BASE_VALUE_LITERAL, DataPointComponentType.get(DataPointComponentType.BASE_VALUE) );
-		assertEquals( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, DataPointComponentType.get(1) );
 		assertEquals( DataPointComponentType.SERIES_VALUE_LITERAL, DataPointComponentType.get(DataPointComponentType.SERIES_VALUE) );
 		
 		assertEquals( DataPointComponentType.BASE_VALUE_LITERAL, DataPointComponentType.get("Base_Value") ); //$NON-NLS-1$
@@ -33,7 +32,6 @@ public class DataPointComponentTypeTest extends TestCase {
 		assertEquals( DataPointComponentType.SERIES_VALUE_LITERAL, DataPointComponentType.get("Series_Value") ); //$NON-NLS-1$
 		
 		assertNull(DataPointComponentType.get("No Match") ); //$NON-NLS-1$
-		assertNull(DataPointComponentType.get(3) );
 	}
 }
 

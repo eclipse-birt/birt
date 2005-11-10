@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.MarkerIconDialog;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -239,8 +240,25 @@ public class LineSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.getSource( ).equals( cmbMarkerTypes ) )
 		{
-			( (LineSeries) series ).getMarker( )
-					.setType( MarkerType.get( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) ) );
+			if ( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) == "Icon" ) //$NON-NLS-1$
+			{
+				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
+						( (LineSeries) series ).getMarker( ).getIconPalette( ) );
+
+				if ( iconDialog.applyMarkerIcon( ) )
+				{
+					( (LineSeries) series ).getMarker( )
+							.setIconPalette( iconDialog.getIconPalette( ) );
+					( (LineSeries) series ).getMarker( )
+							.setType( MarkerType.get( "Icon" ) ); //$NON-NLS-1$
+				}
+			}
+			else
+			{
+				( (LineSeries) series ).getMarker( )
+						.setType( MarkerType.get( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) ) );
+			}
+
 		}
 	}
 

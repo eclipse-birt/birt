@@ -17,21 +17,19 @@ public class IntersectionTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( IntersectionType.MIN, 0 );
-		assertEquals( IntersectionType.MAX, 1 );
-		assertEquals( IntersectionType.VALUE, 2 );		
+		assertEquals( IntersectionType.MIN, IntersectionType.MIN_LITERAL.getValue() );
+		assertEquals( IntersectionType.MAX, IntersectionType.MAX_LITERAL.getValue() );
+		assertEquals( IntersectionType.VALUE, IntersectionType.VALUE_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( IntersectionType.MIN_LITERAL, IntersectionType.get(IntersectionType.MIN) );
 		assertEquals( IntersectionType.MAX_LITERAL, IntersectionType.get(IntersectionType.MAX) );
-		assertEquals( IntersectionType.VALUE_LITERAL, IntersectionType.get(2) );
-		assertNull(IntersectionType.get("3") );
 		
-		assertEquals( IntersectionType.MIN_LITERAL, IntersectionType.get("Min") );
-		assertEquals( IntersectionType.MAX_LITERAL, IntersectionType.get("Max") );
-		assertEquals( IntersectionType.VALUE_LITERAL, IntersectionType.get("Value") );
-		assertNull(IntersectionType.get("No Match") );
+		assertEquals( IntersectionType.MIN_LITERAL, IntersectionType.get("Min") ); //$NON-NLS-1$
+		assertEquals( IntersectionType.MAX_LITERAL, IntersectionType.get("Max") ); //$NON-NLS-1$
+		assertEquals( IntersectionType.VALUE_LITERAL, IntersectionType.get("Value") ); //$NON-NLS-1$
+		assertNull(IntersectionType.get("No Match") ); //$NON-NLS-1$
 	}
 }

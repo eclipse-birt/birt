@@ -17,17 +17,15 @@ public class TriggerConditionTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( TriggerCondition.MOUSE_HOVER, 0 );
-		assertEquals( TriggerCondition.MOUSE_CLICK, 1 );		
+		assertEquals( TriggerCondition.ONBLUR, TriggerCondition.ONBLUR_LITERAL.getValue() );
+		assertEquals( TriggerCondition.ONKEYDOWN, TriggerCondition.ONKEYDOWN_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
-		assertEquals( TriggerCondition.ONCLICK_LITERAL, TriggerCondition.get(TriggerCondition.ONCLICK) );
-		assertEquals( TriggerCondition.ONLOAD_LITERAL, TriggerCondition.get(14) );		
+		assertEquals( TriggerCondition.ONCLICK_LITERAL, TriggerCondition.get(TriggerCondition.ONCLICK) );		
 		assertEquals( TriggerCondition.ONMOUSEOVER_LITERAL, TriggerCondition.get("onmouseover") ); //$NON-NLS-1$
 		
 		assertNull( TriggerCondition.get("No Match") ); //$NON-NLS-1$
-		assertNull( TriggerCondition.get(15) );
 	}
 }

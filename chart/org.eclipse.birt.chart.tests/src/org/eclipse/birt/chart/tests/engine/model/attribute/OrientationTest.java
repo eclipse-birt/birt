@@ -17,19 +17,17 @@ public class OrientationTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( Orientation.HORIZONTAL, 0 );
-		assertEquals( Orientation.VERTICAL, 1 );		
+		assertEquals( Orientation.HORIZONTAL, Orientation.HORIZONTAL_LITERAL.getValue() );
+		assertEquals( Orientation.VERTICAL, Orientation.VERTICAL_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( Orientation.HORIZONTAL_LITERAL, Orientation.get(Orientation.HORIZONTAL) );
-		assertEquals( Orientation.VERTICAL_LITERAL, Orientation.get(1) );
 		
-		assertEquals( Orientation.HORIZONTAL_LITERAL, Orientation.get("Horizontal") );
-		assertEquals( Orientation.VERTICAL_LITERAL, Orientation.get("Vertical") );
+		assertEquals( Orientation.HORIZONTAL_LITERAL, Orientation.get("Horizontal") ); //$NON-NLS-1$
+		assertEquals( Orientation.VERTICAL_LITERAL, Orientation.get("Vertical") ); //$NON-NLS-1$
 		
-		assertNull( Orientation.get("No Match") );
-		assertNull( Orientation.get(2) );
+		assertNull( Orientation.get("No Match") ); //$NON-NLS-1$
 	}
 }

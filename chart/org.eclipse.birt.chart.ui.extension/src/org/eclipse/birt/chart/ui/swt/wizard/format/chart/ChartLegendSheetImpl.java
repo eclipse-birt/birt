@@ -50,7 +50,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnLegendText;
 
-	private transient Button btnMoreOpt;
+	private transient Button btnAreaProp;
 
 	private transient Button btnTitleVisible;
 
@@ -180,10 +180,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		btnLegendText.setText( Messages.getString( "ChartLegendSheetImpl.Label.LegendText" ) ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
-		btnMoreOpt.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		btnMoreOpt.setText( Messages.getString( "ChartLegendSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-		btnMoreOpt.addSelectionListener( this );
+		btnAreaProp = new Button( cmp, SWT.TOGGLE );
+		btnAreaProp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		btnAreaProp.setText( Messages.getString( "ChartLegendSheetImpl.Label.AreaProperties" ) ); //$NON-NLS-1$
+		btnAreaProp.addSelectionListener( this );
 	}
 
 	public Object onHide( )
@@ -257,12 +257,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			getChart( ).getLegend( )
 					.setShowValue( ( (Button) e.widget ).getSelection( ) );
 		}
-		else if ( e.widget.equals( btnMoreOpt ) )
+		else if ( e.widget.equals( btnAreaProp ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsChartLegendSheet( popupShell,
 					getChart( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnAreaProp.getText( ), -1, -1 );
 		}
 		else if ( e.widget.equals( btnLegendText ) )
 		{
@@ -281,7 +281,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	protected void selectAllButtons( boolean isSelected )
 	{
 		btnLegendText.setSelection( isSelected );
-		btnMoreOpt.setSelection( isSelected );
+		btnAreaProp.setSelection( isSelected );
 	}
 
 }

@@ -17,21 +17,18 @@ public class HorizontalAlignmentTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( HorizontalAlignment.LEFT, 0 );
-		assertEquals( HorizontalAlignment.CENTER, 1 );
-		assertEquals( HorizontalAlignment.RIGHT, 2 );		
+		assertEquals( HorizontalAlignment.LEFT, HorizontalAlignment.LEFT_LITERAL.getValue() );
+		assertEquals( HorizontalAlignment.CENTER, HorizontalAlignment.CENTER_LITERAL.getValue() );
+		assertEquals( HorizontalAlignment.RIGHT, HorizontalAlignment.RIGHT_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( HorizontalAlignment.LEFT_LITERAL, HorizontalAlignment.get(HorizontalAlignment.LEFT) );
-		assertEquals( HorizontalAlignment.CENTER_LITERAL, HorizontalAlignment.get(1) );
-		assertEquals( HorizontalAlignment.RIGHT_LITERAL, HorizontalAlignment.get(2) );
-		assertNull(HorizontalAlignment.get("3") );
 		
-		assertEquals( HorizontalAlignment.LEFT_LITERAL, HorizontalAlignment.get("Left") );
-		assertEquals( HorizontalAlignment.CENTER_LITERAL, HorizontalAlignment.get("Center") );
-		assertEquals( HorizontalAlignment.RIGHT_LITERAL, HorizontalAlignment.get("Right") );
-		assertNull(HorizontalAlignment.get("No Match") );
+		assertEquals( HorizontalAlignment.LEFT_LITERAL, HorizontalAlignment.get("Left") ); //$NON-NLS-1$
+		assertEquals( HorizontalAlignment.CENTER_LITERAL, HorizontalAlignment.get("Center") ); //$NON-NLS-1$
+		assertEquals( HorizontalAlignment.RIGHT_LITERAL, HorizontalAlignment.get("Right") ); //$NON-NLS-1$
+		assertNull(HorizontalAlignment.get("No Match") ); //$NON-NLS-1$
 	}
 }

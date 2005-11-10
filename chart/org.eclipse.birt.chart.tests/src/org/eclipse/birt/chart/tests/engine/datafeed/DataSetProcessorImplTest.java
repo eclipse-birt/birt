@@ -42,7 +42,7 @@ public class DataSetProcessorImplTest extends TestCase {
 			16.17, 24.21, -43.0});
 	
 	TextDataSet ds3 = TextDataSetImpl.create(new String[] {
-			"a", "ab", "b"});
+			"a", "ab", "b"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	
 	
 	DataSetProcessorImpl dsProcessor = new DataSetProcessorImpl();

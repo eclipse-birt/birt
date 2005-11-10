@@ -62,7 +62,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnTrendline;
 
-	private transient Button btnMoreOpt;
+	private transient Button btnDataPoint;
 
 	private transient Hashtable htSeriesAttributeUIProviders = null;
 
@@ -148,12 +148,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
+		btnDataPoint = new Button( cmp, SWT.TOGGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnMoreOpt.setLayoutData( gd );
-			btnMoreOpt.setText( Messages.getString( "SeriesYSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-			btnMoreOpt.addSelectionListener( this );
+			btnDataPoint.setLayoutData( gd );
+			btnDataPoint.setText( Messages.getString( "SeriesYSheetImpl.Label.DataPoint" ) ); //$NON-NLS-1$
+			btnDataPoint.addSelectionListener( this );
 		}
 	}
 
@@ -247,14 +247,14 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					getSeriesDefinitionForProcessing( ) );
 			getWizard( ).attachPopup( btnTrendline.getText( ), -1, -1 );
 		}
-		else if ( e.widget.equals( btnMoreOpt ) )
+		else if ( e.widget.equals( btnDataPoint ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsSeriesYSheet( popupShell,
 					getChart( ),
 					getSeriesDefinitionForProcessing( ),
 					getIndex( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnDataPoint.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnShowLine ) )
@@ -349,7 +349,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 	{
 		btnLabel.setSelection( isSelected );
 		btnInteractivity.setSelection( isSelected );
-		btnMoreOpt.setSelection( isSelected );
+		btnDataPoint.setSelection( isSelected );
 		if ( getChart( ) instanceof ChartWithAxes )
 		{
 			btnTrendline.setSelection( isSelected );

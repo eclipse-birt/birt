@@ -28,16 +28,13 @@ public class TickStyleTest extends TestCase {
 	{
 		assertEquals( TickStyle.LEFT_LITERAL, TickStyle.get(TickStyle.LEFT) );
 		assertEquals( TickStyle.RIGHT_LITERAL, TickStyle.get(TickStyle.RIGHT) );
-		assertEquals( TickStyle.ABOVE_LITERAL, TickStyle.get(2) );
-		assertEquals( TickStyle.BELOW_LITERAL, TickStyle.get(3) );
-		assertEquals( TickStyle.ACROSS_LITERAL, TickStyle.get(4) );
-		assertNull(TickStyle.get("-1") );
+		assertNull(TickStyle.get("-1") ); //$NON-NLS-1$
 		
-		assertEquals( TickStyle.LEFT_LITERAL, TickStyle.get("Left") );
-		assertEquals( TickStyle.RIGHT_LITERAL, TickStyle.get("Right") );
-		assertEquals( TickStyle.ABOVE_LITERAL, TickStyle.get("Above") );
-		assertEquals( TickStyle.BELOW_LITERAL, TickStyle.get("Below") );
-		assertEquals( TickStyle.ACROSS_LITERAL, TickStyle.get("Across") );
-		assertNull(TickStyle.get("No Match") );
+		assertEquals( TickStyle.LEFT_LITERAL, TickStyle.get("Left") ); //$NON-NLS-1$
+		assertEquals( TickStyle.RIGHT_LITERAL, TickStyle.get("Right") ); //$NON-NLS-1$
+		assertEquals( TickStyle.ABOVE_LITERAL, TickStyle.get("Above") ); //$NON-NLS-1$
+		assertEquals( TickStyle.BELOW_LITERAL, TickStyle.get("Below") ); //$NON-NLS-1$
+		assertEquals( TickStyle.ACROSS_LITERAL, TickStyle.get("Across") ); //$NON-NLS-1$
+		assertNull(TickStyle.get("No Match") ); //$NON-NLS-1$
 	}
 }

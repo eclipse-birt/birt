@@ -17,22 +17,20 @@ public class RuleTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( RuleType.FILTER, 0 );
-		assertEquals( RuleType.SUPPRESS, 1 );	
-		assertEquals( RuleType.LINK, 2 );
+		assertEquals( RuleType.FILTER, RuleType.FILTER_LITERAL.getValue() );
+		assertEquals( RuleType.SUPPRESS, RuleType.SUPPRESS_LITERAL.getValue() );	
+		assertEquals( RuleType.LINK, RuleType.LINK_LITERAL.getValue() );
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( RuleType.FILTER_LITERAL, RuleType.get(RuleType.FILTER) );
 		assertEquals( RuleType.SUPPRESS_LITERAL, RuleType.get(RuleType.SUPPRESS) );
-		assertEquals( RuleType.LINK_LITERAL, RuleType.get(2) );
 		
-		assertEquals( RuleType.FILTER_LITERAL, RuleType.get("Filter") );
-		assertEquals( RuleType.SUPPRESS_LITERAL, RuleType.get("Suppress") );
-		assertEquals( RuleType.LINK_LITERAL, RuleType.get("Link") );
+		assertEquals( RuleType.FILTER_LITERAL, RuleType.get("Filter") ); //$NON-NLS-1$
+		assertEquals( RuleType.SUPPRESS_LITERAL, RuleType.get("Suppress") ); //$NON-NLS-1$
+		assertEquals( RuleType.LINK_LITERAL, RuleType.get("Link") ); //$NON-NLS-1$
 		
-		assertNull(RuleType.get("No Match") );
-		assertNull(RuleType.get(3) );
+		assertNull(RuleType.get("No Match") ); //$NON-NLS-1$
 	}
 }

@@ -17,19 +17,17 @@ public class DirectionTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( Direction.LEFT_RIGHT, 0 );
-		assertEquals( Direction.TOP_BOTTOM, 1 );		
+		assertEquals( Direction.LEFT_RIGHT, Direction.LEFT_RIGHT_LITERAL.getValue() );
+		assertEquals( Direction.TOP_BOTTOM, Direction.TOP_BOTTOM_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( Direction.LEFT_RIGHT_LITERAL, Direction.get(Direction.LEFT_RIGHT) );
-		assertEquals( Direction.TOP_BOTTOM_LITERAL, Direction.get(1) );
 		
 		assertEquals( Direction.LEFT_RIGHT_LITERAL, Direction.get("Left_Right") ); //$NON-NLS-1$
 		assertEquals( Direction.TOP_BOTTOM_LITERAL, Direction.get("Top_Bottom") ); //$NON-NLS-1$
 		
 		assertNull(Direction.get("No Match") ); //$NON-NLS-1$
-		assertNull(Direction.get(2));
 	}
 }

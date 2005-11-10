@@ -17,17 +17,14 @@ public class DateFormatTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( DateFormatType.LONG, 0 );
-		assertEquals( DateFormatType.SHORT, 1 );	
-		assertEquals( DateFormatType.MEDIUM, 2 );
-		assertEquals( DateFormatType.FULL, 3 );
+		assertEquals( DateFormatType.LONG, DateFormatType.LONG_LITERAL.getValue() );
+		assertEquals( DateFormatType.SHORT, DateFormatType.SHORT_LITERAL.getValue() );	
+		assertEquals( DateFormatType.MEDIUM, DateFormatType.MEDIUM_LITERAL.getValue() );
+		assertEquals( DateFormatType.FULL, DateFormatType.FULL_LITERAL.getValue() );
 	}
 	
 	public void testGet() 
 	{
-		
-		assertEquals( DateFormatType.LONG_LITERAL, DateFormatType.get(0) );
-		assertEquals( DateFormatType.SHORT_LITERAL, DateFormatType.get(1) );
 		assertEquals( DateFormatType.MEDIUM_LITERAL, DateFormatType.get(DateFormatType.MEDIUM) );
 		assertEquals( DateFormatType.FULL_LITERAL, DateFormatType.get(DateFormatType.FULL) );
 		
@@ -37,6 +34,5 @@ public class DateFormatTypeTest extends TestCase {
 		assertEquals( DateFormatType.FULL_LITERAL, DateFormatType.get("Full") ); //$NON-NLS-1$
 		
 		assertNull(DateFormatType.get("No Match") ); //$NON-NLS-1$
-		assertNull(DateFormatType.get(4) );
 	}
 }

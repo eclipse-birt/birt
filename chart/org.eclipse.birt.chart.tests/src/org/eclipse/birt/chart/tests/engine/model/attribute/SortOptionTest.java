@@ -17,19 +17,17 @@ public class SortOptionTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( SortOption.ASCENDING, 0 );
-		assertEquals( SortOption.DESCENDING, 1 );		
+		assertEquals( SortOption.ASCENDING, SortOption.ASCENDING_LITERAL.getValue() );
+		assertEquals( SortOption.DESCENDING, SortOption.DESCENDING_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( SortOption.ASCENDING_LITERAL, SortOption.get(SortOption.ASCENDING) );
-		assertEquals( SortOption.DESCENDING_LITERAL, SortOption.get(1) );
 		
-		assertEquals( SortOption.ASCENDING_LITERAL, SortOption.get("Ascending") );
-		assertEquals( SortOption.DESCENDING_LITERAL, SortOption.get("Descending") );
+		assertEquals( SortOption.ASCENDING_LITERAL, SortOption.get("Ascending") ); //$NON-NLS-1$
+		assertEquals( SortOption.DESCENDING_LITERAL, SortOption.get("Descending") ); //$NON-NLS-1$
 		
-		assertNull( SortOption.get("No Match") );
-		assertNull( SortOption.get(2) );
+		assertNull( SortOption.get("No Match") ); //$NON-NLS-1$
 	}
 }

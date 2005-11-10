@@ -137,7 +137,7 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				img2D = UIHelper.getImage( "icons/wizban/horizontalstockchartimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Stock Chart", img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("StockChart.Tooltip.StandardStockChart"), img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

@@ -17,26 +17,23 @@ public class LineStyleTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( LineStyle.SOLID, 0 );
-		assertEquals( LineStyle.DASHED, 1 );		
-		assertEquals( LineStyle.DOTTED, 2 );	
-		assertEquals( LineStyle.DASH_DOTTED, 3 );	
+		assertEquals( LineStyle.SOLID, LineStyle.SOLID_LITERAL.getValue() );
+		assertEquals( LineStyle.DASHED, LineStyle.DASHED_LITERAL.getValue() );		
+		assertEquals( LineStyle.DOTTED, LineStyle.DOTTED_LITERAL.getValue() );	
+		assertEquals( LineStyle.DASH_DOTTED, LineStyle.DASH_DOTTED_LITERAL.getValue() );	
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( LineStyle.SOLID_LITERAL, LineStyle.get(LineStyle.SOLID) );
 		assertEquals( LineStyle.DASHED_LITERAL, LineStyle.get(LineStyle.DASHED) );
-		assertEquals( LineStyle.DOTTED_LITERAL, LineStyle.get(2) );
-		assertEquals( LineStyle.DASH_DOTTED_LITERAL, LineStyle.get(3) );
 		
-		assertEquals( LineStyle.SOLID_LITERAL, LineStyle.get("Solid") );
-		assertEquals( LineStyle.DASHED_LITERAL, LineStyle.get("Dashed") );
-		assertEquals( LineStyle.DOTTED_LITERAL, LineStyle.get("Dotted") );
-		assertEquals( LineStyle.DASH_DOTTED_LITERAL, LineStyle.get("Dash_Dotted") );
+		assertEquals( LineStyle.SOLID_LITERAL, LineStyle.get("Solid") ); //$NON-NLS-1$
+		assertEquals( LineStyle.DASHED_LITERAL, LineStyle.get("Dashed") ); //$NON-NLS-1$
+		assertEquals( LineStyle.DOTTED_LITERAL, LineStyle.get("Dotted") ); //$NON-NLS-1$
+		assertEquals( LineStyle.DASH_DOTTED_LITERAL, LineStyle.get("Dash_Dotted") ); //$NON-NLS-1$
 		
-		assertNull(LineStyle.get("No Match") );
-		assertNull(LineStyle.get(4) );
+		assertNull(LineStyle.get("No Match") ); //$NON-NLS-1$
 	}
 }
 

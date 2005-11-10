@@ -17,18 +17,16 @@ public class MarkerTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( MarkerType.CROSSHAIR, 0 );
-		assertEquals( MarkerType.TRIANGLE, 1 );		
-		assertEquals( MarkerType.BOX, 2 );	
-		assertEquals( MarkerType.CIRCLE, 3 );	
+		assertEquals( MarkerType.CROSSHAIR, MarkerType.CROSSHAIR_LITERAL.getValue() );
+		assertEquals( MarkerType.TRIANGLE, MarkerType.TRIANGLE_LITERAL.getValue() );		
+		assertEquals( MarkerType.BOX, MarkerType.BOX_LITERAL.getValue() );	
+		assertEquals( MarkerType.CIRCLE, MarkerType.CIRCLE_LITERAL.getValue() );	
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( MarkerType.CROSSHAIR_LITERAL, MarkerType.get(MarkerType.CROSSHAIR) );
 		assertEquals( MarkerType.TRIANGLE_LITERAL, MarkerType.get(MarkerType.TRIANGLE) );
-		assertEquals( MarkerType.BOX_LITERAL, MarkerType.get(2) );
-		assertEquals( MarkerType.CIRCLE_LITERAL, MarkerType.get(3) );
 		
 		assertEquals( MarkerType.CROSSHAIR_LITERAL, MarkerType.get("Crosshair") ); //$NON-NLS-1$
 		assertEquals( MarkerType.TRIANGLE_LITERAL, MarkerType.get("Triangle") ); //$NON-NLS-1$
@@ -36,7 +34,6 @@ public class MarkerTypeTest extends TestCase {
 		assertEquals( MarkerType.CIRCLE_LITERAL, MarkerType.get("Circle") ); //$NON-NLS-1$
 		
 		assertNull(MarkerType.get("No Match") ); //$NON-NLS-1$
-		assertNull(MarkerType.get(5) );
 	}
 }
 

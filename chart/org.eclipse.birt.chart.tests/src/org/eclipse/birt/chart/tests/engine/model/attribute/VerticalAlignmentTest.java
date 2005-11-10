@@ -17,23 +17,21 @@ public class VerticalAlignmentTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( VerticalAlignment.TOP, 0 );
-		assertEquals( VerticalAlignment.CENTER, 1 );		
-		assertEquals( VerticalAlignment.BOTTOM, 2 );	
+		assertEquals( VerticalAlignment.TOP, VerticalAlignment.TOP_LITERAL.getValue());
+		assertEquals( VerticalAlignment.CENTER, VerticalAlignment.CENTER_LITERAL.getValue() );		
+		assertEquals( VerticalAlignment.BOTTOM, VerticalAlignment.BOTTOM_LITERAL.getValue() );	
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( VerticalAlignment.TOP_LITERAL, VerticalAlignment.get(VerticalAlignment.TOP) );
 		assertEquals( VerticalAlignment.CENTER_LITERAL, VerticalAlignment.get(VerticalAlignment.CENTER) );
-		assertEquals( VerticalAlignment.BOTTOM_LITERAL, VerticalAlignment.get(2) );
 		
-		assertEquals( VerticalAlignment.TOP_LITERAL, VerticalAlignment.get("Top") );
-		assertEquals( VerticalAlignment.CENTER_LITERAL, VerticalAlignment.get("Center") );
-		assertEquals( VerticalAlignment.BOTTOM_LITERAL, VerticalAlignment.get("Bottom") );
+		assertEquals( VerticalAlignment.TOP_LITERAL, VerticalAlignment.get("Top") ); //$NON-NLS-1$
+		assertEquals( VerticalAlignment.CENTER_LITERAL, VerticalAlignment.get("Center") ); //$NON-NLS-1$
+		assertEquals( VerticalAlignment.BOTTOM_LITERAL, VerticalAlignment.get("Bottom") ); //$NON-NLS-1$
 		
-		assertNull(VerticalAlignment.get("No Match") );
-		assertNull(VerticalAlignment.get(3) );
+		assertNull(VerticalAlignment.get("No Match") ); //$NON-NLS-1$
 	}
 }
 

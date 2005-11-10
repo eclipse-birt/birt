@@ -133,8 +133,8 @@ public class MeterChart extends DefaultChartTypeImpl
 			imgStandard = UIHelper.getImage( "icons/wizban/meterchartimage.gif" ); //$NON-NLS-1$
 			imgSuperimposed = UIHelper.getImage( "icons/wizban/meterchartsuperimposedimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Standard Meter Chart", imgStandard, sStandardDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Superimposed Meter Chart", imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("MeterChart.Tooltip.StandardMeterChart"), imgStandard, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("MeterChart.Tooltip.SuperimposedMeterChart"), imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

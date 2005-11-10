@@ -55,7 +55,7 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 
 	private transient Button btnMarkers;
 
-	private transient Button btnMoreOpt;
+	private transient Button btnAxisData;
 
 	/*
 	 * (non-Javadoc)
@@ -148,12 +148,12 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 			btnMarkers.addSelectionListener( this );
 		}
 
-		btnMoreOpt = new Button( cmp, SWT.TOGGLE );
+		btnAxisData = new Button( cmp, SWT.TOGGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnMoreOpt.setLayoutData( gd );
-			btnMoreOpt.setText( Messages.getString( "AxisXSheetImpl.Label.MoreOptions" ) ); //$NON-NLS-1$
-			btnMoreOpt.addSelectionListener( this );
+			btnAxisData.setLayoutData( gd );
+			btnAxisData.setText( Messages.getString( "AxisXSheetImpl.Label.AxisData" ) ); //$NON-NLS-1$
+			btnAxisData.addSelectionListener( this );
 		}
 	}
 
@@ -219,13 +219,13 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 					getAxisForProcessing( ) );
 			getWizard( ).attachPopup( btnMarkers.getText( ), -1, -1 );
 		}
-		else if ( e.widget.equals( btnMoreOpt ) )
+		else if ( e.widget.equals( btnAxisData ) )
 		{
 			popupShell = createPopupShell( );
 			popupSheet = new MoreOptionsAxisXSheet( popupShell,
 					getChart( ),
 					getAxisForProcessing( ) );
-			getWizard( ).attachPopup( btnMoreOpt.getText( ), -1, -1 );
+			getWizard( ).attachPopup( btnAxisData.getText( ), -1, -1 );
 		}
 
 		if ( e.widget.equals( btnVisible ) )
@@ -251,7 +251,7 @@ public class AxisXSheetImpl extends SubtaskSheetImpl
 		btnAxisTitle.setSelection( isSelected );
 		btnGridlines.setSelection( isSelected );
 		btnMarkers.setSelection( isSelected );
-		btnMoreOpt.setSelection( isSelected );
+		btnAxisData.setSelection( isSelected );
 	}
 
 }

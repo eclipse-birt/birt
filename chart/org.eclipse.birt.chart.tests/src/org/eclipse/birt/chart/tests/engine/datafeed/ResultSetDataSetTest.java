@@ -20,13 +20,13 @@ import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.datafeed.ResultSetDataSet;
 
 public class ResultSetDataSetTest extends TestCase {
-	private String exp[] = { "Product", "Manufacturer", "Month" };
+	private String exp[] = { "Product", "Manufacturer", "Month" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	List list = new ArrayList(Arrays.asList(exp));
 	Set expressionKey = new HashSet(list);
 
 	List result = new ArrayList();
-	Object[] oaTuple1 = new Object[] {"A", "M1", new Integer(10)};
-	Object[] oaTuple2 = new Object[] {"B", "M2", new Integer(10)};
+	Object[] oaTuple1 = new Object[] {"A", "M1", new Integer(10)};//$NON-NLS-1$ //$NON-NLS-2$
+	Object[] oaTuple2 = new Object[] {"B", "M2", new Integer(10)};//$NON-NLS-1$ //$NON-NLS-2$
 
 	protected void setUp() throws Exception {
 		super.setUp();

@@ -17,19 +17,17 @@ public class LegendItemTypeTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( LegendItemType.SERIES, 0 );
-		assertEquals( LegendItemType.CATEGORIES, 1 );		
+		assertEquals( LegendItemType.SERIES, LegendItemType.SERIES_LITERAL.getValue() );
+		assertEquals( LegendItemType.CATEGORIES, LegendItemType.CATEGORIES_LITERAL.getValue() );		
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( LegendItemType.SERIES_LITERAL, LegendItemType.get(LegendItemType.SERIES) );
-		assertEquals( LegendItemType.CATEGORIES_LITERAL, LegendItemType.get(1) );
 		
-		assertEquals( LegendItemType.SERIES_LITERAL, LegendItemType.get("Series") );
-		assertEquals( LegendItemType.CATEGORIES_LITERAL, LegendItemType.get("Categories") );
+		assertEquals( LegendItemType.SERIES_LITERAL, LegendItemType.get("Series") ); //$NON-NLS-1$
+		assertEquals( LegendItemType.CATEGORIES_LITERAL, LegendItemType.get("Categories") ); //$NON-NLS-1$
 		
-		assertNull(LegendItemType.get("No Match") );
-		assertNull(LegendItemType.get(2));
+		assertNull(LegendItemType.get("No Match") ); //$NON-NLS-1$
 	}
 }

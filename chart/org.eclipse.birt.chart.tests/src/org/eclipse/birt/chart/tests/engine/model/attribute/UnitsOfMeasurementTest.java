@@ -17,26 +17,23 @@ public class UnitsOfMeasurementTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( UnitsOfMeasurement.PIXELS, 0 );
-		assertEquals( UnitsOfMeasurement.POINTS, 1 );		
-		assertEquals( UnitsOfMeasurement.INCHES, 2 );	
-		assertEquals( UnitsOfMeasurement.CENTIMETERS, 3 );	
+		assertEquals( UnitsOfMeasurement.PIXELS, UnitsOfMeasurement.PIXELS_LITERAL.getValue() );
+		assertEquals( UnitsOfMeasurement.POINTS, UnitsOfMeasurement.POINTS_LITERAL.getValue() );		
+		assertEquals( UnitsOfMeasurement.INCHES, UnitsOfMeasurement.INCHES_LITERAL.getValue() );	
+		assertEquals( UnitsOfMeasurement.CENTIMETERS, UnitsOfMeasurement.CENTIMETERS_LITERAL.getValue() );	
 	}
 	
 	public void testGet() 
 	{
 		assertEquals( UnitsOfMeasurement.PIXELS_LITERAL, UnitsOfMeasurement.get(UnitsOfMeasurement.PIXELS) );
 		assertEquals( UnitsOfMeasurement.POINTS_LITERAL, UnitsOfMeasurement.get(UnitsOfMeasurement.POINTS) );
-		assertEquals( UnitsOfMeasurement.INCHES_LITERAL, UnitsOfMeasurement.get(2) );
-		assertEquals( UnitsOfMeasurement.CENTIMETERS_LITERAL, UnitsOfMeasurement.get(3) );
 		
-		assertEquals( UnitsOfMeasurement.PIXELS_LITERAL, UnitsOfMeasurement.get("Pixels") );
-		assertEquals( UnitsOfMeasurement.POINTS_LITERAL, UnitsOfMeasurement.get("Points") );
-		assertEquals( UnitsOfMeasurement.INCHES_LITERAL, UnitsOfMeasurement.get("Inches") );
-		assertEquals( UnitsOfMeasurement.CENTIMETERS_LITERAL, UnitsOfMeasurement.get("Centimeters") );
+		assertEquals( UnitsOfMeasurement.PIXELS_LITERAL, UnitsOfMeasurement.get("Pixels") ); //$NON-NLS-1$
+		assertEquals( UnitsOfMeasurement.POINTS_LITERAL, UnitsOfMeasurement.get("Points") ); //$NON-NLS-1$
+		assertEquals( UnitsOfMeasurement.INCHES_LITERAL, UnitsOfMeasurement.get("Inches") ); //$NON-NLS-1$
+		assertEquals( UnitsOfMeasurement.CENTIMETERS_LITERAL, UnitsOfMeasurement.get("Centimeters") ); //$NON-NLS-1$
 		
-		assertNull(UnitsOfMeasurement.get("No Match") );
-		assertNull(UnitsOfMeasurement.get(4) );
+		assertNull(UnitsOfMeasurement.get("No Match") ); //$NON-NLS-1$
 	}
 }
 

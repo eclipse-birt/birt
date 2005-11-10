@@ -27,17 +27,15 @@ public class ValueFormatterTest extends TestCase {
 
 	public void testFormat1() throws ChartException {
 		assertEquals(null, ValueFormatter.format(null, null, null, null));
-		assertEquals("ABC", ValueFormatter.format("ABC", null, null, null));
-		assertEquals("12.2", ValueFormatter.format(NumberDataElementImpl.create(12.2), null,null ,null));
+		assertEquals("ABC", ValueFormatter.format("ABC", null, null, null));//$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("12.2", ValueFormatter.format(NumberDataElementImpl.create(12.2), null,null ,null));//$NON-NLS-1$ 
 		assertEquals(Calendar.getInstance().toString(), ValueFormatter.format(DateTimeDataElementImpl.create(
 				Calendar.getInstance()), null, null, null));
 	}
 	
 	public void testFormat2() throws ChartException {
-		assertEquals("13.1", ValueFormatter.format(new Double(13.1), null, null, new DecimalFormat()));
-		assertEquals("13.1", ValueFormatter.format(NumberDataElementImpl.create(13.1), null, null, new DecimalFormat()));
+		assertEquals("13.1", ValueFormatter.format(new Double(13.1), null, null, new DecimalFormat()));//$NON-NLS-1$ 
+		assertEquals("13.1", ValueFormatter.format(NumberDataElementImpl.create(13.1), null, null, new DecimalFormat()));//$NON-NLS-1$
 		assertEquals(Calendar.getInstance().toString(), ValueFormatter.format(Calendar.getInstance(), null, null, new DecimalFormat()));
-//		assertEquals(Calendar.getInstance().toString(), ValueFormatter.format(DateTimeDataElementImpl.create(
-//				Calendar.getInstance()), null, null, new DecimalFormat()));
 	}
 }

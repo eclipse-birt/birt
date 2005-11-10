@@ -159,9 +159,9 @@ public class BarChart extends DefaultChartTypeImpl
 				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
 			}
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStacked, sStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStacked, sPercentStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide, sSideBySideDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.Stacked"), imgStacked, sStackedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.PercentStacked"), imgPercentStacked, sPercentStackedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.SideBySide"), imgSideBySide, sSideBySideDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -178,10 +178,10 @@ public class BarChart extends DefaultChartTypeImpl
 				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
 				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Stacked", imgStackedWithDepth, sStackedDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Percent Stacked", imgPercentStackedWithDepth, //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.Stacked"), imgStackedWithDepth, sStackedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.PercentStacked"), imgPercentStackedWithDepth, //$NON-NLS-1$
 					sPercentStackedDescription ) );
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySideWithDepth, sSideBySideDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.SideBySide"), imgSideBySideWithDepth, sSideBySideDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -194,7 +194,7 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
 			}
-			vSubTypes.add( new DefaultChartSubTypeImpl( "Side-by-side", imgSideBySide3D, sSideBySideDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("BarChart.Tooltip.SideBySide"), imgSideBySide3D, sSideBySideDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}

@@ -17,16 +17,16 @@ public class StyleComponentTest extends TestCase {
 	
 	public void testConstant() 
 	{		
-		assertEquals( StyledComponent.CHART_TITLE, 1 );
-		assertEquals( StyledComponent.CHART_BACKGROUND , 2 );
-		assertEquals( StyledComponent.PLOT_BACKGROUND, 3 );		
-		assertEquals( StyledComponent.LEGEND_BACKGROUND, 4 );
-		assertEquals( StyledComponent.LEGEND_LABEL, 5 );
-		assertEquals( StyledComponent.AXIS_TITLE, 7 );
-		assertEquals( StyledComponent.AXIS_LABEL, 8 );
-		assertEquals( StyledComponent.AXIS_LINE, 9 );
-		assertEquals( StyledComponent.SERIES_TITLE, 10 );
-		assertEquals( StyledComponent.SERIES_LABEL, 11 );
+		assertEquals( StyledComponent.CHART_TITLE, StyledComponent.CHART_TITLE_LITERAL.getValue() );
+		assertEquals( StyledComponent.CHART_BACKGROUND , StyledComponent.CHART_BACKGROUND_LITERAL.getValue() );
+		assertEquals( StyledComponent.PLOT_BACKGROUND, StyledComponent.PLOT_BACKGROUND_LITERAL.getValue() );		
+		assertEquals( StyledComponent.LEGEND_BACKGROUND, StyledComponent.LEGEND_BACKGROUND_LITERAL.getValue() );
+		assertEquals( StyledComponent.LEGEND_LABEL, StyledComponent.LEGEND_LABEL_LITERAL.getValue() );
+		assertEquals( StyledComponent.AXIS_TITLE, StyledComponent.AXIS_TITLE_LITERAL.getValue() );
+		assertEquals( StyledComponent.AXIS_LABEL, StyledComponent.AXIS_LABEL_LITERAL.getValue() );
+		assertEquals( StyledComponent.AXIS_LINE, StyledComponent.AXIS_LINE_LITERAL.getValue() );
+		assertEquals( StyledComponent.SERIES_TITLE, StyledComponent.SERIES_TITLE_LITERAL.getValue() );
+		assertEquals( StyledComponent.SERIES_LABEL, StyledComponent.SERIES_LABEL_LITERAL.getValue() );
 	}
 	
 	public void testGet() 
@@ -36,23 +36,17 @@ public class StyleComponentTest extends TestCase {
 		assertEquals( StyledComponent.PLOT_BACKGROUND_LITERAL, StyledComponent.get(StyledComponent.PLOT_BACKGROUND) );
 		assertEquals( StyledComponent.LEGEND_BACKGROUND_LITERAL, StyledComponent.get(StyledComponent.LEGEND_BACKGROUND) );
 		assertEquals( StyledComponent.LEGEND_LABEL_LITERAL, StyledComponent.get(5) );
-		assertEquals( StyledComponent.AXIS_TITLE_LITERAL, StyledComponent.get(7) );
-		assertEquals( StyledComponent.AXIS_LABEL_LITERAL, StyledComponent.get(8) );
-		assertEquals( StyledComponent.AXIS_LINE_LITERAL, StyledComponent.get(9) );
-		assertEquals( StyledComponent.SERIES_TITLE_LITERAL, StyledComponent.get(10) );
-		assertEquals( StyledComponent.SERIES_LABEL_LITERAL, StyledComponent.get(11) );
-		assertNull(StyledComponent.get("12") );
 		
-		assertEquals( StyledComponent.CHART_TITLE_LITERAL, StyledComponent.get("Chart_Title") );
-		assertEquals( StyledComponent.CHART_BACKGROUND_LITERAL, StyledComponent.get("Chart_Background") );
-		assertEquals( StyledComponent.PLOT_BACKGROUND_LITERAL, StyledComponent.get("Plot_Background") );
-		assertEquals( StyledComponent.LEGEND_BACKGROUND_LITERAL, StyledComponent.get("Legend_Background") );
-		assertEquals( StyledComponent.LEGEND_LABEL_LITERAL, StyledComponent.get("Legend_Label") );
-		assertEquals( StyledComponent.AXIS_TITLE_LITERAL, StyledComponent.get("Axis_Title") );
-		assertEquals( StyledComponent.AXIS_LABEL_LITERAL, StyledComponent.get("Axis_Label") );
-		assertEquals( StyledComponent.AXIS_LINE_LITERAL, StyledComponent.get("Axis_Line") );
-		assertEquals( StyledComponent.SERIES_TITLE_LITERAL, StyledComponent.get("Series_Title") );
-		assertEquals( StyledComponent.SERIES_LABEL_LITERAL, StyledComponent.get("Series_Label") );
-		assertNull(StyledComponent.get("No Match") );
+		assertEquals( StyledComponent.CHART_TITLE_LITERAL, StyledComponent.get("Chart_Title") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.CHART_BACKGROUND_LITERAL, StyledComponent.get("Chart_Background") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.PLOT_BACKGROUND_LITERAL, StyledComponent.get("Plot_Background") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.LEGEND_BACKGROUND_LITERAL, StyledComponent.get("Legend_Background") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.LEGEND_LABEL_LITERAL, StyledComponent.get("Legend_Label") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.AXIS_TITLE_LITERAL, StyledComponent.get("Axis_Title") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.AXIS_LABEL_LITERAL, StyledComponent.get("Axis_Label") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.AXIS_LINE_LITERAL, StyledComponent.get("Axis_Line") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.SERIES_TITLE_LITERAL, StyledComponent.get("Series_Title") ); //$NON-NLS-1$
+		assertEquals( StyledComponent.SERIES_LABEL_LITERAL, StyledComponent.get("Series_Label") ); //$NON-NLS-1$
+		assertNull(StyledComponent.get("No Match") ); //$NON-NLS-1$
 	}
 }
