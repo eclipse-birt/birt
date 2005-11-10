@@ -486,7 +486,7 @@ public class TaskSelectData extends SimpleTask
 			}
 			catch ( ChartException e1 )
 			{
-				e1.printStackTrace( );
+				container.displayException( e1 );
 			}
 			tablePreview.createDummyTable( );
 			checkUseDataSet( false );
@@ -962,7 +962,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		catch ( ChartException e )
 		{
-			e.printStackTrace( );
+			container.displayException( e );
 			return sdOld;
 		}
 		// CREATE OrthogonalSampleData
@@ -997,7 +997,7 @@ public class TaskSelectData extends SimpleTask
 					}
 					catch ( ChartException e )
 					{
-						e.printStackTrace( );
+						container.displayException( e );
 						return sdOld;
 					}
 				}
@@ -1079,15 +1079,19 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getChartModel( ),
-				getWizardContext( ).getDataServiceProvider( )
-						.getPreviewHeader( ) ) )
+		String errorInfo = Messages.getString( "exception.data.DataBindingsAreNull" ); //$NON-NLS-1$
+		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) )
 		{
 			oldSample = (SampleData) EcoreUtil.copy( getChartModel( ).getSampleData( ) );
 			SampleData newSample = updateSampleData( oldSample );
 			// ADD ALL ADAPTERS...AND REFRESH PREVIEW
 			newSample.eAdapters( ).addAll( getChartModel( ).eAdapters( ) );
 			getChartModel( ).setSampleData( newSample );
+			removeError( errorInfo );
+		}
+		else
+		{
+			addError( errorInfo );
 		}
 	}
 }

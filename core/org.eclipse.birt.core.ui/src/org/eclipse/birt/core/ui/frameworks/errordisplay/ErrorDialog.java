@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Actuate Corporation
@@ -37,7 +38,7 @@ public class ErrorDialog implements SelectionListener
     public static final String OPTION_CANCEL = "CANCEL";    //$NON-NLS-1$
     public static final int MAX_TRACE_DEPTH = 2;
     public static final int DEFAULT_WIDTH = 450;
-    public static final int DEFAULT_HEIGHT = 150;
+    public static final int DEFAULT_HEIGHT = 200;
     public static final int MAX_HEIGHT = 400;
     
     // UI COMPONENTS
@@ -84,7 +85,18 @@ public class ErrorDialog implements SelectionListener
     private void init(String sTitle)
     {
         display = Display.getDefault();
-        shell = new Shell(display, SWT.DIALOG_TRIM | SWT.RESIZE);
+		if ( PlatformUI.isWorkbenchRunning( ) )
+		{
+			shell = new Shell( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ), SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
+		else
+		{
+			shell = new Shell( display, SWT.DIALOG_TRIM
+					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+		}
         shell.setText(sTitle);
         shell.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         shell.setLayout(new FillLayout());
@@ -234,19 +246,37 @@ public class ErrorDialog implements SelectionListener
             grpProblems.setText("Error List:");
             lblProblems.setText(sErrors);
             btnDetails.setText("Show Details...");
-            txtDetails.setText(sFixes);
             grpDetails.setText("Suggested Fixes:");
             btnOK.setText("   Fix It   ");
+            //TODO unsupported now
+            btnOK.setEnabled(false);
             btnCancel.setText("Proceed Without Fixing");
+            if ( sFixes == null || sFixes.length( ) == 0 )
+			{
+            	btnDetails.setEnabled( false );
+			}
+			else
+			{
+				btnDetails.setEnabled( true );
+				txtDetails.setText( sFixes );
+			}
         }
         else
         {
             grpProblems.setText("Exception:");
             lblProblems.setText(sExceptionMessage);
             btnDetails.setText("Show Trace...");
-            txtDetails.setText(sTrace);
             grpDetails.setText("Stack Trace:");
             btnOK.setText("     OK     ");
+            if ( sTrace == null || sTrace.length( ) == 0 )
+			{
+            	btnDetails.setEnabled( false );
+			}
+			else
+			{
+				btnDetails.setEnabled( true );
+				txtDetails.setText( sTrace );
+			}
         }
 
         slDetails.topControl = cmpDummy;
@@ -306,7 +336,10 @@ public class ErrorDialog implements SelectionListener
         {
             if(d > 0)
             {
-                t = t.getCause();
+            	if ( t.getCause( ) != null )
+				{
+					t = t.getCause( );
+				}
                 sbTrace.append("\n\nCaused By:"+t.getLocalizedMessage()+"\n");
             }
             StackTraceElement[] se = t.getStackTrace();

@@ -232,32 +232,22 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Checks all data definitions are bound correctly. Current validation
-	 * includes not null and existence check.
+	 * Checks all data definitions are bound
 	 * 
 	 * @param chart
 	 *            chart model
-	 * @param validColumns
-	 *            valid column names of data set
 	 */
-	public static boolean checkDataBinding( Chart chart, String[] validColumns )
+	public static boolean checkDataBinding( Chart chart )
 	{
-		// Set all column names be upper case string
-		List validColumnList = new ArrayList( validColumns.length );
-		for ( int i = 0; i < validColumns.length; i++ )
-		{
-			validColumnList.add( validColumns[i].toUpperCase( ) );
-		}
-
 		List sdList = ChartUIUtil.getBaseSeriesDefinitions( chart );
-		if ( !checkDataDefinition( sdList, validColumnList ) )
+		if ( !checkDataDefinition( sdList ) )
 		{
 			return false;
 		}
 		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( chart ); i++ )
 		{
 			sdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, i );
-			if ( !checkDataDefinition( sdList, validColumnList ) )
+			if ( !checkDataDefinition( sdList ) )
 			{
 				return false;
 			}
@@ -265,7 +255,7 @@ public class ChartUIUtil
 		return true;
 	}
 
-	private static boolean checkDataDefinition( List sdList, List validColumns )
+	private static boolean checkDataDefinition( List sdList )
 	{
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
@@ -274,13 +264,10 @@ public class ChartUIUtil
 			for ( int j = 0; j < ddList.size( ); j++ )
 			{
 				String query = ( (Query) ddList.get( j ) ).getDefinition( );
-				if ( query == null
-						|| query.length( ) == 0
-						|| !validColumns.contains( getColumnName( query ) ) )
+				if ( query == null || query.length( ) == 0 )
 				{
 					return false;
 				}
-
 			}
 		}
 		return true;

@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
@@ -18,6 +20,7 @@ public class SimpleTask implements ITask
 	protected transient WizardBase container = null;
 	private transient String sLabel = ""; //$NON-NLS-1$
 	private static int iCount = 1;
+	private transient List errorList = new ArrayList( );
 
 	/*
 	 * (non-Javadoc)
@@ -93,21 +96,49 @@ public class SimpleTask implements ITask
 		this.container = wizard;
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
-     */
-    public String[] getErrors()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
+	 */
+	public String[] getErrors( )
+	{
+		return (String[]) errorList.toArray( new String[errorList.size( )] );
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints(java.lang.Object[])
-     */
-    public void setErrorHints(Object[] errorHints)
-    {
-        // TODO Auto-generated method stub
-        
-    }
+	protected void addError( String errorInfo )
+	{
+		if ( !errorList.contains( errorInfo ) )
+			errorList.add( errorInfo );
+	}
+
+	protected void removeError( String errorInfo )
+	{
+		errorList.remove( errorInfo );
+	}
+
+	protected void displayError( String strError, String strFix, String taskId,
+			String hints )
+	{
+		container.displayError( new String[]{
+			strError
+		}, new String[]{
+			strFix
+		}, new String[]{
+			taskId
+		}, context, new String[]{
+			hints
+		} );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints(java.lang.Object[])
+	 */
+	public void setErrorHints( Object[] errorHints )
+	{
+		// TODO Auto-generated method stub
+
+	}
 }
