@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.util;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorInput;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -912,6 +915,26 @@ public class UIUtil
 
 		if ( monitor.isCanceled( ) )
 			throw new OperationCanceledException( );
+	}
+	
+	/**
+	 * @return Report Designer UI plugin installation directory as
+	 * OS string.
+	 */
+	public static String getHomeDirectory()
+	{
+		URL url = ReportPlugin.getDefault().getBundle().getEntry("/");
+		String home = null;
+		try
+		{
+			 home = Platform.resolve(url).getPath();
+		}
+		catch ( IOException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return home.substring(1);
 	}
 
 }
