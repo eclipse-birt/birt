@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -486,6 +487,20 @@ public class ResultSet implements IResultSet
 			java.sql.Blob blob = rs.getBlob( columnName );
 			return new Blob( blob );
 		}
+		// especially for MS Access, which does not support getBlob method
+		catch ( UnsupportedOperationException e1 )
+		{
+			try
+			{
+				InputStream inputStream = rs.getBinaryStream( columnName );
+				return new Blob( SqlBlobUtil.newBlob( inputStream ) );
+			}
+			catch ( SQLException e2 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+						e2 );
+			}
+		}
 		catch ( SQLException e )
 		{
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
@@ -503,6 +518,20 @@ public class ResultSet implements IResultSet
 		{
 			java.sql.Blob blob = rs.getBlob( index );
 			return new Blob( blob );
+		}
+		// especially for MS Access, which does not support getBlob method
+		catch ( UnsupportedOperationException e1 )
+		{
+			try
+			{
+				InputStream inputStream = rs.getBinaryStream( index );
+				return new Blob( SqlBlobUtil.newBlob( inputStream ) );
+			}
+			catch ( SQLException e2 )
+			{
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+						e2 );
+			}
 		}
 		catch ( SQLException e )
 		{
