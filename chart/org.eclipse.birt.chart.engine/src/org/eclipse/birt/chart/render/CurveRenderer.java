@@ -748,7 +748,7 @@ public final class CurveRenderer
 				{
 					boolean drawLeftSide = ( i == 0 )
 							&& ( j == 0 )
-							&& bKeepState
+							//&& bKeepState
 							&& bRendering3D
 							&& bFillArea;
 
@@ -767,7 +767,7 @@ public final class CurveRenderer
 
 					// TODO user a single surface to draw the tape.
 					boolean drawRightSide = ( i == iNumberOfPoints - 2 )
-							&& ( j == iNumberOfDivisions - 1 && bKeepState && bFillArea );
+							&& ( j == iNumberOfDivisions - 1 /*&& bKeepState*/ && bFillArea );
 
 					plotPlane( ipr,
 							faXY1[0] + fXOffset,
@@ -827,7 +827,17 @@ public final class CurveRenderer
 
 		if ( bKeepState )
 		{
-			iRender.getRunTimeContext( ).putState( AreaSeries.class, stateList );
+			if ( iRender instanceof AxesRenderer
+					&& ( (AxesRenderer) iRender ).isLastRuntimeSeriesInAxis( ) )
+			{
+				// clean up last state.
+				iRender.getRunTimeContext( ).putState( AreaSeries.class, null );
+			}
+			else
+			{
+				iRender.getRunTimeContext( ).putState( AreaSeries.class,
+						stateList );
+			}
 		}
 	}
 

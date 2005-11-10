@@ -33,6 +33,7 @@ import javax.imageio.event.IIOWriteWarningListener;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IImageMapEmitter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.ShapedAction;
@@ -53,7 +54,8 @@ import org.eclipse.birt.chart.model.data.Action;
  * JavaxImageIOWriter
  */
 public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
-		IIOWriteWarningListener
+		IIOWriteWarningListener,
+		IImageMapEmitter
 {
 
 	protected Image _img = null;
@@ -104,36 +106,29 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		// OPTIONALLY IMPLEMENTED BY SUBCLASS
 	}
 
-	/**
-	 * Returns the output MIME type for this writer.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
 	 */
-	protected String getMimeType( )
-	{
-		// OPTIONALLY IMPLEMENTED BY SUBCLASS
-		return null;
-	}
+	public abstract String getMimeType( );
 
-	/**
-	 * Returns the image map string generated using associated trigger list and
-	 * given id.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param id
-	 * @return
+	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getImageMap()
 	 */
-	public String getImageMap( String id )
+	public String getImageMap( )
 	{
 		Map triggerMap = getTriggers( );
 
-		if ( triggerMap == null )
+		if ( triggerMap == null || triggerMap.size( ) == 0 )
 		{
 			return null;
 		}
 
 		// Generate image map using associated trigger list.
 		StringBuffer sb = new StringBuffer( );
-		sb.append( "<MAP name=\"" + id + "\">" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// 1. onfocus
 		List al = (List) triggerMap.get( TriggerCondition.ONFOCUS_LITERAL );
@@ -155,7 +150,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								URLValue uv = (URLValue) ac.getValue( );
 								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
 								sb.append( "window.location.href='" ); //$NON-NLS-1$
-								sb.append( uv.getBaseUrl( ) );
+								sb.append( eval( uv.getBaseUrl( ) ) );
 								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -165,7 +160,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
 								sb.append( "<AREA href=\"javascript:void(0)\" onfocus=\"" ); //$NON-NLS-1$
-								sb.append( sv.getScript( ) );
+								sb.append( eval( sv.getScript( ) ) );
 								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -199,7 +194,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 								URLValue uv = (URLValue) ac.getValue( );
 								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
 								sb.append( "window.location.href='" ); //$NON-NLS-1$
-								sb.append( uv.getBaseUrl( ) );
+								sb.append( eval( uv.getBaseUrl( ) ) );
 								sb.append( "'\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -209,7 +204,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
 								sb.append( "<AREA href=\"javascript:void(0)\"  onblur=\"" ); //$NON-NLS-1$
-								sb.append( sv.getScript( ) );
+								sb.append( eval( sv.getScript( ) ) );
 								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -242,7 +237,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							case ActionType.URL_REDIRECT :
 								URLValue uv = (URLValue) ac.getValue( );
 								sb.append( "<AREA href=\"" ); //$NON-NLS-1$
-								sb.append( uv.getBaseUrl( ) );
+								sb.append( eval( uv.getBaseUrl( ) ) );
 								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -252,7 +247,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							case ActionType.INVOKE_SCRIPT :
 								ScriptValue sv = (ScriptValue) ac.getValue( );
 								sb.append( "<AREA href=\"javascript:void(0)\" onclick=\"" ); //$NON-NLS-1$
-								sb.append( sv.getScript( ) );
+								sb.append( eval( sv.getScript( ) ) );
 								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -288,7 +283,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 							case ActionType.SHOW_TOOLTIP :
 								TooltipValue tv = (TooltipValue) ac.getValue( );
 								sb.append( "<AREA alt=\"" ); //$NON-NLS-1$
-								sb.append( tv.getText( ) );
+								sb.append( eval( tv.getText( ) ) );
 								sb.append( "\" shape=\"poly\" coords=\"" ); //$NON-NLS-1$
 								sb.append( coords ).append( "\">" ); //$NON-NLS-1$
 								break;
@@ -305,26 +300,20 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			}
 		}
 
-		sb.append( "</MAP>" ); //$NON-NLS-1$
-
 		return sb.toString( );
 	}
 
-	// private String escapeString( String src )
-	// {
-	// if ( src == null )
-	// {
-	// return ""; //$NON-NLS-1$
-	// }
-	//
-	// String rt = src;
-	// rt = rt.replaceAll( "\"", "\\\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-	// rt = rt.replaceAll( "<", "\\<" ); //$NON-NLS-1$ //$NON-NLS-2$
-	// rt = rt.replaceAll( ">", "\\>" ); //$NON-NLS-1$ //$NON-NLS-2$
-	// rt = rt.replaceAll( "&", "\\&" ); //$NON-NLS-1$ //$NON-NLS-2$
-	//
-	// return rt;
-	// }
+	private String eval( String expr )
+	{
+		if ( expr == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		else
+		{
+			return expr;
+		}
+	}
 
 	/**
 	 * Convert AWT shape to image map coordinates.

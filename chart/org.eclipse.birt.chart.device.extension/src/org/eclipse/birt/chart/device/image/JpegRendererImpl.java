@@ -8,29 +8,42 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.device.image;
 
 import java.awt.image.BufferedImage;
 
 /**
- *
+ * 
  */
 public final class JpegRendererImpl extends JavaxImageIOWriter
 {
-    /*
-     *  (non-Javadoc)
-     * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getFormat()
-     */
-    protected final String getFormat()
-    {
-        return "jpeg"; //$NON-NLS-1$
-    }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
-     */
-    protected final int getImageType()
-    {
-        return BufferedImage.TYPE_INT_RGB; // NO TRANSPARENCY IN JPEG
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getFormat()
+	 */
+	protected final String getFormat( )
+	{
+		return "jpeg"; //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
+	 */
+	protected final int getImageType( )
+	{
+		return BufferedImage.TYPE_INT_RGB; // NO TRANSPARENCY IN JPEG
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
+	 */
+	public String getMimeType( )
+	{
+		return "image/jpeg"; //$NON-NLS-1$
+	}
 }

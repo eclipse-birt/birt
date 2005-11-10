@@ -3,7 +3,7 @@
 <plugin
    id="org.eclipse.birt.chart.reportitem"
    name="BIRT Chart-Report Integration"
-   version="1.0.1"
+   version="2.0.0"
    provider-name="Eclipse.org"
    class="org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin">
 
@@ -60,6 +60,13 @@
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
+         <property
+               type="string"
+               displayNameID="Element.Chart.outputFormat"
+               name="outputFormat"/>
+         <propertyVisibility
+               visibility="hide"
+               name="outputFormat"/>
          <propertyVisibility
                visibility="hide"
                name="xmlRepresentation"/>

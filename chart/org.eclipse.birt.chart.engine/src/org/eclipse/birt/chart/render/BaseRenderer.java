@@ -67,6 +67,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -84,6 +85,7 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
+import org.eclipse.birt.chart.model.attribute.impl.SeriesValueImpl;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.URLValueImpl;
@@ -94,6 +96,8 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -941,7 +945,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						seBase = (Series) al.get( i );
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 						Object obj = seBase.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -1062,7 +1066,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						seBase = (Series) al.get( i );
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 						Object obj = seBase.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -1351,7 +1355,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						seBase = (Series) al.get( i );
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 						Object obj = seBase.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -1489,7 +1493,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 						seBase = (Series) al.get( i );
 						lirh = (LegendItemRenderingHints) htRenderers.get( seBase );
 						Object obj = seBase.getSeriesIdentifier( );
-						String lgtext = String.valueOf( obj );
+						String lgtext = rtc.externalizedMessage( String.valueOf( obj ) );
 						if ( fs != null )
 						{
 							try
@@ -1811,19 +1815,69 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			loaHotspot[3] = LocationImpl.create( dTextStartX, dY
 					+ dItemHeight
 					+ dValueHeight );
-			if ( !elTriggers.isEmpty( ) )
+
+			Trigger buildinTg = null;
+
+			if ( cm.getInteractivity( ) != null )
+			{
+				boolean customed = false;
+
+				switch ( cm.getInteractivity( ).getLegendBehavior( ).getValue( ) )
+				{
+					case LegendBehaviorType.HIGHLIGHT_SERIE :
+						for ( Iterator itr = elTriggers.iterator( ); itr.hasNext( ); )
+						{
+							tg = (Trigger) itr.next( );
+							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
+									|| tg.getAction( ).getType( ) == ActionType.HIGHLIGHT_LITERAL )
+							{
+								customed = true;
+							}
+						}
+						if ( !customed )
+						{
+							buildinTg = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+									ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
+											SeriesValueImpl.create( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
+						}
+						break;
+					case LegendBehaviorType.TOGGLE_SERIE_VISIBILITY :
+						for ( Iterator itr = elTriggers.iterator( ); itr.hasNext( ); )
+						{
+							tg = (Trigger) itr.next( );
+							if ( tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL
+									|| tg.getAction( ).getType( ) == ActionType.TOGGLE_VISIBILITY_LITERAL )
+							{
+								customed = true;
+							}
+						}
+						if ( !customed )
+						{
+							buildinTg = TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
+									ActionImpl.create( ActionType.TOGGLE_VISIBILITY_LITERAL,
+											SeriesValueImpl.create( String.valueOf( se.getSeriesIdentifier( ) ) ) ) );
+						}
+						break;
+					case LegendBehaviorType.NONE :
+						break;
+				}
+			}
+
+			if ( !elTriggers.isEmpty( ) || buildinTg != null )
 			{
 				final InteractionEvent iev = (InteractionEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( se ),
 						InteractionEvent.class );
 				for ( int t = 0; t < elTriggers.size( ); t++ )
 				{
 					tg = (Trigger) EcoreUtil.copy( (Trigger) elTriggers.get( t ) );
-					if ( tg.getCondition( ) == TriggerCondition.MOUSE_CLICK_LITERAL
-							|| tg.getCondition( ) == TriggerCondition.ONCLICK_LITERAL )
-					{
-						iev.addTrigger( tg );
-					}
+					iev.addTrigger( tg );
 				}
+
+				if ( buildinTg != null )
+				{
+					iev.addTrigger( buildinTg );
+				}
+
 				final PolygonRenderEvent pre = (PolygonRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
 						PolygonRenderEvent.class );
 				pre.setPoints( loaHotspot );
@@ -1831,7 +1885,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				ipr.enableInteraction( iev );
 			}
 		}
-		
+
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.AFTER_DRAW_LEGEND_ENTRY,
 				la );

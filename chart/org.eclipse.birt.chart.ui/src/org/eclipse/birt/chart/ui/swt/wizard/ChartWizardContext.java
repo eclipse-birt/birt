@@ -19,8 +19,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 
 /**
- * @author Actuate Corporation
- * 
+ * ChartWizardContext
  */
 public class ChartWizardContext implements IWizardContext
 {
@@ -29,6 +28,7 @@ public class ChartWizardContext implements IWizardContext
 	private IChartType chartType = null;
 	private Object extendedItem = null;
 	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
+	private String sOutputFormat = sDefaultOutputFormat;
 	private IUIServiceProvider uiProvider;
 	private IDataServiceProvider dataProvider;
 	private transient IStyleProcessor processor;
@@ -66,6 +66,16 @@ public class ChartWizardContext implements IWizardContext
 	public void setExtendedItem( Object extendedItem )
 	{
 		this.extendedItem = extendedItem;
+	}
+
+	public String getOutputFormat( )
+	{
+		return sOutputFormat;
+	}
+
+	public void setOutputFormat( String format )
+	{
+		this.sOutputFormat = format;
 	}
 
 	public String getDefaultOutputFormat( )

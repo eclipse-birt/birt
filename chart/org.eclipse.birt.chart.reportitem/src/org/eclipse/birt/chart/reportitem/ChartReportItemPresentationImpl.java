@@ -19,7 +19,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
+import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.device.IImageMapEmitter;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
@@ -54,11 +56,17 @@ public final class ChartReportItemPresentationImpl extends
 
 	private FileInputStream fis = null;
 
+	private String imageMap = null;
+
 	private String sExtension = null;
 
 	private String sSupportedFormats = null;
 
+	private String outputFormat = null;
+
 	private Chart cm = null;
+
+	private IDeviceRenderer idr = null;
 
 	private DesignElementHandle handle;
 
@@ -73,6 +81,63 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public ChartReportItemPresentationImpl( )
 	{
+	}
+
+	private boolean isOutputRendererSupported( String format )
+	{
+		if ( format != null )
+		{
+			if ( sSupportedFormats != null
+					&& ( sSupportedFormats.indexOf( format ) != -1 ) )
+			{
+				IDeviceRenderer renderer = null;
+
+				try
+				{
+					renderer = PluginSettings.instance( )
+							.getDevice( "dv." + format ); //$NON-NLS-1$
+				}
+				catch ( Exception e )
+				{
+					renderer = null;
+				}
+
+				return ( renderer != null );
+			}
+		}
+
+		return false;
+	}
+
+	private String getFirstNonSVGFormat( String formats )
+	{
+		if ( formats != null && formats.length( ) > 0 )
+		{
+			int idx = formats.indexOf( ';' );
+			if ( idx == -1 )
+			{
+				if ( !"SVG".equals( formats ) ) //$NON-NLS-1$
+				{
+					return formats;
+				}
+			}
+			else
+			{
+				String ext = formats.substring( 0, idx );
+
+				if ( !"SVG".equals( ext ) ) //$NON-NLS-1$
+				{
+					return ext;
+				}
+				else
+				{
+					return getFirstNonSVGFormat( formats.substring( idx + 1 ) );
+				}
+			}
+		}
+
+		// JPG as default.
+		return "JPG"; //$NON-NLS-1$
 	}
 
 	/*
@@ -111,6 +176,13 @@ public final class ChartReportItemPresentationImpl extends
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
 		handle = eih;
+
+		Object of = handle.getProperty( "outputFormat" ); //$NON-NLS-1$
+
+		if ( of instanceof String )
+		{
+			outputFormat = (String) of;
+		}
 	}
 
 	/*
@@ -143,7 +215,18 @@ public final class ChartReportItemPresentationImpl extends
 	{
 		if ( sOutputFormat.equalsIgnoreCase( "HTML" ) ) //$NON-NLS-1$
 		{
-			sExtension = "PNG"; //$NON-NLS-1$
+			if ( isOutputRendererSupported( outputFormat ) )
+			{
+				sExtension = outputFormat;
+			}
+			else if ( isOutputRendererSupported( "SVG" ) ) //$NON-NLS-1$
+			{
+				sExtension = "SVG"; //$NON-NLS-1$
+			}
+			else
+			{
+				sExtension = getFirstNonSVGFormat( sSupportedFormats );
+			}
 		}
 		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
 		{
@@ -181,7 +264,35 @@ public final class ChartReportItemPresentationImpl extends
 	 */
 	public int getOutputType( )
 	{
-		return OUTPUT_AS_IMAGE;
+		if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+		{
+			return OUTPUT_AS_IMAGE;
+		}
+		else
+		{
+			return OUTPUT_AS_IMAGE_WITH_MAP;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getImageMIMEType()
+	 */
+	public String getImageMIMEType( )
+	{
+		if ( idr instanceof IImageMapEmitter )
+		{
+			return ( (IImageMapEmitter) idr ).getMimeType( );
+		}
+		else if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+		{
+			return "image/svg+xml"; //$NON-NLS-1$
+		}
+		else
+		{
+			return "image"; //$NON-NLS-1$
+		}
 	}
 
 	/*
@@ -266,7 +377,6 @@ public final class ChartReportItemPresentationImpl extends
 			}
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
-			IDeviceRenderer idr = null;
 			idr = PluginSettings.instance( ).getDevice( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
 
@@ -291,6 +401,8 @@ public final class ChartReportItemPresentationImpl extends
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
 			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER,
 					fChartImage.getPath( ) );
+			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
 			gr.render( idr, gcs );
 
@@ -305,6 +417,12 @@ public final class ChartReportItemPresentationImpl extends
 						ChartException.GENERATION,
 						ioex );
 			}
+
+			if ( !"SVG".equals( sExtension ) && idr instanceof IImageMapEmitter ) //$NON-NLS-1$
+			{
+				imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
+			}
+
 		}
 		catch ( BirtException ex )
 		{
@@ -343,7 +461,17 @@ public final class ChartReportItemPresentationImpl extends
 
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.onRowSetsEnd" ) ); //$NON-NLS-1$
-		return fis;
+
+		if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+		{
+			return fis;
+		}
+		else
+		{
+			return new Object[]{
+					fis, imageMap
+			};
+		}
 	}
 
 	/*
@@ -381,8 +509,14 @@ public final class ChartReportItemPresentationImpl extends
 		// CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
 		try
 		{
+			// clean up the image map.
+			imageMap = null;
+
 			if ( fis != null )
+			{
 				fis.close( );
+				fis = null;
+			}
 		}
 		catch ( IOException ioex )
 		{

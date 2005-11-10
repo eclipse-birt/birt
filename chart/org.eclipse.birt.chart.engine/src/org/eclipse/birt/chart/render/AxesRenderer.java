@@ -62,6 +62,7 @@ import org.eclipse.birt.chart.model.ScriptHandler;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -775,7 +776,7 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 
 				renderLabel( StructureSource.createSeries( getSeries( ) ),
-						TextRenderEvent.RENDER_TEXT_AT_LOCATION,
+						TextRenderEvent.RENDER_TEXT_IN_BLOCK,
 						lb,
 						Position.RIGHT_LITERAL,
 						LocationImpl.create( bb.getLeft( ), bb.getTop( ) ),
@@ -1292,7 +1293,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			pre.setDoubleSided( true );
 
 			// DRAW THE WALL
-			if ( cwa.getWallFill( ) != null )
+			if ( ( cwa.getWallFill( ) instanceof ColorDefinition && ( (ColorDefinition) cwa.getWallFill( ) ).getTransparency( ) > 0 )
+					|| ( !( cwa.getWallFill( ) instanceof ColorDefinition ) && cwa.getWallFill( ) != null ) )
 			{
 				loa = new Location3D[4];
 
@@ -1377,7 +1379,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			}
 
 			// DRAW THE FLOOR
-			if ( cwa.getFloorFill( ) != null )
+			if ( ( cwa.getFloorFill( ) instanceof ColorDefinition && ( (ColorDefinition) cwa.getFloorFill( ) ).getTransparency( ) > 0 )
+					|| ( !( cwa.getFloorFill( ) instanceof ColorDefinition ) && cwa.getFloorFill( ) != null ) )
 			{
 				if ( loa == null )
 				{
@@ -4727,6 +4730,40 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final boolean isDimension3D( )
 	{
 		return ( getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL );
+	}
+
+	public final boolean isLastRuntimeSeriesInAxis( )
+	{
+		SeriesDefinition sd = null;
+
+		Series se = getSeries( );
+
+		if ( se.eContainer( ) instanceof SeriesDefinition )
+		{
+			sd = (SeriesDefinition) se.eContainer( );
+		}
+
+		if ( sd != null )
+		{
+			Axis cax = getAxis( );
+
+			int iDefintionIndex = cax.getSeriesDefinitions( ).indexOf( sd );
+			int iDefinitionCount = cax.getSeriesDefinitions( ).size( );
+
+			if ( iDefinitionCount > 0
+					&& iDefintionIndex == iDefinitionCount - 1 )
+			{
+				int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( se );
+				int iSeriesCount = sd.getRunTimeSeries( ).size( );
+
+				if ( iSeriesCount > 0 && iThisSeriesIndex == iSeriesCount - 1 )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

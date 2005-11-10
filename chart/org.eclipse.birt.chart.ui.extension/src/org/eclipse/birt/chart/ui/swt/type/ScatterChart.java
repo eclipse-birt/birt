@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
@@ -242,7 +243,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		if ( ( currentChart instanceof ChartWithAxes ) )
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) ) // Original
-																	// chart is
+			// chart is
 			// of this type
 			// (LineChart)
 			{
@@ -483,6 +484,12 @@ public class ScatterChart extends DefaultChartTypeImpl
 					.setColor( ( (StockSeries) series ).getLineAttributes( )
 							.getColor( ) );
 		}
+
+		if ( scatterseries.getLineAttributes( ).getColor( ) == null )
+		{
+			scatterseries.getLineAttributes( )
+					.setColor( ColorDefinitionImpl.BLACK( ) );
+		}
 		return scatterseries;
 	}
 
@@ -599,7 +606,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		// Other types are not supported.
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )

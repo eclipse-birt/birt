@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.event;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -79,7 +81,9 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return ore;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
 	public Object3D getObject3D( )
@@ -87,15 +91,29 @@ public class Oval3DRenderEvent extends OvalRenderEvent implements
 		return object3D;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
+	 *      double)
 	 */
 	public void prepare2D( double xOffset, double yOffset )
 	{
 		Location[] points = object3D.getPoints2D( xOffset, yOffset );
+
+		ArrayList lst = new ArrayList( );
+		for ( int i = 0; i < points.length; i++ )
+		{
+			if ( !lst.contains( points[i] ) )
+			{
+				lst.add( points[i] );
+			}
+		}
+		points = (Location[]) lst.toArray( new Location[0] );
+
 		setBounds( BoundsImpl.create( points[0].getX( ),
 				points[0].getY( ),
-				points[2].getX( ) - points[1].getX( ),
-				points[0].getY( ) - points[1].getY( ) ) );
+				points[2].getX( ) - points[0].getX( ),
+				points[2].getY( ) - points[0].getY( ) ) );
 	}
 }

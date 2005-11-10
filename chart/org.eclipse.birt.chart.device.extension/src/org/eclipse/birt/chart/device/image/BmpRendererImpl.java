@@ -30,10 +30,8 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 		return "bmp"; //$NON-NLS-1$
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getMimeType()
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
 	 */
 	public final String getMimeType( )
 	{

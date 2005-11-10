@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +44,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.CallBackValue;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.URLValue;
@@ -162,6 +164,8 @@ public final class SwingEventHandler implements
 			if ( p == null || sh.contains( p ) )
 			{
 				ac = sa.getAction( );
+				final StructureSource src = (StructureSource) sa.getSource( );
+
 				switch ( ac.getType( ).getValue( ) )
 				{
 					case ActionType.URL_REDIRECT :
@@ -173,7 +177,6 @@ public final class SwingEventHandler implements
 						break;
 
 					case ActionType.TOGGLE_VISIBILITY :
-						final StructureSource src = (StructureSource) sa.getSource( );
 						if ( src.getType( ) == StructureType.SERIES )
 						{
 							final Series seRT = (Series) src.getSource( );
@@ -200,7 +203,52 @@ public final class SwingEventHandler implements
 						}
 						break;
 					case ActionType.HIGHLIGHT :
-						// TODO
+						if ( src.getType( ) == StructureType.SERIES )
+						{
+							final Series seRT = (Series) src.getSource( );
+							logger.log( ILogger.INFORMATION,
+									Messages.getString( "info.toggle.visibility", //$NON-NLS-1$
+											lcl )
+											+ seRT );
+							Series seDT = null;
+							SeriesDefinition sdDT = null;
+							try
+							{
+								seDT = findDesignTimeSeries( seRT ); // LOCATE
+								if ( seDT.eContainer( ) instanceof SeriesDefinition )
+								{
+									sdDT = (SeriesDefinition) seDT.eContainer( );
+								}
+							}
+							catch ( ChartException oosx )
+							{
+								logger.log( oosx );
+								return;
+							}
+							boolean changed = false;
+							if ( seDT != null )
+							{
+								changed = invert( seDT );
+							}
+							if ( sdDT != null )
+							{
+								for ( Iterator itr = sdDT.getSeriesPalette( )
+										.getEntries( )
+										.iterator( ); itr.hasNext( ); )
+								{
+									Object entry = itr.next( );
+									if ( entry instanceof ColorDefinition )
+									{
+										( (ColorDefinition) entry ).invert( );
+										changed = true;
+									}
+								}
+								if ( changed )
+								{
+									iun.regenerateChart( );
+								}
+							}
+						}
 						break;
 					case ActionType.CALL_BACK :
 						final CallBackValue cv = (CallBackValue) ac.getValue( );
@@ -237,6 +285,24 @@ public final class SwingEventHandler implements
 		handleAction( al, e );
 	}
 
+	private final boolean invert( Series seDT )
+	{
+		boolean changed = false;
+		for ( Iterator itr = seDT.eAllContents( ); itr.hasNext( ); )
+		{
+			Object obj = itr.next( );
+
+			if ( obj instanceof ColorDefinition )
+			{
+				( (ColorDefinition) obj ).invert( );
+
+				changed = true;
+			}
+		}
+
+		return changed;
+	}
+
 	/**
 	 * Locates a design-time series corresponding to a given cloned run-time
 	 * series.
@@ -257,23 +323,50 @@ public final class SwingEventHandler implements
 		EList elSD, elSE;
 		SeriesDefinition sd;
 		Series se = null;
-		int i, j = 0, k = 0;
+		int i = -1, j = 0, k = 0;
 		boolean bFound = false;
 
-		// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
-		for ( i = 0; i < axaOrthogonal.length; i++ )
+		elSD = axaBase[0].getSeriesDefinitions( );
+		for ( j = 0; j < elSD.size( ); j++ )
 		{
-			elSD = axaOrthogonal[i].getSeriesDefinitions( );
-			for ( j = 0; j < elSD.size( ); j++ )
+			sd = (SeriesDefinition) elSD.get( j );
+			elSE = sd.getSeries( );
+			for ( k = 0; k < elSE.size( ); k++ )
 			{
-				sd = (SeriesDefinition) elSD.get( j );
-				elSE = sd.getSeries( );
-				for ( k = 0; k < elSE.size( ); k++ )
+				se = (Series) elSE.get( k );
+				if ( seRT == se )
 				{
-					se = (Series) elSE.get( k );
-					if ( seRT == se )
+					bFound = true;
+					break;
+				}
+			}
+			if ( bFound )
+			{
+				break;
+			}
+		}
+
+		if ( !bFound )
+		{
+			// LOCATE INDEXES FOR AXIS/SERIESDEFINITION/SERIES IN RUN TIME MODEL
+			for ( i = 0; i < axaOrthogonal.length; i++ )
+			{
+				elSD = axaOrthogonal[i].getSeriesDefinitions( );
+				for ( j = 0; j < elSD.size( ); j++ )
+				{
+					sd = (SeriesDefinition) elSD.get( j );
+					elSE = sd.getSeries( );
+					for ( k = 0; k < elSE.size( ); k++ )
 					{
-						bFound = true;
+						se = (Series) elSE.get( k );
+						if ( seRT == se )
+						{
+							bFound = true;
+							break;
+						}
+					}
+					if ( bFound )
+					{
 						break;
 					}
 				}
@@ -281,10 +374,6 @@ public final class SwingEventHandler implements
 				{
 					break;
 				}
-			}
-			if ( bFound )
-			{
-				break;
 			}
 		}
 
@@ -303,7 +392,14 @@ public final class SwingEventHandler implements
 		axaBase = cwaDT.getPrimaryBaseAxes( );
 		axBase = axaBase[0];
 		axaOrthogonal = cwaDT.getOrthogonalAxes( axBase, true );
-		elSD = axaOrthogonal[i].getSeriesDefinitions( );
+		if ( i == -1 )
+		{
+			elSD = axaBase[0].getSeriesDefinitions( );
+		}
+		else
+		{
+			elSD = axaOrthogonal[i].getSeriesDefinitions( );
+		}
 		sd = (SeriesDefinition) elSD.get( j );
 		elSE = sd.getSeries( );
 		seDT = (Series) elSE.get( k );

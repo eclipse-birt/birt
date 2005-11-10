@@ -71,14 +71,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
 /**
- * 
+ * TaskSelectType
  */
-
-public class TaskSelectType extends SimpleTask
-		implements
-			SelectionListener,
-			DisposeListener,
-			ITaskChangeListener
+public class TaskSelectType extends SimpleTask implements
+		SelectionListener,
+		DisposeListener,
+		ITaskChangeListener
 {
 
 	private transient Chart chartModel = null;
@@ -460,21 +458,10 @@ public class TaskSelectType extends SimpleTask
 		}
 
 		cbOutput.setItems( getOutputFormats( ) );
-		String sCurrentFormat = null;
-		if ( this.chartModel != null )
-		{
-			Iterator iter = chartModel.getExtendedProperties( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				ExtendedProperty prop = (ExtendedProperty) iter.next( );
-				if ( prop.getName( ).equals( PROP_OUTPUTFORMAT ) )
-				{
-					sCurrentFormat = prop.getValue( );
-				}
-			}
-		}
-		cbOutput.setText( ( sCurrentFormat == null )
-				? ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( )
+
+		String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
+
+		cbOutput.setText( ( sCurrentFormat == null ) ? ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( )
 				: sCurrentFormat );
 	}
 
@@ -737,29 +724,7 @@ public class TaskSelectType extends SimpleTask
 		}
 		else if ( oSelected.equals( cbOutput ) )
 		{
-			if ( this.chartModel != null )
-			{
-				boolean bUpdated = false;
-				Iterator iter = chartModel.getExtendedProperties( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					ExtendedProperty prop = (ExtendedProperty) iter.next( );
-					if ( prop.getName( ).equals( PROP_OUTPUTFORMAT ) )
-					{
-						prop.setValue( cbOutput.getText( ) );
-						bUpdated = true;
-					}
-				}
-				if ( !bUpdated )
-				{
-					ExtendedProperty propOutputFormat = AttributeFactory.eINSTANCE.createExtendedProperty( );
-					propOutputFormat.setName( PROP_OUTPUTFORMAT );
-					propOutputFormat.setValue( cbOutput.getText( ) );
-					propOutputFormat.eAdapters( )
-							.addAll( chartModel.eAdapters( ) );
-					chartModel.getExtendedProperties( ).add( propOutputFormat );
-				}
-			}
+			( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
 		}
 
 		refreshChart( );

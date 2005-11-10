@@ -26,6 +26,14 @@ public final class PngRendererImpl extends JavaxImageIOWriter
     {
         return "png"; //$NON-NLS-1$
     }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
+     */
+    public String getMimeType( )
+    {
+    	return "image/png"; //$NON-NLS-1$
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
