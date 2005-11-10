@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.factory;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Stack;
@@ -24,10 +25,13 @@ import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.PlotWithoutAxes;
+import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.internal.factory.DataProcessor;
+import org.eclipse.birt.chart.internal.factory.SqlDataRowEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -441,6 +445,50 @@ public final class Generator
 		return false;
 	}
 
+	/**
+	 * This retrieves all the row expressions stored in the chart model. This
+	 * is useful to prepare a specific query for the chart.
+	 * @param The Chart model
+	 * @return All row expressions in a list of String instances.
+	 * @throws ChartException
+	 */
+	public List getRowExpressions( Chart cm ) throws ChartException
+	{
+		return DataProcessor.getRowExpressions( cm );
+	}
+	
+	/**
+	 * Binds a sql Resuset to a chart model. This is based on the assumption the 
+	 * column names of the resultset match exactly the data query definitions and other expressions 
+	 * set inside the chart model.
+	 * 
+	 * @param resultSet A sql resultset that contains the data. The following methods
+	 * of the interface need to be implemented: first(), next(), getObject(String), close()
+	 * @param chart The chart model to bind the data to
+	 * @param rtc The runtime context
+	 * @throws ChartException
+	 */
+	public void bindData( java.sql.ResultSet resultSet, Chart chart, RunTimeContext rtc ) throws ChartException
+	{
+		SqlDataRowEvaluator rowEvaluator = new SqlDataRowEvaluator(  resultSet );
+		bindData( rowEvaluator, chart, rtc );
+	}
+	
+	/**
+	 * Binds data to the chart model using a row expression evaluator. The evaluator provides the ability  
+	 * to evaluate the expressions set in the chart on a row context. 
+	 * @param expressionEvaluator The data row expression evaluator implementation
+	 * @param chart The chart model
+	 * @param rtc The runtime context
+	 * @throws ChartException
+	 */
+	public void bindData( IDataRowExpressionEvaluator expressionEvaluator, Chart chart, RunTimeContext rtc ) throws ChartException
+	{
+		DataProcessor helper = new DataProcessor(rtc);
+		ResultSetWrapper wrapper = helper.mapToChartResultSet(expressionEvaluator, chart);
+		helper.generateRuntimeSeries( chart, wrapper );
+	}
+	
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.

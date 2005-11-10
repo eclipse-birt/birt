@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.chart.datafeed.ResultSetWrapper;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IImageMapEmitter;
@@ -344,19 +343,8 @@ public final class ChartReportItemPresentationImpl extends
 
 		try
 		{
-			final QueryHelper qh = QueryHelper.instance( rtc );
-			// final ScriptHandler sh = rtc.getScriptHandler();
-			// ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DATA_BINDING,
-			// irsa[0]);
-			final ResultSetWrapper rsw = qh.mapToChartResultSet( ibqda[0],
-					irsa[0],
-					cm );
-			// ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DATA_BINDING,
-			// rsw);
-
-			// POPULATE THE CHART MODEL WITH THE RESULTSET
-			qh.generateRuntimeSeries( cm, rsw );
-
+			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator(  irsa[0], ibqda[0]);
+			Generator.instance().bindData( rowAdapter, cm, rtc);
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
 			// SETUP A TEMP FILE FOR STREAMING

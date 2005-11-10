@@ -1,11 +1,18 @@
-/**
- * 
- */
+/***********************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -87,12 +94,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.start" ) ); //$NON-NLS-1$
 
 		// BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
-		RunTimeContext rtc = new RunTimeContext( );
-		// rtc.setLocale(?);
+		
 		IBaseQueryDefinition ibqd = null;
 		try
 		{
-			ibqd = QueryHelper.instance( rtc ).build( eih, ibqdParent, cm );
+			ibqd = (new QueryHelper()).build( eih, ibqdParent, cm );
 		}
 		catch ( RuntimeException gex )
 		{

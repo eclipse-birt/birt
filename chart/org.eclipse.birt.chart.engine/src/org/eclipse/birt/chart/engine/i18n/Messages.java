@@ -60,6 +60,15 @@ public final class Messages
 	}
 
 	/**
+	 * 
+	 * @param key key
+	 * @param oa single argument
+	 */
+	public static String getString( String key, Object oa, Locale lcl )
+	{
+		return getString( key, new Object[]{oa}, lcl );
+	}
+	/**
 	 * @param key
 	 * @param oa
 	 * @param lcl

@@ -104,6 +104,10 @@ public class ChartException extends BirtException
 	 */
 	public static final int INVALID_IMAGE_SIZE = 18;
 	/**
+	 * Exception type for Data binding error
+	 */
+	public static final int DATA_BINDING = 19;
+	/**
 	 * Exception type for Validation error.
 	 */
 	public static final int VALIDATION = MAX_VALUE;
