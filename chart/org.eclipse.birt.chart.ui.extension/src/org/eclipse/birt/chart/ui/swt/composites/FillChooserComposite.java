@@ -135,7 +135,7 @@ public class FillChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void init( )
 	{
@@ -147,7 +147,7 @@ public class FillChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void placeComponents( )
 	{
@@ -252,7 +252,7 @@ public class FillChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void createDropDownComponent( int iXLoc, int iYLoc )
 	{
@@ -763,21 +763,24 @@ public class FillChooserComposite extends Composite implements
 		{
 			// Condition added to handle behavior under Linux
 			Control cTmp = Display.getCurrent( ).getCursorControl( );
-			if ( cTmp.equals( btnGradient )
-					|| cTmp.equals( btnCustom )
-					|| cTmp.equals( btnImage )
-					|| ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals( srTransparency ) ) )
+			if (cTmp != null)
 			{
-				return;
-			}
+				if ( cTmp.equals( btnGradient )
+						|| cTmp.equals( btnCustom )
+						|| cTmp.equals( btnImage )
+						|| ( e.getSource( ).equals( cmpDropDown ) && cTmp.equals( srTransparency ) ) )
+				{
+					return;
+				}
 
-			if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
-			{
-				bJustFocusLost = true;
+				if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+				{
+					bJustFocusLost = true;
+				}
 			}
 
 			cmpDropDown.getShell( ).dispose( );
-			return;
+			return;					
 		}
 	}
 }

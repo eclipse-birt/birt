@@ -85,7 +85,7 @@ public class LineStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void init( )
 	{
@@ -95,7 +95,7 @@ public class LineStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void placeComponents( )
 	{
@@ -115,7 +115,6 @@ public class LineStyleChooserComposite extends Composite implements
 		glContentOuter.marginWidth = 0;
 		glContentOuter.numColumns = 1;
 		cmpContentOuter.setLayout( glContentOuter );
-
 
 		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
 		// THE CANVAS + BUTTON)
@@ -161,7 +160,7 @@ public class LineStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void createDropDownComponent( int iXLoc, int iYLoc )
 	{
@@ -369,9 +368,12 @@ public class LineStyleChooserComposite extends Composite implements
 		{
 			Control cTmp = Display.getCurrent( ).getCursorControl( );
 
-			if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+			if ( cTmp != null )
 			{
-				bJustFocusLost = true;
+				if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+				{
+					bJustFocusLost = true;
+				}
 			}
 
 			cmpDropDown.getShell( ).dispose( );

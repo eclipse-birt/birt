@@ -84,7 +84,7 @@ public class LineWidthChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void init( )
 	{
@@ -94,7 +94,7 @@ public class LineWidthChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void placeComponents( )
 	{
@@ -161,7 +161,7 @@ public class LineWidthChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void createDropDownComponent( int iXLoc, int iYLoc )
 	{
@@ -368,9 +368,12 @@ public class LineWidthChooserComposite extends Composite implements
 		{
 			Control cTmp = Display.getCurrent( ).getCursorControl( );
 
-			if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+			if ( cTmp != null )
 			{
-				bJustFocusLost = true;
+				if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+				{
+					bJustFocusLost = true;
+				}
 			}
 
 			cmpDropDown.getShell( ).dispose( );

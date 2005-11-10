@@ -57,8 +57,7 @@ public class HeadStyleChooserComposite extends Composite implements
 	private transient Button btnDown = null;
 
 	private final int[] iLineDecorator = new int[]{
-			LineDecorator.ARROW, LineDecorator.NONE,
-			LineDecorator.CIRCLE
+			LineDecorator.ARROW, LineDecorator.NONE, LineDecorator.CIRCLE
 	};
 
 	private transient int iCurrentStyle = LineDecorator.ARROW;
@@ -85,7 +84,7 @@ public class HeadStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void init( )
 	{
@@ -95,7 +94,7 @@ public class HeadStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	private void placeComponents( )
 	{
@@ -130,7 +129,9 @@ public class HeadStyleChooserComposite extends Composite implements
 		cmpContentInner.setLayoutData( gdContentInner );
 
 		// THE CANVAS
-		cnvSelection = new HeadStyleCanvas( cmpContentInner, SWT.NONE, LineDecorator.ARROW );
+		cnvSelection = new HeadStyleCanvas( cmpContentInner,
+				SWT.NONE,
+				LineDecorator.ARROW );
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
@@ -148,7 +149,7 @@ public class HeadStyleChooserComposite extends Composite implements
 	}
 
 	/**
-	 *  Create the content within the drop down button
+	 * Create the content within the drop down button
 	 */
 	private void createDropDownComponent( int iXLoc, int iYLoc )
 	{
@@ -156,20 +157,20 @@ public class HeadStyleChooserComposite extends Composite implements
 		shell.setLayout( new FillLayout( ) );
 		shell.setSize( this.getSize( ).x, 150 );
 		shell.setLocation( iXLoc, iYLoc );
-		
+
 		FillLayout fillDropDown = new FillLayout( );
 		fillDropDown.type = SWT.VERTICAL;
-		
+
 		cmpDropDown = new Composite( shell, SWT.NONE );
 		cmpDropDown.setLayout( fillDropDown );
 		cmpDropDown.addKeyListener( this );
 		cmpDropDown.addFocusListener( this );
-		
+
 		for ( int iC = 0; iC < this.iLineDecorator.length; iC++ )
 		{
 			HeadStyleCanvas cnv = new HeadStyleCanvas( cmpDropDown,
 					SWT.NONE,
-					iLineDecorator[iC]);
+					iLineDecorator[iC] );
 			cnv.setSize( cmpDropDown.getSize( ).x, cnvSelection.getSize( ).y );
 			cnv.addMouseListener( this );
 		}
@@ -348,13 +349,15 @@ public class HeadStyleChooserComposite extends Composite implements
 		{
 			Control cTmp = Display.getCurrent( ).getCursorControl( );
 
-			if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+			if ( cTmp != null )
 			{
-				bJustFocusLost = true;
+				if ( cTmp.equals( cnvSelection ) || cTmp.equals( btnDown ) )
+				{
+					bJustFocusLost = true;
+				}
 			}
 
 			cmpDropDown.getShell( ).dispose( );
 		}
 	}
 }
-
