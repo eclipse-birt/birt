@@ -106,7 +106,9 @@ public class OdaJdbcDriver implements IDriver
 		final String methodName = "setLogConfiguration";
 		
 	    // Get logger for this driver package
-		Logger pkgLogger = Logger.getLogger( OdaJdbcDriver.class.getPackage().getName() );
+		String className = OdaJdbcDriver.class.getName( );
+		Logger pkgLogger = Logger.getLogger( className.substring( 0,
+				className.lastIndexOf( "." ) ) );
         
         // determine driver package log level;
         // if a valid value is configured, set it in package logger
