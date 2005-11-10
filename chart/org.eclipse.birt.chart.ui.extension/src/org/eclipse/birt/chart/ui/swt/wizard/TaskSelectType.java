@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.AxisOriginImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -44,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -172,6 +172,7 @@ public class TaskSelectType extends SimpleTask
 			this.chartModel = ( (ChartWizardContext) context ).getModel( );
 		}
 		placeComponents( );
+		updateAdapters( );
 		return cmpTask;
 	}
 
@@ -194,8 +195,6 @@ public class TaskSelectType extends SimpleTask
 		previewPainter.setPreview( previewCanvas );
 		if ( chartModel != null )
 		{
-			chartModel.eAdapters( )
-					.add( ( (ChartWizard) container ).getAdapter( ) );
 			previewPainter.renderModel( chartModel );
 		}
 	}
@@ -459,22 +458,7 @@ public class TaskSelectType extends SimpleTask
 		{
 			cbOrientation.setSelection( false );
 		}
-		if ( sDimension == null )
-		{
-			cbDimension.select( 0 );
-		}
-		else
-		{
-			String[] strArr = cbDimension.getItems( );
-			for ( int iD = 0; iD < strArr.length; iD++ )
-			{
-				if ( sDimension.equals( strArr[iD] ) )
-				{
-					cbDimension.select( iD );
-					break;
-				}
-			}
-		}
+
 		cbOutput.setItems( getOutputFormats( ) );
 		String sCurrentFormat = null;
 		if ( this.chartModel != null )
@@ -615,24 +599,25 @@ public class TaskSelectType extends SimpleTask
 				.setDefinition( "" ); //$NON-NLS-1$
 		( (SeriesDefinition) overlayAxis.getSeriesDefinitions( ).get( 0 ) ).getSeriesPalette( )
 				.update( 1 );
-		// Update the sample values for the new overlay series
-		SampleData sd = chartModel.getSampleData( );
-		// Create a new OrthogonalSampleData instance from the existing one
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		// TODO: This is HARD CODED sample data...this WILL FAIL for Stock
-		// series. This should actually be obtained from
-		// the series data feeder as 'default sample values'
-		sdOrthogonal.setDataSetRepresentation( "23,61,-12" ); //$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex( yAxis.getSeriesDefinitions( )
-				.size( ) );
-		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
+
 		// Update the chart model with the new Axis
 		( (Axis) ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.add( overlayAxis );
-		// Update the SampleData
-		chartModel.getSampleData( )
-				.getOrthogonalSampleData( )
-				.add( sdOrthogonal );
+
+		// Update the sample values for the new overlay series
+		SampleData sd = chartModel.getSampleData( );
+
+		// Create a new OrthogonalSampleData instance from the existing one
+		int currentSize = sd.getOrthogonalSampleData( ).size( );
+		for ( int i = 0; i < currentSize; i++ )
+		{
+			OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
+					.getOrthogonalSampleData( )
+					.get( i ) );
+			sdOrthogonal.setSeriesDefinitionIndex( currentSize + i );
+			sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
+			sd.getOrthogonalSampleData( ).add( sdOrthogonal );
+		}
 	}
 
 	private void removeOverlayAxis( )
@@ -1041,7 +1026,7 @@ public class TaskSelectType extends SimpleTask
 		sType = null;
 		sDimension = null;
 		vSubTypeNames = null;
-		orientation = null;
+		orientation = Orientation.VERTICAL_LITERAL;
 
 		if ( whiteColor != null && !whiteColor.isDisposed( ) )
 		{
@@ -1196,7 +1181,7 @@ public class TaskSelectType extends SimpleTask
 		}
 	}
 
-	public void changeTask( )
+	public void changeTask( Notification notification )
 	{
 		if ( cmpTask != null )
 		{

@@ -53,7 +53,7 @@ public class ChartAdapter extends EContentAdapter
 		for ( int iC = 0; iC < vListeners.size( ); iC++ )
 		{
 			ITaskChangeListener changeLs = (ITaskChangeListener) vListeners.elementAt( iC );
-			changeLs.changeTask( );
+			changeLs.changeTask( notification );
 		}
 
 	}

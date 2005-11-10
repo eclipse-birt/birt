@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.chart.datafeed;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 /**
  * Provides a no-op implementation of the
@@ -108,5 +111,49 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	public final void setLocale( Locale lcl )
 	{
 		this.lcl = lcl;
+	}
+
+	public String toString( Object[] columnData ) throws ChartException
+	{
+		if ( columnData == null || columnData.length == 0 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_SET,
+					"Invalid column data" ); //$NON-NLS-1$
+		}
+		StringBuffer buffer = new StringBuffer( );
+		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" ); //$NON-NLS-1$
+		for ( int i = 0; i < columnData.length; i++ )
+		{
+			// Unwrap array
+			if ( columnData[i] instanceof Object[] )
+			{
+				columnData[i] = ( (Object[]) columnData[i] )[0];
+			}
+			if ( columnData[i] == null )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_SET,
+						"Invalid data set column" ); //$NON-NLS-1$
+			}
+
+			if ( columnData[i] instanceof String )
+			{
+				buffer.append( columnData[i] );
+			}
+			else if ( columnData[i] instanceof Date )
+			{
+				buffer.append( sdf.format( (Date) columnData[i] ) );
+			}
+			else if ( columnData[i] instanceof Number )
+			{
+				buffer.append( String.valueOf( columnData[i] ) );
+			}
+			if ( i < columnData.length - 1 )
+			{
+				buffer.append( "," ); //$NON-NLS-1$
+			}
+		}
+		return buffer.toString( );
 	}
 }

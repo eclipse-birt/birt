@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.emf.common.notify.Notification;
+
 /**
  * 
  */
@@ -18,5 +20,5 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 public interface ITaskChangeListener
 {
 
-	void changeTask( );
+	void changeTask( Notification notification );
 }

@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -27,6 +28,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -79,6 +82,18 @@ public class DataDefinitionSelector
 
 	private transient Chart chart;
 
+	/**
+	 * 
+	 * @param chart
+	 * @param axisIndex
+	 *            0 means single axis; 1 means the first of multiple axes, 2
+	 *            means the second axis
+	 * @param seriesDefns
+	 * @param builder
+	 * @param oContext
+	 * @param sTitle
+	 * @param selectDataUI
+	 */
 	public DataDefinitionSelector( Chart chart, int axisIndex,
 			EList seriesDefns, IUIServiceProvider builder, Object oContext,
 			String sTitle, ISelectDataCustomizeUI selectDataUI )
@@ -164,15 +179,75 @@ public class DataDefinitionSelector
 				: selectedIndex );
 	}
 
+	private int getFirstIndexOfSameAxis( )
+	{
+		if ( axisIndex >= 2 )
+		{
+			return ChartUIUtil.getOrthogonalSeriesDefinitions( chart, 0 )
+					.size( );
+		}
+		return 0;
+	}
+
+	protected void addNewSeriesDefinition( )
+	{
+		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
+		sdTmp.getSeriesPalette( ).update( -1 );
+		sdTmp.getSeries( )
+				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+		sdTmp.eAdapters( ).addAll( getCurrentSeriesDefinition( ).eAdapters( ) );
+
+		int firstIndex = getFirstIndexOfSameAxis( );
+		EList list = chart.getSampleData( ).getOrthogonalSampleData( );
+
+		// Create a new OrthogonalSampleData instance from the existing one
+		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) list.get( firstIndex ) );
+		sdOrthogonal.setSeriesDefinitionIndex( firstIndex + 1 );
+		sdOrthogonal.eAdapters( ).addAll( chart.getSampleData( ).eAdapters( ) );
+
+		seriesDefns.add( sdTmp );
+		// Update the SampleData. Must do this after add series definition.
+		list.add( firstIndex + 1, sdOrthogonal );
+
+		// Reset series index of sample data
+		if ( axisIndex == 1 && ChartUIUtil.getOrthogonalAxisNumber( chart ) > 1 )
+		{
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
+			}
+		}
+	}
+
+	protected void removeSeriesDefinition( )
+	{
+		int firstIndex = getFirstIndexOfSameAxis( );
+		EList list = chart.getSampleData( ).getOrthogonalSampleData( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			// Check each entry if it is associated with the series
+			// definition to be removed
+			if ( ( (OrthogonalSampleData) list.get( i ) ).getSeriesDefinitionIndex( ) == ( firstIndex + cmbSeriesSelect.getSelectionIndex( ) ) )
+			{
+				list.remove( i );
+				break;
+			}
+		}
+		// Reset index. If index is wrong, sample data can't display.
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			( (OrthogonalSampleData) list.get( i ) ).setSeriesDefinitionIndex( i );
+		}
+		seriesDefns.remove( cmbSeriesSelect.getSelectionIndex( ) );
+	}
+
 	public void widgetSelected( SelectionEvent e )
 	{
 		if ( e.widget.equals( btnSeriesAdd ) )
 		{
 			if ( seriesDefns.size( ) <= 1 )
 			{
-				ChartUIUtil.addNewSeriesDefinition( chart,
-						seriesDefns,
-						getCurrentSeriesDefinition( ).eContainer( ).eAdapters( ) );
+				addNewSeriesDefinition( );
 			}
 			else
 			{
@@ -201,20 +276,7 @@ public class DataDefinitionSelector
 				}
 
 				// Remove sample data and series
-				EList list = chart.getSampleData( ).getOrthogonalSampleData( );
-				for ( int i = 0; i < list.size( ); i++ )
-				{
-					// Check each entry if it is associated with the series
-					// definition
-					// to be removed
-					if ( ( (OrthogonalSampleData) list.get( i ) ).getSeriesDefinitionIndex( ) == cmbSeriesSelect.getSelectionIndex( ) )
-					{
-						list.remove( i );
-						// Reset counter
-						i--;
-					}
-				}
-				seriesDefns.remove( cmbSeriesSelect.getSelectionIndex( ) );
+				removeSeriesDefinition( );
 			}
 			refreshButton( );
 			refreshCombo( );

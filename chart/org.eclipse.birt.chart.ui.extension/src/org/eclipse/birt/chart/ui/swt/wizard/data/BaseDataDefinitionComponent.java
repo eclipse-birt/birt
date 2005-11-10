@@ -32,6 +32,8 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -52,7 +54,8 @@ public class BaseDataDefinitionComponent
 		implements
 			ISelectDataComponent,
 			SelectionListener,
-			ModifyListener
+			ModifyListener,
+			FocusListener
 {
 
 	private transient Composite cmpTop;
@@ -76,6 +79,8 @@ public class BaseDataDefinitionComponent
 	private transient Object oContext = null;
 
 	private transient String description = ""; //$NON-NLS-1$
+
+	private transient boolean isQueryModified;
 
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
 			Query query, IUIServiceProvider builder, Object oContext,
@@ -121,6 +126,7 @@ public class BaseDataDefinitionComponent
 				txtDefinition.setToolTipText( query.getDefinition( ) );
 			}
 			txtDefinition.addModifyListener( this );
+			txtDefinition.addFocusListener( this );
 
 			// Listener for handling dropping of custom table header
 			DropTarget target = new DropTarget( txtDefinition, DND.DROP_COPY );
@@ -257,19 +263,9 @@ public class BaseDataDefinitionComponent
 	{
 		if ( e.getSource( ).equals( txtDefinition ) )
 		{
-			if ( query != null )
-			{
-				query.setDefinition( txtDefinition.getText( ) );
-			}
-			else
-			{
-				query = QueryImpl.create( txtDefinition.getText( ) );
-			}
+			isQueryModified = true;
 			// Reset tooltip
 			txtDefinition.setToolTipText( txtDefinition.getText( ) );
-			// Refresh color from ColorPalette
-			setColor( );
-			txtDefinition.getParent( ).layout( );
 		}
 	}
 
@@ -283,4 +279,32 @@ public class BaseDataDefinitionComponent
 		this.description = description;
 	}
 
+	public void focusGained( FocusEvent e )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		// Null event is fired by Drop Listener manually
+		if ( isQueryModified
+				&& ( e == null || e.widget.equals( txtDefinition ) ) )
+		{
+			if ( query != null )
+			{
+				query.setDefinition( txtDefinition.getText( ) );
+			}
+			else
+			{
+				query = QueryImpl.create( txtDefinition.getText( ) );
+				query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+			}
+			// Refresh color from ColorPalette
+			setColor( );
+			txtDefinition.getParent( ).layout( );
+			isQueryModified = false;
+		}
+
+	}
 }

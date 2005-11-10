@@ -79,7 +79,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			lblIncludingAxes.setText( Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) ); //$NON-NLS-1$
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.BlockColor" ) ); //$NON-NLS-1$
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
 		cmbBlockColor = new FillChooserComposite( cmpBasic,
 				SWT.DROP_DOWN | SWT.READ_ONLY,

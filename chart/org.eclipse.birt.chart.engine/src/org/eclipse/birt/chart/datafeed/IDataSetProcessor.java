@@ -38,10 +38,20 @@ public interface IDataSetProcessor
 	 * 
 	 * @return The existing data set definition passed in as an argument or a
 	 *         new one if the 'ds' argument was null
-	 * @throws DataSetException
+	 * @throws ChartException
 	 */
 	public DataSet fromString( String sDataSetRepresentation, DataSet ds )
 			throws ChartException;
+
+	/**
+	 * Attempts to format a column of data to string. For example, an array
+	 * Object[Double(1), Double(2)] will be converted into String "1,2"
+	 * 
+	 * @param columnData
+	 *            array of column data. All elements have same class type.
+	 * @throws ChartException
+	 */
+	public String toString( Object[] columnData ) throws ChartException;
 
 	/**
 	 * @return The expected format of a line of text that will be used by the
@@ -64,7 +74,7 @@ public interface IDataSetProcessor
 	 * 
 	 * @return The existing data set definition passed in as an argument or a
 	 *         new one if the 'ds' argument was null
-	 * @throws DataSetException
+	 * @throws ChartException
 	 */
 	public DataSet populate( Object oResultSetDef, DataSet ds )
 			throws ChartException;
@@ -77,7 +87,7 @@ public interface IDataSetProcessor
 	 *            The data set for which the minimum value needs to be computed
 	 * 
 	 * @return The minimum value found in the data set
-	 * @throws DataSetException
+	 * @throws ChartException
 	 */
 	public Object getMinimum( DataSet ds ) throws ChartException;
 
@@ -89,7 +99,7 @@ public interface IDataSetProcessor
 	 *            The data set for which the maximum value needs to be computed
 	 * 
 	 * @return The maximum value found in the data set
-	 * @throws DataSetException
+	 * @throws ChartException
 	 */
 	public Object getMaximum( DataSet ds ) throws ChartException;
 

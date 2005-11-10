@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -447,7 +448,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		previewPainter.renderModel( getCurrentModelState( ) );
 	}
 
-	public void changeTask( )
+	public void changeTask( Notification notification )
 	{
 		if ( cmpTask != null )
 		{

@@ -32,9 +32,9 @@ public interface IDataServiceProvider
 
 	public String getCurrentStyle( );
 
-	public String[] getPreviewHeader( String datasetName );
+	public String[] getPreviewHeader( );
 
-	public List getPreviewData( String datasetName );
+	public List getPreviewData( );
 
 	public void setContext( Object context );
 
@@ -56,5 +56,21 @@ public interface IDataServiceProvider
 	 * 
 	 */
 	public int invoke( int command );
+
+	/**
+	 * Fetches data from dataset.
+	 * 
+	 * @param sExpressions
+	 *            column expression array in the form of javascript. Null will
+	 *            return all columns of dataset.
+	 * @param iMaxRecords
+	 *            max row count. -1 returns default count.
+	 * @param byRow
+	 *            true: by row first, false: by column first
+	 * @return Data array. if type is by row, array length is row length; if
+	 *         type is by column, array length is column length
+	 */
+	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
+			boolean byRow );
 
 }

@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -23,16 +22,11 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.data.DataFactory;
-import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
-import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
@@ -75,36 +69,13 @@ public class ChartUIUtil
 		if ( seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( ) <= queryIndex )
 		{
 			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
+			query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
 			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
 			return query;
 		}
 		return (Query) seriesDefn.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( queryIndex );
-	}
-
-	public static void addNewSeriesDefinition( Chart chart, EList seriesDefns,
-			Collection adapters )
-	{
-		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
-		sdTmp.getSeriesPalette( ).update( -1 );
-		sdTmp.getSeries( )
-				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
-		sdTmp.eAdapters( ).addAll( adapters );
-
-		SampleData sd = chart.getSampleData( );
-		// Create a new OrthogonalSampleData instance from the existing one
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		// TODO: This is HARD CODED sample data...this WILL FAIL for Stock
-		// series. This should actually be obtained from
-		// the series data feeder as 'default sample values'
-		sdOrthogonal.setDataSetRepresentation( "33,51,-12" ); //$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex( seriesDefns.size( ) );
-		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
-		// Update the SampleData
-		chart.getSampleData( ).getOrthogonalSampleData( ).add( sdOrthogonal );
-
-		seriesDefns.add( sdTmp );
 	}
 
 	public static String getExpressionString( Object colName )
@@ -258,6 +229,48 @@ public class ChartUIUtil
 	{
 		return font.getAlignment( ) == null ? TextAlignmentImpl.create( )
 				: font.getAlignment( );
+	}
+
+	/**
+	 * Checks all data definitions are bound
+	 * 
+	 * @param chart
+	 *            chart model
+	 */
+	public static boolean checkDataBinding( Chart chart )
+	{
+		List sdList = ChartUIUtil.getBaseSeriesDefinitions( chart );
+		if ( !checkDataDefinition( sdList ) )
+		{
+			return false;
+		}
+		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( chart ); i++ )
+		{
+			sdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, i );
+			if ( !checkDataDefinition( sdList ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static boolean checkDataDefinition( List sdList )
+	{
+		for ( int i = 0; i < sdList.size( ); i++ )
+		{
+			EList ddList = ( (SeriesDefinition) sdList.get( i ) ).getDesignTimeSeries( )
+					.getDataDefinition( );
+			for ( int j = 0; j < ddList.size( ); j++ )
+			{
+				String query = ( (Query) ddList.get( j ) ).getDefinition( );
+				if ( query == null || query.length( ) == 0 )
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }
