@@ -242,16 +242,16 @@ public class LineSeriesAttributeComposite extends Composite implements
 		{
 			if ( LiteralHelper.markerTypeSet.getNameByDisplayName( cmbMarkerTypes.getText( ) ) == "Icon" ) //$NON-NLS-1$
 			{
-				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
-						( (LineSeries) series ).getMarker( ).getIconPalette( ) );
-
-				if ( iconDialog.applyMarkerIcon( ) )
-				{
-					( (LineSeries) series ).getMarker( )
-							.setIconPalette( iconDialog.getIconPalette( ) );
-					( (LineSeries) series ).getMarker( )
-							.setType( MarkerType.get( "Icon" ) ); //$NON-NLS-1$
-				}
+//				MarkerIconDialog iconDialog = new MarkerIconDialog( this.getShell( ),
+//						( (LineSeries) series ).getMarker( ).getIconPalette( ) );
+//
+//				if ( iconDialog.applyMarkerIcon( ) )
+//				{
+//					( (LineSeries) series ).getMarker( )
+//							.setIconPalette( iconDialog.getIconPalette( ) );
+//					( (LineSeries) series ).getMarker( )
+//							.setType( MarkerType.get( "Icon" ) ); //$NON-NLS-1$
+//				}
 			}
 			else
 			{
