@@ -1079,7 +1079,9 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( ChartUIUtil.checkDataBinding( getChartModel( ) ) )
+		if ( ChartUIUtil.checkDataBinding( getChartModel( ),
+				getWizardContext( ).getDataServiceProvider( )
+						.getPreviewHeader( ) ) )
 		{
 			oldSample = (SampleData) EcoreUtil.copy( getChartModel( ).getSampleData( ) );
 			SampleData newSample = updateSampleData( oldSample );
@@ -1088,5 +1090,4 @@ public class TaskSelectData extends SimpleTask
 			getChartModel( ).setSampleData( newSample );
 		}
 	}
-
 }
