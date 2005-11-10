@@ -1562,7 +1562,10 @@
     <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.Module.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
-    <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip"/>
+    <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip">
+		<Argument name="reportContext" tagID="Element.Module.initialize.reportContext" type="IReportContext"/>
+	    <Argument name="object" tagID="Element.Module.initialize.object" type="Object"/>
+    </Method>
 	<PropertyVisibility name="theme" visibility="hide"/>	  
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
@@ -1600,14 +1603,40 @@
     <Property canInherit="false" displayNameID="Element.ReportDesign.refreshRate" name="refreshRate" runtimeSettable="false" since="reserved" type="integer" validator="NonNegativeValueValidator">
       <Default>0</Default>
     </Property>
-    <Method context="factory" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip"/>
-    <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip"/>
-    <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="reserved" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip"/>
-    <Method context="factory" displayNameID="Element.ReportDesign.afterOpenDoc" name="afterOpenDoc" since="reserved" toolTipID="Element.ReportDesign.afterOpenDoc.toolTip"/>
-    <Method context="factory" displayNameID="Element.ReportDesign.beforeCloseDoc" name="beforeCloseDoc" since="reserved" toolTipID="Element.ReportDesign.beforeCloseDoc.toolTip"/>
-    <Method context="factory" displayNameID="Element.ReportDesign.afterCloseDoc" name="afterCloseDoc" since="reserved" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip"/>
-    <Method context="presentation" displayNameID="Element.ReportDesign.beforeRender" name="beforeRender" since="1.0" toolTipID="Element.ReportDesign.beforeRender.toolTip"/>
-    <Method context="presentation" displayNameID="Element.ReportDesign.afterRender" name="afterRender" since="1.0" toolTipID="Element.ReportDesign.afterRender.toolTip"/>
+    <Property displayNameID="Element.ReportDesign.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
+      <Argument name="handle" tagID="Element.ReportDesign.beforeFactory.handle" type="ReportDesignHandle"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.beforeFactory.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.afterFactory" name="afterFactory" since="1.0" toolTipID="Element.ReportDesign.afterFactory.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterFactory.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.afterFactory.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.beforeOpenDoc" name="beforeOpenDoc" since="2.0" toolTipID="Element.ReportDesign.beforeOpenDoc.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeOpenDoc.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.beforeOpenDoc.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.afterOpenDoc" name="afterOpenDoc" since="2.0" toolTipID="Element.ReportDesign.afterOpenDoc.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterOpenDoc.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.afterOpenDoc.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.beforeCloseDoc" name="beforeCloseDoc" since="2.0" toolTipID="Element.ReportDesign.beforeCloseDoc.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeCloseDoc.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.beforeCloseDoc.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportDesign.afterCloseDoc" name="afterCloseDoc" since="2.0" toolTipID="Element.ReportDesign.afterCloseDoc.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterCloseDoc.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.afterCloseDoc.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ReportDesign.beforeRender" name="beforeRender" since="1.0" toolTipID="Element.ReportDesign.beforeRender.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.beforeRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.beforeRender.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ReportDesign.afterRender" name="afterRender" since="1.0" toolTipID="Element.ReportDesign.afterRender.toolTip">
+      <Argument name="reportContext" tagID="Element.ReportDesign.afterRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportDesign.afterRender.object" type="Object"/>
+    </Method>
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<PropertyVisibility name="beforeOpenDoc" visibility="hide"/>
@@ -1685,9 +1714,10 @@
     <Property displayNameID="Element.ReportElement.displayName" name="displayName" runtimeSettable="false" since="reserved" type="string"/>
     <Property displayNameID="Element.ReportElement.displayNameID" name="displayNameID" since="reserved" type="resourceKey"/>
     <Property displayNameID="Element.ReportElement.comments" name="comments" runtimeSettable="false" since="1.0" type="string"/>
+    <Property displayNameID="Element.ReportElement.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <PropertyVisibility name="extends" visibility="hide"/>        
     <PropertyVisibility name="displayName" visibility="hide"/>    
-    <PropertyVisibility name="displayNameID" visibility="hide"/>        
+    <PropertyVisibility name="displayNameID" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="DataSource">
     <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip"/>
@@ -2110,9 +2140,22 @@
       <Property displayNameID="Element.ReportItem.width" name="width" since="1.0" type="dimension" validator="NonNegativeValueValidator" />
     </PropertyGroup>
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
-    <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip"/>
-    <!-- Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip"/ -->
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>               
+    <Method context="startup" displayNameID="Element.ReportItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ReportItem.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.ReportItem.onPrepare.handle" type="ReportItemHandle"/>
+      <Argument name="reportContext" tagID="Element.ReportItem.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportItem.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ReportItem.onCreate" name="onCreate" since="1.0" toolTipID="Element.ReportItem.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.ReportItem.onCreate.instance" type="ReportItem"/>
+      <Argument name="reportContext" tagID="Element.ReportItem.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportItem.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ReportItem.onRender" name="onRender" since="1.0" toolTipID="Element.ReportItem.onRender.toolTip">
+      <Argument name="instance" tagID="Element.ReportItem.onRender.instance" type="ReportItem"/>
+      <Argument name="reportContext" tagID="Element.ReportItem.onRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ReportItem.onRender.object" type="Object"/>
+    </Method>
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/>        
   </Element>
@@ -2325,7 +2368,23 @@
     <Property detailType="sortDirection" displayNameID="Element.ListingGroup.sortDirection" name="sortDirection" runtimeSettable="false" since="1.0" type="choice">
       <Default>asc</Default>
     </Property>
-    <Method context="factory" displayNameID="Element.ListingGroup.onStart" name="onStart" since="1.0" toolTipID="Element.ListingGroup.onStart.toolTip"/>
+    <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Method context="startup" displayNameID="Element.ListingGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListingGroup.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.ListingGroup.onPrepare.handle" type="ListingGroupHandle"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ListingGroup.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.ListingGroup.onCreate" name="onCreate" since="1.0" toolTipID="Element.ListingGroup.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.ListingGroup.onCreate.instance" type="ListingGroup"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ListingGroup.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ListingGroup.onRender" name="onRender" since="1.0" toolTipID="Element.ListingGroup.onRender.toolTip">
+      <Argument name="instance" tagID="Element.ListingGroup.onRender.instance" type="ListingGroup"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.ListingGroup.onRender.object" type="Object"/>
+    </Method>
+	<Method context="factory" displayNameID="Element.ListingGroup.onStart" name="onStart" since="1.0" toolTipID="Element.ListingGroup.onStart.toolTip"/>
     <Method context="factory" displayNameID="Element.ListingGroup.onRow" name="onRow" since="1.0" toolTipID="Element.ListingGroup.onRow.toolTip"/>
     <Method context="factory" displayNameID="Element.ListingGroup.onFinish" name="onFinish" since="1.0" toolTipID="Element.ListingGroup.onFinish.toolTip"/>  
   </Element>
@@ -2504,6 +2563,23 @@
     <Property detailType="HideRule" displayNameID="Element.Row.visibility" isList="true" name="visibility" since="1.0" type="structure"/>
     <Property displayNameID="Element.Row.height" name="height" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Row.bookmark" name="bookmark" returnType="string" since="reserved" type="expression"/>    
+    <Property displayNameID="Element.Row.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Method context="startup" displayNameID="Element.Row.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Row.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Row.onPrepare.handle" type="RowHandle"/>
+      <Argument name="reportContext" tagID="Element.Row.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Row.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Row.onCreate" name="onCreate" since="1.0" toolTipID="Element.Row.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Row.onCreate.instance" type="Row"/>
+      <Argument name="dataRow" tagID="Element.Row.onCreate.dataRow" type="DataRow"/>
+      <Argument name="reportContext" tagID="Element.Row.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Row.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Row.onRender" name="onRender" since="1.0" toolTipID="Element.Row.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Row.onRender.instance" type="Row"/>
+      <Argument name="reportContext" tagID="Element.Row.onRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Row.onRender.object" type="Object"/>
+    </Method>
     <PropertyVisibility name="bookmark" visibility="hide"/>      
     <PropertyVisibility name="borderTopColor" visibility="hide"/>          
     <PropertyVisibility name="borderTopStyle" visibility="hide"/>              
@@ -2542,6 +2618,23 @@
     </Property>
     <Property displayNameID="Element.Cell.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Property displayNameID="Element.Cell.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
+    <Property displayNameID="Element.Cell.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
+    <Method context="startup" displayNameID="Element.Cell.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Cell.onPrepare.toolTip">
+      <Argument name="handle" tagID="Element.Cell.onPrepare.handle" type="CellHandle"/>
+      <Argument name="reportContext" tagID="Element.Cell.onPrepare.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Cell.onPrepare.object" type="Object"/>
+    </Method>
+    <Method context="factory" displayNameID="Element.Cell.onCreate" name="onCreate" since="1.0" toolTipID="Element.Cell.onCreate.toolTip">
+      <Argument name="instance" tagID="Element.Cell.onCreate.instance" type="Cell"/>
+      <Argument name="dataRow" tagID="Element.Cell.onCreate.dataRow" type="DataRow"/>
+      <Argument name="reportContext" tagID="Element.Cell.onCreate.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Cell.onCreate.object" type="Object"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.Cell.onRender" name="onRender" since="1.0" toolTipID="Element.Cell.onRender.toolTip">
+      <Argument name="instance" tagID="Element.Cell.onRender.instance" type="Cell"/>
+      <Argument name="reportContext" tagID="Element.Cell.onRender.reportContext" type="IReportContext"/>
+      <Argument name="object" tagID="Element.Cell.onRender.object" type="Object"/>
+    </Method>
     <PropertyVisibility name="column" visibility="hide"/>        
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
     <PropertyVisibility name="rowSpan" visibility="readonly"/>                   

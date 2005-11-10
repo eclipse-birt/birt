@@ -83,6 +83,13 @@ public interface IReportItemModel
 	public static final String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
 
 	/**
+	 * Name of the on-prepare property. It is for a script startup phase. No
+	 * data binding yet. The design of an element can be changed here.
+	 */
+
+	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
+
+	/**
 	 * The property name of the data set parameter binding elements that bind
 	 * input parameters to expressions.
 	 */

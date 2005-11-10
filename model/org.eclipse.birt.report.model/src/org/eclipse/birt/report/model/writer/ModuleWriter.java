@@ -1488,7 +1488,12 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, TableRow.HEIGHT_PROP );
 		property( obj, TableRow.BOOKMARK_PROP );
-
+		
+		property( obj, TableRow.EVENT_HANDLER_CLASS_PROP );
+		property( obj, TableRow.ON_PREPARE_METHOD );
+		property( obj, TableRow.ON_CREATE_METHOD );
+		property( obj, TableRow.ON_RENDER_METHOD );
+		
 		writeStyle( obj );
 		writeStructureList( obj, TableRow.VISIBILITY_PROP );
 
@@ -1517,7 +1522,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, Cell.DROP_PROP );
 		property( obj, Cell.HEIGHT_PROP );
 		property( obj, Cell.WIDTH_PROP );
-
+		property( obj, Cell.EVENT_HANDLER_CLASS_PROP );
+		property( obj, Cell.ON_PREPARE_METHOD );
+		property( obj, Cell.ON_CREATE_METHOD );
+		property( obj, Cell.ON_RENDER_METHOD );
+		
 		writeStyle( obj );
 
 		writeContents( obj, Cell.CONTENT_SLOT, null );
@@ -2124,6 +2133,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		resourceKey( obj, DesignElement.DISPLAY_NAME_ID_PROP,
 				DesignElement.DISPLAY_NAME_PROP );
 
+		property( obj, DesignElement.EVENT_HANDLER_CLASS_PROP );
+
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
@@ -2229,6 +2240,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ReportItem.BOOKMARK_PROP );
 		property( obj, ReportItem.TOC_PROP );
 
+		property( obj, ReportItem.ON_PREPARE_METHOD );
 		property( obj, ReportItem.ON_CREATE_METHOD );
 		property( obj, ReportItem.ON_RENDER_METHOD );
 
@@ -2333,6 +2345,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, GroupElement.ON_ROW_METHOD );
 		property( obj, GroupElement.ON_FINISH_METHOD );
 
+		property( obj, GroupElement.EVENT_HANDLER_CLASS_PROP );
+		property( obj, GroupElement.ON_PREPARE_METHOD );
+		property( obj, GroupElement.ON_CREATE_METHOD );
+		property( obj, GroupElement.ON_RENDER_METHOD );
+		
 		writeStructureList( obj, GroupElement.SORT_PROP );
 		writeStructureList( obj, GroupElement.FILTER_PROP );
 	}

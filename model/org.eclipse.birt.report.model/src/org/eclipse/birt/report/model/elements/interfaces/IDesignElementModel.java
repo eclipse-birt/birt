@@ -79,6 +79,12 @@ public interface IDesignElementModel
 	public static final String USER_PROPERTIES_PROP = "userProperties"; //$NON-NLS-1$
 
 	/**
+	 * Name of the event handler class.
+	 */
+
+	public static final String EVENT_HANDLER_CLASS_PROP = "eventHandlerClass"; //$NON-NLS-1$
+	
+	/**
 	 * Marker to indicate that the element is not in a slot.
 	 */
 

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
@@ -112,4 +113,120 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 		assert propHandle != null;
 		return propHandle.iterator( );
 	}
+	
+	/**
+	 * Gets the on-prepare script of the group. Startup phase. No data binding
+	 * yet. The design of an element can be changed here.
+	 * 
+	 * @return the on-prepare script of the group
+	 * 
+	 */
+
+	public String getOnPrepare( )
+	{
+		return getStringProperty( GroupElement.ON_PREPARE_METHOD );
+	}
+
+	/**
+	 * Gets the on-finish script of the group. Presentation phase. The report
+	 * item has been read from the report document, but not sent to emitter yet.
+	 * 
+	 * @return the on-finish script of the group
+	 */
+
+	public String getOnCreate( )
+	{
+		return getStringProperty( GroupElement.ON_CREATE_METHOD );
+	}
+
+	/**
+	 * Gets the on-finish script of the group. Presentation phase. The report
+	 * item has been read from the report document, but not sent to emitter yet.
+	 * 
+	 * @return the on-finish script of the group
+	 */
+
+	public String getOnRender( )
+	{
+		return getStringProperty( GroupElement.ON_RENDER_METHOD );
+	}
+
+	/**
+	 * Sets the on-prepare script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPrepare()
+	 */
+
+	public void setOnPrepare( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+	}
+
+	/**
+	 * Sets the on-create script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnCreate()
+	 * 
+	 */
+
+	public void setOnCreate( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_CREATE_METHOD, script );
+	}
+
+	/**
+	 * Sets the on-render script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnRender()
+	 */
+
+	public void setOnRender( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_RENDER_METHOD, script );
+	}
+
+	/**
+	 * Gets a string that defines the event handle class. 
+	 * 
+	 * @return the expression as a string
+	 * 
+	 * @see #setEventHandleClass(String)
+	 */
+
+	public String getEventHandleClass( )
+	{
+		return getStringProperty( GroupElement.EVENT_HANDLER_CLASS_PROP );
+	}
+	
+	/**
+	 * Sets the group expression.
+	 * 
+	 * @param expr
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             If the expression is invalid.
+	 * 
+	 * @see #getEventHandleClass()
+	 */
+
+	public void setEventHandleClass( String expr ) throws SemanticException
+	{
+		setProperty( GroupElement.EVENT_HANDLER_CLASS_PROP, expr );
+	}
+	
 }

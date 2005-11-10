@@ -357,12 +357,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the Presentation engine.
 	 * 
 	 * @return the script that executes
-	 * @deprecated onRender is not supported temporarily.
 	 */
 
 	public String getOnRender( )
 	{
-		return null;
+		return getStringProperty( ReportItem.ON_RENDER_METHOD );
 	}
 
 	/**
@@ -373,12 +372,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 *            the script to set
 	 * @throws SemanticException
 	 *             if the property is locked.
-	 * @deprecated onRender is not supported temporarily.
 	 */
 
 	public void setOnRender( String value ) throws SemanticException
 	{
-		return;
+		setProperty( ReportItem.ON_RENDER_METHOD, value );
 	}
 
 	/**
@@ -430,5 +428,34 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public String getTocExpression( )
 	{
 		return getStringProperty( ReportItem.TOC_PROP );
+	}
+	
+	/**
+	 * Gets the on-prepare script of the group. Startup phase. No data binding
+	 * yet. The design of an element can be changed here.
+	 * 
+	 * @return the on-prepare script of the group
+	 * 
+	 */
+
+	public String getOnPrepare( )
+	{
+		return getStringProperty( ReportItem.ON_PREPARE_METHOD );
+	}
+	
+	/**
+	 * Sets the on-prepare script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPrepare()
+	 */
+
+	public void setOnPrepare( String script ) throws SemanticException
+	{
+		setProperty( ReportItem.ON_PREPARE_METHOD, script );
 	}
 }

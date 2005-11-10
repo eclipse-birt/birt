@@ -106,6 +106,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Gets the on-start script of the group.
 	 * 
 	 * @return the on-start script of the group
+	 * 
 	 */
 
 	public String getOnStart( )
@@ -117,6 +118,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Gets the on-row script of the group.
 	 * 
 	 * @return the on-row script of the group
+	 * 
 	 */
 
 	public String getOnRow( )
@@ -128,6 +130,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 * Gets the on-finish script of the group.
 	 * 
 	 * @return the on-finish script of the group
+	 * 
 	 */
 
 	public String getOnFinish( )
@@ -169,6 +172,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnStart()
+	 * 
 	 */
 
 	public void setOnStart( String script ) throws SemanticException
@@ -185,6 +189,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnRow()
+	 * 
 	 */
 
 	public void setOnRow( String script ) throws SemanticException
@@ -201,6 +206,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *             if the method is locked.
 	 * 
 	 * @see #getOnFinish()
+	 * 
 	 */
 
 	public void setOnFinish( String script ) throws SemanticException
@@ -459,7 +465,6 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		return ( getFooter( ).getCount( ) != 0 );
 	}
-	
 
 	/**
 	 * Sets a table of contents entry for this item. The TOC property defines an
@@ -493,4 +498,89 @@ public abstract class GroupHandle extends ReportElementHandle
 		return getStringProperty( GroupElement.TOC_PROP );
 	}
 
+	/**
+	 * Gets the on-prepare script of the group. Startup phase. No data binding
+	 * yet. The design of an element can be changed here.
+	 * 
+	 * @return the on-prepare script of the group
+	 * 
+	 */
+
+	public String getOnPrepare( )
+	{
+		return getStringProperty( GroupElement.ON_PREPARE_METHOD );
+	}
+
+	/**
+	 * Gets the on-finish script of the group. Presentation phase. The report
+	 * item has been read from the report document, but not sent to emitter yet.
+	 * 
+	 * @return the on-finish script of the group
+	 */
+
+	public String getOnCreate( )
+	{
+		return getStringProperty( GroupElement.ON_CREATE_METHOD );
+	}
+
+	/**
+	 * Gets the on-finish script of the group. Presentation phase. The report
+	 * item has been read from the report document, but not sent to emitter yet.
+	 * 
+	 * @return the on-finish script of the group
+	 */
+
+	public String getOnRender( )
+	{
+		return getStringProperty( GroupElement.ON_RENDER_METHOD );
+	}
+
+	/**
+	 * Sets the on-prepare script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPrepare()
+	 */
+
+	public void setOnPrepare( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_PREPARE_METHOD, script );
+	}
+
+	/**
+	 * Sets the on-create script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnCreate()
+	 * 
+	 */
+
+	public void setOnCreate( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_CREATE_METHOD, script );
+	}
+
+	/**
+	 * Sets the on-render script of the group element.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnRender()
+	 */
+
+	public void setOnRender( String script ) throws SemanticException
+	{
+		setProperty( GroupElement.ON_RENDER_METHOD, script );
+	}
 }

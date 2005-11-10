@@ -66,6 +66,28 @@ public interface ICellModel
 	public static final String STYLE_PROP = "style"; //$NON-NLS-1$
 
 	/**
+	 * Name of the on-create property. It is for a script executed when the
+	 * element is created in the Factory. Called after the item is created, but
+	 * before the item is saved to the report document file.
+	 */
+
+	public static final String ON_CREATE_METHOD = "onCreate"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-render property. It is for a script Executed when the
+	 * element is prepared for rendering in the Presentation engine.
+	 */
+
+	public static final String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-prepare property. It is for a script startup phase. No
+	 * data binding yet. The design of an element can be changed here.
+	 */
+
+	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
+	
+	/**
 	 * Identifier of the slot that holds the page decoration.
 	 */
 

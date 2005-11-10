@@ -112,6 +112,7 @@ public interface IGroupElementModel
 	 * Name of the property that provides the script called before the first row
 	 * is retrieved from the data set for this element. Called after the data
 	 * set is open but before the header band is created.
+	 * 
 	 */
 
 	public static final String ON_START_METHOD = "onStart"; //$NON-NLS-1$
@@ -120,6 +121,7 @@ public interface IGroupElementModel
 	 * Name of the property that provides the script called for each row
 	 * retrieved from the data set for this element, but before creating any
 	 * content for that row.
+	 * 
 	 */
 
 	public static final String ON_ROW_METHOD = "onRow"; //$NON-NLS-1$
@@ -128,8 +130,30 @@ public interface IGroupElementModel
 	 * Name of the property that provides the script called after the last row
 	 * is read from the data set for this element, but before the footer band is
 	 * created.
+	 * 
 	 */
 
 	public static final String ON_FINISH_METHOD = "onFinish"; //$NON-NLS-1$
 
+	/**
+	 * Name of the on-create property. It is for a script executed when the
+	 * element is created in the Factory. Called after the item is created, but
+	 * before the item is saved to the report document file.
+	 */
+
+	public static final String ON_CREATE_METHOD = "onCreate"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-render property. It is for a script Executed when the
+	 * element is prepared for rendering in the Presentation engine.
+	 */
+
+	public static final String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-prepare property. It is for a script startup phase. No
+	 * data binding yet. The design of an element can be changed here.
+	 */
+
+	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
 }
