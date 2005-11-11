@@ -17,7 +17,7 @@ import org.eclipse.birt.core.data.DataType;
 /**
  * Expression Type. see report design schema for reference.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/08 06:59:45 $
  */
 public class Expression
 		implements
@@ -25,6 +25,8 @@ public class Expression
 			org.eclipse.birt.data.engine.api.IScriptExpression
 {
 
+	private String exprID;
+	
 	String expression;
 	int dataType = DataType.ANY_TYPE;
 	Object handle = null;
@@ -143,4 +145,22 @@ public class Expression
 		return expression;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#getID()
+	 */
+	public String getID( )
+	{
+		return this.exprID;
+	}
+	
+	/*
+	 *  (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseExpression#setID(java.lang.String)
+	 */
+	public void setID( String exprID )
+	{
+		this.exprID = exprID;
+	}
+	
 }
