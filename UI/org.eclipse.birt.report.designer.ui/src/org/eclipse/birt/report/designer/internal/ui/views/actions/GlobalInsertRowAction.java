@@ -10,7 +10,10 @@
 *******************************************************************************/ 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -23,18 +26,25 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public class GlobalInsertRowAction extends AbstractGlobalSelectionAction
 {
-
+	private String pos;
+	
 	/**
 	 * @param provider
+	 *  	The selection provider
 	 * @param id
-	 */
-	private String pos;
+	 * 		The id of the action 
+	 * @param pos
+	 * 		the insert position
+	 */	
 	public GlobalInsertRowAction( ISelectionProvider provider, String id , String pos)
 	{
 		super( provider, id );
 		this.pos = pos;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.actions.AbstractGlobalSelectionAction#run()
+	 */
 	public void run( )
 	{
 		new InsertAction(((StructuredSelection)getSelection()).toArray()[0],
@@ -48,9 +58,16 @@ public class GlobalInsertRowAction extends AbstractGlobalSelectionAction
 	 */
 	protected boolean calculateEnabled( )
 	{		
-		if(((StructuredSelection)getSelection()).toArray().length == 0
+		if(((StructuredSelection)getSelection()).toArray().length != 1
 		||   ((StructuredSelection)getSelection()).toArray()[0] == null
 		|| ((StructuredSelection)getSelection()).toArray()[0] instanceof RowHandle == false)
+		{
+			return false;
+		}
+		
+		if(((StructuredSelection)getSelection()).toArray()[0] instanceof RowHandle 
+		&& ((RowHandle)(((StructuredSelection)getSelection()).toArray()[0])).getRoot() instanceof LibraryHandle
+			&& SessionHandleAdapter.getInstance().getReportDesignHandle() instanceof ReportDesignHandle)
 		{
 			return false;
 		}

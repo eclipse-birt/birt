@@ -78,7 +78,6 @@ public class LibraryPreferencePage extends PreferencePage
 	public LibraryPreferencePage( String title )
 	{
 		super( title );
-
 	}
 
 	/*
@@ -174,10 +173,9 @@ public class LibraryPreferencePage extends PreferencePage
 				}
 
 				// If can't find the name
-				if ( LibraryList.indexOf( fileName.toLowerCase( ) ) == -1 )
+				if ( LibraryList.indexOf( fileName ) == -1 )
 				{
-					LibraryList.add( fileName.toLowerCase( ),
-							LibraryList.getItemCount( ) );
+					LibraryList.add( fileName, LibraryList.getItemCount( ) );
 					removeAllButton.setEnabled( true );
 				}
 				else
@@ -204,24 +202,24 @@ public class LibraryPreferencePage extends PreferencePage
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				int index = LibraryList.getSelectionIndex( );				
-				LibraryList.remove( index );	
-				
+				int index = LibraryList.getSelectionIndex( );
+				LibraryList.remove( index );
+
 				if ( LibraryList.getItemCount( ) <= 0 )
 				{
 					removeButton.setEnabled( false );
 					removeAllButton.setEnabled( false );
-				}else
-				if(LibraryList.getItemCount( ) > 0)
+				}
+				else if ( LibraryList.getItemCount( ) > 0 )
 				{
-					if(index >= LibraryList.getItemCount( ))
+					if ( index >= LibraryList.getItemCount( ) )
 					{
 						index -= 1;
 					}
-					LibraryList.setSelection(index);
+					LibraryList.setSelection( index );
 					removeButton.setEnabled( true );
 				}
-				
+
 			}
 		} );
 

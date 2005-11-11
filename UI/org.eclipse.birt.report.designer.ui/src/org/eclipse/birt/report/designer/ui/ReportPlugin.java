@@ -17,7 +17,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -68,6 +70,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String CUSTOM_NAME_PREFERENCE = "designer.preview.preference.elementname.customname.preferencestore"; //$NON-NLS-1$
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
+	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 
 	private int nameCount = 0;
 
@@ -103,11 +106,15 @@ public class ReportPlugin extends AbstractUIPlugin
 
 		// set default library
 		setDefaultLibraryPreference( );
-		
-		//Biding default short cut services
-		//Using 3.0 compatible api
-		PlatformUI.getWorkbench().getContextSupport().setKeyFilterEnabled(true);
-		
+
+		// set default Template
+		setDefaultTemplatePreference( );
+
+		// Biding default short cut services
+		// Using 3.0 compatible api
+		PlatformUI.getWorkbench( )
+				.getContextSupport( )
+				.setKeyFilterEnabled( true );
 
 	}
 
@@ -675,6 +682,57 @@ public class ReportPlugin extends AbstractUIPlugin
 	public String[] getDefaultLibraryPreference( )
 	{
 		return convert( getPreferenceStore( ).getDefaultString( LIBRARY_PREFERENCE ) );
+	}
+
+	/**
+	 * Return default template preference
+	 * 
+	 * @return String The String of default template preference
+	 */
+	public String getDefaultTemplatePreference( )
+	{
+		return getPreferenceStore( ).getDefaultString( TEMPLATE_PREFERENCE );
+
+	}
+
+	/**
+	 * set default template preference
+	 * 
+	 */
+	public void setDefaultTemplatePreference( )
+	{
+		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
+		defaultDir = defaultDir.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$
+		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
+		{
+			defaultDir = defaultDir + "/"; //$NON-NLS-1$
+		}
+		defaultDir = defaultDir + TemplatePreferencePage.DIRCTORY;
+		if ( !defaultDir.endsWith( "/" ) ) //$NON-NLS-1$
+		{
+			defaultDir = defaultDir + "/"; //$NON-NLS-1$
+		}
+
+		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Return default template preference
+	 * 
+	 * @return String The string of default template preference
+	 */
+	public String getTemplatePreference( )
+	{
+		return getPreferenceStore( ).getString( TEMPLATE_PREFERENCE );
+	}
+
+	/**
+	 * set default template preference
+	 * 
+	 */
+	public void setTemplatePreference( String preference )
+	{
+		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference ); //$NON-NLS-1$
 	}
 
 }

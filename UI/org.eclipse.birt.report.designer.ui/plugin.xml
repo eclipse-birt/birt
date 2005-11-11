@@ -141,6 +141,12 @@
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.library"
             id="org.eclipse.birt.report.designer.ui.preferences.LibraryPreferencePage"/>
+       <page
+            class="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.template"
+            id="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"/>           
+            
    </extension>
 
    <!-- Preview browsers -->
