@@ -116,7 +116,7 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * @return the iterator for <code>SortKey</code> structure list defined on
 	 *         a table or list.
 	 */
-	
+
 	public Iterator sortsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( ListingElement.SORT_PROP );
@@ -130,9 +130,9 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * that deal with a <code>FilterCond</code> in the list.
 	 * 
 	 * @return the iterator for <code>FilterCond</code> structure list defined
-	 *         on a table or list. 
+	 *         on a table or list.
 	 */
-	
+
 	public Iterator filtersIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( ListingElement.FILTER_PROP );
@@ -216,4 +216,32 @@ public abstract class ListingHandle extends ReportItemHandle
 	{
 		setProperty( ListingElement.ON_FINISH_METHOD, value );
 	}
+
+	/**
+	 * Returns the page break interval value
+	 * 
+	 * @return the page break interval value
+	 */
+	
+	public int getPageBreakInterval( )
+	{
+		return getIntProperty( ListingElement.PAGE_BREAK_INTERVAL_PROP );
+	}
+
+	/**
+	 * Sets the page break interval value
+	 * 
+	 * @param pageBreakInterval
+	 *            the page break interval
+	 * @throws SemanticException
+	 *             if the parameter is not a valid integer
+	 */
+	
+	public void setPageBreakInterval( int pageBreakInterval )
+			throws SemanticException
+	{
+		setIntProperty( ListingElement.PAGE_BREAK_INTERVAL_PROP,
+				pageBreakInterval );
+	}
+
 }

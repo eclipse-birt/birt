@@ -428,6 +428,11 @@
   	<Choice displayNameID="Choices.templateElementType.textData" name="TextData"/>
   	<Choice displayNameID="Choices.templateElementType.dataSet" name="DataSet"/>
   </ChoiceType>
+  <ChoiceType name="sortType">
+  	<Choice displayNameID="Choices.sortType.none" name="none"/>   		
+  	<Choice displayNameID="Choices.sortType.sortOnGroupkey" name="sort-on-group-key"/>   		
+  	<Choice displayNameID="Choices.sortType.complexSort" name="complex-sort"/>   		 		
+  </ChoiceType> 
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -2397,6 +2402,9 @@
     <Property detailType="sortDirection" displayNameID="Element.ListingGroup.sortDirection" name="sortDirection" runtimeSettable="false" since="1.0" type="choice">
       <Default>asc</Default>
     </Property>
+    <Property detailType="sortType" displayNameID="Element.ListingGroup.sortType" name="sortType" runtimeSettable="false" since="2.0" type="choice">
+      <Default>none</Default>
+    </Property>
     <Property displayNameID="Element.ListingGroup.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <Method context="startup" displayNameID="Element.ListingGroup.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ListingGroup.onPrepare.toolTip">
       <Argument name="handle" tagID="Element.ListingGroup.onPrepare.handle" type="ListingGroupHandle"/>
@@ -2420,6 +2428,7 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.Listing.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
+    <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="string"/>
     <Method context="factory" displayNameID="Element.Listing.onStart" name="onStart" since="1.0" toolTipID="Element.Listing.onStart.toolTip"/>
     <Method context="factory" displayNameID="Element.Listing.onRow" name="onRow" since="1.0" toolTipID="Element.Listing.onRow.toolTip"/>
     <Method context="factory" displayNameID="Element.Listing.onFinish" name="onFinish" since="1.0" toolTipID="Element.Listing.onFinish.toolTip"/>

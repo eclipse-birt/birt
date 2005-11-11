@@ -56,6 +56,12 @@ public interface IListingElementModel
 	 */
 
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the pageBreakInterval property. 
+	 */
+
+	public static final String PAGE_BREAK_INTERVAL_PROP = "pageBreakInterval"; //$NON-NLS-1$
 
 	/**
 	 * Name of the on-start property. Script called before the first row is

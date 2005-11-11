@@ -497,6 +497,31 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		return getStringProperty( GroupElement.TOC_PROP );
 	}
+	
+	/**
+	 * Sets the sort type, which indicates the way of sorting
+	 * 
+	 * @param sortType
+	 *            sort type.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setSortType( String sortType ) throws SemanticException
+	{
+		setStringProperty( GroupElement.SORT_TYPE_PROP, sortType );
+	}
+
+	/**
+	 * Return the sort type.
+	 * 
+	 * @return the sort type.
+	 */
+
+	public String getSortType( )
+	{
+		return getStringProperty( GroupElement.SORT_TYPE_PROP );
+	}
 
 	/**
 	 * Gets the on-prepare script of the group. Startup phase. No data binding

@@ -95,6 +95,12 @@ public interface IGroupElementModel
 	public static final String SORT_PROP = "sort"; //$NON-NLS-1$
 
 	/**
+	 * Name of the SortType property, which indicates the way to sort list
+	 */
+
+	public static final String SORT_TYPE_PROP = "sortType"; //$NON-NLS-1$
+	
+	/**
 	 * Name of the TOC expression property. This determines the TOC entry to
 	 * appear for this group.
 	 */

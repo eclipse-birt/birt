@@ -607,4 +607,16 @@ public interface DesignChoiceConstants
 	public static final String TEMPLATE_ELEMENT_TYPE_EXTENDED_ITEM = "ExtendedItem"; //$NON-NLS-1$
 	public static final String TEMPLATE_ELEMENT_TYPE_TEXT_DATA = "TextData"; //$NON-NLS-1$
 	public static final String TEMPLATE_ELEMENT_TYPE_DATA_SET = "DataSet"; //$NON-NLS-1$
+
+	/**
+	 * sortType -- the sort type. The first constant is
+	 * the name of the sortType choice set. The followed constants
+	 * are valid choice values of the sortType.
+	 */
+
+	public static final String CHOICE_SORT_TYPE = "sortType"; //$NON-NLS-1$
+	public static final String SORT_TYPE_NONE = "none"; //$NON-NLS-1$
+	public static final String SORT_TYPE_SORT_ON_GROUP_KEY = "sortOnGroupkey"; //$NON-NLS-1$
+	public static final String SORT_TYPE_COMPLEX_SORT = "complexSort"; //$NON-NLS-1$
+
 }

@@ -2387,10 +2387,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitListing( obj );
 
+		property( obj, ListingElement.PAGE_BREAK_INTERVAL_PROP );
 		property( obj, ListingElement.ON_START_METHOD );
 		property( obj, ListingElement.ON_ROW_METHOD );
 		property( obj, ListingElement.ON_FINISH_METHOD );
-
+				
 		writeStructureList( obj, ListingElement.SORT_PROP );
 		writeStructureList( obj, ListingElement.FILTER_PROP );
 	}
@@ -2411,6 +2412,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, GroupElement.INTERVAL_PROP );
 		property( obj, GroupElement.INTERVAL_RANGE_PROP );
 		property( obj, GroupElement.SORT_DIRECTION_PROP );
+		property( obj, GroupElement.SORT_TYPE_PROP );
 		property( obj, GroupElement.KEY_EXPR_PROP );
 		property( obj, GroupElement.TOC_PROP );
 
