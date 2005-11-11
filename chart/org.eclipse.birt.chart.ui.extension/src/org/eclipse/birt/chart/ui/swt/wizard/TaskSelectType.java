@@ -73,10 +73,11 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * TaskSelectType
  */
-public class TaskSelectType extends SimpleTask implements
-		SelectionListener,
-		DisposeListener,
-		ITaskChangeListener
+public class TaskSelectType extends SimpleTask
+		implements
+			SelectionListener,
+			DisposeListener,
+			ITaskChangeListener
 {
 
 	private transient Chart chartModel = null;
@@ -267,9 +268,13 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Add the ComboBox for Series Type
 		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbSeriesType.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
-		cbSeriesType.setEnabled( false );
-		cbSeriesType.addSelectionListener( this );
+		{
+			GridData gd = new GridData( GridData.GRAB_HORIZONTAL );
+			gd.widthHint = 80;
+			cbSeriesType.setLayoutData( gd );
+			cbSeriesType.setEnabled( false );
+			cbSeriesType.addSelectionListener( this );
+		}
 
 		lblDimension = new Label( cmpMisc, SWT.NONE );
 		lblDimension.setText( Messages.getString( "ChartSelector.Lbl.Dimension" ) ); //$NON-NLS-1$
@@ -461,7 +466,8 @@ public class TaskSelectType extends SimpleTask implements
 
 		String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
 
-		cbOutput.setText( ( sCurrentFormat == null ) ? ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( )
+		cbOutput.setText( ( sCurrentFormat == null )
+				? ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( )
 				: sCurrentFormat );
 	}
 
@@ -480,7 +486,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( ChartException e )
 		{
-			e.printStackTrace( );
+			container.displayException( e );
 		}
 		return new String[0];
 	}
@@ -507,7 +513,6 @@ public class TaskSelectType extends SimpleTask implements
 	private void populateSeriesTypes( String[] allSeriesTypes, Series series )
 			throws ChartException
 	{
-		cbSeriesType.removeAll( );
 		for ( int i = 0; i < allSeriesTypes.length; i++ )
 		{
 			try
@@ -534,7 +539,7 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				container.displayException( e );
 			}
 		}
 	}
@@ -828,8 +833,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			container.displayException( e );
 		}
 		finally
 		{
@@ -841,6 +845,7 @@ public class TaskSelectType extends SimpleTask implements
 	private void populateSeriesTypesList( )
 	{
 		// Populate Series Types List
+		cbSeriesType.removeAll( );
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		if ( series.canParticipateInCombination( ) )
 		{
@@ -849,11 +854,19 @@ public class TaskSelectType extends SimpleTask implements
 				populateSeriesTypes( PluginSettings.instance( )
 						.getRegisteredSeries( ), series );
 			}
-			catch ( ChartException ex )
+			catch ( ChartException e )
 			{
-				ex.printStackTrace( );
+				container.displayException( e );
 			}
 		}
+		else
+		{
+			String seriesName = PluginSettings.instance( )
+					.getSeriesDisplayName( series.getClass( ).getName( ) );
+			cbSeriesType.add( seriesName );
+			cbSeriesType.select( 0 );
+		}
+
 		// Select the appropriate current series type if overlay series exists
 		if ( this.chartModel != null && chartModel instanceof ChartWithAxes )
 		{
@@ -1014,7 +1027,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			container.displayException( e );
 		}
 
 		// SET THE DEFAULT OUTPUT FORMAT
