@@ -737,6 +737,24 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Localize the element, break the parent/child relationship and set all the
+	 * extended properties locally.
+	 * 
+	 * @throws SemanticException
+	 *             the element can not be localized properly. It may be because
+	 *             that the element is not extended from a parent, or that same
+	 *             properties can not be localized on the element or the content
+	 *             elements inside it.
+	 */
+
+	public void localize( ) throws SemanticException
+	{
+		DesignElement element = getElement( );
+		ExtendsCommand cmd = new ExtendsCommand( module, element );
+		cmd.localizeElement( );
+	}
+
+	/**
 	 * Sets this element to extend the given element.
 	 * 
 	 * @param parent

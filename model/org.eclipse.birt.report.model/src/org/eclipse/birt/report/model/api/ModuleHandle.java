@@ -1800,13 +1800,34 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the library to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling
-	 *             <code>IncludeLibrary</code> structure list.
+	 *             <code>IncludeLibrary</code> structure list. Or it maybe
+	 *             because that the given library is not found in the design. Or
+	 *             that the library has descedents in the current module
 	 */
 
 	public void dropLibrary( LibraryHandle library ) throws SemanticException
 	{
 		LibraryCommand command = new LibraryCommand( module );
 		command.dropLibrary( (Library) library.getElement( ) );
+	}
+
+	/**
+	 * Drops the given library from the design and break all the parent/child
+	 * relationships. All child element will be localized in the module.
+	 * 
+	 * @param library
+	 *            the given library to drop
+	 * @throws SemanticException
+	 *             if errors occured when drop the library.It may be because
+	 *             that the library is not found in the design or that some
+	 *             elements can not be localized properly.
+	 */
+
+	public void dropLibraryAndBreakExtends( LibraryHandle library )
+			throws SemanticException
+	{
+		LibraryCommand command = new LibraryCommand( module );
+		command.dropLibraryAndBreakExtends( (Library) library.getElement( ) );
 	}
 
 	/**

@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -34,12 +33,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
-import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -413,7 +410,7 @@ class ElementExporter
 	void exportDesign( ReportDesignHandle designToExport )
 			throws SemanticException
 	{
-		duplicateProperties( designToExport, targetLibraryHandle, false );
+		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle, false );
 
 		// Copy the contents in design file.
 
@@ -486,7 +483,7 @@ class ElementExporter
 
 		// Copy all properties from the original one to new element.
 
-		duplicateProperties( elementHandle, newElementHandle,
+		ModelUtil.duplicateProperties( elementHandle, newElementHandle,
 				onlyFactoryProperty );
 
 		// Duplicate all contents in the original element to new one.
@@ -496,86 +493,7 @@ class ElementExporter
 		return newElementHandle;
 	}
 
-	/**
-	 * Duplicates the properties from source element to destination element. The
-	 * following properties will be duplicated:
-	 * <ul>
-	 * <li>Set in element itself
-	 * <li>Inherited from style or element's selector style
-	 * <li>Inherited from parent
-	 * </ul>
-	 * 
-	 * @param source
-	 *            handle of the source element
-	 * @param destination
-	 *            handle of the destination element
-	 * @param onlyFactoryProperty
-	 *            indicate whether only factory property values are duplicated.
-	 */
-
-	private void duplicateProperties( DesignElementHandle source,
-			DesignElementHandle destination, boolean onlyFactoryProperty )
-	{
-		if ( source.getDefn( ).allowsUserProperties( ) )
-		{
-			PropertyHandle propHandle = source
-					.getPropertyHandle( DesignElement.USER_PROPERTIES_PROP );
-
-			Object value = source.getElement( ).getUserProperties( );
-
-			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-					value );
-
-			if ( valueToSet != null )
-			{
-				Iterator iter = ( (List) valueToSet ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					UserPropertyDefn userPropDefn = (UserPropertyDefn) iter
-							.next( );
-					destination.getElement( )
-							.addUserPropertyDefn( userPropDefn );
-				}
-			}
-		}
-
-		Iterator iter = source.getPropertyIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyHandle propHandle = (PropertyHandle) iter.next( );
-
-			String propName = propHandle.getDefn( ).getName( );
-
-			// Style property and extends property will be removed.
-			// The properties inherited from style or parent will be
-			// flatten to new element.
-
-			if ( StyledElement.STYLE_PROP.equals( propName )
-					|| DesignElement.EXTENDS_PROP.equals( propName )
-					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
-				continue;
-
-			ElementPropertyDefn propDefn = destination.getElement( )
-					.getPropertyDefn( propName );
-			if ( propDefn != null )
-			{
-				Object value = null;
-
-				if ( onlyFactoryProperty )
-					value = propHandle.getElement( ).getFactoryProperty(
-							propHandle.getModule( ), propDefn );
-				else
-					value = propHandle.getElement( )
-							.getPropertyExceptRomDefault(
-									propHandle.getModule( ), propDefn );
-
-				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-						value );
-
-				destination.getElement( ).setProperty( propName, valueToSet );
-			}
-		}
-	}
+	
 
 	/**
 	 * Duplicates the content elements from source element to destination

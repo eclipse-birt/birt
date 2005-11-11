@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -46,44 +47,6 @@ class OverriddenValuesState extends AbstractParseState
 	private Map baseIdMap = new HashMap( );
 
 	/**
-	 * Establishes the id reference relationship between the parent element and
-	 * the extended element.
-	 * 
-	 * @param element
-	 *            the element to setup the id reference
-	 * @return a map to store the base id and the corresponding child element.
-	 */
-
-	private static Map setupIdRef( DesignElement element )
-	{
-		assert element != null;
-
-		// Parent and the child must have the same structures.
-
-		DesignElement source = element.getExtendsElement( );
-		if ( source == null )
-			return Collections.EMPTY_MAP;
-
-		Map idMap = new HashMap( );
-
-		Iterator parentIter = new ContentIterator( source );
-		Iterator childIter = new ContentIterator( element );
-		while ( childIter.hasNext( ) )
-		{
-			DesignElement virtualParent = (DesignElement) parentIter.next( );
-			DesignElement virtualChild = (DesignElement) childIter.next( );
-
-			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
-					.getName( );
-			assert virtualParent.getID( ) > 0;
-
-			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
-		}
-
-		return idMap;
-	}
-
-	/**
 	 * Constructs <code>OverriddenValuesState</code> with the given handler
 	 * and the root element.
 	 * 
@@ -99,7 +62,7 @@ class OverriddenValuesState extends AbstractParseState
 		this.handler = handler;
 
 		assert element.getExtendsElement( ) != null;
-		baseIdMap = setupIdRef( element );
+		baseIdMap = ModelUtil.getIdMap( element );
 	}
 
 	/*

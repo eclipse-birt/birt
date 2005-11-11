@@ -96,6 +96,7 @@ public interface MessageConstants
 	public static final String EXTENDS_EXCEPTION_UNNAMED_PARENT = "Error.ExtendsException.UNNAMED_PARENT"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_PARENT_NOT_IN_COMPONENT = "Error.ExtendsException.PARENT_NOT_IN_COMPONENT"; //$NON-NLS-1$
 	public static final String EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE = "Error.ExtendsException.PARENT_NOT_INCLUDE"; //$NON-NLS-1$
+	public static final String EXTENDS_EXCEPTION_NO_PARENT = "Error.ExtendsException.NO_PARENT"; //$NON-NLS-1$
 	
 	// NameException
 	public static final String NAME_EXCEPTION_NAME_REQUIRED = "Error.NameException.NAME_REQUIRED"; //$NON-NLS-1$
@@ -234,6 +235,7 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_NOT_FOUND = "Error.LibraryException.LIBRARY_NOT_FOUND"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE = "Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY = "Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY"; //$NON-NLS-1$
+	public static final String LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS = "Error.LibraryException.LIBRARY_HAS_DESCENDENTS"; //$NON-NLS-1$
 	
 	// StyleSheetException
 	public static final String STYLE_SHEET_EXCEPTION_STYLE_SHEET_NOT_FOUND = "Error.StyleSheetException.STYLE_SHEET_NOT_FOUND"; //$NON-NLS-1$

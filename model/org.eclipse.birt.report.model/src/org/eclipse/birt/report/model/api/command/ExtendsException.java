@@ -98,6 +98,12 @@ public class ExtendsException extends SemanticException
 	public static final String DESIGN_EXCEPTION_PARENT_NOT_INCLUDE = MessageConstants.EXTENDS_EXCEPTION_PARENT_NOT_INCLUDE;
 
 	/**
+	 * The element has no parent, it can not be localized.
+	 */
+	
+	public static final String DESIGN_EXCEPTION_NO_PARENT = MessageConstants.EXTENDS_EXCEPTION_NO_PARENT;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param obj
@@ -167,7 +173,8 @@ public class ExtendsException extends SemanticException
 					getElementName( parent ), getElementName( element )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND
-				|| sResourceKey == DESIGN_EXCEPTION_EXTENDS_FORBIDDEN )
+				|| sResourceKey == DESIGN_EXCEPTION_EXTENDS_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_NO_PARENT )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );

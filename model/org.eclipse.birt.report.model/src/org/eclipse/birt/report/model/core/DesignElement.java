@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -548,7 +549,7 @@ public abstract class DesignElement
 	 * Object.
 	 */
 
-	protected HashMap propValues = new HashMap( );
+	protected Map propValues = new HashMap( );
 
 	/**
 	 * Definitions for user-defined properties. Contents are of type
@@ -605,11 +606,17 @@ public abstract class DesignElement
 	protected List errors;
 
 	/**
+	 * Constant indicate that the element has no virtual parent.
+	 */
+
+	public final static long NO_BASE_ID = -1;
+
+	/**
 	 * Support for id inheritance. If it is set, base id must be larger than
 	 * <code>0</code>.
 	 */
 
-	protected long baseId = -1;
+	protected long baseId = NO_BASE_ID;
 
 	/**
 	 * Default constructor.
@@ -811,13 +818,14 @@ public abstract class DesignElement
 
 	public final boolean isVirtualElement( )
 	{
-		return baseId > 0;
+		return baseId != NO_BASE_ID;
 	}
 
 	/**
-	 * Copied the structure of extended element to the element itself. Local
-	 * properties will all be cleared.Please note that the containment
-	 * relationship is kept while property values are not copied.
+	 * Copied the structure from the parent element to the element itself. Local
+	 * properties of the contents will all be cleared.Please note that the
+	 * containment relationship is kept while property values of the content
+	 * elements are not copied.
 	 * 
 	 * @param module
 	 *            the module
@@ -868,31 +876,7 @@ public abstract class DesignElement
 
 		// Copies top level slots from cloned element to the target element.
 
-		for ( int i = 0; i < parent.getDefn( ).getSlotCount( ); i++ )
-		{
-			ContainerSlot sourceSlot = cloned.getSlot( i );
-			ContainerSlot targetSlot = this.getSlot( i );
-
-			// clear the slot contents of the this element.
-
-			int count = targetSlot.getCount( );
-			while ( --count >= 0 )
-			{
-				targetSlot.remove( count );
-			}
-
-			for ( int j = 0; j < sourceSlot.getCount( ); j++ )
-			{
-				DesignElement content = sourceSlot.getContent( j );
-
-				// setup the containment relationship
-
-				targetSlot.add( content );
-				content.setContainer( this, i );
-			}
-		}
-
-		return true;
+		return ModelUtil.duplicateStructure( parent, this );
 	}
 
 	/**
@@ -3539,7 +3523,8 @@ public abstract class DesignElement
 		element.cachedDefn = null;
 		element.handle = null;
 		element.id = 0;
-
+		element.baseId = NO_BASE_ID;
+		
 		// System Properties
 
 		Iterator it = propValues.keySet( ).iterator( );

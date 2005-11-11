@@ -11,16 +11,20 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeLibrary;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -82,9 +86,9 @@ public class LibraryCommand extends AbstractElementCommand
 		// Add includedLibraries
 
 		IncludeLibrary includeLibrary = StructureFactory.createIncludeLibrary( );
-		includeLibrary.setFileName( libraryFileName );	
+		includeLibrary.setFileName( libraryFileName );
 		includeLibrary.setNamespace( namespace );
-	
+
 		ElementPropertyDefn propDefn = module
 				.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
 		PropertyCommand propCommand = new PropertyCommand( module, module );
@@ -119,6 +123,66 @@ public class LibraryCommand extends AbstractElementCommand
 	}
 
 	/**
+	 * Drop the given libary from the design. And break all the parent/child
+	 * relationships. All child element will be localized in the module.
+	 * 
+	 * @param library
+	 *            a given library to be dropped.
+	 * @throws SemanticException
+	 * 
+	 */
+
+	public void dropLibraryAndBreakExtends( Library library )
+			throws SemanticException
+	{
+		// library not found.
+
+		if ( !module.getLibraries( ).contains( library ) )
+		{
+			throw new LibraryException( library,
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		}
+
+		ActivityStack stack = getActivityStack( );
+		stack.startTrans( );
+		try
+		{
+			for ( Iterator iter = library.getSlot( Library.COMPONENT_SLOT )
+					.iterator( ); iter.hasNext( ); )
+			{
+				DesignElement element = (DesignElement) iter.next( );
+				List derived = element.getDerived( );
+				for ( int i = 0; i < derived.size( ); i++ )
+				{
+					DesignElement child = (DesignElement) derived.get( i );
+					if ( child.getRoot( ) == getModule( ) )
+					{
+						ExtendsCommand command = new ExtendsCommand(
+								getModule( ), child );
+						command.localizeElement( );
+					}
+				}
+			}
+
+			LibraryRecord record = new LibraryRecord( module, library, false );
+			getActivityStack( ).execute( record );
+
+			// Remove the include library structure.
+
+			String libraryFileName = library.getFileName( );
+			assert libraryFileName != null;
+			removeIncludeLibrary( libraryFileName );
+
+		}
+		catch ( SemanticException ex )
+		{
+			stack.rollback( );
+			throw ex;
+		}
+		getActivityStack( ).commit( );
+	}
+
+	/**
 	 * Drops the given library.
 	 * 
 	 * @param library
@@ -129,34 +193,112 @@ public class LibraryCommand extends AbstractElementCommand
 
 	public void dropLibrary( Library library ) throws SemanticException
 	{
-		getActivityStack( ).startTrans( );
+		// library not found.
+
+		if ( !module.getLibraries( ).contains( library ) )
+		{
+			throw new LibraryException( library,
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		}
+
+		// library has decendents in the current module.
+
+		for ( Iterator iter = library.getSlot( Library.COMPONENT_SLOT )
+				.iterator( ); iter.hasNext( ); )
+		{
+			DesignElement element = (DesignElement) iter.next( );
+			List allDescendents = new ArrayList();
+			getAllDescdents( element, allDescendents );
+			
+			for ( int i = 0; i < allDescendents.size( ); i++ )
+			{
+				DesignElement child = (DesignElement) allDescendents.get( i );
+				do
+				{
+					if ( child.getRoot( ) == getModule( ) )
+					{
+						throw new LibraryException(
+								library,
+								new String[]{child.getHandle( module ).getDisplayLabel() },
+								LibraryException.DESIGN_EXCEPTION_LIBRARY_HAS_DESCENDENTS );
+					}
+
+				} while ( child.hasDerived( ) );
+			}
+		}
+
+		// Remove the include library structure.
+
+		ActivityStack stack = getActivityStack( );
+		stack.startTrans( );
+
+		// Drop the library and update the client references.
 
 		LibraryRecord record = new LibraryRecord( module, library, false );
 		getActivityStack( ).execute( record );
 
-		String libraryFileName = library.getFileName( );
-		assert libraryFileName != null;
+		try
+		{
+			String libFileName = library.getFileName( );
+			assert libFileName != null;
+			removeIncludeLibrary( libFileName );
+		}
+		catch ( SemanticException ex )
+		{
+			stack.rollback( );
+			throw ex;
+		}
+		getActivityStack( ).commit( );
+	}
+
+	/**
+	 * Recursively collect all the descendents of the given element.
+	 * 
+	 * @param element
+	 *            a given element.
+	 * @param results
+	 *            the result list containing all the childs.
+	 */
+
+	private void getAllDescdents( DesignElement element, List results )
+	{
+		List descends = element.getDerived( );
+		results.addAll( descends );
+
+		for ( int i = 0; i < descends.size( ); i++ )
+		{
+			getAllDescdents( (DesignElement) descends.get( i ), results );
+		}
+	}
+
+	/**
+	 * drop the include library structure.
+	 * 
+	 * @param fileName
+	 *            file name of the library.
+	 * @throws PropertyValueException
+	 */
+
+	private void removeIncludeLibrary( String fileName )
+			throws PropertyValueException
+	{
+		assert fileName != null;
 
 		List includeLibraries = module.getIncludeLibraries( );
 		Iterator iter = includeLibraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			IncludeLibrary includeLibrary = (IncludeLibrary) iter.next( );
+			if ( !fileName.endsWith( includeLibrary.getFileName( ) ) )
+				continue;
 
-			if ( libraryFileName.endsWith( includeLibrary.getFileName( ) ) )
-			{
-				ElementPropertyDefn propDefn = module
-						.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
-				PropertyCommand propCommand = new PropertyCommand( module,
-						module );
-				propCommand.removeItem( new CachedMemberRef( propDefn ),
-						includeLibrary );
-				break;
-			}
+			ElementPropertyDefn propDefn = module
+					.getPropertyDefn( Module.INCLUDE_LIBRARIES_PROP );
+			PropertyCommand propCommand = new PropertyCommand( module, module );
+			propCommand.removeItem( new CachedMemberRef( propDefn ),
+					includeLibrary );
+			break;
 		}
-
-		getActivityStack( ).commit( );
-
 	}
 
 }

@@ -131,6 +131,7 @@ public abstract class NotificationEvent
 
 	public static final int THEME_EVENT = 15;
 	
+
 	/**
 	 * The event type of CONTENT_REPLACE_EVENT.
 	 */
@@ -142,7 +143,14 @@ public abstract class NotificationEvent
 	 */
 	
 	public static final int TEMPLATE_TRANSFORM_EVENT = 17;
+	
+	/**
+	 * The event type of ELEMENT_LOCALIZE_EVENT
+	 */
+	
+	public static final int ELEMENT_LOCALIZE_EVENT = 18;
 
+	
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

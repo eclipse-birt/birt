@@ -894,7 +894,7 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            a reference to a list property or member.
 	 */
 
-	private void makeLocalCompositeValue( MemberRef ref )
+	void makeLocalCompositeValue( MemberRef ref )
 	{
 		assert ref != null;
 		ElementPropertyDefn propDefn = ref.getPropDefn( );

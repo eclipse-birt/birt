@@ -16,16 +16,23 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Sets the "extends" attribute of an element.
@@ -194,4 +201,136 @@ public class ExtendsCommand extends AbstractElementCommand
 		setExtendsName( name );
 	}
 
+	/**
+	 * Localize the element, break the parent/child relationship and set all the
+	 * extended properties locally.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+
+	public void localizeElement( ) throws SemanticException
+	{
+		// check parent.
+
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			throw new ExtendsException( element, parent,
+					ExtendsException.DESIGN_EXCEPTION_NO_PARENT );
+
+		// Sanity check structure. Parent and the child must be in the same structure
+		// when doing the localization.
+
+		ContentIterator parentIter = new ContentIterator( parent );
+		ContentIterator childIter = new ContentIterator( element );
+		while ( parentIter.hasNext( ) )
+		{
+			assert childIter.hasNext( );
+			DesignElement e1 = (DesignElement) parentIter.next( );
+			DesignElement e2 = (DesignElement) childIter.next( );
+
+			assert e1.getDefn( ) == e2.getDefn( );
+			assert e2.getBaseId( ) == e1.getID( );
+		}
+
+		// copy properties from top level parent to the child element.
+
+		// user properties.
+
+		ActivityStack activityStack = getActivityStack( );
+		activityStack.startTrans( );
+
+		try
+		{
+			if ( parent.getDefn( ).allowsUserProperties( ) )
+			{
+				Iterator iter = parent.getUserProperties( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					UserPropertyDefn userPropDefn = (UserPropertyDefn) iter
+							.next( );
+					UserPropertyCommand command = new UserPropertyCommand(
+							module, element );
+					command.addUserProperty( userPropDefn );
+				}
+			}
+
+			// Other properties.
+
+			Iterator iter = parent.getDefn( ).getProperties( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				ElementPropertyDefn propDefn = (ElementPropertyDefn) iter
+						.next( );
+				String propName = propDefn.getName( );
+
+				if ( !propDefn.canInherit( ) )
+					continue;
+
+				// Style property and extends property will be removed.
+				// The properties inherited from style or parent will be
+				// flatten to new element.
+
+				if ( StyledElement.STYLE_PROP.equals( propName )
+						|| DesignElement.EXTENDS_PROP.equals( propName )
+						|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+					continue;
+
+				Object localValue = element.getLocalProperty( module, propDefn );
+				Object parentValue = parent.getPropertyFromElement( module,
+						propDefn );
+
+				if ( localValue == null && parentValue != null )
+				{
+					PropertyCommand command = new PropertyCommand( module,
+							element );
+
+					if ( propDefn.getTypeCode( ) == PropertyType.STRUCT_TYPE )
+					{
+						command.makeLocalCompositeValue( new CachedMemberRef(
+								propDefn ) );
+
+						/*
+						 * List listValue = (List)valueToSet; for( int i = 0; i <
+						 * listValue.size(); i ++ ) { command.addItem( new
+						 * CachedMemberRef( propDefn ),
+						 * (Structure)listValue.get( i ) ); }
+						 */
+					}
+					else
+					{
+						command.setProperty( propDefn, ModelUtil.copyValue(
+								propDefn, parentValue ) );
+					}
+				}
+			}
+
+			// clear the extends, break the parent/child relationship.
+
+			ExtendsCommand command = new ExtendsCommand( module, element );
+			command.setExtendsElement( null );
+		}
+		catch ( SemanticException ex )
+		{
+			activityStack.rollback( );
+			throw ex;
+		}
+
+		// localize the content virtual elements.
+
+		parentIter = new ContentIterator( parent );
+		childIter = new ContentIterator( element );
+
+		while ( parentIter.hasNext( ) )
+		{
+			DesignElement e1 = (DesignElement) parentIter.next( );
+			DesignElement e2 = (DesignElement) childIter.next( );
+
+			ElementLocalizeRecord record = new ElementLocalizeRecord( module,
+					e2, e1 );
+			activityStack.execute( record );
+		}
+
+		activityStack.commit( );
+	}
 }

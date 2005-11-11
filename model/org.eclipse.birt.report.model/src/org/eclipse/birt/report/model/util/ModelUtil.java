@@ -31,18 +31,23 @@ import org.eclipse.birt.report.model.activity.NotificationRecordTask;
 import org.eclipse.birt.report.model.activity.RecordTask;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.LibraryException;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -56,6 +61,285 @@ import org.xml.sax.SAXException;
 
 public class ModelUtil
 {
+
+	/**
+	 * Returns the id reference relationship between the parent element and the
+	 * child element.
+	 * <p>
+	 * Notice: the element and its parent should have the same structure when
+	 * calling this method. That is the child structure has already been
+	 * refreshed from parent.
+	 * 
+	 * @param element
+	 *            the element to setup the id reference
+	 * @return a map to store the base id and the corresponding child element.
+	 */
+
+	public static Map getIdMap( DesignElement element )
+	{
+		assert element != null;
+
+		// Parent and the child must have the same structures.
+
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			return Collections.EMPTY_MAP;
+
+		Map idMap = new HashMap( );
+
+		Iterator parentIter = new ContentIterator( parent );
+		Iterator childIter = new ContentIterator( element );
+		while ( childIter.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) parentIter.next( );
+			DesignElement virtualChild = (DesignElement) childIter.next( );
+
+			assert virtualChild.getDefn( ).getName( ) == virtualChild.getDefn( )
+					.getName( );
+			assert virtualParent.getID( ) > 0;
+
+			idMap.put( new Long( virtualParent.getID( ) ), virtualChild );
+		}
+
+		return idMap;
+	}
+
+	/**
+	 * Duplicates the structure from one element to another element. Local
+	 * properties will all be cleared.Please note that the containment
+	 * relationship is kept while property values are not copied.
+	 * <p>
+	 * The two element should be the same type.
+	 * 
+	 * @param source
+	 *            source element
+	 * @param target
+	 *            target element
+	 * @return <code>true</code> if the refresh action is successful.
+	 *         <code>false</code> othersize.
+	 * 
+	 */
+	public static boolean duplicateStructure( DesignElement source,
+			DesignElement target )
+	{
+		assert source != null;
+		assert target != null;
+		assert source.getDefn( ) == target.getDefn( );
+
+		if ( source.getDefn( ).getSlotCount( ) == 0 )
+			return true;
+
+		DesignElement cloned = null;
+		try
+		{
+			cloned = (DesignElement) source.clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+			return false;
+		}
+
+		// Parent element and the cloned one must have the same structures.
+		// Clear all childrens' properties and set base id reference.
+
+		Iterator sourceIter = new ContentIterator( source );
+		Iterator clonedIter = new ContentIterator( cloned );
+		while ( clonedIter.hasNext( ) )
+		{
+			DesignElement virtualParent = (DesignElement) sourceIter.next( );
+			DesignElement virtualChild = (DesignElement) clonedIter.next( );
+
+			virtualChild.clearAllProperties( );
+			virtualChild.setBaseId( virtualParent.getID( ) );
+		}
+
+		// Copies top level slots from cloned element to the target element.
+
+		for ( int i = 0; i < source.getDefn( ).getSlotCount( ); i++ )
+		{
+			ContainerSlot sourceSlot = cloned.getSlot( i );
+			ContainerSlot targetSlot = target.getSlot( i );
+
+			// clear the slot contents of the this element.
+
+			int count = targetSlot.getCount( );
+			while ( --count >= 0 )
+			{
+				targetSlot.remove( count );
+			}
+
+			for ( int j = 0; j < sourceSlot.getCount( ); j++ )
+			{
+				DesignElement content = sourceSlot.getContent( j );
+
+				// setup the containment relationship
+
+				targetSlot.add( content );
+				content.setContainer( target, i );
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Break the relationship between the given element to its parent.Set all
+	 * properties values of the given element on the element locally. The
+	 * following properties will be set:
+	 * <ul>
+	 * <li>Properties set on element itself
+	 * <li>Inherited from style or element's selector style
+	 * <li>Inherited from parent 
+	 * </ul>
+	 * 
+	 * @param element the element to be localized.
+	 */
+
+	public static void localizeElement( DesignElement element )
+	{
+		assert element != null;
+		DesignElement parent = element.getExtendsElement( );
+		if ( parent == null )
+			return;
+
+		duplicateProperties( parent, element );
+		
+		ContentIterator iter1 = new ContentIterator( parent );
+		ContentIterator iter2 = new ContentIterator( element );
+		
+		while( iter1.hasNext() )
+		{
+			DesignElement virtualParent = (DesignElement)iter1.next();
+			DesignElement virtualChild = (DesignElement)iter2.next();
+				
+			duplicateProperties( virtualParent, virtualChild );
+		}
+	}
+
+	private static void duplicateProperties( DesignElement from, DesignElement to )
+	{
+		if ( from.getDefn( ).allowsUserProperties( ) )
+		{
+			Iterator iter = from.getUserProperties( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				UserPropertyDefn userPropDefn = (UserPropertyDefn) iter.next( );
+				to.addUserPropertyDefn( userPropDefn );
+			}
+		}
+
+		Iterator iter = from.getDefn( ).getProperties( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
+			String propName = propDefn.getName( );
+
+			// Style property and extends property will be removed.
+			// The properties inherited from style or parent will be
+			// flatten to new element.
+
+			if ( StyledElement.STYLE_PROP.equals( propName )
+					|| DesignElement.EXTENDS_PROP.equals( propName )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+				continue;
+
+			Object localValue = to.getLocalProperty( from.getRoot(), propDefn );
+			Object parentValue = from.getPropertyFromElement( from.getRoot(), propDefn );
+
+			if ( localValue == null && parentValue != null )
+			{
+				Object valueToSet = ModelUtil.copyValue( propDefn, parentValue );
+				to.setProperty( propDefn, valueToSet );
+			}
+		}
+	}
+	
+	/**
+	 * Duplicates the properties from source element to destination element.
+	 * Source and the destination element should be of the same type. The
+	 * following properties will be duplicated:
+	 * <ul>
+	 * <li>Properties set on element itself
+	 * <li>Inherited from style or element's selector style
+	 * <li>Inherited from parent
+	 * </ul>
+	 * 
+	 * @param source
+	 *            handle of the source element
+	 * @param destination
+	 *            handle of the destination element
+	 * @param onlyFactoryProperty
+	 *            indicate whether only factory property values are duplicated.
+	 */
+
+	public static void duplicateProperties( DesignElementHandle source,
+			DesignElementHandle destination, boolean onlyFactoryProperty )
+	{
+		assert source != null;
+		assert destination != null;
+		assert source.getDefn( ) == destination.getDefn( );
+
+		if ( source.getDefn( ).allowsUserProperties( ) )
+		{
+			PropertyHandle propHandle = source
+					.getPropertyHandle( DesignElement.USER_PROPERTIES_PROP );
+
+			Object value = source.getElement( ).getUserProperties( );
+
+			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
+					value );
+
+			if ( valueToSet != null )
+			{
+				Iterator iter = ( (List) valueToSet ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					UserPropertyDefn userPropDefn = (UserPropertyDefn) iter
+							.next( );
+					destination.getElement( )
+							.addUserPropertyDefn( userPropDefn );
+				}
+			}
+		}
+
+		Iterator iter = source.getPropertyIterator( );
+		while ( iter.hasNext( ) )
+		{
+			PropertyHandle propHandle = (PropertyHandle) iter.next( );
+
+			String propName = propHandle.getDefn( ).getName( );
+
+			// Style property and extends property will be removed.
+			// The properties inherited from style or parent will be
+			// flatten to new element.
+
+			if ( StyledElement.STYLE_PROP.equals( propName )
+					|| DesignElement.EXTENDS_PROP.equals( propName )
+					|| DesignElement.USER_PROPERTIES_PROP.equals( propName ) )
+				continue;
+
+			ElementPropertyDefn propDefn = destination.getElement( )
+					.getPropertyDefn( propName );
+			if ( propDefn != null )
+			{
+				Object value = null;
+
+				if ( onlyFactoryProperty )
+					value = propHandle.getElement( ).getFactoryProperty(
+							propHandle.getModule( ), propDefn );
+				else
+					value = propHandle.getElement( )
+							.getPropertyExceptRomDefault(
+									propHandle.getModule( ), propDefn );
+
+				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
+						value );
+
+				destination.getElement( ).setProperty( propName, valueToSet );
+			}
+		}
+	}
 
 	/**
 	 * Clone the structure list, a list value contains a list of
