@@ -8,5 +8,8 @@
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/js.jar"/>
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
 	<classpathentry kind="lib" path="/org.eclipse.birt.core/lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/flute.jar"/>
+	<classpathentry kind="lib" path="lib/sac.jar"/>
+	<classpathentry kind="lib" path="lib/itext.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
