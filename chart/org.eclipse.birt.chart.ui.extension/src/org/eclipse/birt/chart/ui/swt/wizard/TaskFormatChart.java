@@ -54,8 +54,6 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private transient Composite cmpTask;
 
-	private transient Composite cmpAttribute;
-
 	private transient Canvas previewCanvas;
 
 	private transient Color whiteColor;
@@ -405,16 +403,6 @@ public class TaskFormatChart extends TreeCompoundTask
 		}
 		createPreviewArea( );
 
-		cmpAttribute = new Composite( cmpTask, SWT.NONE );
-		{
-			cmpAttribute.setLayout( new GridLayout( ) );
-			GridData gridData = new GridData( );
-			gridData.grabExcessHorizontalSpace = true;
-			gridData.horizontalAlignment = SWT.FILL;
-			gridData.verticalAlignment = SWT.FILL;
-			cmpAttribute.setLayoutData( gridData );
-		}
-
 		return cmpTask;
 	}
 
@@ -570,7 +558,6 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		super.widgetDisposed( e );
 		cmpTask = null;
-		cmpAttribute = null;
 		previewCanvas = null;
 		previewPainter = null;
 		if ( whiteColor != null && !whiteColor.isDisposed( ) )
