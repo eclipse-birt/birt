@@ -16,37 +16,14 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  * @see GridItemDesign
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ColumnDesign extends StyledElementDesign
 {
-
-	/**
-	 * column define repeated count
-	 */
-	protected int repeat = 1;
 	/**
 	 * width of this column
 	 */
 	protected DimensionType width;
-
-	/**
-	 * @return Returns the repeat.
-	 */
-	public int getRepeat( )
-	{
-		return repeat;
-	}
-
-	/**
-	 * @param repeat
-	 *            The repeat to set.
-	 */
-	public void setRepeat( int repeat )
-	{
-		assert ( repeat >= 1 );
-		this.repeat = repeat;
-	}
 
 	/**
 	 * @return Returns the width.

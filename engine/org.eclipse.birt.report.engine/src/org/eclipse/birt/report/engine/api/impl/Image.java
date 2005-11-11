@@ -24,8 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IImage;
-import org.eclipse.birt.report.engine.content.IImageItemContent;
-import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.util.FileUtil;
 
 /**
@@ -122,14 +121,14 @@ public class Image extends ReportPart implements IImage
 	}
 	
 
-	public Image(IImageItemContent content)
+	public Image(IImageContent content)
 	{
-		String imgUri = content.getUri( );
+		String imgUri = content.getURI( );
 		byte[] imgData = content.getData( );
 		extension = content.getExtension();
 		switch(content.getImageSource())
 		{
-		case ImageItemDesign.IMAGE_FILE:
+		case IImageContent.IMAGE_FILE:
 			if( imgUri != null )
 			{
 				try
@@ -144,7 +143,7 @@ public class Image extends ReportPart implements IImage
 				}
 			}
 			break;
-		case ImageItemDesign.IMAGE_NAME:
+		case IImageContent.IMAGE_NAME:
 			if( imgData != null )
 			{
 				this.in = new ByteArrayInputStream(imgData);
@@ -153,7 +152,7 @@ public class Image extends ReportPart implements IImage
 				this.id = imgUri;
 			}
 			break;
-		case ImageItemDesign.IMAGE_EXPRESSION:
+		case IImageContent.IMAGE_EXPRESSION:
 			if( imgData != null )
 			{
 				this.in = new ByteArrayInputStream(imgData);
@@ -161,7 +160,7 @@ public class Image extends ReportPart implements IImage
 				this.source = IImage.CUSTOM_IMAGE;
 			}
 			break;
-		case ImageItemDesign.IMAGE_URI:
+		case IImageContent.IMAGE_URI:
 			if( imgUri != null )
 			{
 				this.id = imgUri;

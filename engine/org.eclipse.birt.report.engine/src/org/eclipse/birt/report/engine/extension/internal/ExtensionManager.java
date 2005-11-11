@@ -20,7 +20,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
@@ -157,15 +157,15 @@ public class ExtensionManager
 	 * @param format the format that the extension point supports
 	 * @return an emitter
 	 */
-	public IReportEmitter createEmitter(String format)
+	public IContentEmitter createEmitter(String format)
 	{
 		IConfigurationElement config = (IConfigurationElement)emitterExtensions.get(format);
 		if (config != null)
 		{
 			Object object = createObject(config, "class"); //$NON-NLS-1$
-			if (object instanceof IReportEmitter)
+			if (object instanceof IContentEmitter)
 			{
-				return (IReportEmitter)object;
+				return (IContentEmitter)object;
 			}
 		}
 		return null;

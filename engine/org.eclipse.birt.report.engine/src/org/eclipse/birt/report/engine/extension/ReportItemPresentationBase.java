@@ -115,5 +115,5 @@ public class ReportItemPresentationBase implements IReportItemPresentation {
 	 */
 	public String getImageMIMEType() {
 		return ""; //$NON-NLS-1$
-	}	
+	}
 }

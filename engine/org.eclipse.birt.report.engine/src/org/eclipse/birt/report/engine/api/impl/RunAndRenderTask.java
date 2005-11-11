@@ -12,12 +12,14 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.engine.presentation.HtmlPaginateEmitter;
+import org.eclipse.birt.report.engine.presentation.LocalizedEmitter;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -105,21 +107,28 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			throw new EngineException(MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format);
 		}
 
-		IReportEmitter emitter = ExtensionManager.getInstance().createEmitter(format);
+		IContentEmitter emitter = ExtensionManager.getInstance().createEmitter(format);
 		if (emitter == null)
 		{
 			log.log( Level.SEVERE, "Report engine can not create {0} emitter.", format);	// $NON-NLS-1$
 			throw new EngineException(MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION);			
 		}
 
+		ReportExecutor executor = new ReportExecutor(executionContext);
+
+		//localized emitter
+		emitter = new LocalizedEmitter(executionContext, emitter);
+		
+		//if we need do the paginate, do the paginate.
+		emitter = new HtmlPaginateEmitter(executor, emitter);
+		
 		// emitter is not null
 		emitter.initialize(services);
-		ReportExecutor executor = new ReportExecutor(executionContext, emitter);
-
+		
 		try
 		{
 			Report report = new ReportParser().parse( ((ReportRunnable)runnable).getReport() );
-			executor.execute(report, inputValues);
+			executor.execute(report, emitter);
 		}
 		catch (Exception ex)
 		{

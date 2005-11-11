@@ -16,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Band used in a TableItem.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
-public class TableBandDesign
+public class TableBandDesign extends ReportElementDesign
 {
 
 	/**

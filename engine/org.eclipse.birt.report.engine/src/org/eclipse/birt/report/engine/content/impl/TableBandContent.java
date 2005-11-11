@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import org.eclipse.birt.report.engine.content.IReportContentVisitor;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 
 /**
@@ -19,30 +19,29 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:34 $
  */
-public class TableBandContent extends ReportElementContent
+public class TableBandContent extends AbstractContent
 		implements
 			ITableBandContent
 {
 
 	protected int type;
-
-	public TableBandContent( int type )
+	
+	public TableBandContent(ReportContent report)
 	{
-		super( null );
-		this.type = type;
-
+		super(report);
 	}
+	
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.eclipse.birt.report.engine.content.ReportContentVisitor)
 	 */
-	public void accept( IReportContentVisitor visitor )
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTableBandContent( this );
+		visitor.visitTableBand( this , value);
 
 	}
 
@@ -55,5 +54,9 @@ public class TableBandContent extends ReportElementContent
 	{
 		return this.type;
 	}
-
+	
+	public void setType(int type)
+	{
+		this.type = type;
+	}
 }

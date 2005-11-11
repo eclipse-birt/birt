@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.report.engine.content.IStyle;
+
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.6 $ $Date: 2005/06/29 05:41:18 $
  */
 public class HighlightRuleDesign extends RuleDesign
 {
@@ -21,12 +23,12 @@ public class HighlightRuleDesign extends RuleDesign
 	/**
 	 * style defined in this rule.
 	 */
-	protected StyleDesign style;
+	protected IStyle style;
 
 	/**
 	 * @return Returns the style.
 	 */
-	public StyleDesign getStyle( )
+	public IStyle getStyle( )
 	{
 		return style;
 	}
@@ -35,7 +37,7 @@ public class HighlightRuleDesign extends RuleDesign
 	 * @param style
 	 *            The style to set.
 	 */
-	public void setStyle( StyleDesign style )
+	public void setStyle( IStyle style )
 	{
 		this.style = style;
 	}

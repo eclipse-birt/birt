@@ -18,7 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 /**
  * Report Item
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.8 $ $Date: 2005/10/19 11:03:03 $
  */
 abstract public class ReportItemDesign extends StyledElementDesign
 {
@@ -48,6 +48,10 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * book-mark associated with this element.
 	 */
 	protected Expression bookmark;
+	/**
+	 * TOC expression
+	 */
+	protected Expression toc;
 	
 	/**
 	 * scripted called while on created
@@ -143,9 +147,18 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 * 
 	 * @param visitor
 	 */
-	abstract public void accept( IReportItemVisitor visitor );
+	abstract public void accept( IReportItemVisitor visitor , Object value);
 
 	
+	public Expression getTOC()
+	{
+		return toc;
+	}
+	
+	public void setTOC(Expression expr)
+	{
+		this.toc = expr;
+	}
 	/**
 	 * @return Returns the boo-kmark.
 	 */
@@ -228,4 +241,27 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	{
 		this.visibility = visibility;
 	}
+	
+	/**
+	 * Action associated with this DataItem.
+	 */
+	protected ActionDesign action;
+	/**
+	 * @return Returns the action.
+	 */
+	public ActionDesign getAction( )
+	{
+		return action;
+	}
+
+	/**
+	 * @param action
+	 *            The action to set.
+	 */
+	public void setAction( ActionDesign action )
+	{
+		this.action = action;
+	}
+
+	
 }

@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Label.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class LabelItemDesign extends ReportItemDesign
 {
@@ -48,9 +48,9 @@ public class LabelItemDesign extends ReportItemDesign
 	{
 	}
 
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitLabelItem( this );
+		visitor.visitLabelItem( this,value );
 	}
 
 	/**

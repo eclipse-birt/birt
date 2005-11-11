@@ -11,35 +11,17 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import org.eclipse.birt.report.engine.content.IReportContentVisitor;
-import org.eclipse.birt.report.engine.content.IReportElementContent;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:34 $
  */
-public class RowContent extends StyledElementContent implements IRowContent
+public class RowContent extends AbstractContent implements IRowContent
 {
-
-	/**
-	 * the evaluated bookmark value
-	 */
-	protected String bookmarkValue = null;
-
-	/**
-	 * @return Returns the height.
-	 */
-	public DimensionType getHeight( )
-	{
-		return designReference == null
-				? null
-				: ( (RowDesign) this.designReference ).getHeight( );
-	}
 
 	/**
 	 * constructor
@@ -47,31 +29,13 @@ public class RowContent extends StyledElementContent implements IRowContent
 	 * @param row
 	 *            the row deign
 	 */
-	public RowContent( RowDesign row, IReportElementContent parent )
+	public RowContent( ReportContent report )
 	{
-		super( row, parent );
+		super(report);
 	}
 
-	public void accept( IReportContentVisitor visitor )
+	public void accept( IContentVisitor visitor , Object value)
 	{
-		visitor.visitRowContent( this );
-	}
-
-	/**
-	 * @return the Bookmark value
-	 */
-	public String getBookmarkValue( )
-	{
-		return bookmarkValue;
-	}
-
-	/**
-	 * Set the bookmark value which is calculated in the Executor
-	 * 
-	 * @param newValue
-	 */
-	public void setBookmarkValue( String newValue )
-	{
-		bookmarkValue = newValue;
+		visitor.visitRow( this , value);
 	}
 }

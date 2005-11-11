@@ -18,11 +18,11 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.
-public class RowDesign extends StyledElementDesign
+public class RowDesign extends ReportItemDesign
 {
 
 	/**
@@ -31,38 +31,9 @@ public class RowDesign extends StyledElementDesign
 	protected ArrayList cells = new ArrayList( );
 
 	/**
-	 * row height
-	 */
-	protected DimensionType height;
-	/**
-	 * bookmark associated with this row
-	 */
-	protected Expression bookmark;
-	/**
 	 * is this row should be visible 
 	 */
 	protected Expression hideExpr;
-
-	/**
-	 * Visibility property.
-	 */
-	protected VisibilityDesign visibility;
-	/**
-	 * @return Returns the height.
-	 */
-	public DimensionType getHeight( )
-	{
-		return height;
-	}
-
-	/**
-	 * @param height
-	 *            The height to set.
-	 */
-	public void setHeight( DimensionType height )
-	{
-		this.height = height;
-	}
 
 	/**
 	 * get cell count
@@ -104,22 +75,10 @@ public class RowDesign extends StyledElementDesign
 		 */
 	}
 	
-	/**
-	 * @return Returns the bookmark.
-	 */
-	public Expression getBookmark( )
+	public void removeCells()
 	{
-		return bookmark;
+		this.cells.clear();
 	}
-	/**
-	 * @param bookmark The bookmark to set.
-	 */
-	public void setBookmark( Expression bookmark )
-	{
-		this.bookmark = bookmark;
-	}
-	
-	
 	/**
 	 * @return Returns the hideExpr.
 	 */
@@ -134,18 +93,12 @@ public class RowDesign extends StyledElementDesign
 	{
 		this.hideExpr = hideExpr;
 	}
-	/**
-	 * @return Returns the visibility.
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public VisibilityDesign getVisibility( )
+	public void accept( IReportItemVisitor visitor , Object value)
 	{
-		return visibility;
-	}
-	/**
-	 * @param visibility The visibility to set.
-	 */
-	public void setVisibility( VisibilityDesign visibility )
-	{
-		this.visibility = visibility;
+		visitor.visitRow(this, value);
 	}
 }

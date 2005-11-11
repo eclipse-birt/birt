@@ -11,17 +11,16 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.impl.TextItemContent;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
-import org.eclipse.birt.report.engine.ir.LabelItemDesign;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/11 08:18:32 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/08 09:57:06 $
  */
 public class LabelItemExecutor extends StyledItemExecutor
 {
@@ -35,68 +34,46 @@ public class LabelItemExecutor extends StyledItemExecutor
 	 *            the report executor visitor
 	 */
 	public LabelItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * execute a label and output an label item content.
+	 * The execution process is:
+	 * <li> create an label
+	 * <li> push it into the stack
+	 * <li> intialize the content
+	 * <li> process the action, bookmark, style ,visibility.
+	 * <li> execute the onCreate if necessary
+	 * <li> call emitter to start the label
+	 * <li> popup the label.
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute()
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
-		LabelItemDesign labelItem = (LabelItemDesign) item;
-		IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
-		if ( textEmitter == null )
+		ILabelContent labelObj = report.createLabelContent( );
+		IContent parent = context.getContent(); 
+		
+		context.pushContent( labelObj );
+
+		initializeContent(parent, item, labelObj);
+
+		processAction( item, labelObj );
+		processBookmark( item, labelObj );
+		processStyle( item, labelObj );
+		processVisibility( item, labelObj );
+
+		if (context.isInFactory())
 		{
-			return;
-		}
-		TextItemContent textObj = (TextItemContent) ContentFactory
-				.createTextContent( labelItem, context.getContentObject( ) );
-
-		context.enterScope( textObj );
-
-		textObj.setHelpText( getLocalizedString( labelItem.getHelpTextKey( ),
-				labelItem.getHelpText( ) ) );
-		textObj.setValue( getLocalizedString( labelItem.getTextKey( ),
-				labelItem.getText( ) ) );
-		setStyles( textObj, item );
-		setVisibility( item, textObj );
-
-		processAction( labelItem.getAction( ), textObj );
-		String bookmarkStr = evalBookmark( item );
-		if ( bookmarkStr != null )
-			textObj.setBookmarkValue( bookmarkStr );
-
-		Object value = textObj.getValue( );
-		value = getMapVal( value, item );
-		if ( value == null )
-		{
-			textObj.setValue( "" ); //$NON-NLS-1$
-		}
-		else
-		{
-			textObj.setValue( value.toString( ) );
+			context.execute( item.getOnCreate( ) );
 		}
 
-		context.evaluate( labelItem.getOnCreate( ) );
-		context.exitScope( );
-
-		textEmitter.start( textObj );
-		textEmitter.end( );
+		if ( emitter != null )
+		{
+			emitter.startLabel( labelObj );
+		}
+		context.popContent( );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
-	 */
-	public void reset( )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 }

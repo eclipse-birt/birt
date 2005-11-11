@@ -21,7 +21,8 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 
 /**
  *
- * @version $Revision: 1.6 $ $Date: 2005/05/11 11:59:31 $
+
+ * @version $Revision: 1.7 $ $Date: 2005/06/29 06:51:14 $
  */
 public class RowSet implements IRowSet
 {
@@ -58,9 +59,9 @@ public class RowSet implements IRowSet
 
 		try
 		{
-			if ( rset != null && rset.getQr( ) != null )
+			if ( rset != null && rset.getQueryResults( ) != null )
 			{
-				metaData = new RowMetaData( rset.getQr( ).getResultMetaData( ) );
+				metaData = new RowMetaData( rset.getQueryResults( ).getResultMetaData( ) );
 			}
 		}
 		catch(BirtException ex)

@@ -277,7 +277,7 @@ public class ReportEngine
 	{
 		return helper.createGetParameterDefinitionTask( reportRunnable );
 	}
-	
+
 	public IDataPreviewTask createDataPreviewTask(IReportRunnable reportRunnable)
 	{
 		return helper.createDataPreviewTask(reportRunnable);
@@ -344,5 +344,68 @@ public class ReportEngine
 				handler.finish( );
 			}
 		}
+	}
+
+	/**
+	 * creates a task to run a report to generate a report document
+	 * 
+	 * @param reportRunnable the runnable report design object
+	 * @return a task that runs the report
+	 */
+	public IRunTask createRunTask( IReportRunnable reportRunnable )
+	{
+		return null;
+	}
+	
+	/**
+	 * creates a task to run a report based on an existing report document,
+	 * to generate a new report document. The parameters used for running
+	 * the report is the same as the report parameter values stored in the
+	 * first report
+	 * 
+	 * @param reportDocument a handle to an IReportDocument object 
+	 * @return a task that runs the report
+	 */
+	public IRunTask createRunTask( IReportDocument reportDocument )
+	{
+		return null;
+	}
+	
+
+	/**
+	 * creates a task that renders the report to a specific output format.
+	 * 
+	 * @param reportDocument a handle to an IReportDocument object 
+	 * @return a task that renders a report to an output format 
+	 */
+	public IRenderTask createRenderTask( IReportDocument reportDocument )
+	{
+		return null;
+	}
+	
+	/**
+	 * opens a report document and returns an IReportDocument object, from 
+	 * which further information can be retrieved.
+	 * 
+	 * @param docArchiveName the report document name. report document is an
+	 * archive in BIRT.
+	 * @return A handle to the report document
+	 * @throws EngineException throwed when the report document archive does 
+	 * not exist, or the file is not a valud report document
+	 */
+	public IReportDocument openReportDocument( String docArchiveName ) throws EngineException
+	{
+		return null;
+	}
+
+	/**
+	 * creates a task that allows data extraction from a report document 
+	 * 
+	 * @param reportDocument a handle to an IReportDocument object 
+	 * @return a task that renders a report to an output format 
+	 */
+	public IDataExtractionTask createDataExtractionTask( IReportDocument reportDocument )
+	{
+		return null;
 	}
 }

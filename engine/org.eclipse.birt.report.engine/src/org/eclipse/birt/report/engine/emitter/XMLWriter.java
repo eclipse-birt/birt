@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.18 $ $Date: 2005/05/20 19:17:55 $
+ * @version $Revision: 1.19 $ $Date: 2005/11/03 23:55:58 $
  */
 public class XMLWriter
 {
@@ -74,8 +74,9 @@ public class XMLWriter
 		this.encoding = encoding;
 		try
 		{
-			/* disable the autoflush, I remember there is some bug about the
-			 * the autoflush, but just close it for performance.
+			/*
+			 * disable the autoflush, I remember there is some bug about the the
+			 * autoflush, but just close it for performance.
 			 */
 			this.printWriter = new PrintWriter( new OutputStreamWriter(
 					outputStream, encoding ), false );
@@ -375,12 +376,12 @@ public class XMLWriter
 			{
 				spacePos = 0;
 			}
-			
-			//Filters the char not defined.
+
+			// Filters the char not defined.
 			if ( !( c == 0x9 || c == 0xA || c == 0xD
 					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
 			{
-				//Ignores the illegal character.
+				// Ignores the illegal character.
 				replacement = ""; //$NON-NLS-1$
 				log.log( Level.WARNING,
 						"Ignore the illegal XML character: 0x{0};", Integer //$NON-NLS-1$
@@ -437,11 +438,11 @@ public class XMLWriter
 		{
 			char c = s.charAt( i );
 			String replacement = null;
-			//Filters the char not defined.
+			// Filters the char not defined.
 			if ( !( c == 0x9 || c == 0xA || c == 0xD
 					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
 			{
-				//Ignores the illegal character.
+				// Ignores the illegal character.
 				replacement = ""; //$NON-NLS-1$
 				log.log( Level.WARNING,
 						"Ignore the illegal XML character: 0x{0};", Integer //$NON-NLS-1$
@@ -455,10 +456,10 @@ public class XMLWriter
 			{
 				replacement = "&quot;"; //$NON-NLS-1$
 			}
-//			else if ( c == '<' )
-//			{
-//				replacement = "&lt;"; //$NON-NLS-1$
-//			}
+			// else if ( c == '<' )
+			// {
+			// replacement = "&lt;"; //$NON-NLS-1$
+			// }
 			else if ( c == '\r' )
 			{
 				replacement = "&#13;"; //$NON-NLS-1$

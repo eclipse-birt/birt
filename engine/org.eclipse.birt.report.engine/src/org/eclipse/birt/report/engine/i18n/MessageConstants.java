@@ -38,6 +38,7 @@ public class MessageConstants
 	public static final String  EXTENDED_ITEM_GENERATION_ERROR = "Error.ExtendedItemGenerationError";	//$NON-NLS-1$	
 	public static final String  EXTENDED_ITEM_RENDERING_ERROR = "Error.ExtendedItemRenderingError";	//$NON-NLS-1$	
 	public static final String  GRID_PROCESSING_ERROR = "Error.GridItemProcessingError";	//$NON-NLS-1$
+	public static final String  IMAGE_PROCESSING_ERROR = "Error.ImageItemProcessingError";	//$NON-NLS-1$	
 	public static final String  MISSING_IMAGE_FILE_ERROR = "Error.MissingImageFileError";	//$NON-NLS-1$
 	public static final String  INVALID_IMAGE_SOURCE_TYPE_ERROR = "Error.InvalidImageSourceError";	//$NON-NLS-1$	
 	public static final String  DATABASE_IMAGE__ERROR = "Error.InvalidDatabaseImageError";	//$NON-NLS-1$
@@ -49,7 +50,7 @@ public class MessageConstants
 	public static final String  INVALID_EXPRESSION_ERROR = "Error.InvalidExpressionError";	//$NON-NLS-1$
 	public static final String  LIST_PROCESSING_ERROR = "Error.ListProcessingError";	//$NON-NLS-1$	
 	public static final String  ERRORS_ON_REPORT_PAGE = "Error.ErrorOnReportPage"; //$NON-NLS-1$
-
+	
 	public static final String	REPORT_ERROR_MESSAGE = "Error.ReportErrorMessage"; //$NON-NLS-1$
 	public static final String	REPORT_ERROR_ID = "Error.ReportErrorID";
 	public static final String	REPORT_ERROR_DETAIL = "Error.ReportErrorDetail";

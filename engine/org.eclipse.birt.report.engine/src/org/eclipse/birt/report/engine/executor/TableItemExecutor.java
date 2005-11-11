@@ -11,34 +11,30 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.BirtTimer;
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IColumnContent;
-import org.eclipse.birt.report.engine.content.IReportItemContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
-import org.eclipse.birt.report.engine.content.impl.ColumnContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.ITableEmitter;
-import org.eclipse.birt.report.engine.emitter.buffer.BufferedReportEmitter;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.emitter.BufferedReportEmitter;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
-import org.eclipse.birt.report.engine.executor.buffermgr.IContent;
 import org.eclipse.birt.report.engine.executor.buffermgr.Row;
 import org.eclipse.birt.report.engine.executor.buffermgr.Table;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
+import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
+import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
@@ -46,7 +42,13 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * <p>
  * Currently table header and footer do not support data items
  * 
- * @version $Revision: 1.19 $ $Date: 2005/06/22 02:48:16 $
+ * <p>
+ * if the table contains any drop cells, we need buffer the cell contents unitl
+ * we resolved all the drop cells. we resovles the drop cells at the end of each
+ * group as the drop cells can only start from the group header and terminate in
+ * the group footer.
+ * 
+ * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:19 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {
@@ -54,46 +56,13 @@ public class TableItemExecutor extends ListingElementExecutor
 	protected static Logger logger = Logger.getLogger( TableItemExecutor.class
 			.getName( ) );
 
-	/**
-	 * the table design
-	 */
-	protected TableItemDesign table;
-	/**
-	 * current report emitter;
-	 */
-	protected IReportEmitter emitter;
+	private int groupIndex;
 
+	private TableLayoutEmitter layoutEmitter;
 	/**
-	 * emitter used to output/layout table.
+	 * a structure contains the table group/row/drop information
 	 */
-	protected ITableEmitter tableEmitter;
-
-	/**
-	 * layout emitter used to layout the cells if there exist drop cells.
-	 */
-	protected LayoutTableEmitter layoutTableEmitter;
-
 	protected TABLEINFO tableInfo;
-	/**
-	 * current executed group index. used to indicate the level of drop cells
-	 */
-	protected int groupIndex;
-
-	/**
-	 * current executed row index. the row index is the order of row which shows
-	 * on the screen.
-	 */
-	protected int rowIndex;
-
-	/**
-	 * current execute column index. the order of column shows on the screen.
-	 */
-	protected int columnIndex;
-
-	/**
-	 * identify if current row is end
-	 */
-	protected boolean isRowEnd = true;
 
 	/**
 	 * @param context
@@ -102,7 +71,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	 *            visitor object for driving the execution
 	 */
 	protected TableItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
@@ -113,364 +82,215 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#execute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		BirtTimer timer = new BirtTimer( );
 		timer.start( );
 
-		super.execute( item, emitter );
+		TableItemDesign tableDesign = (TableItemDesign) item;
 
-		this.emitter = emitter;
-		this.tableEmitter = emitter.getTableEmitter( );
+		tableInfo = new TABLEINFO( tableDesign );
 
-		this.table = (TableItemDesign) item;
-		logger.log( Level.FINE, "start table item" ); //$NON-NLS-1$
-		TableContent tableObj = (TableContent) ContentFactory
-				.createTableContent( table, context.getContentObject( ) );
-		context.pushContentObject( tableObj );
-		context.enterScope(tableObj);
+		logger.log( Level.FINEST, "start table item" ); //$NON-NLS-1$
 
-		//execute the on start script
-		context.execute( table.getOnStart( ) );
+		// execute the on start script
+		ITableContent tableContent = report.createTableContent( );
 
-		tableObj.setCaption( getLocalizedString( table.getCaptionKey( ), table
-				.getCaption( ) ) );
-		try
+		IContent parent = context.getContent( );
+		context.pushContent( tableContent );
+
+		logger.log( Level.FINEST, "start get table data" ); //$NON-NLS-1$
+		openResultSet( item );
+		logger.log( Level.FINEST, "end get table data" ); //$NON-NLS-1$
+
+		initializeContent( parent, item, tableContent );
+		processStyle( item, tableContent );
+		processVisibility( item, tableContent );
+		processBookmark( item, tableContent );
+		processAction( item, tableContent );
+
+		for ( int i = 0; i < tableDesign.getColumnCount( ); i++ )
 		{
-			logger.log( Level.FINE, "start get table data" ); //$NON-NLS-1$
-			rs = openResultSet( table );
-			logger.log( Level.FINE, "end get table data" ); //$NON-NLS-1$
-			boolean isRowAvailable = false;
-			if ( rs != null )
-			{
-				isRowAvailable = rs.next( );
-			}
-
-			setStyles( tableObj, item );
-			setVisibility( item, tableObj );
-
-			String bookmarkStr = evalBookmark( item );
-			if ( bookmarkStr != null )
-				tableObj.setBookmarkValue( bookmarkStr );
-
-			context.evaluate(item.getOnCreate());
-			tableEmitter.start( tableObj );
-
-			accessColumns( );
-			//access table header
-			accessHeader( );
-
-			//data driving report
-			tableEmitter.startBody( );
-
-			if ( isRowAvailable )
-			{
-				tableInfo = new TABLEINFO( );
-				layoutTableEmitter = new LayoutTableEmitter(emitter);
-				this.accessGroup( 0 );
-			}
-
-			//access table footer
-			accessSummary( );
-			tableEmitter.endBody( );
-			tableEmitter.end( );
-			//execute the on finish script
-			context.execute( table.getOnFinish( ) );
-
+			ColumnDesign columnDesign = tableDesign.getColumn( i );
+			Column column = new Column( );
+			column.setStyleClass( columnDesign.getStyleName( ) );
+			column.setWidth( columnDesign.getWidth( ) );
+			tableContent.addColumn( column );
 		}
-		catch ( Throwable t )
+
+		context.execute( item.getOnCreate( ) );
+
+		if ( emitter != null )
 		{
-			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context
-					.addException( new EngineException(
-							MessageConstants.TABLE_PROCESSING_ERROR,
-									( item.getName( ) != null ? item
-											.getName( ) : "" ), t ) );//$NON-NLS-1$
-
+			emitter.startTable( tableContent );
 		}
-		finally
+
+		accessQuery( tableDesign, emitter );
+
+		if ( emitter != null )
 		{
-			closeResultSet( rs );
-			logger.log( Level.FINE, "end table item" ); //$NON-NLS-1$
-			context.popContentObject( );
-			context.exitScope();
-
+			emitter.endTable( tableContent );
 		}
+
+		context.popContent( );
+		closeResultSet( );
+
+		logger.log( Level.FINEST, "end table item" ); //$NON-NLS-1$
+
 		timer.stop( );
-		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
+		timer.logTimeTaken( logger, Level.FINEST, context.getTaskIDString( ),
 				"Render table" ); // $NON-NLS-1$
 	}
 
 	/**
-	 * @param tableEmitter
-	 *            the table emitter
-	 * @param tableItem
-	 *            the table report item
+	 * structure used to cache the information of a table.
+	 * 
+	 * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:19 $
 	 */
-	private void accessColumns( )
+	private static class TABLEINFO
 	{
-		//      access column
-		if ( table.getColumnCount( ) > 0 )
+
+		/**
+		 * the table infomation
+		 */
+		private TableItemDesign table;
+
+		/**
+		 * does the group contains drop cells
+		 */
+		private boolean[] dropCellsInGroup;
+
+		/**
+		 * total row count in the table
+		 */
+		private int rowCount;
+
+		TABLEINFO( TableItemDesign table )
 		{
-			tableEmitter.startColumns( );
-			for ( int i = 0; i < table.getColumnCount( ); i++ )
-			{
-				ColumnContent colContent = (ColumnContent) ContentFactory
-						.createColumnContent( table.getColumn( i ), context
-								.getContentObject( ) );
-				setStyles( colContent, table.getColumn( i ) );
-				tableEmitter.startColumn( colContent );
-				tableEmitter.endColumn( );
-			}
-			tableEmitter.endColumns( );
+			this.table = table;
+			initRowCount( );
+			initDropCellsInGroup( );
 		}
-	}
-
-	/**
-	 * get group header
-	 * 
-	 * @param index
-	 *            the group index
-	 * @param table
-	 *            the table design item
-	 * @return a table band corresponding to a group header
-	 */
-	private TableBandDesign getGroupHeader( int index, TableItemDesign table )
-	{
-		return table.getGroup( index ).getHeader( );
-	}
-
-	/**
-	 * get group footer
-	 * 
-	 * @param index
-	 *            the group index
-	 * @return the table band
-	 */
-	private TableBandDesign getGroupFooter( int index, TableItemDesign table )
-	{
-		return table.getGroup( index ).getFooter( );
-	}
-
-	class TABLEINFO
-	{
 
 		/**
-		 * infomation about rows in group header.
+		 * total rows in the table design. The number is a total of all rows in
+		 * table header, table footer, group header, group footer and details.
+		 * 
+		 * @return number of rows.
 		 */
-		ArrayList rows = new ArrayList( );
-		/**
-		 * first row of group header
-		 */
-		int[] firstRowOfGroup;
-		/**
-		 * the outmost group which contains drop cells. -1 means there are no
-		 * drop cells in the table.
-		 */
-		int outmostDropGroup;
-
-		public TABLEINFO( )
+		private void initRowCount( )
 		{
-			outmostDropGroup = -1;
-
-			//analysis group header
-			firstRowOfGroup = new int[table.getGroupCount()];
-			for ( int groupId = 0; groupId < table.getGroupCount(); groupId++ )
+			for ( int groupId = 0; groupId < table.getGroupCount( ); groupId++ )
 			{
-				TableBandDesign header = table.getGroup( groupId ).getHeader( );
-				firstRowOfGroup[groupId] = rows.size();
+				TableGroupDesign group = table.getGroup( groupId );
+				TableBandDesign header = group.getHeader( );
 				if ( header != null )
 				{
-					for ( int j = 0; j < header.getRowCount( ); j++ )
-					{
-						ROWINFO row = createRowInfo( header.getRow( j ) );
-						rows.add( row );
-						if ( row.hasDrop && outmostDropGroup == -1 )
-						{
-							outmostDropGroup = groupId;
-						}
-					}
+					rowCount += header.getRowCount( );
+				}
+				TableBandDesign footer = group.getHeader( );
+				if ( footer != null )
+				{
+					rowCount += footer.getRowCount( );
 				}
 			}
-		}
 
-		int getFirstRowOfGroup(int groupId)
-		{
-			return firstRowOfGroup[groupId];
-		}
-		/**
-		 * should we start layout in group header group index. layout should be
-		 * started while handle the header of outmost drop group.
-		 * 
-		 * @return true: start the layout, false needn't
-		 */
-		boolean shouldStartLayout( int groupIndex )
-		{
-			if (outmostDropGroup != -1)
+			TableBandDesign detail = table.getDetail( );
+			if ( detail != null )
 			{
-				return outmostDropGroup == groupIndex;
+				rowCount += detail.getRowCount( );
 			}
-			return false;
-		}
-		
-		boolean hasDropCells()
-		{
-			return outmostDropGroup != -1;
 		}
 
 		/**
-		 * should we stop the layout in group footer. layout should stop after
-		 * we handle the footer of outmost drop group.
+		 * get the total rows in the table.
+		 * 
+		 * @return row count.
+		 */
+		public int getRowCount( )
+		{
+			return rowCount;
+		}
+
+		/**
+		 * test if the group (index) has any drop cells.
 		 * 
 		 * @param groupIndex
-		 * @return
+		 *            group index
+		 * @return true: the group has drop cells, false: no.
 		 */
-		boolean shouldStopLayout( int groupIndex )
+		public boolean hasDropCells( int groupIndex )
 		{
-			if (outmostDropGroup != -1)
-			{
-				return outmostDropGroup == groupIndex;
-			}
-			return false;
-		}
-
-		boolean hasStartLayout( int groupIndex )
-		{
-			return groupIndex >= outmostDropGroup;
-		}
-
-		boolean shouldEndRow(int rowId)
-		{
-			if (rowIndex < rows.size())
-			{
-				return ((ROWINFO)rows.get(rowId)).endTag;
-			}
-			return true;
-		}
-		
-		public int getCellDrop( int rowId, int colId )
-		{
-			if ( outmostDropGroup != -1 )
-			{
-				if ( rowId < rows.size( ) )
-				{
-					return ( (ROWINFO) rows.get( rowId ) ).cellDrops[colId];
-				}
-			}
-			return DROP_NONE;
-		}
-
-		class ROWINFO
-		{
-
-			boolean endTag;
-			boolean hasDrop;
-			int[] cellDrops;
+			return dropCellsInGroup[groupIndex];
 		}
 
 		/**
-		 * get show status and drop status of each row
-		 * 
-		 * @param table
-		 *            the table item
+		 * scan the table design to set if the group has drop cells.
 		 */
-
-		ROWINFO createRowInfo( RowDesign row )
+		private void initDropCellsInGroup( )
 		{
-			ROWINFO rowInfo = new ROWINFO( );
-			rowInfo.cellDrops = new int[row.getCellCount( )];
-			rowInfo.hasDrop = false;
-			rowInfo.endTag = false;
-			for ( int i = 0; i < row.getCellCount( ); i++ )
+			dropCellsInGroup = new boolean[table.getGroupCount( )];
+			for ( int i = 0; i < table.getGroupCount( ); i++ )
 			{
-				int drop = getDrop( row.getCell( i ).getDrop( ) );
-				if ( drop != DROP_NONE )
+				TableGroupDesign group = table.getGroup( i );
+				if ( group != null && hasDropCellsInGroup( group ) )
 				{
-					rowInfo.hasDrop = true;
+					dropCellsInGroup[i] = true;
 				}
 				else
 				{
-					rowInfo.endTag = true;
+					dropCellsInGroup[i] = false;
 				}
-				rowInfo.cellDrops[i] = drop;
 			}
-			return rowInfo;
 		}
 
-	}
-
-	/*
-	 * groupIndex is the execute group rowIndex is the execute row columnIndex
-	 * is the executed column
-	 * 
-	 * outputRowEnd[] is should we terminate the ROW_END for this row
-	 * 
-	 * dropCells[rowCount][columCount] the drop id of each cells
-	 *  
-	 */
-
-	final static int DROP_DETAIL = 1;
-	final static int DROP_ALL = 2;
-	final static int DROP_NONE = 0;
-
-	int getDrop( String drop )
-	{
-		if ( "all".equals( drop ) )
+		/**
+		 * scan the row to see if the row has drop cells.
+		 * 
+		 * @param row
+		 *            row design to be tested.
+		 * @return true: the row has drop cells. false: no drop cells.
+		 */
+		private boolean hasDropCellsInRow( RowDesign row )
 		{
-			return DROP_ALL;
-		}
-		if ( "detail".equals( drop ) )
-		{
-			return DROP_DETAIL;
-		}
-		return DROP_NONE;
-	}
-
-	/**
-	 * if the this header band has drop cell
-	 * 
-	 * @param header
-	 *            the hander band
-	 * @return the boolean value
-	 */
-	private boolean hasDropCell( TableBandDesign header )
-	{
-		for ( int i = 0; i < header.getRowCount( ); i++ )
-		{
-			RowDesign row = header.getRow( i );
-			for ( int j = 0; j < row.getCellCount( ); j++ )
+			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
-				CellDesign cell = row.getCell( j );
-				if ( cell != null )
+				CellDesign cell = row.getCell( i );
+				String drop = cell.getDrop( );
+				if ( drop != null && !"none".equals( drop ) )
 				{
-					if ( cell.getDrop( ) != null )
-					{
-						if ( cell.getDrop( ).equalsIgnoreCase( "all" ) //$NON-NLS-1$
-								|| cell.getDrop( ).equalsIgnoreCase( "detail" ) ) //$NON-NLS-1$
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
-		}
-		return false;
-	}
 
-	/**
-	 * access table band without drop
-	 * 
-	 * @param band
-	 * @param tableEmitter
-	 *            the table emitter
-	 */
-	private void accessBand( TableBandDesign band )
-	{
-		assert band != null;
-		for ( int i = 0; i < band.getRowCount( ); i++ )
-		{
-			accessRow(band.getRow(i), isRowEnd, true);
+			return false;
 		}
+
+		/**
+		 * scan the group header to see if the group has any drop cells.
+		 * 
+		 * @param group
+		 *            group to be scaned.
+		 * @return true, the group has drop cells, false, no.
+		 */
+		private boolean hasDropCellsInGroup( TableGroupDesign group )
+		{
+			TableBandDesign header = group.getHeader( );
+			if ( header != null )
+			{
+				for ( int i = 0; i < header.getRowCount( ); i++ )
+				{
+					RowDesign row = header.getRow( i );
+					if ( row != null && hasDropCellsInRow( row ) )
+					{
+						return true;
+					}
+					return false;
+				}
+			}
+			return false;
+		}
+
 	}
 
 	/*
@@ -481,41 +301,7 @@ public class TableItemExecutor extends ListingElementExecutor
 	public void reset( )
 	{
 		super.reset( );
-		table = null;
 		tableInfo = null;
-		isRowEnd = true;
-	}
-
-	/**
-	 * @param row
-	 *            the row content object
-	 */
-	private void setBookmarkValue( RowDesign design, RowContent row )
-	{
-		// bookmark
-		Expression bookmark = design.getBookmark( );
-		if ( bookmark != null )
-		{
-			Object obj = context.evaluate( bookmark );
-			if ( obj != null )
-			{
-				row.setBookmarkValue( obj.toString( ) );
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#getGroupCount(org.eclipse.birt.report.engine.ir.ReportItemDesign)
-	 */
-	protected int getGroupCount( ReportItemDesign item )
-	{
-		if ( item != null )
-		{
-			return ( (TableItemDesign) item ).getGroupCount( );
-		}
-		return 0;
 	}
 
 	/*
@@ -523,35 +309,76 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessHeader()
 	 */
-	protected void accessHeader( )
+	protected void accessHeader( ListingDesign list, IContentEmitter emitter )
 	{
-		TableBandDesign tHeader = table.getHeader( );
-		if ( tHeader != null && tHeader.getRowCount( ) > 0 )
+		ITableContent tableContent = (ITableContent) context.getContent( );
+
+		// start table header
+		TableBandDesign bandDesign = ( (TableItemDesign) list ).getHeader( );
+		if ( bandDesign != null )
 		{
-			tableEmitter.startHeader( );
-			accessBand( tHeader );
-			tableEmitter.endHeader( );
+			ITableBandContent header = report.createTableBandContent( );
+			context.pushContent( header );
+			initializeContent( tableContent, bandDesign, header );
+			if ( emitter != null )
+			{
+				emitter.startTableHeader( header );
+			}
+			accessTableBand( bandDesign, emitter );
+			if ( emitter != null )
+			{
+				emitter.endTableHeader( header );
+			}
+			context.popContent( );
+		}
+
+		// start table body
+		ITableBandContent body = report.createTableBandContent( );
+		initializeContent( tableContent, null, body );
+
+		context.pushContent( body );
+		if ( emitter != null )
+		{
+			emitter.startTableBody( body );
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessFooter()
-	 */
-	protected void accessFooter( )
+	protected void accessFooter( ListingDesign list, IContentEmitter emitter )
 	{
-		return;
-	}
-
-	protected void accessSummary( )
-	{
-		TableBandDesign tFooter = table.getFooter( );
-		if (tFooter != null && tFooter.getRowCount() > 0)
+		if ( layoutEmitter != null )
 		{
-			//tableEmitter( ).startFooter( );
-			accessBand( tFooter );
-			//tableEmitter( ).endFooter( );
+			layoutEmitter.flush( );
+			outputEmitter = layoutEmitter.emitter;
+			emitter = outputEmitter;
+			layoutEmitter = null;
+		}
+
+		// end table body
+		ITableBandContent body = (ITableBandContent) context.getContent( );
+		if ( emitter != null )
+		{
+			emitter.endTableBody( body );
+		}
+		context.popContent( );
+
+		// start table footer
+		TableBandDesign bandDesign = ( (TableItemDesign) list ).getFooter( );
+		if ( bandDesign != null )
+		{
+			ITableBandContent footer = report.createTableBandContent( );
+			IContent parent = context.getContent( );
+			context.pushContent( footer );
+			initializeContent( parent, bandDesign, footer );
+			if ( emitter != null )
+			{
+				emitter.startTableFooter( footer );
+			}
+			accessTableBand( bandDesign, emitter );
+			if ( emitter != null )
+			{
+				emitter.endTableFooter( footer );
+			}
+			context.popContent( );
 		}
 	}
 
@@ -560,202 +387,177 @@ public class TableItemExecutor extends ListingElementExecutor
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessDetailOneTime()
 	 */
-	protected void accessDetailOnce( )
+	protected void accessDetail( ListingDesign list, IContentEmitter emitter )
 	{
-		
-		TableBandDesign band = table.getDetail( );
-		if ( band != null && band.getRowCount() > 0)
+		accessTableBand( ( (TableItemDesign) list ).getDetail( ), emitter );
+	}
+
+	protected void accessGroupHeader( ListingDesign list, int index,
+			IContentEmitter emitter )
+	{
+		groupIndex = index;
+		TableGroupDesign group = ( (TableItemDesign) list ).getGroup( index );
+
+		if ( group != null )
 		{
-			accessBand(band);
+			TableBandDesign band = group.getHeader( );
+			if ( layoutEmitter == null && tableInfo.hasDropCells( index ) )
+			{
+				layoutEmitter = new TableLayoutEmitter( (TableItemDesign) list,
+						emitter );
+				outputEmitter = layoutEmitter;
+			}
+			accessTableBand( band, outputEmitter );
+		}
+	}
+
+	protected void accessGroupFooter( ListingDesign list, int index,
+			IContentEmitter emitter )
+	{
+		// all cells with drop detail can be resolved.
+		if ( layoutEmitter != null )
+		{
+			assert layoutEmitter == emitter;
+			layoutEmitter.resolveCellsOfDropDetail( index );
+		}
+		TableGroupDesign group = ( (TableItemDesign) list ).getGroup( index );
+		if ( group != null )
+		{
+			accessTableBand( group.getFooter( ), emitter );
+		}
+		// all cells with drop all can be resolved.
+		if ( layoutEmitter != null )
+		{
+			assert layoutEmitter == emitter;
+			layoutEmitter.resolveCellsOfDropAll( index );
+		}
+	}
+
+	protected void accessTableBand( TableBandDesign band,
+			IContentEmitter emitter )
+	{
+		if ( band != null )
+		{
+			for ( int i = 0; i < band.getRowCount( ); i++ )
+			{
+				accessRow( band.getRow( i ), emitter );
+			}
 		}
 	}
 
 	/**
-	 * output the row. row is output as: row start, cess, row end.
-	 * 
-	 * @param row
-	 * @param open
-	 *            should the row start be output
-	 * @param close
-	 *            should the row end be output
+	 * not all row design create corrsponds row content. To some row designs,
+	 * they share one row content, each design creates only cells of that row.
+	 * If the row start is true, the next row design should call startRow().
 	 */
-	protected void accessRow( RowDesign row, boolean open, boolean close )
+	transient private boolean rowClosed = true;
+
+	/**
+	 * output the row. row is output as: row start, cells*, row end.
+	 * 
+	 * @param rowIndex
+	 *            the index in the rows
+	 * @param row
+	 *            row design
+	 * @param emitter
+	 *            output emitter
+	 */
+	protected void accessRow( RowDesign row, IContentEmitter emitter )
 	{
-		if ( open )
+		if ( rowClosed )
 		{
-			RowContent rowContent = (RowContent) ContentFactory
-					.createRowContent( row, context.getContentObject( ) );
-			context.pushContentObject( rowContent );
-			setVisibility( row, rowContent );
-			setBookmarkValue( row, rowContent );
-			setStyles( rowContent, row );
-			tableEmitter.startRow( rowContent );
-			isRowEnd = false;
+			IRowContent rowContent = report.createRowContent( );
+			IContent parent = context.getContent( );
+			context.pushContent( rowContent );
+			initializeContent( parent, row, rowContent );
+
+			processStyle( row, rowContent );
+			processVisibility( row, rowContent );
+			processBookmark( row, rowContent );
+			processAction( row, rowContent );
+
+			if ( emitter != null )
+			{
+				emitter.startRow( rowContent );
+			}
+			rowClosed = false;
 		}
+
 		for ( int j = 0; j < row.getCellCount( ); j++ )
 		{
 			CellDesign cell = row.getCell( j );
+
 			if ( cell != null )
 			{
-				columnIndex = j;
-				CellContent cellContent = (CellContent) ContentFactory
-						.createCellContent( cell, context.getContentObject( ) );
-				context.pushContentObject( cellContent );
-				setStyles( cellContent, cell );
-				tableEmitter.startCell( cellContent );
+				ICellContent cellContent = report.createCellContent( );
+				IContent parent = context.getContent( );
+				context.pushContent( cellContent );
+
+				initializeContent( parent, cell, cellContent );
+				cellContent.setColumn( cell.getColumn( ) );
+				cellContent.setColSpan( cell.getColSpan( ) );
+				cellContent.setRowSpan( cell.getRowSpan( ) );
+
+				processStyle( cell, cellContent );
+				processVisibility( cell, cellContent );
+				processBookmark( cell, cellContent );
+				processAction( cell, cellContent );
+
+				if ( emitter != null )
+				{
+					emitter.startCell( cellContent );
+				}
 				for ( int m = 0; m < cell.getContentCount( ); m++ )
 				{
 					ReportItemDesign item = cell.getContent( m );
 					if ( item != null )
 					{
-						item.accept( this.visitor );
+						if ( layoutEmitter != null )
+						{
+							item.accept( this.visitor, layoutEmitter
+									.getCellEmitter( ) );
+						}
+						else
+						{
+							item.accept( this.visitor, emitter );
+						}
 					}
 				}
-				tableEmitter.endCell( );
-				context.popContentObject( );
-			}
-		}
-		if ( close )
-		{
-			tableEmitter.endRow( );
-			context.popContentObject( );
-			isRowEnd = true;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessGroupHeader(int)
-	 */
-	protected void accessGroupHeader( int index )
-	{
-		this.rowIndex = tableInfo.getFirstRowOfGroup(index);
-		this.groupIndex = index;
-		
-		TableBandDesign band = getGroupHeader( index, table );
-		if ( band != null && band.getRowCount() > 0)
-		{
-			if ( tableInfo.shouldStartLayout( groupIndex ) )
-			{
-				tableEmitter = this.layoutTableEmitter;
-			}
-	
-			for ( int i = 0; i < band.getRowCount( ); i++ )
-			{
-				accessRow( band.getRow( i ), true, tableInfo.shouldEndRow(rowIndex) );
-				this.rowIndex++;
-			}
-		}
-	}
-
-	int getDropId( int groupIndex, int dropType )
-	{
-		return -( 10 + groupIndex * 2 + dropType );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ListingExecutor#accessGroupFooter(int)
-	 */
-	protected void accessGroupFooter( int index )
-	{
-		if ( tableEmitter == layoutTableEmitter )
-		{
-			layoutTableEmitter
-					.resolveDropCells( getDropId( index, DROP_DETAIL ) );
-		}
-		
-		TableBandDesign band = getGroupFooter( index, table );
-		if (band != null && band.getRowCount() > 0)
-		{
-			accessBand( band );
-		}
-
-		if ( tableEmitter == layoutTableEmitter )
-		{
-			layoutTableEmitter.resolveDropCells( getDropId( index, DROP_ALL ) );
-			if ( tableInfo.shouldStopLayout( index ) )
-			{
-				layoutTableEmitter.flush( );
-				tableEmitter = emitter.getTableEmitter( );
+				if ( emitter != null )
+				{
+					emitter.endCell( cellContent );
+				}
+				context.popContent( );
 			}
 		}
 
+		boolean closeRow = true;
+		if ( closeRow )
+		{
+			emitter.endRow( (IRowContent) context.getContent( ) );
+			context.popContent( );
+			rowClosed = true;
+		}
 	}
-
-	/*
-	 * Link the last row of group header with the first row of details Only if
-	 * the cells in the last row of group header are all drop cells. Drop area
-	 * is terminate only if there is an none empty cell exists in the drop area.
-	 */
 
 	/**
 	 * the outest group which contains drop cells.
 	 */
 	int outestDropGroup;
 
-	class LayoutTableEmitter implements ITableEmitter
+	private class TableLayoutEmitter extends ContentEmitterAdapter
 	{
 
-		IReportEmitter emitter;
-		Table layout;
-		CellContent cell;
-		BufferedReportEmitter buffer;
+		private Table layout;
 
-		LayoutTableEmitter( IReportEmitter emitter )
+		private IContentEmitter emitter;
+
+		private BufferedReportEmitter cellEmitter;
+
+		TableLayoutEmitter( TableItemDesign design, IContentEmitter emitter )
 		{
+			layout = new Table( 0, design.getColumnCount( ) );
 			this.emitter = emitter;
-			layout = new Table( );
-		}
-
-		public void start( IReportItemContent content )
-		{
-		}
-
-		public void end( )
-		{
-		}
-
-		public void startColumns( )
-		{
-		}
-
-		public void endColumns( )
-		{
-		}
-
-		public void startColumn( IColumnContent column )
-		{
-		}
-
-		public void endColumn( )
-		{
-		}
-
-		public void startHeader( )
-		{
-		};
-
-		public void endHeader( )
-		{
-		}
-
-		public void startFooter( )
-		{
-		}
-
-		public void endFooter( )
-		{
-		}
-
-		public void startBody( )
-		{
-		}
-
-		public void endBody( )
-		{
 		}
 
 		public void startRow( IRowContent row )
@@ -763,84 +565,113 @@ public class TableItemExecutor extends ListingElementExecutor
 			layout.createRow( row );
 		}
 
-		public void endRow( )
+		public void endRow( IRowContent row )
 		{
+			// if (!layout.hasDropCell())
+			// {
+			// flush();
+			// }
 		}
 
 		public void startCell( ICellContent cell )
 		{
-			this.cell = (CellContent) cell;
-			buffer = new BufferedReportEmitter( emitter );
-			visitor.pushEmitter( buffer );
+			cellEmitter = new BufferedReportEmitter( emitter );
+			int colId = cell.getColumn( );
+			int colSpan = cell.getColSpan( );
+			int rowSpan = cell.getRowSpan( );
+
+			// the current executed cell is rowIndex, columnIndex
+			// get the span value of that cell.
+			CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
+			String dropType = cellDesign.getDrop( );
+			if ( dropType != null && !"none".equals( dropType ) )
+			{
+				rowSpan = createDropID( groupIndex, dropType );
+			}
+			layout.createCell( colId, rowSpan, colSpan, new CellContent( cell,
+					cellEmitter ) );
 		}
 
-		public void endCell( )
+		private int createDropID( int groupIndex, String dropType )
 		{
-			visitor.popEmitter( );
-			int colId = cell.getColumn( ) - 1;
-			int colSpan = cell.getRowSpan( );
-			int rowSpan = 1;
-			//the current executed cell is rowIndex, columnIndex
-			//get the span value of that cell.
-			int dropType = tableInfo.getCellDrop( rowIndex, columnIndex );
-
-			if ( dropType != DROP_NONE )
+			int dropId = -10 * ( groupIndex + 1 );
+			if ( "all".equals( dropType ) )
 			{
-				rowSpan = getDropId( groupIndex, dropType );
+				dropId--;
 			}
-			else
-			{
-				rowSpan = cell.getRowSpan( );
-			}
-			layout.createCell( colId, rowSpan, colSpan, new TableCellContent(
-					cell, buffer ) );
+			return dropId;
 		}
 
-		public void resolveDropCells( int dropId )
+		public void endCell( ICellContent cell )
 		{
-			layout.resolveDropCells( dropId );
+		}
+
+		public void resolveCellsOfDropDetail( int groupIndex )
+		{
+			layout.resolveDropCells( createDropID( groupIndex, "detail" ) );
+		}
+
+		public void resolveCellsOfDropAll( int groupIndex )
+		{
+			layout.resolveDropCells( createDropID( groupIndex, "all" ) );
+		}
+
+		public IContentEmitter getCellEmitter( )
+		{
+			assert cellEmitter != null;
+			return cellEmitter;
 		}
 
 		public void flush( )
 		{
 			int rowCount = layout.getRowCount( );
 			int colCount = layout.getColCount( );
-			ITableEmitter tableEmitter = emitter.getTableEmitter( );
 			for ( int i = 0; i < rowCount; i++ )
 			{
 				Row row = layout.getRow( i );
-				tableEmitter.startRow( (IRowContent) row.getContent( ) );
+				IRowContent rowContent = (IRowContent) row.getContent( );
+				emitter.startRow( rowContent );
 				for ( int j = 0; j < colCount; j++ )
 				{
 					Cell cell = row.getCell( j );
 					if ( cell.getStatus( ) == Cell.CELL_USED )
 					{
-						TableCellContent content = (TableCellContent) cell
-								.getContent( );
-						content.cell.setColumn(cell.getColId() + 1);
+						CellContent content = (CellContent) cell.getContent( );
+						content.cell.setColumn( cell.getColId( ) );
 						content.cell.setRowSpan( cell.getRowSpan( ) );
 						content.cell.setColSpan( cell.getColSpan( ) );
 
-						tableEmitter.startCell( content.cell );
+						emitter.startCell( content.cell );
 						if ( content.buffer != null )
 						{
-							content.buffer.endReport( );
+							content.buffer.flush( );
 						}
-						tableEmitter.endCell( );
+						emitter.endCell( content.cell );
+					}
+					if ( cell.getStatus( ) == Cell.CELL_EMPTY )
+					{
+						ICellContent cellContent = report.createCellContent( );
+						cellContent.setColumn( cell.getColId( ) + 1 );
+						cellContent.setRowSpan( cell.getRowSpan( ) );
+						cellContent.setColSpan( cell.getColSpan( ) );
+						emitter.startCell( cellContent );
+						emitter.endCell( cellContent );
 					}
 				}
-				tableEmitter.endRow( );
+				emitter.endRow( rowContent );
 			}
-			layout.reset();
+			layout.reset( );
 		}
 
-		class TableCellContent implements IContent
+		private class CellContent implements Cell.Content
 		{
 
-			CellContent cell;
-			BufferedReportEmitter buffer;
+			protected ICellContent cell;
 
-			TableCellContent( CellContent cell, BufferedReportEmitter buffer )
+			protected BufferedReportEmitter buffer;
+
+			protected CellContent( ICellContent cell,
+					BufferedReportEmitter buffer )
 			{
 				this.cell = cell;
 				this.buffer = buffer;
@@ -849,7 +680,7 @@ public class TableItemExecutor extends ListingElementExecutor
 
 			public boolean isEmpty( )
 			{
-				return buffer == null || buffer.isEmpty();
+				return buffer == null || buffer.isEmpty( );
 			}
 		}
 	}

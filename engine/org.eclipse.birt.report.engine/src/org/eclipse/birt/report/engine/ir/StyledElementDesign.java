@@ -11,32 +11,30 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+
+
 /**
  * Element has a style. elements with style. such as report item, column, row
  * etc.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 abstract public class StyledElementDesign extends ReportElementDesign
 {
 
-	/**
-	 * style associated with this element.
-	 */
-	protected StyleDesign style = new StyleDesign( );
+	protected String styleName;
 	
 	protected MapDesign map = null;
 	
 	protected HighlightDesign highlight = null;
 
 	/**
-	 * get the style
-	 * 
-	 * @return style
+	 * get the style name
+	 * @return
 	 */
-	public StyleDesign getStyle( )
+	public String getStyleName()
 	{
-		return this.style;
+		return styleName;
 	}
 
 	/**
@@ -45,19 +43,11 @@ abstract public class StyledElementDesign extends ReportElementDesign
 	 * @param style
 	 *            style of this element.
 	 */
-	public void setStyle( StyleDesign style )
+	public void setStyleName( String name )
 	{
-		this.style = style;
+		this.styleName = name;
 	}
 
-	public String getStyleName( )
-	{
-		if ( this.style != null )
-		{
-			return this.style.getName( );
-		}
-		return null;
-	}
 	/**
 	 * @return Returns the highlight.
 	 */

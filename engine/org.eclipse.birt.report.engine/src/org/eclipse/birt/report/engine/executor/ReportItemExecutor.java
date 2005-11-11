@@ -14,17 +14,19 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.ContentFactory;
+import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.InstanceID;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 /**
@@ -39,7 +41,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.14 $ $Date: 2005/08/22 06:07:54 $
+ * @version $Revision: 1.10 $ $Date: 2005/11/10 08:55:18 $
  */
 public abstract class ReportItemExecutor
 {
@@ -47,7 +49,13 @@ public abstract class ReportItemExecutor
 	/**
 	 * the logger, log info, debug, and error message
 	 */
-	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class.getName() );
+	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class
+			.getName( ) );
+
+	/**
+	 * the report content
+	 */
+	protected IReportContent report;
 
 	/**
 	 * the executor context
@@ -57,7 +65,7 @@ public abstract class ReportItemExecutor
 	/**
 	 * the executor visitor
 	 */
-	protected ReportExecutorVisitor visitor;
+	protected IReportItemVisitor visitor;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -69,10 +77,12 @@ public abstract class ReportItemExecutor
 	 *            the report executor visitor
 	 */
 	protected ReportItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
+		
 		this.context = context;
 		this.visitor = visitor;
+		this.report = context.getReportContent();
 	}
 
 	/**
@@ -90,90 +100,17 @@ public abstract class ReportItemExecutor
 	 * @param emitter
 	 *            the report emitter
 	 */
-	public abstract void execute( ReportItemDesign item, IReportEmitter emitter );
-
+	public abstract void execute( ReportItemDesign item, IContentEmitter emitter );
+	
 	/**
 	 * reset the state of the report item executor. This operation will reset
 	 * all property of this object
-	 *  
-	 */
-	public abstract void reset( );
-
-	/**
-	 * close dataset if the dataset is not null:
-	 * <p>
-	 * <ul>
-	 * <li>close the dataset.
-	 * <li>exit current script scope.
-	 * </ul>
 	 * 
-	 * @param ds
-	 *            the dataset object, null is valid
 	 */
-	protected void closeResultSet( IResultSet rs )
+	public void reset( )
 	{
-		if ( rs != null )
-		{
-			rs.close( );
-			context.exitScope( );
-		}
 	}
 
-	/**
-	 * register dataset of this item.
-	 * <p>
-	 * if dataset design of this item is not null, create a new
-	 * <code>DataSet</code> object by the dataset design. open the dataset,
-	 * move cursor to the first record , register the first row to script
-	 * context, and return this <code>DataSet</code> object if dataset design
-	 * is null, or open error, or empty resultset, return null.
-	 * 
-	 * @param item
-	 *            the report item design
-	 * @return the DataSet object if not null, else return null
-	 */
-	protected IResultSet openResultSet( ReportItemDesign item )
-	{
-		if ( item.getQuery( ) != null )
-		{
-			//context.newScope( );
-			IResultSet rs = context.getDataEngine( ).execute( item.getQuery( ) );
-			if ( rs != null )
-			{
-				return rs;
-			}
-			//context.exitScope( );
-		}
-		return null;
-
-	}
-
-	/**
-	 * get Localized string by the resouce key of this item and
-	 * <code>Locale</code> object in <code>context</code>
-	 * 
-	 * @param resourceKey
-	 *            the resource key
-	 * @param text
-	 *            the default value
-	 * @return the localized string if it is defined in report deign, else
-	 *         return the default value
-	 */
-	protected String getLocalizedString( String resourceKey, String text )
-	{
-		if ( context.getReport( ) == null || resourceKey == null )
-		{
-			return text;
-		}
-		String ret = context.getReport( ).getMessage( resourceKey,
-				context.getLocale( ) );
-		if ( ret == null || "".equals(ret) )
-		{
-		    logger.log(Level.SEVERE,"get resource error, resource key: {0} Locale: {1}", new Object[]{resourceKey, context.getLocale().toString()} ); //$NON-NLS-1$
-			return text;
-		}
-		return ret;
-	}
 
 	/**
 	 * Calculate the bookmark value which is set to
@@ -182,24 +119,27 @@ public abstract class ReportItemExecutor
 	 * @param item
 	 *            the ReportItemContent object
 	 */
-	/*
-	 * protected void evalBookmark( ReportItemContent item ) { Expression
-	 * bookmark = item.getBookmark( ); if ( bookmark != null ) { Object obj =
-	 * context.evaluate( bookmark); if ( obj != null ) { item.setBookmarkValue(
-	 * obj.toString( ) ); } } }
-	 */
-
-	protected String evalBookmark( ReportItemDesign item )
+	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
 		Expression bookmark = item.getBookmark( );
 		if ( bookmark != null )
 		{
 			Object tmp = context.evaluate( bookmark );
 			if ( tmp != null )
-				return tmp.toString( );
+			{
+				itemContent.setBookmark( tmp.toString( ) );
+			}
 		}
-
-		return null;
+		Expression toc = item.getTOC();
+		if (toc != null)
+		{
+			Object tmp = context.evaluate(toc);
+			if (tmp != null)
+			{
+				itemContent.setTOC(tmp.toString());
+			}
+			
+		}
 	}
 
 	/**
@@ -211,11 +151,11 @@ public abstract class ReportItemExecutor
 	 * @param itemContent
 	 *            create report item content object
 	 */
-	protected void processAction( ActionDesign action,
-			ReportItemContent itemContent )
+	protected void processAction( ReportItemDesign item, IContent itemContent )
 	{
 		assert itemContent != null;
 
+		ActionDesign action = item.getAction( );
 		if ( action != null )
 		{
 
@@ -226,9 +166,9 @@ public abstract class ReportItemExecutor
 					Object value = context.evaluate( action.getHyperlink( ) );
 					if ( value != null )
 					{
-						IHyperlinkAction obj = ContentFactory
-								.createActionContent( value.toString( ), action
-										.getTargetWindow( ) );
+						IHyperlinkAction obj = report.createActionContent( );
+						obj.setHyperlink( value.toString( ), action
+								.getTargetWindow( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					break;
@@ -237,8 +177,8 @@ public abstract class ReportItemExecutor
 					value = context.evaluate( action.getBookmark( ) );
 					if ( value != null )
 					{
-						IHyperlinkAction obj = ContentFactory
-								.createActionContent( value.toString( ) );
+						IHyperlinkAction obj = report.createActionContent( );
+						obj.setBookmark( value.toString( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					break;
@@ -249,8 +189,8 @@ public abstract class ReportItemExecutor
 					String bookmark = null;
 					if ( value != null && value instanceof String )
 					{
-						bookmark =  value.toString();
-					}	
+						bookmark = value.toString( );
+					}
 					Iterator paramsDesignIte = drill.getParameters( )
 							.entrySet( ).iterator( );
 					Map paramsVal = new HashMap( );
@@ -260,10 +200,13 @@ public abstract class ReportItemExecutor
 						paramsVal.put( entry.getKey( ), context
 								.evaluate( (Expression) entry.getValue( ) ) );
 					}
-					//XXX Do not support Search criteria
-					IHyperlinkAction obj = ContentFactory.createActionContent(
-							bookmark, drill.getReportName( ), paramsVal, null,
-							action.getTargetWindow( ) );
+					// XXX Do not support Search criteria
+					IHyperlinkAction obj = report.
+
+					createActionContent( );
+					obj.setDrillThrough( bookmark, drill.getReportName( ),
+							paramsVal, null, action.getTargetWindow( ) );
+
 					itemContent.setHyperlinkAction( obj );
 					break;
 				default :
@@ -272,4 +215,24 @@ public abstract class ReportItemExecutor
 
 		}
 	}
+	
+
+	protected DataID getDataID()
+	{
+		return null;
+	}
+	
+	protected void initializeContent(IContent parent, ReportElementDesign design, IContent content)
+	{
+		InstanceID pid = null;
+		if (parent != null)
+		{
+			pid = parent.getInstanceID();
+		}
+		InstanceID id = new InstanceID(pid, design == null ? -1 : design.getID(), getDataID());
+		content.setInstanceID(id);
+		content.setGenerateBy( design );
+		content.setParent( parent );
+	}
+	
 }

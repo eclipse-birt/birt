@@ -21,7 +21,7 @@ import java.util.Map;
  * Because it is allowed to customize hyperlinks through emitters, hyperlink
  * customization in presentation engine itself is not supported now. It could be
  * added later if it deems necessary.
- *  
+ * 
  */
 public interface IHyperlinkAction
 {
@@ -82,4 +82,11 @@ public interface IHyperlinkAction
 	 * @return The name of a frame where a document is to be opened.
 	 */
 	public String getTargetWindow( );
+
+	public void setHyperlink( String hyperlink, String target );
+
+	public void setBookmark( String bookmark );
+
+	public void setDrillThrough( String bookmark, String reportName,
+			Map parameterBindings, Map searchCriteria, String target );
 }

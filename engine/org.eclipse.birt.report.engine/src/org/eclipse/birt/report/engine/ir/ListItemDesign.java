@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class ListItemDesign extends ListingDesign
 {
@@ -29,11 +29,6 @@ public class ListItemDesign extends ListingDesign
 	 * listing header
 	 */
 	protected ListBandDesign header = new ListBandDesign( );
-	/**
-	 * groups. which corresponds to the group in query. which is created at
-	 * begin & end of each group.
-	 */
-	protected ArrayList groups = new ArrayList( );
 	/**
 	 * detail, is created in report instance for each row in the data set.
 	 */
@@ -49,26 +44,6 @@ public class ListItemDesign extends ListingDesign
 	 */
 	public ListItemDesign( )
 	{
-	}
-
-	/**
-	 * get all the groups in this listing.
-	 * 
-	 * @return collection of groups.
-	 */
-	public ArrayList getGroups( )
-	{
-		return this.groups;
-	}
-
-	/**
-	 * get group count
-	 * 
-	 * @return group count
-	 */
-	public int getGroupCount( )
-	{
-		return this.groups.size( );
 	}
 
 	/**
@@ -146,8 +121,8 @@ public class ListItemDesign extends ListingDesign
 		this.header = header;
 	}
 
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value)
 	{
-		visitor.visitListItem( this );
+		visitor.visitListItem( this ,value);
 	}
 }

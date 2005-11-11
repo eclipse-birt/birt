@@ -38,7 +38,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
@@ -46,7 +45,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.21 $ $Date: 2005/10/19 11:03:06 $
+ * @version $Revision: 1.22 $ $Date: 2005/11/08 05:53:57 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -139,7 +138,7 @@ public class DteDataEngine implements IDataEngine
 		assert ( report != null );
 
 		// Handle data sources
-		ReportDesignHandle handle = report.getReportDesign( ).handle( );
+		ReportDesignHandle handle = report.getReportDesign( );
 		List dataSourceList = handle.getAllDataSources();
 		for ( int i = 0; i < dataSourceList.size(); i++ )
 		{
@@ -252,7 +251,7 @@ public class DteDataEngine implements IDataEngine
 			try
 			{
 				IResultIterator ri = ( (DteResultSet) rsStack.getLast( ) )
-						.getRs( ).getSecondaryIterator(
+						.getResultIterator( ).getSecondaryIterator(
 								( (ISubqueryDefinition) query ).getName( ),
 								context.getSharedScope( ) );
 				assert ri != null;
@@ -309,7 +308,7 @@ public class DteDataEngine implements IDataEngine
 		{
 			try
 			{
-				Object value = ( (DteResultSet) rsStack.getLast( ) ).getRs( )
+				Object value = ( (DteResultSet) rsStack.getLast( ) ).getResultIterator( )
 						.getValue( expr );
 				if ( value != null )
 				{
@@ -351,9 +350,9 @@ public class DteDataEngine implements IDataEngine
 		for ( int i = rsStack.size( ) - 1; i >= 0; i-- )
 		{
 			DteResultSet rs = (DteResultSet) rsStack.get( i );
-			if ( rs.getQr( ) != null )
+			if ( rs.getQueryResults( ) != null )
 			{
-				return rs.getQr( );
+				return rs.getQueryResults( );
 			}
 		}
 		return null;

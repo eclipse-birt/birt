@@ -11,26 +11,18 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.Date;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.impl.ReportElementContent;
-import org.eclipse.birt.report.engine.content.impl.ReportItemContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.StyledElementContent;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
@@ -42,7 +34,7 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/05/20 03:39:29 $
+ * @version $Revision: 1.7 $ $Date: 2005/11/10 08:55:19 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
@@ -56,7 +48,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the visitor for report execution
 	 */
 	protected StyledItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
@@ -71,24 +63,16 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param design
 	 *            the original design object.
 	 */
-	protected void setStyles( StyledElementContent content,
-			StyledElementDesign design )
+	protected void processStyle( ReportItemDesign design, IContent content )
 	{
-		StyleDesign style = design.getStyle( );
-		StyleDesign highlightStyle;
-
-		assert style != null;
-
-		content.setNamedStyle( style );
-
-		handleBackgroundImage( style );
-
-		highlightStyle = getStyleFromHighlight( design );
-		if ( highlightStyle != null && highlightStyle.entrySet( ).size( ) > 0 )
-		{
-			handleBackgroundImage( highlightStyle );
-			content.setInlineStyle( highlightStyle );
-		}
+		content.setX(design.getX());
+		content.setY(design.getY());
+		content.setWidth(design.getWidth());
+		content.setHeight(design.getHeight());
+		content.setStyleClass( design.getStyleName( ) );
+		StyleDeclaration inlineStyle = createHighlightStyle( design
+				.getHighlight( ) );
+		content.setInlineStyle( inlineStyle );
 	}
 
 	/**
@@ -100,33 +84,42 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the test expression
 	 * @return The highlight style.
 	 */
-	private StyleDesign getStyleFromHighlight( StyledElementDesign item )
+	private StyleDeclaration createHighlightStyle( HighlightDesign highlight )
 	{
-
-		HighlightDesign highlight = item.getHighlight( );
 		if ( highlight == null )
 		{
 			return null;
 		}
 
-		StyleDesign style = null;
+		StyleDeclaration style = null;
 		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
 		{
-			HighlightRuleDesign rule = highlight.getRule( i ) ;
+			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
 				Object value = context.evaluate( rule.getConditionExpr( ) );
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
-					if (style == null)
+					StyleDeclaration highlightStyle = new StyleDeclaration(
+							(StyleDeclaration) rule.getStyle( ) );
+					if ( style != null )
 					{
-						style = new StyleDesign();
+						style.setProperties( highlightStyle );
 					}
-					style = style.mergeWithInlineStyle(rule.getStyle());
+					else
+					{
+						style = highlightStyle;
+					}
 				}
 			}
 		}
+
+		if ( style != null )
+		{
+			processBackgroundImage( style );
+		}
+
 		return style;
 	}
 
@@ -141,7 +134,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 *            the default test expression and only useful for data item
 	 * @return the old value if no map rule matched, the mapping value otherwise
 	 */
-	protected Object getMapVal( Object oldVal, StyledElementDesign item )
+	protected Object getMappingValue( Object oldVal, StyledElementDesign item )
 	{
 		MapDesign map = item.getMap( );
 		if ( map == null )
@@ -158,81 +151,12 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
-					return getLocalizedString( rule.getDisplayKey( ), rule
-							.getDisplayText( ) );
+					return rule.getDisplayKey( );
 				}
 			}
 		}
 		return oldVal;
 	}
-
-	/**
-	 * Uses proper format pattern to format input value.
-	 * 
-	 * @param value
-	 *            The input value.
-	 * @param formatStr
-	 *            The default format pattern string. If it's <code>null</code>,
-	 *            it will use the corresponding format pattern set in the
-	 *            <code>StyleDesign</code> object instead.
-	 * @param style
-	 *            The <code>StyleDesign</code> object.
-	 * @param formattedStr
-	 *            The <code>StringBuffer</code> object to which the formatted
-	 *            string will be appended.
-	 */
-	protected void formatValue( Object value, String formatStr,
-			IStyle style, StringBuffer formattedStr,ReportElementContent reportContent )
-	{
-		if ( value == null )
-		{
-			return;
-		}
-
-		assert style != null && formattedStr != null;
-
-		if ( ( value instanceof Number ) )
-		{
-			if ( formatStr == null || formatStr.length( ) == 0 )
-			{
-				formatStr = style.getNumberFormat( );
-			}
-
-			NumberFormatter numberFormat = context.createNumberFormatter( formatStr );
-			formattedStr.append( numberFormat.format( ( ( Number ) value ).doubleValue( ) ) );
-			return;
-		}
-		else if ( value instanceof Date )
-		{
-			if ( formatStr == null || formatStr.length( ) == 0 )
-			{
-				formatStr = style.getDateTimeFormat( );
-			}
-
-			DateFormatter dateFormat = context.createDateFormatter( formatStr );
-			formattedStr.append( dateFormat.format( ( Date ) value ) );
-			return;
-		}
-		else if( value instanceof String )
-		{
-			if( formatStr == null || formatStr.length( ) == 0 )
-			{
-				formatStr = style.getStringFormat( ); 				 
-			}
-			
-			if( formatStr != null && formatStr.length( ) > 0 )
-			{
-				StringFormatter stringFormat = context.createStringFormatter( formatStr);
-				formattedStr.append( stringFormat.format( value.toString( ) ) );
-				return;
-			}
-		}
-
-		formattedStr.append( value.toString( ) );
-	}
-
-
-
 
 	/**
 	 * Checks the background image property. If it is given as a relative path,
@@ -241,7 +165,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param style
 	 *            the style that defines background image related properties
 	 */
-	protected void handleBackgroundImage( IStyle style )
+	protected void processBackgroundImage( IStyle style )
 	{
 		if ( style == null )
 			return;
@@ -256,22 +180,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					.getBasePath( ), image );
 			if ( image != null && image.length( ) > 0 )
 			{
-				style.setBackgroundImage(image );
+				style.setBackgroundImage( image );
 			}
 		}
-	}
-
-	/**
-	 * Sets the visibility property for RowDesign.
-	 * 
-	 * @param design
-	 *            The <code>RowDesign</code> object.
-	 * @param content
-	 *            The <code>RowContent</code> object.
-	 */
-	protected void setVisibility( RowDesign design, RowContent content )
-	{
-		setVisibility( design.getVisibility( ), content, null );
 	}
 
 	/**
@@ -282,43 +193,16 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 * @param content
 	 *            The <code>ReportItemContent</code> object.
 	 */
-	protected void setVisibility( ReportItemDesign design,
-			ReportItemContent content )
+	protected void processVisibility( ReportItemDesign design, IContent content )
 	{
-		Expression defaultExpr = null;
-		if ( design instanceof DataItemDesign )
-		{
-			defaultExpr = ( (DataItemDesign) design ).getValue( );
-		}
-		setVisibility( design.getVisibility( ), content, defaultExpr );
-	}
-
-	/**
-	 * Sets the visibility value to the StyledElementContent which is the base
-	 * class of RowContent and ReportItemContent.
-	 * 
-	 * @param visibility
-	 *            The <code>VisibilityDesign</code> object.
-	 * @param content
-	 *            The StyledElementContent set.
-	 * @param defaultExpression
-	 *            the default expression if there is not expression in the rule
-	 */
-	private void setVisibility( VisibilityDesign visibility,
-			StyledElementContent content, Expression defaultExpression )
-	{
+		VisibilityDesign visibility = design.getVisibility( );
 		if ( visibility != null )
 		{
+			StringBuffer buffer = new StringBuffer( );
 			for ( int i = 0; i < visibility.count( ); i++ )
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
 				Expression expr = rule.getExpression( );
-				//If there is no expression in the rule, then take the default
-				// expression (only for the data item)
-				if ( expr == null )
-				{
-					expr = defaultExpression;
-				}
 				Object result = null;
 				if ( expr != null )
 				{
@@ -326,19 +210,26 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
-				    logger.log( Level.WARNING, "The following visibility expression does not evaluate to a legal boolean value: {0}",  //$NON-NLS-1$
-										rule.getExpression( ).getExpr( ) );
+					logger
+							.log(
+									Level.WARNING,
+									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+									rule.getExpression( ).getExpr( ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
-				//The report element appears by default and if the result is
+				// The report element appears by default and if the result is
 				// not hidden, then ignore it.
 				if ( !isHidden )
 				{
 					continue;
 				}
-				content.hide( rule.getFormat( ) );
+				// we should use rule as the string as
+				buffer.append( rule.getFormat( ) );
+				buffer.append( ", " );
 			}
+			content.getInlineStyle( ).setVisibleFormat( buffer.toString( ) );
 		}
 	}
+
 }

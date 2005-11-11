@@ -11,44 +11,53 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.util.List;
+
+import org.eclipse.birt.report.engine.ir.Report;
 
 /**
- * Provides the interfaces for the emitters
+ * The object represents the report content as a whole.
  * 
- * 
- * @version $Revision: 1.4 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/20 03:39:29 $
  */
-public interface IReportContent extends IReportElementContent
+public interface IReportContent
 {
 
-	/**
-	 * get the style.
-	 * 
-	 * @param index
-	 *            style index
-	 * @return style
-	 */
-	public IStyle getStyle( int index );
+	public Report getDesign( );
+	
+	public List getErrors();
 
-	/**
-	 * @return Returns the style count
-	 */
-	public int getStyleCount( );
+	public IStyle findStyle( String styleClass );
 
-	/**
-	 * Gets the directory where design file resides.
-	 * 
-	 * @return the base path where the design file is.
-	 */
-	public String getBasePath( );
+	public IHyperlinkAction createActionContent( );
 
-	/**
-	 * @return the inheritable report default style.
-	 */
-	public IStyle getInheritableDefaultStyle( );
+	public IStyle createStyle( );
 
-	/**
-	 * @return the non-inheritable report default style.
-	 */
-	public IStyle getNonInheritableDefaultStyle( );
+	public ICellContent createCellContent( );
+
+	public IContainerContent createContainerContent( );
+
+	public IPageContent createPageContent( );
+
+	public ITableContent createTableContent( );
+
+	public ITableBandContent createTableBandContent( );
+
+	public IRowContent createRowContent( );
+
+	public ITextContent createTextContent( );
+	public ITextContent createTextContent(IContent conent);
+
+	public IForeignContent createForeignContent( );
+
+	public IImageContent createImageContent( );
+	public IImageContent createImageContent(IContent conent);
+
+	public ILabelContent createLabelContent( );
+	public ILabelContent createLabelContent(IContent conent);
+
+	public IDataContent createDataContent( );
+	
+	public IDataContent createDataContent(IContent conent);
+
 }

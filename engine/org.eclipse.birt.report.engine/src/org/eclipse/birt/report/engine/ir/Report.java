@@ -17,23 +17,44 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
+import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.17 $ $Date: 2005/10/24 08:54:00 $
+ * @version $Revision: 1.18 $ $Date: 2005/10/31 05:49:31 $
  */
 public class Report
 {
+	
+	/**
+	 * the non-inheritable style of the report body 
+	 */
+	protected StyleDeclaration defaultStyle;
+	
+	/**
+	 * the name of Report root style 
+	 */
+	protected String rootStyleName;
+	
+	/**
+	 * A collection that stores all the report parameters.
+	 */
+	protected ArrayList allParameters = null;
+
 	/**
 	 * report design get from Model
 	 */
-	protected ReportDesign reportDesign;
+	protected ReportDesignHandle reportDesign;
 
 	/**
 	 * default unit
@@ -49,6 +70,12 @@ public class Report
 	 * style-name mapping table
 	 */
 	protected HashMap styleTable = new HashMap( );
+
+	/**
+	 * A collection that stores the top level report parameters and parameter
+	 * groups.
+	 */
+	protected ArrayList parameters = new ArrayList( );
 
 	/**
 	 * queries used by this report.
@@ -72,16 +99,6 @@ public class Report
 	 * file (XML) resides
 	 */
 	protected String basePath;
-
-	/**
-	 * the non-inheritable report style
-	 */
-	protected StyleDesign nonInheritableStyle;
-	
-	/**
-	 * the inheritable report style
-	 */
-	protected StyleDesign inheritableStyle;
 
 	/**
 	 * default constructor.
@@ -184,14 +201,17 @@ public class Report
 	 * @param style
 	 *            style definition.
 	 */
-	public void addStyle( StyleDesign style )
+	public void addStyle( String name, CSSStyleDeclaration style )
 	{
 		assert ( style != null );
-		assert ( style.getName( ) != null );
 		this.styles.add( style );
-		this.styleTable.put( style.getName( ), style );
+		this.styleTable.put( name, style );
 	}
 
+	public Set getStyleSet( )
+	{
+		return styleTable.entrySet( );
+	}
 	/**
 	 * Finds the style in the report.
 	 * 
@@ -199,11 +219,26 @@ public class Report
 	 *            The name of the style.
 	 * @return The corresponding <code>StyleDesign</code> object.
 	 */
-	public StyleDesign findStyle( String name )
+	public IStyle findStyle( String name )
 	{
 		assert ( name != null );
-		return (StyleDesign) this.styleTable.get( name );
+		return (IStyle) this.styleTable.get( name );
 	}
+
+	/**
+	 * Appends a top-level parameter or parameter group in the report.
+	 * 
+	 * @param parameter
+	 *            The parameter or parameter group object.
+	 */
+	public void addParameter( IParameterDefnBase parameter )
+	{
+		assert ( parameter != null );
+		assert ( parameter.getName( ) != null );
+		this.parameters.add( parameter );
+	}
+
+
 
 	/**
 	 * Finds a master page with given name.
@@ -258,7 +293,7 @@ public class Report
 	/**
 	 * @return Returns the reportDesign.
 	 */
-	public ReportDesign getReportDesign( )
+	public ReportDesignHandle getReportDesign( )
 	{
 		return reportDesign;
 	}
@@ -267,7 +302,7 @@ public class Report
 	 * @param reportDesign
 	 *            The reportDesign to set.
 	 */
-	public void setReportDesign( ReportDesign reportDesign )
+	public void setReportDesign( ReportDesignHandle reportDesign )
 	{
 		this.reportDesign = reportDesign;
 		if ( basePath == null || basePath.equals( "" ) ) //$NON-NLS-1$
@@ -288,10 +323,65 @@ public class Report
 		return this.queries;
 	}
 
+	/**
+	 * Puts all the report parameters including those appear inside parameter
+	 * groups to the <code>allParameters</code> object.
+	 * 
+	 * @param params
+	 *            A collection of parameters and parameter groups.
+	 */
+	protected void flattenParameter( ArrayList params )
+	{
+		assert allParameters != null;
+		assert params != null;
+		IParameterDefnBase param;
+		for ( int n = 0; n < params.size( ); n++ )
+		{
+			param = (IParameterDefnBase) params.get( n );
+			if ( param.getParameterType() == IParameterDefnBase.PARAMETER_GROUP )
+			{
+				flattenParameter( ( (IParameterGroupDefn) param )
+						.getContents() );
+			}
+			else
+			{
+				allParameters.add( param );
+			}
+		}
+	}
+
+	/**
+	 * Gets the parameter list of the report.
+	 * 
+	 * @param includeParameterGroups
+	 *            A <code>boolean</code> value specifies whether to include
+	 *            parameter groups or not.
+	 * @return The collection of top-level report parameters and parameter
+	 *         groups if <code>includeParameterGroups</code> is set to
+	 *         <code>true</code>; otherwise, returns all the report
+	 *         parameters.
+	 */
+	public ArrayList getParameters( boolean includeParameterGroups )
+	{
+		if ( includeParameterGroups )
+		{
+			return parameters;
+		}
+
+		if ( allParameters != null )
+		{
+			return allParameters;
+		}
+
+		allParameters = new ArrayList( );
+		flattenParameter( parameters );
+		return allParameters;
+	}
+
 	public HashMap getConfigs( )
 	{
 		HashMap configs = new HashMap( );
-		Iterator iter = reportDesign.handle( ).configVariablesIterator( );
+		Iterator iter = reportDesign.configVariablesIterator( );
 		if ( iter != null )
 		{
 			while ( iter.hasNext( ) )
@@ -308,48 +398,48 @@ public class Report
 
 	public String getAfterCloseDoc( )
 	{
-		return reportDesign.handle( ).getAfterCloseDoc( );
+		return reportDesign.getAfterCloseDoc( );
 	}
 
 	public String getAfterFactory( )
 	{
-		return reportDesign.handle( ).getAfterFactory( );
+		return reportDesign.getAfterFactory( );
 	}
 
 	public String getAfterOpenDoc( )
 	{
-		return reportDesign.handle( ).getAfterOpenDoc( );
+		return reportDesign.getAfterOpenDoc( );
 	}
 
 	public String getAfterRender( )
 	{
-		return reportDesign.handle( ).getAfterRender( );
+		return reportDesign.getAfterRender( );
 	}
 
 	public String getBeforeCloseDoc( )
 	{
-		return reportDesign.handle( ).getBeforeCloseDoc( );
+		return reportDesign.getBeforeCloseDoc( );
 	}
 
 	public String getBeforeFactory( )
 	{
-		return reportDesign.handle( ).getBeforeFactory( );
+		return reportDesign.getBeforeFactory( );
 	}
 
 	public String getBeforeOpenDoc( )
 	{
-		return reportDesign.handle( ).getBeforeOpenDoc( );
+		return reportDesign.getBeforeOpenDoc( );
 	}
 
 	public String getBeforeRender( )
 	{
-		return reportDesign.handle( ).getBeforeRender( );
+		return reportDesign.getBeforeRender( );
 	}
 
 	public List getIncludeScripts( )
 	{
 		ArrayList includes = new ArrayList( );
-		Iterator iter = reportDesign.handle( ).includeScriptsIterator( );
+		Iterator iter = reportDesign.includeScriptsIterator( );
 		if ( iter != null )
 		{
 			while ( iter.hasNext( ) )
@@ -363,7 +453,7 @@ public class Report
 	
 	public String getInitialize()
 	{
-		return reportDesign.handle().getInitialize();
+		return reportDesign.getInitialize();
 	}
 
 	/**
@@ -385,34 +475,31 @@ public class Report
 		this.basePath = basePath;
 	}
 
+	public StyleDeclaration getDefaultStyle()
+	{
+		return defaultStyle;
+	}
+	
+	public void setDefaultStyle( StyleDeclaration defaultStyle )
+	{
+		this.defaultStyle = defaultStyle;
+	}
+
+	/**
+	 * the name of Report root style 
+	 */
+	public String getRootStyleName( )
+	{
+		return rootStyleName;
+	}
+	
+	public void setRootStyleName( String rootStyleName )
+	{
+		this.rootStyleName = rootStyleName;
+	}
+	
 	public List getErrors( )
 	{
-		return this.reportDesign.handle( ).getErrorList( );
-	}
-
-	/**
-	 * @return Returns the defaultStyle.
-	 */
-	public IStyle getNonInheritableStyle( )
-	{
-		return nonInheritableStyle;
-	}
-
-	/**
-	 * @return Returns the defaultStyle.
-	 */
-	public IStyle getInheritableStyle( )
-	{
-		return inheritableStyle;
-	}
-
-	/**
-	 * @param defaultStyle
-	 *            The bodyStyle to set.
-	 */
-	public void setDefaultStyles( StyleDesign nonInheritableStyle, StyleDesign inheritableStyle )
-	{
-		this.nonInheritableStyle = nonInheritableStyle;
-		this.inheritableStyle = inheritableStyle;
+		return this.reportDesign.getErrorList( );
 	}
 }

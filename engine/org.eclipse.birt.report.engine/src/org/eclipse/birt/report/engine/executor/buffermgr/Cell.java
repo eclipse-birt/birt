@@ -15,11 +15,15 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 /**
  * CELL in table layout
  * 
- * @version $Revision:$ $Date:$
+ * @version $Revision: 1.3 $ $Date: 2005/11/10 08:55:19 $
  */
 public class Cell
 {
-
+	public interface Content
+	{
+		boolean isEmpty();
+	};
+	
 	final static Cell EMPTY_CELL = new Cell(Cell.CELL_EMPTY);
 	/**
 	 * CELL is empty
@@ -43,7 +47,7 @@ public class Cell
 	Cell cell;
 
 	static Cell createCell( int rowId, int colId, int rowSpan, int colSpan,
-			IContent content )
+			Content content )
 	{
 		Cell cell = new Cell( CELL_USED );
 		cell.rowId = rowId;
@@ -80,10 +84,10 @@ public class Cell
 		return this.status;
 	}
 
-	public IContent getContent( )
+	public Object getContent( )
 	{
 		assert status == CELL_USED;
-		return (IContent) content;
+		return content;
 	}
 	
 	public int getRowId()

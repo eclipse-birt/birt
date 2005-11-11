@@ -8,124 +8,145 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.parser;
 
+import org.eclipse.birt.report.engine.executor.buffermgr.Cell;
+import org.eclipse.birt.report.engine.executor.buffermgr.Row;
+import org.eclipse.birt.report.engine.executor.buffermgr.Table;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
+import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
-
 /**
  * calculate the cell id explictly.
- *
- * @version $Revision: 1.1 $ $Date: 2005/05/23 11:57:54 $
+ * 
+ * @version $Revision: 1.2 $ $Date: 2005/05/24 09:22:41 $
  */
 public class TableItemDesignLayout
 {
-	int[] columns;
-	int bufferSize;
-	int columnCount;
-	int lastColumn;
 
-	public void layout(TableItemDesign table)
+	Table layout = new Table( );
+
+	public void layout( GridItemDesign grid )
 	{
-		ensureSize(table.getColumnCount());
-		layoutBand(table.getHeader());
-		for (int i = 0; i < table.getGroupCount(); i++)
+		layout = new Table(0, grid.getColumnCount());
+		layout.reset( );
+		for ( int i = 0; i < grid.getRowCount( ); i++ )
 		{
-			layoutBand(table.getGroup(i).getHeader());
+			layoutRow( grid.getRow( i ) );
 		}
-		layoutBand(table.getDetail());
-		for (int i = table.getGroupCount()-1; i >= 0; i--)
+		layout.resolveDropCells( );
+
+		// Fill the column designs.
+		for ( int i = grid.getColumnCount( ); i < layout.getColCount( ); i++ )
 		{
-			layoutBand(table.getGroup(i).getFooter());
+			grid.addColumn( new ColumnDesign( ) );
 		}
-		layoutBand(table.getFooter());
-		//should we reset the column size?
+
+		// update the row design, create the empty cell.
+		normalize( );
+		for ( int i = grid.getColumnCount( ); i < layout.getColCount( ); i++ )
+		{
+			grid.addColumn( new ColumnDesign( ) );
+		}
 	}
-	
-	void layoutBand(TableBandDesign band)
+
+	protected void normalize( )
 	{
-		if (band != null)
+		for ( int i = 0; i < layout.getRowCount( ); i++ )
 		{
-			for (int i = 0; i < band.getRowCount(); i++)
+			Row row = layout.getRow( i );
+			RowDesign design = (RowDesign) row.getContent( );
+			design.removeCells( );
+			for ( int j = 0; j < layout.getColCount( ); j++ )
 			{
-				layoutRow(band.getRow(i));
+				Cell cell = row.getCell( j );
+				if ( cell.getStatus( ) == Cell.CELL_EMPTY )
+				{
+					CellDesign cellDesign = new CellDesign( );
+					cellDesign.setRowSpan( 1 );
+					cellDesign.setColSpan( 1 );
+					cellDesign.setColumn( j );
+					design.addCell( cellDesign );
+				}
+				if ( cell.getStatus( ) == Cell.CELL_USED )
+				{
+					CellDesign cellDesign = ( (CellContent) cell.getContent( ) ).cell;
+					cellDesign.setColSpan( cell.getColSpan( ) );
+					cellDesign.setRowSpan( cell.getRowSpan( ) );
+					cellDesign.setColumn( j );
+					design.addCell( cellDesign );
+				}
 			}
 		}
+
 	}
-	
-	void layoutRow(RowDesign row)
+
+	public void layout( TableItemDesign table )
 	{
-		createRow();
-		for (int i = 0; i < row.getCellCount(); i++)
+		layout = new Table(0, table.getColumnCount());
+		layoutBand( table.getHeader( ) );
+		for ( int i = 0; i < table.getGroupCount( ); i++ )
 		{
-			CellDesign cell = row.getCell(i);
-			int columnNo = cell.getColumn();
-			int rowSpan = cell.getRowSpan();
-			int colSpan = cell.getColSpan();
-			int columnId = createCell(columnNo - 1, rowSpan, colSpan);
-			cell.setColumn(columnId + 1);
+			layoutBand( table.getGroup( i ).getHeader( ) );
+		}
+		layoutBand( table.getDetail( ) );
+		for ( int i = table.getGroupCount( ) - 1; i >= 0; i-- )
+		{
+			layoutBand( table.getGroup( i ).getFooter( ) );
+		}
+		layoutBand( table.getFooter( ) );
+		normalize( );
+		for ( int i = table.getColumnCount( ); i < layout.getColCount( ); i++ )
+		{
+			table.addColumn( new ColumnDesign( ) );
 		}
 	}
-	
-	void ensureSize(int columnSize)
+
+	void layoutBand( TableBandDesign band )
 	{
-		if (bufferSize < columnSize)
+		if ( band != null )
 		{
-			int[] newColumns = new int[columnSize];
-			if (columns != null)
+			for ( int i = 0; i < band.getRowCount( ); i++ )
 			{
-				System.arraycopy(columns, 0, newColumns, 0, bufferSize);
+				layoutRow( band.getRow( i ) );
 			}
-			columns = newColumns;
-			bufferSize = columnSize;
+			layout.resolveDropCells( );
 		}
 	}
-	
-	void createRow()
+
+	void layoutRow( RowDesign row )
 	{
-		for (int i = 0; i < columnCount; i++)
+		layout.createRow( row );
+
+		for ( int i = 0; i < row.getCellCount( ); i++ )
 		{
-			if (columns[i] > 0)
-			{
-				columns[i]--;
-			}
+			CellDesign cell = row.getCell( i );
+			int columnNo = cell.getColumn( );
+			int rowSpan = cell.getRowSpan( );
+			int colSpan = cell.getColSpan( );
+			layout.createCell( columnNo, rowSpan, colSpan, new CellContent(
+					cell ) );
 		}
-		lastColumn = 0;
 	}
-	
-	int createCell(int columnId, int rowSpan, int colSpan )
+
+	private class CellContent implements Cell.Content
 	{
-		if (columnId == -1)
+
+		CellDesign cell;
+
+		CellContent( CellDesign cell )
 		{
-			columnId = getNextEmptyCell();
+			this.cell = cell;
 		}
-		ensureSize(columnId + colSpan);
-		for (int i = 0; i < colSpan; i++)
+
+		public boolean isEmpty( )
 		{
-			columns[columnId + i] = rowSpan;
+			return cell != null;
 		}
-		lastColumn = columnId + colSpan;
-		if (lastColumn > columnCount)
-		{
-			columnCount = lastColumn;
-		}
-		return columnId;
 	}
-	
-	int getNextEmptyCell()
-	{
-		for (int i = lastColumn; i < columnCount; i++)
-		{
-			if (columns[i] == 0)
-			{
-				return i;
-			}
-		}
-		return columnCount;
-	}
-	
-	
 }

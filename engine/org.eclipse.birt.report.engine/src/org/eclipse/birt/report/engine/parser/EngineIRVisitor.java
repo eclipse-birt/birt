@@ -26,6 +26,10 @@ import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.impl.ParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
+import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
+import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
@@ -57,7 +61,7 @@ import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
+import org.eclipse.birt.report.engine.ir.StylePropertyMapping;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
@@ -75,6 +79,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -108,13 +113,8 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**
@@ -137,7 +137,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * usually used in the "Design Adaptation" phase of report generation, which is
  * also the first step in report generation after DE loads the report in.
  * 
- * @version $Revision: 1.50 $ $Date: 2005/10/24 05:09:31 $
+ * @version $Revision: 1.51 $ $Date: 2005/10/31 05:49:31 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -167,27 +167,33 @@ class EngineIRVisitor extends DesignVisitor
 	 * report design handle
 	 */
 	protected ReportDesignHandle handle;
-	
-	/**
-	 * non-inheritable report style
-	 */
-	protected StyleDesign nonInheritableReportStyle;
-	
-	/**
-	 * inheritable report style
-	 */
-	protected StyleDesign inheritableReportStyle;
 
-	private static int STYLE_FLAG_NONE = 0;
-	private static int STYLE_FLAG_INHERITABLE = 1;
-	private static int STYLE_FLAG_PRIVATE = 2;
-	private static int STYLE_FLAG_ALL = 3;
+	/**
+	 * the CSSEngine
+	 */
+	protected static final CSSEngine cssEngine = new BIRTCSSEngine( );
+
+	/**
+	 * the inheritable report style
+	 */
+	StyleDeclaration nonInheritableReportStyle;
+
+	/**
+	 * the non-inheritable report style
+	 */
+	StyleDeclaration inheritableReportStyle;
+
+	/**
+	 * the style name prefix
+	 */
+	protected final String PREFIX_STYLE_NAME = "style_";
+
 	/**
 	 * constructor
 	 * 
 	 * @param handle
 	 *            the entry point to the DE report design IR
-	 *  
+	 * 
 	 */
 	EngineIRVisitor( ReportDesignHandle handle )
 	{
@@ -203,7 +209,7 @@ class EngineIRVisitor extends DesignVisitor
 	public Report translate( )
 	{
 		report = new Report( );
-		report.setReportDesign( handle.getDesign( ) );
+		report.setReportDesign( handle );
 		apply( handle );
 		return report;
 	}
@@ -227,13 +233,15 @@ class EngineIRVisitor extends DesignVisitor
 		// CODE MODULES
 
 		// Sets the report default style
-		StyleHandle reportStyleHandle = handle.findStyle( "report" );//$NON-NLS-1$		
-		createReportStyles( reportStyleHandle );
-		report.setDefaultStyles( nonInheritableReportStyle, inheritableReportStyle );
+		StyleHandle defaultStyle = handle.findStyle( "report" );//$NON-NLS-1$
+		createReportDefaultStyles( defaultStyle );
 
-		//COLOR-PALETTE
-		//METHOD
-		//STYLES
+		// TODO: add report style
+		// report.addStyle( );
+
+		// COLOR-PALETTE
+		// METHOD
+		// STYLES
 		// We needn't handle the style slot, it will be handled for each
 		// element.
 
@@ -246,19 +254,19 @@ class EngineIRVisitor extends DesignVisitor
 			assert ( currentElement != null );
 			pageSetup.addMasterPage( (MasterPageDesign) currentElement );
 		}
-		//FIXME: add page sequence support
+		// FIXME: add page sequence support
 		// Handle Page Sequence
-		//		SlotHandle seqSlot = handle.getPageSequences( );
-		//		for ( int i = 0; i < seqSlot.getCount( ); i++ )
-		//		{
-		//			apply( seqSlot.get( i ) );
-		//			assert ( currentElement != null );
-		//			pageSetup.addPageSequence( (PageSequenceDesign) currentElement );
-		//		}
+		// SlotHandle seqSlot = handle.getPageSequences( );
+		// for ( int i = 0; i < seqSlot.getCount( ); i++ )
+		// {
+		// apply( seqSlot.get( i ) );
+		// assert ( currentElement != null );
+		// pageSetup.addPageSequence( (PageSequenceDesign) currentElement );
+		// }
 
 		report.setPageSetup( pageSetup );
 
-		//COMPONENTS
+		// COMPONENTS
 
 		// Handle Report Body
 		SlotHandle bodySlot = handle.getBody( );
@@ -269,11 +277,11 @@ class EngineIRVisitor extends DesignVisitor
 			report.addContent( (ReportItemDesign) currentElement );
 		}
 
-		//SCRATCH-PAD
-		//CONFIG-VARS
-		//TRANSLATIONS
-		//IMAGES
-		//CUSTOM
+		// SCRATCH-PAD
+		// CONFIG-VARS
+		// TRANSLATIONS
+		// IMAGES
+		// CUSTOM
 	}
 
 	/**
@@ -287,8 +295,8 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupMasterPage( MasterPageDesign page, MasterPageHandle handle )
 	{
 		setupStyledElement( page, handle );
-		setupContentStyle( page );
-		
+		page.setContentStyle( setupContentStyle( page ) );
+
 		page.setPageType( handle.getPageType( ) );
 
 		// Master page width and height
@@ -344,7 +352,7 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		SimpleMasterPageDesign page = new SimpleMasterPageDesign( );
 
-		//setup the base master page property.
+		// setup the base master page property.
 		setupMasterPage( page, handle );
 
 		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
@@ -422,7 +430,8 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( multiLineItem, handle );
 
 		String valueExpr = handle.getValueExpr( );
-		String typeExpr = handle.getContentTypeExpr( );
+
+		String typeExpr = handle.getContentType( );
 		assert ( valueExpr != null );
 		multiLineItem.setContent( new Expression( valueExpr ) );
 		if ( typeExpr != null )
@@ -481,7 +490,7 @@ class EngineIRVisitor extends DesignVisitor
 			paramGroup.setDataSet(dset.getName());
 		}
 		SlotHandle parameters = handle.getParameters( );
-		
+
 		//set custom properties
 		List properties = handle.getUserProperties();
 		for(int i=0; i<properties.size(); i++)
@@ -489,7 +498,7 @@ class EngineIRVisitor extends DesignVisitor
 			UserPropertyDefn p = (UserPropertyDefn)properties.get(i);
 			paramGroup.addUserProperty(p.getName(),handle.getProperty(p.getName()) );
 		}
-		
+
 		int size = parameters.getCount( );
 		for ( int n = 0; n < size; n++ )
 		{
@@ -509,7 +518,7 @@ class EngineIRVisitor extends DesignVisitor
 		scalarParameter.setHandle(handle);
 		scalarParameter.setParameterType(IParameterDefnBase.SCALAR_PARAMETER);
 		scalarParameter.setName(handle.getName());
-		
+
 		//set custom properties
 		List properties = handle.getUserProperties();
 		for(int i=0; i<properties.size(); i++)
@@ -524,12 +533,12 @@ class EngineIRVisitor extends DesignVisitor
 			scalarParameter.setAlignment( IScalarParameterDefn.LEFT );
 		else if(DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals(align))
 			scalarParameter.setAlignment( IScalarParameterDefn.RIGHT );
-		else 
+		else
 			scalarParameter.setAlignment( IScalarParameterDefn.AUTO );
-		
+
 		scalarParameter.setAllowBlank( handle.allowBlank( ));
 		scalarParameter.setAllowNull( handle.allowNull( ));
-		
+
 		String controlType = handle.getControlType( );
 		if(DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals(controlType))
 			scalarParameter.setControlType(IScalarParameterDefn.CHECK_BOX );
@@ -537,13 +546,13 @@ class EngineIRVisitor extends DesignVisitor
 			scalarParameter.setControlType(IScalarParameterDefn.LIST_BOX);
 		else if(DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(controlType))
 			scalarParameter.setControlType(IScalarParameterDefn.RADIO_BUTTON);
-		else 
+		else
 			scalarParameter.setControlType(IScalarParameterDefn.TEXT_BOX);
-		
+
 		scalarParameter.setDefaultValueExpr( handle.getDefaultValue( ) );
 		scalarParameter.setDisplayName( handle.getDisplayName( ) );
 		scalarParameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
-		
+
 		scalarParameter.setFormat( handle.getFormat( ) );
 		scalarParameter.setHelpText( handle.getHelpText( ) );
 		scalarParameter.setHelpTextKey( handle.getHelpTextKey( ) );
@@ -563,13 +572,13 @@ class EngineIRVisitor extends DesignVisitor
 			scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
 		else
 			scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
-		
+
 		ArrayList values = new ArrayList( );
 		Iterator selectionIter = handle.choiceIterator( );
 		while ( selectionIter.hasNext( ) )
 		{
 			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter.next( );
-			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice( handle.getDesign( ) );
+			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice( this.handle );
 			selectionChoice.setLabel( selection.getLabelKey( ), selection.getLabel( ) );
 			selectionChoice.setValue( selection.getValue( ), scalarParameter.getDataType() );
 			values.add( selectionChoice );
@@ -582,7 +591,7 @@ class EngineIRVisitor extends DesignVisitor
 			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_STATIC);
 		else
 			scalarParameter.setSelectionListType(IScalarParameterDefn.SELECTION_LIST_NONE);
-		
+
 		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 		currentElement = scalarParameter;
 	}
@@ -616,7 +625,7 @@ class EngineIRVisitor extends DesignVisitor
 		// Create data item
 		DataItemDesign data = new DataItemDesign( );
 		setupReportItem( data, handle );
-		
+
 		// Fill in data expression
 		String expr = handle.getValueExpr( );
 		if ( expr != null )
@@ -645,29 +654,28 @@ class EngineIRVisitor extends DesignVisitor
 		setupReportItem( grid, handle );
 
 		// Handle Columns
-		SlotHandle columnSlot = handle.getColumns();
+		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
-			apply( columnSlot.get( i ) );
+			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
+			apply( columnHandle );
 			assert currentElement != null;
-			grid.addColumn( (ColumnDesign) currentElement );
-		}
-		//column slot may be empty
-		if ( columnSlot.getCount( ) == 0 )
-		{
-			ColumnDesign column = new ColumnDesign( );
-			column.setRepeat( handle.getColumnCount( ) );
-			grid.addColumn( column );
+			ColumnDesign columnDesign = (ColumnDesign) currentElement;
+			for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+			{
+				grid.addColumn( columnDesign );
+			}
 		}
 
 		// Handle Rows
-		SlotHandle rowSlot = handle.getRows();
+		SlotHandle rowSlot = handle.getRows( );
 		for ( int i = 0; i < rowSlot.getCount( ); i++ )
 		{
 			apply( rowSlot.get( i ) );
 			grid.addRow( (RowDesign) currentElement );
 		}
 
+		new TableItemDesignLayout( ).layout( grid );
 		currentElement = grid;
 	}
 
@@ -676,7 +684,7 @@ class EngineIRVisitor extends DesignVisitor
 		// Create Image Item
 		ImageItemDesign image = new ImageItemDesign( );
 		setupReportItem( image, handle );
-		
+
 		// Handle Action
 		ActionHandle action = handle.getActionHandle( );
 		if ( action != null )
@@ -695,18 +703,17 @@ class EngineIRVisitor extends DesignVisitor
 
 		if ( EngineIRConstants.IMAGE_REF_TYPE_URL.equals( imageSrc ) )
 		{
-			image.setImageUri( new Expression(handle.getURI( )) );
+			image.setImageUri( new Expression( handle.getURI( ) ) );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EXPR.equals( imageSrc ) )
 		{
-            Expression typeExpr = null;
-            String type = handle.getTypeExpression( );
-            if(type!=null && type.length()>0)
-            {
-                typeExpr = new Expression(type);
-            }
-			image.setImageExpression( new Expression( handle
-					.getValueExpression( ) ), typeExpr );
+			String valueExpr = handle.getValueExpression( );
+			String typeExpr = handle.getTypeExpression( );
+			Expression imageValue = valueExpr == null ? null : new Expression(
+					valueExpr );
+			Expression imageType = typeExpr == null ? null : new Expression(
+					typeExpr );
+			image.setImageExpression( imageValue, imageType );
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_EMBED.equals( imageSrc ) )
 		{
@@ -714,7 +721,7 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		else if ( EngineIRConstants.IMAGE_REF_TYPE_FILE.equals( imageSrc ) )
 		{
-			image.setImageFile(new Expression( handle.getURI( )) );
+			image.setImageFile( new Expression( handle.getURI( ) ) );
 		}
 		else
 		{
@@ -744,17 +751,14 @@ class EngineIRVisitor extends DesignVisitor
 		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
 		{
-			apply( columnSlot.get( i ) );
+			ColumnHandle columnHandle = (ColumnHandle) columnSlot.get( i );
+			apply( columnHandle );
 			assert currentElement != null;
-			table.addColumn( (ColumnDesign) currentElement );
-		}
-
-		//column slot may be empty
-		if ( columnSlot.getCount( ) == 0 && handle.getColumnCount( ) != 0 )
-		{
-			ColumnDesign column = new ColumnDesign( );
-			column.setRepeat( handle.getColumnCount( ) );
-			table.addColumn( column );
+			ColumnDesign columnDesign = (ColumnDesign) currentElement;
+			for ( int j = 0; j < columnHandle.getRepeatCount( ); j++ )
+			{
+				table.addColumn( columnDesign );
+			}
 		}
 
 		// Handle Table Header
@@ -779,8 +783,8 @@ class EngineIRVisitor extends DesignVisitor
 		SlotHandle footerSlot = handle.getFooter( );
 		TableBandDesign footer = createTableBand( footerSlot );
 		table.setFooter( footer );
-		
-		new TableItemDesignLayout().layout(table);
+
+		new TableItemDesignLayout( ).layout( table );
 
 		currentElement = table;
 	}
@@ -789,12 +793,7 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		// Create a Column, mostly used in Table or Grid
 		ColumnDesign col = new ColumnDesign( );
-		setupStyledElement( col, handle, STYLE_FLAG_PRIVATE );
-
-		//TODO we need handle the column alignment
-
-		// Column Repetition
-		col.setRepeat( handle.getRepeatCount( ) );
+		setupStyledElement( col, handle );
 
 		// Column Width
 		DimensionType width = createDimension( handle.getWidth( ) );
@@ -826,7 +825,7 @@ class EngineIRVisitor extends DesignVisitor
 		row.setVisibility( visibility );
 
 		// Cells in a row
-		SlotHandle cellSlot = handle.getCells();
+		SlotHandle cellSlot = handle.getCells( );
 		for ( int i = 0; i < cellSlot.getCount( ); i++ )
 		{
 			apply( cellSlot.get( i ) );
@@ -844,30 +843,19 @@ class EngineIRVisitor extends DesignVisitor
 	 * @param handle
 	 *            DE's styled cell element.
 	 */
-	protected void setupStyledElement( StyledElementDesign design, ReportElementHandle handle )
+	protected void setupStyledElement( StyledElementDesign design,
+			ReportElementHandle handle )
 	{
-		setupStyledElement( design, handle, STYLE_FLAG_ALL );
-	}
-	
-	protected void setupStyledElement( StyledElementDesign design, ReportElementHandle handle, int flag )
-	{
-		DesignElementHandle parentHandle = handle;
-		do
-		{
-			parentHandle = parentHandle.getContainer( );
-		}
-		while( this.handle != parentHandle && !parentHandle.getDefn( ).hasStyle( ) );
-		
 		// Styled element is a report element
 		setupReportElement( design, handle );
 
-		StyleDesign style = createDistinctStyle( handle, parentHandle, flag );
-		if (style != null)
+		StyleDeclaration style = createPrivateStyle( handle );
+		if ( style != null && !style.isEmpty( ) )
 		{
-			design.setStyle(style);
+			design.setStyleName( assignStyleName( style ) );
 		}
 	}
-	
+
 	public void visitCell( CellHandle handle )
 	{
 		// Create a Cell
@@ -875,7 +863,7 @@ class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( cell, handle );
 
 		// Cell contents
-		SlotHandle contentSlot = handle.getContent();
+		SlotHandle contentSlot = handle.getContent( );
 		for ( int i = 0; i < contentSlot.getCount( ); i++ )
 		{
 			apply( contentSlot.get( i ) );
@@ -883,8 +871,15 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Span, Drop properties of a cell
+		// FIXME: change the colspan/rowspan after MODEL fix the bug
+		// cell.setColSpan( LayoutUtil.getEffectiveColumnSpan( handle ) );
 		cell.setColSpan( handle.getColumnSpan( ) );
-		cell.setColumn( handle.getColumn( ) );
+		int columnId = handle.getColumn() - 1;
+		if (columnId < 0) {
+			columnId = -1;
+		}
+		cell.setColumn( columnId );
+		// cell.setRowSpan( LayoutUtil.getEffectiveRowSpan( handle ) );
 		cell.setRowSpan( handle.getRowSpan( ) );
 		cell.setDrop( handle.getDrop( ) );
 
@@ -987,14 +982,13 @@ class EngineIRVisitor extends DesignVisitor
 
 	protected void setupGroup( GroupDesign group, GroupHandle handle )
 	{
-
-		//name
+		// name
 		group.setName( handle.getName( ) );
-		//on-start
+		// on-start
 		group.setOnStart( handle.getOnFinish( ) );
-		//on-row
+		// on-row
 		group.setOnRow( handle.getOnRow( ) );
-		//on-finish
+		// on-finish
 		group.setOnFinish( handle.getOnFinish( ) );
 	}
 
@@ -1058,51 +1052,7 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		VisibilityRuleDesign rule = new VisibilityRuleDesign( );
 		rule.setExpression( new Expression( handle.getExpression( ) ) );
-
-		String format = handle.getFormat( );
-		if ( EngineIRConstants.FORMAT_TYPE_ALL.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_ALL );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_EMAIL.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_EMAIL );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_EXCEL.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_EXCEL );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_PDF.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_PDF );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_POWERPOINT
-				.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_POWERPOINT );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_PRINT.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_PRINT );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_REPORTLET
-				.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_REPORTLET );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_RTF.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_RTF );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_VIEWER
-				.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_VIEWER );
-		}
-		else if ( EngineIRConstants.FORMAT_TYPE_WORD.equalsIgnoreCase( format ) )
-		{
-			rule.setFormat( VisibilityDesign.FORMAT_TYPE_WORD );
-		}
+		rule.setFormat( handle.getFormat( ) );
 		return rule;
 	}
 
@@ -1128,7 +1078,13 @@ class EngineIRVisitor extends DesignVisitor
 		item.setX( x );
 		item.setY( y );
 
-		//setup book mark
+		// setup TOC expression
+		String toc = handle.getTocExpression( );
+		if ( toc != null )
+		{
+			item.setTOC( new Expression( toc ) );
+		}
+		// setup book mark
 		String bookmark = handle.getBookmark( );
 		if ( bookmark != null )
 		{
@@ -1141,42 +1097,10 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		item.setOnRender( handle.getOnRender( ) );
 
-		//Sets up the visibility
+		// Sets up the visibility
 		Iterator visibilityIter = handle.visibilityRulesIterator( );
 		VisibilityDesign visibility = createVisibility( visibilityIter );
 		item.setVisibility( visibility );
-	}
-
-	/**
-	 * Checks if a given style is in report's style list, if not,
-	 * assign a unique name to it and then add it to the style list.
-	 * 
-	 * @param style The <code>StyleDesign</code> object.
-	 */
-	private void assignStyleName( StyleDesign style )
-	{
-		// Check if the style is already in report's style list
-		for ( int i = 0; i < report.getStyleCount( ); i++ )
-		{
-			//Cast the type mandatorily
-			StyleDesign cachedStyle = (StyleDesign) report.getStyle( i );
-			if ( cachedStyle.equals( style ) )
-			{
-				//There exist a style which has same properties with this
-				// one,
-				style = cachedStyle;
-				break;
-			}
-		}
-
-		if ( style.getName( ) == null )
-		{
-			//the style is a new style, we need create a unique name for
-			// it, and
-			//add it into the report's style list.
-			style.setName( "style_" + report.getStyleCount( ) ); //$NON-NLS-1$
-			report.addStyle( style );
-		}
 	}
 
 	/**
@@ -1198,7 +1122,7 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			element.setExtends( extend.getName( ) );
 		}
-		//handle the properties
+		// handle the properties
 		Iterator iter = handle.getPropertyIterator( );
 		if ( iter != null )
 		{
@@ -1229,13 +1153,13 @@ class EngineIRVisitor extends DesignVisitor
 		String linkType = handle.getLinkType( );
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
-			action.setHyperlink( new Expression( handle.getURI() ) );
+			action.setHyperlink( new Expression( handle.getURI( ) ) );
 			action.setTargetWindow( handle.getTargetWindow( ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_BOOKMARK_LINK
 				.equals( linkType ) )
 		{
-			action.setBookmark( new Expression( handle.getTargetBookmark() ) );
+			action.setBookmark( new Expression( handle.getTargetBookmark( ) ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )
@@ -1258,18 +1182,18 @@ class EngineIRVisitor extends DesignVisitor
 						.getExpression( ) ) );
 			}
 			drillThrough.setParameters( params );
-			//XXX Search criteria is not supported yet.
-			//			Map search = new HashMap( );
-			//			Iterator searchIte = handle.searchIterator( );
-			//			while ( searchIte.hasNext( ) )
-			//			{
-			//				SearchKeyHandle member = (SearchKeyHandle) paramIte.next( );
-			//				params
-			//						.put( member., member
-			//								.getValue( ) );
-			//			}
-			//			drillThrough.setSearch( search );
-			
+			// XXX Search criteria is not supported yet.
+			// Map search = new HashMap( );
+			// Iterator searchIte = handle.searchIterator( );
+			// while ( searchIte.hasNext( ) )
+			// {
+			// SearchKeyHandle member = (SearchKeyHandle) paramIte.next( );
+			// params
+			// .put( member., member
+			// .getValue( ) );
+			// }
+			// drillThrough.setSearch( search );
+
 		}
 		else
 		{
@@ -1291,79 +1215,51 @@ class EngineIRVisitor extends DesignVisitor
 	{
 		HighlightRuleDesign rule = new HighlightRuleDesign( );
 
-		//all other properties are style properties,
-		//copy those properties into a style design.
-		StyleDesign style = new StyleDesign( );
-		Iterator propIter = ruleHandle.iterator( );
-		//strange feature, we may get a null iterator
-		//perhaps there is no style data associated with this rule.
-		//so just return null.
-		if ( propIter == null )
-		{
-			return null;
-		}
+		MemberHandle hOperator = ruleHandle
+				.getMember( HighlightRule.OPERATOR_MEMBER );
+		MemberHandle hValue1 = ruleHandle
+				.getMember( HighlightRule.VALUE1_MEMBER );
+		MemberHandle hValue2 = ruleHandle
+				.getMember( HighlightRule.VALUE2_MEMBER );
+		MemberHandle hTestExpr = ruleHandle
+				.getMember( HighlightRule.TEST_EXPR_MEMBER );
 
-		String oper = null;
-		String value1 = null;
-		String value2 = null;
-		String testExpr = null;
+		String oper = hOperator.getStringValue( );
+		String value1 = hValue1.getStringValue( );
+		String value2 = hValue2.getStringValue( );
+		String testExpr = hTestExpr.getStringValue( );
 
-		while ( propIter.hasNext( ) )
-		{
-			MemberHandle member = (MemberHandle) propIter.next( );
-			assert member != null;
-			String propName = member.getDefn( ).getName( );
-			String propValue = member.getStringValue( );
-			if ( propValue != null )
-			{
-				//TODO: We need !isStyleProperty function from MODEL.
-				if ( HighlightRule.OPERATOR_MEMBER.equals( propName ) )
-				{
-					oper = propValue;
-				}
-				else if ( HighlightRule.VALUE1_MEMBER.equals( propName ) )
-				{
-					value1 = propValue;
-				}
-				else if ( HighlightRule.VALUE2_MEMBER.equals( propName ) )
-				{
-					value2 = propValue;
-				}
-				else if(HighlightRule.TEST_EXPR_MEMBER.equals(propName))
-				{
-					testExpr = propValue;
-				}
-				else
-				{
-					setStyleProperty( style, propName, propValue );
-				}
-			}
-		}
 		rule.setExpression( oper, value1, value2 );
-		if(testExpr!=null && testExpr.length()>0)
+		if ( testExpr != null && testExpr.length( ) > 0 )
 		{
-			rule.setTestExpression(testExpr);
+			rule.setTestExpression( testExpr );
 		}
-		else if((defaultStr !=null)&& defaultStr.length()>0)
+		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
 		{
-			rule.setTestExpression(defaultStr);
+			rule.setTestExpression( defaultStr );
 		}
 		else
 		{
-			//test expression is null
+			// test expression is null
 			return null;
 		}
 
-		//this rule is empty, so we can drop it safely.
-		if ( style.entrySet( ).isEmpty( ) )
+		// all other properties are style properties,
+		// copy those properties into a style design.
+		StyleDeclaration style = new StyleDeclaration( cssEngine );
+
+		setupStyle( ruleHandle, style );
+
+		// this rule is empty, so we can drop it safely.
+		if ( style.isEmpty( ) )
 		{
 			return null;
 		}
 		rule.setStyle( style );
-		ConditionalExpression condExpr = new ConditionalExpression(
-				rule.getTestExpression( ),
-				toDteFilterOperator( rule.getOperator( ) ), rule
-						.getValue1( ), rule.getValue2( ) );
+		ConditionalExpression condExpr = new ConditionalExpression( rule
+				.getTestExpression( ),
+				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
+				rule.getValue2( ) );
 		rule.setConditionExpr( condExpr );
 		return rule;
 	}
@@ -1376,16 +1272,12 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	protected void setHighlight( StyledElementDesign item, String defaultStr )
 	{
-		if ( item.getStyle( ) == null )
-		{
-			return;
-		}
-		StyleHandle handle = (StyleHandle) item.getStyle( ).getHandle( );
+		StyleHandle handle = item.getHandle( ).getPrivateStyle( );
 		if ( handle == null )
 		{
 			return;
 		}
-		//		 hightlight Rules
+		// hightlight Rules
 		Iterator iter = handle.highlightRulesIterator( );
 
 		if ( iter == null )
@@ -1394,17 +1286,17 @@ class EngineIRVisitor extends DesignVisitor
 		}
 		HighlightDesign highlight = new HighlightDesign( );
 
-
 		while ( iter.hasNext( ) )
 		{
 			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter.next( );
-			HighlightRuleDesign rule = createHighlightRule( ruleHandle, defaultStr );
-			if(rule!=null)
+			HighlightRuleDesign rule = createHighlightRule( ruleHandle,
+					defaultStr );
+			if ( rule != null )
 			{
 				highlight.addRule( rule );
 			}
 		}
-		
+
 		if ( highlight.getRuleCount( ) > 0 )
 		{
 			item.setHighlight( highlight );
@@ -1419,11 +1311,7 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	protected void setMap( StyledElementDesign item, String defaultStr )
 	{
-		if ( item.getStyle( ) == null )
-		{
-			return;
-		}
-		StyleHandle handle = (StyleHandle) item.getStyle( ).getHandle( );
+		StyleHandle handle = item.getHandle( ).getPrivateStyle( );
 		if ( handle == null )
 		{
 			return;
@@ -1439,13 +1327,12 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			MapRuleHandle ruleHandle = (MapRuleHandle) iter.next( );
 			MapRuleDesign rule = createMapRule( ruleHandle, defaultStr );
-			if(rule!=null)
+			if ( rule != null )
 			{
 				map.addRule( rule );
 			}
 		}
 
-		
 		if ( map.getRuleCount( ) > 0 )
 		{
 			item.setMap( map );
@@ -1460,320 +1347,566 @@ class EngineIRVisitor extends DesignVisitor
 	 *            map rule in DE.
 	 * @return map rule in ENGINE.
 	 */
-	protected MapRuleDesign createMapRule( MapRuleHandle handle, String defaultStr )
+	protected MapRuleDesign createMapRule( MapRuleHandle handle,
+			String defaultStr )
 	{
 		MapRuleDesign rule = new MapRuleDesign( );
 		rule.setExpression( handle.getOperator( ), handle.getValue1( ), handle
 				.getValue2( ) );
 		rule.setDisplayText( handle.getDisplayKey( ), handle.getDisplay( ) );
-		
-		String testExpr = handle.getTestExpression();
-		if(testExpr!=null && testExpr.length()>0)
+
+		String testExpr = handle.getTestExpression( );
+		if ( testExpr != null && testExpr.length( ) > 0 )
 		{
-			rule.setTestExpression(testExpr);
+			rule.setTestExpression( testExpr );
 		}
-		else if((defaultStr !=null)&& defaultStr.length()>0)
+		else if ( ( defaultStr != null ) && defaultStr.length( ) > 0 )
 		{
-			rule.setTestExpression(defaultStr);
+			rule.setTestExpression( defaultStr );
 		}
 		else
 		{
-			//test expression is null
+			// test expression is null
 			return null;
 		}
-		
-		ConditionalExpression condExpr = new ConditionalExpression( rule.getTestExpression(),
-				toDteFilterOperator( rule
-				.getOperator( ) ), rule.getValue1( ), rule.getValue2( ) );
+
+		ConditionalExpression condExpr = new ConditionalExpression( rule
+				.getTestExpression( ),
+				toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
+				rule.getValue2( ) );
 		rule.setConditionExpr( condExpr );
-		
+
 		return rule;
 	}
 
 	/**
-	 * Gets a property of style if it differs from that of parent element's style.
+	 * Checks if a given style is in report's style list, if not, assign a
+	 * unique name to it and then add it to the style list.
 	 * 
-	 * @param handle The handle of current report element.
-	 * @param parentHandle The handle of parent report element.
-	 * @param name The property name.
-	 * @return the property or null if it is not set.
-	 */
-	protected Object getDistinctProperty( DesignElementHandle handle, DesignElementHandle parentHandle, String name, int flag )
-	{
-		Object value = handle.getProperty( name ); 
-		
-		if( value == null )
-		{
-			return null;
-		}
-		
-		boolean canInherit = StyleDesign.canInherit( name );
-		if( canInherit && ( flag & STYLE_FLAG_INHERITABLE ) > 0 )
-		{
-			Object parentValue;
-			if( this.handle == parentHandle )
-			{
-				// if its parent is ReportDesignHandle
-				// get parentValue from reportDefaultStyle
-				parentValue = inheritableReportStyle.get( name );
-			}
-			else
-			{
-				parentValue = parentHandle.getProperty( name );
-			}
-			
-			if( !value.equals( parentValue ) )
-			{
-				return value;
-			}
-		}
-		else if( !canInherit && ( flag & STYLE_FLAG_PRIVATE ) > 0 )
-		{
-			Object defaultValue = nonInheritableReportStyle.get( name );
-			if( !value.equals( defaultValue ) )
-			{
-				return value;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Gets color property of style if it differs from that of parent element's style.
-	 * 
-	 * @param handle The handle of current report element.
-	 * @param parentHandle The handle of parent report element.
-	 * @param name The property name.
-	 * @return the property or null if it is not set.
-	 */
-	protected Object getDistinctColorProperty( DesignElementHandle handle, DesignElementHandle parentHandle, String name, int flag )
-	{
-		String strValue = getStrColorValue( handle.getIntProperty( name ) );
-		if( strValue == null )
-		{
-			return null;
-		}
-		
-		boolean canInherit = StyleDesign.canInherit( name );
-		if( canInherit && ( flag & STYLE_FLAG_INHERITABLE ) > 0 )
-		{
-			Object parentValue = null;
-			if( this.handle == parentHandle )
-			{
-				parentValue = inheritableReportStyle.get( name );
-			}
-			else
-			{
-				parentValue = getStrColorValue( parentHandle.getIntProperty( name ) );
-			}
-			
-			if( !strValue.equals( parentValue ) )
-			{
-				return strValue;
-			}
-		}
-		else if( !canInherit && ( flag & STYLE_FLAG_PRIVATE ) > 0 )
-		{
-			Object defaultValue = nonInheritableReportStyle.get( name );
-			if( !strValue.equals( defaultValue ) )
-			{
-				return strValue;
-			}
-		}
-		return null;
-	}
-	
-	protected StyleDesign createDistinctStyle( DesignElementHandle handle,
-			DesignElementHandle parentHandle, int flag )
-	{
-		StyleDesign style = new StyleDesign( );
-		style.setHandle( handle.getPrivateStyle( ) );
-		
-		setupDistinctStyleProperties( style, handle, parentHandle, flag );
-		
-		if ( !style.isEmpty( ) )
-		{
-			assignStyleName( style );
-			return style;
-		}
-		return null;
-	}
-	
-	/**
 	 * @param style
-	 * @param handle
-	 * @param parentHandle
-	 * @param flag
+	 *            The <code>StyleDeclaration</code> object.
+	 * @return the name of the style.
 	 */
-	protected void setupDistinctStyleProperties( StyleDesign style,
-			DesignElementHandle handle, DesignElementHandle parentHandle, int flag )
+	private String assignStyleName( StyleDeclaration style )
+	{
+		if ( style == null || style.isEmpty( ) )
+		{
+			return null;
+		}
+
+		// Check if the style is already in report's style list
+		for ( int i = 0; i < report.getStyleCount( ); i++ )
+		{
+			// Cast the type mandatorily
+			StyleDeclaration cachedStyle = (StyleDeclaration) report
+					.getStyle( i );
+			if ( cachedStyle.equals( style ) )
+			{
+				// There exist a style which has same properties with this
+				// one,
+				style = cachedStyle;
+				return PREFIX_STYLE_NAME + i;
+			}
+		}
+
+		// the style is a new style, we need create a unique name for
+		// it, and
+		// add it into the report's style list.
+		String styleName = PREFIX_STYLE_NAME + report.getStyleCount( );
+		report.addStyle( styleName, style );
+		return styleName;
+	}
+
+	/*	*//**
+			 * Adds a property to style.
+			 * 
+			 * @param type
+			 *            the CSS value type
+			 * @param handle
+			 *            the engines's styled element
+			 * @param name
+			 *            the Model's property name
+			 * @param style
+			 *            the style
+			 */
+	/*
+	 * protected void addStyleProperty( short type, ReportElementHandle handle,
+	 * String name, StyleDeclaration style ) { FactoryPropertyHandle prop =
+	 * handle.getFactoryPropertyHandle( name ); if( prop != null && prop.isSet( ) ) {
+	 * style.setProperty( StylePropertyMapping.getPropertyID( name ),
+	 * IRTypeConverter.toCSSValue( type, prop.getValue( ) ) ); } }
+	 * 
+	 * protected void setStylePropertyValue( short type, Object value, String
+	 * name, StyleDeclaration style ) { if (value != null) { style.setProperty(
+	 * StylePropertyMapping.getPropertyID( name ), IRTypeConverter.toCSSValue(
+	 * type, value ) ); } }
+	 * 
+	 */
+
+	String getElementProperty( ReportElementHandle handle, String name )
+	{
+		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
+		if ( prop != null && prop.isSet( ) )
+		{
+			return prop.getStringValue( );
+		}
+		return null;
+	}
+
+	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle )
 	{
 		// Background
-		setStyleProperty( style, Style.BACKGROUND_COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.BACKGROUND_COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.BACKGROUND_IMAGE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BACKGROUND_IMAGE_PROP, flag ) );
-		setStyleProperty( style, Style.BACKGROUND_POSITION_X_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BACKGROUND_POSITION_X_PROP, flag ) );
-		setStyleProperty( style, Style.BACKGROUND_POSITION_Y_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BACKGROUND_POSITION_Y_PROP, flag ) );
-		setStyleProperty( style, Style.BACKGROUND_REPEAT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BACKGROUND_REPEAT_PROP, flag ) );
+		StyleDeclaration style = new StyleDeclaration( cssEngine );
+
+		style.setBackgroundColor( getElementProperty( handle,
+				Style.BACKGROUND_COLOR_PROP ) );
+		style.setBackgroundImage( getElementProperty( handle,
+				Style.BACKGROUND_IMAGE_PROP ) );
+		style.setBackgroundPositionX( getElementProperty( handle,
+				Style.BACKGROUND_POSITION_X_PROP ) );
+		style.setBackgroundPositionY( getElementProperty( handle,
+				Style.BACKGROUND_POSITION_Y_PROP ) );
+		style.setBackgroundRepeat( getElementProperty( handle,
+				Style.BACKGROUND_REPEAT_PROP ) );
 
 		// Text related
-		setStyleProperty( style, Style.TEXT_ALIGN_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_ALIGN_PROP, flag ) );
-		setStyleProperty( style, Style.TEXT_INDENT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_INDENT_PROP, flag ) );
-		setStyleProperty( style, Style.LETTER_SPACING_PROP, 
-				getDistinctProperty( handle, parentHandle, Style.LETTER_SPACING_PROP, flag ) );
-		setStyleProperty( style, Style.LINE_HEIGHT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.LINE_HEIGHT_PROP, flag ) );
-		setStyleProperty( style, Style.ORPHANS_PROP,
-				getDistinctProperty( handle, parentHandle, Style.ORPHANS_PROP, flag ) );
-		setStyleProperty( style, Style.TEXT_TRANSFORM_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_TRANSFORM_PROP, flag ) );
-		setStyleProperty( style, Style.VERTICAL_ALIGN_PROP,
-				getDistinctProperty( handle, parentHandle, Style.VERTICAL_ALIGN_PROP, flag ) );
-		setStyleProperty( style, Style.WHITE_SPACE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.WHITE_SPACE_PROP, flag ) );
-		setStyleProperty( style, Style.WIDOWS_PROP,
-				getDistinctProperty( handle, parentHandle, Style.WIDOWS_PROP, flag ) );
-		setStyleProperty( style, Style.WORD_SPACING_PROP,
-				getDistinctProperty( handle, parentHandle, Style.WORD_SPACING_PROP, flag ) );
+		style
+				.setTextAlign( getElementProperty( handle,
+						Style.TEXT_ALIGN_PROP ) );
+		style
+				.setTextIndent( getElementProperty( handle,
+						Style.TEXT_INDENT_PROP ) );
+		style.setTextUnderline( getElementProperty( handle,
+				Style.TEXT_UNDERLINE_PROP ) );
+		style.setTextLineThrough( getElementProperty( handle,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getElementProperty( handle,
+				Style.TEXT_OVERLINE_PROP ) );
+		style.setLetterSpacing( getElementProperty( handle,
+				Style.LETTER_SPACING_PROP ) );
+		style
+				.setLineHeight( getElementProperty( handle,
+						Style.LINE_HEIGHT_PROP ) );
+		style.setOrphans( getElementProperty( handle, Style.ORPHANS_PROP ) );
+		style.setTextTransform( getElementProperty( handle,
+				Style.TEXT_TRANSFORM_PROP ) );
+		style.setVerticalAlign( getElementProperty( handle,
+				Style.VERTICAL_ALIGN_PROP ) );
+		style
+				.setWhiteSpace( getElementProperty( handle,
+						Style.WHITE_SPACE_PROP ) );
+		style.setWidows( getElementProperty( handle, Style.WIDOWS_PROP ) );
+		style.setWordSpacing( getElementProperty( handle,
+				Style.WORD_SPACING_PROP ) );
 
 		// Section properties
-		setStyleProperty( style, Style.DISPLAY_PROP,
-				getDistinctProperty( handle, parentHandle, Style.DISPLAY_PROP, flag ) );
-		setStyleProperty( style, Style.MASTER_PAGE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.MASTER_PAGE_PROP, flag ) );
-		setStyleProperty( style, Style.PAGE_BREAK_AFTER_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_AFTER_PROP, flag ) );
-		setStyleProperty( style, Style.PAGE_BREAK_BEFORE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_BEFORE_PROP, flag ) );
-		setStyleProperty( style, Style.PAGE_BREAK_INSIDE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PAGE_BREAK_INSIDE_PROP, flag ) );
-		/*
-		 * setStyleProperty( style, Style.SHOW_IF_BLANK_PROP,
-		 * 			getDistinctProperty( handle, parentHandle, Style.SHOW_IF_BLANK_PROP ) );
-		 * setStyleProperty( style, Style.CAN_SHRINK_PROP,
-		 * 			getDistinctProperty( handle, parentHandle, Style.CAN_SHRINK_PROP ) );
-		 */
+		style.setDisplay( getElementProperty( handle, Style.DISPLAY_PROP ) );
+		style
+				.setMasterPage( getElementProperty( handle,
+						Style.MASTER_PAGE_PROP ) );
+		style.setPageBreakAfter( getElementProperty( handle,
+				Style.PAGE_BREAK_AFTER_PROP ) );
+		style.setPageBreakBefore( getElementProperty( handle,
+				Style.PAGE_BREAK_BEFORE_PROP ) );
+		style.setPageBreakInside( getElementProperty( handle,
+				Style.PAGE_BREAK_INSIDE_PROP ) );
+
 		// Font related
-		setStyleProperty( style, Style.FONT_FAMILY_PROP,
-				getDistinctProperty( handle, parentHandle, Style.FONT_FAMILY_PROP, flag ) );
-		setStyleProperty( style, Style.COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.FONT_SIZE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.FONT_SIZE_PROP, flag ) );
-		setStyleProperty( style, Style.FONT_STYLE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.FONT_STYLE_PROP, flag ) );
-		setStyleProperty( style, Style.FONT_WEIGHT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.FONT_WEIGHT_PROP, flag ) );
-		setStyleProperty( style, Style.FONT_VARIANT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.FONT_VARIANT_PROP, flag ) );
+		style
+				.setFontFamily( getElementProperty( handle,
+						Style.FONT_FAMILY_PROP ) );
+		style.setColor( getElementProperty( handle, Style.COLOR_PROP ) );
+		style.setFontSize( getElementProperty( handle, Style.FONT_SIZE_PROP ) );
+		style
+				.setFontStyle( getElementProperty( handle,
+						Style.FONT_STYLE_PROP ) );
+		style
+				.setFontWeight( getElementProperty( handle,
+						Style.FONT_WEIGHT_PROP ) );
+		style.setFontVariant( getElementProperty( handle,
+				Style.FONT_VARIANT_PROP ) );
 
 		// Text decoration
-		setStyleProperty( style, Style.TEXT_LINE_THROUGH_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_LINE_THROUGH_PROP, flag ) );
-		setStyleProperty( style, Style.TEXT_OVERLINE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_OVERLINE_PROP, flag ) );
-		setStyleProperty( style, Style.TEXT_UNDERLINE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.TEXT_UNDERLINE_PROP, flag ) );
+		style.setTextLineThrough( getElementProperty( handle,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getElementProperty( handle,
+				Style.TEXT_OVERLINE_PROP ) );
+		style.setTextUnderline( getElementProperty( handle,
+				Style.TEXT_UNDERLINE_PROP ) );
 
 		// Border
-		setStyleProperty( style, Style.BORDER_BOTTOM_COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.BORDER_BOTTOM_COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_BOTTOM_STYLE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_BOTTOM_STYLE_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_BOTTOM_WIDTH_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_BOTTOM_WIDTH_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_LEFT_COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.BORDER_LEFT_COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_LEFT_STYLE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_LEFT_STYLE_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_LEFT_WIDTH_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_LEFT_WIDTH_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_RIGHT_COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.BORDER_RIGHT_COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_RIGHT_STYLE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_RIGHT_STYLE_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_RIGHT_WIDTH_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_RIGHT_WIDTH_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_TOP_COLOR_PROP,
-				getDistinctColorProperty( handle, parentHandle, Style.BORDER_TOP_COLOR_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_TOP_STYLE_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_TOP_STYLE_PROP, flag ) );
-		setStyleProperty( style, Style.BORDER_TOP_WIDTH_PROP,
-				getDistinctProperty( handle, parentHandle, Style.BORDER_TOP_WIDTH_PROP, flag ) );
+		style.setBorderBottomColor( getElementProperty( handle,
+				Style.BORDER_BOTTOM_COLOR_PROP ) );
+		style.setBorderBottomStyle( getElementProperty( handle,
+				Style.BORDER_BOTTOM_STYLE_PROP ) );
+		style.setBorderBottomWidth( getElementProperty( handle,
+				Style.BORDER_BOTTOM_WIDTH_PROP ) );
+		style.setBorderLeftColor( getElementProperty( handle,
+				Style.BORDER_LEFT_COLOR_PROP ) );
+		style.setBorderLeftStyle( getElementProperty( handle,
+				Style.BORDER_LEFT_STYLE_PROP ) );
+		style.setBorderLeftWidth( getElementProperty( handle,
+				Style.BORDER_LEFT_WIDTH_PROP ) );
+		style.setBorderRightColor( getElementProperty( handle,
+				Style.BORDER_RIGHT_COLOR_PROP ) );
+		style.setBorderRightStyle( getElementProperty( handle,
+				Style.BORDER_RIGHT_STYLE_PROP ) );
+		style.setBorderRightWidth( getElementProperty( handle,
+				Style.BORDER_RIGHT_WIDTH_PROP ) );
+		style.setBorderTopColor( getElementProperty( handle,
+				Style.BORDER_TOP_COLOR_PROP ) );
+		style.setBorderTopStyle( getElementProperty( handle,
+				Style.BORDER_TOP_STYLE_PROP ) );
+		style.setBorderTopWidth( getElementProperty( handle,
+				Style.BORDER_TOP_WIDTH_PROP ) );
 
 		// Margin
-		setStyleProperty( style, Style.MARGIN_TOP_PROP,
-				getDistinctProperty( handle, parentHandle, Style.MARGIN_TOP_PROP, flag ) );
-		setStyleProperty( style, Style.MARGIN_LEFT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.MARGIN_LEFT_PROP, flag ) );
-		setStyleProperty( style, Style.MARGIN_BOTTOM_PROP,
-				getDistinctProperty( handle, parentHandle, Style.MARGIN_BOTTOM_PROP, flag ) );
-		setStyleProperty( style, Style.MARGIN_RIGHT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.MARGIN_RIGHT_PROP, flag ) );
+		style
+				.setMarginTop( getElementProperty( handle,
+						Style.MARGIN_TOP_PROP ) );
+		style
+				.setMarginLeft( getElementProperty( handle,
+						Style.MARGIN_LEFT_PROP ) );
+		style.setMarginBottom( getElementProperty( handle,
+				Style.MARGIN_BOTTOM_PROP ) );
+		style.setMarginRight( getElementProperty( handle,
+				Style.MARGIN_RIGHT_PROP ) );
 
 		// Padding
-		setStyleProperty( style, Style.PADDING_TOP_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PADDING_TOP_PROP, flag ) );
-		setStyleProperty( style, Style.PADDING_LEFT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PADDING_LEFT_PROP, flag ) );
-		setStyleProperty( style, Style.PADDING_BOTTOM_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PADDING_BOTTOM_PROP, flag ) );
-		setStyleProperty( style, Style.PADDING_RIGHT_PROP,
-				getDistinctProperty( handle, parentHandle, Style.PADDING_RIGHT_PROP, flag ) );
+		style
+				.setPaddingTop( getElementProperty( handle,
+						Style.PADDING_TOP_PROP ) );
+		style.setPaddingLeft( getElementProperty( handle,
+				Style.PADDING_LEFT_PROP ) );
+		style.setPaddingBottom( getElementProperty( handle,
+				Style.PADDING_BOTTOM_PROP ) );
+		style.setPaddingRight( getElementProperty( handle,
+				Style.PADDING_RIGHT_PROP ) );
 
 		// Data Formatting
-		setStyleProperty( style, Style.NUMBER_ALIGN_PROP, handle.getProperty( Style.NUMBER_ALIGN_PROP ) );
+		style.setNumberAlign( getElementProperty( handle,
+				Style.NUMBER_ALIGN_PROP ) );
+		style.setDateFormat( getElementProperty( handle,
+				Style.DATE_TIME_FORMAT_PROP ) );
+		style.setNumberFormat( getElementProperty( handle,
+				Style.NUMBER_FORMAT_PROP ) );
+		style.setStringFormat( getElementProperty( handle,
+				Style.STRING_FORMAT_PROP ) );
 
-		Object value = handle.getProperty( Style.DATE_TIME_FORMAT_PROP );
-		if ( value != null && value instanceof DateTimeFormatValue )
-		{
-			setStyleProperty( style, Style.DATE_TIME_FORMAT_PROP, ( (DateTimeFormatValue) value ).getPattern( ) );
-		}
-		
-		value = handle.getProperty( Style.NUMBER_FORMAT_PROP );
-		if ( value != null && value instanceof NumberFormatValue )
-		{
-			setStyleProperty( style, Style.NUMBER_FORMAT_PROP, ( (NumberFormatValue) value ).getPattern( ) );
-		}
-		
-		value = handle.getProperty( Style.STRING_FORMAT_PROP );
-		if ( value != null && value instanceof StringFormatValue )
-		{
-			setStyleProperty( style, Style.STRING_FORMAT_PROP, ( (StringFormatValue) value ).getPattern( ) );
-		}
+		// Others
+		style
+				.setCanShrink( getElementProperty( handle,
+						Style.CAN_SHRINK_PROP ) );
+		style.setShowIfBlank( getElementProperty( handle,
+				Style.SHOW_IF_BLANK_PROP ) );
 
-		//Others
-		setStyleProperty( style, Style.CAN_SHRINK_PROP,	handle.getProperty( Style.CAN_SHRINK_PROP ) );
-		setStyleProperty( style, Style.SHOW_IF_BLANK_PROP, handle.getProperty( Style.SHOW_IF_BLANK_PROP ) );
-		setStyleProperty( style, Style.MASTER_PAGE_PROP, handle.getProperty( Style.MASTER_PAGE_PROP ) );
+		return style;
+
 	}
-	
-	/**
-	 * set style property.
-	 * 
-	 * property will be set only if the value is not null.
-	 * 
-	 * @param style
-	 *            style design
-	 * @param name
-	 *            property name
-	 * @param value
-	 *            property value.
-	 */
-	protected void setStyleProperty( StyleDesign style, String name,
-			Object value )
+
+	String getMemberProperty( StructureHandle handle, String name )
 	{
-		assert name != null;
-		if ( value != null )
+		MemberHandle prop = handle.getMember( name );
+		if ( prop != null )
 		{
-			style.put( name, value );
+			return prop.getStringValue( );
 		}
+		return null;
+	}
+
+	IStyle setupStyle( StructureHandle highlight, IStyle style )
+	{
+		// Background
+		style.setBackgroundColor( getMemberProperty( highlight,
+				HighlightRule.BACKGROUND_COLOR_MEMBER ) );
+		// style.setBackgroundPositionX(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_POSITION_X_MEMBER));
+		// style.setBackgroundPositionY(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_POSITION_Y_MEMBER));
+		// style.setBackgroundRepeat(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_REPEAT_MEMBER));
+
+		// Text related
+		style.setTextAlign( getMemberProperty( highlight,
+				HighlightRule.TEXT_ALIGN_MEMBER ) );
+		style.setTextIndent( getMemberProperty( highlight,
+				HighlightRule.TEXT_INDENT_MEMBER ) );
+		style.setTextUnderline( getMemberProperty( highlight,
+				HighlightRule.TEXT_UNDERLINE_MEMBER ) );
+		style.setTextLineThrough( getMemberProperty( highlight,
+				HighlightRule.TEXT_LINE_THROUGH_MEMBER ) );
+		style.setTextOverline( getMemberProperty( highlight,
+				HighlightRule.TEXT_OVERLINE_MEMBER ) );
+
+		// style.setLetterSpacing(getMemberProperty(highlight,
+		// HighlightRule.LETTER_SPACING_MEMBER));
+		// style.setLineHeight(getMemberProperty(highlight,
+		// HighlightRule.LINE_HEIGHT_MEMBER));
+		// style.setOrphans(getMemberProperty(highlight,
+		// HighlightRule.ORPHANS_MEMBER));
+		style.setTextTransform( getMemberProperty( highlight,
+				HighlightRule.TEXT_TRANSFORM_MEMBER ) );
+		// style.setVerticalAlign(getMemberProperty(highlight,
+		// HighlightRule.VERTICAL_ALIGN_MEMBER));
+		// style.setWhiteSpace(getMemberProperty(highlight,
+		// HighlightRule.WHITE_SPACE_MEMBER));
+		// style.setWidows(getMemberProperty(highlight,
+		// HighlightRule.WIDOWS_MEMBER));
+		// style.setWordSpacing(getMemberProperty(highlight,
+		// HighlightRule.WORD_SPACING_MEMBER));
+
+		// Section properties
+		// style.setDisplay(getMemberProperty(highlight,
+		// HighlightRule.DISPLAY_MEMBER));
+		// style.setMasterPage(getMemberProperty(highlight,
+		// HighlightRule.MASTER_PAGE_MEMBER));
+		// style.setPageBreakAfter(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_AFTER_MEMBER));
+		// style.setPageBreakBefore(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_BEFORE_MEMBER));
+		// style.setPageBreakInside(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_INSIDE_MEMBER));
+
+		// Font related
+		style.setFontFamily( getMemberProperty( highlight,
+				HighlightRule.FONT_FAMILY_MEMBER ) );
+		style.setColor( getMemberProperty( highlight,
+				HighlightRule.COLOR_MEMBER ) );
+		style.setFontSize( getMemberProperty( highlight,
+				HighlightRule.FONT_SIZE_MEMBER ) );
+		style.setFontStyle( getMemberProperty( highlight,
+				HighlightRule.FONT_STYLE_MEMBER ) );
+		style.setFontWeight( getMemberProperty( highlight,
+				HighlightRule.FONT_WEIGHT_MEMBER ) );
+		style.setFontVariant( getMemberProperty( highlight,
+				HighlightRule.FONT_VARIANT_MEMBER ) );
+
+		// Text decoration
+		style.setTextLineThrough( getMemberProperty( highlight,
+				HighlightRule.TEXT_LINE_THROUGH_MEMBER ) );
+		style.setTextOverline( getMemberProperty( highlight,
+				HighlightRule.TEXT_OVERLINE_MEMBER ) );
+		style.setTextUnderline( getMemberProperty( highlight,
+				HighlightRule.TEXT_UNDERLINE_MEMBER ) );
+
+		// Border
+		style.setBorderBottomColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER ) );
+		style.setBorderBottomStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER ) );
+		style.setBorderBottomWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER ) );
+		style.setBorderLeftColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_COLOR_MEMBER ) );
+		style.setBorderLeftStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_STYLE_MEMBER ) );
+		style.setBorderLeftWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_WIDTH_MEMBER ) );
+		style.setBorderRightColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_COLOR_MEMBER ) );
+		style.setBorderRightStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_STYLE_MEMBER ) );
+		style.setBorderRightWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER ) );
+		style.setBorderTopColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_COLOR_MEMBER ) );
+		style.setBorderTopStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_STYLE_MEMBER ) );
+		style.setBorderTopWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_WIDTH_MEMBER ) );
+
+		// Margin
+		// style.setMarginTop(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_TOP_MEMBER));
+		// style.setMarginLeft(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_LEFT_MEMBER));
+		// style.setMarginBottom(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_BOTTOM_MEMBER));
+		// style.setMarginRight(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_RIGHT_MEMBER));
+
+		// Padding
+		// style.setPaddingTop(getMemberProperty(highlight,
+		// HighlightRule.PADDING_TOP_MEMBER));
+		// style.setPaddingLeft(getMemberProperty(highlight,
+		// HighlightRule.PADDING_LEFT_MEMBER));
+		// style.setPaddingBottom(getMemberProperty(highlight,
+		// HighlightRule.PADDING_BOTTOM_MEMBER));
+		// style.setPaddingRight(getMemberProperty(highlight,
+		// HighlightRule.PADDING_RIGHT_MEMBER));
+
+		// Data Formatting
+		style.setNumberAlign( getMemberProperty( highlight,
+				HighlightRule.NUMBER_ALIGN_MEMBER ) );
+		style.setDateFormat( getMemberProperty( highlight,
+				HighlightRule.DATE_TIME_FORMAT_MEMBER ) );
+		style.setNumberFormat( getMemberProperty( highlight,
+				HighlightRule.NUMBER_FORMAT_MEMBER ) );
+		style.setStringFormat( getMemberProperty( highlight,
+				HighlightRule.STRING_FORMAT_MEMBER ) );
+
+		// Others
+		// style.setCanShrink(getMemberProperty(highlight,
+		// HighlightRule.CAN_SHRINK_MEMBER));
+		// style.setShowIfBlank(getMemberProperty(highlight,
+		// HighlightRule.SHOW_IF_BLANK_MEMBER));
+
+		return style;
+	}
+
+	String getStyleProperty( StyleHandle handle, String property )
+	{
+		PropertyHandle prop = handle.getPropertyHandle( property );
+		if ( prop != null )
+		{
+			return prop.getStringValue( );
+		}
+		return null;
+	}
+
+	IStyle setupStyle( StyleHandle handle, IStyle style )
+	{
+		// Background
+		style.setBackgroundColor( getStyleProperty( handle,
+				Style.BACKGROUND_COLOR_PROP ) );
+		style.setBackgroundImage( getStyleProperty( handle,
+				Style.BACKGROUND_IMAGE_PROP ) );
+		style.setBackgroundPositionX( getStyleProperty( handle,
+				Style.BACKGROUND_POSITION_X_PROP ) );
+		style.setBackgroundPositionY( getStyleProperty( handle,
+				Style.BACKGROUND_POSITION_Y_PROP ) );
+		style.setBackgroundRepeat( getStyleProperty( handle,
+				Style.BACKGROUND_REPEAT_PROP ) );
+
+		// Text related
+		style.setTextAlign( getStyleProperty( handle, Style.TEXT_ALIGN_PROP ) );
+		style
+				.setTextIndent( getStyleProperty( handle,
+						Style.TEXT_INDENT_PROP ) );
+		style.setTextUnderline( getStyleProperty( handle,
+				Style.TEXT_UNDERLINE_PROP ) );
+		style.setTextLineThrough( getStyleProperty( handle,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getStyleProperty( handle,
+				Style.TEXT_OVERLINE_PROP ) );
+		style.setLetterSpacing( getStyleProperty( handle,
+				Style.LETTER_SPACING_PROP ) );
+		style
+				.setLineHeight( getStyleProperty( handle,
+						Style.LINE_HEIGHT_PROP ) );
+		style.setOrphans( getStyleProperty( handle, Style.ORPHANS_PROP ) );
+		style.setTextTransform( getStyleProperty( handle,
+				Style.TEXT_TRANSFORM_PROP ) );
+		style.setVerticalAlign( getStyleProperty( handle,
+				Style.VERTICAL_ALIGN_PROP ) );
+		style
+				.setWhiteSpace( getStyleProperty( handle,
+						Style.WHITE_SPACE_PROP ) );
+		style.setWidows( getStyleProperty( handle, Style.WIDOWS_PROP ) );
+		style
+				.setWordSpacing( getStyleProperty( handle,
+						Style.WORD_SPACING_PROP ) );
+
+		// Section properties
+		style.setDisplay( getStyleProperty( handle, Style.DISPLAY_PROP ) );
+		style
+				.setMasterPage( getStyleProperty( handle,
+						Style.MASTER_PAGE_PROP ) );
+		style.setPageBreakAfter( getStyleProperty( handle,
+				Style.PAGE_BREAK_AFTER_PROP ) );
+		style.setPageBreakBefore( getStyleProperty( handle,
+				Style.PAGE_BREAK_BEFORE_PROP ) );
+		style.setPageBreakInside( getStyleProperty( handle,
+				Style.PAGE_BREAK_INSIDE_PROP ) );
+
+		// Font related
+		style
+				.setFontFamily( getStyleProperty( handle,
+						Style.FONT_FAMILY_PROP ) );
+		style.setColor( getStyleProperty( handle, Style.COLOR_PROP ) );
+		style.setFontSize( getStyleProperty( handle, Style.FONT_SIZE_PROP ) );
+		style.setFontStyle( getStyleProperty( handle, Style.FONT_STYLE_PROP ) );
+		style
+				.setFontWeight( getStyleProperty( handle,
+						Style.FONT_WEIGHT_PROP ) );
+		style
+				.setFontVariant( getStyleProperty( handle,
+						Style.FONT_VARIANT_PROP ) );
+
+		// Text decoration
+		style.setTextLineThrough( getStyleProperty( handle,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getStyleProperty( handle,
+				Style.TEXT_OVERLINE_PROP ) );
+		style.setTextUnderline( getStyleProperty( handle,
+				Style.TEXT_UNDERLINE_PROP ) );
+
+		// Border
+		style.setBorderBottomColor( getStyleProperty( handle,
+				Style.BORDER_BOTTOM_COLOR_PROP ) );
+		style.setBorderBottomStyle( getStyleProperty( handle,
+				Style.BORDER_BOTTOM_STYLE_PROP ) );
+		style.setBorderBottomWidth( getStyleProperty( handle,
+				Style.BORDER_BOTTOM_WIDTH_PROP ) );
+		style.setBorderLeftColor( getStyleProperty( handle,
+				Style.BORDER_LEFT_COLOR_PROP ) );
+		style.setBorderLeftStyle( getStyleProperty( handle,
+				Style.BORDER_LEFT_STYLE_PROP ) );
+		style.setBorderLeftWidth( getStyleProperty( handle,
+				Style.BORDER_LEFT_WIDTH_PROP ) );
+		style.setBorderRightColor( getStyleProperty( handle,
+				Style.BORDER_RIGHT_COLOR_PROP ) );
+		style.setBorderRightStyle( getStyleProperty( handle,
+				Style.BORDER_RIGHT_STYLE_PROP ) );
+		style.setBorderRightWidth( getStyleProperty( handle,
+				Style.BORDER_RIGHT_WIDTH_PROP ) );
+		style.setBorderTopColor( getStyleProperty( handle,
+				Style.BORDER_TOP_COLOR_PROP ) );
+		style.setBorderTopStyle( getStyleProperty( handle,
+				Style.BORDER_TOP_STYLE_PROP ) );
+		style.setBorderTopWidth( getStyleProperty( handle,
+				Style.BORDER_TOP_WIDTH_PROP ) );
+
+		// Margin
+		style.setMarginTop( getStyleProperty( handle, Style.MARGIN_TOP_PROP ) );
+		style
+				.setMarginLeft( getStyleProperty( handle,
+						Style.MARGIN_LEFT_PROP ) );
+		style.setMarginBottom( getStyleProperty( handle,
+				Style.MARGIN_BOTTOM_PROP ) );
+		style
+				.setMarginRight( getStyleProperty( handle,
+						Style.MARGIN_RIGHT_PROP ) );
+
+		// Padding
+		style
+				.setPaddingTop( getStyleProperty( handle,
+						Style.PADDING_TOP_PROP ) );
+		style
+				.setPaddingLeft( getStyleProperty( handle,
+						Style.PADDING_LEFT_PROP ) );
+		style.setPaddingBottom( getStyleProperty( handle,
+				Style.PADDING_BOTTOM_PROP ) );
+		style.setPaddingRight( getStyleProperty( handle,
+				Style.PADDING_RIGHT_PROP ) );
+
+		// Data Formatting
+		style
+				.setNumberAlign( getStyleProperty( handle,
+						Style.NUMBER_ALIGN_PROP ) );
+		style.setDateFormat( getStyleProperty( handle,
+				Style.DATE_TIME_FORMAT_PROP ) );
+		style.setNumberFormat( getStyleProperty( handle,
+				Style.NUMBER_FORMAT_PROP ) );
+		style.setStringFormat( getStyleProperty( handle,
+				Style.STRING_FORMAT_PROP ) );
+
+		// Others
+		style.setCanShrink( getStyleProperty( handle, Style.CAN_SHRINK_PROP ) );
+		style.setShowIfBlank( getStyleProperty( handle,
+				Style.SHOW_IF_BLANK_PROP ) );
+
+		return style;
 	}
 
 	protected DimensionType createDimension( DimensionHandle handle )
@@ -1782,12 +1915,12 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			return null;
 		}
-		//Extended Choice
+		// Extended Choice
 		if ( handle.isKeyword( ) )
 		{
 			return new DimensionType( handle.getStringValue( ) );
 		}
-		//set measure and unit
+		// set measure and unit
 		double measure = handle.getMeasure( );
 		String unit = handle.getUnits( );
 		if ( DimensionValue.DEFAULT_UNIT.equals( unit ) )
@@ -1799,17 +1932,16 @@ class EngineIRVisitor extends DesignVisitor
 
 	protected void setupListingItem( ListingDesign listing, ListingHandle handle )
 	{
-		//setup related scripts
+		// setup related scripts
 		setupReportItem( listing, handle );
 
-		//setup scripts
+		// setup scripts
 		listing.setOnStart( handle.getOnStart( ) );
 		listing.setOnRow( handle.getOnRow( ) );
 		listing.setOnFinish( handle.getOnFinish( ) );
-
 	}
 
-	//	 Convert model operator value to DtE IColumnFilter enum value
+	// Convert model operator value to DtE IColumnFilter enum value
 	protected int toDteFilterOperator( String modelOpr )
 	{
 		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
@@ -1855,183 +1987,157 @@ class EngineIRVisitor extends DesignVisitor
 		return IConditionalExpression.OP_NONE;
 	}
 
+	/*
+	 * protected void createReportDefaultStyles( StyleHandle handle ) {
+	 * StyleDeclaration style = new StyleDeclaration( cssEngine );
+	 * 
+	 * setupStyle(handle, style);
+	 * 
+	 * if( !style.isEmpty( ) ) { report.setDefaultStyle( style ); } }
+	 */
 
-	protected void addReportStyleProperty( StyleHandle handle, String name )
+	protected void addReportDefaultPropertyValue( String name,
+			StyleHandle handle )
 	{
 		Object value = null;
-		if( StyleDesign.canInherit( name ) )
+		int index = StylePropertyMapping.getPropertyID( name );
+
+		if ( StylePropertyMapping.canInherit( name ) )
 		{
-			if( handle != null )
+			if ( handle != null )
 			{
 				value = handle.getProperty( name );
 			}
-			if( value == null )
+			if ( value == null )
 			{
-				value = StyleDesign.getDefaultValue( name );
+				value = StylePropertyMapping.getDefaultValue( name );
 			}
-			setStyleProperty( inheritableReportStyle, name, value );
-		}
-		else
-		{
-			value = StyleDesign.getDefaultValue( name );
-			setStyleProperty( nonInheritableReportStyle, name, value );
-		}
-	}
-	
-	protected String getStrColorValue( int value )
-	{
-		if( value == -1 )
-		{
-			return null;
-		}
-		return StringUtil.toRgbText( value );
-	}
 
-	protected String getStrColorValue( Object value )
-	{
-		int intValue = -1;
-		if( value == null )
-		{
-			return null;
-		}
-		
-		if( value instanceof Integer )
-		{
-			intValue = ( ( Integer ) value ).intValue( );
+			inheritableReportStyle.setCssText( index, value == null
+					? null
+					: value.toString( ) );
 		}
 		else
 		{
-			intValue = ColorUtil.parseColor( value.toString( ) );
+			value = StylePropertyMapping.getDefaultValue( name );
+			nonInheritableReportStyle.setCssText( index, value == null
+					? null
+					: value.toString( ) );
 		}
 
-		if( intValue == -1 )
-		{
-			return null;
-		}
-		
-		return StringUtil.toRgbText( intValue );
 	}
-	
-	protected void addReportColorStyleProperty( StyleHandle handle, String name )
+
+	/**
+	 * Creates Report default styles
+	 */
+	protected void createReportDefaultStyles( StyleHandle handle )
 	{
-		String value = null;
-		
-		if( StyleDesign.canInherit( name ) )
-		{
-			if( handle != null )
-			{
-				value = getStrColorValue( handle.getIntProperty( name ) );
-			}
-			if( value == null )
-			{
-				value = getStrColorValue( StyleDesign.getDefaultValue( name ) );
-			}
-			setStyleProperty( inheritableReportStyle, name, value );
-		}
-		else
-		{
-			value = getStrColorValue( StyleDesign.getDefaultValue( name ) );
-			setStyleProperty( nonInheritableReportStyle, name, value );
-		}
-	}
-	
-	protected void createReportStyles( StyleHandle handle )
-	{
-		nonInheritableReportStyle = new StyleDesign( );
-		inheritableReportStyle = new StyleDesign( );
-		
+		nonInheritableReportStyle = new StyleDeclaration( cssEngine );
+		inheritableReportStyle = new StyleDeclaration( cssEngine );
+
 		// Background
-		addReportColorStyleProperty( handle, Style.BACKGROUND_COLOR_PROP );
-		addReportStyleProperty( handle, Style.BACKGROUND_IMAGE_PROP );
-		addReportStyleProperty( handle, Style.BACKGROUND_POSITION_X_PROP );
-		addReportStyleProperty( handle, Style.BACKGROUND_POSITION_Y_PROP );
-		addReportStyleProperty( handle, Style.BACKGROUND_REPEAT_PROP );
+		addReportDefaultPropertyValue( Style.BACKGROUND_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BACKGROUND_IMAGE_PROP, handle );
+		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_X_PROP, handle );
+		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_Y_PROP, handle );
+		addReportDefaultPropertyValue( Style.BACKGROUND_REPEAT_PROP, handle );
 
 		// Text related
-		addReportStyleProperty( handle, Style.TEXT_ALIGN_PROP );
-		addReportStyleProperty( handle, Style.TEXT_INDENT_PROP );
-		addReportStyleProperty( handle, Style.LETTER_SPACING_PROP );
-		addReportStyleProperty( handle, Style.LINE_HEIGHT_PROP );
-		addReportStyleProperty( handle, Style.ORPHANS_PROP );
-		addReportStyleProperty( handle, Style.TEXT_TRANSFORM_PROP );
-		addReportStyleProperty( handle, Style.VERTICAL_ALIGN_PROP );
-		addReportStyleProperty( handle, Style.WHITE_SPACE_PROP );
-		addReportStyleProperty( handle, Style.WIDOWS_PROP );
-		addReportStyleProperty( handle, Style.WORD_SPACING_PROP );
+		addReportDefaultPropertyValue( Style.TEXT_ALIGN_PROP, handle );
+		addReportDefaultPropertyValue( Style.TEXT_INDENT_PROP, handle );
+		addReportDefaultPropertyValue( Style.LETTER_SPACING_PROP, handle );
+		addReportDefaultPropertyValue( Style.LINE_HEIGHT_PROP, handle );
+		addReportDefaultPropertyValue( Style.ORPHANS_PROP, handle );
+		addReportDefaultPropertyValue( Style.TEXT_TRANSFORM_PROP, handle );
+		addReportDefaultPropertyValue( Style.VERTICAL_ALIGN_PROP, handle );
+		addReportDefaultPropertyValue( Style.WHITE_SPACE_PROP, handle );
+		addReportDefaultPropertyValue( Style.WIDOWS_PROP, handle );
+		addReportDefaultPropertyValue( Style.WORD_SPACING_PROP, handle );
 
 		// Section properties
-		addReportStyleProperty( handle, Style.DISPLAY_PROP );
-		addReportStyleProperty( handle, Style.MASTER_PAGE_PROP );
-		addReportStyleProperty( handle, Style.PAGE_BREAK_AFTER_PROP );
-		addReportStyleProperty( handle, Style.PAGE_BREAK_BEFORE_PROP );
-		addReportStyleProperty( handle, Style.PAGE_BREAK_INSIDE_PROP );
-		// addStyleProperty( style, handle, Style.SHOW_IF_BLANK_PROP );
-		// addStyleProperty( style, handle, Style.CAN_SHRINK_PROP );
+		addReportDefaultPropertyValue( Style.DISPLAY_PROP, handle );
+		addReportDefaultPropertyValue( Style.MASTER_PAGE_PROP, handle );
+		addReportDefaultPropertyValue( Style.PAGE_BREAK_AFTER_PROP, handle );
+		addReportDefaultPropertyValue( Style.PAGE_BREAK_BEFORE_PROP, handle );
+		addReportDefaultPropertyValue( Style.PAGE_BREAK_INSIDE_PROP, handle );
 
 		// Font related
-		addReportStyleProperty( handle, Style.FONT_FAMILY_PROP );
-		addReportColorStyleProperty( handle, Style.COLOR_PROP );
-		addReportStyleProperty( handle, Style.FONT_SIZE_PROP );
-		addReportStyleProperty( handle, Style.FONT_STYLE_PROP );
-		addReportStyleProperty( handle, Style.FONT_WEIGHT_PROP );
-		addReportStyleProperty( handle, Style.FONT_VARIANT_PROP );
+		addReportDefaultPropertyValue( Style.FONT_FAMILY_PROP, handle );
+		addReportDefaultPropertyValue( Style.COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.FONT_SIZE_PROP, handle );
+		addReportDefaultPropertyValue( Style.FONT_STYLE_PROP, handle );
+		addReportDefaultPropertyValue( Style.FONT_WEIGHT_PROP, handle );
+		addReportDefaultPropertyValue( Style.FONT_VARIANT_PROP, handle );
 
 		// Text decoration
-		addReportStyleProperty( handle, Style.TEXT_LINE_THROUGH_PROP );
-		addReportStyleProperty( handle, Style.TEXT_OVERLINE_PROP );
-		addReportStyleProperty( handle, Style.TEXT_UNDERLINE_PROP );
+		addReportDefaultPropertyValue( Style.TEXT_LINE_THROUGH_PROP, handle );
+		addReportDefaultPropertyValue( Style.TEXT_OVERLINE_PROP, handle );
+		addReportDefaultPropertyValue( Style.TEXT_UNDERLINE_PROP, handle );
 
 		// Border
-		addReportColorStyleProperty( handle, Style.BORDER_BOTTOM_COLOR_PROP );
-		addReportStyleProperty( handle, Style.BORDER_BOTTOM_STYLE_PROP );
-		addReportStyleProperty( handle, Style.BORDER_BOTTOM_WIDTH_PROP );
-		addReportColorStyleProperty( handle, Style.BORDER_LEFT_COLOR_PROP );
-		addReportStyleProperty( handle, Style.BORDER_LEFT_STYLE_PROP );
-		addReportStyleProperty( handle, Style.BORDER_LEFT_WIDTH_PROP );
-		addReportColorStyleProperty( handle, Style.BORDER_RIGHT_COLOR_PROP );
-		addReportStyleProperty( handle, Style.BORDER_RIGHT_STYLE_PROP );
-		addReportStyleProperty( handle, Style.BORDER_RIGHT_WIDTH_PROP );
-		addReportColorStyleProperty( handle, Style.BORDER_TOP_COLOR_PROP );
-		addReportStyleProperty( handle, Style.BORDER_TOP_STYLE_PROP );
-		addReportStyleProperty( handle, Style.BORDER_TOP_WIDTH_PROP );
-		
+		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_STYLE_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_BOTTOM_WIDTH_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_LEFT_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_LEFT_STYLE_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_LEFT_WIDTH_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_RIGHT_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_RIGHT_STYLE_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_RIGHT_WIDTH_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_TOP_COLOR_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_TOP_STYLE_PROP, handle );
+		addReportDefaultPropertyValue( Style.BORDER_TOP_WIDTH_PROP, handle );
+
 		// Margin
-		addReportStyleProperty( handle, Style.MARGIN_TOP_PROP );
-		addReportStyleProperty( handle, Style.MARGIN_LEFT_PROP );
-		addReportStyleProperty( handle, Style.MARGIN_BOTTOM_PROP );
-		addReportStyleProperty( handle, Style.MARGIN_RIGHT_PROP );
+		addReportDefaultPropertyValue( Style.MARGIN_TOP_PROP, handle );
+		addReportDefaultPropertyValue( Style.MARGIN_LEFT_PROP, handle );
+		addReportDefaultPropertyValue( Style.MARGIN_BOTTOM_PROP, handle );
+		addReportDefaultPropertyValue( Style.MARGIN_RIGHT_PROP, handle );
 
 		// Padding
-		addReportStyleProperty( handle, Style.PADDING_TOP_PROP );
-		addReportStyleProperty( handle, Style.PADDING_LEFT_PROP );
-		addReportStyleProperty( handle, Style.PADDING_BOTTOM_PROP );
-		addReportStyleProperty( handle, Style.PADDING_RIGHT_PROP );
-		
-		if( !inheritableReportStyle.isEmpty( ) )
+		addReportDefaultPropertyValue( Style.PADDING_TOP_PROP, handle );
+		addReportDefaultPropertyValue( Style.PADDING_LEFT_PROP, handle );
+		addReportDefaultPropertyValue( Style.PADDING_BOTTOM_PROP, handle );
+		addReportDefaultPropertyValue( Style.PADDING_RIGHT_PROP, handle );
+
+		report.setRootStyleName( assignStyleName( inheritableReportStyle ) );
+
+		if ( nonInheritableReportStyle.isEmpty( ) )
 		{
-			assignStyleName( inheritableReportStyle );
+			nonInheritableReportStyle = null;
+		}
+		else
+		{
+			report.setDefaultStyle( nonInheritableReportStyle );
 		}
 	}
-	
-	protected void setupContentStyle( MasterPageDesign design )
-	{
-		StyleDesign style = design.getStyle( );
-		if( style == null || style.isEmpty( ) )
-		{
-			return;
-		}
-		
-		StyleDesign contentStyle = new StyleDesign( );
-		contentStyle.put( Style.BACKGROUND_COLOR_PROP, style.get( Style.BACKGROUND_COLOR_PROP ) );
-		contentStyle.put( Style.BACKGROUND_IMAGE_PROP, style.get( Style.BACKGROUND_IMAGE_PROP ) );
-		contentStyle.put( Style.BACKGROUND_POSITION_X_PROP, style.get( Style.BACKGROUND_POSITION_X_PROP ) );
-		contentStyle.put( Style.BACKGROUND_POSITION_Y_PROP, style.get( Style.BACKGROUND_POSITION_Y_PROP ) );
-		contentStyle.put( Style.BACKGROUND_REPEAT_PROP, style.get( Style.BACKGROUND_REPEAT_PROP ) );
 
-		if( !contentStyle.isEmpty( ) )
+	/**
+	 * Creates the content style for master page.
+	 * 
+	 * @param design
+	 *            the master page design
+	 * @return the content style
+	 */
+	protected StyleDeclaration setupContentStyle( MasterPageDesign design )
+	{
+		String styleName = design.getStyleName( );
+		IStyle style = report.findStyle( styleName );
+		if ( style == null || style.isEmpty( ) )
 		{
-			assignStyleName( contentStyle );
-			design.setContentStyle( contentStyle );
+			return null;
 		}
+
+		StyleDeclaration contentStyle = new StyleDeclaration( cssEngine );
+		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_COLOR, style
+				.getProperty( IStyle.STYLE_BACKGROUND_COLOR ) );
+		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_IMAGE, style
+				.getProperty( IStyle.STYLE_BACKGROUND_IMAGE ) );
+		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_POSITION_Y, style
+				.getProperty( IStyle.STYLE_BACKGROUND_POSITION_Y ) );
+		contentStyle.setProperty( IStyle.STYLE_BACKGROUND_REPEAT, style
+				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ) );
+
+		return contentStyle;
 	}
 }

@@ -17,35 +17,15 @@ import java.util.ArrayList;
  * Visibility Design.
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class VisibilityDesign
 {
-
 	/**
 	 * Stores the VisibilityRuleDesign items.
 	 */
 	protected ArrayList rules = new ArrayList( );
-	/** All the renders */
-	public static int FORMAT_TYPE_ALL = 1;
-	/** HTML render */
-	public static int FORMAT_TYPE_VIEWER = 2;
-	/** FO and PDF render */
-	public static int FORMAT_TYPE_PDF = 4;
-	/** Email render */
-	public static int FORMAT_TYPE_EMAIL = 8;
-	/** Print render */
-	public static int FORMAT_TYPE_PRINT = 16;
-	/** Excel render */
-	public static int FORMAT_TYPE_EXCEL = 32;
-	/** Word render */
-	public static int FORMAT_TYPE_WORD = 64;
-	/** Powerpoint Render */
-	public static int FORMAT_TYPE_POWERPOINT = 128;
-	/** Reportlet Render */
-	public static int FORMAT_TYPE_REPORTLET = 256;
-	/** RTF render */
-	public static int FORMAT_TYPE_RTF = 512;
+
 
 	/**
 	 * Adds the VisibilityRuleDesign

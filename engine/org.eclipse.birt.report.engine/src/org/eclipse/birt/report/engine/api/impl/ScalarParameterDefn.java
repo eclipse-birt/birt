@@ -314,5 +314,5 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 				Collections.sort(selectionList, new SelectionChoiceComparator(sortDisplayValue));
 		}
 	}
-
+		
 }

@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class DataItemDesign extends ReportItemDesign
 {
@@ -25,11 +25,6 @@ public class DataItemDesign extends ReportItemDesign
 	 * Data expression
 	 */
 	protected Expression value = new Expression( );
-
-	/**
-	 * Action associated with this DataItem.
-	 */
-	protected ActionDesign action;
 
 	/**
 	 * help text
@@ -68,26 +63,9 @@ public class DataItemDesign extends ReportItemDesign
 		this.value = value;
 	}
 
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitDataItem( this );
-	}
-
-	/**
-	 * @return Returns the action.
-	 */
-	public ActionDesign getAction( )
-	{
-		return action;
-	}
-
-	/**
-	 * @param action
-	 *            The action to set.
-	 */
-	public void setAction( ActionDesign action )
-	{
-		this.action = action;
+		visitor.visitDataItem( this , value);
 	}
 
 	/**

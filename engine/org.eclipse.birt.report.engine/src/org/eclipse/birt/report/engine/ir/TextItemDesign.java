@@ -12,16 +12,22 @@
 package org.eclipse.birt.report.engine.ir;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
-import org.w3c.dom.Document;
+import org.eclipse.birt.report.engine.executor.template.TemplateParser;
+import org.eclipse.birt.report.engine.executor.template.TextTemplate;
 
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/08 09:57:07 $
  */
 public class TextItemDesign extends ReportItemDesign
 {
+	public static final String AUTO_TEXT = "auto"; //$NON-NLS-1$
+	public static final String PLAIN_TEXT = "plain"; //$NON-NLS-1$
+	public static final String HTML_TEXT = "html"; //$NON-NLS-1$
+	public static final String RTF_TEXT = "rtf"; //$NON-NLS-1$
 
 	/**
 	 * text type, supports "html", "auto", "rtf", and "plain"
@@ -38,60 +44,34 @@ public class TextItemDesign extends ReportItemDesign
 	 */
 	protected String text;
 
-	/**
-	 * the parsed tree for text
-	 */
-	protected Document domTree;
-	/**
-	 * the corresponding css style set.
-	 */
-	protected HashMap cssStyleSet;
-	/**
-	 * Indicates the DOM tree can be reused.
-	 */
-	protected boolean isReused;
-	/**
-	 * captures all expressions from <value-of>tags
-	 */
-	protected HashMap exprMap = new HashMap( );
 
-	/**
-	 * add an expression to expression collection
-	 * 
-	 * @param key
-	 *            expression key
-	 * @param expr
-	 *            actual expression
-	 */
-	public void addExpression( String key, Expression expr )
+	protected HashMap exprs = null;
+	
+	public HashMap getExpressions()
 	{
-		exprMap.put( key, expr );
+		if (HTML_TEXT.equals(textType) && exprs == null)
+		{
+			exprs = new HashMap( );
+			TextTemplate template = new TemplateParser( ).parse( text );
+			if( template != null && template.getNodes() != null )
+			{
+				Iterator itor = template.getNodes().iterator();
+				Object obj;
+				String expression;
+				while( itor.hasNext( ) )
+				{
+					obj = itor.next();
+					if( obj instanceof TextTemplate.ValueNode )
+					{
+						expression = ( ( TextTemplate.ValueNode ) obj ).getValue( ); 
+						exprs.put( expression, new Expression( expression ) );
+					}
+				}
+			}
+		}
+		return exprs;
 	}
-
-	/**
-	 * @param expressionKey
-	 *            key for an expression
-	 * @return whether the expression with a given key exists in HTML text
-	 */
-	public boolean hasExpression( String expressionKey )
-	{
-		return exprMap.containsKey( expressionKey );
-	}
-
-	/**
-	 * get an embedded expression based on expression key
-	 * 
-	 * @param key
-	 *            expression key
-	 * @return the expression keyed by the given string
-	 */
-	public Expression getExpression( String key )
-	{
-		if ( exprMap.containsKey( key ) )
-			return (Expression) exprMap.get( key );
-		return null;
-	}
-
+	
 	/**
 	 * @param textKey
 	 *            the message key for the text
@@ -125,9 +105,9 @@ public class TextItemDesign extends ReportItemDesign
 	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitTextItem( this );
+		visitor.visitTextItem( this, value );
 	}
 
 	/**
@@ -145,56 +125,5 @@ public class TextItemDesign extends ReportItemDesign
 	public void setTextType( String textType )
 	{
 		this.textType = textType;
-	}
-
-	/**
-	 * @return Returns the domTree.
-	 */
-	public Document getDomTree( )
-	{
-		return domTree;
-	}
-
-	/**
-	 * @param domTree
-	 *            The domTree to set.
-	 */
-	public void setDomTree( Document domTree )
-	{
-		this.domTree = domTree;
-	}
-
-	/**
-	 * @return Returns the cssStyleSet.
-	 */
-	public HashMap getCssStyleSet( )
-	{
-		return cssStyleSet;
-	}
-
-	/**
-	 * @param cssStyleSet
-	 *            The cssStyleSet to set.
-	 */
-	public void setCssStyleSet( HashMap cssStyleSet )
-	{
-		this.cssStyleSet = cssStyleSet;
-	}
-
-	/**
-	 * @return Returns the isReused.
-	 */
-	public boolean isReused( )
-	{
-		return isReused;
-	}
-
-	/**
-	 * @param isReused
-	 *            The isReused to set.
-	 */
-	public void setReused( boolean isReused )
-	{
-		this.isReused = isReused;
 	}
 }

@@ -18,15 +18,19 @@ PARSER_BEGIN(CssParser)
 
 package  org.eclipse.birt.report.engine.executor.css;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Parses the style attribute of the HTML element according to the CSS2.0 grammar  
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 1.2 $ $Date: 2005/09/20 07:53:34 $
  */
 public class CssParser {
 
 	/** The logger */
-	private static org.apache.commons.logging.Log logger = org.apache.commons.logging.LogFactory.getLog(CssParser.class);
+	private static Logger logger = Logger.getLogger(CssParser.class.getName());
+	
 	/**Stores the CSS2.0 properties. */
 	private java.util.HashMap cssProperties;
 	/** The current property recognized by the parser.*/
@@ -353,7 +357,8 @@ StringBuffer value;
  } 
  catch (Exception ex) 
  {
-     logger.error("The css statement is:"+cssStatement,ex);
+     logger.log(Level.WARNING, cssStatement + " contains error",ex);
+     
      skipTo(SEMICOLON);
  } 
 }
@@ -467,7 +472,8 @@ void shortHandFont():
   }
   catch(Exception ex)
   {
-  	logger.error("The css statement is:"+cssStatement,ex);
+     logger.log(Level.WARNING, cssStatement + " contains error",ex);
+  	
   }
 }
 
@@ -511,7 +517,8 @@ void shortHandBackground() :
  }
  catch (Exception ex)
  {
- 	logger.error("The css statement is:"+cssStatement,ex);
+     logger.log(Level.WARNING, cssStatement + " contains error",ex);
+ 	
  }
 }
 void shortHandBorder():
@@ -822,7 +829,7 @@ void operator(StringBuffer value) :
 	    | n=<FREQ> { setValue(value,operator, n, FREQ); }
 	    | n=<RESOLUTION> { setValue(value,operator, n, RESOLUTION); }
 	    | n=<DATE> { setValue( value,operator, n, DATE); }
-	    | n=<DIMEN> {  logger.error("Unknown dimension:"+n.image); }    
+	    | n=<DIMEN> { logger.log(Level.WARNING, "unknown dimension:" + n.image); }    
 	    | func=function() {value.append(func); }
 	     | n=getFromShorthand() {setValue( value,operator, n, NORMAL);}
 	      )  )

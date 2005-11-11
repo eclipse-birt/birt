@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.7 $ $Date: 2005/05/25 07:24:15 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {
@@ -86,9 +86,9 @@ public class ImageItemDesign extends ReportItemDesign
 		this.imageSource = IMAGE_URI;
 	}
 
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitImageItem( this );
+		visitor.visitImageItem( this, value );
 	}
 
 	/**

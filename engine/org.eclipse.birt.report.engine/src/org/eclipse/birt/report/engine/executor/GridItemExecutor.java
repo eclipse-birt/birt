@@ -11,30 +11,26 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.logging.Level;
-
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
-import org.eclipse.birt.report.engine.content.impl.ColumnContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.ITableEmitter;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.13 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:18 $
  */
-public class GridItemExecutor extends StyledItemExecutor
+public class GridItemExecutor extends QueryItemExecutor
 {
 
 	/**
@@ -46,141 +42,216 @@ public class GridItemExecutor extends StyledItemExecutor
 	 *            the report executor visitor
 	 */
 	public GridItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * execute a grid. The execution process is:
+	 * <li> create a Table content
+	 * <li> push it into the stack
+	 * <li> execute the query and seek to the first record
+	 * <li> process the table style, visiblity, action, bookmark
+	 * <li> execute the onCreate if necessary.
+	 * <li> call emitter to start the grid.
+	 * <li> for each row, execute the row.
+	 * <li> call emitter to close the grid.
+	 * <li> close the query
+	 * <li> popup the table.
 	 * 
 	 * @see org.eclipse.birt.report.engine.excutor.ReportItemExcutor#excute()
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		GridItemDesign gridItem = (GridItemDesign) item;
-		ITableEmitter tableEmitter = emitter.getTableEmitter( );
-		if ( tableEmitter == null )
+		ITableContent tableObj = report.createTableContent( );
+		IContent parent = context.getContent( );
+		context.pushContent( tableObj );
+
+		openResultSet( item );
+		accessQuery( item, emitter );
+
+		initializeContent( parent, item, tableObj );
+
+		processAction( item, tableObj );
+		processBookmark( item, tableObj );
+		processStyle( item, tableObj );
+		processVisibility( item, tableObj );
+
+		for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
 		{
-			return;
+			ColumnDesign columnDesign = gridItem.getColumn( i );
+			Column column = new Column( );
+			column.setStyleClass( columnDesign.getStyleName( ) );
+			column.setWidth( columnDesign.getWidth( ) );
+			tableObj.addColumn( column );
 		}
-		TableContent tableObj = (TableContent)ContentFactory.createTableContent( gridItem, context.getContentObject( ) );
-		
-		IResultSet rs = null;
-		try
+
+		if ( context.isInFactory( ) )
 		{
-			context.enterScope(tableObj);
-			rs = openResultSet( item );
-			if ( rs != null )
+			context.execute( item.getOnCreate( ) );
+		}
+
+		if ( emitter != null )
+		{
+			emitter.startTable( tableObj );
+		}
+
+		ITableBandContent body = report.createTableBandContent( );
+		body.setParent( tableObj );
+
+		context.pushContent( body );
+
+		if ( emitter != null )
+		{
+			emitter.startTableBody( body );
+		}
+
+		for ( int i = 0; i < gridItem.getRowCount( ); i++ )
+		{
+			RowDesign row = gridItem.getRow( i );
+			if ( row != null )
 			{
-				rs.next( );
+				executeRow( i, body, row, emitter );
 			}
-			setStyles( tableObj, item );
-			setVisibility( item, tableObj );
-
-			String bookmarkStr = evalBookmark( gridItem );
-			if ( bookmarkStr != null )
-				tableObj.setBookmarkValue( bookmarkStr );
-
-			context.evaluate(item.getOnCreate());
-			
-			tableEmitter.start( tableObj );
-
-			if ( gridItem.getColumnCount( ) > 0 )
-			{
-				tableEmitter.startColumns( );
-				for ( int i = 0; i < gridItem.getColumnCount( ); i++ )
-				{
-					ColumnContent colContent = (ColumnContent) ContentFactory
-							.createColumnContent( gridItem.getColumn( i ),
-									tableObj );
-					setStyles( colContent, gridItem.getColumn( i ) );
-					emitter.getTableEmitter( ).startColumn( colContent );
-					emitter.getTableEmitter( ).endColumn( );
-				}
-				tableEmitter.endColumns( );
-			}
-			tableEmitter.startBody( );
-			for ( int i = 0; i < gridItem.getRowCount( ); i++ )
-			{
-				RowDesign row = gridItem.getRow( i );
-				//			if ( !isRowVisible( row ) )
-				//			{
-				//				break;
-				//			}
-				RowContent rowContent = (RowContent) ContentFactory
-						.createRowContent( row, tableObj );
-				setVisibility( row, rowContent );
-				setBookmarkValue( row, rowContent );
-				setStyles( rowContent, row );
-
-				tableEmitter.startRow( rowContent );
-				for ( int j = 0; j < row.getCellCount( ); j++ )
-				{
-					CellDesign cell = row.getCell( j );
-					if ( cell != null )
-					{
-						CellContent cellContent = (CellContent) ContentFactory
-								.createCellContent( cell, rowContent );
-						context.pushContentObject( cellContent );
-						setStyles( cellContent, cell );
-						tableEmitter.startCell( cellContent );
-
-						for ( int m = 0; m < cell.getContentCount( ); m++ )
-						{
-							ReportItemDesign ri = cell.getContent( m );
-							if ( ri != null )
-							{
-								ri.accept( this.visitor );
-							}
-						}
-
-						tableEmitter.endCell( );
-						context.popContentObject( );
-					}
-				}
-				tableEmitter.endRow( );
-			}
-			tableEmitter.endBody( );
-			tableEmitter.end( );
 		}
-		catch ( Throwable t )
+		if ( emitter != null )
 		{
-			logger.log( Level.SEVERE, "Error:", t );//$NON-NLS-1$
-			context.addException( new EngineException( MessageConstants.GRID_PROCESSING_ERROR,
-					( item.getName( ) != null ? item.getName( ) : "" ),
-					t ) );//$NON-NLS-1$
+			emitter.endTableBody( body );
+		}
+		context.popContent( );
 
-		}
-		finally
+		if ( emitter != null )
 		{
-			closeResultSet( rs );
-			context.exitScope();
+			emitter.endTable( tableObj );
 		}
+		closeResultSet( );
+		context.popContent( );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * execute the row. The execution process is:
+	 * <li> create a row content
+	 * <li> push it into the context
+	 * <li> intialize the content.
+	 * <li> process bookmark, action, style and visibility
+	 * <li> call onCreate if necessary
+	 * <li> call emitter to start the row
+	 * <li> for each cell, execute the cell
+	 * <li> call emitter to close the row
+	 * <li> pop up the row.
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
+	 * @param rowId
+	 *            row id.
+	 * @param body
+	 *            table body.
+	 * @param row
+	 *            row design
+	 * @param emitter
+	 *            output emitter
 	 */
-	public void reset( )
+	private void executeRow( int rowId, ITableBandContent body, RowDesign row,
+			IContentEmitter emitter )
 	{
-		// TODO Auto-generated method stub
+		IRowContent rowContent = report.createRowContent( );
 
-	}
+		context.pushContent( rowContent );
 
-	private void setBookmarkValue( RowDesign design, RowContent row )
-	{
-		// bookmark
-		Expression bookmark = design.getBookmark( );
-		if ( bookmark != null )
+		initializeContent( body, row, rowContent );
+		// rowContent.setRowId(rowId);
+
+		processAction( row, rowContent );
+		processBookmark( row, rowContent );
+		processStyle( row, rowContent );
+		processVisibility( row, rowContent );
+
+		if ( context.isInFactory( ) )
 		{
-			Object obj = context.evaluate( bookmark );
-			if ( obj != null )
+			context.execute( row.getOnCreate( ) );
+		}
+
+		if ( emitter != null )
+		{
+			emitter.startRow( rowContent );
+		}
+
+		for ( int j = 0; j < row.getCellCount( ); j++ )
+		{
+			CellDesign cell = row.getCell( j );
+			if ( cell != null )
 			{
-				row.setBookmarkValue( obj.toString( ) );
+				executeCell( rowContent, cell, emitter );
 			}
 		}
+		if ( emitter != null )
+		{
+			emitter.endRow( rowContent );
+		}
+		context.popContent( );
 	}
+
+	/**
+	 * execute a cell. the execution process is:
+	 * <li> create a cell content
+	 * <li> push the content into the stack
+	 * <li> intialize the cell
+	 * <li> process the action, bookmark, style, visibility
+	 * <li> call onCreate if necessary
+	 * <li> call emitter to start the cell
+	 * <li> for each element in the cell, execute the element.
+	 * <li> call emiter to close the cell
+	 * <li> popup the cell.
+	 * 
+	 * @param rowContent
+	 *            row content
+	 * @param cell
+	 *            cell design
+	 * @param emitter
+	 *            output emitter
+	 */
+	private void executeCell( IRowContent rowContent, CellDesign cell,
+			IContentEmitter emitter )
+	{
+		ICellContent cellContent = report.createCellContent( );
+
+		context.pushContent( cellContent );
+
+		initializeContent( rowContent, cell, cellContent );
+
+		cellContent.setColumn( cell.getColumn( ) );
+		cellContent.setColSpan( cell.getColSpan( ) );
+		cellContent.setRowSpan( cell.getRowSpan( ) );
+
+		processAction( cell, cellContent );
+		processBookmark( cell, cellContent );
+		processStyle( cell, cellContent );
+		processVisibility( cell, cellContent );
+
+		if ( context.isInFactory( ) )
+		{
+			context.execute( cell.getOnCreate( ) );
+		}
+
+		if ( emitter != null )
+		{
+			emitter.startCell( cellContent );
+		}
+
+		for ( int m = 0; m < cell.getContentCount( ); m++ )
+		{
+			ReportItemDesign ri = cell.getContent( m );
+			if ( ri != null )
+			{
+				ri.accept( this.visitor, emitter );
+			}
+		}
+
+		if ( emitter != null )
+		{
+			emitter.endCell( cellContent );
+		}
+		context.popContent( );
+	}
+
 }

@@ -15,13 +15,13 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DecimalFormat;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -36,20 +36,19 @@ import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.10 $ $Date: 2005/05/25 07:24:15 $
+ * @version $Revision: 1.11 $ $Date: 2005/05/26 07:39:42 $
  */
 class ReportDesignWriter
 {
@@ -111,9 +110,9 @@ class ReportDesignWriter
 			writeReportElement( item );
 			if ( hasStyle )
 			{
-				if ( item.getStyle( ) != null )
+				if ( item.getStyleName( ) != null )
 				{
-					attribute( "style", item.getStyle( ).getName( ) ); //$NON-NLS-1$
+					attribute( "style", item.getStyleName() ); //$NON-NLS-1$
 				}
 			}
 		}
@@ -154,7 +153,7 @@ class ReportDesignWriter
 				pushTag( "styles" ); //$NON-NLS-1$
 				for ( int i = 0; i < report.getStyleCount( ); i++ )
 				{
-					writeStyle( (StyleDesign) report.getStyle( i ) );
+					writeStyle( report.getStyle( i ) );
 				}
 				popTag( );
 			}
@@ -166,7 +165,7 @@ class ReportDesignWriter
 				pushTag( "body" ); //$NON-NLS-1$
 				for ( int i = 0; i < report.getContentCount( ); i++ )
 				{
-					report.getContent( i ).accept( this );
+					report.getContent( i ).accept( this , null);
 				}
 				popTag( );
 			}
@@ -240,7 +239,7 @@ class ReportDesignWriter
 			pushTag( tag );
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				band.getContent( i ).accept( this );
+				band.getContent( i ).accept( this , null);
 			}
 			popTag( );
 		}
@@ -301,7 +300,7 @@ class ReportDesignWriter
 			Iterator iter = page.getContents( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
-				( (ReportItemDesign) iter.next( ) ).accept( this );
+				( (ReportItemDesign) iter.next( ) ).accept( this, null );
 			}
 
 			popTag( );
@@ -320,14 +319,14 @@ class ReportDesignWriter
 			pushTag( "header" ); //$NON-NLS-1$
 			for ( int i = 0; i < page.getHeaderCount( ); i++ )
 			{
-				page.getHeader( i ).accept( this );
+				page.getHeader( i ).accept( this , null);
 			}
 			popTag( );
 
 			pushTag( "footer" ); //$NON-NLS-1$
 			for ( int i = 0; i < page.getFooterCount( ); i++ )
 			{
-				page.getFooter( i ).accept( this );
+				page.getFooter( i ).accept( this , null);
 			}
 			popTag( );
 
@@ -340,18 +339,12 @@ class ReportDesignWriter
 		 * @param style
 		 *            style
 		 */
-		private void writeStyle( StyleDesign style )
+		private void writeStyle( CSSStyleDeclaration style )
 		{
 			if ( style != null )
 			{
 				pushTag( "style" ); //$NON-NLS-1$
-				writeReportElement( style );
-				Iterator iter = style.entrySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					Map.Entry entry = (Map.Entry) iter.next( );
-					attribute( entry.getKey( ).toString( ), entry.getValue( ) );
-				}
+				text(style.getCssText());
 				popTag( );
 			}
 		}
@@ -469,7 +462,6 @@ class ReportDesignWriter
 		{
 			pushTag( "column" ); //$NON-NLS-1$
 			writeStyledElement( column );
-			attribute( "repeat", column.getRepeat( ), 1.0 ); //$NON-NLS-1$
 			attribute( "width", column.getWidth( ) ); //$NON-NLS-1$
 			popTag( );
 		}
@@ -498,7 +490,7 @@ class ReportDesignWriter
 			attribute( "drop", cell.getDrop( ) ); //$NON-NLS-1$
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 			{
-				cell.getContent( i ).accept( this );
+				cell.getContent( i ).accept( this , null);
 			}
 			popTag( );
 		}
@@ -602,7 +594,7 @@ class ReportDesignWriter
 			writeReportItem( free );
 			for ( int i = 0; i < free.getItemCount( ); i++ )
 			{
-				free.getItem( i ).accept( this );
+				free.getItem( i ).accept( this , null);
 			}
 			popTag( );
 		}

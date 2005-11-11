@@ -12,18 +12,16 @@
 package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IReportContentVisitor;
-import org.eclipse.birt.report.engine.content.IReportElementContent;
-import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
 
 /**
  * 
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:46 $
+ * @version $Revision: 1.5 $ $Date: 2005/10/27 02:13:35 $
  */
-public class CellContent extends StyledElementContent implements ICellContent
+public class CellContent extends AbstractContent implements ICellContent
 {
 
 	/**
@@ -42,15 +40,19 @@ public class CellContent extends StyledElementContent implements ICellContent
 	protected int column = -1;
 
 	/**
+	 * row id
+	 */
+	protected int row = -1;
+
+	/**
 	 * constructor
 	 * 
 	 * @param item
 	 *            cell design item
 	 */
-	public CellContent( CellDesign item, IReportElementContent parent )
+	public CellContent( ReportContent report)
 	{
-		super( item, parent );
-		this.rowSpan = item.getRowSpan( );
+		super(report);
 	}
 
 	/**
@@ -58,10 +60,6 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getRowSpan( )
 	{
-		if (rowSpan == -1)
-		{
-			return ( (CellDesign) designReference ).getRowSpan( );
-		}
 		return this.rowSpan;
 	}
 
@@ -71,10 +69,6 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getColSpan( )
 	{
-		if ( colSpan == -1 )
-		{
-			return ( (CellDesign) designReference ).getColSpan( );
-		}
 		return colSpan;
 	}
 
@@ -84,25 +78,17 @@ public class CellContent extends StyledElementContent implements ICellContent
 	 */
 	public int getColumn( )
 	{
-		if (column == -1)
-		{
-			return ( (CellDesign) designReference ).getColumn( );
-		}
 		return column;
 	}
-
-	/**
-	 * 
-	 * @return drop type
-	 */
-	public String getDrop( )
+	
+	public int getRow()
 	{
-		return ( (CellDesign) designReference ).getDrop( );
+		return row;
 	}
 
-	public void accept( IReportContentVisitor visitor )
+	public void accept( IContentVisitor visitor , Object value)
 	{
-		visitor.visitCellContent( this );
+		visitor.visitCell( this , value);
 	}
 
 	/**
@@ -122,5 +108,10 @@ public class CellContent extends StyledElementContent implements ICellContent
 	public void setColumn(int column)
 	{
 		this.column = column;
+	}
+	
+	public void setRow(int row)
+	{
+		this.row = row;
 	}
 }

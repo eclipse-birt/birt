@@ -15,25 +15,26 @@ import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
- * A factory class to create data engines. For now, only DtE data engine is created
- * in this factory.
+ * A factory class to create data engines. For now, only DtE data engine is
+ * created in this factory.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class DataEngineFactory
 {
+
 	/**
 	 * static factory instance
 	 */
 	static protected DataEngineFactory sm_instance;
-	
+
 	/**
 	 * private constractor
 	 */
 	private DataEngineFactory()
 	{
 	}
-	
+
 	/**
 	 * get instance of factory
 	 * 
@@ -45,17 +46,22 @@ public class DataEngineFactory
 		{
 			sm_instance = new DataEngineFactory();
 		}
-		return sm_instance; 
+		return sm_instance;
 	}
-	
+
 	/**
 	 * create a <code>DataEngine</code> given an execution context
 	 * 
-	 * @param context the execution context
+	 * @param context
+	 *            the execution context
 	 * @return a data engine instance
 	 */
-	public IDataEngine createDataEngine(ExecutionContext context)
+	public IDataEngine createDataEngine( ExecutionContext context )
 	{
-		return new DteDataEngine(context);
+		//if (contentx.getArchive() != null)
+		//{
+			return new DteDataEngine( context );
+		//}
+		//return new ArchiveDataEngine(context);
 	}
 }

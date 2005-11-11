@@ -16,10 +16,21 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {
+	/**
+	 * the page break interval. it will create a softpage break
+	 * for each page break interval rows.
+	 */
+	protected int pageBreakInterval = -1;
+	/**
+	 * groups. which corresponds to the group in query. which is created at
+	 * begin & end of each group.
+	 */
+	protected ArrayList groups = new ArrayList( );
+
 	/**
 	 * array list store the IFilterDefn
 	 */
@@ -41,6 +52,26 @@ abstract public class ListingDesign extends ReportItemDesign
 	 */
 	protected String onFinish;
 	
+	/**
+	 * get all the groups in this listing.
+	 * 
+	 * @return collection of groups.
+	 */
+	public ArrayList getGroups( )
+	{
+		return this.groups;
+	}
+
+	/**
+	 * get group count
+	 * 
+	 * @return group count
+	 */
+	public int getGroupCount( )
+	{
+		return this.groups.size( );
+	}
+
 	
 	/**
 	 * @return Returns the filters.
@@ -99,8 +130,14 @@ abstract public class ListingDesign extends ReportItemDesign
 	{
 		this.onStart = onStart;
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
-	 */
-	abstract public void accept( IReportItemVisitor visitor );
+	
+	public void setPageBreakInterval(int interval)
+	{
+		this.pageBreakInterval = interval;
+	}
+	
+	public int getPageBreakInterval()
+	{
+		return pageBreakInterval;
+	}
 }

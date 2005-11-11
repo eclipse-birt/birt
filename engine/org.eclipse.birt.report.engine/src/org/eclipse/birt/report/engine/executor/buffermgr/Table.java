@@ -12,7 +12,7 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2005/05/20 15:11:05 $
+ * @version $Revision: 1.4 $ $Date: 2005/11/10 09:18:10 $
  */
 public class Table
 {
@@ -43,13 +43,16 @@ public class Table
 	{
 		nextColId = -1;
 		rowCount = 0;
-		colCount = 0;
+		colCount = colSize;
 		ensureSize(rowSize, colSize);
 	}
 	
 	public Table()
 	{
-		this(10, 10);
+		nextColId = -1;
+		rowCount = 0;
+		colCount = 0;
+		ensureSize(10, 10);
 	}
 
 	/**
@@ -132,7 +135,7 @@ public class Table
 	 *            cell content
 	 */
 	public void createCell( int cellId, int rowSpan, int colSpan,
-			IContent content )
+			Cell.Content content )
 	{
 		if ( cellId == -1 )
 		{
@@ -148,7 +151,7 @@ public class Table
 		
 		if ( status != Cell.CELL_EMPTY )
 		{
-			if ( omitEmptyCell && (content == null || content.isEmpty( )) )
+			if ( omitEmptyCell && (content == null || content.isEmpty()) )
 			{
 				//content is empty, and the cell is used by others, 
 				//omit empty cell is set to true, so just skip

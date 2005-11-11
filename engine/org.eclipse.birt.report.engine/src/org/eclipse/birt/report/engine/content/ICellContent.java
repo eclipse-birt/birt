@@ -14,9 +14,9 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provides the interfaces for Cell Content
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:45 $
  */
-public interface ICellContent extends IStyledElementContent
+public interface ICellContent extends IContainerContent
 {
 
 	/**
@@ -38,9 +38,15 @@ public interface ICellContent extends IStyledElementContent
 
 	/**
 	 * 
-	 * @return drop type
+	 * @return
 	 */
-	public String getDrop( );
+	public int getRow( );
 
+	public void setRow( int row );
 
+	public void setColumn( int column );
+
+	public void setRowSpan( int rowSpan );
+
+	public void setColSpan( int colSpan );
 }

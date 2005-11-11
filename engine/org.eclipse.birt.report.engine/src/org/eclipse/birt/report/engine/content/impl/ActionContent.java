@@ -65,7 +65,11 @@ public class ActionContent implements IHyperlinkAction
 	 * @param target
 	 *            the target window
 	 */
-	public ActionContent( String hyperlink, String target )
+	public ActionContent(  )
+	{
+	}
+	
+	public void setHyperlink(String hyperlink, String target)
 	{
 		this.type = IHyperlinkAction.ACTION_HYPERLINK;
 		this.hyperlink = hyperlink;
@@ -78,7 +82,7 @@ public class ActionContent implements IHyperlinkAction
 	 * @param bookmark
 	 *            the bookmark value.
 	 */
-	public ActionContent( String bookmark )
+	public void setBookmark( String bookmark )
 	{
 		this.type = IHyperlinkAction.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
@@ -98,7 +102,7 @@ public class ActionContent implements IHyperlinkAction
 	 * @param target
 	 *            the target window
 	 */
-	public ActionContent( String bookmark, String reportName,
+	public void setDrillThrough( String bookmark, String reportName,
 			Map parameterBindings, Map searchCriteria, String target )
 	{
 		this.bookmark = bookmark;
@@ -181,4 +185,8 @@ public class ActionContent implements IHyperlinkAction
 	{
 		return hyperlink;
 	}
+	
+	
+	
+	
 }

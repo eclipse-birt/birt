@@ -11,24 +11,12 @@
 
 package org.eclipse.birt.report.engine.content;
 
-import org.eclipse.birt.report.engine.ir.DimensionType;
-
 /**
- * Provides the interfaces for the Row Content
+ * Provides the interfaces for the Row AbstractContent
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.3 $ $Date: 2005/10/21 04:51:44 $
  */
-public interface IRowContent extends IStyledElementContent
+public interface IRowContent extends IContent
 {
-
-	/**
-	 * @return the Bookmark value
-	 */
-	public String getBookmarkValue( );
-
-	/**
-	 * @return Returns the height.
-	 */
-	public DimensionType getHeight( );
 }

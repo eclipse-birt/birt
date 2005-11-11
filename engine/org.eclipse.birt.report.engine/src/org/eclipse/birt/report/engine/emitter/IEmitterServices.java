@@ -37,19 +37,18 @@ public interface IEmitterServices
 	 * @return the current report name
 	 */
 	public String getReportName( );
-	
+
 	/**
 	 * 
 	 * @return render context
 	 */
-	public Object getRenderContext();
+	public Object getRenderContext( );
 
 	/**
 	 * 
 	 * @return the report runnable
 	 */
-	public IReportRunnable getReportRunnable();
-
+	public IReportRunnable getReportRunnable( );
 
 	/**
 	 * @param name
@@ -57,10 +56,10 @@ public interface IEmitterServices
 	 * @return option value
 	 */
 	public Object getOption( String name );
-	
+
 	/**
 	 * 
 	 * @return the engine task
 	 */
-	public IEngineTask getTask();
+	public IEngineTask getTask( );
 }

@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.impl.TextItemContent;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,7 +24,7 @@ import org.w3c.dom.Node;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.10 $ $Date: 2005/05/08 06:59:46 $
  */
 public class HTMLProcessor
 {
@@ -35,7 +33,7 @@ public class HTMLProcessor
 	private static Logger logger = Logger.getLogger( HTMLProcessor.class.getName() );
 
 	/** the execution context */
-	ExecutionContext context;
+	String rootPath;;
 
 	/** the CSS2.0 Parser */
 	private CssParser cssParser;
@@ -56,9 +54,9 @@ public class HTMLProcessor
 	 * @param context
 	 *            the execution context
 	 */
-	public HTMLProcessor( ExecutionContext context )
+	public HTMLProcessor( String rootPath )
 	{
-		this.context = context;
+		this.rootPath = rootPath;
 		//Takes the zero-length string as parameter just for keeping to the
 		// interface of constructor
 		cssParser = new CssParser( new StringReader( "" ) ); //$NON-NLS-1$
@@ -74,7 +72,7 @@ public class HTMLProcessor
 	 * @param text
 	 *            the text content object
 	 */
-	public void execute( Element ele, TextItemContent text )
+	public void execute( Element ele, HashMap styles)
 	{
 		HashMap cssStyle = null;
 		if ( !ele.hasAttribute( "style" ) ) //$NON-NLS-1$
@@ -115,8 +113,7 @@ public class HTMLProcessor
 				//Checks if the resource is local
 				if ( FileUtil.isLocalResource( src ) )
 				{
-					src = FileUtil.getAbsolutePath( context.getReport( )
-							.getBasePath( ), src );
+					src = FileUtil.getAbsolutePath( rootPath, src );
 					// src = FileUtil.getURI( src );
 				}
 				if ( src != null )
@@ -188,7 +185,7 @@ public class HTMLProcessor
 			cssStyle.put( "text-decoration", decoration ); //$NON-NLS-1$
 			ele = replaceElement( ele, "span" ); //$NON-NLS-1$
 		}
-		text.addCssStyle( ele, cssStyle );
+		styles.put(ele, cssStyle);
 
 		//Walks on its children nodes recursively
 		for ( int i = 0; i < ele.getChildNodes( ).getLength( ); i++ )
@@ -196,7 +193,7 @@ public class HTMLProcessor
 			Node child = ele.getChildNodes( ).item( i );
 			if ( child.getNodeType( ) == Node.ELEMENT_NODE )
 			{
-				execute( (Element) child, text );
+				execute( (Element) child, styles );
 			}
 		}
 	}

@@ -11,61 +11,31 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
-import org.eclipse.birt.report.engine.content.IReportContentVisitor;
-import org.eclipse.birt.report.engine.content.IReportElementContent;
+import java.util.ArrayList;
+
+import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContentVisitor;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
 
 /**
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:27 $
+ * @version $Revision: 1.8 $ $Date: 2005/11/10 08:55:18 $
  */
-public class TableContent extends ReportItemContent implements ITableContent
+public class TableContent extends AbstractContent implements ITableContent
 {
 
-	/**
-	 * table type(table or grid)
-	 */
-	protected int type;
-
+	protected ArrayList columns = new ArrayList( );
 	protected String caption = null;
-	/**
-	 * column count
-	 */
-	protected int columnCount = 0;
 
-	public boolean getRepeatHeader( )
-	{
-		if (designReference instanceof TableItemDesign)
-		{
-			return ( (TableItemDesign) designReference ).getRepeatHeader( );
-		}
-		return false;
-	}
+	protected boolean headerRepeat;
 
-	/**
-	 * get column count
-	 * 
-	 * @return column count
-	 */
-	public int getColumnCount( )
+	public boolean isHeaderRepeat( )
 	{
-		return columnCount;
-	}
-
-	/**
-	 * constructor
-	 * 
-	 * @param item
-	 *            the grid design
-	 */
-	public TableContent( GridItemDesign item, IReportElementContent parent )
-	{
-		super( item, parent );
-		this.columnCount = item.getColumnCount( );
+		return headerRepeat;
 	}
 
 	/**
@@ -74,14 +44,14 @@ public class TableContent extends ReportItemContent implements ITableContent
 	 * @param item
 	 *            the table deign
 	 */
-	public TableContent( TableItemDesign item, IReportElementContent parent )
+	public TableContent( ReportContent report )
 	{
-		super( item, parent );
+		super( report );
 	}
 
-	public void accept( IReportContentVisitor visitor )
+	public void accept( IContentVisitor visitor, Object value )
 	{
-		visitor.visitTableContent( this );
+		visitor.visitTable( this, value );
 	}
 
 	/**
@@ -99,5 +69,53 @@ public class TableContent extends ReportItemContent implements ITableContent
 	public void setCaption( String caption )
 	{
 		this.caption = caption;
+	}
+
+	public int getColumnCount( )
+	{
+		return columns.size( );
+	}
+
+	public IColumn getColumn( int index )
+	{
+		return (IColumn) columns.get( index );
+	}
+
+	public void addColumn( IColumn column )
+	{
+		this.columns.add( column );
+	}
+
+	public ITableBandContent getHeader( )
+	{
+		return getTableBand( ITableBandContent.BAND_HEADER );
+	}
+
+	public ITableBandContent getBody( )
+	{
+		return getTableBand( ITableBandContent.BAND_BODY );
+	}
+
+	public ITableBandContent getFooter( )
+	{
+		return getTableBand( ITableBandContent.BAND_FOOTER );
+	}
+
+	protected ITableBandContent getTableBand( int type )
+	{
+		ITableBandContent tableBand;
+		if ( children == null )
+		{
+			return null;
+		}
+		for ( int i = 0; i < children.size( ); i++ )
+		{
+			tableBand = (ITableBandContent) children.get( i );
+			if ( tableBand.getType( ) == type )
+			{
+				return tableBand;
+			}
+		}
+		return null;
 	}
 }

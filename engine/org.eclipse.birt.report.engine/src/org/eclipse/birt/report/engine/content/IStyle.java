@@ -11,53 +11,37 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTValueConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSS2Properties;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSValue;
+
 /**
  * Provides the interfaces for the ROM style
  * 
+ * the properties must be string as the user may change them in script.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:59:45 $
+ * @version $Revision: 1.5 $ $Date: 2005/10/19 11:03:06 $
  */
 public interface IStyle
+		extends
+			CSSStyleDeclaration,
+			StyleConstants,
+			CSS2Properties,
+			CSSConstants,
+			CSSValueConstants,
+			BIRTConstants,
+			BIRTValueConstants
 {
-
-	/**
-	 * get property.
-	 * 
-	 * @param name
-	 *            property name
-	 * @return property value, null if the property is not set.
-	 */
-	public String getProperty( String styleName );
-	
-	public void setProperty(String styleName, String value);
-
-	public String getFontFamily( );
-
-	public String getFontStyle( );
-
-	public String getFontVariant( );
-
-	public String getFontWeight( );
-
-	public String getFontSize( );
-
-	public String getColor( );
-
-	public String getBackgroundColor( );
-
-	public String getBackgroundImage( );
-
-	public String getBackgroundRepeat( );
-
-	public String getBackgroundAttachment( );
 
 	public String getBackgroundPositionX( );
 
 	public String getBackgroundPositionY( );
-
-	public String getWordSpacing( );
-
-	public String getLetterSpacing( );
 
 	public String getTextUnderline( );
 
@@ -65,203 +49,57 @@ public interface IStyle
 
 	public String getTextLineThrough( );
 
-	public String getVerticalAlign( );
-
-	public String getTextTransform( );
-
-	public String getTextAlign( );
-
-	public String getTextIndent( );
-
-	public String getLineHeight( );
-
-	public String getWhiteSpace( );
-
-	public String getMarginTop( );
-
-	public String getMarginBottom( );
-
-	public String getMarginLeft( );
-
-	public String getMarginRight( );
-
-	public String getPaddingTop( );
-
-	public String getPaddingBottom( );
-
-	public String getPaddingLeft( );
-
-	public String getPaddingRight( );
-
-	public String getBorderTopWidth( );
-
-	public String getBorderBottomWidth( );
-
-	public String getBorderLeftWidth( );
-
-	public String getBorderRightWidth( );
-
-	public String getBorderTopColor( );
-
-	public String getBorderBottomColor( );
-
-	public String getBorderLeftColor( );
-
-	public String getBorderRightColor( );
-
-	public String getBorderTopStyle( );
-
-	public String getBorderBottomStyle( );
-
-	public String getBorderLeftStyle( );
-
-	public String getBorderRightStyle( );
-
-	public String getDisplay( );
-
-	public String getOrphans( );
-
-	public String getWidows( );
-
-	public String getPageBreakAfter( );
-
-	public String getPageBreakBefore( );
-
-	public String getPageBreakInside( );
-
 	public String getMasterPage( );
 
 	public String getShowIfBlank( );
 
 	public String getCanShrink( );
-	
-	public String getName( );
-	
-	public String getNumberAlign();
-	
-	public String getNumberFormat();
-	
-	public String getStringFormat();
-	
-	public String getDateTimeFormat();
-	
-	public void setFontFamily(String v);
 
-	public void setFontStyle(String v);
+	public String getStringFormat( );
 
-	public void setFontVariant(String v);
+	public String getNumberFormat( );
 
-	public void setFontWeight(String v);
+	public String getDateFormat( );
 
-	public void setFontSize(String v);
+	public String getNumberAlign( );
 
-	public void setColor(String v);
+	public String getVisibleFormat( );
 
-	public void setBackgroundColor(String v);
+	public void setBackgroundPositionX( String x ) throws DOMException;
 
-	public void setBackgroundImage(String v);
+	public void setBackgroundPositionY( String y ) throws DOMException;
 
-	public void setBackgroundRepeat(String v);
+	public void setTextUnderline( String underline ) throws DOMException;
 
-	public void setBackgroundAttachment(String v);
+	public void setTextOverline( String overline ) throws DOMException;
 
-	public void setBackgroundPositionX(String v);
+	public void setTextLineThrough( String through ) throws DOMException;
 
-	public void setBackgroundPositionY(String v);
+	public void setMasterPage( String page ) throws DOMException;
 
-	public void setWordSpacing(String v);
+	public void setShowIfBlank( String blank ) throws DOMException;
 
-	public void setLetterSpacing(String v);
+	public void setCanShrink( String shrink ) throws DOMException;
 
-	public void setTextUnderline(String v);
+	public void setStringFormat( String format ) throws DOMException;
 
-	public void setTextOverline(String v);
+	public void setNumberFormat( String format ) throws DOMException;
 
-	public void setTextLineThrough(String v);
+	public void setDateFormat( String format ) throws DOMException;
 
-	public void setVerticalAlign(String v);
+	public void setNumberAlign( String align ) throws DOMException;
 
-	public void setTextTransform(String v);
+	public void setVisibleFormat( String visibility ) throws DOMException;
 
-	public void setTextAlign(String v);
+	public CSSValue getProperty( int index );
 
-	public void setTextIndent(String v);
+	public void setProperty( int index, CSSValue value );
 
-	public void setLineHeight(String v);
+	public void setProperties( IStyle style );
 
-	public void setWhiteSpace(String v);
+	public String getCssText( int index );
 
-	public void setMarginTop(String v);
+	public void setCssText( int index, String value ) throws DOMException;
 
-	public void setMarginBottom(String v);
-
-	public void setMarginLeft(String v);
-
-	public void setMarginRight(String v);
-
-	public void setPaddingTop(String v);
-
-	public void setPaddingBottom(String v);
-
-	public void setPaddingLeft(String v);
-
-	public void setPaddingRight(String v);
-
-	public void setBorderTopWidth(String v);
-
-	public void setBorderBottomWidth(String v);
-
-	public void setBorderLeftWidth(String v);
-
-	public void setBorderRightWidth(String v);
-
-	public void setBorderTopColor(String v);
-
-	public void setBorderBottomColor(String v);
-
-	public void setBorderLeftColor(String v);
-
-	public void setBorderRightColor(String v);
-
-	public void setBorderTopStyle(String v);
-
-	public void setBorderBottomStyle(String v);
-
-	public void setBorderLeftStyle(String v);
-
-	public void setBorderRightStyle(String v);
-
-	public void setDisplay(String v);
-
-	public void setOrphans(String v);
-
-	public void setWidows(String v);
-
-	public void setPageBreakAfter(String v);
-
-	public void setPageBreakBefore(String v);
-
-	public void setPageBreakInside(String v);
-
-	public void setMasterPage(String v);
-
-	public void setShowIfBlank(String v);
-
-	public void setCanShrink(String v);
-	
-	public void setName(String v);
-	
-	public void setNumberAlign(String v);
-	
-	public void setNumberFormat(String v);
-	
-	public void setStringFormat(String v);
-	
-	public void setDateTimeFormat(String v);
-
-
-	public boolean isSameStyle( Object o );
-
-	public boolean isEmpty( );
-
+	boolean isEmpty( );
 }

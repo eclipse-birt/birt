@@ -1,0 +1,70 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.content;
+
+/**
+ * 
+ * The content of foreign object is not handle by report engine.
+ * 
+ * It is the object's responsibility to convert itself to standard content type.
+ * 
+ * Such as object described in HTML/RTF or other format.
+ * 
+ * For foreign object in "text/html" format, the PDF writer output the standard
+ * content while the HTML writer output the raw value directly.
+ * 
+ * @version $Revision: 1.4 $ $Date: 2005/11/07 06:35:40 $
+ */
+public interface IForeignContent extends IContent
+{
+
+	/** the content is an string which contains HTML content */
+	public final String HTML_TYPE = "text/html";
+	/** the content is an string which contains plain text */
+	public final String TEXT_TYPE = "text/plaintext";
+	/** the content is an template */
+	public final String TEMPLATE_TYPE = "text/template";
+	/** the content is the output of a extenal item */
+	public final String EXTERNAL_TYPE = "object/external";
+	/** the content is an image content which define the image */
+	public final String IMAGE_TYPE = "binary/image";
+	/** the content is unkown */
+	public final String UNKNOWN_TYPE = "binary/unknown";
+	/** the object value */
+	public final String VALUE_TYPE = "binary/value";
+
+	/**
+	 * the orginal format of the object. such as: "text/html", "text/rtf",
+	 * "xml/svg" etc.
+	 * 
+	 * @return type of the content
+	 */
+	public String getRawType( );
+
+	void setRawType( String type );
+
+	/**
+	 * the orignal content describe in raw format.
+	 * 
+	 * @return Returns the content. Caller knows how to cast this object
+	 */
+	public Object getRawValue( );
+
+	void setRawValue( Object value );
+
+	/**
+	 * standard content of the foreign object.
+	 * 
+	 * @return
+	 */
+	IContent getContent( );
+}

@@ -15,14 +15,14 @@ package org.eclipse.birt.report.engine.ir;
  *  Visibility Rule Design
  * 
  * 
- * @version $Revision: 1.4 $  $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.2 $  $Date: 2005/09/20 07:55:31 $
  */
 public class VisibilityRuleDesign
 {
 	/** expression */
 	protected Expression expression;
 	/** format */
-	protected int format;
+	protected String format;
 	/**
 	 * @return Returns the expression.
 	 */
@@ -40,14 +40,14 @@ public class VisibilityRuleDesign
 	/**
 	 * @return Returns the format.
 	 */
-	public int getFormat( )
+	public String getFormat( )
 	{
 		return format;
 	}
 	/**
 	 * @param format The format to set.
 	 */
-	public void setFormat( int format )
+	public void setFormat( String format )
 	{
 		this.format = format;
 	}

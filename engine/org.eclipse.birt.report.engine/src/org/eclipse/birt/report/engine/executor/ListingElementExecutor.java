@@ -11,154 +11,192 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-
 /**
- * An abstract class that defines execution logic for a Listing element, 
- * which is the base element for table and list items.
+ * An abstract class that defines execution logic for a Listing element, which
+ * is the base element for table and list items.
  */
-public abstract class ListingElementExecutor extends StyledItemExecutor
+public abstract class ListingElementExecutor extends QueryItemExecutor
 {
 
 	/**
-	 * resultset for listing
+	 * the cursor position in the query result.
 	 */
-	protected IResultSet rs;
+	protected int rsetCursor;
 
 	/**
-	 * group count
+	 * emitter used to output the content
 	 */
-	protected int groupCount = 0;
+	protected IContentEmitter outputEmitter;
 
 	/**
-	 * report emitter
-	 */
-	protected IReportEmitter emitter;
-	
-	/**
-	 * listing item design
-	 */
-	protected ListingDesign listingItem; 
-
-	/**
-	 * @param context execution context
-	 * @param visitor the visitor object that drives exection 
+	 * @param context
+	 *            execution context
+	 * @param visitor
+	 *            the visitor object that drives exection
 	 */
 	protected ListingElementExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#execute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
-	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
+	/**
+	 * access the query and create the contents. the execution process is:
+	 * <li> the cursor is at the begin of result set.
+	 * <li> call listing's onStart event
+	 * <li> create the header
+	 * <li> for each row:
+	 * <ul>
+	 * <li> call onRow event.
+	 * <li> if the row start some groups, create the group header for that
+	 * group.
+	 * <li> create the detail row.
+	 * <li> if the row end some groups, create the group footer for that group.
+	 * </ul>
+	 * <li> create the footer.
+	 * <li> call the onFinish event.
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
-		this.emitter = emitter;
-		this.listingItem = (ListingDesign)item;
-		groupCount = getGroupCount( item );
+		ListingDesign listing = (ListingDesign) design;
+
+		rsetCursor = -1;
+		outputEmitter = emitter;
+
+		if ( context.isInFactory( ) && listing.getOnStart( ) != null )
+		{
+			context.execute( listing.getOnStart( ) );
+		}
+
+		int groupCount = listing.getGroupCount( );
+		int NONE_GROUP = groupCount + 1;
+		int groupIndex;
+
+		accessHeader( listing, outputEmitter );
+
+		if ( rset != null )
+		{
+			while ( rset.next( ) )
+			{
+				rsetCursor++;
+				if ( context.isInFactory( ) && listing.getOnRow( ) != null )
+				{
+					context.execute( listing.getOnRow( ) );
+				}
+				int startGroup = rset.getStartingGroupLevel( );
+				if ( startGroup != NONE_GROUP )
+				{
+					// It start the group startGroup. It also start the
+					// groups from startGroup to groupCount.
+					groupIndex = startGroup - 1;
+					if ( groupIndex < 0 )
+					{
+						groupIndex = 0;
+					}
+					while ( groupIndex < groupCount )
+					{
+						accessGroupHeader( listing, groupIndex, outputEmitter );
+						groupIndex++;
+					}
+				}
+
+				accessDetail( listing, outputEmitter );
+				int endGroup = rset.getEndingGroupLevel( );
+				if ( endGroup != NONE_GROUP )
+				{
+					// the endGroup has terminate, it also termiate the groups
+					// from endGroup-1
+					// to groupCount-1.
+					endGroup = endGroup - 1;
+					if ( endGroup < 0 )
+					{
+						endGroup = 0;
+					}
+					groupIndex = groupCount - 1;
+					while ( groupIndex >= endGroup )
+					{
+						accessGroupFooter( listing, groupIndex, outputEmitter );
+						groupIndex--;
+					}
+				}
+			}
+		}
+		
+		accessFooter( listing, outputEmitter );
+
+		if ( context.isInFactory( ) && listing.getOnFinish( ) != null )
+		{
+			context.execute( listing.getOnFinish( ) );
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * create the group header
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
+	 * @param list
+	 *            listing design
+	 * @param index
+	 *            group index.
+	 * @param emitter
+	 *            output emitter
 	 */
+	abstract protected void accessGroupHeader( ListingDesign list, int index,
+			IContentEmitter emitter );
+
+	/**
+	 * create the group footer.
+	 * 
+	 * @param list
+	 *            list design
+	 * @param index
+	 *            group index
+	 * @param emitter
+	 *            output emitter
+	 */
+	abstract protected void accessGroupFooter( ListingDesign list, int index,
+			IContentEmitter emitter );
+
+	/**
+	 * create detail band.
+	 * 
+	 * @param list
+	 *            listing design.
+	 * @param emitter
+	 *            output emitter
+	 */
+	abstract protected void accessDetail( ListingDesign list,
+			IContentEmitter emitter );
+
+	/**
+	 * create the header band
+	 * 
+	 * @param list
+	 *            listing design
+	 * @param emitter
+	 *            output emitter
+	 */
+	abstract protected void accessHeader( ListingDesign list,
+			IContentEmitter emitter );
+
+	/**
+	 * create the footer band.
+	 * 
+	 * @param list
+	 *            listing design.
+	 * @param emitter
+	 *            output emitter
+	 */
+	abstract protected void accessFooter( ListingDesign list,
+			IContentEmitter emitter );
+
 	public void reset( )
 	{
-		rs = null;
-		groupCount = 0;
-		emitter = null;
-		listingItem = null;
+		this.rsetCursor = -1;
+		super.reset( );
 	}
-
-
-	/**
-	 * This function access a goup level of report The top level group is 0 The
-	 * steps as follows:
-	 * <li>access group header
-	 * <li>access lower group level
-	 * <li>access group footer
-	 * <li>if the group level is not finished, move the cursor to next, and go
-	 * to the first step
-	 * 
-	 * @param index
-	 *            the group index
-	 */
-	protected void accessGroupOnce( int index )
-	{
-		accessGroupHeader( index );
-		accessGroup( index + 1 );
-		accessGroupFooter( index );
-	}
-
-	/**
-	 * access a group defined for a listing element
-	 * 
-	 * @param index group index
-	 */
-	protected void accessGroup( int index )
-	{
-		if ( index == groupCount )
-		{
-			accessDetailOnce( );
-			//while ( !rs.isGroupEnd( index ) )
-			while ( rs.getEndingGroupLevel() > groupCount)
-			{
-				rs.next( );
-				context.execute(listingItem.getOnRow());
-				accessDetailOnce( );
-			}
-			return;
-		}
-		accessGroupOnce( index );
-		while (rs.getEndingGroupLevel( ) > index )
-		{
-			rs.next( );
-			accessGroupOnce( index );
-		}
-	}
-	
-	/**
-	 * get group count
-	 * @param item the report item that is a listing type element
-	 * @return the number of groups defined for the element
-	 */
-	protected abstract int getGroupCount( ReportItemDesign item );
-
-	/**
-	 * access Listing header
-	 */
-	protected abstract void accessHeader( );
-
-	/**
-	 * access Listing footer
-	 */
-	protected abstract void accessFooter( );
-
-	/**
-	 * access detail band
-	 */
-	protected abstract void accessDetailOnce( );
-
-	/**
-	 * access listing group header
-	 * @param index the group index
-	 */
-	protected abstract void accessGroupHeader( int index );
-
-	/**
-	 * access listing group footer
-	 * @param index the group index
-	 */
-	protected abstract void accessGroupFooter( int index );
-
 }

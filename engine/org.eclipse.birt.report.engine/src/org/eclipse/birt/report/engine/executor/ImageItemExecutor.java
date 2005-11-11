@@ -17,13 +17,12 @@ import java.net.URLDecoder;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.impl.ImageItemContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
@@ -55,9 +54,9 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.20 $ $Date: 2005/10/18 09:27:59 $
+ * @version $Revision: 1.21 $ $Date: 2005/10/19 11:03:05 $
  */
-public class ImageItemExecutor extends StyledItemExecutor
+public class ImageItemExecutor extends QueryItemExecutor
 {
 
 	/**
@@ -69,255 +68,270 @@ public class ImageItemExecutor extends StyledItemExecutor
 	 *            The report visitor.
 	 */
 	public ImageItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * execute the image.
+	 * The execution process is:
+	 * 
+	 * <li> create the image content
+	 * <li> push it into the stack
+	 * <li> open the query and seek to the first record
+	 * <li> intialize the content
+	 * <li> process action, bookmark, style and visibility
+	 * <li> process the image content
+	 * <li> execute the onCreate if necessary
+	 * <li> call emitter to output the image
+	 * <li> close query
+	 * <li> popup the image
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#excute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		assert item instanceof ImageItemDesign;
 		ImageItemDesign imageItem = (ImageItemDesign) item;
+		IImageContent imageContent = report.createImageContent( );
+		IContent parent = context.getContent( );
+		context.pushContent( imageContent );
 
-		IReportItemEmitter imageEmitter = emitter.getEmitter( "image" ); //$NON-NLS-1$
-		if ( imageEmitter == null )
+		openResultSet( item );
+		accessQuery( item, emitter );
+
+		initializeContent( parent, item, imageContent );
+
+		// handle the Action and Bookmark values
+		processAction( item, imageContent );
+		processBookmark( item, imageContent );
+		processStyle( item, imageContent );
+		processVisibility( item, imageContent );
+
+		handleImage( imageItem, imageContent );
+
+		// execute the onCreate
+		if (context.isInFactory())
 		{
-			return;
+			context.execute( item.getOnCreate( ) );
 		}
+		// forward to emitter for further processing
+		if ( emitter != null )
+		{
+			emitter.startImage( imageContent );
+		}
+		closeResultSet( );
+		context.popContent( );
 
-		// Initializes
-		ImageItemContent imageContent = (ImageItemContent)ContentFactory
-				.createImageContent( imageItem, context.getContentObject( ) );
+	}
 
-		context.enterScope(imageContent);
-		
-		imageContent.setHelpText( getLocalizedString( imageItem
-				.getHelpTextKey( ), imageItem.getHelpText( ) ) );
-		imageContent.setAltText( getLocalizedString(
-				imageItem.getAltTextKey( ), imageItem.getAltText( ) ) );		
-		String fileExt = null;
-
+	protected void handleImage( ImageItemDesign imageDesign,
+			IImageContent imageContent )
+	{
 		// Handles the image according to its type
-		switch ( imageItem.getImageSource( ) )
+		switch ( imageDesign.getImageSource( ) )
 		{
 			case ImageItemDesign.IMAGE_URI : // URI
-				Expression expr = imageItem.getImageUri( );
-				assert expr != null;
-				Object uriObj = context.evaluate(expr);
-				String strUri = null;
-				if(uriObj!=null)
+				Expression imageExpr = imageDesign.getImageUri( );
+				if (imageExpr != null)
 				{
-					strUri = uriObj.toString();
+					handleURIImage( imageExpr, imageContent );
 				}
-				else if(expr.getExpression()!=null && expr.getExpression().length()>0)
-				{
-					strUri = expr.getExpression().toString();
-				}
-				URL uri = null;
-				try
-				{
-					uri = new URL(strUri);
-				}
-				catch (MalformedURLException e1)
-				{
-					
-				}
-
-				if( uri!=null && !uri.getProtocol().equals("file"))
-				{
-					imageContent.setUri(strUri );
-					imageContent.setImageSource(ImageItemDesign.IMAGE_URI);
-					break;
-				}
-                
-				
+				break;
 
 			case ImageItemDesign.IMAGE_FILE : // File
-				String imageFile = null;
-				Expression exprFile = imageItem.getImageUri( );
-				assert exprFile != null;
-				Object file = context.evaluate(exprFile);
-				if(file!=null)
-				{
-					imageFile = file.toString() ;
-				}
-				else if(exprFile.getExpression()!=null && exprFile.getExpression().length()>0)
-				{
-					imageFile = exprFile.getExpression().toString() ;
-				}
-				//image file may be file: or a file path.
-				try
-				{
-					URL url = new URL( imageFile );
-					if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
-					{
-						imageFile = URLDecoder.decode( url.getFile( ) );
-					}
-				}
-				catch ( MalformedURLException ex )
-				{
-					//imageFile is a file name
-				}
-
-				imageFile = FileUtil.getAbsolutePath( context.getReport( )
-						.getBasePath( ), imageFile );
-				imageContent.setExtension( FileUtil.getExtFromFileName(
-						imageFile, FileUtil.SEPARATOR_PATH ) );
-				//Here uses the absolute file name as the URI for the image
-				// resource. The content of the file is loaded lazily to improve
-				// the performance.
-				imageContent.setUri( imageFile );
-				imageContent.setImageSource(ImageItemDesign.IMAGE_FILE);
-
-				if ( imageFile == null )
-				{
-					logger.log( Level.SEVERE,
-							"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
-					context.addException( new EngineException(
-							MessageConstants.MISSING_IMAGE_FILE_ERROR));
-
-				}
+				Expression fileExpr = imageDesign.getImageUri( );
+				assert fileExpr != null;
+				handleFileImage( fileExpr, imageContent );
 				break;
 
 			case ImageItemDesign.IMAGE_NAME : // embedded image
-				String imageName;
-
-				imageName = imageItem.getImageName( );
+				String imageName = imageDesign.getImageName( );
 				assert imageName != null;
-				imageContent.setUri( null );
 
-				try
-				{
-					EmbeddedImage embeddedImage = context.getReport( )
-							.getReportDesign( ).findImage( imageName );
-					if ( embeddedImage != null )
-					{
-						imageContent.setData( embeddedImage.getData( ) );
-						String extension = FileUtil
-								.getExtFromType( embeddedImage.getType( ) );
-						if ( extension != null )
-						{
-							imageContent.setExtension( extension );
-						}
-						
-						imageContent.setUri( imageName );
-						imageContent.setImageSource(ImageItemDesign.IMAGE_NAME);
-					}
-				}
-				catch ( Exception e )
-				{
-				    logger.log( Level.SEVERE, "[ImageItemExecutor] Fail to handle embedded image with an exception below:", e ); //$NON-NLS-1$
-				    context
-							.addException( new EngineException(
-									MessageConstants.EMBEDDED_IMAGE_ERROR,  e ) );//$NON-NLS-1$
-				}
-
+				handleNamedImage( imageName, imageContent );
 				break;
 
-			case ImageItemDesign.IMAGE_EXPRESSION : // get image from database
-				assert imageItem.getImageExpression( ) != null;
-				
-				IResultSet rs = null;
-				Expression imgExpr = imageItem.getImageExpression( );
-				String exprStr = (imgExpr==null ? null : imgExpr.getExpr()); 
-				try
-				{
-					rs = openResultSet( item );
-					
-					if ( rs != null )
-					{
-						rs.next( );
-					}
-					
-					Object value = context.evaluate( imgExpr );
-					byte[] blob = null;
-					if ( value != null
-							&& value.getClass( ).isArray( )
-							&& value.getClass( ).getComponentType( ) == byte.class )
-					{
-						blob = (byte[]) value;
-					}
-					Expression fmtExpr = imageItem.getImageFormat( );
-					if ( fmtExpr != null )
-					{
-						Object strValue = context.evaluate( fmtExpr );
-						if ( strValue != null )
-						{
-							fileExt = strValue.toString( );
-							fileExt = FileUtil.getExtFromType( fileExt );
-						}
-					}
+			case ImageItemDesign.IMAGE_EXPRESSION : // get image from
+				// database
 
-					if ( blob != null )
-					{
-						imageContent.setData( blob );
-						imageContent.setExtension( fileExt );
-						imageContent.setUri( null );
-						imageContent.setImageSource(ImageItemDesign.IMAGE_EXPRESSION);
-					}
-					else
-					{
-					    logger.log( Level.SEVERE, "[ImageItemExecutor] cannot query image data from database"); //$NON-NLS-1$
-					    
-					    context
-								.addException( new EngineException(MessageConstants.DATABASE_IMAGE__ERROR, exprStr ));//$NON-NLS-1$
+				Expression imgExpr = imageDesign.getImageExpression( );
+				Expression fmtExpr = imageDesign.getImageFormat( );
+				assert imgExpr != null;
 
-					}					
-				}
-				catch ( Exception e )
-				{
-				    logger.log( Level.SEVERE,"[ImageItemExecutor] fail to handle database image with an exception below:", e ); //$NON-NLS-1$
-				    context
-							.addException( new EngineException(MessageConstants.DATABASE_IMAGE__ERROR, exprStr ,  e ) );
-
-				}
-				finally
-				{
-					closeResultSet( rs );
-				}
+				handleValueImage( imgExpr, fmtExpr, imageContent );
 
 				break;
-
 			default :
-			    logger.log( Level.SEVERE, "[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
+				logger.log( Level.SEVERE,
+						"[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
 				context.addException( new EngineException(
-						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ));
+						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ) );
 
 				assert false;
 		}
-
-		// handle the Action and Bookmark values
-		processAction( imageItem.getAction( ), imageContent );
-		String bookmarkStr = evalBookmark( item );
-		if ( bookmarkStr != null )
-			imageContent.setBookmarkValue( bookmarkStr );
-
-		setStyles( imageContent, item );
-		setVisibility( item, imageContent );
-		// forward to emitter for further processing
-
-		context.evaluate(item.getOnCreate());
-		
-		context.exitScope();
-		
-		imageEmitter.start( imageContent );
-		imageEmitter.end( );
-		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
-	 */
-	public void reset( )
+	protected void handleURIImage( Expression uriExpr,
+			IImageContent imageContent )
+	{
+		// the expression is an expression, but UI may use
+		// the expression as the string constants, so first try
+		// to evaluate, if there are some errors, use it as a
+		// string.
+		imageContent.setImageSource( IImageContent.IMAGE_URI );
+		
+		assert uriExpr != null;
+		Object uriObj = context.evaluate( uriExpr );
+		String strUri = null;
+		if ( uriObj != null )
+		{
+			strUri = uriObj.toString( );
+		}
+		else if ( uriExpr.getExpression( ) != null
+				&& uriExpr.getExpression( ).length( ) > 0 )
+		{
+			strUri = uriExpr.getExpression( ).toString( );
+		}
+		URL uri = null;
+		try
+		{
+			uri = new URL( strUri );
+		}
+		catch ( MalformedURLException e1 )
+		{
+		}
+		if ( uri != null )
+		{
+			if ( uri.getProtocol( ).equals( "file" ) )
+			{
+				handleFileImage( strUri, imageContent );
+			}
+			else
+			{
+				imageContent.setURI( strUri );
+			}
+		}
+		else
+		{
+			handleFileImage( strUri, imageContent );
+		}
+	}
+
+	protected void handleNamedImage( String imageName, IImageContent imageContent )
+	{
+		imageContent.setImageSource( IImageContent.IMAGE_NAME );
+		imageContent.setURI( null );
+
+		EmbeddedImage embeddedImage = context.getReport( ).getReportDesign( )
+				.findImage( imageName );
+		if ( embeddedImage != null )
+		{
+			imageContent.setData( embeddedImage.getData( ) );
+			String extension = FileUtil
+					.getExtFromType( embeddedImage.getType( ) );
+			if ( extension != null )
+			{
+				imageContent.setExtension( extension );
+			}
+
+			imageContent.setURI( imageName );
+		}
+
+	}
+
+	protected void handleValueImage( Expression imgExpr, Expression fmtExpr,
+			IImageContent imageContent )
+	{
+		byte[] imgData = null;
+		String imgExt = "";
+
+		imageContent.setImageSource( IImageContent.IMAGE_EXPRESSION );
+		
+		Object value = context.evaluate( imgExpr );
+		if ( value instanceof byte[] )
+		{
+			imgData = (byte[]) value;
+		}
+		if ( fmtExpr != null )
+		{
+			Object strValue = context.evaluate( fmtExpr );
+			if ( strValue != null )
+			{
+				imgExt = strValue.toString( );
+				imgExt = FileUtil.getExtFromType( imgExt );
+			}
+		}
+
+		if ( imgData != null )
+		{
+			imageContent.setData( imgData );
+			imageContent.setExtension( imgExt );
+			imageContent.setURI( null );
+		}
+	}
+
+	protected void handleFileImage( Expression fileExpr,
+			IImageContent imageContent )
+	{
+		String imageFile = "";
+		Object file = context.evaluate( fileExpr );
+		if ( file != null )
+		{
+			imageFile = file.toString( );
+		}
+		else if ( fileExpr.getExpression( ) != null
+				&& fileExpr.getExpression( ).length( ) > 0 )
+		{
+			imageFile = fileExpr.getExpression( ).toString( );
+		}
+		handleFileImage( imageFile, imageContent );
+	}
+
+	protected void handleFileImage( String imageFile, IImageContent imageContent )
 	{
 
+		// image file may be file: or a file path.
+		try
+		{
+			URL url = new URL( imageFile );
+			if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+			{
+				try
+				{
+					imageFile = URLDecoder.decode( url.getFile( ), "UTF-8" );
+				}
+				catch ( Exception ex )
+				{
+					imageFile = url.getFile( );
+				}
+			}
+		}
+		catch ( MalformedURLException ex )
+		{
+			// imageFile is a file name
+		}
+
+		imageFile = FileUtil.getAbsolutePath( context.getReport( )
+				.getBasePath( ), imageFile );
+		imageContent.setExtension( FileUtil.getExtFromFileName( imageFile,
+				FileUtil.SEPARATOR_PATH ) );
+		// Here uses the absolute file name as the URI for the image
+		// resource. The content of the file is loaded lazily to
+		// improve
+		// the performance.
+		imageContent.setURI( imageFile );
+		imageContent.setImageSource( IImageContent.IMAGE_FILE );
+
+		if ( imageFile == null )
+		{
+			logger.log( Level.SEVERE,
+					"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
+			context.addException( new EngineException(
+					MessageConstants.MISSING_IMAGE_FILE_ERROR ) );
+
+		}
 	}
 }

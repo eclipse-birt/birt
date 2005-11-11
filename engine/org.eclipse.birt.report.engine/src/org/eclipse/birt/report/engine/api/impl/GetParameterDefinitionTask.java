@@ -51,7 +51,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		implements
 			IGetParameterDefinitionTask
 {
-
+	
 	// stores all parameter definitions. Each task clones the parameter
 	// definition information
 	// so that Engine IR (repor runnable) can keep a task-independent of the
@@ -84,11 +84,11 @@ public class GetParameterDefinitionTask extends EngineTask
 		Collection original = ( (ReportRunnable) runnable )
 				.getParameterDefns( includeParameterGroups );
 		Iterator iter = original.iterator( );
-
+		
 		// Clone parameter definitions, fill in locale and report dsign
 		// information
 		parameterDefns = new ArrayList( );
-
+		
 		while ( iter.hasNext( ) )
 		{
 			ParameterDefnBase pBase = (ParameterDefnBase) iter.next( );
@@ -101,7 +101,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				log.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
-
+		
 		if ( parameterDefns != null )
 		{
 			iter = parameterDefns.iterator( );
@@ -146,7 +146,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	public void evaluateDefaults( ) throws EngineException
 	{
 	}
-
+		
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -156,9 +156,9 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		IParameterDefnBase ret = null;
 		if ( name == null )
-		{
+	{
 			return ret;
-		}
+	}
 
 		Collection original = ( (ReportRunnable) runnable )
 				.getParameterDefns( false );
@@ -276,9 +276,9 @@ public class GetParameterDefinitionTask extends EngineTask
 		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
-		{
-			return null;
-		}
+	{
+		return null;
+	}
 
 		usingParameterValues( );
 
@@ -317,7 +317,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			String valueExpr = parameter.getValueExpr();
 			String labelExpr = parameter.getLabelExpr();
             int limit = parameter.getListlimit();
-			
+		
 			return createDynamicSelectionChoices(dataSetName, labelExpr, valueExpr, dataType, limit, fixedOrder);
 		}
 		else if ( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC
@@ -376,7 +376,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		return value;
 	}
-
+		
 	/**
 	 * get selection choices from the data set.
 	 * 
@@ -395,7 +395,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		ArrayList choices = new ArrayList( );
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
-
+		
 		DataSetHandle dataSet = report.findDataSet( dataSetName );
 		if ( dataSet != null )
 		{
@@ -468,8 +468,8 @@ public class GetParameterDefinitionTask extends EngineTask
                     if ( (limit != 0) &&
                          (count >= limit) )
                     {
-                        break;
-                    }
+					break;
+				}
 					iter.skipToEnd( 1 ); // Skip all of the duplicate values
                         
 				}
@@ -560,9 +560,9 @@ public class GetParameterDefinitionTask extends EngineTask
 						GroupDefinition groupDef = new GroupDefinition( );
 						groupDef.setKeyExpression( valueExpString );
 						queryDefn.addGroup( groupDef );
-					}
-				}
-
+			}
+		}
+		
 				IPreparedQuery query = dataEngine.prepare( queryDefn );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
@@ -571,11 +571,11 @@ public class GetParameterDefinitionTask extends EngineTask
 				return;
 			}
 			catch ( BirtException ex )
-			{
+		{
 				ex.printStackTrace( );
 			}
 		}
-
+				
 		dataCache.put( parameterGroup.getName( ), null );
 	}
 
@@ -603,7 +603,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getSelectionListForCascadingGroup(
 			String parameterGroupName, Object[] groupKeyValues )
-	{
+			{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
 			return null;
@@ -637,7 +637,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		ArrayList choices = new ArrayList( );
 		try
-		{
+				{
 			if ( skipLevel > 1 )
 				iter.findGroup( groupKeyValues );
 
@@ -658,11 +658,11 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				int endGroupLevel = iter.getEndingGroupLevel();
 				if (endGroupLevel <= startGroupLevel)
-				{
+					{
 					break;
+					}
 				}
 			}
-		}
 		catch ( BirtException e )
 		{
 			e.printStackTrace( );

@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.engine.content.IStyle;
 
 
 /**
  * Master Page
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/18 04:47:49 $
+ * @version $Revision: 1.7 $ $Date: 2005/10/19 11:03:03 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {
@@ -57,6 +59,8 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	protected String orientation;
 
 	protected IStyle contentStyle = null;
+	
+	protected ArrayList regions = new ArrayList();
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
@@ -208,6 +212,11 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	public void setContentStyle( IStyle contentStyle)
 	{
 		this.contentStyle = contentStyle;
+	}
+	
+	public ArrayList getRegions()
+	{
+		return regions;
 	}
 
 }

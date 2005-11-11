@@ -14,11 +14,12 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * Wraps around a parameter selection choice
@@ -26,7 +27,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 public class ParameterSelectionChoice implements IParameterSelectionChoice, Cloneable
 {
 	protected Locale locale;
-	protected ReportDesign design;
+	protected ReportDesignHandle design;
 	protected String label;
 	protected String labelKey;
 	
@@ -37,9 +38,9 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	/**
 	 * @param design the report design
 	 */
-	public ParameterSelectionChoice(ReportDesign design)
+	public ParameterSelectionChoice(ReportDesignHandle handle)
 	{
-		this.design = design;
+		this.design = handle;
 	}
 	
 	/**

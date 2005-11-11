@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 
  * Tabel item.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.6 $ $Date: 2005/05/08 06:59:45 $
  */
 public class TableItemDesign extends ListingDesign
 {
@@ -39,10 +39,7 @@ public class TableItemDesign extends ListingDesign
 	 * header band
 	 */
 	protected TableBandDesign header;
-	/**
-	 * group definition
-	 */
-	protected ArrayList groups = new ArrayList( );
+
 	/**
 	 * detail band
 	 */
@@ -67,9 +64,9 @@ public class TableItemDesign extends ListingDesign
 	 * 
 	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
 	 */
-	public void accept( IReportItemVisitor visitor )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		visitor.visitTableItem( this );
+		visitor.visitTableItem( this, value );
 	}
 
 	/**
@@ -156,11 +153,6 @@ public class TableItemDesign extends ListingDesign
 	public void setFooter( TableBandDesign footer )
 	{
 		this.footer = footer;
-	}
-
-	public int getGroupCount( )
-	{
-		return this.groups.size( );
 	}
 
 	public TableGroupDesign getGroup( int index )

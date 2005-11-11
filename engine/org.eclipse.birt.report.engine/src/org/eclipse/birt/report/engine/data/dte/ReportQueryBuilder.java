@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -40,13 +41,13 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
-import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
@@ -69,12 +70,10 @@ import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
-import org.eclipse.birt.report.engine.ir.StyleDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
-import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -88,15 +87,12 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.32 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.33 $ $Date: 2005/10/19 11:03:06 $
  */
 public class ReportQueryBuilder
 {
@@ -188,7 +184,7 @@ public class ReportQueryBuilder
 
 			// visit report
 			for ( int i = 0; i < report.getContentCount( ); i++ )
-				report.getContent( i ).accept( this );
+				report.getContent( i ).accept( this, null);
 		}
 
 		/**
@@ -231,12 +227,12 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign)
 		 */
-		public void visitFreeFormItem( FreeFormItemDesign container )
+		public void visitFreeFormItem( FreeFormItemDesign container, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( container );
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
-				container.getItem( i ).accept( this );
+				container.getItem( i ).accept( this , value);
 
 			finishVisit( query );
 		}
@@ -246,18 +242,18 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitGridItem(org.eclipse.birt.report.engine.ir.GridItemDesign)
 		 */
-		public void visitGridItem( GridItemDesign grid )
+		public void visitGridItem( GridItemDesign grid, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( grid );
 
 			for ( int i = 0; i < grid.getColumnCount( ); i++ )
 			{
-				ColumnDesign column = grid.getColumn( i );
-				handleStyle( column.getStyle( ) );
+				//ColumnDesign column = grid.getColumn( i );
+				//handleStyle( column.getStyle( ) );
 			}
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
-				handleRow( grid.getRow( i ) );
+				handleRow( grid.getRow( i ) ,value);
 
 			finishVisit( query );
 		}
@@ -267,7 +263,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitImageItem(org.eclipse.birt.report.engine.ir.ImageItemDesign)
 		 */
-		public void visitImageItem( ImageItemDesign image )
+		public void visitImageItem( ImageItemDesign image, Object value )
 		{
 			BaseQueryDefinition query = prepareVisit( image );
 
@@ -291,7 +287,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitLabelItem(org.eclipse.birt.report.engine.ir.LabelItemDesign)
 		 */
-		public void visitLabelItem( LabelItemDesign label )
+		public void visitLabelItem( LabelItemDesign label , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( label );
 			handleAction( label.getAction( ) );
@@ -303,7 +299,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitExtendedItem(org.eclipse.birt.report.engine.ir.ExtendedItemDesign)
 		 */
-		public void visitExtendedItem( ExtendedItemDesign item )
+		public void visitExtendedItem( ExtendedItemDesign item , Object value)
 		{
 			//create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
@@ -392,18 +388,18 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitListItem(org.eclipse.birt.report.engine.ir.ListItemDesign)
 		 */
-		public void visitListItem( ListItemDesign list )
+		public void visitListItem( ListItemDesign list , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( list );
 			if ( query == null )
 			{
-				visitListBand( list.getHeader( ) );
-				visitListBand( list.getFooter( ) );
+				visitListBand( list.getHeader( ), value);
+				visitListBand( list.getFooter( ), value );
 			}
 			else
 			{
 				pushExpressions( query.getBeforeExpressions( ) );
-				visitListBand( list.getHeader( ) );
+				visitListBand( list.getHeader( ), value );
 				popExpressions( );
 
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
@@ -411,7 +407,7 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < list.getGroupCount( ); i++ )
 				{
 					handleListGroup( list.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ) );
+							(GroupHandle) groupsSlot.get( i ) ,value);
 				}
 
 				if ( list.getDetail( ).getContentCount( ) != 0 )
@@ -420,11 +416,11 @@ public class ReportQueryBuilder
 				}
 
 				pushExpressions( query.getRowExpressions( ) );
-				visitListBand( list.getDetail( ) );
+				visitListBand( list.getDetail( ),value );
 				popExpressions( );
 
 				pushExpressions( query.getAfterExpressions( ) );
-				visitListBand( list.getFooter( ) );
+				visitListBand( list.getFooter( ),value );
 				popExpressions( );
 			}
 			finishVisit( query );
@@ -435,10 +431,10 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTextItem(org.eclipse.birt.report.engine.ir.TextItemDesign)
 		 */
-		public void visitTextItem( TextItemDesign text )
+		public void visitTextItem( TextItemDesign text , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( text );
-			if ( text.getDomTree( ) == null )
+/*			if ( text.getDomTree( ) == null )
 			{
 				String content = getLocalizedString( text.getTextKey( ), text
 						.getText( ) );
@@ -449,7 +445,19 @@ public class ReportQueryBuilder
 			if ( doc != null )
 			{
 				getEmbeddedExpression( doc.getFirstChild( ), text );
+			}*/
+			
+			HashMap exprs = text.getExpressions();
+			if (exprs != null)
+			{
+				Iterator iter = exprs.values().iterator();
+				while (iter.hasNext())
+				{
+					IBaseExpression expr = (IBaseExpression)iter.next();
+					addExpression(expr);
+				}
 			}
+			
 			finishVisit( query );
 		}
 
@@ -458,30 +466,30 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
-		public void visitTableItem( TableItemDesign table )
+		public void visitTableItem( TableItemDesign table , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( table );
 			for ( int i = 0; i < table.getColumnCount( ); i++ )
 			{
-				ColumnDesign column = table.getColumn( i );
-				handleStyle( column.getStyle( ) );
+				//ColumnDesign column = table.getColumn( i );
+				//handleStyle( column.getStyle( ) );
 			}
 			if ( query == null )
 			{
-				handleTableBand( table.getHeader( ) );
-				handleTableBand( table.getFooter( ) );
+				handleTableBand( table.getHeader( ) ,value);
+				handleTableBand( table.getFooter( ) ,value);
 			}
 			else
 			{
 				pushExpressions( query.getBeforeExpressions( ) );
-				handleTableBand( table.getHeader( ) );
+				handleTableBand( table.getHeader( ) ,value);
 				popExpressions( );
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
 				for ( int i = 0; i < table.getGroupCount( ); i++ )
 				{
 					handleTableGroup( table.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ) );
+							(GroupHandle) groupsSlot.get( i ) ,value);
 				}
 
 				if ( table.getDetail( ).getRowCount( ) != 0 )
@@ -490,11 +498,11 @@ public class ReportQueryBuilder
 				}
 
 				pushExpressions( query.getRowExpressions( ) );
-				handleTableBand( table.getDetail( ) );
+				handleTableBand( table.getDetail( ),value );
 				popExpressions( );
 
 				pushExpressions( query.getAfterExpressions( ) );
-				handleTableBand( table.getFooter( ) );
+				handleTableBand( table.getFooter( ),value );
 				popExpressions( );
 			}
 			finishVisit( query );
@@ -505,7 +513,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitMultiLineItem(org.eclipse.birt.report.engine.ir.MultiLineItemDesign)
 		 */
-		public void visitMultiLineItem( MultiLineItemDesign multiLine )
+		public void visitMultiLineItem( MultiLineItemDesign multiLine , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( multiLine );
 
@@ -519,7 +527,7 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.IReportItemVisitor#visitDataItem(org.eclipse.birt.report.engine.ir.DataItemDesign)
 		 */
-		public void visitDataItem( DataItemDesign data )
+		public void visitDataItem( DataItemDesign data , Object value)
 		{
 			BaseQueryDefinition query = prepareVisit( data );
 			handleReportItemExpressions( data );
@@ -544,9 +552,9 @@ public class ReportQueryBuilder
 							.getExpression( ) );
 				}
 			}
+			addExpression( item.getTOC());
 			addExpression( item.getBookmark( ) );
-			addExpression( item.getOnCreate( ) );
-			handleStyle( item.getStyle( ) );
+			//handleStyle( item.getStyle( ) );
 			handleHighlightExpressions( item.getHighlight( ) );
 			handleMapExpressions( item.getMap( ) );
 		}
@@ -555,11 +563,11 @@ public class ReportQueryBuilder
 		 * @param band
 		 *            the list band
 		 */
-		protected void visitListBand( ListBandDesign band )
+		protected void visitListBand( ListBandDesign band , Object value)
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
-				band.getContent( i ).accept( this );
+				band.getContent( i ).accept( this ,value);
 			}
 		}
 
@@ -570,16 +578,16 @@ public class ReportQueryBuilder
 		 *            handle to a grouping element
 		 */
 		protected void handleListGroup( ListGroupDesign group,
-				GroupHandle handle )
+				GroupHandle handle, Object value )
 		{
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
-			visitListBand( group.getHeader( ) );
+			visitListBand( group.getHeader( ) , value);
 			popExpressions( );
 
 			pushExpressions( groupDefn.getAfterExpressions( ) );
-			visitListBand( group.getFooter( ) );
+			visitListBand( group.getFooter( ) , value);
 			popExpressions( );
 			popQuery( );
 		}
@@ -617,26 +625,26 @@ public class ReportQueryBuilder
 		/**
 		 * processes a band in a table
 		 */
-		protected void handleTableBand( TableBandDesign band )
+		protected void handleTableBand( TableBandDesign band , Object value)
 		{
 			for ( int i = 0; i < band.getRowCount( ); i++ )
-				handleRow( band.getRow( i ) );
+				handleRow( band.getRow( i ) , value);
 		}
 
 		/**
 		 * processes a table group
 		 */
 		protected void handleTableGroup( TableGroupDesign group,
-				GroupHandle handle )
+				GroupHandle handle , Object value)
 		{
 			IGroupDefinition groupDefn = handleGroup( group, handle );
 			pushQuery( groupDefn );
 			pushExpressions( groupDefn.getBeforeExpressions( ) );
-			handleTableBand( group.getHeader( ) );
+			handleTableBand( group.getHeader( ) ,value);
 			popExpressions( );
 
 			pushExpressions( groupDefn.getAfterExpressions( ) );
-			handleTableBand( group.getFooter( ) );
+			handleTableBand( group.getFooter( ),value );
 			popExpressions( );
 			popQuery( );
 		}
@@ -647,7 +655,7 @@ public class ReportQueryBuilder
 		 * @param style
 		 *            style design
 		 */
-		protected void handleStyle( StyleDesign style )
+		protected void handleStyle( IStyle style )
 		{
 			/*
 			 * if ( style != null ) { handleHighlight( style.getHighlight( ) );
@@ -732,9 +740,9 @@ public class ReportQueryBuilder
 		/**
 		 * visit content of a row
 		 */
-		protected void handleRow( RowDesign row )
+		protected void handleRow( RowDesign row, Object value)
 		{
-			handleStyle( row.getStyle( ) );
+			//handleStyle( row.getStyle( ) );
 			if ( row.getVisibility( ) != null )
 			{
 				for ( int i = 0; i < row.getVisibility( ).count( ); i++ )
@@ -747,7 +755,7 @@ public class ReportQueryBuilder
 				CellDesign cell = row.getCell(i);
 				if (cell != null)
 				{
-					handleCell( cell );
+					handleCell( cell , value);
 				}
 			}
 		}
@@ -755,11 +763,11 @@ public class ReportQueryBuilder
 		/**
 		 * handles a cell in a row
 		 */
-		protected void handleCell( CellDesign cell )
+		protected void handleCell( CellDesign cell , Object value)
 		{
-				handleStyle( cell.getStyle( ) );
+				//handleStyle( cell.getStyle( ) );
 				for ( int i = 0; i < cell.getContentCount( ); i++ )
-					cell.getContent( i ).accept( this );
+					cell.getContent( i ).accept( this , value);
 		}
 
 		/**
@@ -982,7 +990,7 @@ public class ReportQueryBuilder
 		 * @param text
 		 *            the text object
 		 */
-		protected void getEmbeddedExpression( Node node, TextItemDesign text )
+/*		protected void getEmbeddedExpression( Node node, TextItemDesign text )
 		{
 			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
@@ -1030,7 +1038,7 @@ public class ReportQueryBuilder
 				}
 			}
 
-		}
+		}*/
 
 		/**
 		 * create one Filter given a filter condition handle

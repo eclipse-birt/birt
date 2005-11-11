@@ -36,7 +36,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 *         IParameterDefn.
 	 */
 	public abstract Collection getParameterDefns(boolean includeParameterGroups);
-
+	
 	/**
 	 * returns the parameter definition given the parameter name name
 	 * 
@@ -55,7 +55,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * @deprecated use getDefaultParameterValues() directly.
 	 */
 	public abstract void evaluateDefaults() throws EngineException;
-
+	
 	/**
 	 * Set one parameter value. If parameter does not exist in report design, do nothing. 
 	 * 
@@ -75,7 +75,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 * get default value by parameter name
 	 * 
 	 * @param param reference to a parameter 
-	 * @return default value for a parameter
+	 * @return default value for a parameter 
 	 */
 	public Object getDefaultValue(IParameterDefnBase param);
 	

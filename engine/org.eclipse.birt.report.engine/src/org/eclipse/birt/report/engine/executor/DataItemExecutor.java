@@ -11,31 +11,25 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.logging.Level;
-
-import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.impl.TextItemContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.emitter.IReportItemEmitter;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IDataContent;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.IReportItemVisitor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.model.elements.Style;
 
 /**
  * <code>DataItemExecutor</code> is a concrete subclass of
- * <code>StyledItemExecutor</code> that manipulates data items from database
+ * <code>QueryItemExecutor</code> that manipulates data items from database
  * columns, expressions and so on.
  * <p>
  * Data item executor calculates expressions in data item design, generate a
- * text content instance, set bookmark, action and help text property and pass
+ * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.14 $ $Date: 2005/06/22 02:48:16 $
+ * @version $Revision: 1.15 $ $Date: 2005/10/19 11:03:05 $
  */
-public class DataItemExecutor extends StyledItemExecutor
+public class DataItemExecutor extends QueryItemExecutor
 {
 
 	/**
@@ -48,101 +42,62 @@ public class DataItemExecutor extends StyledItemExecutor
 	 *            the emitter
 	 */
 	public DataItemExecutor( ExecutionContext context,
-			ReportExecutorVisitor visitor )
+			IReportItemVisitor visitor )
 	{
 		super( context, visitor );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * execute the data item.
+	 * 
+	 * <li> create the data content object
+	 * <li> push it to the stack
+	 * <li> open the data set, seek to the first record
+	 * <li> intialize the content object
+	 * <li> process the style, visiblitly, action and bookmark
+	 * <li> evaluate the expression, and map it to a predefined value.
+	 * <li> call the onCreate if necessary
+	 * <li> pass it to emitter
+	 * <li> close the data set if any
+	 * <li> pop the stack.
 	 * 
 	 * @see org.eclipse.birt.report.engine.excutor.ReportItemExecutor#execute()
 	 */
-	public void execute( ReportItemDesign item, IReportEmitter emitter )
+	public void execute( ReportItemDesign item, IContentEmitter emitter )
 	{
 		DataItemDesign dataItem = (DataItemDesign) item;
+		IDataContent dataObj = report.createDataContent( );
+		IContent parent = context.getContent( );
+		context.pushContent( dataObj );
 
-		IReportItemEmitter textEmitter = emitter.getEmitter( "text" ); //$NON-NLS-1$
-		/*
-		 * Getting item emitter returns null means that excuting this item is
-		 * not necessary. for example, items in masterpage for html emitter will
-		 * be discarded.
-		 */
-		if ( textEmitter == null )
+		openResultSet( item );
+		accessQuery( item, emitter );
+
+		initializeContent( parent, item, dataObj );
+
+		processAction( item, dataObj );
+		processBookmark( item, dataObj );
+		processStyle( item, dataObj );
+		processVisibility( item, dataObj );
+
+		Object value = context.evaluate( dataItem.getValue( ) );
+		// get the mapping value
+		value = getMappingValue( value, dataItem );
+
+		dataObj.setValue( value );
+
+		if ( context.isInFactory( ) )
 		{
-			return;
+			context.execute( item.getOnCreate( ) );
 		}
-		TextItemContent textObj = (TextItemContent) ContentFactory
-				.createTextContent( dataItem, context.getContentObject( ) );
 
-		IResultSet rs = null;
-		try
+		// pass the text content instance to emitter
+		if ( emitter != null )
 		{
-			context.enterScope(textObj);
-			rs = openResultSet( item );
-			if ( rs != null )
-			{
-				rs.next( );
-			}
-			Object value = context.evaluate( dataItem.getValue( ) );
-			//get the mapping value
-			value = getMapVal( value, dataItem );
-
-			textObj.setHelpText( getLocalizedString(
-					dataItem.getHelpTextKey( ), dataItem.getHelpText( ) ) );
-			setStyles( textObj, item );
-
-			StringBuffer formattedString = new StringBuffer( );
-			formatValue( value, null, dataItem.getStyle( ), formattedString ,textObj);
-			textObj.setValue( formattedString.toString( ) );
-
-			if ( value != null )
-			{
-				if ( value instanceof Number )
-				{
-					String numberAlign = textObj.getStyle( ).getNumberAlign();
-					if ( numberAlign != null )
-					{
-						// set number alignment
-						textObj.setStyleProperty( Style.TEXT_ALIGN_PROP,
-								numberAlign );
-					}
-				}
-			}
-
-			setVisibility( item, textObj );
-			processAction( dataItem.getAction( ), textObj );
-			String bookmarkStr = evalBookmark( item );
-			if ( bookmarkStr != null )
-				textObj.setBookmarkValue( bookmarkStr );
-			
-			context.evaluate(dataItem.getOnCreate());
-			
-			//pass the text content instance to emitter
-			textEmitter.start( textObj );
-			textEmitter.end( );
+			emitter.startData( dataObj );
 		}
-		catch(Throwable t)
-		{
-			logger.log( Level.SEVERE, "Error:", t);//$NON-NLS-1$
-			context.addException( new EngineException( MessageConstants.TEXT_PROCESSING_ERROR,
-					( item.getName( ) != null ? item.getName( ) : "" ),
-					t ) );//$NON-NLS-1$
-		}
-		finally
-		{
-			closeResultSet( rs );
-			context.exitScope();
-		}
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#reset()
-	 */
-	public void reset( )
-	{
-		//do nothing
+		closeResultSet();
+		context.popContent( );
 	}
 }

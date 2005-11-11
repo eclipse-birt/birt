@@ -38,41 +38,41 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Defines an engine task that could be executed, debugged (runs step by step),
- * inform caller for progress, etc.
+ * inform caller for progress, etc. 
  */
-public abstract class EngineTask implements IEngineTask
+public abstract class EngineTask implements IEngineTask 
 {
 
 	protected static Logger log = Logger
 			.getLogger( EngineTask.class.getName( ) );
-
+	
 	protected static int id = 0;
-
+	
 	/**
 	 * the contexts for running this task
 	 */
 	protected Map context;
-
+	
 	/**
 	 * a reference to the report engine
 	 */
 	protected ReportEngine engine;
-
+	
 	/**
 	 * Comment for <code>locale</code>
 	 */
 	protected Locale locale = Locale.getDefault( );
-
+	
 	/**
 	 * the execution context
 	 */
 	protected ExecutionContext executionContext;
-
+	
 	/**
 	 * task identifier. Could be used for logging
 	 */
 	protected int taskID;
-
+	
 	protected IReportRunnable runnable;
 
 	/**
@@ -89,7 +89,7 @@ public abstract class EngineTask implements IEngineTask
 	 * map between the input value and the default values.
 	 */
 	protected HashMap runValues = new HashMap( );
-
+	
 	/**
 	 * @param engine
 	 *            reference to report engine
@@ -101,16 +101,16 @@ public abstract class EngineTask implements IEngineTask
 	 *            applications
 	 */
 	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
-	{
+	{	
 		this.runnable = runnable;
 		this.engine = engine;
 		taskID = id++;
-
+		
 		executionContext = new ExecutionContext( engine, taskID );
 		executionContext.setRunnable( runnable );
 		executionContext.registerBeans( runnable.getTestConfig( ) );
 	}
-
+	
 	/**
 	 * @return Returns the locale.
 	 */
@@ -118,7 +118,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return locale;
 	}
-
+	
 	/**
 	 * sets the task locale
 	 * 
@@ -130,7 +130,7 @@ public abstract class EngineTask implements IEngineTask
 		this.locale = locale;
 		executionContext.setLocale( locale );
 	}
-
+	
 	/**
 	 * sets the task context
 	 * 
@@ -161,9 +161,9 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 	}
-
+	
 	/**
-	 * returns the object that encapsulates the context for running the task
+	 * returns the  object that encapsulates the context for running the task
 	 * 
 	 * @return Returns the context.
 	 */
@@ -197,7 +197,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		executionContext.registerBean( jsName, obj );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -207,7 +207,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return taskID;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -217,7 +217,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return this.runnable;
 	}
-
+	
 	protected Object convertToType( Object value, String type )
 	{
 		try
@@ -316,7 +316,7 @@ public abstract class EngineTask implements IEngineTask
 
 		// Handle null parameter values
 		if ( paramValue == null )
-		{
+			{
 			if ( paramHandle.allowNull( ) )
 				return true;
 
@@ -330,7 +330,7 @@ public abstract class EngineTask implements IEngineTask
 		 */
 		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-		{
+				{
 			if ( paramValue instanceof Number )
 				return true;
 
@@ -339,9 +339,9 @@ public abstract class EngineTask implements IEngineTask
 							Level.SEVERE,
 							"The supplied value {0} for parameter {1} is not a number.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
 			return false;
-		}
+				}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-		{
+				{
 			if ( paramValue instanceof Date )
 				return true;
 			log
@@ -351,14 +351,14 @@ public abstract class EngineTask implements IEngineTask
 			return false;
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-		{
+					{
 			String value = paramValue.toString( ).trim( );
 			if ( value.equals( "" ) && !paramHandle.allowBlank( ) ) //$NON-NLS-1$
-			{
+							{
 				log.log( Level.SEVERE,
 						"parameter {0} can't be blank.", paramName ); //$NON-NLS-1$
 				return false;
-			}
+							}
 			return true;
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
@@ -370,9 +370,9 @@ public abstract class EngineTask implements IEngineTask
 							Level.SEVERE,
 							"The supplied value {0} for parameter {1} is not a boolean.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
 			return false;
-		}
+					}
 		return true;
-	}
+				}
 
 	/*
 	 * (non-Javadoc)
@@ -383,12 +383,12 @@ public abstract class EngineTask implements IEngineTask
 	{
 		parameterChanged = true;
 		inputValues.putAll( params );
-	}
+			}
 	
 	public void setParameterValues(HashMap params)
 	{
 		setValues(params);
-	}
+		}
 
 	/*
 	 * (non-Javadoc)
@@ -401,7 +401,7 @@ public abstract class EngineTask implements IEngineTask
 		parameterChanged = true;
 		inputValues.put( name, value );
 	}
-	
+
 	public void setParameterValue( String name, Object value )
 	{
 		setValue(name, value);
@@ -436,11 +436,11 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.19 $ $Date: 2005/11/02 02:25:16 $
+	 * @version $Revision: 1.20 $ $Date: 2005/11/11 00:38:49 $
 	 */
 	static abstract class ParameterVisitor
 	{
-
+		
 		boolean visitParametersInGroup( ParameterGroupHandle group, Object value )
 		{
 			SlotHandle parameters = group.getParameters( );
@@ -480,17 +480,17 @@ public abstract class EngineTask implements IEngineTask
 				CascadingParameterGroupHandle group, Object value )
 		{
 			return visitParameterGroup( group, value );
-		}
-
+				}
+	
 		boolean visitParameterGroup( ParameterGroupHandle group, Object value )
 		{
 			return false;
-		}
+			}
 
 		boolean visitScalarParameter( ScalarParameterHandle param, Object value )
-		{
+			{
 			return false;
-		}
+			}
 
 		boolean visit( ReportDesignHandle report )
 		{

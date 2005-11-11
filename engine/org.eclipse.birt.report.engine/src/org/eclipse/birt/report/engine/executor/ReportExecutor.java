@@ -11,28 +11,22 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.BirtTimer;
 import org.eclipse.birt.report.engine.content.ContentFactory;
-import org.eclipse.birt.report.engine.content.IPageSequenceContent;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.content.impl.MasterPageContent;
-import org.eclipse.birt.report.engine.content.impl.PageSetupContent;
-import org.eclipse.birt.report.engine.emitter.IPageSetupEmitter;
-import org.eclipse.birt.report.engine.emitter.IReportEmitter;
-import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
-import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.ir.PageSequenceDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 
 /**
  * Captures the (report design to) report instance creation logic, by combining
@@ -55,17 +49,16 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.19 $ $Date: 2005/10/12 19:15:47 $
+ * @version $Revision: 1.9 $ $Date: 2005/11/02 10:36:13 $
  */
 public class ReportExecutor
 {
-	protected static Logger logger = Logger.getLogger( ReportExecutor.class.getName( ) );
-	
+
+	protected static Logger logger = Logger.getLogger( ReportExecutor.class
+			.getName( ) );
+
 	// the report execution context
 	private ExecutionContext context;
-
-	/** the emitter to output report in different formats */
-	private IReportEmitter emitter;
 
 	// the engine IR visitor object to drive the report execution
 	private ReportExecutorVisitor builder;
@@ -77,29 +70,37 @@ public class ReportExecutor
 	 *            the executor context
 	 * @param emitter
 	 *            the report emitter
-	 *  
+	 * 
 	 */
-	public ReportExecutor( ExecutionContext context, IReportEmitter emitter )
+	public ReportExecutor( ExecutionContext context )
 	{
-		this.emitter = emitter;
 		this.context = context;
-		builder = new ReportExecutorVisitor( context, emitter );
+		builder = new ReportExecutorVisitor( context );
+	}
+
+	/**
+	 * @param paramValues
+	 *            values for all the report parameters used for report genration
+	 */
+	public void setParameters( HashMap paramValues )
+	{
+		context.getParams( ).putAll( paramValues );
 	}
 
 	/**
 	 * execute the report
 	 */
-	public void execute( Report report, HashMap paramValues )
+	public void execute( Report report, IContentEmitter emitter )
 	{
-		BirtTimer timer = new BirtTimer();
-		timer.start();
-		
-		IReportContent reportContent = ContentFactory.createReportContent( report, null );
-		context.pushContentObject( reportContent );
+		BirtTimer timer = new BirtTimer( );
+		timer.start( );
+
 		context.setReport( report );
 
-		// Set up report parameters
-		setParameters( paramValues );
+		IReportContent reportContent = ContentFactory
+				.createReportContent( report );
+
+		context.setReportContent( reportContent );
 
 		// Exceute scripts defined in included libraries. For each library,
 		// executes
@@ -115,231 +116,125 @@ public class ReportExecutor
 			String fileName = (String) iter.next( );
 			context.loadScript( fileName );
 		}
-		
+
 		// DE needs to support getInitialize() method
-		 context.execute(report.getInitialize());
+		context.execute( report.getInitialize( ) );
 
 		// call methods associated with report
 		context.execute( report.getBeforeFactory( ) );
 
 		// beforeRender is not supported for now
 
-		timer.stop();
-		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare to run report");	// $NON-NLS-1$
-		
+		timer.stop( );
+		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
+				"Prepare to run report" ); // $NON-NLS-1$
+
 		// Prepare necessary data for this report
-		timer.restart();
+		timer.restart( );
 		context.getDataEngine( ).prepare( report, context.getAppContext() );
-		timer.stop();
-		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Prepare report queries");	// $NON-NLS-1$
-		
+		timer.stop( );
+		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
+				"Prepare report queries" ); // $NON-NLS-1$
+
 		// Report documents are not supported for now
 		// context.execute(report.getBeforeOpenDoc());
 
-		timer.restart();
-		emitter.startReport( reportContent );
+		timer.restart( );
+		if ( emitter != null )
+		{
+			emitter.start( reportContent );
+		}
 
-		// report documents are not supported for now
-		// context.execute(report.getAfterOpenDoc());
-
-		// process page set up information
-		handlePageSetup( report );
-		context.pushMasterPage( context.getDefaultMasterPage( ) );
-		context.pushMasterPage( null );
-
-		// process the report body
-		emitter.startBody( );
-
-		//assert ( report.getContentCount( ) >= 1 );
+		// assert ( report.getContentCount( ) >= 1 );
 
 		// only top-level elements maybe have the master page reference for now
 		if ( report.getContentCount( ) > 0 )
 		{
 			for ( int i = 0; i < report.getContentCount( ); i++ )
 			{
-				builder.startPageFlow( report.getContent( i ).getStyle( )
-						.getMasterPage( ) );
-				report.getContent( i ).accept( builder );
-				builder.endPageFlow( );
+				report.getContent( i ).accept( builder, emitter );
 			}
 		}
-		else
-		{
-			builder.startPageFlow( null );
-			builder.endPageFlow( );
-		}
-		//Outputs the error message at the end of the report
-		if ( context.getMsgLst( ).size( ) > 0 )
-		{
-			TextItemDesign errText = new TextItemDesign( );
-			errText.setTextType( "html" );//$NON-NLS-1$
-			StringBuffer errHtmlMsg = new StringBuffer(
-					"<hr style=\"color:red\"/>" );//$NON-NLS-1$
-			errHtmlMsg
-					.append( "<div style=\"color:red\"><div>" + 
-							EngineResourceHandle.getInstance().
-								getMessage( MessageConstants.ERRORS_ON_REPORT_PAGE ) + "</div>"  );//$NON-NLS-1$
-						
-			HashMap errLst = context.getMsgLst();
-			Iterator it = errLst.values().iterator();
-			int index = 0; 
-			while(it.hasNext())
-			{
-				appendErrorMessage(index++, errHtmlMsg, (ElementExceptionInfo)it.next());
-			}
-			errHtmlMsg.append("</div>");
-			errText.setText( null, errHtmlMsg.toString( ) );
-			builder.startPageFlow( null );
-			errText.accept( builder );
-			builder.endPageFlow( );
-		}
-		
-		//USED TO FIX BUG 74548
-		//FIXME: update the master page handle routines.
-		emitter.getPageSetupEmitter( ).endBody( );
-		
-		emitter.endBody( );
-		context.popMasterPage( );
-		context.popMasterPage( );
 
 		// Report document is not supported
 		// context.execute(report.getBeforeCloseDoc());
 
-		emitter.endReport( );
-		// close eport document
-
+		if ( emitter != null )
+		{
+			emitter.end( reportContent );
+		}
 		// Report document is not supported
 		// context.execute(report.getAfterCloseDoc());
 
-		//call afterFactory method of the report
-		context.popContentObject( );
 		context.execute( report.getAfterFactory( ) );
 		context.getDataEngine( ).shutdown( );
-		
-		timer.stop();
-		timer.logTimeTaken(logger, Level.FINE, context.getTaskIDString(), "Running and rendering report");	// $NON-NLS-1$
+
+		timer.stop( );
+		timer.logTimeTaken( logger, Level.FINE, context.getTaskIDString( ),
+				"Running and rendering report" ); // $NON-NLS-1$
 
 	}
 
-	/**
-	 * Handles page setup output. This is mainly for presentation phase, and
-	 * likely for FO only. Allows page setup definitions to be put into the FO
-	 * output through Fo emitter.
-	 * 
-	 * @param report
-	 *            the report design
-	 */
-	private void handlePageSetup( Report report )
+	public IPageContent executeMasterPage( int pageNo, MasterPageDesign masterPage )
 	{
-		// first create the master page defined in the report design
-		PageSetupContent pageSetup = (PageSetupContent)ContentFactory
-				.createPageSetupContent( report.getPageSetup( ) );
+		IReportContent reportContent = context.getReportContent( );
+		IPageContent pageContent = reportContent.createPageContent( );
+		pageContent.setGenerateBy( masterPage );
+		pageContent.setPageNumber(pageNo);
+		
+		context.setCurrentPage(pageNo);
 
-		IPageSetupEmitter pageSetupEmitter = emitter.getPageSetupEmitter( );
-		if ( pageSetupEmitter == null )
+		if ( masterPage instanceof SimpleMasterPageDesign )
 		{
-			return;
-		}
-		pageSetupEmitter.startPageSetup( );
-		for ( int i = 0; i < report.getPageSetup( ).getMasterPageCount( ); i++ )
-		{
-			//	context.initStyleStack( );
-			// IMasterPageEmitter mpEmitter = emitter.getMasterPageEmitter( );
-			// if ( mpEmitter != null )
+			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
-				MasterPageDesign masterPage = report.getPageSetup( )
-						.getMasterPage( i );
-				MasterPageContent masterPageContent = (MasterPageContent)ContentFactory
-						.createMasterPageContent( masterPage );
-				pageSetup.addMasterPage( masterPageContent );
-				pageSetupEmitter.startMasterPage( masterPageContent );
-				pageSetupEmitter.endMasterPage( );
+				pageDesign.getHeader( i ).accept( builder,
+						new PageContentBuilder( pageContent.getHeader( ) ) );
+			}
+
+			for ( int i = 0; i < pageDesign.getFooterCount( ); i++ )
+			{
+				pageDesign.getFooter( i ).accept( builder,
+						new PageContentBuilder( pageContent.getFooter( ) ) );
+			}
+		}
+		return pageContent;
+	}
+
+	protected static class PageContentBuilder extends ContentEmitterAdapter
+	{
+
+		List contents;
+		IContent parent;
+
+		public PageContentBuilder( List contents )
+		{
+			this.contents = contents;
+			this.parent = null;
+		}
+
+		public void startContent( IContent content )
+		{
+			if ( parent == null )
+			{
+				contents.add( content );
+			}
+			else
+			{
+				parent.getChildren( ).add( content );
+			}
+			parent = content;
+		}
+
+		public void endContent( IContent content )
+		{
+			if ( parent != null )
+			{
+				parent = (IContent) parent.getParent( );
 			}
 		}
 
-		//then output the page sequence defined in the report define
-		for ( int i = 0; i < report.getPageSetup( ).getPageSequenceCount( ); i++ )
-		{
-			//IPageSetupEmitter psEmitter = emitter.getPageSequenceEmitter( );
-			//if ( psEmitter != null )
-			{
-				PageSequenceDesign psDesign = report.getPageSetup( )
-						.getPageSequence( i );
-				IPageSequenceContent psContent = ContentFactory
-						.createPageSequenceContent( pageSetup, psDesign );
-
-				pageSetup.addPageSequence( psContent );
-				pageSetupEmitter.startPageSequence( psContent );
-				pageSetupEmitter.endPageSequence( );
-			}
-		}
-		pageSetupEmitter.endPageSetup( );
-		context.setPageSetup( pageSetup );
-
-		setDefaultMasterPage( report );
 	}
 
-	/**
-	 * sets the default master page/page sequence of the report.
-	 * 
-	 * @param report
-	 *            entry point for the report design
-	 */
-	private void setDefaultMasterPage( Report report )
-	{
-		assert report.getPageSetup( ).getMasterPageCount( ) > 0;
-
-		String defaultMasterPage = report.getPageSetup( ).getMasterPage( 0 )
-				.getName( );
-		if ( report.getPageSetup( ).getPageSequenceCount( ) > 0 )
-		{
-			defaultMasterPage = report.getPageSetup( ).getPageSequence( 0 )
-					.getName( );
-		}
-		context.setDefaultMasterPage( defaultMasterPage );
-	}
-
-	/**
-	 * @param paramValues
-	 *            values for all the report parameters used for report genration
-	 */
-	protected void setParameters( HashMap paramValues )
-	{
-		context.getParams( ).putAll( paramValues );
-	}
-	
-	private void appendErrorMessage(int index, StringBuffer errMsg, ElementExceptionInfo info)
-	{
-		EngineResourceHandle rc = EngineResourceHandle.getInstance();
-		errMsg.append("<div><span id=\"error_icon" + index +"\"  style=\"cursor:pointer\" onclick=\"expand(" + index +  ")\" > + </span>");
-		errMsg.append(
-				"<span  id=\"error_title\">" +
-				rc.getMessage( MessageConstants.REPORT_ERROR_MESSAGE, new Object[]{ info.getType( ), info.getElementInfo( ) } ) +
-				"</span>");
-		errMsg.append("<pre id=\"error_detail" + index+ "\" style=\"display:block\" >");
-		ArrayList errorList = info.getErrorList();
-		ArrayList countList = info.getCountList();
-		for(int i=0; i<errorList.size(); i++)
-		{
-			BirtException ex = (BirtException)errorList.get(i);
-
-			errMsg.append( rc.getMessage( MessageConstants.REPORT_ERROR_ID, new Object[]{ new Integer( i ), ex.getErrorCode( ), countList.get( i ) } ) );
-			errMsg.append((char) Character.LINE_SEPARATOR);
-			errMsg.append( rc.getMessage( MessageConstants.REPORT_ERROR_DETAIL ) + getDetailMessage(ex)); //$NON-NLS-1$
-		}
-		errMsg.append("</pre></div>"); //$NON-NLS-1$
-	}
-	
-	private String getDetailMessage(Throwable t)
-	{
-		StringBuffer detailMsg = new StringBuffer();
-		do
-		{
-			detailMsg.append( t.getLocalizedMessage( ));
-			detailMsg.append( (char) Character.LINE_SEPARATOR );
-			t = t.getCause( );
-		} while (  t != null );
-		
-		return detailMsg.toString();
-	}
 }

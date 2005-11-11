@@ -19,9 +19,9 @@ import java.util.ArrayList;
  * Cell type is used by Row, which is the base element of the table item and
  * grid item.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
-public class CellDesign extends StyledElementDesign
+public class CellDesign extends ReportItemDesign
 {
 
 	/**
@@ -44,8 +44,6 @@ public class CellDesign extends StyledElementDesign
 	 * content in this cell
 	 */
 	protected ArrayList contents = new ArrayList( );
-	protected DimensionType width;
-	protected DimensionType height;
 
 	/**
 	 * @return Returns the colSpan.
@@ -147,37 +145,11 @@ public class CellDesign extends StyledElementDesign
 		this.drop = drop;
 	}
 
-	/**
-	 * @return Returns the height.
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
 	 */
-	public DimensionType getHeight( )
+	public void accept( IReportItemVisitor visitor, Object value )
 	{
-		return height;
-	}
-
-	/**
-	 * @param height
-	 *            The height to set.
-	 */
-	public void setHeight( DimensionType height )
-	{
-		this.height = height;
-	}
-
-	/**
-	 * @return Returns the width.
-	 */
-	public DimensionType getWidth( )
-	{
-		return width;
-	}
-
-	/**
-	 * @param width
-	 *            The width to set.
-	 */
-	public void setWidth( DimensionType width )
-	{
-		this.width = width;
+		visitor.visitCell(this, value);
 	}
 }
