@@ -34,6 +34,8 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 * An internal instance of the locale being used for processing
 	 */
 	private transient Locale lcl = null;
+	
+	protected static final String DELIMITER = ","; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -126,6 +128,43 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 		}
 		StringBuffer buffer = new StringBuffer( );
 		SimpleDateFormat sdf = new SimpleDateFormat( "yyyy/MM/dd" ); //$NON-NLS-1$
+
+		// Gets the data type first
+		int dataType = 0;
+		for ( int i = 0; i < columnData.length; i++ )
+		{
+			if ( dataType > 0 )
+			{
+				break;
+			}
+			// Unwrap array
+			if ( columnData[i] instanceof Object[] )
+			{
+				columnData[i] = ( (Object[]) columnData[i] )[0];
+			}
+			if ( columnData[i] instanceof String )
+			{
+				dataType = 1;
+			}
+			else if ( columnData[i] instanceof Date )
+			{
+				dataType = 2;
+			}
+			else if ( columnData[i] instanceof Number )
+			{
+				dataType = 3;
+			}
+		}
+		// If data is null
+		if ( dataType == 0 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_SET,
+					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
+					ResourceBundle.getBundle( Messages.ENGINE, getLocale( ) ) );
+		}
+
+		// Generates a string reprensentation
 		for ( int i = 0; i < columnData.length; i++ )
 		{
 			// Unwrap array
@@ -133,31 +172,37 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 			{
 				columnData[i] = ( (Object[]) columnData[i] )[0];
 			}
-			if ( columnData[i] == null )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.DATA_SET,
-						"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-						ResourceBundle.getBundle( Messages.ENGINE, getLocale( ) ) );
-			}
 
-			if ( columnData[i] instanceof String )
+			if ( dataType == 1 )
 			{
-				buffer.append( columnData[i] );
+				buffer.append( "'" + formatString( (String) columnData[i] ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			else if ( columnData[i] instanceof Date )
+			else if ( dataType == 2 )
 			{
 				buffer.append( sdf.format( (Date) columnData[i] ) );
 			}
-			else if ( columnData[i] instanceof Number )
+			else if ( dataType == 3 )
 			{
 				buffer.append( String.valueOf( columnData[i] ) );
 			}
 			if ( i < columnData.length - 1 )
 			{
-				buffer.append( "," ); //$NON-NLS-1$
+				buffer.append( DELIMITER );
 			}
 		}
 		return buffer.toString( );
+	}
+
+	/**
+	 * Formats sample data representation to escape delimiter
+	 * 
+	 * @param str
+	 *            original string
+	 */
+	protected String formatString( String str )
+	{
+		if ( str == null )
+			return ""; //$NON-NLS-1$
+		return str.replaceAll( "\\,", "\\\\," ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

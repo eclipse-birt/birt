@@ -19,9 +19,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.impl.DefaultLoggerImpl;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataFactory;
@@ -937,17 +935,8 @@ public class TaskSelectData extends SimpleTask
 		SampleData sdNew = DataFactory.eINSTANCE.createSampleData( );
 		Chart chart = getChartModel( );
 		// CREATE BaseSampleData
-		Series baseSeries = null;
-		if ( chart instanceof ChartWithAxes )
-		{
-			baseSeries = ( (SeriesDefinition) ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( );
-		}
-		else
-		{
-			baseSeries = ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getDesignTimeSeries( );
-		}
+		Series baseSeries = ( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 ) ).getDesignTimeSeries( );
 		if ( baseSeries == null )
 		{
 			throw new IllegalStateException( "Chart does not have a Base Series!" ); //$NON-NLS-1$
@@ -965,50 +954,35 @@ public class TaskSelectData extends SimpleTask
 			container.displayException( e );
 			return sdOld;
 		}
+
 		// CREATE OrthogonalSampleData
 		Series orthogonalSeries = null;
-		if ( chart instanceof ChartWithAxes )
+		List orgSdList = ChartUIUtil.getOrthogonalSeriesDefinitions( chart, -1 );
+		// FOR EACH SERIES
+		for ( int i = 0; i < orgSdList.size( ); i++ )
 		{
-			Axis xAxis = ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) );
-			int iYAxes = xAxis.getAssociatedAxes( ).size( );
-			// FOR EACH Y AXIS
-			for ( int i = 0; i < iYAxes; i++ )
+			orthogonalSeries = ( (SeriesDefinition) orgSdList.get( i ) ).getDesignTimeSeries( );
+			if ( orthogonalSeries == null )
 			{
-				Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( i );
-				int iYSeries = yAxis.getSeriesDefinitions( ).size( );
-				// FOR EACH SERIES
-				for ( int iS = 0; iS < iYSeries; iS++ )
-				{
-					orthogonalSeries = ( (SeriesDefinition) yAxis.getSeriesDefinitions( )
-							.get( iS ) ).getDesignTimeSeries( );
-					if ( iS == 0 && orthogonalSeries == null )
-					{
-						throw new IllegalStateException( "Chart does not have an Orthogonal Series!" ); //$NON-NLS-1$
-					}
-					String sOrthogonalData = ""; //$NON-NLS-1$
-					try
-					{
-						sOrthogonalData = getDataForSeries( orthogonalSeries );
-						OrthogonalSampleData osd = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-						osd.setDataSetRepresentation( sOrthogonalData );
-						osd.setSeriesDefinitionIndex( iS );
-						osd.eAdapters( ).addAll( sdOld.eAdapters( ) );
-						sdNew.getOrthogonalSampleData( ).add( osd );
-					}
-					catch ( ChartException e )
-					{
-						container.displayException( e );
-						return sdOld;
-					}
-				}
+				throw new IllegalStateException( "Chart does not have an Orthogonal Series!" ); //$NON-NLS-1$
+			}
+			String sOrthogonalData = ""; //$NON-NLS-1$
+			try
+			{
+				sOrthogonalData = getDataForSeries( orthogonalSeries );
+				OrthogonalSampleData osd = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+				osd.setDataSetRepresentation( sOrthogonalData );
+				osd.setSeriesDefinitionIndex( i );
+				osd.eAdapters( ).addAll( sdOld.eAdapters( ) );
+				sdNew.getOrthogonalSampleData( ).add( osd );
+			}
+			catch ( ChartException e )
+			{
+				container.displayException( e );
+				return sdOld;
 			}
 		}
-		else
-		{
-			orthogonalSeries = ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getDesignTimeSeries( );
-		}
-		// CREATE AncillarySampleData
+		// TODO CREATE AncillarySampleData
 		// ADD ADAPTERS
 		// SET SampleData INTO MODEL
 		return sdNew;
@@ -1016,7 +990,6 @@ public class TaskSelectData extends SimpleTask
 
 	private String getDataForSeries( Series series ) throws ChartException
 	{
-		StringBuffer sbData = new StringBuffer( );
 		Class clSeries = series.getClass( );
 		IDataSetProcessor iDSP = PluginSettings.instance( )
 				.getDataSetProcessor( clSeries );
@@ -1043,22 +1016,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		Object[] columnData = getWizardContext( ).getDataServiceProvider( )
 				.getDataForColumns( exprArray, -1, true );
-		String[] seriesdata = new String[]{
-			iDSP.toString( columnData )
-		};
-		// BUILD THE STRING TO BE SET INTO THE SAMPLE DATA...NEEDS TO USE THE
-		// FORMAT RETURNED BY THE SERIES DATASETPROCESSOR
-		for ( int i = 0; i < seriesdata.length; i++ )
-		{
-			// TODO: HANDLE MULTIPLE COMPONENTS...AND USE THE STRING FORMAT
-			// INFORMATION!
-			if ( i > 0 )
-			{
-				sbData.append( "," ); //$NON-NLS-1$
-			}
-			sbData.append( seriesdata[i] );
-		}
-		return sbData.toString( );
+		return iDSP.toString( columnData );
 	}
 
 	private void manageColorAndQuery( Query query )
