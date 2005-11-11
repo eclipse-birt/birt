@@ -62,7 +62,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
@@ -132,14 +132,14 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			img2D = UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("PieChart.Tooltip.StandardPieChart"), img2D, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "PieChart.Tooltip.StandardPieChart" ), img2D, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
 			img2DWithDepth = UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("PieChart.Tooltip.StandardPieChart"), img2DWithDepth, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "PieChart.Tooltip.StandardPieChart" ), img2DWithDepth, sStandardDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -180,11 +180,8 @@ public class PieChart extends DefaultChartTypeImpl
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
-		
-		newChart.getTitle( )
-		.getLabel( )
-		.getCaption( )
-		.setValue( CHART_TITLE ); //$NON-NLS-1$
+
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -256,7 +253,7 @@ public class PieChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
-			
+
 			currentChart.setScript( helperModel.getScript( ) );
 			if ( helperModel.isSetSeriesThickness( ) )
 			{
@@ -281,20 +278,20 @@ public class PieChart extends DefaultChartTypeImpl
 					.add( ( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
 							.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) );
 			Vector vOSD = new Vector( );
-			EList axesOrthogonal = ( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
-			for ( int i = 0; i < axesOrthogonal.size( ); i++ )
+
+			// Only convert series in primary orthogonal axis.
+			Axis primaryOrthogonalAxis = ( (Axis) ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
+					.get( 0 ) ) );
+			EList osd = primaryOrthogonalAxis.getSeriesDefinitions( );
+			for ( int j = 0; j < osd.size( ); j++ )
 			{
-				EList osd = ( (Axis) axesOrthogonal.get( i ) ).getSeriesDefinitions( );
-				for ( int j = 0; j < osd.size( ); j++ )
-				{
-					SeriesDefinition sd = (SeriesDefinition) osd.get( j );
-					Series series = sd.getDesignTimeSeries( );
-					sd.getSeries( ).clear( );
-					sd.getSeries( ).add( getConvertedSeries( series ) );
-					vOSD.add( sd );
-				}
+				SeriesDefinition sd = (SeriesDefinition) osd.get( j );
+				Series series = sd.getDesignTimeSeries( );
+				sd.getSeries( ).clear( );
+				sd.getSeries( ).add( getConvertedSeries( series ) );
+				vOSD.add( sd );
 			}
+
 			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).clear( );
 			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -304,7 +301,10 @@ public class PieChart extends DefaultChartTypeImpl
 			// expected by default.
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.CATEGORIES_LITERAL );
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -330,7 +330,7 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				
+
 				// Copy generic chart properties from the old chart
 				currentChart.setBlock( helperModel.getBlock( ) );
 				currentChart.setDescription( helperModel.getDescription( ) );
@@ -353,7 +353,7 @@ public class PieChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getSeriesDefinitions( );
 
 				Series series;
-				
+
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
@@ -369,7 +369,10 @@ public class PieChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.CATEGORIES_LITERAL );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 			}
 		}
 		else
@@ -565,7 +568,7 @@ public class PieChart extends DefaultChartTypeImpl
 		}
 		return ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )

@@ -62,7 +62,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
-	
+
 	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "MeterChart.Txt.Description" ); //$NON-NLS-1$
@@ -135,8 +135,8 @@ public class MeterChart extends DefaultChartTypeImpl
 			imgStandard = UIHelper.getImage( "icons/wizban/meterchartimage.gif" ); //$NON-NLS-1$
 			imgSuperimposed = UIHelper.getImage( "icons/wizban/meterchartsuperimposedimage.gif" ); //$NON-NLS-1$
 
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("MeterChart.Tooltip.StandardMeterChart"), imgStandard, sStandardDescription ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString("MeterChart.Tooltip.SuperimposedMeterChart"), imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "MeterChart.Tooltip.StandardMeterChart" ), imgStandard, sStandardDescription ) ); //$NON-NLS-1$
+			vSubTypes.add( new DefaultChartSubTypeImpl( Messages.getString( "MeterChart.Tooltip.SuperimposedMeterChart" ), imgSuperimposed, sSuperimposedDescription ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -175,11 +175,8 @@ public class MeterChart extends DefaultChartTypeImpl
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
-		
-		newChart.getTitle( )
-		.getLabel( )
-		.getCaption( )
-		.setValue( CHART_TITLE ); //$NON-NLS-1$
+
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -239,7 +236,10 @@ public class MeterChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
-			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+			currentChart.getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( CHART_TITLE );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 			if ( helperModel.getGridColumnCount( ) > 0 )
@@ -256,20 +256,20 @@ public class MeterChart extends DefaultChartTypeImpl
 					.add( ( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
 							.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) );
 			Vector vOSD = new Vector( );
-			EList axesOrthogonal = ( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
-			for ( int i = 0; i < axesOrthogonal.size( ); i++ )
+
+			// Only convert series in primary orthogonal axis.
+			Axis primaryOrthogonalAxis = ( (Axis) ( (ChartWithAxes) helperModel ).getPrimaryOrthogonalAxis( (Axis) ( (ChartWithAxes) helperModel ).getAxes( )
+					.get( 0 ) ) );
+			EList osd = primaryOrthogonalAxis.getSeriesDefinitions( );
+			for ( int j = 0; j < osd.size( ); j++ )
 			{
-				EList osd = ( (Axis) axesOrthogonal.get( i ) ).getSeriesDefinitions( );
-				for ( int j = 0; j < osd.size( ); j++ )
-				{
-					SeriesDefinition sd = (SeriesDefinition) osd.get( j );
-					Series series = sd.getDesignTimeSeries( );
-					sd.getSeries( ).clear( );
-					sd.getSeries( ).add( getConvertedSeries( series ) );
-					vOSD.add( sd );
-				}
+				SeriesDefinition sd = (SeriesDefinition) osd.get( j );
+				Series series = sd.getDesignTimeSeries( );
+				sd.getSeries( ).clear( );
+				sd.getSeries( ).add( getConvertedSeries( series ) );
+				vOSD.add( sd );
 			}
+
 			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).clear( );
 			( (SeriesDefinition) ( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )
@@ -298,7 +298,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				
+
 				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
 
 				// Copy generic chart properties from the old chart
@@ -323,7 +323,7 @@ public class MeterChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getSeriesDefinitions( );
 
 				Series series;
-				
+
 				for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 				{
 					series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
@@ -339,7 +339,10 @@ public class MeterChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.SERIES_LITERAL );
-				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+				currentChart.getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( CHART_TITLE );
 			}
 		}
 		else
@@ -520,7 +523,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	{
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
-	
+
 	public ISelectDataComponent getBaseUI( Chart chart,
 			ISelectDataCustomizeUI selectDataUI, IUIServiceProvider builder,
 			Object oContext, String sTitle )
