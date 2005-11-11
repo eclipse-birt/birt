@@ -64,6 +64,8 @@ public class TriggerDataComposite extends Composite implements
 
 	private transient Text txtSeriesParm = null;
 
+	private transient Composite cmpDefault = null;
+
 	private transient Composite cmpScript = null;
 
 	private transient Text txtScript = null;
@@ -74,7 +76,7 @@ public class TriggerDataComposite extends Composite implements
 
 	private transient Text txtTooltipText = null;
 
-	private transient Composite cmpVisibility = null;
+	private transient Composite cmpSeries = null;
 
 	private transient Text txtSeriesDefinition = null;
 
@@ -180,6 +182,9 @@ public class TriggerDataComposite extends Composite implements
 		grpValue.setText( Messages.getString( "TriggerDataComposite.Lbl.ActionDetails" ) ); //$NON-NLS-1$
 		grpValue.setLayout( slValues );
 
+		// Composite for defualt value
+		cmpDefault = new Composite( grpValue, SWT.NONE );
+
 		// Composite for script value
 		cmpScript = new Composite( grpValue, SWT.NONE );
 		cmpScript.setLayout( glScript );
@@ -194,16 +199,16 @@ public class TriggerDataComposite extends Composite implements
 		txtScript.setLayoutData( gdTXTScript );
 
 		// Composite for series value
-		cmpVisibility = new Composite( grpValue, SWT.NONE );
-		cmpVisibility.setLayout( glVisibility );
+		cmpSeries = new Composite( grpValue, SWT.NONE );
+		cmpSeries.setLayout( glVisibility );
 
-		Label lblSeries = new Label( cmpVisibility, SWT.NONE );
+		Label lblSeries = new Label( cmpSeries, SWT.NONE );
 		GridData gdLBLSeries = new GridData( );
 		gdLBLSeries.horizontalIndent = 2;
 		lblSeries.setLayoutData( gdLBLSeries );
 		lblSeries.setText( Messages.getString( "TriggerDataComposite.Lbl.SeriesDefinition" ) ); //$NON-NLS-1$
 
-		txtSeriesDefinition = new Text( cmpVisibility, SWT.BORDER );
+		txtSeriesDefinition = new Text( cmpSeries, SWT.BORDER );
 		GridData gdTXTSeriesDefinition = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTSeriesDefinition.horizontalSpan = 2;
 		txtSeriesDefinition.setLayoutData( gdTXTSeriesDefinition );
@@ -364,7 +369,7 @@ public class TriggerDataComposite extends Composite implements
 						: "" ); //$NON-NLS-1$
 				break;
 			case 2 :
-				this.slValues.topControl = cmpVisibility;
+				this.slValues.topControl = cmpSeries;
 				SeriesValue seriesValue = (SeriesValue) trigger.getAction( )
 						.getValue( );
 				txtSeriesDefinition.setText( ( seriesValue.getName( ).length( ) > 0 ) ? seriesValue.getName( )
@@ -376,6 +381,16 @@ public class TriggerDataComposite extends Composite implements
 						.getValue( );
 				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 ) ? scriptValue.getScript( )
 						: "" ); //$NON-NLS-1$
+				break;
+			case 4 :
+				this.slValues.topControl = cmpSeries;
+				SeriesValue highlightSeriesValue = (SeriesValue) trigger.getAction( )
+						.getValue( );
+				txtSeriesDefinition.setText( ( highlightSeriesValue.getName( )
+						.length( ) > 0 ) ? highlightSeriesValue.getName( ) : "" ); //$NON-NLS-1$
+				break;
+			default :
+				this.slValues.topControl = cmpDefault;
 				break;
 		}
 		grpValue.layout( );
@@ -405,6 +420,12 @@ public class TriggerDataComposite extends Composite implements
 				value = AttributeFactory.eINSTANCE.createScriptValue( );
 				( (ScriptValue) value ).setScript( txtScript.getText( ) );
 				break;
+			case 4 :
+				value = AttributeFactory.eINSTANCE.createSeriesValue( );
+				( (SeriesValue) value ).setName( txtSeriesDefinition.getText( ) );
+				break;
+			default :
+				break;
 		}
 		Action action = ActionImpl.create( ActionType.get( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
@@ -425,10 +446,16 @@ public class TriggerDataComposite extends Composite implements
 				this.slValues.topControl = cmpTooltip;
 				break;
 			case 2 :
-				this.slValues.topControl = cmpVisibility;
+				this.slValues.topControl = cmpSeries;
 				break;
 			case 3 :
 				this.slValues.topControl = cmpScript;
+				break;
+			case 4 :
+				this.slValues.topControl = cmpSeries;
+				break;
+			default :
+				this.slValues.topControl = cmpDefault;
 				break;
 		}
 		grpValue.layout( );
@@ -459,11 +486,19 @@ public class TriggerDataComposite extends Composite implements
 					grpValue.layout( );
 					break;
 				case 2 :
-					this.slValues.topControl = cmpVisibility;
+					this.slValues.topControl = cmpSeries;
 					grpValue.layout( );
 					break;
 				case 3 :
 					this.slValues.topControl = cmpScript;
+					grpValue.layout( );
+					break;
+				case 4 :
+					this.slValues.topControl = cmpSeries;
+					grpValue.layout( );
+					break;
+				default :
+					this.slValues.topControl = cmpDefault;
 					grpValue.layout( );
 					break;
 			}
