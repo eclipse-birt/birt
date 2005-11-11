@@ -253,7 +253,7 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 		bo = bo.adjustedInstance( lb.getInsets( ).scaledInstance( dScale ) );
 
 		setBlockBounds( bo );
-		setBlockAlignment( null );
+		setBlockAlignment( lb.getLabel().getCaption().getFont().getAlignment() );
 		setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 		return sPreviousValue;
 	}

@@ -23,11 +23,15 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
+import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
+import org.eclipse.birt.chart.model.attribute.TextAlignment;
+import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -1380,6 +1384,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 		Text txtChartTitle = tb.getLabel( ).getCaption( );
 		txtChartTitle.setValue( "Chart Title" ); //$NON-NLS-1$
 		txtChartTitle.getFont( ).setSize( 24 );
+		TextAlignment taTitle = TextAlignmentImpl.create( );
+		taTitle.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
+		taTitle.setVerticalAlignment( VerticalAlignment.CENTER_LITERAL );
+		txtChartTitle.getFont( ).setAlignment( taTitle );
 
 		// 4. SETUP OTHER BASIC PROPERTIES
 		setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
