@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.i18n.ResourceHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.DefaultAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.parser.DesignReader;
@@ -227,7 +226,7 @@ public class DesignSession
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
-		
+
 		ReportDesign design = DesignReader.getInstance( ).read( this, systemId,
 				is );
 		designs.add( design );
@@ -253,7 +252,7 @@ public class DesignSession
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
-		
+
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, is );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -281,7 +280,7 @@ public class DesignSession
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
-		
+
 		Module module = GenericModuleReader.getInstance( )
 				.read( this, fileName );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -310,7 +309,7 @@ public class DesignSession
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
-		
+
 		Library library = LibraryReader.getInstance( ).read( this, fileName );
 		libraries.add( library );
 		return library;
@@ -336,7 +335,7 @@ public class DesignSession
 		if ( is == null )
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
-		
+
 		Library library = LibraryReader.getInstance( )
 				.read( this, systemId, is );
 		libraries.add( library );
@@ -384,8 +383,7 @@ public class DesignSession
 
 		Theme theme = new Theme( ModelMessages
 				.getMessage( Theme.DEFAULT_THEME_NAME ) );
-		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
-				theme ) );
+		library.setTheme( theme );
 		ModelUtil.insertCompatibleThemeToLibrary( library, theme );
 
 		// set initial id.

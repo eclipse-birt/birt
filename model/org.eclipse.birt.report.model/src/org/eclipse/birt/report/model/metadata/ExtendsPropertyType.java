@@ -84,7 +84,7 @@ public class ExtendsPropertyType extends PropertyType
 	 *         the target element.
 	 */
 
-public Object validateValue( Module module, PropertyDefn defn, Object value )
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
 			throws PropertyValueException
 	{
 		if ( value == null )
@@ -98,7 +98,8 @@ public Object validateValue( Module module, PropertyDefn defn, Object value )
 			String name = StringUtil.trimString( (String) value );
 			if ( name == null )
 			{
-				logger.log( Level.SEVERE, "The value of the extends property is an empty string" ); //$NON-NLS-1$
+				logger.log( Level.SEVERE,
+						"The value of the extends property is an empty string" ); //$NON-NLS-1$
 				return null;
 			}
 
@@ -119,19 +120,23 @@ public Object validateValue( Module module, PropertyDefn defn, Object value )
 
 			// Resolved reference.
 
-			return refValue; // new ElementRefValue( null, (DesignElement)
-								// value );
+			return refValue; 
 		}
+		
 		// Invalid property value.
-		logger.log( Level.SEVERE, "The value of the extends property is not a valid type " ); //$NON-NLS-1$
+		
+		logger.log( Level.SEVERE,
+				"The value of the extends property is not a valid type " ); //$NON-NLS-1$
 		throw new PropertyValueException( value,
 				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
 				PropertyType.ELEMENT_REF_TYPE );
-	}	/**
-		 * Returns the referenced element name if the input value is an
-		 * <code>ElementRefValue</code>, return <code>null</code> if the
-		 * value is null.
-		 */
+	}
+
+	/**
+	 * Returns the referenced element name if the input value is an
+	 * <code>ElementRefValue</code>, return <code>null</code> if the value
+	 * is null.
+	 */
 
 	public String toString( Module module, PropertyDefn defn, Object value )
 	{

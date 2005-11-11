@@ -271,6 +271,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	private List disposeListeners = null;
 
 	/**
+	 * The theme for the module.
+	 */
+
+	private ElementRefValue theme = null;
+
+	/**
 	 * The fatal exception found in the included modules, which will stop
 	 * opening the outer-most module.
 	 */
@@ -1866,9 +1872,13 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( propName.equals( UNITS_PROP ) )
+		if ( UNITS_PROP.equals( propName ) )
 		{
 			return units;
+		}
+		else if ( THEME_PROP.equals( propName ) )
+		{
+			return theme;
 		}
 		return super.getIntrinsicProperty( propName );
 	}
@@ -1882,8 +1892,24 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	protected void setIntrinsicProperty( String propName, Object value )
 	{
-		if ( propName.equals( UNITS_PROP ) )
+		if ( UNITS_PROP.equals( propName ) )
 			units = (String) value;
+		else if ( THEME_PROP.equals( propName ) )
+		{
+			// the value must be either ElementRefValue or null
+
+			if ( value instanceof ElementRefValue )
+			{
+				ElementRefValue refValue = (ElementRefValue) value;
+				if ( refValue.isResolved( ) )
+					setTheme( (Theme) refValue.getElement( ) );
+				else
+					setThemeName( refValue.getName( ) );
+			}
+			else
+				setTheme( null );
+
+		}
 		else
 			super.setIntrinsicProperty( propName, value );
 	}
@@ -1978,14 +2004,54 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public Theme getTheme( )
 	{
-		Object value = getLocalProperty( this, IModuleModel.THEME_PROP );
-		if ( value == null )
+		if ( theme == null )
 			return null;
 
-		assert value instanceof ElementRefValue;
+		return (Theme) theme.getElement( );
+	}
 
-		ElementRefValue refValue = (ElementRefValue) value;
-		return (Theme) refValue.getElement( );
+	/**
+	 * Gets the name of the referenced theme on this element.
+	 * 
+	 * @return theme name. null if the theme is not defined on the element.
+	 */
+
+	public String getThemeName( )
+	{
+		if ( theme == null )
+			return null;
+		return theme.getName( );
+	}
+	
+	/**
+	 * Returns the resolved theme of the report design/library.
+	 * 
+	 * @param module
+	 *            the module to resolve the theme
+	 * @return the resolved theme of the report design/library
+	 */
+
+	public Theme getTheme( Module module )
+	{
+		if ( theme == null )
+			return null;
+
+		if ( theme.isResolved( ) )
+			return (Theme) theme.getElement( );
+
+		IModuleNameSpace resolver = module
+				.getModuleNameSpace( Module.THEME_NAME_SPACE );
+		ElementRefValue refValue = resolver.resolve( theme.getName( ) );
+		Theme target = null;
+		if ( refValue.isResolved( ) )
+		{
+			target = (Theme) refValue.getElement( );
+
+			theme.resolve( target );
+			target.addClient( this, THEME_PROP );
+		}
+
+		return target;
 	}
 
 	/**
@@ -2103,6 +2169,58 @@ public abstract class Module extends DesignElement implements IModuleModel
 	{
 		return (TemplateParameterDefinition) resolveElement( name,
 				TEMPLATE_PARAMETER_NAME_SPACE );
+	}
+	
+	/**
+	 * Sets the theme. If null, the theme is cleared.
+	 * 
+	 * @param newTheme
+	 *            the style to set
+	 */
+
+	public void setTheme( Theme newTheme )
+	{
+		Theme oldTheme = null;
+		if ( theme != null )
+			oldTheme = (Theme) theme.getElement( );
+
+		// if the theme is null and new theme is null, return
+		// if the theme is resolved and the resolved element equals to the new
+		// theme, return
+
+		if ( oldTheme == newTheme && ( theme == null || theme.isResolved( ) ) )
+			return;
+
+		if ( oldTheme != null )
+			oldTheme.dropClient( this );
+		if ( newTheme != null )
+		{
+			if ( theme == null )
+				theme = new ElementRefValue( null, newTheme );
+			else
+				theme.resolve( newTheme );
+			newTheme.addClient( this, THEME_PROP );
+		}
+		else
+			theme = null;
+	}
+
+	/**
+	 * Sets the theme by name. If null, the theme is cleared. Use this form to
+	 * represent an "unresolved" theme: a reference to an undefined theme, or a
+	 * forward reference while parsing a design file.
+	 * 
+	 * @param theName
+	 *            the style name
+	 */
+
+	public void setThemeName( String theName )
+	{
+		if ( theme == null && theName == null )
+			return;
+		setTheme( null );
+		assert theme == null;
+		theme = new ElementRefValue( null, theName );
 	}
 
 }

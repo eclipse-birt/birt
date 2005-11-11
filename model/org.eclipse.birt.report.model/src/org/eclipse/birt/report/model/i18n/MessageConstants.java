@@ -44,7 +44,8 @@ public interface MessageConstants
 	public static final String REPLACE_ITEM_MESSAGE = "Message.ReplaceItem"; //$NON-NLS-1$
 	public static final String SET_LOCALE_MESSAGE = "Message.SetLocale"; //$NON-NLS-1$
 	public static final String SET_TRANSLATION_TEXT_MESSAGE = "Message.SetTranslationText"; //$NON-NLS-1$
-
+	public static final String SET_THEME_MESSAGE = "Message.SetTheme"; //$NON-NLS-1$
+	
 	public static final String MOVE_ELEMENT_MESSAGE = "Message.MoveElement"; //$NON-NLS-1$
 	public static final String INSERT_ELEMENT_MESSAGE = "Message.InsertElement"; //$NON-NLS-1$
 	public static final String DELETE_ELEMENT_MESSAGE = "Message.DeleteElement"; //$NON-NLS-1$

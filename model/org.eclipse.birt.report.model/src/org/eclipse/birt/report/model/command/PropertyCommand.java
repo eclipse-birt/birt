@@ -208,7 +208,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 				return;
 			}
-		}	
+		}
 
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		getActivityStack( ).execute( record );
@@ -332,6 +332,14 @@ public class PropertyCommand extends AbstractElementCommand
 		else if ( IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			doSetProperty( prop, value );
+		}
+		else if ( Module.THEME_PROP.equals( propName ) )
+		{
+			ThemeCommand cmd = new ThemeCommand( module, element );
+			if ( value == null )
+				cmd.setTheme( null );
+			else
+				cmd.setTheme( ( (ElementRefValue) value ).getName( ) );
 		}
 		else
 		{

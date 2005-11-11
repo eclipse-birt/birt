@@ -2043,9 +2043,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the name of the theme
 	 * @throws SemanticException
 	 */
+
 	public void setThemeName( String themeName ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( getModule( ) );
+		ThemeCommand command = new ThemeCommand( getModule( ), getElement( ) );
 		command.setTheme( themeName );
 	}
 
@@ -2090,7 +2091,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	private void setThemeElement( Theme theme ) throws SemanticException
 	{
-		ThemeCommand command = new ThemeCommand( getModule( ) );
+		ThemeCommand command = new ThemeCommand( getModule( ), getElement( ) );
 		command.setThemeElement( theme );
 	}
 

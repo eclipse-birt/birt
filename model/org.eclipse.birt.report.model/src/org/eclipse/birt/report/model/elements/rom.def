@@ -1580,7 +1580,7 @@
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
     <Property canInherit="false" detailType="IncludeLibrary" displayNameID="Element.Module.includeLibraries" isList="true" name="includeLibraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
+    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
     <Method context="startup" displayNameID="Element.Module.initialize" name="initialize" since="1.0" toolTipID="Element.Module.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.Module.initialize.reportContext" type="IReportContext"/>
 	    <Argument name="object" tagID="Element.Module.initialize.object" type="Object"/>

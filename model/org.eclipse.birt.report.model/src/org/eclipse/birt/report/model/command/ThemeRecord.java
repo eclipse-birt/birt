@@ -17,10 +17,12 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ThemeEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Records a change to the theme of a report design.
@@ -39,30 +41,37 @@ public class ThemeRecord extends SimpleRecord
 	 * The target Theme
 	 */
 
-	private Theme oldTheme;
+	private Object oldTheme;
 
 	/**
 	 * The library to operate
 	 */
 
-	protected ReportDesign module;
+	protected Module module;
 
 	/**
 	 * Constructs the library record.
 	 * 
 	 * @param module
 	 *            the module
-	 * @param library
-	 *            the library to add/drop
-	 * @param add
-	 *            whether the given library is for adding
+	 * @param newTheme
+	 *            the new theme
+	 * @param oldTheme
+	 *            the old theme
 	 */
 
-	ThemeRecord( ReportDesign module, Theme newTheme, Theme oldTheme )
+	ThemeRecord( Module module, Theme newTheme )
 	{
 		this.module = module;
 		this.newTheme = newTheme;
-		this.oldTheme = oldTheme;
+		
+		if ( module.getTheme( ) != null )
+			oldTheme = module.getTheme();
+		else 
+			oldTheme = module.getThemeName( );
+
+		label = ModelMessages.getMessage( MessageConstants.SET_THEME_MESSAGE );
+
 	}
 
 	/*
@@ -77,9 +86,21 @@ public class ThemeRecord extends SimpleRecord
 		// the previous theme
 
 		if ( undo )
+		{
 			unresolveStyles( newTheme );
+
+			if ( oldTheme instanceof String )
+				module.setThemeName( (String) oldTheme );
+			else
+				module.setTheme( (Theme) oldTheme );
+
+		}
 		else
+		{
 			unresolveStyles( oldTheme );
+			module.setTheme( newTheme );
+		}
+
 	}
 
 	/*
@@ -90,7 +111,7 @@ public class ThemeRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return newTheme;
+		return module;
 	}
 
 	/*
@@ -111,9 +132,15 @@ public class ThemeRecord extends SimpleRecord
 	 *            the theme
 	 */
 
-	private void unresolveStyles( Theme theme )
+	private void unresolveStyles( Object theme )
 	{
-		Iterator iter = theme.getSlot( Theme.STYLES_SLOT ).iterator( );
+		// if the old theme is empty of not resolved. Do not need to unresolv.
+
+		if ( theme == null || theme instanceof String )
+			return;
+
+		Iterator iter = ( (Theme) theme ).getSlot( Theme.STYLES_SLOT )
+				.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );

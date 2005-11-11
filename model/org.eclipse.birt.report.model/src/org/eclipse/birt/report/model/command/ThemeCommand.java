@@ -14,10 +14,9 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleException;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 
 /**
@@ -32,13 +31,15 @@ public class ThemeCommand extends AbstractElementCommand
 	 * 
 	 * @param module
 	 *            the module
+	 * @param element
+	 *            the module to set the theme
 	 */
 
-	public ThemeCommand( Module module )
+	public ThemeCommand( Module module, DesignElement element )
 	{
-		super( module, module );
+		super( module, element );
 
-		assert module instanceof ReportDesign;
+		assert element instanceof Module;
 	}
 
 	/**
@@ -54,13 +55,13 @@ public class ThemeCommand extends AbstractElementCommand
 	{
 		name = StringUtil.trimString( name );
 
-		ReportDesign design = (ReportDesign) element;
+		Module currentModule = (Module) element;
 
-		// Ensure that the theme exists.
+		// Ensure that the theme exists
 
 		Theme theme = null;
-		Theme oldTheme = design.getTheme( );
-
+		Theme oldTheme = currentModule.getTheme( );
+		
 		if ( name != null )
 		{
 			theme = getModule( ).findTheme( name );
@@ -82,20 +83,10 @@ public class ThemeCommand extends AbstractElementCommand
 				return;
 		}
 
-		design.getActivityStack( ).startTrans( );
-
-		// Make the change for the theme property.
-
-		PropertyCommand propCommand = new PropertyCommand( module, module );
-		propCommand.setProperty( IModuleModel.THEME_PROP, name );
-
 		// adjust the back references for styles in the theme
-		
-		ThemeRecord themeEffects = new ThemeRecord( design, theme, oldTheme );
-		design.getActivityStack( ).execute( themeEffects );
 
-		design.getActivityStack( ).commit( );
-
+		ThemeRecord themeRecord = new ThemeRecord( currentModule, theme );
+		getModule( ).getActivityStack( ).execute( themeRecord );
 	}
 
 	/**

@@ -13,13 +13,11 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
@@ -82,8 +80,7 @@ public class LibraryState extends ModuleState
 
 		}
 
-		library.setProperty( Module.THEME_PROP, new ElementRefValue( null,
-				theme ) );
+		library.setTheme( theme );
 
 		super.end( );
 	}
