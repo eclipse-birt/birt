@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -182,8 +183,7 @@ public class DeleteCommand extends Command
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "DeleteCommand >> Dropping slot " //$NON-NLS-1$
-					+ slot.getSlotID( )
-					+ " of " //$NON-NLS-1$
+					+ slot.getSlotID( ) + " of " //$NON-NLS-1$
 					+ DEUtil.getDisplayLabel( slot.getElementHandle( ) ) );
 		}
 		List list = slot.getContents( );
@@ -254,7 +254,29 @@ public class DeleteCommand extends Command
 			// CellHandle is subclass of ReportElementHandle
 			return ( (CellHandle) source ).getContent( ).getContents( ).size( ) > 0;
 		}
-		return source instanceof ReportElementHandle
-				&& !( source instanceof MasterPageHandle );
+
+		if ( source instanceof MasterPageHandle )
+		{
+			return false;
+		}
+		else if ( source instanceof ReportElementHandle )
+		{
+			if ( ( (ReportElementHandle) source ).getRoot( ) instanceof LibraryHandle
+					&& SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( ) instanceof ReportDesignHandle )
+			{
+				return false;
+			}
+			return true;
+
+		}
+		else
+			return false;
+
+		// return (source instanceof ReportElementHandle
+		// // && (SessionHandleAdapter.getInstance( ).getReportDesignHandle()
+		// instanceof LibraryHandle)
+		// && !( source instanceof MasterPageHandle ));
+
 	}
 }
