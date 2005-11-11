@@ -70,6 +70,8 @@ public class StockChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Stock Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "StockChart.Txt.DefaultStockChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "StockChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -169,6 +171,11 @@ public class StockChart extends DefaultChartTypeImpl
 		newChart.setOrientation( orientation );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
+		
+		newChart.getTitle( )
+			.getLabel( )
+			.getCaption( )
+			.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
@@ -263,6 +270,7 @@ public class StockChart extends DefaultChartTypeImpl
 					currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ) ) );
 				}
 				currentChart.setType( TYPE_LITERAL );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.DATE_TIME_LITERAL );
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 
@@ -378,6 +386,7 @@ public class StockChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )

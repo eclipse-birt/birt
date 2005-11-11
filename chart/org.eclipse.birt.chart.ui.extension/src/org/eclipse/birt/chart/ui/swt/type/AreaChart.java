@@ -72,6 +72,8 @@ public class AreaChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "AreaChart.Txt.DefaultAreaChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "AreaChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
@@ -229,7 +231,7 @@ public class AreaChart extends DefaultChartTypeImpl
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( Messages.getString( "AreaChart.Txt.DefaultAreaChartTitle" ) ); //$NON-NLS-1$
+				.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		if ( sSubType.equalsIgnoreCase( "Stacked" ) ) //$NON-NLS-1$
 		{
@@ -425,6 +427,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
@@ -556,6 +559,7 @@ public class AreaChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )

@@ -69,6 +69,8 @@ public class BarChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Bar Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "BarChart.Txt.DefaultBarChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "BarChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
@@ -241,7 +243,7 @@ public class BarChart extends DefaultChartTypeImpl
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( Messages.getString( "BarChart.Txt.DefaultBarChartTitle" ) ); //$NON-NLS-1$
+				.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		if ( sSubType.equalsIgnoreCase( "Stacked" ) ) //$NON-NLS-1$
 		{
@@ -429,6 +431,7 @@ public class BarChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
@@ -475,8 +478,8 @@ public class BarChart extends DefaultChartTypeImpl
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-
+			currentChart.setDimension( getDimensionFor( sNewDimension ) );			
+			
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
 			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
@@ -560,6 +563,7 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )

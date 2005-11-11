@@ -72,6 +72,8 @@ public class LineChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Line Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "LineChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
@@ -211,7 +213,7 @@ public class LineChart extends DefaultChartTypeImpl
 		newChart.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ) ); //$NON-NLS-1$
+				.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		if ( sSubType.equalsIgnoreCase( "Stacked" ) ) //$NON-NLS-1$
 		{
@@ -401,6 +403,7 @@ public class LineChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
@@ -532,6 +535,7 @@ public class LineChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )

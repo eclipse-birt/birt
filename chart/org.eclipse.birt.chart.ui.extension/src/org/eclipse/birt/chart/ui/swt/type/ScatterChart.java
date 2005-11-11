@@ -70,6 +70,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Scatter Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "ScatterChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -159,6 +161,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 					sSubType,
 					orientation,
 					sDimension );
+			
 			if ( newChart != null )
 			{
 				return newChart;
@@ -183,9 +186,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 				.add( sdX );
 
 		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Scatter Chart Title" ); //$NON-NLS-1$
+			.getLabel( )
+			.getCaption( )
+			.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
@@ -283,6 +286,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( false );
 
 				currentChart.setSubType( sNewSubType );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axes.size( ); i++ )
@@ -395,6 +399,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )

@@ -62,6 +62,8 @@ public class PieChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Pie Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -173,16 +175,16 @@ public class PieChart extends DefaultChartTypeImpl
 			newChart.setSeriesThickness( 15 );
 		}
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ) ); //$NON-NLS-1$
-
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		sdX.getSeriesPalette( ).update( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
+		
+		newChart.getTitle( )
+		.getLabel( )
+		.getCaption( )
+		.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -254,6 +256,7 @@ public class PieChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
+			
 			currentChart.setScript( helperModel.getScript( ) );
 			if ( helperModel.isSetSeriesThickness( ) )
 			{
@@ -301,6 +304,7 @@ public class PieChart extends DefaultChartTypeImpl
 			// expected by default.
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.CATEGORIES_LITERAL );
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -326,7 +330,7 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
-
+				
 				// Copy generic chart properties from the old chart
 				currentChart.setBlock( helperModel.getBlock( ) );
 				currentChart.setDescription( helperModel.getDescription( ) );
@@ -365,6 +369,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.CATEGORIES_LITERAL );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 			}
 		}
 		else

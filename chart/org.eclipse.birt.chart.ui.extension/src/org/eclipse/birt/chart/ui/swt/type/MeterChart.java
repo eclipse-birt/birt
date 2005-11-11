@@ -62,6 +62,8 @@ public class MeterChart extends DefaultChartTypeImpl
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = "Meter Chart"; //$NON-NLS-1$
+	
+	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "MeterChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -166,12 +168,6 @@ public class MeterChart extends DefaultChartTypeImpl
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		newChart.setDialSuperimposition( sSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
-
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ) ); //$NON-NLS-1$
-
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
@@ -179,6 +175,11 @@ public class MeterChart extends DefaultChartTypeImpl
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
+		
+		newChart.getTitle( )
+		.getLabel( )
+		.getCaption( )
+		.setValue( CHART_TITLE ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).update( 0 );
@@ -238,6 +239,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSampleData( getConvertedSampleData( helperModel.getSampleData( ) ) );
 			}
+			currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 			currentChart.setScript( helperModel.getScript( ) );
 			currentChart.setUnits( helperModel.getUnits( ) );
 			if ( helperModel.getGridColumnCount( ) > 0 )
@@ -296,6 +298,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
+				
 				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( "Superimposed Meter Chart" ) ); //$NON-NLS-1$
 
 				// Copy generic chart properties from the old chart
@@ -336,6 +339,7 @@ public class MeterChart extends DefaultChartTypeImpl
 
 				currentChart.getLegend( )
 						.setItemType( LegendItemType.SERIES_LITERAL );
+				currentChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 			}
 		}
 		else
