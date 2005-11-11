@@ -13,14 +13,12 @@ package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.metadata.Choice;
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.15 $ $Date: 2005/07/07 06:25:38 $
+ * @version $Revision: 1.2 $ $Date: 2005/09/27 02:56:39 $
  */
 public class AttributeBuilder
 {
@@ -139,7 +137,7 @@ public class AttributeBuilder
 			return;
 		}
 
-		image = HTMLBaseEmitter.handleStyleImage(image, emitter);
+		image = emitter.handleStyleImage( image );
 		if( image != null && image.length( ) > 0 )
 		{
 			buildURLProperty( content, HTMLTags.ATTR_BACKGROUND_IMAGE, image );
@@ -381,44 +379,6 @@ public class AttributeBuilder
 			addPropName( content, name );
 			addPropValue( content, value );
 			content.append( ';' );
-		}
-	}
-
-	/**
-	 * Build the style property.
-	 * 
-	 * @param content
-	 *            The <code>StringBuffer</code> to which the result is output.
-	 * @param name
-	 *            The name of the property
-	 * @param value
-	 *            The values of the property
-	 */
-	private static void buildProperty( StringBuffer content, String name,
-			DimensionValue value )
-	{
-		if ( value != null )
-		{
-			buildProperty( content, name, value.toString( ) );
-		}
-	}
-
-	/**
-	 * Build the style property, this method is obsolete.
-	 * 
-	 * @param content
-	 *            The <code>StringBuffer</code> to which the result is output.
-	 * @param name
-	 *            The name of the property
-	 * @param value
-	 *            The values of the property
-	 */
-	private static void buildProperty( StringBuffer content, String name,
-			Choice value )
-	{
-		if ( value != null )
-		{
-			buildProperty( content, name, value.getName( ) );
 		}
 	}
 
