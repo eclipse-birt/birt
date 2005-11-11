@@ -384,17 +384,28 @@ public abstract class ReportElementState extends DesignParseState
 			return;
 		IModuleNameSpace moduleNameSpace = module.getModuleNameSpace( id );
 		ElementRefValue refValue = moduleNameSpace.resolve( extendsName );
-		// DesignElement parent = module.resolveElement( extendsName, id );
+		
+		if( !refValue.isResolved() )
+		{
+			handler.getErrorHandler( ).semanticWarning( new ExtendsException( element, extendsName,
+					ExtendsException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			return;
+		}
+		
 		try
 		{
-			element.checkExtends( refValue.getElement( ) );
-			element.setExtendsElement( refValue.getElement( ) );
-			element.refreshStructureFromParent( module );
+			DesignElement parent = refValue.getElement();
+			assert parent != null;
+			element.checkExtends( parent );
+			
 		}
 		catch ( ExtendsException ex )
 		{
 			handler.getErrorHandler( ).semanticError( ex );
 		}
+		
+		element.setExtendsElement( refValue.getElement( ) );
+		element.refreshStructureFromParent( module );
 	}
 
 	/**
