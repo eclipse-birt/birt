@@ -291,6 +291,10 @@
     <Choice displayNameID="Choices.actionLinkType.drill-through" name="drill-through"/>
     <Choice displayNameID="Choices.actionLinkType.bookmark-link" name="bookmark-link"/>
   </ChoiceType>
+  <ChoiceType name="actionFormatType">
+    <Choice displayNameID="Choices.actionFormatType.html" name="html"/>
+    <Choice displayNameID="Choices.actionFormatType.pdf" name="pdf"/>
+  </ChoiceType>
   <ChoiceType name="drillThroughType">
     <Choice displayNameID="Choices.drillThroughType.none" name="none"/>
     <Choice displayNameID="Choices.drillThroughType.bookmark-link" name="bookmark-link"/>
@@ -1537,6 +1541,7 @@
     <Member detailType="actionLinkType" displayNameID="Structure.Action.linkType" name="linkType" since="1.0" type="choice">
       <Default>hyperlink</Default>
     </Member>
+    <Member detailType="actionFormatType" displayNameID="Structure.Action.formatType" name="formatType" since="2.0" type="choice"/>
     <Member displayNameID="Structure.Action.uri" name="uri" since="1.0" returnType="string" type="expression"/>
     <Member displayNameID="Structure.Action.targetBookmark" name="targetBookmark" returnType="string" since="reserved" type="expression"/>
     <Member displayNameID="Structure.Action.reportName" name="reportName" since="reserved" type="string"/>

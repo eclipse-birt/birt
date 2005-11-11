@@ -339,12 +339,19 @@ public interface DesignChoiceConstants
 	public static final String LINE_SPACING_LINES = "lines"; //$NON-NLS-1$
 	public static final String LINE_SPACING_EXACT = "exact"; //$NON-NLS-1$
 
-	// actionLinkType
+	// actionLinkTyp
 
 	public static final String CHOICE_ACTION_LINK_TYPE = "actionLinkType"; //$NON-NLS-1$
+	public static final String ACTION_LINK_TYPE_NONE = "none"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_HYPERLINK = "hyperlink"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_DRILL_THROUGH = "drill-through"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_BOOKMARK_LINK = "bookmark-link"; //$NON-NLS-1$
+
+	// actionFormatType
+
+	public static final String CHOICE_ACTION_FORMAT_TYPE = "actionFormatType"; //$NON-NLS-1$
+	public static final String ACTION_FORMAT_TYPE_HTML = "html"; //$NON-NLS-1$
+	public static final String ACTION_FORMAT_TYPE_PDF = "pdf"; //$NON-NLS-1$
 
 	// ContentType for TextItem
 

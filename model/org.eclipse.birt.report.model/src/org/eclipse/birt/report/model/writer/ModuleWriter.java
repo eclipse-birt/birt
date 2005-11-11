@@ -2147,7 +2147,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 		writer.attribute( DesignElement.NAME_PROP, propName );
-
+		
+		property( action, Action.FORMAT_TYPE_MEMBER );
 		property( action, Action.LINK_TYPE_MEMBER );
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK

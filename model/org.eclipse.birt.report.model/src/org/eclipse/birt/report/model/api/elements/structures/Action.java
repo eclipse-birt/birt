@@ -113,6 +113,12 @@ public class Action extends PropertyStructure
     public final static String SEARCH_MEMBER = "search"; //$NON-NLS-1$
 
 
+    /**
+     * Property name of format.
+     */
+
+    public final static String FORMAT_TYPE_MEMBER = "formatType"; //$NON-NLS-1$
+
     /*
      * (non-Javadoc)
      * 
