@@ -901,9 +901,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( getElement( ).getName( ) == null )
 			return null;
 
-		if ( module instanceof Library )
+		Module rootElement = ( Module )getRoot( ).getElement( );
+		if ( rootElement instanceof Library )
 		{
-			String namespace = ( (Library) module ).getNamespace( );
+			String namespace = ( (Library) rootElement )
+					.getNamespace( );
 			return StringUtil.buildQualifiedReference( namespace, getElement( )
 					.getName( ) );
 		}
@@ -1808,12 +1810,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
 		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
 				.getElement( ) );
-		TemplateElement template = cmd.createTemplateElement( getElement( ), getElement( )
-				.getContainerSlot( ), name );
+		TemplateElement template = cmd.createTemplateElement( getElement( ),
+				getElement( ).getContainerSlot( ), name );
 		if ( template == null )
 			return null;
 		return (TemplateElementHandle) template.getHandle( module );
@@ -1838,12 +1841,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
 		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
 				.getElement( ) );
-		TemplateElement template = cmd.revertToTemplate( getElement( ), getElement( )
-				.getContainerSlot( ), name );
+		TemplateElement template = cmd.revertToTemplate( getElement( ),
+				getElement( ).getContainerSlot( ), name );
 		if ( template == null )
 			return null;
 		return (TemplateElementHandle) template.getHandle( module );
@@ -1852,7 +1856,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Checks whether this element is based on a template parameter definition
 	 * or not. Call this method before calling method
-	 * {@link #revertToTemplate(String) } to assure that this element can be
+	 * {@link #revertToTemplate(String) }to assure that this element can be
 	 * reverted to a template element. If this method returns false, method
 	 * <code>revertToTemplate(String)</code> must fail too.
 	 * 

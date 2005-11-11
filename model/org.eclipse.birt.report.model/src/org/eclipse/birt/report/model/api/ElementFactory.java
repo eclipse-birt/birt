@@ -873,7 +873,7 @@ public class ElementFactory
 
 		// if the base element is in the module, just generate a child element
 
-		if ( baseElement.getModule( ) == this.module )
+		if ( baseElement.getRoot( ).getElement( ) == module )
 		{
 			DesignElementHandle childElement = newElement( baseElement
 					.getElement( ).getElementName( ), name );
