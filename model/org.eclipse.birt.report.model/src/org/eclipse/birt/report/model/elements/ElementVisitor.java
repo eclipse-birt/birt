@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.core.StyledElement;
  * The base class for defining algorithms that traverse the design tree. The
  * derived class overrides the various <code>visitMumble</code> methods to
  * perform tasks specific to that element.
- *  
+ * 
  */
 
 public class ElementVisitor
@@ -170,7 +170,7 @@ public class ElementVisitor
 
 	public void visitList( ListItem obj )
 	{
-	    visitListing( obj );
+		visitListing( obj );
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class ElementVisitor
 
 	public void visitTable( TableItem obj )
 	{
-	    visitListing( obj );
+		visitListing( obj );
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visits the graphic master page element.
 	 * 
@@ -310,7 +310,7 @@ public class ElementVisitor
 
 	public void visitGraphicMasterPage( GraphicMasterPage obj )
 	{
-	    visitMasterPage( obj );
+		visitMasterPage( obj );
 	}
 
 	/**
@@ -322,7 +322,7 @@ public class ElementVisitor
 
 	public void visitSimpleMasterPage( SimpleMasterPage obj )
 	{
-	    visitMasterPage( obj );
+		visitMasterPage( obj );
 	}
 
 	/**
@@ -336,7 +336,7 @@ public class ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visits the cascading parameter group element.
 	 * 
@@ -456,7 +456,6 @@ public class ElementVisitor
 		visitReportItem( obj );
 	}
 
-
 	/**
 	 * Visits the contents of the given slot. Allows a derived class to traverse
 	 * downward though the design tree.
@@ -479,7 +478,7 @@ public class ElementVisitor
 	 * @param obj
 	 *            the element to traverse
 	 */
-	
+
 	public void visitOdaDataSource( OdaDataSource obj )
 	{
 		visitDataSource( obj );
@@ -491,34 +490,82 @@ public class ElementVisitor
 	 * @param obj
 	 *            the element to traverse
 	 */
-	
+
 	public void visitOdaDataSet( OdaDataSet obj )
 	{
 		visitDataSet( obj );
 	}
-	
+
 	/**
 	 * Visits the module.
 	 * 
 	 * @param obj
 	 *            the module to traverse
 	 */
-	
+
 	public void visitModule( Module obj )
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
-	 * Visits the module.
+	 * Visits the theme.
 	 * 
 	 * @param obj
-	 *            the module to traverse
+	 *            the theme to traverse
 	 */
-	
+
 	public void visitTheme( Theme obj )
 	{
 		visitDesignElement( obj );
 	}
-}
 
+	/**
+	 * Visits the template parameter definition.
+	 * 
+	 * @param obj
+	 *            the template parameter definition to traverse
+	 */
+
+	public void visitTemplateParameterDefinition(
+			TemplateParameterDefinition obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the template element.
+	 * 
+	 * @param obj
+	 *            the template element to traverse
+	 */
+
+	public void visitTemplateElement( TemplateElement obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the template report item.
+	 * 
+	 * @param obj
+	 *            the template report item to traverse
+	 */
+
+	public void visitTemplateReportItem( TemplateReportItem obj )
+	{
+		visitTemplateElement( obj );
+	}
+
+	/**
+	 * Visits the template data set.
+	 * 
+	 * @param obj
+	 *            the template data set to traverse
+	 */
+
+	public void visitTemplateDataSet( TemplateDataSet obj )
+	{
+		visitTemplateElement( obj );
+	}
+}

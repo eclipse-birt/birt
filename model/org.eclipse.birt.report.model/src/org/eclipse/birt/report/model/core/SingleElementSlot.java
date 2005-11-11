@@ -201,4 +201,13 @@ public class SingleElementSlot extends ContainerSlot
 		return content;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.ContainerSlot#clear()
+	 */
+	
+	public void clear( )
+	{
+		this.content = null;		
+	}
+
 }

@@ -13,21 +13,27 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.TemplateReportItem;
+import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
- * Base class for all report item parse states.
- * 
+ * This class parses a template report item.
  */
 
-public abstract class ReportItemState extends ReportElementState
+public class TemplateReportItemState extends ReportElementState
 {
 
 	/**
-	 * Constructs the report item state with the design parser handler, the
-	 * container element and the container slot of the report item.
+	 * The template report item being created.
+	 */
+
+	protected TemplateReportItem element = null;
+
+	/**
+	 * Constructs the template report item state with the design parser handler,
+	 * the container element and the container slot of the template report item.
 	 * 
 	 * @param handler
 	 *            the design file parser handler
@@ -37,22 +43,34 @@ public abstract class ReportItemState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public ReportItemState( ModuleParserHandler handler,
+	public TemplateReportItemState( ModuleParserHandler handler,
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
 	}
 
-	/**
-	 * Intializes a report item with the properties common to all report items.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
+	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	protected void initElement( Attributes attrs )
+	public DesignElement getElement( )
 	{
-		super.initElement( attrs, false );
+		return element;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		element = new TemplateReportItem( );
+
+		initElement( attrs, false );
 	}
 
 	/*
@@ -60,14 +78,15 @@ public abstract class ReportItemState extends ReportElementState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
+
 	public void end( ) throws SAXException
 	{
-		DesignElement element = getElement( );
-		TemplateParameterDefinition refTemplateParam = element
+		DesignElement refTemplateParam = element
 				.getTemplateParameterElement( handler.getModule( ) );
 		if ( refTemplateParam != null )
 		{
-			DesignElement defaultElement = refTemplateParam.getDefaultElement( );
+			DesignElement defaultElement = element.getDefaultElement( handler
+					.getModule( ) );
 
 			if ( !( defaultElement instanceof ReportItem ) )
 			{

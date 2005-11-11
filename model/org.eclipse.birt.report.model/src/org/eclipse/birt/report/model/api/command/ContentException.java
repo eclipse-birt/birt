@@ -25,6 +25,11 @@ public class ContentException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = 6436296237110208952L;
+
+	/**
 	 * The slot within the container.
 	 */
 
@@ -38,7 +43,7 @@ public class ContentException extends SemanticException
 
 	/**
 	 * Can not change the structure of an element if it is a child element, or
-	 * it is within a child element.
+	 * it is within a child element, or it is a template parameter definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN;
@@ -118,6 +123,12 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NAME_REQUIRED;
 
 	/**
+	 * The template element has no referred template definition, it is invalid.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT = MessageConstants.CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT;
+
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -173,19 +184,12 @@ public class ContentException extends SemanticException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
+public String getLocalizedMessage( )
 	{
 		if ( sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( element ), String.valueOf( slot )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE
-				|| sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( element ),
-					element.getDefn( ).getSlot( slot ).getName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER
 				|| sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER
@@ -221,7 +225,8 @@ public class ContentException extends SemanticException
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN )
 		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{ getElementName( element )} );
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{getElementName( element )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED )
 		{
@@ -229,7 +234,18 @@ public class ContentException extends SemanticException
 					getElementName( content ), element.getElementName( ),
 					element.getDefn( ).getSlot( slot ).getName( )} );
 		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					getElementName( content ), getElementName( element ),
+					element.getDefn( ).getSlot( slot ).getName( )} );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE || sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
+		{
+			return ModelMessages.getMessage( sResourceKey, new String[]{
+					getElementName( element ), getElementName( content ),
+					element.getDefn( ).getSlot( slot ).getName( )} );
+		}
 
 		return ModelMessages.getMessage( sResourceKey );
-	}
-}
+	}}

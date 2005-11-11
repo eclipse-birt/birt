@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
@@ -151,6 +152,8 @@ public class FreeFormState extends ReportItemState
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, element,
 						FreeForm.REPORT_ITEMS_SLOT );
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+				return new TemplateReportItemState( handler, element, FreeForm.REPORT_ITEMS_SLOT );
 			return super.startElement( tagName );
 		}
 	}

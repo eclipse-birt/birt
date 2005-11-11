@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
  * Sets the value of a property. Works with both system and user properties.
@@ -170,10 +171,14 @@ public class PropertyCommand extends AbstractElementCommand
 	 *            the new property value.
 	 * @throws ExtendedElementException
 	 *             if the extension property is invalid
+	 * @throws PropertyValueException
+	 *             if the element is a template element and users try to set the
+	 *             value of template definition to "null" or a non-exsiting
+	 *             element
 	 */
 
 	private void doSetProperty( ElementPropertyDefn prop, Object value )
-			throws ExtendedElementException
+			throws ExtendedElementException, PropertyValueException
 	{
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
@@ -203,7 +208,7 @@ public class PropertyCommand extends AbstractElementCommand
 
 				return;
 			}
-		}
+		}	
 
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		getActivityStack( ).execute( record );
@@ -287,8 +292,22 @@ public class PropertyCommand extends AbstractElementCommand
 		if ( DesignElement.NAME_PROP.equals( propName ) )
 		{
 			String name = (String) value;
-			NameCommand cmd = new NameCommand( module, element );
-			cmd.setName( name );
+			int slotID = element.getContainerSlot( );
+			DesignElement container = element.getContainer( );
+
+			// all elements that have names have container too.
+
+			if ( container != null )
+			{
+				NameCommand cmd = new NameCommand( module, element,
+						(SlotDefn) container.getDefn( ).getSlot( slotID ) );
+				cmd.setName( name );
+			}
+			else
+			{
+				NameCommand cmd = new NameCommand( module, element, null );
+				cmd.setName( name );
+			}
 		}
 		else if ( DesignElement.EXTENDS_PROP.equals( propName ) )
 		{

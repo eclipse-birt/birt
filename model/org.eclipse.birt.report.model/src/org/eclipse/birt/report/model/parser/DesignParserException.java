@@ -25,6 +25,11 @@ public class DesignParserException extends ModelException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+	private static final long serialVersionUID = 586491893198640178L;
+
+	/**
 	 * The design/library file was not found.
 	 */
 
@@ -184,6 +189,21 @@ public class DesignParserException extends ModelException
 	public static final String DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_DUPLICATE_ELEMENT_ID;
 
 	/**
+	 * The default element is not the same type of template element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE;
+
+	/**
+	 * Error code indicating template parameter definition have no default
+	 * element.
+	 */
+
+	public static final String DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT = MessageConstants.DESIGN_PARSER_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT;
+
+	
+	
+	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
 	 * @param errCode
@@ -233,6 +253,16 @@ public class DesignParserException extends ModelException
 				)
 		{
 			assert oaMessageArguments.length == 2;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE )
+		{
+			assert oaMessageArguments.length == 2;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT )
+		{
+			assert oaMessageArguments.length == 1;
 			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 

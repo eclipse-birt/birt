@@ -55,7 +55,6 @@ public class DesignWriter extends ModuleWriter
 		this.design = design;
 	}
 
-
 	/**
 	 * Write the top-level Report tag, and the properties and contents of the
 	 * report itself.
@@ -67,9 +66,9 @@ public class DesignWriter extends ModuleWriter
 	public void visitReportDesign( ReportDesign obj )
 	{
 		writer.startElement( DesignSchemaConstants.REPORT_TAG );
-		
+
 		super.visitReportDesign( obj );
-		
+
 		property( obj, ReportDesign.REFRESH_RATE_PROP );
 		property( obj, Module.INITIALIZE_METHOD );
 		property( obj, ReportDesign.BEFORE_FACTORY_METHOD );
@@ -81,17 +80,19 @@ public class DesignWriter extends ModuleWriter
 		property( obj, ReportDesign.BEFORE_RENDER_METHOD );
 		property( obj, ReportDesign.AFTER_RENDER_METHOD );
 		property( obj, IModuleModel.THEME_PROP );
-		
+
 		// include libraries and scripts
 
 		writeStructureList( obj, ReportDesign.INCLUDE_LIBRARIES_PROP );
 		writeSimpleStructureList( obj, ReportDesign.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
-		
+
 		// config variables
 
 		writeStructureList( obj, ReportDesign.CONFIG_VARS_PROP );
 
+		writeContents( obj, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+				DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG );
 		writeArrangedContents( obj, ReportDesign.PARAMETER_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
 		writeArrangedContents( obj, ReportDesign.DATA_SOURCE_SLOT,
@@ -121,14 +122,16 @@ public class DesignWriter extends ModuleWriter
 		// Embedded images
 
 		writeEmbeddedImages( obj );
-		
+
 		writer.endElement( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.writer.ModuleWriter#getModule()
 	 */
-	
+
 	protected Module getModule( )
 	{
 		return design;

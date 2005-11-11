@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.command.ExtendsCommand;
 import org.eclipse.birt.report.model.command.NameCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.StyleCommand;
+import org.eclipse.birt.report.model.command.TemplateCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -48,6 +50,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -55,6 +58,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
@@ -902,8 +906,19 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public void setName( String name ) throws NameException
 	{
-		NameCommand cmd = new NameCommand( module, getElement( ) );
-		cmd.setName( name );
+		DesignElementHandle container = getContainer( );
+		if ( container == null )
+		{
+			NameCommand cmd = new NameCommand( module, getElement( ), null );
+			cmd.setName( name );
+		}
+		else
+		{
+			NameCommand cmd = new NameCommand( module, getElement( ),
+					(SlotDefn) container.getDefn( ).getSlot(
+							getElement( ).getContainerSlot( ) ) );
+			cmd.setName( name );
+		}
 	}
 
 	/**
@@ -1580,15 +1595,15 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Determines if this element can be dropped from its container.
 	 * 
-	 * @return <code>true</code> if it can be dropped. Returns <code>false</code>
-	 * otherwise.
+	 * @return <code>true</code> if it can be dropped. Returns
+	 *         <code>false</code> otherwise.
 	 */
 
 	public boolean canDrop( )
 	{
-		return getElement().canDrop();
+		return getElement( ).canDrop( );
 	}
-	
+
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
@@ -1756,5 +1771,79 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		} while ( element != null );
 
 		return sb.toString( );
+	}
+
+	/**
+	 * Creates a template element handle and transforms the current element
+	 * handle to the created template element.
+	 * 
+	 * @param name
+	 *            the name of created template element handle
+	 * @return the template element handle
+	 * @throws SemanticException
+	 *             if the current element can not be transformed to a template
+	 *             element, current module is not a report design or some
+	 *             containing contexts don't match
+	 */
+
+	public TemplateElementHandle createTemplateElement( String name )
+			throws SemanticException
+	{
+		if ( getRoot( ) == null )
+			throw new TemplateException( getElement( ),
+					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
+				.getElement( ) );
+		TemplateElement template = cmd.createTemplateElement( getElement( ), getElement( )
+				.getContainerSlot( ), name );
+		if ( template == null )
+			return null;
+		return (TemplateElementHandle) template.getHandle( module );
+	}
+
+	/**
+	 * Creates a template element handle and transforms the current element
+	 * handle to the created template element if the current element is based on
+	 * a template parameter definition.
+	 * 
+	 * @param name
+	 *            the name of created template element handle
+	 * @return the template element handle
+	 * @throws SemanticException
+	 *             if the current element can not be transformed to a template
+	 *             element, current element has no template parameter
+	 *             definition, current module is not a report design or some
+	 *             containing contexts don't match
+	 */
+
+	public TemplateElementHandle revertToTemplate( String name )
+			throws SemanticException
+	{
+		if ( getRoot( ) == null )
+			throw new TemplateException( getElement( ),
+					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
+				.getElement( ) );
+		TemplateElement template = cmd.revertToTemplate( getElement( ), getElement( )
+				.getContainerSlot( ), name );
+		if ( template == null )
+			return null;
+		return (TemplateElementHandle) template.getHandle( module );
+	}
+
+	/**
+	 * Checks whether this element is based on a template parameter definition
+	 * or not. Call this method before calling method
+	 * {@link #revertToTemplate(String) } to assure that this element can be
+	 * reverted to a template element. If this method returns false, method
+	 * <code>revertToTemplate(String)</code> must fail too.
+	 * 
+	 * @return true if this element is based on a template parameter definition,
+	 *         otherwise false
+	 */
+
+	public boolean isTemplateParameterValue( )
+	{
+		return getElement( ).getTemplateParameterElement( getModule( ) ) != null;
 	}
 }

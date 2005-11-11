@@ -14,14 +14,16 @@ package org.eclipse.birt.report.model.command;
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
  * Renames a design element.
@@ -32,17 +34,26 @@ public class NameCommand extends AbstractElementCommand
 {
 
 	/**
+	 * The definition of the slot the element to add or exsit.
+	 */
+
+	private SlotDefn slotInfo = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param module
 	 *            the module
 	 * @param obj
 	 *            the element to modify.
+	 * @param slotInfo
+	 *            the definition of the slot the element to add or exsit
 	 */
 
-	public NameCommand( Module module, DesignElement obj )
+	public NameCommand( Module module, DesignElement obj, SlotDefn slotInfo )
 	{
 		super( module, obj );
+		this.slotInfo = slotInfo;
 	}
 
 	/**
@@ -98,6 +109,24 @@ public class NameCommand extends AbstractElementCommand
 
 	public void checkName( String name ) throws NameException
 	{
+		doCheckName( name, false );
+	}
+
+	/**
+	 * Does some checks about the name of the element to insert, to replace or
+	 * to set a new name.
+	 * 
+	 * @param name
+	 *            the new name to check
+	 * @param isReplace
+	 *            true if the name check occurs in the replacement, otherwise
+	 *            false
+	 * @throws NameException
+	 */
+
+	private void doCheckName( String name, boolean isReplace )
+			throws NameException
+	{
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 
 		if ( name == null )
@@ -123,16 +152,16 @@ public class NameCommand extends AbstractElementCommand
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
-			// if it is a style in the theme, no need to check duplicate names.
-			// In the library, style names can be duplicate.
+			// if the contents in the slot to add should not be added into the
+			// namespace, then checks for the names don't work; such as styles
+			// in the themes, or the report items or data sets in the template
+			// parameter definitions, their names will not put into namepsace.
 
-			int ns = metaData.getNameSpaceID( );
-			if ( ns == Module.STYLE_NAME_SPACE
-					&& element instanceof StyleElement
-					&& getModule( ) instanceof Library )
+			if ( slotInfo != null && !slotInfo.isAddToNameSpace( ) )
 			{
 				return;
 			}
+			int ns = metaData.getNameSpaceID( );
 
 			// first found the element with the given name. Since the library
 			// has it own namespace -- prefix, the range of name check should be
@@ -150,9 +179,42 @@ public class NameCommand extends AbstractElementCommand
 			// compound element to the design tree; 4. for this case, should
 			// have no exception thrown.
 
-			if ( existedElement != null && existedElement != element )
+			if ( existedElement != null
+					&& existedElement != element
+					&& ( !isReplace || ( isReplace && !existedElement
+							.isContentOf( element ) ) ) )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_DUPLICATE );
+		}
+	}
+
+	/**
+	 * Checks the current element name. Done when adding a newly created element
+	 * where the element name is already set on the new element.
+	 * 
+	 * @param newElement
+	 *            the new element to check.
+	 * @throws NameException
+	 *             if the element name is not allowed to change.
+	 */
+
+	public void checkName( DesignElement newElement ) throws NameException
+	{
+		if ( newElement == null )
+			return;
+		String name = newElement.getName( );
+		doCheckName( name, true );
+
+		IElementDefn metaData = newElement.getDefn( );
+		for ( int i = 0; i < metaData.getSlotCount( ); i++ )
+		{
+			ContainerSlot slot = newElement.getSlot( i );
+
+			for ( int j = 0; j < slot.getCount( ); j++ )
+			{
+				DesignElement content = slot.getContent( j );
+				checkName( content );
+			}
 		}
 	}
 
@@ -188,7 +250,8 @@ public class NameCommand extends AbstractElementCommand
 
 	private void addSymbol( )
 	{
-		if ( element.getName( ) == null )
+		if ( element.getName( ) == null
+				|| ( slotInfo != null && !slotInfo.isAddToNameSpace( ) ) )
 			return;
 
 		// if it is a style in the theme, no need to check duplicate names.
@@ -224,7 +287,8 @@ public class NameCommand extends AbstractElementCommand
 
 	private void dropSymbol( )
 	{
-		if ( element.getName( ) == null )
+		if ( element.getName( ) == null
+				|| ( slotInfo != null && !slotInfo.isAddToNameSpace( ) ) )
 			return;
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( !module.getNameSpace( ns ).contains( element.getName( ) ) )
@@ -235,7 +299,12 @@ public class NameCommand extends AbstractElementCommand
 
 	private void renameSymbolFrom( String oldName )
 	{
-		if ( element.getContainer( ) != null )
+		// only the slot the element to add or exsit need to handle some
+		// namespace issue, we will do some replace operarions for namespace; if
+		// not, we will not handle
+
+		if ( element.getContainer( ) != null
+				&& ( slotInfo != null && slotInfo.isAddToNameSpace( ) ) )
 		{
 			RenameInNameSpaceRecord record = new RenameInNameSpaceRecord(
 					getModule( ), element, oldName, element.getName( ) );

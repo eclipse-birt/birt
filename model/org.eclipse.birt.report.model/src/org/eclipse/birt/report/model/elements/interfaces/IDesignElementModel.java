@@ -77,13 +77,22 @@ public interface IDesignElementModel
 	 */
 
 	public static final String USER_PROPERTIES_PROP = "userProperties"; //$NON-NLS-1$
-
+	
 	/**
 	 * Name of the event handler class.
 	 */
 
 	public static final String EVENT_HANDLER_CLASS_PROP = "eventHandlerClass"; //$NON-NLS-1$
-	
+		
+	/**
+	 * Name of the property that defines the referred template parameter
+	 * definition. Its value is instance of ElementRefValue.
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementRefValue
+	 */
+
+	public static final String REF_TEMPLATE_PARAMETER_PROP = "refTemplateParameter"; //$NON-NLS-1$
+
 	/**
 	 * Marker to indicate that the element is not in a slot.
 	 */

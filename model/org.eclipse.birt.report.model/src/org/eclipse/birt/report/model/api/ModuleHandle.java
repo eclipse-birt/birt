@@ -59,7 +59,10 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.TemplateDataSet;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -598,7 +601,29 @@ public abstract class ModuleHandle extends DesignElementHandle
 		DesignElement element = module.findDataSet( name );
 		if ( element == null )
 			return null;
-		return (DataSetHandle) element.getHandle( module );
+		if ( element instanceof DataSet )
+			return (DataSetHandle) element.getHandle( module );
+		return null;
+	}
+
+	/**
+	 * Finds a template data set by name in this module and the included
+	 * modules.
+	 * 
+	 * @param name
+	 *            name of the data set
+	 * @return a handle to the template data set, or <code>null</code> if the
+	 *         data set is not found
+	 */
+
+	public TemplateDataSetHandle findTemplateDataSet( String name )
+	{
+		DesignElement element = module.findDataSet( name );
+		if ( element == null )
+			return null;
+		if ( element instanceof TemplateDataSet )
+			return (TemplateDataSetHandle) element.getHandle( module );
+		return null;
 	}
 
 	/**
@@ -1098,10 +1123,10 @@ public abstract class ModuleHandle extends DesignElementHandle
 			String groupName )
 	{
 		DesignElement element = module.findParameter( groupName );
-		if ( element == null || !( element instanceof CascadingParameterGroup ))
+		if ( element == null || !( element instanceof CascadingParameterGroup ) )
 			return null;
 		return (CascadingParameterGroupHandle) element.getHandle( module );
-		
+
 	}
 
 	/**
@@ -1548,7 +1573,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		return generateHandleList( elementList );
 	}
-	
+
 	/**
 	 * Returns all data source handles that this modules and the included
 	 * modules contain.
@@ -1978,7 +2003,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the style sheet handle that contains all the selected styles
 	 * @param selectedStyles
 	 *            the selected style list
-	 *  
+	 * 
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
@@ -2089,10 +2114,47 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @return true if there is an included library in this module, which has
 	 *         the same absolute path as that the given library, otherwise false
 	 */
-	
+
 	public boolean isInclude( LibraryHandle library )
 	{
 		return getModule( ).getLibraryByLocation( library.getLocation( ) ) != null;
+	}
+
+	/**
+	 * Finds a template parameter definition by its name in this module and the
+	 * included modules.
+	 * 
+	 * @param name
+	 *            name of the template parameter definition
+	 * @return a handle to the template parameter definition, or
+	 *         <code>null</code> if the template parameter definition is not
+	 *         found
+	 */
+
+	TemplateParameterDefinitionHandle findTemplateParameterDefinition(
+			String name )
+	{
+		TemplateParameterDefinition templateParam = module
+				.findTemplateParameterDefinition( name );
+		if ( templateParam == null )
+			return null;
+		return templateParam.handle( module );
+	}
+
+	/**
+	 * Returns all template parameter definition handles that this modules and
+	 * the included modules contain.
+	 * 
+	 * @return all template parameter definition handles that this modules and
+	 *         the included modules contain.
+	 */
+
+	List getAllTemplateParameterDefinitions( )
+	{
+		List elementList = module.getModuleNameSpace(
+				Module.TEMPLATE_PARAMETER_NAME_SPACE ).getElements( );
+
+		return generateHandleList( elementList );
 	}
 
 }

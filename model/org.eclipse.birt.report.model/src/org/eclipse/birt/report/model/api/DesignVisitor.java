@@ -40,6 +40,9 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.TemplateDataSet;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -333,7 +336,8 @@ public class DesignVisitor
 	 * @param obj
 	 *            the handle of the cascading parameter group to traverse
 	 */
-	protected void visitCascadingParameterGroup( CascadingParameterGroupHandle obj )
+	protected void visitCascadingParameterGroup(
+			CascadingParameterGroupHandle obj )
 	{
 		visitParameterGroup( obj );
 	}
@@ -552,17 +556,66 @@ public class DesignVisitor
 	{
 		visitDataSet( obj );
 	}
-	
+
 	/**
-	 * Visits the extended data set element.
+	 * Visits the theme element.
 	 * 
 	 * @param obj
-	 *            the extended data set to traverse
+	 *            the theme to traverse
 	 */
 
 	protected void visitTheme( ThemeHandle obj )
 	{
 		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the template parameter definition.
+	 * 
+	 * @param obj
+	 *            the template parameter definition to traverse
+	 */
+
+	protected void visitTemplateParameterDefinition(
+			TemplateParameterDefinitionHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+	
+	/**
+	 * Visits the template element.
+	 * 
+	 * @param obj
+	 *            the template element to traverse
+	 */
+
+	public void visitTemplateElement( TemplateElementHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the template report item.
+	 * 
+	 * @param obj
+	 *            the template report item to traverse
+	 */
+
+	public void visitTemplateReportItem( TemplateReportItemHandle obj )
+	{
+		visitTemplateElement( obj );
+	}
+
+	/**
+	 * Visits the template data set.
+	 * 
+	 * @param obj
+	 *            the template data set to traverse
+	 */
+
+	public void visitTemplateDataSet( TemplateDataSetHandle obj )
+	{
+		visitTemplateElement( obj );
 	}
 
 	/**
@@ -780,9 +833,11 @@ public class DesignVisitor
 
 		public void visitCascadingParameterGroup( CascadingParameterGroup obj )
 		{
-			DesignVisitor.this.visitCascadingParameterGroup( (CascadingParameterGroupHandle)obj.handle( module ) );
+			DesignVisitor.this
+					.visitCascadingParameterGroup( (CascadingParameterGroupHandle) obj
+							.handle( module ) );
 		}
-		
+
 		/**
 		 * Visits the library.
 		 * 
@@ -938,7 +993,7 @@ public class DesignVisitor
 		{
 			DesignVisitor.this.visitExtendedDataSet( obj.handle( module ) );
 		}
-		
+
 		/**
 		 * Visits the theme element.
 		 * 
@@ -949,6 +1004,44 @@ public class DesignVisitor
 		public void visitTheme( Theme obj )
 		{
 			DesignVisitor.this.visitTheme( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the template parameter definition.
+		 * 
+		 * @param obj
+		 *            the template parameter definition to traverse
+		 */
+
+		public void visitTemplateParameterDefinition(
+				TemplateParameterDefinition obj )
+		{
+			DesignVisitor.this.visitTemplateParameterDefinition( obj
+					.handle( module ) );
+		}
+
+		/**
+		 * Visits the template report item.
+		 * 
+		 * @param obj
+		 *            the template report item to traverse
+		 */
+
+		public void visitTemplateReportItem( TemplateReportItem obj )
+		{
+			DesignVisitor.this.visitTemplateElement( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the template data set.
+		 * 
+		 * @param obj
+		 *            the template data set to traverse
+		 */
+
+		public void visitTemplateDataSet( TemplateDataSet obj )
+		{
+			DesignVisitor.this.visitTemplateElement( obj.handle( module ) );
 		}
 	}
 }

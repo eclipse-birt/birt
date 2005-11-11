@@ -60,6 +60,7 @@ public interface DesignSchemaConstants
 	static final String	DATA_SOURCES_TAG						= "data-sources";				//$NON-NLS-1$ 
 	static final String	DATA_TAG								= "data";						//$NON-NLS-1$ 
 	static final String	DEFAULT_VALUE_TAG						= "default-value";				//$NON-NLS-1$
+	static final String DEFAULT_TAG								= "default";					//$NON-NLS-1$
 	static final String	DETAIL_TAG								= "detail";						//$NON-NLS-1$
 	static final String ENCRYPTED_PROPERTY_TAG					= "encrypted-property";			//$NON-NLS-1$
 	static final String EX_PROPERTY_TAG							= "ex-property";				//$NON-NLS-1$
@@ -156,6 +157,10 @@ public interface DesignSchemaConstants
 	static final String	TABLE_PARAMETER_TAG						= "table-parameter";			//$NON-NLS-1$ 
 	static final String	TABLE_TAG								= "table";						//$NON-NLS-1$ 
 	static final String	TEMPLATE_TAG							= "template";					//$NON-NLS-1$ 
+	static final String TEMPLATE_PARAMETER_DEFINITION_TAG		= "template-parameter-definition"; //$NON-NLS-1$
+	static final String TEMPLATE_PARAMETER_DEFINITIONS_TAG		= "template-parameter-definitions"; //$NON-NLS-1$
+	static final String TEMPLATE_REPORT_ITEM_TAG				= "template-report-item";		//$NON-NLS-1$
+	static final String TEMPLATE_DATA_SET_TAG					= "template-data-set";			//$NON-NLS-1$
 	static final String	TEXT_ALIGN_ATTRIB						= "text-align";					//$NON-NLS-1$
 	static final String	TEXT_INDENT_ATTRIB						= "text-indent";				//$NON-NLS-1$
 	static final String TEXT_DATA_TAG							= "text-data";					//$NON-NLS-1$

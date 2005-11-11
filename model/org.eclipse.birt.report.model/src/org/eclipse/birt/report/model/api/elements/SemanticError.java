@@ -26,6 +26,12 @@ public class SemanticError extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>
+	 */
+
+	private static final long serialVersionUID = -285983593958407463L;
+
+	/**
 	 * Error code indicating the table has inconsistent column count. The column
 	 * count should match the maximum cell count in header, detail, and foot
 	 * slots.
@@ -207,14 +213,29 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_COLUMN_PASTE_DIFFERENT_LAYOUT = MessageConstants.SEMANTIC_ERROR_COLUMN_PASTE_DIFFERENT_LAYOUT;
 
-	
 	/**
-	 * Error code indicating the a cascading parameter is not typed as "dynamic".
+	 * Error code indicating the a cascading parameter is not typed as
+	 * "dynamic".
 	 */
 
-	public static final String DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INVALID_SCALAR_PARAMETER_TYPE ;
+	public static final String DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INVALID_SCALAR_PARAMETER_TYPE;
 
-	
+	/**
+	 * Error code indicating template parameter definitions have no "type"
+	 * information.
+	 */
+
+	public static final String DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_MISSING_TEMPLATE_PARAMETER_TYPE;
+
+	/**
+	 * Error code indicating default element or value element of template
+	 * parameter definition is incompatible the "allowedType" property defined
+	 * or the element types of default element and value element are not the
+	 * same.
+	 */
+
+	public static final String DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE = MessageConstants.SEMANTIC_ERROR_INCONSISTENT_TEMPLATE_PARAMETER_TYPE;
+
 	/**
 	 * The constant for the semantic error.
 	 */
@@ -368,9 +389,23 @@ public class SemanticError extends SemanticException
 			String name = element.getName( );
 			if ( StringUtil.isBlank( name ) )
 			{
-				return ModelMessages.getMessage( sResourceKey, new String[]{"The " + element.getElementName( )} );  //$NON-NLS-1$//$NON-NLS-2$
+				return ModelMessages.getMessage( sResourceKey,
+						new String[]{"The " + element.getElementName( )} ); //$NON-NLS-1$//$NON-NLS-2$
 			}
-			return ModelMessages.getMessage( sResourceKey, new String[]{"The " + element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			return ModelMessages
+					.getMessage(
+							sResourceKey,
+							new String[]{"The " + element.getElementName( ) + " \"" + name + "\""} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_TYPE )
+		{
+			assert oaMessageArguments.length == 1;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+		}
+		else if ( sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_PARAMETER_TYPE )
+		{
+			assert oaMessageArguments.length == 3;
+			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
 		}
 
 		return ModelMessages.getMessage( sResourceKey, new String[]{element

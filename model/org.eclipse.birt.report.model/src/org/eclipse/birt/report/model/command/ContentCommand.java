@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -161,7 +162,7 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !slotInfo.canContain( content ) )
-			throw new ContentException( element, slotID,
+			throw new ContentException( element, slotID, content,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 
 		// Can not change the structure of child element or a virtual element(
@@ -204,9 +205,20 @@ public class ContentCommand extends AbstractElementCommand
 					content,
 					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
+		// do some checks about the template issues
+
+		TemplateCommand cmd = new TemplateCommand( module, element );
+		TemplateParameterDefinition templateParam = cmd.checkAdd( content,
+				slotID );
+		ContentRecord addTemplateParam = null;
+		if ( templateParam != null )
+			addTemplateParam = new ContentRecord( module, module,
+					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+					templateParam, true );
+
 		// Ensure we can add the name.
 
-		checkElementNames( content );
+		checkElementNames( content, slotInfo );
 
 		// Add the item to the container.
 
@@ -224,8 +236,10 @@ public class ContentCommand extends AbstractElementCommand
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
+		if ( addTemplateParam != null )
+			stack.execute( addTemplateParam );
 		stack.execute( addRecord );
-		addElementNames( content );
+		addElementNames( content, slotInfo );
 
 		stack.commit( );
 	}
@@ -235,22 +249,27 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param element
 	 *            the element to check
+	 * @param slotDefn
+	 *            the definition of the slot to add
 	 * @throws NameException
 	 *             if any element has duplicate name with elements already on
 	 *             the design tree.
 	 */
 
-	private void checkElementNames( DesignElement element )
+	private void checkElementNames( DesignElement element, SlotDefn slotDefn )
 			throws NameException
 	{
-		NameCommand nameCmd = new NameCommand( module, element );
+		NameCommand nameCmd = new NameCommand( module, element, slotDefn );
 		nameCmd.checkName( element.getName( ) );
 
 		ContentIterator iterator = new ContentIterator( element );
 		while ( iterator.hasNext( ) )
 		{
 			DesignElement tmpElement = (DesignElement) iterator.next( );
-			nameCmd = new NameCommand( module, tmpElement );
+			int slotID = tmpElement.getContainerSlot( );
+			nameCmd = new NameCommand( module, tmpElement,
+					(SlotDefn) tmpElement.getContainer( ).getDefn( ).getSlot(
+							slotID ) );
 			nameCmd.checkName( tmpElement.getName( ) );
 		}
 	}
@@ -260,20 +279,25 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param element
 	 *            the element to add
+	 * @param slotInfo
+	 *            the definition of the slot the element to add or exsit
 	 */
 
-	private void addElementNames( DesignElement element )
+	private void addElementNames( DesignElement element, SlotDefn slotInfo )
 	{
 		try
 		{
-			NameCommand nameCmd = new NameCommand( module, element );
+			NameCommand nameCmd = new NameCommand( module, element, slotInfo );
 			nameCmd.addElement( );
 
 			ContentIterator iterator = new ContentIterator( element );
 			while ( iterator.hasNext( ) )
 			{
 				DesignElement tmpElement = (DesignElement) iterator.next( );
-				nameCmd = new NameCommand( module, tmpElement );
+				int slotID = tmpElement.getContainerSlot( );
+				nameCmd = new NameCommand( module, tmpElement,
+						(SlotDefn) tmpElement.getContainer( ).getDefn( )
+								.getSlot( slotID ) );
 				nameCmd.addElement( );
 			}
 		}
@@ -376,14 +400,13 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, slotID, content,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 		if ( !slot.canDrop( content ) )
-			throw new ContentException( element, slotID,
+			throw new ContentException( element, slotID, content,
 					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
-		// Can not drop a virtual element.
-		// However, if it is called when dropping the child element, the check should
-		// be ignored.
-		
-		if ( content.isVirtualElement( ) && !flag )
+		// Can not drop a virtual element. However, if it is called when
+		// dropping the child element, the check should be ignored.
+
+		if ( !content.canDrop( ) && !flag )
 			throw new ContentException(
 					element,
 					slotID,
@@ -442,7 +465,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			if ( content.getName( ) != null )
 			{
-				NameCommand nameCmd = new NameCommand( module, content );
+				NameCommand nameCmd = new NameCommand( module, content,
+						(SlotDefn) element.getDefn( ).getSlot( slotID ) );
 				nameCmd.dropElement( );
 			}
 		}
@@ -735,7 +759,7 @@ public class ContentCommand extends AbstractElementCommand
 			throw new ContentException( element, fromSlotID, content,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 		if ( !fromSlot.canDrop( content ) )
-			throw new ContentException( element, fromSlotID,
+			throw new ContentException( element, fromSlotID, content,
 					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
 		// if the content is in component slot of report design and it has
@@ -749,7 +773,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		SlotDefn slotInfo = (SlotDefn) to.getDefn( ).getSlot( toSlotID );
 		if ( !slotInfo.canContain( content ) )
-			throw new ContentException( to, toSlotID,
+			throw new ContentException( to, toSlotID, content,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 		if ( !slotInfo.isMultipleCardinality( ) && toSlot.getCount( ) > 0 )
 			throw new ContentException( to, toSlotID,
@@ -982,6 +1006,195 @@ public class ContentCommand extends AbstractElementCommand
 		return element instanceof ReportDesign
 				&& fromSlotID == ReportDesign.COMPONENT_SLOT
 				&& content.hasDerived( );
+	}
+
+	/**
+	 * Does some transformation between template elements and report items or
+	 * data sets. Virtually all elements must reside in a container. Containers
+	 * are identified by a container ID.
+	 * 
+	 * @param from
+	 *            the old element to replace
+	 * @param to
+	 *            the new element to replace
+	 * @param slotID
+	 *            the slot from which to replace the old element
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references or set the
+	 *            reference to null
+	 * @throws SemanticException
+	 *             if the old element cannot be replaced by the new element into
+	 *             this container.
+	 */
+
+	public void transformTemplate( DesignElement from, DesignElement to,
+			int slotID, boolean unresolveReference ) throws SemanticException
+	{
+		doReplace( from, to, slotID, unresolveReference );
+	}
+
+	/**
+	 * @see #transformTemplate(DesignElement, DesignElement, int, boolean)
+	 * 
+	 * @param oldElement
+	 *            the old element to replace
+	 * @param newElement
+	 *            the new element to replace
+	 * @param slotID
+	 *            the slot from which to replace the old element
+	 * @param unresolveReference
+	 *            status whether to un-resolve the references or set the
+	 *            reference to null
+	 * @throws SemanticException
+	 *             if the old element cannot be replaced by the new element into
+	 *             this container.
+	 */
+
+	private void doReplace( DesignElement oldElement, DesignElement newElement,
+			int slotID, boolean unresolveReference )
+			throws SemanticException
+	{
+		assert newElement.getContainer( ) == null;
+
+		// Ensure that the new element can be put into the container.
+
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
+		if ( !metaData.isContainer( ) )
+			throw new ContentException( element, slotID,
+					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
+		SlotDefn slotInfo = (SlotDefn) metaData.getSlot( slotID );
+		if ( slotInfo == null )
+			throw new ContentException( element, slotID,
+					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
+		if ( !slotInfo.canContain( newElement ) )
+			throw new ContentException( element, slotID, newElement,
+					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
+
+		// This element is already the content of the element to add.
+
+		if ( element.isContentOf( newElement ) )
+			throw new ContentException( element, slotID, newElement,
+					ContentException.DESIGN_EXCEPTION_RECURSIVE );
+
+		if ( slotID == Module.COMPONENT_SLOT )
+		{
+			if ( StringUtil.isBlank( newElement.getName( ) ) )
+				throw new ContentException( element, slotID, newElement,
+						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
+		}
+
+		if ( !element.canContain( module, slotID, newElement ) )
+			throw new ContentException(
+					element,
+					slotID,
+					newElement,
+					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+
+		// do some checks about the element to be replaced
+
+		ContainerSlot slot = element.getSlot( slotID );
+		if ( !slot.contains( oldElement ) )
+			throw new ContentException( element, slotID, oldElement,
+					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
+
+		// Can not drop a virtual element.
+
+		if ( !oldElement.canDrop( ) )
+			throw new ContentException(
+					element,
+					slotID,
+					oldElement,
+					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+
+		// if the old element is in component slot of report design and it has
+		// children, then the operation is forbidden.
+
+		if ( hasDescendents( oldElement, slotID ) )
+		{
+			throw new ContentException( oldElement, slotID,
+					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
+		}
+
+		// do some checks about the template issues
+
+		TemplateCommand cmd = new TemplateCommand( module, element );
+		TemplateParameterDefinition templateParam = cmd.checkAdd( newElement,
+				slotID );
+		ContentRecord addTemplateParam = null;
+		if ( templateParam != null )
+			addTemplateParam = new ContentRecord( module, module,
+					ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+					templateParam, true );
+
+		// Ensure we can add the name.
+
+		NameCommand nameCmd = new NameCommand( module, oldElement, slotInfo );
+		nameCmd.checkName( newElement );
+
+		// Prepare the transaction.
+
+		ContentReplaceRecord replaceRecord = new TemplateTransformRecord( module, element,
+					slotID, oldElement, newElement );
+		
+		ActivityStack stack = getActivityStack( );
+
+		stack.startFilterEventTrans( replaceRecord.getLabel( ) );
+		try
+		{
+			// Remove contents of old element.
+
+			removeContents( oldElement );
+
+			// Clean up references to or from the element.
+
+			dropUserProperties( oldElement );
+			if ( oldElement.hasReferences( ) )
+				adjustReferenceClients( (ReferenceableElement) oldElement,
+						unresolveReference );
+			adjustReferredClients( oldElement );
+			adjustDerived( oldElement );
+
+			// Drop the style...
+
+			if ( oldElement.getStyle( module ) != null )
+			{
+				StyleCommand styleCmd = new StyleCommand( module, oldElement );
+				styleCmd.setStyle( null );
+			}
+
+			// Drop the extends...
+
+			if ( oldElement.getExtendsElement( ) != null )
+			{
+				ExtendsCommand extendsCmd = new ExtendsCommand( module,
+						oldElement );
+				extendsCmd.setExtendsName( null );
+			}
+
+			// Remove from name space...
+
+			if ( oldElement.getName( ) != null )
+			{
+				nameCmd = new NameCommand( module, oldElement,
+						(SlotDefn) element.getDefn( ).getSlot( slotID ) );
+				nameCmd.dropElement( );
+			}
+		}
+		catch ( SemanticException ex )
+		{
+			stack.rollback( );
+			throw ex;
+		}
+
+		if ( addTemplateParam != null )
+			stack.execute( addTemplateParam );
+
+		// Remove the element itself.
+
+		stack.execute( replaceRecord );
+		addElementNames( newElement, slotInfo );
+
+		stack.commit( );
 	}
 
 }

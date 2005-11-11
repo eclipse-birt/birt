@@ -63,6 +63,8 @@ public class ReportState extends ModuleState
 			return new SlotState( ReportDesign.SCRATCH_PAD_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new CompatibleReportPropertyState( handler, getElement( ) );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
+			return new TemplateParameterDefinitionsState( );
 		return super.startElement( tagName );
 	}
 
@@ -118,6 +120,8 @@ public class ReportState extends ModuleState
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, module,
 						ReportDesign.BODY_SLOT );
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+				return new TemplateReportItemState( handler, module, ReportDesign.BODY_SLOT );
 			return super.startElement( tagName );
 		}
 	}
@@ -139,6 +143,28 @@ public class ReportState extends ModuleState
 		{
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
 				return new StyleState( handler );
+			return super.startElement( tagName );
+		}
+	}
+	
+	/**
+	 * Parses the contents of the list of data sources.
+	 */
+
+	class TemplateParameterDefinitionsState extends InnerParseState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName
+					.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG ) )
+				return new TemplateParameterDefinitionState( handler, module, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			return super.startElement( tagName );
 		}
 	}

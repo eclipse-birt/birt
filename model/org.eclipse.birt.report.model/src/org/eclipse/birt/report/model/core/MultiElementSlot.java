@@ -207,4 +207,14 @@ public class MultiElementSlot extends ContainerSlot
 		return (DesignElement) contents.get( posn );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.ContainerSlot#clear()
+	 */
+	
+	public void clear( )
+	{
+		this.contents.clear( );
+		
+	}
+
 }

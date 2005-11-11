@@ -75,6 +75,10 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.TemplateDataSet;
+import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
+import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
@@ -1700,6 +1704,72 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateDataSet(org.eclipse.birt.report.model.elements.TemplateDataSet)
+	 */
+
+	public void visitTemplateDataSet( TemplateDataSet obj )
+	{
+		writer.startElement( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG );
+		super.visitTemplateDataSet( obj );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateElement(org.eclipse.birt.report.model.elements.TemplateElement)
+	 */
+
+	public void visitTemplateElement( TemplateElement obj )
+	{
+		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
+				DesignElement.NAME_PROP );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		property( obj, TemplateElement.REF_TEMPLATE_PARAMETER_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateParameterDefinition(org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
+	 */
+	public void visitTemplateParameterDefinition(
+			TemplateParameterDefinition obj )
+	{
+		writer
+				.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
+		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
+				DesignElement.NAME_PROP );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		property( obj, TemplateParameterDefinition.ALLOWED_TYPE_PROP );
+		resourceKey( obj, TemplateParameterDefinition.DESCRIPTION_ID_PROP,
+				TemplateParameterDefinition.DESCRIPTION_PROP );
+
+		writeContents( obj, TemplateParameterDefinition.DEFAULT_SLOT,
+				DesignSchemaConstants.DEFAULT_TAG );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateReportItem(org.eclipse.birt.report.model.elements.TemplateReportItem)
+	 */
+
+	public void visitTemplateReportItem( TemplateReportItem obj )
+	{
+		writer.startElement( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG );
+		super.visitTemplateReportItem( obj );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.eclipse.birt.report.model.elements.Style)
 	 */
 
@@ -2158,6 +2228,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, DataSet.ON_FETCH_METHOD );
 		property( obj, DataSet.AFTER_OPEN_METHOD );
 		property( obj, DataSet.AFTER_CLOSE_METHOD );
+		property( obj, DataSet.REF_TEMPLATE_PARAMETER_PROP );
 
 		writeStructureList( obj, DataSet.PARAMETERS_PROP );
 		writeStructureList( obj, DataSet.PARAM_BINDINGS_PROP );
@@ -2233,6 +2304,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ReportItem.HEIGHT_PROP );
 		property( obj, ReportItem.WIDTH_PROP );
 		property( obj, ReportItem.DATA_SET_PROP );
+		property( obj, ReportItem.REF_TEMPLATE_PARAMETER_PROP );
 
 		writeStructureList( obj, ReportItem.VISIBILITY_PROP );
 		writeStructureList( obj, ReportItem.PARAM_BINDINGS_PROP );

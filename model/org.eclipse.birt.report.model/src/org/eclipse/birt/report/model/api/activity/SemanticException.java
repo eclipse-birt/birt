@@ -26,6 +26,12 @@ public class SemanticException extends ModelException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	
+	private static final long serialVersionUID = -5947401970525709666L;
+	
+	/**
 	 * The element with semantic error.
 	 */
 

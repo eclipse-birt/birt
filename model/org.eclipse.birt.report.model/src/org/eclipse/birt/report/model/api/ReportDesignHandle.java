@@ -512,5 +512,5 @@ public class ReportDesignHandle extends ModuleHandle
 	public SlotHandle getStyles( )
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
-	}
+	}	
 }

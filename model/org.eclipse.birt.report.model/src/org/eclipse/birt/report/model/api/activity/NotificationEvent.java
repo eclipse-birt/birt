@@ -120,16 +120,28 @@ public abstract class NotificationEvent
 	public static final int DISPOSE_EVENT = 13;
 
 	/**
-	 * The event type of TABLE_MODEL_EVENT
+	 * The event type of TABLE_MODEL_EVENT.
 	 */
 
 	public static final int TABLE_MODEL_EVENT = 14;
 	
 	/**
-	 * The event type of THEME_EVENT
+	 * The event type of THEME_EVENT.
 	 */
 
 	public static final int THEME_EVENT = 15;
+	
+	/**
+	 * The event type of CONTENT_REPLACE_EVENT.
+	 */
+	
+	public static final int CONTENT_REPLACE_EVENT = 16;
+	
+	/**
+	 * The event type of TEMPLATE_TRANSFORM_EVENT.
+	 */
+	
+	public static final int TEMPLATE_TRANSFORM_EVENT = 17;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
@@ -309,6 +321,8 @@ public abstract class NotificationEvent
 	 * <li>LIBRARY_EVENT</li>
 	 * <li>ATTRIBUTE_EVENT</li>
 	 * <li>DISPOSE_EVENT</li>
+	 * <li>CONTENT_REPLACE_EVENT</li>
+	 * <li>TEMPLATE_TRANSFORM_EVENT</li>
 	 * </ul>
 	 * 
 	 * @return the event type.

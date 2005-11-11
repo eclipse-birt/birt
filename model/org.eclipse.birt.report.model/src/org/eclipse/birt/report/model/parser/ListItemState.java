@@ -201,6 +201,8 @@ public class ListItemState extends ListingItemState
 					|| tagName
 							.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 				return new TextDataItemState( handler, container, slotID );
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+				return new TemplateReportItemState( handler, container, slotID );
 			return super.startElement( tagName );
 		}
 

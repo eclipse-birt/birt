@@ -75,6 +75,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String ALLOWS_USER_PROPERTIES_ATTRIB = "allowsUserProperties"; //$NON-NLS-1$ 
 	private static final String CAN_EXTEND_ATTRIB = "canExtend"; //$NON-NLS-1$ 
 	private static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$ 
+	private static final String IS_MANAGED_BY_NAME_SPACE_ATTRIB = "isManagedByNameSpace"; //$NON-NLS-1$
 	private static final String CAN_INHERIT_ATTRIBUTE = "canInherit"; //$NON-NLS-1$ 
 	private static final String IS_INTRINSIC_ATTRIB = "isIntrinsic"; //$NON-NLS-1$ 
 	private static final String IS_STYLE_PROPERTY_ATTRIB = "isStyleProperty"; //$NON-NLS-1$ 
@@ -211,8 +212,9 @@ class MetaDataHandler extends XMLParserHandler
 			choices.clear( );
 			String name = attrs.getValue( NAME_ATTRIB );
 			if ( StringUtil.isBlank( name ) )
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			else
 			{
 				choiceSet = new ChoiceSet( name );
@@ -252,13 +254,15 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			}
 			else if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 			}
 			else
 			{
@@ -271,9 +275,10 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
 		}
@@ -288,13 +293,15 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 			}
 			if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 			}
 			else
 			{
@@ -309,9 +316,10 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
 
@@ -352,20 +360,23 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = ( struct != null );
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 			if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 			if ( StringUtil.isBlank( type ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_TYPE_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_TYPE_REQUIRED ) );
 				ok = false;
 			}
 			if ( !ok )
@@ -374,8 +385,9 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( typeDefn == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 				return;
 			}
 
@@ -407,8 +419,9 @@ class MetaDataHandler extends XMLParserHandler
 
 					if ( detailName == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
 						return;
 					}
 
@@ -429,16 +442,18 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.STRUCT_TYPE :
 					if ( detailName == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
 					structDefn = (StructureDefn) dictionary
 							.getStructure( detailName );
 					if ( structDefn == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_STRUCT_TYPE ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_INVALID_STRUCT_TYPE ) );
 						return;
 					}
 					break;
@@ -508,6 +523,7 @@ class MetaDataHandler extends XMLParserHandler
 		private static final String DATA_SET_NS_NAME = "dataSet"; //$NON-NLS-1$
 		private static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
 		private static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
+		private static final String TEMPLATE_PARAMETER_DEFINITION_NS_NAME = "templateParameterDefinition"; //$NON-NLS-1$
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -517,14 +533,16 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = true;
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 			if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 
@@ -577,9 +595,14 @@ class MetaDataHandler extends XMLParserHandler
 				elementDefn.setNameSpaceID( Module.PAGE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NO_NS_NAME ) )
 				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
+			else if ( ns
+					.equalsIgnoreCase( TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
+				elementDefn
+						.setNameSpaceID( ReportDesign.TEMPLATE_PARAMETER_NAME_SPACE );
 			else
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 
 			try
 			{
@@ -587,8 +610,10 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( MetaDataException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								e,
+								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
 		}
 
@@ -637,8 +662,9 @@ class MetaDataHandler extends XMLParserHandler
 
 				if ( StringUtil.isBlank( name ) )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 					return;
 				}
 
@@ -655,8 +681,9 @@ class MetaDataHandler extends XMLParserHandler
 			groupNameID = attrs.getValue( DISPLAY_NAME_ID_ATTRIB );
 			if ( StringUtil.isBlank( groupNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_GROUP_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_GROUP_NAME_ID_REQUIRED ) );
 			}
 		}
 
@@ -696,21 +723,24 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = ( elementDefn != null );
 			if ( name == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 
 			if ( displayNameID == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 			if ( type == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_TYPE_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_TYPE_REQUIRED ) );
 				ok = false;
 			}
 
@@ -722,8 +752,9 @@ class MetaDataHandler extends XMLParserHandler
 			PropertyType typeDefn = dictionary.getPropertyType( type );
 			if ( typeDefn == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
 				return;
 			}
 
@@ -752,8 +783,9 @@ class MetaDataHandler extends XMLParserHandler
 
 					if ( detailName == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_CHOICE_TYPE_REQUIRED ) );
 						return;
 					}
 					choiceSet = validateChoiceSet( detailName );
@@ -774,16 +806,18 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.STRUCT_REF_TYPE :
 					if ( detailName == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_STRUCT_TYPE_REQUIRED ) );
 						return;
 					}
 					struct = (StructureDefn) dictionary
 							.getStructure( detailName );
 					if ( struct == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_STRUCT_TYPE ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_INVALID_STRUCT_TYPE ) );
 						return;
 					}
 					break;
@@ -791,8 +825,9 @@ class MetaDataHandler extends XMLParserHandler
 				case PropertyType.ELEMENT_REF_TYPE :
 					if ( detailName == null )
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
 						return;
 					}
 					if ( detailName.equals( THIS_KEYWORD ) )
@@ -849,8 +884,10 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( MetaDataException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								e,
+								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
 		}
 
@@ -886,8 +923,9 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( type != PropertyType.DIMENSION_TYPE )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DEFAULT_UNIT_NOT_ALLOWED ) );
 
 				return;
 			}
@@ -908,8 +946,9 @@ class MetaDataHandler extends XMLParserHandler
 			if ( type != PropertyType.DIMENSION_TYPE
 					&& type != PropertyType.CHOICE_TYPE )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_RESTRICTION_NOT_ALLOWED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_RESTRICTION_NOT_ALLOWED ) );
 
 				return;
 			}
@@ -944,8 +983,9 @@ class MetaDataHandler extends XMLParserHandler
 					}
 					else
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_RESTRICTION ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_INVALID_RESTRICTION ) );
 
 						return;
 					}
@@ -968,8 +1008,9 @@ class MetaDataHandler extends XMLParserHandler
 					}
 					else
 					{
-						errorHandler.semanticError( new MetaDataParserException(
-								MetaDataParserException.DESIGN_EXCEPTION_INVALID_RESTRICTION ) );
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_INVALID_RESTRICTION ) );
 
 						return;
 					}
@@ -1018,15 +1059,17 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
 				return;
 			}
 
 			if ( StringUtil.isBlank( className ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
 				return;
 			}
 
@@ -1043,16 +1086,18 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 
 			}
 			catch ( Exception e )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
 			}
 		}
 	}
@@ -1074,14 +1119,16 @@ class MetaDataHandler extends XMLParserHandler
 
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
 				return;
 			}
 			if ( StringUtil.isBlank( className ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_CLASS_NAME_REQUIRED ) );
 				return;
 			}
 
@@ -1100,15 +1147,17 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
 			catch ( Exception e )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_META_VALIDATOR ) );
 			}
 		}
 
@@ -1140,8 +1189,9 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( PropertyValueException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_INVALID_DEFAULT ) );
 			}
 		}
 	}
@@ -1155,13 +1205,15 @@ class MetaDataHandler extends XMLParserHandler
 			String xmlName = attrs.getValue( NAME_ATTRIB );
 			if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 			}
 			else if ( StringUtil.isBlank( xmlName ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_XML_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_XML_NAME_REQUIRED ) );
 			}
 			else
 			{
@@ -1180,8 +1232,9 @@ class MetaDataHandler extends XMLParserHandler
 					}
 				}
 				if ( found )
-					errorHandler.semanticError( new MetaDataParserException(
-							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CHOICE_NAME ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataException.DESIGN_EXCEPTION_DUPLICATE_CHOICE_NAME ) );
 				else
 					choices.add( choice );
 			}
@@ -1198,8 +1251,9 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = ( elementDefn != null );
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 
@@ -1222,20 +1276,23 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = ( elementDefn != null );
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 			else if ( StringUtil.isBlank( displayNameID ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 			else if ( StringUtil.isBlank( multipleCardinality ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_MULTIPLE_CARDINALITY_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_MULTIPLE_CARDINALITY_REQUIRED ) );
 				ok = false;
 			}
 
@@ -1245,6 +1302,8 @@ class MetaDataHandler extends XMLParserHandler
 			slotDefn = new SlotDefn( );
 			slotDefn.setName( name );
 			slotDefn.setDisplayNameID( displayNameID );
+			slotDefn.setAddToNameSpace( getBooleanAttrib( attrs,
+					IS_MANAGED_BY_NAME_SPACE_ATTRIB, true ) );
 			slotDefn.setMultipleCardinality( parseBoolean( multipleCardinality,
 					true ) );
 			slotDefn.setSelector( attrs.getValue( SELECTOR_ATTRIB ) );
@@ -1284,8 +1343,9 @@ class MetaDataHandler extends XMLParserHandler
 			String name = attrs.getValue( NAME_ATTRIB );
 			if ( StringUtil.isBlank( name ) )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 
@@ -1359,8 +1419,10 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( MetaDataException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								e,
+								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
 
 		}
@@ -1436,8 +1498,10 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( MetaDataException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								e,
+								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
 		}
 	}
@@ -1508,14 +1572,16 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = true;
 			if ( name == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 			if ( displayNameID == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 
@@ -1580,9 +1646,10 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
 		}
@@ -1603,14 +1670,16 @@ class MetaDataHandler extends XMLParserHandler
 			boolean ok = true;
 			if ( name == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 				ok = false;
 			}
 			if ( displayNameID == null )
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 				ok = false;
 			}
 
@@ -1633,8 +1702,10 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			catch ( MetaDataException e )
 			{
-				errorHandler.semanticError( new MetaDataParserException( e,
-						MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								e,
+								MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 			}
 		}
 
@@ -1674,20 +1745,23 @@ class MetaDataHandler extends XMLParserHandler
 				boolean ok = true;
 				if ( name == null )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
 					ok = false;
 				}
 				if ( displayNameID == null )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_DISPLAY_NAME_ID_REQUIRED ) );
 					ok = false;
 				}
 				if ( dataType == null )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							MetaDataParserException.DESIGN_EXCEPTION_DATA_TYPE_REQUIRED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_DATA_TYPE_REQUIRED ) );
 					ok = false;
 				}
 
@@ -1708,9 +1782,10 @@ class MetaDataHandler extends XMLParserHandler
 				}
 				catch ( MetaDataException e )
 				{
-					errorHandler.semanticError( new MetaDataParserException(
-							e,
-							MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									e,
+									MetaDataParserException.DESIGN_EXCEPTION_BUILD_FAILED ) );
 				}
 			}
 		}
@@ -1749,8 +1824,9 @@ class MetaDataHandler extends XMLParserHandler
 			}
 			else
 			{
-				errorHandler.semanticError( new MetaDataParserException(
-						MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_VALIDATOR_NAME_REQUIRED ) );
 			}
 		}
 	}
@@ -1769,8 +1845,9 @@ class MetaDataHandler extends XMLParserHandler
 		IChoiceSet choiceSet = dictionary.getChoiceSet( choiceSetName );
 		if ( choiceSet == null )
 		{
-			errorHandler.semanticError( new MetaDataParserException(
-					MetaDataParserException.DESIGN_EXCEPTION_INVALID_CHOICE_TYPE ) );
+			errorHandler
+					.semanticError( new MetaDataParserException(
+							MetaDataParserException.DESIGN_EXCEPTION_INVALID_CHOICE_TYPE ) );
 			return null;
 		}
 

@@ -222,11 +222,11 @@ public interface DesignChoiceConstants
 	public static final String PARAM_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
 
 	// paramValueType
-	
+
 	public static final String CHOICE_PARAM_VALUE_TYPE = "paramType"; //$NON-NLS-1$
 	public static final String PARAM_VALUE_TYPE_STATIC = "static"; //$NON-NLS-1$
 	public static final String PARAM_VALUE_TYPE_DYNAMIC = "dynamic"; //$NON-NLS-1$
-	
+
 	// paramControl
 
 	public static final String CHOICE_PARAM_CONTROL = "paramControl"; //$NON-NLS-1$
@@ -346,7 +346,6 @@ public interface DesignChoiceConstants
 	public static final String ACTION_LINK_TYPE_DRILL_THROUGH = "drill-through"; //$NON-NLS-1$
 	public static final String ACTION_LINK_TYPE_BOOKMARK_LINK = "bookmark-link"; //$NON-NLS-1$
 
-	
 	// ContentType for TextItem
 
 	public static final String CHOICE_TEXT_CONTENT_TYPE = "textContentType"; //$NON-NLS-1$
@@ -582,4 +581,23 @@ public interface DesignChoiceConstants
 	public static final String TARGET_NAMES_TYPE_SELF = "_self"; //$NON-NLS-1$
 	public static final String TARGET_NAMES_TYPE_PARENT = "_parent"; //$NON-NLS-1$
 	public static final String TARGET_NAMES_TYPE_TOP = "_top"; //$NON-NLS-1$
+
+	/**
+	 * templateElementType -- the template element type The first constant is
+	 * the name of the templateElementType choice set. The followed constants
+	 * are valid choice values of the templateElementType.
+	 */
+
+	public static final String CHOICE_TEMPLATE_ELEMENT_TYPE = "templateElementType"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_TABLE = "Table"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_FREEFORM = "FreeForm"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_DATA = "Data"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_GRID = "Grid"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_IMAGE = "Image"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_LABEL = "Label"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_LIST = "List"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_TEXT = "Text"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_EXTENDED_ITEM = "ExtendedItem"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_TEXT_DATA = "TextData"; //$NON-NLS-1$
+	public static final String TEMPLATE_ELEMENT_TYPE_DATA_SET = "DataSet"; //$NON-NLS-1$
 }

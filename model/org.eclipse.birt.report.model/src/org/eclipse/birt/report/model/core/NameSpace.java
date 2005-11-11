@@ -116,21 +116,6 @@ public final class NameSpace implements Cloneable
 		}
 	}
 
-	//	public void rename( DesignElement element, String oldName )
-//	{
-//		if ( oldName != null )
-//		{
-//			assert names.get( oldName ) == element;
-//			names.remove( oldName );
-//		}
-//		String newName = element.getName( );
-//		if ( newName != null )
-//		{
-//			assert names.get( newName ) == null;
-//			names.put( newName, element );
-//		}
-//	}
-
 	/**
 	 * Checks if the name appears within the name space.
 	 * 
@@ -193,6 +178,7 @@ public final class NameSpace implements Cloneable
 	 * 
 	 * @param design
 	 *            the new cloned report design
+	 * @throws CloneNotSupportedException 
 	 * @see java.lang.Object#clone()
 	 */
 	public static void rebuildNamespace( ReportDesign design )

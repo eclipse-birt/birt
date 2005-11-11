@@ -178,7 +178,7 @@ public abstract class ReportElementState extends DesignParseState
 		int id = contentDefn.getNameSpaceID( );
 		if ( name != null
 				&& id != MetaDataConstants.NO_NAME_SPACE
-				&& !( container instanceof Theme && slotID == Theme.STYLES_SLOT ) )
+				&& slotInfo.isAddToNameSpace( ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
 

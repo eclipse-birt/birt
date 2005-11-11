@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
@@ -40,6 +41,8 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateElement;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
@@ -1405,9 +1408,9 @@ public abstract class DesignElement
 
 	protected Object getIntrinsicProperty( String propName )
 	{
-		if ( propName.equals( NAME_PROP ) )
+		if ( NAME_PROP.equals( propName ) )
 			return name;
-		if ( propName.equals( EXTENDS_PROP ) )
+		if ( EXTENDS_PROP.equals( propName ) )
 			return extendsRef;
 		assert false;
 		return null;
@@ -2105,6 +2108,26 @@ public abstract class DesignElement
 			extendsRef = new ElementRefValue( namespace, base );
 			base.addDerived( this );
 		}
+	}
+
+	/**
+	 * Returns the data set element, if any, for this element.
+	 * 
+	 * @param module
+	 *            the module of this element
+	 * 
+	 * @return the data set element defined on this specific element
+	 */
+
+	public TemplateParameterDefinition getTemplateParameterElement(
+			Module module )
+	{
+		ElementRefValue templateParam = (ElementRefValue) getProperty( module,
+				REF_TEMPLATE_PARAMETER_PROP );
+		if ( templateParam == null )
+			return null;
+
+		return (TemplateParameterDefinition) templateParam.getElement( );
 	}
 
 	/**
@@ -2810,6 +2833,28 @@ public abstract class DesignElement
 		if ( isVirtualElement( ) )
 			return false;
 
+		// if the element is in the default slot of template parameter
+		// definition, then the drop operarion is forbidden
+
+		if ( container instanceof TemplateParameterDefinition )
+		{
+			assert containerSlotID == TemplateParameterDefinition.DEFAULT_SLOT;
+			return false;
+		}
+
+		// if this element is a template parameter definition and it is referred
+		// by some template elements or report items or data sets, then it is
+		// forbidden to drop
+
+		DesignElement element = this;
+		if ( element instanceof TemplateParameterDefinition )
+		{
+			List clients = ( (TemplateParameterDefinition) element )
+					.getClientList( );
+			if ( clients.size( ) != 0 )
+				return false;
+		}
+
 		return true;
 	}
 
@@ -2831,6 +2876,14 @@ public abstract class DesignElement
 	{
 		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
 		if ( !retValue )
+			return false;
+
+		// if this element can not be contained in the module, retur false; such
+		// as, template elements can not be contained in the libraries, so
+		// either a template table or a real tabel with a template image in one
+		// cell of it can never be contained in a libraries
+
+		if ( !canContainTemplateElement( module, slotId, element ) )
 			return false;
 
 		// Can not change the structure of child element or a virtual element(
@@ -2879,6 +2932,9 @@ public abstract class DesignElement
 
 		boolean retValue = canContainInRom( slotId, defn );
 		if ( !retValue )
+			return false;
+
+		if ( !canContainTemplateElement( module, slotId, defn ) )
 			return false;
 
 		// Can not change structure of child element or a virtual element(
@@ -2937,6 +2993,89 @@ public abstract class DesignElement
 
 		return true;
 
+	}
+
+	/**
+	 * Checks whether the element to insert can reside in the given module.
+	 * 
+	 * @param module
+	 *            the root module of the element to add
+	 * @param slotID
+	 *            the slot ID to insert
+	 * @param element
+	 *            the element to insert
+	 * @return false if the module is a library and the element to insert is a
+	 *         template element or its content is a template element; or the
+	 *         container is report design and slot is component slot and the
+	 *         element to insert is a template element or its content is a
+	 *         template element; otherwise true
+	 */
+
+	private boolean canContainTemplateElement( Module module, int slotID,
+			DesignElement element )
+	{
+		// if this element is a kind of template element or any its content is a
+		// kind of template element, return false
+
+		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
+				ReportDesignConstants.TEMPLATE_ELEMENT );
+
+		if ( element instanceof TemplateElement )
+			return canContainTemplateElement( module, slotID, defn );
+
+		ContentIterator contents = new ContentIterator( element );
+		while ( contents.hasNext( ) )
+		{
+			DesignElement content = (DesignElement) contents.next( );
+			if ( content instanceof TemplateElement )
+				return canContainTemplateElement( module, slotID, defn );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks whether the element to insert can reside in the given module.
+	 * 
+	 * @param module
+	 *            the root module of the element to add
+	 * @param slotID
+	 *            the slot ID to insert
+	 * @param defn
+	 *            the definition of element to insert
+	 * @return false if the module is a library and the element to insert is a
+	 *         template element or its content is a template element; or the
+	 *         container is report design and slot is component slot and the
+	 *         element to insert is a template element or its content is a
+	 *         template element; otherwise true
+	 */
+
+	private boolean canContainTemplateElement( Module module, int slotID,
+			IElementDefn defn )
+	{
+		// if this element is a kind of template element or any its content is a
+		// kind of template element, return false
+
+		if ( defn != null
+				&& defn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
+						ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
+		{
+			// components in the design/library cannot contain template
+			// elements.
+
+			DesignElement container = this;
+			int slot = slotID;
+			while ( container != null )
+			{
+				if ( ( container instanceof Module && slot == Module.COMPONENT_SLOT )
+						|| container instanceof Library )
+					return false;
+				slot = container.getContainerSlot( );
+				container = container.getContainer( );
+			}
+
+		}
+		return true;
 	}
 
 	/**

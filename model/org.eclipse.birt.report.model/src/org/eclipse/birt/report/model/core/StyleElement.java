@@ -178,7 +178,7 @@ public abstract class StyleElement extends ReferenceableElement
 		if ( selector != null )
 		{
 			// broadcast the change to theme references.
-			
+
 			DesignElement tmpContainer = getContainer( );
 			List modules = new ArrayList( );
 
@@ -194,7 +194,7 @@ public abstract class StyleElement extends ReferenceableElement
 			}
 			else
 				modules.add( module );
-			
+
 			for ( int i = 0; i < modules.size( ); i++ )
 				broadcastToModule( (Module) modules.get( i ), selector );
 		}
@@ -202,8 +202,9 @@ public abstract class StyleElement extends ReferenceableElement
 
 	/**
 	 * @param module
-	 * @param slot
+	 *            the module of the style element
 	 * @param selectorName
+	 *            the selector name
 	 */
 
 	private void broadcastToModule( Module module, String selectorName )

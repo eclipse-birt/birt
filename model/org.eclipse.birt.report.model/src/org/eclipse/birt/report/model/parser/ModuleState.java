@@ -167,6 +167,8 @@ public abstract class ModuleState extends DesignParseState
 			{
 				return new OdaDataSetState( handler );
 			}
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_DATA_SET_TAG ) )
+				return new TemplateDataSetState( handler );
 			return super.startElement( tagName );
 		}
 	}

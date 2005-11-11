@@ -411,6 +411,19 @@
 	<Choice displayNameID="Choices.targetNames.parent" name="_parent"/>   		
 	<Choice displayNameID="Choices.targetNames.top" name="_top"/>   		
   </ChoiceType>  
+  <ChoiceType name="templateElementType">
+  	<Choice displayNameID="Choices.templateElementType.table" name="Table"/>
+  	<Choice displayNameID="Choices.templateElementType.freeForm" name="FreeForm"/>
+  	<Choice displayNameID="Choices.templateElementType.data" name="Data"/>
+  	<Choice displayNameID="Choices.templateElementType.grid" name="Grid"/>
+  	<Choice displayNameID="Choices.templateElementType.image" name="Image"/>
+  	<Choice displayNameID="Choices.templateElementType.label" name="Label"/>
+  	<Choice displayNameID="Choices.templateElementType.list" name="List"/>
+  	<Choice displayNameID="Choices.templateElementType.text" name="Text"/>
+  	<Choice displayNameID="Choices.templateElementType.extendedItem" name="ExtendedItem"/>
+  	<Choice displayNameID="Choices.templateElementType.textData" name="TextData"/>
+  	<Choice displayNameID="Choices.templateElementType.dataSet" name="DataSet"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1339,6 +1352,7 @@
   	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.StyleReferenceValidator" modules="design, library" name="StyleReferenceValidator" />
    	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CascadingParameterTypeValidator" modules="design, library" name="CascadingParameterTypeValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator" modules="library" name="ThemeStyleNameValidator" />	  
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.TemplateParameterTypeValidator" modules="design" name="TemplateParameterTypeValidator"/>
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
     <Member detailType="numberFormat" displayNameID="Structure.NumberFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
@@ -1655,6 +1669,7 @@
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.dataSets" multipleCardinality="true" name="dataSets" since="1.0" xmlName="data-sets">
       <Type name="DataSet"/>
+      <Type name="TemplateDataSet"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.pageSetup" multipleCardinality="false" name="pageSetup" since="1.0" xmlName="page-setup">
       <Type name="MasterPage"/>
@@ -1685,6 +1700,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
     </Slot>
     <Slot displayNameID="Element.ReportDesign.slot.scratchPad" multipleCardinality="true" name="scratchPad" since="reserved" xmlName="scratch-pad">
       <Type name="FreeForm"/>
@@ -1699,6 +1715,9 @@
       <Type name="Text"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+    </Slot>    
+    <Slot displayNameID="Element.ReportDesign.slot.templateParameterDefinitions" multipleCardinality="true" name="templateParameterDefinitions" since="2.0" xmlName="template-parameter-definitions">
+      <Type name="TemplateParameterDefinition"/>
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" designClass="ElementDefn" displayNameID="Element.DesignElement" hasStyle="false" isAbstract="true" name="DesignElement" nameSpace="none" since="1.0" stateClass="ElementState">
@@ -1717,25 +1736,25 @@
     <Property displayNameID="Element.ReportElement.eventHandlerClass" name="eventHandlerClass" runtimeSettable="true" since="2.0" type="string"/>
     <PropertyVisibility name="extends" visibility="hide"/>        
     <PropertyVisibility name="displayName" visibility="hide"/>    
-    <PropertyVisibility name="displayNameID" visibility="hide"/>
+    <PropertyVisibility name="displayNameID" visibility="hide"/>        
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="DataSource">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSource" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSource" nameSpace="dataSource" since="1.0" xmlName="data-source">
     <Method context="factory" displayNameID="Element.DataSource.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSource.beforeOpen.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSource.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSource.beforeClose.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSource.afterOpen" name="afterOpen" since="1.0" toolTipID="Element.DataSource.afterOpen.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSource.afterClose" name="afterClose" since="1.0" toolTipID="Element.DataSource.afterClose.toolTip"/>
   </Element>
-  <Element canExtend="false" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="OdaDataSource">
+  <Element canExtend="false" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="oda-data-source">
     <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <PropertyVisibility name="extensionID" visibility="hide" />
     <PropertyVisibility name="privateDriverProperties" visibility="hide" />
   </Element>
-  <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="ScriptDataSource">
+  <Element canExtend="true" displayNameID="Element.ScriptDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSource" name="ScriptDataSource" since="1.0" xmlName="script-data-source">
     <Method context="factory" displayNameID="Element.ScriptDataSource.open" name="open" since="1.0" toolTipID="Element.ScriptDataSource.open.toolTip" />
     <Method context="factory" displayNameID="Element.ScriptDataSource.close" name="close" since="1.0" toolTipID="Element.ScriptDataSource.close.toolTip"/>
   </Element>
-  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="DataSet">
+  <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.DataSet" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="DataSet" nameSpace="dataSet" since="1.0" xmlName="data-set">
     <Method context="factory" displayNameID="Element.DataSet.beforeOpen" name="beforeOpen" since="1.0" toolTipID="Element.DataSet.beforeOpen.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSet.beforeClose" name="beforeClose" since="1.0" toolTipID="Element.DataSet.beforeClose.toolTip"/>
     <Method context="factory" displayNameID="Element.DataSet.onFetch" name="onFetch" since="1.0" toolTipID="Element.DataSet.onFetch.toolTip"/>
@@ -1751,14 +1770,16 @@
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.DataSet.filter" isList="true" name="filter" runtimeSettable="false" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
+  	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.DataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+    <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
-  <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="ScriptDataSet">
+  <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">
     <Method context="factory" displayNameID="Element.ScriptDataSet.open" name="open" since="1.0" toolTipID="Element.ScriptDataSet.open.toolTip"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.describe" name="describe" returnType="ColumnDefn[]" since="reserved" toolTipID="Element.ScriptDataSet.describe.toolTip"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.fetch" name="fetch" returnType="DataRow" since="1.0" toolTipID="Element.ScriptDataSet.fetch.toolTip" valueRequired="true"/>
     <Method context="factory" displayNameID="Element.ScriptDataSet.close" name="close" since="1.0" toolTipID="Element.ScriptDataSet.close.toolTip"/>
   </Element>
-  <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="OdaDataSet">
+  <Element canExtend="false" displayNameID="Element.OdaDataSet" extends="DataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
@@ -2141,7 +2162,7 @@
     </PropertyGroup>
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>               
-    <Method context="startup" displayNameID="Element.ReportItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ReportItem.onPrepare.toolTip">
+	<Method context="startup" displayNameID="Element.ReportItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ReportItem.onPrepare.toolTip">
       <Argument name="handle" tagID="Element.ReportItem.onPrepare.handle" type="ReportItemHandle"/>
       <Argument name="reportContext" tagID="Element.ReportItem.onPrepare.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.ReportItem.onPrepare.object" type="Object"/>
@@ -2155,9 +2176,11 @@
       <Argument name="instance" tagID="Element.ReportItem.onRender.instance" type="ReportItem"/>
       <Argument name="reportContext" tagID="Element.ReportItem.onRender.reportContext" type="IReportContext"/>
       <Argument name="object" tagID="Element.ReportItem.onRender.object" type="Object"/>
-    </Method>
+    </Method>    
+	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
     <PropertyVisibility name="x" visibility="hide"/>         
-    <PropertyVisibility name="y" visibility="hide"/>        
+    <PropertyVisibility name="y" visibility="hide"/> 
+    <PropertyVisibility name="refTemplateParameter" visibility="hide"/>       
   </Element>
   <Element canExtend="true" displayNameID="Element.Label" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Label" name="Label" selector="label" since="1.0" xmlName="label">
     <Property displayNameID="Element.Label.text" name="text" runtimeSettable="false" since="1.0" type="string"/>
@@ -2229,6 +2252,7 @@
       <Type name="Table"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
@@ -2407,6 +2431,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.List.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
@@ -2424,6 +2449,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.List.slot.footer" multipleCardinality="true" name="footer" selector="list-footer" since="1.0" xmlName="footer">
@@ -2437,6 +2463,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
@@ -2452,6 +2479,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
     <Slot displayNameID="Element.ListGroup.slot.footer" multipleCardinality="true" name="footer" selector="list-group-footer" since="1.0" xmlName="footer">
@@ -2465,6 +2493,7 @@
       <Type name="Image"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
@@ -2650,6 +2679,7 @@
       <Type name="Line"/>
       <Type name="ExtendedItem"/>
       <Type name="TextData"/>
+      <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
   </Element>
@@ -2824,11 +2854,39 @@
 	<PropertyVisibility name="extensionName" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Theme" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.Theme" name="Theme" nameSpace="theme" since="2.0" xmlName="theme">
-    <Slot displayNameID="Element.Theme.slot.styles" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
+    <Slot displayNameID="Element.Theme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.0" xmlName="styles">
       <Type name="Style"/>
 	  <Trigger validator="ThemeStyleNameValidator"/>		
     </Slot>
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
+  	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
+  	<Property canInherit="false" detailType="templateElementType" displayNameID="Element.TemplateParameterDefinition.allowedType" name="allowedType" runtimeSettable="false" since="2.0" type="choice">
+ 		<Trigger preRequisite="true" validator="TemplateParameterTypeValidator"/>
+  	</Property>
+  	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.description" name="description" runtimeSettable="false" since="2.0" type="string"/>
+  	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.descriptionID" name="descriptionID" runtimeSettable="false" since="2.0" type="resourceKey"/>
+  	<Slot displayNameID="Element.TemplateParameterDefinition.slot.default" isManagedByNameSpace="false" multipleCardinality="false" name="default" since="2.0" xmlName="default">
+  		<Type name="Table"/>
+  		<Type name="FreeForm"/>
+  		<Type name="Data"/>
+  		<Type name="Grid"/>
+  		<Type name="Image"/>
+  		<Type name="Label"/>
+  		<Type name="Text"/>
+  		<Type name="ExtendedItem"/>
+  		<Type name="TextData"/>
+  		<Type name="DataSet"/>
+  		<Trigger preRequisite="true" validator="TemplateParameterTypeValidator"/>
+  	</Slot>
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateElement" hasStyle="false" isAbstract="true" isNameRequired="false" name="TemplateElement" nameSpace="none" since="2.0">
+    <Property canInherit="false" displayNameID="Element.TemplateElement.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
+    <Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.TemplateElement.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+    <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>	
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateReportItem" extends="TemplateElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TemplateReportItem" name="TemplateReportItem" nameSpace="element" since="2.0" xmlName="template-report-item"/>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateDataSet" extends="TemplateElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateDataSet" name="TemplateDataSet" nameSpace="dataSet" since="2.0" xmlName="template-data-set"/>
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
   <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
   <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />

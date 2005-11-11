@@ -50,6 +50,7 @@ import org.eclipse.birt.report.model.core.namespace.IModuleNameSpace;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameSpaceFactory;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.TranslationTable;
@@ -122,16 +123,22 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public static final int PAGE_NAME_SPACE = 5;
 
 	/**
-	 * Identifier for the master page name space.
+	 * Identifier for the theme name space.
 	 */
 
 	public static final int THEME_NAME_SPACE = 6;
 
 	/**
+	 * Identifier for the template parameter definition name space.
+	 */
+
+	public static final int TEMPLATE_PARAMETER_NAME_SPACE = 7;
+
+	/**
 	 * Number of defined name spaces.
 	 */
 
-	public static final int NAME_SPACE_COUNT = 7;
+	public static final int NAME_SPACE_COUNT = 8;
 
 	/**
 	 * The session that owns this module.
@@ -2080,6 +2087,22 @@ public abstract class Module extends DesignElement implements IModuleModel
 		// the library with the given location path is not found, return null
 
 		return null;
+	}
+
+	/**
+	 * Finds a template parameter definition by name in this module and the
+	 * included modules.
+	 * 
+	 * @param name
+	 *            name of the template parameter definition to find
+	 * @return the template parameter definition, if found, otherwise null.
+	 */
+
+	public TemplateParameterDefinition findTemplateParameterDefinition(
+			String name )
+	{
+		return (TemplateParameterDefinition) resolveElement( name,
+				TEMPLATE_PARAMETER_NAME_SPACE );
 	}
 
 }

@@ -25,6 +25,11 @@ public class NameException extends SemanticException
 {
 
 	/**
+	 * Comment for <code>serialVersionUID</code>.
+	 */
+	private static final long serialVersionUID = -657245298064464513L;
+
+	/**
 	 * The new element name.
 	 */
 

@@ -99,12 +99,18 @@ public interface IReportDesignModel
 	 */
 
 	public static final int SCRATCH_PAD_SLOT = 7;
+	
+	/**
+	 * Identifier of the template parameter definition slot.
+	 */
+	
+	public static final int TEMPLATE_PARAMETER_DEFINITION_SLOT = 8;
 
 	/**
 	 * Number of slots in the report design element.
 	 */
 
-	public static final int SLOT_COUNT = 8;
+	public static final int SLOT_COUNT = 9;
 
 
 }

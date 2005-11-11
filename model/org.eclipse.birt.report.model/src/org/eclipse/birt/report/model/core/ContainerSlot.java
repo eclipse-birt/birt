@@ -144,6 +144,13 @@ public abstract class ContainerSlot implements Cloneable
 	 */
 
 	public abstract DesignElement getContent( int posn );
+	
+	/**
+	 * Removes all the contents of this container slot.
+	 *
+	 */
+	
+	public abstract void clear( );
 
 	/**
 	 * Determines if the slot is empty.

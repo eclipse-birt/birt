@@ -102,19 +102,27 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	 */
 
 	private SemanticTriggerDefnSet triggers = null;
-	
+
 	/**
 	 * The BIRT release when this slot was introduced.
 	 */
-	
+
 	private String since;
-	
+
 	/**
-	 * The XML element name used to identify slot contents. Will be
-	 * blank if the slot is anonymous.
+	 * The XML element name used to identify slot contents. Will be blank if the
+	 * slot is anonymous.
 	 */
-	
+
 	private String xmlName;
+
+	/**
+	 * Status whether name of the contents in this slot will be added to the
+	 * namespace in module. True, add the name of the contents to namespace,
+	 * otherwise not add names to namespace.
+	 */
+
+	private boolean isManagedByNameSpace = true;
 
 	/**
 	 * Returns the slot cardinality.
@@ -402,27 +410,32 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	/**
 	 * Set the version in which the slot was introduced.
 	 * 
-	 * @param value the version in which the slot was introduced
+	 * @param value
+	 *            the version in which the slot was introduced
 	 */
-	
+
 	public void setSince( String value )
 	{
 		since = value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getSince()
 	 */
-	
+
 	public String getSince( )
 	{
 		return since;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.ISlotDefn#getXmlName()
 	 */
-	
+
 	public String getXmlName( )
 	{
 		return xmlName;
@@ -431,23 +444,53 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	/**
 	 * Set the name of the XML element used to hold the slot.
 	 * 
-	 * @param value the XML element name to set
+	 * @param value
+	 *            the XML element name to set
 	 */
-	
+
 	public void setXmlName( String value )
 	{
 		xmlName = value;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
+
 	public String toString( )
 	{
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	/**
+	 * Returns the status whether to add the name of the contents in this slot
+	 * to the namespace.
+	 * 
+	 * @return true if add the name of the contents to namespace, otherwise
+	 *         false
+	 */
+
+	public boolean isAddToNameSpace( )
+	{
+		return isManagedByNameSpace;
+	}
+
+	/**
+	 * Sets the status whether to add the name of the contents in this slot to
+	 * the namespace.
+	 * 
+	 * @param isManagedByNameSpace
+	 *            true if add the name of the contents to the namespace,
+	 *            otherwise false
+	 */
+
+	public void setAddToNameSpace( boolean isManagedByNameSpace )
+	{
+		this.isManagedByNameSpace = isManagedByNameSpace;
 	}
 
 }

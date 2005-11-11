@@ -112,6 +112,8 @@ public class CellState extends ReportElementState
 				|| tagName
 						.equalsIgnoreCase( DesignSchemaConstants.TEXT_DATA_TAG ) )
 			return new TextDataItemState( handler, element, Cell.CONTENT_SLOT );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_REPORT_ITEM_TAG ) )
+			return new TemplateReportItemState( handler, element, Cell.CONTENT_SLOT );
 		return super.startElement( tagName );
 	}
 

@@ -58,6 +58,10 @@ public interface ReportDesignConstants
 	String TEXT_ITEM = "Text"; //$NON-NLS-1$
 	String TEXT_DATA_ITEM = "TextData"; //$NON-NLS-1$
 	String THEME_ITEM = "Theme"; //$NON-NLS-1$
+	String TEMPLATE_PARAMETER_DEFINITION ="TemplateParameterDefinition"; //$NON-NLS-1$
+	String TEMPLATE_ELEMENT = "TemplateElement"; //$NON-NLS-1$
+	String TEMPLATE_REPORT_ITEM = "TemplateReportItem"; //$NON-NLS-1$
+	String TEMPLATE_DATA_SET = "TemplateDataSet"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

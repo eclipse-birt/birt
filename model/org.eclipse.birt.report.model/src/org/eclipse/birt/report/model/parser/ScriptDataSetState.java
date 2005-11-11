@@ -37,6 +37,24 @@ public class ScriptDataSetState extends DataSetState
 	{
 		super( handler );
 	}
+	
+	/**
+	 * Constructs the data set state with the design parser handler, the
+	 * container element and the container slot of the data set.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param slot
+	 *            the slot in which this element appears
+	 */
+
+	public ScriptDataSetState( ModuleParserHandler handler,
+			DesignElement theContainer, int slot )
+	{
+		super( handler, theContainer, slot );
+	}
 
 	/*
 	 * (non-Javadoc)
