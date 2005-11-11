@@ -27,12 +27,15 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * Describes the metadata of a detail row expected in an IResultIterator.
  * Implements Data Engine API IResultMetaData.
  */
-class ResultMetaData implements IResultMetaData
+public class ResultMetaData implements IResultMetaData
 {
     IResultClass		m_odiResultClass;
 	protected static Logger logger = Logger.getLogger( ResultMetaData.class.getName( ) );
    
-    ResultMetaData( IResultClass odiResultClass )
+	/**
+	 * @param odiResultClass
+	 */
+    public ResultMetaData( IResultClass odiResultClass )
     {
         assert odiResultClass != null;
         m_odiResultClass = odiResultClass;

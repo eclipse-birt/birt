@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -112,13 +112,12 @@ class ResultObjectUtil
 	 * @return result object array
 	 * @throws IOException
 	 */
-	IResultObject[] readData( BufferedInputStream bis, int length )
+	IResultObject[] readData( InputStream bis, int length )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
 
 		int rowLen;
-		byte[] lenBytes;
 		byte[] rowDataBytes;
 				
 		ByteArrayInputStream bais;
@@ -126,11 +125,10 @@ class ResultObjectUtil
 
 		for ( int i = 0; i < length; i++ )
 		{
-			lenBytes = new byte[4];
-			bis.read( lenBytes );
-			rowLen = bytesToInt( lenBytes );
+			rowLen = IOUtil.readInt( bis );
 			rowDataBytes = new byte[rowLen];
 			bis.read( rowDataBytes );
+			
 			bais = new ByteArrayInputStream( rowDataBytes );
 			dis = new DataInputStream( bais );
 
@@ -143,7 +141,8 @@ class ResultObjectUtil
 					obs[j] = null;
 					continue;
 				}
-				else if ( fieldType.equals( Integer.class ) )
+				
+				if ( fieldType.equals( Integer.class ) )
 					obs[j] = new Integer( dis.readInt( ) );
 				else if ( fieldType.equals( Double.class ) )
 					obs[j] = new Double( dis.readDouble( ) );
@@ -180,7 +179,7 @@ class ResultObjectUtil
 	 * @param length how many objects to be deserialized
 	 * @throws IOException
 	 */
-	void writeData( BufferedOutputStream bos,
+	void writeData( OutputStream bos,
 			IResultObject[] resultObjects, int length ) throws IOException
 	{
 		byte[] rowsDataBytes;
@@ -203,16 +202,19 @@ class ResultObjectUtil
 				{
 					// never get here since the index value is always value
 				}
-				
-				Class fieldType = typeArray[j];
+					
+				// process null object
 				if ( fieldValue == null )
-				{
-					// indicate null object
+				{					
 					dos.writeByte( 0 );
 					continue;
 				}
+				else
+				{
+					dos.writeByte( 1 );
+				}
 				
-				dos.writeByte( 1 );
+				Class fieldType = typeArray[j];
 				if ( fieldType.equals( Integer.class ) )
 					dos.writeInt( ( (Integer) fieldValue ).intValue( ) );
 				else if ( fieldType.equals( Double.class ) )
@@ -234,43 +236,13 @@ class ResultObjectUtil
 			dos.flush( );
 
 			rowsDataBytes = baos.toByteArray( );
-			bos.write( intToBytes( rowsDataBytes.length ) );
+			IOUtil.writeInt( bos, rowsDataBytes.length );
 			bos.write( rowsDataBytes );
 
 			rowsDataBytes = null;
 			dos = null;
 			baos = null;
 		}
-	}
-	
-	/**
-	 * @param i
-	 * @see DataOutputStream#writeInt(int)
-	 * @return byte array of int value
-	 */
-	private final static byte[] intToBytes( int i )
-	{
-		byte[] bytes = new byte[4];
-		bytes[0] = (byte) ( ( i >>> 24 ) & 0xFF );
-		bytes[1] = (byte) ( ( i >>> 16 ) & 0xFF );
-		bytes[2] = (byte) ( ( i >>> 8 ) & 0xFF );
-		bytes[3] = (byte) ( ( i >>> 0 ) & 0xFF );
-		return bytes;
-	}
-	
-	/**
-	 * @param bytes
-	 * @see DataInputStream#readInt()
-	 * @return int value of byte array
-	 */
-	private final static int bytesToInt( byte[] bytes )
-	{
-		byte ch1 = bytes[0];
-		byte ch2 = bytes[1];
-		byte ch3 = bytes[2];
-		byte ch4 = bytes[3];
-		
-		return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 	}
 	
 }

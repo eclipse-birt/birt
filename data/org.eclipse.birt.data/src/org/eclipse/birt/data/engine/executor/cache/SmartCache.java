@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,6 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.executor.cache.OdiAdapterOfSubQuery.OdiAdapterOfSubQueryForSave;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
@@ -132,8 +136,17 @@ public class SmartCache implements ResultSetCache
 		assert query != null;
 		assert rsMeta != null;
 
-		OdiAdapter odiAdpater = new OdiAdapter( resultCache );
-		initInstance2( resultCache, odiAdpater, query, startIndex, endIndex, rsMeta, sortSpec );
+		OdiAdapterOfSubQueryForSave odiAdpater = OdiAdapterOfSubQuery.newSave( resultCache,
+				rsMeta,
+				startIndex );
+		IResultClass newMeta = odiAdpater.getMetaData( );
+		initInstance2( resultCache,
+				odiAdpater,
+				query,
+				startIndex,
+				endIndex,
+				newMeta,
+				sortSpec );
 	}
 	
 	/**
@@ -266,6 +279,7 @@ public class SmartCache implements ResultSetCache
 				resultSetCache = new DiskCache( resultObjects,
 						odaObject,
 						rowResultSet,
+						rsMeta,
 						getComparator( sortSpec ),
 						memoryCacheRowCount );
 				break;
@@ -279,6 +293,7 @@ public class SmartCache implements ResultSetCache
 			resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
 			
 			resultSetCache = new MemoryCache( resultObjects,
+					rsMeta,
 					getComparator( sortSpec ) );
 		}
 		
@@ -558,6 +573,66 @@ public class SmartCache implements ResultSetCache
 
 		return comparator;
 	}
+
+	/**
+	 * @param inputStream
+	 * @throws DataException
+	 */
+	public SmartCache( IResultClass rsMeta, InputStream inputStream,
+			 boolean isSubQuery, ResultSetCache rsCache ) throws DataException
+	{
+		int count = 0;
+		try
+		{
+			count = IOUtil.readInt( inputStream );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "load error", e );
+		}
+
+		OdiAdapter odiAdpater = null;
+		if ( isSubQuery == false )
+		{
+			ResultObjectReader roReader = ResultObjectReader.newInstance( rsMeta,
+					inputStream,
+					count );
+			odiAdpater = new OdiAdapter( roReader );
+		}
+		else
+		{
+			odiAdpater = OdiAdapterOfSubQuery.newLoad( rsCache,
+					inputStream,
+					count );
+		}
+
+		initInstance( odiAdpater, new BaseQuery( ) {
+			/*
+			 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
+			 */
+			public void close( )
+			{
+			}
+		}, rsMeta, null );
+		
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#doSave(java.io.OutputStream, boolean)
+	 */
+	public void doSave( OutputStream outputStream, boolean isSubQuery )
+			throws DataException
+	{
+		try
+		{
+			IOUtil.writeInt( outputStream, resultSetCache.getCount( ) );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "save error", e );
+		}
+		
+		resultSetCache.doSave( outputStream, isSubQuery );
+	}
 	
 }
-

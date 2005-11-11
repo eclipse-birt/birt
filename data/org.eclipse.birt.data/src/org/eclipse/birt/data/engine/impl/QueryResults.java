@@ -17,12 +17,14 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Scriptable;
+import org.eclipse.birt.data.engine.impl.rd.RDSaveAndLoad;
 
 /** 
  * A report query's results opened and ready for data retrieval.  
@@ -40,6 +42,12 @@ class QueryResults implements IQueryResults
 	protected PreparedQuery.Executor	queryExecutor;
 	protected static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 
+	// id of this instance
+	private String nameID;
+	
+	// context of data engine
+	protected DataEngineContext context;	
+		
 	/**
 	 * @param reportQuery The associated report query.
 	 * @param query The actual query (either report query or subquery)
@@ -48,8 +56,8 @@ class QueryResults implements IQueryResults
 	 * @param scope scope used for this result set
 	 */
 	
-	QueryResults( PreparedDataSourceQuery reportQuery,
-			PreparedQuery query,
+	QueryResults( DataEngineContext context,
+			PreparedDataSourceQuery reportQuery, PreparedQuery query,
 			PreparedQuery.Executor executor )
 	{
 		assert executor != null;
@@ -57,7 +65,7 @@ class QueryResults implements IQueryResults
 	    assert reportQuery != null;
 	    assert executor.scope != null;
 	    
-	    
+	    this.context = context;
 	    this.reportQuery = reportQuery;
 	    this.query = query;
 	    this.queryExecutor = executor;
@@ -96,7 +104,11 @@ class QueryResults implements IQueryResults
 	    if ( iterator == null )
 	    {
 	    	queryExecutor.execute();
-	    	iterator = new ResultIterator( this, queryExecutor.odiResult, queryExecutor.scope);
+	    	iterator = new ResultIterator( context,
+					this,
+					this.query,
+					queryExecutor.odiResult,
+					queryExecutor.scope );
 	    }
 		logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
@@ -134,8 +146,9 @@ class QueryResults implements IQueryResults
 	 * The query results might have iterators open on them. 
 	 * Iterators associated with the query result sets are invalidated
 	 * and can no longer be used.
+	 * @throws BirtException 
 	 */
-	public void close()
+	public void close() throws BirtException
 	{
 		if ( queryExecutor == null )
 		{
@@ -146,6 +159,10 @@ class QueryResults implements IQueryResults
 					"QueryResults is closed" );
 			return;
 		}
+		
+		// save current query results
+		doSaveJob( );
+		
 	    if ( iterator != null )
 	    {
 	        iterator.close();
@@ -163,29 +180,69 @@ class QueryResults implements IQueryResults
 				"QueryResults is closed" );
 	}
 	
-	AggregateCalculator getAggrResult() throws DataException
+	/**
+	 * If current context is in generation mode, the result of query results
+	 * needs to be stored for next presentation.
+	 * 
+	 * @throws DataException
+	 */
+	private void doSaveJob() throws DataException
 	{
-		queryExecutor.execute();
-		return queryExecutor.aggregates;
+		if ( queryExecutor == null
+				|| context == null
+				|| context.getMode( ) != DataEngineContext.MODE_GENERATION )
+			return;
+		
+		RDSaveAndLoad rdSave = RDSaveAndLoad.newSave( context,
+				getID( ),
+				iterator.getSubQueryName( ),
+				iterator.getSubQueryIndex( ) );
+
+		rdSave.saveQueryResults( query.getQueryDefn( ),
+				queryExecutor.aggregates );
 	}
 	
 	/**
-	 * Gets the query that was prepared and executed to produce this result set.
+	 * If current query results is associated with a sub query, its result
+	 * iterator needs to know which group level this sub query belongs to.
+	 * 
+	 * @return group level of sub query
 	 */
-	PreparedQuery getQuery()
+	int getGroupLevel( )
 	{
-		return this.query;
+		if ( query instanceof PreparedSubquery )
+		{
+			PreparedSubquery subQuery = (PreparedSubquery) query;
+			return subQuery.getGroupLevel( );
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
-	org.eclipse.birt.data.engine.odi.IResultIterator getOdiResult() throws DataException
+	/**
+	 * Set current queryresult ID for sub query. Sub query result ID can not be
+	 * generated independently, and it is needs to be attached with its parent
+	 * query.
+	 * 
+	 * @param nameID
+	 */
+	void setID( String nameID )
 	{
-		queryExecutor.execute();
-		return queryExecutor.odiResult;
+		this.nameID = nameID;
 	}
 	
-	Scriptable getScope()
+	/*
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getName()
+	 */
+	public String getID( )
 	{
-		return queryExecutor.scope;
+		if ( nameID == null )
+			nameID = IDUtil.nextQursID( );
+		
+		return nameID;
 	}
+
 }
 

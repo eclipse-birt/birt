@@ -19,16 +19,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.rd.QueryResults2;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -52,6 +55,9 @@ public class DataEngineImpl extends DataEngine
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
+	// data engine context
+	private DataEngineContext context;
+	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
 	/**
@@ -81,6 +87,35 @@ public class DataEngineImpl extends DataEngine
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 	}
 
+	/**
+	 * @param context
+	 */
+	public DataEngineImpl( DataEngineContext context )
+	{
+		this( context.getJavaScriptScope( ) );
+		this.context = context;
+	}
+
+	/**
+	 * @return context
+	 */
+	public DataEngineContext getContext( )
+	{
+		return context;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#getQueryResults(int)
+	 */
+	public IQueryResults getQueryResults( String name ) throws DataException
+	{
+		if ( context == null
+				|| context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
+			throw new DataException( "wrong status" );
+
+		return new QueryResults2( this.context, name );
+	}
+	
 	/**
 	 * Creates a new top-level scope using given prototype
 	 */

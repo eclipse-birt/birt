@@ -11,21 +11,25 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * Memory implementation of ResultSetCache
  */
 class MemoryCache implements ResultSetCache
-{	
+{
 	private int countOfResult;
 	private int currResultIndex = -1;
 	
+	private IResultClass  rsMeta;
 	private IResultObject currResultObject;
 	private IResultObject[] resultObjects;
 	
@@ -33,9 +37,11 @@ class MemoryCache implements ResultSetCache
 	 * @param resultObjects
 	 * @param comparator
 	 */
-	MemoryCache( IResultObject[] resultObjects, Comparator comparator )
+	MemoryCache( IResultObject[] resultObjects, IResultClass rsMeta,
+			Comparator comparator )
 	{
 		this.resultObjects = resultObjects;
+		this.rsMeta = rsMeta;
 		this.countOfResult = resultObjects.length;
 
 		if ( comparator != null )
@@ -145,6 +151,42 @@ class MemoryCache implements ResultSetCache
 	{
 		reset( );
 		resultObjects = null;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#doSave(java.io.OutputStream)
+	 */
+	public void doSave( OutputStream outputStream, boolean isSubQuery ) throws DataException
+	{
+		ResultObjectUtil roUtil = ResultObjectUtil.newInstance( rsMeta );
+		try
+		{
+			if ( isSubQuery == false )
+			{
+				roUtil.writeData( outputStream,
+						resultObjects,
+						resultObjects.length );
+			}
+			else
+			{
+				int currIndex = this.currResultIndex;				
+				this.reset( );
+				
+				int posIndex = rsMeta.getFieldCount( );
+				while ( this.next( ) )
+				{
+					IOUtil.writeInt( outputStream,
+							( (Integer) this.getCurrentResult( )
+									.getFieldValue( posIndex ) ).intValue( ) );
+				}
+				
+				this.moveTo(currIndex);
+			}
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "save error", e );
+		}
 	}
 
 }

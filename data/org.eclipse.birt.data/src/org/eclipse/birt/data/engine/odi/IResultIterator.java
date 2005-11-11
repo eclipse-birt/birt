@@ -128,5 +128,11 @@ public interface IResultIterator
      * longer be used after it is closed.
      */
     public void close();
+    
+    /**
+     * @param groupLevel
+     * @return
+     */
+    public int[] getGroupStartAndEndIndex( int groupLevel ) throws DataException;
 
 }

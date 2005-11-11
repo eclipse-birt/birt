@@ -37,10 +37,12 @@ class OdiAdapter
 	//fetch method we define a boolean to mark the beginning of an IResultIterator
 	boolean riStarted = false;
 	
-	
 	// from parent query in sub query
 	private ResultSetCache resultSetCache;
 
+	// from input stream
+	private ResultObjectReader roReader;
+	
 	/**
 	 * Construction
 	 * 
@@ -84,6 +86,19 @@ class OdiAdapter
 		assert resultSetCache != null;
 		this.resultIterator = resultSetCache;
 	}
+	
+	/**
+	 * Construction
+	 * 
+	 * @param roReader
+	 */
+	OdiAdapter( ResultObjectReader roReader )
+	{
+		assert roReader != null;
+		this.roReader = roReader;
+	}
+	
+	
 	/**
 	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
 	 * must stay at the row which is fetched.
@@ -108,6 +123,10 @@ class OdiAdapter
 				this.resultIterator.next();
 			
 			return this.resultIterator.getCurrentResult();
+		}
+		else if ( roReader != null )
+		{
+			return roReader.fetch( );
 		}
 		else
 		{

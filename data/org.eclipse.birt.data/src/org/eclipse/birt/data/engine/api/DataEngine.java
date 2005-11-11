@@ -41,13 +41,32 @@ abstract public class DataEngine
      * home directory setting. 
      * @param sharedScope a Javascript scope to be used as the "shared" scope to evaluate
      *    Javascript expressions by the data engine. 
-     * 
+     * @deprecated, use newDataEngine( DataEngineContext context ) instead
      */
     public static DataEngine newDataEngine( Scriptable sharedScope )
     {
         return new DataEngineImpl( sharedScope );
     }
 	
+    /**
+     * @param context
+     * @return an instance of DataEngine
+     */
+    public static DataEngine newDataEngine( DataEngineContext context )
+    {
+        return new DataEngineImpl( context );
+    }
+    
+    /**
+     * Used in presentation time
+     * 
+     * @param queryResultID
+     * @return an instanceof IQueryResults
+     * @throws DataException 
+     */
+    public abstract IQueryResults getQueryResults( String queryResultID )
+			throws BirtException;
+    
     /**
      * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer used.
      */

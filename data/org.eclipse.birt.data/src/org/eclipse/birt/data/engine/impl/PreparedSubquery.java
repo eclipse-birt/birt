@@ -136,4 +136,13 @@ class PreparedSubquery extends PreparedQuery
 			return ret;
 		}
 	}
+	
+	/**
+	*
+	*/
+	public int getGroupLevel( )
+	{
+		return this.groupLevel;
+	}
+	
 }

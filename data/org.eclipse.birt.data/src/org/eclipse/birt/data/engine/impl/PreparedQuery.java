@@ -206,7 +206,10 @@ abstract class PreparedQuery
 		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
-	    return new QueryResults( getDataSourceQuery(), this, executor);
+	    return new QueryResults( engine.getContext( ),
+				getDataSourceQuery( ),
+				this,
+				executor );
 	}
 	
 	// Common code to extract the name of a column from a JS expression which is 
@@ -271,6 +274,7 @@ abstract class PreparedQuery
 	    	String exprText = ((IScriptExpression) expr).getText();
 	    	CompiledExpression handle = compiler.compile( exprText, reg, cx);
 	    	expr.setHandle( handle );
+	    	expr.setID( IDUtil.nextExprID( ) );
 	    }
 	    else if ( expr instanceof IConditionalExpression )
 	    {
@@ -286,6 +290,7 @@ abstract class PreparedQuery
 	    	// No separate preparation is required for the conditional expression 
 	    	// Set itself as the compiled handle
 	    	expr.setHandle( expr );
+	    	expr.setID( IDUtil.nextExprID( ) );
 	    }
 	    else
 	    {

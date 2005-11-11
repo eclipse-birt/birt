@@ -269,12 +269,13 @@ public interface IResultIterator
      * Closes this result and any associated secondary result iterator(s),  
      * providing a hint that the consumer is done with this result,
      * whose resources can be safely released as appropriate.  
+     * @throws BirtException 
      */
-    public void close();
+    public void close() throws BirtException;
     
     /**
     * Move the current position of the iterator to the first element of the group with matching group key values.
-    * To locate the [n]th inner group, values for all outer groupsâ€™ keys need to be provided in the array
+    * To locate the [n]th inner group, values for all outer groupsâ€? keys need to be provided in the array
     * groupKeyValues. groupKeyValue[0] is the key value for group 1 (outermost group), groupKeyValue[1] is the key value for
     * group 2, etc. 
     * 

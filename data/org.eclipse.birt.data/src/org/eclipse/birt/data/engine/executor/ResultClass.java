@@ -11,13 +11,19 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.IOUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
-import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * <code>ResultClass</code> contains the metadata about 
@@ -34,41 +40,141 @@ public class ResultClass implements IResultClass
 	{	
 		assert( projectedColumns != null );
 		
+		initColumnsInfo( projectedColumns );
+	}
+	
+	/**
+	 * @param projectedColumns
+	 */
+	private void initColumnsInfo( List projectedColumns )
+	{
 		m_projectedColumns = new ArrayList( );
 		m_projectedColumns.addAll( projectedColumns );
 		m_nameToIdMapping = new HashMap( );
-				
-		for( int i = 0, n = projectedColumns.size(); i < n; i++ )
+
+		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
 		{
-			ResultFieldMetadata column = 
-				(ResultFieldMetadata) projectedColumns.get( i );
-			
-			String upperCaseName = column.getName();
+			ResultFieldMetadata column = (ResultFieldMetadata) projectedColumns.get( i );
+
+			String upperCaseName = column.getName( );
 			if ( upperCaseName != null )
-				upperCaseName = upperCaseName.toUpperCase();
-			
-			// need to add 1 to the 0-based array index, so we can put the 
-			// 1-based index into the name-to-id mapping that will be used 
+				upperCaseName = upperCaseName.toUpperCase( );
+
+			// need to add 1 to the 0-based array index, so we can put the
+			// 1-based index into the name-to-id mapping that will be used
 			// for the rest of the interfaces in this class
 			Integer index = new Integer( i + 1 );
-			
+
 			// If the name is a duplicate of an existing column name or alias,
 			// this entry is not put into the mapping table. This effectively
-			// makes this entry inaccessible by name, which is the intended behavior
-			
-			if ( ! m_nameToIdMapping.containsKey(upperCaseName ) )
+			// makes this entry inaccessible by name, which is the intended
+			// behavior
+
+			if ( !m_nameToIdMapping.containsKey( upperCaseName ) )
 			{
 				m_nameToIdMapping.put( upperCaseName, index );
 			}
-			
-			String upperCaseAlias = column.getAlias();
+
+			String upperCaseAlias = column.getAlias( );
 			if ( upperCaseAlias != null )
-				upperCaseAlias = upperCaseAlias.toUpperCase();
-			if( upperCaseAlias != null && upperCaseAlias.length() > 0 && 
-					! m_nameToIdMapping.containsKey( upperCaseAlias) )
+				upperCaseAlias = upperCaseAlias.toUpperCase( );
+			if ( upperCaseAlias != null
+					&& upperCaseAlias.length( ) > 0
+					&& !m_nameToIdMapping.containsKey( upperCaseAlias ) )
 			{
 				m_nameToIdMapping.put( upperCaseAlias, index );
 			}
+		}
+	}
+	
+	/**
+	 * New an instance of ResultClass from input stream.
+	 * 
+	 * @param inputStream
+	 * @throws DataException
+	 */
+	public ResultClass( InputStream inputStream ) throws DataException
+	{
+		assert inputStream != null;
+		
+		DataInputStream dis = new DataInputStream( inputStream );
+		
+		try
+		{
+			List newProjectedColumns = new ArrayList( );
+
+			int size = IOUtil.readInt( dis );
+			for ( int i = 0; i < size; i++ )
+			{
+				int driverPos = IOUtil.readInt( dis );
+				String name = IOUtil.readStr( dis );
+				String lable = IOUtil.readStr( dis );
+				String alias = IOUtil.readStr( dis );
+				String dtName = IOUtil.readStr( dis );
+				String ntName = IOUtil.readStr( dis );
+				boolean bool = IOUtil.readBool( dis );
+				String dpdpName = IOUtil.readStr( dis );
+				
+				ResultFieldMetadata metaData = new ResultFieldMetadata( driverPos,
+						name,
+						lable,
+						Class.forName( dtName ),
+						ntName,
+						bool );
+				metaData.setAlias( alias );
+				metaData.setDriverProvidedDataType( Class.forName( dpdpName ) );
+				newProjectedColumns.add( metaData );
+			}
+			dis.close( );
+			
+			initColumnsInfo( newProjectedColumns );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "load error", e );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			throw new DataException( "load error", e );
+		}
+	}
+
+	/**
+	 * Serialize instance status into output stream.
+	 * 
+	 * @param outputStream
+	 * @throws DataException 
+	 */
+	public void doSave( OutputStream outputStream ) throws DataException
+	{
+		assert outputStream != null;
+		
+		DataOutputStream dos = new DataOutputStream( outputStream );
+		
+		int size = m_projectedColumns.size( );
+		try
+		{
+			IOUtil.writeInt( outputStream, size );
+			for ( int i = 0; i < size; i++ )
+			{
+				ResultFieldMetadata column = (ResultFieldMetadata) m_projectedColumns.get( i );
+
+				IOUtil.writeInt( dos, column.getDriverPosition( ) );
+				IOUtil.writeStr( dos, column.getName( ) );
+				IOUtil.writeStr( dos, column.getLabel( ) );
+				IOUtil.writeStr( dos, column.getAlias( ) );
+				IOUtil.writeStr( dos, column.getDataType( ).getName( ) );
+				IOUtil.writeStr( dos, column.getNativeTypeName( ) );
+				IOUtil.writeBool( dos, column.isCustom( ) );
+				IOUtil.writeStr( dos, column.getDriverProvidedDataType( )
+						.getName( ) );
+			}
+			
+			dos.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "save error", e );
 		}
 	}
 	
@@ -198,4 +304,12 @@ public class ResultClass implements IResultClass
 		ResultFieldMetadata column = findColumn( index );
 		return column.getNativeTypeName();
 	}
+	
+	public ResultFieldMetadata getFieldMetaData( int index )
+			throws DataException
+	{
+		validateFieldIndex( index );
+		return (ResultFieldMetadata) m_projectedColumns.get( index - 1 );
+	}
+	
 }

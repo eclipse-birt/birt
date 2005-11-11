@@ -26,6 +26,15 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public interface IQueryResults
 {
+	/**
+	 * Every query results has a unique id. This ID will be used to retrieve a
+	 * stored query results from report document. Meantime, it might be used as
+	 * a data source ID to define a query definition.
+	 * 
+	 * @return a unique ID
+	 */
+	public String getID( );
+	
     /**
      * Returns the {@link org.eclipse.birt.data.engine.api.IPreparedQuery}
      *  that produced this instance.
@@ -64,6 +73,7 @@ public interface IQueryResults
      * The query results might have iterators open on them. 
      * Iterators associated with the query result sets are invalidated
      * and can no longer be used.
+     * @throws BirtException 
      */
-    public void close();
+    public void close( ) throws BirtException;
 }
