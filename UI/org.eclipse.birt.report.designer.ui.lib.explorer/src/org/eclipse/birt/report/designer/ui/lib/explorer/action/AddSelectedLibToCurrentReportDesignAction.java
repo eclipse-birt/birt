@@ -55,7 +55,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 					.getReportDesignHandle( );
 			return moduleHandle.getLibrary( getSelectedLibrary( ).getName( ) ) == null;
 		}
-		return true;
+		return false;
 	}
 
 	public void run( )
@@ -64,7 +64,13 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		{
 			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
+			
 			LibraryHandle library = getSelectedLibrary( );
+			if(library ==null)
+			{
+				return;
+			}
+			
 			String defaultName = new File( library.getFileName( ) ).getName( )
 					.split( File.separator + "." )[0];
 			ImportLibraryDialog dialog = new ImportLibraryDialog( defaultName );
@@ -92,7 +98,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	private LibraryHandle getSelectedLibrary( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection.size( ) == 1 )
+		if ( selection != null )
 		{
 			if ( selection.getFirstElement( ) instanceof LibraryHandle )
 			{
