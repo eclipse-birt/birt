@@ -730,9 +730,9 @@ public class PreparedStatement
 	}
 	
 	/**
-	 * Returns the <code>java.sql.Types</code> type for the specified parameter.
+	 * Returns the ODA data type code for the specified parameter.
 	 * @param paramIndex	the 1-based index of the parameter.
-	 * @return	the <code>java.sql.Types</code> type of the parameter.
+	 * @return	the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException	if data source error occurs.
 	 */
 	public int getParameterType( int paramIndex ) throws DataException
@@ -749,9 +749,9 @@ public class PreparedStatement
 	}
 	
 	/**
-	 * Returns the <code>java.sql.Types</code> type for the specified parameter.
+	 * Returns the ODA data type code for the specified parameter.
 	 * @param paramName	the name of the parameter.
-	 * @return	the <code>java.sql.Types</code> type of the parameter.
+	 * @return	the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException	if data source error occurs.
 	 */
 	public int getParameterType( String paramName ) throws DataException
@@ -1589,21 +1589,9 @@ public class PreparedStatement
 		checkOutputParameterSupport( );
 		
 		Object paramValue = null;
-		int nativeType = ( paramName == null ) ? getParameterType( paramIndex ) :
-												 getParameterType( paramName );
+		int paramType = ( paramName == null ) ? getParameterType( paramIndex ) :
+												getParameterType( paramName );
 		
-		String driverName = m_connection.getDataSourceId( );
-		
-		// NULL means that the driver doesn't know or care about the type of the 
-		// parameter, so try to look for it in the hints.  If the hints doesn't have 
-		// any type info, then getOdaTypeFromParamHints() will return the safest default 
-		// type, Types.CHAR.
-		int paramType = ( nativeType == Types.NULL ) ?
-						getOdaTypeFromParamHints( paramName, paramIndex ) :
-						DriverManager.getInstance().getNativeToOdaMapping( driverName,
-																		   m_dataSetType, 
-																		   nativeType );
-
 		switch( paramType )
 		{
 			case Types.INTEGER:

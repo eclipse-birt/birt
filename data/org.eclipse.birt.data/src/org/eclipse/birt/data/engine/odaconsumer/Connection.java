@@ -98,8 +98,11 @@ public class Connection
 		String methodName = "getMetaData";		
 		sm_logger.entering( sm_className, methodName, dataSetType );
 		
+		String cachedKey = ( dataSetType == null ) ?
+		        			getDataSourceId( ) : dataSetType;
+		
 		DataSetCapabilities capabilities = 
-			(DataSetCapabilities) getCachedDsMetaData( ).get( dataSetType );
+			(DataSetCapabilities) getCachedDsMetaData( ).get( cachedKey );
 		
 		if( capabilities == null )
 		{
@@ -124,9 +127,9 @@ public class Connection
 				throw new DataException( ResourceConstants.CANNOT_GET_DS_METADATA, ex, 
 				                         new Object[] { dataSetType } );
 			}
-			
+		
 			capabilities = new DataSetCapabilities( dsMetaData );
-			getCachedDsMetaData( ).put( dataSetType, capabilities );
+			getCachedDsMetaData( ).put( cachedKey, capabilities );
 		}
 		
 		sm_logger.exiting( sm_className, methodName, capabilities );

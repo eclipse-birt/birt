@@ -144,7 +144,7 @@ class Driver
 		{
 			sm_logger.logp( Level.SEVERE, sm_className, methodName,
 					"Cannot find data set element.", ex );
-			throw new DataException( ex.getLocalizedMessage(), ex );
+			throw new DataException( ResourceConstants.INVALID_DATA_SET_TYPE, ex );
 		}
 
 		DataTypeMapping mapping = dsType.getDataTypeMapping( (short) nativeType );

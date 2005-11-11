@@ -344,8 +344,8 @@ public class ParameterMetaData
 	}
 	
 	/**
-	 * Returns the java.sql.Types type of this parameter.
-	 * @return	the data type of this parameter.
+	 * Returns the ODA type code of this parameter.
+	 * @return	the ODA data type of this parameter.
 	 */
 	public int getDataType()
 	{
