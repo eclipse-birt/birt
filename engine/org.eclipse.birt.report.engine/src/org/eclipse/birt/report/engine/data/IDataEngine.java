@@ -11,19 +11,20 @@
 
 package org.eclipse.birt.report.engine.data;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.ir.Report;
 
 /**
- * Defines a set of data-related functions that engine needs from a data engine
+ * Defines a set of data-related functions that engine needs from a data engine 
  * 
- * @version $Revision: 1.9 $ $Date: 2005/10/12 19:15:47 $
+ * @version $Revision: 1.10 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface IDataEngine
 {
-
 	/**
 	 * Prepare all the information that data engine needs to successfully obtain
 	 * data used in the report.
@@ -33,39 +34,38 @@ public interface IDataEngine
 	 * <li>all data sources.
 	 * <li>all datasets.
 	 * <li>all report query definitons (including sub-query definitions)
-	 * </ul>
+	 * </ul> 
 	 * <p>
 	 * This method needs to prepare all report queries, Verifies the elements of
 	 * a report query spec and provides a hint to the query to prepare and
 	 * optimize an execution plan.
 	 * <p>
-	 * 
-	 * @param report
-	 *            the report design
-	 */
-	void prepare(Report report, Object appContext);
-
+	 * @param report the report design
+	 * @param appContext - the context map that will be passed to the data engine
+	 */	
+	void prepare( Report report, Map appContext );
+	
 	/**
 	 * Executes the prepared (data) execution plan of a report item. Returns an
 	 * IResultSet object
-	 * <p>
+     * <p>
 	 * 
 	 * @param the
 	 *            query to be executed
 	 * @return IResultSet object or null if the query is null
 	 */
 	IResultSet execute(IBaseQueryDefinition query);
-
+	
 	/**
 	 * close the IResultSet of the last executing operator
 	 */
 	void close();
-
+	
 	/**
 	 * shut down the data engine
 	 */
 	void shutdown();
-
+	
 	/**
 	 * evaluate an expression by data engine. Data engine may inturn calls Rhino
 	 * 
@@ -75,7 +75,7 @@ public interface IDataEngine
 	 * @return the evaluated result for the data engine expression
 	 */
 	Object evaluate(IBaseExpression expr);
-
+	
 	/**
 	 * return the DTE's data engine.
 	 * 

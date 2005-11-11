@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.api;
 
 import java.io.File;
+import java.util.Map;
 
 import org.mozilla.javascript.Scriptable;
 import org.eclipse.birt.core.exception.BirtException;
@@ -126,17 +127,17 @@ abstract public class DataEngine
 
 	/**
 	 * Verifies the elements of a report query spec,
-	 * and provides a hint and application context object to the 
+	 * and provides a hint and application context object(s) to the 
 	 * query to prepare and optimize an execution plan.
 	 * <br>This has the same behavior as the 
 	 * prepare( IQueryDefinition querySpec ) method,
 	 * with an additional argument for an application to pass in 
-	 * a context object to the underlying data provider, 
+	 * a context map to the underlying data provider, 
 	 * e.g. an ODA run-time driver.
 	 * @param	querySpec	Specifies
 	 * 				the data access and data transforms services
 	 * 				needed from DtE to produce a set of query results.
-	 * @param appContext	The application context object for 
+	 * @param appContext	The application context map for 
 	 * 				preparation and execution of the querySpec; 
 	 * 				could be null.
 	 * @return		The <code>IPreparedQuery</code> object that contains a prepared 
@@ -145,7 +146,7 @@ abstract public class DataEngine
 	 * @since		2.0
 	 */
 	abstract public IPreparedQuery prepare( IQueryDefinition querySpec, 
-	        								Object appContext )
+	        								Map appContext )
 			throws BirtException;
 
 	/**

@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,7 +62,7 @@ abstract class PreparedQuery
 	private 	IBaseQueryDefinition 	queryDefn;
 	private 	DataEngineImpl	engine;
 	private  	AggregateTable	aggrTable;
-	private 	Object appContext;
+	private 	Map appContext;
 	
 	// Map of Subquery name (String) to PreparedSubquery
 	protected HashMap subQueryMap = new HashMap();
@@ -97,12 +98,12 @@ abstract class PreparedQuery
 		return aggrTable;
 	}
 
-	protected Object getAppContext()
+	protected Map getAppContext()
 	{
 	    return appContext;	    
 	}
 	
-	protected void setAppContext( Object context )
+	protected void setAppContext( Map context )
 	{
 	    appContext = context;
 	}
@@ -447,7 +448,7 @@ abstract class PreparedQuery
 		protected 	IQueryResults outerResults;
 		private 	boolean 		isPrepared = false;
 		private 	boolean			isExecuted = false;
-		private		Object			queryAppContext;
+		private		Map				queryAppContext;
 		
 		/**
 		 * Overridden by subclass to create a new unopened odiDataSource given the data 
@@ -489,12 +490,12 @@ abstract class PreparedQuery
 		{
 		}
 
-		protected Object getAppContext()
+		protected Map getAppContext()
 		{
 		    return queryAppContext;	    
 		}
 		
-		protected void setAppContext( Object context )
+		protected void setAppContext( Map context )
 		{
 		    queryAppContext = context;
 		}

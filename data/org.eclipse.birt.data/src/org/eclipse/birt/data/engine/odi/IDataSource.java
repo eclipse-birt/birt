@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,16 +64,16 @@ public interface IDataSource
 	 * data source driver.
 	 * <br>Its processing is implementation-dependent on the 
 	 * underlying data source. <p>
-	 * The application context object being set here gets applied and 
+	 * The application context map being set here gets applied and 
 	 * passed through in subsequent calls to open() or newQuery().
 	 * <br>An optional method.
-	 * @param context	Pass-through application context object; 
+	 * @param context	Pass-through application context map; 
 	 * 					could be null to override any previously 
 	 * 					set context.
 	 * @throws DataException  if data source error occurs
 	 * @since		2.0
 	 */
-	public void setAppContext( Object context ) throws DataException;
+	public void setAppContext( Map context ) throws DataException;
 	
     /**
 	 * Instantiates a new query instance that represents the 

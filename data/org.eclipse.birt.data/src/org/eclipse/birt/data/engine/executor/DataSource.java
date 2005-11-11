@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,7 +56,7 @@ class DataSource implements IDataSource
 	private HashMap statementMap = new HashMap();
 	
     protected Properties	connectionProps = new Properties();
-    private Object appContext;
+    private Map appContext;
 
     DataSource( String driverName )
     {
@@ -98,9 +98,9 @@ class DataSource implements IDataSource
     }
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.lang.Object)
+	 * @see org.eclipse.birt.data.engine.odi.IDataSource#setAppContext(java.util.Map)
 	 */
-	public void setAppContext( Object context ) throws DataException
+	public void setAppContext( Map context ) throws DataException
 	{
 	    appContext = context;
 	}

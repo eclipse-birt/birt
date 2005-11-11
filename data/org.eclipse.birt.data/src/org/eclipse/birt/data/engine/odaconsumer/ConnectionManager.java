@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -84,14 +85,14 @@ public class ConnectionManager
 	 * Same functionality as the first openConnection method, but
 	 * with an additional argument to pass in an application context 
 	 * to the underlying ODA driver.
-	 * @param appContext	Application context object to pass thru to 
+	 * @param appContext	Application context map to pass thru to 
 	 * 						the underlying ODA driver.
 	 * @return	an opened <code>Connection</code> instance. 
 	 * @throws DataException	if data source error occurs
 	 */
 	public Connection openConnection( String dataSourceElementId, 
 									  Properties connectionProperties,
-									  Object appContext )
+									  Map appContext )
 		throws DataException
 	{
 		String methodName = "openConnection";

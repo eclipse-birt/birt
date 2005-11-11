@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +46,7 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.22 $ $Date: 2005/11/08 05:53:57 $
+ * @version $Revision: 1.23 $ $Date: 2005/11/11 06:26:45 $
  */
 public class DteDataEngine implements IDataEngine
 {
@@ -133,7 +134,7 @@ public class DteDataEngine implements IDataEngine
 		prepare( report, null );
 	}
 
-	public void prepare( Report report, Object appContext )
+	public void prepare( Report report, Map appContext )
 	{
 		assert ( report != null );
 

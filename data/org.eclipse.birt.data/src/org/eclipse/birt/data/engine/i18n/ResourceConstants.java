@@ -82,6 +82,8 @@ public class ResourceConstants
 	public final static String RESET_RATE = "data.engine.ResetRateGuess";
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
+	public final static String GROUP_FILTERING_IS_NOT_ALLOWED_IN_GIVEN_QUERY="data.engine.GroupFilteringIsNotAllowedInGiverQuery";
+		
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// Data Type of computed column is not correct
@@ -120,6 +122,7 @@ public class ResourceConstants
 	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
 	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
 	public static final String CONVERT_TO_DATATYPE_ERROR="data.engine.ConvertToDataTypeError";
+
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -214,5 +217,5 @@ public class ResourceConstants
 	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
 	public final static String CANNOT_GET_PARAMETER_METADATA = "odaconsumer.CannotGetParameterMetaData";
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
-	public final static String GROUP_FILTERING_IS_NOT_ALLOWED_IN_GIVEN_QUERY="data.engine.GroupFilteringIsNotAllowedInGiverQuery";
+	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 }

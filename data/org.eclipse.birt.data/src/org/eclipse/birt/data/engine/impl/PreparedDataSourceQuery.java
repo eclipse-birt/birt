@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -39,12 +40,12 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 	 * query passed in.
 	 * @param dataEngine
 	 * @param queryDefn
-	 * @param applContext	Application context object; could be null.
+	 * @param appContext	Application context map; could be null.
 	 * @return PreparedReportQuery
 	 * @throws DataException
 	 */
 	static PreparedDataSourceQuery newInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Object applContext ) 
+			IQueryDefinition queryDefn, Map appContext ) 
 		throws DataException
 	{
 		assert dataEngine != null;
@@ -85,7 +86,7 @@ abstract class PreparedDataSourceQuery extends PreparedQuery implements IPrepare
 		}
 		
 		if( preparedQuery != null )
-		    preparedQuery.setAppContext( applContext );
+		    preparedQuery.setAppContext( appContext );
 		return preparedQuery;
 	}
 	
