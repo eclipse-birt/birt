@@ -322,29 +322,9 @@ public final class DataTypeUtil
 	{
 		if ( source == null )
 			return null;
-		else if ( source instanceof Integer )
-		{
-			long longValue = ( (Integer) source ).longValue( );
-			return new Date( longValue );
-		}
-		else if ( source instanceof BigDecimal )
-		{
-			long longValue = ( (BigDecimal) source ).longValue( );
-			return new Date( longValue );
-		}
-		else if ( source instanceof Boolean )
-		{
-			throw new BirtException( pluginId, ResourceConstants.CONVERT_FAILS, "Date",
-					resourceBundle );
-		}
 		else if ( source instanceof Date )
 		{
 			return new Date( ( (Date) source ).getTime( ) );
-		}
-		else if ( source instanceof Double )
-		{
-			long longValue = ( (Double) source ).longValue( );
-			return new Date( longValue );
 		}
 		else if ( source instanceof String )
 		{

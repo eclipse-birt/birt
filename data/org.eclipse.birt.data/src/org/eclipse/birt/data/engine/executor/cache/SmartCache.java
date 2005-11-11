@@ -136,100 +136,41 @@ public class SmartCache implements ResultSetCache
 		initInstance2( resultCache, odiAdpater, query, startIndex, endIndex, rsMeta, sortSpec );
 	}
 	
-	public SmartCache( BaseQuery query, ResultSetCache resultCache, OrderingInfo orderingInfo, IResultClass rsMeta, SortSpec sortSpec )
+	/**
+	 * 
+	 * @param query
+	 * @param resultCache
+	 * @param orderingInfo
+	 * @param rsMeta
+	 * @param sortSpec
+	 * @throws DataException
+	 */
+	public SmartCache( BaseQuery query, ResultSetCache resultCache,
+			OrderingInfo orderingInfo, IResultClass rsMeta, SortSpec sortSpec )
 			throws DataException
 	{
 		assert resultCache != null;
 		assert rsMeta != null;
 
-	//	OdiAdapter odiAdpater = new OdiAdapter( resultCache );
-		
 		initInstance3( resultCache, rsMeta, orderingInfo );
 	}
 	
 	/**
-	 * Re-generate the SmartCache using columns defined in OrderingInfo
-	 * @param rsCache
+	 * Init resultSetCache
+	 * 
+	 * @param odiAdpater
+	 * @param query
 	 * @param rsMeta
-	 * @param orderingInfo
+	 * @param sortSpec
 	 * @throws DataException
 	 */
-	private void initInstance3( ResultSetCache rsCache,
-			IResultClass rsMeta, OrderingInfo orderingInfo ) throws DataException
+	private void initInstance( OdiAdapter odiAdpater, BaseQuery query,
+			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
 	{	
-		long startTime = System.currentTimeMillis( );
-
-		// compute the number of rows which can be cached in memory
-		int memoryCacheRowCount = computeCacheRowCount( rsMeta );
-		logger.info( "memoryCacheRowCount is " + memoryCacheRowCount );
-
-		IResultObject odaObject;
-		IResultObject[] resultObjects;
-		List resultObjectsList = new ArrayList( );
-		SmartRowResultSet rowResultSet = new SmartRowResultSet( rsCache, rsMeta );
-		SortSpec sortSpec = null;
-		int dataCount = 0;
-		for ( int i = 0; i < orderingInfo.getCount( ); i++ )
-		{
-			rowResultSet.moveTo( orderingInfo.getStartIndex( i ) - 1 );
-
-			for ( int j = 0; j < orderingInfo.getEndIndex( i )
-					- orderingInfo.getStartIndex( i ) + 1; j++ )
-			{
-				dataCount++;
-				odaObject = rowResultSet.next( );
-				// notice. it is less than or equal
-				if ( dataCount <= memoryCacheRowCount )
-				{
-					// Populate Data according to the given meta data.
-					Object[] obs = new Object[rsMeta.getFieldCount( )];
-					for ( int k = 1; k <= rsMeta.getFieldCount( ); k++ )
-					{
-						obs[k - 1] = odaObject.getFieldValue( rsMeta.getFieldName( k ) );
-					}
-					resultObjectsList.add( new ResultObject( rsMeta, obs ) );
-				}
-				else
-				{
-					logger.info( "DisckCache is used" );
-
-					resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
-					// the order is: resultObjects, odaObject, rowResultSet
-					resultSetCache = new DiskCache( resultObjects,
-							odaObject,
-							rowResultSet,
-							getComparator( sortSpec ),
-							memoryCacheRowCount );
-					break;
-				}
-			}
-		}
-
-		if ( resultSetCache == null )
-		{
-			logger.info( "MemoryCache is used" );
-
-			resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
-
-			resultSetCache = new MemoryCache( resultObjects,
-					getComparator( sortSpec ) );
-		}
-
-		odaObject = null;
-		resultObjects = null;
-		resultObjectsList = null;
-		rowResultSet = null;
-
-		long consumedTime = ( System.currentTimeMillis( ) - startTime ) / 1000;
-		logger.info( "Time consumed by cache is: " + consumedTime + " second" );
+		RowResultSet rowResultSet = new RowResultSet( query, odiAdpater, rsMeta );
+		populateData( rsMeta, rowResultSet, sortSpec);
 	}
-/*	public SmartCache( ResultSetCache resultCache, OrderingInfo oInfo )
-	{
-		assert resultCache !=null;
-		assert oInfo != null;
-		
-		//TODO to be finished.
-	}*/
+	
 	/**
 	 * Especially used for sub query
 	 * 
@@ -259,22 +200,37 @@ public class SmartCache implements ResultSetCache
 
 		resultCache.moveTo( oldIndex );
 	}
+
+	/**
+	 * Re-generate the SmartCache using columns defined in OrderingInfo
+	 * 
+	 * @param rsCache
+	 * @param rsMeta
+	 * @param orderingInfo
+	 * @throws DataException
+	 */
+	private void initInstance3( ResultSetCache rsCache, IResultClass rsMeta,
+			OrderingInfo orderingInfo ) throws DataException
+	{
+		SmartRowResultSet rowResultSet = new SmartRowResultSet( rsCache,
+				rsMeta,
+				orderingInfo );
+
+		populateData( rsMeta, rowResultSet, null );
+	}
 	
 	/**
-	 * Init resultSetCache
-	 * 
-	 * @param odiAdpater
-	 * @param query
+	 * Populate the smartCache.
 	 * @param rsMeta
+	 * @param rowResultSet
 	 * @param sortSpec
 	 * @throws DataException
 	 */
-	private void initInstance( OdiAdapter odiAdpater, BaseQuery query,
-			IResultClass rsMeta, SortSpec sortSpec ) throws DataException
-	{	
+	private void populateData( IResultClass rsMeta, IRowResultSet rowResultSet,
+			SortSpec sortSpec ) throws DataException
+	{
 		long startTime = System.currentTimeMillis( );
-		
-		
+
 		// compute the number of rows which can be cached in memory
 		int memoryCacheRowCount = computeCacheRowCount( rsMeta );
 		logger.info( "memoryCacheRowCount is " + memoryCacheRowCount );
@@ -282,7 +238,6 @@ public class SmartCache implements ResultSetCache
 		IResultObject odaObject;
 		IResultObject[] resultObjects;
 		List resultObjectsList = new ArrayList( );
-		RowResultSet rowResultSet = new RowResultSet( query, odiAdpater, rsMeta );
 		
 		int dataCount = 0;
 		while ( ( odaObject = rowResultSet.next( ) ) != null )
@@ -295,6 +250,9 @@ public class SmartCache implements ResultSetCache
 				Object[] obs = new Object[rsMeta.getFieldCount()];
 				for(int i = 1; i <= rsMeta.getFieldCount(); i++)
 				{
+					//The actual meta data of this odaObject may not equal to 
+					//rsMeta. We simply populate the new ResultObject using the 
+					//given rsMeta.
 					obs[i-1] = odaObject.getFieldValue( rsMeta.getFieldName(i));
 				}
 				resultObjectsList.add( new ResultObject( rsMeta, obs) );
@@ -603,33 +561,3 @@ public class SmartCache implements ResultSetCache
 	
 }
 
-class SmartRowResultSet implements IRowResultSet
-{
-	private ResultSetCache rsCache;
-	private IResultClass rsMeta;
-	SmartRowResultSet( ResultSetCache rsCache,
-			IResultClass rsMeta)
-	{
-		this.rsCache = rsCache;
-		this.rsMeta = rsMeta;
-	}
-	
-	public IResultClass getMetaData( )
-	{
-		return rsMeta;
-	}
-
-	public IResultObject next( ) throws DataException
-	{
-		if(rsCache.next())
-			return rsCache.getCurrentResult();
-		else
-			return null;
-	}
-	
-	public void moveTo( int i ) throws DataException
-	{
-		rsCache.moveTo( i );
-	}
-	
-}

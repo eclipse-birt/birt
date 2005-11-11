@@ -17,7 +17,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 
 /**
- * 
+ * The interface defined the behavior of a RowResultSet which will be used in SmartCache.
  */
 
 public interface IRowResultSet

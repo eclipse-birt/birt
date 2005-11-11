@@ -790,6 +790,10 @@ public class ScriptEvalUtil
 		{
 			// compare and between methods without null can get through.
 			if ( operator == IConditionalExpression.OP_LIKE
+					|| operator == IConditionalExpression.OP_TOP_N
+					|| operator == IConditionalExpression.OP_TOP_PERCENT
+					|| operator == IConditionalExpression.OP_BOTTOM_N
+					|| operator == IConditionalExpression.OP_BOTTOM_PERCENT
 					|| obj == null || op1.value == null )
 				return false;
 			// op2.value can not be null either if it's a betteen method
