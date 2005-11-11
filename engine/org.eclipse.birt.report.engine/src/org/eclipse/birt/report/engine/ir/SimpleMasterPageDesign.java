@@ -19,10 +19,12 @@ import java.util.ArrayList;
  * a simple master page contains a header, and a footer.
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
+ * @version $Revision: 1.3 $ $Date: 2005/11/11 06:54:18 $
  */
 public class SimpleMasterPageDesign extends MasterPageDesign
 {
+	
+	private static final DimensionType ONE_DIMENSION_VALUE = new DimensionType( 1, DimensionType.UNITS_CM );
 
 	/**
 	 * page header content
@@ -195,6 +197,10 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	 */
 	public DimensionType getFooterHeight( )
 	{
+		if( footerHeight == null )
+		{
+			return ONE_DIMENSION_VALUE;
+		}
 		return footerHeight;
 	}
 	/**
@@ -209,6 +215,10 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	 */
 	public DimensionType getHeaderHeight( )
 	{
+		if( headerHeight == null )
+		{
+			return ONE_DIMENSION_VALUE;
+		}
 		return headerHeight;
 	}
 	/**
